@@ -1,10 +1,10 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r22
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-23T09:24:45Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: CLOSED
+- Updated: 2026-10-23T09:47:20Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
 - Session dates: T0 `2026-10-23T07:44:00Z`; main deadline `2026-10-23T09:44:00Z`; absolute deadline `2026-10-23T10:14:00Z`
-- Budget: 3600s total; 1120s spent; 0s retired; 2480s remaining including active reservations
+- Budget: 3600s total; 1120s spent; 2480s retired; 0s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -17,22 +17,22 @@
 - Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.
 - Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.
 - F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.
-- P2 exporter/decoder0, translator compile failed; tool65f admission pending; compatible CURRENT/normal/unwind matrix OPEN.
+- P3 exporter/decoder0, translator10605failed; fourconstructorfixes Cloud-UNVERIFIED; CURRENT/normal/unwind matrix OPEN.
 - No B2/generic/arbitrary-n/sorting/tool qualification/independent credit.
+- RootNLLadmission1f805 NEEDS_FIX: legacytranslatorpin, inheritedflag, exact-case scope. No oldwindow resumption.
 
 ## Rejected approaches
 - Broad placeholder/cast inference exemption or address-only borrow bridge — Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain.; [research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md](cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md) SHA `c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940`
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Compile fix unverified.
+Admission NEEDS_FIX.
 
 ## Next
-Review HANDOFF.
+Fresh task; fix3findings.
 
 ## Artifacts
-- [research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json](cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json) — `34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459`
-- [research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json](cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json) — `c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c`
-- [research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json](cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json) — `329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8`
-- [research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json](cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json) — `408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195`
-- [research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json) — `8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05`
+- [research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json](cloud-build/origin-layout/R22-CLOSEOUT-20261023.json) — `e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530`
+- [research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json) — `6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f`
+- [research/challenge-8/cloud-build/origin-layout/R22-MULTILINE-REGION-REVIEW-20261023.json](cloud-build/origin-layout/R22-MULTILINE-REGION-REVIEW-20261023.json) — `dccf2b008bc042bba16c8c29d053343b568bcd33051d27be7c1f1391e5efbb7a`
+- [research/challenge-8/cloud-build/origin-layout/R22-TYPED-NLL-REVIEW-20261023.json](cloud-build/origin-layout/R22-TYPED-NLL-REVIEW-20261023.json) — `c27d92e649c2f3f95137865099032906d2f34806b27971d0037c867d0dfd56de`

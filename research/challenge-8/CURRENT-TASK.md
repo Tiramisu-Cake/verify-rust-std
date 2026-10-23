@@ -49,10 +49,10 @@ Next: New task: re-register on reviewed e70c9115; HANDOFF Build t1200 early.
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-23-r22 · merge · MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 · ACTIVE**
-Updated: 2026-10-23T09:24:45Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
-Dates: T0 `2026-10-23T07:44:00Z`; main `2026-10-23T09:44:00Z`; absolute `2026-10-23T10:14:00Z`. Budget 3600s: 1120s spent, 0s retired, 2480s remaining including reservations.
+**merge-caller-acceptance-autonomous-2026-10-23-r22 · merge · MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 · CLOSED**
+Updated: 2026-10-23T09:47:20Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
+Dates: T0 `2026-10-23T07:44:00Z`; main `2026-10-23T09:44:00Z`; absolute `2026-10-23T10:14:00Z`. Budget 3600s: 1120s spent, 2480s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Compile fix unverified.
-Next: Review HANDOFF.
+Blocker: Admission NEEDS_FIX.
+Next: Fresh task; fix3findings.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

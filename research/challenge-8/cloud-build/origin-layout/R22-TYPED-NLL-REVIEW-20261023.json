@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r22-typed-nll-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "0f4e336b52441e8f341a567250adba2b200c54d1",
+  "baseline": "419ff27dcee1a31a9f62e8db69049adb725bdbe2",
+  "candidate_tree": "3f55c9af5b001e7f97cc192d339198336b0dcc8b",
+  "spec_sha256": "681b41e81c62d795b93b8ee6e28b202be8f68005d15f3c69f6dc0c12b15d737f",
+  "packet_diff_sha256": "13041a3c2c4d7db1fbe17abd51bf20e5a8f3696a61a3f5411a9496885492ef4d",
+  "dependency_sha256": "537699dc76b8037b1d6092fc9c473ada53fc1f0ece5dadda8432b83e418a6f27",
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "The pinned consumers API at the requested rustc revision returns a capture Body, BorrowSet, PoloniusInput facts, and PoloniusLocationTable under PoloniusInputFacts. The pinned BorrowData API exposes reserve_location, region, kind, borrowed_place, and assigned_place; the proposed accesses and Mid/Start point decoding match those APIs.",
+    "RefSite collection traverses Rvalue::Ref assignments in that capture Body and records structured block/statement/point, source region, borrow kind, both places and derived types, and source span. The join is confined to that body's data and requires a valid loan and point index, Mid point, matching reservation location, matching ReVar region, matching borrow kind and both MIR places, and a unique association. Since place types are derived from the same body and identical places are required, those place matches imply the recorded derived types agree.",
+    "Missing facts/table, unavailable region, out-of-range identities, non-Mid issue points, mismatched locations/shapes, and ambiguous associations remain diagnostic statuses. No source-span/address-only association or emitted-MIR mapping is introduced. The schema's primitive availability flags preserve unknown versus zero for optional scalar data; no Option(UInt32) is used.",
+    "The vendored code generator emits List(Struct) fill helpers with an iterable plus closure, matching fill_ref_sites/fill_issued_loans; List(Text) takes one iterable. The included dependency snapshot digest matches the packet. The separate one-line translator identity field is outside this review scope."
+  ],
+  "diagnostic_limitations": [
+    "Capture-stage identity only; the capture MIR to emitted MIR mapping remains UNESTABLISHED, and no ownership consumer, resource conversion, or proof premise is added.",
+    "Compiler/codegen execution, default-off parity, nested-body behavior, and positive/negative join fixtures remain NOT RUN and require the authorized Cloud workflow."
+  ],
+  "soundness_assessment": "No localized soundness finding in the reviewed typed producer/schema and same-stage join. This is diagnostic data only and grants no proof credit.",
+  "reviewer_checks_pass": [
+    "Packet candidate/baseline/tree and diff/dependency digests match the supplied identities.",
+    "Exact candidate diff inspected for schema, owned producer rows, join statuses, serialization, and scope.",
+    "Pinned rustc consumer, borrow-set, and Polonius location APIs inspected against the implementation.",
+    "Vendored Cap'n Proto codegen helper arities inspected statically.",
+    "git diff --check on the exact candidate delta"
+  ],
+  "not_run": [
+    "Rust compiler, exporter, MIR, translator, verifier, or Cargo execution",
+    "Cloud build or Evidence Brief review",
+    "Default-off parity, nested-body, and runtime positive/negative join fixtures"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

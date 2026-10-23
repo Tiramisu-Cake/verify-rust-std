@@ -1,24 +1,20 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
-      "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json",
+      "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
     },
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json",
-      "sha256": "c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c"
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json",
+      "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
     },
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json",
-      "sha256": "329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8"
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-MULTILINE-REGION-REVIEW-20261023.json",
+      "sha256": "dccf2b008bc042bba16c8c29d053343b568bcd33051d27be7c1f1391e5efbb7a"
     },
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
-      "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json",
-      "sha256": "8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05"
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TYPED-NLL-REVIEW-20261023.json",
+      "sha256": "c27d92e649c2f3f95137865099032906d2f34806b27971d0037c867d0dfd56de"
     }
   ],
   "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
@@ -28,7 +24,7 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Compile fix unverified.",
+    "summary": "Admission NEEDS_FIX.",
     "evidence": []
   },
   "confirmed": [
@@ -71,13 +67,14 @@
       ]
     }
   ],
-  "next_step": "Review HANDOFF.",
+  "next_step": "Fresh task; fix3findings.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
     "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
-    "P2 exporter/decoder0, translator compile failed; tool65f admission pending; compatible CURRENT/normal/unwind matrix OPEN.",
-    "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit."
+    "P3 exporter/decoder0, translator10605failed; fourconstructorfixes Cloud-UNVERIFIED; CURRENT/normal/unwind matrix OPEN.",
+    "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit.",
+    "RootNLLadmission1f805 NEEDS_FIX: legacytranslatorpin, inheritedflag, exact-case scope. No oldwindow resumption."
   ],
   "owner": "merge",
   "phase": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
@@ -109,15 +106,15 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
-    "remaining_seconds": 2480,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 2480,
     "spent_seconds": 1120,
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T09:24:45Z",
+  "updated_utc": "2026-10-23T09:47:20Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -181,6 +178,10 @@
     {
       "decision": "No furtherCloud unless complete reviewed1200+60 cyclefitsmain; continue NLLHANDOFF/typedsitepreparation to main09:44.",
       "reason": "Newtool/admission/transportreview remains; never shorten1200timeout. RawP3compilefailed; sameconfigneverrepeat; ownerunavailabledoesnotextendwindow."
+    },
+    {
+      "decision": "CloseR22atmaincutoff; retire2480carry0, preserveNEEDS_FIX ratherthanextendimplementationwindow.",
+      "reason": "Main sentfixes withsend_message tocompletedworker instead offollowup_task; threefindings notimplemented beforemaincutoff. PreserveNEEDS_FIX."
     }
   ],
   "pause": {
@@ -212,30 +213,62 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
       "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
+      "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json",
+      "sha256": "c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json",
+      "sha256": "329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
+      "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json",
+      "sha256": "8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05"
     }
   ],
   "current_tuple": {
     "source_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
     "tool_sha": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
     "profile_sha256": "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579",
-    "cloud_status": "TRANSLATOR_COMPILE_FAILED_NO_PROOF",
+    "cloud_status": "P3_COMPILE_FAILED_NO_PROOF",
     "proof_credit": false
   },
   "prepared_candidates": [
     {
-      "mission": "W3 original caller",
-      "tool_sha": "419ff27dcee1a31a9f62e8db69049adb725bdbe2",
-      "branch": "merge/r22-owned-nll-capture-20261023",
+      "tool_sha": "6755ae501ab2e4bdaba5760fcd16c3c166533c76",
+      "branch": "merge/r22-complete-region-fixtures-20261023",
+      "scope": "four syntheticRegionidentityconstructors; compileUNVERIFIED",
       "published_remote_sha_verified": true,
-      "review": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-FIXTURES-REVIEW-20261023.json",
-      "review_decision": "GO_WITH_LIMITATIONS_DIAGNOSTIC_ONLY",
-      "design": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-DESIGN-20261023.md",
-      "cloud_admission": "NOT_PREPARED",
-      "compiler_and_capture_validation": "NOT_RUN",
-      "cross_stage_mapping": "UNESTABLISHED",
-      "ownership_consumer": "NOT_IMPLEMENTED",
-      "proof_credit": false,
-      "included_compile_fix": "65f translator file byteexact; no NLL compiler validation yet"
+      "tool_review": "GO_WITH_LIMITATIONS",
+      "compiler_validation": "NOT_RUN",
+      "proof_credit": false
+    },
+    {
+      "tool_sha": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+      "branch": "merge/r22-owned-nll-capture-20261023",
+      "scope": "defaultoff ownedNLLdata; emittedmappingUNESTABLISHED; compilerUNVERIFIED",
+      "published_remote_sha_verified": true,
+      "tool_review": "GO_WITH_LIMITATIONS",
+      "compiler_validation": "NOT_RUN",
+      "proof_credit": false
+    },
+    {
+      "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1",
+      "branch": "merge/r22-owned-nll-borrow-sites-20261023",
+      "scope": "typedcapture-stageRefSite/loanrows andsame-stagejoin; notrootadmitted; compilerUNVERIFIED",
+      "published_remote_sha_verified": true,
+      "tool_review": "GO_WITH_LIMITATIONS",
+      "compiler_validation": "NOT_RUN",
+      "proof_credit": false
     }
   ],
   "historical_confirmed": [
@@ -297,5 +330,26 @@
     "source_mode": "pinned-objects",
     "source_input_sha256": "6cb47f1e919c020b384652b8f01cff8f22c994a81fd86022f76e37ef6d9bee45",
     "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
+  },
+  "prepared_root_handoff": {
+    "candidate": "1f805a2c304a3bda2e7e252aba6c013162c67721",
+    "tool": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+    "review": "NEEDS_FIX",
+    "payload_bytes": 571333,
+    "cap_bytes": 571567,
+    "runtime_validation": "NOT_RUN",
+    "findings": [
+      "legacycompile-onlytranslatorpin selects NLL hash",
+      "inheritedNLLflag reachesdirectplacementcontrolpath",
+      "broadactual_callback_case enablesNLLonmutant/derivedcontrols"
+    ],
+    "review_path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json",
+    "review_sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f",
+    "source_gate_assurance": "WORKER_REPORTED_STATIC_PASS_NOT_BUILD_ADMISSION",
+    "static_closure": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-HANDOFF-STATIC-CLOSURE-20261023.json",
+      "sha256": "f2e564e68579fef69e89bdcc05fe6ad03f1682f782fa01f4fe74d087fba8e81d",
+      "status": "STATIC_ONLY_NOT_PROOF"
+    }
   }
 }

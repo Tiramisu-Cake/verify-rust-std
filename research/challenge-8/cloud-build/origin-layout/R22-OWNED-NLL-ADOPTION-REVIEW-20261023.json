@@ -1,0 +1,78 @@
+{
+  "schema": "merge-r22-owned-nll-adoption-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "1f805a2c304a3bda2e7e252aba6c013162c67721",
+  "baseline": "09044e1badc1fd196939a170681f7896f12b6161",
+  "spec_sha256": "c893f3b3fa25e62ef0ef0d060fbd2e9dae3a73ed5dc67ca1059b0af0eb77ce2a",
+  "packet_sha256": "983ff35628312c225b008160ad20da3a971dd1d02a48fc1a97ad7433087df1e3",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "NEEDS_FIX",
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py:1096-1099",
+      "summary": "The compile-only R22 profile path expects `R22_OWNED_NLL_TRANSLATOR_SHA256` (bc60…) for `translator_sha256`, but the exact compile profile65f has `R22_TRANSLATOR_SHA256` (e5fe…). The current NLL profile bypasses this branch, so the 17 service tests pass, but main rejects the previously admitted compile-profile route.",
+      "action": "Use the compile-profile translator pin in the compile-only branch and retain a focused check that exercises main's source-pin route for both the 65f and NLL profiles."
+    },
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/origin-layout/first-callback.py:run and _r11_storage_placement_env; research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py:_run_replay",
+      "summary": "`run()` copies the incoming environment to `campaign_env` but does not remove an inherited `VF_EXPORT_OWNED_NLL_FACTS`. Dispatch callbacks strip it, while the direct R11 storage-placement path derives `placement_env` from `campaign_env` and `_tool_tree` copies that environment into child compiler processes. An inherited `=1` therefore enables capture in direct placement controls, even when no exact capture case was authorized.",
+      "action": "Remove the variable from a copied campaign environment before any direct or callback path, with defense-in-depth removal in placement environment construction; test inherited `=1` and verify the caller's environment remains unchanged."
+    },
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/origin-layout/first-callback.py:dispatch call sites for r7_late_admission_controls, r9_guard_return_controls, and _run_body_isolation_diagnostic",
+      "summary": "Owned-NLL capture reuses the broader `actual_callback_case` trace flag. The R7/R9 control runners pass that flag for their mutated negative-control cases, and body-isolation dispatch marks a derived case actual. Those cases therefore receive the NLL capture flag even though they are outside the intended registered positive full-body/original-local-caller/raw-local-caller target cases.",
+      "action": "Carry a distinct NLL capture eligibility flag for the exact registered positive target cases; keep it false for mutation controls and derived body-isolation cases. Add negative tests for control-group and derived-case calls without weakening their existing trace/classification behavior."
+    }
+  ],
+  "prior_review_chain": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-FINAL-REVIEW-20261023.json",
+      "sha256": "95cb64324ab51e2c6421c7f3d2db14f668114a650d9778a376f7f6c41d1cc0db",
+      "scope": "owned capture storage/schema/default-off diagnostic semantics"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-COLLISION-REVIEW-20261023.json",
+      "sha256": "d38763c5a0bda5234c7a7f283b45f6cb07d30a0eaf89e7cf594f97adb444db93",
+      "scope": "exact duplicate equality guard"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-FIXTURES-REVIEW-20261023.json",
+      "sha256": "3fd258a4b84db23d1e0f4a4de89f34a75f602ef71af58c636bfc0656943ff395",
+      "scope": "three synthetic region identity fixtures"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-MULTILINE-REGION-REVIEW-20261023.json",
+      "sha256": "dccf2b008bc042bba16c8c29d053343b568bcd33051d27be7c1f1391e5efbb7a",
+      "scope": "fourth multiline region identity fixture"
+    }
+  ],
+  "review_findings": [
+    "The exact profile/exporter/schema/refiner-core/translator/cumulative-patch/provider/prove pins were independently recomputed and match candidate fc0208d4… and profile 3fec93…. The NLL route checks its registration, reverses its exact source pins to compile profile65f, then invokes the compile-fix reversal to profile9496/R20. Provider selection has separate exact NLL and compile selectors; both transformed runtime paths retain public R11.",
+    "The reviewed NLL source chain remains diagnostic-only: owned records and fact rows are not an ownership consumer, mapping remains UNESTABLISHED, and derived origin stays unavailable. No typed adapter, lifetime/resource rule, CFG, normal-unwind, runtime, or proof-credit path is registered.",
+    "Recipe pruning removes only R11-BUILD1-RESULT from the selected proof path; the Git blob is unchanged and R11-START remains selected and read by prove.py. A scan of 263 combined explicit-plus-auto-packed paths found references in the removal control, the R22 service test, and legacy r11-source-preflight; no selected runtime call invokes that historical helper. The R22 recipe delta is exact.",
+    "The P3 compiler-only failure is recorded as an accounted 400-second failure: ledger totals 1120 seconds spent, 2480 remaining, and no active build. The candidate does not rewrite that result or add proof credit."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "17 R22 phase-service tests passed",
+    "Python bytecode compilation for control, first-callback, provider, prove, and phase-service modules",
+    "exact profile/source/provider/prove hashes matched",
+    "R11-BUILD1 report blob unchanged; R11-START retained",
+    "static recipe consumer and runtime entrypoint scan"
+  ],
+  "reviewer_check_notes": [
+    "git diff --check reports trailing whitespace in added cumulative patch text; the patch is worker-reported to replay byte-exactly to tool fc0208d4."
+  ],
+  "source_gate_status": "Worker-reported PASS; 571333/571567 bytes, leaving 234 bytes. Not independently run in this review.",
+  "not_run": [
+    "Cloud compile, target, or controls",
+    "Local Rust compiler, exporter, or translator execution",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

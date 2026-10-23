@@ -1,0 +1,73 @@
+{
+  "schema": "merge-r22-closeout-v1",
+  "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
+  "phase": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+  "owner": "merge",
+  "state": "CLOSED",
+  "t0": "2026-10-23T07:44:00Z",
+  "main_deadline_utc": "2026-10-23T09:44:00Z",
+  "deadline_utc": "2026-10-23T10:14:00Z",
+  "closed_at_utc": "2026-10-23T09:47:20Z",
+  "builds": [
+    {
+      "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7",
+      "proof_sha": "dd4a2dd25079cd4eaa928dae1a7e19d3f8bd8810",
+      "status": "FAILURE",
+      "charged_seconds": 354,
+      "accounted": true
+    },
+    {
+      "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd",
+      "proof_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+      "status": "FAILURE",
+      "charged_seconds": 366,
+      "accounted": true
+    },
+    {
+      "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3",
+      "proof_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+      "status": "FAILURE",
+      "charged_seconds": 400,
+      "accounted": true
+    }
+  ],
+  "spent_seconds": 1120,
+  "retired_seconds": 2480,
+  "remaining_seconds": 0,
+  "carry_seconds": 0,
+  "proof_credit": false,
+  "independent_credit": false,
+  "assurance": "SOURCE_REPORTED",
+  "root_handoff": {
+    "candidate": "1f805a2c304a3bda2e7e252aba6c013162c67721",
+    "tool": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+    "review": "NEEDS_FIX",
+    "payload_bytes": 571333,
+    "cap_bytes": 571567,
+    "runtime_validation": "NOT_RUN",
+    "findings": [
+      "legacycompile-onlytranslatorpin selects NLL hash",
+      "inheritedNLLflag reachesdirectplacementcontrolpath",
+      "broadactual_callback_case enablesNLLonmutant/derivedcontrols"
+    ]
+  },
+  "prepared_tool_candidates": [
+    {
+      "sha": "6755ae501ab2e4bdaba5760fcd16c3c166533c76",
+      "branch": "merge/r22-complete-region-fixtures-20261023",
+      "scope": "four syntheticRegionidentityconstructors; compileUNVERIFIED"
+    },
+    {
+      "sha": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+      "branch": "merge/r22-owned-nll-capture-20261023",
+      "scope": "defaultoff ownedNLLdata; emittedmappingUNESTABLISHED; compilerUNVERIFIED"
+    },
+    {
+      "sha": "0f4e336b52441e8f341a567250adba2b200c54d1",
+      "branch": "merge/r22-owned-nll-borrow-sites-20261023",
+      "scope": "typedcapture-stageRefSite/loanrows andsame-stagejoin; notrootadmitted; compilerUNVERIFIED"
+    }
+  ],
+  "coordination_error": "Main sentfixes withsend_message tocompletedworker instead offollowup_task; threefindings notimplemented beforemaincutoff. PreserveNEEDS_FIX.",
+  "next": "Freshassignment/window/ledger: fixthreeadmissionfindings, reviewandremeasuretransport, earlyfull1200Build; no renewedR22budget."
+}
