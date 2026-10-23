@@ -1,5 +1,6 @@
 """Execute only the runner's pure metadata guards with isolated fake records."""
 import copy
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -20,6 +21,8 @@ def block(marker):
     return compile('\n'.join(lines[start+1:end]),'runner:'+marker,'exec')
 
 class MetadataGuards(unittest.TestCase):
+    MODE_BLOCK="MUT_MODE"
+    AUDIT_BLOCK="MUT_AUDIT"
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         self.env={'CLOUD_BUILD_ID':BUILD,'SORT4_R24_SESSION_PHASE_ID':PHASE,'SORT4_R20_CALLEE_PHASE_ID':ROUTE}
@@ -32,12 +35,12 @@ class MetadataGuards(unittest.TestCase):
     def tearDown(self):self.tmp.cleanup()
     def run_mode(self,mode,env):
         p=self.root/'mode.json';p.write_text(json.dumps(mode))
-        with patch.dict(os.environ,env,clear=True),patch.object(sys,'argv',['guard',str(p)]):exec(block('MUT_MODE'),{})
+        with patch.dict(os.environ,env,clear=True),patch.object(sys,'argv',['guard',str(p)]):exec(block(self.MODE_BLOCK),{})
     def audit(self,summary=None,env=None,code=0):
         p=self.root/'summary.json';out=self.root/'audit.json'
         if summary is not None:p.write_text(json.dumps(summary))
         else:p.unlink(missing_ok=True)
-        with patch.dict(os.environ,self.env if env is None else env,clear=True),patch.object(sys,'argv',['audit',str(p),str(out),str(code),'capture']):exec(block('MUT_AUDIT'),{})
+        with patch.dict(os.environ,self.env if env is None else env,clear=True),patch.object(sys,'argv',['audit',str(p),str(out),str(code),'capture']):exec(block(self.AUDIT_BLOCK),{})
         return json.loads(out.read_text())
     def test_mode_rejects_wrong_or_missing_phase_and_unsafe_flags(self):
         self.run_mode(self.mode,self.env)
@@ -75,5 +78,37 @@ class MetadataGuards(unittest.TestCase):
         for key,value in [('CLOUD_BUILD_ID','bad-id'),('SORT4_R24_SESSION_PHASE_ID','wrong')]:
             env=dict(self.env);env[key]=value
             with self.subTest(key=key):self.assertFalse(self.audit(self.summary,env=env)['evidence_complete'])
+
+class MatrixMetadataGuards(MetadataGuards):
+    MODE_BLOCK='MUT_MATRIX_MODE'
+    AUDIT_BLOCK='MUT_MATRIX_AUDIT'
+    def setUp(self):
+        super().setUp()
+        self.mode=json.loads((CLOUD.parent/'task-history/select-callee-r24/P2-MUT-MATRIX-FINGERPRINT-MODE.json').read_text())
+        variants=self.mode['variant_order']
+        self.summary.update(schema='select-r24-mut-matrix-fingerprint-v1',native_build_id=BUILD,
+                            variant_order=variants,location_control={'complete':True,'reproduces_positive_pins':True,'native_build_id':BUILD})
+        self.summary['rows']={variant:{'variant':variant,'complete':True,'status':'COMPLETE_SOURCE_REPORTED_FINGERPRINT',
+            'native_build_id':BUILD,'source_unchanged':True,'ghost_strip_identity':True,
+            'original_sha256':'3bf0bf792c8135bf964f19b3aaadef38b8ca5ee9ec95107029ad99d28a807aaa',
+            'verified_sha256':hashlib.sha256(variant.encode()).hexdigest()} for variant in variants}
+        self.summary['rows']['positive']['verified_sha256']='74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165'
+    def test_matrix_mode_refuses_mismatched_positive_inputs(self):
+        for key,value in [('positive_pins_sha256','0'*64),('positive_evidence_build','other'),('variant_order',[])]:
+            mode=copy.deepcopy(self.mode);mode[key]=value
+            with self.subTest(key=key),self.assertRaises(AssertionError):self.run_mode(mode,self.env)
+    def test_matrix_audit_requires_all_rows_location_and_source_bindings(self):
+        for value in (None,[],{},'NOT_RUN'):
+            bad=copy.deepcopy(self.summary);bad['rows']=value
+            with self.subTest(rows=value):self.assertFalse(self.audit(bad)['evidence_complete'])
+        for key,value in [('complete',False),('status','NOT_RUN'),('variant','other'),('native_build_id','other'),
+                          ('source_unchanged',None),('ghost_strip_identity',False),('original_sha256','bad'),('verified_sha256','bad')]:
+            bad=copy.deepcopy(self.summary);bad['rows']['callee-owner-loss'][key]=value
+            with self.subTest(rowfield=key):self.assertFalse(self.audit(bad)['evidence_complete'])
+        bad=copy.deepcopy(self.summary);bad['rows']['callee-owner-loss']['verified_sha256']=bad['rows']['positive']['verified_sha256']
+        self.assertFalse(self.audit(bad)['evidence_complete'])
+        for value in (None,{}, {'complete':True,'reproduces_positive_pins':False,'native_build_id':BUILD}):
+            bad=copy.deepcopy(self.summary);bad['location_control']=value
+            with self.subTest(location=value):self.assertFalse(self.audit(bad)['evidence_complete'])
 
 if __name__=='__main__':unittest.main()

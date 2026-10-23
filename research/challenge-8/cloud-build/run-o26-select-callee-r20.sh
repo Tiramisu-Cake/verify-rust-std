@@ -44,6 +44,28 @@ assert m['owner']=='select-sort4' and m['independent_proof_credit']==0
 MUT_MODE
   r24_mut_capture_only=1
 fi
+r24_mut_matrix_fingerprint_only=0
+r24_mut_matrix_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-FINGERPRINT-MODE.json"
+if [[ -e "$r24_mut_matrix_mode_file" ]]; then
+  (( r24_mut_capture_only == 1 )) || exit 2
+  [[ "$(sha256sum "$r24_mut_matrix_mode_file" | cut -d' ' -f1)" == 0f8c816ff1e588cd8f2cb066fae862ea17b07103397b5282982cb1c86cc84317 ]] || exit 2
+  [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json" | cut -d' ' -f1)" == b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0 ]] || exit 2
+  python3 - "$r24_mut_matrix_mode_file" <<'MUT_MATRIX_MODE'
+import json,os,pathlib,sys
+m=json.loads(pathlib.Path(sys.argv[1]).read_text())
+assert m['schema']=='select-r24-mut-matrix-fingerprint-mode-v1'
+assert m['enabled'] is True and m['source_only'] is True
+assert m['proof_admission'] is False and m['publication_allowed'] is False
+assert m['phase_id']==os.environ.get('SORT4_R24_SESSION_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-24-R24'
+assert m['route_phase_id']==os.environ.get('SORT4_R20_CALLEE_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-23-R21'
+assert m['owner']=='select-sort4' and type(m['independent_proof_credit']) is int and m['independent_proof_credit']==0
+assert m['positive_pins_file']=='research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json'
+assert m['positive_pins_sha256']=='b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0'
+assert m['positive_evidence_build']=='b606d510-6832-483e-8168-afe8ef5fe9b4'
+assert m['variant_order']==['positive','omit-selected-own','omit-unselected-own','no-retained-half','callee-false-normal','callee-owner-duplicate','callee-owner-loss','callee-thread-duplicate']
+MUT_MATRIX_MODE
+  r24_mut_matrix_fingerprint_only=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -62,6 +84,54 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( r24_mut_matrix_fingerprint_only == 1 )); then
+    python3 - "$ev/cases/r24-mut-matrix-fingerprint/MUT-MATRIX-FINGERPRINT.json" "$evidence_root/proof-audit.json" "$1" "$2" <<'MUT_MATRIX_AUDIT'
+import json,os,pathlib,re,sys,uuid
+source,output=map(pathlib.Path,sys.argv[1:3]);code=int(sys.argv[3]);failed=sys.argv[4]
+summary=None;error=None
+try:
+ summary=json.loads(source.read_text())
+except (OSError,ValueError) as exc:
+ error=str(exc)
+try:
+ native=str(uuid.UUID(os.environ.get('CLOUD_BUILD_ID','')))
+except (ValueError,TypeError,AttributeError):
+ native=None
+variants=['positive','omit-selected-own','omit-unselected-own','no-retained-half','callee-false-normal','callee-owner-duplicate','callee-owner-loss','callee-thread-duplicate']
+provider=summary.get('provider_record') if isinstance(summary,dict) else None
+rows=summary.get('rows') if isinstance(summary,dict) else None
+location=summary.get('location_control') if isinstance(summary,dict) else None
+base='3bf0bf792c8135bf964f19b3aaadef38b8ca5ee9ec95107029ad99d28a807aaa'
+row_ok=isinstance(rows,dict) and set(rows)==set(variants)
+if row_ok:
+ hashes=[]
+ for variant in variants:
+  row=rows[variant]
+  ok=(isinstance(row,dict) and row.get('complete') is True and row.get('status')=='COMPLETE_SOURCE_REPORTED_FINGERPRINT'
+   and row.get('variant')==variant and row.get('native_build_id')==native and row.get('source_unchanged') is True
+   and row.get('ghost_strip_identity') is True and row.get('original_sha256')==base
+   and isinstance(row.get('verified_sha256'),str) and re.fullmatch('[0-9a-f]{64}',row['verified_sha256']) is not None)
+  row_ok=row_ok and ok
+  if ok:hashes.append(row['verified_sha256'])
+ row_ok=row_ok and len(set(hashes))==8 and rows['positive'].get('verified_sha256')=='74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165'
+complete=(code==0 and isinstance(summary,dict) and summary.get('schema')=='select-r24-mut-matrix-fingerprint-v1'
+ and summary.get('complete') is True and summary.get('variant_order')==variants and row_ok
+ and isinstance(location,dict) and location.get('complete') is True and location.get('reproduces_positive_pins') is True
+ and location.get('native_build_id')==native and summary.get('native_build_id')==native
+ and all(summary.get(key) is False for key in ['body_proof_run','typed_admission','semantic_rule_enabled','accepted','publication_allowed'])
+ and type(summary.get('proof_credit')) is int and summary.get('proof_credit')==0
+ and native is not None and native==os.environ.get('CLOUD_BUILD_ID') and isinstance(provider,dict)
+ and provider.get('provider')=='cloud-build' and provider.get('build_id')==native and provider.get('project')=='smallsort-ci'
+ and provider.get('region')=='global' and provider.get('os')=='ubuntu-22.04' and provider.get('arch')=='x86_64'
+ and summary.get('r24_session_phase_id')==os.environ.get('SORT4_R24_SESSION_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-24-R24')
+record={'schema':'select-r24-mut-matrix-fingerprint-audit-v1','scope':'SOURCE_MIR_MATRIX_FINGERPRINT_ONLY_NO_PROOF_ADMISSION',
+ 'runner_exit':code,'failed_stage':failed,'evidence_complete':complete,'fingerprint_summary':summary,
+ 'fingerprint_summary_error':error,'body_proof_run':False,'typed_admission':False,'verification_accepted':False,
+ 'accepted':False,'proof_credit':False,'publication_allowed':False}
+output.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+MUT_MATRIX_AUDIT
+    return
+  fi
   if (( r24_mut_capture_only == 1 )); then
     python3 - "$ev/cases/r24-mut-capture/MUT-CAPTURE-SUMMARY.json" "$evidence_root/proof-audit.json" "$1" "$2" <<'MUT_AUDIT'
 import json,os,pathlib,sys,uuid
@@ -375,6 +445,20 @@ out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes']
 HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
+
+# Full mutable fingerprint exits before every proof callback.
+if (( r24_mut_matrix_fingerprint_only == 1 )); then
+  stage r24-mut-matrix-fingerprint python3 "$cloud_dir/select-callee-r24-mut-matrix-fingerprint.py" \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --deadline-epoch "$deadline" --mode-file "$r24_mut_mode_file" \
+    --mode-sha256 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624 \
+    --matrix-mode-file "$r24_mut_matrix_mode_file" \
+    --matrix-mode-sha256 0f8c816ff1e588cd8f2cb066fae862ea17b07103397b5282982cb1c86cc84317
+  current_stage=r24-mut-matrix-fingerprint-audit
+  audit_result 0 complete
+  exit 0
+fi
 
 # Capture-only exits before every const proof and matrix callback.
 if (( r24_mut_capture_only == 1 )); then
