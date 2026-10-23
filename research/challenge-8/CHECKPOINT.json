@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
     "evidence": [],
-    "summary": "4267 classified matrix/P2 consequence pending; refusals next. P2 NOT_PUBLISHED."
+    "summary": "4267 terminal FAILURE; classified matrix/P2 consequence awaiting Brief. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1295,18 +1295,19 @@
   },
   "mutable_classified_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+    "build_seconds": 372,
     "candidate": "32d42e1595496af26aa27ebd138b4cb7f119d173",
     "config_sha256": "25f7f032f6b215e2dbe6c5e381ee8b2a726826317dc1f5282aa7fb71b5d7614b",
     "dispatch_token": "dispatch-1bb40f46d6864b45bb85166543113f69",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "schema": "select-r24-mut-classified-proof-submission-v1",
     "source_payload_sha256": "c5d6f1ef061d532d028959c610b15e684250f3b083972b12a48885899e2c18e6",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_classified_candidate": {
@@ -1324,7 +1325,7 @@
       "sha256": "5d79f925b4edaa6fee1324949ce02a5b71c1cc58e3c34dc62cb6dc84acd67fa1"
     },
     "scope": "FRESH_MUTABLE_SEVEN_EXACT_TARGET_MATCHES_AND_CHECKED_NORMAL_POST_CONSEQUENCE",
-    "state": "SUBMITTED"
+    "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
   },
   "mutable_matrix_fingerprint_build": {
     "accounted": true,
@@ -1556,8 +1557,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK watcher; commit/push terminal accounting; Brief4267. Then refusals/P2/W4.",
-  "next_step": "ACK watcher; commit/push terminal accounting; Brief4267. Then refusals/P2/W4.",
+  "next": "Brief4267: classifier, consequence and root audit. Then refusal controls/P2/W4.",
+  "next_step": "Brief4267: classifier, consequence and root audit. Then refusal controls/P2/W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated."
@@ -1601,17 +1602,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "4267f58b-10da-4f3c-bb3f-1cc0f0879125"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 15910,
+    "remaining_seconds": 15538,
     "retired_seconds": 0,
-    "spent_seconds": 5690,
+    "spent_seconds": 6062,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1623,9 +1622,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T20:46:18Z",
+  "updated_utc": "2026-10-23T20:52:12Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -1802,9 +1801,12 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T20:52:12Z",
       "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/account/window. ACK before CP mutation; immediate terminal accounting commit/push before Brief.",
+      "event_id": "5bcae527-dea9-42e7-b873-903cc2d50b62",
       "spec_path": "/tmp/select-r24-mut-classified-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
