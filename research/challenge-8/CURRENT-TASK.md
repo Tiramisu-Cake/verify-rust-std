@@ -1,7 +1,7 @@
-# Network N5 — order/universal для exact N13, затем перенос R7 на baseline cd371e0 в stock-профиле
+# Network N6 — RefinedRust G1: frontend admission of exact insert_tail, bounded experiment with exit criteria
 
-Task ID: `network-n13-exact-cloud-2026-10-24-n5`; previous task: `network-n13-exact-cloud-2026-10-23-n4`.
-Owner: **Network**. Phase: `NETWORK-N13-EXACT-2026-10-24-N5`. Lane: `network-n13`.
+Task ID: `network-refinedrust-g1-2026-10-24-n6`; previous task: `network-n13-exact-cloud-2026-10-24-n5`.
+Owner: **Network**. Phase: `NETWORK-RR-G1-2026-10-24-N6`. Lane: `network-rr-g1`.
 
 ## Mission
 
@@ -13,45 +13,45 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `9a7a3d00e830d848ddee46d18c892bcbdb1081d2`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
-Tool worktree `/root/verifast-network-n13` on `challenge8/network-n13-20261023` at `809de4596839b739dd999f9e462242c835e3af46`.
-Profile `research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json` SHA-256 `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`. New ledger path: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261024-N5.json`; previous closed ledger: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N4.json`.
-Cloud budget: 10800 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
+Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `e8a21ed0797f69a97c6ec76ab90fad6fbaac3369`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+Tool worktree `/root/refinedrust-feasibility-sources/refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff` on `main` at `332d945fafa14bf55c0c8390cb35ec4b0c012cff`.
+Profile `research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N6.json` SHA-256 `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`. New ledger path: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json`; previous closed ledger: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261024-N5.json`.
+Cloud budget: 5400 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1740 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-N5 и Builds разрешены. Разовое расширенное окно: закрытие по цели, бюджету или настоящей границе, не по времени (N5-OWNER-DIRECTIONS). Цель 1 — закрыть exact N13: order negative и universal 480, полная матрица. Цель 2 — перенос R7 has_efficient_in_place_swap (75%) на baseline cd371e0 в stock-профиле 26.09 через Cloud lane. W7/W8 ждут PUBLISHED P2; W8-подготовку не расширять.
+N6 and Builds authorized. Extended window: close on goal, budget or a real boundary, not on time (N6-OWNER-DIRECTIONS). Bounded RefinedRust experiment, not a migration: run the prepared stock G1 (unpatched RR 332d945f, nightly-2026-08-28) on exact core insert_tail and answer with GO_G2 / STOP_RR / INCONCLUSIVE by the recorded exit criteria. Tool here is RefinedRust; the stock VeriFast N13/R7 profile is untouched.
 
-1. Register N5 on the N4-HANDOFF profile (08e016f4…). Order negative first (600 / 975+60), then standalone universal 480 (855+60) and same-unit dependency coverage; classify by exact receipts; timeout/setup/wrong-site stay INCONCLUSIVE. Record exact N13 acceptance only on the complete matrix.
-2. R7 transfer: add a Cloud stage/recipe (lane network-n13 or a new network lane with its own closure inventory) extracting the live has_efficient_in_place_swap<T> from source cd371e0 (blob 40939f92) fail-closed as extract-verifast-swap-size.py does; verify the ghost-only contract req true; ens result == (size_of::<T>() <= 8) with stock 26.09 and the pinned refinement check. Result card per COMPLETION-PLAN transfer rules; no dispatch-caller credit.
-3. Only with remaining budget: re-check Select P2-INTERFACE (PUBLISHED required) and prepare R4 consumption inputs; W8 stays preparation-only. Record choices and reasons in CHECKPOINT mission_queue.
+1. Transfer only the G1 package files from feasibility commit 68671873 into network/rr/; keep the RR pin 332d945f (read-only freshness check of upstream; re-pin only for documented slices/union support via restore-rr-bundle with reviewed hashes). Re-anchor annotations on baseline cd371e0; fall back to c7ca8c46 only with a recorded mismatch.
+2. Register lane network-rr-g1 in the own client (R7-stage pattern): cold image recipe 1740/1800 (one attempt) and warm G1 recipe 1200/1260; branch-local machine/disk config only; no shared coordinator/IAM/fourth owner. Then one cold image Build if no compatible image receipt exists, one warm G1, at most one evidence-driven repair; classify the first causal failure.
+3. Write network/rr/RR-G1-RESULT.md with the verdict, exact identities, first causal failure, missing specs and, for GO_G2, a G2 cost estimate; then STOP RR work. At the end re-check Select P2-INTERFACE for PUBLISHED; W7/W8 stay bounded.
 
 ## Special bounds
 
-- Window deadlines exist only for ledger/watcher. Never shorten a timeout or case limit; setup error or no-proof run fixed statically, same config never repeated. Review once per semantic candidate (CORE 2026-10-23); progress note about every 2 h.
-- Stock VeriFast 26.09 only (809de459): no tool/kernel/prelude patch, axiom or bodyless bridge; preserve every post, body inventory, return/leak/source gate; no parallel select/callback layer. R7 on the stock profile transfers an isolated theorem; it does not qualify dispatch callers.
-- coordination.py v4, shared coordinator/IAM/transport, other worktrees and ledgers unchanged; no Actions dispatch (run-verifast-swap-size.sh is Actions-only); no local generator/compiler/verifier.
+- Window deadlines exist only for ledger/watcher. Never shorten a timeout; setup error fixed statically, same config never repeated. After each terminal Build commit and push ledger accounting and CHECKPOINT/STATUS before the next step. Review once per semantic candidate; progress note about every 2 h.
+- No RefinedRust frontend/semantics patch, no only_spec/shim/stronger FnMut/Copy/Freeze/purity premise, no Tool Application or CI integration. Generation or collector SUCCESS is not a safety PASS; proof credit 0 under every outcome; the readiness index does not change.
+- Stock VeriFast 26.09 profile, coordination.py v4, shared coordinator/IAM/transport, other worktrees and ledgers unchanged; the feasibility branch is read-only history. No local RR build or verifier on the VPS.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Full N13 acceptance OPEN: order UNRUN, standalone universal timeout.
-Next: Register N5; order negative 600/975+60, then universal 480/855+60 and coverage; then the R7 Cloud stage on stock 26.09 against source cd371e0.
+Blocker: RR G1 never executed: compatible image and own lane registration missing.
+Next: Transfer the G1 package, register lane network-rr-g1, cold image then warm G1 once, classify, write RR-G1-RESULT.md with GO_G2/STOP_RR/INCONCLUSIVE.
 
 ## References
 
-- [Owner directions N5](network/n13/N5-OWNER-DIRECTIONS.md)
-- [N4 handoff](network/n13/N4-HANDOFF.md)
-- [Historical R7 helper proof](verifast-swap-size.md)
+- [Owner directions N6 (exit criteria)](network/rr/N6-OWNER-DIRECTIONS.md)
+- [Draft RR G1 profile](cloud-build/network-rr/RR-G1-PROFILE-20261024-N6.json)
+- [N5 handoff](network/n13/N5-HANDOFF.md)
 - [Progress review §9](PROGRESS-REVIEW.md)
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-24-n5 · network · NETWORK-N13-EXACT-2026-10-24-N5 · CLOSED**
-Updated: 2026-10-23T11:24:08Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`.
-Dates: T0 `2026-10-23T10:48:37Z`; main `2026-10-26T10:48:37Z`; absolute `2026-10-26T11:48:37Z`; window 4320 min main + 60 min closeout (explicit). Budget 10800s: 1284s spent, 9516s retired, 0s remaining including reservations.
+**network-refinedrust-g1-2026-10-24-n6 · network · NETWORK-RR-G1-2026-10-24-N6 · NOT_STARTED**
+Updated: 2026-10-23T20:13:24Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: N5 goals complete SOURCE_REPORTED; future W7/R4 waits PUBLISHED P2.
-Next: N5 closed; future W7/R4 needs PUBLISHED P2; W8 also needs published W3/W5/W7.
+Blocker: RR G1 never executed: compatible image and own lane registration missing.
+Next: Transfer the G1 package, register lane network-rr-g1, cold image then warm G1 once, classify, write RR-G1-RESULT.md with GO_G2/STOP_RR/INCONCLUSIVE.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

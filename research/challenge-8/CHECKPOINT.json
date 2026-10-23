@@ -1,112 +1,24 @@
 {
-  "admission": {
-    "candidate_commit": "5b4dba1627b9f0632faf9816ee611634b28351a8",
-    "config_sha256": "fba46819541eb3384c43971eb14340893d0e5920aa0a5eac49bd0c2624d369a6",
-    "dispatch_token": "dispatch-b1a61edd3d1f4047b416a58d5a6c506f",
-    "reserved_seconds": 1035,
-    "review": "research/challenge-8/network/n13/REVIEW-N5-ADMISSION.md",
-    "static_preflight": "research/challenge-8/network/n13/N5-STATIC-PREFLIGHT.json"
-  },
-  "artifact_history": [
-    {
-      "path": "research/challenge-8/verifast-swap-size.md",
-      "scope": "Historical pre-N5 documentation identity; retained in Git, no evidence record changed",
-      "sha256": "986740419fdfd6dc789fb8edb56524f0623e0469fa22bfb537cf49b9553f1e13"
-    }
-  ],
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
-      "sha256": "08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13"
-    },
-    {
-      "path": "research/challenge-8/verifast-swap-size.md",
-      "sha256": "599fffb9b8ec580f4a8b57e9e1ec5c00d27264ec7a0e0fa24cd6e46dcb10c0f9"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
-      "sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540"
-    },
-    {
-      "path": "research/challenge-8/network/r7/N5-DISPATCH-CLOSURE.json",
-      "sha256": "2c3153f6be13898b3706a10e2c28d435aba5ea4e14c47823f1c7a71684de3052"
-    },
-    {
-      "path": "research/challenge-8/network/r7/TRANSFER-CARD.json",
-      "sha256": "1901b075c15b4c9673b6273fa5b27771b2258df19a88dfa5f23ee789e905b848"
+      "path": "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+      "sha256": "3e37d89c10d8c4212ad09bfdd40a8443e8439eefd58f6ecc1730a32e8ebf0d6b"
     }
   ],
-  "assignment_sha256": "2696a2806c419cb4cbd9448d19c79de2c4d54a0520d7880acc869b297bcf0ff5",
+  "assignment_sha256": "7e6fc26467ead5e540e61882f2f5c2e6e3478235cee754da8ae469b1a8ee2ac0",
   "baseline": {
-    "profile_sha256": "08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13",
+    "profile_sha256": "31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34",
     "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
-    "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
+    "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/network/n13/N5-SELECT-FINAL-RECHECK.json",
-        "sha256": "968610f19b2271477a44d78bde644d610dc9fb459cf0caec2dcd4f175554504b"
-      }
-    ],
-    "summary": "N5 goals complete SOURCE_REPORTED; future W7/R4 waits PUBLISHED P2."
+    "evidence": [],
+    "summary": "RR G1 never executed: compatible image and own lane registration missing."
   },
-  "closure_reason": "GOAL: exactN13 full mathematical matrix complete SOURCE_REPORTED;R7 isolated baselinecd371e0 stock26.09 transfer complete with exact VF/refiner0,named1/body4 receipts. Independent tasks audited: generic/domain/universal dependencies covered in final same-unit prefix plus standalone480PASS;N9/required3negatives/7classifiers retained. R4 consumption unavailable: committed Selectd6378452 has noR24P2 interface, latestR23NOT_PUBLISHED/no mutable binding;R4/W7Build outsideN5. ActualRustW7 waitsPUBLISHEDP2;no parallel select/unchecked summary. W8 preparation is explicitly bounded: no new candidate beforeP2 and publishedW3/W5/W7;existing reviewedpreparation preserved. No tool patch/model/sharedcoord/transport work required or authorized. Close by achieved primary goals and conditional external interface boundary;do not fill enlarged window or spend remainingbudget.",
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N4: shape5 exact cbbe4b5f accepted (28 bodies, 7684 checks); missing/membership negatives and 7 classifier controls accepted; N9 accepted, standalone universal timeout360 retained. No full acceptance, credit0.",
-      "evidence": [
-        {
-          "build_id": "cbbe4b5f-0482-40a9-8c51-af65e33abb07",
-          "path": "research/challenge-8/network/n13/N4-HANDOFF.md",
-          "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "N5 order intended negative accepted:3649:66-68,441.209963075s,29bodies,7684return/leakchecks,unchanged unitd2891b13; all7 classifier controls true. Updated exact/composition included-body coverage; no independent formal credit.",
-      "evidence": [
-        {
-          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
-          "path": "research/challenge-8/observations/45b45511c51744465099139950f0bdeca698a173ac91165522bf2638b8ba634b.json",
-          "sha256": "45b45511c51744465099139950f0bdeca698a173ac91165522bf2638b8ba634b"
-        },
-        {
-          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
-          "path": "research/challenge-8/observations/514295c31e74056065aa83dbdc8f11b89a221b71061206af9ef3ccb6bfd2dde5.json",
-          "sha256": "514295c31e74056065aa83dbdc8f11b89a221b71061206af9ef3ccb6bfd2dde5"
-        },
-        {
-          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
-          "path": "research/challenge-8/observations/9db8cfc9a0009e42821da8309d80e435add1653ce25e11b27740f130dc6b2e8f.json",
-          "sha256": "9db8cfc9a0009e42821da8309d80e435add1653ce25e11b27740f130dc6b2e8f"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "N5 standalone universal480 accepted:392.876794885s,19bodies,7675return/leakchecks,exit0,errors0,unitf65fe336 unchanged. Full exact N13 mathematical matrix complete with compatible N4/N5 receipts and updated checked positive prefixes; independent/Rustcaller credit0.",
-      "evidence": [
-        {
-          "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
-          "path": "research/challenge-8/observations/d2a79856150c6ae7f90bfbd21a11a48218f792bdfca4e9ca633bf7d8f7abff05.json",
-          "sha256": "d2a79856150c6ae7f90bfbd21a11a48218f792bdfca4e9ca633bf7d8f7abff05"
-        },
-        {
-          "path": "research/challenge-8/network/n13/N5-RESULT.md",
-          "sha256": "b7448dc2495380b01ef7cad07b0a96e98e418ad4e8e781d1a9947d1e0414fd34"
-        },
-        {
-          "path": "research/challenge-8/network/n13/N5-COMPATIBLE-IDENTITIES.json",
-          "sha256": "93936d2499370e60df5b5d641c9450a573e52421c6664bf332929851bd77cb45"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R7 baselinecd371e0 isolated component accepted SOURCE_REPORTED:VF/refiner0,named1/body4,inputsunchanged;independent/callercredit0.",
+      "claim": "N5: exact N13 mathematical matrix complete and R7 transferred to baseline cd371e0 on stock 26.09 (VF/refiner 0); credit0.",
       "evidence": [
         {
           "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
@@ -116,131 +28,35 @@
       ]
     }
   ],
-  "decisions": [
-    {
-      "decision": "Use installed HEAD f25aa438 as preparation head above assigned baseline9a7a3d00",
-      "reason": "Only N5 assignment install and CORE clarification since baseline; clean worktree, no proof changes"
-    },
-    {
-      "decision": "T0=2026-10-23T10:48:37Z",
-      "reason": "First assistant activity timestamp10:48:37.493Z in this exact thread; includes preparation"
-    }
-  ],
-  "mission_queue": [
-    {
-      "choice": "First controls-order600, then standalone universal480 and compatible checked dependency coverage",
-      "obligation": "N13 full mathematical matrix",
-      "reason": "Explicit N5 priority; preserve all prior failures and exact pins",
-      "state": "COMPLETE_SOURCE_REPORTED_MATH_MATRIX"
-    },
-    {
-      "choice": "Cloud-only source-preserving isolated helper stage on stock26.09",
-      "obligation": "R7 baseline transfer",
-      "reason": "Independent of Select P2, explicit second N5 goal",
-      "state": "COMPLETE_SOURCE_REPORTED_ISOLATED_COMPONENT"
-    },
-    {
-      "choice": "Check PUBLISHED P2 after N13/R7; no new W8 candidates",
-      "obligation": "R4/W7 and W8",
-      "reason": "At committed Selectd6378452 R24P2 interface absent and latestR23NOT_PUBLISHED; no R4 consumption input or newW8 candidate can be prepared.",
-      "state": "CONDITIONAL_STEP_GATED_FINAL_RECHECK"
-    }
-  ],
-  "next_step": "N5 closed; future W7/R4 needs PUBLISHED P2; W8 also needs published W3/W5/W7.",
+  "next_step": "Transfer the G1 package, register lane network-rr-g1, cold image then warm G1 once, classify, write RR-G1-RESULT.md with GO_G2/STOP_RR/INCONCLUSIVE.",
   "open": [
-    "Actual Rust swap_if_less/network9/network13 source/MIR, ownership, normal/unwind and caller theorem remain OPEN; mathematical N13 matrix and isolated R7 do not close W7.",
-    "R4/W7 require PUBLISHED mutable P2; final committed Selectd6378452 has none. Actual W8 requires publishedW3/W5/W7 resources; no new W8 candidate inN5."
+    "RefinedRust G1 NOT_RUN: prepared package on feasibility branch 68671873 (frozen std c7ca8c46, RR 332d945f, nightly-2026-08-28); image digest unconfirmed; Cloud 0/0 so far.",
+    "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
   ],
   "owner": "network",
-  "phase": "NETWORK-N13-EXACT-2026-10-24-N5",
-  "r7_preparation": {
-    "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
-    "candidate_commit": "ed3bedb8802ed3ef5b38b5b3250d7691c426dd4d",
-    "config_sha256": "800eb711dc68dd8cb9c902196c41cf2497f8e6ff93a5ba1b1c07b974ec664d0c",
-    "dispatch_token": "dispatch-6a9f8bb6792742dfb769726597c2d3c7",
-    "integration_delta": "research/challenge-8/cloud-build/control.py",
-    "notes": [
-      "Same network-n13 lane stage swap-size; separate additional profile pin leaves N13 profile unchanged.",
-      "Envelope stage810=compiler450+verifier180+refiner180; build1185=810+120setup+15soft+240report.",
-      "4 synthetic wrapper tests pass; worker runner requires localized receipt/unchanged-input fixes before independent review.",
-      "Localized fixes/tests passed; extra R7 stage/profile connected only after universal dispatch. N13 profile bytes unchanged; fresh review required.",
-      "Static closure initially refused because local live ledger differs from committed snapshot; retain refusal, commit metadata snapshot and rerun before R7 submit.",
-      "Final static closure passed on47647a67,15entries/187186bytes; final transport27920base64<28000,45source substitutions; semantic paths unchanged from revieweded3bedb8. Old refused closure attempts preserved as diagnostics, no proof inferred."
-    ],
-    "profile": "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
-    "profile_sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540",
-    "published_candidate": "47647a67de32787cfa2e3671bdd578c6901e31da",
-    "result_card": "research/challenge-8/network/r7/TRANSFER-CARD.json",
-    "review": "research/challenge-8/network/r7/REVIEW-N5.md",
-    "review_spec_sha256": "cb70925bb9724e5371599f1460c6c7c2636eb4326c3b073479b221ee5e32dbae",
-    "runner": "research/challenge-8/network/r7/run-cloud.py",
-    "status": "COMPONENT_ACCEPTED_AS_REPORTED",
-    "wrapper": "research/challenge-8/cloud-build/network-n13/run-r7.sh"
-  },
+  "phase": "NETWORK-RR-G1-2026-10-24-N6",
   "rejected": [
     {
-      "approach": "Parallel pointer-select/callback layer, or universal PASS / timeout refusal counted as exact acceptance",
-      "evidence": [
-        {
-          "path": "research/challenge-8/network/BOOTSTRAP-2026-10-22.md",
-          "sha256": "1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712"
-        }
-      ],
-      "reason": "Divergent trusted profiles and W10 debt; exact full posts and intended controls on compatible identities are required."
+      "approach": "RefinedRust migration or frontend patching as a second main path",
+      "evidence": [],
+      "reason": "FEASIBILITY-REPORT 2026-10-11: NO-GO for migration; patching RR would repeat the verifier-building problem on another tool."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
-    "budget_seconds": 10800,
-    "deadline_utc": "2026-10-26T11:48:37Z",
+    "budget_seconds": 5400,
+    "deadline_utc": null,
     "finish_minutes": 60,
-    "main_deadline_utc": "2026-10-26T10:48:37Z",
+    "main_deadline_utc": null,
     "main_minutes": 4320,
-    "remaining_seconds": 0,
-    "retired_seconds": 9516,
-    "spent_seconds": 1284,
-    "t0": "2026-10-23T10:48:37Z",
+    "remaining_seconds": 5400,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "session_notes": [
-    "First submit invocation refused missing explicit state-dir before any dispatch; corrected with fresh /tmp/smallsort-network-n5. No duplicate dispatch.",
-    "Final accounting1284spent/9516retired/carry0;3terminal accounted Builds;own coordinator turn request withdrawn. No raw audit/download_verified or historical ledger modification."
-  ],
-  "state": "CLOSED",
-  "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T11:24:08Z",
-  "watch_events": [
-    {
-      "ack": "CONTINUE_EXISTING_WINDOW",
-      "cause": "UNKNOWN; status eventually returned through normal client; no rearm for reminders or Build resubmit",
-      "event": "monitor_error",
-      "event_id": "e5b59a29-a88c-45c3-8083-76fc1613317e",
-      "job_id": "7003f406-04f1-4cb3-b011-23fabb5b5978",
-      "ordinary_status": "WORKING"
-    },
-    {
-      "ack": "CONTINUE_EXISTING_WINDOW",
-      "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
-      "charge_seconds": 529,
-      "event": "build_terminal",
-      "event_id": "bdb125ea-b16c-483e-9614-fcd8638af0c7",
-      "job_id": "f24d161c-fcfd-4129-89ee-63c491318b2e",
-      "proof_inference": "NONE; Brief pending",
-      "status": "SUCCESS"
-    },
-    {
-      "ack": "CONTINUE_EXISTING_WINDOW",
-      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
-      "charge_seconds": 153,
-      "event": "build_terminal",
-      "event_id": "80f48411-3efa-4ee4-a56a-5fd44aa04c93",
-      "job_id": "0819b299-e1e9-4bac-9d60-33bd8c25b2bc",
-      "proof_inference": "NONE; precise Brief case receipts pending",
-      "status": "SUCCESS"
-    }
-  ],
-  "watch_refusals": [
-    "Initial arm: coordinator read lock busy; no job armed, ordinary retry permitted."
-  ]
+  "state": "NOT_STARTED",
+  "task_id": "network-refinedrust-g1-2026-10-24-n6",
+  "updated_utc": "2026-10-23T20:13:24Z"
 }
