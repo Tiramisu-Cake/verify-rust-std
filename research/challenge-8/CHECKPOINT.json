@@ -533,7 +533,7 @@
     },
     {
       "obligation": "P19 stale watcher recovery without changing R23 authority",
-      "reason": "Watcher saw terminal FAILURE21:25:33Z but suppressed delivery: thread has a newer turn. No event or queue attempt exists; stopped stale job. Owner explicitly preserved R23 on priority clarification; status request resumes same authorized work. Same T0/phase/ledger/budget/deadlines, no auto rearm same Build.",
+      "reason": "Watcher saw terminal FAILURE21:25:33Z but suppressed delivery: thread has a newer turn. No event/queue attempt exists. Stop command returned already terminal STALE unchanged. Owner explicitly preserved R23 on priority clarification; status request resumes same authorized work. Same T0/phase/ledger/budget/deadlines, no automatic rearm same Build.",
       "proof_credit": 0
     }
   ],
@@ -550,10 +550,11 @@
     "event_name": null,
     "ack": "NOT_APPLICABLE_NO_EVENT",
     "status_after_event": "FAILURE",
-    "state": "STOPPED_AFTER_STALE_NEWER_TURN",
+    "state": "STALE_TERMINAL_NO_DELIVERY",
     "auto_rearm_same_build": false,
     "store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
-    "recovery_authority": "Owner steer explicitly says does not interrupt R23 and budget/stop-loss unchanged; current status request is steering existing active task. New user turn invalidated old watcher handoff, not task/phase/ledger. Stop stale job before replacing frozen handoff; no fabricated ack/event and no new window."
+    "recovery_authority": "Owner steer explicitly preserves R23 and budget/stop-loss; current status request steers existing active task. New user turn invalidated old watcher handoff, not task/phase/ledger. STALE has no event/queue attempt; no fabricated ack, automatic rearm, or new window.",
+    "stop_command_result": "Already terminal STALE; CLI stop returned unchanged state and stop_requested=false. No runner/delivery remains active."
   },
   "owned_nll_stop_loss": {
     "cycles_started": 2,
