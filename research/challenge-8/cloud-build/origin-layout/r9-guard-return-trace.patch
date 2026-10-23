@@ -322,7 +322,7 @@ index 86c298fc..3b470283 100644
 +    ownedNllCaptureUnattachedCount @13: UInt32;
  }
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 684d3f76..31812e26 100644
+index 684d3f76..74d439ad 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -17,13 +17,7 @@
@@ -816,7 +816,7 @@ index 684d3f76..31812e26 100644
 +
 +            let old_mode = std::mem::replace(&mut enc_ctx.mode, EncKind::Body(body));
 +            let old_region_scope_id = enc_ctx.region_scope_id.replace(format!(
-+                "{}:{}",
++                "{:?}:{}",
 +                tcx.def_path_hash(*def_id),
 +                Self::captured_mir_hash(body),
 +            ));
@@ -945,7 +945,7 @@ index 436a5f7a..e4709446 100644
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..70e1a11d 100644
+index 9813a884..7ede0319 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -8,2 +8,7 @@ module DecoderAux = Decoder_aux
@@ -1828,7 +1828,7 @@ index 9813a884..70e1a11d 100644
 +      let unpure = function Ast.PureStmt (_, inner) -> inner | stmt -> stmt in
 +      let is_call = function
 +        | Ast.ExprStmt (Ast.CallExpr (_, found, _, _, _, Ast.Static))
-+        | Ast.CallExpr (_, found, _, _, _, Ast.Static) -> found = name
++          -> found = name
 +        | _ -> false in
 +      match unpure stmt with
 +      | Ast.BlockStmt (_, _, head :: _, _, _) -> is_call (unpure head)

@@ -138,6 +138,12 @@ class RawPtrControlsTests(unittest.TestCase):
         self.assertIn(b"&mut values", variants["raw_ref_cross_kind"][0])
         for source, _ in variants.values():
             self.assertIn(b"-> *mut [u64; 3]", source)
+        indexed, indexed_anchor = variants["unsupported_index_projection"]
+        self.assertEqual(controls._original_source("unsupported_index_projection"), indexed)
+        self.assertEqual(indexed.count(indexed_anchor), 1)
+        self.assertEqual(controls._line(indexed, indexed_anchor),
+                         controls._line(controls._original_source("unsupported_index_projection"),
+                                        indexed_anchor))
 
     def test_identical_local_rawmut_positive_is_refinement_only(self):
         result = self.classify("identical_local_rawmut")

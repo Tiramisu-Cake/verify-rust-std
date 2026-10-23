@@ -1,0 +1,25 @@
+{
+  "schema": "r23-source-static-validation-v1",
+  "tool_commit": "7a1dd1c98516441705d555fa8f0f12607112a7a1",
+  "profile_sha256": "c0f2568591b6d7cd903a3167a3582376a44d9f11eff52d2ae24825361d31fe43",
+  "checks": {
+    "r23_phase": 8,
+    "r22_historical_phase": 20,
+    "source_borrow_runner": 6,
+    "source_profile": 6,
+    "capture_policy": 5,
+    "r17_rawptr_controls": 10,
+    "r19_unwind_controls": 14,
+    "infra_transport_policy": 2,
+    "compatibility_mutations": "PASS",
+    "git_transport_roundtrip_and_corruptions": "PASS_SERVICE_ONLY"
+  },
+  "compiler_exporter_refiner_verifier_executed": false,
+  "toolchain_and_lemmas": "CLOUD_UNVERIFIED",
+  "proof_credit": false,
+  "notes": [
+    "Two independent review compile findings fixed by original workers; complete source delta review pending.",
+    "Profile reverses byte-exactly to3fec; actual five source hashes validated statically including alias; source Git patch reproduced exact candidates before compilefix, repeat exact patch source hash check on final candidate before Cloud.",
+    "P3 historic trace/classifications remain unchanged; source-negative fixture/parser repairs not retrospectively accepted."
+  ]
+}

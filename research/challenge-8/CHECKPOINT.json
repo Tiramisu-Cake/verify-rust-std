@@ -27,6 +27,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "c11bf847edfc1d442fbdd09804c0d1d628f879312a1b481f2cdb4ff854c5950e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
+      "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-STATIC-VALIDATION-20261024.json",
+      "sha256": "3a67fc05149a93d79eec361d58e5ce560a7b035e35e8118b05a03a932a147700"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -42,7 +50,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "Source adapter candidate prepared; review/build pending."
+    "summary": "Source/control delta ready; independent review and Cloud pending."
   },
   "confirmed": [
     {
@@ -77,9 +85,20 @@
           "build_id": "1416b764-486b-4414-be77-3116866838e2"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P3 rawcaller both targets and four stages0; all5 R19 controls matched. State refiner refusal matched, index INCONCLUSIVE. Synthetic resource error at exactline148 reached, trace gate notmatched; no proofcredit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
+          "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e",
+          "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d"
+        }
+      ]
     }
   ],
-  "next_step": "Review exact source profile/tool/helper candidate; full Cloud cycle.",
+  "next_step": "Review fixed tuple and intended-control repair; full Cloud submit.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -114,7 +133,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T12:44:02.809931Z",
+  "updated_utc": "2026-10-23T13:01:43.210988Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -176,6 +195,12 @@
       "tool_sha": "80576cc6d18a1d3776fc96978b6ea72a0eba3360",
       "profile_sha256": "2119ad73877cfeac2158c20dbf03bf148236e4344f5ba2e60e8974a03d1626ba",
       "capture_enabled": false
+    },
+    {
+      "obligation": "Address independent source-candidate review and P3 intended-control frontiers",
+      "reason": "Luna HIGH NEEDS_FIX f4aa/tool805 found only two localized compile blockers: DefPathHash formatting and stmt/expr pattern mixing. Original workers fixed them in published7a1dd1c9; profilec0f25685 exact reversal preserved. P3 all5 R19 controls match, rawcaller allstages0 sourceclaim. Keep F5 INCONCLUSIVE until same-source callee/call/target/stage trace gates; kernel native call wording is Verifying call, while classifier expects Verifying function call. Indexcontrol must isolate projected-place pair after matching prefix; no diagnostic/control gate weakening.",
+      "tool_sha": "7a1dd1c98516441705d555fa8f0f12607112a7a1",
+      "profile_sha256": "c0f2568591b6d7cd903a3167a3582376a44d9f11eff52d2ae24825361d31fe43"
     }
   ],
   "mission_queue": [

@@ -1,0 +1,54 @@
+{
+  "schema": "merge-r23-source-borrow-review-v1",
+  "reviewer": "Codex",
+  "candidate": "f4aa655a45c5def89bee7d1b46e62e96f9bb2295",
+  "baseline": "f91f763c4d210d2ea91c4d3efbbbbccf584cbcf9",
+  "tool_commit": "80576cc6d18a1d3776fc96978b6ea72a0eba3360",
+  "spec_sha256": "631de62c8157406bc4520ae8e418dda5b90139ed72195525fd001651d2547739",
+  "packet_sha256": "7646a40e8e63cb93dc146c99278a7853e4fbfb1c7f9ca606abcd45bbb2f67648",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "decision": "NEEDS_FIX",
+  "review_scope": [
+    "Connected source-borrow/actual-callee tool and source-control delta",
+    "R23 array full-borrow conversion lemmas and checked slice helper/template contracts",
+    "Source admission, actual MIR Ref-Unsize-as_mut_ptr chain, helper projection equivalence, and normal/unwind epilogues",
+    "Merge transport closure for four VPS-only infrastructure files"
+  ],
+  "findings": [
+    {
+      "id": "R23-SOURCE-COMPILE-1",
+      "severity": "BLOCKER",
+      "location": "/root/verifast-merge-r23-source-adapter/src/rust_frontend/vf_mir_exporter/src/lib.rs:3353",
+      "finding": "The new format!(\"{}:{}\", tcx.def_path_hash(*def_id), ...) requires DefPathHash: Display. The same exporter serializes DefPathHash with {:?} in existing body and generated-glue scope IDs; no Display implementation was found in the available source tree. This prevents compiling the pinned exporter unless the type happens to gain a Display implementation outside the checked tree.",
+      "action": "Use {:?} for the DefPathHash field, matching the existing encoding at exporter lines 1111-1114 and preserving consistent region scope IDs."
+    },
+    {
+      "id": "R23-SOURCE-COMPILE-2",
+      "severity": "BLOCKER",
+      "location": "/root/verifast-merge-r23-source-adapter/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml:6359-6362",
+      "finding": "The is_call matcher is inferred to consume Ast.stmt because its first alternative is Ast.ExprStmt (...). Its second alternative is Ast.CallExpr (...), which is an Ast.expr constructor, not an Ast.stmt constructor (see frontend/ast.ml:513-519 and 756 onward). The two alternatives therefore have incompatible types and the translator cannot compile.",
+      "action": "Remove the bare Ast.CallExpr alternative because is_call is called with the unwrapped statement, or explicitly unwrap an expression through an expression-typed helper before matching."
+    }
+  ],
+  "reviewer_checks_pass": [
+    "The packet identity check matched the exact candidate, spec digest, and packet digest.",
+    "Static inspection found the source helper and template preserve the as_mut_ptr runtime expression and bind the source-level helper contract to the admitted caller; the helper returns the raw data pointer while retaining the full-borrow resource.",
+    "The R23 conversion lemmas preserve the length-3 and pointer-metadata equalities, array ownership, and full_borrow_implies direction; the pinned prelude alias maps <[T]>.full_borrow_content to slice_full_borrow_content::<T>.",
+    "The translator admission checks the exact marker shape, lifetime token, unique local Ref-to-Unsize-to-as_mut_ptr chain, actual-callee projection and helper body before installing bridge calls; failed or incomplete marker shapes are rejected.",
+    "Generated bridge calls are represented as ExprStmt calls to lemmas. Kernel inspection shows generic lemma calls are handled through LemInfo and are not rejected merely because the surrounding statement is in a non-pure context; no ghost-call soundness finding was established.",
+    "The source-input delta excludes only the four named VPS-only infrastructure paths for merge lane; run-proof.sh remains in the exact infrastructure closure. The associated historical files remain available in Git."
+  ],
+  "not_run": [
+    "Rust exporter or OCaml translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "The two compile blockers are source-type findings, not compiler-log observations; no local toolchain execution was authorized.",
+    "The source/control review does not establish tool runtime behavior or proof acceptance. The actual toolchain and all proof APIs remain Cloud-UNVERIFIED.",
+    "No owned-NLL mapping, lemma acceptance, B1/B2 evidence, or proof credit is established by this review.",
+    "Transport source closure was inspected statically; final transport measurement and client-byte equality remain the coordinator's responsibility."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

@@ -78,7 +78,13 @@ def _variants():
 
 
 def _original_source(name: str) -> bytes:
-    return LOCAL_STATE_BASE if name == "unequal_address_taken_state" else BASE
+    if name == "unequal_address_taken_state":
+        return LOCAL_STATE_BASE
+    if name == "unsupported_index_projection":
+        # This unsupported-domain negative must compare the same indexed MIR
+        # prefix on both sides; only the projected-place rule is under test.
+        return _variants()[name][0]
+    return BASE
 
 
 def _run_logs(case: Path) -> list[tuple[str, str]]:

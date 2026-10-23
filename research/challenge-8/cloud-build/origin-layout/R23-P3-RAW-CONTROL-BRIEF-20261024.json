@@ -1,0 +1,349 @@
+{
+  "schema": "r23-p3-raw-control-brief-v1",
+  "build": {
+    "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d",
+    "brief_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "brief_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 1,
+    "evidence_complete_source_claim": true,
+    "diagnostic_status": "OBSERVED",
+    "diagnostic_causality": "UNKNOWN",
+    "observed_compiler_errors": [
+      "$HOME differs from euid-obtained home directory: you may be using sudo",
+      "$HOME directory: /builder/home",
+      "euid-obtained home directory: /root"
+    ],
+    "source_assertions": {
+      "proof_attempted": true,
+      "compiler_classification": "PASS",
+      "source": "proof-audit.json",
+      "source_sha256": "14f34d9314f0082db5be2682842c3d2e6c21a19b9f9be491d75bec5060f6f02e",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "catalogue_status": "JSON_EXCEEDS_SCAN_LIMIT",
+      "scanned_bytes": 262144,
+      "size_bytes": 853414
+    },
+    "causality_or_proof_acceptance_inference": "NONE"
+  },
+  "brief_identity": {
+    "archive_sha256": "8489aae8127ff5f33fda6f36c59d01a7395c60553bbc2955ae55de1de0992c09",
+    "index_sha256": "b112dae20f1961d260d01ad4be71bb8ca92a344e3f909b97090cb16a3e1adc95",
+    "report_schema": "smallsort-evidence-index-v8",
+    "catalogue_complete": true,
+    "catalogue_files": 4325,
+    "retained_content_files": 629,
+    "retained_content_bytes": 2087651,
+    "source_scan_bytes": 8388608,
+    "availability_counts": {
+      "PROJECTED": 623,
+      "CONTENT_BUDGET_EXCEEDED": 763,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "SCAN_BUDGET_EXCEEDED": 1363,
+      "UNSUPPORTED_FILE_TYPE": 1570
+    },
+    "coverage_limit": "Search/index projection is incomplete; missing matches do not establish source absence or NOT_RUN. Causal status UNKNOWN."
+  },
+  "campaign_aggregate": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "file_sha256": "d7f7b71bcadc439bc325c85065bf18160cfa9696d3771cc9189787963f9317bd",
+    "catalogue_status": "JSON_EXCEEDS_SCAN_LIMIT",
+    "source_size_bytes": 721676,
+    "targeted_requests": [
+      {
+        "request_id": "a42a084ade30e20f3e018f97c1c1e0188fe713dde636ca4db55eb31af88805cd",
+        "pointer": "",
+        "exact": true,
+        "complete": true,
+        "offset": 0,
+        "next_offset": null,
+        "facts": {
+          "classification": "DIAGNOSTIC_ONLY_UNTIL_ALL_GATES_MATCH",
+          "accepted": false,
+          "b2_achieved": false,
+          "prefix_current_normal_unwind_proved": false,
+          "rawptr_controls_matched": false,
+          "r19_unwind_controls_matched": true,
+          "body_only_component_observation": true,
+          "profile": "experimental-merge-label-storage-r11-v1"
+        }
+      },
+      {
+        "request_id": "734cdd3d3512777e15e37ba8ff1cf87f2662dc3a8a7a96d7a1c43a4afbe48ca4",
+        "pointer": "/results",
+        "exact": true,
+        "complete": true,
+        "offset": 0,
+        "next_offset": null,
+        "facts": {
+          "result_keys": [
+            "admission_controls",
+            "body_isolation",
+            "full_body",
+            "guard_array_controls",
+            "guard_return_recovery_controls",
+            "late_scope_admission_controls",
+            "lost_cell_owner",
+            "lost_current_f",
+            "lost_reference_fraction",
+            "lost_reference_token",
+            "owned_array_allocation_freshness_controls",
+            "prefix",
+            "r19_unwind_controls",
+            "raw_local_caller",
+            "rawptr_controls",
+            "share_representation_controls",
+            "storage_placement_controls"
+          ]
+        }
+      }
+    ],
+    "raw_local_caller": {
+      "request_id": "9e83629e886e4d5b2292abccbd9a071d8c2287f6161b6b74133e3251f106a8bf",
+      "pointer": "/results/raw_local_caller",
+      "exact": true,
+      "complete": true,
+      "classification": "RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0",
+      "accepted": false,
+      "caller_or_prefix_gate": false,
+      "full_target": false,
+      "qualification": false,
+      "proof_credit": false,
+      "independent_credit": false,
+      "source_exact": true,
+      "source_unchanged_at_every_stage": true,
+      "body_bytes_preserved": true,
+      "posts_preserved": true,
+      "verifier_target_observed": true,
+      "reason": "actual insert_tail and raw local caller targets reached typed verification with all required stages at exit 0",
+      "stages": {
+        "request_id": "83fc12a977e2e42885ffb291c9f6402f0dec8eb4849a452270c41614968f98f2",
+        "pointer": "/results/raw_local_caller/stages",
+        "exact": true,
+        "complete": true,
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "stage_receipt_gate": {
+        "request_id": "3c1c8783e93201a3138f198dfbb018c08810f994339e20fcd1a918fe39078e48",
+        "pointer": "/results/raw_local_caller/stage_receipt_gate",
+        "exact": true,
+        "complete": true,
+        "admitted": true
+      }
+    },
+    "rawptr_controls": {
+      "request_id": "ce967b19dc6c1a5c297c761eca393f9fbba16de127299212e736810862722ff3",
+      "pointer": "/results/rawptr_controls",
+      "exact": true,
+      "complete": true,
+      "campaign": "r17-rawptr-controls-v1",
+      "classification": "RAW_PTR_CONTROLS_INCONCLUSIVE",
+      "accepted": false,
+      "all_matched": false,
+      "caller_or_prefix_gate": false,
+      "b2_achieved": false,
+      "proof_credit": false,
+      "independent_credit": false,
+      "cases": {
+        "request_id": "8aded9d969dc4ab1fc51c3af4e9082a2f73df711ca75b53b864e2ffc6961ccfb",
+        "pointer": "/results/rawptr_controls/cases",
+        "exact": true,
+        "complete": true,
+        "keys": [
+          "changed_local_contents",
+          "identical_local_rawmut",
+          "mutability_mismatch",
+          "raw_ref_cross_kind",
+          "unequal_address_taken_state",
+          "unsupported_index_projection"
+        ]
+      }
+    },
+    "r19_unwind_controls": {
+      "request_id": "86d9539eb5348d3d6a3de7326c4e0f8de5a908f82d00c8fbefce1c024aff1cb2",
+      "pointer": "/results/r19_unwind_controls",
+      "exact": true,
+      "complete": true,
+      "campaign": "r19-unwind-controls-v1",
+      "classification": "ALL_R19_UNWIND_CONTROLS_MATCHED",
+      "all_matched": true,
+      "accepted": false,
+      "b2_achieved": false,
+      "proof_credit": false,
+      "independent_credit": false
+    }
+  },
+  "rawptr_case_results": [
+    {
+      "source_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/result.json",
+      "source_file_id": "0f36e5b51c3b5cec613b2eaaa7e372b054d623f1bf30cb1a3a6bb95d1faaa53c",
+      "source_sha256": "d180c941ab4f095693c5ae5364dc877f37137a392d49f4fc901d7a75a3fde424",
+      "request_ids": [
+        "d455ca2b2fa4b752e6504b0e35f87ebe09ccf479bf9cc1283de4ad166e5a9b7c",
+        "ee14053d66aec5318ea56dad2dd1019058a7608169dce61de4a23985f858caa8",
+        "b5bfcad0b36800b69a687edebdafd66352353b838c82071d52b78ebd45074876",
+        "272b1a1686de164814098d349a98832ee8a680c3677d34a1d25f500b2793a83f",
+        "f181dc7c82d7ba9995f65265a9366558d12bd6a0841f50d499a6abcdb702e99c"
+      ],
+      "state_case": {
+        "case": "unequal_address_taken_state",
+        "classification": "EXPECTED_REFINER_REFUSAL",
+        "matched": true,
+        "accepted": false,
+        "proof_credit": false,
+        "reason": "exact refiner refusal matched the isolated function and command target",
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 2,
+          "verifast": 1
+        }
+      },
+      "index_case": {
+        "case": "unsupported_index_projection",
+        "classification": "INCONCLUSIVE",
+        "matched": false,
+        "accepted": false,
+        "proof_credit": false,
+        "reason": "diagnostic, command target, or typed stage identity did not match",
+        "stages": {
+          "decode": 0,
+          "exporter": 0,
+          "refinement": 1,
+          "verifast": 2
+        }
+      },
+      "coverage": "All selected case pointers were exact and complete. Parser-input binding remains NOT_ESTABLISHED; causal_status UNKNOWN."
+    }
+  ],
+  "r19_case_results": {
+    "source_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/result.json",
+    "source_file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+    "source_sha256": "81c603c6a4051c224a69e622ddbf353e0e32aa20c3968e93f04b79a6c21161de",
+    "synthetic_unwind_resource": {
+      "request_id": "2a1fb98d6c8eb34c3bcd232b81d29caaacee7618b97e7702276b96a7f840dd07",
+      "pointer": "/synthetic_unwind_resource",
+      "exact": true,
+      "selection_complete": false,
+      "classification": "INCONCLUSIVE",
+      "accepted": false,
+      "b2_achieved": false,
+      "matched": false,
+      "proof_credit": false,
+      "resource_message": true,
+      "target_executed": true,
+      "target_line": 148,
+      "target_error_count": 1,
+      "caller_header_count": 1,
+      "callee_header_count": 1,
+      "caller_call_trace": false,
+      "callee_body_trace": false,
+      "reason": "the callee proof, wrapper unwind trace, exact resource diagnostic, or stage gate did not match",
+      "reason_request_id": "51ffeb960969072b0812827234a8b7574c2bd837289ace0d99bc2405a20be98e",
+      "target_error_count_request_id": "42346d11f4fa542ba380e00857ca696311feca90ce1d2e4fb3f0495b025dd784",
+      "stage_pointer_request_status": "HTTP_429; stage values unavailable in this receipt",
+      "verifier_trace": {
+        "source_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/synthetic_unwind_resource/cases/synthetic_unwind_resource/verifast.log",
+        "source_file_id": "bb9085752d83266a92da8f4e4242338027041867adfc4eab055664729aedc8e1",
+        "source_sha256": "3818525fa6b6d57654b939c6f035eb81b83467444718af1cdef6a8688e701de8",
+        "locate_verifying_function_request_id": "ef5357381478ee8c72961a49c49e535c00ee99e05641f22eec24254dc4475d64",
+        "verifying_function_lines": [
+          8,
+          40,
+          52,
+          110,
+          119,
+          129,
+          139,
+          162,
+          185,
+          202,
+          227,
+          236,
+          252,
+          327
+        ],
+        "last_match_window_request_id": "87f125dbb292f08dc240df4db7aa10c6924fc76f505114732bb1e0b54ea98b57",
+        "exact_line_327": "verified/lib.rs(129,1-151,2): note: Verifying function 'b2_three_from_local'",
+        "target_error_line_321": "verified/lib.rs(148,28-29): error: No matching heap chunks: array<u64>(values_addr, 4, _)",
+        "source_line_322": "148 |         assert array::<u64>(begin, 4, ?r16_normal_current);",
+        "verifying_function_call_locate_request_id": "bfd11457832c47a0c027687b2612488a1c788984d43022195d75d1d4bc746822",
+        "verifying_function_call_match_status": "NO_MATCH_IN_SEARCH_SCOPE",
+        "call_trace_parser_frontier": "No native \"Verifying function call\" evidence was found in this complete bounded file; do not infer call-line/callee trace from the target resource error."
+      }
+    },
+    "missing_marker": {
+      "source_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/cases/missing_marker/classification.json",
+      "source_file_id": "957281855ee2ae556206650d220a7358796857a98de6482cf778c2b7fbe5bd4f",
+      "source_sha256": "e54b29921b218c37067d45222075f3c443eda448ef20f29a24433a6353bdd633",
+      "request_ids": [
+        "2fa30f4867ec0a59f80f6dd48f81819e49283c7355bfa0f81ad02f053c3f33b0",
+        "1250434ec1a9d0aab100cc99b495f40371f61d3569d3589c0491f3d0de713763",
+        "bc8d8f712ce9e7f92712fdfd81dd4a2431ceae663dacf0d98f56776a2e6e8fc2",
+        "ea1c0cdee20904e350a14addfaa7aa46dfd6ab822798c8c0613160fa05c2fbd7"
+      ],
+      "classification": "EXPECTED_VERIFAST_REFUSAL",
+      "matched": true,
+      "accepted": false,
+      "b2_achieved": false,
+      "proof_credit": false,
+      "stages": {
+        "decode": 0,
+        "exporter": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "target_binding": {
+        "admitted": true,
+        "exact_line_count": 1,
+        "expected_line": 517,
+        "message_line_count": 1,
+        "expected_diagnostic": "No matching heap chunks: array_<u64>(values_addr, 3, _)"
+      },
+      "parser_input_binding": "NOT_ESTABLISHED"
+    }
+  },
+  "not_established_or_not_found": {
+    "capture_disabled": {
+      "status": "NO_MATCH_IN_RETAINED_PROJECTION",
+      "search_terms": [
+        "VF_EXPORT_OWNED_NLL_FACTS",
+        "owned_nll_capture_enabled",
+        "capture_enabled"
+      ],
+      "source_absence_established": false,
+      "no_capture_state_inferred": true
+    },
+    "f5": {
+      "status": "NO_MATCH_IN_RETAINED_PROJECTION",
+      "search_terms": [
+        "f5_resource_negative",
+        "f5",
+        "resource negative"
+      ],
+      "source_absence_established": false,
+      "no_case_classification_inferred": true
+    },
+    "helper_identity_and_p2_error": {
+      "status": "NO_MATCH_IN_RETAINED_PROJECTION",
+      "search_term": "helper37b4",
+      "p2_type_mismatch_before_gate": "Task-supplied lead only; no P2 source record queried in this P3-only task; exact message remains unverified here"
+    },
+    "r19_synthetic_stage_values": {
+      "status": "HTTP_429",
+      "request_rejected": true,
+      "no_stage_values_inferred": true
+    }
+  },
+  "integrity_and_interpretation": {
+    "brief_catalogue_and_targeted_service_only": true,
+    "raw_archive_or_logs_downloaded": false,
+    "full_aggregate_read": false,
+    "proof_credit": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

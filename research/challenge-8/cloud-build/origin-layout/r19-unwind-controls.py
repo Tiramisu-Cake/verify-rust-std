@@ -20,6 +20,8 @@ SYNTHETIC_DIAGNOSTIC = "No matching heap chunks for array<u64> of length 4"
 SYNTHETIC_TRACE_RE = re.compile(
     r"^\s*\d+(?:\.\d+)?s: [^\s(]+\([0-9]+,[0-9]+"
     r"(?:-[0-9]+(?:,[0-9]+)?)?\): Verifying function '([^']+)'$", re.M)
+NATIVE_CALL_TRACE = r"(?:Verifying function call|Verifying call)"
+SOURCE_TRACE_PREFIX = r"verified/lib\.rs\({line},\d+(?:-\d+(?:,\d+)?)?\): "
 CALL = b"    insert_tail(begin, begin.add(2), is_less);\n"
 R19_AFTER = (b"    /*@ { r19_insert_tail_unwind_cleanup();\n"
              b"        assert array::<u64>(begin, 3, ?r16_normal_current);\n"
@@ -105,21 +107,25 @@ def _synthetic_unwind_pair(callback, body) -> tuple[bytes, bytes, dict]:
                 b"    foreach(panic_current, own::<u64>(t)) &*&\n"
                 b"    tail == begin + 2 &*& *is_less |-> ?panic_f &*&\n"
                 b"    <F>.own(t, panic_f);\n@*/\n")
-    callee_original = signature + b"\n{\n    core::panic!();\n}\n\n"
-    callee_verified = signature + b"\n" + contract + b"{\n    core::panic!();\n}\n\n"
+    panic_call = b'    core::panicking::panic("explicit panic");'
+    callee_original = signature + b"\n{\n" + panic_call + b"\n}\n\n"
+    callee_verified = signature + b"\n" + contract + b"{\n" + panic_call + b"\n}\n\n"
 
     helper = callback._raw_owner_lemma_body()
     wrapper_at = verified_suffix.index(body.WRAPPER_SIGNATURE)
     verified_suffix = (verified_suffix[:wrapper_at] + helper + verified_suffix[wrapper_at:])
-    original = b"#![no_std]\n" + callee_original + original_suffix
-    verified = b"#![no_std]\n" + callee_verified + verified_suffix
+    crate_header = b"#![no_std]\n#![feature(panic_internals)]\n"
+    original = crate_header + callee_original + original_suffix
+    verified = crate_header + callee_verified + verified_suffix
     call_line = _line_at(verified, _unique_offset(verified, CALL))
     marker_assert = b"        assert array::<u64>(begin, 4, ?r16_normal_current);"
     marker_line = _line_at(verified, _unique_offset(verified, marker_assert))
-    panic_line = _line_at(verified, _unique_offset(verified, b"    core::panic!();"))
+    panic_line = _line_at(verified, _unique_offset(verified, panic_call))
     if callback._body_runtime_equal(original, verified) is not True:
         raise ValueError("synthetic source pair changes runtime behavior")
     if (b"ens false;" not in verified or b"on_unwind_ens thread_token(t)" not in verified or
+            verified.count(panic_call) != 1 or original.count(panic_call) != 1 or
+            b"core::panic!" in original or b"core::panic!" in verified or
             b"assume" in verified or b"leak" in verified):
         raise ValueError("synthetic callee contract or checked-source gate changed")
     return original, verified, {"call_line": call_line, "marker_line": marker_line,
@@ -321,11 +327,13 @@ def _classify_synthetic(case: Path, expected_hashes: dict, execution: object,
                         "No matching heap chunks" in target_errors[0] and
                         re.search(r"array(?:::<u64>|<u64>)?\([^\n]*,\s*4,\s*_\)",
                                   target_errors[0]) is not None)
-    callee_called = (re.search(rf"verified/lib\.rs\({lines['panic_line']},\d+[^\n]*"
-                               r"(?:Executing statement|Verifying function call)",
-                               callee_segment) is not None)
-    caller_call = (re.search(rf"verified/lib\.rs\({lines['call_line']},\d+[^\n]*"
-                             r"Verifying function call", caller_segment) is not None)
+    callee_called = (re.search(
+        SOURCE_TRACE_PREFIX.format(line=lines["panic_line"]) +
+        rf"(?:note: )?{NATIVE_CALL_TRACE}$",
+        callee_segment, re.M) is not None)
+    caller_call = (re.search(
+        SOURCE_TRACE_PREFIX.format(line=lines["call_line"]) +
+        rf"(?:note: )?{NATIVE_CALL_TRACE}$", caller_segment, re.M) is not None)
     target_trace_count = len(re.findall(
         rf"verified/lib\.rs\({target_line},\d+[^\n]*\): (?:note: )?Executing statement",
         caller_segment))

@@ -1,0 +1,43 @@
+{
+  "schema": "r23-p3-trace-frontier-v1",
+  "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d",
+  "archive_sha256": "8489aae8127ff5f33fda6f36c59d01a7395c60553bbc2955ae55de1de0992c09",
+  "index_sha256": "b112dae20f1961d260d01ad4be71bb8ca92a344e3f909b97090cb16a3e1adc95",
+  "file_id": "bb9085752d83266a92da8f4e4242338027041867adfc4eab055664729aedc8e1",
+  "file_sha256": "3818525fa6b6d57654b939c6f035eb81b83467444718af1cdef6a8688e701de8",
+  "assurance": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causality": "UNKNOWN",
+  "proof_credit": false,
+  "requests": [
+    {
+      "request_id": "eb22fb3b08d379223a7e7148e7b7a3e86c9564be38a8fb548fa63256f674ed18",
+      "selector": "locate exact insert_tail verifier function",
+      "exact": true,
+      "complete": true,
+      "matched_line": 236
+    },
+    {
+      "request_id": "8639a5a375d1c89f8b0933bd77f4e4627a13a3c738fcdf9b4300f9d906324c27",
+      "selector": "lines236-247",
+      "exact": true,
+      "complete": false,
+      "requested_window_complete": true,
+      "claims": [
+        "Timed insert_tail header at236 has sourceverified/lib.rs(2,1-21,2).",
+        "Executing statement and Verifying call for panic occur at pinned rustlib/core/src/panic.rs(52,9-51), not sourcepanicline."
+      ]
+    },
+    {
+      "request_id": "b66d86256f3acba850d159c0ab38a3b04035b43cee8fc85d8533838111205c68",
+      "selector": "lines300-311",
+      "exact": true,
+      "complete": false,
+      "requested_window_complete": true,
+      "claims": [
+        "Native call wording Verifying call at source145,9-27; source146 expression statements at306-311. No actual insert_tail call identity inferred from this window."
+      ]
+    }
+  ],
+  "decision": "Keep historical F5 INCONCLUSIVE. Use direct paired source panic call in synthetic fixture, same existing model, to preserve exact source-line trace gate; never accept arbitrary macro-file coordinates as source binding."
+}

@@ -52,6 +52,18 @@ class ProfileTests(unittest.TestCase):
         bad=copy.deepcopy(profile);bad['r23_source_borrow_registration']['source_pins']={}
         with self.assertRaises(ValueError):provider.profile_identity(bad)
 
+    def test_new_refiner_compatibility_retains_legacy_drop_defaults(self):
+        compat=load('r23_profile_service_compat',HERE/'generated-glue-compatibility-controls.py')
+        binding=compat._profile_refiner_source_pin(profile['profile'],HERE/'GLUE-PROFILE.json')
+        self.assertEqual(binding['profile_binding'],'EXACT_R23_SOURCE_BORROW_REGISTRATION')
+        self.assertEqual(binding['expected_source_sha256'],profile['refiner_core_source_sha256'])
+        tool=Path('/root/verifast-merge-r23-source-adapter')
+        registry.validate_tool_sources(tool,profile)
+        source=tool/'src/refinement_checker/refinement_checker.ml'
+        result=compat._synthetic_defaults_gate(source,source,profile['profile'],HERE/'GLUE-PROFILE.json')
+        self.assertTrue(result['matched'])
+        self.assertEqual(result['synthetic_drop_count'],2)
+
     def test_helper_pins_are_bound(self):
         registry.validate_helper_sources(HERE)
         import tempfile

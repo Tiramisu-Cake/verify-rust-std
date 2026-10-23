@@ -152,6 +152,14 @@ class R23PhaseTests(unittest.TestCase):
         provider = (ROOT/m.R17_PROVIDER_OVERLAYS_PATH).read_bytes()
         values = [profile, profile, profile, show(m.R17_PATCH_PATH), show(m.R17_PROVIDER_OVERLAYS_PATH), provider, provider]
         m.r23_validate_candidate_pins(*values)
+        current_values = [profile, (ROOT/m.R23_PROFILE_PATH).read_bytes(),
+            (ROOT/m.R23_PROFILE_PATH).read_bytes(), (ROOT/m.R17_PATCH_PATH).read_bytes(),
+            show(m.R17_PROVIDER_OVERLAYS_PATH), provider, provider]
+        m.r23_validate_candidate_pins(*current_values)
+        for index in (1, 2, 3):
+            bad = list(current_values); bad[index] += b'x'
+            with self.subTest(source_index=index), self.assertRaises(SystemExit):
+                m.r23_validate_candidate_pins(*bad)
         for index in range(7):
             for wrong in (None, True, {}, values[index]+b'x'):
                 bad = list(values); bad[index] = wrong

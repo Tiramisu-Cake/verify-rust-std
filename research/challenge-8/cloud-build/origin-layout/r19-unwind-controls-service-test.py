@@ -108,7 +108,7 @@ class R19UnwindControlsTests(unittest.TestCase):
                 })
                 text = (
                     "  1.000s: verified/lib.rs(2,1-2): Verifying function 'insert_tail'\n"
-                    f"  1.010s: verified/lib.rs({record['panic_line']},5-24): Executing statement\n"
+                    f"  1.010s: verified/lib.rs({record['panic_line']},5-24): Verifying call\n"
                     "  1.020s: verified/lib.rs(20,1-2): Verifying function 'b2_three_from_local'\n"
                     f"  1.030s: verified/lib.rs({record['call_line']},5-52): Verifying function call\n"
                     f"  1.040s: verified/lib.rs({record['marker_line']},9-71): Executing statement\n"
@@ -164,6 +164,51 @@ class R19UnwindControlsTests(unittest.TestCase):
         for name in controls.CASES:
             self.assertEqual(result["cases"][name]["classification"], "EXPECTED_VERIFAST_REFUSAL")
 
+    def test_synthetic_negative_accepts_both_exact_native_call_trace_wordings(self):
+        def run_with_wordings(callee_wording, caller_wording, name):
+            inner = self.matching_executor()
+            def executor(case, args, **kwargs):
+                result = inner(case, args, **kwargs)
+                record = json.loads((case / "case.json").read_text())
+                if record.get("control_kind") == "synthetic_always_panicking_callee_resource_negative":
+                    path = case / "verifast.log"
+                    lines = path.read_text().splitlines()
+                    self.assertEqual(sum(f"verified/lib.rs({record['panic_line']}," in line
+                                         for line in lines), 1)
+                    self.assertEqual(sum(f"verified/lib.rs({record['call_line']}," in line
+                                         for line in lines), 1)
+                    lines = [line.replace("Verifying call", callee_wording)
+                             if f"verified/lib.rs({record['panic_line']}," in line else
+                             line.replace("Verifying function call", caller_wording)
+                             if f"verified/lib.rs({record['call_line']}," in line else line
+                             for line in lines]
+                    path.write_text("\n".join(lines) + "\n")
+                return result
+            result = self.run_controls(executor, name=name)
+            synthetic = result["synthetic_unwind_resource"]
+            self.assertEqual(synthetic["classification"], "EXPECTED_SYNTHETIC_RESOURCE_REFUSAL")
+            self.assertTrue(synthetic["callee_body_trace"])
+            self.assertTrue(synthetic["caller_call_trace"])
+            self.assertTrue(result["all_matched"])
+
+        run_with_wordings("Verifying call", "Verifying function call", "synthetic-native-long-call")
+        run_with_wordings("Verifying function call", "Verifying call", "synthetic-native-short-call")
+
+    def test_direct_checked_panic_fixture_is_identical_runtime_in_both_units(self):
+        original, verified, lines = synthetic_pair()
+        direct_call = b'core::panicking::panic("explicit panic");'
+        feature = b"#![feature(panic_internals)]"
+        for source in (original, verified):
+            self.assertIn(feature, source.split(b"unsafe fn insert_tail", 1)[0])
+            self.assertEqual(source.count(direct_call), 1)
+            self.assertNotIn(b"core::panic!", source)
+        self.assertTrue(callback._body_runtime_equal(original, verified))
+        self.assertEqual(controls._line_at(
+            verified, controls._unique_offset(verified, b"    " + direct_call)),
+            lines["panic_line"])
+        self.assertIn(b"ens false;", verified)
+        self.assertIn(b"on_unwind_ens thread_token(t)", verified)
+
     def test_synthetic_callee_is_paired_and_failure_is_at_unwind_copy(self):
         original, verified, lines = synthetic_pair()
         self.assertTrue(callback._body_runtime_equal(original, verified))
@@ -172,7 +217,14 @@ class R19UnwindControlsTests(unittest.TestCase):
         self.assertEqual(verified.count(controls.CALL), 1)
         self.assertEqual(verified.count(b"r19_insert_tail_unwind_cleanup();"), 1)
         self.assertIn(b"assert array::<u64>(begin, 4, ?r16_normal_current);", verified)
-        self.assertIn(b"core::panic!();", verified)
+        self.assertIn(b"#![feature(panic_internals)]", original.split(b"unsafe fn insert_tail", 1)[0])
+        self.assertIn(b"#![feature(panic_internals)]", verified.split(b"unsafe fn insert_tail", 1)[0])
+        self.assertEqual(original.count(b'core::panicking::panic("explicit panic");'), 1)
+        self.assertEqual(verified.count(b'core::panicking::panic("explicit panic");'), 1)
+        self.assertNotIn(b"core::panic!", original)
+        self.assertNotIn(b"core::panic!", verified)
+        self.assertEqual(controls._line_at(verified, controls._unique_offset(verified,
+            b'    core::panicking::panic("explicit panic");')), lines["panic_line"])
         self.assertGreater(lines["marker_line"], lines["call_line"])
         self.assertFalse(any(token in verified for token in (b"assume", b"leak")))
 
@@ -188,6 +240,10 @@ class R19UnwindControlsTests(unittest.TestCase):
             "target not executed": lambda log: log.replace("Executing statement\n", "Statement\n", 1),
             "out of order function traces": lambda log: log.replace(
                 "Verifying function 'insert_tail'", "Verifying function 'later_insert_tail'"),
+            "wrong caller function": lambda log: log.replace(
+                "Verifying function 'b2_three_from_local'", "Verifying function 'another_caller'"),
+            "missing native call trace": lambda log: log.replace(
+                "Verifying function call", "Calling function"),
         }
         for label, alter in scenarios.items():
             def executor(case, args, **kwargs):
@@ -212,6 +268,34 @@ class R19UnwindControlsTests(unittest.TestCase):
                                                 f"verified/lib.rs({record['marker_line'] + 1},"))
             return result
         result = self.run_controls(wrong_target_line, name="synthetic-wrong-target-line")
+        self.assertEqual(result["synthetic_unwind_resource"]["classification"], "INCONCLUSIVE")
+        self.assertTrue(result["all_matched"])
+        def wrong_call_span(case, args, **kwargs):
+            result = self.matching_executor()(case, args, **kwargs)
+            record = json.loads((case / "case.json").read_text())
+            if record.get("control_kind") == "synthetic_always_panicking_callee_resource_negative":
+                log_path = case / "verifast.log"
+                log = log_path.read_text()
+                target = f"verified/lib.rs({record['call_line']},"
+                self.assertEqual(log.count(target), 1)
+                log_path.write_text(log.replace(target,
+                                                f"verified/lib.rs({record['call_line'] + 1},"))
+            return result
+        result = self.run_controls(wrong_call_span, name="synthetic-wrong-call-span")
+        self.assertEqual(result["synthetic_unwind_resource"]["classification"], "INCONCLUSIVE")
+        self.assertTrue(result["all_matched"])
+        def wrong_panic_span(case, args, **kwargs):
+            result = self.matching_executor()(case, args, **kwargs)
+            record = json.loads((case / "case.json").read_text())
+            if record.get("control_kind") == "synthetic_always_panicking_callee_resource_negative":
+                log_path = case / "verifast.log"
+                log = log_path.read_text()
+                target = f"verified/lib.rs({record['panic_line']},"
+                self.assertEqual(log.count(target), 1)
+                log_path.write_text(log.replace(target,
+                                                f"verified/lib.rs({record['panic_line'] + 1},"))
+            return result
+        result = self.run_controls(wrong_panic_span, name="synthetic-wrong-panic-span")
         self.assertEqual(result["synthetic_unwind_resource"]["classification"], "INCONCLUSIVE")
         self.assertTrue(result["all_matched"])
         def repeated_target(case, args, **kwargs):
