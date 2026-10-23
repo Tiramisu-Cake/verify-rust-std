@@ -1,0 +1,179 @@
+{
+  "schema": "merge-r23-p2-raw-control-brief-v1",
+  "build_id": "1416b764-486b-4414-be77-3116866838e2",
+  "build_status": "terminal FAILURE",
+  "archive_sha256": "ce2af687bb324a76e4590ea389998e93d78c21cb322f03b857c7ee5ec7a1571a",
+  "index_sha256": "13b780c44bd4e3032e4daffdea46001a688a09d5b2c7b6d843600b4f7c1f1554",
+  "aggregate": {
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+    "sha256": "1e1e039c8f651626893424e9531a35ca008ea70192f9c19709bcc0eadd31a8af",
+    "size_bytes": 721477,
+    "catalogue_status": "JSON_EXCEEDS_SCAN_LIMIT",
+    "catalogue_scanned_bytes": 262144,
+    "root_pointer_request_id": "a49a4eec47cd9afad6ed5c04aa71032ed5d385a6dec5cb42d0c35eca3cf9235d",
+    "root_pointer_complete": true,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN",
+    "proof_credit": false,
+    "independent_credit": false
+  },
+  "raw_local_caller": {
+    "selector": "/results/raw_local_caller",
+    "request_id": "26dbe30ef4d5e75c22df829f171170649d0490236a05040dfd4395421b06c5d1",
+    "classification": "INCONCLUSIVE",
+    "reason": "both actual body and raw wrapper verifier targets were not established",
+    "phase": "classification",
+    "source_exact": true,
+    "source_unchanged_at_every_stage": true,
+    "stage_receipt_gate_admitted": true,
+    "verifier_target_observed": false,
+    "caller_or_prefix_gate": false,
+    "stages": {
+      "selector": "/results/raw_local_caller/stages",
+      "request_id": "eebf8cf26d5da87be57ce9dd747097d53f61344eda2bcbdb1ca9db05b0cd27a8",
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    },
+    "stage_receipt_gate_request_id": "95c3ff04f3008455ffb5194b7a4a3bc50de0227216b90c1e0525ee14dffa89a2",
+    "proof_credit": false
+  },
+  "r17_rawptr_controls": {
+    "selector": "/results/rawptr_controls",
+    "request_id": "d16d16a6d95fe95643f121079cc85f3093e9abbf3d9274e03bd4e0e685498873",
+    "classification": "RAW_PTR_CONTROLS_INCONCLUSIVE",
+    "all_matched": false,
+    "proof_credit": false,
+    "cases": {
+      "unequal_address_taken_state": {
+        "selector": "/results/rawptr_controls/cases/unequal_address_taken_state",
+        "request_id": "2b7a6b4bafa67441313bfd263f79b9487a0ca2a43d607c43a884572b0cd296bf",
+        "classification": "EXPECTED_REFINER_REFUSAL",
+        "matched": true,
+        "target_binding_admitted": true,
+        "target_binding_request_id": "6c50f80595a6959eed0439122032a2b85a41b05dd67d032c8e1c6985283be55c",
+        "source_target_line": 6,
+        "source_target_anchor": "let begin = &raw mut other_values as *mut [u64; 3];",
+        "exact_diagnostic_count": 1,
+        "stages_request_id": "40eb55ef7db2a61b8bb548e9559c11d9d15c1e3e1ba0d9200ea1f781bd9fe87b",
+        "stages": "exporter=0,decode=0,refinement=2,verifast=1",
+        "proof_credit": false
+      },
+      "unsupported_index_projection": {
+        "selector": "/results/rawptr_controls/cases/unsupported_index_projection",
+        "request_id": "78245aeca748d9fac9a033b241e0774c5ac6937ceb53f049840fe96084577ea6",
+        "classification": "INCONCLUSIVE",
+        "matched": false,
+        "target_binding_admitted": false,
+        "target_binding_request_id": "8259d2c6833b002419154b3da2c25b4fb395631755ae247abf28af1c0f370585",
+        "source_target_line": 5,
+        "source_target_anchor": "let begin = &raw mut values[0]",
+        "exact_diagnostic_count": 0,
+        "stages_request_id": "f6e8e89860e60b02c8c1caa57d515ed89475078f94b1a3b8788133eebfe86742",
+        "stages": "exporter=0,decode=0,refinement=1,verifast=2",
+        "reason": "diagnostic, command target, or typed stage identity did not match",
+        "proof_credit": false
+      }
+    }
+  },
+  "r19_unwind_controls": {
+    "selector": "/results/r19_unwind_controls",
+    "request_id": "f103c1be700f79966f4becf83ff2d56a660ad5caf79a3dae2706809be7dfbb9c",
+    "classification": "R19_UNWIND_CONTROLS_INCONCLUSIVE",
+    "all_matched": false,
+    "cases_selector_request_id": "3d2589ad13529aab3083cccbf6efa339ade294cae9b637755f08a46f1854ae0e",
+    "cases": {
+      "cleanup_edge": {
+        "classification": "EXPECTED_VERIFAST_REFUSAL",
+        "matched": true,
+        "target_binding_admitted": true,
+        "expected_diagnostic": "R19 cleanup needs a Continue insert_tail call",
+        "result_request_id": "0b652920762fe5e62543210d7797be05b3f3e81acdf6196de10264226bae81f9",
+        "binding_request_id": "3b0165455165456044093c2d98511fcb73d82a0a474057d05f86bf1a1832defa",
+        "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+        "stages_request_id": "76beb5bdde6a29db18231642142863d46cefcee2d90450b29c39b4315442698e"
+      },
+      "displaced_marker": {
+        "classification": "EXPECTED_VERIFAST_REFUSAL",
+        "matched": true,
+        "target_binding_admitted": true,
+        "expected_diagnostic": "R19 cleanup marker did not follow insert_tail",
+        "result_request_id": "7437cdf8b16d65578c6159523bfa886e374c979c74df7e9cfec2f50f7740cc8b",
+        "binding_request_id": "18e723ce9b57403f3f083ab9ca791bba71a3ba0ba57f52c420ae8ac17a3933d5",
+        "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+        "stages_request_id": "32d83b8298443237bb18d65ef5a3a001a4c31d63c37225a51ee43e3d86136e83"
+      },
+      "missing_marker": {
+        "classification": "INCONCLUSIVE",
+        "matched": false,
+        "target_binding_admitted": false,
+        "expected_diagnostic": "No matching heap chunks: array_<u64>(values_addr, 3, _)",
+        "result_request_id": "19220f18331808456a542e620b595b289f5b136c697d0fe743b53622a526304b",
+        "binding_request_id": "889bd7fbda1abc6d61826671af6c108ed637a172cd891d651d5a7be8e9ab57a2",
+        "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+        "stages_request_id": "2474d669f0b5510e53a229446dceae5cea1e290c32e68090587d04b17dda828c"
+      },
+      "missing_owner_drop": {
+        "classification": "EXPECTED_VERIFAST_REFUSAL",
+        "matched": true,
+        "target_binding_admitted": true,
+        "expected_diagnostic": "R19 cleanup block shape mismatch",
+        "result_request_id": "17546f44d37d4eef6b6f10e6ce7975a05c19c322bec1af64738957aa96a664e3",
+        "binding_request_id": "624156dffedb07b821e698c503ce88aa2cd71b4ab514d15ac3fa9073429f51ae",
+        "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+        "stages_request_id": "3bf8b4b151e9fef0aed432c909b2d968deb555f223c39c226daca283273d4245"
+      },
+      "other_function": {
+        "classification": "EXPECTED_VERIFAST_REFUSAL",
+        "matched": true,
+        "target_binding_admitted": true,
+        "expected_diagnostic": "R19 cleanup marker outside b2_three_from_local",
+        "result_request_id": "61ef610360e2eb97ea07c87ade14729e21fc443659d237755f08a46f1854ae0e",
+        "binding_request_id": "df046c5f33d1efb0511f7b2663e39131e42ea72bb5a8faefba7ef1563aadb417",
+        "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+        "stages_request_id": "180a4c6deb70418f4748b379455c3feaacbb97c7382b69f1a1a070ce1a7991c6"
+      }
+    },
+    "proof_credit": false,
+    "independent_credit": false
+  },
+  "synthetic_f5": {
+    "selector": "/results/r19_unwind_controls/synthetic_unwind_resource",
+    "request_id": "29a5c68b4f124ade2a289c35e084f1b78cf030aff9b5c655c4820e1ae3ae4922",
+    "page_0_next_offset": 20,
+    "continuation_request_id": "1c6e3ad537d53389b647d8b484f13af57071291b5080b4c9266db65120e2743b",
+    "continuation_next_offset": null,
+    "classification": "INCONCLUSIVE",
+    "matched": false,
+    "target_line": 148,
+    "target_executed": false,
+    "target_trace_count": 0,
+    "target_error_count": 0,
+    "resource_message": false,
+    "caller_call_trace": false,
+    "callee_body_trace": false,
+    "verifier_error": "verified/lib.rs(43,45-46): error: Type mismatch. Actual: *[u64]. Expected: *[T].",
+    "verifier_error_request_id": "3b793e6356a050f34287effbe43386bdc7f69f06a27976918cb159b26ebd30ff",
+    "stages": "exporter=0,decode=0,refinement=0,verifast=1",
+    "stages_request_id": "36699a1a522cd6896c67d7c3ac74f8dae2391f816b082e15a8cbad43b959fa8e",
+    "explicit_f5_label_in_returned_row": false,
+    "proof_credit": false
+  },
+  "coverage_limits": {
+    "search_F5_request_id": null,
+    "search_F5_request_id_status": "NOT_RETURNED_IN_BRIEF_RESPONSE",
+    "search_F5_status": "NO_MATCH_IN_RETAINED_PROJECTION",
+    "files_with_incomplete_content": 4278,
+    "source_absence_established": false,
+    "synthetic_unwind_pointer_complete": false,
+    "synthetic_unwind_pages": "offset 0 returned next_offset 20; followed with offset 20, next_offset null; service still marked complete=false"
+  },
+  "limitations": [
+    "Evidence Brief observations are source claims, not B1/B2 or independent proof credit.",
+    "Parser-input/cross-stage binding is NOT_ESTABLISHED; do not infer AST/MIR semantics or causality from these selectors.",
+    "No raw archive, full log, Cloud Logging, local evidence copy, compiler, verifier, or proof tool was accessed.",
+    "Catalogue JSON scan limit and retained-projection F5 no-match do not establish source absence."
+  ]
+}

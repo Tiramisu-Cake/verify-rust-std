@@ -213,8 +213,10 @@ R23_PROBE_SOURCE='733b6a7d68259787f1caf58177060589b6af779e'
 R23_BASELINE_SHA=R23_PROBE_SOURCE
 R23_STARTING_SOURCE_SHA=R20_STARTING_SOURCE_SHA
 R23_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R23-BUDGET-20261024.json'
-R23_ADDED_PATHS={R23_LEDGER_PATH}
-R23_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/R5-EMITTER-PINS-20261020.json', 'research/challenge-8/cloud-build/origin-layout/R10-START-20261021.json', 'research/challenge-8/cloud-build/origin-layout/LAYOUT-PINS.json', 'research/challenge-8/merge/cloud-build/test-provider-base-pins.py', 'research/challenge-8/cloud-build/origin-layout/r10-source-preflight.py', 'research/challenge-8/merge/cloud-build/test-r11-provider-overlay-service.py'}
+R23_CAPTURE_POLICY_PATH='research/challenge-8/cloud-build/origin-layout/R23-CAPTURE-POLICY-20261024.json'
+R23_CAPTURE_POLICY_SHA256='9618853a3290d2dffbbbc11fe2a4ea59ed25f8ecd0a8a3a21c84e7a01e9ce941'
+R23_ADDED_PATHS={R23_LEDGER_PATH,R23_CAPTURE_POLICY_PATH}
+R23_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/r10-source-preflight.py', 'research/challenge-8/cloud-build/origin-layout/r9-source-preflight.py', 'research/challenge-8/merge/cloud-build/test-provider-base-pins.py', 'research/challenge-8/cloud-build/origin-layout/r5-emitter-source-preflight.py', 'research/challenge-8/cloud-build/origin-layout/R10-START-20261021.json', 'research/challenge-8/cloud-build/origin-layout/LAYOUT-PINS.json', 'research/challenge-8/cloud-build/origin-layout/R5-EMITTER-PINS-20261020.json', 'research/challenge-8/merge/cloud-build/test-r11-provider-overlay-service.py'}
 R23_PROFILE_PATH=R22_PROFILE_PATH
 R23_PROFILE_SHA256=R22_OWNED_NLL_PROFILE_SHA256
 R23_STARTING_TOOL_COMMIT=R22_OWNED_NLL_TOOL_COMMIT
@@ -2497,6 +2499,14 @@ def r23_validate_sources(probe_sha,proof_sha):
   raise SystemExit('R23 S6 pinned profile, patch, or provider unavailable')
  r23_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
                              baseline_provider,selected_provider,current_provider)
+ try:
+  capture_policy=subprocess.check_output(['git','show',proof_sha+':'+R23_CAPTURE_POLICY_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  current_capture_policy=(ROOT/R23_CAPTURE_POLICY_PATH).read_bytes()
+ except (subprocess.CalledProcessError,OSError):
+  raise SystemExit('R23 S6 post-stop-loss capture policy unavailable')
+ if (hashlib.sha256(capture_policy).hexdigest()!=R23_CAPTURE_POLICY_SHA256 or
+     current_capture_policy!=capture_policy):
+  raise SystemExit('R23 S6 exact capture-off policy differs')
  r23_validate_historical_closure(check_paths,old_map,new_map)
  try:
   gate_selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)

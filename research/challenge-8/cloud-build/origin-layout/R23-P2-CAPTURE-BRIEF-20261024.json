@@ -1,0 +1,120 @@
+{
+  "schema": "merge-r23-p2-capture-brief-v1",
+  "build_id": "1416b764-486b-4414-be77-3116866838e2",
+  "source_sha": "d27a1f14b0cfed5674fae5c5a8a1246f4871c7b6",
+  "config_sha256": "9b5810ec3fe7b60f6fd6a39c106bc14ae0f0ad27074041111fd892e5a34bd116",
+  "tool_sha": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+  "profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
+  "archive_sha256": "ce2af687bb324a76e4590ea389998e93d78c21cb322f03b857c7ee5ec7a1571a",
+  "index_sha256": "13b780c44bd4e3032e4daffdea46001a688a09d5b2c7b6d843600b4f7c1f1554",
+  "assurance": "SOURCE_REPORTED",
+  "status": "FAILURE",
+  "run_exit": 1,
+  "proof_attempted": true,
+  "compiler_classification": "PASS",
+  "capture": {
+    "enabled": true,
+    "count": 6,
+    "attached_count": 3,
+    "unattached_count": 3,
+    "b2_body": "DefId(0:14 ~ lib[b322]::b2_three_from_local)",
+    "capture_mir_hash": "ae63021551222799",
+    "capture_mir_phase": "Analysis(Initial)",
+    "emitted_mir_hash": "c8e8fc6dc9fd9575",
+    "emitted_mir_phase": "Runtime(PostCleanup)",
+    "mapping_status": "UNESTABLISHED",
+    "origin_live_on_entry_available": false,
+    "diagnostic": "origin_live_on_entry unavailable: derived output relation, not present in PoloniusInputFacts; capture and emitted MIR hash/phase differ"
+  },
+  "source_results": {
+    "original_full_caller": "INCONCLUSIVE: Placeholders are not allowed here at verified441:17-23",
+    "body_isolation": "BODY_UNIT_VERIFIER_EXIT0",
+    "raw_and_controls": "See separate R23-P2-RAW-CONTROL-BRIEF; raw/F5 before intended target, no credit"
+  },
+  "charge_seconds": 814,
+  "spent_total_seconds": 1392,
+  "remaining_seconds": 13008,
+  "proof_credit": false,
+  "independent_credit": false,
+  "owned_nll_stop_loss": {
+    "cycles_completed": 2,
+    "success": false,
+    "no_third_capture_cycle": true,
+    "next": "checked source-borrow route; capture disabled"
+  },
+  "decode": {
+    "file_id": "a80978fa9030b0b125eae0db867c108c8806314259d2fbb1eacbd519673ec270",
+    "file_sha256": "500e88e8034161135d2ab7e238aed95981bccb0b3736943ac357fc575602b7e0",
+    "bytes": 1312762,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "receipts": [
+      {
+        "start": 34141,
+        "end": 34144,
+        "request_id": "0eceb586b833dfbf906f1cd7097f658e35a9eba9ef4fd2f8bb847bfbadcb8b6d",
+        "exact": true,
+        "complete": false,
+        "coverage": "all4requestedrootcapturecountlines; filefragment"
+      },
+      {
+        "start": 33396,
+        "end": 33407,
+        "request_id": "8ecb3695e3d11747d4fec8fdb1063f0a0ff42577998e5a011900ced786e380b9",
+        "exact": true,
+        "complete": false,
+        "coverage": "all12requestedlines; captureheader and point/loanexcerpt"
+      },
+      {
+        "start": 33386,
+        "end": 33397,
+        "request_id": "3807bec37a536e50e16cac0bfdfa69279618b4c6ae6f14da1a0758227ed1f317",
+        "exact": true,
+        "complete": false,
+        "coverage": "all12requestedlines; emittedbodyidentity/header"
+      },
+      {
+        "start": 33544,
+        "end": 33551,
+        "request_id": "0869d7d5a6ca794e1d42b0fe141efc8250cade36ead479a7aac7cedf3097f27e",
+        "exact": true,
+        "complete": false,
+        "coverage": "all8requestedlines; mapping/livenessstatus"
+      },
+      {
+        "start": 32403,
+        "end": 32414,
+        "request_id": "cc65873356c786e1a6b524ed26609f7847c43849dc43318e6b10754a56738272",
+        "exact": true,
+        "complete": false,
+        "coverage": "all12requestedlines; arrayN3/mutability, Unsize/implicit metadata"
+      },
+      {
+        "start": 32384,
+        "end": 32395,
+        "request_id": "f27e3d5a2c44fec2e97e97d2fd4707059fe4bc185f091a1d40f6c3eddcbdc404",
+        "exact": true,
+        "complete": false,
+        "coverage": "all12requestedlines; sliceu64 target and sourceRefregionheader"
+      }
+    ]
+  },
+  "f5_error_receipt": {
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "file_sha256": "1e1e039c8f651626893424e9531a35ca008ea70192f9c19709bcc0eadd31a8af",
+    "pointer": "/results/r19_unwind_controls/synthetic_unwind_resource/verifier_errors",
+    "request_id": "4c3bf1aa760a35de2af02e893546808691a8fcf52062f581de90c93771078313",
+    "exact": true,
+    "complete": true,
+    "error": "verified/lib.rs(43,45-46): error: Type mismatch. Actual: *[u64]. Expected: *[T]."
+  },
+  "reader_failures": [
+    "HTTP500 on pointerCoercionData near-position locator; no absence inference",
+    "Non-JSON failed mappingStatus locator; exact error response was not retained; subsequent UNESTABLISHED locator and exact33544-33551 window succeeded",
+    "HTTP429 on32484-32495 callargs window; incomplete Ref/call binding remains UNKNOWN"
+  ],
+  "limitations": [
+    "No raw/archive/full-log access or local proof tool execution",
+    "No capture-to-emitted-body/location map established; hashes and coordinates are not a proof",
+    "Source helper specialization fix is Cloud-UNVERIFIED; no false target success claim"
+  ]
+}

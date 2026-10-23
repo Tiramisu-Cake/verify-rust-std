@@ -910,7 +910,7 @@ lem r18_u64_array_inv(p: *u64, count: usize)
 
 @*/
 '''
-R20_ARRAY_SLICE_CONTENT_SHA256 = 'f333ab38af041cb3e67c2713a7ca5a86d73f16c7e41cebe69ace71481b0e3b17'
+R20_ARRAY_SLICE_CONTENT_SHA256 = '37b4f54967559127d0e5ccaa3f141d4a6ede62ffd94aa251e21e8eea032a6877'
 
 
 def _raw_local_caller_suffixes(old):
@@ -1650,6 +1650,37 @@ def _r11_storage_placement_env(env):
     return scoped
 
 
+R23_CAPTURE_POLICY_NAME = 'R23-CAPTURE-POLICY-20261024.json'
+R23_LEDGER_NAME = 'CURRENT-RECOVERY-R23-BUDGET-20261024.json'
+R23_CAPTURE_POLICY = {
+    'schema': 'merge-r23-post-stop-loss-capture-policy-v1',
+    'phase_id': 'MERGE-CALLER-ACCEPTANCE-R23-2026-10-24',
+    'completed_capture_cycles': 2,
+    'owned_nll_capture_enabled': False,
+    'mode': 'checked-source-borrow-and-controls',
+}
+
+
+def _owned_nll_capture_allowed(root):
+    policy_path = Path(root) / R23_CAPTURE_POLICY_NAME
+    ledger_path = Path(root) / R23_LEDGER_NAME
+    if policy_path.is_symlink():
+        raise RuntimeError('R23 capture policy must be a regular committed input')
+    if not policy_path.exists():
+        if ledger_path.exists() or ledger_path.is_symlink():
+            raise RuntimeError('R23 capture policy missing after stop-loss')
+        return True  # Historical source trees have no R23 policy or ledger.
+    try:
+        policy = json.loads(policy_path.read_bytes())
+    except (OSError, ValueError, UnicodeDecodeError) as error:
+        raise RuntimeError('R23 capture policy unreadable or malformed') from error
+    if (type(policy) is not dict or policy != R23_CAPTURE_POLICY or
+            type(policy.get('completed_capture_cycles')) is not int or
+            policy.get('owned_nll_capture_enabled') is not False):
+        raise RuntimeError('R23 capture policy must disable capture after exactly two cycles')
+    return False
+
+
 def _campaign_environment(env):
     campaign_env = dict(env)
     campaign_env.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
@@ -1745,9 +1776,10 @@ def run(evidence, args, env, execute_case, validated_receipt):
             json.loads(Path(profile_path).read_text()).get('profile') != selected_profile):
         raise RuntimeError('first callback requires the exact supported experimental profile')
     profile_card = json.loads(Path(profile_path).read_text())
-    owned_nll_active = 'r22_owned_nll_registration' in profile_card
-    if owned_nll_active and not _r22_owned_nll_registration_matches(profile_path, selected_profile, profile_card):
+    owned_nll_registered = 'r22_owned_nll_registration' in profile_card
+    if owned_nll_registered and not _r22_owned_nll_registration_matches(profile_path, selected_profile, profile_card):
         raise RuntimeError('R22 owned-NLL registration is not the exact reversible diagnostic extension')
+    owned_nll_active = owned_nll_registered and _owned_nll_capture_allowed(HERE)
     if 'r22_owned_nll_registration' not in profile_card and 'r22_compile_fix_registration' in profile_card and not _r22_compile_fix_registration_matches(profile_path, selected_profile, profile_card):
         raise RuntimeError('R22 compile-fix registration is not the exact reversible exporter extension')
     if selected_profile == R11_PROFILE and (

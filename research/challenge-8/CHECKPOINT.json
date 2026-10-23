@@ -19,6 +19,14 @@
     {
       "path": "research/challenge-8/observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json",
       "sha256": "b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json",
+      "sha256": "25fe5c3e19c0ff64dbc19c5b54509e849492e98dbf1250871f0d945cab0d09ee"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-RAW-CONTROL-BRIEF-20261024.json",
+      "sha256": "c11bf847edfc1d442fbdd09804c0d1d628f879312a1b481f2cdb4ff854c5950e"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -34,7 +42,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "P2 running; final owned-NLL cycle; mapping UNKNOWN."
+    "summary": "Capture mapping UNESTABLISHED; source borrow adapter unverified."
   },
   "confirmed": [
     {
@@ -58,9 +66,20 @@
           "build_id": "692c1943-771d-4e99-b498-c5c480f4280a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P2 owned capture6/attached3/unattached3; actual b2 cross-stage map UNESTABLISHED and derived liveness unavailable. Two-cycle stop-loss exhausted; no credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json",
+          "sha256": "25fe5c3e19c0ff64dbc19c5b54509e849492e98dbf1250871f0d945cab0d09ee",
+          "build_id": "1416b764-486b-4414-be77-3116866838e2"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher; read P2 Brief; apply capture stop-loss.",
+  "next_step": "Checked source adapter, capture off; preserve raw/matrix controls.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -81,30 +100,28 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "1416b764-486b-4414-be77-3116866838e2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 13822,
+    "remaining_seconds": 13008,
     "retired_seconds": 0,
-    "spent_seconds": 578,
+    "spent_seconds": 1392,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T11:24:14.021170Z",
+  "updated_utc": "2026-10-23T12:08:56.802656Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
       "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
       "owned_nll_cycles": 0,
       "owned_nll_cycles_started": 2,
-      "owned_nll_cycles_completed": 1
+      "owned_nll_cycles_completed": 2
     },
     {
       "obligation": "Transfer closure",
@@ -133,6 +150,14 @@
     {
       "obligation": "Prepare source-level adapter worktree",
       "reason": "Separate worktree /root/verifast-merge-r23-source-adapter, branch merge/r23-source-borrow-adapter-20261024 atfc0208d4. No tool semantic edits. Source let_lft/call-site ghost args can name an existing logical lifetime but do not bind an erased Ref automatically; require exact Ref/Unsize/receiver typed identity and no escape. RustBelt resource protocol must not silently mix with TreeBorrows primitive."
+    },
+    {
+      "obligation": "Apply owned-NLL stop-loss and implement checked source route",
+      "reason": "P2 capture enabled6/attached3/unattached3; actual b2 capture Analysis(Initial) ae63021551222799 vs emitted Runtime(PostCleanup)c8e8fc6dc9fd9575, mappingStatus UNESTABLISHED, derived liveness unavailable. No third capture cycle. Explicit source let_lft and unique Ref/Unsize/receiver chain with checked exact u64/array3 own/FBC source predicates and reversible existing lemmas; this is an ordinary checked representation fix, not assumed memory/lifetime authority. Other arrays/share unsupported, no TreeBorrows bridge. All implementation Cloud-UNVERIFIED."
+    },
+    {
+      "obligation": "Validate raw/control helper repair in a capture-off Build",
+      "reason": "P2 synthetic unwind failure confirmed by exact Brief /verifier_errors request4c3bf1aa: type mismatch at43 beforetarget148. Use existing type_pred_def specialization of same sliceFBC; keep contract assertion applications(), open/close, resources/length/pointer terms/implications unchanged. Reviewed capture-off policy prevents a third diagnostic cycle; independent source frontend work continues in separate tool worktree."
     }
   ],
   "mission_queue": [
@@ -150,5 +175,12 @@
     "first_ack_refusal": "coordinator read lock busy",
     "status_after_event": "WORKING",
     "auto_rearm": false
+  },
+  "owned_nll_stop_loss": {
+    "cycles_started": 2,
+    "cycles_completed": 2,
+    "third_capture_cycle_allowed": false,
+    "success": false,
+    "next_build_requires_capture_off": true
   }
 }
