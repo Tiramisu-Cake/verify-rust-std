@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_MATRIX_DIAGNOSTIC_BUILD",
+  "baseline_commit": "993dd9e5dbd98332aa620e3a36a64040ed8d487f",
+  "candidate_commit": "3a71cd2b8fdeea5e565da6cdf131597b981087a0",
+  "candidate_tree": "55ddf92ec01427af95d2bcbb4cb37bfb9eefcef6",
+  "spec_sha256": "b556da5495de2e8231575f1b636306cd9587cbd35ffbd11addd4f4179fa2106a",
+  "packet_sha256": "834697cce45e538c6920ca71960be12f7d26eb4ecaf6da04a5254ba5e19c23dd",
+  "packet_diff_sha256": "8895acd213bb82fa8bbf011ecc739cf3656558a86df7b47f24fee0b3a1eeef33",
+  "commit_diff_sha256": "89c01338669dcc79cb3a27c1844a4df53787fee321138ff48d1919286a01710f",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-successor-review.json",
+      "sha256": "3a8dc2b7041b28df90f6b91672d006ebff8f49489cef1c0101eafdcfbe72c1b5",
+      "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD; unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-review.json",
+      "sha256": "66a214ba2544334947a51e8c067bcf6e4e793af9ff31638cd6ffb544d8c8f691",
+      "decision": "Earlier provenance NO_GO preserved unchanged"
+    }
+  ],
+  "scope": "Independent review of the exact R24 all-eight matrix-diagnostic integration, wrapper/root audit, shell mode branch and recipe dependencies. GO is limited to a full1200 Cloud diagnostic Build with same-tool full const regression first; it does not grant negative target acceptance, publication or proof credit.",
+  "verified": [
+    "Exact review packet check passed for candidate 3a71cd2b8fdeea5e565da6cdf131597b981087a0, baseline 993dd9e5dbd98332aa620e3a36a64040ed8d487f, spec SHA b556da5495de2e8231575f1b636306cd9587cbd35ffbd11addd4f4179fa2106a and packet SHA 834697cce45e538c6920ca71960be12f7d26eb4ecaf6da04a5254ba5e19c23dd; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The exact new matrix mode requires all eight variants in fixed order, exact owner/lane/profile/R24/R21 context, same-tool full const regression, pinned matrix fingerprints and pinned source-reported positive baseline. Shell requires the previously reviewed positive mode and exact matrix mode/evidence hashes, runs the const sequence and its audit first, then selects the matrix wrapper instead of the old positive-only entry. When the new matrix mode is absent the prior exact-positive and default routes remain unchanged.",
+    "The wrapper composes the unchanged SHA-pinned proof library in all8 mode and preserves its original MUT-PROOF.json. It requires a fresh complete current-build source/MIR capture and location control, all ten snapshot pins, current source/original hashes, exact same-tool source/spec/exporter/parser/printer hashes, and the current verifier binary/path/argv.",
+    "All eight stages must be RAN with exact current case source pairs, physical non-symlink logs under the evidence root, exact per-case native marker, current build identity and expected exit (positive 0, negatives 1). Positive fatal/error/located diagnostics and all native translator failures prevent completeness. Negative rows retain the library's UNKNOWN_UNCLASSIFIED classification and explicit unpinned sentinel; the wrapper never infers a target or promotes negative acceptance.",
+    "The root audit reopens the preserved original library JSON, recomputes each row from physical source and log files, revalidates the all-eight capture and same-tool inventory, compares wrapper rows, and checks const/profile references. Public acceptance, verification acceptance, target pinning, publication and proof credit remain false/zero.",
+    "The exact-candidate static preflight reports payload 433016 bytes (SHA256 e492d0a730c49915f1de55daaab27573ce3d1a6d52b1a38398a310eb380727b0), max argument 2778 and encoded config 27424/28000. Runtime closure reports 120 entries, 2872633 bytes (SHA256 9595e67ab7972a20a6bf717c4c99d39ee4fba9f30ff9e8f3e086b9aa2f337933)."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-matrix-proof-review --expect-candidate 3a71cd2b8fdeea5e565da6cdf131597b981087a0 --expect-spec-sha256 b556da5495de2e8231575f1b636306cd9587cbd35ffbd11addd4f4179fa2106a (pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_matrix_proof.py (16 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof.py (17 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof_entry.py (7 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_r24_mut_capture_runner.py (10 tests, pass)",
+      "Python syntax compilation, Bash syntax check and candidate diff check (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build or Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "This GO is limited to a diagnostic all-eight Build preceded by same-tool const regression. The parent-provided positive and prior-build outcomes were not independently audited through Brief or raw evidence. A complete diagnostic collection leaves all negative outcomes UNKNOWN and target-unpinned; it is not formal proof acceptance. Negative target pinning, dedicated refusal controls, full classified matrix, P2 publication and proof credit remain pending.",
+  "proof_credit": 0
+}
