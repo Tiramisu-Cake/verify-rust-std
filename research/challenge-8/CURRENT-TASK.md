@@ -48,10 +48,10 @@ Next: Transfer the G1 package, register lane network-rr-g1, cold image then warm
 
 ## Отчёт агента
 
-**network-refinedrust-g1-2026-10-24-n6 · network · NETWORK-RR-G1-2026-10-24-N6 · ACTIVE**
-Updated: 2026-10-23T20:18:26Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`.
-Dates: T0 `2026-10-23T20:15:53Z`; main `2026-10-26T20:15:53Z`; absolute `2026-10-26T21:15:53Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
+**network-refinedrust-g1-2026-10-24-n6 · network · NETWORK-RR-G1-2026-10-24-N6 · CLOSED**
+Updated: 2026-10-23T20:23:17Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`.
+Dates: T0 `2026-10-23T20:15:53Z`; main `2026-10-26T20:15:53Z`; absolute `2026-10-26T21:15:53Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 5400s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Cold context and compatible immutable image receipt absent; registry discovery denied. Frontend target NOT_RUN.
-Next: Complete static image/admission boundary audit, independent review, and record G1 classification without bypassing missing identities or permissions.
+Blocker: INCONCLUSIVE: cold context/image/registry NOT_FROZEN; G1 NOT_RUN, credit0. Account CLOSED, retired5400s.
+Next: RR stopped. New task needs frozen image/context+registry; P2 gates W7/W8. N6 carry0.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

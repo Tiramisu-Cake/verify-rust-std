@@ -52,3 +52,13 @@ its gates, beyond this bounded diagnostic.
 The remaining step is independent review of the prepared candidate and of the
 classification justified by these exact observations. G1 target/specs/cleanup
 output remain NOT_RUN/UNKNOWN. No frontend rejection or proof success is inferred.
+
+## Review disposition
+
+Independent Luna HIGH approved semantic candidate0c2b92b as static preparation
+only and confirmed INCONCLUSIVE at the pre-dispatch setup boundary. No dispatch
+admission or formal credit follows. The inherited cold/warm candidate JSONs are
+inert preparation seeds with legacy references; they must never be promoted.
+Only `cloud-build/recipes/network-rr-g1.json` has the generated N6 ledger/profile
+references. It too remains PREPARED_NOT_REGISTERED, with no cold implementation
+or compatible frozen image. See N6-INDEPENDENT-REVIEW.json for exact packet IDs.

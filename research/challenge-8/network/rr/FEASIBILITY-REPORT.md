@@ -113,3 +113,21 @@ At the [pinned project tools list](https://github.com/Tiramisu-Cake/verify-rust-
 ## Условия пересмотра рекомендации
 
 Move from CONDITIONAL to GO for further research only after an exact-source non-Copy/current-state comparator panic case proves actual guard/glue recovery with complete resources and intended negatives, under unchanged RR semantics with reviewed primitive correspondence. This still is not full Challenge GO. A generic arbitrary-length helper theorem plus an accepted actual slice-caller path and measured iteration cost are required before migration is justified. Any need for new union/slice/closure semantics returns to the owner as a new trust/scope decision. Until then the next action is review of this packet; all Cloud experiments remain proposals.
+
+
+## Network N6 update — 2026-10-23
+
+**INCONCLUSIVE: pre-dispatch setup boundary; frontend/proof NOT_RUN; Cloud0s.**
+The G1 package was transferred from feasibility commit68671873 into the Network
+branch and rebound to preferred std cd371e0. All seven anchors are unique; exact
+selected insert_tail and CopyOnDrop bodies match the frozen source. RR stays
+unpatched at332d945f with nightly-2026-08-28. No migration, frontend patch, new
+trusted premise or readiness-index change is introduced.
+
+The inherited offline cold context and registry destination are not frozen;
+compatible immutable image/receipt remains unknown. Read-only registry listing
+and direct lookup were denied to the dispatcher; builder access is UNKNOWN.
+No Build or frontend rejection is inferred. The fresh account/recipe is
+PREPARED_NOT_REGISTERED. Exact identities, observations and prerequisites are
+in [RR-G1-RESULT](RR-G1-RESULT.md); independent review is recorded separately.
+The original feasibility branch/report remains unchanged.
