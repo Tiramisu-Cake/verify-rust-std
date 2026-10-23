@@ -1,0 +1,28 @@
+{
+  "actual_call_instantiation": "All8sort4_stable selectorcalls use T=*const Element, notP2mutablepointer. v_base:*constT propagates throughmin/max/unknown_left/unknown_right/lo/hi.",
+  "allowed_lane": "o26-select-callee-r20",
+  "concrete_alternative": {
+    "comparator": "captureless standardorder |a:&u8,b:&u8| a<b",
+    "limitation": "A wrapper callinggenericroutine doesnot eliminate genericcallee bodyverification or addmissingfunctionalposts; replacing stdgeneric signature/runtime forbidden. No currenttranslatorpatch isavoidedmerelybywrapper.",
+    "status": "No newwrapper/functionalgeneralization implemented.",
+    "type": "u8"
+  },
+  "current_step_choice": "AfterP2qualification/publication, first freshsource/MIR capture andcheckedconstcallee linkage at8actualcalls, then reuseexistingclosedC5resource route/count5controls. Preservegenericstdsignature andexistingboundedmethod; no newgenericElement/ZST/arbitraryF/generalfunctional obligations beyondcurrentstep. Chooseconcreteinstantiation whenit actuallyremoves translatorwork inlaterapplicabletarget.",
+  "existing_support": {
+    "actual_signature": "Unchanged generic sort4_stable<T,F>; currentMIRexport/capture usesgenericfunctionbody, no concrete monomorphization support found.",
+    "constructor": "a1-actual-body-c2.py::construct_c5 alreadywiredby a1-actual-body-r21.py atcount5",
+    "current_contract": "Resource normal/unwindposts, not sortedness; metadata sortednessfalse.",
+    "current_linkage": "W1checkedOutcomeprojection covers internalcalleecalls only; no eightcaller-site typedlinkage table."
+  },
+  "forbidden_transfer": "DormantR21lane/ledger/profile admission neveractivatedbythisnote.",
+  "policy_commit": "926979f352156ef3f626ff962892e4de1167cb8f",
+  "proof_credit": 0,
+  "required_controls": [
+    "5comparators/8selectors/4copies andruntimeghoststripequality",
+    "count5requalification c1-c4, c5positive/nodeferredsuffix plusescape/missingmarker/crossscoperead",
+    "ordinary resource/normal/unwind/leak/refinement andcheckedcopycomponent",
+    "sameversionconstcallee source/unit/body/tool linkage at8typedcalls, notselectoralgebra"
+  ],
+  "schema": "select-r24-w4-representative-scope-decision-v1",
+  "status": "READ_ONLY_PREPARATION_GATED_AFTER_P2"
+}
