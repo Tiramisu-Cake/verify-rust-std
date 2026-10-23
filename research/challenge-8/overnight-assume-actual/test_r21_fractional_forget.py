@@ -36,6 +36,7 @@ def source() -> bytes:
         b"pub unsafe fn select_unpredictable(condition: bool) {\n"
         b"    let true_payload = true_val;\n"
         b"    let false_payload = false_val;\n"
+        + TRANSFORM.OPEN_WRAPPERS_ANCHOR +
         b"    let guard = DropOnPanic { inner: guard };\n"
         + TRANSFORM.CLOSE_OWNER_FULL +
         b"        drop.drop_in_place();\n"
@@ -69,8 +70,11 @@ class FractionalForgetTransform(unittest.TestCase):
         self.assertEqual(out.count(b"close [1/2] raw_ptr_own::<Element>()"), 2)
         self.assertEqual(out.count(b"[1/2] <select_unpredictable::DropOnPanic<*Element>>.own"), 4)
         self.assertEqual(out.count(b"merge_fractions points_to::<*Element>(saved_guard.inner, _);"), 1)
-        self.assertEqual(out.count(b"/*@"), self.input.count(b"/*@"))
-        self.assertEqual(out.count(b"@*/"), self.input.count(b"@*/"))
+        self.assertEqual(out.count(TRANSFORM.OPEN_WRAPPERS_ANCHOR[:4] + TRANSFORM.CONSTRUCTOR_OWN_RELEASE +
+                                   TRANSFORM.OPEN_WRAPPERS_ANCHOR[4:]), 1)
+        # Four new ghost blocks: an assert and a checked open per constructor result.
+        self.assertEqual(out.count(b"/*@"), self.input.count(b"/*@") + 4)
+        self.assertEqual(out.count(b"@*/"), self.input.count(b"@*/") + 4)
         self.assertEqual(GHOST.strip_ghost(out), GHOST.strip_ghost(self.input))
         self.assertIn(TRANSFORM.FORGET_BODY, out)
         self.assertIn(b"on_unwind_ens false;", out)
@@ -149,6 +153,7 @@ class FractionalForgetTransform(unittest.TestCase):
                                         TRANSFORM.SAVED_GUARD_FULL, 1)
         fractional = fractional.replace(TRANSFORM.CLOSE_OWNER_HALF,
                                         TRANSFORM.CLOSE_OWNER_FULL, 1)
+        fractional = fractional.replace(TRANSFORM.CONSTRUCTOR_OWN_RELEASE, b"", 1)
         self.assertEqual(fractional, self.input)
         self.assertEqual(GHOST.strip_ghost(out), GHOST.strip_ghost(self.input))
 

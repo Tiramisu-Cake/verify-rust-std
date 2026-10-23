@@ -35,7 +35,7 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
-  python3 "$cloud_dir/select-callee-r21-proof-audit.py" --evidence "$ev" \
+  python3 "$cloud_dir/select-callee-r21-fractional.py" audit --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
 }
@@ -260,12 +260,11 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# R22 Cloud fingerprints (72a38f11) of the merge_fractions-repaired source bind
-# this same-unit checked proof matrix; the audit never grants credit.
-stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" \
+# R22b constructor-ownership release changes every fractional row's ghost
+# source: take fresh mode-9 fingerprints only before binding new rows.
+stage r21-fractional-fingerprint python3 "$cloud_dir/select-callee-r21-fractional.py" fingerprint \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
-  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r22/FRACTIONAL-FINGERPRINT-INPUT.json" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 
 current_stage=audit

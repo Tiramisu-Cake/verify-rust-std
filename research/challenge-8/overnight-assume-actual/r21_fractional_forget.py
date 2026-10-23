@@ -78,6 +78,18 @@ RETURNED_GUARD_HALF = (
     b"        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n"
     b"        /*@ open [1/2] raw_ptr_own::<Element>()(t, selected_payload); @*/\n")
 
+# R22: the checked constructor results' pointer-value ownership is consumed by
+# exact value before the owner projection opens the cells (no pointee permits).
+OPEN_WRAPPERS_ANCHOR = (
+    b"    /*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/\n")
+# Inserted after the anchor's indentation with none of its own, so ghost
+# stripping (which keeps the text before a block) leaves the runtime unchanged.
+CONSTRUCTOR_OWN_RELEASE = b"".join(
+    b"/*@ assert *(" + side + b"_ptr as *std::mem::MaybeUninit<*Element>) |-> ?" + side + b"_wrapper; @*/\n"
+    b"/*@ { open std::mem::MaybeUninit_pointer_own::<Element>()(t, " + side + b"_wrapper);\n"
+    b"         match std::mem::MaybeUninit::inner(" + side + b"_wrapper) { none => {} some(p) => { open raw_ptr_own::<Element>()(t, p); } } } @*/\n"
+    for side in (b"true", b"false"))
+
 FORGET_SIGNATURE = b"pub unsafe fn checked_forget_owned<T>(t: T)\n"
 FORGET_BODY = b"{\n    let _ = ManuallyDrop::new(t);\n}"
 FORGET_OLD_CONTRACT = (
@@ -121,10 +133,15 @@ def _fractional_positive(source: bytes) -> bytes:
                         "returned full guard open sequence")
     out = _replace_once(out, FORGET_OLD_CONTRACT, FORGET_HALF_CONTRACT,
                         "original forget contract")
+    out = _replace_once(out, OPEN_WRAPPERS_ANCHOR,
+                        OPEN_WRAPPERS_ANCHOR[:4] + CONSTRUCTOR_OWN_RELEASE +
+                        OPEN_WRAPPERS_ANCHOR[4:],
+                        "owner-projection wrapper open")
     _need(out.count(CLOSE_OWNER_HALF) == 1 and
           out.count(SAVED_GUARD_HALF) == 1 and
           out.count(RETURNED_GUARD_HALF) == 1 and
-          out.count(FORGET_HALF_CONTRACT) == 1,
+          out.count(FORGET_HALF_CONTRACT) == 1 and
+          out.count(OPEN_WRAPPERS_ANCHOR[:4] + CONSTRUCTOR_OWN_RELEASE) == 1,
           "fractional ownership edits are unique")
     return out
 

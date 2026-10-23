@@ -75,3 +75,10 @@ Source: file ID `49642420…`, SHA-256 `96c929a8…`. Brief requests `5a98174fcf
 - The older `Sort4SelectIntrinsic.projection_ghosts` (about line 734, `//@` form) belongs to the non-nine projection route. Check it, but it is not expected to change.
 
 Add static tests that bind the transform text to both patch literals, as `test_fractional_patch_ghost_literals_match_transform_and_pins` already does for `merge_fractions`.
+
+## Implemented R22b fingerprint candidate (unbuilt)
+
+- **Transform** (`r21_fractional_forget.py`, SHA `8a23499c…`): inserts the four release ghosts after the 4-space indentation of the first `open_MaybeUninit` projection ghost, with no indentation of their own. Ghost stripping therefore keeps the runtime original byte-identical; the synthetic runtime and inversion tests check this.
+- **Pin cascade:** helper `9cb4dee1…`; entry pins updated.
+- **Runner:** its final stage is the mode-9 fingerprint stage, using the reviewed R22 tool chain (fractional patch `219f3dc0`, parser `dfdaff60`). Mode-9 refuses before certificate checks, so stale rows do not affect it.
+- **Proof patch:** `verifast-r22b-fractional-forget-26.10.patch` (`9097d01a…`, translator `9cf03ca8…`) extends only the fractional `wrappers` reconstruction and `expected_ghosts`. Its `fractional_rows` are still the R22 values and **must** be rebound from the R22b fingerprint before any proof run. It is not on the runner yet.

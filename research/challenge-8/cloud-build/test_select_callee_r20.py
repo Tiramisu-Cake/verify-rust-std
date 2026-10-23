@@ -373,7 +373,7 @@ class RunnerAndRecipe(unittest.TestCase):
                  "stage branch-refresh-apply", "stage fractional-refresh-apply",
                  "stage parser-refresh-apply", "stage console-build",
                  "stage candidate-capture", "stage candidate-source-compare",
-                 "stage candidate-proof", "stage r21-fractional-proof"]
+                 "stage candidate-proof", "stage r21-fractional-fingerprint"]
         self.assertIn("606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2", RUNNER)
         self.assertIn("78079210a5548fee87e200996920bfb012bcb0cd17b0b574eb926806a46e7ab6", RUNNER)
         patch_path = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r21-final-select-branch-selected-26.10.patch"
@@ -386,9 +386,10 @@ class RunnerAndRecipe(unittest.TestCase):
         fractional_patch = ROOT / "research/challenge-8/overnight-assume-actual/verifast-r22-fractional-forget-26.10.patch"
         self.assertIn(hashlib.sha256(fractional_patch.read_bytes()).hexdigest(), RUNNER)
         self.assertNotIn("PENDING_R21_", RUNNER)
-        self.assertIn('"$cloud_dir/select-callee-r21-fractional-proof-entry.py"', RUNNER)
-        self.assertIn('"$cloud_dir/select-callee-r21-proof-audit.py"', RUNNER)
-        self.assertIn("task-history/select-callee-r22/FRACTIONAL-FINGERPRINT-INPUT.json", RUNNER)
+        # R22b fingerprint cycle for the constructor-ownership release.
+        self.assertIn('"$cloud_dir/select-callee-r21-fractional.py" fingerprint', RUNNER)
+        self.assertIn('"$cloud_dir/select-callee-r21-fractional.py" audit', RUNNER)
+        self.assertNotIn('select-callee-r21-fractional-proof-entry.py', RUNNER)
         self.assertNotIn("stage r20-repair-fingerprint", RUNNER)
         self.assertIn('[[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2', RUNNER)
         positions = [RUNNER.index(x) for x in order]
