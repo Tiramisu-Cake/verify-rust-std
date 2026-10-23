@@ -30,7 +30,7 @@
         "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
       }
     ],
-    "summary": "Universal480 running; R7 reviewed, UNRUN; P2 NOT_PUBLISHED."
+    "summary": "Universal terminal; Brief classification pending. R7 reviewed, UNRUN."
   },
   "confirmed": [
     {
@@ -96,7 +96,7 @@
       "state": "EXTERNAL_INTERFACE_NOT_PUBLISHED"
     }
   ],
-  "next_step": "Ack universal; Brief/account; final closure/pins; R7 swap-size1185. P2 stays gated.",
+  "next_step": "Classify universal Brief; final closure/pins; submit R7 swap-size1185.",
   "open": [
     "Order negative UNRUN; standalone universal INCONCLUSIVE; full acceptance OPEN. Universal480 profile and W8 preparer UNRUN.",
     "R4/W7 P2 NOT_PUBLISHED; actual W8 needs W3/W5/W7. R7 transfer to baseline cd371e0 NOT_STARTED."
@@ -135,26 +135,24 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "b56024de-3990-4016-b758-bf061f4d6c12"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 10800,
     "deadline_utc": "2026-10-26T11:48:37Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:37Z",
     "main_minutes": 4320,
-    "remaining_seconds": 10198,
+    "remaining_seconds": 9669,
     "retired_seconds": 0,
-    "spent_seconds": 602,
+    "spent_seconds": 1131,
     "t0": "2026-10-23T10:48:37Z",
     "unresolved_ids": []
   },
   "session_notes": [
     "First submit invocation refused missing explicit state-dir before any dispatch; corrected with fresh /tmp/smallsort-network-n5. No duplicate dispatch."
   ],
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T11:11:27Z",
+  "updated_utc": "2026-10-23T11:15:34Z",
   "watch_events": [
     {
       "ack": "CONTINUE_EXISTING_WINDOW",
@@ -163,6 +161,16 @@
       "event_id": "e5b59a29-a88c-45c3-8083-76fc1613317e",
       "job_id": "7003f406-04f1-4cb3-b011-23fabb5b5978",
       "ordinary_status": "WORKING"
+    },
+    {
+      "ack": "CONTINUE_EXISTING_WINDOW",
+      "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
+      "charge_seconds": 529,
+      "event": "build_terminal",
+      "event_id": "bdb125ea-b16c-483e-9614-fcd8638af0c7",
+      "job_id": "f24d161c-fcfd-4129-89ee-63c491318b2e",
+      "proof_inference": "NONE; Brief pending",
+      "status": "SUCCESS"
     }
   ],
   "watch_refusals": [
