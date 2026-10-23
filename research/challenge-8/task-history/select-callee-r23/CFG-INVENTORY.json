@@ -1,0 +1,124 @@
+{
+  "schema": "select-r23-normal-cfg-inventory-v1",
+  "route": "CONST_R22B_FINGERPRINT_ONLY",
+  "evidence_class": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "artifact": {
+    "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+    "archive_sha256": "326ed000a04841416e2a6c853ef85bd30ea34981de3ef52a037bc14e4d2df814",
+    "index_sha256": "38876d647acaaf238990d18b0f10746f8c68e93e0ead26aeff034267dedb4e60",
+    "file_id": "d739c89d2872fb37926ad86df3630266a50ab1fe758fac1c85ba0b6952600510",
+    "file_path": "allprooflogs/cases/r21-fractional-fingerprint/variants/positive/normal-mir/normal-mir.txt",
+    "file_sha256": "03bdc76a8173d03ef9cfe2ec8c5d403cbf89735645c3b37b19bb70caa797c0fd",
+    "file_size_bytes": 425964,
+    "source_lines": 11924,
+    "decode_observation": {
+      "request_id": "7d00a7743919ee0a1f27033ceaab1fb5ade8f5007c10bf40325ab12b30c5a858",
+      "status": "RAN",
+      "exit": 0,
+      "output": "normal-mir.txt",
+      "output_sha256": "03bdc76a8173d03ef9cfe2ec8c5d403cbf89735645c3b37b19bb70caa797c0fd",
+      "parser_input_binding": "NOT_ESTABLISHED"
+    }
+  },
+  "body": {
+    "def_path": "select_unpredictable",
+    "def_path_line": 4525,
+    "def_path_unicode_offset": 156258,
+    "source_path": "verified/lib.rs",
+    "mir_basic_blocks_line": 5803,
+    "locals": {
+      "count": 46,
+      "ids": "_0 through _45; _45 is the final local declaration immediately before basicBlocks; no _46 occurrence in the file"
+    },
+    "basic_blocks": {
+      "count": 29,
+      "ids": "bb0 through bb28; bb28 is the last block in this body"
+    }
+  },
+  "shared_cleanup": {
+    "block": 28,
+    "is_cleanup": true,
+    "statements": [],
+    "terminator": {
+      "kind": "switchInt",
+      "discriminant": "copy _45",
+      "type": "bool",
+      "values": [0],
+      "targets_in_serialized_order": [26, 27],
+      "zero_path": 26,
+      "nonzero_path": 27
+    },
+    "cleanup_path": [
+      {
+        "block": 26,
+        "is_cleanup": true,
+        "statements": [],
+        "terminator": "unwindResume"
+      },
+      {
+        "block": 27,
+        "is_cleanup": true,
+        "statements": [],
+        "terminator": {
+          "kind": "drop",
+          "place": "_28",
+          "normal_target": 26,
+          "unwind": "terminate"
+        }
+      }
+    ]
+  },
+  "cleanup_predecessors": [
+    {"block":14,"callee":"VeriFast_ghost_command","args":[],"destination":"_30","source_info":"verified/lib.rs:202:39","normal_target":15,"unwind_cleanup":28},
+    {"block":15,"callee":"std::ptr::mut_ptr::<impl *mut T>::drop_in_place","type_argument":"T = *const Element","args":["move _32"],"arg_type":"*mut *const Element","destination":"_31","source_info":"verified/lib.rs:209:28","normal_target":16,"unwind_cleanup":28},
+    {"block":16,"callee":"VeriFast_ghost_command","args":[],"destination":"_33","source_info":"verified/lib.rs:210:39","normal_target":17,"unwind_cleanup":28},
+    {"block":17,"callee":"VeriFast_ghost_command","args":[],"destination":"_34","source_info":"verified/lib.rs:215:39","normal_target":18,"unwind_cleanup":28},
+    {"block":18,"callee":"std::mem::forget","args":["move _36"],"arg_type":"select_unpredictable::DropOnPanic<*const Element>","destination":"_35","source_info":"verified/lib.rs:216:33","normal_target":19,"unwind_cleanup":28},
+    {"block":19,"callee":"VeriFast_ghost_command","args":[],"destination":"_37","source_info":"verified/lib.rs:217:39","normal_target":20,"unwind_cleanup":28},
+    {"block":20,"callee":"VeriFast_ghost_command","args":[],"destination":"_38","source_info":"verified/lib.rs:219:39","normal_target":21,"unwind_cleanup":28},
+    {"block":21,"callee":"VeriFast_ghost_command","args":[],"destination":"_39","source_info":"verified/lib.rs:220:39","normal_target":22,"unwind_cleanup":28},
+    {"block":22,"callee":"VeriFast_ghost_command","args":[],"destination":"_40","source_info":"verified/lib.rs:221:39","normal_target":23,"unwind_cleanup":28},
+    {"block":24,"callee":"std::mem::MaybeUninit::<T>::assume_init","type_argument":"T = *const Element","args":["move _41"],"arg_type":"std::mem::MaybeUninit<*const Element>","destination":"_0","source_info":"verified/lib.rs:234:93","normal_target":25,"unwind_cleanup":28}
+  ],
+  "adjacent_non_predecessor_call": {
+    "block": 23,
+    "callee": "std::intrinsics::select_unpredictable",
+    "args": ["move _42", "move _43", "move _44"],
+    "destination": "_41",
+    "source_info": "verified/lib.rs:234:8",
+    "call_span": "verified/lib.rs:234:8..234:79",
+    "normal_target": 24,
+    "unwind": "unreachable"
+  },
+  "forget_owner_transfer": {
+    "block": 18,
+    "pre_terminator_statements": [
+      {"kind":"StorageDead","local":"_34","source_info":"verified/lib.rs:215:39"},
+      {"kind":"StorageLive","local":"_35","source_info":"verified/lib.rs:216:33"},
+      {"kind":"StorageLive","local":"_36","source_info":"verified/lib.rs:216:32"},
+      {"kind":"assign","lhs":"_45","rhs":"false","source_info":"verified/lib.rs:216:27"},
+      {"kind":"assign","lhs":"_36","rhs":"move _28","source_info":"verified/lib.rs:216:32"}
+    ],
+    "local_types": {
+      "_28": "select_unpredictable::DropOnPanic<*const Element>",
+      "_36": "select_unpredictable::DropOnPanic<*const Element>"
+    },
+    "call": "std::mem::forget(move _36) -> _35; normal bb19; unwind bb28",
+    "call_span": "verified/lib.rs:216:8..216:33"
+  },
+  "dropflag": {
+    "local": "_45",
+    "initial_assignment": {"block":14,"value":true,"source_info":"verified/lib.rs:201:20"},
+    "forget_path_assignment": {"block":18,"value":false,"source_info":"verified/lib.rs:216:27"},
+    "post_normal_assume_assignment": {"block":25,"value":false,"source_info":"verified/lib.rs:235:4"},
+    "meaning_at_shared_cleanup": "bb28 switches false to bb26 unwindResume; true to bb27 drop _28 then bb26 unwindResume"
+  },
+  "observation_correction": "An initial near-position sourceInfo locate covered only the first four bb18 statements because its search window was bounded to +/-4096 codepoints. A second locate near the bb18 terminator revealed the fifth statement `_36 = move _28`; the complete vector above is five statements. The initial four-statement count is superseded.",
+  "interpretation_limits": [
+    "These are exact returned NORMAL MIR text observations from the CONST R22b fingerprint Build; they are not mutable-route evidence.",
+    "The decode output hash matches this file, but parser-input/source binding is NOT_ESTABLISHED and causal status is UNKNOWN.",
+    "No proof acceptance, leak clearance, source-level equivalence, or proof credit is established by these observations."
+  ],
+  "proof_credit": 0,
+  "receipt_index": "research/challenge-8/task-history/select-callee-r23/cfg-evidence/CFG-REQUEST-RECEIPT.json"
+}

@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "326ed000a04841416e2a6c853ef85bd30ea34981de3ef52a037bc14e4d2df814",
+  "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 4,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6",
+  "file_path": "allprooflogs/cases/r21-fractional-fingerprint/r21-fractional-fingerprint.json",
+  "file_sha256": "87b9129d653632be1bf5b98eba71dfa41bb4aeee3c26165a9576823655c76d09",
+  "index_sha256": "38876d647acaaf238990d18b0f10746f8c68e93e0ead26aeff034267dedb4e60",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "87b9129d653632be1bf5b98eba71dfa41bb4aeee3c26165a9576823655c76d09",
+    "file_id": "cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6",
+    "pointer": "/variants/positive/normal_mir/decode"
+  },
+  "request_id": "7d00a7743919ee0a1f27033ceaab1fb5ade8f5007c10bf40325ab12b30c5a858",
+  "results": [
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/variants/positive/normal_mir/decode/exit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/positive/normal_mir/decode/output",
+      "value": "normal-mir.txt"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/positive/normal_mir/decode/output_sha256",
+      "value": "03bdc76a8173d03ef9cfe2ec8c5d403cbf89735645c3b37b19bb70caa797c0fd"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/variants/positive/normal_mir/decode/status",
+      "value": "RAN"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
