@@ -1,0 +1,146 @@
+{
+  "schema": "select-r24-mut-control-target-map-v1",
+  "targets": {
+    "callee-false-normal": {
+      "end_column": 58,
+      "file": "verified/lib.rs",
+      "line": 128,
+      "log_sha256": "b6b3872085818abf00e5a4446509a0fc86107e99d73c81b5aa03f2a182cb419a",
+      "message": "error: Cannot prove condition. (Cannot prove false.)",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 431,
+        "brief_log_sha256": "b6b3872085818abf00e5a4446509a0fc86107e99d73c81b5aa03f2a182cb419a",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "fea6e172d81a215dcccd74fbce2001509c9d7fa2e1180c328eb2bf7fa00e9155"
+      },
+      "source_sha256": "fd4082915032e179656f8073e5fb686acdb372ba3e68428138c2ae5390a9db0d",
+      "start_column": 53,
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "callee-false-normal"
+    },
+    "callee-owner-duplicate": {
+      "end_column": 54,
+      "file": "verified/lib.rs",
+      "line": 128,
+      "log_sha256": "3b333237fbbb3100d7aadf9afb570492f8b763dd64b360309abf839227adbfc2",
+      "message": "error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 430,
+        "brief_log_sha256": "3b333237fbbb3100d7aadf9afb570492f8b763dd64b360309abf839227adbfc2",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "38abfcf3509e07cb6f1aee960a577c5bd8be7e329adfb68939d13da12ef07e3f"
+      },
+      "source_sha256": "e5a452846e7f2488c4c38dbd297609681216678bf5374ede022f8a203e1e189d",
+      "start_column": 53,
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "callee-owner-duplicate"
+    },
+    "callee-owner-loss": {
+      "end_column": 2,
+      "file": "verified/lib.rs",
+      "line": 135,
+      "log_sha256": "e3abe47751b3fcb46cf0ab3972c2f73a73ac6a70e0cd591ad5e26960982c97a9",
+      "message": "error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 432,
+        "brief_log_sha256": "e3abe47751b3fcb46cf0ab3972c2f73a73ac6a70e0cd591ad5e26960982c97a9",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "e6d6a45ff3633ddfb8bd52b161e9d505156486c54c3f0876d5dfb4bf74bf932b"
+      },
+      "source_sha256": "f0c159debd84bf7ad2400a621b1c9bae33c5d6ba479339303a3649190a23bbca",
+      "start_column": 1,
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "callee-owner-loss"
+    },
+    "callee-thread-duplicate": {
+      "end_column": 39,
+      "file": "verified/lib.rs",
+      "line": 128,
+      "log_sha256": "f14ff51e8c659ee2608b06a3acdf93b1101c4b3b5e0f08ead7b802dc985e74e5",
+      "message": "error: No matching heap chunks: thread_token(tid)",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 430,
+        "brief_log_sha256": "f14ff51e8c659ee2608b06a3acdf93b1101c4b3b5e0f08ead7b802dc985e74e5",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "f97d656d3f765a1492d3294d82af02c65a4eeaac6cfdfc820cf79c0a441ac392"
+      },
+      "source_sha256": "23fabe3873df56fb96d8591a3098f4c9988731da889262b9453ac34ad47aae21",
+      "start_column": 27,
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "callee-thread-duplicate"
+    },
+    "no-retained-half": {
+      "end_column": 42,
+      "file": "verified/lib.rs",
+      "line": 221,
+      "log_sha256": "b1d901156cd36e8461ddfbd0de79344382005355501cdf37afa17928af11b9d0",
+      "message": "error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 565,
+        "brief_log_sha256": "b1d901156cd36e8461ddfbd0de79344382005355501cdf37afa17928af11b9d0",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "08adf79ab7133043765799df61010f7dcb7835c576d97987be2d2a9398edb11e"
+      },
+      "source_sha256": "57db47058454c0e78c76b991384aff539abde8b976f1f49123130d7489118ac1",
+      "start_column": 39,
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "no-retained-half"
+    },
+    "omit-selected-own": {
+      "end_column": 48,
+      "file": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec",
+      "line": 462,
+      "log_sha256": "f34cebddb83ca30672607b063a16b8757a2c6ce02eecb0109af786aa6785fecc",
+      "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 588,
+        "brief_log_sha256": "f34cebddb83ca30672607b063a16b8757a2c6ce02eecb0109af786aa6785fecc",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "f5bbf6f7933d09a0d9baef371277b71db4c5b6b8a441691681e76c397f525632"
+      },
+      "source_sha256": "cdea2fff55d0f944e7e64c55d6a7ffde98cfc25cefa85dffc4a38c99f47b3f05",
+      "start_column": 47,
+      "tool_precondition": {
+        "intent": "first-selected-wrapper-own-precondition",
+        "line_text": "        req MaybeUninit_pointer_own::<Element>()(t, a) &*&"
+      },
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "omit-selected-own"
+    },
+    "omit-unselected-own": {
+      "end_column": 48,
+      "file": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec",
+      "line": 463,
+      "log_sha256": "36b2c158e3001864c38445f03efb50f70316252e42f24d8a02a7cc2b0b5e9297",
+      "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))",
+      "observed": true,
+      "provenance": {
+        "archive_id": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+        "brief_log_index": 588,
+        "brief_log_sha256": "36b2c158e3001864c38445f03efb50f70316252e42f24d8a02a7cc2b0b5e9297",
+        "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+        "request_id": "f55d487de88d25ae2bf532132db4e04bd5b0caa3bd2ce464f872198e9b3747cc"
+      },
+      "source_sha256": "650b2a954e5bd37fdd0b90509fdc60d2845a231918edb34ef8e346c6bdace3ec",
+      "start_column": 47,
+      "tool_precondition": {
+        "intent": "second-unselected-wrapper-own-precondition",
+        "line_text": "            MaybeUninit_pointer_own::<Element>()(t, b);"
+      },
+      "tool_spec_sha256": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "variant": "omit-unselected-own"
+    }
+  }
+}

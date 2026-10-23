@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "c1e2a10cb8d99c35f1c6e62dcfdc0ce947a6efc0be94afb0cbd2730f98cbddaa",
+  "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 430,
+    "line_separator": "LF",
+    "source_lines": 462,
+    "start": 430,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "9987b395c6bdd09212e4d32c61bacb973043807f4f0f278e5678cd3d1d9eda2f",
+  "file_path": "allprooflogs/cases/r24-mut-matrix-fingerprint/variants/callee-owner-duplicate/r24-mut-proof-callee-owner-duplicate.log",
+  "file_sha256": "3b333237fbbb3100d7aadf9afb570492f8b763dd64b360309abf839227adbfc2",
+  "index_sha256": "692c3883ec300dd357fd143e6da58ee47c376989f67133d053f3ede7a15588fe",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 430,
+    "expected_sha256": "3b333237fbbb3100d7aadf9afb570492f8b763dd64b360309abf839227adbfc2",
+    "file_id": "9987b395c6bdd09212e4d32c61bacb973043807f4f0f278e5678cd3d1d9eda2f",
+    "start": 430
+  },
+  "request_id": "38abfcf3509e07cb6f1aee960a577c5bd8be7e329adfb68939d13da12ef07e3f",
+  "requested_end": 430,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 430,
+      "text": "verified/lib.rs(128,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
