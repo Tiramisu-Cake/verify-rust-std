@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "0f500d6598666839bdc66c6bd218c596a1bba8b0967a457e7a9cb3bfbd919cd0"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-COMPILE-REVIEW-20261024.json",
       "sha256": "8d5cec80d5134c0e2e837fb75a4b7cf78345db0a99730704f8aaee92456d9c61"
     },
@@ -23,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-TRANSPORT-20261024.json",
       "sha256": "dd5db1611a07efa76ec47318658191b8cd2f50fbca4baa9d21b713c9746c0374"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,27 +32,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P16 terminal FAILURE; Evidence Brief diagnosis pending.",
+    "summary": "P16 receiver type mismatch at as_mut_ptr: outcome raw slice vs lifetime mutable slice ref.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-SOURCE-BORROW-BRIEF-20261024.json",
-        "sha256": "78a73df543d45d6dcedaa19b0a3a59ddb227d5aa883c69157086abb291874d3d",
-        "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
+        "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e",
+        "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P14 alltoolstages0/proof attempted; sourcecaller now refuses unique translated marker mapping after prior callee gate, no helper/caller acceptance; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "0f500d6598666839bdc66c6bd218c596a1bba8b0967a457e7a9cb3bfbd919cd0",
-          "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P15 alltoolstages0/proof attempted; sourcecaller refuses missing recovery bridge at earlier begin_lifetime ghost call, before selected method; credit0.",
@@ -63,9 +52,20 @@
           "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P16 alltoolstages0/proof attempted; sourcecaller reaches628 then type mismatch fn_outcome<raw slice> vs explicit-lifetime mutable slice ref; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "c051eb9d8c2c6fd9056220c928dbcbee4b08f47267445e8ed36bd740da86e38e",
+          "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
+        }
+      ]
     }
   ],
-  "next_step": "Read P16 Evidence Brief after accounting publication.",
+  "next_step": "P17 unwrap constructor outcome in exact R23 Unsize; delta review and full Cloud envelope.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -100,7 +100,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T20:14:16.779581Z",
+  "updated_utc": "2026-10-23T20:18:50.140220Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -476,6 +476,14 @@
       "dispatch_token": "dispatch-bff8ba7fbde140059adcde3651fa767a",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P17 unwrap non-unwinding slice constructor outcome in exact R23 Unsize expression",
+      "defect": "R23 Unsize lowering nests slice_from_raw_parts_mut directly in a cast to explicit-lifetime slice ref, retaining fn_outcome<raw slice> instead of its result.",
+      "applicability": "Only exact selected array3/u64 Ref-Unsize source adapter. Use existing result_of_outcome loc on the same constructor expression; helper is a no-op when ignore_unwind_paths.",
+      "invariant": "Existing slice_from_raw_parts_mut reqtrue/post pointer+length/on_unwindfalse unchanged; length3, data pointer/cast, explicit lifetime, checked full_borrow conversion and normal/unwind resources unchanged. No kernel/model/CFG/runtime/std/signature/contract changes.",
+      "controls": "Static existing constructor outcome convention, exact R23-only expression/operand/type gate; preserve generic Unsize/default-off, before/after bridges, same-unit helper gate and raw/source controls. Profile/phase tests, independent delta review, actual compilation/proof only Cloud.",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -681,6 +689,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-TRANSPORT-20261024.json",
       "sha256": "c73d37e59e7f1dd530f5f4c3f8c50a92229354b93aac20556c8c51d030921a65"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "0f500d6598666839bdc66c6bd218c596a1bba8b0967a457e7a9cb3bfbd919cd0"
     }
   ],
   "historical_confirmed": [
@@ -870,6 +882,17 @@
           "build_id": "025c652d-6aba-4ccc-be45-34257b689518"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P14 alltoolstages0/proof attempted; sourcecaller now refuses unique translated marker mapping after prior callee gate, no helper/caller acceptance; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "0f500d6598666839bdc66c6bd218c596a1bba8b0967a457e7a9cb3bfbd919cd0",
+          "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2"
+        }
+      ]
     }
   ],
   "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
@@ -893,11 +916,9 @@
     "active_build": null
   },
   "prepared_tool_candidate": {
-    "tool_sha": "54d0ddf533aed4f010d8022627a5c9e870c2e588",
-    "profile_sha256": "855fac08f1ef228495dc4e48b618996997cda6a27aa65f7b337cb382291de60d",
-    "status": "BUILD_TERMINAL_FAILURE_PROOF_UNDETERMINED",
-    "scope": "exact selected-helper outcome unwind guard; missing bridge still fatal on selected method, generic unwind preserved elsewhere",
-    "source_sha": "1cc63b92dd9b040806d4f8ce8f424841039316ac",
-    "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9"
+    "tool_sha": "a7b28465193e0e5185d3b45a56745fa8aa4ed194",
+    "profile_sha256": "2365bb221842f4ccf01e760c75ae7b8a0e16a11ac9d98ad7909277a8c6294582",
+    "status": "PREPARED_REVIEW_REQUIRED_CLOUD_UNVERIFIED",
+    "scope": "exact R23 Unsize expression uses existing constructor outcome result; pointer/length/lifetime/cast/resources unchanged"
   }
 }

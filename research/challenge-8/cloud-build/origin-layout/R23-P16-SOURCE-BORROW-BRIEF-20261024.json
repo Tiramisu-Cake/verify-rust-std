@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r23-p16-source-borrow-brief-v1",
+  "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "5bfc954466a2563ebd0a1c959348667b7e0369bde9dc75a84e3223eee725b070",
+  "index_sha256": "b3d5f13e08aa8abccfaa4624acda7088de03cda80a0c0da6c893b6ba56aac17b",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "0acc7e366436d4938e1e0ce81ee3bb25e5b81c283a3fcdff1e39b390c6afa3f3",
+    "source_size_bytes": 447140,
+    "request_id": "2a6bd31d719fe51b826631da42360948e129cde19e9fd6d7f76ab0cc311526fb",
+    "lines": "3815-3822",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:628",
+    "message": "Type mismatch. Actual: fn_outcome<*[u64]>. Expected: &'r23_borrow mut [u64]."
+  },
+  "static_control_flow_inference": "Selected unwind guard no longer refuses an earlier ghost call; execution now reaches caller source line628 and receiver typing refuses fn_outcome<raw slice> where explicit-lifetime mutable slice reference is expected. Concrete representation cause under investigation; no helper/caller proof acceptance.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false,
+  "locator": {
+    "request_id": "7e56297890018e986bfe60d6b8044260269a6d8020b89505eee7cf8124be9b20",
+    "literal": "error:",
+    "exact": true,
+    "complete": true,
+    "matches": 1
+  }
+}
