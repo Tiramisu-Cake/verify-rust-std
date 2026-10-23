@@ -1,0 +1,23 @@
+{
+  "assurance": "SOURCE_REPORTED",
+  "decision": "R4/W7 requires PUBLISHED same-version mutable interface; no R4/W7 Build or new W8 candidate in N5. Early read overlapped Cloud wait with budget remaining; final availability is not inferred from an older interface.",
+  "interface_path": "research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json",
+  "interface_sha256": "3f32d44e57c1c931af640db45edc8daebfef3582185a152f3aa45f5d402bc985",
+  "mut_route_exists": false,
+  "mutable_source_bound": false,
+  "mutable_typed_mir_bound": false,
+  "observed_utc": "2026-10-23T11:10:51Z",
+  "p2_status": "NOT_PUBLISHED",
+  "proof_credit": false,
+  "r24_p2_queue": [
+    {
+      "obligation": "Mutable P2 to PUBLISHED",
+      "reason": "Requires full callee acceptance then fresh exact mutable source/certificates and all four publication criteria.",
+      "state": "GATED"
+    }
+  ],
+  "requested_r24_interface_present": false,
+  "schema": "network-n5-select-dependency-observation-v1",
+  "select_checkpoint_sha256": "4546296ca26da14303cdbd53203a0e36c02f8c7701acfc4babe67f8fb1abca96",
+  "select_head": "3ba875b2e007e682e8636cc3fa7fd214a480be3d"
+}

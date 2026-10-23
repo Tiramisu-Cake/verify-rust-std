@@ -1,0 +1,42 @@
+{
+  "applicability": "N5 owner network/lane network-n13/stage swap-size only; exact source/blob; unrestricted SizedT, LP64; stock26.09/compiler nightly2026-02-05; no dispatch callers.",
+  "baseline_commit": "920dd8a50dcab9b7dd698af9be7d261d7754563c",
+  "candidate_commit": "ed3bedb8802ed3ef5b38b5b3250d7691c426dd4d",
+  "controls": [
+    "17 client synthetic tests pass, including retained N4 admission against exact published pre-R7 recipe and new N5 profile/timeout/historical-phase refusals.",
+    "15 unchanged N13 admission/runner synthetic tests pass;9 R7 runner synthetic tests pass;4 R7 wrapper synthetic tests pass.",
+    "R7 controls cover error/timeout/partial/missing/null/wrong-type/bool-exit/NOT_RUN, wrong command/source/stage/target/log hashes and input mutation; refiner runs after verifier failure.",
+    "Static source payload132344bytes/45substitutions,maxarg3745<10000,configbase64 27896<28000; no actual generator/compiler/verifier on VPS;syntax/diffcheck pass."
+  ],
+  "defect": "Historical isolated R7 helper result has not transferred to source cd371e0 through Cloud; add one source-preserving stock26.09 Rust/refiner stage to existing Network lane.",
+  "dependencies": [
+    "research/challenge-8/CURRENT-TASK.md",
+    "research/challenge-8/network/n13/N5-OWNER-DIRECTIONS.md",
+    "research/challenge-8/extract-verifast-swap-size.py",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/source-input.py"
+  ],
+  "invariants": [
+    "Runtime source/signature/body/CFG preserved; verified variant adds only historical reqtrue/result==size_of(T)<=8 ghost comments, exact stripping and stock refinement required.",
+    "No kernel/prelude/spec patch/axiom/bodyless bridge/ownership assumption; all N13 posts/controls/source gates unchanged.",
+    "N5 source-preserving additional stage uses separate profile pin; old N13 profile and historical ledger bytes unchanged; no shared coordinator/transport/IAM changes.",
+    "Same10800s ledger/T0/deadlines; stage810=450compiler+180verifier+180refiner; shared120setup+15soft+240report yields1185Build;queue60 separately.",
+    "Both tool command receipts and input hashes before/after checked, original exits/timeouts/exceptions/NOT_RUN and snapshots retained."
+  ],
+  "known_limitations": [
+    "R7 actual compiler/setup/extraction/VF/refiner and source trace remain UNRUN; no component or independent credit yet.",
+    "Source-reported component receipt does not qualify dispatch callers, R1-R3, Rust networks, or W8.",
+    "Current N13 universal Build runs at prior unchanged candidate5b4; this R7 candidate is not used by it."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/n13/REVIEW-N5-ADMISSION.md",
+      "sha256": "2e32a31c31c4dd91071e67299973e4506fe934e132acadf139d6e856f2d11a2d"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

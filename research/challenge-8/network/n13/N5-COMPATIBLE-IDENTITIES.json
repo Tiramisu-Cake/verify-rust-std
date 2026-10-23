@@ -1,0 +1,45 @@
+{
+  "assurance": "STATIC_GIT_AND_PROFILE_COMPARISON",
+  "boundary": "Comparison supports applicability of preserved source-reported receipts; does not establish proof acceptance or AST/MIR input binding.",
+  "new_profile_sha256": "08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13",
+  "old_profile_sha256": "72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890",
+  "proof_credit": false,
+  "schema": "network-n5-compatible-proof-identities-v1",
+  "semantic_identity_checks": {
+    "prohibited": true,
+    "required_controls": true,
+    "required_posts": true,
+    "source": true,
+    "tool": true
+  },
+  "source_files": [
+    {
+      "equal": true,
+      "n4_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+      "n5_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs"
+    },
+    {
+      "equal": true,
+      "n4_blob": "14935e7777037ef85d0f070dee7f89eba9ef60c9",
+      "n5_blob": "14935e7777037ef85d0f070dee7f89eba9ef60c9",
+      "path": "research/challenge-8/networks/prove.py"
+    },
+    {
+      "equal": true,
+      "n4_blob": "31739396a07905e29f44f1a2bbc38554a952f6be",
+      "n5_blob": "31739396a07905e29f44f1a2bbc38554a952f6be",
+      "path": "research/challenge-8/networks/prove-ranks.py"
+    },
+    {
+      "equal": true,
+      "n4_blob": "a31b69898fc6b32f7277b1e97f15041c86b8de0c",
+      "n5_blob": "a31b69898fc6b32f7277b1e97f15041c86b8de0c",
+      "path": "research/challenge-8/networks/swo-rank.c"
+    }
+  ],
+  "timing_difference": {
+    "universal_new": 480,
+    "universal_old": 360
+  }
+}

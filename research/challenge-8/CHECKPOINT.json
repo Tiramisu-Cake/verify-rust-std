@@ -30,7 +30,7 @@
         "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
       }
     ],
-    "summary": "Full N13 acceptance OPEN: order UNRUN, standalone universal timeout."
+    "summary": "Universal480 running; R7 reviewed, UNRUN; P2 NOT_PUBLISHED."
   },
   "confirmed": [
     {
@@ -41,6 +41,27 @@
           "build_id": "cbbe4b5f-0482-40a9-8c51-af65e33abb07",
           "path": "research/challenge-8/network/n13/N4-HANDOFF.md",
           "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N5 order intended negative accepted:3649:66-68,441.209963075s,29bodies,7684return/leakchecks,unchanged unitd2891b13; all7 classifier controls true. Updated exact/composition included-body coverage; no independent formal credit.",
+      "evidence": [
+        {
+          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
+          "path": "research/challenge-8/observations/45b45511c51744465099139950f0bdeca698a173ac91165522bf2638b8ba634b.json",
+          "sha256": "45b45511c51744465099139950f0bdeca698a173ac91165522bf2638b8ba634b"
+        },
+        {
+          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
+          "path": "research/challenge-8/observations/514295c31e74056065aa83dbdc8f11b89a221b71061206af9ef3ccb6bfd2dde5.json",
+          "sha256": "514295c31e74056065aa83dbdc8f11b89a221b71061206af9ef3ccb6bfd2dde5"
+        },
+        {
+          "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
+          "path": "research/challenge-8/observations/9db8cfc9a0009e42821da8309d80e435add1653ce25e11b27740f130dc6b2e8f.json",
+          "sha256": "9db8cfc9a0009e42821da8309d80e435add1653ce25e11b27740f130dc6b2e8f"
         }
       ]
     }
@@ -60,28 +81,46 @@
       "choice": "First controls-order600, then standalone universal480 and compatible checked dependency coverage",
       "obligation": "N13 full mathematical matrix",
       "reason": "Explicit N5 priority; preserve all prior failures and exact pins",
-      "state": "ORDER_RUNNING"
+      "state": "ORDER_ACCEPTED_UNIVERSAL_RUNNING"
     },
     {
       "choice": "Cloud-only source-preserving isolated helper stage on stock26.09",
       "obligation": "R7 baseline transfer",
       "reason": "Independent of Select P2, explicit second N5 goal",
-      "state": "PENDING"
+      "state": "R7_REVIEW_GO_AWAITING_CLOUD"
     },
     {
       "choice": "Check PUBLISHED P2 after N13/R7; no new W8 candidates",
       "obligation": "R4/W7 and W8",
-      "reason": "N5 owner bounds; missing published dependencies remain boundary",
-      "state": "PENDING"
+      "reason": "R24 has no P2-INTERFACE at observed Select3ba875b2; retainedR23 fileNOT_PUBLISHED. No new W8/R4 inputs authorized without publication.",
+      "state": "EXTERNAL_INTERFACE_NOT_PUBLISHED"
     }
   ],
-  "next_step": "Read order Build747fac72 Evidence Brief after terminal; then standalone universal480/855. In parallel prepare separate R7 source-preserving Cloud runner.",
+  "next_step": "Ack universal; Brief/account; final closure/pins; R7 swap-size1185. P2 stays gated.",
   "open": [
     "Order negative UNRUN; standalone universal INCONCLUSIVE; full acceptance OPEN. Universal480 profile and W8 preparer UNRUN.",
     "R4/W7 P2 NOT_PUBLISHED; actual W8 needs W3/W5/W7. R7 transfer to baseline cd371e0 NOT_STARTED."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-24-N5",
+  "r7_preparation": {
+    "candidate_commit": "ed3bedb8802ed3ef5b38b5b3250d7691c426dd4d",
+    "integration_delta": "research/challenge-8/cloud-build/control.py",
+    "notes": [
+      "Same network-n13 lane stage swap-size; separate additional profile pin leaves N13 profile unchanged.",
+      "Envelope stage810=compiler450+verifier180+refiner180; build1185=810+120setup+15soft+240report.",
+      "4 synthetic wrapper tests pass; worker runner requires localized receipt/unchanged-input fixes before independent review.",
+      "Localized fixes/tests passed; extra R7 stage/profile connected only after universal dispatch. N13 profile bytes unchanged; fresh review required.",
+      "Static closure initially refused because local live ledger differs from committed snapshot; retain refusal, commit metadata snapshot and rerun before R7 submit."
+    ],
+    "profile": "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
+    "profile_sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540",
+    "review": "research/challenge-8/network/r7/REVIEW-N5.md",
+    "review_spec_sha256": "cb70925bb9724e5371599f1460c6c7c2636eb4326c3b073479b221ee5e32dbae",
+    "runner": "research/challenge-8/network/r7/run-cloud.py",
+    "status": "REVIEW_GO_UNRUN",
+    "wrapper": "research/challenge-8/cloud-build/network-n13/run-r7.sh"
+  },
   "rejected": [
     {
       "approach": "Parallel pointer-select/callback layer, or universal PASS / timeout refusal counted as exact acceptance",
@@ -97,23 +136,36 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "747fac72-bd79-46d8-aa25-2e97279d0b22"
+      "b56024de-3990-4016-b758-bf061f4d6c12"
     ],
     "budget_seconds": 10800,
     "deadline_utc": "2026-10-26T11:48:37Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:37Z",
     "main_minutes": 4320,
-    "remaining_seconds": 10800,
+    "remaining_seconds": 10198,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 602,
     "t0": "2026-10-23T10:48:37Z",
     "unresolved_ids": []
   },
   "session_notes": [
     "First submit invocation refused missing explicit state-dir before any dispatch; corrected with fresh /tmp/smallsort-network-n5. No duplicate dispatch."
   ],
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T10:54:19Z"
+  "updated_utc": "2026-10-23T11:11:27Z",
+  "watch_events": [
+    {
+      "ack": "CONTINUE_EXISTING_WINDOW",
+      "cause": "UNKNOWN; status eventually returned through normal client; no rearm for reminders or Build resubmit",
+      "event": "monitor_error",
+      "event_id": "e5b59a29-a88c-45c3-8083-76fc1613317e",
+      "job_id": "7003f406-04f1-4cb3-b011-23fabb5b5978",
+      "ordinary_status": "WORKING"
+    }
+  ],
+  "watch_refusals": [
+    "Initial arm: coordinator read lock busy; no job armed, ordinary retry permitted."
+  ]
 }

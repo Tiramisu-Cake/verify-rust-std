@@ -1,5 +1,5 @@
 {
-  "active_build": "747fac72-bd79-46d8-aa25-2e97279d0b22",
+  "active_build": "b56024de-3990-4016-b758-bf061f4d6c12",
   "allowed_lanes": [
     "network-n13"
   ],
@@ -18,11 +18,37 @@
       "submitted_config_sha256": "fba46819541eb3384c43971eb14340893d0e5920aa0a5eac49bd0c2624d369a6",
       "reserved_seconds": 1035,
       "timeout_seconds": 975,
-      "status": "QUEUED",
+      "status": "SUCCESS",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "f0f1dc7b58552d8fa7db6769ac3304045a2721163dbfe1919fc6f368e790d5db",
-      "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22"
+      "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22",
+      "start_time": "2026-10-23T10:53:40.413548857Z",
+      "finish_time": "2026-10-23T11:03:41.490842Z",
+      "create_time": "2026-10-23T10:53:39.692367773Z",
+      "build_seconds": 602,
+      "accounted": true,
+      "execution_seconds": 602
+    },
+    {
+      "dispatch_token": "dispatch-203e9b4f7e2b4842aeb0f2d918d7bd93",
+      "owner": "network",
+      "phase_id": "NETWORK-N13-EXACT-2026-10-24-N5",
+      "infra_sha": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+      "proof_sha": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+      "lane": "network-n13",
+      "stage": "regressions-n13",
+      "submitted_config_sha256": "57b34e86c28a7b35dd9d6ce4646a3ac35cb605ee1f4e9e5a1a9f99529fb383d6",
+      "reserved_seconds": 915,
+      "timeout_seconds": 855,
+      "status": "WORKING",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "f0f1dc7b58552d8fa7db6769ac3304045a2721163dbfe1919fc6f368e790d5db",
+      "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
+      "start_time": "2026-10-23T11:05:30.740036740Z",
+      "finish_time": null,
+      "create_time": "2026-10-23T11:05:30.001431718Z"
     }
   ],
   "carry_seconds": 0,
@@ -37,7 +63,7 @@
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-24-N5",
   "phase_id": "NETWORK-N13-EXACT-2026-10-24-N5",
-  "remaining_build_seconds": 10800,
+  "remaining_build_seconds": 10198,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
@@ -45,5 +71,5 @@
   "start_utc": "2026-10-23T10:48:37Z",
   "status": "AUTHORIZED",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "used_build_seconds": 0
+  "used_build_seconds": 602
 }
