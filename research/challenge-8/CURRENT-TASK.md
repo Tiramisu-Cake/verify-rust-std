@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T10:56:01Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T10:58:08Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 0s spent, 0s retired, 21600s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
+Active Build IDs: af904556-010f-4159-9e4d-573e06e43d17; unresolved: none recorded.
 Blocker: S3 positive fails dead-code check after outer return/leak-check; cause unresolved. [Build `cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9`]
-Next: Publish reviewed R24 admission and unchanged a4737f9f proof pins, register exact phase via branch client, submit first full1200 proof Build, then Brief.
+Next: Ack watcher before CHECKPOINT edits; then Brief af904556-010f-4159-9e4d-573e06e43d17. Dead-code: bind exact sites; positive: full matrix, then P2/W4.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

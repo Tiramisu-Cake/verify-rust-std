@@ -43,3 +43,7 @@ Exact R24 branch-client request succeeded, followed by first Build
 timeout1200, reserved1260. Remote HEAD ca6cb6b19aa8ee9cf0ea4c0048e4578efe7a3d78
 was verified before submit. Source payload SHA matched the static preflight.
 Initial client status is WORKING; no verification evidence or acceptance yet.
+
+First handoff view generation refused CURRENT-TASK output over6144 bytes.
+Shortened only the checkpoint next-step prose, preserving all pins, gates and
+assignment text; regenerated views before watcher arm.
