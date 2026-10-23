@@ -1,0 +1,25 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "5fa6f75d299aa0ba08559c74b486952aa04c7abd",
+  "baseline_commit": "147d82da31da0d73b558a0e79a702367e4dfb733",
+  "spec_sha256": "d69b40d463d229526d6671875cfda8fb27315844e4b9966520eb18868732929e",
+  "packet_sha256": "f823fac6b2d50ab03e8bf86e3ff749e9ae9477d33f56e3a43c6394daa4ebc8cd",
+  "decision": "GO_WITH_NITS",
+  "writer_nits": [
+    "ghost_strip_identity flag is tautological; the real check is the const-pair comparison",
+    "target_signature field holds std generic signature; add fixture signature"
+  ],
+  "doc_findings": [
+    "NETWORK-P2-RESPONSE overclaimed const route verification (fixed)",
+    "stale R21 status sentence (fixed)",
+    "note *mut writer exists (fixed)"
+  ],
+  "tests_run": [
+    "test_prepare_actual_helper_capture_mut 4 OK"
+  ],
+  "proof_credit": 0,
+  "author_followup": "Writer nits applied after review (flag replaced by const_pair_identity_modulo_signature, fixture_signature added, tests extended 4 OK); nit-only delta not re-reviewed."
+}

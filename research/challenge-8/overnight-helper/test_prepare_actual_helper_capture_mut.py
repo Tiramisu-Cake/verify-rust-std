@@ -46,6 +46,8 @@ class MutableFixture(unittest.TestCase):
         self.assertEqual(mut_o.count(b"*mut Element"), 3)
         self.assertEqual(record["source_certificate"]["target_specialization"],
                          "T = *mut Element; Element unrestricted")
+        self.assertIs(record["const_pair_identity_modulo_signature"], True)
+        self.assertEqual(record["fixture_signature"].encode(), TARGET.MUT_SIGNATURE)
         self.assertEqual(record["translator_admission"], "NOT_IMPLEMENTED")
         self.assertEqual(record["helper_proof_status"], "NOT_RUN")
 

@@ -88,13 +88,20 @@ def build_pair(repo: Path) -> tuple[bytes, bytes, dict]:
         "const_verified_sha256": digest(const_verified),
         "original_sha256": digest(original),
         "verified_sha256": digest(verified),
-        "ghost_strip_identity": const.strip_ghost(verified) == original,
+        # The informative identity: the mutable pair equals the reviewed const
+        # pair after the signature swap, in both verified and stripped form.
+        "const_pair_identity_modulo_signature": (
+            verified.replace(MUT_SIGNATURE, CONST_SIGNATURE, 1) == const_verified and
+            original.replace(MUT_SIGNATURE, CONST_SIGNATURE, 1) ==
+            const.strip_ghost(const_verified)),
+        "fixture_signature": MUT_SIGNATURE.decode(),
         "contract_text_sha256": digest(contract),
         "capture_only": True,
         "translator_admission": "NOT_IMPLEMENTED",
         "helper_proof_status": "NOT_RUN",
     }
-    require(record["ghost_strip_identity"], "ghost stripping changed runtime body")
+    require(record["const_pair_identity_modulo_signature"],
+            "mutable pair differs from the const pair beyond the signature")
     return original, verified, record
 
 

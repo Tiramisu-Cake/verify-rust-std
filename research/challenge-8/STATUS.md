@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: ACTIVE
-- Updated: 2026-10-23T00:04:00Z
+- Updated: 2026-10-23T00:07:30Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T22:25:06Z`; main deadline `2026-10-23T00:25:06Z`; absolute deadline `2026-10-23T00:55:06Z`
 - Budget: 3600s total; 967s spent; 0s retired; 2633s remaining including active reservations
@@ -36,4 +36,4 @@ Positive fails only function-end leak of 2 pointer-value own chunks (constructor
 LEAK-REPAIR-NEXT: bind constructor chunks, ghost open; fingerprint, pins, proof.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `a48a785cb9f18206db3dea2baa0e928dd0ca4d27bfe2a3121344122b9d289658`
+- [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `6ebbe62418faaf4bf047376d97d966f6e110832700e610601cce3c6baefd6747`

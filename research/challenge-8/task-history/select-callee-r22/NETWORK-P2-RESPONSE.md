@@ -4,7 +4,7 @@ Decision date: 2026-10-23. Pin this file by its full Select Git commit and SHA-2
 
 ## Status: NOT_PUBLISHED
 
-No checked `select_unpredictable` callee is published at any instantiation. The `*const Element` fractional candidate (`288fa7cd`, re-registered for R22) is under its first full-envelope Cloud proof; its positive and normal/unwind/nested-Drop matrix are open and its control targets are unpinned. No `*mut` source, MIR or translator certificate exists. Network's R4 generator must keep `select_spec is None` until `P2-INTERFACE.json` at a later pinned Select commit reports `"status": "PUBLISHED"`.
+No checked `select_unpredictable` callee is published at any instantiation. The `*const Element` fractional route started from the approved candidate `288fa7cd`. In R22 it gained a parser fix, a ghost `merge_fractions` repair and fresh pins (proof candidate `dbaf41e6`). Its latest proof Build `7e23e945` still fails the positive at the function-end leak check, so its control targets are not pinned and nothing is accepted. A `*mut` source-only fixture writer exists (`overnight-helper/prepare-actual-helper-capture-mut.py`), but no `*mut` source evidence, MIR or translator certificate exists. Network's R4 generator must keep `select_spec is None` until `P2-INTERFACE.json` at a later pinned Select commit reports `"status": "PUBLISHED"`.
 
 ## What Select will publish (the exact post shape)
 
@@ -24,7 +24,7 @@ on_unwind_ens false;
 @*/
 ```
 
-This is the conditional result equality plus `on_unwind_ens false` that Network requested, written in the pointer-cast form that the existing const route verifies. Select does not publish the textual variant `ens if condition { result == true_val } else { result == false_val }`; a Network caller must either consume the exact text above or derive its own form by a checked lemma in its own proof. No equivalence between the two forms is asserted here.
+This is the conditional result equality plus `on_unwind_ens false` that Network requested, written in the pointer-cast form of the existing const fixture contract, whose verification is still pending. Select does not publish the textual variant `ens if condition { result == true_val } else { result == false_val }`; a Network caller must either consume the exact text above or derive its own form by a checked lemma in its own proof. No equivalence between the two forms is asserted here.
 
 The claim will cover only this raw-pointer instantiation with generic `Element`. It is not a generic-`T` summary, does not cover `T` with a panicking `Drop`, and establishes no ownership of the pointees (the resource argument is `raw_ptr_own`, which owns no pointee cell).
 

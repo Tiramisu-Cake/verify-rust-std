@@ -1,0 +1,24 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "147d82da31da0d73b558a0e79a702367e4dfb733",
+  "candidate_commit": "5fa6f75d299aa0ba08559c74b486952aa04c7abd",
+  "defect": "Network P2 needs a separate *mut Element source fixture of the exact std select_unpredictable body; only a const writer exists.",
+  "applicability": "Source-only fixture writer, on no Cloud route; no translator admission.",
+  "invariants": [
+    "Loads the pinned const preparer by SHA 2c5ce72f and its exact fixture bytes; changes only the three signature types; ghost-strip identity; std body unchanged (only raw-pointer token is generic guard field `inner: *mut T`).",
+    "Contract text SHA equals P2-INTERFACE.json dc985de2; const writer unmodified."
+  ],
+  "controls": [
+    "4 synthetic tests: pair equals const pair modulo signature, contract SHA, refusal on overwrite/changed std source/changed const preparer."
+  ],
+  "dependencies": [
+    "research/challenge-8/overnight-helper/prepare-actual-helper-capture.py",
+    "research/challenge-8/task-history/select-callee-r22/P2-INTERFACE.json",
+    "research/challenge-8/task-history/select-callee-r22/NETWORK-P2-RESPONSE.md"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No MIR/translator/proof; P2 NOT_PUBLISHED."
+  ]
+}
