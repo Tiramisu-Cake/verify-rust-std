@@ -352,6 +352,61 @@ class ProjectionTests(unittest.TestCase):
         with self.assertRaises(p.ProjectionError):
             projector.run()
 
+    def test_container_metadata_stays_stable_and_parent_counts_match(self):
+        tree = make_record()
+        tree.update({f"extra-{i}": i for i in range(30)})
+        projector, service = self.projector(tree)
+        original_call = service.__call__
+        def kind_drift(pointer, offset=None):
+            d = original_call(pointer, offset)
+            if pointer == "" and offset == 20:
+                d["selected_kind"] = "array"
+            return d
+        projector.call = kind_drift
+        with self.assertRaisesRegex(p.ProjectionError, "selected kind changed"):
+            projector.run()
+
+        projector, service = self.projector(tree)
+        original_call = service.__call__
+        def count_drift(pointer, offset=None):
+            d = original_call(pointer, offset)
+            if pointer == "" and offset == 20:
+                d["child_count"] -= 1
+            return d
+        projector.call = count_drift
+        with self.assertRaisesRegex(p.ProjectionError, "child count changed"):
+            projector.run()
+
+        for child_key, expected_kind in (("base_source", "object"),
+                                         ("variant_order", "array")):
+            with self.subTest(child_key=child_key):
+                projector, service = self.projector()
+                original_call = service.__call__
+                def parent_count_drift(pointer, offset=None, *, child_key=child_key,
+                                       expected_kind=expected_kind):
+                    d = original_call(pointer, offset)
+                    if pointer == "":
+                        for row in d["results"]:
+                            if row["pointer"] == "/" + child_key:
+                                self.assertEqual(row["kind"], expected_kind)
+                                row["child_count"] += 1
+                    return d
+                projector.call = parent_count_drift
+                with self.assertRaisesRegex(p.ProjectionError,
+                                            "parent descriptor child count differs"):
+                    projector.run()
+
+        projector, service = self.projector()
+        original_call = service.__call__
+        def noncanonical_array_index(pointer, offset=None):
+            d = original_call(pointer, offset)
+            if pointer == "/variant_order":
+                d["results"][0]["pointer"] = "/variant_order/00"
+            return d
+        projector.call = noncanonical_array_index
+        with self.assertRaisesRegex(p.ProjectionError, "non-canonical array index"):
+            projector.run()
+
     def test_partial_or_incomplete_consumed_strings_are_refused(self):
         projector, service = self.projector()
         original_call = service.__call__

@@ -32,11 +32,12 @@ field read by `fingerprint_to_pins`, is accepted by that unchanged function,
 and fails when any required field is omitted/inexact/wrong-typed, a page or
 response kind metadata disagrees with a required bool/number/string value, a
 page or snapshot identity changes, a transport/Brief error occurs, or container
-continuation metadata is malformed. Include a noisy unconsumed subtree and
-assert it is not visited; include partial and incomplete consumed strings and
-assert refusal without requesting a string continuation. The receipt must
-enumerate omitted fields/subtrees and retain each Brief request identity; no
-live Brief reads are part of these tests.
+continuation metadata drifts between pages, a parent child-count disagrees with
+the selected nested container, or array indexes are non-canonical. Include a
+noisy unconsumed subtree and assert it is not visited; include partial and
+incomplete consumed strings and assert refusal without requesting a string
+continuation. The receipt must enumerate omitted fields/subtrees and retain
+each Brief request identity; no live Brief reads are part of these tests.
 
 ## Scope
 

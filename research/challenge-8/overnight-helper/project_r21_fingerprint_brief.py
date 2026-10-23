@@ -168,17 +168,36 @@ class Projector:
             raise ProjectionError("malformed JSON pointer escape")
         return token.replace("~1", "/").replace("~0", "~")
 
-    def _collect(self, pointer: str) -> tuple[str, list[dict[str, Any]], dict[str, Any]]:
+    def _collect(self, pointer: str, *,
+                 expected_child_count: int | None = None
+                 ) -> tuple[str, list[dict[str, Any]], dict[str, Any]]:
         offset: int | None = None
         all_results: list[dict[str, Any]] = []
         last: dict[str, Any] | None = None
         seen_offsets: set[int] = set()
+        selected_kind: str | None = None
+        child_count: int | None = None
         while True:
             d = self._response(pointer, offset)
             last = d
             expected_offset = 0 if offset is None else offset
             if type(d.get("offset")) is not int or d["offset"] != expected_offset:
                 self._fail("Brief returned offset differs from requested page")
+            page_kind = d.get("selected_kind")
+            if not isinstance(page_kind, str):
+                self._fail("selected JSON kind missing")
+            if selected_kind is None:
+                selected_kind = page_kind
+            elif page_kind != selected_kind:
+                self._fail(f"Brief selected kind changed between pages at {pointer!r}")
+            if page_kind in ("object", "array"):
+                page_child_count = d.get("child_count")
+                if type(page_child_count) is not int or page_child_count < 0:
+                    self._fail(f"invalid Brief child count at {pointer!r}")
+                if child_count is None:
+                    child_count = page_child_count
+                elif page_child_count != child_count:
+                    self._fail(f"Brief child count changed between pages at {pointer!r}")
             results = d.get("results")
             if not isinstance(results, list):
                 self._fail("Brief results is not an array")
@@ -188,6 +207,8 @@ class Projector:
                 if d.get("complete") is not True:
                     self._fail(f"Brief projection incomplete at {pointer!r}")
                 break
+            if d.get("complete") is not False:
+                self._fail(f"Brief page with next_offset is marked complete at {pointer!r}")
             if (type(next_offset) is not int or next_offset < 0 or
                     next_offset <= (offset if offset is not None else -1) or
                     next_offset in seen_offsets):
@@ -195,14 +216,15 @@ class Projector:
             seen_offsets.add(next_offset)
             offset = next_offset
         assert last is not None
-        kind = last.get("selected_kind")
-        if not isinstance(kind, str):
-            self._fail("selected JSON kind missing")
-        child_count = last.get("child_count")
-        if kind in ("object", "array"):
+        assert selected_kind is not None
+        if selected_kind in ("object", "array"):
             if type(child_count) is not int or child_count != len(all_results):
                 self._fail(f"child inventory incomplete at {pointer!r}")
-        return kind, all_results, last
+            if expected_child_count is not None and child_count != expected_child_count:
+                self._fail(f"parent descriptor child count differs at {pointer!r}")
+        elif expected_child_count is not None:
+            self._fail(f"parent describes a container but selector is scalar at {pointer!r}")
+        return selected_kind, all_results, last
 
     def _scalar(self, pointer: str, first: dict[str, Any], spec: Any) -> Any:
         if first.get("exact") is not True:
@@ -229,8 +251,10 @@ class Projector:
         if not valid:
             self._fail(f"required scalar has wrong type/value at {pointer!r}")
 
-    def project(self, pointer: str, spec: Any) -> Any:
-        kind, results, descriptor = self._collect(pointer)
+    def project(self, pointer: str, spec: Any, *,
+                expected_child_count: int | None = None) -> Any:
+        kind, results, descriptor = self._collect(
+            pointer, expected_child_count=expected_child_count)
         if isinstance(spec, Object):
             if kind != "object":
                 self._fail(f"required object has kind {kind!r} at {pointer!r}")
@@ -256,13 +280,17 @@ class Projector:
                     self._fail(f"required field missing: {pointer}/{key}")
                 child_pointer = (pointer + "/" if pointer else "/") + key.replace("~", "~0").replace("/", "~1")
                 if isinstance(child_spec, Object):
-                    if "value" in row or row.get("kind") != "object":
+                    if "value" in row or row.get("kind") != "object" or \
+                            type(row.get("child_count")) is not int or row["child_count"] < 0:
                         self._fail(f"required nested object malformed: {child_pointer}")
-                    output[key] = self.project(child_pointer, child_spec)
+                    output[key] = self.project(child_pointer, child_spec,
+                                               expected_child_count=row["child_count"])
                 elif isinstance(child_spec, Array):
-                    if "value" in row or row.get("kind") != "array":
+                    if "value" in row or row.get("kind") != "array" or \
+                            type(row.get("child_count")) is not int or row["child_count"] < 0:
                         self._fail(f"required nested array malformed: {child_pointer}")
-                    output[key] = self.project(child_pointer, child_spec)
+                    output[key] = self.project(child_pointer, child_spec,
+                                               expected_child_count=row["child_count"])
                 else:
                     if "value" not in row:
                         self._fail(f"required scalar child has no value: {child_pointer}")
@@ -281,6 +309,8 @@ class Projector:
                 if not token.isdecimal() or "/" in token:
                     self._fail(f"invalid array index at {pointer!r}")
                 i = int(token)
+                if str(i) != token:
+                    self._fail(f"non-canonical array index at {pointer!r}")
                 if i in indexed:
                     self._fail(f"duplicate array index at {pointer!r}")
                 indexed[i] = row
