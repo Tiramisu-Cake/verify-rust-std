@@ -1,0 +1,80 @@
+{
+  "accepted": false,
+  "cloud": {
+    "base_image": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "max_build_seconds": 1200,
+    "report_reserve_seconds": 240,
+    "setup_allowance_seconds": 120,
+    "soft_margin_seconds": 15
+  },
+  "compiler": {
+    "commit": "db3e99bbab28c6ca778b13222becdea54533d908",
+    "data_model": "LP64",
+    "rustup_init_sha256": "20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c",
+    "rustup_init_version": "1.28.2",
+    "setup_timeout_seconds": 450,
+    "target": "x86_64-unknown-linux-gnu",
+    "toolchain": "nightly-2026-02-05"
+  },
+  "independent_credit": false,
+  "lane": "network-n13",
+  "phase_id": "NETWORK-N13-EXACT-2026-10-24-N5",
+  "proof_credit": false,
+  "refiner": {
+    "args": [
+      "--rustc-args",
+      "--edition 2021",
+      "original/lib.rs",
+      "verified/lib.rs"
+    ],
+    "timeout_seconds": 180
+  },
+  "schema": "smallsort-network-r7-execution-profile-v1",
+  "source": {
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "stage": "swap-size",
+  "stages": {
+    "swap-size": {
+      "build_timeout_seconds": 1185,
+      "targets": [
+        "smallsort::has_efficient_in_place_swap"
+      ],
+      "timeout_seconds": 810
+    }
+  },
+  "status": "EXECUTION_CANDIDATE_PINNED",
+  "target": {
+    "contract": "req true; ens result == (std::mem::size_of::<T>() <= 8);",
+    "domain": "Unrestricted Sized T, LP64, isolated helper only; no pointer/slice/comparator premises.",
+    "expected_named_bodies": 1,
+    "minimum_statement_records": 1,
+    "refinement": "Strip the sole ghost contract to recover original bytes exactly; pinned stock refinement checker also required.",
+    "symbol": "smallsort::has_efficient_in_place_swap"
+  },
+  "task_id": "network-n13-exact-cloud-2026-10-24-n5",
+  "tool": {
+    "archive_sha256": "da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa",
+    "archive_url": "https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz",
+    "console_sha256": "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc",
+    "patches": [],
+    "profile": "official-stock-VeriFast-26.09",
+    "refiner": "bin/refinement-checker",
+    "refiner_pin": "All refiner/exporter/prelude/spec bytes from the hash-verified stock archive; per-file hashes recorded before use.",
+    "source_commit": "809de4596839b739dd999f9e462242c835e3af46"
+  },
+  "verifier": {
+    "args": [
+      "-rustc_args",
+      "--edition 2021",
+      "-skip_specless_fns",
+      "-verbose",
+      "1",
+      "verified/lib.rs"
+    ],
+    "timeout_seconds": 180
+  }
+}
