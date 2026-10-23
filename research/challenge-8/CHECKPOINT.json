@@ -1,28 +1,16 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md",
-      "sha256": "9b8756b2527417701207bd0acdda593a32aa7e6c002af2984cd03542db97c83d"
-    },
-    {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
       "sha256": "f8d3f62f2e3849804c7ccce3a32f79cef512a287cdfedb5cc4b56f4f18e29dc7"
     },
     {
-      "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
-      "sha256": "22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-status-review.json",
-      "sha256": "7306e523cd70c0f9657bbb1057a4fa2ac46803772d9f80df5ff54f84a96b3df9"
-    },
-    {
-      "path": "research/challenge-8/task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json",
-      "sha256": "b3e327e087fe6b29440ac2a222dc8b0c6c2043e1f09c6c7b6b351d8ef4eecb0a"
+      "path": "research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json",
+      "sha256": "eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e5ec4384bd937f1f5d91ce7d7e16b13c15bbe60a73fae5d167f447dfa2cf55ce"
+      "sha256": "a90b82b8b30be46d2a491fd2d6027a37e415f7a62bd5f300b23375c5bf033047"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -43,7 +31,17 @@
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
-  "blocker": "Await exact checked pointer outcomes Cloud Build; compilation and formal results pending Brief.",
+  "blocker": {
+    "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+    "evidence": [
+      {
+        "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+        "path": "research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json",
+        "sha256": "eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe"
+      }
+    ],
+    "summary": "Await reviewed checked-outcome Cloud Build; compilation, positive and full control results pending Brief."
+  },
   "brief_observation_refs": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/026294fa8b806b0a4cb6717a2d4718039ec7badce45f8d84fee585d301ee7f6e.json",
@@ -224,7 +222,7 @@
       "state": "SUBMITTED_PENDING_BRIEF"
     }
   ],
-  "next_step": "Watcher resumes same R24 window: ACK event before checkpoint edits, then Evidence Brief for compile, positive and all controls. No classifier/pins before clean positive.",
+  "next_step": "ACK watcher event first; then Brief compile/positive/controls. Keep classifier and target pins closed until clean positive.",
   "open": [
     "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."

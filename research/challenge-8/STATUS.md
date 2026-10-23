@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T12:03:25Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-23T12:24:10Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 1018s spent; 0s retired; 20582s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 0b240663-a082-41e9-a3e2-19a0b8738958
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -22,16 +22,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Positive103a34 still exits1 with the same three dead-code sites; AST binding/cause open. [Build `af904556-010f-4159-9e4d-573e06e43d17`]
-- [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00` Build `af904556-010f-4159-9e4d-573e06e43d17`
+Await reviewed checked-outcome Cloud Build; compilation, positive and full control results pending Brief. [Build `0b240663-a082-41e9-a3e2-19a0b8738958`]
+- [research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json) SHA `eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe` Build `0d214997-138c-41ea-abcf-b337cffb8c72`
 
 ## Next
-Submit reviewed2aba4276 exact checked pointer outcome projection at full1200; then Brief positive and all control stages.
+ACK watcher event first; then Brief compile/positive/controls. Keep classifier and target pins closed until clean positive.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md](task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md) — `9b8756b2527417701207bd0acdda593a32aa7e6c002af2984cd03542db97c83d`
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `f8d3f62f2e3849804c7ccce3a32f79cef512a287cdfedb5cc4b56f4f18e29dc7`
-- [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) — `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
-- [research/challenge-8/task-history/select-callee-r24/R24-status-review.json](task-history/select-callee-r24/R24-status-review.json) — `7306e523cd70c0f9657bbb1057a4fa2ac46803772d9f80df5ff54f84a96b3df9`
-- [research/challenge-8/task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json](task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json) — `b3e327e087fe6b29440ac2a222dc8b0c6c2043e1f09c6c7b6b351d8ef4eecb0a`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `338afe4beba56356f8014b5e2b726a37c6eaa224ca4197eebd9b0dd88162a892`
+- [research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json) — `eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a90b82b8b30be46d2a491fd2d6027a37e415f7a62bd5f300b23375c5bf033047`

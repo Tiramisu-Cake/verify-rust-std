@@ -207,3 +207,14 @@ dispatch1650b00d, reserve1260, initial ledgerQUEUED. No duplicate submit during
 DISPATCH_PENDING. Accounted1018s,20582s remain including active reservation.
 Compilation, actual projection counters, positive/controls and acceptance
 remain pending Evidence Brief; all proof credit0. Handoff to exact-thread watcher.
+
+Handoff metadata correction: first CHECKPOINT blocker was incorrectly written
+as a string; write-views/validate rejected it (expected object). No watcher
+was armed on those bytes. Corrected blocker to structured summary/build/ref,
+regenerated both views and validated before arm. Build/account identities,
+source payload and runtime closure were unaffected; no resubmit occurred.
+
+The next render exceeded CURRENT-TASK6144-byte cap. Reduced top-level
+rendered artifact refs from6 to3; all earlier refs remain in the full artifact
+index and immutable observation list. Shortened next-step text, no claim or
+mission state was removed. No watcher was armed before successful validation.
