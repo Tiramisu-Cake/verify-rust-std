@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "53914f8210f79e8542a80494e41ffb2300621ec0",
+  "candidate_commit": "17142eb2eba8e62a757e90552dffc592f79cec4e",
+  "defect": "Fix all three mutable reviewer findings: A1 const types, alternate writer Cloud gate, actual contract bytes/hash; replace source-backed request test setup with synthetic bytes.",
+  "applicability": "New inactive source-only mutable capture chain, plus static request/downstream alternate adapter; no runner/recipe/translator activation, no Cloud or actual preparation locally.",
+  "invariants": [
+    "Exact pinned std runtime body, contract SHA dc985de2, mutable fixture specialization; ghost-strip identity; const files unchanged.",
+    "Cloud-only provider from pinned existing provider.py; no fake GitHub env and transitive source-builder gates retained or called only via ungated pure builders.",
+    "Finite expected per-component pointer rewrite inventories 2/3/1, wrong depth/source/signature/call/body drift refused.",
+    "Source-only outputs never establish typed MIR, admission, proof, publication or credit. P2 remains NOT_PUBLISHED."
+  ],
+  "controls": [
+    "30 synthetic tests pass after main inspected corrected request setup; no real std source preparation/tools run during corrected suite."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/overnight-helper/prepare-actual-helper-capture.py",
+    "research/challenge-8/overnight-helper/prepare-actual-helper-capture-mut.py",
+    "research/challenge-8/overnight-helper/prepare-actual-owner-projection.py",
+    "research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py",
+    "research/challenge-8/overnight-guard/capture-guard-linkage.py",
+    "research/challenge-8/overnight-forget-own/prepare.py",
+    "research/challenge-8/overnight-helper/prepare-assume-init-2610.py",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/task-history/select-callee-r22/P2-INTERFACE.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Still inactive source-only chain; no mutable Cloud source/MIR/pins/translator/proof/fullmatrix/publication. Earlier local source-preparation deviation preserved in VALIDATION-NOTES.md."
+  ]
+}

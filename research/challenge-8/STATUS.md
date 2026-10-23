@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r23
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: ACTIVE
-- Updated: 2026-10-23T08:09:05Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: HANDOFF
+- Updated: 2026-10-23T08:14:13Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T07:37:19Z`; main deadline `2026-10-23T09:37:19Z`; absolute deadline `2026-10-23T10:07:19Z`
 - Budget: 3600s total; 311s spent; 0s retired; 3289s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: e25a96d4-25c0-416f-a55c-debb87baacb1
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -31,7 +31,7 @@ Positive fails only function-end leak of 2 pointer-value own chunks (constructor
 - [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json) SHA `292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e` Build `7e23e945-9190-4928-b0e6-67f2cd3e31ec`
 
 ## Next
-Reviewed proof candidate fbe7ab23 pending GO/transport; full1200 submit. Mutable fixes priority; then exact seven-control helper, P2 still NOT_PUBLISHED.
+Ack proof watcher before checkpoint changes; Brief e25a96d4 positive/7controls. On clean positive pin full diagnostic targets and matrix. Mutable delta review17142 pending; target helper remains inactive.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64`
