@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "9e28984d03bec5ad6914970c24817d476879a5b8938ea33fc9939e3b45f1b2e8"
+      "sha256": "5049da514a06c31795451246056d87c9b1f6661eb6b275facce582ee3871c745"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,13 +32,9 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-partial-target-review.json",
-        "sha256": "fb44a477735ab0d42754714e7e77fdf8f814377c51b35b748ef16dddce855552"
-      }
-    ],
-    "summary": "Reviewed partial-selector expectation fix unbuilt; P2 NOT_PUBLISHED."
+    "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+    "evidence": [],
+    "summary": "ed261d full matrix/consequence/all11refusals pending; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1703,6 +1699,22 @@
     "provenance_fix": "Original faf7 NO_GO preserved. Callback/row existence no bodyproof claim; no callback false, attempted unresolved null, only clean positive true;17+7tests pass.",
     "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
   },
+  "mutable_partial_target_build": {
+    "accepted": false,
+    "accounted": false,
+    "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+    "candidate": "9ffbdc566ef3f704401900b98e6f303621345c16",
+    "config_sha256": "5bfb5444c2a4b3692186812b786be5d7cb72d4e6b5f449106bb94ad5da657397",
+    "dispatch_token": "dispatch-9a47869dd52f4d52ac9c716bf954aa18",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "schema": "select-r24-mut-partial-target-submission-v1",
+    "source_payload_sha256": "48cddd5125e35798161cea818c689e1c44cc1e81f64cd2def14605a7e01103e9",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "mutable_partial_target_candidate": {
     "accepted": false,
     "candidate": "9ffbdc566ef3f704401900b98e6f303621345c16",
@@ -1719,7 +1731,7 @@
       "sha256": "21dbdff388a9334bbf0bab68374bd9bcf868aaefb8b9d757d3e17ef5a243aea8"
     },
     "scope": "EXACT_OBSERVED_PARTIAL_SELECTOR_REFUSAL_AND_CLOSED_PIN_REFRESH",
-    "state": "REVIEWED_UNBUILT"
+    "state": "SUBMITTED"
   },
   "mutable_positive_build": {
     "accounted": true,
@@ -1884,7 +1896,7 @@
     ],
     "proof_credit": 0,
     "publication_allowed": false,
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "tests": "31focusedtests pass",
     "worker": "r24_admission"
   },
@@ -1904,8 +1916,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Submit9ffbd full1200; qualify all11controls/rootaudit, then P2 andconcreteW4.",
-  "next_step": "Submit9ffbd full1200; qualify all11controls/rootaudit, then P2 andconcreteW4.",
+  "next": "ACK; push terminal accounting; Briefed261d all11/rootaudit, then P2review andW4.",
+  "next_step": "ACK; push terminal accounting; Briefed261d all11/rootaudit, then P2review andW4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated.",
@@ -1957,7 +1969,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "ed261d30-9c57-44e0-a9de-d7d8de5dab1f"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1977,9 +1991,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T21:47:54Z",
+  "updated_utc": "2026-10-23T21:50:11Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -2186,6 +2200,14 @@
       "continuation": "SameR24/T0/account/window andlatestownerpolicy926979f3. ACKbeforeCP; immediatelypush terminalaccountingbeforeBrief.",
       "event_id": "eaa6752e-fd39-4d3a-a98a-e53a662b711d",
       "spec_path": "/tmp/select-r24-mut-refusal-path-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "SameR24/T0/account/window; latestownerpolicy926979f3. ACKbeforeCP, immediatelypush terminalaccountingbeforeBrief.",
+      "spec_path": "/tmp/select-r24-mut-partial-target-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
