@@ -3,6 +3,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json",
       "sha256": "79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-ADMISSION-REVIEW-20261024.json",
+      "sha256": "b3caaa75472eb8636456d8b1955b69ab5eb9d93c455aa8352393c62585ef0e38"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md",
+      "sha256": "1d3a0abe77f295644f184883c9be5e63b727b61568173c30320e296e5dc7fe0e"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -18,7 +26,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "R23 exact runner/admission candidate in independent Luna HIGH review; Cloud NOT_RUN."
+    "summary": "WAITING R23 P1 Build692c1943; capture mapping/proof status UNKNOWN pending Brief."
   },
   "confirmed": [
     {
@@ -33,7 +41,7 @@
       ]
     }
   ],
-  "next_step": "Resolve review; publish exact tuple; remeasure transport; early full1200 Build.",
+  "next_step": "Watcher event -> ack before checkpoint edit -> Brief; owned-NLL stop-loss <=2 cycles, then checked source borrow route.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -54,7 +62,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "692c1943-771d-4e99-b498-c5c480f4280a"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -66,18 +76,28 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T10:57:36.579281Z",
+  "updated_utc": "2026-10-23T11:01:11.960204Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
       "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
-      "owned_nll_cycles": 0
+      "owned_nll_cycles": 0,
+      "owned_nll_cycles_started": 1,
+      "owned_nll_cycles_completed": 0
     },
     {
       "obligation": "Transfer closure",
       "reason": "Cap unchanged. Two uninvoked historical test harnesses and three unconsumed navigation receipts excluded from transfer only, Git unchanged; all ledgers/profiles/mode/gate and invoked controls retained. Source gate49e60ed7 PASS570990/571567; remeasure final submit SHA."
+    },
+    {
+      "obligation": "R23 P1 early full-envelope Build",
+      "reason": "Independent semantic GO49e60ed7; published12dde239 descendant has test/metadata-only changes. Final measured payload570982/571567 SHA0224aa5d63a141d4ed6f9bf010d5bdbc8d0615fa5d0f7f8d1d58a79ed4dbf029; config27300/28000. First submit invocation refused missing explicit state-dir before reservation; corrected required argument, no bypass or duplicate Build.",
+      "build_id": "692c1943-771d-4e99-b498-c5c480f4280a",
+      "source_sha": "12dde2397d21adc23ce79f19099e38694fd61291",
+      "config_sha256": "9225a97bf716fd476912d6437f5a91b298f5ee92fafa70fd0b5c6afff651cce8",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state"
     }
   ],
   "mission_queue": [

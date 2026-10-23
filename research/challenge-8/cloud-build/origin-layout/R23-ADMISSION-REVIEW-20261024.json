@@ -1,0 +1,37 @@
+{
+  "schema": "merge-r23-admission-review-v1",
+  "reviewer": "Codex",
+  "candidate": "49e60ed7aa918d105fd2d2335860c9e80f7c689f",
+  "baseline": "733b6a7d68259787f1caf58177060589b6af779e",
+  "spec_sha256": "7bd4e8568ec727e0b2b64c899f3ccb2d37b7ae350392a181554cdab7867db676",
+  "packet_sha256": "8c08ec87699437125fcfea59c88f81d2083726a9d4103fa9a7c722b8c41121a9",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "decision": "GO",
+  "review_scope": [
+    "R22 three-finding delta: compile-profile translator pin, inherited capture environment, exact NLL capture eligibility",
+    "R23 exact phase admission, profile/provider/source pins, and transfer recipe delta",
+    "Selected runtime consumer closure for the two historical test harnesses and three navigation receipts removed from transfer"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "R23 phase service suite: 8 tests passed",
+    "R22 runner and source-pin service suite: 20 tests passed",
+    "Compile-only and owned-NLL source-pin branches use their distinct exact translator digests; corruptions reject",
+    "Inherited VF_EXPORT_OWNED_NLL_FACTS is removed from campaign, placement, and direct replay child environments without mutating the caller environment",
+    "Capture eligibility remains separate from existing callback tracing; mutation and derived body-isolation cases remain ineligible; positive full-body and source-gated raw-local-caller routes are eligible",
+    "R23 authorization binds the exact ledger identity, owner, phase, baseline, profile, starting tool/source, timeout, lane, source mode, no-carry budget, and active-build state; source validation rechecks the deadline",
+    "Recipe delta admits only the R23 ledger and removes exactly the two historical test harnesses and three listed navigation receipts",
+    "Selected runtime Python/shell source scan found no consumer of the removed paths; the only remaining filename references are the R23 exact-removal check and an unselected historical R10 service test",
+    "R23 provider parsing and selected source closure require exact reviewed proof/placement pins and regular source blobs; R14 publication gate and upload guard remain enforced"
+  ],
+  "not_run": [
+    "Cloud source preparation, compiler, exporter, translator, verifier, or proof execution",
+    "Full Cloud source-gate/transport submission workflow"
+  ],
+  "limitations": [
+    "This GO covers the reviewed committed semantic/control delta only; it grants no admission, proof acceptance, B1/B2 credit, or proof credit.",
+    "Owned-NLL mapping to an actual MIR body/location remains UNESTABLISHED pending Cloud evidence; diagnostic facts are not an ownership consumer."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
