@@ -1,7 +1,7 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n3
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: HANDOFF
-- Updated: 2026-10-22T22:33:23Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N3 | state: CLOSED
+- Updated: 2026-10-23T07:47:22Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`
 - Session dates: T0 `2026-10-22T20:43:40Z`; main deadline `2026-10-22T22:43:40Z`; absolute deadline `2026-10-22T23:13:40Z`
 - Budget: 3600s total; 2535s spent; 1065s retired; 0s remaining including active reservations
