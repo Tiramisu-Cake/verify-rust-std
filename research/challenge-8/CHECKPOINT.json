@@ -15,6 +15,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
       "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json",
+      "sha256": "8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05"
     }
   ],
   "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
@@ -24,14 +28,8 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Translator compile.",
-    "evidence": [
-      {
-        "path": "research/challenge-8/cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json",
-        "sha256": "2e5b90dd108f0f171d9979c52282c258e3d721513db34c0e35479468d16e7c2b",
-        "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
-      }
-    ]
+    "summary": "Build active.",
+    "evidence": []
   },
   "confirmed": [
     {
@@ -73,12 +71,12 @@
       ]
     }
   ],
-  "next_step": "Fix.",
+  "next_step": "Brief.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
     "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
-    "Tool e1/profile5fd compile and compatible final CURRENT/normal/unwind matrix OPEN; tool578 compile failed in R22 P1.",
+    "P2 exporter/decoder0, translator compile failed; tool65f admission pending; compatible CURRENT/normal/unwind matrix OPEN.",
     "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit."
   ],
   "owner": "merge",
@@ -107,7 +105,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
@@ -119,7 +119,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T08:49:36Z",
+  "updated_utc": "2026-10-23T09:06:02Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -166,6 +166,15 @@
     {
       "decision": "Fix all three synthetic D.region record constructors in translator with explicit identity=Nothing; keep lifetime matching patterns and real source metadata unchanged.",
       "reason": "P2 exporter/decoder exit0; translator fieldidentity missing. Static scan finds constructors2623/10814/10890; patterns10527/10528 intentionallyignorefields, warnings9disabled inexistingDune. Unknown metadata on synthetic lifetimes is not inferred ReVar identity or borrow authority. No sameconfigrerun."
+    },
+    {
+      "decision": "After raw compile-fix submit, prepare owned-NLL diagnostic profile/admission as next independent W3 HANDOFF while this Build executes.",
+      "reason": "Tool419 reviewed/published; cross-stage mapping and ownership consumer remain absent. Preserve fullraw controls and initial578tuple, no newtrusted premises. NewCloud onlyaftercurrentterminal, reviewedexactcandidate and full1200+60 envelope fitsmain; otherwise prepareHANDOFFwithoutCloud.",
+      "alternatives": [
+        "Stopaftercompileblocker(rejected: usefulW3workavailable)",
+        "Addunprovenborrowbridge(rejected)",
+        "Diagnosticcaptureplusreviewedsourcebindingprep(selected)"
+      ]
     }
   ],
   "pause": {
@@ -177,20 +186,20 @@
     "resumed_at_utc": "2026-10-23T07:51:43+00:00"
   },
   "active_build_pins": {
-    "dispatch_token": "dispatch-46f839c7310840f994abd7b6869e9425",
+    "dispatch_token": "dispatch-f70a97ddf3874a7bbdaaa577fb854b93",
     "owner": "merge",
     "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
-    "infra_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
-    "proof_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+    "infra_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+    "proof_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
     "lane": "merge",
-    "submitted_config_sha256": "830f63343e1c8f85e70ff6e31db8023e280fad8a05dc871920baf3001a290a96",
+    "submitted_config_sha256": "3a93ec1f6628c6f58740229be4b241959e705abed51aa98e7dd82e251eb1a6d9",
     "reserved_seconds": 1260,
     "timeout_seconds": 1200,
     "status": "QUEUED",
     "publish_text_logs": true,
     "source_mode": "pinned-objects",
-    "source_input_sha256": "5fbaa41d9e41e3f27edbb5eebc7dcf648e20cb92f7b768f904cd541e5739ea14",
-    "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
+    "source_input_sha256": "6cb47f1e919c020b384652b8f01cff8f22c994a81fd86022f76e37ef6d9bee45",
+    "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
   },
   "watcher_event": {
     "job_id": "818bd214-e11e-4560-a64e-c0f30a6bb782",
@@ -216,27 +225,27 @@
     }
   ],
   "current_tuple": {
-    "source_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
-    "tool_sha": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
-    "profile_sha256": "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e",
-    "admission_review": "R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
-    "cloud_status": "COMPILE_FAILED_NO_PROOF",
+    "source_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+    "tool_sha": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
+    "profile_sha256": "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579",
+    "cloud_status": "ACTIVE_UNVERIFIED",
     "proof_credit": false
   },
   "prepared_candidates": [
     {
       "mission": "W3 original caller",
-      "tool_sha": "bbf919a32ce6f27820c6ad0464051660a448398a",
+      "tool_sha": "419ff27dcee1a31a9f62e8db69049adb725bdbe2",
       "branch": "merge/r22-owned-nll-capture-20261023",
       "published_remote_sha_verified": true,
-      "review": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-COLLISION-REVIEW-20261023.json",
+      "review": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-FIXTURES-REVIEW-20261023.json",
       "review_decision": "GO_WITH_LIMITATIONS_DIAGNOSTIC_ONLY",
       "design": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-DESIGN-20261023.md",
       "cloud_admission": "NOT_PREPARED",
       "compiler_and_capture_validation": "NOT_RUN",
       "cross_stage_mapping": "UNESTABLISHED",
       "ownership_consumer": "NOT_IMPLEMENTED",
-      "proof_credit": false
+      "proof_credit": false,
+      "included_compile_fix": "65f translator file byteexact; no NLL compiler validation yet"
     }
   ],
   "historical_confirmed": [

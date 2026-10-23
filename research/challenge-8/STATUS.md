@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r22
 
 - Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: ACTIVE
-- Updated: 2026-10-23T08:49:36Z
+- Updated: 2026-10-23T09:06:02Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
 - Session dates: T0 `2026-10-23T07:44:00Z`; main deadline `2026-10-23T09:44:00Z`; absolute deadline `2026-10-23T10:14:00Z`
 - Budget: 3600s total; 720s spent; 0s retired; 2880s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: d5970bc6-6c90-4cdc-a56e-81c4ca596df3
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -17,7 +17,7 @@
 - Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.
 - Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.
 - F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.
-- Tool e1/profile5fd compile and compatible final CURRENT/normal/unwind matrix OPEN; tool578 compile failed in R22 P1.
+- P2 exporter/decoder0, translator compile failed; tool65f admission pending; compatible CURRENT/normal/unwind matrix OPEN.
 - No B2/generic/arbitrary-n/sorting/tool qualification/independent credit.
 
 ## Rejected approaches
@@ -25,14 +25,14 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Translator compile.
-- [research/challenge-8/cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json](cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json) SHA `2e5b90dd108f0f171d9979c52282c258e3d721513db34c0e35479468d16e7c2b` Build `fb2529be-bf1d-4721-8632-4c5493e2fedd`
+Build active.
 
 ## Next
-Fix.
+Brief.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json](cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json) — `34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459`
 - [research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json](cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json) — `c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c`
 - [research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json](cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json) — `329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8`
 - [research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json](cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json) — `408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195`
+- [research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json) — `8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05`

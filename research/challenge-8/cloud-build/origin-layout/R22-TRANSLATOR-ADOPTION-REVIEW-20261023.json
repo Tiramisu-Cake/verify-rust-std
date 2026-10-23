@@ -1,0 +1,50 @@
+{
+  "schema": "merge-r22-translator-adoption-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
+  "baseline": "abefa08d4b29b3d2348323208f6668068b993c69",
+  "spec_sha256": "5a16f4c2336ef3d551e719713a9a9b27e78be3c9c6d582a00bf000a9b7453144",
+  "packet_sha256": "2efb18a0ee171c13816bb29edc9c0a6d312ccbe2c4a9633c49fd26693fce6c22",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "prior_reviews": [
+    {
+      "candidate": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-FIX-REVIEW-20261023.json",
+      "sha256": "b8ac0234cf1036756c2cadd8263fa8e64e2ec0ae7a4fe9b9c617c2dcf12b2371",
+      "decision": "GO_WITH_LIMITATIONS"
+    },
+    {
+      "candidate": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
+      "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195",
+      "decision": "GO_WITH_LIMITATIONS"
+    }
+  ],
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "The selected tuple is pinned consistently to tool commit 65f0bb35, exporter SHA 0b456d…, translator SHA e5fe47…, cumulative patch SHA 6d76e…, and profile SHA d2640…. Each digest was independently recomputed against the exact candidate profile/provider/prove/patch blobs and tool commit source blobs.",
+    "The R22 dispatcher accepts either the original exact tool578/profile9496 tuple or the exact R22 tuple. For R22, the registration includes both source paths and both source hashes; reversing tool, exporter, translator, patch, registration, and final patch-chain entry reproduces profile9496 bytes before unchanged R20/R19 validation. The prior e1ee-only tuple is no longer admitted. Synthetic tests cover legacy and new profiles plus altered tool/source/path/pin cases.",
+    "The public runtime profile remains R11. The provider validates the internal R22 source-selector against the exact R22 profile and returns the R22 pin table; the existing runner transformation normalizes its runtime PROFILE_NAME to R11. The synthetic phase-service suite passed all 16 tests, including the profile and provider checks.",
+    "The recipe change removes only R11-INPUTS from proof_paths; the Git blob is unchanged, R11-START remains selected and is read by prove.py, and the R22 recipe validator requires exactly this removal plus the R22 ledger addition. A scan of the 161 explicit proof/infra/recipe paths found no reader. A broader scan of explicit paths plus 136 auto-packed cloud-build Python files found references only in the R22 removal control, historical tests, and the legacy r11-source-preflight helper. The current run-merge.sh → merge.sh → overnight run.sh execution path does not invoke that helper; no other recipe metadata changed.",
+    "Budget, deadline, timeout, coordinator, publication gate, historical closure, and domain/control gates remain pinned. The tool578/profile9496 path remains admitted. The P2 failed Build stays historical with no new proof credit; this candidate contains no NLL changes."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "Python bytecode compilation for changed admission/provider/test modules",
+    "r22-phase-service-test.py: 16 tests passed",
+    "profile, exporter, translator, patch, provider, and prove.py hashes matched exact pins",
+    "selected explicit recipe path scan and broader auto-packed Python reference audit",
+    "R11-INPUTS Git blob unchanged; R11-START retained"
+  ],
+  "source_gate_status": "Worker-reported PASS; payload 566267 bytes of 571567-byte cap (5300-byte headroom). Not independently run in this review.",
+  "not_run": [
+    "Cloud compile, target, or controls",
+    "Local compiler/exporter/translator execution",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

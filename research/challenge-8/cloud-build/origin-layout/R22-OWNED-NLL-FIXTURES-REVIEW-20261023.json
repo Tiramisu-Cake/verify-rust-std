@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r22-owned-nll-fixtures-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "419ff27dcee1a31a9f62e8db69049adb725bdbe2",
+  "baseline": "bbf919a32ce6f27820c6ad0464051660a448398a",
+  "spec_sha256": "dfb07470584e7a65142735b501cc6d43f0ba971928be16952827f0644e3ebef5",
+  "packet_sha256": "869b00d5483ad8fa134eb66a4cdf227efeb63b8a88cca2c5c12cc75c97354a9c",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "prior_reviews": [
+    {
+      "candidate": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-FIX-REVIEW-20261023.json",
+      "sha256": "b8ac0234cf1036756c2cadd8263fa8e64e2ec0ae7a4fe9b9c617c2dcf12b2371",
+      "decision": "GO_WITH_LIMITATIONS"
+    },
+    {
+      "candidate": "bbf919a32ce6f27820c6ad0464051660a448398a",
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-COLLISION-REVIEW-20261023.json",
+      "sha256": "d38763c5a0bda5234c7a7f283b45f6cb07d30a0eaf89e7cf594f97adb444db93",
+      "decision": "GO_WITH_LIMITATIONS"
+    }
+  ],
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "The exact bbf-to-419 delta is the same three synthetic Lifetime constructor repairs reviewed in the 65f translator candidate. The translator file blob is identical at both candidates (`faa112c63c626ab5d8cd4ea73b2574884cada32c`).",
+    "The `Region.identity` schema field remains an optional identity, with inference-variable and erased variants. The three synthetic values continue to use `identity = Nothing`, meaning no compiler identity is supplied; all legacy IDs remain unchanged. The real exporter continues to encode compiler-originated identity separately.",
+    "No NLL exporter or schema change occurs between bbf and 419. This delta adds no NLL capture behavior, mapping, consumer, trust premise, ownership rule, or proof credit."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "exact one-file three-constructor diff inspection",
+    "git diff --check",
+    "candidate translator blob matched reviewed 65f blob",
+    "NLL exporter and schema unchanged across this delta",
+    "prior review digests matched packet references"
+  ],
+  "not_run": [
+    "Compiler or translator execution",
+    "Cloud compile, source-capture controls, or mismatch controls",
+    "Typed decoding, ownership consumer, or proof execution"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
