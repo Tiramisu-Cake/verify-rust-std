@@ -6,7 +6,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "1a29253a4295b8c27b059caab29b42f73a5576ed2942fe7aa1f89eaaf2c5afbd"
+      "sha256": "dd7e5ba67a97d79485030b26afe8f83959f8763cf75d12b3999941e1b67fdfb2"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
@@ -22,19 +22,21 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "7a251938504359d6bc0f96a0ece69cf3f4eff6b023fba11ec94b6518bc31828f"
+      "sha256": "629ab8f9e7bd3a38d74e32232156a312fa33cf4ee9f5c4002090045f3f5c8248"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
   "ast_build": {
+    "accounted": true,
     "ast_binding": "PENDING_BRIEF",
+    "build_seconds": 349,
     "id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
     "infra_sha": "34659222859070631912f6088c9582f396aa1535",
     "proof_credit": 0,
     "proof_sha": "34659222859070631912f6088c9582f396aa1535",
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
-    "status": "WORKING"
+    "result": "AST_DIAGNOSTIC_EXIT2_MISSING_ARTIFACT_SOURCE_REPORTED",
+    "status": "FAILURE"
   },
   "baseline": {
     "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
@@ -80,6 +82,22 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/ab834a7033c131548602962209dee88579157eb13710912ba3c4421d644fb540.json",
       "sha256": "ab834a7033c131548602962209dee88579157eb13710912ba3c4421d644fb540"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/bad66c0d3eb0ac15c372978f31581ef2363de2ddbdcc168ada1a06af70ef706c.json",
+      "sha256": "bad66c0d3eb0ac15c372978f31581ef2363de2ddbdcc168ada1a06af70ef706c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/9bc78e48e70b18da7d1ebe43a50474b6b727cb11cd4b653b295885ef17ade7b0.json",
+      "sha256": "9bc78e48e70b18da7d1ebe43a50474b6b727cb11cd4b653b295885ef17ade7b0"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/337a4d8451f39bb799db093ef7ae3065b804ffdae2267190848c504bf86c7a84.json",
+      "sha256": "337a4d8451f39bb799db093ef7ae3065b804ffdae2267190848c504bf86c7a84"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486.json",
+      "sha256": "c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486"
     }
   ],
   "confirmed": [
@@ -102,6 +120,17 @@
           "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
           "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
           "sha256": "22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "234e58e3: additive AST stage RAN/exit2, Failure(TODO) in serializer traversal; producer reports no AST. No binding/acceptance. Total674s, remaining20926s.",
+      "evidence": [
+        {
+          "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+          "path": "research/challenge-8/task-history/select-callee-r24/SECOND-PROOF-OBSERVATIONS.json",
+          "sha256": "ba83ffdf322395eec29405668a5c780584974f532055a421a83bec1333531d63"
         }
       ]
     }
@@ -150,16 +179,21 @@
       "state": "REVIEW_GO_ONE_STATUS_11_87S"
     },
     {
-      "candidate": "34659222859070631912f6088c9582f396aa1535",
+      "candidate": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+      "candidate_history": [
+        "34659222859070631912f6088c9582f396aa1535",
+        "dc2df135837a95b4cc675dc8a9bcfe6e917bad21"
+      ],
       "obligation": "Additive emitted AST inventory for unchanged positive103a34",
-      "reason": "Static MIR spans map diagnostics to bb26/27/28 cleanup. Need exact emitted AST node identity/label structure; checker uses physical location equality. Additive inventory preserves proof/controls.",
-      "state": "BUILD_WORKING"
+      "reason": "Native serializer has MergeFractionsStmt TODO used by positive. Reuse existing lossless R15 overlay under exact R24 gate; same source/fingerprint/translator, no verifier/model changes.",
+      "state": "REVIEW_GO_SERIALIZER_REPAIR"
     }
   ],
-  "next_step": "Ack watcher before CHECKPOINT edits; then Brief234e58e3. Locate AST and compare cleanup26/27/28; credit0.",
+  "next_step": "Submit reviewed printer repair dc2df135 at full1200; watcher/Brief for AST cleanup26/27/28. No credit.",
   "open": [
     "103a34 built: positive exit1 with unchanged3dead-code sites. Exact emitted AST binding/cause UNKNOWN. Seven control targets remain unpinned; classifier NO_GO.",
-    "P2 *mut NOT_PUBLISHED; mutable chain 17142eb2 source-only. W4 waits for callee acceptance."
+    "P2 *mut NOT_PUBLISHED; mutable chain 17142eb2 source-only. W4 waits for callee acceptance.",
+    "AST setup failed on serializer TODO; dc2df135 reuses lossless R15 printer overlay, reviewed but UNBUILT. Actual AST/causality pending; no raw fallback for Reader429/500."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
@@ -188,17 +222,15 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "234e58e3-dee9-4c45-ba4c-974c8ad102a8"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 21275,
+    "remaining_seconds": 20926,
     "retired_seconds": 0,
-    "spent_seconds": 325,
+    "spent_seconds": 674,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -210,12 +242,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T11:32:57Z",
+  "updated_utc": "2026-10-23T11:55:37Z",
   "watcher_handoff": {
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "acknowledged_event_id": "8614abb4-f8d8-4e26-80e5-d0785c85b71c",
+    "acknowledged_job_id": "db113fcb-a351-4414-b5de-6ab16406665b",
     "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
-    "checkpoint_frozen_after_arm": true,
+    "checkpoint_frozen_after_arm": false,
     "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
     "spec_path": "/tmp/select-r24-ast-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"

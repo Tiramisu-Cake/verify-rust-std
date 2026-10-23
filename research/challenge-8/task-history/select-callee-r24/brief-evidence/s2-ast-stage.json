@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "74c813825b191be98cd7c027381e6984567ed5cb17135e289ca4e94d100298ed",
+  "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 10,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "1e12f82476646f95e6c906e5115490677dacfe5f226d114df8f5df7186b3a884",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r24-positive-ast-stage.json",
+  "file_sha256": "9ea9ed55982c8a60d3d5737504dc8fb85260553ac9a3cf46432e1d51952e997b",
+  "index_sha256": "dcf22439166bfc8b857da8bfe0f1e5bd48ceae693e728b7065e80c8e451bb5b6",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "9ea9ed55982c8a60d3d5737504dc8fb85260553ac9a3cf46432e1d51952e997b",
+    "file_id": "1e12f82476646f95e6c906e5115490677dacfe5f226d114df8f5df7186b3a884",
+    "pointer": ""
+  },
+  "request_id": "b2d6f619361afe4a2c411a3027e9bf947fb921a025f2f2d0e534acaa95e7bf65",
+  "results": [
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/exit",
+      "value": 2
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/intrinsic_gate_active",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/pointer_drop_gate_active",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stderr",
+      "value": "r24-positive-ast.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stdout",
+      "value": "r24-positive-ast.log"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

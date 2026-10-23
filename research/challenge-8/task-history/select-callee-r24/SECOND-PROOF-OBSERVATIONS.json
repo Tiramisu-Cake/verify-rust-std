@@ -1,0 +1,65 @@
+{
+  "archive_sha256": "74c813825b191be98cd7c027381e6984567ed5cb17135e289ca4e94d100298ed",
+  "assurance": "SOURCE_REPORTED",
+  "ast_artifact": "PRODUCER_REPORTED_MISSING_OR_EMPTY; no matching member in complete verified catalogue",
+  "ast_diagnostic_stage_exit": 2,
+  "brief_run_exit": 4,
+  "brief_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+  "causal_status": "UNKNOWN",
+  "index_sha256": "dcf22439166bfc8b857da8bfe0f1e5bd48ceae693e728b7065e80c8e451bb5b6",
+  "next_candidate": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+  "observations": [
+    {
+      "fact": "Producer AST diagnostic errors: exit not0/1 and AST artifact missing or empty. No AST binding or proof acceptance established.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s2-ast-errors.json",
+      "receipt_sha256": "12001c5ceb4334491798e95883ef0dfcc10bb371303e2d69aa0905379ba203a4",
+      "request_id": "8ba18d06c17f9e37921cbadb95e0ae31494551d8a72072e8a580804d91f55245",
+      "tag": "ast-errors.json"
+    },
+    {
+      "fact": "Additive AST stage is source-reported RAN/exit2; both established gates active, source_unchanged true. Ordinary proof result is not inferred from this diagnostic stage.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s2-ast-stage.json",
+      "receipt_sha256": "df201969e2d9e422b6da54be116e3f0f26d225e087d89ad86fcc4985d5485f7a",
+      "request_id": "b2d6f619361afe4a2c411a3027e9bf947fb921a025f2f2d0e534acaa95e7bf65",
+      "tag": "ast-stage.json"
+    },
+    {
+      "fact": "Exact archived log lines60-62 show Fatal error: exception Failure(TODO), raised through Stdlib.failwith and List.map. No causal link to the formal dead-code failure is established.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s2-ast-failure-line.json",
+      "receipt_sha256": "8812107b31452576c6742242ff40663bc6febf508a1a5d7ce2190ffb46b76a5e",
+      "request_id": "cd9ec4e2260484a4385b9e8e954c6ca287ede2983cd0de20227f1486149577c9",
+      "tag": "ast-failure-line.json"
+    },
+    {
+      "fact": "Exact log lines64-66 show AST serializer frontend/ocaml_expr_of_ast.ml statement traversal at838 and765. Exact throwing constructor remains inferred from source, not independently observed.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s2-ast-stack-formatter.json",
+      "receipt_sha256": "7aac9703aab79876e769565322434c524f1ac5183ea9f31f316713eca027c3f7",
+      "request_id": "23557f89197e8f5947be60af2042b9f097d590f4dc9857c9aa01244e9538dcf8",
+      "tag": "ast-stack-formatter.json"
+    }
+  ],
+  "ordinary_positive_result": "NOT_REQUERIED: targeted row request HTTP429; first Build remains last inspected positive trace (source claim, credit0).",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "proof_credit": 0,
+  "reader_failures": [
+    {
+      "fallback": "NONE",
+      "selector": "AST log lines54-65",
+      "status": "HTTP500"
+    },
+    {
+      "fallback": "NONE",
+      "selector": "AST log position1901 radius256",
+      "status": "HTTP429"
+    },
+    {
+      "fallback": "NONE",
+      "selector": "proof JSON /rows/positive",
+      "status": "HTTP429"
+    }
+  ],
+  "schema": "select-r24-second-proof-observations-v1",
+  "source_commit": "34659222859070631912f6088c9582f396aa1535",
+  "static_defect_and_next": "Native f760 serializer MergeFractionsStmt arm is TODO, and exact positive uses merge_fractions. Existing R15 lossless constructor+fields overlay is necessary for dumping it. Apply under closed R24 route; root thrower remains a hypothesis until hosted success. No retry of unchanged failed AST configuration."
+}

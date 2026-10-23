@@ -1,0 +1,31 @@
+{
+  "applicability": "Only exact R24 positive_ast_args runner branch, after parser overlay and before console build. Reuse committed R15 patchf08f1c39 and manifestc529a3a4: printer898203bf→f32f1a9a.",
+  "baseline_commit": "a21b0ca03d92b87de9b369676165ee52796d3560",
+  "candidate_commit": "7b2aa00d3ffc8996dbe52f0fc6de5b0c21e07c29",
+  "controls": [
+    "Static git apply/check against nativef760 source reproduced exact898203bf→f32f1a9a result.",
+    "bash-n, AST parsing of inline HASHES/R24_SCOPE Python and4staticR23pins passed. Existing14AST/7entry/11proof tests and helper are byte-identical to prior reviewed candidate; rerun only if new concern."
+  ],
+  "defect": "AST diagnostic Build234e58e3 RAN/exit2, no artifact; Brief lines60-65 show Failure(TODO) in AST statement traversal. Exact positive includes merge_fractions; native serializer leaves MergeFractionsStmt unimplemented. Existing R15 lossless utility overlay is absent from O26 callee chain.",
+  "dependencies": [
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json",
+    "research/challenge-8/cloud-build/select-callee-r24-ast-inventory.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+    "research/challenge-8/overnight-linkage/O26-PROFILE-MANIFEST.json",
+    "research/challenge-8/task-history/select-callee-r24/R24-ast-review.json"
+  ],
+  "invariants": [
+    "Serialize existing MergeFractionsStmt location and assertion fields; no Noop, catch-all, omission, or checker/model/verifier/runtime/source changes.",
+    "Translator103a34/parser6a866a, fingerprints739f982d, ordinary proof and seven controls unchanged; default non-R24 tool chain and profile output unchanged.",
+    "Require exact patch/manifest/base/result hashes; final modified-file list equals existing three plus the printer utility. Profile actual metadata adds exact printer hash on R24 only.",
+    "No old R15 authority/credit transfer, no AST/parser-input/causal/proof acceptance claim; reviewed additive inventory stays zero credit."
+  ],
+  "known_limitations": [
+    "Unbuilt application of existing utility patch. Exception is observed in serializer but exact thrower/causality remains UNKNOWN without emitted AST; it is a necessary static gap, not a claimed proven root cause.",
+    "Ordinary positive still lacks acceptance; no classifier target pins, P2 or W4 activation."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "7b2aa00d3ffc8996dbe52f0fc6de5b0c21e07c29",
+  "baseline_commit": "a21b0ca03d92b87de9b369676165ee52796d3560",
+  "candidate_tree": "e765de403fb4425d50bc19832b28bd5b632a339c",
+  "spec_sha256": "1ce096a9fedad35908b879a846addd5797f4c2541ec2f674de363337dd641985",
+  "packet_sha256": "65ad403598483441d0834469d0fc938fcf4ec1676948e600a1abd3ef282de255",
+  "diff_sha256": "fbbf295338f428f1479653d88d0a62cc1b9b4ee1b0d4402277130a425f8d1d41",
+  "decision": "GO_WITH_NITS",
+  "scope": "R24-only application and identity checks for the existing MergeFractionsStmt AST serializer utility patch",
+  "findings": [],
+  "verified": [
+    "smallsort-session review check matched exact candidate, expected spec SHA and packet SHA; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE",
+    "The patch changes only the existing MergeFractionsStmt serializer arm from Failure(TODO) to C(\"MergeFractionsStmt\", [of_loc l; of_expr e]); pinned native AST type is loc * asn, so both fields are retained",
+    "The patch contains no verifier, translator, parser, checker, proof/model, source, signature, certificate, fingerprint, or runtime changes",
+    "Runner applies the overlay only when positive_ast_args is nonempty; that array is enabled only by the exact R24 session marker, which is separately validated. The patch and manifest SHA, base printer SHA, and result printer SHA are all checked before/after application",
+    "Static R24_SCOPE inventory requires exactly the frozen three modified production files plus src/frontend/ocaml_expr_of_ast.ml; R24 profile metadata adds the exact printer source SHA only under the exact R24 session marker",
+    "Default R20/R21 route leaves positive_ast_args empty, skips patch application, and leaves profile-hashes metadata fields unchanged; normal proof invocation, seven controls, translator/parser hashes and proof pins are unchanged",
+    "Recipe closure includes the existing patch and manifest as transport inputs; TOOL-OVERLAYS records row 28 as an unbuilt R24-only utility overlay with no R15 credit transfer",
+    "Static patch reproduction in a temporary directory from git-show source f76012fb518703b1d98e243ac4f487f16877cfcb passed git apply --check and reproduced base 898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff to result f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94; dirty tool worktree was not modified",
+    "Four R23 static pin tests passed; bash -n and Python AST parsing of both inline runner scripts passed; git diff --check passed"
+  ],
+  "nits": [
+    "The repair remains unbuilt. It makes serialization of this constructor possible but does not establish the exact thrower or prove that this was the sole reason the prior AST stage emitted no artifact; causal status remains UNKNOWN until an authorized hosted run produces the artifact.",
+    "The R24 AST inventory still checks only a structural OCaml envelope and does not parse the AST, bind it to parser input or diagnostics, identify the dead-code AST objects, or establish proof acceptance. Its existing zero-credit/UNKNOWN boundaries remain necessary."
+  ],
+  "tests": {
+    "passed": [
+      "smallsort-session review check: exact candidate/spec/packet matched",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r23_pins.py: 4 passed",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+      "Python AST parse of inline HASHES and R24_SCOPE scripts",
+      "Static git apply --check and apply in temporary directory; exact manifest result SHA reproduced",
+      "git diff --check baseline-to-candidate"
+    ],
+    "not_repeated": [
+      "Prior unchanged 14 AST, 7 proof-entry and 11 fractional-proof synthetic suites; their helper and entry are byte-identical to the prior reviewed candidate"
+    ]
+  },
+  "not_run": [
+    "Actual preparation, compiler, exporter, MIR decoder, verifier, Cloud Build, or proof execution",
+    "Raw logs or evidence access",
+    "Compilation or any write in the dirty VeriFast tool worktree"
+  ],
+  "limitations": "This verdict covers only the exact R24 serializer-boundary candidate. No AST artifact, corrected Build, causal explanation, clean positive, callee acceptance, or proof credit is established. The previously reported Build failure context is source-reported; this review did not inspect raw evidence.",
+  "proof_credit": 0
+}

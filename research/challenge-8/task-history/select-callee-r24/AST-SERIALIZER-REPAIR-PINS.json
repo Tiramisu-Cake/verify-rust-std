@@ -1,18 +1,39 @@
 {
-  "actual_toolchain": "NOT_RUN",
+  "actual_toolchain": "NOT_RUN_FOR_REPAIRED_PRINTER",
   "base_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
   "base_tool": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "candidate_commit": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+  "closure": {
+    "bytes": 1990215,
+    "entries": 87,
+    "sha256": "c1c0bf47f28b09f70aa1527eb8dc85e29ebd85f8a29c6f9413df295906bd8b45"
+  },
   "gate": "Exact R24 positive_ast_args; absent R24 marker retains old tool chain and output metadata",
+  "lane": "o26-select-callee-r20",
   "native_ast_fields": "MergeFractionsStmt of loc * asn; serialize with of_loc/of_expr, no omission or replacement",
+  "owner": "select-sort4",
   "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
   "patch": "research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch",
   "patch_sha256": "f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
   "proof_credit": 0,
+  "queue_reserve_seconds": 60,
+  "report_reserve_seconds": 240,
   "result_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+  "review": {
+    "decision": "GO_WITH_NITS",
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-ast-serializer-review.json",
+    "sha256": "4c86d27e25594f4c301a41e7de60afb30c0117a652da5aeb8d02ac8fbb1f8e6c"
+  },
   "schema": "select-r24-ast-serializer-repair-pins-v1",
   "source": "src/frontend/ocaml_expr_of_ast.ml",
   "source_and_fingerprint_rows_changed": false,
   "static_patch_application": "PASS; reproduced result hash from committed f76012fb source; single utility source file only",
-  "status": "UNBUILT_REVIEW_PENDING",
-  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+  "status": "REVIEWED_READY_TO_SUBMIT",
+  "timeout_seconds": 1200,
+  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+  "transport_preflight": {
+    "path": "research/challenge-8/task-history/select-callee-r24/SERIALIZER-TRANSPORT-PREFLIGHT.json",
+    "sha256": "c8642b3eb9581995ac473f27721101659f45157e49226f5d9d2b669063727be0"
+  }
 }

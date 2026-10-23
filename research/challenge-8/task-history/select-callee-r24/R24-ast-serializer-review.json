@@ -1,0 +1,38 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+  "baseline_commit": "a21b0ca03d92b87de9b369676165ee52796d3560",
+  "candidate_tree": "3381131a89972261279bbb2362e5eece768617c5",
+  "spec_sha256": "b79b7e88666d4ff83d4e6239f3ab6c2f728a5729fb83d03b54ebe3144f778455",
+  "packet_sha256": "fbd89c1f657fb2c94fcb84ed18318839e2b8379f7b57ad3c0501ed888fb99f26",
+  "diff_sha256": "692826cd9ee9593387af316c5f5588ff39bdaeb98cde9e7b9504f06ff966573a",
+  "decision": "GO_WITH_NITS",
+  "scope": "Narrow continuation for canonical recipe proof_paths ordering; carry forward the reviewed R24-only MergeFractionsStmt AST serializer boundary",
+  "prior_review": {
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-ast-serializer-initial-review.json",
+    "sha256": "558c8508db80468004633b5a17dde0eafae6e55a2c943c9f532e8b1568b695a2",
+    "candidate_commit": "7b2aa00d3ffc8996dbe52f0fc6de5b0c21e07c29",
+    "summary": "GO_WITH_NITS for the exact serializer boundary; patch statically reproduced printer hash, preserved MergeFractionsStmt location/assertion fields, and applied only in the exact R24 positive AST branch."
+  },
+  "findings": [],
+  "verified": [
+    "Final smallsort-session review check matched candidate dc2df135837a95b4cc675dc8a9bcfe6e917bad21, expected spec SHA and packet SHA; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE",
+    "The only delta from reviewed candidate 7b2aa00d3ffc8996dbe52f0fc6de5b0c21e07c29 is ordering of the two added recipe proof_paths entries",
+    "Final proof_paths is lexicographically sorted and has the same 76-path membership as the reviewed candidate; symmetric path difference is empty",
+    "The recipe-order correction does not change patch/manifest membership, R24 gating, serializer application, source/tool pins, profile metadata, proof path, controls, or the reviewed printer hash",
+    "The main agent's SERIALIZER-TRANSPORT-PREFLIGHT record reports a static encoded source/config pass for this exact candidate: payload 381374 bytes, config 27264/28000 bytes, maximum argument 2778/10000 bytes; record says no Cloud calls, proof tools, or proof credit",
+    "git diff --check passed for the delta from the prior reviewed candidate"
+  ],
+  "nits": [
+    "The serializer overlay remains unbuilt; the static source/config preflight only establishes transport preparation, not tool execution or an AST artifact. The cause of the prior AST-stage failure remains UNKNOWN until an authorized hosted run.",
+    "The inherited AST inventory remains structural-envelope-only and establishes no AST/parser-input or AST/diagnostic binding, dead-code object identity, proof acceptance, or credit."
+  ],
+  "not_run": [
+    "The encoded source/config preflight was not independently rerun by this reviewer; its exact-candidate PASS record was inspected",
+    "Actual preparation, compiler, exporter, MIR decoder, verifier, Cloud Build, proof execution, or raw evidence access",
+    "Compilation or any write in the dirty VeriFast tool worktree"
+  ],
+  "limitations": "This continuation reviews only the final recipe-order delta and carries forward the exact prior boundary review. Initial candidate 7b2aa00d3ffc8996dbe52f0fc6de5b0c21e07c29 was rejected by static source-input validation before Cloud; the final candidate fixes ordering only. No AST artifact, corrected Build, causal explanation, clean positive, callee acceptance, or proof credit is established.",
+  "proof_credit": 0
+}

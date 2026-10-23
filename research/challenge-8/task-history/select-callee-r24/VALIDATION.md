@@ -113,3 +113,29 @@ preflight. First real WORKING status completed in8.033963615016546s, below
 the20s watcher subprocess bound. New job will monitor this new Build; the
 acknowledged first monitor-error job is not rearmed. First Build remains
 accounted325s;21275s remaining including the new1260s reservation.
+
+## Second terminal result and serializer setup repair
+
+Watcherdb113fcb terminal event8614abb4 was ACKED CONTINUE_EXISTING_WINDOW
+before checkpoint changes. Build234e58e3 was FAILURE/accounted349s; total674s,
+remaining20926s. Brief NOT_ACCEPTED_AS_REPORTED, runexit4. Additive AST stage
+RAN/exit2: producer reports missing AST; exact bounded log60-66 shows
+Failure(TODO) in AST statement traversal. No AST binding or proof acceptance.
+Source-unchanged/gate fields are source claims only. Ordinary row refresh hit
+HTTP429; no result was inferred and no raw fallback was used. An earlier line
+window hitHTTP500 and positional queryHTTP429; narrower permitted Brief line
+queries supplied the fatal/stack context. See SECOND-PROOF-OBSERVATIONS.json.
+
+Existing R15 serializer overlayf08f1c39 faithfully represents
+MergeFractionsStmt(l,e), a known TODO used by the exact positive. Its static
+application reproduced898203bf→f32f1a9a. Translator103a34/parser6a866a, source
+and fingerprints unchanged. Exact root thrower remains an inference.
+
+Initial7b2 recipe append was rejected by static source-input validation
+(non-sorted proof_paths), before payload/Cloud creation. Fixdc2df135 only
+normalizes ordering with unchanged path membership. Final exact87-file
+closure and encoded transport passed27264/28000 bytes, maxarg2778/10000.
+The initial review and spec are retained. Review spec was normalized from
+ASCII-escaped Unicode arrow to canonical UTF8 with identical fields to match
+the packet. Final delta review is GO_WITH_NITS; no old R15 proof credit or
+new source/premise/model authorization is inferred.
