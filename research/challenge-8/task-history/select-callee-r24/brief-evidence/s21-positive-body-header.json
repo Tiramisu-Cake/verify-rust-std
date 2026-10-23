@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 440,
+    "line_separator": "LF",
+    "source_lines": 706,
+    "start": 437,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+  "file_path": "allprooflogs/cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/r24-mut-proof-positive.log",
+  "file_sha256": "cbcfc12710e9da7bc443d33a6950936b1524119c059c2cea5fe92d3e0f20df6b",
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 440,
+    "expected_sha256": "cbcfc12710e9da7bc443d33a6950936b1524119c059c2cea5fe92d3e0f20df6b",
+    "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+    "start": 437
+  },
+  "request_id": "b89f75ae14ef8336150261ecace1c4399e5dfaaf0dc1c3702e273ecf9e1a9d02",
+  "requested_end": 440,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 437,
+      "text": "  0.238172s: verified/lib.rs(137,1-238,2): Verifying function 'select_unpredictable'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 438,
+      "text": "  0.238191s: verified/lib.rs(137,1-238,2): Producing function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 439,
+      "text": "  0.238333s: verified/lib.rs(137,1-238,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 440,
+      "text": "  0.238361s: verified/lib.rs(137,1-238,2): Executing statement"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
