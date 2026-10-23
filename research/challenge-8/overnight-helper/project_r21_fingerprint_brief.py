@@ -139,13 +139,14 @@ class Projector:
         req = d.get("request")
         if not isinstance(req_id, str) or not req_id or not isinstance(req, dict):
             self._fail("Brief request identity missing")
-        if req.get("pointer") != pointer or req.get("file_id") != self.expected["file_id"] or \
-                req.get("expected_sha256") != self.expected["file_sha256"]:
-            self._fail("Brief selector/file/SHA request binding differs")
-        if offset is not None and req.get("offset") != offset:
-            self._fail("Brief request does not echo the server-issued offset")
-        if value_start is not None and req.get("value_start") != value_start:
-            self._fail("Brief request does not echo the server-issued value start")
+        expected_request = {"pointer": pointer, "file_id": self.expected["file_id"],
+                            "expected_sha256": self.expected["file_sha256"]}
+        if offset is not None:
+            expected_request["offset"] = offset
+        if value_start is not None:
+            expected_request["value_start"] = value_start
+        if req != expected_request:
+            self._fail("Brief request identity differs from the exact requested selector")
         ident = {key: d.get(key) for key in IDENTITY_FIELDS}
         if any(not isinstance(ident[key], str) or not ident[key] for key in IDENTITY_FIELDS):
             self._fail("Brief build/file/index/archive identity missing")

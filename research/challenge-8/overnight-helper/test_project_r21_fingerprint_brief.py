@@ -263,6 +263,20 @@ class ProjectionTests(unittest.TestCase):
         with self.assertRaises(p.ProjectionError):
             projector.run()
 
+    def test_unexpected_request_selector_fields_refuse(self):
+        for extra in ({"offset": 0}, {"value_start": 0}, {"selector": "lines"}):
+            with self.subTest(extra=extra):
+                projector, service = self.projector()
+                original_call = service.__call__
+                def unexpected(pointer, offset=None, value_start=None, *, extra=extra):
+                    d = original_call(pointer, offset, value_start)
+                    if pointer == "":
+                        d["request"].update(extra)
+                    return d
+                projector.call = unexpected
+                with self.assertRaises(p.ProjectionError):
+                    projector.run()
+
     def test_server_offset_only_pagination_and_error_refusal(self):
         projector, service = self.projector()
         # Root has >20 direct children; the second selector must use the
