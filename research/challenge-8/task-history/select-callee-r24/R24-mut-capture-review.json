@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3",
+  "baseline_commit": "a575bb16ed7692421fcbd87c32d42da20322321a",
+  "candidate_tree": "b0ab2ca2f29135f2da104bccefc282e44ac3f75e",
+  "spec_sha256": "22bf73ce57cac61f737338b41f372fcdb2b85e69d47a2b7241da918ad94aa921",
+  "checkout_spec_raw_sha256": "ba115e3d19295b1ef03b171e55717d32915e269b3e7c13690ec2dc2301256a3c",
+  "packet_sha256": "176f6c58b48c543051193605bd086cf500f599496b70590195fc709dec93aab3",
+  "diff_sha256": "4c05b0a65de470bff9e051d6885cdc52b56c697b037d5f9af980b7dbac5a884e",
+  "decision": "NO_GO",
+  "scope": "Independent static review of the exact committed R24 mutable CAPTURE-ONLY adapter plus runner/recipe/mode; no mutable proof admission.",
+  "verified": [
+    "smallsort-session review check matched candidate d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3, packet spec SHA 22bf73ce57cac61f737338b41f372fcdb2b85e69d47a2b7241da918ad94aa921 and packet SHA 176f6c58b48c543051193605bd086cf500f599496b70590195fc709dec93aab3; packet state PACKET_VALID_NOT_REVIEWED, proof_credit NONE.",
+    "The packet spec and checked-out JSON spec are semantically equal; the checkout adds schema/worktree metadata and uses different key order, explaining its raw SHA ba115e3d… without a field-content mismatch.",
+    "Mode is default-off when absent; when present, the runner checks its raw hash and exact R24/R21 route fields. The adapter independently checks exact mode path/hash/content, exact live Cloud provider/build identity and rejects ambient proof opt-ins before loading mutable source services.",
+    "The runner capture branch starts after pinned tool build/hash checks and exits before const candidate proof, R21 matrix or proof callbacks. It does not pass the target map or checked native proof flag. The capture summary/root audit always state body_proof_run, typed admission, semantic rule, accepted, publication and credit as false/zero.",
+    "The adapter creates a separate source view from committed recipe proof blobs plus the hash-pinned native provider; rejects nonregular/symlink proof blobs; checks all six mutable source writer dependencies, approved provider-only overlays, source certificates, the mutable baseline signature/runtime sentinels, and baseline/final source hashes and ghost-strip identity.",
+    "It requires NORMAL and readonly export/decode/refinement exit 0, full nine-body inventories/order and byte-hashed decoded/body outputs, then mode-9 exit 2, exact refusal marker and ten nonempty byte/hash-bound snapshots. Partial captures and exceptions are persisted as incomplete and surfaced through the runner exit/audit; no proof path is entered.",
+    "Pinned capture.refusal_fingerprint requires stage.source_unchanged to classify the mode-9 capture as intended; adapter _capture_errors requires that classification. Therefore source mutation during the refusal stage is indirectly rejected in this candidate. An explicit adapter check and final source rehash would make this invariant directly auditable but is not the blocking finding.",
+    "The committed capture.py refusal_fingerprint return contains classification, stage, expected_refusal_seen, all_ten_snapshots, snapshots and body_proof_run; it does not include fingerprint_probe_fatal."
+  ],
+  "findings": [
+    {
+      "id": "R24-MUT-CAPTURE-1",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-mut-capture.py::_capture_errors (lines 486-487); pinned research/challenge-8/overnight-assume-actual/capture.py::refusal_fingerprint (lines 118-134); pinned research/challenge-8/overnight-helper/check-helper.py::ERR",
+      "finding": "The adapter attempts to reject a mode-9 fatal using fingerprint.get(\"fingerprint_probe_fatal\"), but the pinned refusal_fingerprint result never supplies that field. Its intended-classification test only checks LINK.LINK.ERR.findall(log), whose pinned regex recognizes located `...: error:` diagnostics and does not match a generic `Fatal error:`/native-exception line. Thus a mode-9 log containing the exact refusal marker and a fatal line, with exit 2 and complete snapshots, can still be classified INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE and pass _capture_errors because the fatal field is absent. This can incorrectly mark the source/MIR capture complete after a failed diagnostic verifier stage.",
+      "fix": "Inspect the actual strict-UTF8 mode-9 log in the adapter and reject fatal/native exception lines and any unexpected verifier errors explicitly; do not rely on the nonexistent fingerprint_probe_fatal field. Add an isolated synthetic test with the valid marker/exit/snapshots plus a fatal line and require incomplete."
+    }
+  ],
+  "nits": [
+    "Although mode-9 source unchanged is indirectly required by the pinned capture classification, the adapter does not itself assert stage.source_unchanged or rehash/ghost-strip the final source pair after that stage. An explicit check would make the physical source-pair invariant direct.",
+    "The clean const matrix and prerequisite evidence remain source-reported; this capture candidate itself has not run on Cloud. A complete capture would still be diagnostic source/MIR evidence only, not mutable proof acceptance, P2 publication or proof credit."
+  ],
+  "test_execution_note": "This reviewer invoked the 12 adapter and 4 runner synthetic suites while shared-worktree edits were arriving. The worktree subsequently showed uncommitted adapter changes; these results are not attributed to exact committed candidate d158. The packet/main reported the 12+4 suite results. No implementation files were edited by this reviewer.",
+  "not_run": [
+    "Actual mutable source preparation, compiler, exporter, MIR decode, refinement, verifier, Cloud Build or SmallSort Brief.",
+    "Raw/full logs, archives or Cloud Logging; execution in the dirty external VeriFast tool worktree.",
+    "Main-reported static transport preflight was not independently rerun."
+  ],
+  "main_reported_static_checks": {
+    "status": "PASS_REPORTED",
+    "transport_payload_bytes": 403362,
+    "encoded_config_bytes": "27332/28000",
+    "runtime_closure_blobs": 107,
+    "attribution": "Reported by main agent; static transport only, no actual preparation/compiler/proof/Cloud call."
+  },
+  "limitations": "NO_GO applies to exact committed candidate d158 only, due incomplete rejection of fatal mode-9 output. No source/MIR capture was run; no proof admission, P2 publication, acceptance, or independent credit is established.",
+  "proof_credit": 0
+}

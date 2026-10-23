@@ -1,6 +1,7 @@
 """Isolated synthetic tests for the R24 mutable source/MIR capture adapter."""
 from __future__ import annotations
 
+import ast
 import hashlib
 import importlib.util
 import json
@@ -154,13 +155,24 @@ class FakeSourceWriters:
                 'owner': self.owner}
 
 
+def production_error_matcher():
+    # Parse the production regex literal without importing actual source drivers.
+    tree = ast.parse((HERE.parent / 'overnight-helper/check-helper.py').read_text())
+    assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
+                      and any(isinstance(target, ast.Name) and target.id == 'ERR'
+                              for target in node.targets))
+    call = assignment.value
+    assert isinstance(call, ast.Call) and len(call.args) == 1 and not call.keywords
+    return re.compile(ast.literal_eval(call.args[0]))
+
+
 class FakeCapture:
     def __init__(self, mode='ok'):
         self.mode = mode
         self.GUARD = self
         self.proof_calls = 0
         self.LINK = type('LinkModule', (), {'LINK': type('NestedLink', (), {
-            'ERR': re.compile(r'^(.+?)\((\d+),([^)]*)\): error: (.*)$', re.M)})()})()
+            'ERR': production_error_matcher()})()})()
 
     def clear_semantic_opt_ins(self):
         for key in TARGET.BLOCKED_OPT_INS:

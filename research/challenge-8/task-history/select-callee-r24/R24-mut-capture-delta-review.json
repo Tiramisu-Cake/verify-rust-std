@@ -1,0 +1,62 @@
+{
+  "baseline_commit": "d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3",
+  "candidate_commit": "aad644f73412c7332b9b0ca7f010de9266d80af7",
+  "candidate_tree": "f4331f8e6e2b92c018ebc412d0231d7a33cfe38e",
+  "decision": "NO_GO",
+  "diff_sha256": "796bb17fa8b56cf89b5ffe62cb57b3f329bc0f797a3bc6e94f09cbff2e8907e8",
+  "findings": [
+    {
+      "finding": "The new physical located-error check calls capture.LINK.LINK.ERR.findall(log_text) on the entire multiline log. The pinned production ERR regex in overnight-helper/check-helper.py is anchored with ^/$ but has no re.MULTILINE, so findall only considers the start of the entire string; a located `verified/lib.rs(...): error: ...` after the refusal marker is not rejected. The synthetic test hides this production mismatch: FakeCapture compiles its equivalent regex with re.M, so `error-with-refusal` is rejected in tests while the real pinned matcher returns no match. Thus an exit-2 mode-9 log can contain the valid refusal marker, then a located verifier error, plus complete snapshots and still pass the adapter's physical log check (assuming the existing intended classification is reported). Iterate over physical lines and call the pinned matcher per line (or use a precisely equivalent multiline matcher), and make the fake use the exact pinned regex/behavior before approving.",
+      "fix": "Apply the production ERR matcher line-by-line (or compile an equivalent with explicit multiline behavior), and align FakeCapture with the exact pinned regex. Add/retain a regression with refusal marker first and a located error on a later line.",
+      "id": "R24-MUT-CAPTURE-DELTA-1",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-mut-capture.py::_capture_errors (emitted_errors check); research/challenge-8/cloud-build/test_select_callee_r24_mut_capture.py::FakeCapture.LINK.ERR",
+      "severity": "blocker"
+    }
+  ],
+  "limitations": "NO_GO applies only to exact candidate aad644 due the located-error matcher/test mismatch. Fatal-line, stage-integrity, and post-capture source-pair checks address the prior finding. No mutable capture was run; no proof admission, P2 publication, acceptance, or independent credit is established.",
+  "main_reported_static_checks": {
+    "attribution": "Main-reported static transport/closure only; no actual preparation/compiler/proof/Cloud call.",
+    "encoded_config_bytes": "27328/28000",
+    "runtime_closure_blobs": 107,
+    "runtime_closure_bytes": 2382664,
+    "runtime_closure_sha256": "981f0735815f5ef7c903b858b3ca786c266bb7c9f15fd9621664a5d9bb9bee22",
+    "status": "PASS_REPORTED",
+    "transport_payload_bytes": 403811
+  },
+  "packet_sha256": "71d3079e3cc1dbc960f71cce859cdb4e907d1e4297674930b3ab5338cbc19677",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for baseline d158; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Same-boundary independent review of the committed mutable capture-only delta: fix the prior fatal mode-9 diagnostic gap and add explicit source-integrity checks; no re-review of unchanged runner/native/tool/mode semantics.",
+  "spec_sha256": "06212294174431e45c7f06874cc364d99755b1ce7d889fe6d38c0d7d9c14057d",
+  "tests": {
+    "not_run": [
+      "4 metadata tests (main-reported only)",
+      "Actual source preparation, compiler/exporter/MIR decode/refinement/verifier, Cloud Build or SmallSort Brief",
+      "Raw/full logs, archives or Cloud Logging; execution in dirty external VeriFast tool worktree",
+      "Independent transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (12 tests, pass)",
+      "isolated regex reproduction: pinned matcher on multiline log returns no located-error match; linewise matching detects it; test fake re.M matcher detects it"
+    ]
+  },
+  "verified": [
+    "Exact review check passed: candidate aad644f73412c7332b9b0ca7f010de9266d80af7, baseline d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3, spec SHA 06212294174431e45c7f06874cc364d99755b1ce7d889fe6d38c0d7d9c14057d, packet SHA 71d3079e3cc1dbc960f71cce859cdb4e907d1e4297674930b3ab5338cbc19677; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The initial blocker is fixed for native exceptions: adapter reads the physical mode-9 log as strict UTF-8 and refuses lines beginning `Fatal error:`; it also requires stage.source_unchanged is exactly true and re-reads original/verified source bytes and ghost-strip identity after capture before marking complete.",
+    "The former nonexistent fingerprint_probe_fatal result key is no longer used.",
+    "12 focused adapter synthetic tests pass in this checkout. No implementation files were modified by this reviewer; worktree status showed only untracked review/packet metadata.",
+    "A small synthetic regex check confirmed the production located-error matcher does not match a diagnostic on line 2 when called with findall on the full multiline string; matching each line does match it. The fake test matcher uses re.M and therefore does not represent the pinned production matcher."
+  ],
+  "verified_not_rechecked": [
+    "Prior review established the unchanged CAPTURE-ONLY route boundary, source-view provenance, runner/mode gates, and no proof/const-matrix fallthrough. This delta changes only adapter/test/design metadata; those conclusions are carried from the exact d158 baseline review.",
+    "The new final source-pair check catches failures as incomplete reasons; its paths use the existing _safe_artifact validation and ghost-strip function."
+  ]
+}

@@ -493,7 +493,8 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
         if log_text.splitlines().count(REFUSAL_MARKER) != 1:
             errors.append('native mode-9 refusal marker is missing, duplicated, or malformed')
         try:
-            emitted_errors = capture.LINK.LINK.ERR.findall(log_text)
+            emitted_errors = [match for line in log_text.splitlines()
+                              for match in capture.LINK.LINK.ERR.findall(line)]
         except (AttributeError, TypeError):
             emitted_errors = ['diagnostic error matcher unavailable']
         if emitted_errors:

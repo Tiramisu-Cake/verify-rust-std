@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e86adbfd86ea4d8566c3620a4f178000bd9c03f06430c4a9c0c0bf3ad008519b"
+      "sha256": "412662ad0560eb70490c7263a5e0c9abbfaf3279868a57e85c9474cc99b2fc24"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -438,13 +438,20 @@
     },
     "defect": "Active lane onlyprepares const source; mutable17142 source-only chain is notinvoked. Probe9 can snapshotmutable before semanticconst gates andalwaysrefuses.",
     "invariants": "Cloud/nativeR24 only, sourcebuilderpins/ghoststrip/sourcehash/refinement/normal+readonly/9body+10snapshots; no semanticadmission/nativecheckedmode/map/proof/interfacepublication. Preserve defaultconst path and all const gates.",
+    "linewise_review_delta": {
+      "assurance": "STATIC_SYNTHETIC_12_ADAPTER_4_METADATA_PASS_PENDING_REVIEW",
+      "choice": "Pinned matcher applied perline; isolated fixture extracts production literal from AST without actual driver imports.",
+      "defect": "Production located-error regex lacks MULTILINE; whole-log findall misses marker-first later errors. Fake wrongly added re.M.",
+      "proof_credit": 0
+    },
     "proof_credit": 0,
     "review_delta": {
       "assurance": "DESIGN_RECORDED_BEFORE_EDIT",
-      "candidate": "d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3",
+      "candidate": "aad644f73412c7332b9b0ca7f010de9266d80af7",
       "choice": "Explicit mode9 source_unchanged, post-stage source byte/ghoststrip checks and fatal/error log refusal; synthetic controls.",
+      "initial_verdict": "NO_GO_FATAL_DIAGNOSTIC_ONLY; inherited stage source integrity clarified; final rehash enhancement retained",
       "proof_credit": 0,
-      "state": "FIX_REQUIRED_BEFORE_BUILD"
+      "state": "COMMITTED_STATIC_PASS_AWAIT_INDEPENDENT_DELTA_REVIEW"
     },
     "static_request_compatibility": {
       "assurance": "DESIGN_RECORDED_BEFORE_EDIT",
@@ -520,7 +527,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:18:06Z",
+  "updated_utc": "2026-10-23T14:28:18Z",
   "watcher_handoff": {
     "ack_mode": "CONTINUE_EXISTING_WINDOW",
     "acknowledged_event_id": "b08ded8a-dbb3-4c4c-b498-82f47020d9b5",

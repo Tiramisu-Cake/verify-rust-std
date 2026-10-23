@@ -81,3 +81,10 @@ physical mode9 log even if exit2/refusal marker/10snapshots coexist. The old
 fingerprint_probe_fatal lookup is not emitted by the pinned service and must
 not be relied on. Synthetic drift/missing/null/fatal+marker controls required.
 No source, native checker, admission, or proof/publication semantics change.
+
+Second review delta (before edit): production check-helper.ERR has line anchors
+without MULTILINE. Apply that pinned matcher separately to each strict log line;
+whole-log findall can miss a located error after the marker. Synthetic fixture
+must extract the actual literal matcher from check-helper.py AST, without
+importing/running the actual source drivers, and retain marker-first error
+regression. Native/callee/proof semantics remain unchanged; no Build submitted.
