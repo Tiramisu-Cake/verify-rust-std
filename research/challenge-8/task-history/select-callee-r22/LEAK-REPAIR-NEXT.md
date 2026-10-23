@@ -42,3 +42,29 @@ That is two Builds of about 6 minutes each, plus reviews. Plan the proof Build's
 - The checked `sort4_checked_as_mut_ptr` contract (`*storage |-> value &*& MaybeUninit_pointer_own(t, value)` in pre and post) hands each constructor chunk back unchanged.
 - The constructor post only states `MaybeUninit::inner(result) == some(val)`, not `result == MaybeUninit::new(val)`. So the re-closed `MaybeUninit_pointer_own(t, MaybeUninit::new(payload))` chunks used by the final select are symbolically distinct from the constructor chunks, and the latter leak.
 - Direction 1 can therefore name the leaked values through the storage cells' recorded values at the `open_MaybeUninit` ghost sites of the owner projection. These must be bound and reviewed on the captured source. They must not be guessed.
+
+## Bound site (captured positive `verified/lib.rs` of 7e23e945)
+
+Source: file ID `49642420…`, SHA-256 `96c929a8…`. Brief requests `5a98174fcf03`, `4b45a2679dc5`, `6c9a474fb629`, `4a11880e28ab`.
+
+- Lines 155–156: `let mut true_val = MaybeUninit::new(true_val); let mut false_val = MaybeUninit::new(false_val);` (constructor chunks).
+- Lines 173–174: `let true_ptr = true_val.as_mut_ptr(); let false_ptr = false_val.as_mut_ptr();`. The checked contract returns the cell and the same `MaybeUninit_pointer_own(t, value)`.
+- Lines 175–176: owner-projection ghosts `open_MaybeUninit::<*Element>(true_ptr as *MaybeUninit<*Element>)`, then the same for false.
+- Lines 177–178: `assert *true_ptr |-> ?true_payload;` and the same for false.
+
+**Proposed candidate text.** Insert it immediately before line 175, once per side. It is not implemented and not reviewed.
+
+```rust
+/*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?true_wrapper; @*/
+/*@ { open std::mem::MaybeUninit_pointer_own::<Element>()(t, true_wrapper);
+     match std::mem::MaybeUninit::inner(true_wrapper) { none => {} some(p) => { open raw_ptr_own::<Element>()(t, p); } } } @*/
+```
+
+**Why this site.** Before `open_MaybeUninit`, the cell's value is exactly the constructor result. So the opened chunk is bound by value, not by a free pattern, and the later re-closed `MaybeUninit::new(payload)` chunks used by the final select are untouched.
+
+**Soundness.** `open` and `match` are checked against the definitions. They only drop pointer-value ownership that holds no pointee permission. The leak check stays enabled.
+
+**To confirm in Cloud.**
+- The Rust ghost parser accepts a `match` statement inside a ghost block.
+- The certified ghost-statement list of the fractional patch (`ghost_stmts` / `open_owner`) is extended for exactly these four new ghost texts.
+- Line numbers shift, so all pins come from the next fingerprint.
