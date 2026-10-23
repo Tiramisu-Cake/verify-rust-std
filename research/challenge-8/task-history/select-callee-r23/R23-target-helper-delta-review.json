@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "ee46c20141051aedbe12dd3d53b3c72efe10e182",
+  "baseline_commit": "bf7423ca80487ab882dbd8a7c7bec84c49eab075",
+  "candidate_tree": "9fd0acbf4b753e01ae80b57108596bd02146913b",
+  "spec_sha256": "e005fd599b516998573313faf4fd808b1dead23431a24183d433008211417c0d",
+  "packet_sha256": "a7bb7f5effbc292cdbe97495fa21a3b9d793e78379600fa8dd267817018a5421",
+  "diff_sha256": "8065882e26699148a70ad0d4adfc0b66158db490358b6126e8bd0a6cf9f48d10",
+  "decision": "GO_WITH_NITS",
+  "scope": "inactive R22 control target validator delta; no observed target authentication, classifier integration, or proof credit",
+  "verified": [
+    "review check matched exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "target rows now carry explicit per-row caller-declared build/archive/request/Brief-log-index/log-SHA provenance; diagnostic matcher hashes supplied log text and requires exact variant/source/log/provenance equality with the selected row",
+    "result labels provenance CALLER_DECLARED_PRIOR_OBSERVATIONS_CONSISTENT_NOT_AUTHENTICATED and remains accepted=false / proof_credit=false, correctly avoiding a freshness/authenticity claim",
+    "no-retained-half anchors are now required to occur uniquely inside the exact select_unpredictable function body, with merge preceding assert",
+    "the existing exact row inventory, source/tool digest self-consistency, column/message checks, tool-spec path binding, and fixed omit precondition line checks remain in place"
+  ],
+  "nits": [
+    "The brace scanner\u2019s character-literal skip arithmetic is off by one: for a Rust literal such as '{' or '}', it does not skip the literal contents. This can miscompute function bounds for valid source containing brace character literals (generally failing closed); correct the delimiter check and add brace-character/escaped-character synthetic cases before relying on the helper with arbitrary verified source.",
+    "Per-row provenance and log hashes are explicitly caller-declared and unauthenticated. This is consistent with the packet\u2019s scope; any future integration must retain the existing classifier\u2019s independent source/stage/argv binding and separately validate the provenance records.",
+    "The nine synthetic regression tests are packet-reported passing but were not executed during this review, per the packet instruction not to execute source/evidence."
+  ],
+  "not_run": [
+    "packet source and synthetic tests",
+    "preparation, Cloud, compiler, verifier, proof runner, raw evidence, archives, and logs"
+  ],
+  "proof_credit": 0
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "bf7423ca80487ab882dbd8a7c7bec84c49eab075",
+  "candidate_commit": "ee46c20141051aedbe12dd3d53b3c72efe10e182",
+  "defect": "Fix helper findings: per-row caller-declared provenance/log content hash binding and exact const select function scope for retained-half assert/merge.",
+  "applicability": "Pure validator only; no observed target records, stage binding, classifier integration, Cloud execution or acceptance.",
+  "invariants": [
+    "Require7freshobservedrows with exact source/tool spec SHA, variant and anchored file/line plus full message/cols.",
+    "Bind callee contracts/body end, full-cell assert after merge, and exact lib.rsspec462/463 preconditions; no guessed symbolic suffixes or generic token PASS.",
+    "Only explicit relative path or exact tool_home/bin/rust/std/lib.rsspec diagnostic identity; no suffix normalization.",
+    "Existing source/stage/argv/gate/physicalsnapshot binding stays in classifier; helper returns no acceptance/proofcredit."
+  ],
+  "controls": [
+    "9 synthetic tests pass, provenance/content mismatch and outside-function/comment/duplicate/mutable-signature spoof rejected."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/task-history/select-callee-r22/CONTROL-TARGET-PROPOSAL.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Pure helper validates declared provenance but does not authenticate it; existing classifier owns current stage/argv/source binding, independent evidence review owns prior targets. No target map published/accepted yet."
+  ]
+}

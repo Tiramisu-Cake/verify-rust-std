@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "4e762d64c4d9cdf2b36efeb3e2afb7ab7a02315b",
+  "baseline_commit": "ee46c20141051aedbe12dd3d53b3c72efe10e182",
+  "candidate_tree": "f5f3ef6724cc1a4bfc6c45c53d768280b2cdefae",
+  "spec_sha256": "95ce922684fb26341f1ca9cc9d9c50b4bdb56fddfe296b49d16347f6ba9a2bd2",
+  "packet_sha256": "3e09f84ff846fa323e0a7e8c61f64a3606d2cd0563674c6b396f7492fee1cae9",
+  "diff_sha256": "2d64da7a42d2e8fbbcfb2e4aef4834598cfda173e113afc2bccc991b86e5b57f",
+  "decision": "GO_WITH_NITS",
+  "scope": "R23 fractional MIR coordinate overlay and runner pinning; no proof execution or acceptance",
+  "verified": [
+    "review check matched the exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "overlay is pinned to fractional patch output translator SHA 2d6f1950... and exact overlay patch SHA 68810eb4...; runner checks base identity, patch identity/application, and final translator SHA cadaa80a... in the declared order",
+    "new actual_fractional_variant state resets at certification entry and no-root path; it is assigned only after the existing exact env/source/unit/body checks and ten-cleanup-edge inventory. Downstream A1, drop, assume-init, and forget checks require the admitted variant and exact env/row agreement",
+    "fractional-only coordinates match the bounded inventory: 46 locals/29 blocks; ten cleanup predecessors to bb28; bb18 five ordered statements with _36 = move _28 and false dropflag _45, forget move _36 to _35 with normal bb19/unwind bb28; bb28/26/27 cleanup switch/resume/drop/terminate shape; pointer drop _32 to _31 at bb15 normal16/unwind28; assume_init _41 to _0 at bb24 normal25/unwind28",
+    "existing nonfractional nine-body and earlier branch coordinates remain guarded by the original branch conditions; no source, ghost annotations, fingerprint rows, or proof semantics are changed by the layout patch",
+    "layout admission retains exact typed call patterns and plain mutable place checks; no broad count/hash/ownership exemption was introduced",
+    "CFG inventory records the corrected five-statement witness and explicitly supersedes the earlier partial four-statement observation; receipt has 81 exact response identities for one file/build snapshot"
+  ],
+  "nits": [
+    "The CFG observations are labeled CONST_R22B_FINGERPRINT_ONLY and parser-input/source binding is explicitly NOT_ESTABLISHED. This review treats them as bounded coordinate data, not independently established compiler-input provenance or proof evidence. The actual R23 run must still pass the retained exact source/unit/body hash admission before the fractional overlay flag is set; no proof or leak credit follows from this review.",
+    "Static/synthetic checks are packet-reported as passing but were not executed during this review, per packet instructions. No compiler, verifier, source preparation, Cloud, raw evidence, archive, or log tooling was used."
+  ],
+  "not_run": [
+    "packet test suites and patch application/reproduction",
+    "compiler, exporter, decoder, verifier, Cloud, source preparation, proof runner, raw evidence, archives, and logs"
+  ],
+  "proof_credit": 0
+}

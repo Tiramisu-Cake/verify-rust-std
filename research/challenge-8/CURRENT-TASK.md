@@ -48,10 +48,10 @@ Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WIN
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · HANDOFF**
-Updated: 2026-10-23T08:14:13Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 311s spent, 0s retired, 3289s remaining including reservations.
-Active Build IDs: e25a96d4-25c0-416f-a55c-debb87baacb1; unresolved: none recorded.
-Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
-Next: Ack proof watcher before checkpoint changes; Brief e25a96d4 positive/7controls. On clean positive pin full diagnostic targets and matrix. Mutable delta review17142 pending; target helper remains inactive.
+**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · ACTIVE**
+Updated: 2026-10-23T09:02:18Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 667s spent, 0s retired, 2933s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: R23 R22b proof rejects owner shared cleanup predecessor inventory before SE; investigate exact new ghost CFG/cleanup IDs. Positive/leak and control targets unverified.
+Next: CFGlayout68810→cadaa reviewedGO4e762d64; publish source andsubmit full1200proof before09:12:19. Same8source/ghost/MIRrowpins. AfterterminalBrief pin7targets/matrix ifpositiveclean; else next static repair/handoff.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

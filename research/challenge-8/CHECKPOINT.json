@@ -12,14 +12,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
+    "summary": "R23 R22b proof rejects owner shared cleanup predecessor inventory before SE; investigate exact new ghost CFG/cleanup IDs. Positive/leak and control targets unverified.",
     "evidence": [
       {
-        "build_id": "7e23e945-9190-4928-b0e6-67f2cd3e31ec",
-        "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json",
-        "sha256": "292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e"
+        "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+        "path": "research/challenge-8/task-history/select-callee-r23/S2-POSITIVE-ERROR.json",
+        "sha256": "a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250"
       }
-    ],
-    "summary": "Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned."
+    ]
   },
   "confirmed": [
     {
@@ -75,9 +75,20 @@
           "sha256": "612237ab25c3bd29407d64e4107ca63491ac272e2cdaf6444c735f1e2ed606c2"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R23 e25a96d4: all8logs same SHA; positive source intact, verifier exit2; refuses owner shared cleanup predecessor inventory before SE. Leak repair not yet verified; credit0.",
+      "evidence": [
+        {
+          "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+          "path": "research/challenge-8/task-history/select-callee-r23/S2-POSITIVE-ERROR.json",
+          "sha256": "a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250"
+        }
+      ]
     }
   ],
-  "next_step": "Ack proof watcher before checkpoint changes; Brief e25a96d4 positive/7controls. On clean positive pin full diagnostic targets and matrix. Mutable delta review17142 pending; target helper remains inactive.",
+  "next_step": "CFGlayout68810→cadaa reviewedGO4e762d64; publish source andsubmit full1200proof before09:12:19. Same8source/ghost/MIRrowpins. AfterterminalBrief pin7targets/matrix ifpositiveclean; else next static repair/handoff.",
   "open": [
     "Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.",
     "Callee controls observed at intended obligations (4) and no-retained-half at l.213; targets not yet pinned/reviewed.",
@@ -110,31 +121,29 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "e25a96d4-25c0-416f-a55c-debb87baacb1"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:07:19Z",
     "main_deadline_utc": "2026-10-23T09:37:19Z",
-    "remaining_seconds": 3289,
+    "remaining_seconds": 2933,
     "retired_seconds": 0,
-    "spent_seconds": 311,
+    "spent_seconds": 667,
     "t0": "2026-10-23T07:37:19Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
-  "updated_utc": "2026-10-23T08:14:13Z",
+  "updated_utc": "2026-10-23T09:02:18Z",
   "mission_queue": [
     {
       "obligation": "W1 repaired fractional callee + seven intended controls + normal/unwind/nested-Drop acceptance",
-      "reason": "Actual callee is immediate caller/P2 prerequisite; R22b fingerprint active, proof follows exact fresh rows.",
+      "reason": "R22b fingerprint bound; proof e25 failed stale cleanup coordinates before SE. Exact NORMAL witnesses now support fractional-only coordinate fix, preserving source/unit/body and ten predecessors.",
       "state": "ACTIVE"
     },
     {
       "obligation": "W1 P2 *mut source/capture chain and accurate Network interface publication",
-      "reason": "Independent no-Cloud preparation reduces W7 dependency; publication waits accepted mutable full matrix.",
-      "state": "ACTIVE_NO_CLOUD"
+      "reason": "Mutable source-only chain17142 reviewGO; P2 readiness published as NOT_PUBLISHED, actual mutable source/MIR/translator/proof missing.",
+      "state": "SOURCE_CHAIN_REVIEWED_NO_CLOUD"
     },
     {
       "obligation": "W4 dormant body C5 168/191 count-five requalification",
@@ -147,6 +156,12 @@
       "job_id": "e73320a0-dbde-4a57-845b-3fe4145a5319",
       "event_id": "54e56200-92b7-474e-b5c6-5ad9c146834c",
       "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+      "ack_mode": "CONTINUE_EXISTING_WINDOW"
+    },
+    {
+      "job_id": "38206a4e-4b32-437c-a7a3-de345014e9ce",
+      "event_id": "0afc7efd-3677-453e-a7e5-67c1f16d0071",
+      "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
       "ack_mode": "CONTINUE_EXISTING_WINDOW"
     }
   ],
