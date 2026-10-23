@@ -1,0 +1,61 @@
+{
+  "record_type": "bounded_compile_diagnostic_evidence_brief",
+  "build_id": "216684d9-bfb4-4169-96d5-345a27b2db80",
+  "report_schema": "smallsort-evidence-index-v8",
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit_source_claim": 1,
+  "archive_inventory": {
+    "archive_sha256": "bf81ca96cff2f6655f6b41b4038db075701d604c285d406243db32186101ab02",
+    "index_sha256": "7d6cc9fca08181283ca44a2e65b620085e4b50f0844ffb73f2ea2b63f240f66c",
+    "files": 155,
+    "content_files": 126,
+    "integrity_meaning": "archive and inventory integrity only; not proof acceptance"
+  },
+  "translator_diagnostic": {
+    "stage": "translator-build",
+    "exit_source_claim": 1,
+    "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+    "path": "allprooflogs/tracked-md-build/translator-build.log",
+    "bounded_fragment": {
+      "request_id": "ebddb743b06c967c4a7ac13141a6c5a016bb1051c2422bd133f7239c79ed68d7",
+      "lines": "1-5",
+      "exact": true,
+      "source_sha256": "743f5dc14144cfed33be6ba013369a9ed84a97e777bc3cfcc0c730042e868305",
+      "source_size_bytes": 259
+    },
+    "reported_location": "vf_mir_translator.ml:3563",
+    "bounded_diagnostic": "This pattern should not be a constructor; expected type Ast.stmt option ref"
+  },
+  "proof_audit_observation": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "path": "proof-audit.json",
+    "source_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+    "size_bytes": 698,
+    "pointer": "/proof_attempted",
+    "observed_value": false,
+    "projection_complete": false,
+    "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF"
+  },
+  "state_reference_audit": {
+    "r23_adapter_post_bridge": {
+      "reads_dereference": [3562, 3588, 3609],
+      "writes": [3239, 3655]
+    },
+    "r23_adapter_ref_assignment": {
+      "read_dereferences": [4361],
+      "writes": [4615, 4631]
+    },
+    "r23_adapter_unsize_assignment": {
+      "read_dereferences": [4467],
+      "writes": [4621, 4632]
+    },
+    "r23_source_array3_interp_active": {
+      "read_dereferences": [1826],
+      "writes": [6289, 6999]
+    },
+    "other_state": "r23_source_array_adapter is an option value, and r23_unwind_epilogue is a mutable record field; neither is a ref cell."
+  },
+  "causality": "UNKNOWN",
+  "change": "Dereferenced the three post-bridge option-ref reads and the Ref/Unsize boolean-ref reads; assignments and bridge ordering are unchanged. No compiler, Dune, verifier, or actual build was run locally."
+}

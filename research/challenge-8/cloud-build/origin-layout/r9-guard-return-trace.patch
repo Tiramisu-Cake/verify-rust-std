@@ -955,7 +955,7 @@ index 436a5f7a..3d651a0b 100644
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..cd52afa1 100644
+index 9813a884..a239507c 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -8,2 +8,7 @@ module DecoderAux = Decoder_aux
@@ -1456,7 +1456,7 @@ index 9813a884..cd52afa1 100644
 @@ -3144,5 +3560,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
 +            let assignment_with_r23_recovery e =
-+              match State.r23_adapter_post_bridge with
++              match !(State.r23_adapter_post_bridge) with
 +              | None -> assignment e
 +              | Some recover ->
 +                  Ast.BlockStmt
@@ -1469,7 +1469,7 @@ index 9813a884..cd52afa1 100644
                | FnCallOutcome e ->
 @@ -3164,2 +3587,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                [ assignment (Ast.Var (loc, "__result")) ] @
-+                              (match State.r23_adapter_post_bridge with
++                              (match !(State.r23_adapter_post_bridge) with
 +                               | Some recover -> [recover]
 +                               | None -> []) @
                                (match late_callback_cleanup,
@@ -1477,7 +1477,7 @@ index 9813a884..cd52afa1 100644
                                CallExpr (loc, "unwinding", [], [], [], Static),
 +                              (match State.r23_source_array_adapter with
 +                               | Some plan ->
-+                                   let recover = match State.r23_adapter_post_bridge with
++                                   let recover = match !(State.r23_adapter_post_bridge) with
 +                                     | Some recover -> recover
 +                                     | None -> Ast.static_error loc
 +                                         "R23 slice recovery bridge is missing on unwind"
@@ -1603,7 +1603,7 @@ index 9813a884..cd52afa1 100644
 @@ -3841,3 +4360,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            in
 -          if ignore_ref_creation then
-+          if State.r23_adapter_ref_assignment then
++          if !(State.r23_adapter_ref_assignment) then
 +            (* The marked reference is represented by its place pointer only.
 +               The source marker has already created the RustBelt full borrow;
 +               do not create a TreeBorrows ref_mut_end_token here. *)
@@ -1625,7 +1625,7 @@ index 9813a884..cd52afa1 100644
 -          | `TrTypedConstantFn fn_def_ty_cpn ->
 -              let fn_name = fn_def_ty_cpn.id.name in
 -              Ok (`TrRvalueExpr (Ast.CastExpr (loc, ty, Var (loc, fn_name)))))
-+          match State.r23_adapter_unsize_assignment, operand with
++          match !(State.r23_adapter_unsize_assignment), operand with
 +          | true,
 +            (`TrOperandCopy expr | `TrOperandMove (expr, _) |
 +             `TrTypedConstantScalar expr) ->
