@@ -202,6 +202,22 @@ class MutableProofRunnerTests(unittest.TestCase):
         result,_,_=self.run_fixture(proof_cb=lambda **kw: stage_result(log_text=marker+'\nverified/lib.rs(1,1): error: synthetic'))
         self.assertIn('positive proof log contains diagnostic error',result['rows']['positive']['errors'])
 
+    def test_source_precheck_does_not_claim_body_proof(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            args,env,pins,record,evidence=fixture(tmp)
+            (evidence/record['rows']['positive']['case_path']/'verified/lib.rs').write_bytes(b'dirty-before-proof')
+            def forbidden(**kw):self.fail('source precheck must stop before callback')
+            result=proof.run(args,engine=Engine(record),pins_loader=lambda _repo:pins,
+                             proof_runner=forbidden,runtime_loader=lambda _args:{},env=env)
+            self.assertFalse(result['proof_callback_invoked'])
+            self.assertIs(result['body_proof_run'],False)
+            self.assertIsNone(result['rows']['positive']['proof_stage'])
+
+    def test_attempted_failed_stage_keeps_body_phase_unknown(self):
+        result,_,_=self.run_fixture(proof_cb=lambda **kw: stage_result(exit=2))
+        self.assertTrue(result['proof_callback_invoked'])
+        self.assertIsNone(result['body_proof_run'])
+
 
 if __name__ == '__main__':
     unittest.main()

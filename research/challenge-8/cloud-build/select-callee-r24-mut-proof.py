@@ -277,6 +277,12 @@ def run(args, *, engine=None, pins_loader=_load_pins, proof_runner=None,
     }
 
     def save(error: BaseException | None = None):
+        invoked=any(row.get('proof_callback_invoked') is True for row in summary['rows'].values())
+        clean=any(row.get('classification')=='POSITIVE_PROOF_STAGE_RAN_SOURCE_INTACT'
+                  for row in summary['rows'].values())
+        summary['proof_callback_invoked']=invoked
+        # A callback/row alone does not establish entry into native body proof.
+        summary['body_proof_run']=True if clean else None if invoked else False
         if error is not None:
             summary['exception'] = {'type': type(error).__name__, 'message': str(error),
                                     'traceback': traceback.format_exc()}
@@ -335,6 +341,7 @@ def run(args, *, engine=None, pins_loader=_load_pins, proof_runner=None,
             need(not any(key in env for key in stage_env), 'mutable proof opt-in already ambient')
             try:
                 os.environ.update(stage_env)
+                row['proof_callback_invoked'] = True
                 stage = proof_runner(case=case, variant=variant,
                                      name='r24-mut-proof-' + variant, build_id=build_id)
             except BaseException as exc:
@@ -369,7 +376,6 @@ def run(args, *, engine=None, pins_loader=_load_pins, proof_runner=None,
         summary['accepted'] = False
         summary['proof_credit'] = 0
         summary['publication_allowed'] = False
-        summary['body_proof_run'] = bool(summary['rows'])
         save()
         return summary
     except BaseException as exc:
