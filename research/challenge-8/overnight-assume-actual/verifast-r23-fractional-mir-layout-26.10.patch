@@ -1,0 +1,301 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -730,6 +730,7 @@
+     let actual_projection = ref false
+     let actual_owner_admitted = ref false
+     let actual_nine_admitted = ref false
++    let actual_fractional_variant : string option ref = ref None
+     let actual_nested_ghosts : AnnotationRd.t list ref = ref []
+     let projection_ghosts = [
+       "//@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);";
+@@ -1016,13 +1017,14 @@
+            VfMirRd.PlaceKind.Other then
+         reject ("outer assume_init place " ^ expected)
+ 
+-    let check_outer_call body =
++    let check_outer_call body fractional =
+       let blocks = BodyRd.basic_blocks_get_list body in
+       let expected_arg, expected_target, expected_cleanup =
+         match List.length (BodyRd.local_decls_get_list body),
+               List.length blocks with
+-        | 42, 25 -> "_37", 21, 24
+-        | 31, 14 -> "_26", 10, 13
++        | 46, 29 when fractional -> "_41", 25, 28
++        | 42, 25 when not fractional -> "_37", 21, 24
++        | 31, 14 when not fractional -> "_26", 10, 13
+         | _ -> reject "outer local/block inventory" in
+       let local name =
+         match List.filter (fun decl ->
+@@ -3300,9 +3302,11 @@
+                         Sort4A1Link.const_ptr element ->
+                      (match OperandRd.get arg_cpn with
+                       | OperandRd.Move place when
+-                          List.mem
+-                            (LocalDeclIdRd.name_get (PlaceRd.local_get place))
+-                            ["_37"; "_26"] &&
++                          (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                           then LocalDeclIdRd.name_get (PlaceRd.local_get place) = "_41"
++                           else List.mem
++                             (LocalDeclIdRd.name_get (PlaceRd.local_get place))
++                             ["_37"; "_26"]) &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+                           VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
+@@ -3620,7 +3624,8 @@
+                      (match OperandRd.get operand with
+                       | OperandRd.Move place when
+                           LocalDeclIdRd.name_get (PlaceRd.local_get place) =
+-                            (if !Sort4SelectIntrinsic.actual_owner_admitted then
++                            (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                             then "_32" else if !Sort4SelectIntrinsic.actual_owner_admitted then
+                                "_28" else if !Sort4SelectIntrinsic.actual_projection
+                                then "_26" else "_23") &&
+                           PlaceRd.local_is_mutable_get place &&
+@@ -3816,7 +3821,9 @@
+                      (match OperandRd.get operand with
+                       | OperandRd.Move place when
+                           LocalDeclIdRd.name_get
+-                            (PlaceRd.local_get place) = "_32" &&
++                            (PlaceRd.local_get place) =
++                              (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                               then "_36" else "_32") &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+                           VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
+@@ -3930,7 +3937,7 @@
+                   kind=StructKind;
+                   substs=[{kind=Type inner}]}}}];
+                late_bound_generic_param_count=0}}}},
+-            [Move {local={name="_32"};projection=[]}],
++            [Move {local={name=forget_arg};projection=[]}],
+             FnCallOutcome (Ast.CallExpr
+               (_, "checked_forget_owned", [_], [],
+                [Ast.LitPat _], Ast.Static)),
+@@ -3938,13 +3945,22 @@
+             OptionRd.Something normal
+               when Sort4MaybeUninit.pointer_element inner &&
+                    Stdint.Uint32.to_int
+-                     (BasicBlockIdRd.index_get cleanup) = 24 &&
++                     (BasicBlockIdRd.index_get cleanup) =
++                       (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                        then 28 else 24) &&
+                    Stdint.Uint32.to_int
+                      (BasicBlockIdRd.index_get
+-                       (VfMirRd.of_pointer normal)) = 15 &&
++                       (VfMirRd.of_pointer normal)) =
++                         (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                          then 19 else 15) &&
++                   forget_arg =
++                     (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                      then "_36" else "_32") &&
+                    LocalDeclIdRd.name_get
+                      (PlaceRd.local_get
+-                       (destination_get fn_call_data_cpn)) = "_31" &&
++                       (destination_get fn_call_data_cpn)) =
++                         (if !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                          then "_35" else "_31") &&
+                    not TranslatorArgs.ignore_unwind_paths ->
+                 incr Sort4ActualForgetOwn.projected;
+                 if !Sort4ActualForgetOwn.projected <> 1 then
+@@ -12866,7 +12882,7 @@
+           (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
+            | UnwindActionRd.Cleanup target when
+                Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
+-                 (if nine then 24 else 23) ->
++                 (if fractional then 28 else if nine then 24 else 23) ->
+                n + 1
+            | _ -> n)
+       | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
+@@ -12877,6 +12893,7 @@
+          Sort4SelectIntrinsic.actual_nested_ghosts := [first;second]
+      | _ -> reject "owner nested ghost metadata transfer source");
+     Sort4SelectIntrinsic.actual_nine_admitted := nine;
++    Sort4SelectIntrinsic.actual_fractional_variant := fractional_variant;
+     Printf.printf
+       (if nine then
+          "SORT4-ACTUAL-OWNER-NINE: exact source and complete decoded MIR admission only\n%!"
+@@ -13047,6 +13064,7 @@
+     active := false; actual_certified := false; actual_projection := false;
+     actual_owner_admitted := false;
+     actual_nine_admitted := false;
++    actual_fractional_variant := None;
+     actual_nested_ghosts := [];
+     ptr_count := 0; mu_count := 0;
+     expected_ptr := 0; expected_mu := 0;
+@@ -13478,6 +13496,12 @@
+           "b9430169d01a2eca19728c38d05da818bdfc4e05561671c33ed95eb5830de45d"
+       | None,None -> "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+       | _ -> reject "exact R21 fractional source opt-in required" in
++    (match Sys.getenv_opt "SORT4_R21_FRACTIONAL_FORGET",
++           Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT",
++           !Sort4SelectIntrinsic.actual_fractional_variant with
++     | Some "1",Some variant,Some admitted when variant = admitted -> ()
++     | None,None,None -> ()
++     | _ -> reject "exact owner-admitted fractional nine-body variant required");
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+        sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <> expected_source_sha
+     then reject "exact nine-body verified source unit";
+@@ -13487,7 +13511,8 @@
+     Sort4A1Link.interface transmute "src";
+     Sort4A1Link.interface method_body "storage";
+     Sort4A1Link.check_graph transmute method_body;
+-    check_outer_call outer;
++    check_outer_call outer
++      (!Sort4SelectIntrinsic.actual_fractional_variant <> None);
+     active := true;
+     Printf.printf
+       "SORT4-A1-NINE: exact source, typed local pair and outer cleanup call admitted\n%!";
+@@ -13591,11 +13616,14 @@
+   let certify_sort4_actual_forget_own
+       (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4ActualForgetOwn in
++    let fractional = !Sort4SelectIntrinsic.actual_fractional_variant <> None in
+     let annotations = match Sys.getenv_opt "SORT4_R21_FRACTIONAL_FORGET",
+-                             Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT" with
+-      | None,None -> annotations
+-      | Some "1",Some variant
+-          when Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =
++                             Sys.getenv_opt "SORT4_R21_FRACTIONAL_VARIANT",
++                             !Sort4SelectIntrinsic.actual_fractional_variant with
++      | None,None,None -> annotations
++      | Some "1",Some variant,Some admitted
++          when variant = admitted &&
++            Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" =
+             Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" &&
+             Sys.getenv_opt "SORT4_R20_FINAL_SELECT_REPAIR" = Some "1" &&
+             Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" ->
+@@ -13655,9 +13683,17 @@
+          "pub const fn forget<T>(t: T)" <> body then
+       reject "actual SAFE forget exact std runtime body";
+     let blocks = BodyRd.basic_blocks_get_list outer in
+-    if List.length blocks <> 25 then
++    let expected_block_count = if fractional then 29 else 25 in
++    let expected_call_block = if fractional then 18 else 14 in
++    let dead_local, result_local, arg_local, flag_local, guard_local,
++        guard_source =
++      if fractional then "_34", "_35", "_36", "_45", "_36", "_28"
++      else "_30", "_31", "_32", "_41", "_32", "_24" in
++    if (fractional &&
++        List.length (BodyRd.local_decls_get_list outer) <> 46) ||
++       List.length blocks <> expected_block_count then
+       reject "exact actual shared-cleanup block inventory";
+-    let call_block = List.nth blocks 14 in
++    let call_block = List.nth blocks expected_call_block in
+     let place id mutable_ p =
+       if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
+          PlaceRd.local_is_mutable_get p <> mutable_ ||
+@@ -13667,6 +13703,46 @@
+         reject ("plain actual forget place " ^ id) in
+     let statement_kind s =
+       StatementKindRd.get (StatementRd.kind_get s) in
++    if fractional then (
++      let block index = List.nth blocks index in
++      let term index = TerminatorKindRd.get
++        (TerminatorRd.kind_get (BasicBlockRd.terminator_get (block index))) in
++      if List.map (fun index ->
++          BasicBlockRd.is_cleanup_get (block index)) [26;27;28] <>
++          [true;true;true] ||
++         List.exists (fun index ->
++           BasicBlockRd.statements_get_list (block index) <> []) [26;27;28]
++      then reject "fractional shared cleanup block flags/statements";
++      (match term 28 with
++       | TerminatorKindRd.SwitchInt switch ->
++           (match OperandRd.get (SwitchIntDataRd.discr_get switch) with
++            | OperandRd.Copy drop_flag -> place "_45" true drop_flag
++            | _ -> reject "fractional cleanup drop-flag operand");
++           if TyKindRd.get (TyRd.kind_get
++                (SwitchIntDataRd.discr_ty_get switch)) <> TyKindRd.Bool ||
++              List.map (fun value -> Stdint.Uint128.to_string
++                (CapnpAux.uint128_get value))
++                (SwitchIntDataRd.values_get_list switch) <> ["0"] ||
++              List.map (fun target -> Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get target))
++                (SwitchIntDataRd.targets_get_list switch) <> [26;27]
++           then reject "fractional cleanup drop-flag switch shape"
++       | _ -> reject "fractional shared cleanup switch terminator");
++      (match term 26 with
++       | TerminatorKindRd.UnwindResume -> ()
++       | _ -> reject "fractional cleanup resume terminator");
++      (match term 27 with
++       | TerminatorKindRd.Drop drop ->
++           place "_28" false (TerminatorKindRd.DropData.place_get drop);
++           if Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get
++                  (TerminatorKindRd.DropData.target_get drop)) <> 26 ||
++              UnwindActionRd.get
++                (TerminatorKindRd.DropData.unwind_action_get drop) <>
++                  UnwindActionRd.Terminate
++           then reject "fractional cleanup drop successors"
++       | _ -> reject "fractional cleanup guard drop terminator")
++    );
+     (match BasicBlockRd.statements_get_list call_block with
+      | [dead;live_result;live_arg;flag;move_guard] ->
+          (match statement_kind dead,
+@@ -13675,13 +13751,13 @@
+           | StatementKindRd.StorageDead a,
+             StatementKindRd.StorageLive b,
+             StatementKindRd.StorageLive c when
+-              LocalDeclIdRd.name_get a = "_30" &&
+-              LocalDeclIdRd.name_get b = "_31" &&
+-              LocalDeclIdRd.name_get c = "_32" -> ()
++              LocalDeclIdRd.name_get a = dead_local &&
++              LocalDeclIdRd.name_get b = result_local &&
++              LocalDeclIdRd.name_get c = arg_local -> ()
+           | _ -> reject "forget ordered storage statements");
+          (match statement_kind flag with
+           | StatementKindRd.Assign data ->
+-              place "_41" true
++              place flag_local true
+                 (StatementKindRd.AssignData.lhs_place_get data);
+               (match RvalueRd.get
+                 (StatementKindRd.AssignData.rhs_rvalue_get data) with
+@@ -13712,13 +13788,13 @@
+           | _ -> reject "forget flag statement");
+          (match statement_kind move_guard with
+           | StatementKindRd.Assign data ->
+-              place "_32" true
++              place guard_local true
+                 (StatementKindRd.AssignData.lhs_place_get data);
+               (match RvalueRd.get
+                 (StatementKindRd.AssignData.rhs_rvalue_get data) with
+                | RvalueRd.Use op ->
+                    (match OperandRd.get op with
+-                    | OperandRd.Move p -> place "_24" false p
++                    | OperandRd.Move p -> place guard_source false p
+                     | _ -> reject "guard not moved before forget")
+                | _ -> reject "guard move rvalue")
+           | _ -> reject "guard move statement")
+@@ -13750,19 +13826,21 @@
+          (match args_get_list data with
+           | [op] ->
+               (match OperandRd.get op with
+-               | OperandRd.Move p -> place "_32" true p
++               | OperandRd.Move p -> place arg_local true p
+                | _ -> reject "forget argument plain Move")
+           | _ -> reject "forget call arity");
+-         place "_31" false (destination_get data);
++         place result_local false (destination_get data);
+          (match UnwindActionRd.get (unwind_action_get data),
+                 OptionRd.get (target_get data) with
+           | UnwindActionRd.Cleanup cleanup,
+             OptionRd.Something normal when
+               Stdint.Uint32.to_int
+-                (BasicBlockIdRd.index_get cleanup) = 24 &&
++                (BasicBlockIdRd.index_get cleanup) =
++                  (if fractional then 28 else 24) &&
+               Stdint.Uint32.to_int
+                 (BasicBlockIdRd.index_get
+-                  (VfMirRd.of_pointer normal)) = 15 -> ()
++                  (VfMirRd.of_pointer normal)) =
++                    (if fractional then 19 else 15) -> ()
+           | _ -> reject "forget normal/shared-cleanup successors")
+      | _ -> reject "forget exact call terminator");
+     active := true;
+@@ -13860,6 +13938,7 @@
+             Sort4SelectIntrinsic.actual_projection := false;
+             Sort4SelectIntrinsic.actual_owner_admitted := false;
+             Sort4SelectIntrinsic.actual_nine_admitted := false;
++            Sort4SelectIntrinsic.actual_fractional_variant := None;
+             Sort4SelectIntrinsic.actual_nested_ghosts := [];
+             Ok ()
+         | Some root -> certify_sort4_select_intrinsic vf_mir_cpn root

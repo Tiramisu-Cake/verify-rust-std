@@ -1,0 +1,13 @@
+# R23 cleanup-coordinate binding defect
+
+Observed: proof e25a96d4-25c0-416f-a55c-debb87baacb1 rejects the owner shared cleanup predecessor inventory before symbolic execution. The earlier source-preserving R22b ghost release is admitted through exact source, ordered ghost metadata, complete decoded unit and every body hash before that inventory check.
+
+Applicability: only the current owner-approved fractional nine-body route with its eight exact R23 fingerprint rows. The runtime/ghost source, generic specialization, compiler/tool base and profile bounds stay unchanged. No trusted premise, pointer ownership bridge, leak exemption or widened default admission is proposed.
+
+Bounded NORMAL MIR observations from fingerprint739f982d at file d739c89d2872fb37926ad86df3630266a50ab1fe758fac1c85ba0b6952600510 (SHA03bdc76a8173d03ef9cfe2ec8c5d403cbf89735645c3b37b19bb70caa797c0fd) show ten body7 cleanup actions, all to bb28. The old fractional certificate instead counts calls to bb24 and requires ten. Source bytes are unchanged modulo ghost annotations; any fix must preserve the count and original runtime predecessor/cleanup meaning, and bind current local/block coordinates from actual MIR. Further bounded observations confirm forget bb18 with five statements (StorageDead34, StorageLive35, StorageLive36, flag45=false,36=Move28), callMove36→35/normal19/cleanup28; pointer-drop Move32; final assume-init Move41→0/normal25/cleanup28; cleanup28 bool45 switch to26resume/27drop28→26/unwindterminate. Values are observed, not inferred by adding four.
+
+Static translator trace: certification consumes the received VfMir body list and checks its decoded hashes before the failing inventory fold, before body translation. Ghost scope routing is later. No pre-admission body rewrite or readonly branch was found there; actual frontend-mode binding remains an evidence question where necessary.
+
+Invariant for a repair: fractional-only exact coordinates, full source/unit/body pin checks retained, ten predecessors retained, same actual forget Move/normal/unwind/guard/dropflag behavior, same cleanup reachability and normal/unwind/abort posts. Nonfractional/default/nine historical branches remain byte-equivalent. No source/ghost change means no new source fingerprint cycle is required for a certificate-coordinate-only repair; compilation and proof remain Cloud-only.
+
+Distinguishing controls: static exact profile/patch binding; reject wrong cleanup target/count/local/destination/normal successor/dropflag; retain existing callee/fractional source/refusal controls, pre/post physical snapshots, normal/unwind/nested-Drop/leak/refinement checks. Independent review before next proof1200; do not repeat e25's unchanged configuration.
