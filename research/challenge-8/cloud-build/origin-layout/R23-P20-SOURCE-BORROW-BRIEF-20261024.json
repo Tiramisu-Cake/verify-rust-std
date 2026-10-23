@@ -1,0 +1,85 @@
+{
+  "schema": "merge-r23-p20-source-borrow-positive-brief-v1",
+  "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+  "source_sha": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+  "tool_sha": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
+  "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+  "assurance": "SOURCE_REPORTED",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory integrity only, not independent successful verification",
+  "archive_sha256": "693c166e7a2d65ceb27d08359a3db4802e0794eb28e7ef13ad9baf2896cbacd0",
+  "index_sha256": "c3182982d03a9b91726285bac0fe38cda86dfee0120caeb8db4406c49b9aedb3",
+  "build_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit": 1,
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "classification_observation": {
+    "file_id": "b9b1162440c5335e9f043ff61235df54616b7c008b4346ed68378100fcc960e2",
+    "sha256": "0396dd790e9d483a350b00254b335f13475e1acb18ee4d44bdf84bbaaa44509a",
+    "source_size_bytes": 1554,
+    "request_id": "8518ef1b5fe6848439c310a40fbc9e8e23da4f6cce66553bc65267acf71f5f9c",
+    "pointer": "",
+    "exact": true,
+    "complete": true,
+    "classification": "SOURCE_ARRAY_BORROW_ALL_TARGETS_EXIT0",
+    "source_exact": true,
+    "source_unchanged_at_every_stage": true,
+    "posts_preserved": true,
+    "reason": "actual insert_tail, caller, and checked callee targets reached verification with all stages at exit 0",
+    "generic_diagnostic_flags_preserved": {
+      "accepted": false,
+      "b2_achieved": false,
+      "body_bytes_preserved": false,
+      "caller_or_prefix_gate": false,
+      "full_target": false,
+      "qualification": false,
+      "verifier_target_observed": false,
+      "proof_credit": false,
+      "independent_credit": false
+    },
+    "source_schema": "r16-actual-body-isolation-result-v1"
+  },
+  "case_stage_observation": {
+    "request_id": "ba2d19a9ea6a06339d56128456d2f90cf89cd8c98f4e4015053275042e459b87",
+    "pointer": "/stages",
+    "exact": true,
+    "complete": true,
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 0
+    }
+  },
+  "stage_gate_observation": {
+    "request_id": "e4a124ac91f761636d83afdc02d5ac80d37b59d6fc881b179656c0e060c3d107",
+    "pointer": "/stage_receipt_gate",
+    "exact": true,
+    "complete": true,
+    "admitted": true
+  },
+  "target_observation": {
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "sha256": "963d4e1e6d2d422d47166e0a779dab416311300c482bc13e2ec3f365dcfcfd63",
+    "request_id": "90eeded4c376f93515dbf885753719fdc965c07581b55f336987c41700537314",
+    "pointer": "/results/r23_source_borrow/verifier_targets_observed",
+    "exact": true,
+    "complete": true,
+    "targets": [
+      "b2_three_from_local",
+      "insert_tail",
+      "r23_checked_slice_as_mut_ptr"
+    ]
+  },
+  "scope_limit": "Exact R23 source adapter, concrete u64/array3 canonical caller, Continue-only selected method; not general32 or genericT, not accepted/B2/independent proof credit. Generic diagnostic fields remain false and are not rewritten.",
+  "legacy_full_body_observation": "Default Brief still observes Placeholders are not allowed here at full_body caller441; no causal or proof-acceptance inference.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}

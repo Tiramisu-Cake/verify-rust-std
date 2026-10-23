@@ -1,0 +1,143 @@
+{
+  "schema": "merge-r23-handoff-v1",
+  "date": "2026-10-24",
+  "task": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
+  "status": "FINAL_SESSION_HANDOFF",
+  "authority": {
+    "policy_commit": "926979f352156ef3f626ff962892e4de1167cb8f",
+    "policy": "research/challenge-8/WORK-POLICY.md#2",
+    "owner_directions": "research/challenge-8/cloud-build/origin-layout/R23-OWNER-DIRECTIONS-20261024.md",
+    "scope": "Closeout handoff only. No new phase admission, session, Cloud authorization, or proof credit. Main owns ledger, CHECKPOINT, STATUS and publication.",
+    "ledger_closeout": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-CLOSEOUT-20261024.json",
+      "sha256": "b105d673d9d6820b92b5c9e413b620921ea27d4f6f4adc731b2d45442cff13a7",
+      "accounted_terminal_builds": 20,
+      "spent_seconds": 13685,
+      "retired_seconds": 715,
+      "remaining_seconds": 0,
+      "carry_forward_seconds": 0,
+      "reason": "715 seconds cannot fit the unchanged 1260-second full envelope."
+    },
+    "work_policy": [
+      "Do not redo R5 lengths 1-16; owner identifies Kani PR #694 as coverage. Do not add arbitrary-length induction.",
+      "After the bounded source adapter, prioritize actual general-route insert_tail after sort8 through length 32 and actual bidirectional_merge/W5 caller lengths.",
+      "Issue 56-dependent generic-T and panicking-comparator strengthening stays OPEN pending organizer answer.",
+      "Preserve source/runtime, signatures, ownership, full posts, unwind/dead/leak and control gates."
+    ]
+  },
+  "pins": {
+    "r23_source": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+    "r23_tool": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
+    "r23_profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+    "small_sort_path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "small_sort_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "small_sort_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "source_blob_unchanged": true
+  },
+  "p20": {
+    "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+    "overall_build": "FAILURE",
+    "assurance": "SOURCE_REPORTED",
+    "bounded_registration": "Default-off exact u64/[u64;3] canonical b2_three_from_local caller, selected Continue edge, checked Ref/Unsize/slice-as_mut_ptr chain.",
+    "source_brief": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "fdae318833b79bebcb75c4dcee6c65dfc5ca7bada6fd26a3e5882093c3009396",
+      "claim": "SOURCE_ARRAY_BORROW_ALL_TARGETS_EXIT0; caller/insert_tail/helper; four stages 0, exact unchanged source, preserved posts, admitted receipt."
+    },
+    "control_brief": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-CONTROL-BRIEF-20261024.json",
+      "sha256": "a4224451fd45b859e567f857b928b73455d6f299943617d3c01b462801e8fbc2",
+      "claim": "Three source-adapter controls reported intended refusal; rawptr and R19 control groups all_matched=true."
+    },
+    "limits": {
+      "accepted": false,
+      "b2_achieved": false,
+      "proof_credit": false,
+      "independent_credit": false,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "causal_status": "UNKNOWN",
+      "generic_diagnostic_body_bytes_preserved": false,
+      "full_legacy_caller": "Brief observes 'Placeholders are not allowed here' at full_body caller line 441; no causal attribution or acceptance inference.",
+      "conclusion": "This bounded source-reported run does not establish generic array/reference support, the full legacy caller, or general length 32."
+    }
+  },
+  "next_route": {
+    "name": "actual small_sort_general_with_scratch length 17 after sort8",
+    "source_facts": {
+      "constants": "General threshold 32; general scratch length 48.",
+      "path": "small_sort_general_with_scratch checks len>=2 and scratch.len()>=len+16. For size_of<T><=16 and len>=16 it calls sort8 twice, extends both halves from presorted_len=8 by copy+insert_tail, then constructs CopyOnDrop, merges, and forgets the guard on normal return.",
+      "len17": "len_div_2=8; half lengths 8 and 9. Second half has exactly one insertion at local i=8: copy v_base+16 to scratch_base+16, then insert_tail(begin=scratch_base+8, tail=scratch_base+16). Both sort8 calls execute and final actual bidirectional_merge has len=17.",
+      "len16_control": "Same sort8 branch, both halves length 8, no insertion iteration. Shape control only; not R5 proof.",
+      "dispatch": "Bind the exact caller/trait route in Cloud. Do not assume u64 unstable selects general: Copy/effective-swap may select network."
+    },
+    "first_obligation": "Create an exact-source len17 caller fixture on an admitted type/dispatch. Prove post-sort8 insert_tail entry/normal exit from actual resources, retaining callee posts and one owner per current T.",
+    "controls": [
+      "len17 positive must bind both sort8 targets, unique second-half i=8 insert_tail and final len17 merge, with exact stage/source receipts.",
+      "len16 confirms no tail call but grants no R5 credit.",
+      "Wrong half/place/index, absent or duplicate element owner, incorrect initializedness, or wrong actual receiver/callee chain must fail at its named intended gate; earlier setup/shape failure is inconclusive."
+    ],
+    "resource_limits": [
+      "v is initialized and carries the original owners; scratch is MaybeUninit. Byte copies do not duplicate T.own.",
+      "Final general merge target v has initialized old Some options. sort8 and network targets are MaybeUninit and have different destination posts.",
+      "sort8/insertion can unwind before CopyOnDrop exists; later guard does not protect these pre-guard paths.",
+      "For final merge derive current scratch resources, initialized target v options, pointer/provenance/separation, callback frame and F. Compose normal with forget and unwind with actual CopyOnDrop, restoring current values/owners once; no snapshots or unchecked summary."
+    ],
+    "w5": {
+      "sequence": "The len17 general case includes actual merge n=17 and actual sort8 internal merges n=8. Close those real caller interfaces before expanding across general n<=32.",
+      "network": "small_sort_network merge is reachable only for 18<=len<=32 and writes to MaybeUninit stack scratch before normal copy-back; defer that caller to Network owner unless reassigned.",
+      "status": "W5 actual resource loop/caller proof at reachable lengths through32 is OPEN. Historical len2/3 is not closure: run be12e7b2 was inconclusive on timeout; actual up/down and mathematical G2/A/B remain separate component claims. No arbitrary-length induction is proposed."
+    },
+    "functional": "Sortedness and permutation remain separate open obligations with explicit order/comparator premises; geometry and mathematical A/B do not establish Rust caller resource correspondence."
+  },
+  "navigation": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-BORROW-DESIGN-20261024.md",
+      "sha256": "9f63bd79343130f118a49dcb0d41bbde561963d19b095520010105ca0785762c",
+      "role": "P20 adapter scope/controls; no proof credit"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/ACTUAL-INSERT-TAIL-B2-CARD.md",
+      "sha256": "5f71f9b110f4264361b4486d210050a4ba147f899fa7ce6ecbeb086cdfb34392",
+      "role": "prepared u64 three-cell insert diagnostic, not general caller"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/CALLER-C1-AUDIT.md",
+      "sha256": "0c038966f34df7d51b15bd877db8bb4d9238966b9e828e31e3af0ea3ee8f35eb",
+      "role": "three caller domains and resource distinctions"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/CALLER-C1-FRAME-OBLIGATIONS.md",
+      "sha256": "b8b5c30725451acaf00ab8e673032d8c00b54bf4091154c741eaa6b371476584",
+      "role": "general caller ownership/CopyOnDrop composition map"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/BIDIRECTIONAL-SMALL-DESIGN.md",
+      "sha256": "eb73d7c6aa8e2992a0ad6dade28c4af2274fc5c4794f785dd36eee96fd60390d",
+      "role": "historical bounded actual len2/3 design"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/ARBITRARY-LENGTH-RESOURCE-DESIGN.md",
+      "sha256": "c7f7567ff920c783f9393a9fa46b039e5ad0ac70447af2995dccb33f677c7f2e",
+      "role": "W5 loop/caller resource design; open"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/bidirectional-small-prepare.py",
+      "sha256": "d3ff063f4c02cebc71f60e493198872eda06093bafcde9a7e4a6c9711dddaa4c",
+      "role": "historical len2/3 exact-source preparer"
+    },
+    {
+      "path": "research/challenge-8/merge/cloud-build/merge.sh",
+      "sha256": "d1588599f3f4ad4261c33d5bb5b6d3176abaf0c07f9795371563540d3f4bb5d4",
+      "role": "historical hosted runner; no local execution"
+    }
+  ],
+  "unknowns": [
+    "No exact-source general-with-scratch len17 preparer/runner was found; existing C1 audit is a source map, not a verified caller fixture.",
+    "P20 Brief leaves parser binding NOT_ESTABLISHED and causality UNKNOWN; stage-zero source reports do not prove acceptance.",
+    "Future type and stable/general dispatch require Cloud source/compiler binding.",
+    "Issue 56 remains OPEN; no generic-T, panic expansion, R5 redo, or arbitrary-length induction is authorized by this handoff."
+  ],
+  "proof_credit": 0,
+  "b2_achieved": false,
+  "independent_credit": false
+}

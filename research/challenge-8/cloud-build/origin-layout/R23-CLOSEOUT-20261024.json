@@ -1,0 +1,309 @@
+{
+  "schema": "merge-r23-closeout-v1",
+  "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
+  "phase": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
+  "owner": "merge",
+  "state": "CLOSED",
+  "closure_reason": "BUDGET_NO_FULL_ENVELOPE",
+  "closed_at_utc": "2026-10-23T22:11:48.231335Z",
+  "t0": "2026-10-23T10:45:00Z",
+  "main_deadline_utc": "2026-10-26T10:45:00Z",
+  "deadline_utc": "2026-10-26T11:45:00Z",
+  "budget": {
+    "authorized_seconds": 14400,
+    "spent_seconds": 13685,
+    "retired_seconds": 715,
+    "remaining_seconds": 0,
+    "carry_seconds": 0,
+    "minimum_next_full_envelope_seconds": 1260,
+    "timeout_seconds": 1200,
+    "queue_seconds": 60,
+    "report_reserve_seconds": 420,
+    "nested_compile_reserve_seconds": 140,
+    "execute_max_seconds": 780,
+    "soft_execute_max_seconds": 765
+  },
+  "active_build_ids": [],
+  "unresolved_ids": [],
+  "builds": [
+    {
+      "build_id": "692c1943-771d-4e99-b498-c5c480f4280a",
+      "source_sha": "12dde2397d21adc23ce79f19099e38694fd61291",
+      "config_sha256": "9225a97bf716fd476912d6437f5a91b298f5ee92fafa70fd0b5c6afff651cce8",
+      "status": "FAILURE",
+      "charged_seconds": 578,
+      "accounted": true
+    },
+    {
+      "build_id": "1416b764-486b-4414-be77-3116866838e2",
+      "source_sha": "d27a1f14b0cfed5674fae5c5a8a1246f4871c7b6",
+      "config_sha256": "9b5810ec3fe7b60f6fd6a39c106bc14ae0f0ad27074041111fd892e5a34bd116",
+      "status": "FAILURE",
+      "charged_seconds": 814,
+      "accounted": true
+    },
+    {
+      "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d",
+      "source_sha": "f91f763c4d210d2ea91c4d3efbbbbccf584cbcf9",
+      "config_sha256": "956621b0d3537917ea9fe3f64e0c8cc1dd04c5c9d5eb9326ccd3bb50210d460f",
+      "status": "FAILURE",
+      "charged_seconds": 844,
+      "accounted": true
+    },
+    {
+      "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a",
+      "source_sha": "a5a0b90d4d9971cf1ae3d42808747c01dcae94e9",
+      "config_sha256": "cad8a7a350f5077decc858102263234249406131642797fbb77396aa3ad06639",
+      "status": "FAILURE",
+      "charged_seconds": 402,
+      "accounted": true
+    },
+    {
+      "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6",
+      "source_sha": "9bad99ee1b564a8f929d56402b88bf10b033ed39",
+      "config_sha256": "d54c8959e7fd180b3559aeccb7f1d64a5b3328d01da34fa639eb4b3733f11b62",
+      "status": "FAILURE",
+      "charged_seconds": 363,
+      "accounted": true
+    },
+    {
+      "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53",
+      "source_sha": "88dae559d3e0e908a3dce6db453ad7587d92545f",
+      "config_sha256": "1871cd62ef60f44ef4b726b65faa8268d220bfa98e70bf6af47ce28ec8b08df0",
+      "status": "FAILURE",
+      "charged_seconds": 378,
+      "accounted": true
+    },
+    {
+      "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80",
+      "source_sha": "95b927be569dc0548482da32d5e80b771e8a8a86",
+      "config_sha256": "83d9311ae9a90b2c3de71ffe6f624c7ae1e33916f6f341d9a51a9ffef8c6e761",
+      "status": "FAILURE",
+      "charged_seconds": 437,
+      "accounted": true
+    },
+    {
+      "build_id": "216684d9-bfb4-4169-96d5-345a27b2db80",
+      "source_sha": "60b291a2ff80974e26d4c70d31c2bc43d81d08fa",
+      "config_sha256": "e3e0c7ad92c96d5a89d4f40945796a012e0230124f671e58957886b9e52f499c",
+      "status": "FAILURE",
+      "charged_seconds": 444,
+      "accounted": true
+    },
+    {
+      "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2",
+      "source_sha": "de3032b22fe35fb7ab9b1696de48cdb9a21a3be1",
+      "config_sha256": "0880dcd308520c704884d9e7366df7de44c1707c728cdef3edfee7fc418a1cb2",
+      "status": "FAILURE",
+      "charged_seconds": 352,
+      "accounted": true
+    },
+    {
+      "build_id": "7fe57d03-f93b-4c68-8cd6-ed1c3f5e94bf",
+      "source_sha": "118078a6053f6cf146913a6144de82ebccae34fe",
+      "config_sha256": "e019fa46a5bb09acde0d597dfaa36d49e7a461daa0d28e8b4bb4721f31c464cc",
+      "status": "FAILURE",
+      "charged_seconds": 406,
+      "accounted": true
+    },
+    {
+      "build_id": "9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86",
+      "source_sha": "b37867fcff4e16773d415f58edc60bfd6e7b6bb5",
+      "config_sha256": "5c231d0a5a94e812bfa21f86ea3dcea3a03ef5cbc2cfb1b1f572aed1bb0a3b39",
+      "status": "FAILURE",
+      "charged_seconds": 598,
+      "accounted": true
+    },
+    {
+      "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec",
+      "source_sha": "eb93c1480ca2677b2f9c6a422e75f7e9247adcf8",
+      "config_sha256": "d1df00ca4b065412f275e0bfafbadfab2290b601601d25d1488f73806bc64c65",
+      "status": "FAILURE",
+      "charged_seconds": 904,
+      "accounted": true
+    },
+    {
+      "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
+      "source_sha": "9ea683bb7958025a6af59774f15a19aa9af8d4c4",
+      "config_sha256": "7a975b214e14d4bf433abe0e588c58372112838d70d04f7e9466f6eb144ec6f0",
+      "status": "FAILURE",
+      "charged_seconds": 955,
+      "accounted": true
+    },
+    {
+      "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2",
+      "source_sha": "0ad4acc1d03b511deac684b60297ea92bb60feb6",
+      "config_sha256": "6bb16a8fb301e4ae1f7251f4d612705481d8d2cab92af5ebd0d4b0caeaf0d8fa",
+      "status": "FAILURE",
+      "charged_seconds": 954,
+      "accounted": true
+    },
+    {
+      "build_id": "32445c00-537d-4d24-9bc8-841785903d2d",
+      "source_sha": "b13fdf38ebd7ac6bab6b620f16e537af6b525e58",
+      "config_sha256": "dcbb96b854b11dcc2d000f21d32a6dccf2c594add1a32fd3507c21382e1334bb",
+      "status": "FAILURE",
+      "charged_seconds": 651,
+      "accounted": true
+    },
+    {
+      "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9",
+      "source_sha": "1cc63b92dd9b040806d4f8ce8f424841039316ac",
+      "config_sha256": "57da6d9c3939c88ffdb2c829e54d04e38cab53614ce76f573020ca8a13a06ac6",
+      "status": "FAILURE",
+      "charged_seconds": 896,
+      "accounted": true
+    },
+    {
+      "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c",
+      "source_sha": "a11613d485b2b66ad7da9012b829ccdf11aed0e7",
+      "config_sha256": "9d2a9eab854b3fb4fee32b6e778c68fbfc5a9c7f85f99555651f7c22e5865b6c",
+      "status": "FAILURE",
+      "charged_seconds": 934,
+      "accounted": true
+    },
+    {
+      "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4",
+      "source_sha": "d93a6503b3284a27c63d5eafac80cac86fc579dc",
+      "config_sha256": "4ba5c5adf4c8081f839adaa7ca66fc87da2ab806917a46309c9e91f5d6dc6d41",
+      "status": "FAILURE",
+      "charged_seconds": 905,
+      "accounted": true
+    },
+    {
+      "build_id": "374eb841-66e4-4509-88b1-09862d2677e4",
+      "source_sha": "54a5895ff74cb4f9e401410c63caad6901a4c14e",
+      "config_sha256": "c84709037b3289cd68f8acb236c5ae402b2854e9eb8060365a5b9acefa3660e2",
+      "status": "FAILURE",
+      "charged_seconds": 906,
+      "accounted": true
+    },
+    {
+      "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+      "source_sha": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+      "config_sha256": "fe162027c9e87f63855d39ab47b5f48f98cc21bf2788339015b9d7954d4c3484",
+      "status": "FAILURE",
+      "charged_seconds": 964,
+      "accounted": true
+    }
+  ],
+  "published_compiled_tuple": {
+    "root_source_sha": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+    "tool_sha": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
+    "tool_branch": "merge/r23-source-borrow-adapter-20261024",
+    "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+    "cumulative_patch_sha256": "a55ca88b21acf766a846feea9be77bdffed6b84963bc204a1d3cfe5c68a2e90f",
+    "registry_sha256": "e66e315d19b5837ba220d459afbed5c5e91c10b5b8be6899547bcffb01f8a61e",
+    "source_pins": {
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "caaf1a6a5c849cb575e969d7d3da5e7dc5652d630ce49e5e6380cc12dba2d508",
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "763a1299e3d2a5af40400d47a354aa9725471bd53774279160d474e85e8eae1e",
+      "src/refinement_checker/refinement_checker.ml": "b68454fafab7e1360fccae300b14712356c230e7a28a25b252c7a50121dc269a",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "dc272265df244c5d6ef80db8b186b5cf558a880e9aaad1c8767cde4d25381713",
+      "src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml": "f043cff60098fa3179d09d844694f415338dfd036ea461f37b5952acee87c8bf"
+    }
+  },
+  "bounded_milestone": {
+    "assurance": "SOURCE_REPORTED",
+    "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+    "classification": "SOURCE_ARRAY_BORROW_ALL_TARGETS_EXIT0",
+    "targets": [
+      "b2_three_from_local",
+      "insert_tail",
+      "r23_checked_slice_as_mut_ptr"
+    ],
+    "case_stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 0
+    },
+    "source_exact": true,
+    "source_unchanged_at_every_stage": true,
+    "posts_preserved": true,
+    "stage_receipt_gate_admitted": true,
+    "scope": "Canonical concrete u64/array3 original-call expression and checked RustBelt borrow lifecycle, exact source/MIR/helper gates; selected method Continue only. Not a generic slice or general32 theorem."
+  },
+  "controls": {
+    "assurance": "SOURCE_REPORTED",
+    "source_negatives": "all3 SOURCE_ADAPTER_INTENDED_REFUSAL",
+    "rawptr_all_matched": true,
+    "r19_all_matched": true
+  },
+  "acceptance": {
+    "overall_build": "FAILURE",
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "accepted": false,
+    "b2_achieved": false,
+    "proof_credit": false,
+    "independent_credit": false,
+    "generic_diagnostic_flags": "Preserved unchanged, including false body_bytes_preserved/full_target/qualification/caller_or_prefix_gate. Positive source-case result is not promoted to legacy acceptance or independent credit.",
+    "causal_status": "UNKNOWN"
+  },
+  "owned_nll_stop_loss": {
+    "cycles_completed": 2,
+    "mapping": "UNESTABLISHED",
+    "capture_enabled": false,
+    "third_capture_cycle_allowed": false
+  },
+  "independent_tasks_checked": [
+    {
+      "task": "owned-NLL mapping",
+      "result": "Two-cycle stop-loss exhausted; source route used; no third capture."
+    },
+    {
+      "task": "source adapter original caller lifecycle",
+      "result": "P20 exact bounded case all targets/stages exit0 SOURCE_REPORTED; wider interface and acceptance still OPEN."
+    },
+    {
+      "task": "raw F5/state/index and unwind controls",
+      "result": "P20 rawptr/R19 summaries all_matched; source claims, no independent credit."
+    },
+    {
+      "task": "legacy full caller/prefix/CURRENT matrix",
+      "result": "Legacy fullbody placeholder441 still observed; general/full caller qualification not established. Any additional Cloud cycle needs1260>715."
+    },
+    {
+      "task": "general aftersort8 and W5",
+      "result": "Static actual-source len17 handoff prepared; no current executable general caller fixture/resource derivation. Further actual proof needs full Cloud cycle1260>715. No R5/induction redo."
+    }
+  ],
+  "open": [
+    "General route17..32 and W5 real caller lengths/resource interfaces; first post-sort8 insertion len17/window9; no general32 proof claimed.",
+    "Public sorting sortedness/permutation contract obligations and representative specialization coverage are not closed here.",
+    "Issue56-dependent universalT/panicking comparator expansion deferred; existing normal/unwind/ownership/checks retained.",
+    "Legacy whole campaign acceptance/qualification and independent B1/B2 credit remain unestablished."
+  ],
+  "policy_commit": "926979f352156ef3f626ff962892e4de1167cb8f",
+  "artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "fdae318833b79bebcb75c4dcee6c65dfc5ca7bada6fd26a3e5882093c3009396"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-CONTROL-BRIEF-20261024.json",
+      "sha256": "a4224451fd45b859e567f857b928b73455d6f299943617d3c01b462801e8fbc2"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-COMPILE-REVIEW-20261024.json",
+      "sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-TRANSPORT-20261024.json",
+      "sha256": "5d4c32512a5a48a273bf22249e1c654928b505b0b0c5ecc833022603df2979b5"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-CAPTURE-POLICY-20261024.json",
+      "sha256": "9618853a3290d2dffbbbc11fe2a4ea59ed25f8ecd0a8a3a21c84e7a01e9ce941"
+    }
+  ],
+  "handoff_path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
+  "watcher": {
+    "p19": "STALE after owner steer; no event/delivery; coordination error preserved in checkpoint history.",
+    "p20_job": "404ba0bc-feb6-4c67-9244-ac79c8f82cb0",
+    "p20_event": "257dab9a-ab32-457f-9f7d-c83b8f79aee0",
+    "p20_state": "ACKED",
+    "pending_deliveries": 0
+  },
+  "historical_records_policy": "No historical evidence/Build verdict/credits/download_verified altered; only own ledger close/retirement metadata changed.",
+  "future_execution_authority": "Closed R23 grants no further Build/admission/carry; this is not a request for a new window."
+}
