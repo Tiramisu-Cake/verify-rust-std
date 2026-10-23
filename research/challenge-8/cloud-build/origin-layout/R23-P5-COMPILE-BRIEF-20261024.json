@@ -1,0 +1,110 @@
+{
+  "schema": "r23-p5-exporter-compile-brief-v1",
+  "build": {
+    "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_claim_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 101,
+    "evidence_complete_source_claim": true,
+    "exporter_build_exit": 101,
+    "translator_decoder_refiner": "NOT_PRESENT_IN_VERIFIED_ARCHIVE",
+    "proof_audit": {
+      "path": "proof-audit.json",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "sha256": "1e8b1402d8c804f1adf572099b3556dd84b263ed03db1a8a0c235d9deb77f81c",
+      "pointer_root_request_id": "35ff0e095d0c50f46a766186a89f6733702e4d92938073807d6cf2dae9cc302d",
+      "pointer_compiler_request_id": "ff18e0d7152a73c4df2791de352eb370b97ef1747816f636a2619033058da13d",
+      "exact": true,
+      "complete": true,
+      "proof_attempted": false,
+      "classification": "INCONCLUSIVE",
+      "exit_status": 101,
+      "diagnostic_complete": false
+    },
+    "other_observed_diagnostic": {
+      "source": "full-stderr.log",
+      "sha256": "1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff",
+      "observations": [
+        "$HOME differs from euid-obtained home directory: you may be using sudo",
+        "$HOME directory: /builder/home",
+        "euid-obtained home directory: /root"
+      ],
+      "causality": "UNKNOWN"
+    },
+    "interpretation": "One unused_mut compiler diagnostic was observed for the exporter. No proof attempt occurred. Causality is not inferred from the diagnostic excerpt."
+  },
+  "brief_identity": {
+    "archive_sha256": "2cda3a57cec14ad4b0828d1e9f270169ba2a2b321e4d822e55c9cc7413a0a956",
+    "index_sha256": "d5d30a3bca102ac169a87cbabc592455fa6758cd1f28c664087e16164a6c076c",
+    "report_schema": "smallsort-evidence-index-v8",
+    "catalogue_complete": true,
+    "catalogue_files": 149,
+    "retained_content_files": 120,
+    "retained_content_bytes": 352100,
+    "source_scan_bytes": 551950,
+    "availability_counts": {
+      "PROJECTED": 103,
+      "EMPTY_FILE": 17,
+      "UNSUPPORTED_FILE_TYPE": 29
+    },
+    "catalogue_selector": "exporter-build.log",
+    "catalogue_request_id_exposed": false,
+    "coverage_limit": "The catalogue and exact bounded observations identify archived sources. Parser-input binding is NOT_ESTABLISHED; causal status UNKNOWN."
+  },
+  "exporter_log": {
+    "path": "allprooflogs/tracked-md-build/exporter-build.log",
+    "file_id": "09c84eb67408f263ae1e1bbb7cceccf31bf8511634f315df79528d1e2449e8ca",
+    "sha256": "61df77c148ec52c15c360446d675f699ffe13ca4f1bbaff9a223916524c9cea6",
+    "catalogue_status": "PROJECTED",
+    "source_size_bytes": 3181,
+    "source_lines": 81,
+    "targeted_requests": [
+      {
+        "request_id": "f31cd1af0a2ae0b9a12514cb9b458ebee6f2e01f652c553033df866d6a66a099",
+        "lines": [66, 76],
+        "exact_lines": true,
+        "expect_sha256": "61df77c148ec52c15c360446d675f699ffe13ca4f1bbaff9a223916524c9cea6"
+      },
+      {
+        "request_id": "8efff98e439a44eae2bff6dcd68e6363f951a9c0f5da519c4ee3ff9ea2be9d21",
+        "lines": [76, 81],
+        "exact_lines": true,
+        "expect_sha256": "61df77c148ec52c15c360446d675f699ffe13ca4f1bbaff9a223916524c9cea6"
+      }
+    ],
+    "observed_diagnostic": {
+      "log_line": 66,
+      "source": "src/lib.rs:3327:13",
+      "lint": "unused_mut",
+      "excerpt": "variable does not need to be mutable",
+      "source_expression": "mut call_cpn: fn_call_data_cpn::Builder<'_>",
+      "compiler_summary": "error: could not compile vf_mir_exporter (lib) due to 1 previous error",
+      "deny_warnings": true
+    }
+  },
+  "tool_fix": {
+    "scope": "Only src/rust_frontend/vf_mir_exporter/src/lib.rs in the assigned tool worktree.",
+    "change": "Remove mut from attach_r23_slice_projection's call_cpn parameter; the builder is consumed by init_r23_slice_projection and never reassigned.",
+    "static_mut_audit": {
+      "projection_mut": "Used by generated builder setters and fill operations.",
+      "generic_binding_mut": "Used by set_id and init_value in fill_generic_bindings.",
+      "enc_ctx_mut": "Used to set and restore encoder mode/region scope and by encoders.",
+      "other_new_mut_bindings": "No other unnecessary mutable binding found in the inspected projection region."
+    },
+    "status": "STATIC_CANDIDATE_ONLY; COMPILER_UNVERIFIED"
+  },
+  "local_static_validation": {
+    "git_diff_check": "PASS",
+    "exporter_source_sha256": "c2437b2d48b357f2d160510311026388c5b9f8d5a9817cce95611b5121391455",
+    "compiler_or_cargo_run": false,
+    "tests_run": false,
+    "commit_created": false
+  },
+  "integrity": {
+    "brief_catalogue_and_targeted_service_only": true,
+    "raw_archive_or_full_log_downloaded": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN",
+    "proof_attempted": false
+  }
+}

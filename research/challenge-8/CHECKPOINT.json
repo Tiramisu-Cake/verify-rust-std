@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-STATIC-VALIDATION-20261024.json",
-      "sha256": "3a67fc05149a93d79eec361d58e5ce560a7b035e35e8118b05a03a932a147700"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json",
       "sha256": "5f377c34e387db4da6b47fa15d4e2c6666470e39c38beeaa8f9d52adaa86f837"
     },
@@ -27,6 +23,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-TRANSPORT-20261024.json",
       "sha256": "b99ee0dc394d0f00cde794b5bd845d902da3cd14bc7ccc84e29f519b00b66766"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
+      "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,38 +36,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P5 running; source proof unverified.",
+    "summary": "P6 lint/HIR fixes prepared; review pending.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
-        "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc",
-        "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
+        "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8",
+        "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R20 P1 196e1b52: raw caller exit0, 5 R19 controls MATCHED; bounded, credit0. R22 P2/P3: translator failed, no proof.",
-      "evidence": [
-        {
-          "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3",
-          "path": "research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json",
-          "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R23 P1 compiler PASS/proof_attempted=true; caller campaign NOT_RUN due stale compatibility source pin; no capture/proof credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P1-BRIEF-RESULT-20261024.json",
-          "sha256": "4c3e6a628d995c589f31d166047554ce7681a605c7aa5e3669529f3b2beb0cd7",
-          "build_id": "692c1943-771d-4e99-b498-c5c480f4280a"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P2 owned capture6/attached3/unattached3; actual b2 cross-stage map UNESTABLISHED and derived liveness unavailable. Two-cycle stop-loss exhausted; no credit.",
@@ -100,9 +78,20 @@
           "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P5 exporter101: one unused_mut error; proof_attempted=false. Lint policy preserved; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
+          "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8",
+          "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher; P5 Brief; continue R23.",
+  "next_step": "Review exact helper HIR binding; full P6.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -123,23 +112,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "790351cf-4fb7-4875-a8ce-98c88688cde6"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 11762,
+    "remaining_seconds": 11399,
     "retired_seconds": 0,
-    "spent_seconds": 2638,
+    "spent_seconds": 3001,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:21:51.933501Z",
+  "updated_utc": "2026-10-23T13:36:23.828440Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -234,6 +221,13 @@
       "dispatch_token": "dispatch-5e8f97e5bd064c4b847afa3944edddb0",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Repair P5 lint and checked helper lifetime inventory before P6",
+      "reason": "P5 exactone unused_mut, no proof. Remove onlymut call_cpn; keepdenywarnings. Static audit found helper input-only lifetime is late-bound while validator wronglydemands early MIRparameter. Validate exact sourceHIR single plain lifetime apos-a plus emptyearly list, retaintypedbody/contract/identity gates; do notchangehelperRustsignature orforcewherebounds. Tool7591e3a0 includes1525292 lintfix andHIRfix, profileb68cd49a exactreverse3fec. Actualgenericinventory/compiler/proof remainsCloud-UNVERIFIED; profile6/phase8 pass.",
+      "tool_sha": "7591e3a0b2488461f700e4d4f1362ba1b2a54d60",
+      "profile_sha256": "b68cd49a56f751d06befe8489ce94d363398b59fd6c35c4ff10ee3bfef3d3b4a",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -244,10 +238,11 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6",
-    "status": "PREPARED_HANDOFF",
-    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
-    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
+    "job_id": "f667f63d-e522-422d-bac2-2a59eb19393a",
+    "event_id": "2f8283ac-56df-4a1b-a36a-55d377ad8176",
+    "event_name": "build_terminal",
+    "ack": "CONTINUE_EXISTING_WINDOW",
+    "status_after_event": "FAILURE",
     "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
@@ -289,6 +284,34 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-STATIC-VALIDATION-20261024.json",
+      "sha256": "3a67fc05149a93d79eec361d58e5ce560a7b035e35e8118b05a03a932a147700"
+    }
+  ],
+  "historical_confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 P1 196e1b52: raw caller exit0, 5 R19 controls MATCHED; bounded, credit0. R22 P2/P3: translator failed, no proof.",
+      "evidence": [
+        {
+          "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3",
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json",
+          "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R23 P1 compiler PASS/proof_attempted=true; caller campaign NOT_RUN due stale compatibility source pin; no capture/proof credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P1-BRIEF-RESULT-20261024.json",
+          "sha256": "4c3e6a628d995c589f31d166047554ce7681a605c7aa5e3669529f3b2beb0cd7",
+          "build_id": "692c1943-771d-4e99-b498-c5c480f4280a"
+        }
+      ]
     }
   ]
 }
