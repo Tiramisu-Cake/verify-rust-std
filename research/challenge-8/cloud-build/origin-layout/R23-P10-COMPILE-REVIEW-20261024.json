@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r23-p10-unwind-option-review-v1",
+  "reviewer": "Codex",
+  "candidate": "118078a6053f6cf146913a6144de82ebccae34fe",
+  "baseline": "5a2fbfb21ed81ff14ad04648f82b452476a55a25",
+  "tool_commit": "736c3d98f3bd1e2c486dc16ab40b3081cddcd56d",
+  "spec_sha256": "b93c7a2615e96a56d0007df959f022ede4f154d146e6a37a849a46542958dade",
+  "packet_sha256": "0893a790cd5f3c4aece6892fe279249852fc2ef6f26c0a02d2a0f891a9ff1a8e",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P10 unwind-list option correction",
+  "decision": "GO",
+  "review_scope": [
+    "P10 parenthesization of the R23 unwind epilogue option payload",
+    "Exact epilogue statement ordering and list-option consumer",
+    "Exact P10 tool profile/source pins and baseline reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The fix changes only grouping: r23_unwind_epilogue now receives Some ([Assert false; unwind label; source post-recovery statement; array_to_array_] @ unwind_stmts), matching its declared Ast.stmt list option type.",
+    "The ordered epilogue contents are unchanged: the original unwind_stmts still follow source post recovery and array_to_array_. No statement was dropped, duplicated, or moved across the source post/conversion steps.",
+    "The consumer remains a single match on the option and appends the resulting statement list once to vf_bblocks; the missing-epilogue refusal remains unchanged.",
+    "The option is still initialized to None and duplicate-epilogue refusal remains in place. The P9 state writes, reads, and reset behavior are unchanged.",
+    "The candidate translator SHA-256 77f90b6c76e11d9e69064e373bea0a263c5a41d772a505e899e869caec9935dd matches the exact P10 profile pin; the exporter, schema, alias, and refiner pins remain unchanged.",
+    "The profile binds tool commit 736c3d98f3bd1e2c486dc16ab40b3081cddcd56d, profile SHA-256 cd4da840a3aec8f475af46c0b86590d52339a038957e10e7c641415de5d48727, and patch SHA-256 3592c490c50a7011056dd7a6c7e470fc121f7614eda836c3f3435398aed5007d; its reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This focused delta review relies on the prior exact-candidate full semantic review for unchanged source-borrow behavior.",
+    "Static constructor and option/list typing were inspected; actual translator compilation remains unverified.",
+    "Reported service checks were not rerun. No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
