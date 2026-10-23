@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r23-p18-pure-bridge-call-review-v1",
+  "reviewer": "Codex",
+  "candidate": "d93a6503b3284a27c63d5eafac80cac86fc579dc",
+  "baseline": "73c356a885d2434aceaa915e5a5e19896d7ebca8",
+  "tool_commit": "37d92023804ee5148bc0e3d7a72e2cc136314130",
+  "spec_sha256": "a8300fe60f4d20f9c2bb558e445a4b61542674ca78e0e18b754dbbbd85ae1943",
+  "packet_sha256": "f6f19a336b5349bb6ed4b395ab4b7e383aecfd6d8570100166b84626ab9a3514",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P17-COMPILE-REVIEW-20261024.json; P18 changes only the AST purity wrapper on three existing R23 lemma calls",
+  "decision": "GO",
+  "review_scope": [
+    "P18 PureStmt wrappers for the pre/post R23 borrow bridges and unwind array conversion lemma",
+    "Ghost/runtime context, argument, ordering, and outcome handling preservation",
+    "Exact P18 translator pin, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The P18 delta wraps the same three calls in Ast.PureStmt: `r23_array3_borrow_to_slice`, `r23_slice_borrow_to_array3`, and `array_to_array_`. Their call names, generic arguments, values, source locations, order, and surrounding branch structure are unchanged.",
+    "All three targets are ghost lemmas, not runtime functions: the two R23 bridge lemmas are declared with `lem` in r23-array3-borrow-content.rs, and `array_to_array_` is declared with `lem` in prelude_core.rsspec. Marking these generated calls PureStmt correctly keeps proof commands in the ghost context and prevents them from being treated as runtime calls or assignments.",
+    "The pre bridge remains before the selected checked helper invocation in the temporary rvalue binders. The post bridge remains after the selected call's normal result and in its checked unwind recovery epilogue. The array conversion lemma remains after the post bridge in that unwind epilogue and before the unchanged original unwind statements.",
+    "The selected helper remains an FnCallOutcome and retains the P16 selected-helper unwind guard, fatal missing-bridge check, and generic other-unwind fallback. Normal recovery, bridge clear, original CFG successors, source Ref/Unsize/call checks, exact data pointer and length 3, lifetime scope, and full_borrow resource transitions are unchanged.",
+    "P18 adds no runtime operation, new assignment, trusted premise, permission, helper contract, or resource authority. The default-off/unmarked source path and generic lowering are unchanged because these wrappers are constructed only in the selected R23 path.",
+    "The P18 tool delta is limited to these wrapper changes. Translator source hash b634462c1025f4772edbef4ae39eb9cd0ec8c10b1ff3987e19029bf9e430798e matches GLUE-PROFILE. Tool commit is 37d92023804ee5148bc0e3d7a72e2cc136314130; profile SHA-256 is d630d3f99ee497b6bc1d5b1ddd8b5eff0c2d9aec757512134001ce84c389ddfd; patch SHA-256 is 2ff2d622a50920f20c6f3dac39278d2c893e0d8c1d8c86eb0888a4cdaa246b41; reverse baseline profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "`git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This focused review establishes that the three existing lemma calls are represented as ghost statements and preserves their surrounding order and gates. Parser, translator, and verifier behavior were not executed locally.",
+    "Reported profile and phase checks were not rerun. No source-positive acceptance, build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
