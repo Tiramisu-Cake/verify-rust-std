@@ -1,0 +1,60 @@
+{
+  "archive_sha256": "342c3ec5a0ed0729befac8c8c532f49edc5c2fe5734a4028fa2321029e14acd0",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
+  "build_seconds": 106,
+  "build_status": "FAILURE",
+  "classification": "INCONCLUSIVE_SETUP_BEFORE_FRONTEND",
+  "cleanup": "NOT_RUN_AS_REPORTED",
+  "config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
+  "evidence_complete": false,
+  "execution": {
+    "content_filtered": false,
+    "file_id": "8bcc10e4159865d84cb9576010cd802fd04cf970a8131029a0db5a8d47e469b0",
+    "file_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "json_child_count": 0,
+    "request_id": "f0a4a51bf51cd800edae00f839aa4aff1f62b38f8feaa60bd95ab07fecc4f85c",
+    "selector": {
+      "info": true
+    },
+    "source_bytes": 3
+  },
+  "execution_seconds": 105,
+  "first_blocker": {
+    "complete": true,
+    "content_filtered": false,
+    "exact": true,
+    "file_id": "1f90bc53b855274717c23850354e3e27de759fef88c4f3fd44b2cad74751cb22",
+    "file_sha256": "ae61b1e533c2d284a55d55db46bbf87ca5d5d26146649623fcf48bd983bff3e7",
+    "info_request_id": "90cafa3b3eff32947b8cd749d29467fc4ee1b1c528e22aeca7620917a35bb7e0",
+    "reason": "unsupported/missing tracked source mode: .claude/skills",
+    "request_id": "bba3fb1d547b1765bace20bb0498e25364bab67cade9bbd4e67baf9c61494b50",
+    "selector": {
+      "pointer": ""
+    },
+    "stage": "tool-inputs",
+    "target_attribution": "UNREVIEWED"
+  },
+  "frontend": "NOT_RUN_AS_REPORTED",
+  "independent_credit": 0,
+  "index_sha256": "d87fb154f889c856da72fbc52d60f41c3526fe17eca3b748abdcd66fb86db8e2",
+  "limitations": [
+    "Brief coordinates do not independently establish parser-input/AST/MIR binding or formal proof. Causal setup diagnosis combines explicit source report with committed runner order and frozen tracked metadata.",
+    "No raw archive/log/Cloud Logging download; no download_verified modification."
+  ],
+  "missing_specs": "UNKNOWN",
+  "observed_utc": "2026-10-23T22:13:03Z",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_credit": 0,
+  "run_exit": 2,
+  "schema": "network-rr-g1-causal-evidence-v1",
+  "source_commit": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+  "static_applicability": {
+    "blob": "2b7a412b8fa0fb7e985b0793321bd4e698f2b6cd",
+    "defect": "Branch input verifier rejects all symlinks although complete frozen RR tree has a tracked symlink. Fix must verify link blob bytes/mode without following, preserve complete closure and regular-file checks.",
+    "mode": "120000",
+    "rr_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "rr_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "tracked_path": ".claude/skills"
+  }
+}

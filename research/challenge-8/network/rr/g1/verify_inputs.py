@@ -1,11 +1,32 @@
 """Cloud input verification only. Import is inert; no extraction or tool invocation."""
 import hashlib
+import os
 import subprocess
 from pathlib import Path
 
 
 def git(repo, *args):
     return subprocess.check_output(['git', '-C', str(repo), *args])
+
+
+def has_symlink_parent(repo, path):
+    """Check path parents with lstat semantics; never traverse a parent link."""
+    relative = path.relative_to(repo)
+    parent = repo
+    for part in relative.parts[:-1]:
+        parent = parent / part
+        if parent.is_symlink():
+            return True
+    return False
+
+
+def symlink_target_is_checkout_relative(repo, path, target):
+    """Validate a link lexically, without resolving or following its target."""
+    if not target or os.path.isabs(target):
+        return False
+    parent = os.fsencode(path.parent.relative_to(repo))
+    normalized = os.path.normpath(os.path.join(parent, target))
+    return normalized not in (b'..', b'') and not normalized.startswith(b'../')
 
 
 def verify_checkout(repo, pin):
@@ -22,7 +43,8 @@ def verify_checkout(repo, pin):
         raise ValueError('tool root tree mismatch')
     for rec in pin.get('files', []):
         p = repo / rec['path']
-        if not p.is_file() or p.is_symlink() or not p.resolve().is_relative_to(repo):
+        if (has_symlink_parent(repo, p) or not p.is_file() or p.is_symlink() or
+                not p.resolve().is_relative_to(repo)):
             raise ValueError('unsafe pinned source: ' + rec['path'])
         data = p.read_bytes()
         if hashlib.sha256(data).hexdigest() != rec['sha256'] or len(data) != rec['bytes']:
@@ -44,11 +66,29 @@ def verify_checkout(repo, pin):
             mode, kind, blob = metadata.decode().split()
             name = raw_path.decode()
             p = repo / name
+            if has_symlink_parent(repo, p):
+                raise ValueError('tracked source has swapped symlink parent: ' + name)
             if mode == '160000':
                 subpin = pin.get('gitlinks', {}).get(name)
-                if subpin is None or blob != subpin['commit'] or not p.is_dir():
+                if subpin is None or blob != subpin['commit'] or p.is_symlink() or not p.is_dir():
                     raise ValueError('unfrozen/unmaterialized Gitlink: ' + name)
                 byte_inventory[name] = {'gitlink': verify_checkout(p, subpin)}
+                continue
+            if mode == '120000':
+                if kind != 'blob' or not p.is_symlink():
+                    raise ValueError('missing or non-symlink tracked link: ' + name)
+                target = os.readlink(os.fsencode(p))
+                git_target = git(repo, 'cat-file', 'blob', blob)
+                if target != git_target:
+                    raise ValueError('tracked symlink target/blob mismatch: ' + name)
+                if not symlink_target_is_checkout_relative(repo, p, target):
+                    raise ValueError('tracked symlink escapes checkout: ' + name)
+                byte_inventory[name] = {
+                    'git_blob': blob,
+                    'mode': mode,
+                    'symlink_target_sha256': hashlib.sha256(target).hexdigest(),
+                    'bytes': len(target),
+                }
                 continue
             if mode not in ('100644', '100755') or kind != 'blob' or p.is_symlink() or not p.is_file():
                 raise ValueError('unsupported/missing tracked source mode: ' + name)

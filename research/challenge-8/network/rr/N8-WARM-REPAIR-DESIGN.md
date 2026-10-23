@@ -1,0 +1,9 @@
+# N8 warm repair: exact tracked symlink inventory
+
+Warm1 Build `778dfce1-2f3d-4ad9-a098-f7019138dc23` failed at tool-inputs before frontend commands. Brief identities and explicit stage/reason are retained in N8-WARM1-EVIDENCE.json. Existing verifier rejects all120000 modes although unmodified RR332d contains `.claude/skills`, blob2b7a412b8fa0fb7e985b0793321bd4e698f2b6cd, exact target `../.agents/skills` (tracked tree).
+
+Repair only branch source verifier: verify physical symlink type and exact target bytes against frozen Git blob without following it; require lexical checkout containment. Inventory link bytes/hash/mode explicitly. Reject symlink parents before physical path reads and Gitlink recursion. Keep every existing complete-closure, commit/tree/pinned-file, physical regular-byte/executable-mode, pristine, Gitlink and ambient Cargo config check. Do not skip docs/links or narrow verify_paths. No RR frontend/semantics/source/pins/algorithm/normal/unwind change; no stronger premises or credit. The already published canonical image remains unchanged.
+
+Alternative rejected: ignore `.claude` or use git status alone, because either loses physical full-closure checking. No image rebuild is needed: changed verifier is transported in the pinned warm source payload. One full1200/1260 evidence-driven repair is authorized; this consumes warm attempt2 regardless of eventual stage, and then stop/classify per N6. N7 ledger unchanged.
+
+Validation: seven tiny synthetic Git fixtures cover exact link pass, lexical escape, tampered/missing link, swapped symlink parent, regular bytes/execution-mode tamper, unsupported mode. Six saved-data G1 audit/freeze tests pass. Static inspection finds no other RR symlink/gitlink; std library has only frozen backtrace Gitlink. No local toolchain/preparation/extraction was run. Actual physical RR/source verification remains Cloud-only.
