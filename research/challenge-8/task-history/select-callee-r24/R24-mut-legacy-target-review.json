@@ -1,0 +1,45 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD",
+  "baseline_commit": "9ffbdc566ef3f704401900b98e6f303621345c16",
+  "candidate_commit": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+  "candidate_tree": "273cc606e53c782c8bffd56e6be430439dda5ab9",
+  "spec_sha256": "49abfd463992e26540272ffcc3a831a6ca5328019ddcf9bc0b4b31cdfc3d83ee",
+  "packet_sha256": "0829cca62b261b6583ed1c41c9fbf9d09fe0b1907103c0d72236b00d2b2cbfa1",
+  "packet_diff_sha256": "c743d62854f01f93854b18ca3797cabd1ef33cef4e280866dc58fd78b9fcf0e5",
+  "commit_diff_sha256": "c743d62854f01f93854b18ca3797cabd1ef33cef4e280866dc58fd78b9fcf0e5",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-partial-target-review.json",
+      "sha256": "fb44a477735ab0d42754714e7e77fdf8f814377c51b35b748ef16dddce855552",
+      "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD; carried forward"
+    }
+  ],
+  "scope": "Independent review of the legacy-selector refusal target and marker-family matching delta. GO is limited to one full 1200-second diagnostic Build with the existing const/mutable matrices, consequence, and all eleven refusal controls. No publication or proof credit.",
+  "verified": [
+    "Exact review check passed: candidate 5401fce0db3abd5549681d3102fd63d2b2fb4e43, baseline 9ffbdc566ef3f704401900b98e6f303621345c16, spec SHA 49abfd463992e26540272ffcc3a831a6ca5328019ddcf9bc0b4b31cdfc3d83ee, packet SHA 0829cca62b261b6583ed1c41c9fbf9d09fe0b1907103c0d72236b00d2b2cbfa1; packet state PACKET_VALID_NOT_REVIEWED, proof credit NONE.",
+    "The pinned earlier const route defines the `SORT4-R24-CHECKED-POINTER-OUTCOMES` refusal prefix and the exact `exact R24/R21 certified fractional nine-body route required` guard. In the generated translator patch that earlier `Sort4R24CheckedPointerOutcomes.admit()` runs before the appended mutable certificate bundle. The legacy child flag therefore can hit that earlier route guard before mutable-certificate dispatch; the target does not claim that a mutable internal guard ran.",
+    "Only `legacy-selector` selects the earlier const marker family and exact earlier refusal literal. Other controls keep the mutable-certificate family. The classifier checks both marker families, requires a single exact error line, and returns `gate=None` for ordinary unmatched diagnostics; marker-family mismatch is refused as an error. It cannot classify an earlier const-route message as a mutable refusal, nor a mutable marker as the legacy target.",
+    "The new test checks the exact legacy refusal, rejects that line for every other control, rejects extra lines from either marker family, and rejects the former mutable-family legacy expectation. The collector hash, mode collector pin, mode hash, entry mode pin, and runner mode hash agree. All eleven controls and the prior matrices/consequence remain pinned; native/source/model/lemma bytes are unchanged.",
+    "The observed text is from the bounded Brief receipt and is treated as source-reported only. Parser-input binding and causality remain unknown. The workflow retains accepted/publication false and proof credit zero."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check for exact packet (pass)",
+      "test_select_callee_r24_mut_refusals.py (12 tests, pass)",
+      "test_select_callee_r24_mut_refusal_entry.py (7 tests, pass)",
+      "test_r24_mut_capture_runner.py (13 tests, pass)",
+      "bash -n run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement, or verifier",
+      "Cloud Build or Evidence Brief; raw/full logs, archives, or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "The legacy target is based on bounded source-reported text with parser-input binding and causal status unknown. Fresh native execution of all eleven controls is still required. This GO permits only the requested diagnostic Build; it does not establish internal typed-MIR guard coverage, mutable proof acceptance, P2 publication, or formal proof credit. Prior Build failures and accounting remain unchanged. Static transport figures are those recorded in the packet, not runtime execution.",
+  "proof_credit": 0
+}

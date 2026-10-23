@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "627c4600e3aa9f441cbbc3abe6ecd47e0484d90441ce5b2309e852c51803f375"
+      "sha256": "f1a1666d264decc9b309545ed86878b85aeeccf4877830adb286d39be58a4254"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,11 +34,11 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-THIRD-OBSERVATIONS.json",
-        "sha256": "48574a0ab0d66c2f9495112f4283b0b2307d0d7c871ce27565fafaeab8e32c64"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-legacy-target-review.json",
+        "sha256": "4c1f30eba9d9a119a61898e3f736a97a0ddcca92251b1f7704bfd3e910239b81"
       }
     ],
-    "summary": "Legacyselector earlier-route refusal target corrected; full11/root pending. P2 NOT_PUBLISHED."
+    "summary": "Legacy target reviewed GO; fresh full11/root qualification pending. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1671,6 +1671,24 @@
     "scope": "FRESH_MUTABLE_SEVEN_EXACT_TARGET_MATCHES_AND_CHECKED_NORMAL_POST_CONSEQUENCE",
     "state": "TERMINAL_ACCOUNTED_AUDIT_SYSROOT_FIX_PENDING"
   },
+  "mutable_legacy_target_candidate": {
+    "accepted": false,
+    "candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+    "mode_sha256": "63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-LEGACY-TARGET-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "f8f95f3b697c73de44cb0c0d368f94d760f814479edf4966a25881f9e12bbbcb",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-legacy-target-review.json",
+    "review_sha256": "4c1f30eba9d9a119a61898e3f736a97a0ddcca92251b1f7704bfd3e910239b81",
+    "runtime_closure": {
+      "bytes": 3022855,
+      "entries": 128,
+      "sha256": "066d1c2d11a3fb89735288a6ad502e90725588c4248a61363e9ec48a24a22a8c"
+    },
+    "scope": "EXACT_LEGACY_ONLY_EARLIER_ROUTE_REFUSAL_AND_TWO_FAMILY_MARKER_INVENTORY",
+    "state": "REVIEWED_UNBUILT"
+  },
   "mutable_matrix_fingerprint_build": {
     "accounted": true,
     "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
@@ -1976,16 +1994,16 @@
     "state": "TERMINAL_ACCOUNTED_PARTIAL_PAIR_TARGET_FIX_PENDING"
   },
   "mutable_refusal_work_in_progress": {
-    "commit": "9ffbdc566ef3f704401900b98e6f303621345c16",
-    "next": "Fresh full11native controls androotaudit beforeP2publicationreview.",
+    "commit": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+    "next": "Full11nativecontrols androotaudit beforeP2qualificationreview.",
     "paths": [
       "research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py",
       "research/challenge-8/cloud-build/test_select_callee_r24_mut_refusals.py"
     ],
     "proof_credit": 0,
     "publication_allowed": false,
-    "state": "SUBMITTED",
-    "tests": "31focusedtests pass",
+    "state": "REVIEWED_UNBUILT",
+    "tests": "32focusedtests pass",
     "worker": "r24_admission"
   },
   "mutable_successor_candidate": {
@@ -2004,11 +2022,11 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review exact legacy-only target/pins; full11matrix/rootaudit, then P2/W4.",
-  "next_step": "Review exact legacy-only target/pins; full11matrix/rootaudit, then P2/W4.",
+  "next": "Publish reviewed5401fce; full1200matrices/consequence/all11refusals, then P2review/W4.",
+  "next_step": "Publish reviewed5401fce; full1200matrices/consequence/all11refusals, then P2review/W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
-    "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated.",
+    "MutableP2 NOT_PUBLISHED; full11refusals/root qualification and final interface review pending. W4 gated.",
     "Issue56 answer: final required universality/panicking-comparator domain remains pending owner/organizer clarification. No dependent enhancement implemented."
   ],
   "owner": "select-sort4",
@@ -2079,7 +2097,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T22:04:30Z",
+  "updated_utc": "2026-10-23T22:10:00Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
