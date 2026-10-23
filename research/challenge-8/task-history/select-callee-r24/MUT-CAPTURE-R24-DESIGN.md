@@ -71,3 +71,13 @@ HEAD identities and every copied byte hash. Do not use merge-base on missing
 historical objects: 17142 is a historical review reference, not a Cloud ancestry
 claim. All six current source dependency hashes and full source/library pins
 remain mandatory; exact content checks establish the active source inputs.
+
+Independent review delta (before edit): explicitly require mode9 stage
+source_unchanged true and re-read final source pair hashes plus ghost-strip
+identity after all capture/probe stages. Pinned refusal classification already
+checks source_unchanged, but direct post-stage byte checks improve fail-closed
+evidence. Reject located errors and fatal/native exception output in strict
+physical mode9 log even if exit2/refusal marker/10snapshots coexist. The old
+fingerprint_probe_fatal lookup is not emitted by the pinned service and must
+not be relied on. Synthetic drift/missing/null/fatal+marker controls required.
+No source, native checker, admission, or proof/publication semantics change.

@@ -1,0 +1,28 @@
+{
+  "candidate_commit": "d158c32475a4e4b582c6f21c47b00d5cc6bc7bb3",
+  "checks": {
+    "adapter_isolated_tests": 12,
+    "bash_n": true,
+    "diff_check": true,
+    "python_ast": true,
+    "recipe_paths_present_sorted_unique": true,
+    "runner_metadata_tests": 4
+  },
+  "not_run": [
+    "actual source preparation",
+    "compiler/exporter",
+    "MIR decode/refinement",
+    "verifier",
+    "Cloud Build"
+  ],
+  "proof_credit": 0,
+  "review_status": "FIX_REQUIRED_BEFORE_BUILD",
+  "runtime_closure": {
+    "bytes": 2381182,
+    "entries": 107,
+    "sha256": "72fd864b09d2d472f9c8b78af05a5386575c489be0004f7479958b7daa8e1a7f"
+  },
+  "schema": "select-r24-mut-capture-static-validation-v1",
+  "status": "STATIC_SYNTHETIC_PASS_NOT_CLOUD_EVIDENCE",
+  "transport_preflight": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-TRANSPORT-PREFLIGHT-D158.json"
+}

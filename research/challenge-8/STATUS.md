@@ -29,4 +29,4 @@ Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud captur
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `36a0c91750b152d3cd2fedf1aa1a153f5620fa116365a7d4275b63cc1798d852`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `f0c49d9c27e35a8604f8a5c93ec5c0dc06ba1bc8e08f4f177a9988be273a2d02`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `e86adbfd86ea4d8566c3620a4f178000bd9c03f06430c4a9c0c0bf3ad008519b`
