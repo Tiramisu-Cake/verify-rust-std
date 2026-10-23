@@ -1,0 +1,87 @@
+{
+  "accepted": false,
+  "archive_sha256": "702dbbf86cef5220096561a9a4a4dc165d92d26fc64690410e840e4d98d2c2e2",
+  "assurance": "SOURCE_REPORTED",
+  "body_proof_run": false,
+  "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+  "candidate": "ffc37256f396ca6edd40108affc6f23d8feff367",
+  "capture_helper_sha256": "8f3c8bddd385754aeaa4b784f3273a56e6af2f5356658c4df3d50f7c519f812d",
+  "capture_mode_sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3",
+  "fixture_comparator_lines": [
+    248,
+    285,
+    333,
+    368,
+    409
+  ],
+  "index_sha256": "7409ca5474bf29b7fa4d59ea0573e11172479119e82cbf882d3fa4f649747afe",
+  "mir": {
+    "normal": {
+      "decoded_sha256": "5f4069e30518944ccb2fbf6a2b0fe59cab0f35fead0c4e931b9370ee30b04a9e",
+      "full_function_record": "cases/r24-w4-capture/normal-sort4-full-mir.txt",
+      "full_function_record_sha256": "55e3450e0173a31520d90ee09232404ed09536274f8333a2c1634246785a06f6",
+      "unit_binary": {
+        "bytes": 566704,
+        "file_id": "1e23124682c50d6cc3701547c72a6cd34722bf31952a3a0bf85becda0fdb61cf",
+        "file_path": "allprooflogs/cases/r24-w4-capture/fixture/normal-mir.bin",
+        "sha256": "e10643074b58ec4a909668262b04436ca39c1ea92a4aa5355f82382a7188100d"
+      }
+    },
+    "readonly": {
+      "decoded_sha256": "fd3c3464740067c3ab9ee80fab2aaeedac067df9c5af434a6ccd486f30aab13f",
+      "full_function_record": "cases/r24-w4-capture/readonly-sort4-full-mir.txt",
+      "full_function_record_sha256": "324f2380912bb59ad3007bb5b2d3ac4b8d1dfdd5ffc65686376c3ce9ade50f9e",
+      "unit_binary": {
+        "bytes": 254856,
+        "file_id": "c54f1cac9239a6fa96dda3e773cda01d7ca56b533e1940802292f3e841a00450",
+        "file_path": "allprooflogs/cases/r24-w4-capture/fixture/readonly-mir.bin",
+        "sha256": "acd94182fc4d885f32e5d88b656dfa0f9cdb24f3e48a2b406db7a71d0cc9c6f5"
+      }
+    }
+  },
+  "native_marshal_snapshots": "NOT_CAPTURED_BY_CAPTURE_ONLY_MODE; NO_NATIVE_VERIFIER_INVOKED",
+  "observation_record": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-COMPLETE-OBSERVATIONS.json",
+    "sha256": "ed2ca3172dde01dc1d14d50e8108842ce9d6d961707b31d07cb20f5839f88402"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "role": "FRESH_SOURCE_MIR_INPUT_PINS_NOT_CALL_LINKAGE_OR_PROOF",
+  "schema": "select-r24-w4-capture-pins-v1",
+  "source": {
+    "body_annotation_stage": "c1-c5-four-source-recovery-v1",
+    "ghost_strip_identity": true,
+    "original_sha256": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db",
+    "runtime_source_sha256": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db",
+    "signature": "pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(\n    v_base: *const T,\n    dst: *mut T,\n    is_less: &mut F,\n) ",
+    "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "source_path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "target": "sort4_stable",
+    "verified_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663"
+  },
+  "source_call_counts": {
+    "hint::select_unpredictable(": 8,
+    "is_less(": 5,
+    "ptr::copy_nonoverlapping(": 4
+  },
+  "source_comparator_lines": [
+    620,
+    621,
+    635,
+    636,
+    643
+  ],
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  },
+  "typed_call_linkage": "UNKNOWN"
+}

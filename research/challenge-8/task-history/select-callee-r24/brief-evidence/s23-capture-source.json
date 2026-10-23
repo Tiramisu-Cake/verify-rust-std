@@ -1,0 +1,135 @@
+{
+  "archive_sha256": "702dbbf86cef5220096561a9a4a4dc165d92d26fc64690410e840e4d98d2c2e2",
+  "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 17,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+  "file_path": "allprooflogs/cases/r24-w4-capture/W4-CAPTURE.json",
+  "file_sha256": "b815557df77ca97eb52f1443372c2be3402feb766157bb76a2816ea49390692a",
+  "index_sha256": "7409ca5474bf29b7fa4d59ea0573e11172479119e82cbf882d3fa4f649747afe",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b815557df77ca97eb52f1443372c2be3402feb766157bb76a2816ea49390692a",
+    "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+    "pointer": "/source"
+  },
+  "request_id": "dd2eff2faac8456efdcb4990ae273e997e19b287a4092c04a7c7538910cf8b28",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/body_annotation_stage",
+      "value": "c1-c5-four-source-recovery-v1"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/source/c1_c5_comparator_lines"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source/c1_c5_coordinates_source_reported",
+      "value": true
+    },
+    {
+      "child_count": 44,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source/c5_metadata"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source/fixture_paths"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source/ghost_strip_identity",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/original_sha256",
+      "value": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source/repository_source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/runtime_source_sha256",
+      "value": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/signature",
+      "value": "pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(\n    v_base: *const T,\n    dst: *mut T,\n    is_less: &mut F,\n) "
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source/source_call_counts"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/source/source_comparator_lines"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/source_git_blob",
+      "value": "40939f922bcb6fdc7ee0d30427fa861827043827"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/source_path",
+      "value": "library/core/src/slice/sort/shared/smallsort.rs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/source_sha256",
+      "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/target",
+      "value": "sort4_stable"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/verified_sha256",
+      "value": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

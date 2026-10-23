@@ -111,6 +111,17 @@ if [[ -e "$r24_w4_mode_file" ]]; then
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json" | cut -d' ' -f1)" == 1d50cc12011cd8bae26f1a69fee7e43579ab3ef9bacf5708eac33875a4a00794 ]] || exit 2
   r24_w4_capture_only=1
 fi
+r24_w4_linkage_diagnostic=0
+r24_w4_linkage_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-MODE.json"
+r24_w4_linkage_helper="$cloud_dir/select-callee-r24-w4-linkage-diagnostic.py"
+if [[ -e "$r24_w4_linkage_mode_file" ]]; then
+  (( r24_w4_capture_only == 1 )) || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == 381853c2c5186f627bb90f92e8770bb5d996e69605321420a5765a2bad5e2b5f ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == 65e1dd4fa8e38f94743786c731d5615b725d0eaa249b093e2195dd8e9e156524 ]] || exit 2
+  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == ea7a738a5c564a4c2d00b72dc47aa67f5277b44080aa7eaf28e2fc2d01c25d51 ]] || exit 2
+  [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json" | cut -d' ' -f1)" == f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0 ]] || exit 2
+  r24_w4_linkage_diagnostic=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -129,6 +140,16 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( ${r24_w4_linkage_diagnostic:-0} == 1 )); then
+    python3 "$r24_w4_linkage_helper" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "${source_home:-/workspace/missing-native-tool}" \
+      --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-/workspace/missing-sysroot}" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_linkage_mode_file" \
+      --output "$evidence_root/proof-audit.json" --runner-exit "$1" --failed-stage "$2"
+    return $?
+  fi
   if (( ${r24_w4_capture_only:-0} == 1 )); then
     python3 "$r24_w4_helper" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
@@ -608,6 +629,17 @@ out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes']
 HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
+
+if (( r24_w4_linkage_diagnostic == 1 )); then
+  stage r24-w4-linkage-diagnostic python3 "$r24_w4_linkage_helper" run \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --deadline-epoch "$deadline" --candidate "$current_sha" \
+    --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_linkage_mode_file"
+  current_stage=r24-w4-linkage-diagnostic-audit
+  audit_result 0 complete
+  exit 0
+fi
 
 if (( r24_w4_capture_only == 1 )); then
   stage r24-w4-capture python3 "$r24_w4_helper" run \

@@ -1,0 +1,105 @@
+{
+  "brief": {
+    "archive_sha256": "702dbbf86cef5220096561a9a4a4dc165d92d26fc64690410e840e4d98d2c2e2",
+    "build_processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "build_run_exit_source_claim": 0,
+    "build_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+    "causal_status": "UNKNOWN",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+  "evidence_kind": "bounded Evidence Brief observations; not parser-input or proof evidence",
+  "mir_records": {
+    "normal": {
+      "argument_local_types": {
+        "_184": "bool",
+        "_185": "rawPtr(param T, mutability not)",
+        "_186": "rawPtr(param T, mutability not)"
+      },
+      "argument_locals": [
+        "_184",
+        "_185",
+        "_186"
+      ],
+      "file_id": "adb2e7c56d88183700657c49c08eef08ed93835b60a5c5c04a8f1244faa1ce0d",
+      "first_call_args_window_request": "69e876caff97ddb0190156fa8a6dfff2b041b005876c598286c15a641f4b4d5b",
+      "first_call_window_request": "6a7502216e0b9ef6cad1155231a81d97a95d4fc3cdc4464f45faa67cbad4ad43",
+      "function_record": "ty.kind.fnDef.id.name = std::hint::select_unpredictable; substs[0].kind.type.kind.rawPtr.ty.kind.param = T; mutability = not; lateBoundGenericParamCount = 0",
+      "local_185_type_window_request": "fa0daa7a06bc4587e68bc27db81f71cff15b48bb83dd3e56589ab8669d07538f",
+      "local_186_type_window_request": "5b3f70b46ac2c8e1f6c5887890c0e67b96632757d915e52ae60371662ba1f341",
+      "observation": {
+        "raw_occurrences": 8,
+        "source_call_count": 8,
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "selector_observation_pointer_request": "dc13e0ed0e514a7d2cd5e15adc703f90900f38b20b707a5abb6d2fab315651fc",
+      "sha256": "55e3450e0173a31520d90ee09232404ed09536274f8333a2c1634246785a06f6",
+      "source_call_span_as_printed": {
+        "col_end_pos": 50,
+        "col_start_pos": 44,
+        "line": 372,
+        "path": "verified/lib.rs"
+      },
+      "source_lines": 37055
+    },
+    "readonly": {
+      "argument_local_types": {
+        "_59": "bool",
+        "_60": "rawPtr(param T, mutability not)",
+        "_61": "rawPtr(param T, mutability not)"
+      },
+      "argument_locals": [
+        "_59",
+        "_60",
+        "_61"
+      ],
+      "file_id": "dbb82c053e68ff373a1f659651e63b41bf0130b56d04e4b006c3c577321a14ca",
+      "first_call_args_window_request": "ba65ed963c303d6bc36580c66d7ebc45b08c1eb242818ea7b6712960758b30f8",
+      "first_call_function_record": "ty.kind.fnDef.id.name = std::hint::select_unpredictable; substs[0].kind.type.kind.rawPtr.ty.kind.param = T; mutability = not; lateBoundGenericParamCount = 0",
+      "first_call_window_lines": [
+        7501,
+        7512
+      ],
+      "inference": "first inspected normal and readonly call records have the same emitted generic type shape",
+      "local_60_type_window_request": "1a51d3025f59b3498ef88202074e56d3a9d4d51a8edd00109216296b391811d1",
+      "local_61_type_window_request": "2675986f97d36cd32e2dfa8cc03e106ee3b20879f5de6b634455066239de0858",
+      "observation": {
+        "raw_occurrences": 8,
+        "source_call_count": 8,
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "selector_observation_pointer_request": "7dadd5b86a0c62763dbe07216543be524a4a3063454e3ddec6cdf32609c68023",
+      "sha256": "324f2380912bb59ad3007bb5b2d3ac4b8d1dfdd5ffc65686376c3ce9ade50f9e",
+      "source_call_span_as_printed": {
+        "call_operand_local_source_cols": [
+          47,
+          50
+        ],
+        "line": 372,
+        "path": "verified/lib.rs"
+      },
+      "source_lines": 16223
+    }
+  },
+  "next_extractor_contract": {
+    "prohibited_inferences": [
+      "parser-input binding",
+      "proof success",
+      "AST identity",
+      "MIR/source causality",
+      "typed linkage based on raw count alone"
+    ],
+    "required": [
+      "strictly parse complete record grammar and reject malformed/truncated records",
+      "find exactly 8 FnDef calls named std::hint::select_unpredictable per record",
+      "for each, validate exactly one generic substitution as *const T (rawPtr(param T), mutability not)",
+      "validate exact function record has lateBoundGenericParamCount 0",
+      "validate three call operands: bool local then two unprojected Move locals, and resolve last two localDecl types to *const T",
+      "retain path/line/column source spans as emitted coordinates only",
+      "compare normal and readonly extracted rows and expected source-call ordering; classify any mismatch UNKNOWN",
+      "resolve the paired sourceInfo spans for all three operand locals; preserve those as emitted generated-source coordinates and do not assert parser-input identity"
+    ],
+    "scope": "parse complete normal and readonly MIR records in Cloud-side pure extractor; no local/source/parser identity assertion"
+  },
+  "schema": "r24-s23-bounded-typed-probe-v1"
+}
