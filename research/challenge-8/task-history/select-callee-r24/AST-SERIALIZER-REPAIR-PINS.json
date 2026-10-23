@@ -1,0 +1,18 @@
+{
+  "actual_toolchain": "NOT_RUN",
+  "base_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+  "base_tool": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "gate": "Exact R24 positive_ast_args; absent R24 marker retains old tool chain and output metadata",
+  "native_ast_fields": "MergeFractionsStmt of loc * asn; serialize with of_loc/of_expr, no omission or replacement",
+  "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+  "patch": "research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch",
+  "patch_sha256": "f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba",
+  "proof_credit": 0,
+  "result_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+  "schema": "select-r24-ast-serializer-repair-pins-v1",
+  "source": "src/frontend/ocaml_expr_of_ast.ml",
+  "source_and_fingerprint_rows_changed": false,
+  "static_patch_application": "PASS; reproduced result hash from committed f76012fb source; single utility source file only",
+  "status": "UNBUILT_REVIEW_PENDING",
+  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+}

@@ -223,6 +223,28 @@ stage parser-refresh-apply git -C "$source_home" apply "$parser_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44 ]] || exit 2
 
 
+# R24 dump-only utility support; verifier/translator semantics remain unchanged.
+if (( ${#positive_ast_args[@]} > 0 )); then
+  ast_serializer_patch="$proof_root/research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch"
+  ast_serializer_manifest="$proof_root/research/challenge-8/cloud-build/sort4-caller-entry-native/MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json"
+  current_stage=ast-serializer-identity
+  [[ "$(sha256sum "$ast_serializer_patch" | cut -d' ' -f1)" == f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba ]] || exit 2
+  [[ "$(sha256sum "$ast_serializer_manifest" | cut -d' ' -f1)" == c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b ]] || exit 2
+  [[ "$(sha256sum "$source_home/src/frontend/ocaml_expr_of_ast.ml" | cut -d' ' -f1)" == 898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff ]] || exit 2
+  stage ast-serializer-check git -C "$source_home" apply --check "$ast_serializer_patch"
+  stage ast-serializer-apply git -C "$source_home" apply "$ast_serializer_patch"
+  [[ "$(sha256sum "$source_home/src/frontend/ocaml_expr_of_ast.ml" | cut -d' ' -f1)" == f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94 ]] || exit 2
+  git -C "$source_home" diff --name-only > "$ev/r24-final-tool-modified-files.txt"
+  python3 - "$manifest" "$ev/r24-final-tool-modified-files.txt" <<'R24_SCOPE'
+import json,pathlib,sys
+m=json.load(open(sys.argv[1]))
+expected=sorted(m['production_modified_files']+['src/frontend/ocaml_expr_of_ast.ml'])
+actual=pathlib.Path(sys.argv[2]).read_text().splitlines()
+assert actual==expected,(actual,expected)
+R24_SCOPE
+fi
+
+
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
@@ -252,7 +274,7 @@ for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.
   cmp "$stock_home/bin/$binary" "$source_home/bin/$binary"
 done
 python3 - "$manifest" "$source_home" "$ev/profile-hashes.json" <<'HASHES'
-import hashlib,json,pathlib,sys
+import hashlib,json,os,pathlib,sys
 m=json.load(open(sys.argv[1])); root=pathlib.Path(sys.argv[2]); out=pathlib.Path(sys.argv[3])
 rows={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in m['hosted_profile_hashes']}
 for path in rows:
@@ -261,6 +283,11 @@ for path in rows:
    raise SystemExit(f'R22 parser pin differs: {path}')
  elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
+if os.environ.get('SORT4_R24_SESSION_PHASE_ID') == 'SORT4-ACTUAL-SELECT-2026-10-24-R24':
+ path='src/frontend/ocaml_expr_of_ast.ml'
+ rows[path]=hashlib.sha256((root/path).read_bytes()).hexdigest()
+ if rows[path]!='f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94':
+  raise SystemExit('R24 AST serializer pin differs')
 out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes'],
  'console_byte_identical':rows['bin/verifast']==m['hosted_profile_hashes']['bin/verifast']},indent=2)+'\n')
 HASHES

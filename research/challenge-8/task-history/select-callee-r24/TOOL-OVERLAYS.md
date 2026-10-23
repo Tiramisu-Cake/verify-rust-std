@@ -1,10 +1,10 @@
 # Select R24 tool overlays
 
-Base: upstream VeriFast `f76012fb518703b1d98e243ac4f487f16877cfcb`. Apply the rows below in order. This is the active const callee lane chain from `run-o26-select-callee-r20.sh`, unchanged from reviewed candidate `a4737f9febf20ec5373eafa641268c26c6e674c7`.
+Base: upstream VeriFast `f76012fb518703b1d98e243ac4f487f16877cfcb`. Apply the rows below in order. Rows 1–27 are the const callee chain from reviewed candidate `a4737f9febf20ec5373eafa641268c26c6e674c7`. Row 28 is an UNBUILT R24-only AST diagnostic utility overlay; the normal verifier/translator semantics are unchanged.
 
 Base translator SHA-256: `c1eb897673f88b0b8dc50798deca603bdad2c60818b6d5380ccf1dda055fe445`. Final translator SHA-256: `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44`. Final parser SHA-256: `6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246`.
 
-Static patch application against committed base files reproduced these hashes. No local compiler, exporter, MIR decoder, source preparation or verifier was run. First R24 Cloud result is pending; this document grants no proof credit or pin change.
+Static patch application against committed base files reproduced these hashes. No local compiler, exporter, MIR decoder, source preparation or verifier was run. R24 Builds af904556 and 234e58e3 did not accept the callee; row 28 remains UNBUILT. This document grants no proof credit or profile acceptance.
 
 ## Gating and scope
 
@@ -45,5 +45,8 @@ Keep actual source, generic signatures, normal/unwind/nested-Drop and ownership/
 | 25 | `research/challenge-8/overnight-assume-actual/verifast-r23-fractional-mir-layout-26.10.patch` | `68810eb486d494cb49e158a13eab55b19464fad1b724bd9025cf5960b6c5bc17` | `2d6f1950bd95b655560c767c54af8facfecde724f29a72c4218b65b6c6438c19` → `cadaa80ab55e6fb3f53ccfcae1ab05dc953a2cb69a17616654d49dad6350478f` |
 | 26 | `research/challenge-8/task-history/select-callee-r23/ghost-cleanup-successor-fractional.patch` | `03f91fb5fe7cb25deabe5d6d7ab4e224e5559823b0c88b75a3c717dba088567d` | `cadaa80ab55e6fb3f53ccfcae1ab05dc953a2cb69a17616654d49dad6350478f` → `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44` |
 | 27 | `research/challenge-8/overnight-assume-actual/verifast-r22-coef-typepred-parser-26.10.patch` | `dfdaff604314ecf0e27c44320811096f05a8bd8833910c59321fdec33de7b0e5` | `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44` → `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44` |
+| 28 | `research/challenge-8/cloud-build/sort4-caller-entry-native/merge-fractions-ast-dump-r15.patch` | `f08f1c391aa62e6cbeb0ad80e73958b1b6dcfd38f40b3d7d87802d12c4a534ba` | `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44` → `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44` |
+
+Row 28 applies after row 27 only when the exact R24 session enables the positive AST diagnostic. It serializes the existing `MergeFractionsStmt(l,e)` constructor and both fields, without changing the AST or verifier. Source `src/frontend/ocaml_expr_of_ast.ml`: base `898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff`, final `f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94`. Manifest `research/challenge-8/cloud-build/sort4-caller-entry-native/MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json`, SHA-256 `c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b`. The R24 runner candidate checks and reports that printer hash; the R24 final source-file inventory must equal the frozen three modified files plus this utility. No R15 credit transfers.
 
 The maintainer may use this published chain for tool integration review/regressions; proof work, acceptance and Select pins remain owned by Select. No integration, deployment or upstream publication is performed here.
