@@ -2,15 +2,15 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "f8d3f62f2e3849804c7ccce3a32f79cef512a287cdfedb5cc4b56f4f18e29dc7"
+      "sha256": "c55a04f68acbb368e375fc948d1512e5f3a27fa9f9372e24012e4aed5463fd3f"
     },
     {
-      "path": "research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json",
-      "sha256": "eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe"
+      "path": "research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json",
+      "sha256": "415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "a90b82b8b30be46d2a491fd2d6027a37e415f7a62bd5f300b23375c5bf033047"
+      "sha256": "9b3ba759ebb3e1e1c057e6baf00f72850d36addf2b5c1075b45cd5a972c4e623"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -35,12 +35,11 @@
     "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
     "evidence": [
       {
-        "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
-        "path": "research/challenge-8/task-history/select-callee-r24/THIRD-PROOF-OBSERVATIONS.json",
-        "sha256": "eb804793a398f12fd60de19cc91380041632b8e0df54def009f81b5b3906fcbe"
+        "path": "research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json",
+        "sha256": "415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83"
       }
     ],
-    "summary": "Await reviewed checked-outcome Cloud Build; compilation, positive and full control results pending Brief."
+    "summary": "New gate fails OCaml name resolution; exact one-line enclosing-functor correction pending review and Cloud."
   },
   "brief_observation_refs": [
     {
@@ -50,6 +49,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/03a46ae90cd90400ed38c172ea738483928bc1694ca1b9f051bf1a832a0d60e1.json",
       "sha256": "03a46ae90cd90400ed38c172ea738483928bc1694ca1b9f051bf1a832a0d60e1"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/09afd5f0fe6b23c55b63883fabf76523947f06529c1516082362731546f410c1.json",
+      "sha256": "09afd5f0fe6b23c55b63883fabf76523947f06529c1516082362731546f410c1"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/199c644863b7ff35d22b8896c8f7adfd2ecbc650af06cd54b6660ef77f7f3be3.json",
@@ -113,20 +116,23 @@
     }
   ],
   "checked_outcomes_build": {
+    "accounted": true,
+    "build_seconds": 301,
     "id": "0b240663-a082-41e9-a3e2-19a0b8738958",
     "infra_sha": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
     "proof_credit": 0,
     "proof_sha": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
-    "status": "QUEUED"
+    "result": "SOURCE_REPORTED_CONSOLE_BUILD_EXIT2_UNBOUND_MODULE",
+    "status": "FAILURE"
   },
   "checked_outcomes_decision": {
     "candidate": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+    "compile_fix": "Use enclosing Args.ignore_unwind_paths instead of later TranslatorArgs alias; same bool and boundary, standalone overlay retains failed patch.",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "SUBMITTED_PENDING_BRIEF"
+    "state": "COMPILE_SCOPE_FIX_REVIEW_PENDING"
   },
   "confirmed": [
     {
@@ -218,11 +224,11 @@
     },
     {
       "obligation": "Exact checked const-pointer Outcome projection",
-      "reason": "Only emitted AST refs to shared cleanup are two same-unit false-unwind calls; use exact existing result projection. No raw MIR or checker edits.",
-      "state": "SUBMITTED_PENDING_BRIEF"
+      "reason": "First checked-outcome build fails on out-of-scope TranslatorArgs. One-line enclosing Args correction; exact same guards and two projection sites.",
+      "state": "COMPILE_SCOPE_FIX_REVIEW_PENDING"
     }
   ],
-  "next_step": "ACK watcher event first; then Brief compile/positive/controls. Keep classifier and target pins closed until clean positive.",
+  "next_step": "Review same-boundary compile-scope fix, static closure/transport, then full1200 Build. Do not repeat failed configuration.",
   "open": [
     "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
@@ -266,17 +272,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "0b240663-a082-41e9-a3e2-19a0b8738958"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 20582,
+    "remaining_seconds": 20281,
     "retired_seconds": 0,
-    "spent_seconds": 1018,
+    "spent_seconds": 1319,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -288,12 +292,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T12:24:10Z",
+  "updated_utc": "2026-10-23T12:29:25Z",
   "watcher_handoff": {
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "acknowledged_event_id": "d885065f-c72d-4bfb-840a-0d76c81813df",
+    "acknowledged_job_id": "2cd91d32-9f9a-46e9-8880-3ad9967a691f",
     "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
-    "checkpoint_frozen_after_arm": true,
+    "checkpoint_frozen_after_arm": false,
     "continuation": "Same R24 T0/account/window, exact checked-outcomes candidate; no new authority or proof credit.",
     "spec_path": "/tmp/select-r24-checked-outcomes-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"

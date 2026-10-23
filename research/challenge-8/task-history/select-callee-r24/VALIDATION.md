@@ -218,3 +218,23 @@ The next render exceeded CURRENT-TASK6144-byte cap. Reduced top-level
 rendered artifact refs from6 to3; all earlier refs remain in the full artifact
 index and immutable observation list. Shortened next-step text, no claim or
 mission state was removed. No watcher was armed before successful validation.
+
+
+## Fourth terminal result and compilation-scope correction
+
+Watcherd885065f ACKED CONTINUE_EXISTING_WINDOW at12:29:08Z before CP edits.
+Build0b240663 FAILURE/accounted301s; total1319s, remaining20281s. DefaultBrief
+NOT_ACCEPTED_AS_REPORTED, runexit2, evidencecompletefalse. Exactconsolelog
+1091-1095 reports Unbound module TranslatorArgs atnewmodule1124; console-build
+exit2. Exact observation/archive/index/request identities retained in FOURTH.
+No actual projection, positive, controls or proof acceptance established.
+
+The alias TranslatorArgs=Args is defined later at2717; enclosing Make(Args)
+at340 has ignore_unwind_paths:bool in its interface. Separate row30 overlay
+3f342a74 replaces only this early reference with Args, preserving the bool
+and every gate. Original81c5 patch, reviewed2aba candidate and failedBuildpins
+remain unchanged; no retry of the failed configuration. Static application
+of rows29+30 to frozen103 reproduces translator e3c99165. Two actualpatch/hash
+checks now cover both overlays; bash-n/threeinlinePython ASTparse checks pass.
+Entry/helper/flags/source/certificates/control/classifier behavior unchanged;
+no reason to repeat their passed tests. Delta review and Cloud compile/proof pending.

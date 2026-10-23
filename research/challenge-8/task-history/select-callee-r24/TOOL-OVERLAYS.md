@@ -69,3 +69,20 @@ serializer check/apply exit0 and complete structural AST artifact SHA256
 The Build remains FAILURE; diagnostic log reports the same three dead-code sites.
 This establishes source-reported diagnostic availability, not parser-input identity,
 causal proof, actual acceptance, or independent proof credit.
+
+
+30. `task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch`
+    SHA256 `3f342a74bd855cc4dd4e8e639fbd6d96790d14c76e718fed1b475e673a275563`;
+    translator `6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c`
+    → `e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db`.
+    Same closed R24 gate, after row29, before compile. One identifier correction:
+    the early admission module uses enclosing `Args.ignore_unwind_paths`;
+    `TranslatorArgs` aliases the same functor argument later in the file and
+    is out of scope at this point. No guard, source/MIR, checker, spec, control,
+    result projection or callee-body proof change. Static application PASS;
+    UNBUILT, unproved. No upstream adoption or proof credit claimed.
+
+Row29 Build `0b240663-a082-41e9-a3e2-19a0b8738958` FAILURE: Brief reports
+console-build exit2, `Unbound module TranslatorArgs` at1124. Check/apply exit0
+records establish patch application only; actual projection/proof not established.
+Failed candidate2aba4276 and original row29 patch/pins are preserved unchanged.

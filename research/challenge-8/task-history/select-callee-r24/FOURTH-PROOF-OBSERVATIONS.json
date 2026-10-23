@@ -1,0 +1,25 @@
+{
+  "archive_sha256": "7ea03c58912b4a80bae93fa59da0d1b79077a201d5e0f26d59c4b29112506051",
+  "assurance": "SOURCE_REPORTED",
+  "brief_run_exit": 2,
+  "brief_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+  "console_build_exit": 2,
+  "evidence_complete_as_reported": false,
+  "index_sha256": "ac58138e991b9af12498b012062a38758807ee5b6c6ecb5ad447483de0c240ad",
+  "next": "Add one-line scope correction overlay; no unchanged failed configuration retry. Same-boundary reviewer delta before next full1200 Build.",
+  "observations": [
+    {
+      "fact": "Exact console-build log1091-1095 reports vf_mir_translator.ml1124 TranslatorArgs.ignore_unwind_paths and Unbound module TranslatorArgs. Compiler failure is source-reported; no actual projection or proof acceptance established.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s4-console-compile-error.json",
+      "receipt_sha256": "46d1d79d6faea3bbf0c4a930783430e7827b3d7bac26ced7b82a93be9564d2ed",
+      "request_id": "bb093599a6347a954dfdda3fccb3becee7d40b3830e790a53c4d817848ad270b",
+      "tag": "console-compile-error.json"
+    }
+  ],
+  "ordinary_proof_result": "NOT_ESTABLISHED_BY_THIS_BUILD",
+  "proof_credit": 0,
+  "schema": "select-r24-fourth-proof-observations-v1",
+  "source_commit": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+  "static_defect": "TranslatorArgs alias is defined at2717 after new module1124; enclosing Make(Args) at340 is in scope and has exact same ignore_unwind_paths field."
+}

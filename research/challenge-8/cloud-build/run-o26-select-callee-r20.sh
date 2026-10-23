@@ -255,6 +255,12 @@ if (( ${#positive_ast_args[@]} > 0 )); then
   stage checked-outcomes-check git -C "$source_home" apply --check "$checked_outcomes_patch"
   stage checked-outcomes-apply git -C "$source_home" apply "$checked_outcomes_patch"
   [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c ]] || exit 2
+  checked_outcomes_scope_patch="$proof_root/research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch"
+  current_stage=checked-outcomes-scope-identity
+  [[ "$(sha256sum "$checked_outcomes_scope_patch" | cut -d' ' -f1)" == 3f342a74bd855cc4dd4e8e639fbd6d96790d14c76e718fed1b475e673a275563 ]] || exit 2
+  stage checked-outcomes-scope-check git -C "$source_home" apply --check "$checked_outcomes_scope_patch"
+  stage checked-outcomes-scope-apply git -C "$source_home" apply "$checked_outcomes_scope_patch"
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db ]] || exit 2
   git -C "$source_home" diff --name-only > "$ev/r24-checked-outcomes-modified-files.txt"
   cmp "$ev/r24-final-tool-modified-files.txt" "$ev/r24-checked-outcomes-modified-files.txt"
 fi
@@ -299,7 +305,7 @@ for path in rows:
  elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
 if os.environ.get('SORT4_R24_SESSION_PHASE_ID') == 'SORT4-ACTUAL-SELECT-2026-10-24-R24':
- if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!='6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c':
+ if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!='e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db':
   raise SystemExit('R24 checked outcomes translator pin differs')
  path='src/frontend/ocaml_expr_of_ast.ml'
  rows[path]=hashlib.sha256((root/path).read_bytes()).hexdigest()

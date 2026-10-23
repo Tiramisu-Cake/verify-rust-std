@@ -1,0 +1,14 @@
+{
+  "base_tool": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "base_translator_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c",
+  "defect": "New admission module appears before TranslatorArgs alias at2717. Make(Args) enclosing functor is in scope; use identical bool Args.ignore_unwind_paths.",
+  "failed_build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+  "failed_candidate": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+  "invariants": "Same exact no-ignore-unwind requirement, default-off gate, two projections and counters, raw MIR and checked callee proof; no runtime semantic change intended.",
+  "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch",
+  "patch_sha256": "3f342a74bd855cc4dd4e8e639fbd6d96790d14c76e718fed1b475e673a275563",
+  "proof_credit": 0,
+  "result_translator_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db",
+  "schema": "select-r24-checked-outcomes-compile-scope-fix-v1",
+  "validation": "Static git apply/check of original81c5 then scope fix from frozen103; exact result hash. No local compiler, proof or Cloud."
+}

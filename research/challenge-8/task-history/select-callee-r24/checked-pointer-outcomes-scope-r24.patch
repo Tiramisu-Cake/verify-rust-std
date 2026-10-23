@@ -1,0 +1,11 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1121,7 +1121,7 @@
+              !Sort4SelectIntrinsic.actual_fractional_variant = None ||
+              not !Sort4PointerDrop.active ||
+              not !Sort4A1Nine.active || not !Sort4A1Link.active ||
+-             TranslatorArgs.ignore_unwind_paths
++             Args.ignore_unwind_paths
+           then reject "exact R24/R21 certified fractional nine-body route required";
+           active := true;
+           Ok ()
