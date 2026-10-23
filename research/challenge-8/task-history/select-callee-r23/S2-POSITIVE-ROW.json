@@ -1,0 +1,135 @@
+{
+  "archive_sha256": "358cf3fbd02d01fb07e97d34d65345df01484c99cdfb9e9506f224ea477e8951",
+  "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 17,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "b15782c536675b430b149b40e0ae77df06d98ad32eac0dd0ffd77c1cb67bc550",
+  "index_sha256": "1b12dad9dbffd4d9bcf8ffaa457794c07e270b944879df73b454347fbd954778",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b15782c536675b430b149b40e0ae77df06d98ad32eac0dd0ffd77c1cb67bc550",
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "pointer": "/rows/positive"
+  },
+  "request_id": "0580db4084cda3ddd415e1619ff667e4317f59888a672b534a9e6bc82b617edd",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/bound_verdict",
+      "value": "POSITIVE_FAILED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/classification",
+      "value": "POSITIVE_FAILED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/log_file",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/log_sha256",
+      "value": "1cbfcc98de0269fa2eba2925db3dd8ec57182b23b53a697024a646815bdb90dd"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/normal_unwind_nested_drop_gates",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/observed_sources_after_stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/original_sha256",
+      "value": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/postflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/postflight_capture_check"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/preflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/preflight_capture_check"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/source_intact_after_stages",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/source_intact_before_stage",
+      "value": true
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/status",
+      "value": "INCOMPLETE"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/variant",
+      "value": "positive"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/verified_sha256",
+      "value": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -1,0 +1,43 @@
+{
+  "archive_sha256": "358cf3fbd02d01fb07e97d34d65345df01484c99cdfb9e9506f224ea477e8951",
+  "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 55,
+      "JSON_EXCEEDS_SCAN_LIMIT": 2,
+      "PROJECTED": 279,
+      "UNSUPPORTED_FILE_TYPE": 300
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1282714,
+    "content_files": 336,
+    "files": 636,
+    "source_scan_bytes": 2406413
+  },
+  "index_sha256": "1b12dad9dbffd4d9bcf8ffaa457794c07e270b944879df73b454347fbd954778",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+      "kind": "json",
+      "path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+      "path_sanitized": false,
+      "scanned_bytes": 262144,
+      "sha256": "b15782c536675b430b149b40e0ae77df06d98ad32eac0dd0ffd77c1cb67bc550",
+      "size_bytes": 343924,
+      "status": "JSON_EXCEEDS_SCAN_LIMIT",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 636,
+    "files_with_incomplete_content": 498,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

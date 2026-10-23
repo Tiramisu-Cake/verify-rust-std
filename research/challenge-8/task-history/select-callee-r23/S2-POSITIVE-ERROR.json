@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "358cf3fbd02d01fb07e97d34d65345df01484c99cdfb9e9506f224ea477e8951",
+  "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 8,
+    "line_separator": "LF",
+    "source_lines": 21,
+    "start": 4,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "1cbfcc98de0269fa2eba2925db3dd8ec57182b23b53a697024a646815bdb90dd",
+  "index_sha256": "1b12dad9dbffd4d9bcf8ffaa457794c07e270b944879df73b454347fbd954778",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 8,
+    "expected_sha256": "1cbfcc98de0269fa2eba2925db3dd8ec57182b23b53a697024a646815bdb90dd",
+    "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "start": 4
+  },
+  "request_id": "ea16d9ae15211e345cfcfe09bc844922886a6cced4dda9372eddd7f6d6673a21",
+  "requested_end": 8,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "SORT4-AS-MUT-PTR: certified SAFE local body sort4_checked_as_mut_ptr"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "Fatal error: exception Failure(\"SORT4-SELECT-INTRINSIC: certificate mismatch: owner shared cleanup predecessor inventory\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "Raised at Stdlib.failwith in file \"stdlib.ml\", line 29, characters 17-33"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "Called from Vf_mir_translator.Make.Sort4SelectIntrinsic.reject in file \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\" (inlined), line 742, characters 6-71"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "Called from Vf_mir_translator.Make.sort4_actual_owner_admit in file \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 12874, characters 6-57"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

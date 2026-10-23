@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "358cf3fbd02d01fb07e97d34d65345df01484c99cdfb9e9506f224ea477e8951",
+  "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 10,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "b15782c536675b430b149b40e0ae77df06d98ad32eac0dd0ffd77c1cb67bc550",
+  "index_sha256": "1b12dad9dbffd4d9bcf8ffaa457794c07e270b944879df73b454347fbd954778",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b15782c536675b430b149b40e0ae77df06d98ad32eac0dd0ffd77c1cb67bc550",
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "pointer": "/rows/positive/stage"
+  },
+  "request_id": "6c49dc9b1699a6fc7b32b5eaf93702b37cb41911428e666fdb2ca64b27219483",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/positive/stage/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/positive/stage/exit",
+      "value": 2
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/stage/intrinsic_gate_active",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/stage/pointer_drop_gate_active",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/stage/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/stage/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/stage/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/stage/status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/stage/stderr",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/stage/stdout",
+      "value": "r20-merged-optin.log"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

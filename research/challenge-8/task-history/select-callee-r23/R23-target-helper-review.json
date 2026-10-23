@@ -1,0 +1,43 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "7673654682cce91ec655de668fd9ca1943c00852",
+  "baseline_commit": "9a7c77d6c22ec5c781b62960f7b3d2d477590f80",
+  "candidate_tree": "b31fe072dd0b2f2d1c223c501cfdb023037bcbbf",
+  "spec_sha256": "6eca638870e5ab81ef1c90e122e8a9c29770dfdd1ad9c8a0f5abc821c5c5367f",
+  "packet_sha256": "21c4b76e116159bc5094a750a03f036cfd05bac724b038310fe5b0fd44be0c28",
+  "diff_sha256": "2f09198eb4c8b5c11138c4c778d424a67540347df74b29ad60e6e58caa11b162",
+  "decision": "NO_GO",
+  "scope": "inactive R22 control target validator; no Cloud target validation, classifier integration, or proof credit",
+  "verified": [
+    "review check matched the exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "the helper requires exactly the seven named rows, exact row keys and variant names, source/tool hashes matching supplied bytes, source anchor line, diagnostic columns, full one-line error text, and exact tool-spec line intent/text for omit controls",
+    "diagnostic matching requires one recognized diagnostic and exact file/line/columns/message equality; outputs remain TARGET_MAP_VALIDATED_NOT_ACCEPTED / accepted=false / proof_credit=false",
+    "path handling accepts only the explicit relative tool path or exact resolved tool_home path; no suffix normalization"
+  ],
+  "findings": [
+    {
+      "id": "R23-TH-1",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r22-control-targets.py::_validate_observation, _validate_target, match_first_and_only_error",
+      "finding": "Fresh observation provenance is not bound per target row. The map has one top-level build_id, while each of seven target records has only observed=true and no row-specific build identity or digest/reference to the verifier observation/log. match_first_and_only_error accepts arbitrary caller log_text and does not establish that it came from the declared build. Thus the helper can validate seven self-consistent rows while failing its stated requirement that each be a fresh observed target.",
+      "fix": "Bind each target record to its own fresh observation identity (or to an explicit single-build matrix record that proves all seven variants), and bind the matched diagnostic input to that identity, e.g. with a content digest/reference and a validated receipt contract. Keep this as observation validation only; do not imply proof acceptance."
+    },
+    {
+      "id": "R23-TH-2",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r22-control-targets.py::_source_anchor no-retained-half branch",
+      "finding": "The no-retained-half anchor only requires one global occurrence of RETAINED_HALF_MERGE and one global occurrence of FULL_CELL_ASSERT, with the former byte offset earlier than the latter. It does not require either anchor to be inside the same select_unpredictable body or even the same function. A source containing the merge in one function and the full-cell assertion later in another can pass this anchor check and assign a diagnostic to the unrelated assertion line.",
+      "fix": "Anchor both snippets within one uniquely identified select_unpredictable body (and require the expected returned-guard context/order); fail closed if function boundaries or context are ambiguous."
+    }
+  ],
+  "nits": [
+    "The helper is explicitly inactive and returns no acceptance or proof credit; this review does not treat it as an activated classifier or as evidence that any target was observed.",
+    "The caller-supplied source bytes, tool-spec bytes, and tool path are internally self-consistent but are not independently tied here to a physical file or pinned expected digest; keep the documented external source/stage binding mandatory at any future integration."
+  ],
+  "not_run": [
+    "synthetic tests (inspected only; packet says do not execute source/evidence)",
+    "Cloud, compiler, verifier, proof runner, raw evidence, archives, and logs"
+  ],
+  "proof_credit": 0
+}
