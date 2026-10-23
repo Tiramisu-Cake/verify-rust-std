@@ -16,20 +16,27 @@ means.
 Every value supplied to `fingerprint_to_pins` is copied exactly from an exact,
 complete Brief observation tied to one unchanged build/file/index/archive
 identity. Preserve request IDs and available coverage metadata. Use only
-server-returned `next_offset` and `next_value_start`; never infer missing values
-or completeness. The result must remain acceptable to the unchanged pinned
-consumer, which remains responsible for strict proof-pin checks. Projection
-does not reconstruct or claim completeness for omitted record fields.
+server-returned `next_offset` for container pagination; never infer missing
+values or completeness. All consumed schema strings are bounded names, hashes,
+statuses, or filenames. If a consumed scalar includes `next_value_start` or is
+marked incomplete, fail closed. Narrow/manual Brief reads are required to handle
+such a value; this projection does not assemble long strings. The result must
+remain acceptable to the unchanged pinned consumer, which remains responsible
+for strict proof-pin checks. Projection does not reconstruct or claim
+completeness for omitted record fields.
 
 ## Distinguishing controls
 
 Synthetic adapter tests must establish that the projection preserves every
 field read by `fingerprint_to_pins`, is accepted by that unchanged function,
 and fails when any required field is omitted/inexact/wrong-typed, a page or
-snapshot identity changes, a transport/Brief error occurs, or continuation
-metadata is malformed. Include a noisy unconsumed subtree and assert it is not
-visited. The receipt must enumerate omitted fields/subtrees and retain each
-Brief request identity; no live Brief reads are part of these tests.
+response kind metadata disagrees with a required bool/number/string value, a
+page or snapshot identity changes, a transport/Brief error occurs, or container
+continuation metadata is malformed. Include a noisy unconsumed subtree and
+assert it is not visited; include partial and incomplete consumed strings and
+assert refusal without requesting a string continuation. The receipt must
+enumerate omitted fields/subtrees and retain each Brief request identity; no
+live Brief reads are part of these tests.
 
 ## Scope
 

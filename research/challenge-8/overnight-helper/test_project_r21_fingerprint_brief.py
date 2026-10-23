@@ -134,7 +134,7 @@ def kind(value):
     if isinstance(value, list): return "array"
     if value is None: return "null"
     if type(value) is bool: return "boolean"
-    if type(value) is int: return "integer"
+    if type(value) is int: return "number"
     if isinstance(value, str): return "string"
     raise AssertionError(type(value))
 
@@ -144,8 +144,8 @@ class SyntheticBrief:
         self.root = root
         self.calls = []
 
-    def __call__(self, pointer, offset=None, value_start=None):
-        self.calls.append((pointer, offset, value_start))
+    def __call__(self, pointer, offset=None):
+        self.calls.append((pointer, offset))
         if "/unused_" in pointer or pointer.endswith("/argv") or "diagnostic_blob" in pointer:
             raise AssertionError("projection traversed an intentionally omitted subtree")
         node = get_node(self.root, pointer)
@@ -185,7 +185,6 @@ class SyntheticBrief:
         request = {"pointer": pointer, "file_id": FILE,
                    "expected_sha256": FILE_SHA}
         if offset is not None: request["offset"] = offset
-        if value_start is not None: request["value_start"] = value_start
         return {
             "schema": "smallsort-targeted-observation-v2", "status": "OK",
             "exact": True, "complete": next_offset is None,
@@ -219,7 +218,7 @@ class ProjectionTests(unittest.TestCase):
         self.assertEqual(bundle["receipt"]["coverage"], {"coverage": {"synthetic": True}})
         self.assertLess(len(service.calls), 200)
         self.assertLess(len(service.calls), full_recursive_request_count(make_record()))
-        self.assertFalse(any("unused" in pointer for pointer, _, _ in service.calls))
+        self.assertFalse(any("unused" in pointer for pointer, _ in service.calls))
         self.assertIn("stage argv", " ".join(bundle["receipt"]["omitted_fields"]))
 
     def test_missing_record_field_fails_projection_and_classifier(self):
@@ -242,8 +241,22 @@ class ProjectionTests(unittest.TestCase):
 
         projector, service = self.projector()
         original_call = service.__call__
-        def inexact(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
+        target = "/variants/positive/fingerprint"
+        def wrong_kind(pointer, offset=None):
+            d = original_call(pointer, offset)
+            if pointer == target:
+                for row in d["results"]:
+                    if row["pointer"] == target + "/body_proof_run":
+                        row["kind"] = "string"
+            return d
+        projector.call = wrong_kind
+        with self.assertRaisesRegex(p.ProjectionError, "scalar kind differs"):
+            projector.run()
+
+        projector, service = self.projector()
+        original_call = service.__call__
+        def inexact(pointer, offset=None):
+            d = original_call(pointer, offset)
             if pointer == "": d["exact"] = False
             return d
         projector.call = inexact
@@ -253,10 +266,10 @@ class ProjectionTests(unittest.TestCase):
         projector, service = self.projector()
         original_call = service.__call__
         calls = 0
-        def drifting(pointer, offset=None, value_start=None):
+        def drifting(pointer, offset=None):
             nonlocal calls
             calls += 1
-            d = original_call(pointer, offset, value_start)
+            d = original_call(pointer, offset)
             if calls == 2: d["index_sha256"] = "d" * 64
             return d
         projector.call = drifting
@@ -268,8 +281,8 @@ class ProjectionTests(unittest.TestCase):
             with self.subTest(extra=extra):
                 projector, service = self.projector()
                 original_call = service.__call__
-                def unexpected(pointer, offset=None, value_start=None, *, extra=extra):
-                    d = original_call(pointer, offset, value_start)
+                def unexpected(pointer, offset=None, *, extra=extra):
+                    d = original_call(pointer, offset)
                     if pointer == "":
                         d["request"].update(extra)
                     return d
@@ -277,21 +290,21 @@ class ProjectionTests(unittest.TestCase):
                 with self.assertRaises(p.ProjectionError):
                     projector.run()
 
-    def test_bool_cannot_echo_integer_continuation_selectors(self):
+    def test_bool_cannot_echo_integer_offset_selector(self):
         tree = make_record()
         tree.update({f"extra-{i}": i for i in range(30)})
         projector, service = self.projector(tree)
         base_call = service.__call__
-        def one_item_first_root_page(pointer, offset=None, value_start=None):
-            d = base_call(pointer, offset, value_start)
+        def one_item_first_root_page(pointer, offset=None):
+            d = base_call(pointer, offset)
             if pointer == "" and offset is None:
                 d["results"] = d["results"][:1]
                 d["next_offset"] = 1
                 d["complete"] = False
             return d
         service.__call__ = one_item_first_root_page
-        def bool_offset(pointer, offset=None, value_start=None):
-            d = one_item_first_root_page(pointer, offset, value_start)
+        def bool_offset(pointer, offset=None):
+            d = one_item_first_root_page(pointer, offset)
             if offset is not None:
                 d["request"]["offset"] = True
             return d
@@ -301,13 +314,13 @@ class ProjectionTests(unittest.TestCase):
 
         projector, service = self.projector(tree)
         original_call = service.__call__
-        def bool_response_offset(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
+        def bool_response_offset(pointer, offset=None):
+            d = original_call(pointer, offset)
             if pointer == "" and offset == 1:
                 d["offset"] = True
             return d
-        def one_item_page(pointer, offset=None, value_start=None):
-            d = bool_response_offset(pointer, offset, value_start)
+        def one_item_page(pointer, offset=None):
+            d = bool_response_offset(pointer, offset)
             if pointer == "" and offset is None:
                 d["results"] = d["results"][:1]
                 d["next_offset"] = 1
@@ -315,25 +328,6 @@ class ProjectionTests(unittest.TestCase):
             return d
         projector.call = one_item_page
         with self.assertRaisesRegex(p.ProjectionError, "returned offset differs"):
-            projector.run()
-
-        projector, service = self.projector()
-        original_call = service.__call__
-        stage_pointer = "/variants/positive/fingerprint/stage"
-        stdout_pointer = stage_pointer + "/stdout"
-        def bool_value_start(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
-            if pointer == stage_pointer:
-                for row in d["results"]:
-                    if row["pointer"] == stdout_pointer:
-                        row["value"] = "n"
-                        row["next_value_start"] = 1
-            elif pointer == stdout_pointer and value_start is not None:
-                d["results"][0]["value"] = "ine-body-fingerprint-refusal.log"
-                d["request"]["value_start"] = True
-            return d
-        projector.call = bool_value_start
-        with self.assertRaisesRegex(p.ProjectionError, "exact requested selector"):
             projector.run()
 
     def test_server_offset_only_pagination_and_error_refusal(self):
@@ -345,57 +339,50 @@ class ProjectionTests(unittest.TestCase):
         projector, service = self.projector(tree)
         bundle = projector.run()
         self.assertIsInstance(bundle["projected_record"], dict)
-        root_calls = [offset for pointer, offset, _ in service.calls if pointer == ""]
+        root_calls = [offset for pointer, offset in service.calls if pointer == ""]
         self.assertEqual(root_calls, [None, 20, 40])
 
         projector, service = self.projector()
         original_call = service.__call__
-        def error(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
+        def error(pointer, offset=None):
+            d = original_call(pointer, offset)
             if pointer == "": d["status"] = "ERROR"
             return d
         projector.call = error
         with self.assertRaises(p.ProjectionError):
             projector.run()
 
-    def test_server_value_start_is_followed_and_unfinished_string_is_refused(self):
+    def test_partial_or_incomplete_consumed_strings_are_refused(self):
         projector, service = self.projector()
         original_call = service.__call__
         stage_pointer = "/variants/positive/fingerprint/stage"
         stdout_pointer = stage_pointer + "/stdout"
-        suffix = "nine-body-fingerprint-refusal.log"[9:]
-
-        def partial_then_complete(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
+        def partial_string(pointer, offset=None):
+            d = original_call(pointer, offset)
             if pointer == stage_pointer:
                 for row in d["results"]:
                     if row["pointer"] == stdout_pointer:
-                        row["value"] = "nine-body"
-                        row["next_value_start"] = 9
-            elif pointer == stdout_pointer and value_start == 9:
-                d["results"] = [{"pointer": pointer, "kind": "string", "value": suffix,
-                                 "exact": True, "complete": True}]
-                d["request"]["value_start"] = 9
+                        row["value"] = "nine"
+                        row["next_value_start"] = 4
             return d
 
-        projector.call = partial_then_complete
-        projected = projector.run()["projected_record"]
-        self.assertEqual(projected["variants"]["positive"]["fingerprint"]["stage"]["stdout"],
-                         "nine-body-fingerprint-refusal.log")
-        self.assertTrue(any(value_start == 9 for _, _, value_start in service.calls))
+        projector.call = partial_string
+        with self.assertRaisesRegex(p.ProjectionError, "narrower/manual read"):
+            projector.run()
+        self.assertFalse(any(pointer == stdout_pointer for pointer, _ in service.calls))
 
         projector, service = self.projector()
         original_call = service.__call__
-        def truncated_without_continuation(pointer, offset=None, value_start=None):
-            d = original_call(pointer, offset, value_start)
+        def incomplete_without_continuation(pointer, offset=None):
+            d = original_call(pointer, offset)
             if pointer == stage_pointer:
                 for row in d["results"]:
                     if row["pointer"] == stdout_pointer:
-                        row["value"] = "nine-body"
+                        row["value"] = "nine"
                         row["complete"] = False
             return d
-        projector.call = truncated_without_continuation
-        with self.assertRaises(p.ProjectionError):
+        projector.call = incomplete_without_continuation
+        with self.assertRaisesRegex(p.ProjectionError, "narrower/manual read"):
             projector.run()
 
 

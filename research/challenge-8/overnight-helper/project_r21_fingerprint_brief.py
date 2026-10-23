@@ -93,14 +93,11 @@ IDENTITY_FIELDS = ("build_id", "file_id", "file_path", "file_sha256", "index_sha
 
 def cli_call(build_id: str, file_id: str, expected_sha256: str,
              runner: Callable[..., Any] = subprocess.run):
-    def call(pointer: str, offset: int | None = None,
-             value_start: int | None = None) -> dict[str, Any]:
+    def call(pointer: str, offset: int | None = None) -> dict[str, Any]:
         argv = [BRIEF, build_id, "--refresh", "--file", file_id,
                 "--expect-sha256", expected_sha256, "--pointer", pointer]
         if offset is not None:
             argv += ["--offset", str(offset)]
-        if value_start is not None:
-            argv += ["--value-start", str(value_start)]
         result = runner(argv, capture_output=True, text=True, check=False)
         try:
             response = json.loads(result.stdout)
@@ -113,7 +110,7 @@ def cli_call(build_id: str, file_id: str, expected_sha256: str,
 
 
 class Projector:
-    def __init__(self, call: Callable[[str, int | None, int | None], dict[str, Any]],
+    def __init__(self, call: Callable[[str, int | None], dict[str, Any]],
                  *, build_id: str, file_id: str, expected_sha256: str):
         self.call = call
         self.expected = {"build_id": build_id, "file_id": file_id,
@@ -126,9 +123,8 @@ class Projector:
     def _fail(message: str) -> None:
         raise ProjectionError(message)
 
-    def _response(self, pointer: str, offset: int | None,
-                  value_start: int | None) -> dict[str, Any]:
-        d = self.call(pointer, offset, value_start)
+    def _response(self, pointer: str, offset: int | None) -> dict[str, Any]:
+        d = self.call(pointer, offset)
         if not isinstance(d, dict) or d.get("status") != "OK":
             self._fail(f"Brief error or malformed response at {pointer!r}")
         if d.get("schema") != "smallsort-targeted-observation-v2":
@@ -143,8 +139,6 @@ class Projector:
                             "expected_sha256": self.expected["file_sha256"]}
         if offset is not None:
             expected_request["offset"] = offset
-        if value_start is not None:
-            expected_request["value_start"] = value_start
         if set(req) != set(expected_request) or any(
                 type(req[key]) is not type(value) or req[key] != value
                 for key, value in expected_request.items()):
@@ -164,8 +158,7 @@ class Projector:
                     self._fail(f"Brief {key} changed between pages")
                 self.coverage[key] = d[key]
         self.requests.append({"request_id": req_id, "pointer": pointer,
-                              "offset": offset, "value_start": value_start,
-                              "complete": d["complete"]})
+                              "offset": offset, "complete": d["complete"]})
         return d
 
     @staticmethod
@@ -181,7 +174,7 @@ class Projector:
         last: dict[str, Any] | None = None
         seen_offsets: set[int] = set()
         while True:
-            d = self._response(pointer, offset, None)
+            d = self._response(pointer, offset)
             last = d
             expected_offset = 0 if offset is None else offset
             if type(d.get("offset")) is not int or d["offset"] != expected_offset:
@@ -214,35 +207,15 @@ class Projector:
     def _scalar(self, pointer: str, first: dict[str, Any], spec: Any) -> Any:
         if first.get("exact") is not True:
             self._fail(f"inexact scalar at {pointer!r}")
+        expected_kind = {BOOL: "boolean", INT: "number", STR: "string",
+                         SHA: "string"}.get(spec)
+        if first.get("kind") != expected_kind:
+            self._fail(f"required scalar kind differs at {pointer!r}")
+        if "next_value_start" in first:
+            self._fail(f"partial JSON scalar requires a narrower/manual read at {pointer!r}")
         value = first.get("value")
-        next_start = first.get("next_value_start")
-        if next_start is not None:
-            # A partial string is re-read only by the server-issued continuation.
-            pieces: list[str] = []
-            if not isinstance(value, str):
-                self._fail("partial JSON value is not a string")
-            pieces.append(value)
-            start = next_start
-            visited: set[int] = set()
-            while start is not None:
-                if type(start) is not int or start < 0 or start in visited:
-                    self._fail("invalid or repeated server next_value_start")
-                visited.add(start)
-                d = self._response(pointer, None, start)
-                if d.get("complete") is not True or d.get("next_offset") is not None:
-                    self._fail("continued JSON string response is incomplete")
-                rows = d.get("results")
-                if not isinstance(rows, list) or len(rows) != 1:
-                    self._fail("continued JSON string must have one exact result")
-                row = rows[0]
-                if row.get("pointer") != pointer or row.get("exact") is not True or \
-                        not isinstance(row.get("value"), str):
-                    self._fail("continued JSON string result malformed")
-                pieces.append(row["value"])
-                start = row.get("next_value_start")
-            value = "".join(pieces)
-        elif not first.get("complete", True):
-            self._fail("scalar is marked incomplete without continuation")
+        if first.get("complete", True) is not True:
+            self._fail(f"incomplete JSON scalar requires a narrower/manual read at {pointer!r}")
         self._check_type(value, spec, pointer)
         return value
 
@@ -345,6 +318,7 @@ class Projector:
                         "all unrelated fingerprint/check fields and all unselected record branches",
                     ],
                     "claims": "Exact returned values only; projection is not a complete source record, source/MIR binding, proof result, or proof credit.",
+                    "partial_scalar_policy": "Consumed scalars with next_value_start or complete=false are refused; use a narrower/manual Brief read if encountered. This reader follows container next_offset only.",
                 }}
 
 
