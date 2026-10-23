@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
     "evidence": [],
-    "summary": "ed261d full matrix/consequence/all11refusals pending; P2 NOT_PUBLISHED."
+    "summary": "ed261d terminal FAILURE; full refusal qualification Brief pending. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1701,18 +1701,19 @@
   },
   "mutable_partial_target_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+    "build_seconds": 415,
     "candidate": "9ffbdc566ef3f704401900b98e6f303621345c16",
     "config_sha256": "5bfb5444c2a4b3692186812b786be5d7cb72d4e6b5f449106bb94ad5da657397",
     "dispatch_token": "dispatch-9a47869dd52f4d52ac9c716bf954aa18",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "schema": "select-r24-mut-partial-target-submission-v1",
     "source_payload_sha256": "48cddd5125e35798161cea818c689e1c44cc1e81f64cd2def14605a7e01103e9",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_partial_target_candidate": {
@@ -1731,7 +1732,7 @@
       "sha256": "21dbdff388a9334bbf0bab68374bd9bcf868aaefb8b9d757d3e17ef5a243aea8"
     },
     "scope": "EXACT_OBSERVED_PARTIAL_SELECTOR_REFUSAL_AND_CLOSED_PIN_REFRESH",
-    "state": "SUBMITTED"
+    "state": "TERMINAL_ACCOUNTED_AWAIT_BRIEF"
   },
   "mutable_positive_build": {
     "accounted": true,
@@ -1916,8 +1917,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminal accounting; Briefed261d all11/rootaudit, then P2review andW4.",
-  "next_step": "ACK; push terminal accounting; Briefed261d all11/rootaudit, then P2review andW4.",
+  "next": "Briefed261d full11controls/prerequisites/rootaudit; then P2qualification orfix.",
+  "next_step": "Briefed261d full11controls/prerequisites/rootaudit; then P2qualification orfix.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated.",
@@ -1969,17 +1970,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "ed261d30-9c57-44e0-a9de-d7d8de5dab1f"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 14770,
+    "remaining_seconds": 14355,
     "retired_seconds": 0,
-    "spent_seconds": 6830,
+    "spent_seconds": 7245,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1991,9 +1990,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T21:50:11Z",
+  "updated_utc": "2026-10-23T21:56:13Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -2204,9 +2203,12 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T21:56:13Z",
       "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
       "checkpoint_frozen_after_arm": true,
       "continuation": "SameR24/T0/account/window; latestownerpolicy926979f3. ACKbeforeCP, immediatelypush terminalaccountingbeforeBrief.",
+      "event_id": "916dfd33-0a7a-432a-b9a7-cf321b8ec406",
       "spec_path": "/tmp/select-r24-mut-partial-target-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
