@@ -30,6 +30,7 @@ CONTROLS_SHA256 = '533c3d9be5249a40b2f0ad701cfaff6e95e688ecfb5b9c024c5dd2a56dc51
 CAPTURE_SHA256 = 'ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f'
 PROVIDER_SHA256 = '771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616'
 TARGET_HELPER_SHA256 = '5c51ae49766ec7f8dda5ac548555773bce34398462376a4ff56653d6bef91e93'
+AST_INVENTORY_SHA256 = '98cfc5138c4bedf9d243bcb940f839f6828538b1c01b572731d17095b86869fa'
 OPT_IN_KEY = 'SORT4_R21_FRACTIONAL_FORGET'
 VARIANT_KEY = 'SORT4_R21_FRACTIONAL_VARIANT'
 R20_OPT_IN_KEY = 'SORT4_R20_FINAL_SELECT_REPAIR'
@@ -37,6 +38,8 @@ SNAPSHOT_NAMES = ('unit', *(f'body-{index}' for index in range(9)))
 CAPTURE_LOG = 'nine-body-fingerprint-refusal.log'
 PHASE_ENV = 'SORT4_R20_CALLEE_PHASE_ID'
 PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
+R24_SESSION_ENV = 'SORT4_R24_SESSION_PHASE_ID'
+R24_SESSION_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
 
 
 def sha(raw: bytes) -> str:
@@ -75,6 +78,8 @@ def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
                  'r21_fractional_proof_entry_classifier', PROOF_HELPER_SHA256)
     target_helper = load(cloud_dir / 'select-callee-r22-control-targets.py',
                          'r21_fractional_proof_entry_targets', TARGET_HELPER_SHA256)
+    ast_inventory = load(cloud_dir / 'select-callee-r24-ast-inventory.py',
+                         'r24_positive_ast_inventory', AST_INVENTORY_SHA256)
     transform, r20, o26, refresh = fractional.pinned_dependencies(
         repo, cloud_dir, evidence)
     need(sha((repo / fractional.TRANSFORM_REL).read_bytes()) == TRANSFORM_SHA256 and
@@ -91,11 +96,48 @@ def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
          'pinned capture lacks mode-9 interface')
     need(callable(getattr(r20, 'classify_bound_row', None)) and
          callable(getattr(o26, 'proof_stage', None)) and
+         callable(getattr(ast_inventory, 'run_positive_ast_inventory', None)) and
          callable(getattr(transform, 'transform', None)),
          'pinned proof services are incomplete')
     return {'provider': provider, 'fractional': fractional, 'proof': proof,
             'target_helper': target_helper, 'transform': transform,
-            'r20': r20, 'o26': o26, 'refresh': refresh, 'capture': capture}
+            'r20': r20, 'o26': o26, 'refresh': refresh, 'capture': capture,
+            'ast_inventory': ast_inventory}
+
+
+def run_proof_stage(*, runtime, repo: Path, case: Path, name: str,
+                    tool_home: Path, schema: Path, compiler_sysroot: Path,
+                    deadline_epoch: int, variant: str,
+                    positive_ast_inventory: bool,
+                    expected_sources: dict[str, str],
+                    expected_snapshots: dict[str, Any]) -> dict[str, Any]:
+    """Optionally inventory positive AST, then call the unchanged proof stage."""
+    need(name == 'r20-merged-optin' and variant in runtime['proof'].VARIANTS,
+         'unexpected proof-stage identity or fractional variant')
+    need(os.environ.get(OPT_IN_KEY) == '1' and
+         R20_OPT_IN_KEY not in os.environ and VARIANT_KEY not in os.environ,
+         'proof-stage opt-ins are not isolated to the callback')
+    os.environ[R20_OPT_IN_KEY] = '1'
+    os.environ[VARIANT_KEY] = variant
+    try:
+        diagnostic = None
+        if positive_ast_inventory and variant == 'positive':
+            diagnostic = runtime['ast_inventory'].run_positive_ast_inventory(
+                cap=runtime['capture'], repo=repo, case=case,
+                tool_home=tool_home, schema=schema,
+                compiler_sysroot=compiler_sysroot,
+                deadline_epoch=deadline_epoch, variant=variant,
+                expected_sources=expected_sources,
+                expected_snapshots=expected_snapshots)
+        stage = runtime['o26'].proof_stage(repo, case, tool_home, schema,
+            compiler_sysroot, deadline_epoch, name, 'r21_fractional_' + variant)
+        if diagnostic is not None and isinstance(stage, dict):
+            stage = dict(stage)
+            stage['r24_positive_ast_inventory'] = diagnostic
+        return stage
+    finally:
+        os.environ.pop(R20_OPT_IN_KEY, None)
+        os.environ.pop(VARIANT_KEY, None)
 
 
 def _snapshot_path(case: Path, label: str) -> Path:
@@ -152,6 +194,13 @@ def run(args, *, runtime_loader=load_runtime,
          VARIANT_KEY not in selected_env and
          not any(key.startswith('SORT4_R21_FRACTIONAL_') for key in selected_env),
          'proof opt-ins and variant must not be ambient')
+    positive_ast_inventory = bool(getattr(args, 'positive_ast_inventory', False))
+    if positive_ast_inventory:
+        need(selected_env.get(PHASE_ENV) == PHASE and
+             selected_env.get(R24_SESSION_ENV) == R24_SESSION_PHASE and
+             selected_env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
+             not selected_env.get('GITHUB_ACTIONS'),
+             'positive AST inventory requires exact R24 Cloud session on the R21 route')
     runtime = runtime_loader(args.repo, args.cloud_dir, args.evidence)
     provider = runtime.get('provider')
     need(callable(getattr(provider, 'require_supported_provider', None)),
@@ -283,20 +332,16 @@ def run(args, *, runtime_loader=load_runtime,
     def proof_stage(*, case: Path, name: str, tool_home: Path,
                     schema: Path, compiler_sysroot: Path,
                     deadline_epoch: int, variant: str):
-        need(name == 'r20-merged-optin' and variant in proof.VARIANTS,
-             'unexpected proof-stage identity or fractional variant')
-        need(os.environ.get(OPT_IN_KEY) == '1' and
-             R20_OPT_IN_KEY not in os.environ and VARIANT_KEY not in os.environ,
-             'proof-stage opt-ins are not isolated to the callback')
-        os.environ[R20_OPT_IN_KEY] = '1'
-        os.environ[VARIANT_KEY] = variant
-        try:
-            return runtime['o26'].proof_stage(args.repo, case, tool_home, schema,
-                compiler_sysroot, deadline_epoch, name,
-                'r21_fractional_' + variant)
-        finally:
-            os.environ.pop(R20_OPT_IN_KEY, None)
-            os.environ.pop(VARIANT_KEY, None)
+        expected_sources = {
+            'original/lib.rs': sha(original),
+            'verified/lib.rs': pins['cases'][variant]['verified_sha256'],
+        }
+        return run_proof_stage(runtime=runtime, repo=args.repo, case=case,
+            name=name, tool_home=tool_home, schema=schema,
+            compiler_sysroot=compiler_sysroot, deadline_epoch=deadline_epoch,
+            variant=variant, positive_ast_inventory=positive_ast_inventory,
+            expected_sources=expected_sources,
+            expected_snapshots=pins['cases'][variant]['snapshots'])
 
     record_path = args.evidence / 'cases/r21-fractional-proof/r21-fractional-proof.json'
     try:
@@ -364,6 +409,8 @@ def main(argv: list[str] | None = None) -> int:
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--target-map', type=Path, default=None)
     parser.add_argument('--deadline-epoch', type=int, required=True)
+    parser.add_argument('--positive-ast-inventory', action='store_true',
+                        help='add one R24-only positive AST diagnostic before the proof stage')
     args = parser.parse_args(argv)
     need(args.deadline_epoch > int(time.time()), 'shared deadline has elapsed')
     record = run(args)
