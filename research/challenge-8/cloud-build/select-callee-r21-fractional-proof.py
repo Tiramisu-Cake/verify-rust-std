@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import time
 import traceback
+import uuid
 from typing import Any, Callable
 
 SCHEMA = 'r21-fractional-proof-pins-v1'
@@ -299,10 +300,12 @@ def _same_site_diagnostic_matches(log_text: object,
 def _classify(r20, variant: str, stage: object, log_text: object,
               expected_sources: dict[str, str], observed_sources: dict[str, str | None],
               tool_home: Path, verified_source: bytes, *,
+              log_bytes: bytes | None = None,
               target_map: object = None, target_validation: object = None,
               target_sources: object = None, tool_spec: bytes | None = None,
               tool_spec_file: str | None = None,
-              target_helper=None) -> tuple[str, str, dict[str, Any] | None,
+              target_helper=None, current_build_id: str | None = None,
+              current_log_path: str | None = None) -> tuple[str, str, dict[str, Any] | None,
                                              dict[str, Any] | None]:
     # R20's classifier binds exact argv, source pair, gate bits and log paths.
     # The valid row name maps this new same-unit call to its positive opt-in slot.
@@ -322,17 +325,24 @@ def _classify(r20, variant: str, stage: object, log_text: object,
     if target_map is not None:
         try:
             need(target_helper is not None and isinstance(target_sources, dict) and
-                 isinstance(tool_spec, bytes) and isinstance(target_validation, dict),
+                 isinstance(tool_spec, bytes) and isinstance(target_validation, dict) and
+                 isinstance(log_bytes, bytes) and isinstance(current_build_id, str) and
+                 isinstance(current_log_path, str),
                  'target validator inputs are incomplete')
             log_observation = {
+                'build_id': current_build_id,
                 'variant': variant,
-                'source_sha256': sha(target_sources[variant]),
-                'log_sha256': sha(log_text.encode('utf-8')) if isinstance(log_text, str) else None,
-                'provenance': target_map['targets'][variant]['provenance'],
+                'source_hashes': expected_sources,
+                'tool_spec_sha256': sha(tool_spec),
+                'log_path': current_log_path,
+                'log_sha256': sha(log_bytes),
+                'stage': stage,
             }
             matched = target_helper.match_first_and_only_error(
                 variant, target_map, target_sources, tool_spec, log_text,
+                log_bytes=log_bytes,
                 log_observation=log_observation,
+                expected_build_id=current_build_id,
                 tool_spec_file=tool_spec_file, tool_home=tool_home)
             expected_target = target_validation['targets'][variant]
             if (matched.get('matches_first_and_only_error') is True and
@@ -378,7 +388,17 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
          'base source bytes differ from the S2d fingerprint input')
     target_sources = None
     target_validation = None
+    current_build_id = None
     if target_map is not None:
+        native_build_id = live_env.get('CLOUD_BUILD_ID')
+        try:
+            canonical_build_id = str(uuid.UUID(native_build_id))
+        except (ValueError, AttributeError, TypeError):
+            raise RuntimeError('R21-FRACTIONAL-PROOF: native Cloud Build ID is invalid')
+        need(canonical_build_id == native_build_id.lower() and
+             env.get('CLOUD_BUILD_ID') == canonical_build_id,
+             'target-map execution requires the live native CLOUD_BUILD_ID')
+        current_build_id = canonical_build_id
         need(target_helper is not None and
              callable(getattr(target_helper, 'validate_target_map', None)) and
              callable(getattr(target_helper, 'match_first_and_only_error', None)),
@@ -410,6 +430,7 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
         'accepted': False, 'proof_credit': False,
     }
     if target_map is not None:
+        record['current_build_id'] = current_build_id
         record['diagnostic_target_validation'] = target_validation
         record['diagnostic_target_map_sha256'] = target_validation['target_map_sha256']
     path = root / 'r21-fractional-proof.json'
@@ -486,15 +507,49 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                     os.environ.pop(opt_in_key, None)
                 row['stage'] = stage
                 log_path = case / 'r20-merged-optin.log'
-                log_text = log_path.read_text(errors='replace') if log_path.is_file() else None
+                log_bytes = log_path.read_bytes() if log_path.is_file() else None
+                log_text = (log_bytes.decode('utf-8', errors='replace')
+                            if log_bytes is not None else None)
                 observed_sources = {name: (sha((case / name).read_bytes())
                     if (case / name).is_file() else None) for name in expected_sources}
+                current_log_path = (log_path.relative_to(evidence).as_posix()
+                                    if log_path.is_file() else None)
                 bound, classification, diagnostic_target, diagnostic_observation = _classify(
                     r20, variant, stage, log_text, expected_sources,
                     observed_sources, tool_home, candidate,
+                    log_bytes=log_bytes,
                     target_map=target_map, target_validation=target_validation,
                     target_sources=target_sources, tool_spec=tool_spec,
-                    tool_spec_file=tool_spec_file, target_helper=target_helper)
+                    tool_spec_file=tool_spec_file, target_helper=target_helper,
+                    current_build_id=current_build_id,
+                    current_log_path=current_log_path)
+                current_stage_observation = None
+                if target_map is not None:
+                    current_stage_observation = {
+                        'schema': 'select-current-stage-target-observation-v1',
+                        'build_id': current_build_id, 'variant': variant,
+                        'source_hashes': expected_sources,
+                        'tool_spec_sha256': sha(tool_spec),
+                        'argv': stage.get('argv') if isinstance(stage, dict) else None,
+                        'stdout': stage.get('stdout') if isinstance(stage, dict) else None,
+                        'stderr': stage.get('stderr') if isinstance(stage, dict) else None,
+                        'status': stage.get('status') if isinstance(stage, dict) else None,
+                        'exit': stage.get('exit') if isinstance(stage, dict) else None,
+                        'intrinsic_gate_active': (stage.get('intrinsic_gate_active')
+                            if isinstance(stage, dict) else None),
+                        'pointer_drop_gate_active': (stage.get('pointer_drop_gate_active')
+                            if isinstance(stage, dict) else None),
+                        'source_before': stage.get('source_before')
+                            if isinstance(stage, dict) else None,
+                        'source_after': stage.get('source_after')
+                            if isinstance(stage, dict) else None,
+                        'source_unchanged': stage.get('source_unchanged')
+                            if isinstance(stage, dict) else None,
+                        'log_path': current_log_path,
+                        'log_sha256': sha(log_bytes) if log_bytes is not None else None,
+                        'preflight_capture_check': row.get('preflight_capture_check'),
+                    }
+                    row['current_stage_observation'] = current_stage_observation
                 row.update(bound_verdict=bound, classification=classification,
                            normal_unwind_nested_drop_gates=(
                                isinstance(stage, dict) and
@@ -502,7 +557,7 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                                stage.get('pointer_drop_gate_active') is True),
                            observed_sources_after_stage=observed_sources,
                            log_file=log_path.name if log_path.is_file() else None,
-                           log_sha256=sha(log_path.read_bytes()) if log_path.is_file() else None)
+                           log_sha256=sha(log_bytes) if log_bytes is not None else None)
                 if diagnostic_target is not None:
                     row['expected_diagnostic_target'] = diagnostic_target
                 if diagnostic_observation is not None:
@@ -530,6 +585,9 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 row['postflight_capture_check'] = _validate_capture(
                     row['postflight_capture'], case, sha(original), expected_sha,
                     expected_snapshots, tool_home)
+                if current_stage_observation is not None:
+                    current_stage_observation['postflight_capture_check'] = \
+                        row['postflight_capture_check']
                 source_intact = all((case / name).is_file() and
                                     sha((case / name).read_bytes()) == digest
                                     for name, digest in expected_sources.items())

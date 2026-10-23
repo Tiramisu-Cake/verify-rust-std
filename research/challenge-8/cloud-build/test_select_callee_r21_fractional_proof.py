@@ -38,6 +38,7 @@ FINAL_SELECT_CALL = TARGET.FINAL_SELECT_CALL
 UNIT = b'synthetic unit mode9 bytes'
 BODIES = [f'synthetic mode9 body {i}'.encode() for i in range(9)]
 OPT_IN = 'SORT4_R21_FRACTIONAL_TEST'
+CURRENT_BUILD_ID = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
 PHASE_KEY = 'SORT4_R20_CALLEE_PHASE_ID'
 PHASE_VALUE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 
@@ -179,16 +180,18 @@ class FractionalProofTests(unittest.TestCase):
         self.target_map = None
         self.tool_spec = None
         self.env = {'SMALLSORT_EXECUTION_PROVIDER': 'cloud-build',
-                    PHASE_KEY: PHASE_VALUE}
+                    PHASE_KEY: PHASE_VALUE,
+                    'CLOUD_BUILD_ID': CURRENT_BUILD_ID}
 
     def tearDown(self):
         self.tmp.cleanup()
 
     def run_batch(self, *, proof_stage=None, capture=None, deadline=None,
-                  env=None, target_map=None):
+                  env=None, target_map=None, proof_env=None):
         self.target_map = target_map
         self.tool_spec = tool_spec_fixture() if target_map is not None else None
-        with patch.dict('os.environ', env or self.env, clear=True):
+        live_env = env or self.env
+        with patch.dict('os.environ', live_env, clear=True):
             return TARGET.proof_batch(evidence=self.evidence,
             original=ORIGINAL, base_verified=BASE,
             fingerprint_record=fingerprint_fixture(),
@@ -202,7 +205,7 @@ class FractionalProofTests(unittest.TestCase):
             tool_spec_file=TARGET_HELPER.TOOL_SPEC_FILE if target_map is not None else None,
             deadline_epoch=deadline or int(time.time()) + 3600,
             phase_key=PHASE_KEY, phase_value=PHASE_VALUE,
-            opt_in_key=OPT_IN, env=env or self.env)
+            opt_in_key=OPT_IN, env=proof_env or live_env)
 
     def good_proof_stage(self, *, case: Path, name: str, tool_home: Path,
                          schema: Path, compiler_sysroot: Path,
@@ -215,7 +218,7 @@ class FractionalProofTests(unittest.TestCase):
             target = self.target_map['targets'][variant]
             log = (f"{target['file']}({target['line']},"
                    f"{target['start_column']}-{target['end_column']}): "
-                   f"{target['message']}\n")
+                   f"{target['message']}\nElapsed: {variant} 12.4s\n")
             exit_code = 1
         elif variant in TARGET.SAME_SITE_NEGATIVES:
             exit_code = 1
@@ -273,6 +276,7 @@ class FractionalProofTests(unittest.TestCase):
         self.assertIs(record['proof_credit'], False)
         self.assertEqual(record['diagnostic_target_validation']['status'],
                          'TARGET_MAP_VALIDATED_NOT_ACCEPTED')
+        self.assertEqual(record['current_build_id'], CURRENT_BUILD_ID)
         self.assertEqual(set(record['diagnostic_target_validation']['targets']),
                          set(TARGET_HELPER.VARIANTS))
         for variant in TARGET.VARIANTS[1:]:
@@ -284,8 +288,28 @@ class FractionalProofTests(unittest.TestCase):
             self.assertEqual(row['status'], 'COMPLETE')
             self.assertTrue(row['diagnostic_target_observation'][
                 'matches_first_and_only_error'])
+            self.assertNotEqual(row['diagnostic_target_observation']['log_sha256'],
+                                row['expected_diagnostic_target']['log_sha256'])
+            self.assertEqual(row['current_stage_observation']['build_id'],
+                             CURRENT_BUILD_ID)
         self.assertEqual(record['rows']['no-retained-half']['expected_diagnostic_target']['file'],
                          'verified/lib.rs')
+
+    def test_target_map_requires_live_native_build_id_but_no_map_stays_unpinned(self):
+        target_map = target_map_fixture()
+        without_id = {key: value for key, value in self.env.items()
+                      if key != 'CLOUD_BUILD_ID'}
+        with self.assertRaisesRegex(RuntimeError, 'native Cloud Build ID'):
+            self.run_batch(env=without_id, target_map=target_map)
+        wrong_env = dict(self.env, CLOUD_BUILD_ID='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb')
+        with self.assertRaisesRegex(RuntimeError, 'live native CLOUD_BUILD_ID'):
+            self.run_batch(target_map=target_map, proof_env=wrong_env)
+        self.evidence = self.root / 'no-native-id-evidence'
+        record = self.run_batch(env=without_id)
+        self.assertFalse(record['complete'])
+        self.assertNotIn('current_build_id', record)
+        self.assertNotIn('current_stage_observation',
+                         record['rows']['positive'])
 
     def test_fingerprint_to_pins_rejects_partial_and_malformed_per_case_data(self):
         record = fingerprint_fixture()

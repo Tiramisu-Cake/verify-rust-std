@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import uuid
@@ -15,14 +16,47 @@ VARIANTS = ('positive', 'omit-selected-own', 'omit-unselected-own',
             'no-retained-half', 'callee-false-normal', 'callee-owner-duplicate',
             'callee-owner-loss', 'callee-thread-duplicate')
 _SHA256 = re.compile(r'^[0-9a-f]{64}$')
-TARGET_HELPER_SHA256 = '5c51ae49766ec7f8dda5ac548555773bce34398462376a4ff56653d6bef91e93'
+TARGET_HELPER_SHA256 = 'ef48182797f89dc813f4dda167fbc6c0c3eedc4f4feb49eb06afd59dacd2833d'
+_TARGET_DIAGNOSTIC_MARKERS = (
+    'error:', 'fatal error', 'cannot prove', 'no matching heap chunks',
+    'function leaks heap chunks', 'assertion failure', 'verification failed',
+)
+_TARGET_LOCATION = re.compile(
+    r'^(?P<file>.+)\((?P<line>[1-9][0-9]*),(?P<start>[1-9][0-9]*)-'
+    r'(?P<end>[1-9][0-9]*)\): (?P<message>\S.*)$')
 
 
 def _sha256(value):
     return isinstance(value, str) and _SHA256.fullmatch(value) is not None
 
 
-def complete_matrix(proof):
+def _current_log_diagnostic(raw: bytes):
+    try:
+        text = raw.decode('utf-8', errors='strict')
+    except UnicodeDecodeError:
+        return None
+    diagnostics = []
+    for index, source_line in enumerate(text.splitlines(), 1):
+        line = source_line.strip()
+        if any(marker in line.casefold() for marker in _TARGET_DIAGNOSTIC_MARKERS):
+            diagnostics.append((index, line))
+    if len(diagnostics) != 1:
+        return None
+    line_number, line = diagnostics[0]
+    match = _TARGET_LOCATION.fullmatch(line)
+    if match is None:
+        return None
+    return {
+        'diagnostic_line': line_number,
+        'file': match.group('file'),
+        'line': int(match.group('line')),
+        'start_column': int(match.group('start')),
+        'end_column': int(match.group('end')),
+        'message': match.group('message'),
+    }
+
+
+def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
     if (not isinstance(proof, dict) or
             proof.get('schema') != 'r21-fractional-classified-proof-v1' or
             proof.get('complete') is not True or
@@ -57,6 +91,22 @@ def complete_matrix(proof):
             not _sha256(dependencies.get('tool_spec_sha256')) or
             dependencies.get('target_helper_sha256') != TARGET_HELPER_SHA256):
         return False
+    try:
+        canonical_build_id = str(uuid.UUID(native_build_id))
+    except (ValueError, AttributeError, TypeError):
+        return False
+    provider_record = dependencies.get('provider_record')
+    if (canonical_build_id != native_build_id.lower() or
+            proof.get('current_build_id') != canonical_build_id or
+            not isinstance(provider_record, dict) or
+            provider_record.get('provider') != 'cloud-build' or
+            provider_record.get('build_id') != canonical_build_id or
+            provider_record.get('project') != 'smallsort-ci' or
+            provider_record.get('region') != 'global' or
+            provider_record.get('os') != 'ubuntu-22.04' or
+            provider_record.get('arch') != 'x86_64' or
+            not isinstance(evidence_root, Path) or not evidence_root.is_dir()):
+        return False
     target_tool_hashes = {target.get('tool_spec_sha256')
                           for target in validation['targets'].values()
                           if isinstance(target, dict)}
@@ -84,6 +134,52 @@ def complete_matrix(proof):
                 stage.get('source_unchanged') is not True or
                 stage.get('source_before') != expected_sources or
                 stage.get('source_after') != expected_sources):
+            return False
+        current = row.get('current_stage_observation')
+        expected_log_path = (
+            f'cases/r21-fractional-proof/variants/{variant}/'
+            'nine-body-a1-owned-forget/r20-merged-optin.log')
+        if (not isinstance(current, dict) or
+                current.get('schema') != 'select-current-stage-target-observation-v1' or
+                current.get('build_id') != canonical_build_id or
+                current.get('variant') != variant or
+                current.get('source_hashes') != expected_sources or
+                current.get('tool_spec_sha256') != dependencies.get('tool_spec_sha256') or
+                current.get('argv') != stage.get('argv') or
+                current.get('stdout') != stage.get('stdout') or
+                current.get('stderr') != stage.get('stderr') or
+                current.get('status') != stage.get('status') or
+                current.get('exit') != stage.get('exit') or
+                current.get('intrinsic_gate_active') is not True or
+                current.get('pointer_drop_gate_active') is not True or
+                current.get('source_before') != stage.get('source_before') or
+                current.get('source_after') != stage.get('source_after') or
+                current.get('source_unchanged') is not True or
+                current.get('log_path') != expected_log_path or
+                current.get('preflight_capture_check') != row.get('preflight_capture_check') or
+                current.get('postflight_capture_check') != row.get('postflight_capture_check') or
+                current.get('log_sha256') != row.get('log_sha256') or
+                not _sha256(current.get('log_sha256'))):
+            return False
+        if ((variant == 'positive' and stage.get('exit') != 0) or
+                (variant != 'positive' and stage.get('exit') != 1)):
+            return False
+        log_path = evidence_root / expected_log_path
+        try:
+            relative_parts = Path(expected_log_path).parts
+            cursor = evidence_root.resolve()
+            symlink_component = False
+            for part in relative_parts:
+                cursor = cursor / part
+                symlink_component = symlink_component or cursor.is_symlink()
+            if (symlink_component or not log_path.is_file() or
+                    not log_path.resolve().is_relative_to(evidence_root.resolve())):
+                return False
+            log_bytes = log_path.read_bytes()
+        except OSError:
+            return False
+        physical_log_sha = hashlib.sha256(log_bytes).hexdigest()
+        if physical_log_sha != current.get('log_sha256'):
             return False
         if variant != 'positive':
             target_pin = validation['targets'].get(variant)
@@ -127,16 +223,22 @@ def complete_matrix(proof):
         expected = ('POSITIVE_VERIFIED_SOURCE_REPORTED' if variant == 'positive' else
                     'EXPECTED_CALLEE_CONTRACT_REJECTION' if variant.startswith('callee-') else
                     'EXPECTED_SAME_SITE_TYPED_FAILURE')
+        expected_bound = ('POSITIVE_VERIFIED_SOURCE_REPORTED' if variant == 'positive'
+                          else 'POSITIVE_FAILED')
         if (row.get('classification') != expected or
+                row.get('bound_verdict') != expected_bound or
                 (stage['exit'] == 0) != (variant == 'positive')):
             return False
         if variant != 'positive':
             target = validation['targets'].get(variant)
             observed = row.get('diagnostic_target_observation')
+            physical_diagnostic = _current_log_diagnostic(log_bytes)
             if (not isinstance(target, dict) or
                     row.get('expected_diagnostic_target') != target or
                     not isinstance(observed, dict) or
                     observed.get('variant') != variant or
+                    observed.get('current_build_id') != canonical_build_id or
+                    observed.get('log_path') != expected_log_path or
                     observed.get('matches_first_and_only_error') is not True or
                     observed.get('provenance_status') !=
                         'CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED' or
@@ -145,7 +247,12 @@ def complete_matrix(proof):
                     observed.get('target') != {key: target.get(key) for key in
                         ('file', 'line', 'start_column', 'end_column', 'message')} or
                     observed.get('log_sha256') != row.get('log_sha256') or
-                    not _sha256(row.get('log_sha256'))):
+                    not _sha256(row.get('log_sha256')) or
+                    physical_diagnostic != {
+                        'diagnostic_line': observed.get('diagnostic_line'),
+                        **{key: target.get(key) for key in
+                           ('file', 'line', 'start_column', 'end_column', 'message')},
+                    }):
                 return False
     return True
 
@@ -184,7 +291,8 @@ def audit(args, *, base_audit=None):
                   accepted=False, verification_accepted=False, proof_credit=False)
     record['evidence_complete'] = (
         base.get('evidence_complete') is True and status == 'object' and
-        complete_matrix(proof))
+        complete_matrix(proof, evidence_root=args.evidence,
+                        native_build_id=os.environ.get('CLOUD_BUILD_ID')))
     args.output.write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
     return record
 

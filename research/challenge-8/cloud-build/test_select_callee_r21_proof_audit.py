@@ -87,7 +87,7 @@ class AuditTests(unittest.TestCase):
             proof['rows']['callee-owner-loss']['classification'] = 'TARGET_UNPINNED'
             self.assertFalse(MODULE.complete_matrix(proof))
 
-    def test_exact_target_matrix_requires_all_source_and_observation_bindings(self):
+    def test_exact_target_matrix_requires_current_native_build_and_physical_logs(self):
         sources = {variant: FIXTURES.source_for(variant)
                    for variant in FIXTURES.TARGET_HELPER.VARIANTS}
         tool_spec = FIXTURES.tool_spec_fixture()
@@ -99,6 +99,9 @@ class AuditTests(unittest.TestCase):
         snapshots = {name: {'file': name + '.marshal', 'bytes': 5,
                             'sha256': _sha(name.encode())}
                      for name in ('unit', *(f'body-{i}' for i in range(9)))}
+        build_id = FIXTURES.CURRENT_BUILD_ID
+        tool_home = Path('/synthetic/tool')
+        evidence = Path(tempfile.mkdtemp())
         cases = {}
         rows = {}
         for variant in MODULE.VARIANTS:
@@ -107,42 +110,91 @@ class AuditTests(unittest.TestCase):
             expected_sources = {'original/lib.rs': original_sha,
                                 'verified/lib.rs': source_sha}
             positive = variant == 'positive'
+            stage = {'status': 'RAN', 'exit': 0 if positive else 1,
+                     'argv': [str(tool_home / 'bin/verifast'), '-rustc_args',
+                              '--edition 2021', '-verbose', '1', 'verified/lib.rs'],
+                     'stdout': 'r20-merged-optin.log',
+                     'stderr': 'r20-merged-optin.log',
+                     'intrinsic_gate_active': True,
+                     'pointer_drop_gate_active': True,
+                     'source_unchanged': True,
+                     'source_before': expected_sources,
+                     'source_after': expected_sources}
+            preflight = {'complete': True, 'snapshots': snapshots}
+            postflight = {'complete': True, 'snapshots': snapshots}
+            log_path = (f'cases/r21-fractional-proof/variants/{variant}/'
+                        'nine-body-a1-owned-forget/r20-merged-optin.log')
+            if positive:
+                log_bytes = b'verified: all obligations discharged\n'
+            else:
+                target = validation['targets'][variant]
+                diagnostic = (f"{target['file']}({target['line']},"
+                    f"{target['start_column']}-{target['end_column']}): "
+                    f"{target['message']}\n")
+                # Current execution timestamps alter the full log hash while
+                # leaving its sole diagnostic unchanged.
+                log_bytes = b'Elapsed: 1.2s\n' + diagnostic.encode()
+            physical = evidence / log_path
+            physical.parent.mkdir(parents=True, exist_ok=True)
+            physical.write_bytes(log_bytes)
+            current_log_sha = _sha(log_bytes)
             row = {
                 'variant': variant, 'status': 'COMPLETE',
                 'verified_sha256': source_sha,
                 'observed_sources_after_stage': expected_sources,
                 'source_intact_after_stages': True,
                 'normal_unwind_nested_drop_gates': True,
-                'stage': {'status': 'RAN', 'exit': 0 if positive else 1,
-                          'intrinsic_gate_active': True,
-                          'pointer_drop_gate_active': True,
-                          'source_unchanged': True,
-                          'source_before': expected_sources,
-                          'source_after': expected_sources},
-                'preflight_capture_check': {'complete': True, 'snapshots': snapshots},
-                'postflight_capture_check': {'complete': True, 'snapshots': snapshots},
+                'stage': stage,
+                'preflight_capture_check': preflight,
+                'postflight_capture_check': postflight,
                 'classification': ('POSITIVE_VERIFIED_SOURCE_REPORTED' if positive else
                     'EXPECTED_CALLEE_CONTRACT_REJECTION'
                     if variant.startswith('callee-') else
                     'EXPECTED_SAME_SITE_TYPED_FAILURE'),
+                'bound_verdict': ('POSITIVE_VERIFIED_SOURCE_REPORTED'
+                                  if positive else 'POSITIVE_FAILED'),
+                'log_file': 'r20-merged-optin.log',
+                'log_sha256': current_log_sha,
+                'current_stage_observation': {
+                    'schema': 'select-current-stage-target-observation-v1',
+                    'build_id': build_id, 'variant': variant,
+                    'source_hashes': expected_sources,
+                    'tool_spec_sha256': _sha(tool_spec),
+                    'argv': stage['argv'], 'stdout': stage['stdout'],
+                    'stderr': stage['stderr'], 'status': stage['status'],
+                    'exit': stage['exit'],
+                    'intrinsic_gate_active': True,
+                    'pointer_drop_gate_active': True,
+                    'source_before': expected_sources,
+                    'source_after': expected_sources,
+                    'source_unchanged': True,
+                    'log_path': log_path, 'log_sha256': current_log_sha,
+                    'preflight_capture_check': preflight,
+                    'postflight_capture_check': postflight,
+                },
             }
             if not positive:
                 target = validation['targets'][variant]
+                diagnostic_line = 2
                 row.update(expected_diagnostic_target=target,
-                    log_sha256=target['log_sha256'],
                     diagnostic_target_observation={
-                        'variant': variant, 'matches_first_and_only_error': True,
+                        'schema': 'select-r22-control-diagnostic-observation-v1',
+                        'current_build_id': build_id,
+                        'variant': variant, 'diagnostic_line': diagnostic_line,
+                        'log_path': log_path,
+                        'matches_first_and_only_error': True,
                         'accepted': False, 'proof_credit': False,
                         'provenance_status':
                             'CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED',
                         'target': {key: target[key] for key in
                             ('file', 'line', 'start_column', 'end_column', 'message')},
-                        'log_sha256': target['log_sha256']})
+                        'log_sha256': current_log_sha})
             rows[variant] = row
         raw_map_sha = _sha(json.dumps(target_map, sort_keys=True).encode())
         proof = {'schema': 'r21-fractional-classified-proof-v1',
             'complete': True, 'accepted': False, 'proof_credit': False,
             'body_proof_run': True, 'variant_order': list(MODULE.VARIANTS),
+            'current_build_id': build_id,
             'pins': {'base_original_sha256': original_sha, 'cases': cases},
             'rows': rows, 'diagnostic_target_validation': validation,
             'diagnostic_target_map_sha256': validation['target_map_sha256'],
@@ -151,8 +203,20 @@ class AuditTests(unittest.TestCase):
                                    'target_map_canonical_sha256':
                                        validation['target_map_sha256'],
                                    'tool_spec_sha256': _sha(tool_spec),
-                                   'target_helper_sha256': MODULE.TARGET_HELPER_SHA256}}
-        self.assertTrue(MODULE.complete_matrix(proof))
+                                   'target_helper_sha256': MODULE.TARGET_HELPER_SHA256,
+                                   'provider_record': {'provider': 'cloud-build',
+                                                       'build_id': build_id,
+                                                       'project': 'smallsort-ci',
+                                                       'region': 'global',
+                                                       'os': 'ubuntu-22.04',
+                                                       'arch': 'x86_64'}}}
+        self.assertTrue(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=build_id))
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=None))
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence,
+            native_build_id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'))
         for mutate in (
             lambda p: p['rows']['no-retained-half']['observed_sources_after_stage'].__setitem__(
                 'verified/lib.rs', '0' * 64),
@@ -161,10 +225,35 @@ class AuditTests(unittest.TestCase):
             lambda p: p['rows']['omit-selected-own']['postflight_capture_check']['snapshots'].pop(
                 'body-8'),
             lambda p: p.__setitem__('target_map_unchanged', False),
+            lambda p: p['entry_dependencies'].__setitem__(
+                'target_map_canonical_sha256', '0' * 64),
+            lambda p: p['rows']['callee-owner-loss']['current_stage_observation'].__setitem__(
+                'build_id', 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'),
+            lambda p: p['rows']['no-retained-half']['current_stage_observation'].__setitem__(
+                'log_path', 'wrong.log'),
+            lambda p: p['rows']['callee-owner-loss']['stage'].update(
+                status='TIMED_OUT', exit=124),
+            lambda p: p['rows']['positive']['stage'].update(exit=1),
         ):
             bad = json.loads(json.dumps(proof))
             mutate(bad)
-            self.assertFalse(MODULE.complete_matrix(bad))
+            self.assertFalse(MODULE.complete_matrix(
+                bad, evidence_root=evidence, native_build_id=build_id))
+        bad_physical = evidence / rows['callee-owner-loss']['current_stage_observation']['log_path']
+        original_bytes = bad_physical.read_bytes()
+        bad_physical.write_bytes(original_bytes + b'error: modified\n')
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=build_id))
+        bad_physical.write_bytes(original_bytes)
+        alias = bad_physical.with_suffix('.alias')
+        alias.write_bytes(original_bytes)
+        bad_physical.unlink()
+        bad_physical.symlink_to(alias)
+        self.assertFalse(MODULE.complete_matrix(
+            proof, evidence_root=evidence, native_build_id=build_id))
+        bad_physical.unlink()
+        alias.rename(bad_physical)
+
 
 
 if __name__ == '__main__':

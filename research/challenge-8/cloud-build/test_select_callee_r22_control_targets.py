@@ -29,6 +29,8 @@ TRANSFORM = load("select_callee_r22_transform_test",
                  CHALLENGE / "overnight-assume-actual/r21_fractional_forget.py")
 REPAIR = load("select_callee_r22_repair_test",
               CHALLENGE / "overnight-assume-actual/r20_final_select_repair.py")
+CURRENT_BUILD_ID = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+TOOL_HOME = Path("/synthetic/tool")
 
 
 def _base_source() -> bytes:
@@ -101,13 +103,47 @@ def _target_map(sources: dict[str, bytes], tool_spec: bytes) -> dict:
 
 
 def _log_observation(variant: str, source: bytes, record: dict,
-                     log_text: str) -> dict:
-    return {
-        "variant": variant,
-        "source_sha256": hashlib.sha256(source).hexdigest(),
-        "log_sha256": hashlib.sha256(log_text.encode()).hexdigest(),
-        "provenance": record["provenance"],
+                     log_text: str, *, tool_spec: bytes,
+                     stage: dict | None = None,
+                     log_path: str | None = None) -> dict:
+    raw = log_text.encode("utf-8")
+    source_hashes = {
+        "original/lib.rs": hashlib.sha256(b"synthetic original source").hexdigest(),
+        "verified/lib.rs": hashlib.sha256(source).hexdigest(),
     }
+    if stage is None:
+        stage = {
+            "status": "RAN", "exit": 1,
+            "argv": [str(TOOL_HOME / "bin/verifast"), "-rustc_args",
+                     "--edition 2021", "-verbose", "1", "verified/lib.rs"],
+            "source_before": source_hashes, "source_after": source_hashes,
+            "source_unchanged": True, "intrinsic_gate_active": True,
+            "pointer_drop_gate_active": True,
+            "stdout": "r20-merged-optin.log", "stderr": "r20-merged-optin.log",
+        }
+    return {
+        "build_id": CURRENT_BUILD_ID,
+        "variant": variant,
+        "source_hashes": source_hashes,
+        "tool_spec_sha256": hashlib.sha256(tool_spec).hexdigest(),
+        "log_path": log_path or TARGET.CURRENT_LOG_RELATIVE.format(variant=variant),
+        "log_sha256": hashlib.sha256(raw).hexdigest(),
+        "stage": stage,
+    }
+
+
+def _match(variant: str, log_text: str, *, observation: dict | None = None,
+           target_map: dict | None = None):
+    target = (target_map or _ACTIVE_MAP)["targets"][variant]
+    raw = log_text.encode("utf-8") if isinstance(log_text, str) else None
+    observation_text = log_text if isinstance(log_text, str) else _log(target)
+    current = observation or _log_observation(
+        variant, _ACTIVE_SOURCES[variant], target, observation_text,
+        tool_spec=_ACTIVE_TOOL_SPEC)
+    return TARGET.match_first_and_only_error(
+        variant, target_map or _ACTIVE_MAP, _ACTIVE_SOURCES, _ACTIVE_TOOL_SPEC,
+        log_text, log_bytes=raw, log_observation=current,
+        expected_build_id=CURRENT_BUILD_ID, tool_home=TOOL_HOME)
 
 
 def _log(record: dict, *, file=None, line=None, start=None, end=None,
@@ -121,9 +157,12 @@ def _log(record: dict, *, file=None, line=None, start=None, end=None,
 
 class R22ControlTargetHelperTests(unittest.TestCase):
     def setUp(self):
+        global _ACTIVE_MAP, _ACTIVE_SOURCES, _ACTIVE_TOOL_SPEC
         self.sources = _sources()
         self.tool_spec = _tool_spec()
         self.map = _target_map(self.sources, self.tool_spec)
+        _ACTIVE_MAP, _ACTIVE_SOURCES, _ACTIVE_TOOL_SPEC = (
+            self.map, self.sources, self.tool_spec)
 
     def test_all_seven_caller_declared_targets_bind_to_source_and_tool_bytes(self):
         result = TARGET.validate_target_map(self.map, self.sources, self.tool_spec)
@@ -133,14 +172,13 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         self.assertIs(result["proof_credit"], False)
         for variant in TARGET.VARIANTS:
             target = self.map["targets"][variant]
-            log = _log(target)
-            match = TARGET.match_first_and_only_error(
-                variant, self.map, self.sources, self.tool_spec, log,
-                log_observation=_log_observation(
-                    variant, self.sources[variant], target, log))
+            log = _log(target) + "Elapsed time: 1.2s\n"
+            match = _match(variant, log)
             self.assertTrue(match["matches_first_and_only_error"])
             self.assertIs(match["accepted"], False)
             self.assertEqual(match["variant"], variant)
+            self.assertNotEqual(match["log_sha256"], target["log_sha256"])
+            self.assertEqual(match["current_build_id"], CURRENT_BUILD_ID)
 
     def test_callee_and_no_retained_lines_are_derived_from_unique_anchors(self):
         expected_lines = {
@@ -288,11 +326,7 @@ class R22ControlTargetHelperTests(unittest.TestCase):
     def test_only_exact_single_diagnostic_matches_and_extra_errors_refuse(self):
         target = self.map["targets"]["callee-owner-duplicate"]
         good = _log(target)
-        result = TARGET.match_first_and_only_error(
-            "callee-owner-duplicate", self.map, self.sources, self.tool_spec, good,
-            log_observation=_log_observation(
-                "callee-owner-duplicate", self.sources["callee-owner-duplicate"],
-                target, good))
+        result = _match("callee-owner-duplicate", good)
         self.assertTrue(result["matches_first_and_only_error"])
         bad_logs = (
             good + "verified/lib.rs(4,1-2): error: another failure\n",
@@ -309,43 +343,77 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         for log in bad_logs:
             supplied_log = good if log is None else log
             with self.subTest(log=log), self.assertRaises(TARGET.TargetError):
-                TARGET.match_first_and_only_error(
-                    "callee-owner-duplicate", self.map, self.sources,
-                    self.tool_spec, log,
-                    log_observation=_log_observation(
-                        "callee-owner-duplicate",
-                        self.sources["callee-owner-duplicate"], target,
-                        supplied_log))
+                    _match("callee-owner-duplicate", log)
         with self.assertRaises(TARGET.TargetError):
-            TARGET.match_first_and_only_error(
-                "callee-owner-loss", self.map, self.sources, self.tool_spec, good,
-                log_observation=_log_observation(
-                    "callee-owner-loss", self.sources["callee-owner-loss"],
-                    self.map["targets"]["callee-owner-loss"], good))
+            _match("callee-owner-loss", good)
 
-    def test_log_observation_must_bind_row_source_content_and_caller_provenance(self):
+    def test_current_observation_is_distinct_from_prior_provenance(self):
         variant = "no-retained-half"
         target = self.map["targets"][variant]
         log = _log(target)
-        observation = _log_observation(variant, self.sources[variant], target, log)
-        self.assertTrue(TARGET.match_first_and_only_error(
-            variant, self.map, self.sources, self.tool_spec, log,
-            log_observation=observation)["matches_first_and_only_error"])
+        observation = _log_observation(
+            variant, self.sources[variant], target, log, tool_spec=self.tool_spec)
+        matched = _match(variant, log, observation=observation)
+        self.assertTrue(matched["matches_first_and_only_error"])
+        self.assertNotEqual(observation["build_id"], target["provenance"]["build_id"])
+        original_prior = dict(target["provenance"])
         mutations = (
             lambda o: o.update(variant="omit-selected-own"),
-            lambda o: o.update(source_sha256="0" * 64),
+            lambda o: o.update(build_id="not-a-uuid"),
+            lambda o: o.update(tool_spec_sha256="0" * 64),
             lambda o: o.update(log_sha256="0" * 64),
-            lambda o: o["provenance"].update(request_id="other-request"),
-            lambda o: o["provenance"].update(build_id=
-                "00000000-0000-0000-0000-000000000999"),
+            lambda o: o.update(log_path="other.log"),
+            lambda o: o["source_hashes"].update(**{"verified/lib.rs": "0" * 64}),
+            lambda o: o["stage"].update(exit=0),
+            lambda o: o["stage"].update(pointer_drop_gate_active=False),
+            lambda o: o["stage"].update(argv=["wrong"]),
         )
         for mutate in mutations:
-            bad = {**observation, "provenance": dict(observation["provenance"])}
+            bad = {**observation, "source_hashes": dict(observation["source_hashes"]),
+                   "stage": dict(observation["stage"])}
             mutate(bad)
             with self.subTest(mutate=mutate), self.assertRaises(TARGET.TargetError):
-                TARGET.match_first_and_only_error(
-                    variant, self.map, self.sources, self.tool_spec, log,
-                    log_observation=bad)
+                _match(variant, log, observation=bad)
+        self.assertEqual(target["provenance"], original_prior)
+
+    def test_prior_log_hash_is_not_current_log_hash(self):
+        variant = "callee-false-normal"
+        target = self.map["targets"][variant]
+        current = _log(target) + "Elapsed: 17.4s\n"
+        match = _match(variant, current)
+        self.assertTrue(match["matches_first_and_only_error"])
+        self.assertEqual(match["log_sha256"],
+                         hashlib.sha256(current.encode()).hexdigest())
+        self.assertNotEqual(match["log_sha256"], target["log_sha256"])
+
+    def test_wrong_native_build_extra_errors_and_invalid_utf8_refuse(self):
+        variant = "callee-owner-loss"
+        target = self.map["targets"][variant]
+        log = _log(target)
+        observation = _log_observation(
+            variant, self.sources[variant], target, log, tool_spec=self.tool_spec)
+        with self.assertRaises(TARGET.TargetError):
+            TARGET.match_first_and_only_error(
+                variant, self.map, self.sources, self.tool_spec, log,
+                log_bytes=log.encode(), log_observation=observation,
+                expected_build_id="bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+                tool_home=TOOL_HOME)
+        with self.assertRaises(TARGET.TargetError):
+            TARGET.match_first_and_only_error(
+                variant, self.map, self.sources, self.tool_spec, log +
+                "verified/lib.rs(1,1-2): error: extra\n",
+                log_bytes=(log + "verified/lib.rs(1,1-2): error: extra\n").encode(),
+                log_observation=_log_observation(
+                    variant, self.sources[variant], target,
+                    log + "verified/lib.rs(1,1-2): error: extra\n",
+                    tool_spec=self.tool_spec),
+                expected_build_id=CURRENT_BUILD_ID, tool_home=TOOL_HOME)
+        with self.assertRaises(TARGET.TargetError):
+            TARGET.match_first_and_only_error(
+                variant, self.map, self.sources, self.tool_spec, "�\n" + log,
+                log_bytes=b"\xff\n" + log.encode(),
+                log_observation=observation,
+                expected_build_id=CURRENT_BUILD_ID, tool_home=TOOL_HOME)
 
 
 if __name__ == "__main__":

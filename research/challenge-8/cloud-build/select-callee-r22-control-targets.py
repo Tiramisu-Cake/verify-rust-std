@@ -73,6 +73,10 @@ _LOCATION = re.compile(
     r"^(?P<file>.+)\((?P<line>[1-9][0-9]*),(?P<start>[1-9][0-9]*)-"
     r"(?P<end>[1-9][0-9]*)\): (?P<message>\S.*)$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+CURRENT_STAGE_SCHEMA = "select-current-stage-target-observation-v1"
+CURRENT_LOG_RELATIVE = (
+    "cases/r21-fractional-proof/variants/{variant}/nine-body-a1-owned-forget/"
+    "r20-merged-optin.log")
 _CHAR_LITERAL = re.compile(
     rb"'(?:[^\\'\n]|\\(?:x[0-9a-fA-F]{2}|u\{[0-9a-fA-F_]+\}|.))'")
 
@@ -380,10 +384,12 @@ def _diagnostic_lines(log_text: str) -> list[tuple[int, str]]:
 
 def match_first_and_only_error(variant: str, target_map: object,
                                sources: object, tool_spec: bytes,
-                               log_text: object, *, log_observation: object,
+                               log_text: object, *, log_bytes: object,
+                               log_observation: object,
+                               expected_build_id: str,
                                tool_spec_file: str = TOOL_SPEC_FILE,
                                tool_home=None) -> dict[str, Any]:
-    """Bind the caller-declared prior log observation to its exact row/content."""
+    """Match a current stage log to an immutable prior diagnostic target."""
     _need(variant in VARIANTS, "wrong or unknown control row")
     validated_map = validate_target_map(
         target_map, sources, tool_spec, tool_spec_file=tool_spec_file,
@@ -394,20 +400,60 @@ def match_first_and_only_error(variant: str, target_map: object,
           "target row absent, null, unobserved, or wrong row")
     _need(isinstance(log_text, str) and log_text.strip(),
           "verifier log absent, null, or wrong type")
-    _need(isinstance(log_observation, dict) and set(log_observation) == {
-        "variant", "source_sha256", "log_sha256", "provenance"},
-        "caller log observation is missing or has wrong fields")
+    current_fields = {"build_id", "variant", "source_hashes", "tool_spec_sha256",
+                      "log_path", "log_sha256", "stage"}
+    _need(isinstance(log_observation, dict) and
+          set(log_observation) == current_fields,
+          "current stage/log observation is missing or has wrong fields")
     source = sources.get(variant) if isinstance(sources, dict) else None
     _need(isinstance(source, bytes), "selected verified source bytes are absent")
-    log_digest = _sha(log_text.encode("utf-8"))
+    _need(isinstance(expected_build_id, str),
+          "native current Cloud Build ID is required")
+    try:
+        canonical_build_id = str(uuid.UUID(expected_build_id))
+    except (ValueError, AttributeError, TypeError):
+        raise TargetError("R22-CONTROL-TARGETS: native current Build ID is invalid")
+    _need(canonical_build_id == expected_build_id.lower() and
+          log_observation.get("build_id") == canonical_build_id,
+          "current stage Build ID differs from native Cloud Build ID")
+    _need(isinstance(log_bytes, bytes) and isinstance(log_text, str),
+          "current log bytes/text are absent or wrong type")
+    try:
+        decoded_log = log_bytes.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        raise TargetError("R22-CONTROL-TARGETS: current log is not strict UTF-8")
+    _need(decoded_log == log_text, "current log text differs from exact current bytes")
+    log_digest = _sha(log_bytes)
+    expected_log_path = CURRENT_LOG_RELATIVE.format(variant=variant)
+    source_hashes = log_observation.get("source_hashes")
+    stage = log_observation.get("stage")
+    _need(isinstance(source_hashes, dict) and
+          set(source_hashes) == {"original/lib.rs", "verified/lib.rs"} and
+          all(isinstance(value, str) and _SHA256.fullmatch(value)
+              for value in source_hashes.values()) and
+          source_hashes.get("verified/lib.rs") == _sha(source),
+          "current original/verified source hashes are invalid")
+    expected_argv = [str(Path(tool_home) / "bin/verifast"), "-rustc_args",
+                     "--edition 2021", "-verbose", "1", "verified/lib.rs"]
+    _need(isinstance(stage, dict) and stage.get("status") == "RAN" and
+          type(stage.get("exit")) is int and stage.get("exit") == 1 and
+          stage.get("argv") == expected_argv and
+          stage.get("stdout") == "r20-merged-optin.log" and
+          stage.get("stderr") == "r20-merged-optin.log" and
+          stage.get("source_before") == source_hashes and
+          stage.get("source_after") == source_hashes and
+          stage.get("source_unchanged") is True and
+          stage.get("intrinsic_gate_active") is True and
+          stage.get("pointer_drop_gate_active") is True,
+          "current stage is not the exact source-bound R20 control stage")
     _need(log_observation.get("variant") == variant and
-          log_observation.get("source_sha256") == _sha(source) and
+          log_observation.get("source_hashes", {}).get("verified/lib.rs") == _sha(source) and
+          log_observation.get("tool_spec_sha256") == _sha(tool_spec) and
+          log_observation.get("log_path") == expected_log_path and
           log_observation.get("log_sha256") == log_digest and
-          target.get("source_sha256") == log_observation.get("source_sha256") and
-          target.get("log_sha256") == log_digest and
-          _validate_provenance(log_observation.get("provenance")) ==
-            target.get("provenance"),
-          "caller log observation does not bind this row/source/content/provenance")
+          target.get("source_sha256") == _sha(source) and
+          target.get("tool_spec_sha256") == _sha(tool_spec),
+          "current stage/log does not bind this row/source/tool/content")
     diagnostics = _diagnostic_lines(log_text)
     _need(len(diagnostics) == 1,
           "verifier log must contain exactly one error/fatal diagnostic")
@@ -428,10 +474,12 @@ def match_first_and_only_error(variant: str, target_map: object,
           "sole verifier error differs from the exact fresh target record")
     return {
         "schema": "select-r22-control-diagnostic-observation-v1",
+        "current_build_id": canonical_build_id,
         "variant": variant,
         "diagnostic_line": diagnostic_line,
         "target": expected,
         "log_sha256": log_digest,
+        "log_path": expected_log_path,
         "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
         "matches_first_and_only_error": True,
         "accepted": False,
