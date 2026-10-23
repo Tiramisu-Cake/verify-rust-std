@@ -56,6 +56,9 @@ def attempts_gate(ledger, stage, candidate, profile):
     builds = ledger['builds']
     require(all(isinstance(b, dict) and b.get('accounted') is True for b in builds),
             'RR prior Build must be terminal and accounted')
+    terminal = {'SUCCESS', 'FAILURE', 'INTERNAL_ERROR', 'TIMEOUT', 'CANCELLED', 'EXPIRED', 'NOT_CREATED_INVALID_ARGUMENT'}
+    require(all(b.get('stage') in TIMEOUTS and b.get('status') in terminal for b in builds),
+            'RR prior Build stage/status mismatch')
     prior = [b for b in builds if b.get('stage') == stage and b.get('status') != 'NOT_CREATED_INVALID_ARGUMENT']
     require(len(prior) < 2, 'RR stage attempt limit reached')
     require(not any(b.get('stage') == stage and b.get('infra_sha') == candidate for b in builds),

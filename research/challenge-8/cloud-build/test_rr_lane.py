@@ -55,7 +55,9 @@ class RRLaneTests(unittest.TestCase):
                               'build_id': p['image_build']['cold_build_id'], 'infra_sha': 'old'}
         rr_lane.attempts_gate({'builds': []}, 'cold-image', 'new', p)
         for ledger in ({'builds': [dict(cold, accounted=False)]}, {'builds': [cold]},
-                       {'builds': [cold, cold]}, {'builds': None}, {'builds': ['bad']}):
+                       {'builds': [cold, cold]}, {'builds': None}, {'builds': ['bad']},
+                       {'builds': [dict(cold, status='WORKING')]},
+                       {'builds': [dict(cold, stage='other')]}):
             with self.subTest(ledger=ledger), self.assertRaises(ValueError):
                 rr_lane.attempts_gate(ledger, 'cold-image', 'new', p)
         repair = {'prior_build_id': cold['build_id'], 'candidate_sha': 'new', 'evidence': 'Brief fact'}
