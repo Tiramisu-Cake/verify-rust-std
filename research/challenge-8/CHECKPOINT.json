@@ -1,4 +1,15 @@
 {
+  "active_dispatch": {
+    "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+    "config_sha256": "8ce279094f3220c0a974b12d7a5ffe70e5437d28e88bea22d3dc503a0306323e",
+    "dispatch_token": "dispatch-b692d65c966c42e888ec59ca1157c3e0",
+    "infra_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+    "proof_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+    "reservation_seconds": 1800,
+    "stage": "cold-image",
+    "state_dir": "/root/smallsort-cloud-network-rr-n7",
+    "timeout_seconds": 1740
+  },
   "artifacts": [
     {
       "path": "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
@@ -13,7 +24,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold image NOT_RUN; reviewed candidate ready for submit."
+    "summary": "Cold Build active; no image digest or frontend result yet."
   },
   "confirmed": [
     {
@@ -41,7 +52,7 @@
       ]
     }
   ],
-  "next_step": "Submit cold1740/1800, then Brief/accounting push before freeze.",
+  "next_step": "Watcher ack; Brief, terminal accounting commit/push, then digest freeze/review.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
@@ -62,7 +73,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a"
+    ],
     "budget_seconds": 5400,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
@@ -74,7 +87,7 @@
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:05:48Z"
+  "updated_utc": "2026-10-23T21:06:33Z"
 }

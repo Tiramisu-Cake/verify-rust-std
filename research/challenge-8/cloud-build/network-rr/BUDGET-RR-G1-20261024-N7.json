@@ -1,12 +1,30 @@
 {
-  "active_build": null,
+  "active_build": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
   "allowed_lanes": [
     "network-rr-g1"
   ],
   "authorization": "Explicit owner CURRENT-TASK N7 and N7-OWNER-DIRECTIONS: Cloud-only online image cold1740/1800, warm1200/1260; independent review and exact published candidate required before submit.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "e9fcf59caea3fd851cdc8d051e664e11e997f4b0",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-b692d65c966c42e888ec59ca1157c3e0",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
+      "infra_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+      "proof_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+      "lane": "network-rr-g1",
+      "stage": "cold-image",
+      "submitted_config_sha256": "8ce279094f3220c0a974b12d7a5ffe70e5437d28e88bea22d3dc503a0306323e",
+      "reserved_seconds": 1800,
+      "timeout_seconds": 1740,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "44fb74838bcc92c0908b22a80f0d74a32de7d5472d38ad34fa7e2ff22bd050c4",
+      "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 5400,
