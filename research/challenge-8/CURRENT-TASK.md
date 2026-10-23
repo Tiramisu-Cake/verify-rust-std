@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T23:42:17Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T23:43:01Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 8321s spent, 0s retired, 13279s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Reviewed W4 stageAPI/env diagnostic candidate unbuilt. P2 PUBLISHED; checked8call linkage and C5proof remainopen.
-Next: Publish exactc2f reviewedcandidate; full1200 typed8call/nativebarrier diagnostic, thenBriefandcheckedlinkage/C5.
+Active Build IDs: a665d68d-a609-447b-a99a-1c959a684aff; unresolved: none recorded.
+Blocker: W4typed8call observation/nativefirstbarrier diagnostic pending; checkedcallerlinkage and C5proof remainopen. P2 PUBLISHED. [Build `a665d68d-a609-447b-a99a-1c959a684aff`]
+Next: ACK; immediatelypushterminalaccounting; Brief typed8call/nativebarrier results, thencheckedconstlinkage/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
