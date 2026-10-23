@@ -1,0 +1,44 @@
+{
+  "schema": "merge-r23-p17-unsize-constructor-outcome-review-v1",
+  "reviewer": "Codex",
+  "candidate": "a11613d485b2b66ad7da9012b829ccdf11aed0e7",
+  "baseline": "dc953c7f57f917a31aada9891033a3cc5b4dbaa9",
+  "tool_commit": "a7b28465193e0e5185d3b45a56745fa8aa4ed194",
+  "spec_sha256": "3c8b77fefb7158b07b993319d3a6970d34765b413ae266285f42779ed76baa3f",
+  "packet_sha256": "241255c98ef45b997bb7fc8da5dbf28f80a00fbfd457dec5811e1d1d44d8f9ee",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P16-COMPILE-REVIEW-20261024.json; P17 changes only result extraction around the exact R23 Unsize slice constructor",
+  "decision": "GO",
+  "review_scope": [
+    "P17 result_of_outcome wrapper around slice_from_raw_parts_mut in the exact R23 Unsize lowering",
+    "Existing constructor specification and outcome convention",
+    "Preservation of exact pointer, length, type, lifetime, bridge, and unwind gates",
+    "Exact P17 translator pin, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The P17 delta only wraps the same `std::ptr::slice_from_raw_parts_mut::<u64>` AST expression in the existing `result_of_outcome loc` helper before the unchanged explicit-lifetime reference cast. The cast target and Unsize branch are unchanged.",
+    "`result_of_outcome` follows the established translator convention: with unwind checking enabled it applies `fn_outcome_result` to an expression whose call type is `fn_outcome<T>`; in ignore-unwind mode it returns the original expression. The R23 source adapter rejects ignore-unwind mode, so its active path uses the checked outcome extraction.",
+    "The existing `std::ptr::slice_from_raw_parts_mut<T>` specification in `bin/rust/std/lib.rsspec` has `req true`, ensures the result carries the input data pointer and requested length, and declares `on_unwind_ens false`. Thus extracting its result does not suppress an allowed unwind; the existing spec rules out an unwind for this constructor. P17 adds no new spec, premise, permission, or ownership authority.",
+    "The constructor still receives the same data pointer cast to `*mut u64` and literal length 3. The following cast still targets the mutable `[u64]` reference instantiated at `'r23_borrow`; checked `r23_array3_borrow_to_slice` remains the only ownership bridge. The normal and unwind recovery branches for the selected checked helper call, including the hard missing-bridge failure, are unchanged.",
+    "The exact R23 source Ref/Unsize/as_mut_ptr checks, same-unit helper and actual std-callee equivalence, source lifetime and noescape checks, full_borrow resource transitions, and original normal/unwind control gates are unchanged. The generic Unsize/default-off lowering is unaffected because the result wrapper is inside the selected R23 branch.",
+    "The P17 tool delta is limited to the two-line result wrapper. Translator source hash 73099fd5a0955787524dcb860d914fbf110fb44aac67aa5650b5a86516f4320c matches GLUE-PROFILE. Tool commit is a7b28465193e0e5185d3b45a56745fa8aa4ed194; profile SHA-256 is 2365bb221842f4ccf01e760c75ae7b8a0e16a11ac9d98ad7909277a8c6294582; patch SHA-256 is 3a4509e5051621fec9f4b2e3ffb6a3d9178e8edaf1f6d583c44733908bdac5fc; reverse baseline profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "`git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This focused review confirms the expression type correction and existing non-unwinding constructor specification statically. It does not establish successful translation, verification, or proof acceptance.",
+    "Reported profile and phase checks were not rerun. No source-positive acceptance, build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
