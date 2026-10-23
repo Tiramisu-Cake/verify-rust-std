@@ -24,6 +24,11 @@ provider_spec = importlib.util.spec_from_file_location(
 provider = importlib.util.module_from_spec(provider_spec)
 sys.modules[provider_spec.name] = provider
 provider_spec.loader.exec_module(provider)
+prove_spec = importlib.util.spec_from_file_location(
+    "r22_onecell_prove", HERE.parents[1] / "merge/overnight/guard-ownership/insertion-onecell/prove.py")
+prove = importlib.util.module_from_spec(prove_spec)
+sys.modules[prove_spec.name] = prove
+prove_spec.loader.exec_module(prove)
 
 
 def account():
@@ -303,6 +308,38 @@ class R22PhaseTests(unittest.TestCase):
             path.write_text(json.dumps(bad, indent=2) + "\n")
             self.assertFalse(callback._r22_compile_fix_registration_matches(
                 path, callback.R22_PROFILE))
+
+    def test_onecell_profile_dispatch_accepts_only_exact_r22_and_r20_extensions(self):
+        baseline = (HERE / "R17-BASELINE-PROFILE-20261021.json").read_bytes()
+        current = json.loads((HERE / "GLUE-PROFILE.json").read_bytes())
+        old_bytes = __import__("subprocess").check_output([
+            "git", "show", m.R22_PROBE_SOURCE + ":" + m.R22_PROFILE_PATH], cwd=HERE.parents[3])
+        old = json.loads(old_bytes)
+        self.assertTrue(prove.admit_r17_profile_extension_if_present(old, baseline))
+        self.assertTrue(prove.admit_r17_profile_extension_if_present(current, baseline))
+        corruptions = []
+        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"] = "partial"; corruptions.append(value)
+        value = json.loads(json.dumps(current)); del value["r22_compile_fix_registration"]["tool_source_paths"]; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["candidate_tool_commit"] = "0" * 40; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["effective_tool_commit"] = prove.R20_TOOL_COMMIT; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["exporter_source_sha256"] = "0" * 64; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["guard_return_trace_patch_sha256"] = "0" * 64; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["ordered_patch_chain"][-1]["path"] = "unrelated.patch"; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["kernel_sha256"] = "0" * 64; corruptions.append(value)
+        value = json.loads(json.dumps(current)); del value["r22_compile_fix_registration"]; corruptions.append(value)
+        for corrupted in corruptions:
+            with self.subTest(registration=corrupted.get("r22_compile_fix_registration")), self.assertRaises(ValueError):
+                prove.admit_r17_profile_extension_if_present(corrupted, baseline)
+        with self.assertRaises(ValueError):
+            prove.admit_r17_profile_extension_if_present(current, baseline + b" ")
+
+    def test_r22_provider_overlay_keeps_public_r11_runtime_profile_name(self):
+        path = "research/challenge-8/merge/overnight/run.sh"
+        original = (HERE.parents[3] / path).read_bytes()
+        transformed = provider.transform(path, original, {"network_sha": "a" * 64},
+                                         profile=provider.R22_PROFILE)
+        self.assertIn(b"experimental-merge-label-storage-r11-v1", transformed)
+        self.assertNotIn(provider.R22_PROFILE.encode(), transformed)
 
     def test_execute_budget_preserves_reserve_and_780_second_cap(self):
         for timeout, execute in ((510, 90), (1200, 780)):

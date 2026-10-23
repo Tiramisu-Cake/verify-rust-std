@@ -76,7 +76,7 @@ R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 R22_PROFILE = "r22-compile-fix-overlay"
 R22_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "504b1e067bf269a77053ee4f701ba6a914d1854868a0d33cfc35736db736c6bd",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "582a5f985353d648a08f391a34f50ccd2e387c0693ffa4c0d2ab0fcde2dc650a",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }
@@ -257,7 +257,7 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
             # R4 keeps the baseline run.sh SHA strict; only the staged identity changes.
             data = replace_once(data,
                 b'experimental-merge-first-callback-u64-v1',
-                profile.encode(), path)
+                (R11_PROFILE if profile == R22_PROFILE else profile).encode(), path)
             data = replace_once(data,
                 b'run_one bidirectional-len23-diagnostic 400 python3',
                 b'run_one bidirectional-len23-diagnostic 760 python3', path)

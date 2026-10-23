@@ -131,6 +131,22 @@ R20_REFINER_CORE_SHA256 = "7be8a6f16ce45173866bddcc6b6d606ac4ef2a6748885eca1fc98
 R20_EXPORTER_SHA256 = "8bcb126ea684d1c671b96425940b0d24904fdaa3beb69a09316bd222316fca42"
 R20_SCHEMA_SHA256 = "a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5"
 R20_PATCH_SHA256 = "3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b"
+R20_PROFILE_SHA256 = "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301"
+R22_TOOL_COMMIT = "e1ee4415b711d1b368cbfaad27bda88ed0a216e1"
+R22_EXPORTER_SHA256 = "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345"
+R22_PATCH_SHA256 = "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"
+R22_PROFILE_SHA256 = "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e"
+R22_REGISTRATION = {
+    "schema": "merge-r22-compile-fix-registration-v1",
+    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+    "baseline_profile_sha256": R20_PROFILE_SHA256,
+    "starting_tool_commit": R20_TOOL_COMMIT,
+    "candidate_tool_commit": R22_TOOL_COMMIT,
+    "tool_source_paths": ["src/rust_frontend/vf_mir_exporter/src/lib.rs"],
+    "source_applicability": ("compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, "
+                             "and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, "
+                             "postcondition, or control change."),
+}
 R20_PROFILE_CHANGED_KEYS = frozenset({
     "effective_tool_commit", "refiner_core_source_sha256", "exporter_source_sha256", "schema_sha256",
     "guard_return_trace_patch_sha256", "ordered_patch_chain",
@@ -220,10 +236,40 @@ def validate_r20_profile_extension(profile: object, r17_baseline_bytes: object) 
     validate_r19_profile_extension(baseline, r17_baseline_bytes)
 
 
+def validate_r22_compile_fix_profile_extension(profile: object, r17_baseline_bytes: object) -> None:
+    """Revert the exact exporter fix to profile9496, then call unchanged R20 admission."""
+    if not isinstance(profile, dict) or profile.get("r22_compile_fix_registration") != R22_REGISTRATION:
+        raise ValueError("R22 compile-fix registration is malformed or not the exact candidate")
+    chain = profile.get("ordered_patch_chain")
+    if (profile.get("effective_tool_commit") != R22_TOOL_COMMIT or
+            profile.get("exporter_source_sha256") != R22_EXPORTER_SHA256 or
+            profile.get("guard_return_trace_patch_sha256") != R22_PATCH_SHA256 or
+            type(chain) is not list or len(chain) != 19 or type(chain[-1]) is not dict or
+            chain[-1].get("path") != "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch" or
+            chain[-1].get("sha256") != R22_PATCH_SHA256):
+        raise ValueError("R22 tool, exporter, or cumulative patch pin differs")
+    serialized = (json.dumps(profile, indent=2, ensure_ascii=False) + "\n").encode()
+    if hashlib.sha256(serialized).hexdigest() != R22_PROFILE_SHA256:
+        raise ValueError("R22 profile contains an unregistered field or pin")
+    baseline = copy.deepcopy(profile)
+    del baseline["r22_compile_fix_registration"]
+    baseline["effective_tool_commit"] = R20_TOOL_COMMIT
+    baseline["exporter_source_sha256"] = R20_EXPORTER_SHA256
+    baseline["guard_return_trace_patch_sha256"] = R20_PATCH_SHA256
+    baseline["ordered_patch_chain"][-1]["sha256"] = R20_PATCH_SHA256
+    baseline_bytes = (json.dumps(baseline, indent=2, ensure_ascii=False) + "\n").encode()
+    if hashlib.sha256(baseline_bytes).hexdigest() != R20_PROFILE_SHA256:
+        raise ValueError("R22 profile does not reverse byte-exactly to profile9496")
+    validate_r20_profile_extension(baseline, r17_baseline_bytes)
+
+
 def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object) -> bool:
-    """Leave legacy profiles on their existing route; validate any R17/R19 claim."""
+    """Leave legacy profiles on their existing route; validate each exact extension."""
     if not isinstance(profile, dict):
         raise ValueError("profile must be a JSON object")
+    if "r22_compile_fix_registration" in profile:
+        validate_r22_compile_fix_profile_extension(profile, baseline_bytes)
+        return True
     if "r20_metadata_registration" in profile:
         validate_r20_profile_extension(profile, baseline_bytes)
         return True
@@ -940,29 +986,6 @@ def main() -> int:
                 chain[-2].get("sha256") != profile_card.get("owned_array_allocation_patch_sha256")):
             raise RuntimeError("R9 patch chain must preserve the exact captured R8 baseline plus one extension")
     if args.profile == R11_PROFILE:
-        if "r22_compile_fix_registration" in profile_card:
-            profile_path = Path(os.environ.get("SMALLSORT_MERGE_PROFILE", ""))
-            registration = profile_card.get("r22_compile_fix_registration")
-            chain = profile_card.get("ordered_patch_chain")
-            expected_registration = {
-                "schema": "merge-r22-compile-fix-registration-v1",
-                "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
-                "baseline_profile_sha256": "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301",
-                "starting_tool_commit": "578120769161e217e53bd569bafdccbd4b2e020e",
-                "candidate_tool_commit": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
-                "tool_source_paths": ["src/rust_frontend/vf_mir_exporter/src/lib.rs"],
-                "source_applicability": ("compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, "
-                                         "and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, "
-                                         "postcondition, or control change."),
-            }
-            if (base.file_sha(profile_path) != R22_PROFILE_SHA256 or
-                    profile_card.get("profile") != R11_PROFILE or registration != expected_registration or
-                    profile_card.get("effective_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
-                    profile_card.get("exporter_source_sha256") != "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345" or
-                    not isinstance(chain, list) or len(chain) != 19 or
-                    chain[-1].get("path") != "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch" or
-                    chain[-1].get("sha256") != "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"):
-                raise RuntimeError("R22 compile-fix profile is not the exact registered exporter candidate")
         baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R11-BASELINE-PROFILE-20261021.json"
         start_path = HERE.parents[3] / "cloud-build/origin-layout/R11-START-20261021.json"
         trace_patch = HERE.parents[3] / "cloud-build/origin-layout/r9-guard-return-trace.patch"
