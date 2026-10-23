@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "abafca3c0b32fd6e2fb4f8af8de2b712f0935719d233ee2b581e411c8b45188c"
+      "sha256": "a3bb91c55d6b106915dc10a9a02f34ba9851091b6ec696c4b93c4ff885ab845a"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-SECOND-OBSERVATIONS.json",
         "sha256": "38207b634184c8ca083161a24ccf443606e96f32f74e92ba33bce18920c9b5ff"
       }
     ],
-    "summary": "Mutable A1 insertion violates declared exact body order."
+    "summary": "Await mutable capture Brief; P2 remains NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -473,20 +473,19 @@
     }
   ],
   "mutable_capture_build": {
-    "accounted": true,
-    "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
-    "build_seconds": 315,
-    "candidate": "3442e7f16184e749ed8d5ace5b22251656b8be09",
-    "config_sha256": "d28a3ba54ee954ec0a490c815210af51574e7625ba544d3698f78f888ddb31df",
-    "dispatch_token": "dispatch-5e288514c7d84548a5de2e305fd54abb",
+    "accounted": false,
+    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+    "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
+    "config_sha256": "ee6f0964e52db7eacb7a4e205a91a1f3a4690e251c423bcdf0bfee4b1cd38f00",
+    "dispatch_token": "dispatch-a6da8ae24b324cc1bdfc45769f2ede32",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "SOURCE_REFINEMENT_TRUE_EXACT_BODY_ORDER_FALSE",
+    "result": "PENDING_BRIEF",
     "schema": "select-r24-mut-capture-submission-v1",
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
-    "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
-    "status": "FAILURE",
+    "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
+    "status": "QUEUED",
     "timeout_seconds": 1200
   },
   "mutable_capture_build_history": [
@@ -506,6 +505,23 @@
       "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
       "status": "FAILURE",
       "timeout_seconds": 1200
+    },
+    {
+      "accounted": true,
+      "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+      "build_seconds": 315,
+      "candidate": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+      "config_sha256": "d28a3ba54ee954ec0a490c815210af51574e7625ba544d3698f78f888ddb31df",
+      "dispatch_token": "dispatch-5e288514c7d84548a5de2e305fd54abb",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reserved_seconds": 1260,
+      "result": "SOURCE_REFINEMENT_TRUE_EXACT_BODY_ORDER_FALSE",
+      "schema": "select-r24-mut-capture-submission-v1",
+      "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+      "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
+      "status": "FAILURE",
+      "timeout_seconds": 1200
     }
   ],
   "mutable_capture_candidate": {
@@ -521,7 +537,7 @@
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
-    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
+    "state": "CAPTURE_BUILD_ACTIVE"
   },
   "mutable_capture_candidate_history": [
     {
@@ -611,7 +627,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Submit reviewed insertion fix; full1200 capture only.",
+  "next": "ACK first, then Brief source/MIR pins and snapshot refusal.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -656,7 +672,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "49b3e3d5-27c5-4d5b-999a-e83b470685f3"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -676,23 +694,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:56:59Z",
+  "updated_utc": "2026-10-23T14:58:16Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "2442e181-92b6-4bad-b322-35f56ee90c6a",
-    "acknowledged_job_id": "9bfe193b-afd2-4d71-98d1-11367bc6c8d8",
-    "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
-    "prior_arm_refusals": [
-      "watch: coordinator read lock busy",
-      "watch: job store capacity exceeded"
-    ],
-    "spec_path": "/tmp/select-r24-mut-owner-watch.json",
+    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+    "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
     "store": "/root/.local/state/smallsort-watch-select-r24",
-    "store_decision_ref": "research/challenge-8/task-history/select-callee-r24/WATCHER-MUT-OWNER-STORE-DECISION.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -774,6 +784,22 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
       "spec_path": "/tmp/select-r24-mut-capture-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "2442e181-92b6-4bad-b322-35f56ee90c6a",
+      "acknowledged_job_id": "9bfe193b-afd2-4d71-98d1-11367bc6c8d8",
+      "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
+      "prior_arm_refusals": [
+        "watch: coordinator read lock busy",
+        "watch: job store capacity exceeded"
+      ],
+      "spec_path": "/tmp/select-r24-mut-owner-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "store_decision_ref": "research/challenge-8/task-history/select-callee-r24/WATCHER-MUT-OWNER-STORE-DECISION.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]
