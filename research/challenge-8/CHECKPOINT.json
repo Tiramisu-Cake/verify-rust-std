@@ -115,7 +115,7 @@
       ]
     }
   ],
-  "next_step": "Register exact R23 admission; submit reviewed R22b fingerprint early with timeout 1200; parallel no-Cloud mutable capture/P2 preparation.",
+  "next_step": "Watcher for fingerprint 739f982d: ack event before any checkpoint change; Brief terminal evidence, reviewed consumed-field projection, fresh R22b row binding and proof candidate review; continue no-Cloud mutable preparation in same R23 window.",
   "open": [
     "Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.",
     "Callee controls observed at intended obligations (4) and no-retained-half at l.213; targets not yet pinned/reviewed.",
@@ -148,7 +148,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "739f982d-078a-4ff5-9860-aabef75dc027"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:07:19Z",
     "main_deadline_utc": "2026-10-23T09:37:19Z",
@@ -158,7 +160,24 @@
     "t0": "2026-10-23T07:37:19Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
-  "updated_utc": "2026-10-23T07:37:19Z"
+  "updated_utc": "2026-10-23T07:46:46Z",
+  "mission_queue": [
+    {
+      "obligation": "W1 repaired fractional callee + seven intended controls + normal/unwind/nested-Drop acceptance",
+      "reason": "Actual callee is immediate caller/P2 prerequisite; R22b fingerprint active, proof follows exact fresh rows.",
+      "state": "ACTIVE"
+    },
+    {
+      "obligation": "W1 P2 *mut source/capture chain and accurate Network interface publication",
+      "reason": "Independent no-Cloud preparation reduces W7 dependency; publication waits accepted mutable full matrix.",
+      "state": "ACTIVE_NO_CLOUD"
+    },
+    {
+      "obligation": "W4 dormant body C5 168/191 count-five requalification",
+      "reason": "Choose next after callee acceptance/linkage; avoid premature summary or body admission.",
+      "state": "WAIT_CALLEE_ACCEPTANCE"
+    }
+  ]
 }

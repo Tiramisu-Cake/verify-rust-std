@@ -1,12 +1,29 @@
 {
-  "active_build": null,
+  "active_build": "739f982d-078a-4ff5-9860-aabef75dc027",
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
   "authorization": "Owner instruction Select R23 runtime Codex: fresh 3600 Cloud seconds, callee lane, full 1200 timeout; exact reviewed registration, no carry.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "cb364c5be02b759e436f1d2af056215636bcc172",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-41800ba3f08247ce8be2321d3417460f",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R23",
+      "infra_sha": "1a699bd42b627c96d276d9210764cf8aeac88bcb",
+      "proof_sha": "1a699bd42b627c96d276d9210764cf8aeac88bcb",
+      "lane": "o26-select-callee-r20",
+      "submitted_config_sha256": "94dcddfbe3ed62d5e3745f83d6b25290d93feba1d45bf3de064b2fad737c6c6b",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "1d6137c16c12e14f0356188b6729bbee27a167693ade36511f6cef30c8415b9a",
+      "build_id": "739f982d-078a-4ff5-9860-aabef75dc027"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 3600,

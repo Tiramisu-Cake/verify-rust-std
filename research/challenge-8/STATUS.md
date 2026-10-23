@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r23
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: ACTIVE
-- Updated: 2026-10-23T07:37:19Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: HANDOFF
+- Updated: 2026-10-23T07:46:46Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T07:37:19Z`; main deadline `2026-10-23T09:37:19Z`; absolute deadline `2026-10-23T10:07:19Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 739f982d-078a-4ff5-9860-aabef75dc027
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -34,7 +34,7 @@ Positive fails only function-end leak of 2 pointer-value own chunks (constructor
 - [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json) SHA `292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e` Build `7e23e945-9190-4928-b0e6-67f2cd3e31ec`
 
 ## Next
-Register exact R23 admission; submit reviewed R22b fingerprint early with timeout 1200; parallel no-Cloud mutable capture/P2 preparation.
+Watcher for fingerprint 739f982d: ack event before any checkpoint change; Brief terminal evidence, reviewed consumed-field projection, fresh R22b row binding and proof candidate review; continue no-Cloud mutable preparation in same R23 window.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64`
