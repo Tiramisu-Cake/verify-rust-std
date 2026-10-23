@@ -35,7 +35,7 @@ def _base_source() -> bytes:
     return (
         b"pub unsafe fn checked_forget_owned<T>(t: T)\n" +
         TRANSFORM.FORGET_OLD_CONTRACT + TRANSFORM.FORGET_BODY + b"\n\n" +
-        b"pub unsafe fn select_unpredictable(condition: bool) {\n"
+        TARGET.SELECT_SIGNATURE + b"/*@ synthetic function contract; @*/\n{\n"
         b"    let true_payload = true_val;\n"
         b"    let false_payload = false_val;\n" +
         TRANSFORM.OPEN_WRAPPERS_ANCHOR +
@@ -62,6 +62,18 @@ def _tool_spec() -> bytes:
     return b"\n".join(lines) + b"\n"
 
 
+def _provenance(variant: str) -> dict:
+    index = TARGET.VARIANTS.index(variant) + 1
+    return {
+        "build_id": f"00000000-0000-0000-0000-{index:012d}",
+        "brief_log_sha256": hashlib.sha256(
+            f"brief-log:{variant}".encode()).hexdigest(),
+        "brief_log_index": index,
+        "archive_id": f"archive-{variant}",
+        "request_id": f"request-{variant}",
+    }
+
+
 def _target_map(sources: dict[str, bytes], tool_spec: bytes) -> dict:
     targets = {}
     for variant, source in sources.items():
@@ -73,6 +85,8 @@ def _target_map(sources: dict[str, bytes], tool_spec: bytes) -> dict:
             "file": file, "line": line,
             "start_column": 21, "end_column": 25,
             "message": f"error: synthetic exact diagnostic for {variant}",
+            "provenance": _provenance(variant),
+            "log_sha256": "0" * 64,
         }
         if variant in TARGET.SPEC_PRECONDITION_LINE:
             text = tool_spec.splitlines()[line - 1].decode()
@@ -81,10 +95,19 @@ def _target_map(sources: dict[str, bytes], tool_spec: bytes) -> dict:
                 "line_text": text,
             }
         targets[variant] = record
-    return {"schema": TARGET.SCHEMA,
-            "observation": {"status": "OBSERVED_FRESH_CLOUD_TARGETS",
-                            "build_id": "00000000-0000-0000-0000-000000000123"},
-            "targets": targets}
+    for target in targets.values():
+        target["log_sha256"] = hashlib.sha256(_log(target).encode()).hexdigest()
+    return {"schema": TARGET.SCHEMA, "targets": targets}
+
+
+def _log_observation(variant: str, source: bytes, record: dict,
+                     log_text: str) -> dict:
+    return {
+        "variant": variant,
+        "source_sha256": hashlib.sha256(source).hexdigest(),
+        "log_sha256": hashlib.sha256(log_text.encode()).hexdigest(),
+        "provenance": record["provenance"],
+    }
 
 
 def _log(record: dict, *, file=None, line=None, start=None, end=None,
@@ -102,7 +125,7 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         self.tool_spec = _tool_spec()
         self.map = _target_map(self.sources, self.tool_spec)
 
-    def test_all_seven_fresh_targets_bind_to_exact_source_and_tool_bytes(self):
+    def test_all_seven_caller_declared_targets_bind_to_source_and_tool_bytes(self):
         result = TARGET.validate_target_map(self.map, self.sources, self.tool_spec)
         self.assertEqual(result["schema"], TARGET.RESULT_SCHEMA)
         self.assertEqual(set(result["targets"]), set(TARGET.VARIANTS))
@@ -110,8 +133,11 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         self.assertIs(result["proof_credit"], False)
         for variant in TARGET.VARIANTS:
             target = self.map["targets"][variant]
+            log = _log(target)
             match = TARGET.match_first_and_only_error(
-                variant, self.map, self.sources, self.tool_spec, _log(target))
+                variant, self.map, self.sources, self.tool_spec, log,
+                log_observation=_log_observation(
+                    variant, self.sources[variant], target, log))
             self.assertTrue(match["matches_first_and_only_error"])
             self.assertIs(match["accepted"], False)
             self.assertEqual(match["variant"], variant)
@@ -130,6 +156,24 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         for variant in TARGET.VARIANTS[:5]:
             self.assertEqual(self.map["targets"][variant]["line"],
                              expected_lines[variant])
+
+    def test_no_retained_anchors_are_scoped_to_exact_select_function(self):
+        variant = "no-retained-half"
+        original = self.sources[variant]
+        line = TARGET._source_anchor(variant, original)[1]
+        other = (b"\npub fn unrelated() {\n" + TARGET.RETAINED_HALF_MERGE +
+                 b"\n" + TARGET.FULL_CELL_ASSERT + b"}\n")
+        self.assertEqual(TARGET._source_anchor(variant, original + other)[1], line)
+        with self.assertRaises(TARGET.TargetError):
+            TARGET._source_anchor(variant,
+                original.replace(TARGET.SELECT_SIGNATURE,
+                                 TARGET.SELECT_SIGNATURE +
+                                 TARGET.SELECT_SIGNATURE, 1))
+        spoofed = original.replace(
+            TARGET.FULL_CELL_ASSERT,
+            TARGET.FULL_CELL_ASSERT + TARGET.FULL_CELL_ASSERT, 1)
+        with self.assertRaises(TARGET.TargetError):
+            TARGET._source_anchor(variant, spoofed)
 
     def test_omission_targets_require_pinned_spec_rows_and_intended_precondition(self):
         for variant, line in TARGET.SPEC_PRECONDITION_LINE.items():
@@ -166,7 +210,7 @@ class R22ControlTargetHelperTests(unittest.TestCase):
 
     def test_absent_null_wrong_type_unobserved_or_wrong_row_refuse(self):
         bad_maps = [None, [], {"schema": TARGET.SCHEMA},
-                    dict(self.map, observation=None)]
+                    dict(self.map, unexpected=None)]
         for bad in bad_maps:
             with self.subTest(bad=type(bad).__name__), self.assertRaises(TARGET.TargetError):
                 TARGET.validate_target_map(bad, self.sources, self.tool_spec)
@@ -187,6 +231,10 @@ class R22ControlTargetHelperTests(unittest.TestCase):
             lambda row: row.update(file="wrong.rs"),
             lambda row: row.update(line=row["line"] + 1),
             lambda row: row.update(start_column="21"),
+            lambda row: row.update(provenance=None),
+            lambda row: row["provenance"].update(brief_log_index=0),
+            lambda row: row["provenance"].update(archive_id=""),
+            lambda row: row.update(log_sha256="invalid"),
         ):
             broken = _target_map(self.sources, self.tool_spec)
             mutation(broken["targets"]["callee-false-normal"])
@@ -235,7 +283,10 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         target = self.map["targets"]["callee-owner-duplicate"]
         good = _log(target)
         result = TARGET.match_first_and_only_error(
-            "callee-owner-duplicate", self.map, self.sources, self.tool_spec, good)
+            "callee-owner-duplicate", self.map, self.sources, self.tool_spec, good,
+            log_observation=_log_observation(
+                "callee-owner-duplicate", self.sources["callee-owner-duplicate"],
+                target, good))
         self.assertTrue(result["matches_first_and_only_error"])
         bad_logs = (
             good + "verified/lib.rs(4,1-2): error: another failure\n",
@@ -250,13 +301,45 @@ class R22ControlTargetHelperTests(unittest.TestCase):
             None,
         )
         for log in bad_logs:
+            supplied_log = good if log is None else log
             with self.subTest(log=log), self.assertRaises(TARGET.TargetError):
                 TARGET.match_first_and_only_error(
                     "callee-owner-duplicate", self.map, self.sources,
-                    self.tool_spec, log)
+                    self.tool_spec, log,
+                    log_observation=_log_observation(
+                        "callee-owner-duplicate",
+                        self.sources["callee-owner-duplicate"], target,
+                        supplied_log))
         with self.assertRaises(TARGET.TargetError):
             TARGET.match_first_and_only_error(
-                "callee-owner-loss", self.map, self.sources, self.tool_spec, good)
+                "callee-owner-loss", self.map, self.sources, self.tool_spec, good,
+                log_observation=_log_observation(
+                    "callee-owner-loss", self.sources["callee-owner-loss"],
+                    self.map["targets"]["callee-owner-loss"], good))
+
+    def test_log_observation_must_bind_row_source_content_and_caller_provenance(self):
+        variant = "no-retained-half"
+        target = self.map["targets"][variant]
+        log = _log(target)
+        observation = _log_observation(variant, self.sources[variant], target, log)
+        self.assertTrue(TARGET.match_first_and_only_error(
+            variant, self.map, self.sources, self.tool_spec, log,
+            log_observation=observation)["matches_first_and_only_error"])
+        mutations = (
+            lambda o: o.update(variant="omit-selected-own"),
+            lambda o: o.update(source_sha256="0" * 64),
+            lambda o: o.update(log_sha256="0" * 64),
+            lambda o: o["provenance"].update(request_id="other-request"),
+            lambda o: o["provenance"].update(build_id=
+                "00000000-0000-0000-0000-000000000999"),
+        )
+        for mutate in mutations:
+            bad = {**observation, "provenance": dict(observation["provenance"])}
+            mutate(bad)
+            with self.subTest(mutate=mutate), self.assertRaises(TARGET.TargetError):
+                TARGET.match_first_and_only_error(
+                    variant, self.map, self.sources, self.tool_spec, log,
+                    log_observation=bad)
 
 
 if __name__ == "__main__":

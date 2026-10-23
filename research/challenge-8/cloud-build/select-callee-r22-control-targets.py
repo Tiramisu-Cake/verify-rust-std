@@ -56,6 +56,10 @@ FORGET_CONTRACTS = {
         b"ens thread_token(tid) &*& [1/2] <T>.own(tid, t);",
         b"ens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);"),
 }
+SELECT_SIGNATURE = (
+    b"pub fn select_unpredictable<Element>(\n"
+    b"    condition: bool,\n    true_val: *const Element,\n"
+    b"    false_val: *const Element,\n) -> *const Element\n")
 FULL_CELL_ASSERT = (
     b"        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n")
 RETAINED_HALF_MERGE = (
@@ -88,6 +92,97 @@ def _line(source: bytes, offset: int) -> int:
     return source[:offset].count(b"\n") + 1
 
 
+def _select_function_bounds(source: bytes) -> tuple[int, int]:
+    """Return bounds for the uniquely pinned select function body."""
+    _need(source.count(SELECT_SIGNATURE) == 1,
+          "exact select_unpredictable signature is absent or ambiguous")
+    signature_at = source.index(SELECT_SIGNATURE)
+    brace_at = signature_at + len(SELECT_SIGNATURE)
+    while brace_at < len(source):
+        while brace_at < len(source) and source[brace_at] in b" \t\r\n":
+            brace_at += 1
+        if source.startswith(b"//", brace_at):
+            end = source.find(b"\n", brace_at + 2)
+            brace_at = len(source) if end < 0 else end + 1
+            continue
+        if source.startswith(b"/*", brace_at):
+            comment_start = brace_at
+            brace_at += 2
+            nested = 1
+            while brace_at < len(source) and nested:
+                if source.startswith(b"/*", brace_at):
+                    nested += 1
+                    brace_at += 2
+                elif source.startswith(b"*/", brace_at):
+                    nested -= 1
+                    brace_at += 2
+                else:
+                    brace_at += 1
+            _need(nested == 0, "unterminated comment after select signature")
+            _need(comment_start < brace_at,
+                  "malformed contract comment after select signature")
+            continue
+        break
+    _need(brace_at < len(source) and source[brace_at:brace_at + 1] == b"{",
+          "pinned select signature is not followed by its body")
+
+    # Skip comments and literals so braces inside ghost annotations or text do
+    # not create a false function boundary.
+    depth = 0
+    i = brace_at
+    while i < len(source):
+        if source.startswith(b"//", i):
+            end = source.find(b"\n", i + 2)
+            i = len(source) if end < 0 else end + 1
+            continue
+        if source.startswith(b"/*", i):
+            i += 2
+            nested = 1
+            while i < len(source) and nested:
+                if source.startswith(b"/*", i):
+                    nested += 1
+                    i += 2
+                elif source.startswith(b"*/", i):
+                    nested -= 1
+                    i += 2
+                else:
+                    i += 1
+            _need(nested == 0, "unterminated comment in select function")
+            continue
+        if source[i:i + 1] == b"'":
+            # Rust lifetimes use apostrophes without a matching quote. Skip
+            # only a short character literal; otherwise leave it as syntax.
+            char_end = i + (3 if source[i + 1:i + 2] != b"\\" else 4)
+            if char_end < len(source) and source[char_end:char_end + 1] == b"'":
+                i = char_end + 1
+                continue
+            i += 1
+            continue
+        if source[i:i + 1] == b'"':
+            quote = source[i]
+            i += 1
+            while i < len(source):
+                if source[i] == 0x5c:
+                    i += 2
+                elif source[i] == quote:
+                    i += 1
+                    break
+                else:
+                    i += 1
+            _need(i <= len(source) and source[i - 1:i] == bytes([quote]),
+                  "unterminated quoted literal in select function")
+            continue
+        if source[i:i + 1] == b"{":
+            depth += 1
+        elif source[i:i + 1] == b"}":
+            depth -= 1
+            if depth == 0:
+                return signature_at, i + 1
+            _need(depth > 0, "unbalanced select function body")
+        i += 1
+    raise TargetError("R22-CONTROL-TARGETS: unterminated select function body")
+
+
 def _source_anchor(variant: str, source: bytes) -> tuple[str, int]:
     _need(isinstance(source, bytes), "verified source must be bytes")
     if variant in CALLEE_VARIANTS:
@@ -113,11 +208,13 @@ def _source_anchor(variant: str, source: bytes) -> tuple[str, int]:
         return "verified/lib.rs", _line(source, ens_at)
 
     if variant == "no-retained-half":
-        _need(source.count(FULL_CELL_ASSERT) == 1 and
-              source.count(RETAINED_HALF_MERGE) == 1,
-              "unique full-cell assert or retained-half merge anchor missing")
-        merge_at = source.index(RETAINED_HALF_MERGE)
-        assert_at = source.index(FULL_CELL_ASSERT)
+        start, end = _select_function_bounds(source)
+        body = source[start:end]
+        _need(body.count(FULL_CELL_ASSERT) == 1 and
+              body.count(RETAINED_HALF_MERGE) == 1,
+              "unique full-cell assert or retained-half merge in select body missing")
+        merge_at = start + body.index(RETAINED_HALF_MERGE)
+        assert_at = start + body.index(FULL_CELL_ASSERT)
         _need(merge_at < assert_at,
               "full-cell assert does not follow the retained-half merge")
         return "verified/lib.rs", _line(source, assert_at)
@@ -126,19 +223,29 @@ def _source_anchor(variant: str, source: bytes) -> tuple[str, int]:
     return TOOL_SPEC_FILE, SPEC_PRECONDITION_LINE[variant]
 
 
-def _validate_observation(observation: object) -> dict[str, Any]:
-    _need(isinstance(observation, dict) and
-          set(observation) == {"status", "build_id"} and
-          observation.get("status") == "OBSERVED_FRESH_CLOUD_TARGETS" and
-          isinstance(observation.get("build_id"), str),
-          "target map observation is missing, null, or wrong type")
+def _validate_provenance(provenance: object) -> dict[str, Any]:
+    _need(isinstance(provenance, dict) and set(provenance) == {
+        "build_id", "brief_log_sha256", "brief_log_index", "archive_id",
+        "request_id"}, "per-row caller provenance is missing or has wrong fields")
     try:
-        build_id = str(uuid.UUID(observation["build_id"]))
+        build_id = str(uuid.UUID(provenance["build_id"]))
     except (ValueError, AttributeError, TypeError):
-        raise TargetError("R22-CONTROL-TARGETS: observed Cloud build ID is invalid")
-    _need(build_id == observation["build_id"].lower(),
-          "observed Cloud build ID is not canonical")
-    return {"status": observation["status"], "build_id": build_id}
+        raise TargetError("R22-CONTROL-TARGETS: caller provenance build ID is invalid")
+    _need(build_id == provenance["build_id"].lower(),
+          "caller provenance build ID is not canonical")
+    digest = provenance["brief_log_sha256"]
+    _need(isinstance(digest, str) and _SHA256.fullmatch(digest) is not None,
+          "caller provenance Brief log SHA-256 is invalid")
+    index = provenance["brief_log_index"]
+    _need(type(index) is int and index > 0,
+          "caller provenance Brief log index is invalid")
+    ids = (provenance["archive_id"], provenance["request_id"])
+    _need(all(isinstance(value, str) and value.strip() and
+              "\n" not in value and "\r" not in value for value in ids),
+          "caller provenance archive/request IDs are invalid")
+    return {"build_id": build_id, "brief_log_sha256": digest,
+            "brief_log_index": index, "archive_id": ids[0],
+            "request_id": ids[1]}
 
 
 def _tool_spec_file_identity(tool_spec_file: object,
@@ -159,7 +266,8 @@ def _validate_target(variant: str, record: object, source: bytes,
                      tool_spec: bytes, tool_spec_identity: str) -> dict[str, Any]:
     _need(isinstance(record, dict), variant + ": target missing/null/wrong type")
     expected_keys = {"variant", "observed", "source_sha256", "tool_spec_sha256",
-                     "file", "line", "start_column", "end_column", "message"}
+                     "file", "line", "start_column", "end_column", "message",
+                     "provenance", "log_sha256"}
     if variant in SPEC_PRECONDITION_LINE:
         expected_keys.add("tool_precondition")
     _need(set(record) == expected_keys, variant + ": target field inventory differs")
@@ -167,9 +275,13 @@ def _validate_target(variant: str, record: object, source: bytes,
           variant + ": target is unobserved or belongs to another row")
     source_digest = _sha(source)
     tool_digest = _sha(tool_spec)
+    provenance = _validate_provenance(record.get("provenance"))
     _need(record.get("source_sha256") == source_digest and
           record.get("tool_spec_sha256") == tool_digest,
           variant + ": source or tool-spec SHA-256 differs")
+    log_digest = record.get("log_sha256")
+    _need(isinstance(log_digest, str) and _SHA256.fullmatch(log_digest) is not None,
+          variant + ": verifier log SHA-256 is invalid")
     expected_file, expected_line = _source_anchor(variant, source)
     if variant in SPEC_PRECONDITION_LINE:
         expected_file = tool_spec_identity
@@ -187,6 +299,7 @@ def _validate_target(variant: str, record: object, source: bytes,
     normalized = {
         "variant": variant, "observed": True,
         "source_sha256": source_digest, "tool_spec_sha256": tool_digest,
+        "provenance": provenance, "log_sha256": log_digest,
         "file": expected_file, "line": expected_line,
         "start_column": start, "end_column": end, "message": message,
     }
@@ -219,17 +332,16 @@ def validate_target_map(target_map: object, sources: object,
                         tool_spec: bytes, *,
                         tool_spec_file: str = TOOL_SPEC_FILE,
                         tool_home=None) -> dict[str, Any]:
-    """Validate a fresh supplied map and return it as explicitly non-accepting.
+    """Validate a supplied map and return it as explicitly non-accepting.
 
     `sources` maps each of the seven control variant names to its exact verified
     source bytes. `target_map` is an observation input; no observed target is
     embedded in this module.
     """
     _need(isinstance(target_map, dict) and
-          set(target_map) == {"schema", "observation", "targets"} and
+          set(target_map) == {"schema", "targets"} and
           target_map.get("schema") == SCHEMA,
           "target map missing/null/wrong schema or field inventory")
-    observation = _validate_observation(target_map.get("observation"))
     _need(isinstance(sources, dict) and set(sources) == set(VARIANTS),
           "source map missing/null/wrong type or seven-control inventory differs")
     _need(isinstance(tool_spec, bytes), "exact tool lib.rsspec bytes required")
@@ -245,7 +357,7 @@ def validate_target_map(target_map: object, sources: object,
     return {
         "schema": RESULT_SCHEMA,
         "status": "TARGET_MAP_VALIDATED_NOT_ACCEPTED",
-        "observation": observation,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATIONS_CONSISTENT_NOT_AUTHENTICATED",
         "target_map_sha256": _sha(json.dumps(
             target_map, sort_keys=True, separators=(",", ":")).encode()),
         "targets": normalized,
@@ -266,10 +378,10 @@ def _diagnostic_lines(log_text: str) -> list[tuple[int, str]]:
 
 def match_first_and_only_error(variant: str, target_map: object,
                                sources: object, tool_spec: bytes,
-                               log_text: object, *,
+                               log_text: object, *, log_observation: object,
                                tool_spec_file: str = TOOL_SPEC_FILE,
                                tool_home=None) -> dict[str, Any]:
-    """Validate the supplied fresh map, then match its row's only error."""
+    """Bind the caller-declared prior log observation to its exact row/content."""
     _need(variant in VARIANTS, "wrong or unknown control row")
     validated_map = validate_target_map(
         target_map, sources, tool_spec, tool_spec_file=tool_spec_file,
@@ -280,6 +392,20 @@ def match_first_and_only_error(variant: str, target_map: object,
           "target row absent, null, unobserved, or wrong row")
     _need(isinstance(log_text, str) and log_text.strip(),
           "verifier log absent, null, or wrong type")
+    _need(isinstance(log_observation, dict) and set(log_observation) == {
+        "variant", "source_sha256", "log_sha256", "provenance"},
+        "caller log observation is missing or has wrong fields")
+    source = sources.get(variant) if isinstance(sources, dict) else None
+    _need(isinstance(source, bytes), "selected verified source bytes are absent")
+    log_digest = _sha(log_text.encode("utf-8"))
+    _need(log_observation.get("variant") == variant and
+          log_observation.get("source_sha256") == _sha(source) and
+          log_observation.get("log_sha256") == log_digest and
+          target.get("source_sha256") == log_observation.get("source_sha256") and
+          target.get("log_sha256") == log_digest and
+          _validate_provenance(log_observation.get("provenance")) ==
+            target.get("provenance"),
+          "caller log observation does not bind this row/source/content/provenance")
     diagnostics = _diagnostic_lines(log_text)
     _need(len(diagnostics) == 1,
           "verifier log must contain exactly one error/fatal diagnostic")
@@ -303,6 +429,8 @@ def match_first_and_only_error(variant: str, target_map: object,
         "variant": variant,
         "diagnostic_line": diagnostic_line,
         "target": expected,
+        "log_sha256": log_digest,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
         "matches_first_and_only_error": True,
         "accepted": False,
         "proof_credit": False,
