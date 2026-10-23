@@ -48,10 +48,10 @@ Next: Fresh admission: shape3 exact, controls, compatible matrix.
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · ACTIVE**
-Updated: 2026-10-23T08:48:51Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
+**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · HANDOFF**
+Updated: 2026-10-23T08:52:49Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
 Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 1983s spent, 0s retired, 1617s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Exact shape5 source-accepted; required controls/final matrix OPEN.
-Next: Review same-fact N13 public post grouping; full control units recheck updated positive prefix.
+Active Build IDs: 1cd61623-de1c-42b5-940a-7f9cddd54133; unresolved: none recorded.
+Blocker: Missing-law/membership+7classifier controls1cd61623 running; finalmatrixOPEN.
+Next: Ack watcher; Brief controls intendedsites/prefix, then controls-order975 if fullbudget/window fits.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

@@ -21,7 +21,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Exact shape5 source-accepted; required controls/final matrix OPEN."
+    "summary": "Missing-law/membership+7classifier controls1cd61623 running; finalmatrixOPEN."
   },
   "confirmed": [
     {
@@ -83,9 +83,29 @@
           "sha256": "f934f730b42c8fec68dea8e6873ac3f44c1519239a42dd7dc3b9e4a654b958ee"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Shape5 exact cbbe4b5f accepted375.177s,28bodies,7684checks; controls stillOPEN.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/a971b1a3dba0c59fc1584261a3b72201d4c5f6481c1c701adcc3c829e4b1ba97.json",
+          "sha256": "a971b1a3dba0c59fc1584261a3b72201d4c5f6481c1c701adcc3c829e4b1ba97"
+        }
+      ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Luna HIGH scoped GO public-post batching55a225f6; updated-bodyacceptance needscompletecontrolprefix.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/n13/REVIEW-PUBLIC-POST-N4.md",
+          "sha256": "f8000a7a2525c487b714303d9b4abb0707768d5301321e4383ff722557e39774"
+        }
+      ]
     }
   ],
-  "next_step": "Review same-fact N13 public post grouping; full control units recheck updated positive prefix.",
+  "next_step": "Ack watcher; Brief controls intendedsites/prefix, then controls-order975 if fullbudget/window fits.",
   "open": [
     "Allrequirednegatives/classifiercontrols and finalcompatiblematrixOPEN.",
     "Updatedpublicpost representation requires actual same-unitpositiveprefix recheck; oldunitcredit doesnottransfer.",
@@ -117,7 +137,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "1cd61623-de1c-42b5-940a-7f9cddd54133"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
@@ -127,7 +149,7 @@
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T08:48:51Z"
+  "updated_utc": "2026-10-23T08:52:49Z"
 }
