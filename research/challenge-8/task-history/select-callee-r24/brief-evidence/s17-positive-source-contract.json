@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 153,
+    "line_separator": "LF",
+    "source_lines": 242,
+    "start": 142,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6f6c69ec50cbaa74516322436852d25476c0da56ba2b2742cecc135cd658154d",
+  "file_path": "allprooflogs/cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/verified/lib.rs",
+  "file_sha256": "74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165",
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 153,
+    "expected_sha256": "74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165",
+    "file_id": "6f6c69ec50cbaa74516322436852d25476c0da56ba2b2742cecc135cd658154d",
+    "start": 142
+  },
+  "request_id": "5e0305af82300f3fb0fb39ab075337ac4b6a9319d4a27dd38f63b1c1abfad4da",
+  "requested_end": 153,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 142,
+      "text": "/*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 143,
+      "text": "req thread_token(?t) &*& t == currentThread;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 144,
+      "text": "@*//*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 145,
+      "text": "ens thread_token(t) &*& (result as pointer) =="
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 146,
+      "text": "        (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 147,
+      "text": "@*//*@ on_unwind_ens false; @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 148,
+      "text": "/*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 149,
+      "text": "safety_proof {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 150,
+      "text": "    let outcome = call();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 151,
+      "text": "    open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 152,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 153,
+      "text": "@*/"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

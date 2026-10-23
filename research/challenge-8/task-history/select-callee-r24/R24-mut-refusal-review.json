@@ -1,0 +1,48 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD",
+  "baseline_commit": "32d42e1595496af26aa27ebd138b4cb7f119d173",
+  "candidate_commit": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+  "candidate_tree": "0cdd6ae769952c696626d41cb43a6837ec9be9a9",
+  "spec_sha256": "0c00bdfa605e2bb96c4c08eb0ea44f81bdb86aed6251f4037dc17afeaae08b40",
+  "packet_sha256": "a40f32648f9b5888ba9aba9a5659663d5df18667df0610166dfb9422ec55ffcc",
+  "packet_diff_sha256": "a31adac516efec0ce6c39fbe91547fc2b95864ee640b5f57a189e7e615436926",
+  "commit_diff_sha256": "a31adac516efec0ce6c39fbe91547fc2b95864ee640b5f57a189e7e615436926",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-classified-review.json",
+      "sha256": "a6cbff3adaf15f0ee70fd929b169000a52c3683eb8ac85c38e39b2bace2c887a",
+      "decision": "GO_FOR_CLASSIFIED_MUTABLE_DIAGNOSTIC_AND_P2_CONSEQUENCE_BUILD; carried forward"
+    }
+  ],
+  "scope": "Independent review of the exact R24 mutable refusal entry, source-envelope collector, checked P2 consequence sysroot plumbing, runner/recipe wiring, and composite audit. GO is limited to one full 1200-second same-tool const-regression-first build with the mutable matrix, consequence, and eleven source-envelope refusal controls. It grants no P2 publication or proof credit.",
+  "verified": [
+    "Exact review check passed: candidate 601531a881ba34aba1306ae7de4a676d0b0fc26d, baseline 32d42e1595496af26aa27ebd138b4cb7f119d173, spec SHA 0c00bdfa605e2bb96c4c08eb0ea44f81bdb86aed6251f4037dc17afeaae08b40, packet SHA a40f32648f9b5888ba9aba9a5659663d5df18667df0610166dfb9422ec55ffcc; packet state PACKET_VALID_NOT_REVIEWED, proof credit NONE.",
+    "The new mode and entry pin the exact R24/R21 lane/profile, current PROOF_SHA/Build, matrix/classified modes, source capture adapter, provider, refusal collector, consequence, and native library. Entry reloads the pinned provider through the frozen capture API and requires equality with the current capture summary; it also reopens the committed source view and the positive source capture before running controls.",
+    "The collector's seven source mutations are uniquely anchored against the pinned mutable source and paired with owner.strip_ghost output. Four context controls alter only their intended child selector/environment. The audit independently recomputes each expected verified/original byte pair from the pinned positive source, verifies ghost-strip identity, environment delta, expected gate, frontend/source captures, exact native argv/stage/source identity, strict UTF-8 log bytes, and physical artifact inventory. Its scope is explicitly source-envelope refusals; it makes no claim about coverage of internal typed MIR guards.",
+    "The expected refusal parser requires exactly one error diagnostic line equal to the control's exact expected native refusal and rejects unexpected errors or mutable-positive markers. Unknown, timeout, missing-stage, malformed, partial, or exceptional results remain incomplete. The collector/entry preserve original exception snapshots while setting accepted/publication false and proof credit zero.",
+    "The checked consequence audit now receives the run compiler sysroot. The shell runs the const regression and existing all-eight classified matrix and consequence before the new eleven-control mode. The refusal composite requires both the prior P2 composite exit and refusal audit exit to be zero, both audit records present and complete, and the primary evidence_complete field already true; it forces acceptance/publication/verification acceptance false and proof credit zero. I initially misread the shell's `return \"$?\"`; inspection of exact lines 150–180 showed it follows the unguarded composite Python command, so it correctly propagates that command's status.",
+    "The runner test addition present only in the shared worktree extracts and executes the actual audit_result shell function with fake Python callbacks; it confirms refusal/P2/composite nonzero statuses propagate through the return path. The current recipe/mode is explicit, dependencies are hash-pinned, and default routes do not select the new branch without its exact mode. No native/source/model/lemma implementation changed in this candidate."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check for exact packet (pass)",
+      "test_select_callee_r24_mut_refusal_entry.py (6 tests, pass)",
+      "test_select_callee_r24_mut_refusals.py (10 tests, pass)",
+      "test_select_callee_r24_p2_entailment.py (11 tests, pass)",
+      "test_select_callee_r24_mut_classified_proof.py (7 tests, pass)",
+      "test_r24_mut_capture_runner.py (13 tests, pass in shared worktree); 12 tests are committed at candidate, and the thirteenth is a parent-added uncommitted fake-callback test of the actual audit_result exit propagation",
+      "bash -n run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (pass)"
+    ],
+    "not_run": [
+      "Actual mutable source preparation, compiler/native compile, exporter, MIR decode, refinement, or verifier",
+      "Cloud Build or Evidence Brief; raw/full logs, archives, or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "This review authorizes only the requested full diagnostic Build. The refusal outcomes are source-reported until observed in that Build, and the existing failed Build/root-audit record remains unchanged. The mode is source-envelope diagnostics only; it does not establish internal typed-MIR guard coverage, mutable proof acceptance, P2 publication, or formal proof credit. Final publication/admission requires its separate review. The parent-added test and untracked transport preflight were preserved and are not candidate changes.",
+  "proof_credit": 0
+}

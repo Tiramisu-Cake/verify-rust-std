@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "7ddeafc79911b2242eb0f1ae32ee25b4680765395c948dfbbed29155135a7509"
+      "sha256": "15f22c4877c9b8883a56c8283d980f0c3cedd59883cffc82e85f855697edf093"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,11 +34,11 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json",
-        "sha256": "1391475d234935f6a8a67adf162373c22511df6d14dcf7a305272ada96c62c0b"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-review.json",
+        "sha256": "6ae6a40b62d0170a7bc7cc5f17878b53f51af9cc60b11fdda33ae5676cc30169"
       }
     ],
-    "summary": "4267 subproof reports complete; composite sysroot mismatch. Refusals pending; P2 NOT_PUBLISHED."
+    "summary": "Reviewed sysroot/refusal candidate unbuilt; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -108,6 +108,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/0ec5411d715c32e68b01a596ec99b04dbd4eec9a96b9155d6d548ab5d25db9a9.json",
       "sha256": "0ec5411d715c32e68b01a596ec99b04dbd4eec9a96b9155d6d548ab5d25db9a9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/1306998ebc71ae39beff2061450936f93530bd1748660e5abbe8b884e3d95702.json",
+      "sha256": "1306998ebc71ae39beff2061450936f93530bd1748660e5abbe8b884e3d95702"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/140dd543a395310207910764b8f1ef405d4c785324a43faf2d7681de02f27ee4.json",
@@ -718,6 +722,10 @@
       "sha256": "ca69e7892ade207d04d75f1143a6ff131fcde78fb3005ebb25836140e5ebc469"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/cacebf6db4f50322227d857a70a68d1366b4c56c5672987709216c487f3953ab.json",
+      "sha256": "cacebf6db4f50322227d857a70a68d1366b4c56c5672987709216c487f3953ab"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/ccaed90544ac12e77bfaa2a21384f335fbf8e0eae4a8b12e04eafb3dd3ec6a77.json",
       "sha256": "ccaed90544ac12e77bfaa2a21384f335fbf8e0eae4a8b12e04eafb3dd3ec6a77"
     },
@@ -780,6 +788,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/dfcbaa2bbad7007df7ee0e1d9dabf1f9443d8cb2c9aad0c9984f83a492ee487e.json",
       "sha256": "dfcbaa2bbad7007df7ee0e1d9dabf1f9443d8cb2c9aad0c9984f83a492ee487e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/e01bb491c7f66c60e665141144a72c4894a470150756c0fa5286d7a70d8c523b.json",
+      "sha256": "e01bb491c7f66c60e665141144a72c4894a470150756c0fa5286d7a70d8c523b"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/e13654d9ce646b7f8572a2d156b7884f7a692dc0a4b7727d8bd0575aa04e6b19.json",
@@ -1643,17 +1655,34 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
+  "mutable_refusal_candidate": {
+    "accepted": false,
+    "candidate": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "d25c4234b9898e45e863855d1d9c7e93ed4be04bbd8b9d6b686d113c58d22548",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-review.json",
+    "review_sha256": "6ae6a40b62d0170a7bc7cc5f17878b53f51af9cc60b11fdda33ae5676cc30169",
+    "runtime_closure": {
+      "bytes": 3019942,
+      "entries": 128,
+      "sha256": "ba37869a79d41afef56fd565e9cb72baed90802fc0de33106bcd92050efdacb1"
+    },
+    "scope": "CONST_MUTABLE_FULL_MATRIX_CONSEQUENCE_AND_ELEVEN_SOURCE_ENVELOPE_REFUSALS",
+    "state": "REVIEWED_UNBUILT"
+  },
   "mutable_refusal_work_in_progress": {
-    "commit": "8eea4bfaf438bb137e55dc861eca6bc27f67c399",
-    "next": "Inspect collector/audit; add exactentry/mode/wiring+review after classified Build Brief. No refusal evidence yet.",
+    "commit": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+    "next": "Fresh full1200 Build; actual expectedrefusals unobserved beforeBuild.",
     "paths": [
       "research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py",
       "research/challenge-8/cloud-build/test_select_callee_r24_mut_refusals.py"
     ],
     "proof_credit": 0,
     "publication_allowed": false,
-    "state": "COMMITTED_INACTIVE_AWAIT_ENTRY_REVIEW",
-    "tests": "10isolated tests pass; noactualtoolchain",
+    "state": "REVIEWED_UNBUILT",
+    "tests": "47isolated tests pass; noactualtools",
     "worker": "r24_admission"
   },
   "mutable_successor_candidate": {
@@ -1672,8 +1701,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review sysroot fix+refusal entry; fresh full matrix/consequence/refusals, then P2/W4.",
-  "next_step": "Review sysroot fix+refusal entry; fresh full matrix/consequence/refusals, then P2/W4.",
+  "next": "Submit601531 full1200; then Brief, final P2 review/publication, W4.",
+  "next_step": "Submit601531 full1200; then Brief, final P2 review/publication, W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated."
@@ -1739,7 +1768,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T20:56:20Z",
+  "updated_utc": "2026-10-23T21:08:07Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",

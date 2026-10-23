@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -134,5 +135,44 @@ class P2CompositeAudit(unittest.TestCase):
 
 class MutableRefusalCompositeAudit(P2CompositeAudit):
     BLOCK='MUT_REFUSAL_AUDIT'
+
+class AuditShellExitPropagation(unittest.TestCase):
+    def test_real_audit_function_propagates_refusal_composite_exit(self):
+        source=(CLOUD/'run-o26-select-callee-r20.sh').read_text()
+        start=source.index('audit_result() {')
+        function=source[start:source.index('\ntrap ',start)]
+        fake_prefix="""set -eu
+r24_mut_classified_proof_enabled=1
+r24_mut_refusal_enabled=1
+proof_root=/synthetic/proof
+cloud_dir=/synthetic/cloud
+ev=/synthetic/evidence/allprooflogs
+evidence_root=/synthetic/evidence
+r24_mut_classified_mode_file=/synthetic/classified.json
+r24_mut_matrix_proof_mode_file=/synthetic/matrix.json
+r24_mut_refusal_mode_file=/synthetic/refusal.json
+source_home=/synthetic/tool
+schema=/synthetic/schema
+compiler_sysroot=/synthetic/sysroot
+current_sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+deadline=9999999999
+python3() {
+  if [[ "$1" == - ]]; then
+    if [[ "$3" == *mutable-refusal-audit.json ]]; then
+      if [[ "$4" != 0 || "$5" != 0 ]]; then return 1; fi
+      return "$TEST_FINAL_EXIT"
+    fi
+    return "$TEST_P2_EXIT"
+  fi
+  if [[ "$1" == *mut-refusal-entry.py ]]; then return "$TEST_REFUSAL_EXIT"; fi
+  return 0
+}
+"""
+        for p2,refusal,final,expected in ((0,0,0,0),(0,4,0,1),(1,0,0,1),(0,0,7,7)):
+            env=dict(os.environ,TEST_P2_EXIT=str(p2),TEST_REFUSAL_EXIT=str(refusal),TEST_FINAL_EXIT=str(final))
+            # Calling in a condition also exercises the trap/|| context where
+            # Bash disables errexit inside the function.
+            result=subprocess.run(['bash','-c',fake_prefix+function+'\nif audit_result 0 complete; then exit 0; else exit "$?"; fi\n'],env=env,capture_output=True,text=True)
+            with self.subTest(p2=p2,refusal=refusal,final=final):self.assertEqual(result.returncode,expected,result.stderr)
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,34 @@
+{
+  "accepted": false,
+  "actual_contract_source_text": "/*@\nreq thread_token(?t) &*& t == currentThread;\n@*//*@\nens thread_token(t) &*& (result as pointer) ==\n        (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);\n@*//*@ on_unwind_ens false; @*/\n",
+  "actual_contract_source_text_sha256": "7437acab8195367712ec8556e7e2f46a15796387f2cf12c99009b182611a0901",
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "partial_source_windows_complete": false,
+  "planned_weak_contract_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s17-positive-source-locate.json",
+      "sha256": "ecba4b932ef57337554d968be16fcfa6953eacc22332c108c847a56ead952d05"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s17-positive-source-signature.json",
+      "sha256": "bf0f7ab3be946100fe95e29cc75164f554cbc2803df69df352d19d51fdd53b91"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s17-positive-source-contract.json",
+      "sha256": "d8d7589f13c7de280dbbdd355f7ea38c24a02ef8b9b901037a54269e58e1d14b"
+    }
+  ],
+  "schema": "select-r24-p2-contract-source-observations-v1",
+  "signature_source_text": "pub fn select_unpredictable<Element>(\n    condition: bool,\n    true_val: *mut Element,\n    false_val: *mut Element,\n) -> *mut Element\n",
+  "source_file_id": "6f6c69ec50cbaa74516322436852d25476c0da56ba2b2742cecc135cd658154d",
+  "source_file_sha256": "74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165",
+  "weak_contract_requires": "Checked post-consequence lemma plus actual callee proof, fullcontrols and finalpublicationreview; source excerpt alone is not proof."
+}
