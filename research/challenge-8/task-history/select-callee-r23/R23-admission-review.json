@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "4d00ff0176f6dcdaf60169b2e3d3217bade6389a",
+  "baseline_commit": "7b9eb29db272305c828a9d0afc5c0be68c3e493f",
+  "candidate_tree": "978aa3c42ca784c8aaed3625b4cc62d6ff5eeb88",
+  "spec_sha256": "dc03470189686d56592a7f3e696fdd2bd29858d81c5eb39d717b5822467a4572",
+  "packet_sha256": "598c8eabb6f75cf79816722053a008c40de51a70c6c1101c4d5768efe5813005",
+  "diff_sha256": "4ca5dca7bccb56242dd52a3cb4ee2e71d3b2dc5ec0bd26b51dcf167eb8faccbe",
+  "decision": "GO_WITH_NITS",
+  "scope": "R23 exact admission registration only",
+  "verified": [
+    "review check matched exact candidate, spec, packet, and committed inputs; packet reports proof_credit NONE",
+    "R23 binds select-sort4, phase SORT4-ACTUAL-SELECT-2026-10-23-R23, only lane o26-select-callee-r20, fresh 3600-second account, zero carry, T0 2026-10-23T07:37:19Z, main deadline 09:37:19Z, absolute deadline 10:07:19Z, timeout 1200, and report reserve 240",
+    "control gates pin exact R23 phase/account window, require the full 1200-second timeout, and refuse submission after main or when timeout+60-second queue allowance+240-second report reserve will not fit",
+    "R23 exports the established R21 route marker plus a distinct SORT4_R23_SESSION_PHASE_ID; R23 is included in the LZMA source-restore transport and R17 budget path",
+    "R20-R22 phase constants are retained; the candidate does not modify coordination.py or the pinned runner, recipe, proof entry, fractional translator patch, or R22b review dependency",
+    "the R23 profile is marked DRAFT, accepted=false, and is not consulted by the callee lane environment hook; session spec continues to name the pinned R19 profile"
+  ],
+  "nits": [
+    "The legacy SORT4_R20_CALLEE_PHASE_ID value remains the R21 route marker. Attribute any future R23 Build using the R23 ledger/dispatch identity and SORT4_R23_SESSION_PHASE_ID, not that route marker alone."
+  ],
+  "not_run": [
+    "synthetic registration and service tests (inspected, not executed)",
+    "branch-client final encoded transport preflight",
+    "Cloud, compiler, verifier, and proof work"
+  ],
+  "proof_credit": 0
+}

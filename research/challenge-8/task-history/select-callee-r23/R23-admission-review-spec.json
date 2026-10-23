@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "7b9eb29db272305c828a9d0afc5c0be68c3e493f",
+  "candidate_commit": "4d00ff0176f6dcdaf60169b2e3d3217bade6389a",
+  "defect": "Fresh owner-authorized R23 runtime Codex needs exact admission; only closed R22 was registered.",
+  "applicability": "R23 callee lane; unchanged reviewed R22b fingerprint-only inputs; separate fresh account/window, same R21 route marker and separate R23 session phase.",
+  "invariants": [
+    "Historical R20/R21/R22 ledgers and gates unchanged; coordinator v4 untouched.",
+    "Exact R23 owner, lane, 3600 ceiling, T0 07:37:19/main09:37:19/absolute10:07:19 UTC 2026-10-23; full1200 timeout plus queue60 and reserve240 fits main at both admission points.",
+    "Runtime/proof/helper/runner/recipe/tool pins byte-identical to baseline; draft profile is review-only, not activated by callee recipe."
+  ],
+  "controls": [
+    "10 synthetic registration tests pass, including old marker binding, wrong accounts, expired main/absolute, reduced timeout and full envelope refusal; 22 callee tests and27 fractional tests pass."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+    "research/challenge-8/task-history/select-callee-r22/R22b-review.json",
+    "research/challenge-8/task-history/select-callee-r22/R22-admission-delta-review.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No Cloud result or proof credit; R22b remains unbuilt fingerprint candidate."
+  ]
+}
