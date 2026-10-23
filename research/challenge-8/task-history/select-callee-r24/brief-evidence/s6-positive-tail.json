@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "cdb611c16e846b6519aff28cbf3c3f7323ea1489e1f1a8d969c8f1fcc9c9e073",
+  "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 704,
+    "line_separator": "LF",
+    "source_lines": 704,
+    "start": 693,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "40b5085b66a929e5a0948475e5975b42697b58894e0ede0be5fd2264d942d4b3",
+  "index_sha256": "94e25cd040e18fa413568f17e283ff31b29c6414bea0b8a6691c8b2debe22555",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 704,
+    "expected_sha256": "40b5085b66a929e5a0948475e5975b42697b58894e0ede0be5fd2264d942d4b3",
+    "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "start": 693
+  },
+  "request_id": "dc2ba9a4c771eac2adb8b5317e41b182edbb22ea2c77a4f8473f303bec4a9692",
+  "requested_end": 704,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 693,
+      "text": "  0.273060s: verified/lib.rs(169,22-48): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 694,
+      "text": "  0.273167s: verified/lib.rs(170,9-10): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 695,
+      "text": "  0.273184s: verified/lib.rs(165,9-170,10): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 696,
+      "text": "  0.273216s: verified/lib.rs(170,9-10): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 697,
+      "text": "  0.273223s: verified/lib.rs(170,9-10): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 698,
+      "text": "  0.273271s: verified/lib.rs(169,22-48): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 699,
+      "text": "  0.273298s: verified/lib.rs(170,10): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 700,
+      "text": "  0.273407s: verified/lib.rs(170,9-10): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 701,
+      "text": "  0.273426s: verified/lib.rs(165,9-170,10): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 702,
+      "text": "  0.273468s: verified/lib.rs(170,9-10): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 703,
+      "text": "  0.273477s: verified/lib.rs(170,9-10): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 704,
+      "text": "0 errors found (142 statements verified) (target: x86_64-unknown-linux-gnu (LP64))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

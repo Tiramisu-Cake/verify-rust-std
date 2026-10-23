@@ -315,3 +315,29 @@ dispatchdispatch-49baa66e5b124d2fbbaa02b705355a89, reserve1260, initialledgerQUE
 Accounted1642s,19958s remain including active reservation. Actual compilation,
 projection counters, proof and acceptance pending Brief; credit0. No duplicate
 submit, source or raw-MIR change. Hand off to exact-thread watcher.
+
+
+## Sixth terminal result: source-reported clean positive
+
+Watcher4a55a292 eventb8e511ef ACKED CONTINUE_EXISTING_WINDOW at12:56:05Z
+before CP mutation. Build85c88d85 FAILURE/accounted359s; total2001s,19599s
+remain. Brief sourceNOT_ACCEPTED overallrun4 because matrixINCOMPLETE.
+Console-build0. Exact positive stageRAN/exit0, sourceunchanged/gatestrue;
+log7040errors142statements, log54projection1each/rawMIRretained. Proofrow
+COMPLETE/POSITIVE_VERIFIED_SOURCE_REPORTED and normal/unwind/nested-Drop gates
+true; sourceintact both, sameoriginal466882d7/verified687327ca. Postflight
+complete/errors[]/10snapshots. Broadpreflight pointer hit429; later narrow
+/complete exacttrue. Nativeargv6 usesedition2021,verbose1,verifiedlib; nofocus
+or suppression. SIXTH immutableobservations preserve hashes/requests/coverage.
+Sourcepositive unlocks intended7controltarget pinning and approved classifier
+repair. No fullcalleeacceptance, causalproof or independentcredit.
+
+Read-only Luna investigation returned CLASSIFIER-REPAIR-NEXT blockers:
+currentfull loghash cannot equal priorloghash whentimestamps differ; prior
+provenance cannot be copied ascurrent. Implementation delegated narrowly to
+sameLuna: targethelper/proofclassifier/audit+meaningfulsynthetictests, physical
+currentlog rehash andnativeCLOUD_BUILD_ID binding. Main owns targetmap, entry/
+runner/recipepins andBrief sourceobservations. No actualVPSsourceprep/toolchain.
+
+Control owner-loss narrowlogwindow hitHTTP429; request remains pending after
+independent work/backoff. No raw fallback or newBuild for Reader availability.

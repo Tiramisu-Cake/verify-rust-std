@@ -103,3 +103,13 @@ Row30 Build `bba86d46-3d8f-4275-a7ad-bd36328f4127` reports console-build exit0,
 but ordinary positive RAN/exit2 with new gate refusal after A1Nine admission.
 The original gate incorrectly required mutually exclusive two/nine-body flags.
 No projection execution or formal callee acceptance established by that Build.
+
+
+Row31 hosted update: Build `85c88d85-0bac-4f7f-8186-93a8b079b162`, proof6e62d359,
+reports console-build exit0 and ordinary positive RAN/exit0. Exact log54 reports
+pointer_drop=1/assume_init=1; log704 reports0errors/142statements. Positive row
+COMPLETE/POSITIVE_VERIFIED_SOURCE_REPORTED, oldgates/source intact and pre/post
+capture checks complete. Actual profile reports translatorc8f5ce1d, parser6a,
+printerf32 and tool lib.rsspec d33b2a7a. These are source-reported CI observations,
+not independent B1/B2 credit or callee acceptance. Full7-control matrix remains
+unqualified pending exact target pins and classifier prior/current repair.

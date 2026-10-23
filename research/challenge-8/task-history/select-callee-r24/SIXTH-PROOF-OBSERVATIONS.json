@@ -1,0 +1,85 @@
+{
+  "archive_sha256": "cdb611c16e846b6519aff28cbf3c3f7323ea1489e1f1a8d969c8f1fcc9c9e073",
+  "assurance": "SOURCE_REPORTED",
+  "brief_run_exit": 4,
+  "brief_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+  "causal_status": "UNKNOWN; source result supports exact checked-result projection hypothesis",
+  "console_build_exit_as_reported": 0,
+  "evidence_complete_as_reported": true,
+  "index_sha256": "94e25cd040e18fa413568f17e283ff31b29c6414bea0b8a6691c8b2debe22555",
+  "matrix_status": "INCOMPLETE; seven targets/classifier not yet bound, no callee acceptance",
+  "next": "Clean positive source-reported. Pin seven exact current-version control diagnostics and repair classifier prior/current binding, then review+fresh full1200 matrix.",
+  "observations": [
+    {
+      "fact": "Positive source-reported RAN/exit0, intrinsic/pointer-drop gates true and source_unchanged true. Exit0 alone does not establish independent proof credit.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-stage.json",
+      "receipt_sha256": "3f4eae2bde21e50f4ad6c68eb078510ff61172fcae7a3d8740f0f31b5a09bd84",
+      "request_id": "397c2d1ec9a79100ced8644793cf86ad9b8c3b7119ed4a1eeade11a2280b7e08",
+      "tag": "positive-stage.json"
+    },
+    {
+      "fact": "Exact log693-704 ends with return/leak-check events and 0 errors found (142 statements verified), LP64. Source-reported clean positive, not full matrix or independent B1/B2 credit.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-tail.json",
+      "receipt_sha256": "dfb8c23f9e1af4e46045f93024068ea00b9ca5e7a3c8bf6c2cc24e20cc4dc971",
+      "request_id": "dc2ba9a4c771eac2adb8b5317e41b182edbb22ea2c77a4f8473f303bec4a9692",
+      "tag": "positive-tail.json"
+    },
+    {
+      "fact": "Exact log53-54 reports raw MIR cleanup retained and exactly pointer_drop=1/assume_init=1 checked projections. This is a source-reported translator counter, not independent formal proof.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-projection-marker.json",
+      "receipt_sha256": "f2ed66c9a22972396d9e8ffcf191558ac1b3e3862f33c8dbe244e5cf71460390",
+      "request_id": "238f85666d330636e106119b910bc2626661aeee5273a0eb07c0593e40597da4",
+      "tag": "positive-projection-marker.json"
+    },
+    {
+      "fact": "Row positive is COMPLETE and POSITIVE_VERIFIED_SOURCE_REPORTED; normal/unwind/nested-Drop gates and source intact before/after true, original466882d7/verified687327ca unchanged.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-row.json",
+      "receipt_sha256": "d2505f826d10129010041457d0af170ce796014f9421efc1a7f403988d10ae72",
+      "request_id": "1b3792681d3f6cf42d1a06c7dfd0b585a8d83a424549343a833d063426d9af0b",
+      "tag": "positive-row.json"
+    },
+    {
+      "fact": "Postflight capture check complete true, errors empty and ten snapshot children. Snapshot values are not all reread here; this is producer validation result.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-postflight-check.json",
+      "receipt_sha256": "0cd210b85b45c4d0cd6224e35abc98807c0b71e81e40cf54096b514aa44ab9e6",
+      "request_id": "0c8865733865748a1532abe729bb52b09a412173973c6a6dd6aed7996047e412",
+      "tag": "positive-postflight-check.json"
+    },
+    {
+      "fact": "Exact six-element verifier argv uses edition2021, verbose1 and verified/lib.rs; no focus, unwind suppression, timeout-shortening or checker exemption flag.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-argv.json",
+      "receipt_sha256": "fc51146a7ccec75343b6435fa98d35160587bc5f5363bf37b5a55e61eead8977",
+      "request_id": "5fb4395752420539b2fdfb745bd09114e0dc09336654ebe0fb7b3da2b91473e8",
+      "tag": "positive-argv.json"
+    },
+    {
+      "fact": "Positive preflight capture check complete true via narrow exact JSON pointer. Earlier broad pointer HTTP429 preserved; no raw fallback. Together with postflight completeness and unchanged-source flags, this permits post-clean-positive target pinning, not callee acceptance.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-positive-preflight-complete.json",
+      "receipt_sha256": "6de80a2f63c25c4da5e03b6fd909204a67157859a800495af221771410c9a021",
+      "request_id": "f8e3aeb1271bc49c45d32ddc5c70d248e565ac711e0e5c17a7178ad1fec1c00b",
+      "tag": "positive-preflight-complete.json"
+    }
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "positive_errors_as_reported": 0,
+  "positive_result": "POSITIVE_VERIFIED_SOURCE_REPORTED",
+  "positive_stage_exit": 0,
+  "positive_statements_as_reported": 142,
+  "preflight_capture_complete_as_reported": true,
+  "projection_counts_as_reported": {
+    "assume_init": 1,
+    "pointer_drop": 1
+  },
+  "proof_credit": 0,
+  "reader_limits": [
+    {
+      "fallback": "NONE; narrower check pending after backoff",
+      "resolution": "Narrow pointer /complete returned exact true after independent work/backoff",
+      "selector": "/rows/positive/preflight_capture_check",
+      "status": "HTTP429"
+    }
+  ],
+  "schema": "select-r24-sixth-proof-observations-v1",
+  "source_commit": "6e62d35936f7d85f2fb1601def987e7f67c2b276"
+}
