@@ -1,7 +1,7 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-24-r23
 
 - Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: ACTIVE
-- Updated: 2026-10-23T15:20:30.578003Z
+- Updated: 2026-10-23T15:26:24.432033Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `0f4e336b52441e8f341a567250adba2b200c54d1`, profile `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`
 - Session dates: T0 `2026-10-23T10:45:00Z`; main deadline `2026-10-26T10:45:00Z`; absolute deadline `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 14400s total; 5616s spent; 0s retired; 8784s remaining including active reservations
@@ -24,7 +24,7 @@ P11 let_lft parser boundary fixed; new tool Cloud-unverified.
 - [research/challenge-8/cloud-build/origin-layout/R23-P11-SOURCE-BORROW-BRIEF-20261024.json](cloud-build/origin-layout/R23-P11-SOURCE-BORROW-BRIEF-20261024.json) SHA `ce28e747da6bdb33db4e298dde22855bdb46768dee519f96eb2f3df60a41da4f` Build `9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86`
 
 ## Next
-Review P12 parser repair; index input evidence remains OPEN.
+Review final P12 parser and index fixture; transport; Cloud.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R23-P10-TRANSPORT-20261024.json](cloud-build/origin-layout/R23-P10-TRANSPORT-20261024.json) — `a44116ca85e16c09a29f3bccc7fc94d0717b2ed2816fdd3cc5fbd7b9a84e87fe`

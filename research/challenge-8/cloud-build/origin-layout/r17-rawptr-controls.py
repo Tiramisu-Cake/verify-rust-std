@@ -23,6 +23,8 @@ BASE = (b"#![no_std]\n"
         b"    let begin = &raw mut values as *mut [u64; 3];\n"
         b"    begin\n}\n")
 OTHER_VALUES = b"let mut other_values = [11_u64, 20_u64, 5_u64];"
+INDEXED_RAW_MUT = b"let begin = &raw mut values[0] as *mut u64 as *mut [u64; 3];"
+INDEX_BODY_COMMENT = b"    // R17 indexed RawPtr projection control.\n"
 LOCAL_STATE_BASE = BASE.replace(b"    " + RAW_MUT,
                                 b"    " + OTHER_VALUES + b"\n    " + RAW_MUT, 1)
 OTHER_RAW_MUT = b"let begin = &raw mut other_values as *mut [u64; 3];"
@@ -59,6 +61,11 @@ def _replace(data: bytes, old: bytes, new: bytes) -> bytes:
 
 
 def _variants():
+    indexed_source = _replace(BASE, RAW_MUT, INDEXED_RAW_MUT)
+    # The refiner skips body checking when source snippets are identical.
+    # This ordinary comment changes only the verified snippet, not MIR.
+    indexed_verified = _replace(indexed_source, b"    begin\n}\n",
+                                INDEX_BODY_COMMENT + b"    begin\n}\n")
     return {
         "identical_local_rawmut": (BASE, RAW_MUT),
         "mutability_mismatch": (_replace(BASE, RAW_MUT,
@@ -66,8 +73,7 @@ def _variants():
             b"let begin = &raw const values"),
         "changed_local_contents": (_replace(BASE, VALUES,
             b"let mut values = [11_u64, 20_u64, 5_u64];"), RAW_MUT),
-        "unsupported_index_projection": (_replace(BASE, RAW_MUT,
-            b"let begin = &raw mut values[0] as *mut u64 as *mut [u64; 3];"),
+        "unsupported_index_projection": (indexed_verified,
             b"let begin = &raw mut values[0]"),
         "raw_ref_cross_kind": (_replace(BASE, RAW_MUT,
             b"let begin = &mut values as *mut [u64; 3];"),
@@ -81,9 +87,9 @@ def _original_source(name: str) -> bytes:
     if name == "unequal_address_taken_state":
         return LOCAL_STATE_BASE
     if name == "unsupported_index_projection":
-        # This unsupported-domain negative must compare the same indexed MIR
-        # prefix on both sides; only the projected-place rule is under test.
-        return _variants()[name][0]
+        # Retain the exact same indexed MIR prefix as the verified side. Its
+        # only source difference is the ordinary, non-ghost body comment.
+        return _replace(BASE, RAW_MUT, INDEXED_RAW_MUT)
     return BASE
 
 
