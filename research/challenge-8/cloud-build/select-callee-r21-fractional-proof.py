@@ -24,6 +24,7 @@ VARIANTS = (
 )
 SAME_SITE_NEGATIVES = {'omit-selected-own', 'omit-unselected-own', 'no-retained-half'}
 CALLEE_NEGATIVES = set(VARIANTS) - {'positive'} - SAME_SITE_NEGATIVES
+NEGATIVES = set(VARIANTS) - {'positive'}
 EXPECTED_REFUSAL = 'INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE'
 FINAL_SELECT_CALL = (b'        crate::intrinsics::select_unpredictable(condition, true_val, false_val)'
                      b'.assume_init()\n')
@@ -297,37 +298,69 @@ def _same_site_diagnostic_matches(log_text: object,
 
 def _classify(r20, variant: str, stage: object, log_text: object,
               expected_sources: dict[str, str], observed_sources: dict[str, str | None],
-              tool_home: Path, verified_source: bytes) -> tuple[str, str, dict[str, Any] | None]:
+              tool_home: Path, verified_source: bytes, *,
+              target_map: object = None, target_validation: object = None,
+              target_sources: object = None, tool_spec: bytes | None = None,
+              tool_spec_file: str | None = None,
+              target_helper=None) -> tuple[str, str, dict[str, Any] | None,
+                                             dict[str, Any] | None]:
     # R20's classifier binds exact argv, source pair, gate bits and log paths.
     # The valid row name maps this new same-unit call to its positive opt-in slot.
     bound = r20.classify_bound_row('merged-optin', stage, log_text,
         expected_argv=_expected_argv(tool_home), expected_sources=expected_sources,
         observed_sources=observed_sources)
     if bound in ('NOT_RUN_OR_INCONCLUSIVE', 'SOURCE_STAGE_TARGET_MISMATCH'):
-        return bound, bound, None
+        return bound, bound, None, None
     if not isinstance(stage, dict):
-        return bound, 'NOT_RUN_OR_INCONCLUSIVE', None
+        return bound, 'NOT_RUN_OR_INCONCLUSIVE', None, None
     if variant == 'positive':
         expected = (bound == 'POSITIVE_VERIFIED_SOURCE_REPORTED')
         return (bound, 'POSITIVE_VERIFIED_SOURCE_REPORTED' if expected else 'POSITIVE_FAILED',
-                None)
+                None, None)
     if stage.get('exit') == 0:
-        return bound, 'CONTROL_NOT_REJECTED', None
+        return bound, 'CONTROL_NOT_REJECTED', None, None
+    if target_map is not None:
+        try:
+            need(target_helper is not None and isinstance(target_sources, dict) and
+                 isinstance(tool_spec, bytes) and isinstance(target_validation, dict),
+                 'target validator inputs are incomplete')
+            log_observation = {
+                'variant': variant,
+                'source_sha256': sha(target_sources[variant]),
+                'log_sha256': sha(log_text.encode('utf-8')) if isinstance(log_text, str) else None,
+                'provenance': target_map['targets'][variant]['provenance'],
+            }
+            matched = target_helper.match_first_and_only_error(
+                variant, target_map, target_sources, tool_spec, log_text,
+                log_observation=log_observation,
+                tool_spec_file=tool_spec_file, tool_home=tool_home)
+            expected_target = target_validation['targets'][variant]
+            if (matched.get('matches_first_and_only_error') is True and
+                    matched.get('target') == {key: expected_target[key] for key in
+                        ('file', 'line', 'start_column', 'end_column', 'message')}):
+                classification = ('EXPECTED_CALLEE_CONTRACT_REJECTION'
+                    if variant in CALLEE_NEGATIVES else 'EXPECTED_SAME_SITE_TYPED_FAILURE')
+                return bound, classification, expected_target, matched
+        except (KeyError, TypeError, ValueError, RuntimeError):
+            pass
+        return bound, 'CONTROL_FAILURE_TARGET_MISMATCH', None, None
     if variant in SAME_SITE_NEGATIVES:
         target = _final_select_target(verified_source)
         okay = _same_site_diagnostic_matches(log_text, target)
         return (bound, 'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE' if okay else
-                'CONTROL_FAILURE_TARGET_MISMATCH', target)
+                'CONTROL_FAILURE_TARGET_MISMATCH', target, None)
     # The real verifier diagnostic site/message for the fractional callee
     # negatives has not been pinned yet. A generic token match cannot confirm
     # that the intended callee obligation rejected the control.
-    return bound, 'TARGET_UNPINNED', None
+    return bound, 'TARGET_UNPINNED', None, None
 
 
 def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 fingerprint_record: object, transform: Callable[[bytes, str], bytes],
                 r20, proof_stage: Callable, refusal_fingerprint: Callable,
                 tool_home: Path, schema: Path, compiler_sysroot: Path,
+                target_map: object = None, target_helper=None,
+                tool_spec: bytes | None = None, tool_spec_file: str | None = None,
                 deadline_epoch: int, phase_key: str, phase_value: str,
                 opt_in_key: str, env: dict[str, str]) -> dict[str, Any]:
     """Run eight classified same-unit proof rows using injected pinned services."""
@@ -343,6 +376,31 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
     need(sha(original) == pins['base_original_sha256'] and
          sha(base_verified) == pins['base_verified_sha256'],
          'base source bytes differ from the S2d fingerprint input')
+    target_sources = None
+    target_validation = None
+    if target_map is not None:
+        need(target_helper is not None and
+             callable(getattr(target_helper, 'validate_target_map', None)) and
+             callable(getattr(target_helper, 'match_first_and_only_error', None)),
+             'exact diagnostic target helper is required when a target map is supplied')
+        need(isinstance(tool_spec, bytes) and isinstance(tool_spec_file, str),
+             'tool lib.rsspec bytes and exact diagnostic file identity are required')
+        target_sources = {}
+        for variant in VARIANTS:
+            if variant == 'positive':
+                continue
+            candidate = transform(base_verified, variant)
+            need(isinstance(candidate, bytes) and
+                 sha(candidate) == pins['cases'][variant]['verified_sha256'],
+                 'target source bytes differ from the pinned case: ' + variant)
+            target_sources[variant] = candidate
+        target_validation = target_helper.validate_target_map(
+            target_map, target_sources, tool_spec,
+            tool_spec_file=tool_spec_file, tool_home=tool_home)
+        need(target_validation.get('accepted') is False and
+             target_validation.get('proof_credit') is False and
+             set(target_validation.get('targets', {})) == NEGATIVES,
+             'diagnostic target map validation result is incomplete')
     root = evidence / 'cases/r21-fractional-proof'
     root.mkdir(parents=True, exist_ok=False)
     record: dict[str, Any] = {
@@ -351,6 +409,9 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
         'pins': pins, 'rows': {}, 'body_proof_run': False,
         'accepted': False, 'proof_credit': False,
     }
+    if target_map is not None:
+        record['diagnostic_target_validation'] = target_validation
+        record['diagnostic_target_map_sha256'] = target_validation['target_map_sha256']
     path = root / 'r21-fractional-proof.json'
 
     def save() -> None:
@@ -428,9 +489,12 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 log_text = log_path.read_text(errors='replace') if log_path.is_file() else None
                 observed_sources = {name: (sha((case / name).read_bytes())
                     if (case / name).is_file() else None) for name in expected_sources}
-                bound, classification, diagnostic_target = _classify(
+                bound, classification, diagnostic_target, diagnostic_observation = _classify(
                     r20, variant, stage, log_text, expected_sources,
-                    observed_sources, tool_home, candidate)
+                    observed_sources, tool_home, candidate,
+                    target_map=target_map, target_validation=target_validation,
+                    target_sources=target_sources, tool_spec=tool_spec,
+                    tool_spec_file=tool_spec_file, target_helper=target_helper)
                 row.update(bound_verdict=bound, classification=classification,
                            normal_unwind_nested_drop_gates=(
                                isinstance(stage, dict) and
@@ -441,6 +505,8 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                            log_sha256=sha(log_path.read_bytes()) if log_path.is_file() else None)
                 if diagnostic_target is not None:
                     row['expected_diagnostic_target'] = diagnostic_target
+                if diagnostic_observation is not None:
+                    row['diagnostic_target_observation'] = diagnostic_observation
                 if (isinstance(stage, dict) and stage.get('status') == 'RAN' and
                         type(stage.get('exit')) is int and
                         bound in ('POSITIVE_VERIFIED_SOURCE_REPORTED',
@@ -471,7 +537,11 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 expected_outcome = (classification == 'POSITIVE_VERIFIED_SOURCE_REPORTED'
                     if variant == 'positive' else
                     classification == 'EXPECTED_SAME_SITE_FINAL_SELECT_FAILURE'
-                    if variant in SAME_SITE_NEGATIVES else False)
+                    if variant in SAME_SITE_NEGATIVES and target_map is None else
+                    classification == 'EXPECTED_SAME_SITE_TYPED_FAILURE'
+                    if variant in SAME_SITE_NEGATIVES and target_map is not None else
+                    classification == 'EXPECTED_CALLEE_CONTRACT_REJECTION'
+                    if variant in CALLEE_NEGATIVES and target_map is not None else False)
                 row['status'] = ('COMPLETE' if expected_outcome and source_intact and
                     row['postflight_capture_check'].get('complete') is True else 'INCOMPLETE')
                 save()

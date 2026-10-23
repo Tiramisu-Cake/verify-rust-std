@@ -20,7 +20,7 @@ from typing import Any
 
 CASE = 'nine-body-a1-owned-forget'
 FINGERPRINT_HELPER_SHA256 = '9cb4dee13b134f1ba328b35c23e667c4ef73961cf980147fdda8f9cb56d16c71'
-PROOF_HELPER_SHA256 = 'c1c63258681fb0bec9ed39c33fd986e27bf42c59230a7b7985ad75fcb840a933'
+PROOF_HELPER_SHA256 = 'b37f38ec991e10ecf474cc1dec5e2a0fd59232ac70ac5399e66e9775a3d9ed7b'
 R20_HELPER_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 O26_RECIPE_SHA256 = '464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c'
 O26_REFRESH_SHA256 = '2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3'
@@ -29,6 +29,7 @@ REPAIR_SHA256 = '3646b05602b7dce35cd4b2ab8f74d8cfe280d65df2637ac4f6cc0a128dd7e2a
 CONTROLS_SHA256 = '533c3d9be5249a40b2f0ad701cfaff6e95e688ecfb5b9c024c5dd2a56dc5124d'
 CAPTURE_SHA256 = 'ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f'
 PROVIDER_SHA256 = '771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616'
+TARGET_HELPER_SHA256 = '5c51ae49766ec7f8dda5ac548555773bce34398462376a4ff56653d6bef91e93'
 OPT_IN_KEY = 'SORT4_R21_FRACTIONAL_FORGET'
 VARIANT_KEY = 'SORT4_R21_FRACTIONAL_VARIANT'
 R20_OPT_IN_KEY = 'SORT4_R20_FINAL_SELECT_REPAIR'
@@ -72,6 +73,8 @@ def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
                       FINGERPRINT_HELPER_SHA256)
     proof = load(cloud_dir / 'select-callee-r21-fractional-proof.py',
                  'r21_fractional_proof_entry_classifier', PROOF_HELPER_SHA256)
+    target_helper = load(cloud_dir / 'select-callee-r22-control-targets.py',
+                         'r21_fractional_proof_entry_targets', TARGET_HELPER_SHA256)
     transform, r20, o26, refresh = fractional.pinned_dependencies(
         repo, cloud_dir, evidence)
     need(sha((repo / fractional.TRANSFORM_REL).read_bytes()) == TRANSFORM_SHA256 and
@@ -90,7 +93,8 @@ def load_runtime(repo: Path, cloud_dir: Path, evidence: Path):
          callable(getattr(o26, 'proof_stage', None)) and
          callable(getattr(transform, 'transform', None)),
          'pinned proof services are incomplete')
-    return {'provider': provider, 'fractional': fractional, 'proof': proof, 'transform': transform,
+    return {'provider': provider, 'fractional': fractional, 'proof': proof,
+            'target_helper': target_helper, 'transform': transform,
             'r20': r20, 'o26': o26, 'refresh': refresh, 'capture': capture}
 
 
@@ -198,6 +202,30 @@ def run(args, *, runtime_loader=load_runtime,
     need(sha(pins_path.read_bytes()) == sha(pin_bytes),
          'fingerprint pins changed while loading')
 
+    target_map = None
+    target_map_bytes = None
+    target_helper = runtime['target_helper']
+    tool_spec = None
+    tool_spec_file = None
+    tool_spec_path = args.tool_home / target_helper.TOOL_SPEC_FILE
+    if args.target_map is not None:
+        need(args.target_map.is_file() and not args.target_map.is_symlink(),
+             'caller-supplied diagnostic target map is missing or symlinked')
+        target_map_bytes = args.target_map.read_bytes()
+        target_map = json.loads(target_map_bytes)
+        need(tool_spec_path.is_file() and not tool_spec_path.is_symlink(),
+             'pinned tool lib.rsspec file is missing or symlinked')
+        tool_spec = tool_spec_path.read_bytes()
+        relative_spec = target_helper.TOOL_SPEC_FILE
+        absolute_spec = str(tool_spec_path.resolve())
+        spec_records = target_map.get('targets') if isinstance(target_map, dict) else None
+        spec_files = {spec_records.get(name, {}).get('file')
+                      for name in target_helper.SPEC_PRECONDITION_LINE
+                      if isinstance(spec_records, dict) and
+                         isinstance(spec_records.get(name), dict)}
+        tool_spec_file = (relative_spec if spec_files == {relative_spec}
+                          else absolute_spec)
+
     dependencies = {
         'fingerprint_helper_sha256': FINGERPRINT_HELPER_SHA256,
         'proof_helper_sha256': PROOF_HELPER_SHA256,
@@ -209,9 +237,13 @@ def run(args, *, runtime_loader=load_runtime,
         'o26_refresh_sha256': O26_REFRESH_SHA256,
         'capture_sha256': CAPTURE_SHA256,
         'provider_sha256': PROVIDER_SHA256,
+        'target_helper_sha256': TARGET_HELPER_SHA256,
         'provider_record': provider_record,
         'pins_json_sha256': sha(pin_bytes),
     }
+    if target_map_bytes is not None:
+        dependencies.update(target_map_sha256=sha(target_map_bytes),
+                            tool_spec_sha256=sha(tool_spec))
 
     capture_call_counts: dict[Path, int] = {}
     capture_history: list[dict[str, Any]] = []
@@ -276,7 +308,9 @@ def run(args, *, runtime_loader=load_runtime,
             compiler_sysroot=args.compiler_sysroot,
             deadline_epoch=args.deadline_epoch,
             phase_key=fractional.PHASE_ENV, phase_value=fractional.PHASE,
-            opt_in_key=OPT_IN_KEY, env=selected_env)
+            opt_in_key=OPT_IN_KEY, env=selected_env,
+            target_map=target_map, target_helper=target_helper,
+            tool_spec=tool_spec, tool_spec_file=tool_spec_file)
     except BaseException:
         try:
             if record_path.is_file():
@@ -290,17 +324,31 @@ def run(args, *, runtime_loader=load_runtime,
         except BaseException:
             pass
         raise
+    if target_map is not None:
+        dependencies['target_map_canonical_sha256'] = record.get(
+            'diagnostic_target_map_sha256')
     source_unchanged = (original_path.is_file() and verified_path.is_file() and
         sha(original_path.read_bytes()) == sha(original) and
         sha(verified_path.read_bytes()) == sha(base_verified))
     pins_unchanged = pins_path.is_file() and sha(pins_path.read_bytes()) == sha(pin_bytes)
-    if not source_unchanged or not pins_unchanged:
+    target_map_unchanged = (target_map_bytes is None or
+        (args.target_map.is_file() and not args.target_map.is_symlink() and
+         sha(args.target_map.read_bytes()) == sha(target_map_bytes)))
+    tool_spec_unchanged = (tool_spec is None or
+        (tool_spec_path.is_file() and not tool_spec_path.is_symlink() and
+         sha(tool_spec_path.read_bytes()) == sha(tool_spec)))
+    if (not source_unchanged or not pins_unchanged or not target_map_unchanged or
+            not tool_spec_unchanged):
         record['complete'] = False
         record['classification'] = 'R21_FRACTIONAL_CLASSIFIED_PROOF_INCOMPLETE'
         record['entry_integrity_error'] = {
             'source_unchanged': source_unchanged,
             'pins_unchanged': pins_unchanged,
+            'target_map_unchanged': target_map_unchanged,
+            'tool_spec_unchanged': tool_spec_unchanged,
         }
+    record['target_map_unchanged'] = target_map_unchanged
+    record['tool_spec_unchanged'] = tool_spec_unchanged
     record['capture_archive_records'] = capture_history
     record['entry_dependencies'] = dependencies
     record['accepted'] = False
@@ -314,6 +362,7 @@ def main(argv: list[str] | None = None) -> int:
     for name in ('repo', 'cloud-dir', 'evidence', 'tool-home', 'schema',
                  'compiler-sysroot', 'pins-json'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--target-map', type=Path, default=None)
     parser.add_argument('--deadline-epoch', type=int, required=True)
     args = parser.parse_args(argv)
     need(args.deadline_epoch > int(time.time()), 'shared deadline has elapsed')

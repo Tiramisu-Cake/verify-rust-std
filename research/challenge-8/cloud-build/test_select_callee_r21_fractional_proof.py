@@ -23,6 +23,12 @@ R20_SPEC = importlib.util.spec_from_file_location(
 assert R20_SPEC and R20_SPEC.loader
 R20 = importlib.util.module_from_spec(R20_SPEC)
 R20_SPEC.loader.exec_module(R20)
+TARGET_HELPER_SPEC = importlib.util.spec_from_file_location(
+    'select_callee_r22_control_targets_for_r21_proof',
+    HERE / 'select-callee-r22-control-targets.py')
+assert TARGET_HELPER_SPEC and TARGET_HELPER_SPEC.loader
+TARGET_HELPER = importlib.util.module_from_spec(TARGET_HELPER_SPEC)
+TARGET_HELPER_SPEC.loader.exec_module(TARGET_HELPER)
 
 ORIGINAL = b'// original synthetic Rust source\n'
 BASE = (b'// verified synthetic owner-projection source\n'
@@ -41,7 +47,47 @@ def digest(raw: bytes) -> str:
 
 
 def source_for(variant: str) -> bytes:
-    return BASE + f'// {variant}\n'.encode() + FINAL_SELECT_CALL
+    contract = TARGET_HELPER.FORGET_CONTRACTS.get(
+        variant, TARGET_HELPER.FORGET_HALF_CONTRACT)
+    selected = (b'        ' + TARGET_HELPER.RETAINED_HALF_MERGE + b'\n' +
+                TARGET_HELPER.FULL_CELL_ASSERT) if variant == 'no-retained-half' else b''
+    return (TARGET_HELPER.FORGET_SIGNATURE + contract + TARGET_HELPER.FORGET_BODY +
+            b'\n' + TARGET_HELPER.SELECT_SIGNATURE + b'/*@ synthetic contract; @*/\n{\n' +
+            selected + b'    }\n' + FINAL_SELECT_CALL)
+
+
+def tool_spec_fixture() -> bytes:
+    lines = [b'// synthetic rsspec'] * 463
+    lines[461] = TARGET_HELPER.SPEC_PRECONDITION_TEXT['omit-selected-own'].encode()
+    lines[462] = TARGET_HELPER.SPEC_PRECONDITION_TEXT['omit-unselected-own'].encode()
+    return b'\n'.join(lines) + b'\n'
+
+
+def target_map_fixture() -> dict:
+    sources = {variant: source_for(variant)
+               for variant in TARGET_HELPER.VARIANTS}
+    tool_spec = tool_spec_fixture()
+    targets = {}
+    for index, variant in enumerate(TARGET_HELPER.VARIANTS, 1):
+        file, line = TARGET_HELPER._source_anchor(variant, sources[variant])
+        record = {'variant': variant, 'observed': True,
+            'source_sha256': digest(sources[variant]),
+            'tool_spec_sha256': digest(tool_spec), 'file': file, 'line': line,
+            'start_column': 1, 'end_column': 2,
+            'message': f'error: exact synthetic target {variant}',
+            'provenance': {'build_id': f'00000000-0000-0000-0000-{index:012d}',
+                'brief_log_sha256': digest(f'brief-{variant}'.encode()),
+                'brief_log_index': index, 'archive_id': f'archive-{variant}',
+                'request_id': f'request-{variant}'},
+            'log_sha256': '0' * 64}
+        if variant in TARGET_HELPER.SPEC_PRECONDITION_LINE:
+            record['tool_precondition'] = {
+                'intent': TARGET_HELPER.SPEC_PRECONDITION_INTENT[variant],
+                'line_text': TARGET_HELPER.SPEC_PRECONDITION_TEXT[variant]}
+        log = f"{file}({line},1-2): {record['message']}\n"
+        record['log_sha256'] = digest(log.encode())
+        targets[variant] = record
+    return {'schema': TARGET_HELPER.SCHEMA, 'targets': targets}
 
 
 def snapshot_rows(case: Path) -> dict:
@@ -130,6 +176,8 @@ class FractionalProofTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.evidence = self.root / 'evidence'
         self.tool_home = Path('/synthetic/tool')
+        self.target_map = None
+        self.tool_spec = None
         self.env = {'SMALLSORT_EXECUTION_PROVIDER': 'cloud-build',
                     PHASE_KEY: PHASE_VALUE}
 
@@ -137,7 +185,9 @@ class FractionalProofTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def run_batch(self, *, proof_stage=None, capture=None, deadline=None,
-                  env=None):
+                  env=None, target_map=None):
+        self.target_map = target_map
+        self.tool_spec = tool_spec_fixture() if target_map is not None else None
         with patch.dict('os.environ', env or self.env, clear=True):
             return TARGET.proof_batch(evidence=self.evidence,
             original=ORIGINAL, base_verified=BASE,
@@ -147,6 +197,9 @@ class FractionalProofTests(unittest.TestCase):
             refusal_fingerprint=capture or FakeCapture().refusal_fingerprint,
             tool_home=self.tool_home, schema=Path('/synthetic/schema'),
             compiler_sysroot=Path('/synthetic/sysroot'),
+            target_map=target_map, target_helper=TARGET_HELPER if target_map is not None else None,
+            tool_spec=self.tool_spec,
+            tool_spec_file=TARGET_HELPER.TOOL_SPEC_FILE if target_map is not None else None,
             deadline_epoch=deadline or int(time.time()) + 3600,
             phase_key=PHASE_KEY, phase_value=PHASE_VALUE,
             opt_in_key=OPT_IN, env=env or self.env)
@@ -158,6 +211,12 @@ class FractionalProofTests(unittest.TestCase):
         if variant == 'positive':
             exit_code = 0
             log = 'verified: all normal, unwind, and nested Drop obligations discharged\n'
+        elif self.target_map is not None:
+            target = self.target_map['targets'][variant]
+            log = (f"{target['file']}({target['line']},"
+                   f"{target['start_column']}-{target['end_column']}): "
+                   f"{target['message']}\n")
+            exit_code = 1
         elif variant in TARGET.SAME_SITE_NEGATIVES:
             exit_code = 1
             source = (case / 'verified/lib.rs').read_bytes()
@@ -205,6 +264,28 @@ class FractionalProofTests(unittest.TestCase):
             self.assertEqual(record['rows'][variant]['classification'],
                              'TARGET_UNPINNED')
             self.assertEqual(record['rows'][variant]['status'], 'INCOMPLETE')
+
+    def test_optional_exact_seven_row_map_classifies_all_negative_targets(self):
+        target_map = target_map_fixture()
+        record = self.run_batch(target_map=target_map)
+        self.assertTrue(record['complete'])
+        self.assertIs(record['accepted'], False)
+        self.assertIs(record['proof_credit'], False)
+        self.assertEqual(record['diagnostic_target_validation']['status'],
+                         'TARGET_MAP_VALIDATED_NOT_ACCEPTED')
+        self.assertEqual(set(record['diagnostic_target_validation']['targets']),
+                         set(TARGET_HELPER.VARIANTS))
+        for variant in TARGET.VARIANTS[1:]:
+            row = record['rows'][variant]
+            expected = ('EXPECTED_CALLEE_CONTRACT_REJECTION'
+                        if variant in TARGET.CALLEE_NEGATIVES else
+                        'EXPECTED_SAME_SITE_TYPED_FAILURE')
+            self.assertEqual(row['classification'], expected)
+            self.assertEqual(row['status'], 'COMPLETE')
+            self.assertTrue(row['diagnostic_target_observation'][
+                'matches_first_and_only_error'])
+        self.assertEqual(record['rows']['no-retained-half']['expected_diagnostic_target']['file'],
+                         'verified/lib.rs')
 
     def test_fingerprint_to_pins_rejects_partial_and_malformed_per_case_data(self):
         record = fingerprint_fixture()

@@ -20,6 +20,10 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC and SPEC.loader
 TARGET = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(TARGET)
+TARGET_SPEC = importlib.util.spec_from_file_location('r21_target_helper_for_entry_test',
+    HERE / 'select-callee-r22-control-targets.py')
+TARGET_HELPER = importlib.util.module_from_spec(TARGET_SPEC)
+TARGET_SPEC.loader.exec_module(TARGET_HELPER)
 
 ORIGINAL = b'// synthetic original\n'
 BASE = b'// synthetic candidate base\n'
@@ -156,7 +160,8 @@ class EntryTests(unittest.TestCase):
         self.args = SimpleNamespace(repo=self.root, cloud_dir=self.root,
             evidence=self.evidence, tool_home=Path('/fake/tool'),
             schema=Path('/fake/schema'), compiler_sysroot=Path('/fake/sysroot'),
-            deadline_epoch=int(time.time()) + 3600, pins_json=self.pins)
+            deadline_epoch=int(time.time()) + 3600, pins_json=self.pins,
+            target_map=None)
         self.env = {'SMALLSORT_EXECUTION_PROVIDER': 'cloud-build',
                     PHASE_KEY: PHASE_VALUE}
         self.capture = FakeCapture()
@@ -179,7 +184,8 @@ class EntryTests(unittest.TestCase):
             'r20': SimpleNamespace(), 'o26': self.o26,
             'refresh': SimpleNamespace(UNIT=digest(UNIT),
                 BODIES=tuple(digest(data) for data in BODIES)),
-            'capture': self.capture, 'provider': self.provider}
+            'capture': self.capture, 'provider': self.provider,
+            'target_helper': TARGET_HELPER}
 
     def tearDown(self):
         self.temp.cleanup()
