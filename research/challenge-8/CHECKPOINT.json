@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7"
+      "sha256": "c50bd6a58f03d6dbb4d9b207013a44302e72c50bf3a710bf1214b78345701207"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e5b7734d83684cf9755284e5e07fa35952a477f8343854439afa6d04171ef673"
+      "sha256": "cc967ef6c86766c756d89943dc798ebac331eca6adaa6fb5104c406b4fe998b7"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -38,12 +38,12 @@
         "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
       }
     ],
-    "summary": "W4: typed schema and audit CLI defects; native callback certificate refusal. P2 PUBLISHED."
+    "summary": "Native fingerprint/typed schema/CLI candidate unbuilt; independent delta review pending. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e5b7734d83684cf9755284e5e07fa35952a477f8343854439afa6d04171ef673"
+    "sha256": "cc967ef6c86766c756d89943dc798ebac331eca6adaa6fb5104c406b4fe998b7"
   },
   "brief_observation_refs": [
     {
@@ -1148,8 +1148,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Finish native fingerprint probe and typed/CLI fixes; test, review, publish, full1200 diagnostic.",
-  "next_step": "Finish native fingerprint probe and typed/CLI fixes; test, review, publish, full1200 diagnostic.",
+  "next": "Commit candidate; static transport preflight; delta review; publish and full1200 diagnostic.",
+  "next_step": "Commit candidate; static transport preflight; delta review; publish and full1200 diagnostic.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1264,7 +1264,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:53:58Z",
+  "updated_utc": "2026-10-23T23:59:12Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1454,11 +1454,29 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-DESIGN.json",
       "sha256": "dfa69dec5fe49b15512e3beb041a30f841db349692f2f1afea3990f23d6e0ce9"
     },
+    "extractor": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-mir-calls.py",
+      "sha256": "6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0"
+    },
+    "helper": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-linkage-diagnostic.py",
+      "sha256": "f6cb301152c300747f33a4c66b3aa0bc99423e441bf9af898dded9708189f684"
+    },
     "main_scope": "mode/shell/recipe/evidence/independent review and Cloud submission",
+    "manifest": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-MANIFEST.json",
+      "sha256": "c46687b9456d2bdf2d04ab35cce4149dcda558103a89074fbaae9bc447192c10"
+    },
+    "mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-MODE.json",
+      "sha256": "cdd28e90712e7eb5bc7ad8da1e54fa0a973cfb90f5b81f08074ee11f81c2483c"
+    },
+    "native_binary_identity": "UNBUILT; source pinned, binary hash will be observed pre/post only",
     "proof_credit": 0,
     "reason": "Known ordinary callback refusal requires exact current native unit/body Marshal fingerprints before source-bound C5 admission; Capnp hashes are separate.",
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "IMPLEMENTATION_IN_PROGRESS",
+    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "tests": "12 parser, 14 wrapper, 8 Bash tests pass after final mode pins; 23 old capture/mutable runner regressions passed by worker. Bash syntax and diff checks pass; no actual tools.",
     "workers": {
       "diagnostic_wrapper": "r24_mut_proof_runner",
       "native_overlay": "r24_admission"

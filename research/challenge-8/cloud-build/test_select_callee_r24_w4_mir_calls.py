@@ -78,6 +78,7 @@ def _body(mode='normal'):
             'callSpan': _span(line, 9, 31),
             'target': {'something': {'index': i + 1}},
             'unwindAction': {'continue': 'void'},
+            'ghostGenericArgList': {'nothing': 'void'},
         }
         body['basicBlocks'].append({
             'id': {'index': i},
@@ -147,6 +148,7 @@ class W4MirCallTests(unittest.TestCase):
             'callSpan': _span(372, 9, 31),
             'target': {'something': {'index': 1}},
             'unwindAction': {'continue': 'void'},
+            'ghostGenericArgList': {'nothing': 'void'},
         }}
         report = _analyze(normal=normal)
         self.assertFalse(report['complete'])
@@ -193,6 +195,64 @@ class W4MirCallTests(unittest.TestCase):
         for normal in cases:
             report = _analyze(normal=normal)
             self.assertFalse(report['complete'], report)
+
+    def test_six_or_seven_field_schema_and_empty_selector_ghost_arguments(self):
+        report = _analyze()
+        self.assertTrue(report['complete'], report['errors'])
+        self.assertEqual(report['normal']['calls'][0]['ghost_generic_arg_list'],
+                         {'nothing': 'void'})
+        body = _body('normal')
+        del body['basicBlocks'][0]['terminator']['kind']['call']['ghostGenericArgList']
+        omitted = _analyze(normal=body)
+        self.assertTrue(omitted['complete'], omitted['errors'])
+        self.assertEqual(omitted['normal']['calls'][0]['ghost_generic_arg_list'],
+                         {'nothing': 'void'})
+        mutations = []
+        body = _body('normal')
+        del body['basicBlocks'][0]['terminator']['kind']['call']['target']
+        mutations.append(body)
+        body = _body('normal')
+        body['basicBlocks'][0]['terminator']['kind']['call']['unknownFutureField'] = {'nothing': 'void'}
+        mutations.append(body)
+        body = _body('normal')
+        body['basicBlocks'][0]['terminator']['kind']['call']['ghostGenericArgList'] = {
+            'something': {'raw': 'T', 'span': _span(372, 1, 2), 'startLine': 1,
+                          'startCol': 1, 'endLine': 1, 'endCol': 2}}
+        mutations.append(body)
+        body = _body('normal')
+        body['basicBlocks'][0]['terminator']['kind']['call']['ghostGenericArgList'] = {'nothing': False}
+        mutations.append(body)
+        for normal in mutations:
+            with self.subTest(call=normal['basicBlocks'][0]['terminator']['kind']['call']):
+                failed = _analyze(normal=normal)
+                self.assertFalse(failed['complete'], failed)
+                self.assertEqual(failed['typed_call_linkage'], 'UNKNOWN')
+
+    def test_nonselector_comparator_annotated_ghost_generics_are_schema_valid(self):
+        body = _body('normal')
+        call_line = 248
+        body['basicBlocks'].append({
+            'id': {'index': 99}, 'statements': [], 'isCleanup': False,
+            'terminator': {
+                'sourceInfo': _source_info(call_line),
+                'kind': {'call': {
+                    'func': _fn('core::cmp::is_less'), 'args': [],
+                    'destination': {'local': {'name': '_normal_0_dst'}, 'projection': [],
+                                    'localIsMutable': False, 'kind': {'other': 'void'}},
+                    'callSpan': _span(call_line, 24, 55),
+                    'target': {'something': {'index': 100}},
+                    'unwindAction': {'continue': 'void'},
+                    'ghostGenericArgList': {'something': {
+                        'raw': "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/",
+                        'span': _span(call_line, 24, 55), 'startLine': call_line,
+                        'startCol': 24, 'endLine': call_line, 'endCol': 55,
+                    }},
+                }},
+            },
+        })
+        report = _analyze(normal=body)
+        self.assertTrue(report['complete'], report['errors'])
+        self.assertEqual(len(report['normal']['calls']), 8)
 
     def test_operand_and_destination_local_types_are_resolved_exactly(self):
         cases = []

@@ -1,0 +1,21 @@
+{
+  "schema": "select-r24-w4-native-fingerprint-manifest-v1",
+  "status": "UNBUILT_DIAGNOSTIC_ONLY_REVIEW_PENDING",
+  "base_translator_sha256": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007",
+  "result_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+  "patch": {
+    "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-native-fingerprint-r24.patch",
+    "sha256": "e720c48a5daf9e402ceb0dfddb0b5fcbc9405bedd0f9cf7eff061e5a672dcd90"
+  },
+  "generator": {
+    "path": "research/challenge-8/task-history/select-callee-r24/w4-native-fingerprint.py",
+    "sha256": "da730abeb2f47c591201b8038d4b22bed1370a4402d740b3c59c4d10169332d0"
+  },
+  "gating": "Separate copied Cloud native tool; R24/R21 phase, lane, provider, profile, complete child-only mode/source/evidence env, exact source SHA and [sort4_stable] unit body inventory. Always refusal before proof admission. Default 8a capture untouched.",
+  "scope": "Native decoded-unit/body Marshal fingerprints only, not proof/callback admission/checked linkage.",
+  "static_checks": "Generator exact base SHA, git apply check/application in temporary static tree, output identity and unchanged default branch text. No compiler/native tools.",
+  "native_binary_sha256": "UNKNOWN_UNBUILT",
+  "accepted": false,
+  "publication_allowed": false,
+  "proof_credit": 0
+}

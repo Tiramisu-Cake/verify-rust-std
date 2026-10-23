@@ -129,3 +129,16 @@ Row34 `mutable-checked-successors-r24.patch` SHA-256 `07eed4b28d098812bb5e263297
 ## Row34 qualification update (source report only)
 
 Build `cb6ab304-085f-41e3-9f0a-a5cd3d0a4147` at993dd9e reports console0, full const auditcomplete and mutablepositive exit0/142statements/native1/sourceintact; root auditcomplete. Actual translator `8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007`, console `01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6`. See `P2-MUT-POSITIVE-EVIDENCE.json` and bounded S15 receipts. PlatformFAILURE preserved. Mutable fullmatrix/refusals and publication pending; independentcredit0.
+
+## Separate W4 native fingerprint overlay — UNBUILT
+
+Row35 is diagnostic-only in a separate copied Cloud tool. Patch
+`cloud-build/sort4-caller-entry-native/w4-native-fingerprint-r24.patch`
+SHA-256 `e720c48a5daf9e402ceb0dfddb0b5fcbc9405bedd0f9cf7eff061e5a672dcd90`
+applies after row34/`8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007`,
+producing `5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942`.
+The closed R24 W4 fingerprint mode requires the exact source and single
+`sort4_stable` body, writes native unit/body Marshal snapshots, then always
+refuses before proof admission. No callback gate or proof rule changes.
+Frozen capture and published P2 remain on the qualified row34 tool.
+See [W4-NATIVE-FINGERPRINT-MANIFEST.json](W4-NATIVE-FINGERPRINT-MANIFEST.json).

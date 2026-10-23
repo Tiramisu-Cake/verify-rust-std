@@ -116,9 +116,9 @@ r24_w4_linkage_mode_file="$proof_root/research/challenge-8/task-history/select-c
 r24_w4_linkage_helper="$cloud_dir/select-callee-r24-w4-linkage-diagnostic.py"
 if [[ -e "$r24_w4_linkage_mode_file" ]]; then
   (( r24_w4_capture_only == 1 )) || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == 2bcb7ad105ded0eae339173458b85ce248042960c2d78a1d7119132148f4bb87 ]] || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == 38a4b0d4ed3091de3fc5bbbfa76c6fc50652c382b5fa6c579ccacaa590e78c16 ]] || exit 2
-  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == ea7a738a5c564a4c2d00b72dc47aa67f5277b44080aa7eaf28e2fc2d01c25d51 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == cdd28e90712e7eb5bc7ad8da1e54fa0a973cfb90f5b81f08074ee11f81c2483c ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == f6cb301152c300747f33a4c66b3aa0bc99423e441bf9af898dded9708189f684 ]] || exit 2
+  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == 6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0 ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json" | cut -d' ' -f1)" == f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0 ]] || exit 2
   r24_w4_linkage_diagnostic=1
 fi
@@ -144,6 +144,7 @@ audit_result() {
     python3 "$r24_w4_linkage_helper" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --tool-home "${source_home:-/workspace/missing-native-tool}" \
+      --native-tool-home "${w4_native_home:-/workspace/missing-w4-fingerprint-tool}" \
       --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-/workspace/missing-sysroot}" \
       --deadline-epoch "$deadline" --candidate "$current_sha" \
       --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_linkage_mode_file" \
@@ -631,9 +632,25 @@ ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
 
 if (( r24_w4_linkage_diagnostic == 1 )); then
+  # Keep the frozen capture tool intact. Only this copied tool gains a
+  # diagnostic probe which unconditionally refuses before proof admission.
+  w4_native_home="$work_root/r24-w4-native-fingerprint-tool"
+  w4_native_patch="$proof_root/research/challenge-8/cloud-build/sort4-caller-entry-native/w4-native-fingerprint-r24.patch"
+  current_stage=r24-w4-native-copy-identity
+  [[ ! -e "$w4_native_home" && ! -L "$w4_native_home" ]] || exit 2
+  [[ "$(sha256sum "$w4_native_patch" | cut -d' ' -f1)" == e720c48a5daf9e402ceb0dfddb0b5fcbc9405bedd0f9cf7eff061e5a672dcd90 ]] || exit 2
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007 ]] || exit 2
+  stage r24-w4-native-copy cp -a "$source_home" "$w4_native_home"
+  stage r24-w4-native-patch-check git -C "$w4_native_home" apply --check "$w4_native_patch"
+  stage r24-w4-native-patch-apply git -C "$w4_native_home" apply "$w4_native_patch"
+  [[ "$(sha256sum "$w4_native_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942 ]] || exit 2
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007 ]] || exit 2
+  stage r24-w4-native-console-build make -C "$w4_native_home/src" ../bin/verifast \
+    WITHOUT_LABLGTK=yes VERBOSE=yes
   stage r24-w4-linkage-diagnostic python3 "$r24_w4_linkage_helper" run \
     --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
-    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --tool-home "$source_home" --native-tool-home "$w4_native_home" \
+    --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
     --deadline-epoch "$deadline" --candidate "$current_sha" \
     --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_linkage_mode_file"
   current_stage=r24-w4-linkage-diagnostic-audit

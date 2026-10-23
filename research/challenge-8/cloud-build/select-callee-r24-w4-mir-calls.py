@@ -247,6 +247,29 @@ def _source_info(raw: Any) -> dict[str, Any]:
     return {'span': _span(raw['span'])}
 
 
+def _ghost_generic_arg_list(raw: Any) -> Any:
+    """Validate the optional Cap'n Proto Option(Annotation) field."""
+    if not isinstance(raw, dict) or len(raw) != 1:
+        _fail('ghostGenericArgList is not an Option variant')
+    if 'nothing' in raw:
+        if raw['nothing'] != 'void':
+            _fail('ghostGenericArgList nothing payload is not void')
+        return raw
+    if 'something' not in raw:
+        _fail('unknown ghostGenericArgList option variant')
+    annotation = raw['something']
+    if not isinstance(annotation, dict) or set(annotation) != {
+            'raw', 'span', 'startLine', 'startCol', 'endLine', 'endCol'}:
+        _fail('ghostGenericArgList annotation shape differs')
+    if not isinstance(annotation['raw'], str):
+        _fail('ghostGenericArgList annotation text is malformed')
+    _span(annotation['span'])
+    for field in ('startLine', 'startCol', 'endLine', 'endCol'):
+        if type(annotation[field]) is not int or annotation[field] < 0:
+            _fail('ghostGenericArgList annotation coordinate is malformed')
+    return raw
+
+
 def _local_name(raw: Any, *, require_mutable: bool = True) -> str:
     if not isinstance(raw, dict) or set(raw) != {
             'local', 'projection', 'localIsMutable', 'kind'}:
@@ -323,9 +346,12 @@ def _call_candidates(body: dict[str, Any]) -> list[tuple[dict[str, Any], dict[st
         call = kind.get('call')
         if call is None:
             continue
-        if not isinstance(call, dict) or set(call) != {
-                'func', 'args', 'destination', 'callSpan', 'target', 'unwindAction'}:
+        call_fields = {'func', 'args', 'destination', 'callSpan', 'target', 'unwindAction'}
+        if not isinstance(call, dict) or frozenset(call) not in {
+                frozenset(call_fields), frozenset(call_fields | {'ghostGenericArgList'})}:
             _fail('malformed call terminator')
+        if 'ghostGenericArgList' in call:
+            _ghost_generic_arg_list(call['ghostGenericArgList'])
         func = call.get('func')
         if not isinstance(func, dict):
             _fail('call has no func record')
@@ -358,6 +384,10 @@ def _extract_one(text: str) -> dict[str, Any]:
         _fail('selector target/call count is not exactly eight')
     rows = []
     for ordinal, (block, terminator, call) in enumerate(calls):
+        ghost_generic_arg_list = call.get('ghostGenericArgList', {'nothing': 'void'})
+        ghost_generic_args = _variant(ghost_generic_arg_list, 'nothing')
+        if ghost_generic_args != 'void':
+            _fail('selector call has nonempty/malformed ghost generic arguments')
         fn = call['func']['constant']['const']['ty']['kind']['fnDef']
         if set(fn) != {'id', 'substs', 'lateBoundGenericParamCount'}:
             _fail('selector FnDef shape differs')
@@ -415,6 +445,7 @@ def _extract_one(text: str) -> dict[str, Any]:
             'callee': callee,
             'raw_callee': call['func'],
             'fn_def': fn,
+            'ghost_generic_arg_list': ghost_generic_arg_list,
             'substitution_types': substitutions,
             'late_bound_generic_param_count': 0,
             'operand_local_ids': names,

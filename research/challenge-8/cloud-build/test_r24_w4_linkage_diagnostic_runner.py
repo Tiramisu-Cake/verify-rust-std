@@ -7,6 +7,9 @@ toolchain are never invoked.
 from __future__ import annotations
 
 import hashlib
+import contextlib
+import importlib.util
+import io
 import os
 from pathlib import Path
 import shutil
@@ -25,9 +28,15 @@ CAPTURE_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-
 INTERFACE_REL = Path('research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json')
 QUALIFICATION_REL = Path('research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json')
 PINS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json')
+NATIVE_PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-native-fingerprint-r24.patch')
 HELPER = 'select-callee-r24-w4-linkage-diagnostic.py'
 ANALYZER = 'select-callee-r24-w4-mir-calls.py'
 CAPTURE_HELPER = 'select-callee-r24-w4-capture.py'
+DIAGNOSTIC_SCRIPT = CLOUD / HELPER
+DIAGNOSTIC_SPEC = importlib.util.spec_from_file_location('w4_cli_parser_under_test', DIAGNOSTIC_SCRIPT)
+DIAGNOSTIC = importlib.util.module_from_spec(DIAGNOSTIC_SPEC)
+assert DIAGNOSTIC_SPEC.loader is not None
+DIAGNOSTIC_SPEC.loader.exec_module(DIAGNOSTIC)
 
 
 def sha(raw: bytes) -> str:
@@ -73,8 +82,9 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.interface = self.proof / INTERFACE_REL
         self.qualification = self.proof / QUALIFICATION_REL
         self.pins = self.proof / PINS_REL
+        self.native_patch = self.proof / NATIVE_PATCH_REL
         for path in (self.capture_mode, self.link_mode, self.interface,
-                     self.qualification, self.pins):
+                     self.qualification, self.pins, self.native_patch):
             path.parent.mkdir(parents=True, exist_ok=True)
         self.capture_helper = self.cloud / CAPTURE_HELPER
         self.helper = self.cloud / HELPER
@@ -85,6 +95,7 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
             (REPO / INTERFACE_REL, self.interface),
             (REPO / QUALIFICATION_REL, self.qualification),
             (REPO / PINS_REL, self.pins),
+            (CLOUD / 'sort4-caller-entry-native/w4-native-fingerprint-r24.patch', self.native_patch),
             (CLOUD / CAPTURE_HELPER, self.capture_helper),
             (CLOUD / HELPER, self.helper),
             (CLOUD / ANALYZER, self.analyzer),
@@ -208,7 +219,7 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         calls = self.root / 'audit-call.bin'
         marker = self.root / 'proof-audit.json'
         tool_setup = ('' if missing_tools else
-                      'source_home=/synthetic/tool-home\nschema=/synthetic/schema\n'
+                      'source_home=/synthetic/tool-home\nw4_native_home=/synthetic/native-tool-home\nschema=/synthetic/schema\n'
                       'compiler_sysroot=/synthetic/sysroot\n')
         script = ('set -u\n'
                   f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev=/synthetic/evidence\n'
@@ -240,6 +251,11 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(values[b'--mode-file'], str(self.link_mode).encode())
         self.assertEqual(values[b'--runner-exit'], b'9')
         self.assertEqual(values[b'--failed-stage'], b'setup-failure')
+        parsed_audit = DIAGNOSTIC.parser().parse_args([arg.decode() for arg in args[1:]])
+        self.assertEqual(parsed_audit.command, 'audit')
+        self.assertEqual(parsed_audit.deadline_epoch, 9999999999)
+        self.assertEqual(parsed_audit.runner_exit, 9)
+        self.assertEqual(parsed_audit.failed_stage, 'setup-failure')
         self.assertEqual(args.count(str(self.capture_helper).encode()), 0)
         self.assertNotIn(b'select-callee-r24-mut-classified-proof.py', b'\0'.join(args))
         self.assertNotIn(b'select-callee-r24-p2-entailment.py', b'\0'.join(args))
@@ -248,8 +264,25 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         args = calls.read_bytes().split(b'\0')[:-1]
         values = {args[i]: args[i + 1] for i in range(len(args) - 1) if args[i].startswith(b'--')}
         self.assertEqual(values[b'--tool-home'], b'/workspace/missing-native-tool')
+        self.assertEqual(values[b'--native-tool-home'], b'/workspace/missing-w4-fingerprint-tool')
         self.assertEqual(values[b'--schema'], b'/workspace/missing-schema')
         self.assertEqual(values[b'--compiler-sysroot'], b'/workspace/missing-sysroot')
+
+    def test_run_cli_still_requires_deadline_and_unknown_arguments_remain_rejected(self):
+        run_args = ['run', '--repo', '/synthetic/proof', '--cloud-dir', '/synthetic/cloud',
+                    '--evidence', '/synthetic/evidence', '--tool-home', '/synthetic/tool-home',
+                    '--native-tool-home', '/synthetic/native-tool-home',
+                    '--schema', '/synthetic/schema', '--compiler-sysroot', '/synthetic/sysroot',
+                    '--capture-mode-file', '/synthetic/proof/W4-CAPTURE-MODE.json',
+                    '--mode-file', '/synthetic/proof/W4-LINKAGE-DIAGNOSTIC-MODE.json',
+                    '--candidate', '0123456789abcdef0123456789abcdef01234567',
+                    '--deadline-epoch', '9999999999']
+        parsed_run = DIAGNOSTIC.parser().parse_args(run_args)
+        self.assertEqual(parsed_run.command, 'run')
+        self.assertEqual(parsed_run.deadline_epoch, 9999999999)
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                DIAGNOSTIC.parser().parse_args(run_args + ['--unrecognized-diagnostic-flag'])
 
     def branch_harness(self, stage_exit=0, audit_exit=0):
         stage_calls = self.root / 'linkage-stage-call.bin'
@@ -260,14 +293,27 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         script = ('set -euo pipefail\n'
                   f'r24_w4_linkage_helper={self.helper}\nr24_w4_mode_file={self.capture_mode}\n'
                   f'r24_w4_linkage_mode_file={self.link_mode}\n'
-                  'proof_root=/synthetic/proof\ncloud_dir=/synthetic/cloud\nev=/synthetic/evidence\n'
+                  f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev=/synthetic/evidence\n'
                   f'evidence_root={self.root}\n'
-                  'source_home=/synthetic/tool-home\nschema=/synthetic/schema\n'
+                  f'work_root={self.root / "work"}\nsource_home={self.root / "source-tool"}\n'
+                  'schema=/synthetic/schema\n'
                   'compiler_sysroot=/synthetic/sysroot\ndeadline=9999999999\n'
+                  'mkdir -p "$source_home/src/rust_frontend/vf_mir_translator"\n'
+                  'printf synthetic > "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"\n'
                   'current_sha=0123456789abcdef0123456789abcdef01234567\n'
                   'r24_w4_linkage_diagnostic=1\nr24_w4_capture_only=1\n'
                   'current_stage=provider\n'
-                  f'stage() {{ current_stage="$1"; printf "%s\\0" "$@" > {stage_calls}; return {stage_exit}; }}\n'
+                  f'stage() {{ current_stage="$1"; printf "%s\\0" "$@" >> {stage_calls}; '
+                  'if [[ "$1" == r24-w4-native-copy ]]; then mkdir -p "$w4_native_home"; fi; '
+                  'if [[ "$1" == r24-w4-linkage-diagnostic ]]; then return ' + str(stage_exit) + '; fi; return 0; }\n'
+                  'sha256sum() { local path="${@: -1}"; '
+                  'if [[ "$path" == "$w4_native_patch" ]]; then '
+                  'printf "e720c48a5daf9e402ceb0dfddb0b5fcbc9405bedd0f9cf7eff061e5a672dcd90  %s\\n" "$path"; '
+                  'elif [[ "$path" == *vf_mir_translator.ml ]]; then '
+                  'if [[ "$path" == *r24-w4-native-fingerprint-tool* ]]; then '
+                  'printf "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942  %s\\n" "$path"; '
+                  'else printf "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007  %s\\n" "$path"; fi; '
+                  'else command sha256sum "$@"; fi; }\n'
                   f'python3() {{ printf "%s\\0" "$@" > {python_calls}; touch {marker}; return {audit_exit}; }}\n'
                   + audit_function() + '\n'
                   f"trap 'status=$?; if [[ ! -f {marker} ]]; then audit_result \"$status\" \"$current_stage\" || true; fi' EXIT\n"
@@ -280,9 +326,11 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertNotIn('LINKAGE_FALLTHROUGH', result.stdout)
         stage = stage_calls.read_bytes().split(b'\0')[:-1]
-        self.assertEqual(stage[:4], [b'r24-w4-linkage-diagnostic', b'python3',
-                                     str(self.helper).encode(), b'run'])
+        self.assertEqual(stage[:2], [b'r24-w4-native-copy', b'cp'])
+        self.assertIn(b'r24-w4-linkage-diagnostic', stage)
+        self.assertIn(str(self.helper).encode(), stage)
         for flag in (b'--repo', b'--cloud-dir', b'--evidence', b'--tool-home', b'--schema',
+                     b'--native-tool-home',
                      b'--compiler-sysroot', b'--deadline-epoch', b'--candidate',
                      b'--capture-mode-file', b'--mode-file'):
             self.assertIn(flag, stage)
@@ -290,6 +338,7 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(audit[:2], [str(self.helper).encode(), b'audit'])
         values = {audit[i]: audit[i + 1] for i in range(len(audit) - 1) if audit[i].startswith(b'--')}
         self.assertEqual(values[b'--compiler-sysroot'], b'/synthetic/sysroot')
+        self.assertEqual(values[b'--native-tool-home'], str(self.root / 'work/r24-w4-native-fingerprint-tool').encode())
         self.assertEqual(values[b'--runner-exit'], b'0')
         self.assertEqual(values[b'--failed-stage'], b'complete')
 

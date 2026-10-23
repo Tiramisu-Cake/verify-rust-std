@@ -5,11 +5,13 @@ import argparse
 import hashlib
 import importlib.util
 import inspect
+import io
 import json
 import os
 from pathlib import Path
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from unittest import mock
 
 
@@ -97,10 +99,12 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.cloud = self.root / 'cloud'
         self.evidence = self.root / 'evidence'
         self.tools = self.root / 'tools'
-        for p in (self.repo, self.cloud, self.evidence, self.tools):
+        self.native_tools = self.root / 'native-tools'
+        for p in (self.repo, self.cloud, self.evidence, self.tools, self.native_tools):
             p.mkdir()
         self.args = argparse.Namespace(repo=str(self.repo), cloud_dir=str(self.cloud),
                                        evidence=str(self.evidence), tool_home=str(self.tools),
+                                       native_tool_home=str(self.native_tools),
                                        schema=str(self.tools / 'schema'),
                                        compiler_sysroot=str(self.tools / 'sysroot'),
                                        capture_mode_file=str(self.repo / MOD.CAPTURE_MODE_REL),
@@ -140,6 +144,9 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
                                'cases/r24-w4-capture/fixture/verified/lib.rs': self.verified}}
         self.capture.collect_result = self.capture_report
         self.native_result = None
+        self.native_identity = {'source_hashes': dict(MOD.NATIVE_TOOL_SOURCE_HASHES),
+                                'verifast_binary_sha256': 'b' * 64,
+                                'verifast_binary_bytes': 42}
 
     def tearDown(self):
         self.temp.cleanup()
@@ -154,19 +161,24 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
             _validate_context=mock.DEFAULT,
             _validate_route=mock.DEFAULT,
             _validate_mode=mock.DEFAULT,
+            _validate_capture_pins=mock.DEFAULT,
             _load_json_pin=mock.DEFAULT,
             _tool_hashes=mock.DEFAULT,
             _source_state=mock.DEFAULT,
+            _native_tool_identity=mock.DEFAULT,
         )
         values = stack.start()
-        values['_validate_context'].return_value = (self.repo, self.cloud, self.evidence, self.tools)
+        values['_validate_context'].return_value = (
+            self.repo, self.cloud, self.evidence, self.tools, self.native_tools)
         values['_validate_route'].return_value = {'provider': 'cloud-build'}
         values['_validate_mode'].return_value = {'enabled': True}
+        values['_validate_capture_pins'].return_value = None
         values['_load_json_pin'].return_value = self.pin
         values['_tool_hashes'].return_value = MOD.TOOL_HASHES
         values['_source_state'].return_value = {'path': MOD.SOURCE_REL.as_posix(),
                                                  'sha256': MOD.SOURCE_SHA256,
                                                  'expected_sha256': MOD.SOURCE_SHA256, 'intact': True}
+        values['_native_tool_identity'].return_value = self.native_identity
         self.addCleanup(stack.stop)
         self.patchers = values
 
@@ -177,15 +189,26 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
             raise self.native_result
         result = self.native_result
         if result is None:
-            out = root / stdout_name
-            out.write_text('raw diagnostic only\n', encoding='utf-8')
-            (root / 'first-barrier-stderr.log').write_text('raw stderr\n', encoding='utf-8')
-            result = {'argv': list(argv), 'exit': 0, 'timeout_seconds': cap,
+            self.write_fingerprint_outputs(root, stdout_name)
+            result = {'argv': list(argv), 'exit': 2, 'timeout_seconds': cap,
                       'fixture_before': dict(hashes), 'fixture_after': dict(hashes),
                       'fixture_integrity': True, 'stdout': stdout_name,
                       'stderr': 'first-barrier-stderr.log'}
         (root / 'first-barrier-stage.json').write_text(json.dumps(result), encoding='utf-8')
         return result
+
+    def write_fingerprint_outputs(self, root, stdout_name, *, partial=False):
+        fpdir = root / 'fingerprints'
+        unit = b'unit marshal bytes'
+        body = b'body marshal bytes'
+        (root / stdout_name).write_text(
+            f'SORT4-R24-W4-FINGERPRINT: unit bytes={len(unit)} sha256={sha(unit)} body_index=0\n'
+            f'SORT4-R24-W4-FINGERPRINT: sort4_stable-body bytes={len(body)} sha256={sha(body)} body_index=0\n',
+            encoding='utf-8')
+        (root / 'first-barrier-stderr.log').write_text(MOD.FINGERPRINT_REFUSAL_STDERR + '\n', encoding='utf-8')
+        (fpdir / 'w4-native-unit.marshal').write_bytes(unit)
+        if not partial:
+            (fpdir / 'w4-native-body-0.marshal').write_bytes(body)
 
     def run_wrapper(self):
         self.guard()
@@ -206,17 +229,27 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.assertFalse(report['accepted'])
         self.assertEqual(report['proof_credit'], 0)
         self.assertEqual(self.native_call[0], 'first-barrier')
-        self.assertEqual(self.native_call[1], [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]])
+        self.assertEqual(self.native_call[1], [str(self.native_tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]])
         self.assertEqual(set(k for k in self.native_call[2] if k.startswith('SORT4_')),
-                         {MOD.R24_PHASE_ENV, MOD.R21_PHASE_ENV, 'SORT4_SELECT_PROFILE'})
+                         {MOD.R24_PHASE_ENV, MOD.R21_PHASE_ENV, 'SORT4_SELECT_PROFILE',
+                          'SORT4_R24_W4_FINGERPRINT_MODE',
+                          'SORT4_R24_W4_FINGERPRINT_EVIDENCE_DIR',
+                          'SORT4_R24_W4_FINGERPRINT_SOURCE_SHA256'})
         self.assertIn('PATH', self.native_call[2])
         self.assertEqual(self.native_call[2]['LD_LIBRARY_PATH'], '/synthetic/lib')
         self.assertEqual(self.native_call[2]['RUSTUP_HOME'], '/synthetic/rustup')
-        self.assertTrue(self.native_call[2]['PATH'].startswith(str(self.tools / 'bin') + os.pathsep))
+        self.assertTrue(self.native_call[2]['PATH'].startswith(str(self.native_tools / 'bin') + os.pathsep))
+        self.assertEqual(report['native']['logs']['stderr']['sha256'],
+                         sha((MOD.FINGERPRINT_REFUSAL_STDERR + '\n').encode()))
         copied = self.evidence / MOD.CASE_REL / 'verified/lib.rs'
         self.assertEqual(copied.read_bytes(), self.verified)
-        self.assertEqual(report['native']['logs']['stdout']['sha256'], sha(b'raw diagnostic only\n'))
-        self.assertEqual(report['native']['logs']['stderr']['sha256'], sha(b'raw stderr\n'))
+        unit, body = b'unit marshal bytes', b'body marshal bytes'
+        expected_stdout = (
+            f'SORT4-R24-W4-FINGERPRINT: unit bytes={len(unit)} sha256={sha(unit)} body_index=0\n'
+            f'SORT4-R24-W4-FINGERPRINT: sort4_stable-body bytes={len(body)} sha256={sha(body)} body_index=0\n'
+        ).encode()
+        self.assertEqual(report['native']['logs']['stdout']['sha256'], sha(expected_stdout))
+        self.assertTrue(report['native_fingerprint_complete'])
 
     def test_pinned_production_stage_runner_exports_actual_keyword_api(self):
         module = MOD._load(REPO / MOD.NATIVE_STAGE_RUNNER_REL,
@@ -232,13 +265,32 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.assertIsNone(bound.arguments['stdin_name'])
         self.assertNotIn('stderr_name', signature.parameters)
 
+    def test_cli_requires_distinct_native_tool_home_for_run_and_audit(self):
+        common = ['--repo', '/workspace/repo', '--cloud-dir', '/workspace/cloud',
+                  '--evidence', '/workspace/evidence', '--tool-home', '/workspace/capture-tools',
+                  '--schema', '/workspace/capture-tools/schema', '--compiler-sysroot', '/workspace/sysroot',
+                  '--native-tool-home', '/workspace/native-tools', '--capture-mode-file',
+                  '/workspace/repo/' + MOD.CAPTURE_MODE_REL.as_posix(), '--mode-file',
+                  '/workspace/repo/' + MOD.MODE_REL.as_posix(), '--candidate', 'a' * 40,
+                  '--deadline-epoch', '9999999999']
+        parsed_run = MOD.parser().parse_args(['run', *common])
+        parsed_audit = MOD.parser().parse_args(['audit', *common, '--runner-exit', '0',
+                                                '--failed-stage', 'complete'])
+        self.assertEqual(parsed_run.native_tool_home, '/workspace/native-tools')
+        self.assertEqual(parsed_audit.native_tool_home, '/workspace/native-tools')
+        missing_native = common[:]
+        native_index = missing_native.index('--native-tool-home')
+        del missing_native[native_index:native_index + 2]
+        with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            MOD.parser().parse_args(['run', *missing_native])
+
     def test_exit_zero_one_two_are_raw_diagnostics_and_nonzero_is_not_success_claim(self):
         for index, exit_code in enumerate((0, 1, 2)):
             with self.subTest(exit=exit_code):
                 if index:
                     self.temp.cleanup()
                     self.setUp()
-                self.native_result = {'argv': [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]],
+                self.native_result = {'argv': [str(self.native_tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]],
                                       'exit': exit_code, 'timeout_seconds': 1200,
                                       'fixture_before': {'original/lib.rs': sha(self.original),
                                                          'verified/lib.rs': sha(self.verified)},
@@ -249,20 +301,19 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
                 # Write expected stage output in its independent native tree.
                 def stage(*args, **kwargs):
                     root = args[2]
-                    (root / 'w4-first-barrier.log').write_text(f'exit={exit_code}\n', encoding='utf-8')
-                    (root / 'first-barrier-stderr.log').write_text(f'stderr={exit_code}\n', encoding='utf-8')
+                    self.write_fingerprint_outputs(root, 'w4-first-barrier.log')
                     (root / 'first-barrier-stage.json').write_text(
                         json.dumps(self.native_result), encoding='utf-8')
                     return self.native_result
                 self.guard()
                 report = MOD.run(self.args, services={**self.services(), 'native_stage_runner': stage})
-                self.assertTrue(report['complete'], report['errors'])
+                self.assertEqual(report['complete'], exit_code == 2, report['errors'])
                 self.assertEqual(report['native']['stage']['exit'], exit_code)
                 self.assertEqual(report['actual_body_proof_status'], 'UNKNOWN')
 
     def test_timeout_missing_null_wrongtype_and_partial_are_incomplete(self):
         cases = [
-            {'argv': [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]], 'exit': 124,
+            {'argv': [str(self.native_tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]], 'exit': 124,
              'fixture_before': {}, 'fixture_after': {}, 'fixture_integrity': False,
              'stdout': 'w4-first-barrier.log', 'stderr': 'first-barrier-stderr.log'},
             None,
@@ -314,7 +365,7 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.assertFalse(report['typed_call_inventory_complete'])
         self.assertTrue(report['verifier_invoked'])
         self.assertIn('native', report)
-        self.assertEqual(report['native']['stage']['exit'], 0)
+        self.assertEqual(report['native']['stage']['exit'], 2)
         self.assertEqual(report['actual_body_proof_status'], 'UNKNOWN')
 
     def test_source_stage_target_mismatch_is_refused(self):
@@ -322,8 +373,9 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
             root, stdout = args[2], kwargs['stdout_name']
             (root / stdout).write_text('diagnostic\n', encoding='utf-8')
             (root / 'first-barrier-stderr.log').write_text('diagnostic stderr\n', encoding='utf-8')
-            stage = {'argv': [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]],
-                     'exit': 0, 'fixture_before': {'verified/lib.rs': 'wrong'},
+            self.write_fingerprint_outputs(root, stdout)
+            stage = {'argv': [str(self.native_tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]],
+                     'exit': 2, 'fixture_before': {'verified/lib.rs': 'wrong'},
                      'fixture_after': {'verified/lib.rs': 'wrong'}, 'fixture_integrity': True,
                      'stdout': stdout, 'stderr': 'first-barrier-stderr.log'}
             (root / 'first-barrier-stage.json').write_text(json.dumps(stage), encoding='utf-8')
@@ -332,6 +384,44 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         report = MOD.run(self.args, services={**self.services(), 'native_stage_runner': wrong_target})
         self.assertFalse(report['complete'])
         self.assertTrue(any('source-stage-target' in error for error in report['errors']))
+
+    def test_native_fingerprint_requires_exact_wrapped_refusal_and_unique_markers(self):
+        self.guard()
+        def duplicate_marker(name, argv, root, env, hashes, deadline, cap,
+                             stdin_name=None, stdout_name=None):
+            self.write_fingerprint_outputs(root, stdout_name)
+            with (root / stdout_name).open('a', encoding='utf-8') as stream:
+                stream.write('SORT4-R24-W4-FINGERPRINT: unexpected extra marker\n')
+            result = {'argv': list(argv), 'exit': 2, 'timeout_seconds': cap,
+                      'fixture_before': dict(hashes), 'fixture_after': dict(hashes),
+                      'fixture_integrity': True, 'stdout': stdout_name,
+                      'stderr': 'first-barrier-stderr.log'}
+            (root / 'first-barrier-stage.json').write_text(json.dumps(result), encoding='utf-8')
+            return result
+        report = MOD.run(self.args, services={**self.services(), 'native_stage_runner': duplicate_marker})
+        self.assertFalse(report['complete'])
+        self.assertTrue(any('marker' in error for error in report['errors']))
+
+    def test_native_tool_drift_and_snapshot_mutation_are_detected(self):
+        self.guard()
+        before = dict(self.native_identity)
+        after = {**before, 'verifast_binary_sha256': 'c' * 64}
+        self.patchers['_native_tool_identity'].side_effect = [before, after]
+        report = MOD.run(self.args, services=self.services())
+        self.assertFalse(report['complete'])
+        self.assertTrue(any('tool identity changed' in error for error in report['errors']))
+
+        self.tearDown()
+        self.setUp()
+        report = self.run_wrapper()
+        self.assertTrue(report['complete'], report['errors'])
+        snapshot = self.evidence / MOD.CASE_REL / 'fingerprints/w4-native-body-0.marshal'
+        snapshot.write_bytes(b'tampered snapshot')
+        self.capture.audit_result = {'evidence_complete': True}
+        self.guard()
+        audit = MOD.audit(self.args, services=self.services())
+        self.assertFalse(audit['evidence_complete'])
+        self.assertTrue(any('fingerprint' in error for error in audit['errors']))
 
     def test_dirty_repository_source_during_native_diagnostic_is_refused(self):
         self.guard()

@@ -14,6 +14,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import sys
 import traceback
@@ -35,7 +36,7 @@ MIR_CALLS_SHA256 = 'ea7a738a5c564a4c2d00b72dc47aa67f5277b44080aa7eaf28e2fc2d01c2
 NATIVE_STAGE_RUNNER_REL = Path('research/challenge-8/overnight-sort4/capture.py')
 NATIVE_STAGE_RUNNER_SHA256 = '0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060'
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-MODE.json')
-MODE_SHA256 = '2bcb7ad105ded0eae339173458b85ce248042960c2d78a1d7119132148f4bb87'
+MODE_SHA256 = 'cdd28e90712e7eb5bc7ad8da1e54fa0a973cfb90f5b81f08074ee11f81c2483c'
 R24_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
 R21_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 R24_PHASE_ENV = 'SORT4_R24_SESSION_PHASE_ID'
@@ -54,6 +55,21 @@ TOOL_HASHES = {
     'src/rust_frontend/vf_mir_translator/rust_parser.ml': '6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246',
     'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml': '8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007',
 }
+NATIVE_TOOL_SOURCE_HASHES = {
+    key: value for key, value in TOOL_HASHES.items() if key != 'bin/verifast'
+}
+NATIVE_TRANSLATOR_SHA256 = '5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942'
+NATIVE_TOOL_SOURCE_HASHES['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'] = NATIVE_TRANSLATOR_SHA256
+NATIVE_VERIFIED_SOURCE_SHA256 = 'e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663'
+NATIVE_ORIGINAL_SOURCE_SHA256 = 'b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db'
+NATIVE_FINGERPRINT_ENV = {
+    'SORT4_R24_W4_FINGERPRINT_MODE': '1',
+    'SORT4_R24_W4_FINGERPRINT_EVIDENCE_DIR': '<absolute native/fingerprints directory>',
+    'SORT4_R24_W4_FINGERPRINT_SOURCE_SHA256': NATIVE_VERIFIED_SOURCE_SHA256,
+}
+FINGERPRINT_FILES = ('w4-native-unit.marshal', 'w4-native-body-0.marshal')
+FINGERPRINT_REFUSAL = 'SORT4-R24-W4-FINGERPRINT: diagnostic refusal: snapshot complete; no proof rule admitted'
+FINGERPRINT_REFUSAL_STDERR = 'Fatal error: exception Failure("' + FINGERPRINT_REFUSAL + '")'
 ALLOWED_SORT4_ENV = {R24_PHASE_ENV, R21_PHASE_ENV, 'SORT4_SELECT_PROFILE'}
 NATIVE_ARGV = ('bin/verifast', '-rustc_args', '--edition 2021', '-verbose', '1',
                '-dump_ast_with_locs', 'w4-first-barrier.ast.ml', 'verified/lib.rs')
@@ -116,6 +132,13 @@ def expected_mode() -> dict[str, Any]:
         'native_stage_runner_path': NATIVE_STAGE_RUNNER_REL.as_posix(),
         'native_stage_runner_sha256': NATIVE_STAGE_RUNNER_SHA256,
         'tool_hashes': TOOL_HASHES,
+        'native_tool_source_hashes': NATIVE_TOOL_SOURCE_HASHES,
+        'native_fingerprint_source_sha256': NATIVE_VERIFIED_SOURCE_SHA256,
+        'native_fingerprint_original_sha256': NATIVE_ORIGINAL_SOURCE_SHA256,
+        'native_fingerprint_environment': NATIVE_FINGERPRINT_ENV,
+        'native_fingerprint_files': list(FINGERPRINT_FILES),
+        'native_fingerprint_refusal': FINGERPRINT_REFUSAL,
+        'native_fingerprint_refusal_stderr': FINGERPRINT_REFUSAL_STDERR,
         'call_linkage': False,
         'body_proof_admission': False,
         'native_diagnostic_only': True,
@@ -125,18 +148,20 @@ def expected_mode() -> dict[str, Any]:
     }
 
 
-def _validate_context(args: argparse.Namespace, *, fresh: bool = False) -> tuple[Path, Path, Path, Path]:
+def _validate_context(args: argparse.Namespace, *, fresh: bool = False) -> tuple[Path, Path, Path, Path, Path]:
     repo, cloud, evidence, tool_home = (Path(args.repo).resolve(), Path(args.cloud_dir).resolve(),
                                         Path(args.evidence).resolve(), Path(args.tool_home).resolve())
-    need(all(str(p).startswith('/workspace/') for p in (repo, cloud, evidence, tool_home)),
+    native_tool_home = Path(args.native_tool_home).resolve()
+    need(all(str(p).startswith('/workspace/') for p in (repo, cloud, evidence, tool_home, native_tool_home)),
          'all run roots must be absolute Cloud /workspace paths')
+    need(native_tool_home != tool_home, 'native fingerprint tool home must differ from frozen capture tool home')
     need(args.candidate and len(args.candidate) == 40 and
          all(c in '0123456789abcdef' for c in args.candidate), 'exact candidate SHA required')
     if fresh:
         need(not (evidence / SUMMARY_REL.parent).exists() and
              not (evidence / SUMMARY_REL.parent).is_symlink(),
              'diagnostic output root already exists')
-    return repo, cloud, evidence, tool_home
+    return repo, cloud, evidence, tool_home, native_tool_home
 
 
 def _validate_route() -> dict[str, str]:
@@ -182,6 +207,25 @@ def _tool_hashes(tool_home: Path) -> dict[str, str]:
         result[rel] = digest(path.read_bytes())
     need(result == TOOL_HASHES, 'current tool identity differs from 8a026 profile')
     return result
+
+
+def _native_tool_identity(tool_home: Path) -> dict[str, Any]:
+    need(NATIVE_TRANSLATOR_SHA256 != 'PENDING', 'native translator source pin not finalized')
+    source_hashes = {}
+    for rel, expected in NATIVE_TOOL_SOURCE_HASHES.items():
+        path = tool_home / rel
+        need(path.is_file() and not path.is_symlink(),
+             'native fingerprint tool source missing/symlinked: ' + rel)
+        observed = digest(path.read_bytes())
+        need(observed == expected, 'native fingerprint tool source hash differs: ' + rel)
+        source_hashes[rel] = observed
+    binary = tool_home / 'bin/verifast'
+    need(binary.is_file() and not binary.is_symlink(), 'native verifier binary missing/symlinked')
+    binary_raw = binary.read_bytes()
+    need(bool(binary_raw), 'native verifier binary is empty')
+    return {'source_hashes': source_hashes,
+            'verifast_binary_sha256': digest(binary_raw),
+            'verifast_binary_bytes': len(binary_raw)}
 
 
 def _capture_args(args: argparse.Namespace, capture_mode: Path) -> argparse.Namespace:
@@ -248,15 +292,22 @@ def _stage_is_ran(stage: object) -> bool:
 
 
 def _native_stage(args: argparse.Namespace, repo: Path, evidence: Path,
-                  tool_home: Path, hashes: dict[str, str], stage_runner=None) -> dict[str, Any]:
+                  native_tool_home: Path, hashes: dict[str, str], stage_runner=None) -> dict[str, Any]:
     native_root = evidence / CASE_REL
+    fingerprint_dir = native_root / 'fingerprints'
+    need(not fingerprint_dir.exists() and not fingerprint_dir.is_symlink(),
+         'native fingerprint output directory already exists')
+    fingerprint_dir.mkdir(parents=True, exist_ok=False)
     # Route validation rejected extra SORT4_* opt-ins. Preserve the compiler
     # and shared-library environment required by VeriFast's Rust frontend.
     env = dict(os.environ)
-    env['PATH'] = str(tool_home / 'bin') + os.pathsep + env.get('PATH', os.defpath)
+    env['PATH'] = str(native_tool_home / 'bin') + os.pathsep + env.get('PATH', os.defpath)
     env.update({R24_PHASE_ENV: R24_PHASE, R21_PHASE_ENV: R21_PHASE,
                 'SORT4_SELECT_PROFILE': PROFILE})
-    argv = [str(tool_home / part) if part == 'bin/verifast' else part for part in NATIVE_ARGV]
+    env['SORT4_R24_W4_FINGERPRINT_MODE'] = '1'
+    env['SORT4_R24_W4_FINGERPRINT_EVIDENCE_DIR'] = str(fingerprint_dir.resolve())
+    env['SORT4_R24_W4_FINGERPRINT_SOURCE_SHA256'] = NATIVE_VERIFIED_SOURCE_SHA256
+    argv = [str(native_tool_home / part) if part == 'bin/verifast' else part for part in NATIVE_ARGV]
     runner = stage_runner
     if runner is None:
         module = _load(repo / NATIVE_STAGE_RUNNER_REL,
@@ -314,6 +365,100 @@ def _native_facts(evidence: Path, stage: object) -> dict[str, Any]:
     return row
 
 
+def _native_fingerprint_environment(evidence: Path) -> dict[str, str]:
+    return {
+        'SORT4_R24_W4_FINGERPRINT_MODE': '1',
+        'SORT4_R24_W4_FINGERPRINT_EVIDENCE_DIR': str((evidence / CASE_REL / 'fingerprints').resolve()),
+        'SORT4_R24_W4_FINGERPRINT_SOURCE_SHA256': NATIVE_VERIFIED_SOURCE_SHA256,
+    }
+
+
+def _fingerprint_facts(evidence: Path) -> dict[str, Any]:
+    directory = evidence / CASE_REL / 'fingerprints'
+    row: dict[str, Any] = {'directory': (CASE_REL / 'fingerprints').as_posix(),
+                           'directory_safe': False, 'complete': False,
+                           'files': {}, 'extra_names': []}
+    if not directory.is_dir() or directory.is_symlink() or \
+       not directory.resolve().is_relative_to((evidence / CASE_REL).resolve()):
+        row['missing_or_unsafe'] = True
+        return row
+    row['directory_safe'] = True
+    try:
+        entries = list(directory.iterdir())
+        expected = set(FINGERPRINT_FILES)
+        row['extra_names'] = sorted(path.name for path in entries if path.name not in expected)
+        for name in FINGERPRINT_FILES:
+            path = directory / name
+            if path.is_file() and not path.is_symlink() and \
+               path.resolve().is_relative_to(directory.resolve()):
+                raw = path.read_bytes()
+                row['files'][name] = {'path': (CASE_REL / 'fingerprints' / name).as_posix(),
+                                      'bytes': len(raw), 'sha256': digest(raw),
+                                      'regular_nonempty': bool(raw)}
+            else:
+                row['files'][name] = {'path': (CASE_REL / 'fingerprints' / name).as_posix(),
+                                      'missing_or_unsafe': True}
+        row['complete'] = (not row['extra_names'] and set(path.name for path in entries) == expected and
+                           all(isinstance(row['files'].get(name), dict) and
+                               row['files'][name].get('regular_nonempty') is True
+                               for name in FINGERPRINT_FILES))
+    except OSError as exc:
+        row['inventory_error'] = type(exc).__name__ + ': ' + str(exc)
+    return row
+
+
+def _validate_native_fingerprint(evidence: Path, stage: object, facts: dict[str, Any],
+                                 fingerprints: dict[str, Any],
+                                 tool_before: dict[str, Any] | None,
+                                 tool_after: dict[str, Any] | None) -> list[str]:
+    errors = []
+    if not _stage_is_ran(stage):
+        errors.append('native fingerprint stage missing, NOT_RUN, or wrong type')
+        return errors
+    if stage.get('exit') != 2:
+        errors.append('native fingerprint stage did not use required exit-2 refusal')
+    logs = facts.get('logs', {})
+    stderr_record, stdout_record = logs.get('stderr'), logs.get('stdout')
+    if not isinstance(stderr_record, dict) or stderr_record.get('missing_or_unsafe') is True or \
+       not isinstance(stdout_record, dict) or stdout_record.get('missing_or_unsafe') is True:
+        errors.append('native fingerprint stdout/stderr missing or unsafe')
+    else:
+        try:
+            stderr_lines = (evidence / stderr_record['path']).read_text(encoding='utf-8').splitlines()
+            stdout_lines = (evidence / stdout_record['path']).read_text(encoding='utf-8').splitlines()
+            if stderr_lines.count(FINGERPRINT_REFUSAL_STDERR) != 1:
+                errors.append('native fingerprint refusal diagnostic missing or duplicated')
+            unit_matches = [re.fullmatch(
+                r'SORT4-R24-W4-FINGERPRINT: unit bytes=([1-9][0-9]*) sha256=([0-9a-f]{64}) body_index=0', line)
+                for line in stdout_lines]
+            body_matches = [re.fullmatch(
+                r'SORT4-R24-W4-FINGERPRINT: sort4_stable-body bytes=([1-9][0-9]*) sha256=([0-9a-f]{64}) body_index=0', line)
+                for line in stdout_lines]
+            unit_matches = [match for match in unit_matches if match is not None]
+            body_matches = [match for match in body_matches if match is not None]
+            if len(unit_matches) != 1 or len(body_matches) != 1:
+                errors.append('native fingerprint stdout unit/body marker inventory differs')
+            elif fingerprints.get('complete') is True:
+                unit = fingerprints['files'].get('w4-native-unit.marshal', {})
+                body = fingerprints['files'].get('w4-native-body-0.marshal', {})
+                if (unit_matches[0].group(1) != str(unit.get('bytes')) or
+                        unit_matches[0].group(2) != unit.get('sha256') or
+                        body_matches[0].group(1) != str(body.get('bytes')) or
+                        body_matches[0].group(2) != body.get('sha256')):
+                    errors.append('native fingerprint stdout markers differ from snapshot bytes')
+            marker_count = sum(line.count('SORT4-R24-W4-FINGERPRINT:')
+                               for line in stdout_lines + stderr_lines)
+            if marker_count != 3:
+                errors.append('native fingerprint marker count differs')
+        except (OSError, UnicodeError, KeyError) as exc:
+            errors.append('native fingerprint marker log reread failed: ' + type(exc).__name__)
+    if fingerprints.get('complete') is not True or fingerprints.get('missing_or_unsafe') is True:
+        errors.append('native fingerprint snapshot inventory incomplete')
+    if not isinstance(tool_before, dict) or not isinstance(tool_after, dict) or tool_before != tool_after:
+        errors.append('native fingerprint tool identity changed across stage')
+    return errors
+
+
 def _validate_native(evidence: Path, stage: object, facts: dict[str, Any], hashes: dict[str, str],
                      tool_home: Path) -> list[str]:
     errors = []
@@ -347,6 +492,7 @@ def _validate_native(evidence: Path, stage: object, facts: dict[str, Any], hashe
 def _initial_report(args: argparse.Namespace) -> dict[str, Any]:
     return {'schema': SCHEMA, 'complete': False, 'classification': 'INCOMPLETE_W4_LINKAGE_DIAGNOSTIC',
             'candidate': args.candidate, 'capture_complete': False, 'typed_call_inventory_complete': False,
+            'native_fingerprint_complete': False,
             'verifier_invoked': False, 'actual_body_proof_status': 'UNKNOWN',
             'call_linkage': False, 'accepted': False, 'publication_allowed': False,
             'proof_credit': 0, 'independent_proof_credit': 0, 'runner_exit': None,
@@ -363,7 +509,7 @@ def _services(services: dict[str, Any] | None, cloud: Path):
 
 
 def run(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -> dict[str, Any]:
-    repo, cloud, evidence, tool_home = _validate_context(args, fresh=True)
+    repo, cloud, evidence, tool_home, native_tool_home = _validate_context(args, fresh=True)
     output = evidence / SUMMARY_REL
     report = _initial_report(args)
     write_json(output, report)
@@ -415,27 +561,39 @@ def run(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -> 
         native_root = evidence / CASE_REL
         hashes = _capture_source_files(evidence, capture_report, capture, native_root)
         report['native_source_hashes'] = hashes
-        report['failed_stage'] = 'first-barrier'
+        report['failed_stage'] = 'native-fingerprint-probe'
+        report['native_tool_identity_before'] = _native_tool_identity(native_tool_home)
+        report['native_fingerprint_environment'] = _native_fingerprint_environment(evidence)
         write_json(output, report)
-        stage = _native_stage(args, repo, evidence, tool_home, hashes,
+        stage = _native_stage(args, repo, evidence, native_tool_home, hashes,
                               (services or {}).get('native_stage_runner'))
         facts = _native_facts(evidence, stage)
+        fingerprint_facts = _fingerprint_facts(evidence)
         report['native'] = facts
+        report['native_fingerprints'] = fingerprint_facts
         report['verifier_invoked'] = facts['verifier_invoked']
         source_after = _source_state(repo)
         report['source_before'] = source_before
         report['source_after'] = source_after
         report['source_intact'] = source_after.get('intact') is True and source_after == source_before
         report['tool_hashes_after'] = _tool_hashes(tool_home)
-        report['errors'].extend(_validate_native(evidence, stage, facts, hashes, tool_home))
+        report['native_tool_identity_after'] = _native_tool_identity(native_tool_home)
+        native_errors = _validate_native(evidence, stage, facts, hashes, native_tool_home)
+        fingerprint_errors = _validate_native_fingerprint(
+            evidence, stage, facts, fingerprint_facts,
+            report['native_tool_identity_before'], report['native_tool_identity_after'])
+        report['native_fingerprint_complete'] = not native_errors and not fingerprint_errors
+        report['errors'].extend(native_errors)
+        report['errors'].extend(fingerprint_errors)
         if report['source_intact'] is not True:
             report['errors'].append('repository source changed during diagnostic')
         if report['tool_hashes_after'] != report['tool_hashes']:
             report['errors'].append('qualified tool identity changed during diagnostic')
         complete = not report['errors']
         report['complete'] = complete
-        report['classification'] = 'COMPLETE_RAW_W4_DIAGNOSTIC' if complete else 'INCOMPLETE_W4_LINKAGE_DIAGNOSTIC'
-        report['failed_stage'] = 'complete' if complete else 'first-barrier'
+        report['classification'] = ('COMPLETE_W4_NATIVE_FINGERPRINT_DIAGNOSTIC' if complete
+                                    else 'INCOMPLETE_W4_LINKAGE_DIAGNOSTIC')
+        report['failed_stage'] = 'complete' if complete else 'native-fingerprint-probe'
         return _finish(report, output, evidence, 0 if complete else 4)
     except BaseException as exc:
         report['complete'] = False
@@ -453,6 +611,11 @@ def run(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -> 
                 report['tool_hashes_after'] = _tool_hashes(tool_home)
             except BaseException as snapshot_exc:
                 report['tool_snapshot_error'] = type(snapshot_exc).__name__ + ': ' + str(snapshot_exc)
+        if 'native_tool_identity_before' in report and 'native_tool_identity_after' not in report:
+            try:
+                report['native_tool_identity_after'] = _native_tool_identity(native_tool_home)
+            except BaseException as snapshot_exc:
+                report['native_tool_snapshot_error'] = type(snapshot_exc).__name__ + ': ' + str(snapshot_exc)
         report['exception'] = {'type': type(exc).__name__, 'message': str(exc),
                                'traceback': traceback.format_exc()}
         try:
@@ -473,8 +636,8 @@ def _validate_capture_pins(report: dict[str, Any], pins: dict[str, Any]) -> None
     need(isinstance(pinned_source, dict) and source.get('source_sha256') == pinned_source.get('source_sha256') == SOURCE_SHA256 and
          source.get('source_git_blob') == pinned_source.get('source_git_blob') ==
          '40939f922bcb6fdc7ee0d30427fa861827043827' and source.get('target') == pinned_source.get('target') == 'sort4_stable' and
-         source.get('original_sha256') == pinned_source.get('original_sha256') and
-         source.get('verified_sha256') == pinned_source.get('verified_sha256'),
+         source.get('original_sha256') == pinned_source.get('original_sha256') == NATIVE_ORIGINAL_SOURCE_SHA256 and
+         source.get('verified_sha256') == pinned_source.get('verified_sha256') == NATIVE_VERIFIED_SOURCE_SHA256,
          'fresh capture source identity differs')
     for key in ('normal', 'readonly'):
         mir = report.get('mir', {}).get(key) if isinstance(report.get('mir'), dict) else None
@@ -526,7 +689,7 @@ def _inventory(evidence: Path, output: Path) -> list[dict[str, Any]]:
 
 
 def audit(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -> dict[str, Any]:
-    repo, cloud, evidence, tool_home = _validate_context(args)
+    repo, cloud, evidence, tool_home, native_tool_home = _validate_context(args)
     output = Path(args.output).resolve() if args.output else evidence / AUDIT_REL
     need(output.is_relative_to(evidence) and not output.is_symlink(),
          'audit output must be a regular path under evidence')
@@ -543,6 +706,7 @@ def audit(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -
                               cloud / MIR_CALLS_REL.name)
         report['mode_sha256'] = MODE_SHA256
         report['tool_hashes'] = _tool_hashes(tool_home)
+        report['native_tool_identity'] = _native_tool_identity(native_tool_home)
         capture_args = _capture_args(args, capture_mode)
         capture_args.output = str(evidence / 'W4-CAPTURE-AUDIT.json')
         capture_audit = capture.audit(capture_args)
@@ -558,6 +722,10 @@ def audit(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -
             report['errors'].append('runner exit/stage does not report complete diagnostic')
         if summary.get('candidate') != args.candidate or summary.get('complete') is not True:
             report['errors'].append('summary candidate/completion differs')
+        if summary.get('classification') != 'COMPLETE_W4_NATIVE_FINGERPRINT_DIAGNOSTIC' or \
+           summary.get('typed_call_inventory_complete') is not True or \
+           summary.get('native_fingerprint_complete') is not True:
+            report['errors'].append('summary diagnostic completion facts differ')
         if summary.get('route') != route or summary.get('mode_sha256') != MODE_SHA256 or \
            summary.get('capture_mode_sha256') != CAPTURE_MODE_SHA256 or \
            summary.get('capture_pins_sha256') != CAPTURE_PINS_SHA256 or \
@@ -565,6 +733,11 @@ def audit(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -
             report['errors'].append('summary route or mode/dependency identity differs')
         if summary.get('tool_hashes') != TOOL_HASHES or summary.get('tool_hashes_after') != TOOL_HASHES:
             report['errors'].append('summary tool identity differs')
+        if summary.get('native_fingerprint_environment') != _native_fingerprint_environment(evidence):
+            report['errors'].append('native fingerprint child environment differs')
+        if summary.get('native_tool_identity_before') != summary.get('native_tool_identity_after') or \
+           summary.get('native_tool_identity_before') != report['native_tool_identity']:
+            report['errors'].append('native fingerprint tool identity differs')
         if summary.get('accepted') is not False or summary.get('publication_allowed') is not False or \
            type(summary.get('proof_credit')) is not int or summary.get('proof_credit') != 0 or \
            summary.get('call_linkage') is not False or summary.get('actual_body_proof_status') != 'UNKNOWN':
@@ -589,7 +762,13 @@ def audit(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -
         if not isinstance(hashes, dict):
             report['errors'].append('native source hash map missing')
             hashes = {}
-        report['errors'].extend(_validate_native(evidence, stage, facts, hashes, tool_home))
+        report['errors'].extend(_validate_native(evidence, stage, facts, hashes, native_tool_home))
+        fingerprint_facts = _fingerprint_facts(evidence)
+        if fingerprint_facts != summary.get('native_fingerprints'):
+            report['errors'].append('physical native fingerprint snapshot bytes/inventory changed')
+        report['errors'].extend(_validate_native_fingerprint(
+            evidence, stage, facts, fingerprint_facts,
+            summary.get('native_tool_identity_before'), summary.get('native_tool_identity_after')))
         source_before, source_after = summary.get('source_before'), _source_state(repo)
         if source_before != source_after or summary.get('source_after') != source_after or \
            summary.get('source_intact') is not True:
@@ -615,11 +794,10 @@ def parser() -> argparse.ArgumentParser:
     for cmd in ('run', 'audit'):
         p = subs.add_parser(cmd)
         for name in ('repo', 'cloud-dir', 'evidence', 'tool-home', 'schema', 'compiler-sysroot',
-                     'capture-mode-file', 'mode-file', 'candidate'):
+                     'native-tool-home', 'capture-mode-file', 'mode-file', 'candidate'):
             p.add_argument('--' + name, required=True)
-        if cmd == 'run':
-            p.add_argument('--deadline-epoch', required=True, type=int)
-        else:
+        p.add_argument('--deadline-epoch', required=True, type=int)
+        if cmd == 'audit':
             p.add_argument('--output')
             p.add_argument('--runner-exit', required=True, type=int)
             p.add_argument('--failed-stage', required=True)
