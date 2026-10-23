@@ -1,0 +1,48 @@
+{
+  "applicability": "Same N7 cold-image setup boundary only: E2_STANDARD_2/jobs2, full1740 timeout+60 queue+240 report, unchanged exact source/tool/registry pins and warm semantics.",
+  "baseline_commit": "14a91c3e674afc835167dd8ea646413c4e9c5882",
+  "candidate_commit": "2df9908134a736965bcea6921cebcd16584b2a08",
+  "controls": [
+    "6 synthetic rr_lane/config tests PASS, including cold2/8 allowed types and cross-stage/unauthorized sizes refused.",
+    "Existing cold audit/source/ghost controls unchanged.",
+    "Metadata observation uses normal branch status only; Brief HTTP404 recorded without raw fallback or frontend/proof inference."
+  ],
+  "defect": "First cold Build expired before any step; source metadata reports execution0,297s charged, Brief404. Cold resource request may be reduced within owner-authorized one setup repair; cause UNKNOWN.",
+  "dependencies": [
+    "research/challenge-8/agent-workflow/CORE.md",
+    "research/challenge-8/agent-workflow/RUNTIME-CODEX.md",
+    "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/G1-PINNED-FRONTEND-AUDIT.md",
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1/annotate.py",
+    "research/challenge-8/network/rr/g1/verify_inputs.py",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/exact-infra-transport-controls.py"
+  ],
+  "invariants": [
+    "No runtime std or RR frontend/semantics modifications; exact RR332d945f/treeb33bcccb, compiler nightly2026-08-28/archiveSHA, stdcd371e0.",
+    "No only_spec/shims/strongerFnMut/Copy/Freeze/purity or trusted premises; retain p0 before target and all ghost-strip/source/cleanup requirements.",
+    "No coordinator/IAM/shared transport/foreign lane or ledger changes; previous N13 configurations and envelopes preserved.",
+    "Cold1740/1800 E2_HIGHCPU_8 max2 with recorded setup repair; warm1200/1260 E2_STANDARD_2 max2 with evidence repair;240 report reserve; unknown submit never retried.",
+    "Registry is exact assigned smallsort-tools/refinedrust-g1; warm requires canonical digest and reviewed cold receipt/binary freeze. Collector success is diagnostic, proofcredit0."
+  ],
+  "known_limitations": [
+    "Brief unavailable for pre-execution expired Build; no actual RR/image execution evidence exists. Cause of scheduling wait UNKNOWN.",
+    "One cold repair only. No shortened timeout or new trusted premises. Image digest remains null.",
+    "After review, ledger.setup_repair will bind prior Build and exact published semantic candidate SHA before dispatch; metadata commits may be descendants without semantic changes."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
+      "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

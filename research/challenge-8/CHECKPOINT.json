@@ -24,7 +24,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold EXPIRED; metadata execution0s; Brief pending."
+    "summary": "Cold EXPIRED before steps; Brief404; repair reviewed."
   },
   "confirmed": [
     {
@@ -50,6 +50,20 @@
           "sha256": "888ea07e2e4315daa797e0dea8cceb7d4e5c7d3f3ba9106efad3811c3ab4883f"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "First cold efd32c5f EXPIRED: metadata execution0/step fields null,297s accounted; Brief404. Same Luna HIGH approves one changed setup retry, no proof claim.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-COLD-EXPIRED-OBSERVATION.json",
+          "sha256": "42e95937952feeee7118dedb274ef5bb9342ffb8afe6bbeba3fb746601ccbf15"
+        },
+        {
+          "path": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
+          "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
+        }
+      ]
     }
   ],
   "last_terminal_build": {
@@ -61,10 +75,11 @@
     "proof_credit": 0,
     "status": "EXPIRED"
   },
-  "next_step": "Read Brief; changed setup repair only if supported.",
+  "next_step": "Submit single changed cold repair; Brief/accounting push first.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
-    "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
+    "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources.",
+    "Expired cold Build efd32c5f has Brief404; scheduler cause UNKNOWN. Admin audit would require separate authorization; no proof evidence inferred."
   ],
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N7",
@@ -94,9 +109,16 @@
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
+  "setup_repair": {
+    "candidate_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
+    "evidence": "research/challenge-8/network/rr/N7-COLD-EXPIRED-OBSERVATION.json",
+    "prior_build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+    "reason": "Metadata-only pre-execution EXPIRED; cause UNKNOWN; Brief404 unavailable. Single changed E2_STANDARD_2/jobs2 setup retry, same1740/60/240.",
+    "review": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json"
+  },
   "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:12:09Z",
+  "updated_utc": "2026-10-23T21:15:32Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "ff54c407-7dc3-49de-9e31-7c6973afccc2",
