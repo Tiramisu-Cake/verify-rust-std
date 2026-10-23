@@ -48,10 +48,10 @@ Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WIN
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · HANDOFF**
-Updated: 2026-10-23T09:07:20Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 667s spent, 0s retired, 2933s remaining including reservations.
-Active Build IDs: cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9; unresolved: none recorded.
-Blocker: R23 R22b proof rejects owner shared cleanup predecessor inventory before SE; investigate exact new ghost CFG/cleanup IDs. Positive/leak and control targets unverified.
-Next: Ack thirdproof watcher thenBriefcf8405cc positivefirst; boundedparallelproofrowreader /tmp/r23-proof-rows-reader.py ready. Ifcleanpositivefresh7targets/matrixcandidate; no newsubmitafter09:12:19 fullenvelope, continueofflineuntil09:37.
+**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · CLOSED**
+Updated: 2026-10-23T09:38:10Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 998s spent, 2602s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: S3 positive fails dead-code check after outer return/leak-check event; cause unresolved. Synthetic ghost unwind-successor inventory hypothesis under static review; no suppression allowed.
+Next: Newowner-authorizedwindowonly: freshT0/phase/ledger registration; full1200proof ofreviewedUNBUILT103a34samefingerprintrows; fixclassifierprovenance/timestampbugs andqualifymatrixonlyaftercleanpositive. No R23authority/budgettransfer.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

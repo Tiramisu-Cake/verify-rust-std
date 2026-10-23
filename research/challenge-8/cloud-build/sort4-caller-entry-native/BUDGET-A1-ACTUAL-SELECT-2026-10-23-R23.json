@@ -1,5 +1,5 @@
 {
-  "active_build": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+  "active_build": null,
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
@@ -61,11 +61,17 @@
       "submitted_config_sha256": "68c345469babd3b78308d7235679c073b6c0127d3ea34ab8b7a0e352e132c2aa",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "9ca227fad16a9e8a14aebf0b43303bc6172a84b441262801007248643222a8d9",
-      "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9"
+      "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+      "start_time": "2026-10-23T09:03:04.674360180Z",
+      "finish_time": "2026-10-23T09:08:33.929347Z",
+      "create_time": "2026-10-23T09:03:03.918736751Z",
+      "build_seconds": 331,
+      "accounted": true,
+      "execution_seconds": 330
     }
   ],
   "carry_seconds": 0,
@@ -80,13 +86,17 @@
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R23",
   "phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R23",
-  "remaining_build_seconds": 2933,
+  "remaining_build_seconds": 0,
   "report_reserve_seconds": 240,
-  "retired_seconds": 0,
+  "retired_seconds": 2602,
   "schema": "smallsort-cloud-phase-account-v1",
   "spent_build_seconds": 0,
   "start_utc": "2026-10-23T07:37:19Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
-  "used_build_seconds": 667
+  "used_build_seconds": 998,
+  "closed_utc": "2026-10-23T09:38:10Z",
+  "unused_retired_seconds": 2602,
+  "carry_forward_seconds": 0,
+  "closure_reason": "Main window ended09:37:19UTC. Three terminal/accounted Builds311+356+331=998s. Fingerprint739 complete8strictrows; e25 staleCFGrefusal; cf8405 compiledreviewedcoordinateoverlayandenteredSE, positiveexit1deadcodeafterouterreturn/leakcheckevent;7intendednegativeobservationsprovisional. No calleeacceptance orindependentproofcredit. No shortenedtimeouts/noBuildafterfullenvelopecutoff09:12:19. MainremainderusedforboundedMIR/tracebindings, mutableGOsourcechain/P2NOTPUBLISHED, classifierNO_GOprovenance/timestampboundary, andreviewedUNBUILTghostCFGcandidate103a34. Allactive/unresolvedIDsnone;unused2602retiredcarry0."
 }

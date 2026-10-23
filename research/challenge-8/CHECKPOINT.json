@@ -3,6 +3,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json",
       "sha256": "5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md",
+      "sha256": "9b8756b2527417701207bd0acdda593a32aa7e6c002af2984cd03542db97c83d"
     }
   ],
   "assignment_sha256": "519573575d27ac7013ed57f3e327b932e950a458bf703279a5897eb8083e25aa",
@@ -12,12 +16,12 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "summary": "R23 R22b proof rejects owner shared cleanup predecessor inventory before SE; investigate exact new ghost CFG/cleanup IDs. Positive/leak and control targets unverified.",
+    "summary": "S3 positive fails dead-code check after outer return/leak-check event; cause unresolved. Synthetic ghost unwind-successor inventory hypothesis under static review; no suppression allowed.",
     "evidence": [
       {
-        "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
-        "path": "research/challenge-8/task-history/select-callee-r23/S2-POSITIVE-ERROR.json",
-        "sha256": "a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250"
+        "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+        "path": "research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json",
+        "sha256": "5dc1604e74e89619fea102fadb2c2fc5181f8cfd8f80863297f41f9878a545db"
       }
     ]
   },
@@ -86,9 +90,20 @@
           "sha256": "a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R23 cf8405cc: CFGadmission passes, positive exit1 with deadcode. Outerreturn+leakcheckevent reached; sevennegative intendeddiagnostics observed. No calleeacceptance/credit.",
+      "evidence": [
+        {
+          "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+          "path": "research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json",
+          "sha256": "5dc1604e74e89619fea102fadb2c2fc5181f8cfd8f80863297f41f9878a545db"
+        }
+      ]
     }
   ],
-  "next_step": "Ack thirdproof watcher thenBriefcf8405cc positivefirst; boundedparallelproofrowreader /tmp/r23-proof-rows-reader.py ready. Ifcleanpositivefresh7targets/matrixcandidate; no newsubmitafter09:12:19 fullenvelope, continueofflineuntil09:37.",
+  "next_step": "Newowner-authorizedwindowonly: freshT0/phase/ledger registration; full1200proof ofreviewedUNBUILT103a34samefingerprintrows; fixclassifierprovenance/timestampbugs andqualifymatrixonlyaftercleanpositive. No R23authority/budgettransfer.",
   "open": [
     "Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.",
     "Callee controls observed at intended obligations (4) and no-retained-half at l.213; targets not yet pinned/reviewed.",
@@ -121,25 +136,23 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:07:19Z",
     "main_deadline_utc": "2026-10-23T09:37:19Z",
-    "remaining_seconds": 2933,
-    "retired_seconds": 0,
-    "spent_seconds": 667,
+    "remaining_seconds": 0,
+    "retired_seconds": 2602,
+    "spent_seconds": 998,
     "t0": "2026-10-23T07:37:19Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "CLOSED",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
-  "updated_utc": "2026-10-23T09:07:20Z",
+  "updated_utc": "2026-10-23T09:38:10Z",
   "mission_queue": [
     {
       "obligation": "W1 repaired fractional callee + seven intended controls + normal/unwind/nested-Drop acceptance",
-      "reason": "R22b fingerprint bound; proof e25 failed stale cleanup coordinates before SE. Exact NORMAL witnesses now support fractional-only coordinate fix, preserving source/unit/body and ten predecessors.",
+      "reason": "ActualCFGlayout repaired and Cloudcompiled. S3 reachedouterreturn/leakcheckbutfaileddeadcode; prepare narrow ghost-IR successor consistency candidate, not deadcode exemption.",
       "state": "ACTIVE"
     },
     {
@@ -151,6 +164,11 @@
       "obligation": "W4 dormant body C5 168/191 count-five requalification",
       "reason": "Choose next after callee acceptance/linkage; avoid premature summary or body admission.",
       "state": "WAIT_CALLEE_ACCEPTANCE"
+    },
+    {
+      "obligation": "Exact-seven-target classifier/audit qualification",
+      "reason": "SevenS3diagnostics observed; draftintegration awaitsreview and logSHA/provenance correction; cannotqualifymatrixwhilepositivefails.",
+      "state": "DRAFT_UNQUALIFIED"
     }
   ],
   "watcher_events": [
@@ -165,7 +183,24 @@
       "event_id": "0afc7efd-3677-453e-a7e5-67c1f16d0071",
       "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
       "ack_mode": "CONTINUE_EXISTING_WINDOW"
+    },
+    {
+      "job_id": "3cd055f0-9061-45a6-8793-e9bf450addfc",
+      "event_id": "19cc8ead-600f-47bd-b394-e4bcf5a1bd93",
+      "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "event_name": "monitor_error",
+      "resolution": "One штатный client status established terminal/accounted; Brief read next. No automatic rearm."
     }
   ],
-  "validation_correction": "Earlier5tests prepared actual std locally; CORE deviation preserved in VALIDATION-NOTES.md. Setup corrected to synthetic bytes; corrected30tests pass, no actual proof credit."
+  "validation_correction": "Earlier5tests prepared actual std locally; CORE deviation preserved in VALIDATION-NOTES.md. Setup corrected to synthetic bytes; corrected30tests pass, no actual proof credit.",
+  "closure_reason": "Main deadline reached; no early stop. All3Buildsaccounted. Callee/deadcodeOPEN; source-onlycandidate103a34reviewedGOunbuilt, classifierNO_GO, P2NOT_PUBLISHED. SeeR23handoff;unused2602retiredcarry0.",
+  "unbuilt_candidate": {
+    "semantic_commit": "a4737f9febf20ec5373eafa641268c26c6e674c7",
+    "metadata_candidate": "840d067e55e3f7d059c7f340e7a533b161a537ce",
+    "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+    "review": "GO_WITH_NITS",
+    "cloud": "UNBUILT",
+    "proof_credit": 0
+  }
 }
