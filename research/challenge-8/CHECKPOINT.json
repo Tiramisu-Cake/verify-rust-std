@@ -39,7 +39,7 @@
         "sha256": "bb7f9a2666ed62545ede30d785fc87b832d7a51f5cab1e8def62f1fbc5dc96e6"
       }
     ],
-    "summary": "Await mutable8 proof diagnostics; seven intendedtargets/refusals notpinned, P2 NOT_PUBLISHED."
+    "summary": "ca689 terminal FAILURE; matrix collection result awaiting Brief. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -935,7 +935,7 @@
     {
       "obligation": "Mutable full8 proof-stage diagnostics and fresh intended-target pins",
       "reason": "Clean cb6 positive androot auditcompletesource-reported; requiredsevennegativeproofs/targets mustbe observedfreshbeforeacceptance/refusal matrix andP2publication.",
-      "state": "BUILD_ACTIVE_MATRIX_DIAGNOSTICS"
+      "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -1197,19 +1197,20 @@
     "scope": "SOURCE_MIR_MATRIX_FINGERPRINT_ONLY; no typedcert/bodyproof/publication/credit"
   },
   "mutable_matrix_proof_build": {
-    "accounted": false,
+    "accounted": true,
     "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+    "build_seconds": 394,
     "candidate": "3a71cd2b8fdeea5e565da6cdf131597b981087a0",
     "config_sha256": "c20959c240235b2ba9412dfc5d63433832f5a37b4ac16e6faccda3892b9b99bd",
     "dispatch_token": "dispatch-e18e3742778647839fd7efa2018f0b63",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "schema": "select-r24-mut-matrix-proof-submission-v1",
     "scope": "MUTABLE8_PROOF_DIAGNOSTIC_COLLECTION_TARGETS_UNPINNED",
     "source_payload_sha256": "e492d0a730c49915f1de55daaab27573ce3d1a6d52b1a38398a310eb380727b0",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "targets_pinned": false,
     "timeout_seconds": 1200
   },
@@ -1226,7 +1227,7 @@
       "sha256": "9595e67ab7972a20a6bf717c4c99d39ee4fba9f30ff9e8f3e086b9aa2f337933"
     },
     "scope": "MUTABLE8_PROOF_DIAGNOSTIC_COLLECTION_TARGETS_UNPINNED",
-    "state": "BUILD_ACTIVE"
+    "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
   },
   "mutable_matrix_proof_decision": {
     "choice": "New exact closed matrix-diagnostic mode in same lane, reusing unchanged frozen proof library in all8 mode. Separate wrapper validates all currentnative/source/snapshot/physicalstage/logmarker identities and intactsources; retains UNKNOWN negativeclassifications and original libraryrecords. New diagnosticcomplete means collectedstages, not intended-target acceptance. No native/tool/sourcepins changed.",
@@ -1370,8 +1371,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK event; immediately commit/push terminal accounting+views; then Brief7 negative diagnostics.",
-  "next_step": "ACK event; immediately commit/push terminal accounting+views; then Brief7 negative diagnostics.",
+  "next": "Evidence Brief ca689: matrix completeness, seven native proof diagnostics; no green-only retry.",
+  "next_step": "Evidence Brief ca689: matrix completeness, seven native proof diagnostics; no green-only retry.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated."
@@ -1415,17 +1416,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "ca689298-e7d6-41ed-9127-665422a679bd"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 16304,
+    "remaining_seconds": 15910,
     "retired_seconds": 0,
-    "spent_seconds": 5296,
+    "spent_seconds": 5690,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1437,17 +1436,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T20:16:00Z",
-  "watcher_handoff": {
-    "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
-    "checkpoint_frozen_after_arm": true,
-    "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
-    "spec_path": "/tmp/select-r24-mut-matrix-proof-watch.json",
-    "store": "/root/.local/state/smallsort-watch-select-r24",
-    "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-  },
+  "updated_utc": "2026-10-23T20:22:35Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -1609,6 +1600,17 @@
       "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
       "event_id": "a9b0ddbd-bbfb-467e-a2c5-41fd14db5769",
       "spec_path": "/tmp/select-r24-mut-successor-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T20:22:17Z",
+      "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+      "event_id": "a9870cfd-7155-418a-bf0e-633cecebad87",
+      "spec_path": "/tmp/select-r24-mut-matrix-proof-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
