@@ -1,0 +1,99 @@
+{
+  "accepted": false,
+  "admission_record_created": false,
+  "admitted": false,
+  "attempt_counting": {
+    "cold_actual_starts_max": 2,
+    "cold_start_boundary": "Evidence Brief confirms execution of target RR Dockerfile",
+    "infrastructure_submits": "Budget/window bounded; no derived numeric setup limit",
+    "owner_policy": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+    "unknown_start": "UNKNOWN; never infer exhaustion from submit count",
+    "warm_attempts_max": 2
+  },
+  "authorization_phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+  "cloud_build_enabled": false,
+  "compiler": {
+    "channel": "nightly-2026-08-28",
+    "rustc_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "created": "2026-10-24",
+  "created_by": "coordinator (owner decision 2026-10-23: registry route)",
+  "envelopes": {
+    "cold_image": {
+      "attempts": "1 + 1 setup-error repair",
+      "reservation_seconds": 1800,
+      "timeout_seconds": 1740
+    },
+    "warm_g1": {
+      "attempts": 2,
+      "reservation_seconds": 1260,
+      "timeout_seconds": 1200
+    }
+  },
+  "flags": {
+    "admitted": false,
+    "cloud_build_enabled": false,
+    "independent_credit": false,
+    "profile_accepted": false,
+    "proof_credit": false
+  },
+  "formal_verification_passed": false,
+  "g1_package": {
+    "branch": "research/refinedrust-feasibility-20261011",
+    "commit": "68671873669cd8578796ad4cb74f0fc28e622f2f",
+    "path": "research/challenge-8/refinedrust-feasibility/g1-minimal"
+  },
+  "image_build": {
+    "base_os_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "cargo_jobs_cold": 2,
+    "cold_executor": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "docker_api_target": "1.41",
+    "docker_client": "Cloud-only apt docker.io in pinned Ubuntu executor; existing daemon socket",
+    "freeze": "image digest + sha256 of rustc/cargo/cargo-refinedrust/refinedrust-rustc + apt package list + Cargo.lock recorded in the cold Build evidence; the offline deb/vendor/cargo-config gates of the N6 package are retired for G1",
+    "image_digest": null,
+    "machine_type_cold": "E2_STANDARD_2",
+    "machine_type_warm": "E2_STANDARD_2",
+    "network_during_image_build": "enabled (owner decision 2026-10-23): pinned archives by SHA-256, RR git clone at the pinned commit verified by tree hash, crates by rr_frontend Cargo.lock --locked",
+    "rr_frontend_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+    "rust_archives_sha256": {
+      "cargo": "1fb253af555a7edd3758bc3a00ddf262f6d5114a21e43e7c5d8207ea34887cb7",
+      "llvm-tools-preview": "88967a1ad48a1784e558fe8324b693322d3e49c498554712e20339ceb7516d00",
+      "rust-src": "6e6713037291a3880e3c9b3c5949a516d5064250541bfb88cb20226285c50a91",
+      "rust-std": "73c5854230a3424379137953e835ce0c83d0282929214722e43831bebd547ce3",
+      "rustc": "b41f2e026eae47d66d67b9199c31084e470a05166c78d6770e8a838f8e98331f",
+      "rustc-dev": "f6a29511f80d08ff780a566b63ee54775d8f875b33716202035641748e40be71"
+    }
+  },
+  "independent_credit": false,
+  "lane": "network-rr-g1",
+  "owner": "network",
+  "profile_accepted": false,
+  "profile_id": "RR-G1-PROFILE-20261024-N8",
+  "proof_credit": false,
+  "purpose": "RefinedRust G1 frontend-admission diagnostic on exact core insert_tail; generation/diagnostic only, no safety PASS, no proof credit",
+  "registry": {
+    "builder_role": "roles/artifactregistry.writer (smallsort-builder@, granted 2026-10-23)",
+    "dispatcher_role": "roles/artifactregistry.reader (smallsort-dispatcher@, granted 2026-10-23, read verified from VPS)",
+    "image": "refinedrust-g1",
+    "repository": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools"
+  },
+  "route": "ONLINE_IMAGE_BUILD_TO_ARTIFACT_REGISTRY",
+  "schema": "smallsort-cloud-profile-draft-v1",
+  "status": "DRAFT_UNQUALIFIED",
+  "std_source": {
+    "frozen_g1_package_baseline": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "note": "Re-anchor the G1 annotations on the preferred baseline; fall back to the frozen package baseline only with a recorded mismatch",
+    "preferred_baseline": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "selected_baseline": "cd371e035c7e573760c43bf934d53e8118ee3e7d"
+  },
+  "supersedes": "RR-G1-PROFILE-20261024-N7",
+  "tool": {
+    "frontend_patches_allowed": false,
+    "name": "refinedrust",
+    "patched": false,
+    "source_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "source_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "upstream": "https://gitlab.mpi-sws.org/lgaeher/refinedrust-dev.git"
+  }
+}
