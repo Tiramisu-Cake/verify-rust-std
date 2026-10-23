@@ -148,3 +148,10 @@ log/status/audit identities are in [RR-G1-RESULT](RR-G1-RESULT.md). Total391s
 spent,5009s retired/carry0. No image freeze, RR rejection, finite missing-spec
 list or cleanup-generation result was obtained. No third cold Build withinN7.
 N6 remains in N6-RR-G1-RESULT.md; original feasibility branch unchanged.
+
+
+## Network N8 update — 2026-10-23 UTC
+
+**INCONCLUSIVE; proofcredit0/readiness unchanged.** Docker API1.41 repair worked: cold03245c6c SUCCESS741s produced canonical image sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d and exact binary/receipt freeze. One Brief-confirmed target Dockerfile start. Warm778dfce1 FAILURE106s stopped at tool-inputs because branch verifier rejected the pinned tracked `.claude/skills` symlink; source-preserving exact-link validation was reviewed and synthetically tested. Final warm repair2aecb78a FAILURE195s has no available Evidence Brief after bounded HTTP404 retries. Its causal stage/target generation/cleanup/specs remain UNKNOWN; no frontend refusal or proof is inferred. Administrative audit requires separate explicit authorization; no raw fallback.
+
+N8 total1042/5009s,3967retired/carry0; two warm attempts used, no further RR Builds. N7 account and N6/N7 reports preserved. Final Select512b338 has no applicable PUBLISHED mutable P2; W7/W8 dependencies remain unavailable. Exact identities and limitations: [N8-RR-G1-RESULT](N8-RR-G1-RESULT.md), [N8-RESULT-IDENTITIES](N8-RESULT-IDENTITIES.json). Original feasibility branch unchanged; RR frontend/semantics unpatched.

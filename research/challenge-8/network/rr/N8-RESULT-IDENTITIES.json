@@ -1,0 +1,165 @@
+{
+  "binaries": {
+    "cargo": {
+      "path": "/opt/rust/bin/cargo",
+      "sha256": "81e71237e670052998ed706b53d48e2b54aaefce5662eee37d2fb29835808bbe"
+    },
+    "cargo-refinedrust": {
+      "path": "/opt/rr-bin/cargo-refinedrust",
+      "sha256": "db9ef5010cf49d11948563e96fbf5f8ba1139692bdf7a570dd30ae2327ef3987"
+    },
+    "refinedrust-rustc": {
+      "path": "/opt/rr-bin/refinedrust-rustc",
+      "sha256": "edd6055e64c6095357b6192f4bb3cece5cd0d0dc1643606e5707797cdfa8ab0a"
+    },
+    "rustc": {
+      "path": "/opt/rust/bin/rustc",
+      "sha256": "c1e36d28c57b7a1a17c4dd8e7857fdaeeee35307357cb3aaa7d96170c81f1c7d"
+    }
+  },
+  "budget_seconds": 5009,
+  "builds": [
+    {
+      "accounted": true,
+      "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
+      "build_seconds": 741,
+      "create_time": "2026-10-23T21:44:33.026384146Z",
+      "dispatch_token": "dispatch-30e7a52507004afc9732efef720800cd",
+      "execution_seconds": 740,
+      "finish_time": "2026-10-23T21:56:53.454256Z",
+      "infra_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+      "lane": "network-rr-g1",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+      "proof_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+      "publish_text_logs": true,
+      "reserved_seconds": 1800,
+      "source_input_sha256": "837ca917fe73df7c2c4475fc6ad64f5202a1e65d054c83341d101093cfde6ded",
+      "source_mode": "pinned-objects",
+      "stage": "cold-image",
+      "start_time": "2026-10-23T21:44:33.791034863Z",
+      "status": "SUCCESS",
+      "submitted_config_sha256": "5e083d5cd1bb32cc00b37252f1fa5e8aa090cf2c7cda1f91fcb85e4d0ddd9988",
+      "timeout_seconds": 1740
+    },
+    {
+      "accounted": true,
+      "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
+      "build_seconds": 106,
+      "create_time": "2026-10-23T22:09:04.456648598Z",
+      "dispatch_token": "dispatch-7afa3bcb94ef4653ba9b6e6bedbd66d9",
+      "execution_seconds": 105,
+      "finish_time": "2026-10-23T22:10:49.542212Z",
+      "infra_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+      "lane": "network-rr-g1",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+      "proof_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+      "publish_text_logs": true,
+      "reserved_seconds": 1260,
+      "source_input_sha256": "4218b332e1a260bc50b75a0e823cec9f1b43b44c2c1a34c2bc02d9ca93fac6fb",
+      "source_mode": "pinned-objects",
+      "stage": "warm-g1",
+      "start_time": "2026-10-23T22:09:05.180858950Z",
+      "status": "FAILURE",
+      "submitted_config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
+      "timeout_seconds": 1200
+    },
+    {
+      "accounted": true,
+      "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+      "build_seconds": 195,
+      "create_time": "2026-10-23T22:17:16.011033844Z",
+      "dispatch_token": "dispatch-3b9fba6d49dd4095a97e5165209c2fc6",
+      "execution_seconds": 194,
+      "finish_time": "2026-10-23T22:20:30.090307Z",
+      "infra_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+      "lane": "network-rr-g1",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+      "proof_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+      "publish_text_logs": true,
+      "reserved_seconds": 1260,
+      "source_input_sha256": "d87a6668eb1148a7f3dd3feb56ff71829cf088cd2b91c4b3972248712af77be3",
+      "source_mode": "pinned-objects",
+      "stage": "warm-g1",
+      "start_time": "2026-10-23T22:17:16.686191229Z",
+      "status": "FAILURE",
+      "submitted_config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
+      "timeout_seconds": 1200
+    }
+  ],
+  "carry_seconds": 0,
+  "classification": "INCONCLUSIVE",
+  "compiler_channel": "nightly-2026-08-28",
+  "compiler_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+  "evidence_refs": [
+    {
+      "path": "research/challenge-8/network/rr/N8-COLD-IMAGE-EVIDENCE.json",
+      "sha256": "1993ca7e07be69929d41fb349f50eed4c65767e8d60030e9b8959b9161361aa6"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json",
+      "sha256": "d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-INDEPENDENT-REVIEW.json",
+      "sha256": "54a3c4c36bead4fffd90895f3a2127b78a0a9eefa2b46ef5b1ea777737978c7f"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-FREEZE-REVIEW.json",
+      "sha256": "da1b1f4324bf827673666c2c3e8c19849599af34bb6b25720f5a8e68f9770c39"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-WARM-REPAIR-REVIEW.json",
+      "sha256": "29e62838ea50189cc37d8c476621c387069808e1c2bd1008b7453f390fc8d055"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-SELECT-FINAL-RECHECK.json",
+      "sha256": "ee39c072de941be51d2514b1be378128581c92dc5ba0e0f1e2734abe268d7b51"
+    },
+    {
+      "path": "research/challenge-8/network/rr/g1-minimal/annotations.json",
+      "sha256": "689c32728c6fcf205e4299a53d5f0ff3976cd710f88241fb1ec96d862aae7ff0"
+    },
+    {
+      "path": "research/challenge-8/network/rr/g1-minimal/inputs.json",
+      "sha256": "a683bb98b1fa292335e7aaae26ca460bf292f7af84bbebfae8dbcaf6ef87be5c"
+    },
+    {
+      "path": "research/challenge-8/network/rr/g1-minimal/freeze.json",
+      "sha256": "5d7cb952a18a366ff077108840c7f898d3b5c52d1e4adc734c038e6be512f1af"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-WARM2-EVIDENCE-AVAILABILITY.json",
+      "sha256": "f79e0f984f411c943e3b82681ee5b693b2765dac0450a7735571c66c06615a82"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-CLOSEOUT-BOUNDARIES.json",
+      "sha256": "82d9f5317fa7a9ea664ff46d8582c160fcb6b49bb6c68fba7496a7e8d7c12e25"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N8.json",
+      "sha256": "0890fd8d69b4fcd829648f6eed3c5a6f6c635200ec2723dfdb068b906b62b69a"
+    }
+  ],
+  "execution_profile_sha256": "abd1aed0a91ad29e82251f2151b004a305ddfc315e3ed1c224a0d705c78a5d9b",
+  "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+  "image_receipt_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
+  "independent_proof_credit": 0,
+  "n7_ledger_sha256": "77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8",
+  "owner": "network",
+  "package_origin": "68671873669cd8578796ad4cb74f0fc28e622f2f",
+  "phase": "NETWORK-RR-G1-2026-10-24-N8",
+  "proof_credit": 0,
+  "readiness_changed": false,
+  "retired_seconds": 3967,
+  "rr_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "rr_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+  "schema": "network-n8-result-identities-v1",
+  "smallsort_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+  "source_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "spent_build_seconds": 1042,
+  "task_id": "network-refinedrust-g1-2026-10-24-n8",
+  "warm2_first_causal_stage": "UNKNOWN"
+}
