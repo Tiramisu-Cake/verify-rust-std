@@ -41,10 +41,13 @@ admission would alter the certified input; adding a trusted premise or
 assuming a callee summary would weaken verification. This patch only reflects
 the already certified false-unwind result in the translated CFG.
 
-Controls: default-off output remains on the old path. Isolated checks cover
-wrong phase, route, flag, and missing certificates; wrong fractional/body
-route; type, pointer depth, mutability, operand, callee, destination, normal
-target, and cleanup drift; and duplicate/missing projections. The selected
-calls are checked as `FnCallResult(result_of_outcome(...))` and preserve their
-existing result/resource treatment. No toolchain compilation, proof run,
-source preparation, or Cloud operation is performed here.
+Controls: independent static review must audit wrong phase, route, flag,
+missing certificate, wrong fractional/body route, pointer depth/mutability,
+operand, callee, destination and edge drift, and duplicate/missing counts.
+The retained static tests reproduce patch/result hashes; they do not execute
+these OCaml guards. Real Python callback tests check flag scope and environment
+cleanup. Cloud must compile the translator and execute positive plus all seven
+controls with ordinary callee verification. Source, raw MIR and ten cleanup
+edge admission checks remain in place. No local toolchain run establishes
+formal behavior. Default-off baseline AST is retained as an ablation, with
+no parser-input identity or causal proof inferred from textual coordinates.

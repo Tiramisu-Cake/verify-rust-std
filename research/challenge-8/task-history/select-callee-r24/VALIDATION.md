@@ -146,3 +146,30 @@ verified; runtime closure matches the reviewed candidate and source payload
 SHA matches the successful static preflight. Initial client status WORKING.
 Total accounted remains674s;20926s remaining includes the1260s active reserve.
 No new AST, compilation result or proof credit is inferred before Brief.
+
+
+## Third terminal result and exact checked-outcome candidate
+
+Watcher8f24447b eventd433e26c ACKED CONTINUE_EXISTING_WINDOW at12:02:48Z
+before checkpoint mutation. Build0d214997 FAILURE/accounted344s; total1018s,
+remaining20582s. Brief reports diagnostic COMPLETE, unchanged source/ten
+snapshots, nonempty AST50ae0cf9; only outer structural envelope validated.
+Bounded log709-711 reproduces three dead-code sites. Text AST521-532 maps
+coordinates to cleanup26Return/27unfreeze-drop-freeze/28If. Whole-file locate28
+has exactly two incoming references, pointer-drop452 and assume-init519.
+No physical location identity, parser-input binding or causal proof inferred.
+Raw MIR still contains ten admitted incoming cleanup edges. All Brief facts
+are source-reported, credit0; immutable receipts in THIRD-PROOF-OBSERVATIONS.
+
+The new exact checked-result projection uses existing result_of_outcome and
+same-unit false-unwind contracts; all callee bodies still require ordinary
+proof. Flags default off, exactR24 only, normal proof variants only; baseline
+AST and fingerprint unmodified. Worker guard widening was removed as redundant
+and nested record pattern braces corrected before runtime integration. No
+local OCaml/toolchain invocation. Two retained static checks reproduce patch
+and result hashes. Four actual entry callback tests, seven prior entry tests,
+fourteen AST tests, bash-n and three inline Python parse checks pass. The AST
+suite first failed its single literal argv expectation; updated it to require
+both explicit R24 options (all original route/helper assertions retained).
+Removed worker toy gate/call models: they did not execute the translator and
+are not validation of exact admission. Cloud compile/proof/matrix still pending.

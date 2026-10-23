@@ -352,7 +352,7 @@ class PositiveAstInventory(unittest.TestCase):
         runner = (CLOUD / "run-o26-select-callee-r20.sh").read_text()
         marker = chr(36) + "{SORT4_R24_SESSION_PHASE_ID}"
         opt = chr(36) + "{positive_ast_args[@]}"
-        self.assertIn("positive_ast_args=(--positive-ast-inventory)", runner)
+        self.assertIn("positive_ast_args=(--positive-ast-inventory --checked-pointer-outcomes)", runner)
         self.assertIn('[[ "' + marker + '" == ' + PHASE + ' ]] || exit 2', runner)
         self.assertIn('"' + opt + '"', runner)
 

@@ -1,0 +1,68 @@
+{
+  "archive_sha256": "8c1435b03d43f2566d6ded24d2d6e50c2c618a7b2f710998aacba0f23ff4035e",
+  "assurance": "SOURCE_REPORTED",
+  "ast_artifact_sha256": "50ae0cf9953864422f3ccc589b45045db6387d6ae90ac301205d505277b5757e",
+  "ast_diagnostic": "COMPLETE_AS_REPORTED; only structural envelope validated",
+  "brief_run_exit": 4,
+  "brief_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+  "causal_status": "HYPOTHESIS_PENDING_HOSTED_FIX",
+  "decision": "Extend existing checked-result projection only to two exact already redirected const-pointer calls certified false-unwind in same unit; explicit R24 flag, no summary assumptions, all ordinary callee proofs and controls required.",
+  "index_sha256": "e3c9f7490f2f625d8d78fea4efdb0a73953c1a79404cf76712676d4d93ae4cd9",
+  "observations": [
+    {
+      "fact": "Producer diagnostic reports COMPLETE, no errors, source and ten snapshot pins valid before/after. accepted false and credit0; structural envelope only, not parser-input binding or proof.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-diagnostic-root.json",
+      "receipt_sha256": "16cee78c9d080838c5451ccebef6ca1c370417eb5c14bc66196f61a743f59fe9",
+      "request_id": "2f65b936543f6709797cdd959fb9cdf5ac384d958b72398945e3d64c15220424",
+      "tag": "ast-diagnostic-root.json"
+    },
+    {
+      "fact": "AST lines521-532 show label28 If flag with targets27/26; label27 unfreeze/drop/freeze thenGoto26; label26 Return unwinding. Coordinates map to prior diagnostics; physical location identity and causality not established.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-cleanup-window.json",
+      "receipt_sha256": "61e67301fba901ce21dcec4fca5dee730272ee3e3be0fc4d246cc7838d0e3f2f",
+      "request_id": "251dd119c6f08ae51e77abac56b47d8100fc4483098f4e90b19d670bb5eba21c",
+      "tag": "ast-cleanup-window.json"
+    },
+    {
+      "fact": "Whole-file exact literal label28 occurs three times: pointer-drop unwind edge452, assume-init unwind edge519, label declaration522. This is emitted-text inventory, not raw-MIR successor inventory.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-label28-locate.json",
+      "receipt_sha256": "f725c62c7f8a05148a6c4e8e0ccb75eef9bfd5e5b5425f5a3f140d7bd7267bfa",
+      "request_id": "90282a8ce2eed35e4cca4187a5c35a59adc5519832ef6c8c7eccb0bd363e9578",
+      "tag": "ast-label28-locate.json"
+    },
+    {
+      "fact": "AST lines449-454 show checked pointer-drop typed Outcome returning assignment and unwindingGoto28. No verification acceptance inferred.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-drop-outcome.json",
+      "receipt_sha256": "61b9276e2b9cd19292f065dbb74cc5778c47945d5cb77d10afbdca95bc64958f",
+      "request_id": "c5a2fd464511f7d0226e8fd3c096f08ba59ff9f7da4e6bb242e7d2bb778786b5",
+      "tag": "ast-drop-outcome.json"
+    },
+    {
+      "fact": "AST lines516-520 show checked_assume_init_pointer<Element> typed Outcome returning assignment and unwindingGoto28. No verification acceptance inferred.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-assume-init-outcome.json",
+      "receipt_sha256": "5986a753930071ee998f8a8a0ae2a51c8a22bb33508468dc40dcf40f376ae9ca",
+      "request_id": "09388431bf7bcf175e6ac5a9d1f2e5cabea6773249222909f33c8fc6d69e5a36",
+      "tag": "ast-assume-init-outcome.json"
+    },
+    {
+      "fact": "Exact AST diagnostic log lines709-711 report dead code at135:1-236:2 and twice235:5-6. This is the baseline diagnostic run without the new flag; source-reported failure, no causal or acceptance credit.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s3-ast-log-tail.json",
+      "receipt_sha256": "549fc29fe137e37bbfc6e830302504e450d09d830a29b66727e7abc92018ca8f",
+      "request_id": "ddac7afa12e63d5818e5c13bf88bd11ea095b739533003b0f16db035e72a6093",
+      "tag": "ast-log-tail.json"
+    }
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "physical_location_identity": "NOT_ESTABLISHED",
+  "proof_credit": 0,
+  "raw_mir_note": "Prior exact raw MIR retains ten incoming Cleanup28 edges: seven erased ghosts, checked forget, pointer-drop, assume-init. Current emitted AST retains two references after existing checked ghost/forget treatment. Preserve raw MIR admission.",
+  "rejected": [
+    "checker dead-code exemption/suppression",
+    "raw MIR/source edit",
+    "generic T or Drop no-unwind rule",
+    "assumed callee summary or new premise"
+  ],
+  "schema": "select-r24-third-proof-observations-v1",
+  "source_commit": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21"
+}

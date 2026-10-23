@@ -40,6 +40,7 @@ PHASE_ENV = 'SORT4_R20_CALLEE_PHASE_ID'
 PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 R24_SESSION_ENV = 'SORT4_R24_SESSION_PHASE_ID'
 R24_SESSION_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
+CHECKED_OUTCOMES_KEY = 'SORT4_R24_CHECKED_POINTER_OUTCOMES'
 
 
 def sha(raw: bytes) -> str:
@@ -110,13 +111,22 @@ def run_proof_stage(*, runtime, repo: Path, case: Path, name: str,
                     deadline_epoch: int, variant: str,
                     positive_ast_inventory: bool,
                     expected_sources: dict[str, str],
-                    expected_snapshots: dict[str, Any]) -> dict[str, Any]:
-    """Optionally inventory positive AST, then call the unchanged proof stage."""
+                    expected_snapshots: dict[str, Any],
+                    checked_pointer_outcomes: bool = False) -> dict[str, Any]:
+    """Inventory baseline AST, then opt in only around the ordinary proof."""
     need(name == 'r20-merged-optin' and variant in runtime['proof'].VARIANTS,
          'unexpected proof-stage identity or fractional variant')
     need(os.environ.get(OPT_IN_KEY) == '1' and
-         R20_OPT_IN_KEY not in os.environ and VARIANT_KEY not in os.environ,
+         R20_OPT_IN_KEY not in os.environ and VARIANT_KEY not in os.environ and
+         CHECKED_OUTCOMES_KEY not in os.environ,
          'proof-stage opt-ins are not isolated to the callback')
+    need(type(checked_pointer_outcomes) is bool, 'checked outcomes option must be boolean')
+    if checked_pointer_outcomes:
+        need(os.environ.get(R24_SESSION_ENV) == R24_SESSION_PHASE and
+             os.environ.get(PHASE_ENV) == PHASE and
+             os.environ.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
+             not os.environ.get('GITHUB_ACTIONS'),
+             'checked outcomes require exact R24 Cloud session on the R21 route')
     os.environ[R20_OPT_IN_KEY] = '1'
     os.environ[VARIANT_KEY] = variant
     try:
@@ -129,13 +139,19 @@ def run_proof_stage(*, runtime, repo: Path, case: Path, name: str,
                 deadline_epoch=deadline_epoch, variant=variant,
                 expected_sources=expected_sources,
                 expected_snapshots=expected_snapshots)
+        if checked_pointer_outcomes:
+            os.environ[CHECKED_OUTCOMES_KEY] = '1'
         stage = runtime['o26'].proof_stage(repo, case, tool_home, schema,
             compiler_sysroot, deadline_epoch, name, 'r21_fractional_' + variant)
         if diagnostic is not None and isinstance(stage, dict):
             stage = dict(stage)
             stage['r24_positive_ast_inventory'] = diagnostic
+        if checked_pointer_outcomes and isinstance(stage, dict):
+            stage = dict(stage)
+            stage['r24_checked_pointer_outcomes_requested'] = True
         return stage
     finally:
+        os.environ.pop(CHECKED_OUTCOMES_KEY, None)
         os.environ.pop(R20_OPT_IN_KEY, None)
         os.environ.pop(VARIANT_KEY, None)
 
@@ -191,16 +207,18 @@ def run(args, *, runtime_loader=load_runtime,
          not selected_env.get('GITHUB_ACTIONS'),
          'fresh R21 Cloud proof phase required')
     need(OPT_IN_KEY not in selected_env and R20_OPT_IN_KEY not in selected_env and
-         VARIANT_KEY not in selected_env and
+         VARIANT_KEY not in selected_env and CHECKED_OUTCOMES_KEY not in selected_env and
          not any(key.startswith('SORT4_R21_FRACTIONAL_') for key in selected_env),
          'proof opt-ins and variant must not be ambient')
     positive_ast_inventory = bool(getattr(args, 'positive_ast_inventory', False))
-    if positive_ast_inventory:
+    checked_pointer_outcomes = getattr(args, 'checked_pointer_outcomes', False)
+    need(type(checked_pointer_outcomes) is bool, 'checked outcomes option must be boolean')
+    if positive_ast_inventory or checked_pointer_outcomes:
         need(selected_env.get(PHASE_ENV) == PHASE and
              selected_env.get(R24_SESSION_ENV) == R24_SESSION_PHASE and
              selected_env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
              not selected_env.get('GITHUB_ACTIONS'),
-             'positive AST inventory requires exact R24 Cloud session on the R21 route')
+             'R24 diagnostics/checked outcomes require exact R24 Cloud session on the R21 route')
     runtime = runtime_loader(args.repo, args.cloud_dir, args.evidence)
     provider = runtime.get('provider')
     need(callable(getattr(provider, 'require_supported_provider', None)),
@@ -345,7 +363,8 @@ def run(args, *, runtime_loader=load_runtime,
             compiler_sysroot=compiler_sysroot, deadline_epoch=deadline_epoch,
             variant=variant, positive_ast_inventory=positive_ast_inventory,
             expected_sources=expected_sources,
-            expected_snapshots=expected_snapshots)
+            expected_snapshots=expected_snapshots,
+            checked_pointer_outcomes=checked_pointer_outcomes)
 
     record_path = args.evidence / 'cases/r21-fractional-proof/r21-fractional-proof.json'
     try:
@@ -415,6 +434,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--deadline-epoch', type=int, required=True)
     parser.add_argument('--positive-ast-inventory', action='store_true',
                         help='add one R24-only positive AST diagnostic before the proof stage')
+    parser.add_argument('--checked-pointer-outcomes', action='store_true',
+                        help='request exact R24 checked pointer call result projection for all proof variants')
     args = parser.parse_args(argv)
     need(args.deadline_epoch > int(time.time()), 'shared deadline has elapsed')
     record = run(args)

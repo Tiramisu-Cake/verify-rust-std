@@ -50,3 +50,22 @@ Keep actual source, generic signatures, normal/unwind/nested-Drop and ownership/
 Row 28 applies after row 27 only when the exact R24 session enables the positive AST diagnostic. It serializes the existing `MergeFractionsStmt(l,e)` constructor and both fields, without changing the AST or verifier. Source `src/frontend/ocaml_expr_of_ast.ml`: base `898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff`, final `f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94`. Manifest `research/challenge-8/cloud-build/sort4-caller-entry-native/MERGE-FRACTIONS-AST-DUMP-R15-MANIFEST.json`, SHA-256 `c529a3a45dc78a3f6f914d55f4e2e6cca29b7383f69827db1e20904d2db4b43b`. The R24 runner candidate checks and reports that printer hash; the R24 final source-file inventory must equal the frozen three modified files plus this utility. No R15 credit transfers.
 
 The maintainer may use this published chain for tool integration review/regressions; proof work, acceptance and Select pins remain owned by Select. No integration, deployment or upstream publication is performed here.
+
+
+29. `task-history/select-callee-r24/checked-pointer-outcomes-r24.patch`
+    SHA256 `81c5e18b5f754298aae94940a98a8fa3495b9d73b179d2697493b1c704070ddc`;
+    translator `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44`
+    → `6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c`.
+    Applied after row28, before console build, only on exact R24 runner route.
+    Default-off checked-result projection of the two certified const-pointer calls;
+    flag enabled only for ordinary proof variants, never fingerprint or baseline AST.
+    All ten raw MIR cleanup edges and admission remain. No checker/source/spec change.
+    Two patch/hash reproduction checks and four real callback-scope tests pass; UNBUILT, unproved.
+    No proof credit or maintainer adoption claimed.
+
+Row28 hosted update: Build `0d214997-138c-41ea-abcf-b337cffb8c72` reports
+serializer check/apply exit0 and complete structural AST artifact SHA256
+`50ae0cf9953864422f3ccc589b45045db6387d6ae90ac301205d505277b5757e`.
+The Build remains FAILURE; diagnostic log reports the same three dead-code sites.
+This establishes source-reported diagnostic availability, not parser-input identity,
+causal proof, actual acceptance, or independent proof credit.

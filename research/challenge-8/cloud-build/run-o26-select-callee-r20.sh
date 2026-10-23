@@ -18,6 +18,7 @@ current_sha=${PROOF_SHA:?PROOF_SHA is required}
      "${SORT4_R20_CALLEE_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-23-R21 ) ]] || exit 2
 # The R20 certificate opt-in is per proof call only, never ambient.
 [[ -z "${SORT4_R20_FINAL_SELECT_REPAIR:-}" ]] || exit 2
+[[ ! -v SORT4_R24_CHECKED_POINTER_OUTCOMES ]] || exit 2
 while IFS= read -r route_env_key; do
   [[ "$route_env_key" != SORT4_R21_FRACTIONAL* ]] || exit 2
 done < <(compgen -e)
@@ -29,7 +30,7 @@ done
 positive_ast_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
   [[ "${SORT4_R24_SESSION_PHASE_ID}" == SORT4-ACTUAL-SELECT-2026-10-24-R24 ]] || exit 2
-  positive_ast_args=(--positive-ast-inventory)
+  positive_ast_args=(--positive-ast-inventory --checked-pointer-outcomes)
 fi
 [[ "$(git -C "$proof_root" rev-parse HEAD)" == "$current_sha" ]] || exit 2
 [[ -d "$cloud_dir" ]] || exit 2
@@ -245,6 +246,20 @@ R24_SCOPE
 fi
 
 
+# R24 exact checked pointer outcomes; enabled only around ordinary proof calls.
+if (( ${#positive_ast_args[@]} > 0 )); then
+  checked_outcomes_patch="$proof_root/research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch"
+  current_stage=checked-outcomes-identity
+  [[ "$(sha256sum "$checked_outcomes_patch" | cut -d' ' -f1)" == 81c5e18b5f754298aae94940a98a8fa3495b9d73b179d2697493b1c704070ddc ]] || exit 2
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44 ]] || exit 2
+  stage checked-outcomes-check git -C "$source_home" apply --check "$checked_outcomes_patch"
+  stage checked-outcomes-apply git -C "$source_home" apply "$checked_outcomes_patch"
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c ]] || exit 2
+  git -C "$source_home" diff --name-only > "$ev/r24-checked-outcomes-modified-files.txt"
+  cmp "$ev/r24-final-tool-modified-files.txt" "$ev/r24-checked-outcomes-modified-files.txt"
+fi
+
+
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
@@ -284,6 +299,8 @@ for path in rows:
  elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
 if os.environ.get('SORT4_R24_SESSION_PHASE_ID') == 'SORT4-ACTUAL-SELECT-2026-10-24-R24':
+ if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!='6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c':
+  raise SystemExit('R24 checked outcomes translator pin differs')
  path='src/frontend/ocaml_expr_of_ast.ml'
  rows[path]=hashlib.sha256((root/path).read_bytes()).hexdigest()
  if rows[path]!='f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94':
