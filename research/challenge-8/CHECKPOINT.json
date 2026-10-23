@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "cc7ba802f7e4bcf59bc84e9445cab0dd50567104b2a058eae724c5b4d2131a8f"
+      "sha256": "bf69cb723a00876930485d944e2930963a091504d42d0aeca73d0e7552111e43"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+    "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-THIRD-OBSERVATIONS.json",
         "sha256": "65fdd1aba252e6920ae173dcde2b3ed6f6ee61c57161e9334434af090016c167"
       }
     ],
-    "summary": "Capture parser misreads expected native Failure wrapper."
+    "summary": "Await mutable capture Brief; P2 remains NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -485,24 +485,23 @@
     {
       "obligation": "Fresh exact mutable P2 source/MIR capture",
       "reason": "All8const matrix observations qualified; P2 source-only17142 chain needs authorizedCloud capture, freshnormal/readonly+10snapshots before any mutableadmission.",
-      "state": "NATIVE_REFUSAL_TRANSPORT_FIX_PENDING_REVIEW"
+      "state": "CAPTURE_BUILD_ACTIVE"
     }
   ],
   "mutable_capture_build": {
-    "accounted": true,
-    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
-    "build_seconds": 338,
-    "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
-    "config_sha256": "ee6f0964e52db7eacb7a4e205a91a1f3a4690e251c423bcdf0bfee4b1cd38f00",
-    "dispatch_token": "dispatch-a6da8ae24b324cc1bdfc45769f2ede32",
+    "accounted": false,
+    "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+    "candidate": "5e6df1dd239202f3f25c439007f41744257b29c4",
+    "config_sha256": "e4196ceef1f43c216a838535ad5a0d5ce684d5d22a310d615ae1953b168dfb86",
+    "dispatch_token": "dispatch-83c9d18b760f48f3bc48fc38c1715b59",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "ALL_TEN_SNAPSHOTS_SOURCE_REPORTED_CANONICAL_REFUSAL_PARSER_MISMATCH",
+    "result": "PENDING_BRIEF",
     "schema": "select-r24-mut-capture-submission-v1",
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
-    "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
-    "status": "FAILURE",
+    "source_payload_sha256": "0902b8aca2a9399fe3b3cd3704dc302df102c4b27c2b55c45b7ccc78ac983d5e",
+    "status": "QUEUED",
     "timeout_seconds": 1200
   },
   "mutable_capture_build_history": [
@@ -539,6 +538,23 @@
       "source_payload_sha256": "de5d690334ddeb96cc8bcb9345218e4f29db64a5d2b4adfb964bda2f1c6c985b",
       "status": "FAILURE",
       "timeout_seconds": 1200
+    },
+    {
+      "accounted": true,
+      "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+      "build_seconds": 338,
+      "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
+      "config_sha256": "ee6f0964e52db7eacb7a4e205a91a1f3a4690e251c423bcdf0bfee4b1cd38f00",
+      "dispatch_token": "dispatch-a6da8ae24b324cc1bdfc45769f2ede32",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reserved_seconds": 1260,
+      "result": "ALL_TEN_SNAPSHOTS_SOURCE_REPORTED_CANONICAL_REFUSAL_PARSER_MISMATCH",
+      "schema": "select-r24-mut-capture-submission-v1",
+      "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+      "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
+      "status": "FAILURE",
+      "timeout_seconds": 1200
     }
   ],
   "mutable_capture_candidate": {
@@ -554,7 +570,7 @@
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "0902b8aca2a9399fe3b3cd3704dc302df102c4b27c2b55c45b7ccc78ac983d5e",
-    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
+    "state": "CAPTURE_BUILD_ACTIVE"
   },
   "mutable_capture_candidate_history": [
     {
@@ -671,7 +687,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Submit reviewed refusal parser; full1200 capture only.",
+  "next": "ACK first, then Brief capture completion and fresh pins.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -716,7 +732,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "b606d510-6832-483e-8168-afe8ef5fe9b4"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -736,17 +754,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T15:13:29Z",
+  "updated_utc": "2026-10-23T15:14:53Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "6a1f8ed9-3e5a-4c98-bb68-c79c933648ef",
-    "acknowledged_job_id": "6776940a-a976-4d9c-90a0-116b452d86cd",
-    "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
-    "checkpoint_frozen_after_arm": false,
+    "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+    "checkpoint_frozen_after_arm": true,
     "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
-    "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
+    "spec_path": "/tmp/select-r24-mut-refusal-watch.json",
     "store": "/root/.local/state/smallsort-watch-select-r24",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
@@ -845,6 +860,17 @@
       "spec_path": "/tmp/select-r24-mut-owner-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "store_decision_ref": "research/challenge-8/task-history/select-callee-r24/WATCHER-MUT-OWNER-STORE-DECISION.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "6a1f8ed9-3e5a-4c98-bb68-c79c933648ef",
+      "acknowledged_job_id": "6776940a-a976-4d9c-90a0-116b452d86cd",
+      "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+      "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]
