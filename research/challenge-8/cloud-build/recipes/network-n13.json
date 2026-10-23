@@ -1,9 +1,22 @@
 {
-  "schema": "smallsort-cloud-recipe-v1",
-  "lane": "network-n13",
   "entrypoint": "research/challenge-8/cloud-build/network-n13/run.sh",
+  "infra_paths": [
+    "research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N4.json",
+    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4.json",
+    "research/challenge-8/cloud-build/network-n13/run.sh",
+    "research/challenge-8/cloud-build/provider.py"
+  ],
   "infra_transport": "exact-recipe-v1",
-  "network_stages": ["controls", "controls-order", "exact", "preflight", "regressions", "regressions-n13", "regressions-n9"],
+  "lane": "network-n13",
+  "network_stages": [
+    "controls",
+    "controls-order",
+    "exact",
+    "preflight",
+    "regressions",
+    "regressions-n13",
+    "regressions-n9"
+  ],
   "proof_paths": [
     "library/core/src/slice/sort/shared/smallsort.rs",
     "research/challenge-8/network/n13/run-cloud.py",
@@ -13,10 +26,5 @@
     "research/challenge-8/networks/run-ranks.sh",
     "research/challenge-8/networks/swo-rank.c"
   ],
-  "infra_paths": [
-    "research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N3.json",
-    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
-    "research/challenge-8/cloud-build/network-n13/run.sh",
-    "research/challenge-8/cloud-build/provider.py"
-  ]
+  "schema": "smallsort-cloud-recipe-v1"
 }

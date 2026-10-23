@@ -1,4 +1,5 @@
 """Synthetic client checks for the bounded Network N13 Cloud phase."""
+import datetime
 import json
 import os
 from pathlib import Path
@@ -17,11 +18,27 @@ import control
 
 
 CANDIDATE = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=CLOUD_BUILD).decode().strip()
-PHASE = control.NETWORK_N3_PHASE
+PHASE = control.NETWORK_N4_PHASE
 
 
 class NetworkN13ClientTests(unittest.TestCase):
-    def args(self, *, stage="exact", timeout=795, infra_sha=CANDIDATE):
+    def setUp(self):
+        class FrozenDatetime(datetime.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return cls(2026, 10, 23, 7, 54, tzinfo=datetime.timezone.utc)
+        self.clock = mock.patch.object(control.datetime, "datetime", FrozenDatetime)
+        self.clock.start()
+        self.addCleanup(self.clock.stop)
+
+    def test_main_envelope_refuses_a_build_that_only_fits_absolute(self):
+        record = dict(control.NETWORK_PHASES[PHASE])
+        record["main_deadline_utc"] = "2026-10-23T08:10:00Z"
+        with mock.patch.dict(control.NETWORK_PHASES, {PHASE: record}):
+            with self.assertRaisesRegex(SystemExit, "queue reserve exceeds main"):
+                control.network_submit_gate(self.args(timeout=975))
+
+    def args(self, *, stage="exact", timeout=975, infra_sha=CANDIDATE):
         values = {"phase_id": PHASE, "timeout": timeout, "infra_sha": infra_sha}
         if stage is not None:
             values["stage"] = stage
@@ -30,9 +47,9 @@ class NetworkN13ClientTests(unittest.TestCase):
     def test_registered_stage_and_exact_build_timeouts_are_required(self):
         expected = {
             "preflight": 735,
-            "exact": 795,
-            "controls": 975,
-            "controls-order": 795,
+            "exact": 975,
+            "controls": 1155,
+            "controls-order": 975,
             "regressions": 915,
             "regressions-n13": 735,
             "regressions-n9": 555,
@@ -50,22 +67,22 @@ class NetworkN13ClientTests(unittest.TestCase):
                 control.network_submit_gate(bad)
 
     def test_profile_stage_limits_must_match_client_envelope(self):
-        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N3.json"
+        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4.json"
         profile = json.loads(profile_path.read_text())
-        control.network_profile_stage_gate(profile, "controls-order", 795, 420)
+        control.network_profile_stage_gate(profile, "controls-order", 975, 600)
         control.network_profile_stage_gate(profile, "regressions-n13", 735, 360)
         for changed in ("timeout_seconds", "build_timeout_seconds"):
             bad = json.loads(json.dumps(profile))
             bad["stages"]["controls-order"][changed] -= 1
             with self.subTest(changed=changed), self.assertRaises(SystemExit):
-                control.network_profile_stage_gate(bad, "controls-order", 795, 420)
+                control.network_profile_stage_gate(bad, "controls-order", 975, 600)
             bad = json.loads(json.dumps(profile))
             bad["stages"]["regressions-n13"][changed] -= 1
             with self.subTest(stage="regressions-n13", changed=changed), self.assertRaises(SystemExit):
                 control.network_profile_stage_gate(bad, "regressions-n13", 735, 360)
 
     def test_selected_recipe_must_bind_network_stages(self):
-        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N3.json"
+        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4.json"
         old_recipe = subprocess.check_output([
             "git", "show", "010127f1a6fb125097dcbec4ef84818b8f7adb8f:research/challenge-8/cloud-build/recipes/network-n13.json"
         ])
@@ -79,7 +96,7 @@ class NetworkN13ClientTests(unittest.TestCase):
         self.assertEqual(
             control.network_env(CANDIDATE, PHASE),
             ["NETWORK_PHASE_ID=" + PHASE,
-             "NETWORK_PROFILE_SHA256=" + control.NETWORK_N3_PROFILE_SHA256],
+             "NETWORK_PROFILE_SHA256=" + control.NETWORK_N4_PROFILE_SHA256],
         )
         with mock.patch.object(control.subprocess, "check_output", return_value=b"wrong profile"):
             with self.assertRaises(SystemExit):

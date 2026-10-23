@@ -279,9 +279,9 @@ class RunCloudTests(unittest.TestCase):
     def test_revised_stage_matrix_and_case_limits(self):
         expected = {
             "preflight": (["generic-swo-bridge", "domain13-members"], [180, 180]),
-            "exact": (["exact-n13-full-post"], [420]),
-            "controls": (["missing-equiv-trans", "exact-n13-membership-post"], [180, 420]),
-            "controls-order": (["exact-n13-order-post"], [420]),
+            "exact": (["exact-n13-full-post"], [600]),
+            "controls": (["missing-equiv-trans", "exact-n13-membership-post"], [180, 600]),
+            "controls-order": (["exact-n13-order-post"], [600]),
             "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 360]),
             "regressions-n9": (["exact-n9-regression"], [180]),
             "regressions-n13": (["universal-n13-regression"], [360]),

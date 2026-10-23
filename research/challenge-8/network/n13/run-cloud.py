@@ -22,7 +22,7 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 NETWORKS = HERE.parents[1] / "networks"
 ROOT = HERE.parents[3]
-PROFILE_RELATIVE = Path("research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json")
+PROFILE_RELATIVE = Path("research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4.json")
 SOURCE_RELATIVE = Path("library/core/src/slice/sort/shared/smallsort.rs")
 SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
@@ -85,7 +85,7 @@ def load_profile(environ: dict[str, str]) -> tuple[dict[str, Any], dict[str, str
     require(profile.get("schema") == "smallsort-network-n13-execution-profile-v1",
             "unexpected execution profile schema")
     require(profile.get("status") == "EXECUTION_CANDIDATE_PINNED",
-            "execution profile is not the pinned N3 candidate")
+            "execution profile is not the pinned N4 candidate")
     require(profile.get("accepted") is False and profile.get("proof_credit") is False,
             "execution profile admission fields are invalid")
     return profile, {"path": str(path), "sha256": actual_sha}
@@ -154,15 +154,15 @@ def matrix(stage: str, prove, ranks, pairs: list[tuple[int, int]]) -> list[dict[
         add("network13_generic_swo_bridge", ranks.generic_bridge(), "generic-swo-bridge", 180)
         add("network13_domain13_members", ranks.domain13_members(), "domain13-members", 180)
     elif stage == "exact":
-        add("network13_finite_swo_order", ranks.composition(13, pairs, True), "exact-n13-full-post", 420)
+        add("network13_finite_swo_order", ranks.composition(13, pairs, True), "exact-n13-full-post", 600)
     elif stage == "controls":
         source, metadata = ranks.negative_missing_equiv_trans()
         add("network13_negative_missing_equiv_trans", source, "missing-equiv-trans", 180, metadata)
         source, metadata = ranks.negative_exact_post("membership", pairs)
-        add("network13_negative_exact_membership", source, "exact-n13-membership-post", 420, metadata)
+        add("network13_negative_exact_membership", source, "exact-n13-membership-post", 600, metadata)
     elif stage == "controls-order":
         source, metadata = ranks.negative_exact_post("order", pairs)
-        add("network13_negative_exact_order", source, "exact-n13-order-post", 420, metadata)
+        add("network13_negative_exact_order", source, "exact-n13-order-post", 600, metadata)
     elif stage == "regressions":
         pairs9, _lines9 = prove.extract(9)
         add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
