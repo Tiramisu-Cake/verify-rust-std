@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
     "evidence": [],
-    "summary": "10662 matrix/consequence/refusals pending; P2 NOT_PUBLISHED."
+    "summary": "10662 terminal FAILURE; matrix/consequence/refusal Brief pending. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1653,18 +1653,19 @@
   },
   "mutable_refusal_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
+    "build_seconds": 356,
     "candidate": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
     "config_sha256": "cdf773609f3748410e38b4a0746448cef8b8f0f0332547701616713d589c6380",
     "dispatch_token": "dispatch-f146ab57e13b4d40b8f02eb036607ca5",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
     "schema": "select-r24-mut-refusal-submission-v1",
     "source_payload_sha256": "cbbf3cdf50922d5d7432ed593b5830663e52b91b6ef7a8b0235bdb3df73a38f3",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_refusal_candidate": {
@@ -1682,7 +1683,7 @@
       "sha256": "ba37869a79d41afef56fd565e9cb72baed90802fc0de33106bcd92050efdacb1"
     },
     "scope": "CONST_MUTABLE_FULL_MATRIX_CONSEQUENCE_AND_ELEVEN_SOURCE_ENVELOPE_REFUSALS",
-    "state": "SUBMITTED"
+    "state": "TERMINAL_ACCOUNTED_AWAIT_BRIEF"
   },
   "mutable_refusal_work_in_progress": {
     "commit": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
@@ -1713,8 +1714,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK watcher; push terminal accounting; Brief10662; then P2 review/publication/W4.",
-  "next_step": "ACK watcher; push terminal accounting; Brief10662; then P2 review/publication/W4.",
+  "next": "Brief10662; read owner policy926979f3; qualify P2 or fix exact failure, then W4.",
+  "next_step": "Brief10662; read owner policy926979f3; qualify P2 or fix exact failure, then W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated."
@@ -1758,17 +1759,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 15538,
+    "remaining_seconds": 15182,
     "retired_seconds": 0,
-    "spent_seconds": 6062,
+    "spent_seconds": 6418,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1780,9 +1779,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T21:09:39Z",
+  "updated_utc": "2026-10-23T21:18:25Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
@@ -1970,10 +1969,14 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack": "REFUSED_LATEST_OWNER_STEER; WATCHER_STOPPED",
+      "ack_refusal": "Three coordinator-read-lock busy refusals; then latest turn does not confirm exact queued event after direct owner clarification.",
       "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
       "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/account/window. ACK beforeCP mutation; immediate terminal accounting commit/push beforeBrief.",
+      "continuation": "Latest direct owner instruction explicitly continues existingR24 without newwindow/budget. Oldwatcherstopped, ordinaryexistingclientstatus revalidated terminal/accounting beforeCPmutation. No ACK successclaimed.",
+      "event_id": "6313398f-1651-401f-af8a-1b48d2a70bb1",
       "spec_path": "/tmp/select-r24-mut-refusals-watch.json",
+      "stop_requested": true,
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

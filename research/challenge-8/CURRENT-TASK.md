@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
-Updated: 2026-10-23T21:09:39Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 6062s spent, 0s retired, 15538s remaining including reservations.
-Active Build IDs: 10662b5e-bbb3-437b-85d6-e7b5f1f69dc8; unresolved: none recorded.
-Blocker: 10662 matrix/consequence/refusals pending; P2 NOT_PUBLISHED. [Build `10662b5e-bbb3-437b-85d6-e7b5f1f69dc8`]
-Next: ACK watcher; push terminal accounting; Brief10662; then P2 review/publication/W4.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
+Updated: 2026-10-23T21:18:25Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 6418s spent, 0s retired, 15182s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: 10662 terminal FAILURE; matrix/consequence/refusal Brief pending. P2 NOT_PUBLISHED. [Build `10662b5e-bbb3-437b-85d6-e7b5f1f69dc8`]
+Next: Brief10662; read owner policy926979f3; qualify P2 or fix exact failure, then W4.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
