@@ -19,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
       "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json",
+      "sha256": "c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c"
     }
   ],
   "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
@@ -28,7 +32,7 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "R22 admission review/activation pending; no Builds.",
+    "summary": "None; R22 reviewed.",
     "evidence": []
   },
   "confirmed": [
@@ -80,7 +84,7 @@
       ]
     }
   ],
-  "next_step": "Measure transport; review/publish/activate R22; submit timeout1200 within original main window.",
+  "next_step": "Submit timeout1200.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -126,7 +130,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T07:51:43+00:00",
+  "updated_utc": "2026-10-23T07:56:04Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -144,6 +148,15 @@
     {
       "decision": "Preserve uncommitted R22 registration draft at owner pause.",
       "reason": "R22 phase 12 tests, historical R21/R20/R19 phase 11/11/13, metadata7/rawptr10/unwind12 passed. Transport unmeasured, independent review/activation/publication NOT_RUN. Recipe prunes R11 BUILD2..5 reports; references in historical R11-INPUTS selected_paths remain to be reviewed. Tool remote publication not yet verified (queried wrong repository branch returned no match)."
+    },
+    {
+      "decision": "After initial raw-caller Cloud result, prioritize W3 original caller owned NLL capture then checked array/slice borrow lifecycle, with W2 normal/unwind resource restoration.",
+      "alternatives": [
+        "Broaden pointer/ref ownership premise (rejected)",
+        "Claim raw caller exit0 establishes original caller (rejected)",
+        "Own NLL rows bound to actual MIR body/location and existing lifetime lemmas (selected)"
+      ],
+      "reason": "COMPLETION-PLAN W2/W3 need callable resource protocol. Exporter dormant query interception must capture owned facts without static transmute before MIR stolen; exact rustc-private API is unverified. New tool/profile/admission delta and review required before next Cloud."
     }
   ],
   "pause": {

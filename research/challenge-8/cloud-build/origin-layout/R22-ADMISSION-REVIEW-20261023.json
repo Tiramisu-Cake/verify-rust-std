@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r22-admission-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "a59cbdaa21ca3f9d339b5350c0d96226250ea7aa",
+  "baseline": "3fbbd0f6e6c4e48a00fe5a2ae4dc6197e299be84",
+  "spec_sha256": "d5ee47b1724a3a3fc40f933c78252f0ab41a5cbd5647e3ae65d401c5c05ca63d",
+  "packet_sha256": "e806e225d1b3e8d696210658dbf03ecece6e3467b616c6b8d3ff9f3efca445bd",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "GO_WITH_NITS",
+  "findings": [
+    {
+      "severity": "should-fix-operational",
+      "summary": "The exact candidate source payload is 568628/571567 bytes, leaving 2939 bytes of headroom.",
+      "action": "Keep the source closure unchanged for admission; any added source input requires a fresh reviewed transport measurement and gate delta."
+    }
+  ],
+  "review_findings": [
+    "R22 phase routing is explicit through authorization, execute-budget validation, required upload guard, spent-seconds accounting, and source validation. R22 ledger identity, phase, owner, lane, profile/tool/provider pins, zero carry, budget fields, terminal history, and active-build state are checked fail-closed.",
+    "Initial and final source-validation checks require timeout plus 60 seconds to fit the main deadline; the absolute deadline remains bounded by the same earlier main cutoff for submits.",
+    "The recipe delta is exactly +R22 ledger and -R11 BUILD2..5 reports. Those report digests remain in the immutable R11 input inventory; source/runtime code has no consumers of the pruned report files. The source closure remains complete and regular-file-only.",
+    "Pinned profile, cumulative patch, provider module, publication gate, and historical ledgers/control inputs are held to the reviewed identities. No runtime proof source or accepted control was changed by this registration delta."
+  ],
+  "reviewer_tests_pass": [
+    "r22 phase service: 12 tests",
+    "r21 phase service: 11 tests",
+    "r20 phase service: 11 tests",
+    "r19 phase service: 13 tests",
+    "r22_validate_sources on exact candidate: PASS",
+    "independent source payload measurement: 568628 bytes; cap 571567; margin 2939 bytes"
+  ],
+  "not_run": [
+    "Cloud admission, compilation, target, or proof controls",
+    "Formal verification; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
