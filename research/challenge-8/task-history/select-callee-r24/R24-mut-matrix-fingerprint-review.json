@@ -1,0 +1,82 @@
+{
+  "baseline_commit": "5e6df1dd239202f3f25c439007f41744257b29c4",
+  "candidate_commit": "b3806fc8e8a58a1c69a3f0dfd520dc76a2028643",
+  "candidate_tree": "8ae4d1171be8f1cc64b21335cdd57e38e7c21ca9",
+  "decision": "GO",
+  "diff_sha256": "a5fd5f4126517eff9436df34cc10451b5a0056b1db8568960bf44b3bde3cca2a",
+  "findings": [],
+  "limitations": "GO means the source-preserving fingerprint integration is statically coherent and fails closed under the reviewed synthetic controls. Fingerprint/source equality is not typed MIR binding, causal proof, or proof acceptance. The old positive and matrix rows remain source-reported claims; no mutable proof certificates, proof matrix acceptance, P2 publication, or independent proof credit is established. Fresh authorized full Cloud execution remains required.",
+  "main_reported_static_checks": {
+    "attribution": "Main-reported static closure/transport only; no actual preparation/compiler/proof/Cloud call.",
+    "encoded_config_bytes": "27356/28000",
+    "runtime_closure_blobs": 107,
+    "runtime_closure_bytes": 2383448,
+    "runtime_closure_sha256": "5187103bab9e52b4b62987c56571dfd61f5be29f914dedd6c849ffa57c0d664a",
+    "status": "PASS_REPORTED",
+    "transport_payload_bytes": 411084
+  },
+  "packet_sha256": "6a27463c956d619b38eb17dcece8745b8bae2c28739de52307e9fa1141698726",
+  "prior_reviews": [
+    {
+      "decision": "NO_GO for d158; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-review.json",
+      "sha256": "2113fc509aa8abc0a1ef633d8fcc204c6e8f56117731bb21e15484cc3018cb71"
+    },
+    {
+      "decision": "NO_GO for aad644; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-delta-review.json",
+      "sha256": "da2032ab9c4d31db41ba75dc544e3ae4fb0054a7eba3295e3de983324bda276b"
+    },
+    {
+      "decision": "GO for linewise delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-linewise-review.json",
+      "sha256": "ed270f5776802660b278e085f0d5f9983bd07b9fff67c0f824240fa3f712f07b"
+    },
+    {
+      "decision": "GO for owner-lookup delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-owner-lookup-review.json",
+      "sha256": "262f5dad1f2360ac4456e6e2f72ad9be2894e48fc542789f4e10498ed139d80e"
+    },
+    {
+      "decision": "GO for insertion delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-insertion-review.json",
+      "sha256": "ae8434c8044a8f7028bc9cefd0b3771a10eea0092357af2f1a6c6bfd6d0e6bcc"
+    },
+    {
+      "decision": "GO for refusal parser delta; unchanged",
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-capture-refusal-review.json",
+      "sha256": "5954b14344bea5830bb0e919cb04495c94d25f954eb8a0d27e3bd0185343d935"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "codex-independent-review",
+  "schema": "smallsort-review-record-v1",
+  "scope": "Independent static review of the complete R24 mutable eight-row source/MIR fingerprint-only integration, including exact mode, route, source/pin/capture checks, runner isolation, and audit behavior. No actual source preparation or evidence verification.",
+  "spec_sha256": "1ee855269727f12001896c5e87e24e8906c795d918da58543445bc31fb3f41ff",
+  "tests": {
+    "not_run": [
+      "Actual mutable source preparation, compiler, exporter, MIR decode, refinement, verifier or Cloud Build",
+      "Evidence Brief invocation; raw/full logs, archives or Cloud Logging",
+      "Execution in dirty external VeriFast tool worktree",
+      "Independent static transport preflight"
+    ],
+    "run": [
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_matrix_fingerprint (9 tests, pass)",
+      "python3 -m unittest research.challenge-8.cloud-build.test_r24_mut_capture_runner (10 tests, pass)",
+      "python3 -m unittest research.challenge-8.cloud-build.test_select_callee_r24_mut_capture (13 tests, pass)",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh (pass)",
+      "Python AST parse of matrix adapter and test module (pass)",
+      "git diff 5e6df1dd239202f3f25c439007f41744257b29c4 b3806fc8e8a58a1c69a3f0dfd520dc76a2028643 --check (pass)"
+    ]
+  },
+  "verified": [
+    "Exact packet check passed for candidate b3806fc8e8a58a1c69a3f0dfd520dc76a2028643, baseline 5e6df1dd239202f3f25c439007f41744257b29c4, spec SHA 1ee855269727f12001896c5e87e24e8906c795d918da58543445bc31fb3f41ff, packet SHA 6a27463c956d619b38eb17dcece8745b8bae2c28739de52307e9fa1141698726; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "Matrix mode is raw-hash/payload pinned and requires exact R24 session, R21 route, owner select-sort4, positive evidence/pins, source-only/no-admission mode and exact eight-variant order. Adapter validates only the three allowed SORT4 environment keys, exact experimental profile, then reuses frozen old adapter route/mode validators.",
+    "Positive input is regenerated through the hash-pinned prior CAPTURE-ONLY adapter on the current native provider/build, then checked against b606 source/contract pins, exact physical original/verified source files, ghost-strip identity, NORMAL/readonly decoded MIR pins, complete ordered nine-body inventory and ten physical snapshot byte/hash pins.",
+    "Each of the seven negative rows is produced by the pinned R21 negative-only source transform. All variants preserve the pinned original source and pass ghost-strip identity; each negative verified-source hash must differ. Positive location control must reproduce the positive source and snapshot pins on the current build.",
+    "Each row requires complete source-preserving full NORMAL/readonly nine-body captures, refinement, exact canonical refusal/exit 2, all ten physical snapshots and final source hashes. Body hashes for indices 0-5 and 8 and their snapshots must match positive; the only permitted body changes are 6/7. Physical files are checked for symlinks and byte/hash mismatch.",
+    "The runner starts the matrix stage after pinned tool build/profile checks and exits the branch before the existing capture-only branch, const proof, and matrix/proof callbacks. Ambient proof flags are rejected; the inline root audit checks exact row set/order, all eight current build/source/ghost-strip bindings and distinct verified hashes, positive location control, current native provider/R24 context, and top-level no-proof flags/zero credit.",
+    "The source/MIR-only scope is explicit throughout mode, rows, summary, audit and recipe. No translator/checker/source-generator/proof changes are part of this candidate. The prior capture, owner lookup, insertion and canonical-refusal reviews remain separately recorded and are not evidence of proof acceptance.",
+    "The pinned frozen diagnostic patch's failwith and the bounded receipt data were reviewed only as committed source/receipt data; the receipt classifies its claims as source-reported and proof credit zero. No raw/full logs were opened."
+  ]
+}

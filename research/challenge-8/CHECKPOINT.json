@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "3008d134ce1ac9fb9da5ebe497387365150d45dc27da1c3809f7da2c0c420599"
+      "sha256": "aedf9a1084bb79a69a05a58317cf80b382be83fadf2ad21b5e1f4e41e2870db7"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -768,8 +768,23 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
+  "mutable_matrix_fingerprint_candidate": {
+    "candidate": "b3806fc8e8a58a1c69a3f0dfd520dc76a2028643",
+    "proof_credit": 0,
+    "review_decision": "GO_STATIC_INTEGRATION_UNRUN",
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-matrix-fingerprint-review.json",
+    "review_sha256": "2b478162c7f2b5be1bd9f838bab4ebb59a5c609c79f958d0523b4fb80e384336",
+    "runtime_closure": {
+      "bytes": 2429667,
+      "entries": 110,
+      "sha256": "fa032647805c513aa0bd05e8d4b5b8023411d98a685136afe2ede950c51ba34f"
+    },
+    "scope": "SOURCE_MIR_MATRIX_FINGERPRINT_ONLY_NO_PROOF_ADMISSION",
+    "source_payload_sha256": "741436a03fbc31dd02b617f018f66bf335a2c9f83b0730b570875ba0888d5956",
+    "state": "REVIEWED_PUBLISHED_READY_FOR_SOURCE_ONLY_FINGERPRINT"
+  },
   "mutable_matrix_fingerprint_decision": {
-    "assurance": "IMPLEMENTED_STATIC_SYNTHETIC_9_MATRIX_10_RUNNER_13_FROZEN_CAPTURE_PASS_PENDING_REVIEW",
+    "assurance": "REVIEW_GO_STATIC_SYNTHETIC_PASS_UNBUILT",
     "choice": "New default-off exactR24 matrixfingerprint mode in existing capture lane; reuse pinned positive capture adapter/canonical diagnostic checks and exact b606 positive pins. Generate7negativeghost variants via pinned r21_fractional_forget._negative_from_positive; ghoststrip must equal sameoriginal. Capture NORMAL/readonly9bodies/refinement/native10snapshots each; reproducepositive in locationcontrol, bind rows to currentnativeBuild/provider/sourcebytes. No proofcallbacks, no native/checker/const gates changed.",
     "controls": "Isolated fake stage/services cover success/error/timeout/missing/null/NOT_RUN/source-stage-target/native drift. Strict positive source/snapshot reproduction, ghost-onlynegative identity, body0..5/8 unchanged; all8required. Independent review before Cloud.",
     "defect": "Only positive mutable source/MIR captured. Closed same-version certificates/full matrix need all7ghost-negative source/unit/body pins and source-location reproduction, not const-row substitutions.",
@@ -782,7 +797,7 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "Review mutable matrix fingerprint candidate; full1200 Cloud.",
+  "next": "Submit reviewed mutable matrix fingerprint; full1200.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -849,7 +864,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T15:45:03Z",
+  "updated_utc": "2026-10-23T15:50:08Z",
   "watcher_handoff": {
     "ack_mode": "CONTINUE_EXISTING_WINDOW",
     "acknowledged_event_id": "5d6b90e3-1155-4dac-843d-c7f13b7050c3",
