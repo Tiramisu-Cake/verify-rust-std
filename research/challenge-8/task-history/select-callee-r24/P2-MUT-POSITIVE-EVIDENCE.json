@@ -1,0 +1,52 @@
+{
+  "accepted": false,
+  "actual_tool_hashes_source_claim": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  },
+  "assurance": "SOURCE_REPORTED",
+  "audit_complete_source_claim": true,
+  "build_id": "cb6ab304-085f-41e3-9f0a-a5cd3d0a4147",
+  "candidate": "993dd9e5dbd98332aa620e3a36a64040ed8d487f",
+  "experimental_profile": "experimental-s6-26.10-v1",
+  "matrix_pins_ref": {
+    "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json",
+    "sha256": "5aee793196c2e0ab5960f1c0ea4aab8880ca68e61d74876363e2ccf3febadbed"
+  },
+  "observations_ref": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-THIRD-OBSERVATIONS.json",
+    "sha256": "e01abe9e61171b73d10d8cc0eef64981cd77e8cc6029ba88a66403117270d8bf"
+  },
+  "pinned_original_profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+  "platform_failure_cause": "UNKNOWN via supported Brief; no green-onlyretry",
+  "platform_status": "FAILURE",
+  "positive_native_marker_count_source_claim": 1,
+  "positive_proof_exit_source_claim": 0,
+  "positive_source_intact_source_claim": true,
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "role": "QUALIFIED_POSITIVE_BASELINE_NOT_CALLEE_PUBLICATION_OR_PROOF_CREDIT",
+  "runner_exit_source_claim": 0,
+  "schema": "select-r24-mut-positive-proof-evidence-v1",
+  "scope": "T=*mut Element,unrestricted Element; no pointee ownership/generic-T theorem",
+  "source": {
+    "contract_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+    "original_sha256": "3bf0bf792c8135bf964f19b3aaadef38b8ca5ee9ec95107029ad99d28a807aaa",
+    "specialization": "T = *mut Element; Element unrestricted",
+    "verified_sha256": "74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165"
+  },
+  "statement_count_source_claim": 142,
+  "status": "CLEAN_POSITIVE_SOURCE_REPORTED_FULLMATRIX_PENDING",
+  "tool_base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_hashes_receipt_ref": {
+    "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s15-profile-actual.json",
+    "sha256": "28ab1aa64ee0b8f5a4f4069189aec5f9ec01ad4a9000f4daaf348491a9da756b"
+  },
+  "zero_errors_source_claim": true
+}

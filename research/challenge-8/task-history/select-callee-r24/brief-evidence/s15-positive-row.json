@@ -1,0 +1,117 @@
+{
+  "archive_sha256": "7bdc4cc5a7f87ed3684803848a1aecd300fe79cf0dd38ab3854a674fff5a0f6d",
+  "build_id": "cb6ab304-085f-41e3-9f0a-a5cd3d0a4147",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 14,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "39e8a0e955aba1e572a1b6475a9b8e2ba767f27e67135524abf3c636b7069f5f",
+  "file_path": "allprooflogs/cases/r24-mut-proof/MUT-PROOF.json",
+  "file_sha256": "7ae7f5e0ac87a600bb19fbce24c6b392563701ea3e05092424ba84c2425bf816",
+  "index_sha256": "02be94e3197322dcba46d349ba85836f7285ac72af2be52dc81717f548a5dc0f",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "7ae7f5e0ac87a600bb19fbce24c6b392563701ea3e05092424ba84c2425bf816",
+    "file_id": "39e8a0e955aba1e572a1b6475a9b8e2ba767f27e67135524abf3c636b7069f5f",
+    "pointer": "/rows/positive"
+  },
+  "request_id": "79a4f8b7a0a80d28c28a321771e1760f79a6c5ac7a83223181e788c388efa448",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/case_path",
+      "value": "cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/classification",
+      "value": "POSITIVE_PROOF_STAGE_RAN_SOURCE_INTACT"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/positive/errors"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/positive/native_marker_seen",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/proof_callback_invoked",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/positive/proof_credit",
+      "value": 0
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/proof_stage"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/publication_allowed",
+      "value": false
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/source_intact",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/stage_name",
+      "value": "r24-mut-proof-positive"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/variant",
+      "value": "positive"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
