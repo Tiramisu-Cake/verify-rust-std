@@ -1,0 +1,42 @@
+{
+  "schema": "select-r24-w4-capture-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_ONE_FULL_1200S_W4_SOURCE_MIR_CAPTURE_BUILD",
+  "baseline_commit": "95fff9287569b255c887b3799c38ab00677fdfd7",
+  "candidate_commit": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6",
+  "candidate_tree": "613ad19c5e15bb123ed5860ec5baf6ae7f958f5c",
+  "spec_sha256": "52b89331c2ebb0b3a486646f99ba9ae90947adf2161ce5efbc0c721cb6b2125c",
+  "packet_sha256": "f4f6845490793fd7232acf783bb3c94e6bbb114e31e20976b50fb0960049ac6f",
+  "diff_sha256": "1553a89f2ec571b78712a98628cb9bb55df2ec8ad385b1640e408eeaded25249",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json",
+      "sha256": "0e4569adee40ed4f8e819bc7e13432e509e75a9e37160c9993d79cf35713a057"
+    }
+  ],
+  "verified": [
+    "Exact packet, candidate tree, and 18 dependency hashes match the handoff. The diff changes only recipe/runner, the new capture helper and tests, mode/design, artifact index, and checkpoint/status metadata; it does not change native tool, model, or Rust source files.",
+    "The mode is closed and exact-pinned. The helper requires cloud provider, R24 session, R21 route phase, lane/profile, P2 published interface, const qualification, exact qualified profile/tool/helper pins, and refuses unlisted SORT4 opt-ins. The dormant R21 profile is checked only as a disabled constructor input (cloud_build_enabled=false); it is not used as route authority.",
+    "The constructor path checks the exact std source SHA and Git blob, invokes only pinned source-preserving C1-C5 constructors, requires ghost-strip equality, exact 5/8/4 source counts, and five ordered comparator coordinates. The source/signature/CFG are preserved by that pinned constructor chain.",
+    "The capture executes normal and readonly exporter/decode stages plus refinement, requires successful exits and fixture integrity, saves the full sort4_stable function records and physical graph inventories, rechecks source and tool hashes, and inventories capture artifacts. No verifier or caller proof stage is invoked.",
+    "Typed selector-call linkage is explicitly UNKNOWN; the helper records raw MIR selector text and complete function records without interpreting the serialized call target. The route does not set proof admission, acceptance, publication, or proof credit.",
+    "Audit recomputes physical artifact inventory, source/tool identities, fixture ghost-strip equality and stage outcomes. Incomplete, skipped, nonzero, wrong-type, timeout, and fixture-drift stages remain incomplete. BaseException paths snapshot partial artifacts and preserve the original exception.",
+    "The runner gate is default-off when the mode is absent. When present it requires the active R24 mutable proof route, exact mode/helper/interface/const qualification hashes, and absent R21 body phase; the dedicated capture branch is before the default proof/matrix pipelines and exits after its audit. The EXIT trap passes failure status to the audit while preserving runner exit."
+  ],
+  "findings": [],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Independently checked the 18 declared dependency snapshots and the prior P2 publication review hash.",
+    "Reviewed the submitted isolated helper and extracted-shell test source statically; did not rerun tests or execute any source/compiler/exporter/decoder/refinement/verifier."
+  ],
+  "limitations": [
+    "GO authorizes only one full 1200-second capture Build under the existing R24 owner/lane/phase/ledger. It does not authorize W4 proof, body proof, call linkage, caller acceptance, publication, or proof credit.",
+    "Typed linkage at all eight selector call sites remains UNKNOWN. Raw text occurrence counts are recorded, not treated as eight verified typed calls; later work must perform a separate checked call-target analysis.",
+    "C1-C5 callback coordinates and the captured source/MIR remain source-reported until the Build and Evidence Brief observations are reviewed. No local actual preparation or native tool execution was performed."
+  ],
+  "proof_credit": 0
+}

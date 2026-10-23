@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4c71cd261149093c17a7d1d29523b95fe04eef549e054c555392604aa779a602"
+      "sha256": "fe6331c30b787e29f21ed584b2452fa8b8db7fe7d104197ae6efdd6b5406901b"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-R24-REPRESENTATIVE-SCOPE-DECISION.json",
-        "sha256": "ed8db7bd6793b87a9d627865297cbf5e0d8928ced3a7c456709743e3ef82e3e3"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-capture-review.json",
+        "sha256": "31c0b92c89d5b76e8a7389cb48b04a3e4e5be59beea1ae180250133c3a3ab202"
       }
     ],
-    "summary": "W4 eightactualconst-call linkage/sourceMIR capture notyetimplemented; C5body pending."
+    "summary": "W4capture reviewedGO/unbuilt; freshactualMIR and8const-call linkage pending. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "4c71cd261149093c17a7d1d29523b95fe04eef549e054c555392604aa779a602"
+    "sha256": "fe6331c30b787e29f21ed584b2452fa8b8db7fe7d104197ae6efdd6b5406901b"
   },
   "brief_observation_refs": [
     {
@@ -1106,8 +1106,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "W4: reviewedclosed capturemode inexistingR24lane; freshbodyMIR+8constcalls, thencheckedlinkage/C5.",
-  "next_step": "W4: reviewedclosed capturemode inexistingR24lane; freshbodyMIR+8constcalls, thencheckedlinkage/C5.",
+  "next": "Publisha167b28; full1200W4capture Build, then Brief/checked8const-call linkage/C5.",
+  "next_step": "Publisha167b28; full1200W4capture Build, then Brief/checked8const-call linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1222,7 +1222,27 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T22:33:51Z",
+  "updated_utc": "2026-10-23T22:49:09Z",
+  "w4_capture_candidate": {
+    "accepted": false,
+    "body_proof_run": false,
+    "call_linkage": false,
+    "candidate": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6",
+    "helper_sha256": "bf6c0e6c71872efae5fee81a2ead825696fd03089a07813c49f529c482851df6",
+    "mode_sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "1f5fcfff47129dd69f78e10dff09b182499a34a6cb331ac1a4fc09d49748fbad",
+    "proof_credit": 0,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-w4-capture-review.json",
+    "review_sha256": "31c0b92c89d5b76e8a7389cb48b04a3e4e5be59beea1ae180250133c3a3ab202",
+    "runtime_closure": {
+      "bytes": 3339240,
+      "entries": 148,
+      "sha256": "98ac0470e33e95203941fa040a22f36134bd7e97d5504d286650b5d7c47860f6"
+    },
+    "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
+    "state": "REVIEWED_UNBUILT"
+  },
   "w4_capture_preparation": {
     "accepted": false,
     "design": {
@@ -1239,7 +1259,7 @@
       "sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
     },
     "proof_credit": 0,
-    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "state": "REVIEWED_UNBUILT",
     "tests": "7capture +7shell isolatedtests pass;13existingmutrunner tests pass; Bashn/staticpins/diffcheck pass",
     "worker": "r24_admission"
   },
