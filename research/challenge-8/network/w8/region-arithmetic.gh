@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+// Pure integer definitions only; no Rust/source/MIR binding is established.
+fixpoint int w8_region_prefix(int region_len) {
+    return region_len >= 13 ? 13 : (region_len >= 9 ? 9 : 1);
+}
+
+fixpoint int w8_left_len(int len) {
+    return len / 2;
+}
+
+fixpoint int w8_right_len(int len) {
+    return len - w8_left_len(len);
+}
