@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r23
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: ACTIVE
-- Updated: 2026-10-23T09:02:18Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: HANDOFF
+- Updated: 2026-10-23T09:07:20Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T07:37:19Z`; main deadline `2026-10-23T09:37:19Z`; absolute deadline `2026-10-23T10:07:19Z`
 - Budget: 3600s total; 667s spent; 0s retired; 2933s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -32,7 +32,7 @@ R23 R22b proof rejects owner shared cleanup predecessor inventory before SE; inv
 - [research/challenge-8/task-history/select-callee-r23/S2-POSITIVE-ERROR.json](task-history/select-callee-r23/S2-POSITIVE-ERROR.json) SHA `a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250` Build `e25a96d4-25c0-416f-a55c-debb87baacb1`
 
 ## Next
-CFGlayout68810→cadaa reviewedGO4e762d64; publish source andsubmit full1200proof before09:12:19. Same8source/ghost/MIRrowpins. AfterterminalBrief pin7targets/matrix ifpositiveclean; else next static repair/handoff.
+Ack thirdproof watcher thenBriefcf8405cc positivefirst; boundedparallelproofrowreader /tmp/r23-proof-rows-reader.py ready. Ifcleanpositivefresh7targets/matrixcandidate; no newsubmitafter09:12:19 fullenvelope, continueofflineuntil09:37.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64`
