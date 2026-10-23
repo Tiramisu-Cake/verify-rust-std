@@ -1,10 +1,10 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n4
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N4 | state: ACTIVE
-- Updated: 2026-10-23T09:25:08Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N4 | state: CLOSED
+- Updated: 2026-10-23T09:37:06Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`
 - Session dates: T0 `2026-10-23T07:52:10Z`; main deadline `2026-10-23T09:52:10Z`; absolute deadline `2026-10-23T10:22:10Z`
-- Budget: 3600s total; 3193s spent; 0s retired; 407s remaining including active reservations
+- Budget: 3600s total; 3193s spent; 407s retired; 0s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -15,24 +15,26 @@
 - [INDEPENDENTLY_ESTABLISHED] Luna HIGH scoped GO public-post batching55a225f6; updated-bodyacceptance needscompletecontrolprefix. — [research/challenge-8/network/n13/REVIEW-PUBLIC-POST-N4.md](network/n13/REVIEW-PUBLIC-POST-N4.md) SHA `f8000a7a2525c487b714303d9b4abb0707768d5301321e4383ff722557e39774`
 - [SOURCE_REPORTED] Missinglaw intendedfailure65 and all7classifiercontrols accepted asreported. — [research/challenge-8/observations/6bf1eb77f7037b3a55a0724197743438094075c73a189f523b4ab3ec336d35f9.json](observations/6bf1eb77f7037b3a55a0724197743438094075c73a189f523b4ab3ec336d35f9.json) SHA `6bf1eb77f7037b3a55a0724197743438094075c73a189f523b4ab3ec336d35f9`
 - [SOURCE_REPORTED] Membership intendedfailure3649;29bodies/28positiveprefix checked,7classifiercontrolsaccepted asreported. — [research/challenge-8/observations/5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa.json](observations/5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa.json) SHA `5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa`
+- [SOURCE_REPORTED] FreshN9 accepted89.523s/27bodies/546checks; standaloneN13timeout360 retained. — [research/challenge-8/observations/2eadbfd6c88afc919e1ae15ecfdbc8c8db99083846a23c16c5200a06700dc2bd.json](observations/2eadbfd6c88afc919e1ae15ecfdbc8c8db99083846a23c16c5200a06700dc2bd.json) SHA `2eadbfd6c88afc919e1ae15ecfdbc8c8db99083846a23c16c5200a06700dc2bd`; [research/challenge-8/observations/22a397a53d05b09c72f5f21e967ac1037d6dbd71f56bab073df8302231f846a2.json](observations/22a397a53d05b09c72f5f21e967ac1037d6dbd71f56bab073df8302231f846a2.json) SHA `22a397a53d05b09c72f5f21e967ac1037d6dbd71f56bab073df8302231f846a2`
 
 ## Open
-- FullacceptanceOPEN: ordernegativeUNRUN, standaloneN13regressionINCONCLUSIVE.
-- W8arithmetic/Cloud-onlypreparation UNVERIFIED; independentreview pending.
-- Prepared universal480 profile willbeUNRUN; no budget/window restart.
-- R4/W7blocked: latestSelectP2NOT_PUBLISHED.
+- OrdernegativeUNRUN; standaloneN13regressionINCONCLUSIVE. No fullacceptance/B1/B2/Rustcredit.
+- Prepared universal480 profile and W8Cloud-onlypreparer are UNRUN; futurephase/ledger required.
+- R4/W7 P2 NOT_PUBLISHED; actualW8 requires W3/W5/W7/sourceMIR resources.
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
 - Universal N13 PASS or timeout/setup refusal counted as exact adapter acceptance — Exact full posts and intended controls on compatible source/tool identities are required.; [research/challenge-8/networks/RANK-RESULTS.md](networks/RANK-RESULTS.md) SHA `c76848727b3f62acd5c9b49ea4133c236db3f4d4a903bc42d5b8c159b215f2ca`
 
 ## Blocker
-OrderUNRUN; standaloneN13timeout360. AllBuildsaccounted;407s cannotfit anyfullenvelope.
+Full acceptance OPEN: orderUNRUN; standaloneN13timeout. N4closed,407retired,carry0.
 
 ## Next
-Review prepared W8 assembler; prepare/review480s universal timing candidate and exacthandoff. No furtherN4Build.
+Freshadmission: order600/975+60; assess universal480/855+60 and same-unitcoverage. W8candidateUNVERIFIED.
 
 ## Artifacts
-- [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`
-- [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json) — `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`
-- [research/challenge-8/network/n13/N3-HANDOFF.md](network/n13/N3-HANDOFF.md) — `467e27bf2f81ef56c72d1fb1daf6afbbb87a6c51030ee621679e1e2611aecea4`
+- [research/challenge-8/network/n13/N4-HANDOFF.md](network/n13/N4-HANDOFF.md) — `8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3`
+- [research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json](cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json) — `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`
+- [research/challenge-8/network/n13/REVIEW-TIMING-HANDOFF-N4.md](network/n13/REVIEW-TIMING-HANDOFF-N4.md) — `3a37f7121367790cddc3d9c79bc07fc5343be24c890efb56c0085bb244bc0dcd`
+- [research/challenge-8/network/w8/REVIEW-PREPARE-N4.md](network/w8/REVIEW-PREPARE-N4.md) — `c598d77ed3627bd15cbac3c80374b2531e577c6e5b4b80dbee1e4bd9203f00c7`
+- [research/challenge-8/network/w8/ARITHMETIC-N4.md](network/w8/ARITHMETIC-N4.md) — `1424cc7c44c19ba84bb0fc3d37e2ff2e4d7cff81d77bdf2edc46b7b16763fbec`

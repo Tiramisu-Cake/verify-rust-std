@@ -60,8 +60,9 @@ coordinates stay exact.
 
 `test_prepare_region_arithmetic.py` tests only synthetic byte fixtures and a
 mocked provider. Twelve tests passed for success, refusal, provider-gate
-ordering, and partial-write cleanup. The CLI itself was not run, and no
-actual assembled unit hash is claimed in this handoff.
+ordering, and partial-write cleanup. Tests exercise main only with mocked
+provider and synthetic files. The CLI was not invoked on actual repository
+proof inputs, and no actual assembled unit hash is claimed in this handoff.
 
 The input-length facts `len < 2` and `len > 32` remain prospective routing
 observations from source inspection only. This artifact does not claim that

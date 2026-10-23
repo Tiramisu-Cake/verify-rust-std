@@ -48,10 +48,10 @@ Next: Fresh admission: shape3 exact, controls, compatible matrix.
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · ACTIVE**
-Updated: 2026-10-23T09:25:08Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
-Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 3193s spent, 0s retired, 407s remaining including reservations.
+**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · CLOSED**
+Updated: 2026-10-23T09:37:06Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890`.
+Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 3193s spent, 407s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: OrderUNRUN; standaloneN13timeout360. AllBuildsaccounted;407s cannotfit anyfullenvelope.
-Next: Review prepared W8 assembler; prepare/review480s universal timing candidate and exacthandoff. No furtherN4Build.
+Blocker: Full acceptance OPEN: orderUNRUN; standaloneN13timeout. N4closed,407retired,carry0.
+Next: Freshadmission: order600/975+60; assess universal480/855+60 and same-unitcoverage. W8candidateUNVERIFIED.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

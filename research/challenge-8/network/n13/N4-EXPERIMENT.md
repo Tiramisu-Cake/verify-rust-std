@@ -175,3 +175,11 @@ ceiling and ledger. This grants no fresh window or budget and no Build will
 be submitted under this unrun profile. Future use requires a fresh assignment,
 phase/ledger and review. The limited revision tests measured need with margin;
 no assertion failure or accepted proof is inferred from timeout.
+
+## Closeout navigation correction
+
+One early shape3 body_milestones offset20 request was made without obtaining
+that array's next cursor. Its response was not used for any claim or committed
+as evidence. The wrapper fact instead comes from the direct index26 pointer;
+result/inventory continuations use their returned next_offset. No proof,
+absence or parser binding was inferred from the stray request.

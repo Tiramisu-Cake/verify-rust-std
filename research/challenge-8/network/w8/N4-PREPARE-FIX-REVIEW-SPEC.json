@@ -1,0 +1,33 @@
+{
+  "applicability": "Puremathstock26.09 candidate,UNVERIFIED; W8sourceassociationcd371e/SHA85c75bc9 only. No currentW8Cloudstage or Rustproof.",
+  "baseline_commit": "3defef8604fe82dec037fc6283aab1bab389e9c4",
+  "candidate_commit": "84b9ffb9301ab95ade8b06e72f8e8bc0e1101884",
+  "controls": [
+    "12synthetic-onlytests pass,includingconsistentrepin/wrongrawmanifestbeforeparse refusals.",
+    "NoactualCLI/assembly/compiler/verifier/proofinputreads locally."
+  ],
+  "defect": "ResolveW8preparerNO_GO:untrustedmanifestcouldself-repininputclosure; nowfixedrawmanifestSHAandexactpath+SHAallowlist,axiomrefusal.",
+  "dependencies": [
+    "research/challenge-8/network/w8/REVIEW-ARITHMETIC-N4.md",
+    "research/challenge-8/network/w8/region-arithmetic.gh",
+    "research/challenge-8/network/w8/region-arithmetic-lemmas.c",
+    "research/challenge-8/network/w8/len25-both-prefixes-9.negative.inc",
+    "research/challenge-8/network/w8/region8-prefix-9.negative.inc",
+    "research/challenge-8/network/w8/len33-fits32.negative.inc",
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/network/w8/ARITHMETIC-INPUTS-N4.json"
+  ],
+  "invariants": [
+    "CloudCLI existingexactproviderfileguard BEFOREsource/inputI/O; no genericcachedprovider.",
+    "Fixedsourcecommit/blob/path/SHA85c75bc9;inputsha pins;safe relative pathsandnonsymlinkreads.",
+    "Positive+separateone-negativecompletebodyunits;allmetadataUNVERIFIED,proofcreditfalse,parserbindingNOT_ESTABLISHED,diagnosticnull.",
+    "Original .gh/.c/.inc inputsunchanged; no currentCIstage/runner/profile/coordinator/source/tool edits."
+  ],
+  "known_limitations": [
+    "PreserveoriginalNOGOandappendresolveddelta. NoW8proof/admission/credit.",
+    "LexicalchecksnotCparser;futureCloudpositive/controlmatrix/sourceMIRbindingrequired."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

@@ -1,16 +1,24 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/network/n13/N3-SCOPE-20261023.md",
-      "sha256": "0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78"
+      "path": "research/challenge-8/network/n13/N4-HANDOFF.md",
+      "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
     },
     {
-      "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
-      "sha256": "09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab"
+      "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
+      "sha256": "08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13"
     },
     {
-      "path": "research/challenge-8/network/n13/N3-HANDOFF.md",
-      "sha256": "467e27bf2f81ef56c72d1fb1daf6afbbb87a6c51030ee621679e1e2611aecea4"
+      "path": "research/challenge-8/network/n13/REVIEW-TIMING-HANDOFF-N4.md",
+      "sha256": "3a37f7121367790cddc3d9c79bc07fc5343be24c890efb56c0085bb244bc0dcd"
+    },
+    {
+      "path": "research/challenge-8/network/w8/REVIEW-PREPARE-N4.md",
+      "sha256": "c598d77ed3627bd15cbac3c80374b2531e577c6e5b4b80dbee1e4bd9203f00c7"
+    },
+    {
+      "path": "research/challenge-8/network/w8/ARITHMETIC-N4.md",
+      "sha256": "1424cc7c44c19ba84bb0fc3d37e2ff2e4d7cff81d77bdf2edc46b7b16763fbec"
     }
   ],
   "assignment_sha256": "e231d860bdd9945311004ed62a7ddf90c88236d7145a6141085ae7b82a93d2f6",
@@ -21,8 +29,9 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "OrderUNRUN; standaloneN13timeout360. AllBuildsaccounted;407s cannotfit anyfullenvelope."
+    "summary": "Full acceptance OPEN: orderUNRUN; standaloneN13timeout. N4closed,407retired,carry0."
   },
+  "closure_reason": "Independent tasks audited: full exact and post-context repairs implemented/reviewed/observed; required missing/member+7classifier controls accepted, order1035s envelope unavailable under407s without forbidden limitcuts. N9/universal full regression attempted, N9 accepted/universal timeout preserved; measured480s candidate implemented/tested/reviewed. W8 arithmetic+separatecontrols+Cloud-only pinned preparer implemented,12synthetic tests,independent GO after repin fix; actual proof/sourceMIR/diagnostics require future authorizedCloud. R4/W7 latestSelectP2 NOT_PUBLISHED, no active accepted mutable route; actualW8 needs publishedW3/W5/W7 resources, Rustadmission/ownership/unwind/ZST facts. Same-positioncallback/sharedlayers/coordinator/otherowners/toolmodel work outsidebounds. All remaining useful authorized implementation candidates are concrete/reviewed; evidence/callee boundary remains. Goal INCOMPLETE, no formal credit.",
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
@@ -87,14 +96,65 @@
           "sha256": "5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "FreshN9 accepted89.523s/27bodies/546checks; standaloneN13timeout360 retained.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/2eadbfd6c88afc919e1ae15ecfdbc8c8db99083846a23c16c5200a06700dc2bd.json",
+          "sha256": "2eadbfd6c88afc919e1ae15ecfdbc8c8db99083846a23c16c5200a06700dc2bd"
+        },
+        {
+          "path": "research/challenge-8/observations/22a397a53d05b09c72f5f21e967ac1037d6dbd71f56bab073df8302231f846a2.json",
+          "sha256": "22a397a53d05b09c72f5f21e967ac1037d6dbd71f56bab073df8302231f846a2"
+        }
+      ]
     }
   ],
-  "next_step": "Review prepared W8 assembler; prepare/review480s universal timing candidate and exacthandoff. No furtherN4Build.",
+  "goal_outcome": "INCOMPLETE_HANDOFF",
+  "mission_queue": [
+    {
+      "obligation": "ExactN13fullposts",
+      "reason": "cbbe4b5f fullpositive; updatedpost checkedin membershipprefix1cd61623; no independentcredit.",
+      "state": "SOURCE_ACCEPTED"
+    },
+    {
+      "obligation": "Required intended controls",
+      "reason": "Missinglaw/member+7classifiers accepted;990<1035orderenvelope, no limitcuts.",
+      "state": "ORDER_UNRUN"
+    },
+    {
+      "obligation": "Compatible regressions",
+      "reason": "N9freshaccepted;standaloneuniversal360timeout;universalbody also checkedinsuccessfulexact/prefix.",
+      "state": "PARTIAL"
+    },
+    {
+      "obligation": "Measured universal480 handoff",
+      "reason": "Preparefull480case+reserves from360timeout/last358; no newbudget/window.",
+      "state": "REVIEW_GO_UNRUN"
+    },
+    {
+      "obligation": "W8arithmeticalcallerpreparation",
+      "reason": "Arithmetic/helper implemented;12synthetic tests; manifestrepinningNO_GO fixed andindependentlyreviewed. ActualCloudassembly/proof/sourceMIR unrun.",
+      "state": "PREPARATION_REVIEW_GO_UNVERIFIED"
+    },
+    {
+      "obligation": "R4/W7actualcallback/selectintegration",
+      "reason": "Select latestP2NOT_PUBLISHED;P1candidateonly. No uncheckedparallel layer.",
+      "state": "BLOCKED_EXTERNAL_INTERFACE"
+    },
+    {
+      "obligation": "W8actualcallerownership/unwind",
+      "reason": "Requires publishedsameversioncallees and Rust source/MIR admission; purearithprep doesnotreplace them.",
+      "state": "WAIT_W3_W5_W7"
+    }
+  ],
+  "next_step": "Freshadmission: order600/975+60; assess universal480/855+60 and same-unitcoverage. W8candidateUNVERIFIED.",
   "open": [
-    "FullacceptanceOPEN: ordernegativeUNRUN, standaloneN13regressionINCONCLUSIVE.",
-    "W8arithmetic/Cloud-onlypreparation UNVERIFIED; independentreview pending.",
-    "Prepared universal480 profile willbeUNRUN; no budget/window restart.",
-    "R4/W7blocked: latestSelectP2NOT_PUBLISHED."
+    "OrdernegativeUNRUN; standaloneN13regressionINCONCLUSIVE. No fullacceptance/B1/B2/Rustcredit.",
+    "Prepared universal480 profile and W8Cloud-onlypreparer are UNRUN; futurephase/ledger required.",
+    "R4/W7 P2 NOT_PUBLISHED; actualW8 requires W3/W5/W7/sourceMIR resources."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -126,13 +186,13 @@
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
-    "remaining_seconds": 407,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 407,
     "spent_seconds": 3193,
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T09:25:08Z"
+  "updated_utc": "2026-10-23T09:37:06Z"
 }
