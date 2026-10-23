@@ -1,4 +1,15 @@
 {
+  "active_dispatch": {
+    "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
+    "config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
+    "dispatch_token": "dispatch-7afa3bcb94ef4653ba9b6e6bedbd66d9",
+    "infra_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+    "proof_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
+    "reservation_seconds": 1260,
+    "stage": "warm-g1",
+    "state_dir": "/root/smallsort-cloud-network-rr-n8",
+    "timeout_seconds": 1200
+  },
   "actual_execution_profile_sha256": "abd1aed0a91ad29e82251f2151b004a305ddfc315e3ed1c224a0d705c78a5d9b",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "artifacts": [
@@ -31,7 +42,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Warm G1 not run; canonical freeze reviewed GO."
+    "summary": "Warm G1 Build running; result/cleanup/specs UNKNOWN."
   },
   "cold_attempt_accounting": {
     "cold_attempts_started": 1,
@@ -104,7 +115,7 @@
     "proof_credit": 0,
     "status": "SUCCESS"
   },
-  "next_step": "Submit reviewed warm G1, full1200/1260, canonical digest; classify through Brief.",
+  "next_step": "Wait via own watcher, ack terminal event, then Brief and immediate accounting push.",
   "open": [
     "G1/frontend/cleanup NOT_RUN; missing specs UNKNOWN.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
@@ -125,7 +136,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "778dfce1-2f3d-4ad9-a098-f7019138dc23"
+    ],
     "budget_seconds": 5009,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
@@ -137,9 +150,9 @@
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T22:08:43Z",
+  "updated_utc": "2026-10-23T22:09:21Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "aea29b59-c9f8-463b-9e89-164e05496e55",
