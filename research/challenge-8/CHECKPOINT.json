@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
     "evidence": [],
-    "summary": "W4source/MIR capture pending; bodyproof and8const-call linkage remainopen. P2 PUBLISHED."
+    "summary": "W4APIcapture terminalFAILURE accounted; actualresult pendingBrief. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
@@ -1112,8 +1112,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
-  "next_step": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
+  "next": "Brief cf667c5d W4capture source/MIR/refinement; fixorchecked8constlinkage/C5.",
+  "next_step": "Brief cf667c5d W4capture source/MIR/refinement; fixorchecked8constlinkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1206,17 +1206,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "cf667c5d-ce30-4803-b166-18f48b5cde6f"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 13610,
+    "remaining_seconds": 13279,
     "retired_seconds": 0,
-    "spent_seconds": 7990,
+    "spent_seconds": 8321,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1228,14 +1226,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:04:01Z",
+  "updated_utc": "2026-10-23T23:09:47Z",
   "w4_api_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "body_proof_run": false,
     "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+    "build_seconds": 331,
     "call_linkage": false,
     "candidate": "ffc37256f396ca6edd40108affc6f23d8feff367",
     "config_sha256": "4f9aadd14fe283619fdfeb2dfc19a399ccd3c3ceb6d61390dd54a2227d786670",
@@ -1243,10 +1242,10 @@
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_CAPTURE_ONLY",
+    "result": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
     "schema": "select-r24-w4-api-submission-v1",
     "source_payload_sha256": "0745fb80b900492e8523f8058d6a69671e829cf795279d4f125a5f9d5a474d04",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "w4_api_candidate": {
@@ -1267,7 +1266,7 @@
       "sha256": "8853229099727754144b21f8984925a81f1e8834db970a9d3933e5c829982cc6"
     },
     "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
-    "state": "SUBMITTED"
+    "state": "TERMINAL_ACCOUNTED_PENDING_BRIEF"
   },
   "w4_capture_build": {
     "accepted": false,
@@ -1352,9 +1351,12 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T23:09:47Z",
       "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
       "checkpoint_frozen_after_arm": true,
       "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
+      "event_id": "9ffc3354-a01c-4eb3-9d60-ae6c4d07428d",
       "spec_path": "/tmp/select-r24-w4-api-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
