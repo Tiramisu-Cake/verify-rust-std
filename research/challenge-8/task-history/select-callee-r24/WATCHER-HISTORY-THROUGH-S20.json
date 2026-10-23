@@ -1,0 +1,228 @@
+{
+  "arm_refusal": "watch: oversized/nonregular authority file",
+  "checkpoint_prior_bytes": 137966,
+  "proof_credit": 0,
+  "reason": "CHECKPOINT authority cap128KiB; historical entries preserved unchanged; nowatcher/coordinator gate changed.",
+  "records": [
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "3434ee4f-f8d6-4e9b-8b6a-13614843802d",
+      "acknowledged_job_id": "a2b2fd94-969c-4707-b58a-23ac33a7fda2",
+      "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; no new authorization or proof credit.",
+      "spec_path": "/tmp/select-r24-first-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "8614abb4-f8d8-4e26-80e5-d0785c85b71c",
+      "acknowledged_job_id": "db113fcb-a351-4414-b5de-6ab16406665b",
+      "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
+      "spec_path": "/tmp/select-r24-ast-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "d433e26c-785a-4001-ba55-a7f98486f27d",
+      "acknowledged_job_id": "8f24447b-51f1-4f5c-8000-492dea5cb0e1",
+      "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; repaired serializer candidate, zero credit pending Brief.",
+      "spec_path": "/tmp/select-r24-serializer-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "d885065f-c72d-4bfb-840a-0d76c81813df",
+      "acknowledged_job_id": "2cd91d32-9f9a-46e9-8880-3ad9967a691f",
+      "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window, exact checked-outcomes candidate; no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-checked-outcomes-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "c1c403d7-c58a-4d50-b446-376283b1cfcf",
+      "acknowledged_job_id": "e4e3162b-5ef6-4b2d-84a3-0baff91c8c29",
+      "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window, exact compile-scope correction; no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-checked-outcomes-scope-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "b8e511ef-bee5-4717-85ce-13c69615fd9f",
+      "acknowledged_job_id": "4a55a292-8776-468e-b92b-183d57a4bb69",
+      "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window, exact nine-profile correction; no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-checked-outcomes-nine-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "b08ded8a-dbb3-4c4c-b498-82f47020d9b5",
+      "acknowledged_job_id": "5e4ff81c-8b47-4798-a862-94a35e4ca4ad",
+      "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; reviewed fresh eight-row classified matrix, no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-matrix-route-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "52f069e6-f572-4002-b244-d045d90eb3e8",
+      "acknowledged_job_id": "d19f2ec3-107a-4311-ba48-2c436da0b8ab",
+      "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
+      "spec_path": "/tmp/select-r24-mut-capture-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "2442e181-92b6-4bad-b322-35f56ee90c6a",
+      "acknowledged_job_id": "9bfe193b-afd2-4d71-98d1-11367bc6c8d8",
+      "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
+      "prior_arm_refusals": [
+        "watch: coordinator read lock busy",
+        "watch: job store capacity exceeded"
+      ],
+      "spec_path": "/tmp/select-r24-mut-owner-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "store_decision_ref": "research/challenge-8/task-history/select-callee-r24/WATCHER-MUT-OWNER-STORE-DECISION.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "6a1f8ed9-3e5a-4c98-bb68-c79c933648ef",
+      "acknowledged_job_id": "6776940a-a976-4d9c-90a0-116b452d86cd",
+      "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+      "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "5d6b90e3-1155-4dac-843d-c7f13b7050c3",
+      "acknowledged_job_id": "328126cf-4bdc-4e5f-866d-19dcf42c9f29",
+      "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+      "spec_path": "/tmp/select-r24-mut-refusal-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T15:57:04Z",
+      "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+      "event_id": "2962ca42-89cc-4b47-a8d2-1b9183e8351a",
+      "spec_path": "/tmp/select-r24-mut-matrix-fingerprint-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T19:20:07Z",
+      "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; terminal accounting commit/push immediately before Brief. Evidence only through Brief.",
+      "event_id": "4277398d-0676-4bd0-8b85-551385cc64b4",
+      "spec_path": "/tmp/select-r24-mut-positive-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_transient": "First coordinator read lock busy; retry after5s succeeded, no CP mutation beforeACK.",
+      "ack_utc": "2026-10-23T19:38:03Z",
+      "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+      "event_id": "38f08c94-ade2-4a65-a9be-f4fcb4cee38a",
+      "spec_path": "/tmp/select-r24-mut-a1-primitives-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T19:52:03Z",
+      "build_id": "cb6ab304-085f-41e3-9f0a-a5cd3d0a4147",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+      "event_id": "a9b0ddbd-bbfb-467e-a2c5-41fd14db5769",
+      "spec_path": "/tmp/select-r24-mut-successor-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T20:22:17Z",
+      "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+      "event_id": "a9870cfd-7155-418a-bf0e-633cecebad87",
+      "spec_path": "/tmp/select-r24-mut-matrix-proof-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T20:52:12Z",
+      "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/account/window. ACK before CP mutation; immediate terminal accounting commit/push before Brief.",
+      "event_id": "5bcae527-dea9-42e7-b873-903cc2d50b62",
+      "spec_path": "/tmp/select-r24-mut-classified-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "REFUSED_LATEST_OWNER_STEER; WATCHER_STOPPED",
+      "ack_refusal": "Three coordinator-read-lock busy refusals; then latest turn does not confirm exact queued event after direct owner clarification.",
+      "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Latest direct owner instruction explicitly continues existingR24 without newwindow/budget. Oldwatcherstopped, ordinaryexistingclientstatus revalidated terminal/accounting beforeCPmutation. No ACK successclaimed.",
+      "event_id": "6313398f-1651-401f-af8a-1b48d2a70bb1",
+      "spec_path": "/tmp/select-r24-mut-refusals-watch.json",
+      "stop_requested": true,
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T21:35:24Z",
+      "build_id": "a9f456ed-f96d-49fb-8259-6dcb9dfaee7b",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "SameR24/T0/account/window andlatestownerpolicy926979f3. ACKbeforeCP; immediatelypush terminalaccountingbeforeBrief.",
+      "event_id": "eaa6752e-fd39-4d3a-a98a-e53a662b711d",
+      "spec_path": "/tmp/select-r24-mut-refusal-path-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T21:56:13Z",
+      "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "SameR24/T0/account/window; latestownerpolicy926979f3. ACKbeforeCP, immediatelypush terminalaccountingbeforeBrief.",
+      "event_id": "916dfd33-0a7a-432a-b9a7-cf321b8ec406",
+      "spec_path": "/tmp/select-r24-mut-partial-target-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    }
+  ],
+  "schema": "select-r24-watcher-history-v1"
+}
