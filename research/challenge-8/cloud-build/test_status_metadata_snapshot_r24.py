@@ -45,6 +45,14 @@ class StatusMetadataSnapshot(unittest.TestCase):
         self.assertIsNot(first, second)
         self.assertIsNot(first["nested"], second["nested"])
 
+    def test_tuple_arguments_preserve_original_list_concatenation_error(self):
+        run = MagicMock(return_value=result(json.dumps(self.metadata)))
+        with patch.object(CONTROL.subprocess, "run", run), CONTROL.status_metadata_snapshot(True):
+            CONTROL.invoke(self.query)
+            with self.assertRaises(TypeError):
+                CONTROL.invoke(tuple(self.query))
+        self.assertEqual(run.call_count, 1)
+
     def test_build_ids_and_nonexact_query_arguments_are_separate(self):
         run = MagicMock(side_effect=[result('{"id":"build-a"}'),
                                     result('{"id":"build-b"}'),

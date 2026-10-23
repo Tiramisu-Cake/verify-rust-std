@@ -291,7 +291,7 @@ def status_metadata_snapshot(enabled):
   _STATUS_METADATA_CACHE=previous
 
 def _status_metadata_key(args):
- if (isinstance(args,(list,tuple)) and len(args)==5 and args[0]=='builds' and
+ if (isinstance(args,list) and len(args)==5 and args[0]=='builds' and
      args[1]=='describe' and isinstance(args[2],str) and args[3]=='--region=global' and
      args[4]=='--format=json'):
   return tuple(args)
