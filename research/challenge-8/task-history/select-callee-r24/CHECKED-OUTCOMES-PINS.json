@@ -1,0 +1,33 @@
+{
+  "schema": "select-r24-checked-pointer-outcomes-v1",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "route": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "flag": "SORT4_R24_CHECKED_POINTER_OUTCOMES=1",
+  "default": "OFF",
+  "base_translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+  "result_translator_sha256": "f575205cfb778ce9a02faee53709d60d98b5fc3cc8f9c9b68e140c5a0689c2a3",
+  "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+  "patch_sha256": "bedbc92b68d4007bd84aa4e05c4eb513c794d3d271e51efcfe81b46ef7e7fb56",
+  "actual_ast_sha256": "50ae0cf9953864422f3ccc589b45045db6387d6ae90ac301205d505277b5757e",
+  "proof_credit": 0,
+  "projects": [
+    {
+      "external_callee": "std::ptr::mut_ptr::<impl *mut T>::drop_in_place",
+      "local_callee": "sort4_checked_pointer_drop<Element>",
+      "operand": "Move(_32)",
+      "destination": "_31",
+      "normal_target": 16,
+      "cleanup_target": 28
+    },
+    {
+      "external_callee": "std::mem::MaybeUninit::<T>::assume_init",
+      "local_callee": "checked_assume_init_pointer<Element>",
+      "operand": "Move(_41)",
+      "destination": "_0",
+      "normal_target": 25,
+      "cleanup_target": 28
+    }
+  ],
+  "changes": "translator overlay only; no source/fingerprint/runner/recipe changes",
+  "validation": "synthetic/static tests only; no compiler, proof, source preparation, or Cloud"
+}

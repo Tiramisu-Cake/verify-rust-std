@@ -1,0 +1,163 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1095,6 +1095,39 @@
+        | _ -> reject "outer unexpected ghost type arguments")
+   end
+ 
++  (* Exact R24 extension of the existing checked-result path. The flag is
++     validated after all source/MIR certificates are initialized. *)
++  module Sort4R24CheckedPointerOutcomes = struct
++    let active = ref false
++    let drop_redirects = ref 0
++    let assume_init_redirects = ref 0
++    let reject why = failwith
++      ("SORT4-R24-CHECKED-POINTER-OUTCOMES: refusal: " ^ why)
++    let admit () =
++      active := false;
++      drop_redirects := 0;
++      assume_init_redirects := 0;
++      match Sys.getenv_opt "SORT4_R24_CHECKED_POINTER_OUTCOMES" with
++      | None -> Ok ()
++      | Some "1" ->
++          if Sys.getenv_opt "SORT4_R24_SESSION_PHASE_ID" <>
++               Some "SORT4-ACTUAL-SELECT-2026-10-24-R24" ||
++             Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" <>
++               Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" ||
++             not !Sort4SelectIntrinsic.active ||
++             not !Sort4SelectIntrinsic.actual_certified ||
++             not !Sort4SelectIntrinsic.actual_owner_admitted ||
++             not !Sort4SelectIntrinsic.actual_nine_admitted ||
++             !Sort4SelectIntrinsic.actual_fractional_variant = None ||
++             not !Sort4PointerDrop.active ||
++             not !Sort4A1Nine.active || not !Sort4A1Link.active ||
++             TranslatorArgs.ignore_unwind_paths
++          then reject "exact R24/R21 certified fractional nine-body route required";
++          active := true;
++          Ok ()
++      | Some _ -> reject "flag must be absent or exactly 1"
++  end
++
+   module CapnpAux = struct
+     open Stdint
+ 
+@@ -3614,7 +3647,8 @@
+             | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
+               when !Sort4PointerDrop.active &&
+                    !Sort4SelectIntrinsic.active &&
+-                   !Sort4SelectIntrinsic.actual_certified &&
++                   (!Sort4SelectIntrinsic.actual_certified ||
++                    !Sort4R24CheckedPointerOutcomes.active) &&
+                    State.body_name = "select_unpredictable" ->
+                 (match fn_def_ty_cpn.substs,
+                        fn_def_ty_cpn.late_bound_generic_param_count,
+@@ -3970,8 +4004,73 @@
+           | _ -> Sort4ActualForgetOwn.reject
+               "typed SAFE forget call/outcome/shared cleanup"
+       in
++      let checked_r24_pointer_outcome =
++        let r24_target_callee = match D.decode_operand func_cpn with
++          | Constant {const=Val {ty={kind=FnDef {id={name}; _}}}} ->
++              name = "std::ptr::mut_ptr::<impl *mut T>::drop_in_place" ||
++              name = "std::mem::MaybeUninit::<T>::assume_init"
++          | _ -> false in
++        if not !Sort4R24CheckedPointerOutcomes.active ||
++           State.body_name <> "select_unpredictable" ||
++           not r24_target_callee then false
++        else
++          match D.decode_operand func_cpn,
++                List.map D.decode_operand args_cpn,
++                fn_call_rexpr,
++                UnwindActionRd.get (unwind_action_get fn_call_data_cpn),
++                OptionRd.get (target_get fn_call_data_cpn) with
++          | Constant {const=Val {ty={kind=FnDef
++              {id={name="std::ptr::mut_ptr::<impl *mut T>::drop_in_place";
++               substs=[{kind=Type pointer}];
++               late_bound_generic_param_count=0}}}},
++            [Move {local={name="_32"};projection=[]}],
++            FnCallOutcome (Ast.CallExpr
++              (_, "sort4_checked_pointer_drop",
++               [Ast.IdentTypeExpr (_, None, "Element")], [],
++               [Ast.LitPat _], Ast.Static)),
++            UnwindActionRd.Cleanup cleanup, OptionRd.Something normal
++              when Sort4A1Link.const_ptr pointer &&
++                   LocalDeclIdRd.name_get
++                     (PlaceRd.local_get
++                       (destination_get fn_call_data_cpn)) = "_31" &&
++                   PlaceRd.projection_get_list
++                     (destination_get fn_call_data_cpn) = [] &&
++                   Stdint.Uint32.to_int (BasicBlockIdRd.index_get cleanup) = 28 &&
++                   Stdint.Uint32.to_int
++                     (BasicBlockIdRd.index_get (VfMirRd.of_pointer normal)) = 16 ->
++                incr Sort4R24CheckedPointerOutcomes.drop_redirects;
++                if !Sort4R24CheckedPointerOutcomes.drop_redirects <> 1 then
++                  Sort4R24CheckedPointerOutcomes.reject "pointer-drop count";
++                true
++          | Constant {const=Val {ty={kind=FnDef
++              {id={name="std::mem::MaybeUninit::<T>::assume_init"};
++               substs=[{kind=Type pointer}];
++               late_bound_generic_param_count=0}}}},
++            [Move {local={name="_41"};projection=[]}],
++            FnCallOutcome (Ast.CallExpr
++              (_, "checked_assume_init_pointer",
++               [Ast.IdentTypeExpr (_, None, "Element")], [],
++               [Ast.LitPat _], Ast.Static)),
++            UnwindActionRd.Cleanup cleanup, OptionRd.Something normal
++              when Sort4A1Link.const_ptr pointer &&
++                   LocalDeclIdRd.name_get
++                     (PlaceRd.local_get
++                       (destination_get fn_call_data_cpn)) = "_0" &&
++                   PlaceRd.projection_get_list
++                     (destination_get fn_call_data_cpn) = [] &&
++                   Stdint.Uint32.to_int (BasicBlockIdRd.index_get cleanup) = 28 &&
++                   Stdint.Uint32.to_int
++                     (BasicBlockIdRd.index_get (VfMirRd.of_pointer normal)) = 25 ->
++                incr Sort4R24CheckedPointerOutcomes.assume_init_redirects;
++                if !Sort4R24CheckedPointerOutcomes.assume_init_redirects <> 1 then
++                  Sort4R24CheckedPointerOutcomes.reject "assume_init count";
++                true
++          | _ -> Sort4R24CheckedPointerOutcomes.reject
++              "exact typed pointer-drop/assume_init operand, destination, or edge"
++      in
+       let fn_call_rexpr =
+-        if checked_g1_no_unwind || checked_owner_no_unwind then
++        if checked_g1_no_unwind || checked_owner_no_unwind ||
++           checked_r24_pointer_outcome then
+           match fn_call_rexpr with
+           | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
+           | _ -> assert false
+@@ -4169,7 +4268,8 @@
+               (match fn_call_rexpr, terminator with
+               | FnCallResult _, Mir.GotoTerminator _
+                 when !manuallydrop_new_identity_lowering ||
+-                     checked_g1_no_unwind || checked_owner_no_unwind ->
++                     checked_g1_no_unwind || checked_owner_no_unwind ||
++                     checked_r24_pointer_outcome ->
+                   (* The identity lowering emits only the normal assignment/goto.
+                      The separately proved G1 callee has false unwind.  Keep
+                      successor inventory faithful to the emitted CFG. *)
+@@ -14021,6 +14121,7 @@
+                   Sort4G1Call.translated := 0; Ok ()
+         | Some root -> certify_sort4_g1_call vf_mir_cpn root
+       in
++      let* () = Sort4R24CheckedPointerOutcomes.admit () in
+       Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
+       (* Todo @Nima: we should add necessary inclusions during translation *)
+       let extern_header_names =
+@@ -14260,7 +14361,16 @@
+            !Sort4A1Nine.assume_init_redirects <> 1 then
+           Sort4A1Nine.reject "exactly one redirect at each A1 site required";
+         Printf.printf
+-          "SORT4-A1-NINE: two typed local redirects; original Cleanup retained\n%!"
++          "SORT4-A1-NINE: two typed local redirects; original Cleanup retained%s\n%!"
++          (if !Sort4R24CheckedPointerOutcomes.active then " in raw MIR" else "")
++      );
++      if !Sort4R24CheckedPointerOutcomes.active then (
++        if !Sort4R24CheckedPointerOutcomes.drop_redirects <> 1 ||
++           !Sort4R24CheckedPointerOutcomes.assume_init_redirects <> 1 then
++          Sort4R24CheckedPointerOutcomes.reject
++            "exactly one checked pointer-drop and assume_init projection required";
++        Printf.printf
++          "SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 assume_init=1; raw MIR cleanup retained\n%!"
+       );
+       if !Sort4ActualNestedH2.active then (
+         if !Sort4ActualNestedH2.redirected <> 1 then
