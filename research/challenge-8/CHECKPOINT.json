@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4ae96c9ad0cd56f8bc348e726da8bdc707068a0b2b456eb20f58afa22a164ec2"
+      "sha256": "5bf11e75040bae945e0fa2dd085c18ea911d35f399d09ee8b9d6ba35b78ebaaf"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+    "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json",
         "sha256": "6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a"
       }
     ],
-    "summary": "Await fresh matrix using reviewed prior/current binding."
+    "summary": "Await fresh matrix and physical audit via Brief."
   },
   "brief_observation_refs": [
     {
@@ -287,7 +287,7 @@
     "prior_build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
     "proof_credit": 0,
     "raw_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc",
-    "state": "REVIEW_GO_FRESH_MATRIX_PENDING"
+    "state": "FRESH_MATRIX_SUBMITTED_PENDING_BRIEF"
   },
   "first_build": {
     "accounted": true,
@@ -300,6 +300,15 @@
     "result": "SOURCE_REPORTED_POSITIVE_EXIT1_DEAD_CODE",
     "status": "FAILURE",
     "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+  },
+  "matrix_build": {
+    "id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+    "infra_sha": "14adee46c5f122e46d65886c8108645ce7f973eb",
+    "proof_credit": 0,
+    "proof_sha": "14adee46c5f122e46d65886c8108645ce7f973eb",
+    "reserved_seconds": 1260,
+    "result": "PENDING_FRESH_MATRIX_BRIEF",
+    "status": "QUEUED"
   },
   "mission_queue": [
     {
@@ -350,10 +359,10 @@
     {
       "obligation": "Pin seven control targets and repair classifier binding",
       "reason": "Entry/batch/audit now bind exact R24, checked request and one native1/1marker; initial NO_GO retained. Fresh complete matrix required.",
-      "state": "REVIEW_GO_FRESH_MATRIX_PENDING"
+      "state": "FRESH_MATRIX_SUBMITTED_PENDING_BRIEF"
     }
   ],
-  "next_step": "Submit reviewed14adee46 full1200; inspect all8rows and physical audit via Brief.",
+  "next_step": "ACK event first, then Brief all8 rows/markers/audit. No acceptance yet.",
   "open": [
     "Seven fresh prior targets pinned; classifier/code delta and full fresh matrix still unqualified.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
@@ -397,7 +406,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "db09fcc8-f33f-42c5-9d40-50c2c3d63658"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -417,17 +428,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T12:56:19Z",
+  "updated_utc": "2026-10-23T13:37:46Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "b8e511ef-bee5-4717-85ce-13c69615fd9f",
-    "acknowledged_job_id": "4a55a292-8776-468e-b92b-183d57a4bb69",
-    "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window, exact nine-profile correction; no new authority or proof credit.",
-    "spec_path": "/tmp/select-r24-checked-outcomes-nine-watch.json",
+    "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window; reviewed fresh eight-row classified matrix, no new authority or proof credit.",
+    "spec_path": "/tmp/select-r24-matrix-route-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -479,6 +487,16 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 T0/account/window, exact compile-scope correction; no new authority or proof credit.",
       "spec_path": "/tmp/select-r24-checked-outcomes-scope-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "b8e511ef-bee5-4717-85ce-13c69615fd9f",
+      "acknowledged_job_id": "4a55a292-8776-468e-b92b-183d57a4bb69",
+      "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window, exact nine-profile correction; no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-checked-outcomes-nine-watch.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]

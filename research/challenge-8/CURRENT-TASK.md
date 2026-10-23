@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T12:56:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T13:37:46Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 2001s spent, 0s retired, 19599s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Await fresh matrix using reviewed prior/current binding. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
-Next: Submit reviewed14adee46 full1200; inspect all8rows and physical audit via Brief.
+Active Build IDs: db09fcc8-f33f-42c5-9d40-50c2c3d63658; unresolved: none recorded.
+Blocker: Await fresh matrix and physical audit via Brief. [Build `db09fcc8-f33f-42c5-9d40-50c2c3d63658`]
+Next: ACK event first, then Brief all8 rows/markers/audit. No acceptance yet.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
