@@ -314,6 +314,12 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
     if not spec["references"]:
         lines.append("- [Permanent policy](agent-workflow/CORE.md)")
     prefix = ("\n".join(lines).rstrip() + "\n\n").encode("utf-8")
+    try:
+        # The generated text must state exactly one window and one budget line, so the
+        # agent's checkpoint views and prepared ledgers can be bound to it later.
+        cp.assignment_terms(prefix.decode("utf-8"))
+    except cp.CheckpointError as exc:
+        _err(f"goal/steps/bounds must not quote Cloud budget or Wall window lines: {exc}")
     checkpoint_data = {
         "schema": cp.SCHEMA, "task_id": spec["task_id"], "owner": spec["owner"], "phase": spec["phase"],
         "state": "NOT_STARTED", "updated_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),

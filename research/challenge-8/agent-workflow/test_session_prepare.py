@@ -385,7 +385,20 @@ class SessionPrepareTests(unittest.TestCase):
             with self.subTest(override=override), self.assertRaisesRegex(module.PrepareError, message):
                 self.prepare({**self.fx.spec, **override})
         install_task(self.fx.spec["phase"], "120 minutes main + 30 minutes closeout", 3600, 1200)
-        module.check(self.prepare(self.fx.spec, self.parent / "default-window-bundle"))
+        bundle = self.prepare(self.fx.spec, self.parent / "default-window-bundle")
+        module.check(bundle)
+        # A bundle rewritten after prepare (spec, ledger, plan and inventory together) still
+        # has to match the installed assignment of its phase.
+        spec = json.loads((bundle / "spec.json").read_text(encoding="utf-8"))
+        spec.update({"main_minutes": 4320, "finish_minutes": 60, "cloud_seconds": 21600})
+        (bundle / "spec.json").write_text(json.dumps(spec, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(module.PrepareError, "spec window 4320\\+60 differs|inventory|differs"):
+            module.check(bundle)
+        task.write_text(f"# Task\n\nPhase: `{self.fx.spec['phase']}`.\nPhase: `OTHER-PHASE`.\n"
+                        "Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout.\n\n## Отчёт агента\n", encoding="utf-8")
+        git(self.fx.root, "add", "."); git(self.fx.root, "commit", "-qm", "two phases")
+        with self.assertRaisesRegex(module.PrepareError, "more than one Phase"):
+            self.prepare(self.fx.spec, self.parent / "two-phase-bundle")
 
     def test_rejects_active_old_ledger_and_requires_retired_closure(self):
         path = self.fx.root / self.fx.old_ledger

@@ -378,6 +378,12 @@ class AssignmentTests(unittest.TestCase):
             assignment.install(self.spec_path, self.coordination)
         self.assertEqual(self.snapshot(), before)
 
+    def test_render_refuses_quoted_budget_or_window_lines_in_free_text(self):
+        spec = copy.deepcopy(self.spec)
+        spec["goal"] = "Do not repeat: Cloud budget: 3600 seconds. in the goal"
+        with self.assertRaisesRegex(assignment.AssignmentError, "must not quote Cloud budget or Wall window"):
+            assignment.render_task(spec)
+
     def test_window_timeout_must_fit_budget(self):
         spec = copy.deepcopy(self.spec)
         spec.update({"cloud_budget_seconds": 1200, "window": {"main_minutes": 120, "finish_minutes": 30, "max_timeout_seconds": 1500}})

@@ -587,16 +587,19 @@ ASSIGNMENT_TIMEOUT = re.compile(r"Per-Build timeout \u2264(\d+) seconds")
 
 def _check_installed_assignment(root: Path, head: str, s: dict[str, Any]) -> None:
     """Bind the session spec to the committed CURRENT-TASK of the same phase, if installed."""
-    show = subprocess.run(["git", "-C", str(root), "show", f"{head}:research/challenge-8/CURRENT-TASK.md"],
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if show.returncode != 0:
+    task_ref = f"{head}:research/challenge-8/CURRENT-TASK.md"
+    exists = subprocess.run(["git", "-C", str(root), "cat-file", "-e", task_ref], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if exists.returncode != 0:
         return  # no installed assignment on this branch (legacy or fixture worktree)
+    text = _run_git(root, "show", task_ref, binary=True)  # any other git failure fails closed
     try:
-        text = show.stdout.decode("utf-8", "strict")
+        text = text.decode("utf-8", "strict")
     except UnicodeDecodeError:
         raise PrepareError("installed CURRENT-TASK is not UTF-8") from None
     prefix = text.split(cp.REPORT_MARKER, 1)[0]
     phases = ASSIGNMENT_PHASE.findall(prefix)
+    if len(phases) > 1:
+        raise PrepareError("installed CURRENT-TASK states more than one Phase")
     if phases and phases[0] != s["phase"]:
         raise PrepareError(f"spec phase {s['phase']} differs from the installed assignment phase {phases[0]}")
     try:
@@ -610,6 +613,8 @@ def _check_installed_assignment(root: Path, head: str, s: dict[str, Any]) -> Non
     if s["cloud_seconds"] != terms["budget_seconds"]:
         raise PrepareError(f"spec cloud_seconds {s['cloud_seconds']} differs from the assignment's {terms['budget_seconds']} seconds")
     timeouts = ASSIGNMENT_TIMEOUT.findall(prefix)
+    if len(timeouts) > 1:
+        raise PrepareError("installed CURRENT-TASK states more than one Per-Build timeout")
     if timeouts and s["max_timeout_seconds"] > int(timeouts[0]):
         raise PrepareError(f"spec max_timeout_seconds {s['max_timeout_seconds']} exceeds the assignment's {timeouts[0]} seconds")
 
@@ -824,6 +829,8 @@ def _check_closure_and_sources(bundle: Path, spec: dict[str, Any], meta: dict[st
         raise PrepareError("bundle selected HEAD is not a commit")
     if _run_git(root, "branch", "--show-current") != spec["branch"]:
         raise PrepareError("bundle worktree is no longer on the selected branch")
+    # A bundle edited after prepare must still match the installed assignment of its phase.
+    _check_installed_assignment(root, selected_head, spec)
     ancestry = subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor", spec["baseline_sha"], selected_head],
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if ancestry.returncode != 0:
