@@ -1,0 +1,35 @@
+{
+  "applicability": "Exact R24 session marker plus existing R21/provider route, explicit CLI positive-ast-inventory, positive variant only. Existing console -dump_ast_with_locs via unchanged established LINK.stage; ordinary proof call and seven controls follow unchanged.",
+  "baseline_commit": "3ba875b2e007e682e8636cc3fa7fd214a480be3d",
+  "candidate_commit": "34659222859070631912f6088c9582f396aa1535",
+  "controls": [
+    "14 isolated AST tests,7 existing entry tests (including original-exception preservation),4 R23 static pin tests, shell syntax and static recipe closure. Review and optionally rerun appropriate fake tests; no actual tools or Cloud."
+  ],
+  "defect": "First R24 Build af904556 still has positiveRAN/exit1 and3dead-code diagnostics after normal return/leak-check. Static MIR spans match cleanup bb26/27/28; exact emitted AST structure is not yet observed. Need additive diagnostics without changing source/proof semantics.",
+  "dependencies": [
+    "research/challenge-8/cloud-build/o26-recipe.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/overnight-assume-actual/capture.py",
+    "research/challenge-8/task-history/select-callee-r23/R23-ghost-cfg-review.json",
+    "research/challenge-8/cloud-build/control.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/task-history/select-callee-r24/OWNER-DIRECTIONS.md"
+  ],
+  "invariants": [
+    "No translator/checker/model/runtime/source/signature/certificate/fingerprint changes; same translator103a34 and739f982d rows.",
+    "No acceptance/credit from AST inventory. body_proof_run UNKNOWN; verifier execution requested but not qualified. Structural envelope checks are not an OCaml parser or AST/source/diagnostic binding.",
+    "Closed live route/env equality, source pair and ten physical snapshot pins before/after; genuine requested argv/log/stage gates and original exits/exceptions retained.",
+    "Default-off/negative paths preserve original calls and exceptions; diagnostic environment restored; malformed/partial/missing/timeout/NOT_RUN outputs remain incomplete.",
+    "Only exact R24 session marker activates CLI in runner; older/default route behavior remains unchanged."
+  ],
+  "known_limitations": [
+    "Diagnostic candidate is UNBUILT. No current AST/object identity, source parser-input binding, causal proof, clean positive, callee acceptance or B1/B2 credit.",
+    "The status-only snapshot code inherited from3ba875b2 has a separate independent GO_WITH_NITS review; no shared coordinator/watcher changes.",
+    "R24 installed-ledger test assumes initial PREPARED state; live ledger is intentionally AUTHORIZED and first Build accounted325s, so its artifact assertion is stale. Preserve failure/accounts.",
+    "Main integration caught KeyError masking original exception on4fe25cf4; candidate34659222 fixes default-off pin access and old7-test entry suite passes without changing tests."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}

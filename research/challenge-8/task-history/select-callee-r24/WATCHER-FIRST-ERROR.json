@@ -1,0 +1,13 @@
+{
+  "ack": "CONTINUE_EXISTING_WINDOW",
+  "ack_utc": "2026-10-23T11:00:48Z",
+  "action": "Bounded worker prepares status-only consistent metadata snapshot, preserving all checks and errors; review and real latency check before any rearm. Shared watcher and coordination.py remain untouched.",
+  "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+  "event_id": "3434ee4f-f8d6-4e9b-8b6a-13614843802d",
+  "event_name": "monitor_error",
+  "hypothesis": "20-second watcher subprocess limit versus redundant builds describe queries in ordinary client status; exact timing not yet established.",
+  "job_id": "a2b2fd94-969c-4707-b58a-23ac33a7fda2",
+  "ordinary_client_status": "WORKING",
+  "proof_credit": 0,
+  "schema": "select-r24-watcher-error-v1"
+}

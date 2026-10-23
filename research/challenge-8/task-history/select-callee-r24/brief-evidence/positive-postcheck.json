@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "ef89f777fa8073288831613b0778b72b63b4424e63c55a9bcd2540cdc60413b5",
+  "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 5,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "1bcc060ed8d06be8571ec48a4c1cf51ada5c6940ecd9816e6507f446a307ef7d",
+  "index_sha256": "ad02f06a222ff2f9630731c73c2db07776202c8a560719dc366ebb760f61e7e5",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "1bcc060ed8d06be8571ec48a4c1cf51ada5c6940ecd9816e6507f446a307ef7d",
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "pointer": "/rows/positive/postflight_capture_check"
+  },
+  "request_id": "e9b0c6cb278d71d1bbc87bc7d4e018ca190b555d34786d5a633c5d668db8e5c6",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/postflight_capture_check/complete",
+      "value": true
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/positive/postflight_capture_check/errors"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/postflight_capture_check/returned"
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/postflight_capture_check/snapshots"
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/postflight_capture_check/stage"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

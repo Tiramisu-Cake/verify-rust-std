@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "ef89f777fa8073288831613b0778b72b63b4424e63c55a9bcd2540cdc60413b5",
+  "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 685,
+    "line_separator": "LF",
+    "source_lines": 711,
+    "start": 674,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "54c3f754cc903fa4e6eb56950f6469e338452ac52065b0db436609cedc214315",
+  "index_sha256": "ad02f06a222ff2f9630731c73c2db07776202c8a560719dc366ebb760f61e7e5",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 685,
+    "expected_sha256": "54c3f754cc903fa4e6eb56950f6469e338452ac52065b0db436609cedc214315",
+    "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "start": 674
+  },
+  "request_id": "1d64ca14e29ed0571c35cb01d3ae3ebdb076cffe270f4189036e2cd1f5d9d1a4",
+  "requested_end": 685,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 674,
+      "text": "  0.221268s: verified/lib.rs(236,2): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 675,
+      "text": "  0.221360s: verified/lib.rs(236,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 676,
+      "text": "  0.221397s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 677,
+      "text": "  0.221427s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 678,
+      "text": "  0.221492s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(213,6-15): Auto-opening predicate"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 679,
+      "text": "  0.221507s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 680,
+      "text": "  0.221536s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(213,6-15): Auto-opening predicate"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 681,
+      "text": "  0.221548s: verified/lib.rs(236,1-2): Consuming chunk (retry)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 682,
+      "text": "  0.221556s: verified/lib.rs(135,1-236,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 683,
+      "text": "  0.221707s: verified/lib.rs(236,1-2): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 684,
+      "text": "  0.221736s: verified/lib.rs(236,1-2): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 685,
+      "text": "  0.222507s: verified/lib.rs(165,9-170,10): Verifying function '<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop'"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,136 @@
+{
+  "alternatives_and_choice": {
+    "additive_ast_inventory": "Selected: existing console emitter can identify node kinds/label structure while normal proof, required controls and checker remain unchanged.",
+    "direct_projection_now": "Deferred: equal printed coordinates do not alone identify physical AST location objects, and real unwind handling must remain checked."
+  },
+  "assurance": "SOURCE_REPORTED_PLUS_STATIC_INFERENCE",
+  "candidates": [
+    {
+      "kind": "unwindResume",
+      "mir_block": 26,
+      "printed_span": "verified/lib.rs(135,1-236,2)",
+      "raw_span": {
+        "hi": [
+          236,
+          1
+        ],
+        "lo": [
+          135,
+          0
+        ]
+      },
+      "request_id": "3179b8658c5c90d94293cc7e8289b9d11c7585d8c32a47159242ac11939e7c68",
+      "span_window": [
+        10220,
+        10231
+      ],
+      "translator_node": "Ast.ReturnStmt(loc, unwinding())"
+    },
+    {
+      "kind": "drop _28",
+      "mir_block": 27,
+      "printed_span": "verified/lib.rs(235,5-6)",
+      "raw_span": {
+        "hi": [
+          235,
+          5
+        ],
+        "lo": [
+          235,
+          4
+        ]
+      },
+      "request_id": "9748e192bcc0952a24982844d49d53690f9a915bd02bb969c401fcceaff90b10",
+      "span_window": [
+        10242,
+        10253
+      ],
+      "translator_node": "Ast.ExprStmt(std::ptr::drop_in_place(&guard))"
+    },
+    {
+      "kind": "switchInt copy _45",
+      "mir_block": 28,
+      "printed_span": "verified/lib.rs(235,5-6)",
+      "raw_span": {
+        "hi": [
+          235,
+          5
+        ],
+        "lo": [
+          235,
+          4
+        ]
+      },
+      "request_id": "6bf843a85064b49a6b424359dad1b22a7c72c80b800a3ae02c649209a418afb8",
+      "span_window": [
+        10272,
+        10283
+      ],
+      "translator_node": "Ast.IfStmt(discriminant, goto27, goto26)"
+    }
+  ],
+  "checker_static_fact": "Upstream f76012fb src/vfconsole/vfconsole.ml HashedLoc.equal uses physical equality (==); source-coordinate equality alone is insufficient. Checker is unmodified.",
+  "conversion": "Pinned translator translate_char_pos adds one to both source columns; source line unchanged. translate_terminator uses sourceInfo.span for its emitted statement.",
+  "current_build": "af904556-010f-4159-9e4d-573e06e43d17",
+  "evidence_form": "Selected facts transcribed from bounded Brief responses, not a full response copy or independent proof receipt.",
+  "hypothesis": "Remaining shared cleanup nodes are unreachable under checked false-unwind callees, while translated CFG still retains two real Outcome successors. Exact current emitted AST identities and causality are not yet established.",
+  "limitations": [
+    "Older fingerprint MIR observations remain source observations; no parser-input binding or current proof causality established.",
+    "These are candidate origin mappings by exact spans and pinned translator lowering, not current AST-object identity receipts.",
+    "No assertion, failing diagnostic, real-call unwind edge, checker behavior, ownership premise or source runtime was removed."
+  ],
+  "locator_requests": [
+    {
+      "absence_established": false,
+      "block": 26,
+      "coverage": {
+        "end_exclusive": 364096,
+        "kind": "near-position",
+        "start": 355904
+      },
+      "request_id": "0345641e5a09913d0cf031efa5baa227576254fa9fb1079d3cba4f4fe8992562",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE"
+    },
+    {
+      "absence_established": false,
+      "block": 27,
+      "coverage": {
+        "end_exclusive": 364096,
+        "kind": "near-position",
+        "start": 355904
+      },
+      "request_id": "bb4fba3d8e65a0c71abcc60523a8c8e19e1f99a7ff3bcf887b5ae31d16493af0",
+      "status": "NO_MATCH_IN_SEARCH_SCOPE"
+    },
+    {
+      "block": 26,
+      "complete": true,
+      "coverage": "whole-file",
+      "line": 10212,
+      "request_id": "c11897d0970de2e0f9d5203b093141fc54dcef012d2f0489ef71c6a333fbb3df",
+      "status": "OK",
+      "unicode_position": 367011
+    },
+    {
+      "block": 27,
+      "complete": true,
+      "coverage": "whole-file",
+      "line": 10234,
+      "request_id": "73eca1b46037744adcfddd6400fe5989763bfe53ea8f9303d87eacbe686a5c3b",
+      "status": "OK",
+      "unicode_position": 367754
+    }
+  ],
+  "mir_observation_identity": {
+    "archive_sha256": "326ed000a04841416e2a6c853ef85bd30ea34981de3ef52a037bc14e4d2df814",
+    "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+    "causal_status": "UNKNOWN",
+    "file_id": "d739c89d2872fb37926ad86df3630266a50ab1fe758fac1c85ba0b6952600510",
+    "file_sha256": "03bdc76a8173d03ef9cfe2ec8c5d403cbf89735645c3b37b19bb70caa797c0fd",
+    "index_sha256": "38876d647acaaf238990d18b0f10746f8c68e93e0ead26aeff034267dedb4e60",
+    "parser_input_binding": "NOT_ESTABLISHED"
+  },
+  "proof_credit": 0,
+  "schema": "select-r24-static-deadcode-site-binding-v1",
+  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+}

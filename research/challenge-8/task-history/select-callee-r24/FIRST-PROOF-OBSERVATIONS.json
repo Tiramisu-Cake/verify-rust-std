@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "ef89f777fa8073288831613b0778b72b63b4424e63c55a9bcd2540cdc60413b5",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+  "cause": "UNKNOWN",
+  "conclusion": "The ghost-successor-only candidate did not remove the S3 failure. Retain103a34 as reviewed CFG consistency fix; do not infer causal sufficiency or acceptance.",
+  "dead_code_spans": [
+    "verified/lib.rs(135,1-236,2)",
+    "verified/lib.rs(235,5-6)",
+    "verified/lib.rs(235,5-6)"
+  ],
+  "fractional_stage_exit": 4,
+  "index_sha256": "ad02f06a222ff2f9630731c73c2db07776202c8a560719dc366ebb760f61e7e5",
+  "infra_commit": "538431e3d6463d177a693393dc20b36c1b29a314",
+  "next_hypothesis": "The three remaining reports belong to generated shared cleanup nodes still retained by two real checked-callee Outcome branches (pointer drop and assume_init), whose same-unit contracts have false unwind. Bind exact emitted AST before deciding a semantic repair.",
+  "next_test": "Closed R24 positive-only additive AST dump via existing -dump_ast_with_locs, unchanged normal proof and all seven controls. No checker/model/source/premise changes.",
+  "normal_return_and_leak_check_event_observed": true,
+  "observations": [
+    {
+      "fact": "Three dead-code diagnostics remain: outer135:1-236:2 and twice235:5-6, following nested Drop cleanup/leak-check events. No callee acceptance; exact AST site binding and cause UNKNOWN.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-tail.json",
+      "receipt_sha256": "d4ac29aae25efdef060e23485e40f3c9c8890123aafa61d30226899250cb22c4",
+      "request_id": "66ca625b7048383a164f7ef7c0ec222c1c802b71f7b042049929417ca7487909",
+      "tag": "positive-tail.json"
+    },
+    {
+      "fact": "Outer normal return at source236 and leak-check event are observed before nested Drop verification begins. Reachability of these events does not establish leak clearance or proof acceptance.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-return.json",
+      "receipt_sha256": "4888ce6eb52bfa66dac9a8763391118c88d8f86f3376dbcc88a168fe3c7d6297",
+      "request_id": "1d64ca14e29ed0571c35cb01d3ae3ebdb076cffe270f4189036e2cd1f5d9d1a4",
+      "tag": "positive-return.json"
+    },
+    {
+      "fact": "Source-reported positive stage RAN, exit1, intrinsic/pointer-drop gates true, source_unchanged true. This is not accepted callee proof or independently established B1/B2 credit.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-stage.json",
+      "receipt_sha256": "afe02f9167e11a208dc40615dd0e792fa110a065928adf94ececf962f8fbfece",
+      "request_id": "3750f8c1b081d4d281f17b9410bd8d502b4ec6a7d9db1f06392028de13287599",
+      "tag": "positive-stage.json"
+    },
+    {
+      "fact": "Positive row is POSITIVE_FAILED/INCOMPLETE; source intact before and after; gates true; log hash54c3f754 and verified source687327ca bind this row. No acceptance.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-row.json",
+      "receipt_sha256": "c937febed2a4fc37ae8b2d34514bfb2a58c9bfe97bd5c6c5c8580f00c38ce6da",
+      "request_id": "9cbd49cc32c490c161313f5a40eef82e4406bd95d31ba954f2752666a1bc0c77",
+      "tag": "positive-row.json"
+    },
+    {
+      "fact": "Producer preflight_capture_check.complete=true, errors empty, with10 snapshot child records. Source-reported check only; no independently established parser-input binding.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-precheck.json",
+      "receipt_sha256": "3ae77d665492c656c21e612e562a9999301f358c9445c524d535a52518e318df",
+      "request_id": "4e2e69ac25a2d707dcce71c8d6354e2e881b0f6d8a2c672cce7caa33498c8f44",
+      "tag": "positive-precheck.json"
+    },
+    {
+      "fact": "Producer postflight_capture_check.complete=true, errors empty, with10 snapshot child records. Source-reported check only; no independently established parser-input binding.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/positive-postcheck.json",
+      "receipt_sha256": "5eddbacaab9c2c34ca7f440ebc84875702e028dcb719343cbdeb6a1188fcb5dc",
+      "request_id": "e9b0c6cb278d71d1bbc87bc7d4e018ca190b555d34786d5a633c5d668db8e5c6",
+      "tag": "positive-postcheck.json"
+    },
+    {
+      "fact": "Archived profile metadata reports translator103a34, parser6a866a and actual console/exporter/refiner/spec hashes. These source-reported file hashes do not establish independent proof credit.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/profile-actual.json",
+      "receipt_sha256": "5f3e16f716a15ebae0866da62d05842d7076c4a7acc5cfd00b73adffeb08ea19",
+      "request_id": "02e1a607edbda3a6912279922b4350696510ee63f83347f31e588881359d1356",
+      "tag": "profile-actual.json"
+    }
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "physical_snapshot_child_count_each": 10,
+  "positive_stage_exit": 1,
+  "postflight_capture_check_complete_source_reported": true,
+  "preflight_capture_check_complete_source_reported": true,
+  "profile_actual_parser_matches": true,
+  "profile_actual_translator_matches": true,
+  "proof_commit": "a4737f9febf20ec5373eafa641268c26c6e674c7",
+  "proof_credit": 0,
+  "schema": "select-r24-first-proof-observations-v1",
+  "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+}

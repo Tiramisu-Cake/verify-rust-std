@@ -47,3 +47,62 @@ Initial client status is WORKING; no verification evidence or acceptance yet.
 First handoff view generation refused CURRENT-TASK output over6144 bytes.
 Shortened only the checkpoint next-step prose, preserving all pins, gates and
 assignment text; regenerated views before watcher arm.
+
+## First terminal result and status repair
+
+First Build was FAILURE, accounted325s; remaining21275s. Brief reports
+NOT_ACCEPTED_AS_REPORTED, fractional stageexit4. Bounded archived observations
+show positive RAN/exit1, normal return/leak-check event and the same three
+dead-code diagnostics; no callee acceptance or independent credit. See immutable
+observations and FIRST-PROOF-OBSERVATIONS.json for exact receipts and limits.
+
+Watcher monitor_error was acked CONTINUE_EXISTING_WINDOW before checkpoint
+changes. Status snapshot candidate3ba875b2 received independent GO_WITH_NITS,
+9 synthetic tests passing. One real authorized status took11.874548096995568s.
+Original latency was not measured; causal attribution and a general20s bound
+remain unestablished. The reviewer also observed the R24 draft-ledger fixture
+failure after intentional ledger activation/accounting; preserve that failure,
+without editing live or historical accounts to satisfy a draft assertion.
+The initial /usr/bin/time wrapper failed because that optional binary is absent;
+no status/proof command ran in that attempt. A Python monotonic wrapper then
+measured the successful ordinary client status, preserving its exit0.
+
+Next chosen obligation is additive positive AST inventory under closed R24
+opt-in, using the existing console emitter, with ordinary proof and all seven
+controls unchanged. It will discriminate the remaining shared-cleanup-node
+hypothesis without changing the checker, source, model or trusted premises.
+
+After adding immutable observation references, generated STATUS exceeded its
+6144-byte limit. Moved the full artifact list to R24-ARTIFACT-INDEX.json and
+kept direct observation references in CHECKPOINT.brief_observation_refs; this
+changes navigation only and retains every failure, claim and evidence identity.
+
+## Additive AST inventory candidate
+
+Candidate34659222859070631912f6088c9582f396aa1535 keeps translator103a34 and
+the739f982d fingerprint rows. It adds one closed-R24 positive-only diagnostic
+using the existing AST emitter, before the unchanged normal proof call.
+
+Main integration found that4fe25cf4 accessed new pin fields on the default-off
+path: the old7-test entry suite had1failure+1error (KeyError cases masking the
+original LookupError). Candidate34659222 fixes this without changing those
+tests. Worker reports entry7/7 and AST14/14 passing. Main previously observed
+R23 static pin4/4 and shell syntax passing; final static85-file closure and
+encoded transport pass are in AST-BUILD-PINS.json and AST-TRANSPORT-PREFLIGHT.json.
+No local compiler/exporter/decoder/verifier or actual preparation was run.
+
+Earlier local revisions also corrected a counterfeit-env route, false body-
+proof-not-run wording, and acceptance of arbitrary nonempty partial AST bytes.
+Artifact validation now checks only UTF-8/formatter delimiter framing; it is
+explicitly not a semantic OCaml parser, AST/source binding or proof result.
+Independent review of the complete candidate is pending.
+
+Independent review of34659222 returned GO_WITH_NITS with no blocking findings.
+Reviewer ran AST14, entry7, R23pins4 and fractional-proof11 tests successfully,
+plus shell syntax/py_compile/diff checks. Optional unchanged R20 suite had
+21pass/1stale assertion: test line387 expects R22 patch hash; the committed
+runner pins R23. Preserve this failure and all controls; no test was weakened.
+The diagnostic may consume up to110s from the existing execute deadline;
+full1200 Build and240s report reserve stay unchanged. Transport preflight
+27184/28000 bytes and85-entry closure passed for the exact coherent infra/proof
+pair34659222859070631912f6088c9582f396aa1535. No new fingerprint or credit.

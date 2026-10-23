@@ -1,0 +1,52 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "34659222859070631912f6088c9582f396aa1535",
+  "baseline_commit": "3ba875b2e007e682e8636cc3fa7fd214a480be3d",
+  "candidate_tree": "975185fc557f60da558873ca575d818653340ade",
+  "spec_sha256": "1bec761007bd13672e2a89c7697c546b6d27499bc12b7a1b5622300c601f9064",
+  "packet_sha256": "7100888471b451330a2e79e2ab92e76d64324566e891b4a8911c81d30db39919",
+  "diff_sha256": "d2c13834d1ceef9df490fe58457a242fe0854fdaecf871c9c6b8e4b8c89a8c79",
+  "decision": "GO_WITH_NITS",
+  "scope": "Additive R24 positive-only AST diagnostic before the unchanged fractional proof stage; exact committed diff and declared dependencies",
+  "findings": [],
+  "verified": [
+    "smallsort-session review check matched the exact candidate, spec and packet; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE",
+    "Only the runner, recipe closure, fractional proof entry, positive AST inventory helper, synthetic test and design note changed; no source, translator, verifier, checker, proof model, certificate, or fingerprint inputs changed",
+    "Runner keeps the existing R20/R21 route guard, requires the exact R24 session marker before adding --positive-ast-inventory, and leaves the argument array empty on the default R20/R21 route",
+    "Entry independently requires the exact live environment, Cloud provider, R21 route, R24 session, and explicit CLI flag; the helper rechecks the exact live route/provider/session and positive variant before staging",
+    "The diagnostic is inserted only for the positive variant and only when explicitly enabled; negative variants and default-off paths still call the original proof stage, while the standard proof-stage call and its returned result fields are preserved",
+    "The helper uses the existing LINK.stage interface with -dump_ast_with_locs, exact output name, both existing gates, 110-second cap, exact argv/log/source bindings, and before/after physical source and ten-snapshot hashes",
+    "Stage exits 0 and 1 can be recorded as diagnostic data; missing, partial, wrong-type, malformed, drifted or unqualified results remain incomplete with proof_credit 0, accepted false, body_proof_run UNKNOWN, and verifier_execution REQUESTED_NOT_QUALIFIED",
+    "Environment restoration is in finally; exceptions are recorded with observed source/snapshot state and the original exception is re-raised",
+    "The AST validator explicitly reports STRUCTURAL_ENVELOPE_ONLY. I checked the pinned formatter and console callback read-only with git show: the formatter prints OCaml list/constructor forms and %S-escaped strings, and the callback writes the requested file for the main source path",
+    "Fourteen AST tests, seven existing proof-entry tests, four R23 pin tests, and eleven existing fractional proof tests passed",
+    "bash -n, Python bytecode compilation of the helper/tests/entry, empty Bash argument-array behavior under set -u, and git diff --check passed"
+  ],
+  "nits": [
+    "The AST check establishes only UTF-8, a nonempty PackageDecl list prefix, balanced parentheses/brackets outside quoted strings, and no trailing text. It does not parse OCaml, establish complete AST semantics, bind AST objects to dead-code diagnostics, or prove parser-input identity; the candidate labels this structural-only and claims no such credit.",
+    "The added verifier stage can consume up to 110 seconds of the shared Build deadline before the ordinary proof call. No actual stage timing or Cloud run was performed, so available time for the ordinary proof call is unmeasured.",
+    "An additional unchanged test_select_callee_r20.py suite run had one stale assertion failure: its line 387 expects the current R22 fractional patch hash to appear in the runner, while the committed runner pins the R23 fractional patch. The runner and test file are unchanged for this assertion relative to the candidate's baseline; it is not an AST-candidate finding."
+  ],
+  "tests": {
+    "passed": [
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_ast_inventory.py: 14 passed",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r21_fractional_proof_entry.py: 7 passed",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r23_pins.py: 4 passed",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r21_fractional_proof.py: 11 passed",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+      "python3 -m py_compile for AST helper, its tests, and proof entry",
+      "git diff --check for baseline-to-candidate diff"
+    ],
+    "failed_or_stale": [
+      "python3 research/challenge-8/cloud-build/test_select_callee_r20.py: 21 passed, 1 failed at unchanged test line 387 because it expects the R22 fractional patch hash in the runner, but the committed runner pins the R23 fractional patch"
+    ]
+  },
+  "not_run": [
+    "Actual preparation, Cloud Build, compiler, exporter, decoder, verifier, source execution, or proof run",
+    "Raw evidence access",
+    "Any compilation or execution in the dirty VeriFast tool worktree; formatter and callback source were read via git show only"
+  ],
+  "limitations": "This verdict applies only to the exact unbuilt additive diagnostic candidate. It establishes no AST observation, source-parser binding, diagnostic-site identity, causal explanation, clean positive, proof acceptance, or B1/B2 credit. Existing first-Build dead-code reports remain source-reported; static span matching does not identify actual AST objects.",
+  "proof_credit": 0
+}

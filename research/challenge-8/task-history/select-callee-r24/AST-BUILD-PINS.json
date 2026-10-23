@@ -1,0 +1,54 @@
+{
+  "ast_inventory_helper_sha256": "100bd96f885dccba31d0848e9c69d586b902e11c4630b869be04094e0203b2de",
+  "closure": {
+    "entry_count": 85,
+    "inventory_sha256": "f9c302b8b358d9354fb0086860a75dbfc2cc14d26fa9b9d3c3a3ba9cd876fe43",
+    "status": "STATIC_ONLY_NOT_PROOF",
+    "total_bytes": 1987157
+  },
+  "entry_sha256": "28bac98a8c0c292768029c5519201361e7aa622a30008d02d95af5db063ab366",
+  "expected_diagnostic": {
+    "artifact_validation": "STRUCTURAL_ENVELOPE_ONLY, no semantic parser/source/diagnostic binding",
+    "body_proof_run": "UNKNOWN",
+    "option": "--positive-ast-inventory",
+    "output": "r24-positive.ast.ml",
+    "proof_credit": 0,
+    "record": "r24-positive-ast-diagnostic.json",
+    "scope": "positive only, exact live R24 session/provider; ordinary proof and7controls follow unchanged",
+    "stage": "r24-positive-ast",
+    "verifier_execution": "REQUESTED_NOT_QUALIFIED"
+  },
+  "falsifiable_hypothesis": "Emitted AST contains three source-corresponding cleanup nodes:26 ReturnStmt(unwinding),27 pointer-drop ExprStmt,28 drop-flag IfStmt. Compare actual emitter labels/kinds against static spans; do not infer causality from coordinates alone.",
+  "fingerprint_build": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "fingerprint_path": "research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json",
+  "fingerprint_sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5",
+  "fresh_fingerprint_required": false,
+  "infra_commit": "34659222859070631912f6088c9582f396aa1535",
+  "lane": "o26-select-callee-r20",
+  "owner": "select-sort4",
+  "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "proof_commit": "34659222859070631912f6088c9582f396aa1535",
+  "proof_credit": 0,
+  "queue_reserve_seconds": 60,
+  "recipe_sha256": "0fc10fb109e10a6231d82902cc53306aaedc3b932b7665ce149e3c372695dde9",
+  "report_reserve_seconds": 240,
+  "review": {
+    "decision": "GO_WITH_NITS",
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-ast-review.json",
+    "sha256": "c8ada7cbf0729277f0a040b9d675200e96ad7ebb2fbc2cc00151eb14bf6af9b9"
+  },
+  "review_packet_sha256": "7100888471b451330a2e79e2ab92e76d64324566e891b4a8911c81d30db39919",
+  "review_spec_sha256": "1bec761007bd13672e2a89c7697c546b6d27499bc12b7a1b5622300c601f9064",
+  "runner_sha256": "23819787ec8d1db1e0df5c9305c0987dfa3e7ab33bb93e81b5007732679817fa",
+  "schema": "select-r24-ast-build-pins-v1",
+  "source_and_ghost_text_changed": false,
+  "status": "REVIEWED_READY_TO_SUBMIT",
+  "timeout_seconds": 1200,
+  "tool_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+  "transport_preflight": {
+    "path": "research/challenge-8/task-history/select-callee-r24/AST-TRANSPORT-PREFLIGHT.json",
+    "sha256": "32b745fe3c3680c96ac9d57cb5d2b125f0f93c8962b80edb8c3890c53a5e6b71"
+  }
+}

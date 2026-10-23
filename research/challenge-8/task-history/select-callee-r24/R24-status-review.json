@@ -1,0 +1,41 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "3ba875b2e007e682e8636cc3fa7fd214a480be3d",
+  "baseline_commit": "7de9710cc1a7b08cfef25d523f4f0bc7fa1a16b5",
+  "candidate_tree": "a967f0f73210b754f638ccd72fae03954ed6a223",
+  "spec_sha256": "aaac063e683136a7a34a358975db6720601221674ebf011ea7d46540fb0650e5",
+  "packet_sha256": "dd49e909bfdf0704e4bce28e07d69bfe322b128c70f487f834b7b433f02595a0",
+  "diff_sha256": "0961a6fa50ac2f4e1bff8274dde02fb96d1cfa8e9c08df463959fa54001ad78e",
+  "decision": "GO_WITH_NITS",
+  "scope": "Per-invocation successful JSON response reuse for exact read-only builds describe queries in the main status command only",
+  "verified": [
+    "smallsort-session review check matched the exact candidate, spec and packet; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE",
+    "Cache key is the exact five-element builds describe BUILD --region=global --format=json argument list; different Build IDs and other argument vectors bypass the cache",
+    "Successful JSON results are deep-copied into the cache and deep-copied on cache hits, preventing caller mutation from changing later results",
+    "Nonzero subprocess exits, JSON decode failures and timeouts are not cached or swallowed; malformed JSON values preserve invoke return behavior",
+    "The cache context is enabled only for command=status, is local to one main invocation, and restores the prior context in finally; submit/cancel/request and the download path do not use the cache",
+    "The existing global and local reconciliation, reservation, owner, ledger, token and accounting code is unchanged; coordination.py is unchanged",
+    "The integrated fake status test reuses one exact Build describe across global reconciliation, local reconciliation and final status output, while preserving the single expected output",
+    "python3 research/challenge-8/cloud-build/test_status_metadata_snapshot_r24.py passed all 9 isolated tests",
+    "git diff --check passed for the exact baseline-to-candidate diff"
+  ],
+  "findings": [],
+  "nits": [
+    "The synthetic test establishes fewer duplicate describe subprocesses. After this review, main reported one real authorized status invocation completed in 11.874548096995568 seconds with returncode 0 and identified the Build as terminal FAILURE. That single run does not isolate the latency cause or establish a general 20-second bound; the original latency explanation remains a hypothesis.",
+    "The declared R24 registration dependency suite was also attempted, but its live-artifact assertion expects PREPARED_NOT_REGISTERED while the current shared R24 ledger is AUTHORIZED with 21275 seconds remaining. This state-dependent failure does not implicate the status diff; the suite is not hermetic against the updated ledger."
+  ],
+  "not_run": [
+    "Actual Cloud Build status query or timing measurement by this reviewer; main separately reported the post-review status result above",
+    "Cloud submission, compiler, exporter, verifier, proof runner, or raw evidence access",
+    "Status behavior with multiple distinct active Builds; the exact-key optimization does not promise the 20-second bound in that case"
+  ],
+  "limitations": "GO_WITH_NITS applies only to successful exact-query JSON reuse within one main status invocation. No real Cloud latency measurement was made, no watcher was rearmed, and no proof acceptance or result is inferred. The registration dependency test failure reflects the mutable shared ledger state described above.",
+  "main_reported_after_review": {
+    "status_duration_seconds": 11.874548096995568,
+    "returncode": 0,
+    "build_status": "terminal FAILURE",
+    "attribution": "Reported by main agent after this independent review; not independently observed in this review"
+  },
+  "proof_credit": 0
+}

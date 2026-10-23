@@ -1,0 +1,26 @@
+{
+  "applicability": "Only per-invocation main status command; exact read-only build describe JSON queries. No semantic proof, gates, coordinator or shared watcher change.",
+  "baseline_commit": "7de9710cc1a7b08cfef25d523f4f0bc7fa1a16b5",
+  "candidate_commit": "3ba875b2e007e682e8636cc3fa7fd214a480be3d",
+  "controls": [
+    "Check isolated9-test suite including integrated fake global/local/status one-fetch flow, fresh contexts, deep-copy isolation, distinct build/query identity, exceptions, mutations and original tuple TypeError after a cached list query."
+  ],
+  "defect": "First R24 watcher emitted monitor_error after3failures. Ordinary status works but redundantly fetches same Build metadata across global reconciliation, local reconciliation and final output; watcher subprocess bound20s. Latency cause remains hypothesis until measured.",
+  "dependencies": [
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/sort4-caller-entry-native/test_a1_r24_registration.py",
+    "research/challenge-8/task-history/select-callee-r24/OWNER-DIRECTIONS.md"
+  ],
+  "invariants": [
+    "All owner/ledger/token/accounting/reconciliation checks remain active and unchanged.",
+    "No caching of mutations, builds list, errors or across commands; disabled context for submit/cancel/request and no change to download path.",
+    "Independent response copies; original nonzero/JSON/timeout exceptions and malformed data behavior preserved; context restored in finally."
+  ],
+  "known_limitations": [
+    "No actual Cloud or timing result yet; no rearm until review and real status check.",
+    "Shared watcher and coordination.py untouched; this cannot guarantee20s with multiple distinct active Builds."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}
