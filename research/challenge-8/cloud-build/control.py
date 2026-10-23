@@ -9,6 +9,7 @@ empty: PREPARED_NOT_REGISTERED.
 import argparse,base64,datetime,gzip,hashlib,importlib.util,json,lzma,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 import coordination
+import rr_lane
 
 ROOT=Path(__file__).resolve().parents[3]
 DIR=Path(__file__).resolve().parent
@@ -277,6 +278,12 @@ NETWORK_R7_PROFILE_SHA256='305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b
 NETWORK_PHASES[NETWORK_N5_PHASE]['stages']=NETWORK_N3_STAGES | frozenset(('swap-size',))
 NETWORK_PHASES[NETWORK_N5_PHASE]['stage_seconds']['swap-size']=810
 NETWORK_PHASES[NETWORK_N5_PHASE]['stage_profiles']={'swap-size':(NETWORK_R7_PROFILE,NETWORK_R7_PROFILE_SHA256)}
+NETWORK_PHASES[rr_lane.PHASE]={
+ 'ceiling':5400,'lanes':frozenset((rr_lane.LANE,)),
+ 'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
+ 'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
+ 'profile_sha256':'PENDING_RR_N7_PROFILE_SHA256','timeout':(1200,1740),
+ 'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):
@@ -296,6 +303,8 @@ def network_authorized(a,ledger):
  if a.owner!=NETWORK_OWNER or ledger.get('owner')!=NETWORK_OWNER:raise SystemExit('Network client serves only owner network')
  if not isinstance(ledger.get('allowed_lanes'),list) or set(ledger['allowed_lanes'])!=set(r['lanes']):raise SystemExit('Network lanes differ from registration')
  if ledger['ceiling_build_seconds']!=r['ceiling']:raise SystemExit('Network ceiling differs from registration')
+ if a.phase_id==rr_lane.PHASE and (getattr(a,'ledger',None) is None or
+     Path(a.ledger).resolve()!=ROOT/rr_lane.LEDGER):raise SystemExit('RR requires the exact N7 own ledger path')
  for key in ('start_utc','main_deadline_utc','deadline_utc'):
   if ledger.get(key)!=r[key]:raise SystemExit('Network '+key+' differs from registration')
  try:deadline=utc(ledger['deadline_utc'])
@@ -327,11 +336,23 @@ def network_submit_gate(a):
  try:
   profile_path,profile_sha=r.get('stage_profiles',{}).get(a.stage,(r['profile'],r['profile_sha256']))
   profile_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+profile_path],cwd=ROOT)
-  recipe_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+NETWORK_N3_RECIPE],cwd=ROOT)
+  recipe_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+r.get('recipe',NETWORK_N3_RECIPE)],cwd=ROOT)
  except subprocess.CalledProcessError as error:raise SystemExit('Network profile or recipe is absent from selected infrastructure commit') from error
  if digest(profile_bytes)!=profile_sha:raise SystemExit('Network execution profile differs from phase pin')
  try:profile=json.loads(profile_bytes); recipe=json.loads(recipe_bytes)
  except (ValueError,UnicodeDecodeError) as error:raise SystemExit('Network profile or recipe JSON is invalid') from error
+ if a.phase_id==rr_lane.PHASE:
+  if (getattr(a,'lane',None)!=rr_lane.LANE or not isinstance(recipe,dict) or
+      recipe.get('schema')!='smallsort-cloud-recipe-v1' or recipe.get('lane')!=rr_lane.LANE or
+      recipe.get('network_stages')!=sorted(rr_lane.TIMEOUTS)):
+   raise SystemExit('RR recipe/lane/stage mismatch')
+  proof_profile=subprocess.check_output(['git','show',a.proof_sha+':'+r['profile']],cwd=ROOT)
+  if proof_profile!=profile_bytes:raise SystemExit('RR proof/infra profile mismatch')
+  try:
+   rr_lane.profile_gate(profile,a.stage,a.timeout)
+   rr_lane.attempts_gate(read(Path(a.ledger)),a.stage,a.infra_sha,profile)
+  except ValueError as error:raise SystemExit(str(error)) from error
+  return
  expected=r['stage_seconds'][a.stage]+375
  network_profile_stage_gate(profile,a.stage,a.timeout,r['stage_seconds'][a.stage])
  if (not isinstance(recipe,dict) or recipe.get('schema')!='smallsort-cloud-recipe-v1' or
@@ -360,7 +381,7 @@ def invoke(args):
  if p.returncode:raise RuntimeError(p.stderr.strip())
  return json.loads(p.stdout) if p.stdout.strip() else None
 
-def envs(infra,proof,lane,phase_id=None):
+def envs(infra,proof,lane,phase_id=None,proof_image=None):
  phase_env=(['SORT4_NATIVE_C4_PHASE=1','SORT4_NATIVE_C4_PHASE_ID='+NATIVE_C4_PHASE]
             if phase_id==NATIVE_C4_PHASE else
             ['SORT4_NATIVE_OPAQUE_PHASE=1','SORT4_NATIVE_OPAQUE_PHASE_ID='+NATIVE_OPAQUE_PHASE]
@@ -501,7 +522,7 @@ def envs(infra,proof,lane,phase_id=None):
              'SORT4_A1_CHECKED_TRAIT_CONTRACT=1','SORT4_A1_PROFILE_SHA256='+digest(profile_bytes)]
 
  if phase_id in NETWORK_PHASES:phase_env=network_env(proof,phase_id)
- return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)] + phase_env
+ return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={proof_image or UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)] + phase_env
 
 def r10_time_budget(seconds):
  if type(seconds) is not int or not 90<=seconds<=1200:
@@ -608,7 +629,14 @@ network_setup_run base-apt-update apt-get -o Acquire::http::Timeout=25 -o Acquir
 network_setup_run base-apt-install apt-get -o Acquire::http::Timeout=25 -o Acquire::https::Timeout=25 -o Acquire::Retries=1 install --yes --no-install-recommends ca-certificates curl git python3 time'''
 
 def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None,stage=None):
- budget=network_time_budget(seconds) if phase_id in NETWORK_PHASES else r17_time_budget(seconds) if phase_id in (A1_R17_PHASE,A1_R18_PHASE,A1_R19_PHASE) else r16_time_budget(seconds) if phase_id==A1_R16_PHASE else r15_time_budget(seconds) if phase_id==A1_R15_PHASE else r14_time_budget(seconds) if phase_id==A1_R14_PHASE else r13_time_budget(seconds) if phase_id==A1_R13_PHASE else r12_time_budget(seconds) if phase_id==A1_R12_PHASE else r11_time_budget(seconds) if phase_id==A1_R11_PHASE else r10_time_budget(seconds) if phase_id==A1_R10_PHASE else {'work_seconds':seconds-70,'soft_margin':15}
+ image=UBUNTU
+ if phase_id==rr_lane.PHASE:
+  if lane!=rr_lane.LANE or source_payload is None:raise SystemExit('RR requires its own lane and pinned-objects source transport')
+  profile_bytes=subprocess.check_output(['git','show',infra+':'+rr_lane.PROFILE],cwd=ROOT)
+  if digest(profile_bytes)!=NETWORK_PHASES[phase_id]['profile_sha256']:raise SystemExit('RR configuration profile bytes differ from registration')
+  try:image=rr_lane.profile_gate(json.loads(profile_bytes),stage,seconds)
+  except (ValueError,TypeError) as error:raise SystemExit(str(error)) from error
+ budget=rr_lane.time_budget(seconds,stage) if phase_id==rr_lane.PHASE else network_time_budget(seconds) if phase_id in NETWORK_PHASES else r17_time_budget(seconds) if phase_id in (A1_R17_PHASE,A1_R18_PHASE,A1_R19_PHASE) else r16_time_budget(seconds) if phase_id==A1_R16_PHASE else r15_time_budget(seconds) if phase_id==A1_R15_PHASE else r14_time_budget(seconds) if phase_id==A1_R14_PHASE else r13_time_budget(seconds) if phase_id==A1_R13_PHASE else r12_time_budget(seconds) if phase_id==A1_R12_PHASE else r11_time_budget(seconds) if phase_id==A1_R11_PHASE else r10_time_budget(seconds) if phase_id==A1_R10_PHASE else {'work_seconds':seconds-70,'soft_margin':15}
  work_seconds=budget['work_seconds']
  work='''set -euo pipefail
  export DEBIAN_FRONTEND=noninteractive
@@ -633,7 +661,10 @@ def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None,stag
  if phase_id in NETWORK_PHASES:
   old_setup=" export DEBIAN_FRONTEND=noninteractive\n apt-get update\n apt-get install --yes --no-install-recommends ca-certificates curl git python3 time\n"
   if old_setup not in work:raise RuntimeError('Network base setup insertion point is missing')
-  work=work.replace(old_setup,' '+network_bootstrap_script().replace('\n','\n ')+'\n',1)
+  setup=network_bootstrap_script()
+  if phase_id==rr_lane.PHASE and stage=='warm-g1':
+   setup=setup[:setup.index('export DEBIAN_FRONTEND=noninteractive')]
+  work=work.replace(old_setup,' '+setup.replace('\n','\n ')+'\n',1)
  source_parts=[]
  source_env=[]
  if source_payload is not None:
@@ -741,9 +772,12 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- run_env=envs(infra,proof,lane,phase_id)
+ run_env=envs(infra,proof,lane,phase_id,image)
  if phase_id in NETWORK_PHASES:run_env.append('NETWORK_STAGE='+stage)
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':run_env+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane,phase_id)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+ options={'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'}
+ if phase_id==rr_lane.PHASE:
+  options.update(machineType='E2_HIGHCPU_8' if stage=='cold-image' else 'E2_STANDARD_2',diskSizeGb=100)
+ return {'steps':[{'id':'execute','name':image,'entrypoint':'bash','args':['-ceu',body],'env':run_env+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane,phase_id,image)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':options,'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger,ledger_path):
  for item in ledger['builds']:
@@ -929,7 +963,7 @@ def authorized_phase(a,ledger):
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path);p.add_argument('--phase-id');p.add_argument('--ledger',type=Path);p.add_argument('--owner')
  sub=p.add_subparsers(dest='command',required=True)
- q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9','swap-size'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
+ q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9','swap-size','cold-image','warm-g1'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
  q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True);q.add_argument('--text-logs',action='store_true')
  q=sub.add_parser('cancel');q.add_argument('build_id')
@@ -987,7 +1021,7 @@ def run_command(a,state,ledger,ledger_path):
  if a.command=='submit':
   deadline=authorized_phase(a,ledger)
   network_submit_gate(a)
-  if a.phase_id in NETWORK_PHASES and a.lane!='network-n13':raise SystemExit('N3 requires the registered network-n13 lane')
+  if a.phase_id in NETWORK_PHASES and a.lane not in NETWORK_PHASES[a.phase_id]['lanes']:raise SystemExit('Network requires its registered lane')
   if a.phase_id==A1_BUILD_PHASE:
    if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(A1_BUILD_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Buildability main window ended; no new Build')
    if not 90<=a.timeout<=900:raise SystemExit('Buildability timeout must be90..900 seconds')
@@ -1038,7 +1072,7 @@ def run_command(a,state,ledger,ledger_path):
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-  for name in ['control.py','coordination.py','package-evidence.py','source-input.py']:
+  for name in ['control.py','coordination.py','package-evidence.py','source-input.py']+(['rr_lane.py'] if a.phase_id==rr_lane.PHASE else []):
    expected=subprocess.check_output(['git','show',a.infra_sha+':research/challenge-8/cloud-build/'+name],cwd=ROOT)
    if expected!=(DIR/name).read_bytes():raise SystemExit('Uncommitted/local '+name+' differs from infrastructure SHA; publish first')
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])

@@ -18,7 +18,7 @@ import sys
 import time
 
 HERE = Path(__file__).resolve().parent
-from service import audit, first_diagnostic
+from service import audit, first_diagnostic, online_freeze
 sys.path.insert(0, str(HERE.parent / 'g1'))
 from annotate import prepare
 from verify_inputs import verify_checkout
@@ -112,11 +112,7 @@ def main():
         (outer / 'allprooflogs/cases/g1-minimal').mkdir(parents=True, exist_ok=True)
         freeze = json.loads(args.freeze.read_text())
         shutil.copyfile(args.freeze, out / 'freeze.json')
-        if (freeze.get('schema') != 'rr-g1-minimal-freeze-v1' or
-                not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}', freeze.get('image_digest') or '') or
-                freeze['image_digest'] != os.environ.get('PROOF_IMAGE')):
-            raise ValueError('reviewed image freeze absent or submitted image mismatch')
-        bins = freeze['binaries']
+        bins = online_freeze(freeze, os.environ.get('PROOF_IMAGE'))
         for name in ('rustc', 'cargo', 'cargo-refinedrust', 'refinedrust-rustc'):
             spec = bins[name]
             path = Path(spec['path'])
@@ -126,10 +122,10 @@ def main():
         if Path(bins['cargo-refinedrust']['path']).parent != Path(bins['refinedrust-rustc']['path']).parent:
             raise ValueError('stock RR binaries must be siblings')
         cargo_home = Path(freeze['cargo_home'])
-        cargo_config = cargo_home / 'config.toml'
-        if (not cargo_home.is_absolute() or not re.fullmatch(r'[0-9a-f]{64}', freeze.get('cargo_config_sha256') or '') or
-                sha(cargo_config) != freeze['cargo_config_sha256'] or (cargo_home / 'config').exists()):
-            raise ValueError('locked Cargo dependency/vendor configuration missing')
+        # The owner authorizes online --locked dependencies in the frozen image;
+        # no offline vendor/config gate is inherited from N6.
+        if not cargo_home.is_dir():
+            raise ValueError('frozen Cargo home missing')
         paths = freeze.get('lib_load_paths')
         if not isinstance(paths, list) or not paths:
             raise ValueError('official pinned stdlib export paths not frozen')
@@ -144,7 +140,7 @@ def main():
         base = {'PATH': ':'.join((str(Path(bins['cargo-refinedrust']['path']).parent),
                     str(Path(bins['cargo']['path']).parent), '/usr/bin', '/bin')),
                 'HOME': '/workspace/g1-home', 'CARGO_HOME': str(cargo_home),
-                'CARGO_NET_OFFLINE': 'true', 'CARGO_BUILD_JOBS': '1',
+                'CARGO_NET_OFFLINE': 'false', 'CARGO_BUILD_JOBS': '1',
                 'RUSTUP_TOOLCHAIN': pins['compiler']['channel'], 'RUSTC_BOOTSTRAP': '1',
                 'RUSTFLAGS': '-Cpanic=unwind -Coverflow-checks=on',
                 'RUST_LOG': 'info',
@@ -189,7 +185,7 @@ def main():
         env['RR_CONFIG'] = str(config)
         control = out / 'control-crate'
         shutil.copytree(HERE.parent / 'g1/controls/p0', control)
-        common = ['--locked', '--offline', '--target', pins['compiler']['host']]
+        common = ['--locked', '--target', pins['compiler']['host']]
         argv = [bins['cargo-refinedrust']['path'], '--', '--manifest-path', str(control / 'Cargo.toml'), *common]
         if command('control', argv, control, env, 90) != 0:
             raise ValueError('baseline frontend control failed; target NOT_RUN')

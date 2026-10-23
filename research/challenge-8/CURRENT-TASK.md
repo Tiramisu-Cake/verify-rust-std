@@ -47,10 +47,10 @@ Next: Adapt recipes to the online image route, register lane network-rr-g1, cold
 
 ## Отчёт агента
 
-**network-refinedrust-g1-2026-10-24-n7 · network · NETWORK-RR-G1-2026-10-24-N7 · NOT_STARTED**
-Updated: 2026-10-23T20:54:55Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
+**network-refinedrust-g1-2026-10-24-n7 · network · NETWORK-RR-G1-2026-10-24-N7 · ACTIVE**
+Updated: 2026-10-23T20:57:50Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`.
+Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: No RefinedRust image yet: cold online image Build to smallsort-tools is the first action.
-Next: Adapt recipes to the online image route, register lane network-rr-g1, cold image Build and push, warm G1 in the image, classify, rewrite RR-G1-RESULT.md.
+Blocker: Cold image NOT_RUN; candidate preparation/review in progress.
+Next: Review/register N7; cold image, freeze digest, warm G1.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

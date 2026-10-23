@@ -1,8 +1,8 @@
-# Candidate only. Build context is assembled in an authorized Cloud setup lane.
-# No network access is needed or permitted during this Docker build.
+# N7 online cold image. This is built only by the authorized Cloud Build lane.
 FROM ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401
 
 ARG RR_COMMIT=332d945fafa14bf55c0c8390cb35ec4b0c012cff
+ARG RR_TREE=b33bcccbbbd6168ac73e0c7238a1edddbe34057c
 ARG RR_LOCK_SHA256=b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa
 ARG RUSTC_SHA256=b41f2e026eae47d66d67b9199c31084e470a05166c78d6770e8a838f8e98331f
 ARG CARGO_SHA256=1fb253af555a7edd3758bc3a00ddf262f6d5114a21e43e7c5d8207ea34887cb7
@@ -10,62 +10,56 @@ ARG RUSTC_DEV_SHA256=f6a29511f80d08ff780a566b63ee54775d8f875b33716202035641748e4
 ARG LLVM_SHA256=88967a1ad48a1784e558fe8324b693322d3e49c498554712e20339ceb7516d00
 ARG RUST_SRC_SHA256=6e6713037291a3880e3c9b3c5949a516d5064250541bfb88cb20226285c50a91
 ARG RUST_STD_SHA256=73c5854230a3424379137953e835ce0c83d0282929214722e43831bebd547ce3
-# These values must be frozen from the prepared context; empty is a hard stop.
-ARG DEB_BUNDLE_SHA256
-ARG VENDOR_TREE_SHA256
-ARG CARGO_CONFIG_SHA256
+ARG RUST_DIST=https://static.rust-lang.org/dist/2026-08-28
 
-ENV LD_LIBRARY_PATH=/opt/rust/lib:/opt/rust/lib/rustlib/x86_64-unknown-linux-gnu/lib
+ENV DEBIAN_FRONTEND=noninteractive \
+    LD_LIBRARY_PATH=/opt/rust/lib:/opt/rust/lib/rustlib/x86_64-unknown-linux-gnu/lib \
+    CARGO_HOME=/opt/g1-cargo \
+    RUSTC=/opt/rust/bin/rustc \
+    CARGO=/opt/rust/bin/cargo
 
-COPY context/ /tmp/g1-context/
 COPY IMAGE-INPUTS.json /tmp/g1-image-inputs.json
 COPY write-image-receipt.py /tmp/write-image-receipt.py
+
 RUN set -eu; \
-    test -n "$DEB_BUNDLE_SHA256"; test -n "$VENDOR_TREE_SHA256"; test -n "$CARGO_CONFIG_SHA256"; \
-    cd /tmp/g1-context; \
-    printf '%s  %s\n' "$DEB_BUNDLE_SHA256" debs.tar | sha256sum -c -; \
-    printf '%s  %s\n' "$VENDOR_TREE_SHA256" vendor.tar | sha256sum -c -; \
-    printf '%s  %s\n' "$CARGO_CONFIG_SHA256" cargo-config.toml | sha256sum -c -; \
-    printf '%s  %s\n' "$RUSTC_SHA256" rustc-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
-    printf '%s  %s\n' "$CARGO_SHA256" cargo-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
-    printf '%s  %s\n' "$RUSTC_DEV_SHA256" rustc-dev-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
-    printf '%s  %s\n' "$LLVM_SHA256" llvm-tools-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
-    printf '%s  %s\n' "$RUST_SRC_SHA256" rust-src-nightly.tar.xz | sha256sum -c -; \
-    printf '%s  %s\n' "$RUST_STD_SHA256" rust-std-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
-    mkdir /tmp/g1-debs; tar -xf debs.tar -C /tmp/g1-debs; \
-    cd /tmp/g1-debs; sha256sum -c SHA256SUMS; \
-    dpkg -i ./*.deb; \
-    mkdir -p /opt/rust /opt/refinedrust /opt/g1-cargo; \
-    cd /tmp/g1-context; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends ca-certificates curl git python3 time build-essential pkg-config; \
+    mkdir -p /tmp/g1-dist /opt/rust /opt/refinedrust /opt/g1-cargo; \
+    cd /tmp/g1-dist; \
+    curl --fail --location --retry 3 "$RUST_DIST/rustc-nightly-x86_64-unknown-linux-gnu.tar.xz" -o rustc-nightly-x86_64-unknown-linux-gnu.tar.xz; \
+    curl --fail --location --retry 3 "$RUST_DIST/cargo-nightly-x86_64-unknown-linux-gnu.tar.xz" -o cargo-nightly-x86_64-unknown-linux-gnu.tar.xz; \
+    curl --fail --location --retry 3 "$RUST_DIST/rustc-dev-nightly-x86_64-unknown-linux-gnu.tar.xz" -o rustc-dev-nightly-x86_64-unknown-linux-gnu.tar.xz; \
+    curl --fail --location --retry 3 "$RUST_DIST/llvm-tools-nightly-x86_64-unknown-linux-gnu.tar.xz" -o llvm-tools-nightly-x86_64-unknown-linux-gnu.tar.xz; \
+    curl --fail --location --retry 3 "$RUST_DIST/rust-src-nightly.tar.xz" -o rust-src-nightly.tar.xz; \
+    curl --fail --location --retry 3 "$RUST_DIST/rust-std-nightly-x86_64-unknown-linux-gnu.tar.xz" -o rust-std-nightly-x86_64-unknown-linux-gnu.tar.xz; \
+    printf '%s  %s\n' "$RUSTC_SHA256" rustc-nightly-x86_64-unknown-linux-gnu.tar.xz "$CARGO_SHA256" cargo-nightly-x86_64-unknown-linux-gnu.tar.xz "$RUSTC_DEV_SHA256" rustc-dev-nightly-x86_64-unknown-linux-gnu.tar.xz "$LLVM_SHA256" llvm-tools-nightly-x86_64-unknown-linux-gnu.tar.xz "$RUST_SRC_SHA256" rust-src-nightly.tar.xz "$RUST_STD_SHA256" rust-std-nightly-x86_64-unknown-linux-gnu.tar.xz | sha256sum -c -; \
     for component in rustc cargo rustc-dev llvm-tools rust-std; do \
       tar -xf "${component}-nightly-x86_64-unknown-linux-gnu.tar.xz" -C /tmp; \
-      /tmp/"${component}-nightly-x86_64-unknown-linux-gnu"/install.sh --prefix=/opt/rust; \
+      /tmp/"${component}-nightly-x86_64-unknown-linux-gnu"/install.sh --prefix=/opt/rust --disable-ldconfig; \
     done; \
-    tar -xf rust-src-nightly.tar.xz -C /tmp; \
-    /tmp/rust-src-nightly/install.sh --prefix=/opt/rust; \
-    tar -xf vendor.tar -C /opt/g1-cargo; \
-    cp cargo-config.toml /opt/g1-cargo/config.toml; \
-    cp -a rr/. /opt/refinedrust/; \
+    tar -xf rust-src-nightly.tar.xz -C /tmp; /tmp/rust-src-nightly/install.sh --prefix=/opt/rust --disable-ldconfig; \
+    git clone --no-checkout https://gitlab.mpi-sws.org/lgaeher/refinedrust-dev.git /opt/refinedrust; \
+    git -C /opt/refinedrust checkout --detach "$RR_COMMIT"; \
     test "$(git -C /opt/refinedrust rev-parse HEAD)" = "$RR_COMMIT"; \
+    test "$(git -C /opt/refinedrust rev-parse HEAD^{tree})" = "$RR_TREE"; \
     test -z "$(git -C /opt/refinedrust status --porcelain)"; \
     printf '%s  %s\n' "$RR_LOCK_SHA256" /opt/refinedrust/rr_frontend/Cargo.lock | sha256sum -c -; \
     test "$(/opt/rust/bin/rustc -V)" = 'rustc 1.100.0-nightly (e457a7b0d 2026-08-27)'; \
-    grep -Fq 'commit-hash: e457a7b0d326d67b4322ef0d11bd715cfaeda48f' /tmp/g1-context/rustc-vv-expected.txt; \
     /opt/rust/bin/rustc -Vv > /tmp/g1-rustc-vv.txt; \
-    cmp /tmp/g1-rustc-vv.txt /tmp/g1-context/rustc-vv-expected.txt; \
+    grep -Fq 'commit-hash: e457a7b0d326d67b4322ef0d11bd715cfaeda48f' /tmp/g1-rustc-vv.txt; \
     cd /opt/refinedrust/rr_frontend; \
-    PATH=/opt/rust/bin:$PATH CARGO_HOME=/opt/g1-cargo CARGO_TARGET_DIR=/tmp/g1-target RUSTC=/opt/rust/bin/rustc \
-      /opt/rust/bin/cargo build -p refinedrust_frontend --bins --release --locked --offline; \
-    mkdir /opt/rr-bin; \
+    PATH=/opt/rust/bin:/usr/bin:/bin CARGO_HOME=/opt/g1-cargo RUSTC=/opt/rust/bin/rustc /opt/rust/bin/cargo fetch --locked; \
+    PATH=/opt/rust/bin:/usr/bin:/bin CARGO_HOME=/opt/g1-cargo CARGO_TARGET_DIR=/tmp/g1-target RUSTC=/opt/rust/bin/rustc CARGO_BUILD_JOBS=4 /opt/rust/bin/cargo build -p refinedrust_frontend --bins --release --locked --jobs 4; \
+    mkdir -p /opt/rr-bin; \
     cp /tmp/g1-target/release/cargo-refinedrust /tmp/g1-target/release/refinedrust-rustc /opt/rr-bin/; \
-    sha256sum /opt/rust/bin/rustc /opt/rust/bin/cargo /opt/rr-bin/cargo-refinedrust \
-      /opt/rr-bin/refinedrust-rustc > /opt/g1-executables.sha256; \
-    test -z "$(git -C /opt/refinedrust status --porcelain)"; \
-    python3 /tmp/write-image-receipt.py --inputs /tmp/g1-image-inputs.json \
-      --context /tmp/g1-context --out /opt/g1-image-receipt.json
+    chmod 755 /opt/rr-bin/*; \
+    test -x /opt/rr-bin/cargo-refinedrust; test -x /opt/rr-bin/refinedrust-rustc; \
+    sha256sum /opt/rust/bin/rustc /opt/rust/bin/cargo /opt/rr-bin/cargo-refinedrust /opt/rr-bin/refinedrust-rustc > /opt/g1-executables.sha256; \
+    python3 /tmp/write-image-receipt.py --inputs /tmp/g1-image-inputs.json --dist /tmp/g1-dist --out /opt/g1-image-receipt.json; \
+    rm -rf /var/lib/apt/lists/* /tmp/g1-dist /tmp/g1-target \
+      /tmp/rustc-nightly-x86_64-unknown-linux-gnu /tmp/cargo-nightly-x86_64-unknown-linux-gnu \
+      /tmp/rustc-dev-nightly-x86_64-unknown-linux-gnu /tmp/llvm-tools-nightly-x86_64-unknown-linux-gnu \
+      /tmp/rust-std-nightly-x86_64-unknown-linux-gnu /tmp/rust-src-nightly /tmp/g1-rustc-vv.txt
 
 ENV PATH=/opt/rr-bin:/opt/rust/bin:/usr/bin:/bin
-ENV CARGO_HOME=/opt/g1-cargo
-ENV RUSTC=/opt/rust/bin/rustc
-ENV CARGO=/opt/rust/bin/cargo
 WORKDIR /workspace

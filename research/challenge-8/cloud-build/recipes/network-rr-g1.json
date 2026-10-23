@@ -2,9 +2,12 @@
   "entrypoint": "research/challenge-8/cloud-build/network-rr/run-g1.sh",
   "infra_paths": [
     "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json",
-    "research/challenge-8/cloud-build/network-rr/RR-G1-EXECUTION-PROFILE-20261024-N6.json",
+    "research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N7.json",
+    "research/challenge-8/cloud-build/network-rr/cold-image-audit.py",
+    "research/challenge-8/cloud-build/network-rr/cold-image.sh",
     "research/challenge-8/cloud-build/network-rr/run-g1.sh",
-    "research/challenge-8/cloud-build/provider.py"
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/cloud-build/rr_lane.py"
   ],
   "infra_transport": "exact-recipe-v1",
   "lane": "network-rr-g1",
@@ -21,11 +24,14 @@
     "research/challenge-8/network/rr/g1-minimal/run.py",
     "research/challenge-8/network/rr/g1-minimal/service.py",
     "research/challenge-8/network/rr/g1/annotate.py",
+    "research/challenge-8/network/rr/g1/cloud/Dockerfile.candidate",
+    "research/challenge-8/network/rr/g1/cloud/IMAGE-INPUTS.json",
+    "research/challenge-8/network/rr/g1/cloud/write-image-receipt.py",
     "research/challenge-8/network/rr/g1/controls/p0/Cargo.lock",
     "research/challenge-8/network/rr/g1/controls/p0/Cargo.toml",
     "research/challenge-8/network/rr/g1/controls/p0/src/lib.rs",
     "research/challenge-8/network/rr/g1/verify_inputs.py"
   ],
   "schema": "smallsort-cloud-recipe-v1",
-  "status": "PREPARED_NOT_REGISTERED"
+  "status": "N7_PREPARING"
 }

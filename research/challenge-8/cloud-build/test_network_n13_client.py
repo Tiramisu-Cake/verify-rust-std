@@ -277,6 +277,9 @@ class NetworkN5AdmissionTests(unittest.TestCase):
         self.addCleanup(self.clock.stop)
         self.ledger = json.loads((CLOUD_BUILD / "network-n13" /
                                   "BUDGET-N13-20261024-N5.json").read_text())
+        # Exercise admission at the mocked active N5 time, independently of
+        # the later immutable closeout recorded in the historical ledger.
+        self.ledger['status'] = 'AUTHORIZED'
         self.args = SimpleNamespace(phase_id=control.NETWORK_N5_PHASE, owner="network",
                                     infra_sha=CANDIDATE, stage="controls-order", timeout=975)
 

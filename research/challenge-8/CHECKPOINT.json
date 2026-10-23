@@ -13,7 +13,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "No RefinedRust image yet: cold online image Build to smallsort-tools is the first action."
+    "summary": "Cold image NOT_RUN; candidate preparation/review in progress."
   },
   "confirmed": [
     {
@@ -21,13 +21,13 @@
       "claim": "N6: G1 package transferred and rebound to cd371e0 (seven unique anchors, bodies byte-equal); upstream freshness found no documented slices/union addition; Cloud 0/5400, INCONCLUSIVE at the cold setup boundary, credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
+          "path": "research/challenge-8/network/rr/N6-RR-G1-RESULT.md",
           "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
         }
       ]
     }
   ],
-  "next_step": "Adapt recipes to the online image route, register lane network-rr-g1, cold image Build and push, warm G1 in the image, classify, rewrite RR-G1-RESULT.md.",
+  "next_step": "Review/register N7; cold image, freeze digest, warm G1.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
@@ -39,7 +39,7 @@
       "approach": "Offline-only cold image with frozen deb/vendor context before any Build (N6 package gates)",
       "evidence": [
         {
-          "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
+          "path": "research/challenge-8/network/rr/N6-RR-G1-RESULT.md",
           "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
         }
       ],
@@ -50,17 +50,17 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 5400,
-    "deadline_utc": null,
+    "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
-    "main_deadline_utc": null,
+    "main_deadline_utc": "2026-10-26T20:56:24Z",
     "main_minutes": 4320,
     "remaining_seconds": 5400,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T20:54:55Z"
+  "updated_utc": "2026-10-23T20:57:50Z"
 }
