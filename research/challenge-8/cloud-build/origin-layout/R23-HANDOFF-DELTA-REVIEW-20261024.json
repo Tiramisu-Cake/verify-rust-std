@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r23-handoff-wording-delta-review-v1",
+  "reviewer": "Codex",
+  "doc_audit_only": true,
+  "candidate": "b524aa0426ee17bae4a9714928b0884161f451cf",
+  "baseline": "6e84226f2c2138be13845ee877b309a680fe6f44",
+  "spec_sha256": "9021c736f70dcfc42be49f4a3e3a8817cb8ed968ade2bd2713512a3b8fb12d8e",
+  "packet_sha256": "489c926aa9e4389447d2be31482cbaecfe479283bb4525677b8dc38d040732c5",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_review": {
+    "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-REVIEW-20261024.json",
+    "sha256": "29fc6356fb5eaa43b28e276ff7f03b12fec2336a6c551cb3e73a1ac03f7d2df3",
+    "decision": "NEEDS_FIX; only the final resource_limits wording was flagged"
+  },
+  "artifacts": {
+    "handoff_path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
+    "handoff_sha256": "5f369c90d80e4849a8496a271df90e1ac6a279bea2a24c7a5ac1946f647ae511",
+    "closeout_path": "research/challenge-8/cloud-build/origin-layout/R23-CLOSEOUT-20261024.json",
+    "closeout_sha256": "b105d673d9d6820b92b5c9e413b620921ea27d4f6f4adc731b2d45442cff13a7",
+    "source_brief_sha256": "fdae318833b79bebcb75c4dcee6c65dfc5ca7bada6fd26a3e5882093c3009396",
+    "control_brief_sha256": "a4224451fd45b859e567f857b928b73455d6f299943617d3c01b462801e8fbc2",
+    "p20_review_sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23",
+    "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+    "compiled_source_candidate": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+    "compiled_tool": "74cebc3bd91b3f88edae3a0dde42061712119e2b"
+  },
+  "decision": "GO",
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The delta packet matched candidate b524aa0426ee17bae4a9714928b0884161f451cf, spec SHA-256 9021c736f70dcfc42be49f4a3e3a8817cb8ed968ade2bd2713512a3b8fb12d8e, and packet SHA-256 489c926aa9e4389447d2be31482cbaecfe479283bb4525677b8dc38d040732c5.",
+    "The only handoff content change from baseline 6e84226f2c2138be13845ee877b309a680fe6f44 is the final next_route.resource_limits item. The revised text prohibits using stale entry snapshots in place of current-value restoration or ownership derivation, prohibits synthesized/duplicate owners and unchecked summaries, and expressly leaves ordinary ghost value-history snapshots for separate sortedness/permutation proofs available.",
+    "The revised wording addresses the prior finding without changing the handoff's open functional obligations or altering its source/runtime scope. The prior NEEDS_FIX review record remains unchanged.",
+    "The new handoff hash matches the packet. Closeout, P20 Briefs, P20 review, and profile hashes remain identical to the prior audit. No source, semantic tool, budget/ledger, Brief, or policy files changed in this delta.",
+    "The previous document audit's accounting, evidence-assurance distinctions, source/tool/profile pins, source blob, navigation hashes, and next-route obligations remain applicable and unchanged."
+  ],
+  "reported_checks_not_rerun": [
+    "Initial handoff/closeout accounting, evidence, and navigation audit recorded in R23-HANDOFF-REVIEW-20261024.json"
+  ],
+  "limitations": [
+    "This is a document-only wording delta review. It does not repeat the semantic source review or establish compiler/parser/toolchain/proof acceptance.",
+    "P20 evidence remains source-reported, overall Build FAILURE, accepted=false, B2=false, and proof/independent credit false. No Build admission or proof credit is granted."
+  ],
+  "proof_credit": false,
+  "independent_credit": false,
+  "build_admission": false
+}

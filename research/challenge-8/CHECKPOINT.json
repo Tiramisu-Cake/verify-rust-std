@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-TRANSPORT-20261024.json",
-      "sha256": "5d4c32512a5a48a273bf22249e1c654928b505b0b0c5ecc833022603df2979b5"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "fdae318833b79bebcb75c4dcee6c65dfc5ca7bada6fd26a3e5882093c3009396"
     },
@@ -23,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-REVIEW-20261024.json",
       "sha256": "29fc6356fb5eaa43b28e276ff7f03b12fec2336a6c551cb3e73a1ac03f7d2df3"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-DELTA-REVIEW-20261024.json",
+      "sha256": "43884c5dc83eb07b98228636d63c559a9233860dba8438312dba52c2c4f607d5"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +32,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "R23 budget closed: spent13685, retired715; HANDOFF audit pending.",
+    "summary": "R23 closed by budget; general/W5 and independent acceptance remain OPEN.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +65,7 @@
       ]
     }
   ],
-  "next_step": "Independent HANDOFF/closeout audit, then final publication; no more R23 Builds.",
+  "next_step": "Reviewed HANDOFF: general len17/window9 and W5; closed R23 grants no Build.",
   "open": [
     "P20 bounded u64/array3 source-adapter caller has all targets exit0 SOURCE_REPORTED; accepted/B2/independent proof and general caller interface remain OPEN.",
     "CURRENT/backedge broader caller qualification remains OPEN; P20 raw/source control summaries match as source claims, independent credit0.",
@@ -99,9 +99,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "CLOSED",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T22:11:48.231335Z",
+  "updated_utc": "2026-10-23T22:16:25.825819Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -840,6 +840,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-COMPILE-REVIEW-20261024.json",
       "sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-TRANSPORT-20261024.json",
+      "sha256": "5d4c32512a5a48a273bf22249e1c654928b505b0b0c5ecc833022603df2979b5"
     }
   ],
   "historical_confirmed": [
@@ -1174,11 +1178,28 @@
   "handoff": {
     "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
     "sha256": "5f369c90d80e4849a8496a271df90e1ac6a279bea2a24c7a5ac1946f647ae511",
-    "review_status": "LOCALIZED_DOCUMENT_FIX_READY_FOR_DELTA_AUDIT",
+    "review_status": "GO",
     "authority": "NO_NEW_ADMISSION_OR_BUDGET",
     "initial_review": {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-REVIEW-20261024.json",
       "sha256": "29fc6356fb5eaa43b28e276ff7f03b12fec2336a6c551cb3e73a1ac03f7d2df3"
-    }
+    },
+    "final_review": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-DELTA-REVIEW-20261024.json",
+      "sha256": "43884c5dc83eb07b98228636d63c559a9233860dba8438312dba52c2c4f607d5"
+    },
+    "doc_audit_only": true,
+    "proof_credit": false,
+    "build_admission": false
+  },
+  "closed_at_utc": "2026-10-23T22:16:25.825819Z",
+  "closure_accounting": {
+    "ledger_status": "CLOSED",
+    "spent_seconds": 13685,
+    "retired_seconds": 715,
+    "remaining_seconds": 0,
+    "carry_seconds": 0,
+    "active_build_ids": [],
+    "unresolved_ids": []
   }
 }
