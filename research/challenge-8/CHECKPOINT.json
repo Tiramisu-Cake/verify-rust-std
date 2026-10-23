@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "393fcd3f191a1d6904c91675c1c60c51867b08891a1d36860aff81711b65188a"
+      "sha256": "bcb3a12f796f2d5d28b3fb8b464dbdf293a839b9f65a33fc8dcd46009de00f43"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,11 +34,11 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-FIRST-OBSERVATIONS.json",
-        "sha256": "59d33d0f3684b60aa745b4f0cbdec7e28d8414ce4987ef64bfd2c486ee7a285e"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-path-review.json",
+        "sha256": "c517cf2c0c776872c3f3d077cc91c6b9a456c4e6049ac8eabc1c830bf559afbc"
       }
     ],
-    "summary": "Refusal entry Path/string prerequisite audit mismatch; fix unbuilt. P2 NOT_PUBLISHED."
+    "summary": "Reviewed entry Path/string fix unbuilt; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1740,17 +1740,34 @@
     "scope": "CONST_MUTABLE_FULL_MATRIX_CONSEQUENCE_AND_ELEVEN_SOURCE_ENVELOPE_REFUSALS",
     "state": "TERMINAL_ACCOUNTED_PATH_TYPE_FIX_PENDING"
   },
+  "mutable_refusal_path_candidate": {
+    "accepted": false,
+    "candidate": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-PATH-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "d59c7130f47a536e0adca4aef75e2351e19bb2f2b4fe3527e4ffacef94b0954c",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-path-review.json",
+    "review_sha256": "c517cf2c0c776872c3f3d077cc91c6b9a456c4e6049ac8eabc1c830bf559afbc",
+    "runtime_closure": {
+      "bytes": 3022313,
+      "entries": 128,
+      "sha256": "ab692de4d1b562824c84d3fcb43fb2ce466fc53af6a1c04d2d544fd8bd876927"
+    },
+    "scope": "EXACT_SYSROOT_STRING_BOUNDARY_AND_PARTIAL_PREREQUISITE_RECEIPTS; FULL_REQUIRED_MATRIX_UNCHANGED",
+    "state": "REVIEWED_UNBUILT"
+  },
   "mutable_refusal_work_in_progress": {
-    "commit": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
-    "next": "Fresh full1200 Build; actual expectedrefusals unobserved beforeBuild.",
+    "commit": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+    "next": "Fresh full1200 matrices/consequence/all11refusals; no qualified nativecontrols yet.",
     "paths": [
       "research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py",
       "research/challenge-8/cloud-build/test_select_callee_r24_mut_refusals.py"
     ],
     "proof_credit": 0,
     "publication_allowed": false,
-    "state": "SUBMITTED",
-    "tests": "47isolated tests pass; noactualtools",
+    "state": "REVIEWED_UNBUILT",
+    "tests": "7entrytests withrealhelperboundary pass",
     "worker": "r24_admission"
   },
   "mutable_successor_candidate": {
@@ -1769,8 +1786,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review exact entry Path/string fix; full matrix/consequence/refusals, then P2/W4.",
-  "next_step": "Review exact entry Path/string fix; full matrix/consequence/refusals, then P2/W4.",
+  "next": "Submit348e7 full1200; qualify all11refusals before P2 publication; then concrete W4.",
+  "next_step": "Submit348e7 full1200; qualify all11refusals before P2 publication; then concrete W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated.",
@@ -1844,7 +1861,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T21:23:14Z",
+  "updated_utc": "2026-10-23T21:27:34Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",

@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD",
+  "baseline_commit": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+  "candidate_commit": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+  "candidate_tree": "42c730a58567dc54cf63aaf5cfd0982cdf0998bf",
+  "spec_sha256": "02337635e6ba0ae5a662733b0f1ebc071a5ed8331910f59badd20351022c282c",
+  "packet_sha256": "cac3d2f5ddd59d1f7f0ac8699f238ea618e32ff9c7de86948dcfee17022e322f",
+  "packet_diff_sha256": "bbcc503f9c5a352cb45b8fd43bf1dc6e2227e76dff1834432993932a3d81a646",
+  "commit_diff_sha256": "bbcc503f9c5a352cb45b8fd43bf1dc6e2227e76dff1834432993932a3d81a646",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-review.json",
+      "sha256": "6ae6a40b62d0170a7bc7cc5f17878b53f51af9cc60b11fdda33ae5676cc30169",
+      "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD; carried forward"
+    }
+  ],
+  "scope": "Independent review of the localized refusal-entry prerequisite-audit sysroot normalization and receipt persistence/error-snapshot delta. GO is limited to one full 1200-second same-tool const-regression-first mutable matrix, consequence, and eleven refusal-control Build. No publication or proof credit.",
+  "verified": [
+    "Exact review check passed: candidate 348e7f78b042db89350ef705373ddcbc9378e0e7, baseline 601531a881ba34aba1306ae7de4a676d0b0fc26d, spec SHA 02337635e6ba0ae5a662733b0f1ebc071a5ed8331910f59badd20351022c282c, packet SHA cac3d2f5ddd59d1f7f0ac8699f238ea618e32ff9c7de86948dcfee17022e322f; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The semantic delta is confined to the refusal entry and its test. It copies the audit arguments for the frozen consequence audit and converts only that copied compiler_sysroot from argparse Path to the string required by the frozen helper. The live entry argument, absolute/nonempty path checks, consequence helper, shell invocation, native/source/model/lemma, and exact mode pins are unchanged.",
+    "Each classified and consequence prerequisite audit result or exception is now recorded immediately before completeness gating. The physical audit compares recomputed receipts without rewriting them. Exception receipt write/comparison failures are attached as notes when supported and preserve the original exception; they cannot convert an incomplete or exceptional audit to complete.",
+    "The added integration test calls the real frozen consequence audit with the Path-to-string boundary and checks that its expected incomplete result is persisted, with the compiler-sysroot type error absent. The exception test verifies the original audit exception is re-raised and its incomplete exception receipt remains available.",
+    "Prior source-control, current provider, source/stage/log, consequence, classifier, shell composite, proof-boundary, and exact-route checks remain intact. No acceptance, publication, or independent proof credit is introduced."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check for exact packet (pass)",
+      "test_select_callee_r24_mut_refusal_entry.py (7 tests, pass)",
+      "py_compile select-callee-r24-mut-refusal-entry.py (pass)",
+      "bash -n run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement, or verifier",
+      "Cloud Build or Evidence Brief; raw/full logs, archives, or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "The previous Build 10662 failure remains recorded and receives no credit. This review only permits the requested diagnostic Build attempt; refusal controls still require fresh native evidence, and this does not establish internal typed-MIR guard coverage, mutable proof acceptance, P2 publication, or formal proof credit. Final publication/admission requires its separate review. Static transport and closure figures are those recorded in the packet, not a claim of runtime execution.",
+  "proof_credit": 0
+}
