@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "nested_delegation": false,
+  "verdict": "GO",
+  "candidate_commit": "17142eb2eba8e62a757e90552dffc592f79cec4e",
+  "candidate_tree": "8011e048d5f13aa9fc7af8f3bdeb93bb92cfaa8e",
+  "baseline_commit": "53914f8210f79e8542a80494e41ffb2300621ec0",
+  "diff_sha256": "e92ca9ac954525e7e14b6b1f809f10de2d2f9ebf12d7274e68cc730c13473cfe",
+  "packet_sha256": "3255b56e1f5ae75fa9540028e5fa8d5d7097437210b72f7f8fae6c0be6c7e5bb",
+  "spec_sha256": "896b447b35a6c7a56332ea47d60f268d67666805fff6095938c7d540d3b43eb3",
+  "scope": "Independent semantic review of the exact inactive mutable source-chain delta, its alternative downstream adapter, and corrected synthetic request tests.",
+  "findings": [],
+  "verified": [
+    "The exact review packet matches the candidate, spec, and 15-file inventory; packet proof_credit is NONE and review check reports PACKET_VALID_NOT_REVIEWED.",
+    "The A1 source builder is SHA-pinned. Its transmute and assume-init components have separate finite const-pointer inventories (4 and 3 sites); signatures and expected body anchors are checked, and reverse substitution must reproduce the complete pair byte-for-byte. The insertion gate requires the mutable signatures and rejects const pointer spellings while retaining the unchanged actual-helper suffix and ghost-strip identity.",
+    "The alternate writer calls the pinned Cloud provider gate before checking or reading the input and before creating output. The provider adapter in turn pins the existing Cloud provider module and rejects GitHub or incomplete identity records. Its pure transform remains usable by synthetic tests without file preparation.",
+    "The alternate adapter requires an explicit contract hash, checks the exact P2 helper contract bytes at the immediate signature boundary, verifies their digest against the pinned contract digest, and records the digest of those checked bytes.",
+    "The mutable request test now builds its input from synthetic byte literals and only imports the writer signature constants; it no longer calls the repository-source fixture writer in setup.",
+    "Output records preserve capture-only status: typed MIR is unbound, translator admission is not implemented, proof is NOT_RUN, publication is NOT_PUBLISHED, and proof credit is zero.",
+    "24 synthetic service tests passed across the provider gate, mutable source-chain adapters, alternate downstream adapter, and request adapter. No Rust tool, Cloud operation, or actual source preparation was run during this review."
+  ],
+  "not_run": [
+    "Actual std source preparation/extraction, compiler/exporter/MIR capture, translator admission, verifier, Cloud, and proof runner.",
+    "The additional source-writer test module was not run because it invokes fixture writers against repository std source; this review's local validation remained synthetic-only."
+  ],
+  "limitations": "GO is limited to this inactive source-only candidate and its reviewed static/synthetic controls. No actual source/MIR identity, typed binding, admission, formal proof, publication, or proof credit is established. The earlier local source-preparation deviation remains accurately documented in VALIDATION-NOTES.md.",
+  "proof_credit": 0
+}
