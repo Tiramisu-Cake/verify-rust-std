@@ -282,7 +282,7 @@ NETWORK_PHASES[rr_lane.PHASE]={
  'ceiling':5400,'lanes':frozenset((rr_lane.LANE,)),
  'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
  'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
- 'profile_sha256':'PENDING_RR_N7_PROFILE_SHA256','timeout':(1200,1740),
+ 'profile_sha256':'928037bc33d892d8448b5f1c65e9165c3b445f751952a703a83a008cf103811e','timeout':(1200,1740),
  'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
 NETWORK_RESERVE=240
 
