@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,base64,datetime,gzip,hashlib,importlib.util,json,lzma,math,os,re,subprocess,sys,uuid
+import argparse,base64,copy,datetime,gzip,hashlib,importlib.util,json,lzma,math,os,re,subprocess,sys,uuid
+from contextlib import contextmanager
 from pathlib import Path
 import coordination
 
@@ -272,15 +273,39 @@ A1_LEGACY_TWO_SLOT_PHASES=frozenset((A1_AUTO_PHASE,A1_SCOPE_PHASE,A1_R7_PHASE,
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
+_STATUS_METADATA_CACHE=None
 
 def read(p):return coordination.read(p)
 def write(p,x):coordination.write(p,x)
 def shquote(x):return "'"+x.replace("'","'\\''")+"'"
 def digest(b):return hashlib.sha256(b).hexdigest()
+
+@contextmanager
+def status_metadata_snapshot(enabled):
+ global _STATUS_METADATA_CACHE
+ previous=_STATUS_METADATA_CACHE
+ _STATUS_METADATA_CACHE={} if enabled else None
+ try:
+  yield
+ finally:
+  _STATUS_METADATA_CACHE=previous
+
+def _status_metadata_key(args):
+ if (isinstance(args,(list,tuple)) and len(args)==5 and args[0]=='builds' and
+     args[1]=='describe' and isinstance(args[2],str) and args[3]=='--region=global' and
+     args[4]=='--format=json'):
+  return tuple(args)
+ return None
+
 def invoke(args):
+ cache=_STATUS_METADATA_CACHE
+ key=_status_metadata_key(args) if cache is not None else None
+ if key is not None and key in cache:return copy.deepcopy(cache[key])
  p=subprocess.run(GCLOUD+args,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
  if p.returncode:raise RuntimeError(p.stderr.strip())
- return json.loads(p.stdout) if p.stdout.strip() else None
+ result=json.loads(p.stdout) if p.stdout.strip() else None
+ if key is not None:cache[key]=copy.deepcopy(result)
+ return result
 
 def envs(infra,proof,lane,phase_id=None):
  phase_env=(['SORT4_NATIVE_C4_PHASE=1','SORT4_NATIVE_C4_PHASE_ID='+NATIVE_C4_PHASE]
@@ -858,16 +883,17 @@ def main():
    current['download_verified']=True;current['archive_sha256']=(a.output/'archive.sha256').read_text().split()[0]
    write(ledger_path,ledger)
   return
- with coordination.locked():
-  if a.command in ('request','withdraw-request'):
+ with status_metadata_snapshot(a.command=='status'):
+  with coordination.locked():
+   if a.command in ('request','withdraw-request'):
+    ledger=read(ledger_path)
+    run_command(a,state,ledger,ledger_path)
+    return
+   if a.owner:reconcile_global(a.owner,ledger_path)
+   state.mkdir(parents=True,exist_ok=True)
    ledger=read(ledger_path)
+   reconcile(state,ledger,ledger_path)
    run_command(a,state,ledger,ledger_path)
-   return
-  if a.owner:reconcile_global(a.owner,ledger_path)
-  state.mkdir(parents=True,exist_ok=True)
-  ledger=read(ledger_path)
-  reconcile(state,ledger,ledger_path)
-  run_command(a,state,ledger,ledger_path)
 
 
 def run_command(a,state,ledger,ledger_path):
