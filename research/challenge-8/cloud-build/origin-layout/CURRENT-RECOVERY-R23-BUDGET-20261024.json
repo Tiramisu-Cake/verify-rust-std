@@ -1,5 +1,5 @@
 {
-  "active_build": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+  "active_build": null,
   "allowed_lanes": [
     "merge"
   ],
@@ -436,11 +436,17 @@
       "submitted_config_sha256": "fe162027c9e87f63855d39ab47b5f48f98cc21bf2788339015b9d7954d4c3484",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "e252dc99af6883d8648a6a71651339bdb70039fbe588c782d981ab4de4bf699c",
-      "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a"
+      "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+      "start_time": "2026-10-23T21:47:10.016907063Z",
+      "finish_time": "2026-10-23T22:03:13.104224Z",
+      "create_time": "2026-10-23T21:47:09.285096526Z",
+      "build_seconds": 964,
+      "accounted": true,
+      "execution_seconds": 964
     }
   ],
   "carry_seconds": 0,
@@ -457,15 +463,15 @@
   "phase_id": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
   "profile_path": "research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json",
   "publication_gate_path": "research/challenge-8/cloud-build/origin-layout/R14-PUBLICATION-GATE-20261021.json",
-  "remaining_build_seconds": 1679,
+  "remaining_build_seconds": 715,
   "report_reserve_seconds": 420,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
-  "spent_build_seconds": 12721,
+  "spent_build_seconds": 13685,
   "start_utc": "2026-10-23T10:45:00Z",
   "starting_source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
   "starting_tool_commit": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
   "status": "AUTHORIZED",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "used_build_seconds": 12721
+  "used_build_seconds": 13685
 }
