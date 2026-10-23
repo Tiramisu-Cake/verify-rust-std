@@ -1,0 +1,28 @@
+{
+  "schema": "merge-r22-tool-compile-fix-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+  "baseline": "578120769161e217e53bd569bafdccbd4b2e020e",
+  "spec_sha256": "e20780f453fe7922ff6022b472143f1385c7341d1f93f20d4e5cd117f4aea907",
+  "packet_sha256": "013a96bd1386551730f75a97dcc2e2f9e325979ba8b701e35e10dc162a7056a4",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "GO",
+  "findings": [],
+  "review_findings": [
+    "The ReErased builder reborrow is consistent with the adjacent ReVar implementation. It writes the same typed identity.erased union and then the same legacy id string; it changes only builder borrowing so the subsequent set_id remains valid.",
+    "The pointer_coercion_data_cpn alias targets crate::vf_mir_capnp::pointer_coercion_data, matching the top-level PointerCoercionData declaration in the unchanged vf_mir.capnp schema. The alias resolves the type used by encode_pointer_coercion without changing its encoding behavior.",
+    "The exact candidate changes only these two lines in vf_mir_exporter/src/lib.rs. No schema, model, CFG, resource, normal, or unwind behavior changes are present."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "git diff --check",
+    "dependency schema SHA256 matches packet"
+  ],
+  "not_run": [
+    "Compiler or exporter execution; reserved for Cloud validation",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

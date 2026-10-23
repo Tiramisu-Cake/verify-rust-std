@@ -1,28 +1,16 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md",
-      "sha256": "d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json",
-      "sha256": "c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json",
-      "sha256": "d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
-      "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
       "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json",
       "sha256": "c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json",
+      "sha256": "329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8"
     }
   ],
   "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
@@ -32,8 +20,14 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Build active.",
-    "evidence": []
+    "summary": "Exporter compile failed.",
+    "evidence": [
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
+        "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
+        "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
+      }
+    ]
   },
   "confirmed": [
     {
@@ -82,9 +76,20 @@
           "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 P1: exporter101 (E0382/E0433), proof_attemptedfalse; target/controls unproved, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
+          "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
+          "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
+        }
+      ]
     }
   ],
-  "next_step": "Brief.",
+  "next_step": "Review compile fix.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -118,21 +123,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3246,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 354,
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T07:58:51Z",
+  "updated_utc": "2026-10-23T08:08:53Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -184,5 +187,28 @@
     "source_mode": "pinned-objects",
     "source_input_sha256": "91388a834bac7b2640514c64dfa5291b118b807f65403515e7c6ba2314b31d99",
     "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
-  }
+  },
+  "watcher_event": {
+    "job_id": "dbb7da76-a81a-45d2-ae8a-70505a7e1c25",
+    "event_id": "ca2948c4-a88b-4505-aa9a-5420ba1c9336",
+    "ack_mode": "CONTINUE_EXISTING_WINDOW"
+  },
+  "historical_artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md",
+      "sha256": "d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json",
+      "sha256": "c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json",
+      "sha256": "d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
+      "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
+    }
+  ]
 }
