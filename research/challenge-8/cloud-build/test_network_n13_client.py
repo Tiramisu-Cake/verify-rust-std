@@ -50,8 +50,8 @@ class NetworkN13ClientTests(unittest.TestCase):
             "exact": 975,
             "controls": 1155,
             "controls-order": 975,
-            "regressions": 915,
-            "regressions-n13": 735,
+            "regressions": 1035,
+            "regressions-n13": 855,
             "regressions-n9": 555,
         }
         for stage, timeout in expected.items():
@@ -67,10 +67,10 @@ class NetworkN13ClientTests(unittest.TestCase):
                 control.network_submit_gate(bad)
 
     def test_profile_stage_limits_must_match_client_envelope(self):
-        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4.json"
+        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json"
         profile = json.loads(profile_path.read_text())
         control.network_profile_stage_gate(profile, "controls-order", 975, 600)
-        control.network_profile_stage_gate(profile, "regressions-n13", 735, 360)
+        control.network_profile_stage_gate(profile, "regressions-n13", 855, 480)
         for changed in ("timeout_seconds", "build_timeout_seconds"):
             bad = json.loads(json.dumps(profile))
             bad["stages"]["controls-order"][changed] -= 1
@@ -79,10 +79,10 @@ class NetworkN13ClientTests(unittest.TestCase):
             bad = json.loads(json.dumps(profile))
             bad["stages"]["regressions-n13"][changed] -= 1
             with self.subTest(stage="regressions-n13", changed=changed), self.assertRaises(SystemExit):
-                control.network_profile_stage_gate(bad, "regressions-n13", 735, 360)
+                control.network_profile_stage_gate(bad, "regressions-n13", 855, 480)
 
     def test_selected_recipe_must_bind_network_stages(self):
-        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4.json"
+        profile_path = CLOUD_BUILD / "network-n13" / "N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json"
         old_recipe = subprocess.check_output([
             "git", "show", "010127f1a6fb125097dcbec4ef84818b8f7adb8f:research/challenge-8/cloud-build/recipes/network-n13.json"
         ])

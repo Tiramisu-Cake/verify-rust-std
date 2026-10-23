@@ -1,0 +1,175 @@
+{
+  "accepted": false,
+  "cloud": {
+    "base_image": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "build_dependencies": [],
+    "case_timeouts_seconds": {
+      "exact-n13-full-post": 600,
+      "other": 180,
+      "universal-n13-regression": 480
+    },
+    "execution_mode": "download-verified-stock-prebuilt",
+    "max_build_seconds": 1200,
+    "provider": "identified-cloud-build",
+    "report_reserve_seconds": 240,
+    "setup_allowance_seconds": 120,
+    "soft_margin_seconds": 15
+  },
+  "common_runner_imports": {
+    "files": [
+      {
+        "git_blob": "1b4a10999bddde147f6679cbff6c9f1dd9b18fcb",
+        "path": "research/challenge-8/cloud-build/run-proof.sh",
+        "sha256": "63363061c00c7fe6868bfee4284bcc7d57dcbbefd4a57545f00bc867f921af38"
+      },
+      {
+        "git_blob": "9c32be16be5a2a371597b9980b3a8cc83c29d034",
+        "path": "research/challenge-8/cloud-build/exact-infra-transport-controls.py",
+        "sha256": "e9f2c714d94c97ba1561a603db51b67eb58e6c2a9e8bbcd19a750bafe769fc34"
+      },
+      {
+        "git_blob": "4c3b621f65097c2b8fd1011496c3fe7e8cc0996d",
+        "path": "research/challenge-8/cloud-build/package-evidence.py",
+        "sha256": "1843505d2c9a9329c730ad468f89060c2846d332a03ecf5063b96cb83885dfd4"
+      },
+      {
+        "git_blob": "783455d06cef8aaba0465e54f7d7c19e5a452231",
+        "path": "research/challenge-8/cloud-build/source-input.py",
+        "sha256": "2da52a29cf4144d0b85f054d154f775b27a1d9d72a47460b82d415fbb531662b"
+      },
+      {
+        "git_blob": "fc0d1bdf07a0406cd26263ac27cf0af6676e8225",
+        "path": "research/challenge-8/cloud-build/verify-evidence.py",
+        "sha256": "79c183806792eae63ad566ea042a6a4bf5ed63a5664f09ac43b92934a82d512e"
+      },
+      {
+        "git_blob": "8937e3a3e4ce4b031ea9a178acab489406712ccc",
+        "path": "research/challenge-8/cloud-build/proof-audit.py",
+        "sha256": "5e0e0a0b9294cd1499afed9801963905441baf822dc708b9dc62f6fb58d998b6"
+      },
+      {
+        "git_blob": "178dcfdfc5810e85475636dfbc27dfefc0763387",
+        "path": "research/challenge-8/cloud-build/provider.py",
+        "sha256": "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616"
+      }
+    ],
+    "project_commit": "fffb4d475acaccf71432cc513f886f372fde145b"
+  },
+  "independent_credit": false,
+  "lane": "network-n13",
+  "phase_id": "NETWORK-N13-EXACT-2026-10-23-N4",
+  "prohibited": [
+    "local compiler or VeriFast execution",
+    "GitHub Actions or spoofed GitHub identity",
+    "tool source build, patch, or runtime-model expansion",
+    "proof acceptance from timeout, setup failure, exit 0, or universal component alone"
+  ],
+  "proof_credit": false,
+  "purpose": "UNRUN measured universal480 timing candidate for handoff; no new window/budget/phase authority. Existing N4 bounds persist; future continuation requires fresh assignment/admission.",
+  "required_controls": [
+    "literal membership false post fails at its intended assertion",
+    "adjacent order false post fails at its intended assertion",
+    "missing incomparability-transitivity correspondence fails at its intended target",
+    "all seven inherited fail-closed classifier controls reject",
+    "unchanged generic bridge, exact N9 and universal N13 regressions on final compatible identities"
+  ],
+  "required_posts": [
+    "all 13 output IDs in the exact original domain 0..12",
+    "all 12 adjacent !rel(next, previous) posts",
+    "full arbitrary-q original occurrence multiplicity"
+  ],
+  "schema": "smallsort-network-n13-execution-profile-v1",
+  "source": {
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "sort13_calls": 45,
+    "sort9_calls": 25
+  },
+  "stages": {
+    "controls": {
+      "build_timeout_seconds": 1155,
+      "targets": [
+        "missing-equiv-trans",
+        "exact-n13-membership-post",
+        "classifier-reject-controls-7"
+      ],
+      "timeout_seconds": 780
+    },
+    "controls-order": {
+      "build_timeout_seconds": 975,
+      "targets": [
+        "exact-n13-order-post",
+        "classifier-reject-controls-7"
+      ],
+      "timeout_seconds": 600
+    },
+    "exact": {
+      "build_timeout_seconds": 975,
+      "targets": [
+        "exact-n13-full-post"
+      ],
+      "timeout_seconds": 600
+    },
+    "preflight": {
+      "build_timeout_seconds": 735,
+      "targets": [
+        "generic-swo-bridge",
+        "domain13-members"
+      ],
+      "timeout_seconds": 360
+    },
+    "regressions": {
+      "build_timeout_seconds": 1035,
+      "targets": [
+        "exact-n9-regression",
+        "universal-n13-regression"
+      ],
+      "timeout_seconds": 660
+    },
+    "regressions-n13": {
+      "build_timeout_seconds": 855,
+      "targets": [
+        "universal-n13-regression"
+      ],
+      "timeout_seconds": 480
+    },
+    "regressions-n9": {
+      "build_timeout_seconds": 555,
+      "targets": [
+        "exact-n9-regression"
+      ],
+      "timeout_seconds": 180
+    }
+  },
+  "status": "EXECUTION_CANDIDATE_PINNED",
+  "task_id": "network-n13-exact-cloud-2026-10-23-n4",
+  "timing_basis": {
+    "chosen_universal_case_seconds": 480,
+    "consequence": "Standalone universal case reached its final checked composition but did not finish in360s;480 provides33% margin. UNRUN, no acceptance inferred.",
+    "exact_case_seconds_preserved": 600,
+    "margin_over_timeout_seconds": 120,
+    "observed_assertion_errors": 0,
+    "observed_bodies_visited": 19,
+    "observed_build_id": "8b4770bb-c3b9-4ddb-ba25-27d307c5539b",
+    "observed_case_timeout_seconds": 360,
+    "observed_last_statement_seconds": 358.167187,
+    "observed_verifier_elapsed_seconds": 360.323334946
+  },
+  "tool": {
+    "archive_sha256": "da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa",
+    "archive_url": "https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz",
+    "args": [
+      "-c",
+      "-verbose",
+      "1"
+    ],
+    "console_path": "bin/verifast",
+    "console_sha256": "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc",
+    "patches": [],
+    "profile": "official-stock-VeriFast-26.09",
+    "rust_compiler_required": false,
+    "source_commit": "809de4596839b739dd999f9e462242c835e3af46"
+  }
+}

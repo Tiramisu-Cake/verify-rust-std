@@ -282,9 +282,9 @@ class RunCloudTests(unittest.TestCase):
             "exact": (["exact-n13-full-post"], [600]),
             "controls": (["missing-equiv-trans", "exact-n13-membership-post"], [180, 600]),
             "controls-order": (["exact-n13-order-post"], [600]),
-            "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 360]),
+            "regressions": (["exact-n9-regression", "universal-n13-regression"], [180, 480]),
             "regressions-n9": (["exact-n9-regression"], [180]),
-            "regressions-n13": (["universal-n13-regression"], [360]),
+            "regressions-n13": (["universal-n13-regression"], [480]),
         }
         for stage, (targets, limits) in expected.items():
             with self.subTest(stage=stage):

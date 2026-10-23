@@ -22,7 +22,7 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 NETWORKS = HERE.parents[1] / "networks"
 ROOT = HERE.parents[3]
-PROFILE_RELATIVE = Path("research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4.json")
+PROFILE_RELATIVE = Path("research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json")
 SOURCE_RELATIVE = Path("library/core/src/slice/sort/shared/smallsort.rs")
 SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
@@ -167,13 +167,13 @@ def matrix(stage: str, prove, ranks, pairs: list[tuple[int, int]]) -> list[dict[
         pairs9, _lines9 = prove.extract(9)
         add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
         add("network13_symbolic_swo_composition", ranks.composition(13, pairs, False),
-            "universal-n13-regression", 360)
+            "universal-n13-regression", 480)
     elif stage == "regressions-n9":
         pairs9, _lines9 = prove.extract(9)
         add("network9_finite_swo_order", ranks.composition(9, pairs9, True), "exact-n9-regression", 180)
     elif stage == "regressions-n13":
         add("network13_symbolic_swo_composition", ranks.composition(13, pairs, False),
-            "universal-n13-regression", 360)
+            "universal-n13-regression", 480)
     else:
         raise RuntimeError(f"unknown stage: {stage}")
     return cases

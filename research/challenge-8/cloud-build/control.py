@@ -255,15 +255,15 @@ NETWORK_PHASES={NETWORK_N3_PHASE:{
  'stages':NETWORK_N3_STAGES,
  'stage_seconds':{'preflight':360,'exact':420,'controls':600,'controls-order':420,'regressions':540,'regressions-n13':360,'regressions-n9':180}}}
 NETWORK_N4_PHASE='NETWORK-N13-EXACT-2026-10-23-N4'
-NETWORK_N4_PROFILE='research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4.json'
-NETWORK_N4_PROFILE_SHA256='72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890'
+NETWORK_N4_PROFILE='research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json'
+NETWORK_N4_PROFILE_SHA256='08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13'
 NETWORK_PHASES[NETWORK_N4_PHASE]={
  'ceiling':3600,'lanes':frozenset(('network-n13',)),
  'start_utc':'2026-10-23T07:52:10Z','main_deadline_utc':'2026-10-23T09:52:10Z',
  'deadline_utc':'2026-10-23T10:22:10Z','profile':NETWORK_N4_PROFILE,
  'profile_sha256':NETWORK_N4_PROFILE_SHA256,'timeout':(270,1200),
  'stages':NETWORK_N3_STAGES,
- 'stage_seconds':{'preflight':360,'exact':600,'controls':780,'controls-order':600,'regressions':540,'regressions-n13':360,'regressions-n9':180}}
+ 'stage_seconds':{'preflight':360,'exact':600,'controls':780,'controls-order':600,'regressions':660,'regressions-n13':480,'regressions-n9':180}}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):
