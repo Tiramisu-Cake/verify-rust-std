@@ -1,0 +1,36 @@
+{
+  "archive_sha256": "11391c8a20ecc2cd2a2fc2b4478a9672dc44eb53a25a257dee4eb9cd14bad255",
+  "assurance": "SOURCE_REPORTED",
+  "baseline_ast_catalogued_sha256": "50ae0cf9953864422f3ccc589b45045db6387d6ae90ac301205d505277b5757e",
+  "brief_run_exit": 4,
+  "brief_source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+  "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+  "causal_status": "STATIC_GATE_CONTRADICTION; formal projection hypothesis remains untested",
+  "console_build_exit_as_reported": 0,
+  "evidence_complete_as_reported": true,
+  "index_sha256": "370da1eb4aca1a5e2da5ff3864d755a5b9d92b57d86569fbed5b92641a17081f",
+  "next": "Correct profile selection to nine active, two-body inactive and locator absent; retain all same-unit ordinary proof obligations. Delta review/full1200 Cloud required.",
+  "observations": [
+    {
+      "fact": "Positive stage source-reported RAN/exit2, source_unchanged true, intrinsic/pointer-drop gates true. This is not a formal negative control or proof acceptance.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s5-positive-stage.json",
+      "receipt_sha256": "0f6ce25b2b203ada292c489f655ed0583ee901c724539d5cdf89bb62d011e0e9",
+      "request_id": "086a99f9e07efbee7cd055c9b1802b80e202d538938376d5e0e0ba3fa8bde702",
+      "tag": "positive-stage.json"
+    },
+    {
+      "fact": "Exact log4-11 reports nine-body/source and A1Nine admission followed by new R24 gate refusal. Static gate requires both mutually exclusive A1 profiles; no projection execution or callee acceptance established.",
+      "receipt_path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s5-positive-refusal-window.json",
+      "receipt_sha256": "c47a966e42e4432f2db726052b7a81fe6eb967145936fb97ebca753c655c291f",
+      "request_id": "0e2df52d0f30a61dc6f84a948b639fbcda21ee54517c6b7698965f7c490f1821",
+      "tag": "positive-refusal-window.json"
+    }
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "positive_result": "NEW_GATE_REFUSAL_NOT_FORMAL_ACCEPTANCE",
+  "positive_stage_exit": 2,
+  "proof_credit": 0,
+  "schema": "select-r24-fifth-proof-observations-v1",
+  "source_commit": "56a456f3716d721d59545940345091dbb3476435",
+  "static_defect": "A1Nine cert requires A1Link locator absent; initialization then sets two-body A1Link.active false. The new gate incorrectly requires both active. Nine cert already calls local_shape/interface(false-unwind)/check_graph for same-unit pair."
+}

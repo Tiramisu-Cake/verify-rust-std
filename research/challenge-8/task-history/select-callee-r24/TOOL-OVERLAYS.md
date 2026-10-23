@@ -86,3 +86,20 @@ Row29 Build `0b240663-a082-41e9-a3e2-19a0b8738958` FAILURE: Brief reports
 console-build exit2, `Unbound module TranslatorArgs` at1124. Check/apply exit0
 records establish patch application only; actual projection/proof not established.
 Failed candidate2aba4276 and original row29 patch/pins are preserved unchanged.
+
+
+31. `task-history/select-callee-r24/checked-pointer-outcomes-nine-gate-r24.patch`
+    SHA256 `90ad23d24b3806690887e396cb2ec4b10e25ae53df8115cba00649aa26889a3a`;
+    translator `e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db`
+    → `c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e`.
+    Same closed R24 route after row30. Require certified A1Nine active and
+    independent two-body A1Link inactive/locator absent; nine certificate
+    already checks both A1 local interfaces and graph before setting active.
+    All ordinary same-unit callee proofs remain. No source/MIR/checker/spec,
+    projection matcher/counters or normal/unwind/control changes. Static
+    application PASS; UNBUILT, unproved, zero credit.
+
+Row30 Build `bba86d46-3d8f-4275-a7ad-bd36328f4127` reports console-build exit0,
+but ordinary positive RAN/exit2 with new gate refusal after A1Nine admission.
+The original gate incorrectly required mutually exclusive two/nine-body flags.
+No projection execution or formal callee acceptance established by that Build.

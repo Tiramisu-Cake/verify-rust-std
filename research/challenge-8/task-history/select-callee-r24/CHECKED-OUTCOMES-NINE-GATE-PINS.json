@@ -1,0 +1,14 @@
+{
+  "base_translator_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db",
+  "defect": "A1Nine certificate explicitly requires A1_LINK locator absent, and initialization sets A1Link.active false. New gate incorrectly required both active.",
+  "failed_build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+  "failed_candidate": "56a456f3716d721d59545940345091dbb3476435",
+  "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-nine-gate-r24.patch",
+  "patch_sha256": "90ad23d24b3806690887e396cb2ec4b10e25ae53df8115cba00649aa26889a3a",
+  "proof_credit": 0,
+  "replacement": "Require A1Nine.active, A1Link inactive and A1_LINK locator absent. A1Nine itself directly checks both local_shape, interface(req/ens/false-unwind), graph and outer call before active=true.",
+  "result_translator_sha256": "c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e",
+  "schema": "select-r24-checked-outcomes-nine-gate-fix-v1",
+  "unchanged": "Exact source/MIR, fractional const-pointer shape, both same-unit checked callee bodies, all normal/unwind/abort/Drop/leak/refinement/ownership/provenance/thread controls, projection matcher/counters and ignore-unwind rejection. No classifier/source/prelude/checker changes.",
+  "validation": "Static three-overlay application from frozen103; no local compiler, decoder, exporter, verifier, proof or Cloud."
+}

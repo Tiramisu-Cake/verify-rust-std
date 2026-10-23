@@ -38,18 +38,14 @@ class CheckedPointerOutcomeTests(unittest.TestCase):
             shutil.copyfile(base, target)
             subprocess.run(["git", "apply", str(PATCH)], cwd=root, check=True)
             self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), pins["result_translator_sha256"])
-            fix = json.loads((HISTORY / "CHECKED-OUTCOMES-COMPILE-FIX-PINS.json").read_text())
-            fix_patch = ROOT.parents[1] / fix["patch"]
-            self.assertEqual(hashlib.sha256(fix_patch.read_bytes()).hexdigest(), fix["patch_sha256"])
-            self.assertEqual(fix["base_translator_sha256"], pins["result_translator_sha256"])
-            subprocess.run(["git", "apply", "--check", str(fix_patch)], cwd=root, check=True)
-            subprocess.run(["git", "apply", str(fix_patch)], cwd=root, check=True)
-            self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), fix["result_translator_sha256"])
-
-
-
-
-
+            for pin_name in ("CHECKED-OUTCOMES-COMPILE-FIX-PINS.json", "CHECKED-OUTCOMES-NINE-GATE-PINS.json"):
+                fix = json.loads((HISTORY / pin_name).read_text())
+                fix_patch = ROOT.parents[1] / fix["patch"]
+                self.assertEqual(hashlib.sha256(fix_patch.read_bytes()).hexdigest(), fix["patch_sha256"])
+                self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), fix["base_translator_sha256"])
+                subprocess.run(["git", "apply", "--check", str(fix_patch)], cwd=root, check=True)
+                subprocess.run(["git", "apply", str(fix_patch)], cwd=root, check=True)
+                self.assertEqual(hashlib.sha256(target.read_bytes()).hexdigest(), fix["result_translator_sha256"])
 
 
 if __name__ == "__main__":

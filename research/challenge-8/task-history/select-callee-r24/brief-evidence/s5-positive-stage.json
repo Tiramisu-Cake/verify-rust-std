@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "11391c8a20ecc2cd2a2fc2b4478a9672dc44eb53a25a257dee4eb9cd14bad255",
+  "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 10,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6a53b4817384017ab634929af67c041968b3a95e5e8335d139367b5a4d44d39a",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin-stage.json",
+  "file_sha256": "05e88dc4c9ffd9a10bd70af090c3b17661a57fa69766663f2b3d056082a5e2f9",
+  "index_sha256": "370da1eb4aca1a5e2da5ff3864d755a5b9d92b57d86569fbed5b92641a17081f",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "05e88dc4c9ffd9a10bd70af090c3b17661a57fa69766663f2b3d056082a5e2f9",
+    "file_id": "6a53b4817384017ab634929af67c041968b3a95e5e8335d139367b5a4d44d39a",
+    "pointer": ""
+  },
+  "request_id": "086a99f9e07efbee7cd055c9b1802b80e202d538938376d5e0e0ba3fa8bde702",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/exit",
+      "value": 2
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/intrinsic_gate_active",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/pointer_drop_gate_active",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stderr",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stdout",
+      "value": "r20-merged-optin.log"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

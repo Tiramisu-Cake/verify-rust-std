@@ -2,15 +2,15 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "c55a04f68acbb368e375fc948d1512e5f3a27fa9f9372e24012e4aed5463fd3f"
+      "sha256": "695f80360a6f5b0581130679da6852862c44e9dfb6605ec7b55a057886a3bfad"
     },
     {
-      "path": "research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json",
-      "sha256": "415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83"
+      "path": "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json",
+      "sha256": "6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "a93d8eeed5ad4ac46040eb5f4d4ed0d1057c7c9e9a6c462901ad029638b22b90"
+      "sha256": "1475b36fdbe172c0b302198260feefb636416ff79658b6fb54cef1be9122a2f1"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -35,11 +35,11 @@
     "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json",
-        "sha256": "415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83"
+        "path": "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json",
+        "sha256": "6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0"
       }
     ],
-    "summary": "Await corrected-scope Cloud Build; compilation, positive and controls pending Brief."
+    "summary": "Positive gate wrongly requires two A1 profiles; correction pending Cloud."
   },
   "brief_observation_refs": [
     {
@@ -83,6 +83,10 @@
       "sha256": "76b400c24bf6203f71de52c0e2ba0814520534cf48e12f6ffb3ba511765b1a47"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/7898006563014b5531a0de473875c5e0b7f1c9c6ac3f9a76cd244e41ebf0b357.json",
+      "sha256": "7898006563014b5531a0de473875c5e0b7f1c9c6ac3f9a76cd244e41ebf0b357"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/84ffc277502355d2cbe71b96bc2ba9a0d345feb241f80dd615927e3fe426fad9.json",
       "sha256": "84ffc277502355d2cbe71b96bc2ba9a0d345feb241f80dd615927e3fe426fad9"
     },
@@ -113,6 +117,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486.json",
       "sha256": "c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/dd74e6681725b971350045efe3e99a6822e60a5bca69948a4c7d715e95d89753.json",
+      "sha256": "dd74e6681725b971350045efe3e99a6822e60a5bca69948a4c7d715e95d89753"
     }
   ],
   "checked_outcomes_build": {
@@ -129,21 +137,37 @@
   "checked_outcomes_decision": {
     "candidate": "56a456f3716d721d59545940345091dbb3476435",
     "compile_fix": "Use enclosing Args.ignore_unwind_paths instead of later TranslatorArgs alias; same bool and boundary, standalone overlay retains failed patch.",
+    "gate_fix": "A1Nine cert explicitly forbids A1Link two-body env and directly checks local_shape/interface(false-unwind)/graph before active=true. New gate incorrectly required both mutually exclusive active profiles. Require nine active and two-body inactive/locator absent; preserve exact same local certificate checks, no summary assumptions.",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "COMPILE_SCOPE_FIX_SUBMITTED_PENDING_BRIEF"
+    "state": "NINE_GATE_FIX_REVIEW_PENDING"
   },
   "checked_outcomes_scope_build": {
+    "accounted": true,
+    "build_seconds": 323,
     "id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
     "infra_sha": "56a456f3716d721d59545940345091dbb3476435",
     "proof_credit": 0,
     "proof_sha": "56a456f3716d721d59545940345091dbb3476435",
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
-    "status": "QUEUED"
+    "result": "SOURCE_REPORTED_COMPILE0_POSITIVE_GATE_REFUSAL_EXIT2",
+    "status": "FAILURE"
   },
   "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "bba86d46: console-build exit0; positive RAN/exit2 on new gate after A1Nine admission. No projection/proof acceptance; credit0. Baseline AST hash unchanged.",
+      "evidence": [
+        {
+          "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+          "path": "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json",
+          "sha256": "6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0"
+        }
+      ]
+    }
+  ],
+  "confirmed_history": [
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "R23 cf8405cc: CFG admission passes; positive reaches outer return and leak-check, exit1 with dead-code reports; seven negatives observed. No acceptance, credit0.",
@@ -233,13 +257,13 @@
     },
     {
       "obligation": "Exact checked const-pointer Outcome projection",
-      "reason": "First checked-outcome build fails on out-of-scope TranslatorArgs. One-line enclosing Args correction; exact same guards and two projection sites.",
-      "state": "COMPILE_SCOPE_FIX_SUBMITTED_PENDING_BRIEF"
+      "reason": "A1Nine already checks same local pair/interface/graph and forbids A1Link two-body locator. Require nine active, two-body inactive/absent; retain ordinary body proofs.",
+      "state": "NINE_GATE_FIX_REVIEW_PENDING"
     }
   ],
-  "next_step": "ACK watcher event first; then Brief compile/positive/controls. Keep classifier and target pins closed until clean positive.",
+  "next_step": "Review nine-profile fix; full1200 Cloud, then Brief. Preserve ordinary callee proofs and all controls.",
   "open": [
-    "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
+    "Positive remains unaccepted: new gate refused before projection. Correct nine-body profile selector pending review/Cloud; classifier NO_GO and control targets unpinned.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
   ],
   "owner": "select-sort4",
@@ -281,17 +305,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "bba86d46-3d8f-4275-a7ad-bd36328f4127"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 20281,
+    "remaining_seconds": 19958,
     "retired_seconds": 0,
-    "spent_seconds": 1319,
+    "spent_seconds": 1642,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -303,12 +325,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T12:35:35Z",
+  "updated_utc": "2026-10-23T12:41:27Z",
   "watcher_handoff": {
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "acknowledged_event_id": "c1c403d7-c58a-4d50-b446-376283b1cfcf",
+    "acknowledged_job_id": "e4e3162b-5ef6-4b2d-84a3-0baff91c8c29",
     "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
-    "checkpoint_frozen_after_arm": true,
+    "checkpoint_frozen_after_arm": false,
     "continuation": "Same R24 T0/account/window, exact compile-scope correction; no new authority or proof credit.",
     "spec_path": "/tmp/select-r24-checked-outcomes-scope-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"

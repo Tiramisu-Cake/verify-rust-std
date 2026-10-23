@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "11391c8a20ecc2cd2a2fc2b4478a9672dc44eb53a25a257dee4eb9cd14bad255",
+  "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 11,
+    "line_separator": "LF",
+    "source_lines": 25,
+    "start": 4,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "4a38173c9d30c1876591df55e31eefbc49618b175e5a13f6b53a234cc9bd0286",
+  "index_sha256": "370da1eb4aca1a5e2da5ff3864d755a5b9d92b57d86569fbed5b92641a17081f",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 11,
+    "expected_sha256": "4a38173c9d30c1876591df55e31eefbc49618b175e5a13f6b53a234cc9bd0286",
+    "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+    "start": 4
+  },
+  "request_id": "0e2df52d0f30a61dc6f84a948b639fbcda21ee54517c6b7698965f7c490f1821",
+  "requested_end": 11,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "SORT4-AS-MUT-PTR: certified SAFE local body sort4_checked_as_mut_ptr"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "SORT4-ACTUAL-OWNER-NINE: exact source and complete decoded MIR admission only"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "SORT4-ACTUAL-NESTED-H2: exact nine-body same-unit method/Drop admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "SORT4-POINTER-DROP: full typed method MIR graph accepted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "SORT4-A1-NINE: exact source, typed local pair and outer cleanup call admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "Fatal error: exception Failure(\"SORT4-R24-CHECKED-POINTER-OUTCOMES: refusal: exact R24/R21 certified fractional nine-body route required\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "Raised at Stdlib.failwith in file \"stdlib.ml\", line 29, characters 17-33"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

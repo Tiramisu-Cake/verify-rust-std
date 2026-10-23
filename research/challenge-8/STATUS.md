@@ -1,20 +1,18 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
-- Updated: 2026-10-23T12:35:35Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
+- Updated: 2026-10-23T12:41:27Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 21600s total; 1319s spent; 0s retired; 20281s remaining including active reservations
-- Active Build IDs: bba86d46-3d8f-4275-a7ad-bd36328f4127
+- Budget: 21600s total; 1642s spent; 0s retired; 19958s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] R23 cf8405cc: CFG admission passes; positive reaches outer return and leak-check, exit1 with dead-code reports; seven negatives observed. No acceptance, credit0. — [research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json](task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json) SHA `5dc1604e74e89619fea102fadb2c2fc5181f8cfd8f80863297f41f9878a545db` Build `cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9`
-- [SOURCE_REPORTED] R24 af904556: positive RAN/exit1, normal return/leak-check event, unchanged3dead-code diagnostics. No acceptance; accounted325s, remaining21275s. — [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00` Build `af904556-010f-4159-9e4d-573e06e43d17`
-- [SOURCE_REPORTED] 234e58e3: additive AST stage RAN/exit2, Failure(TODO) in serializer traversal; producer reports no AST. No binding/acceptance. Total674s, remaining20926s. — [research/challenge-8/task-history/select-callee-r24/SECOND-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/SECOND-PROOF-OBSERVATIONS.json) SHA `ba83ffdf322395eec29405668a5c780584974f532055a421a83bec1333531d63` Build `234e58e3-dee9-4c45-ba4c-974c8ad102a8`
+- [SOURCE_REPORTED] bba86d46: console-build exit0; positive RAN/exit2 on new gate after A1Nine admission. No projection/proof acceptance; credit0. Baseline AST hash unchanged. — [research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json) SHA `6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0` Build `bba86d46-3d8f-4275-a7ad-bd36328f4127`
 
 ## Open
-- Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.
+- Positive remains unaccepted: new gate refused before projection. Correct nine-body profile selector pending review/Cloud; classifier NO_GO and control targets unpinned.
 - P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance.
 
 ## Rejected approaches
@@ -22,13 +20,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Await corrected-scope Cloud Build; compilation, positive and controls pending Brief. [Build `bba86d46-3d8f-4275-a7ad-bd36328f4127`]
-- [research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json) SHA `415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83`
+Positive gate wrongly requires two A1 profiles; correction pending Cloud. [Build `bba86d46-3d8f-4275-a7ad-bd36328f4127`]
+- [research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json) SHA `6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0`
 
 ## Next
-ACK watcher event first; then Brief compile/positive/controls. Keep classifier and target pins closed until clean positive.
+Review nine-profile fix; full1200 Cloud, then Brief. Preserve ordinary callee proofs and all controls.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `c55a04f68acbb368e375fc948d1512e5f3a27fa9f9372e24012e4aed5463fd3f`
-- [research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json) — `415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a93d8eeed5ad4ac46040eb5f4d4ed0d1057c7c9e9a6c462901ad029638b22b90`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `695f80360a6f5b0581130679da6852862c44e9dfb6605ec7b55a057886a3bfad`
+- [research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json) — `6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `1475b36fdbe172c0b302198260feefb636416ff79658b6fb54cef1be9122a2f1`

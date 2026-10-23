@@ -261,3 +261,34 @@ dispatchdispatch-372854cc6bfa41ba92ad3aee34f6216d, reserve1260, initialledgerQUE
 Accounted1319s,20281s remain including active reservation. Actual compilation,
 projection counters, proof and acceptance pending Brief; credit0. No duplicate
 submit, source or raw-MIR change. Hand off to exact-thread watcher.
+
+
+## Fifth terminal result and mutually exclusive certificate profiles
+
+Watchere4e3162b eventc1c403d7 ACKED CONTINUE_EXISTING_WINDOW at12:41:13Z,
+before CP mutation. Buildbba86d46 FAILURE/accounted323s; total1642s,19958s
+remain. Brief reports console-build exit0, overallrun4, evidencecomplete true.
+Positive stage sourceRAN/exit2, gates true/sourceunchanged; exactlog4-11 shows
+structural A1Nine admission then newgate refusal. Baseline AST catalogue still
+SHA50ae0cf9. No actual projection, formalpositive or callee acceptance.
+
+Staticcertify_sort4_a1_nine requires A1Link locator absent, calls both local
+shape/interface(false-unwind)/graph checks and outercall before active=true;
+init sets A1Link.active=false on absent locator. Newgate incorrectly required
+both independent profiles active. Separate row31 requires nine active and
+two-body inactive/locator absent, all other gates/matcher/counters unchanged.
+Source/MIR/fullproofenvelope unchanged; all same-unit callee proofs required.
+Setting A1Link.active during nine certification or removing both A1 guards
+was rejected. Static three-overlay application103→6a→e3→c8f5ce1d, twoactual
+hash/patch tests, bash-n and allseveninlinePython parses pass. No localtoolchain.
+Same-boundary semantic delta review and full1200 Build required.
+
+Initial scope-watcher arm had coordinator read-lock busy, nojobID returned.
+Exact backoff/retry armede4e3162b without CP byte changes or lock bypass.
+WATCHER-SCOPE-ARM-REFUSAL preserved and now included in the artifact index.
+
+CURRENT-TASK render again exceeded6144bytes before commit. Preserved all
+three old confirmed entries unchanged in canonical confirmed_history and
+render only the current source-reported Build result; full historical refs
+remain in checkpoint/index/immutable evidence. This removes stale rendered
+budget/result prose and leaves headroom without dropping any recorded fact.
