@@ -1355,7 +1355,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
                                   *, parent_preparation_sha, parent_source_unchanged,
                                   parent_stage_receipt_gate, prepare_fn=None,
                                   source_gate_fn=None, classify_fn=None,
-                                  outcome_fn=None, unit_label='body-only'):
+                                  outcome_fn=None, unit_label='body-only',
+                                  owned_nll_capture_eligible=False):
     prepare_fn = _prepare_body_isolation if prepare_fn is None else prepare_fn
     source_gate_fn = _body_isolation_source_gate if source_gate_fn is None else source_gate_fn
     classify_fn = _classify_body_isolation if classify_fn is None else classify_fn
@@ -1391,7 +1392,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         dispatch_error = None
         try:
             body_execution = dispatch(body_case, args, actual_callback_case=True,
-                                      body_isolation_native=native_body)
+                                      body_isolation_native=native_body,
+                                      owned_nll_capture_eligible=owned_nll_capture_eligible)
         except Exception as error:
             dispatch_error = error
         finally:
@@ -1591,13 +1593,14 @@ def _run_raw_local_caller_diagnostic(evidence, parent_case, parent_record, old,
         parent_stage_receipt_gate=parent_stage_receipt_gate,
         prepare_fn=_prepare_raw_local_caller, source_gate_fn=source_gate,
         classify_fn=classify, outcome_fn=_raw_local_caller_outcome,
-        unit_label='raw local caller')
+        unit_label='raw local caller', owned_nll_capture_eligible=True)
 
 
 def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False,
                                 r11_native_fullbody=False, validated_receipt=None,
-                                owned_nll_capture=False):
+                                owned_nll_capture=False,
+                                owned_nll_capture_eligible=False):
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R11_LABEL_TRACE_ENV, None)
@@ -1613,7 +1616,8 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
         case_env[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
     if placement_active:
         case_env[R11_LABEL_PLACEMENT_ENV] = '1'
-    if owned_nll_capture and profile == R11_PROFILE and actual_callback_case:
+    if (owned_nll_capture and profile == R11_PROFILE and
+            owned_nll_capture_eligible and actual_callback_case):
         case_env[VF_EXPORT_OWNED_NLL_FACTS] = '1'
     if native_active:
         if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != profile:
@@ -1634,6 +1638,7 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
 
 def _r11_storage_placement_env(env):
     scoped = dict(env)
+    scoped.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
     scoped.pop(R11_LABEL_PLACEMENT_ENV, None)
     scoped.pop(R11_LABEL_TRACE_ENV, None)
     scoped.pop(R9_GUARD_TRACE_ENV, None)
@@ -1643,6 +1648,16 @@ def _r11_storage_placement_env(env):
     scoped[R9_GUARD_TRACE_ENV] = '1'
     scoped[R9_GUARD_RETURN_RECOVERY_ENV] = '1'
     return scoped
+
+
+def _campaign_environment(env):
+    campaign_env = dict(env)
+    campaign_env.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
+    campaign_env.pop(R9_GUARD_TRACE_ENV, None)
+    campaign_env.pop(R11_LABEL_TRACE_ENV, None)
+    campaign_env.pop(R11_LABEL_PLACEMENT_ENV, None)
+    campaign_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
+    return campaign_env
 
 
 def classify(case, record, execution, *, baseline_positive=False):
@@ -1723,11 +1738,7 @@ def classify(case, record, execution, *, baseline_positive=False):
 def run(evidence, args, env, execute_case, validated_receipt):
     if not callable(execute_case):
         raise TypeError('hosted execute_case required')
-    campaign_env = dict(env)
-    campaign_env.pop(R9_GUARD_TRACE_ENV, None)
-    campaign_env.pop(R11_LABEL_TRACE_ENV, None)
-    campaign_env.pop(R11_LABEL_PLACEMENT_ENV, None)
-    campaign_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
+    campaign_env = _campaign_environment(env)
     selected_profile = getattr(args, 'profile', None)
     profile_path = os.environ.get('SMALLSORT_MERGE_PROFILE')
     if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
@@ -1753,7 +1764,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
     r19_controls_enabled = _r19_registration_matches(profile_path, selected_profile)
     evidence.mkdir(parents=True, exist_ok=False)
     def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False,
-                 body_isolation_native=False):
+                 body_isolation_native=False, owned_nll_capture_eligible=False):
         case_path = Path(case)
         if body_isolation_native and (selected_profile != R11_PROFILE or not actual_callback_case):
             raise RuntimeError('R11 body-isolation native placement requires current R11 actual-body scope')
@@ -1766,7 +1777,8 @@ def run(evidence, args, env, execute_case, validated_receipt):
                  case_path.parent.name == 'cases' and
                  case_path.parent.parent.name == 'full_body') or body_isolation_native),
             validated_receipt=validated_receipt,
-            owned_nll_capture=owned_nll_active)
+            owned_nll_capture=owned_nll_active,
+            owned_nll_capture_eligible=owned_nll_capture_eligible)
     share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
     results = {'share_representation_controls': share_controls.run(
         evidence/'share-representation-controls', args, campaign_env,
@@ -1807,7 +1819,8 @@ def run(evidence, args, env, execute_case, validated_receipt):
             args.r8_owned_array_allocation = (selected_profile in (R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE) and not prefix)
             try:
                 execution = dispatch(case, args, prefix=prefix,
-                                     actual_callback_case=(name == 'full_body'))
+                                     actual_callback_case=(name == 'full_body'),
+                                     owned_nll_capture_eligible=(name == 'full_body'))
             finally:
                 args.r8_owned_array_allocation = False
             execution['stage_receipt_gate'] = consumer._stage_receipts(case, execution.get('stages', {}), before)

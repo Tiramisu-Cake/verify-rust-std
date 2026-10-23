@@ -333,6 +333,30 @@ def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: obje
         return False
     validate_r17_profile_extension(profile, baseline_bytes)
     return True
+
+
+def _r11_r22_source_pin_matches(profile_card: dict, baseline_profile: dict,
+                                is_r17_extension: bool, key: str) -> bool:
+    """Check the R22 source pin used by the R11 diagnostic source-pin route."""
+    if is_r17_extension and key == "refiner_core_source_sha256":
+        return True
+    if "r22_owned_nll_registration" in profile_card and key in (
+            "exporter_source_sha256", "schema_sha256",
+            "refiner_core_source_sha256", "translator_sha256"):
+        expected = {
+            "exporter_source_sha256": R22_OWNED_NLL_EXPORTER_SHA256,
+            "schema_sha256": R22_OWNED_NLL_SCHEMA_SHA256,
+            "refiner_core_source_sha256": R22_OWNED_NLL_REFINER_CORE_SHA256,
+            "translator_sha256": R22_OWNED_NLL_TRANSLATOR_SHA256,
+        }[key]
+        return profile_card.get(key) == expected
+    if ("r22_compile_fix_registration" in profile_card and
+            "r22_owned_nll_registration" not in profile_card and
+            key in ("exporter_source_sha256", "translator_sha256")):
+        expected = {"exporter_source_sha256": R22_EXPORTER_SHA256,
+                    "translator_sha256": R22_TRANSLATOR_SHA256}[key]
+        return profile_card.get(key) == expected
+    return profile_card.get(key) == baseline_profile.get(key)
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -1083,23 +1107,8 @@ def main() -> int:
             "src/vfconsole/vfconsole.ml": "console_source_sha256",
             "src/vfide/vfide.ml": "ide_source_sha256",
         }.items():
-            if is_r17_extension and key == "refiner_core_source_sha256":
-                continue
-            if "r22_owned_nll_registration" in profile_card and key in ("exporter_source_sha256", "schema_sha256", "refiner_core_source_sha256", "translator_sha256"):
-                expected_nll = {"exporter_source_sha256": R22_OWNED_NLL_EXPORTER_SHA256,
-                                "schema_sha256": R22_OWNED_NLL_SCHEMA_SHA256,
-                                "refiner_core_source_sha256": R22_OWNED_NLL_REFINER_CORE_SHA256,
-                                "translator_sha256": R22_OWNED_NLL_TRANSLATOR_SHA256}[key]
-                if profile_card.get(key) != expected_nll:
-                    raise RuntimeError(f"R22 owned-NLL {key} pin differs from the reviewed diagnostic commit")
-                continue
-            if "r22_compile_fix_registration" in profile_card and "r22_owned_nll_registration" not in profile_card and key in ("exporter_source_sha256", "translator_sha256"):
-                expected_r22 = {"exporter_source_sha256": R22_EXPORTER_SHA256,
-                                "translator_sha256": R22_OWNED_NLL_TRANSLATOR_SHA256}[key]
-                if profile_card.get(key) != expected_r22:
-                    raise RuntimeError(f"R22 {key} pin differs from the reviewed compile-fix commit")
-                continue
-            if profile_card.get(key) != baseline_profile.get(key):
+            if not _r11_r22_source_pin_matches(
+                    profile_card, baseline_profile, is_r17_extension, key):
                 raise RuntimeError(f"R11 changed a source pin outside its authorized two-file diagnostic delta: {relative}")
     if (base.file_sha(prep.ROOT / "research/challenge-8/verifast-tracked-manually-drop-regressions.rs")
             != CAMPAIGN_MD_SOURCE_SHA256):

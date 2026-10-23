@@ -13,7 +13,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "Admission NEEDS_FIX (3 findings); no Build until fixed, reviewed, transport re-measured."
+    "summary": "R22 NEEDS_FIX: three runner fixes and delta review required before R23 admission/Build."
   },
   "confirmed": [
     {
@@ -28,7 +28,7 @@
       ]
     }
   ],
-  "next_step": "Fix the three findings, delta review, register R23, early full-1200 Build; then owned-NLL stop-loss and the source-level route.",
+  "next_step": "Fix/review three findings; register R23 on profile3fec; measure transport; full1200 Build.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -51,17 +51,31 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 14400,
-    "deadline_utc": null,
+    "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
-    "main_deadline_utc": null,
+    "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
     "remaining_seconds": 14400,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T10:26:47Z"
+  "updated_utc": "2026-10-23T10:49:43.019106Z",
+  "decisions": [
+    {
+      "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
+      "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
+      "owned_nll_cycles": 0
+    }
+  ],
+  "mission_queue": [
+    "three NEEDS_FIX fixes + delta review + R23 exact phase admission",
+    "owned-NLL diagnostic capture <=2 Cloud cycles; require actual-body/location ESTABLISHED mapping",
+    "source-level checked borrow adapter if capture stop-loss fails",
+    "F5 resource/state/index intended controls",
+    "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
+  ]
 }

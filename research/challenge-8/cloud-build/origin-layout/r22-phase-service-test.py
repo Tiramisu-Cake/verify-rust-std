@@ -29,6 +29,11 @@ prove_spec = importlib.util.spec_from_file_location(
 prove = importlib.util.module_from_spec(prove_spec)
 sys.modules[prove_spec.name] = prove
 prove_spec.loader.exec_module(prove)
+placement_spec = importlib.util.spec_from_file_location(
+    "r22_r11_storage_placement", HERE / "r11-storage-placement-controls.py")
+placement = importlib.util.module_from_spec(placement_spec)
+sys.modules[placement_spec.name] = placement
+placement_spec.loader.exec_module(placement)
 
 
 def account():
@@ -219,13 +224,17 @@ class R22PhaseTests(unittest.TestCase):
         import subprocess
         show = lambda rel: subprocess.check_output(["git", "show", m.R22_PROBE_SOURCE + ":" + rel], cwd=root)
         baseline_profile, baseline_patch = show(m.R22_PROFILE_PATH), show(m.R17_PATCH_PATH)
+        historical_provider_commit = "733b6a7d68259787f1caf58177060589b6af779e"
+        historical_provider = lambda rel: subprocess.check_output(
+            ["git", "show", historical_provider_commit + ":" + rel], cwd=root)
         baseline_provider = show(m.R17_PROVIDER_OVERLAYS_PATH)
         m.r22_validate_candidate_pins(baseline_profile, baseline_profile, baseline_profile,
                                       baseline_patch, baseline_provider, baseline_provider,
                                       baseline_provider)
         candidate_profile = (HERE / "GLUE-PROFILE.json").read_bytes()
         candidate_patch = (HERE / "r9-guard-return-trace.patch").read_bytes()
-        candidate_provider = (HERE.parents[1] / "merge/cloud-build/provider-overlays.py").read_bytes()
+        # R22's candidate provider is historical: R23 updates these pin tables.
+        candidate_provider = historical_provider(m.R17_PROVIDER_OVERLAYS_PATH)
         self.assertEqual(m.r22_validate_candidate_pins(
             baseline_profile, candidate_profile, candidate_profile, candidate_patch,
             baseline_provider, candidate_provider, candidate_provider), "r22-owned-nll-diagnostic")
@@ -313,6 +322,10 @@ class R22PhaseTests(unittest.TestCase):
         self.assertTrue(m.r20_validate_candidate_pins(
             r20_baseline, baseline, baseline, r20_patch,
             old_provider, r20_provider, r20_provider))
+        historical_provider = type("HistoricalProvider", (), {})()
+        exec(compile(git("733b6a7d68259787f1caf58177060589b6af779e",
+                         m.R17_PROVIDER_OVERLAYS_PATH),
+                     m.R17_PROVIDER_OVERLAYS_PATH, "exec"), historical_provider.__dict__)
         with __import__("tempfile").TemporaryDirectory(prefix="r22-profile-") as temporary:
             path = Path(temporary) / "profile.json"
             path.write_bytes(baseline)
@@ -327,15 +340,18 @@ class R22PhaseTests(unittest.TestCase):
             self.assertTrue(callback._r17_registration_matches(
                 path, callback.R22_PROFILE, {"profile": callback.R22_PROFILE}))
             card = json.loads(candidate)
-            self.assertEqual(provider.profile_identity(card), provider.R22_OWNED_NLL_PROFILE)
-            selected = provider.files_for_profile(provider.R22_OWNED_NLL_PROFILE)
+            self.assertEqual(historical_provider.profile_identity(card),
+                             historical_provider.R22_OWNED_NLL_PROFILE)
+            selected = historical_provider.files_for_profile(
+                historical_provider.R22_OWNED_NLL_PROFILE)
             self.assertEqual(selected["research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"],
                              m.R22_OWNED_NLL_PROVIDER_PROVE_SHA256)
             with self.assertRaises(SystemExit):
                 provider.profile_identity(dict(card, profile=provider.R22_OWNED_NLL_PROFILE))
             compile_card = json.loads(__import__("subprocess").check_output([
                 "git", "show", "4ee2a25345e7362d4c3872178e326f956d96ab1b:" + m.R22_PROFILE_PATH], cwd=HERE.parents[3]))
-            self.assertEqual(provider.profile_identity(compile_card), provider.R22_PROFILE)
+            self.assertEqual(historical_provider.profile_identity(compile_card),
+                             historical_provider.R22_PROFILE)
             bad = json.loads(candidate)
             bad["r22_owned_nll_registration"]["tool_source_paths"] = []
             path.write_text(json.dumps(bad, indent=2) + "\n")
@@ -373,8 +389,10 @@ class R22PhaseTests(unittest.TestCase):
         outcomes = [
             {"exit_code": 0, "classification": "PASS"},
             {"exit_code": 2, "classification": "ERROR"},
-            {"classification": "PARTIAL"}, {}, None, "wrong-type",
+            {"classification": "PARTIAL"}, {"exit_code": 0}, {}, None, "wrong-type",
             {"classification": "NOT_RUN"}, {"source_stage_target": "mismatch"},
+            {"stage_receipt": None}, {"stage_receipt": "wrong-type"},
+            {"stage_receipt": {"stage": "exporter", "exit_code": 0}},
         ]
         original_env = {"VF_EXPORT_OWNED_NLL_FACTS": "inherited"}
         for outcome in outcomes:
@@ -384,20 +402,29 @@ class R22PhaseTests(unittest.TestCase):
                 return outcome
             result = callback._execute_case_with_r9_trace(
                 execute, Path("case"), object(), original_env, profile=callback.R11_PROFILE,
-                actual_callback_case=True, owned_nll_capture=True)
+                actual_callback_case=True, owned_nll_capture=True,
+                owned_nll_capture_eligible=True)
             self.assertIs(result, outcome)
             self.assertEqual(observed.get(callback.VF_EXPORT_OWNED_NLL_FACTS), "1")
             self.assertEqual(original_env[callback.VF_EXPORT_OWNED_NLL_FACTS], "inherited")
-        for actual_case, enabled in ((False, True), (True, False)):
+        negative_cases = (("prefix", False, True),
+                          ("R7/R9 mutation control", True, False),
+                          ("derived body isolation", True, False),
+                          ("unregistered actual callback", True, False))
+        for label, actual_case, eligible in negative_cases:
             observed = {}
             def execute(case, args, case_env):
                 observed.update(case_env)
                 return {"classification": "NOT_RUN"}
-            result = callback._execute_case_with_r9_trace(
-                execute, Path("case"), object(), original_env, profile=callback.R11_PROFILE,
-                actual_callback_case=actual_case, owned_nll_capture=enabled)
+            with self.subTest(case=label):
+                result = callback._execute_case_with_r9_trace(
+                    execute, Path("case"), object(), original_env, profile=callback.R11_PROFILE,
+                    actual_callback_case=actual_case, owned_nll_capture=True,
+                    owned_nll_capture_eligible=eligible)
             self.assertEqual(result, {"classification": "NOT_RUN"})
             self.assertNotIn(callback.VF_EXPORT_OWNED_NLL_FACTS, observed)
+            if actual_case:
+                self.assertEqual(observed.get(callback.R9_GUARD_TRACE_ENV), "1")
         import subprocess
         for error in (TimeoutError("synthetic timeout"),
                       subprocess.TimeoutExpired(["synthetic"], 1), SystemExit(7)):
@@ -406,8 +433,49 @@ class R22PhaseTests(unittest.TestCase):
             with self.assertRaises(type(error)) as raised:
                 callback._execute_case_with_r9_trace(
                     fail, Path("case"), object(), {}, profile=callback.R11_PROFILE,
-                    actual_callback_case=True, owned_nll_capture=True)
+                    actual_callback_case=True, owned_nll_capture=True,
+                    owned_nll_capture_eligible=True)
             self.assertIs(raised.exception, error)
+
+    def test_inherited_owned_nll_env_is_stripped_from_campaign_and_placement_copies(self):
+        original = {callback.VF_EXPORT_OWNED_NLL_FACTS: "1",
+                    callback.R9_GUARD_TRACE_ENV: "inherited"}
+        campaign = callback._campaign_environment(original)
+        placement = callback._r11_storage_placement_env(campaign)
+        self.assertNotIn(callback.VF_EXPORT_OWNED_NLL_FACTS, campaign)
+        self.assertNotIn(callback.VF_EXPORT_OWNED_NLL_FACTS, placement)
+        self.assertEqual(original[callback.VF_EXPORT_OWNED_NLL_FACTS], "1")
+        self.assertEqual(original[callback.R9_GUARD_TRACE_ENV], "inherited")
+
+    def test_direct_r11_replay_environment_strips_inherited_capture_without_mutation(self):
+        original = {"VF_EXPORT_OWNED_NLL_FACTS": "1", "KEEP": "same"}
+        replay_env = placement._replay_environment(original)
+        self.assertNotIn("VF_EXPORT_OWNED_NLL_FACTS", replay_env)
+        self.assertEqual(replay_env, {"KEEP": "same"})
+        self.assertEqual(original, {"VF_EXPORT_OWNED_NLL_FACTS": "1", "KEEP": "same"})
+
+    def test_r11_source_pin_routes_keep_compile_and_nll_translator_pins_distinct(self):
+        baseline = {"exporter_source_sha256": "baseline-exporter",
+                    "schema_sha256": "baseline-schema",
+                    "refiner_core_source_sha256": "baseline-refiner",
+                    "translator_sha256": "baseline-translator"}
+        compile_card = {"r22_compile_fix_registration": {}}
+        compile_card.update(exporter_source_sha256=prove.R22_EXPORTER_SHA256,
+                            translator_sha256=prove.R22_TRANSLATOR_SHA256)
+        nll_card = {"r22_owned_nll_registration": {}}
+        nll_card.update(exporter_source_sha256=prove.R22_OWNED_NLL_EXPORTER_SHA256,
+                        schema_sha256=prove.R22_OWNED_NLL_SCHEMA_SHA256,
+                        refiner_core_source_sha256=prove.R22_OWNED_NLL_REFINER_CORE_SHA256,
+                        translator_sha256=prove.R22_OWNED_NLL_TRANSLATOR_SHA256)
+        for key, card in (("exporter_source_sha256", compile_card),
+                          ("translator_sha256", compile_card),
+                          ("exporter_source_sha256", nll_card),
+                          ("schema_sha256", nll_card),
+                          ("refiner_core_source_sha256", nll_card),
+                          ("translator_sha256", nll_card)):
+            self.assertTrue(prove._r11_r22_source_pin_matches(card, baseline, False, key))
+            corrupt = dict(card); corrupt[key] = "0" * 64
+            self.assertFalse(prove._r11_r22_source_pin_matches(corrupt, baseline, False, key))
 
     def test_r22_provider_overlay_keeps_public_r11_runtime_profile_name(self):
         path = "research/challenge-8/merge/overnight/run.sh"
@@ -432,9 +500,12 @@ class R22PhaseTests(unittest.TestCase):
             m.R14_PROBE_SOURCE + ":research/challenge-8/cloud-build/control.py"], cwd=root).decode()
         current = (HERE.parents[0] / "control.py").read_text()
         m.r14_validate_publisher_control(baseline, current)
-        broken = current.replace(",'MERGE-CALLER-ACCEPTANCE-R22-2026-10-23')", ")", 1)
+        broken = current.replace(",'MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',R23_PHASE",
+                                 ",R23_PHASE", 1)
+        self.assertNotEqual(broken, current)
         with self.assertRaises(SystemExit):
             m.r14_validate_publisher_control(baseline, broken)
+        self.assertTrue(m.required_upload_guard(m.R23_PHASE))
 
     def test_reconcile_syncs_r22_spent_seconds_alias(self):
         ledger = account()

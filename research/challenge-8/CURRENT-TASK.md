@@ -47,10 +47,10 @@ Next: Fix the three findings, delta review, register R23, early full-1200 Build;
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · NOT_STARTED**
-Updated: 2026-10-23T10:26:47Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 0s spent, 0s retired, 14400s remaining including reservations.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · ACTIVE**
+Updated: 2026-10-23T10:49:43.019106Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 0s spent, 0s retired, 14400s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Admission NEEDS_FIX (3 findings); no Build until fixed, reviewed, transport re-measured.
-Next: Fix the three findings, delta review, register R23, early full-1200 Build; then owned-NLL stop-loss and the source-level route.
+Blocker: R22 NEEDS_FIX: three runner fixes and delta review required before R23 admission/Build.
+Next: Fix/review three findings; register R23 on profile3fec; measure transport; full1200 Build.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

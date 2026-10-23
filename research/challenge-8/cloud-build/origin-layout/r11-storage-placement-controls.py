@@ -593,7 +593,8 @@ def _run_replay(case: Path, name: str, mutation: str, raw: Path,
     identity = _case_identity(run_identity, name, mutation, source_hashes, target)
     helper = _load("r11_capnp_text_helpers_tools", HERE /
         "first-callback-admission-controls.py")
-    bin_dir, child_env = helper._tool_tree(Path(args.tool_home), case, env)
+    bin_dir, child_env = helper._tool_tree(
+        Path(args.tool_home), case, _replay_environment(env))
     real_verifast = Path(args.tool_home) / "bin/verifast"
     local_verifast = bin_dir / "verifast"
     helper._copy_tool_file(real_verifast, local_verifast)
@@ -640,6 +641,13 @@ def _run_replay(case: Path, name: str, mutation: str, raw: Path,
     gate = _stage_gate(source_dir, outcome, expected, run_identity, identity)
     outcome["stage_receipt_gate"] = gate
     return outcome
+
+
+def _replay_environment(env: dict) -> dict:
+    """Drop inherited owned-NLL capture before placement replay child setup."""
+    scoped = dict(env)
+    scoped.pop("VF_EXPORT_OWNED_NLL_FACTS", None)
+    return scoped
 
 
 def _classify(name: str, outcome: dict, target_line: int, *, positive: bool,
