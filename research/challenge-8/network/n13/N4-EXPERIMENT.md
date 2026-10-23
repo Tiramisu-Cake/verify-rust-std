@@ -124,3 +124,30 @@ Prediction: full positive prefix completes, then the membership/order negative
 reaches the unchanged intended assertion within600s. All three negatives and
 seven classifier controls remain mandatory, plus final compatible N9/universal
 coverage. No new profile,tool,premise,axiom,summary or weakened gate.
+
+## Required controls and budget boundary
+
+Build1cd61623 stagecomplete=true, bothcasesaccepted asreported. Missing-law
+unit7c9cf87c fails at intended65 with matching predicate in0.106972s; all7
+classifiercontrols true. Membership unit97004ef1 visits29bodies, rechecks all28
+updated positive bodies,7684return/leakchecks, and fails at intended3649 with
+matching literal membership predicate in459.328251s; all7classifiercontrols true.
+These source receipts establish updatedbody checking as an included dependency,
+not an assumed transfer from oldunit2c9213a9. Full acceptance remains OPEN.
+
+Charge627s,total2610s,990sremain. Required order600/Build975 plus60queue needs
+1035s: not admissible. Do not shorten any limit to fit990 or treat membership
+as order coverage. Choose the independent full N9+universal regression stage
+(case180+360,Build915+60queue=975) on the reviewed same55a225f6 pins. This is
+partial compatible regression evidence while order remains unrun, not final
+matrix closure. Fresh orderadmission belongs to the next window/ledger.
+
+Selected independent W8 task under COMPLETION-PLAN: prepare handwritten pure
+integer region/half/prefix lemmas and individually selected falsecontrols for
+future source-bound validation. No currentW8Build/Rustsummary/newpremise; files
+remain UNVERIFIED until a future authorizedCloudmatrix. W3/W5/W7 integration,
+ZSTaddressguard and actual ownership/unwind remain separate.
+
+Watcher note: controls ACK first refused coordinator read lock busy at09:03;
+normal retry succeeded before checkpoint edits. Earlier shape4 arm refused
+readlock twice and succeeded after30s. No sharedlock/state bypass was used.

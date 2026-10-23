@@ -21,7 +21,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Missing-law/membership+7classifier controls1cd61623 running; finalmatrixOPEN."
+    "summary": "Order1035s envelope exceeds990budget; regression8b4770bb running. FullacceptanceOPEN."
   },
   "confirmed": [
     {
@@ -35,52 +35,16 @@
       ]
     },
     {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Luna HIGH scoped GO for N4 candidate6ea689b7; no proof credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/network/n13/REVIEW-N4-ADMISSION.md",
-          "sha256": "d8f9d6b4a205819abf4b62afae3cf12f99a560fee7e42597791a2ae17b35bff0"
-        }
-      ]
-    },
-    {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N4 shape3 timeout600,27bodies; last export_packed411.624s.",
+      "claim": "N4 shape3/4 timeout600 retained; no acceptance.",
       "evidence": [
         {
           "path": "research/challenge-8/observations/bba2e9d427857c3b9ebbc561d5a3db7bc83e7e25665aa5b9ba228c6b86921578.json",
           "sha256": "bba2e9d427857c3b9ebbc561d5a3db7bc83e7e25665aa5b9ba228c6b86921578"
-        }
-      ]
-    },
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Luna HIGH scoped GO for shape4 candidate04f7ea1d; no proof credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/network/n13/REVIEW-SHAPE4-N4.md",
-          "sha256": "a18a15751303b78feafb8bd8eb20a456e665672cfc648a05730054f256a5ab1e"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "Shape4 timeout600 at result open436.857s;28bodies,zeroerrors.",
-      "evidence": [
+        },
         {
           "path": "research/challenge-8/observations/1d56f6fee45c5edce6bc3885a0583f7504d67d5ede720d577fa75a9fdd0b9eb9.json",
           "sha256": "1d56f6fee45c5edce6bc3885a0583f7504d67d5ede720d577fa75a9fdd0b9eb9"
-        }
-      ]
-    },
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "Luna HIGH scoped GO for shape5 candidate8fd5dad1; no proof credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/network/n13/REVIEW-SHAPE5-N4.md",
-          "sha256": "f934f730b42c8fec68dea8e6873ac3f44c1519239a42dd7dc3b9e4a654b958ee"
         }
       ]
     },
@@ -103,13 +67,35 @@
           "sha256": "f8000a7a2525c487b714303d9b4abb0707768d5301321e4383ff722557e39774"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Missinglaw intendedfailure65 and all7classifiercontrols accepted asreported.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/6bf1eb77f7037b3a55a0724197743438094075c73a189f523b4ab3ec336d35f9.json",
+          "sha256": "6bf1eb77f7037b3a55a0724197743438094075c73a189f523b4ab3ec336d35f9"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Membership intendedfailure3649;29bodies/28positiveprefix checked,7classifiercontrolsaccepted asreported.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/observations/5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa.json",
+          "sha256": "5afb4eb299bd1a4aa4b37146068fff43e82b1a65e3cc3586017314510aaa8baa"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher; Brief controls intendedsites/prefix, then controls-order975 if fullbudget/window fits.",
+  "next_step": "Finish regressionBrief; review W8 arithmetic/preparation candidate; handoff order600 without timeoutcuts.",
   "open": [
-    "Allrequirednegatives/classifiercontrols and finalcompatiblematrixOPEN.",
-    "Updatedpublicpost representation requires actual same-unitpositiveprefix recheck; oldunitcredit doesnottransfer.",
-    "R4/W7 P1/P2 blocked; W8 staticpreparation ready."
+    "OrdernegativeUNRUN; nofullmatrixacceptance or independentcredit.",
+    "RegressionsN9/universal pending8b4770bb.",
+    "W8 arithmetic+Cloud-only assembler preparation active; no currentW8Build.",
+    "SelectlatestP2stillNOT_PUBLISHED; R4/W7blocked.",
+    "Readlockrefusalsresolvednormally; seeN4-EXPERIMENT.md."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -138,18 +124,18 @@
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [
-      "1cd61623-de1c-42b5-940a-7f9cddd54133"
+      "8b4770bb-c3b9-4ddb-ba25-27d307c5539b"
     ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
-    "remaining_seconds": 1617,
+    "remaining_seconds": 990,
     "retired_seconds": 0,
-    "spent_seconds": 1983,
+    "spent_seconds": 2610,
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T08:52:49Z"
+  "updated_utc": "2026-10-23T09:13:52Z"
 }
