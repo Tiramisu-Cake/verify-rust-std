@@ -1,0 +1,48 @@
+{
+  "schema": "merge-r23-p12-source-declaration-and-rawptr-control-review-v1",
+  "reviewer": "Codex",
+  "candidate": "eb93c1480ca2677b2f9c6a422e75f7e9247adcf8",
+  "baseline": "293295e89ee5c635409f1992e8aa5f365c648f4f",
+  "tool_commit": "e4ce779ecc52707f7c8b8e9ff37889b237761c28",
+  "spec_sha256": "e697acdd67d49d8626d292e5a717ef76b5ee3e35f9c9325533377f713828fe27",
+  "packet_sha256": "50aa7008a69f94d4aac1957aa8c80bcebc47f923e46e6ea436ee1504201eb2ad",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-REVIEW-20261024.json; P12 retains the bounded source let_lft parser promotion and adds an R17 control-fixture correction",
+  "decision": "GO",
+  "review_scope": [
+    "P12 opt-in translation of the exact source let_lft annotation into a bounded ghost declaration",
+    "Exact source marker, declaration binding, and lexical scope checks for the translated declaration",
+    "R17 unsupported-index RawPtr negative control source-pair correction and the existing refinement checker skip condition",
+    "Exact R23 tool profile pins and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The review packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "P12 source translation promotion is gated by SMALLSORT_R23_SOURCE_ARRAY_BORROW=1, the exact b2_three_from_local body name, and an R23 marker substring. With the gate off, the original ghost statement list and parser path are retained.",
+    "Only annotation comments whose trimmed contents begin with let_lft followed by whitespace are extracted. Each extracted annotation is parsed through the existing full ghost declaration batch parser; malformed or non-declaration text fails parsing rather than being discarded.",
+    "Extracted annotation locations are preserved as NoopStmt locations. Only those exact locations are excluded from the R23 pre-command sequence match; all ordinary ghost commands remain in the checked ordered pre/post sequences.",
+    "The extracted declaration must be in the same source file and strictly between the exact R23 pre/post marker positions, with its end no later than the post marker. The existing R23 checks require exactly one type/lifetime declaration and the exact binding 'r23_borrow = typeid_of_lft(r23_borrow_k); wrong, missing, duplicate, or additional lifetime declarations fail closed.",
+    "The existing declaration relocation starts the synthetic ghost block at the pre marker and truncates its scope at the post marker. The existing strict lifetime cut and one-time scoped MIR local insertion remain in force; the synthetic block's original body-end close is not used as the effective lifetime end.",
+    "The P12 RawPtr control fix makes the original body the indexed RawPtr source and the verified body that same source plus one ordinary comment after the raw pointer statement and before the tail expression. Removing the single comment reproduces the original bytes; the unique indexed operation and its source line are unchanged.",
+    "The checked refinement entry point skips body checking when source snippets are identical (`main.ml` bodies_are_identical/check_body_refines_body). The one comment makes the indexed-control snippets differ and therefore reaches core refinement. The RawPtr matcher then rejects nonempty projections with `RawPtr: projected places are not supported`; the gate and diagnostic are unchanged.",
+    "The R17 harness and service test retain unique-anchor checks and assert the exact one-comment source delta. No production source, tool code, diagnostic, or stage gate changes are part of this P12 correction.",
+    "The R23 profile binds tool commit e4ce779ecc52707f7c8b8e9ff37889b237761c28 and GLUE-PROFILE SHA-256 ea96cad58fc0a9ad2d0317bd66ee4e4f70aa8b6f4d8e4d2f54fbf4b04057a630. The patch SHA-256 is 9c8432b3e77d7306679c790b366c860315c4e5f80e4786183a340e8c18da12c0; the R23 reverse contract names baseline profile SHA-256 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88. Profile-pinned exporter, schema, refiner, alias, and translator hashes match the current external tool sources."
+  ],
+  "reported_checks_not_rerun": [
+    "R17 raw-pointer control service suite: 10 tests",
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Parser or translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "The source-declaration conversion and relocation were reviewed statically. Actual parser/translator behavior remains unverified by local execution.",
+    "The refinement-checker skip and RawPtr refusal were inspected in the exact external tool source. No compiler or control campaign was executed during this review; reported tests were not rerun.",
+    "This GO applies only to the exact candidate, tool, and packet identities recorded here. It does not establish build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
