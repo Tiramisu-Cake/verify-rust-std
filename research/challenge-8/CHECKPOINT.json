@@ -15,18 +15,13 @@
   ],
   "assignment_sha256": "e231d860bdd9945311004ed62a7ddf90c88236d7145a6141085ae7b82a93d2f6",
   "baseline": {
-    "profile_sha256": "09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab",
+    "profile_sha256": "72dba8447c2db3735df144b8f30ad07f4b2f453ea4c04e1019fc81dcb91f3890",
     "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
     "tool_sha": "809de4596839b739dd999f9e462242c835e3af46"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json",
-        "sha256": "84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4"
-      }
-    ],
-    "summary": "N3 closed; shape3 unrun, full acceptance OPEN."
+    "evidence": [],
+    "summary": "Exact692ad778 running:600case/975Build. Acceptance OPEN."
   },
   "confirmed": [
     {
@@ -120,13 +115,23 @@
           "sha256": "84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4"
         }
       ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Luna HIGH scoped GO for N4 candidate6ea689b7; no proof credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/n13/REVIEW-N4-ADMISSION.md",
+          "sha256": "d8f9d6b4a205819abf4b62afae3cf12f99a560fee7e42597791a2ae17b35bff0"
+        }
+      ]
     }
   ],
-  "next_step": "Review N4 admission; publish; exact600/Build975.",
+  "next_step": "Watcher event ack first; Brief exact receipts, then required controls and compatible regressions.",
   "open": [
-    "Shape3 scoped GO; exact/controls/final matrix OPEN.",
-    "R4/W7 require active Select P1/P2; W8 requires Merge evidence.",
-    "N4 timing decision600/975 and unchanged-preflight basis: network/n13/N4-EXPERIMENT.md."
+    "Full exact/controls/compatible regressions OPEN.",
+    "R4/W7: P1 inactive/P2 NOT_PUBLISHED at Selectaba85b2d.",
+    "Timing and independent work: N4-EXPERIMENT.md and N4-SELECT-DEPENDENCIES.json."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -154,7 +159,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "692ad778-604a-495a-9607-644ed911a4e9"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
@@ -164,7 +171,7 @@
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T07:54:12Z"
+  "updated_utc": "2026-10-23T07:58:28Z"
 }

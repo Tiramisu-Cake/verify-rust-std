@@ -157,3 +157,23 @@ pinning tool `f76012fb`, Select's overlay chain/patch SHAs from its current
 profile plus P1/P2, this generator's committed SHA and the layer blobs above.
 First Build: positive + controls on the same identities; accept nothing from
 partial passes; report frontier by Brief message/location.
+
+## N4 dependency recheck (2026-10-23)
+
+At Select `aba85b2ddda092314cec0cf27acaefc70edc82c9`, the R21 response
+accepts P1 only as an integration candidate; no active profile is published.
+R22 `P2-INTERFACE.json` remains `NOT_PUBLISHED`. Exact file/blob hashes are
+recorded in `../n13/N4-SELECT-DEPENDENCIES.json`; this is source-reported
+handoff evidence, not a checked callee result. The generator continues to
+require `select_spec is None`. No R4/W7 Build is authorized by N4.
+
+The planned P2 publication differs from the preferred syntax above: Select
+will export `(result as pointer) == (if condition { true_val as pointer }
+else { false_val as pointer })` while returning `thread_token(t)`, and
+`on_unwind_ens false`. The earlier request is not a publication commitment.
+Future Network consumption must pin the exact published text/hash and
+`*mut Element` source/MIR/tool/profile matrix, retain thread resources, and
+use a checked ghost split on `should_swap` if needed. Pointer equality alone
+must not create cell ownership or supply a provenance bridge. No equivalence
+or helper proof is claimed by this preparation. P3 remains a separate
+same-logical-cell obligation; distinct ZST addresses cannot choose its branch.
