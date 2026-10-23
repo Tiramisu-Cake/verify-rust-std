@@ -1,5 +1,10 @@
 {
-  "artifacts": [],
+  "artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json",
+      "sha256": "79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d"
+    }
+  ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
   "baseline": {
     "profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
@@ -13,7 +18,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "R22 NEEDS_FIX: three runner fixes and delta review required before R23 admission/Build."
+    "summary": "R23 exact runner/admission candidate in independent Luna HIGH review; Cloud NOT_RUN."
   },
   "confirmed": [
     {
@@ -28,7 +33,7 @@
       ]
     }
   ],
-  "next_step": "Fix/review three findings; register R23 on profile3fec; measure transport; full1200 Build.",
+  "next_step": "Resolve review; publish exact tuple; remeasure transport; early full1200 Build.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -63,12 +68,16 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T10:49:43.019106Z",
+  "updated_utc": "2026-10-23T10:57:36.579281Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
       "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
       "owned_nll_cycles": 0
+    },
+    {
+      "obligation": "Transfer closure",
+      "reason": "Cap unchanged. Two uninvoked historical test harnesses and three unconsumed navigation receipts excluded from transfer only, Git unchanged; all ledgers/profiles/mode/gate and invoked controls retained. Source gate49e60ed7 PASS570990/571567; remeasure final submit SHA."
     }
   ],
   "mission_queue": [

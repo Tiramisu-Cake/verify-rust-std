@@ -197,7 +197,8 @@ class R20PhaseTests(unittest.TestCase):
             m.R14_PROBE_SOURCE + ":research/challenge-8/cloud-build/control.py"], cwd=root).decode()
         current = (HERE.parents[0] / "control.py").read_text()
         m.r14_validate_publisher_control(baseline, current)
-        broken = current.replace(",'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23','MERGE-CALLER-ACCEPTANCE-R21-2026-10-23','MERGE-CALLER-ACCEPTANCE-R22-2026-10-23')", ",'MERGE-CALLER-ACCEPTANCE-R21-2026-10-23','MERGE-CALLER-ACCEPTANCE-R22-2026-10-23')", 1)
+        broken = current.replace(",'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23','MERGE-CALLER-ACCEPTANCE-R21-2026-10-23','MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',R23_PHASE)", ",'MERGE-CALLER-ACCEPTANCE-R21-2026-10-23','MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',R23_PHASE)", 1)
+        self.assertNotEqual(broken, current)
         with self.assertRaises(SystemExit):
             m.r14_validate_publisher_control(baseline, broken)
 

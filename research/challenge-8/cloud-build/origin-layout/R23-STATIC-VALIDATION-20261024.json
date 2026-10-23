@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r23-static-validation-v1",
+  "semantic_candidate": "49e60ed7aa918d105fd2d2335860c9e80f7c689f",
+  "source_gate": "PASS_STATIC_NOT_PROOF",
+  "payload": {
+    "bytes": 570990,
+    "cap_bytes": 571567,
+    "sha256": "5bff57a97a6a46920c8e6458715dda7ab50d55e194b5d6296b6b7457e5b98eaf"
+  },
+  "earlier_transport_failures": [
+    {
+      "candidate": "b3e0dc61df0d561f1ee51d0ca1f4cdd92f9725e9",
+      "bytes": 573055,
+      "cap_bytes": 571567
+    },
+    {
+      "candidate": "0df1ec6e2c45fef359f44f144c6c1abb6db38e57",
+      "bytes": 571770,
+      "cap_bytes": 571567
+    }
+  ],
+  "tests": {
+    "r23-phase": 8,
+    "r22-phase": 20,
+    "r11-storage-placement-controls": 13,
+    "r19-phase": 13,
+    "r20-phase": 11,
+    "r21-phase": 11,
+    "r17-rawptr-controls": 10,
+    "r19-unwind-controls": 12
+  },
+  "total_tests_passed": 98,
+  "static_closure": {
+    "entries": 155,
+    "inventory_sha256": "6e068e17414f0a4fd7bbd5836a04352ff7109a3bdc3712d7370154bef8fb82c9"
+  },
+  "history_test_update": "R19/R20/R21 negative publisher matchers include trailing R23_PHASE; mutation asserted, intended rejection retained. No production change.",
+  "generator_refusal": "Reused profile numeric independent_credit0 fields rejected; exact manual branch-client registration retained.",
+  "cloud": "NOT_RUN",
+  "proof_credit": false,
+  "independent_proof_credit": false
+}
