@@ -51,6 +51,6 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 Updated: 2026-10-23T12:56:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 2001s spent, 0s retired, 19599s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Route fences implemented; complete matrix delta review and Cloud still pending. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
-Next: Review exact R24/mode/marker fences, then full1200 matrix with fresh logs.
+Blocker: Await fresh matrix using reviewed prior/current binding. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
+Next: Submit reviewed14adee46 full1200; inspect all8rows and physical audit via Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

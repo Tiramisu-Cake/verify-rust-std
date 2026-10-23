@@ -1,0 +1,77 @@
+{
+  "audit_sha256": "336d5c4c2b24917f91bcca70a6c443ae45a66f3cc024eca5580f2684fb08baed",
+  "candidate_commit": "14adee46c5f122e46d65886c8108645ce7f973eb",
+  "classifier_sha256": "41c2173cd81f770bb15d5d5afa908a4c970a0da4dfbf0b3030a47af6ce11a16e",
+  "closure": {
+    "bytes": 2280002,
+    "entries": 99,
+    "scope": "union exact infra core+recipe+proof paths, committed blobs",
+    "sha256": "000f9dd2c50a1242297f2396aa92cd599724636ef8d2509cbf2b19e75c7d7daf"
+  },
+  "expected_baseline_ast_flag": "ABSENT",
+  "expected_ordinary_proof_flag": "1 for all8variants, callback only",
+  "expected_projection_marker": "SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 assume_init=1; raw MIR cleanup retained",
+  "fingerprint_build": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "fingerprint_sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5",
+  "lane": "o26-select-callee-r20",
+  "owner": "select-sort4",
+  "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "printer_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+  "prior_clean_positive_build": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+  "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+  "proof_credit": 0,
+  "qualification": "Fresh current nativeBuild/log relation and all eight matrix rows pending Cloud; no posthoc promotion.",
+  "queue_reserve_seconds": 60,
+  "report_reserve_seconds": 240,
+  "required_profile": {
+    "checked_pointer_outcomes_requested": true,
+    "exact_native_projection_marker_count": 1,
+    "native_r24_session_phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+    "per_stage_request": true
+  },
+  "review": {
+    "decision": "GO_WITH_NITS",
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-matrix-route-review.json",
+    "sha256": "1cc1126eb4625facc8d33c8ef1a499378f5ce6dcaf9b221e05c5cbfb0e1ba46c"
+  },
+  "review_packet_sha256": "33386ceacbb0847ad2b40f08bc2efdbedb1448c366a2818b3b02d718c60a59c2",
+  "review_spec_sha256": "8efeaa37dc401e7ce23cced2be384e5b9d3ffd44d9be8d14969d384a0b6d3b28",
+  "schema": "select-r24-classified-matrix-route-build-pins-v1",
+  "source_and_fingerprint_rows_changed": false,
+  "status": "REVIEW_GO_WITH_NITS_FRESH_MATRIX_PENDING",
+  "target_helper_sha256": "ef48182797f89dc813f4dda167fbc6c0c3eedc4f4feb49eb06afd59dacd2833d",
+  "target_map": {
+    "canonical_sha256": "a5537cf8c5320f8e8741001677216c9cf09874535d240776e782e17c46eeb358",
+    "path": "research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json",
+    "prior_observation_build": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+    "raw_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc"
+  },
+  "timeout_seconds": 1200,
+  "tool_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "translator_chain": [
+    {
+      "base_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+      "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+      "patch_sha256": "81c5e18b5f754298aae94940a98a8fa3495b9d73b179d2697493b1c704070ddc",
+      "result_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c"
+    },
+    {
+      "base_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c",
+      "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch",
+      "patch_sha256": "3f342a74bd855cc4dd4e8e639fbd6d96790d14c76e718fed1b475e673a275563",
+      "result_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db"
+    },
+    {
+      "base_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db",
+      "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-nine-gate-r24.patch",
+      "patch_sha256": "90ad23d24b3806690887e396cb2ec4b10e25ae53df8115cba00649aa26889a3a",
+      "result_sha256": "c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e"
+    }
+  ],
+  "translator_sha256": "c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e",
+  "transport_preflight": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MATRIX-ROUTE-TRANSPORT-PREFLIGHT.json",
+    "sha256": "b0829e62fc745a7f12743286ecf9166489097a7d633f5eba284f5ae8d0839d9a"
+  }
+}

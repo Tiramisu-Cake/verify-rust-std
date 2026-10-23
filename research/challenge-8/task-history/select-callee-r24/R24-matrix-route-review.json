@@ -1,0 +1,49 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "14adee46c5f122e46d65886c8108645ce7f973eb",
+  "baseline_commit": "6b4c29d19d10ff37f9a6e1d16d56686ebc242798",
+  "candidate_tree": "79d8646c531a50dbde7906ad375bdc4b4d2cc5d0",
+  "spec_sha256": "8efeaa37dc401e7ce23cced2be384e5b9d3ffd44d9be8d14969d384a0b6d3b28",
+  "packet_sha256": "33386ceacbb0847ad2b40f08bc2efdbedb1448c366a2818b3b02d718c60a59c2",
+  "diff_sha256": "6d2cf528878d30512142dda1417b80450249f9144260131f5ef92c4e880f9686",
+  "decision": "GO_WITH_NITS",
+  "scope": "Narrow continuation reviewing the exact R24 route gates and native checked-outcomes execution marker; prior classifier/map implementation findings are carried forward from the unchanged NO_GO record.",
+  "prior_review": {
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-matrix-review.json",
+    "sha256": "d2156c2482694d1b0049e4b8c1f6d67a10df1519611faa77e9098d327befb9c9",
+    "candidate_commit": "6b4c29d19d10ff37f9a6e1d16d56686ebc242798",
+    "summary": "NO_GO for map activation outside R24. Preserved unchanged; this route delta closes that finding."
+  },
+  "verified": [
+    "smallsort-session review check matched candidate 14adee46c5f122e46d65886c8108645ce7f973eb, expected spec and packet hashes; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "Entry treats any supplied target map as requiring exact live R24 Cloud session and checked_pointer_outcomes=true before calling runtime_loader. A map without checked mode is rejected even in R24; R24 mode remains separately gated, while positive_ast_inventory stays optional.",
+    "proof_batch independently requires checked_pointer_outcomes is exactly True plus exact R24 phase in both live process and caller environment whenever a map is present. Its caller/live environment comparison includes the R24 key for mapped executions, before source preparation or proof callbacks; no ambient native flag is introduced.",
+    "Mapped proof records include the exact R24 phase and checked-mode request. Each stage/current-stage observation stores the stage request bit; the audit requires exact native R24 environment, provider/current Build identity, both record-level fields, and the per-stage request bit.",
+    "The classifier rejects mapped rows unless stage metadata says checked outcomes were requested and the log contains exactly one exact translator counter line. The audit independently rereads each physical log and requires that exact marker exactly once for all eight variants, in addition to its existing raw hash, strict UTF-8, path/symlink, stage, source, snapshot, and negative-diagnostic checks.",
+    "The marker literal matches the immutable translator overlay string. This execution marker plus the request bit prevents request metadata alone from qualifying a matrix; no formal proof acceptance is inferred from the marker.",
+    "The no-map branch does not run the new marker check or record mapped-stage observations; helper/map/source/native translator bytes and the seven pinned target records are unchanged from the reviewed classifier candidate.",
+    "Focused tests passed: fractional proof 15 tests, physical proof audit 3 tests, entry route 10 tests. Runner bash -n, AST parsing of the three changed Python modules, and git diff --check passed."
+  ],
+  "findings": [],
+  "nits": [
+    "This is a static/synthetic route review only. The clean positive from Build85c88d85 and its marker remain source-reported; no fresh eight-row matrix, accepted callee proofs, or independent proof credit is established.",
+    "The preceding target-map provenance remains explicitly caller-declared and unauthenticated. The physical audit binds current logs and stage records but does not authenticate the prior bounded Brief observations or establish causal/parser-input identity."
+  ],
+  "not_run": [
+    "Actual Rust source preparation, compiler/exporter/MIR decoder/verifier, proof execution, Cloud Build, or SmallSort Brief invocation.",
+    "Raw logs, full logs, evidence archives, or dirty external VeriFast tool worktree.",
+    "Main-reported static transport preflight was not independently rerun."
+  ],
+  "main_reported_transport": {
+    "status": "PASS",
+    "payload_bytes": 388663,
+    "payload_sha256": "5654f6dec0b59aa0373c6c3e3fccf8e77b9b380cb585e777c8c8aad2c367f8c7",
+    "encoded_config_bytes": "27280/28000",
+    "max_argument_bytes": "2778/10000",
+    "runtime_closure": "99 blobs, 2280002 bytes; inventory SHA 000f9dd2c50a1242297f2396aa92cd599724636ef8d2509cbf2b19e75c7d7daf",
+    "attribution": "Reported by main agent; static transport only, no Cloud/proof call."
+  },
+  "limitations": "GO_WITH_NITS applies only to closing the route-gate blocker and requiring an observed native execution marker. It does not qualify the matrix, establish a fresh clean positive or negative control results, prove callee acceptance, or award proof credit.",
+  "proof_credit": 0
+}

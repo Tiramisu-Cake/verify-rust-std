@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "75f5001d55af5bb1b08e7cf2754ba6f7b82cf93b8e7d0f1a6709fba48d8a9623"
+      "sha256": "4ae96c9ad0cd56f8bc348e726da8bdc707068a0b2b456eb20f58afa22a164ec2"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -39,7 +39,7 @@
         "sha256": "6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a"
       }
     ],
-    "summary": "Route fences implemented; complete matrix delta review and Cloud still pending."
+    "summary": "Await fresh matrix using reviewed prior/current binding."
   },
   "brief_observation_refs": [
     {
@@ -287,7 +287,7 @@
     "prior_build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
     "proof_credit": 0,
     "raw_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc",
-    "state": "PINNED_PRIOR_OBSERVATIONS_ROUTE_FIX_REVIEW_PENDING"
+    "state": "REVIEW_GO_FRESH_MATRIX_PENDING"
   },
   "first_build": {
     "accounted": true,
@@ -350,10 +350,10 @@
     {
       "obligation": "Pin seven control targets and repair classifier binding",
       "reason": "Entry/batch/audit now bind exact R24, checked request and one native1/1marker; initial NO_GO retained. Fresh complete matrix required.",
-      "state": "ROUTE_FIX_REVIEW_PENDING"
+      "state": "REVIEW_GO_FRESH_MATRIX_PENDING"
     }
   ],
-  "next_step": "Review exact R24/mode/marker fences, then full1200 matrix with fresh logs.",
+  "next_step": "Submit reviewed14adee46 full1200; inspect all8rows and physical audit via Brief.",
   "open": [
     "Seven fresh prior targets pinned; classifier/code delta and full fresh matrix still unqualified.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
