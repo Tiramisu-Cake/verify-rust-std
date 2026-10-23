@@ -39,8 +39,8 @@ SNAPSHOT_NAMES = ('unit', *(f'body-{index}' for index in range(9)))
 FIXED_BODY_INDICES = (0, 1, 2, 3, 4, 5, 8)
 SUMMARY_REL = Path('cases/r24-mut-matrix-fingerprint/MUT-MATRIX-FINGERPRINT.json')
 MATRIX_ROOT_REL = SUMMARY_REL.parent
-CAPTURE_ARGS = ('repo', 'cloud_dir', 'evidence', 'tool_home', 'schema',
-                'compiler_sysroot', 'deadline_epoch', 'mode_file', 'mode_sha256')
+POSITIVE_ORIGINAL_REL = Path('source-preparation/nine-body/nine-body-mut/original/lib.rs')
+POSITIVE_VERIFIED_REL = Path('source-preparation/nine-body/nine-body-mut/verified/lib.rs')
 
 
 def sha(raw: bytes) -> str:
@@ -166,8 +166,11 @@ def _read_source_pair(evidence: Path, old_summary: dict[str, Any], old,
     need(isinstance(original_meta, dict) and isinstance(verified_meta, dict),
          'positive physical source paths missing')
     old_root = evidence / 'cases/r24-mut-capture'
-    original_path = evidence / original_meta.get('path', '')
-    verified_path = evidence / verified_meta.get('path', '')
+    need(original_meta.get('path') == POSITIVE_ORIGINAL_REL.as_posix() and
+         verified_meta.get('path') == POSITIVE_VERIFIED_REL.as_posix(),
+         'positive source paths are not canonical old-capture-relative paths')
+    original_path = old_root / POSITIVE_ORIGINAL_REL
+    verified_path = old_root / POSITIVE_VERIFIED_REL
     original, _ = old._safe_artifact(old_root, original_path)
     verified, _ = old._safe_artifact(old_root, verified_path)
     need(sha(original) == pins['source']['original_sha256'] and
@@ -175,7 +178,7 @@ def _read_source_pair(evidence: Path, old_summary: dict[str, Any], old,
          source.get('original_sha256') == sha(original) and
          source.get('verified_sha256') == sha(verified) and
          source.get('specialization') == 'T = *mut Element; Element unrestricted' and
-         source.get('contract_text_sha256') == CONTRACT_SHA256,
+         records.get('contract_text_sha256') == CONTRACT_SHA256,
          'regenerated mutable positive sourcepair differs from b606 pins')
     source_view = old_root / 'source-repository'
     writers = old.load_source_writers(source_view)

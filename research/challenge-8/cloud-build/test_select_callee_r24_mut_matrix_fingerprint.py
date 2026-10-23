@@ -152,8 +152,7 @@ class FakeOld:
         source_view.mkdir(parents=True)
         source = {'source_order': ORDER,
             'original_sha256': digest(ORIGINAL), 'verified_sha256': digest(POSITIVE),
-            'specialization': 'T = *mut Element; Element unrestricted',
-            'contract_text_sha256': TARGET.CONTRACT_SHA256}
+            'specialization': 'T = *mut Element; Element unrestricted'}
         snapshots = {}
         for name in TARGET.SNAPSHOT_NAMES:
             raw = (f'{name}:{digest(POSITIVE)}'.encode() if name in ('unit', 'body-6', 'body-7')
@@ -192,11 +191,14 @@ class FakeOld:
         provider_record = dict(self.test.provider_record)
         if self.failure == 'provider-mismatch':
             provider_record['build_id'] = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+        contract_hash = ('0' * 64 if self.failure == 'contract-mismatch'
+                         else TARGET.CONTRACT_SHA256)
         return {'complete': True, 'classification': 'MUTABLE_SOURCE_MIR_CAPTURE_ONLY',
             'native_build_id': BUILD, 'provider_record': provider_record,
             'source_records': {'final_nine_body': source,
-                'original': {'path': 'cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/original/lib.rs'},
-                'verified': {'path': 'cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/verified/lib.rs'}},
+                'original': {'path': TARGET.POSITIVE_ORIGINAL_REL.as_posix()},
+                'verified': {'path': TARGET.POSITIVE_VERIFIED_REL.as_posix()},
+                'contract_text_sha256': contract_hash},
             'full_body_capture': full, 'stages': stages,
             'guard_capture': {'stages': stages, 'frontend_refinement': True,
                               'source_unchanged': True},
@@ -337,6 +339,26 @@ class MatrixFingerprintTests(unittest.TestCase):
         self.assertFalse(result['complete'])
         partial = json.loads((self.evidence / TARGET.SUMMARY_REL).read_text())
         self.assertFalse(partial['complete'])
+
+    def test_wrong_parent_contract_or_noncanonical_source_path_refuses(self):
+        for failure in ('contract-mismatch', 'source-path-mismatch'):
+            self.evidence = self.base / ('evidence-' + failure)
+            self.evidence.mkdir()
+            old = FakeOld(self, failure)
+            if failure == 'source-path-mismatch':
+                original_run = old.run
+                def malformed_run(args):
+                    summary = original_run(args)
+                    summary['source_records']['original']['path'] = (
+                        'cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/original/lib.rs')
+                    return summary
+                old.run = malformed_run
+            with patch.dict('os.environ', self.env, clear=True):
+                result = TARGET.run(self.args(), old_adapter=old,
+                    positive_pins_loader=lambda _repo: self.fake_pins,
+                    pins_validator=lambda _pins: None)
+            self.assertFalse(result['complete'])
+            self.assertFalse(result['rows']['positive']['complete'])
 
     def test_capture_failures_timeout_missing_null_and_not_run_rows_are_incomplete(self):
         for failure in ('normal-export', 'timeout', 'missing-stage', 'refinement',
