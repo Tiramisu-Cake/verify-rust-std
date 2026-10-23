@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r23-p15-marker-source-slot-review-v1",
+  "reviewer": "Codex",
+  "candidate": "b13fdf38ebd7ac6bab6b620f16e537af6b525e58",
+  "baseline": "697c4288ae46dba7b2a55ffac637d891b1c58228",
+  "tool_commit": "35e11eeeb9f2656b8fde10d7bd422414e594ee13",
+  "spec_sha256": "98988691cc902fe07917e688ce5c1849c7e8b8b63109cadf1988ac003712db36",
+  "packet_sha256": "e9650953437d63f39a0c3cc3c8425093ec3b7067d7d55a9defd1d09ae775de84",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P14-COMPILE-REVIEW-20261024.json; P15 changes only which AST source location identifies a recognized top-level R23 marker slot",
+  "decision": "GO",
+  "review_scope": [
+    "P15 outer annotation slot location for direct and block R23 adapter markers",
+    "Preservation of marker name, argument, command, close-location, order, count, and strict lifetime checks",
+    "Exact P15 translator pin, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The change uses `Ast.stmt_loc stmt`, which returns the top-level `PureStmt` annotation location when the parser wraps a ghost annotation. That is the same location key used by the translated `ghost_stmts` list and the later exact-one replacement pass. The previous inner call/block location could differ and fail to identify its source statement slot.",
+    "For block markers, the inner head is still unwrapped solely to match the same static direct call; the call name and argument list, command list, and inner block close location are unchanged. Only the reported marker start changes to the outer top-level statement location.",
+    "For direct expression markers, the top-level statement location is returned for start/end, as before the source-slot lookup; call shape, name, arguments, and empty command list are unchanged.",
+    "All downstream checks remain in place: exactly one pre and post marker, exact target function and activation flag, exact canonical binders/args, same-file source order, marker close/order bounds, zero-authority marker commands, exact pre/post ghost command shapes, exact lifetime declaration between source markers, token creation, and unique mapping/replacement of each source annotation.",
+    "The post marker's enclosing block close and command sequence remain unchanged, so strict lifetime end, normal cleanup, and generated unwind epilogue continue to use the same checked source post sequence. No statement is removed, reordered, or newly synthesized by P15.",
+    "The tool delta is only the six-line/four-line translator location correction. Translator source hash 3fc3903474c1b460a1e30b424ea7fc3600bd669a0e7f03a59a4ea8eb3b70c212 matches GLUE-PROFILE. Tool commit is 35e11eeeb9f2656b8fde10d7bd422414e594ee13; profile SHA-256 is 5da080e5763f021e011c479ef17809e0acc4542485a1c7fda1ef45faadb19445; patch SHA-256 is 23b0210ef830310b6327dd19bd65e558295d96c3634d2caee788c6c210b9e989; reverse baseline profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "`git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This focused review establishes only that the marker source-slot correction preserves the existing exact admission checks. Parser and translator behavior were not executed locally.",
+    "Reported service checks were not rerun. No source-positive acceptance, build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

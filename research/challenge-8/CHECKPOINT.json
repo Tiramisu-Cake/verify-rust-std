@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-TRANSPORT-20261024.json",
-      "sha256": "beb862f448220d37a3500289804003b3965894599f2530f6dfd70c50f6999623"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "ddfdd7eda582df2ef2b96734adc5c5072e2654ca7c3199f574d16c21f54d3d66"
     },
@@ -23,6 +19,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "0f500d6598666839bdc66c6bd218c596a1bba8b0967a457e7a9cb3bfbd919cd0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-COMPILE-REVIEW-20261024.json",
+      "sha256": "8d5cec80d5134c0e2e837fb75a4b7cf78345db0a99730704f8aaee92456d9c61"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P15-TRANSPORT-20261024.json",
+      "sha256": "923fd47da6809d3d76bf62aca87c4a8b708641fc6b87f9bc5b8ac60e2327f637"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +36,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P15 marker annotation-slot mapping fixed; Cloud-unverified.",
+    "summary": "P15 registered; actual compiler/proof outcome pending.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P14-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +69,7 @@
       ]
     }
   ],
-  "next_step": "Review P15 mapping delta; transport; full Cloud.",
+  "next_step": "Watcher event ACK, then P15 Evidence Brief.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -86,7 +90,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "32445c00-537d-4d24-9bc8-841785903d2d"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -98,9 +104,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T19:34:30.295057Z",
+  "updated_utc": "2026-10-23T19:37:22.512824Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -448,6 +454,16 @@
       "tool_sha": "35e11eeeb9f2656b8fde10d7bd422414e594ee13",
       "profile_sha256": "5da080e5763f021e011c479ef17809e0acc4542485a1c7fda1ef45faadb19445",
       "static_validation": "Translator-only6insertions4deletions in r23_adapter_marker. Producer now returns original top-level stmt loc matching rewrite consumer, same source marker lines/count/order/args/commands/close. Generic marker parser unchanged. Sourceprofile6/phase8/diffcheck pass, no actual parser/compiler locally."
+    },
+    {
+      "obligation": "P15 full compiler/source-borrow validation after reviewed fix",
+      "reason": "Luna HIGH GO exact b13fdf38ebd7ac6bab6b620f16e537af6b525e58; spec 98988691cc902fe07917e688ce5c1849c7e8b8b63109cadf1988ac003712db36; packet e9650953437d63f39a0c3cc3c8425093ec3b7067d7d55a9defd1d09ae775de84. Published root/tool remotes checked. Source gate and cumulative patch five pins/kernel PASS. Payload563692/571567 SHA7edfe8a45af2594f0c9928752d38f8b17452cf5d8498d7ca3f0fea5bbcd715b4; config27464/28000. Capturefalse and full1200/reserves unchanged. Further useful proof changes depend on actual outcome; fresh watcher HANDOFF.",
+      "build_id": "32445c00-537d-4d24-9bc8-841785903d2d",
+      "source_sha": "b13fdf38ebd7ac6bab6b620f16e537af6b525e58",
+      "config_sha256": "dcbb96b854b11dcc2d000f21d32a6dccf2c594add1a32fd3507c21382e1334bb",
+      "dispatch_token": "dispatch-5ad925a680ad4ab1b8d4003633dc94ed",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -633,6 +649,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-COMPILE-REVIEW-20261024.json",
       "sha256": "c463f8555bb3f485af977fd881338bfd1a7a308ed9846998b3fef109fac65037"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-TRANSPORT-20261024.json",
+      "sha256": "beb862f448220d37a3500289804003b3965894599f2530f6dfd70c50f6999623"
     }
   ],
   "historical_confirmed": [
@@ -836,7 +856,9 @@
   "prepared_tool_candidate": {
     "tool_sha": "35e11eeeb9f2656b8fde10d7bd422414e594ee13",
     "profile_sha256": "5da080e5763f021e011c479ef17809e0acc4542485a1c7fda1ef45faadb19445",
-    "status": "PUBLISHED_REVIEW_PENDING",
-    "scope": "exact top-level R23 marker annotation slot mapping; earlier checked kind/lifecycle/callee/resource gates unchanged"
+    "status": "REVIEWED_SUBMITTED",
+    "scope": "exact top-level R23 marker annotation slot mapping; earlier checked kind/lifecycle/callee/resource gates unchanged",
+    "source_sha": "b13fdf38ebd7ac6bab6b620f16e537af6b525e58",
+    "build_id": "32445c00-537d-4d24-9bc8-841785903d2d"
   }
 }
