@@ -1,4 +1,15 @@
 {
+  "active_dispatch": {
+    "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
+    "config_sha256": "5e083d5cd1bb32cc00b37252f1fa5e8aa090cf2c7cda1f91fcb85e4d0ddd9988",
+    "dispatch_token": "dispatch-30e7a52507004afc9732efef720800cd",
+    "infra_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+    "proof_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+    "reservation_seconds": 1800,
+    "stage": "cold-image",
+    "state_dir": "/root/smallsort-cloud-network-rr-n8",
+    "timeout_seconds": 1740
+  },
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "artifacts": [
     {
@@ -23,16 +34,17 @@
         "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
       }
     ],
-    "summary": "N8 first cold reviewed; real Docker API/image still unverified."
+    "summary": "N8 cold Build active; Dockerfile start not yet classified."
   },
   "cold_attempt_accounting": {
+    "active_unclassified_build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
     "cold_attempts_started": 0,
     "infrastructure_setup_builds": 0,
     "policy": {
       "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
       "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
     },
-    "unknown_start_builds": 0
+    "unknown_start_builds": 1
   },
   "confirmed": [
     {
@@ -60,7 +72,7 @@
       ]
     }
   ],
-  "next_step": "Submit cold1740/1800; Brief/accounting push before start classification.",
+  "next_step": "Watcher ack; terminal Brief/accounting push, then classify start/receipt.",
   "open": [
     "Image digest/binary freeze absent; G1/cleanup NOT_RUN; specs UNKNOWN.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
@@ -81,7 +93,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "03245c6c-a86c-4cba-8c06-3927fef55672"
+    ],
     "budget_seconds": 5009,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
@@ -93,8 +107,8 @@
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T21:44:09Z",
+  "updated_utc": "2026-10-23T21:44:51Z",
   "window_anchor_explanation": "Direct owner fixes previous deadlines; t0 is tooling window anchor only, actual N8 start separately recorded. No renewed window."
 }

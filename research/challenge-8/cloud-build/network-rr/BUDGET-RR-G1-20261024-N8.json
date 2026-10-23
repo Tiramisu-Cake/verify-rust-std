@@ -1,5 +1,5 @@
 {
-  "active_build": null,
+  "active_build": "03245c6c-a86c-4cba-8c06-3927fef55672",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "allowed_lanes": [
     "network-rr-g1"
@@ -7,7 +7,25 @@
   "authorization": "Direct owner N8: new5009Cloud-second grant, original fixed deadlines; count Brief-confirmed Dockerfile starts separately from infrastructure. Review/published exact candidate required before submit.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "b38e1a1229dacebe5853a47139f4c8db306a0ba5",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-30e7a52507004afc9732efef720800cd",
+      "owner": "network",
+      "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
+      "infra_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+      "proof_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+      "lane": "network-rr-g1",
+      "stage": "cold-image",
+      "submitted_config_sha256": "5e083d5cd1bb32cc00b37252f1fa5e8aa090cf2c7cda1f91fcb85e4d0ddd9988",
+      "reserved_seconds": 1800,
+      "timeout_seconds": 1740,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "837ca917fe73df7c2c4475fc6ad64f5202a1e65d054c83341d101093cfde6ded",
+      "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 5009,
