@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "538431e3d6463d177a693393dc20b36c1b29a314",
+  "baseline_commit": "f565e3ee26a6cc38e90822c729677408f79d548b",
+  "candidate_tree": "40496abd8ff95353ff3e0cbfca4ee2cbdb67d698",
+  "spec_sha256": "9fe96e785dc6c62ad5c1d3474d938484646033fb5075deb9fd8505bc676bc44d",
+  "packet_sha256": "06d157ee69a408552d8b3ed2d01c5255a9efc2de717f889030292107548dd437",
+  "diff_sha256": "6037eb4763f5eb40e11fdac39f991aa557686dd88511493f7848c4a2afc78027",
+  "decision": "GO_WITH_NITS",
+  "scope": "R24 exact branch-client admission for the callee lane only; committed candidate diff and declared dependencies",
+  "verified": [
+    "smallsort-session review check matched the exact candidate, spec and packet; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE",
+    "R24 admission pins owner select-sort4, phase SORT4-ACTUAL-SELECT-2026-10-24-R24, only lane o26-select-callee-r20, fresh 21600-second budget, zero carry, T0 2026-10-23T10:48:18Z, main deadline 2026-10-26T10:48:18Z and absolute deadline 2026-10-26T11:48:18Z",
+    "authorized_phase rejects mismatched owner, phase, lane, budget, window, timeout ceiling, reserve below 240, closed status and expired absolute deadline; it permits a reserve above 240",
+    "submit admission requires timeout exactly 1200 and checks timeout+60-second queue allowance+configured report reserve against main deadline both before service request/preflight and again after packaging immediately before reservation; failures occur before the relevant request/reservation or Cloud dispatch",
+    "R24 environment exports the established R21 route marker separately from SORT4_R24_SESSION_PHASE_ID; the runner and pinned consumers still require the R21 marker",
+    "R24 is included in the existing LZMA source-restore path and R17 timeout budget path; 1200 seconds yields 960 seconds execute time with the established 60-second inner margin",
+    "historical R23 phase, dates, 3600-second ceiling and R21 route marker remain unchanged; coordination.py, runner, recipe, proof-entry and fractional route consumers are unchanged",
+    "fresh R24 ledger/profile artifacts are drafts: ledger PREPARED_NOT_REGISTERED with 21600 remaining and zero carry; profile accepted=false and cloud_build_enabled=false; the callee environment hook does not read the profile",
+    "python3 research/challenge-8/cloud-build/sort4-caller-entry-native/test_a1_r24_registration.py passed all 9 isolated synthetic tests; no service dispatch occurred"
+  ],
+  "nits": [
+    "The established SORT4_R20_CALLEE_PHASE_ID remains the R21 route marker. Attribute any future R24 Build by its R24 ledger/dispatch identity and SORT4_R24_SESSION_PHASE_ID, not that route marker alone.",
+    "The draft R24 profile retains historical R19 profile/account provenance and is not admitted by this callee route. Any later profile acceptance must independently bind a fresh R24 account without treating this draft as authority."
+  ],
+  "not_run": [
+    "Actual branch-client registration or Cloud submission",
+    "Cloud, compiler, exporter, verifier, source preparation, proof runner, or raw evidence access",
+    "Final encoded transport against a live branch-client/coordinator state"
+  ],
+  "limitations": "GO_WITH_NITS applies only to the exact R24 admission candidate and registration controls. The review establishes no registration, Cloud result, profile acceptance, formal verification, or proof credit. coordination.py was inspected as a dependency and not modified; coordinator state was not accessed.",
+  "proof_credit": 0
+}

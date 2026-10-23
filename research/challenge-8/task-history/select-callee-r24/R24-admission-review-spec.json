@@ -1,0 +1,31 @@
+{
+  "applicability": "R24 select-sort4, callee lane only, unchanged reviewed a4737f9f proof candidate; fresh T0 2026-10-23T10:48:18Z, 4320min main+60min closeout,21600s budget.",
+  "baseline_commit": "f565e3ee26a6cc38e90822c729677408f79d548b",
+  "candidate_commit": "538431e3d6463d177a693393dc20b36c1b29a314",
+  "controls": [
+    "Inspect/run isolated R24 registration tests, including wrong owner/lane/account/window, timeout/report reserve/refusal paths, both submit admission points, route/transport bindings and historical synthetic R23 behavior."
+  ],
+  "defect": "Fresh R24 assignment requires exact branch-client admission distinct from closed R23, without inheriting authority or proof credit.",
+  "dependencies": [
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+    "research/challenge-8/task-history/select-callee-r23/R23-ghost-cfg-review.json",
+    "research/challenge-8/task-history/select-callee-r24/OWNER-DIRECTIONS.md"
+  ],
+  "invariants": [
+    "Keep historical phase gates/accounts and coordinator v4 unchanged.",
+    "R21 route marker remains separate from R24 session phase; no proof/source/tool/profile pin change.",
+    "Require exact owner/lane/account/window, timeout1200, queue60 and report reserve at least240; full envelope before preflight and before reservation.",
+    "Prepared bundle/profile grants no registration, Cloud result, acceptance, or proof credit."
+  ],
+  "known_limitations": [
+    "No actual toolchain/Cloud run; draft ledger PREPARED_NOT_REGISTERED. Only registration diff under review.",
+    "Historical installed-ledger tests expect AUTHORIZED but historical ledgers are CLOSED; do not reopen or rewrite them."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}
