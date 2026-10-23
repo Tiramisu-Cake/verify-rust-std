@@ -38,7 +38,9 @@ profile9496 bytes exactly. R19 and R20 validators/constants remain unchanged;
 their original profile/provider paths continue to use their existing exact
 checks. The R22 provider entry preserves the existing R11 control files and
 pins the R22-specific `prove.py` profile admission at
-`504b1e067bf269a77053ee4f701ba6a914d1854868a0d33cfc35736db736c6bd`.
+`504b1e067bf269a77053ee4f701ba6a914d1854868a0d33cfc35736db736c6bd`. The exact
+R22 provider module SHA-256 is
+`913a5ea847038bd6acb3ee21fa82688bc22f3348a8265080dfb75d1a35eebba1`.
 
 Candidate profile SHA-256:
 `5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e`.

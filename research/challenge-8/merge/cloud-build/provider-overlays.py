@@ -97,17 +97,25 @@ def profile_identity(profile_card: dict) -> str:
     if not isinstance(profile_card, dict):
         raise SystemExit("merge profile card must be an object")
     profile = profile_card.get("profile")
-    if profile not in SUPPORTED_PROFILES or profile_card.get("accepted") is not False:
+    if profile == R22_PROFILE or profile not in SUPPORTED_PROFILES - {R22_PROFILE} or profile_card.get("accepted") is not False:
         raise SystemExit("unsupported or accepted merge profile")
     if profile == R11_PROFILE and "r22_compile_fix_registration" in profile_card:
         registration = profile_card.get("r22_compile_fix_registration")
-        if (not isinstance(registration, dict) or
+        chain=profile_card.get("ordered_patch_chain")
+        if (hashlib.sha256(json.dumps(profile_card,indent=2,ensure_ascii=False).encode()+b"\n").hexdigest() !=
+                "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e" or
+                not isinstance(registration, dict) or
                 registration.get("schema") != "merge-r22-compile-fix-registration-v1" or
                 registration.get("phase_id") != "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23" or
                 registration.get("baseline_profile_sha256") != "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301" or
                 registration.get("starting_tool_commit") != "578120769161e217e53bd569bafdccbd4b2e020e" or
                 registration.get("candidate_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
-                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs"]):
+                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs"] or
+                profile_card.get("effective_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
+                profile_card.get("exporter_source_sha256") != "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345" or
+                profile_card.get("guard_return_trace_patch_sha256") != "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7" or
+                not isinstance(chain,list) or len(chain)!=19 or type(chain[-1]) is not dict or
+                chain[-1].get("sha256")!="0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"):
             raise SystemExit("R22 compile-fix profile registration mismatch")
         return R22_PROFILE
     return profile

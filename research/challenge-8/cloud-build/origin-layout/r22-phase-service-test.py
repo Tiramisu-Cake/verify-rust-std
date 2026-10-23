@@ -296,6 +296,8 @@ class R22PhaseTests(unittest.TestCase):
             selected = provider.files_for_profile(provider.R22_PROFILE)
             self.assertEqual(selected["research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"],
                              m.R22_COMPILE_FIX_PROVIDER_PROVE_SHA256)
+            with self.assertRaises(SystemExit):
+                provider.profile_identity(dict(card, profile=provider.R22_PROFILE))
             bad = json.loads(candidate)
             bad["r22_compile_fix_registration"]["tool_source_paths"] = []
             path.write_text(json.dumps(bad, indent=2) + "\n")
