@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "d9cb7e98154e2b6e6aae332270451f693a0a8d9be6d26a90de843e5dfe55a6bd",
+  "build_id": "a119ad7f-c24d-4778-8d30-f42154e2ff6e",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 23,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+  "file_path": "allprooflogs/cases/results.json",
+  "file_sha256": "64013fe2a6bfba1ca5d51b168b44c2cabd607de62962d48c56b9b1f667a782b0",
+  "index_sha256": "c5c0f97a25ac34f60f1c4fd6ce4df3ac30b6e6550391e0ecbc0565f95d9c3cc4",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "64013fe2a6bfba1ca5d51b168b44c2cabd607de62962d48c56b9b1f667a782b0",
+    "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+    "pointer": "/cases/0/result"
+  },
+  "request_id": "4efd7e0bbfaded9ea75424e838731135b76549b446cd94d616d05a5cdd07bb79",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/0/result/accepted",
+      "value": false
+    },
+    {
+      "child_count": 28,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/body_milestones"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/0/result/body_milestones_complete",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/body_milestones_count",
+      "value": 28
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/boundary",
+      "value": "universal ghost assertion harness; ensures true is not an exported Rust callee summary"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/case",
+      "value": "network13_finite_swo_order"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/cases/0/result/classifier_rejection_controls",
+      "value": null
+    },
+    {
+      "child_count": 9,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/command"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/errors"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/exit",
+      "value": 124
+    },
+    {
+      "child_count": 28,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/expected_bodies"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/cases/0/result/last_statement"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/leak_checks",
+      "value": 7683
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/log",
+      "value": "/workspace/evidence/allprooflogs/cases/network13_finite_swo_order.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/log_sha256",
+      "value": "c6b44d7c9e4739a9915cefc5019830e5be9fc7c1a97caf0a47d02d0afc76f3ea"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/cases/0/result/negative",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/refinement",
+      "value": "not applicable to mathematical C ghosts; Rust bridge not proved"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/return_checks",
+      "value": 7683
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/runner_error",
+      "value": "case acceptance gate failed"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/source_sha256",
+      "value": "4a01aa81cba9bc3f160fe68b56af8c277893d64739934146f81d64cab942dd28"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -51,3 +51,39 @@ negative/classifier controls and compatible regressions. Stock26.09 unchanged;
 no axiom, bodyless bridge, memory/ownership premise or tool patch. This is a
 checked pure representation experiment under the authorized mathematical
 method. Independent review before Cloud dispatch is mandatory.
+
+## Shape4 observation and shape5 single pure conjunction
+
+Builda119ad7f timeout600.334688s,zero assertion errors,28body starts;
+unit4a01aa81 unchanged. Hash-bound Brief source window3636..3642 identifies
+last statement436.857316s at3640 as `open network13_exact_result(rel,q)`;
+the preceding result_package call completed. This is a localized candidate
+cost, not established SMT causality/parser binding. Charge739s,total1477s,
+2123s remain. The original result packaging moved the stall and did not
+suffice for acceptance. Do not repeat it unchanged.
+
+Static stock source trace (clean809de459), also inspected by an independent
+bounded Luna HIGH explorer: assertions.ml522 ExprAsn invokes assume;531–534
+Sep processes its sides separately. verifast1.ml8228–8239 pushes/pops per
+assume. redux.ml1045–1054 recursively handles And inside assume_core, and
+1105–1113 calls perform_pending_splits for each outer assume. Bool equivalence
+and conditional fixpoint nodes can queue splits (redux350–360,928ff).
+The current internal result predicate contains26 pure propositions separated
+by &*&; this permits26 assumption/context/split passes during its open.
+
+Chosen shape5: represent ONLY the internal result predicate as one Boolean
+conjunction of the SAME26 propositions. Make full_post accept a separator
+with its original default &*&; all public/original helper pre/posts retain
+that default. Only the internal exact_result predicate selects &&. Its
+checked producer still calls unchanged export_packed and closes the result;
+the outer wrapper opens it then must prove its unchanged full public Sep
+post. All facts, bodies,controls,schedule,source/tool/profile remain intact.
+This is a source-supported batching hypothesis, not a proved cause. A blind
+limit extension or further opaque input wrapping would not test this cost;
+post reduction and tool/kernel patches remain excluded.
+
+Prediction: one assume ingests the full conjunction before a pending-split
+pass and open/finalpost completes within600s. Falsifiers: helper close stalls,
+wrapper open stalls again, or finalpost/any assertion fails. Preserve each
+failure/timing. No new axiom,premise,bodyless bridge or trusted summary.
+Independent semantic review before the next exact Cloud submission.
