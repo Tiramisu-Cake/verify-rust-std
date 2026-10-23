@@ -1,0 +1,31 @@
+{
+  "schema": "merge-r23-p14-source-borrow-brief-v1",
+  "build_id": "e3da2906-33c7-49ab-8f27-2e012ac456f2",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "0327058a34d5e9d138c10819c9327a1edd1c823f30642dd1abca7b32ca61ec19",
+  "index_sha256": "992ba60c8954ec03bb5c930900c3c4d933141cea521a8a744915a0713373895f",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "450b5004c14c71c3b35819ca729551625360b18741e092e456340aba175510f2",
+    "source_size_bytes": 3095,
+    "request_id": "5e905447d3dcdf7d16fc1e40b49d86b7a6482c5841a71d0fedbd531d1d56d7cc",
+    "lines": "160-164",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:618",
+    "message": "R23 marker blocks did not map to unique translated source annotations"
+  },
+  "static_control_flow_inference": "The new marker-rewrite refusal is after the earlier strict callee-equivalence and source/MIR binder gates in this translator. This is not helper/caller proof acceptance or independent credit.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}
