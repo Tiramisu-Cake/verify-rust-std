@@ -41,3 +41,11 @@ No required Cloud control, stage, check or source pin is removed. Their
 historical fixed source assertions also predate the current R22 chain; R23
 service tests independently retain exact source table and corruption checks.
 This is a transfer closure change, not deletion or relaxation of a control.
+
+Second measurement0df1ec6e:571770 bytes, still203 above cap. Also prune three
+unconsumed historical navigation receipts (LAYOUT-PINS.json,
+R5-EMITTER-PINS-20261020.json, R10-START-20261021.json) from transfer only.
+Their Git blobs are unchanged; selected runtime Python/shell contains no
+filename reference. Every budget ledger/profile/mode/publication gate and
+all invoked preflight/control inputs stay in the closure. Final committed
+transport measurement remains required, with cap unchanged.
