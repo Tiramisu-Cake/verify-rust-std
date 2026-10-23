@@ -1,15 +1,4 @@
 {
-  "active_dispatch": {
-    "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
-    "config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
-    "dispatch_token": "dispatch-3b9fba6d49dd4095a97e5165209c2fc6",
-    "infra_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
-    "proof_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
-    "reservation_seconds": 1260,
-    "stage": "warm-g1",
-    "state_dir": "/root/smallsort-cloud-network-rr-n8",
-    "timeout_seconds": 1200
-  },
   "actual_execution_profile_sha256": "abd1aed0a91ad29e82251f2151b004a305ddfc315e3ed1c224a0d705c78a5d9b",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "artifacts": [
@@ -45,13 +34,8 @@
     "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json",
-        "sha256": "d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a"
-      }
-    ],
-    "summary": "Final warm attempt2 running after exact symlink repair; G1 result UNKNOWN."
+    "evidence": [],
+    "summary": "Warm2 FAILURE accounted; cause pending Brief. Warm limit2 reached."
   },
   "cold_attempt_accounting": {
     "cold_attempts_started": 1,
@@ -114,15 +98,26 @@
     }
   ],
   "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+  "last_dispatch": {
+    "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+    "config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
+    "dispatch_token": "dispatch-3b9fba6d49dd4095a97e5165209c2fc6",
+    "infra_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+    "proof_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
+    "reservation_seconds": 1260,
+    "stage": "warm-g1",
+    "state_dir": "/root/smallsort-cloud-network-rr-n8",
+    "timeout_seconds": 1200
+  },
   "last_terminal_build": {
     "assurance": "BUILD_METADATA_ONLY",
-    "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
-    "build_seconds": 106,
-    "execution_seconds": 105,
+    "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+    "build_seconds": 195,
+    "execution_seconds": 194,
     "proof_credit": 0,
     "status": "FAILURE"
   },
-  "next_step": "Own watcher wait; ack then Brief and immediate accounting push; final N6 classification.",
+  "next_step": "Read exact Brief causal stage and finalize N6 classification; no further RR Builds.",
   "open": [
     "Warm2 pending; frontend/cleanup/specs UNKNOWN; no further warm attempts.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
@@ -143,27 +138,25 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "2aecb78a-a2d2-43d6-bb62-59a0b46680ff"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 5009,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T20:56:24Z",
     "main_minutes": 4320,
-    "remaining_seconds": 4162,
+    "remaining_seconds": 3967,
     "retired_seconds": 0,
-    "spent_seconds": 847,
+    "spent_seconds": 1042,
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T22:17:31Z",
+  "updated_utc": "2026-10-23T22:20:57Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
-    "event_id": "170800b4-abc4-4267-8282-dd5fff1dee71",
-    "job_id": "0a2c0dd7-2a82-448e-9f2d-3fac06b2af7c",
+    "event_id": "fdcffc6c-af99-4aad-8bf6-7a095da85ef5",
+    "job_id": "5c22d692-808b-47c2-ab49-4d35247255df",
     "store": "/root/.local/state/smallsort-watch-network-n7"
   },
   "window_anchor_explanation": "Direct owner fixes previous deadlines; t0 is tooling window anchor only, actual N8 start separately recorded. No renewed window."

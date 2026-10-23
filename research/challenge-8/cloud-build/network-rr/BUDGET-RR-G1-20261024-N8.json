@@ -1,5 +1,5 @@
 {
-  "active_build": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+  "active_build": null,
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "allowed_lanes": [
     "network-rr-g1"
@@ -65,11 +65,17 @@
       "submitted_config_sha256": "f65bc585d3c0a7dab8c5311918d2c5e90966c9059d2994462e7bfa81eed91b02",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "d87a6668eb1148a7f3dd3feb56ff71829cf088cd2b91c4b3972248712af77be3",
-      "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff"
+      "build_id": "2aecb78a-a2d2-43d6-bb62-59a0b46680ff",
+      "start_time": "2026-10-23T22:17:16.686191229Z",
+      "finish_time": "2026-10-23T22:20:30.090307Z",
+      "create_time": "2026-10-23T22:17:16.011033844Z",
+      "build_seconds": 195,
+      "accounted": true,
+      "execution_seconds": 194
     }
   ],
   "carry_seconds": 0,
@@ -106,15 +112,15 @@
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N8",
   "phase_id": "NETWORK-RR-G1-2026-10-24-N8",
-  "remaining_build_seconds": 4162,
+  "remaining_build_seconds": 3967,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
-  "spent_build_seconds": 847,
+  "spent_build_seconds": 1042,
   "start_utc": "2026-10-23T20:56:24Z",
   "status": "AUTHORIZED",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "used_build_seconds": 847,
+  "used_build_seconds": 1042,
   "warm_repair": {
     "candidate_sha": "82ad4e7349e68c65220e297197c2a20c35fc84df",
     "evidence": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json exact Brief first-blocker tool-inputs unsupported tracked .claude/skills120000; N8-WARM-REPAIR-REVIEW.json GO; published metadata descendant preserves reviewed verifier and image.",

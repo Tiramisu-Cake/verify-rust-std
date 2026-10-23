@@ -1,11 +1,11 @@
 # Agent checkpoint: network-refinedrust-g1-2026-10-24-n8
 
-- Owner: network | phase: NETWORK-RR-G1-2026-10-24-N8 | state: HANDOFF
-- Updated: 2026-10-23T22:17:31Z
+- Owner: network | phase: NETWORK-RR-G1-2026-10-24-N8 | state: ACTIVE
+- Updated: 2026-10-23T22:20:57Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, profile `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`
 - Session dates: T0 `2026-10-23T20:56:24Z`; main deadline `2026-10-26T20:56:24Z`; absolute deadline `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 5009s total; 847s spent; 0s retired; 4162s remaining including active reservations
-- Active Build IDs: 2aecb78a-a2d2-43d6-bb62-59a0b46680ff
+- Budget: 5009s total; 1042s spent; 0s retired; 3967s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -22,11 +22,10 @@
 - Count infrastructure submissions as cold attempts or reopen N7 account — Explicit owner update: count Dockerfile starts; N7 ledger unchanged; newN8 budget.; [research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md](network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md) SHA `1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e`
 
 ## Blocker
-Final warm attempt2 running after exact symlink repair; G1 result UNKNOWN.
-- [research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json](network/rr/N8-WARM1-EVIDENCE.json) SHA `d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a`
+Warm2 FAILURE accounted; cause pending Brief. Warm limit2 reached.
 
 ## Next
-Own watcher wait; ack then Brief and immediate accounting push; final N6 classification.
+Read exact Brief causal stage and finalize N6 classification; no further RR Builds.
 
 ## Artifacts
 - [research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md](network/rr/N8-OWNER-DIRECTIONS.md) — `87774f7b34ff43045c17ad6d17e55e37315aa023f790d46b606ac91253bdc273`
