@@ -135,6 +135,11 @@ The original feasibility branch/report remains unchanged.
 
 ## Network N7 update — 2026-10-23 UTC
 
+Owner clarification, 2026-10-24: [N7 cold-attempt accounting](N7-COLD-ATTEMPT-OWNER-UPDATE.md)
+records **0 cold attempts and 2 infrastructure/setup Builds**. Neither reached
+Dockerfile execution; the admission-limit interpretation in the historical report
+below is superseded. The closed account and INCONCLUSIVE/G1 NOT_RUN verdict stand.
+
 **INCONCLUSIVE after two authorized cold Builds; G1 frontend NOT_RUN, credit0.**
 Online Artifact Registry route is implemented/reviewed. First cold Build
 efd32c5f EXPIRED before execution (297s, Brief404); changed setup repair3e604123

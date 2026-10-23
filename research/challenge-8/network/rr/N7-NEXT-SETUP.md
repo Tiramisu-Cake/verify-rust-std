@@ -1,5 +1,12 @@
 # Next setup decision after N7 (not executed)
 
+**Owner update, 2026-10-24:** the admission-count interpretation in the historical
+closeout below is superseded by [the cold-attempt rule](N7-COLD-ATTEMPT-OWNER-UPDATE.md).
+N7 has **0 cold attempts and 2 infrastructure/setup Builds**. Continue with the
+localized compatibility repair under that rule; a fresh account is needed because
+the historical N7 ledger was closed with carry0, rather than because the cold
+attempt allowance was consumed. The options below remain unverified.
+
 N7 exhausted its two cold Build admissions: first EXPIRED before execution, then
 one reviewed setup repair. No third cold Build is authorized by N7 even with
 5009s budget remaining. Preserve both failures and close carry0; a later task

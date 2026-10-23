@@ -1,5 +1,11 @@
 # N7 RefinedRust G1 — INCONCLUSIVE (cold setup failed)
 
+**Owner update, 2026-10-24:** [cold-attempt accounting](N7-COLD-ATTEMPT-OWNER-UPDATE.md)
+supersedes the admission-count interpretation in the original report below.
+N7 used **0 cold attempts and 2 infrastructure/setup Builds**: neither reached
+Dockerfile execution. The historical closeout, evidence and account remain
+preserved; 391s spent, 5009s retired/carry0, G1 NOT_RUN and credit0 remain valid.
+
 2026-10-23 UTC. The online Artifact Registry route was implemented and exercised
 through two authorized cold Builds. **No RefinedRust image digest was obtained;
 G1 frontend admission and cleanup generation remain NOT_RUN.** Proof credit0,

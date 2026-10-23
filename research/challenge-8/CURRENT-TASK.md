@@ -5,8 +5,6 @@ Owner: **Network**. Phase: `NETWORK-RR-G1-2026-10-24-N7`. Lane: `network-rr-g1`.
 
 ## Mission
 
-This is a bounded continuation of the previous task under a newly authorized window.
-
 Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
 The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
@@ -16,7 +14,7 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `747feae4f699c7f1c346a596b2b3ca2f0ee65ef3`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
 Tool worktree `/root/refinedrust-feasibility-sources/refinedrust-332d945fafa14bf55c0c8390cb35ec4b0c012cff` on `main` at `332d945fafa14bf55c0c8390cb35ec4b0c012cff`.
 Profile `research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N7.json` SHA-256 `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`. New ledger path: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json`; previous closed ledger: `research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json`.
-Cloud budget: 5400 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1740 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
+Cloud budget: 5400 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1740 seconds; report reserve ≥240 seconds.
 
 ## Goal and steps
 
@@ -34,7 +32,7 @@ N7 and Builds authorized. Extended window: close on goal, budget or a real bound
 
 ## Starting checkpoint
 
-Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
+See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims/evidence/open items. Preserve UNKNOWN.
 
 Blocker: No RefinedRust image yet: cold online image Build to smallsort-tools is the first action.
 Next: Adapt recipes to the online image route, register lane network-rr-g1, cold image Build and push, warm G1 in the image, classify, rewrite RR-G1-RESULT.md.
@@ -45,12 +43,14 @@ Next: Adapt recipes to the online image route, register lane network-rr-g1, cold
 - [Owner directions N6 (exit criteria)](network/rr/N6-OWNER-DIRECTIONS.md)
 - [Draft RR G1 profile N7](cloud-build/network-rr/RR-G1-PROFILE-20261024-N7.json)
 
+Owner update2026-10-24: [count Dockerfile starts; N7 cold0, infrastructure2](network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md). Closed account carry0.
+
 ## Отчёт агента
 
 **network-refinedrust-g1-2026-10-24-n7 · network · NETWORK-RR-G1-2026-10-24-N7 · CLOSED**
-Updated: 2026-10-23T21:22:20Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`.
+Updated: 2026-10-23T21:26:37Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`.
 Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 391s spent, 5009s retired, 0s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: INCONCLUSIVE: Docker API1.52>daemon1.41; cold limit2 used; G1 NOT_RUN. [Build `3e604123-0d22-415d-b629-5ce2bf05aca7`]
-Next: RR stopped. New task needed for compatible Docker API/client; N7 carry0.
+Blocker: INCONCLUSIVE: Docker API1.52>daemon1.41 before Dockerfile; cold0, infrastructure2; G1 NOT_RUN. [Build `3e604123-0d22-415d-b629-5ce2bf05aca7`]
+Next: New task/account: repair Docker API, then cold image/G1. Count Dockerfile starts; N7 cold0, infrastructure2; carry0.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

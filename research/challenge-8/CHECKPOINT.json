@@ -18,7 +18,7 @@
     },
     {
       "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
-      "sha256": "25db9e05efa97b82eeb44b6954d179996310a2330047d0b689ab660a23eab15e"
+      "sha256": "8fd18e66c6a24f112adccca8fede6112494025c56f75835bf5e03a59467130d5"
     },
     {
       "path": "research/challenge-8/network/rr/N7-RESULT-IDENTITIES.json",
@@ -29,27 +29,19 @@
       "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
     },
     {
-      "path": "research/challenge-8/network/rr/N7-SELECT-RECHECK.json",
-      "sha256": "361e13988fdf8f0a66afcb708332aedd86fdd14a94b3276b38fecbcb055a8d3d"
-    },
-    {
       "path": "research/challenge-8/network/rr/N7-NEXT-SETUP.md",
-      "sha256": "b967bdbf8678f3515cd757914ea4dc4a847e372caf5a9499efaf881386816fcf"
-    },
-    {
-      "path": "research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
-      "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
-    },
-    {
-      "path": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
-      "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
+      "sha256": "642666b5346d0fe8a4fa35890fc3ea4fab38fdce6418566e274ba30474685e2c"
     },
     {
       "path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
       "sha256": "77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+      "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
     }
   ],
-  "assignment_sha256": "8b921e1dde7207e0d9ba7714715d44c935bd4387580f15c1891d6673ea4fed38",
+  "assignment_sha256": "ae64df1e5362673b11bdf58dfbf1e27fa4a2239a2065c2ea8debb2a1b094ba91",
   "baseline": {
     "profile_sha256": "9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb",
     "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
@@ -61,9 +53,13 @@
       {
         "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
         "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
+      },
+      {
+        "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+        "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
       }
     ],
-    "summary": "INCONCLUSIVE: Docker API1.52>daemon1.41; cold limit2 used; G1 NOT_RUN."
+    "summary": "INCONCLUSIVE: Docker API1.52>daemon1.41 before Dockerfile; cold0, infrastructure2; G1 NOT_RUN."
   },
   "brief_observation_refs": [
     {
@@ -71,7 +67,7 @@
       "sha256": "da1c87ecc579cdaafc42ee5e4622f8837581294e8b150ae270309bf925d0bea4"
     }
   ],
-  "closure_reason": "REAL_BOUNDARY / INCONCLUSIVE: two authorized cold admissions exhausted (one EXPIRED metadata execution0/Brief404, one reviewed setup repair FAILURE coldexit1 at Docker clientAPI1.52 versus daemon maximum1.41). No third cold Build authorized; timeout/reserve unchanged;391s spent,5009s retired/carry0. Independent obligations checked: exact package/source anchors retained, online image/client/recipe implementation+review and45 synthetic controls completed; source pins not changed. Image push/freeze unavailable because the selected script failed at its first docker build; warm G1 unavailable without successful cold digest/binary receipt. Actual insert_tail/Drop/callees/cleanup/missing specs remain NOT_RUN/UNKNOWN, so no frontend patch, GO_G2, STOP_RR semantics inference or G2 proof/estimate. Next setup options documented unverified only, not a checked fix; no extra Build. Final Select published d6aca506 has no R24 PUBLISHED P2 (R23 NOT_PUBLISHED), so R4/W7 consumption unavailable; W8 requires PUBLISHED P2 and W3/W5/W7 resources, no new candidate. N9/N13/R7 bounded prior results retained; unrelated repeats would not resolve setup and have no N7 lane admission. RR frontend/stock VF/runtime/coordination/IAM/shared transport/foreign ledgers unchanged.",
+  "closure_reason": "Owner clarification after closeout: both N7 Builds stopped before Dockerfile execution and consume 0 cold attempts (2 infrastructure/setup Builds). The original admission-limit closure rationale is superseded; see owner_attempt_counting_update for the immutable original checkpoint identity. N7 remains CLOSED with391s spent,5009s retired/carry0; no ledger, observations or verdicts changed and no Build dispatched. Compatible Docker setup and an image digest remain unavailable, warm G1 NOT_RUN, verdict INCONCLUSIVE/credit0. Continue compatibility repair with the corrected counting rule in a fresh authorized account; preserve all other mission gates and controls.",
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
@@ -120,6 +116,16 @@
           "sha256": "361e13988fdf8f0a66afcb708332aedd86fdd14a94b3276b38fecbcb055a8d3d"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Owner counting correction: N7 has0 cold attempts and2 infrastructure/setup Builds; admission exhaustion superseded. Costs retained, closed account carry0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+          "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+        }
+      ]
     }
   ],
   "goal_outcome": "INCONCLUSIVE_COLD_DOCKER_API_MISMATCH",
@@ -135,17 +141,17 @@
   "mission_queue": [
     {
       "obligation": "Online cold lane/image implementation and review",
-      "reason": "Exact N7 pins/gates/controls retained,45 synthetic tests; two actual cold attempts recorded.",
+      "reason": "Exact N7 pins/gates/controls retained,45 synthetic tests; two infrastructure/setup Builds,0 started cold attempts.",
       "state": "COMPLETE_STATIC_AND_SETUP_EXERCISED"
     },
     {
       "obligation": "Image push/freeze and warm G1",
-      "reason": "Docker API rejection; no cold digest/receipt; two cold attempts exhausted.",
-      "state": "SETUP_BOUNDARY_NOT_RUN"
+      "reason": "Docker API rejection before Dockerfile execution; no cold digest/receipt. Cold attempts0; historical N7 account closed/carry0.",
+      "state": "SETUP_NOT_RUN_ACCOUNT_CLOSED"
     },
     {
       "obligation": "G1 classification and next setup",
-      "reason": "Exact Brief first setup failure recorded; later-task options unverified, no third Build.",
+      "reason": "Exact Brief setup failure recorded; compatible-client options unverified. Owner corrected cold counting; new account needed after historical closeout.",
       "state": "COMPLETE_INCONCLUSIVE"
     },
     {
@@ -169,7 +175,7 @@
       "state": "RETAINED_BOUNDED"
     }
   ],
-  "next_step": "RR stopped. New task needed for compatible Docker API/client; N7 carry0.",
+  "next_step": "New task/account: repair Docker API, then cold image/G1. Count Dockerfile starts; N7 cold0, infrastructure2; carry0.",
   "open": [
     "Compatible Docker client/API configuration is not validated. Current selected cold setup fails before image Dockerfile execution; image digest/executable freeze absent.",
     "First cold expiry cause UNKNOWN and Brief404; any administrative raw audit needs explicit separate authorization.",
@@ -185,9 +191,14 @@
       "reason": "Owner replaced them with online Artifact Registry route in N7."
     },
     {
-      "approach": "Third cold Build or exclude EXPIRED from attempt count",
-      "evidence": [],
-      "reason": "N7 permits two cold admissions total; both consumed. Remaining budget grants no extra attempt."
+      "approach": "Count Cloud admissions or pre-Dockerfile infrastructure failures as cold attempts",
+      "reason": "Superseded by direct owner clarification2026-10-24: N7 used0 cold attempts. Keep all Build costs/failures; closed account is not reopened by recounting.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+          "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+        }
+      ]
     },
     {
       "approach": "Treat Docker setup rejection as RR rejection or proof",
@@ -218,11 +229,46 @@
   },
   "state": "CLOSED",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:22:20Z",
+  "updated_utc": "2026-10-23T21:26:37Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "ba034348-79ee-471e-b2ad-38d1ce065def",
     "job_id": "59ea94ed-3a0a-4456-ba75-1e3d017da7a7",
     "store": "/root/.local/state/smallsort-watch-network-n7"
+  },
+  "owner_attempt_counting_update": {
+    "date": "2026-10-24",
+    "authority": "Direct owner instruction after Network N7 completion",
+    "policy": {
+      "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+      "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+    },
+    "original_closeout_commit": "570f0a8e04fbd02f912a164e27feff32d89f72ef",
+    "original_checkpoint_sha256": "9ad523c4d6808d40a9a47bcf4a31503dacf069e4b5d28ffbffebc9064f692d02",
+    "original_assignment_sha256": "8b921e1dde7207e0d9ba7714715d44c935bd4387580f15c1891d6673ea4fed38",
+    "historical_dispatch_attempt_field": "Submission ordinal retained; not the count of started cold image builds",
+    "historical_ledger_unchanged": true
+  },
+  "cold_attempt_accounting": {
+    "start_boundary": "Evidence-confirmed execution of the target RefinedRust image Dockerfile",
+    "cold_attempts_started": 0,
+    "infrastructure_setup_builds": 2,
+    "unknown_start_builds": 0,
+    "policy": {
+      "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+      "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+    },
+    "builds": [
+      {
+        "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
+        "cold_attempt_counted": false,
+        "reason": "EXPIRED before execution; metadata execution_seconds=0; expiry cause UNKNOWN; Brief404"
+      },
+      {
+        "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+        "cold_attempt_counted": false,
+        "reason": "Docker API negotiation rejected before Dockerfile execution; source-reported inference from Brief and selected script"
+      }
+    ]
   }
 }
