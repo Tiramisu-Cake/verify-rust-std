@@ -1,0 +1,57 @@
+{
+  "applicability": "Only verify_inputs.py exact symlink mode/blob/bytes validation with lexical containment and parent-link rejection; synthetic fixtures; no RR/frontend/driver/pin/image change.",
+  "baseline_commit": "e2b7d480389af7b4229f69f9a3d6910244127bc6",
+  "candidate_commit": "31e2aaf8caf1d6ea38b12c9fae28100170dce4ba",
+  "controls": [
+    "Seven isolated synthetic Git repository tests PASS; six G1 saved-record tests PASS; AST/syntax/diff checks.",
+    "Preserve root/commit/pristine/tree/pinnedfile/fullclosure/gitlink/regular-mode/ambientconfig checks; no verify_paths narrowing.",
+    "Brief exact first-blocker tool-inputs, empty execution object; no selected-operation refusal or G1 credit."
+  ],
+  "defect": "Warm1 source-reported tool-inputs failure on exact tracked RR symlink .claude/skills; verifier only accepted regular modes.",
+  "dependencies": [
+    "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+    "research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+    "research/challenge-8/agent-workflow/CORE.md",
+    "research/challenge-8/agent-workflow/RUNTIME-CODEX.md",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+    "research/challenge-8/network/rr/g1-minimal/run.py",
+    "research/challenge-8/network/rr/g1-minimal/service.py",
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1/cloud/Dockerfile.candidate",
+    "research/challenge-8/network/rr/g1/cloud/write-image-receipt.py",
+    "research/challenge-8/network/rr/g1/verify_inputs.py",
+    "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json",
+    "research/challenge-8/network/rr/N8-WARM-REPAIR-DESIGN.md"
+  ],
+  "invariants": [
+    "N7 closed ledger SHA77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8 unchanged; N8 grant5009 is separate from N7 retired budget.",
+    "Fixed deadlines main2026-10-26T20:56:24Z and closeout21:56:24Z; original tooling window anchor preserved, actual N8 start separately recorded, no renewed72h.",
+    "Cold1740/1800 report240, warm1200/1260; cold up to2 Brief-confirmed Dockerfile starts, infrastructure budget/window bounded without derived submit count; UNKNOWN never means exhaustion.",
+    "Same exact RR332d945f/treeb33b/compiler nightly2026-08-28 archives/stdcd371e0; runtime/algorithm/generic/CFG/ownership/normal/unwind/cleanup/p0/source checks unchanged; no stronger premises/shims/only_spec/frontend patch.",
+    "Canonical digest warm selection and cold receipt/binary freeze/pins-only delta review; proofcredit0/readiness unchanged; no shared coordinator/IAM/transport or foreign lanes changes."
+  ],
+  "known_limitations": [
+    "Warm2 not yet run; actual tool/source checkout verification Cloud-only.",
+    "INCONCLUSIVE warm1 setup; final G1 classification pending; no proof acceptance."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N8-INDEPENDENT-REVIEW.json",
+      "sha256": "54a3c4c36bead4fffd90895f3a2127b78a0a9eefa2b46ef5b1ea777737978c7f"
+    },
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N8-FREEZE-REVIEW.json",
+      "sha256": "da1b1f4324bf827673666c2c3e8c19849599af34bb6b25720f5a8e68f9770c39"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

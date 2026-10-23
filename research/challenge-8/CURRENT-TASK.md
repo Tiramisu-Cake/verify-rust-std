@@ -48,9 +48,9 @@ Next: Register N8, fix Docker API, cold image then warm G1.
 ## Отчёт агента
 
 **network-refinedrust-g1-2026-10-24-n8 · network · NETWORK-RR-G1-2026-10-24-N8 · ACTIVE**
-Updated: 2026-10-23T22:11:25Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`.
+Updated: 2026-10-23T22:16:45Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`.
 Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5009s: 847s spent, 0s retired, 4162s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Warm FAILURE accounted; cause pending Evidence Brief.
-Next: Inspect warm Brief causal stage; classify or one evidence-driven repair within N8 bounds.
+Blocker: Warm1 setup-only symlink defect; changed repair31e2aaf reviewed GO, warm2 pending.
+Next: Submit final warm1200/1260 attempt in canonical digest; classify from Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

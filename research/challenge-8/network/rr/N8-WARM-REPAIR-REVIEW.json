@@ -1,0 +1,20 @@
+{
+  "baseline_commit": "e2b7d480389af7b4229f69f9a3d6910244127bc6",
+  "brief_confirmation": "Reviewer reproduced exact expected-hash targeted first-blocker root; source-reported tool-inputs setup cause, parser-input binding and proof not established.",
+  "candidate_commit": "31e2aaf8caf1d6ea38b12c9fae28100170dce4ba",
+  "critical_findings": [],
+  "independent_proof_credit": 0,
+  "model": "gpt-6-luna",
+  "nonblocking_limitations": [
+    "Generic future symlink targets involving another link component followed by .. need more validation. Current pinned ../.agents/skills target is an ordinary tracked tree with no link component; exact pin applicability confirmed."
+  ],
+  "observed_utc": "2026-10-23T22:16:45Z",
+  "packet_sha256": "96766aaf7873a78b1ef3f34da23cb7f18e592f9c30727f2215ced8ed76638c5a",
+  "proof_credit": 0,
+  "reasoning_effort": "high",
+  "reviewer": "independent Luna HIGH /root/n7_independent_review",
+  "schema": "network-rr-g1-independent-review-v1",
+  "scope": "Exact frozen tracked symlink mode/blob/readlink bytes, no path skips, lexical containment/parent-link rejection, full existing closure/regular/gitlink/config checks preserved. Same image/profile/driver/RR/std pins.",
+  "spec_sha256": "b83d180d7e2d2e747843dd876ec01e70bcd7c41cda2e04cf264a8e904a6128d9",
+  "verdict": "GO_WARM_ATTEMPT2_AFTER_ORDINARY_ADMISSION"
+}

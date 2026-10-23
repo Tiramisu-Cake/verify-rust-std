@@ -21,6 +21,10 @@
     {
       "path": "research/challenge-8/network/rr/observations/42fede290bef98d00701b13c8edbb52b2220171c6d654961bf498de8efc75b68.json",
       "sha256": "42fede290bef98d00701b13c8edbb52b2220171c6d654961bf498de8efc75b68"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-WARM-REPAIR-REVIEW.json",
+      "sha256": "29e62838ea50189cc37d8c476621c387069808e1c2bd1008b7453f390fc8d055"
     }
   ],
   "assignment_sha256": "a1948b97694ffa3f64c6781312f74b9974b6dbb8dcdb338ec71e56925f9a597b",
@@ -30,8 +34,13 @@
     "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
   },
   "blocker": {
-    "evidence": [],
-    "summary": "Warm FAILURE accounted; cause pending Evidence Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json",
+        "sha256": "d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a"
+      }
+    ],
+    "summary": "Warm1 setup-only symlink defect; changed repair31e2aaf reviewed GO, warm2 pending."
   },
   "cold_attempt_accounting": {
     "cold_attempts_started": 1,
@@ -81,20 +90,19 @@
           "sha256": "da1b1f4324bf827673666c2c3e8c19849599af34bb6b25720f5a8e68f9770c39"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Warm1 failed before frontend at tool-inputs/.claude/skills; empty execution. Setup INCONCLUSIVE, not selected-operation refusal. Exact symlink repair13 synthetic tests PASS.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N8-WARM1-EVIDENCE.json",
+          "sha256": "d0d0fc8351422e38cae6f087469bfb0708b7e386ba42ef51d3a97a799069f42a"
+        }
+      ]
     }
   ],
   "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
-  "last_dispatch": {
-    "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
-    "config_sha256": "dd5c1b90f523c6fea986dd92f7d98c153c0966a01643d15a290121fa0ce871cd",
-    "dispatch_token": "dispatch-7afa3bcb94ef4653ba9b6e6bedbd66d9",
-    "infra_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
-    "proof_sha": "3a33d00ced9e3f3bd38afd2ab41d0194982f2cb6",
-    "reservation_seconds": 1260,
-    "stage": "warm-g1",
-    "state_dir": "/root/smallsort-cloud-network-rr-n8",
-    "timeout_seconds": 1200
-  },
   "last_terminal_build": {
     "assurance": "BUILD_METADATA_ONLY",
     "build_id": "778dfce1-2f3d-4ad9-a098-f7019138dc23",
@@ -103,9 +111,9 @@
     "proof_credit": 0,
     "status": "FAILURE"
   },
-  "next_step": "Inspect warm Brief causal stage; classify or one evidence-driven repair within N8 bounds.",
+  "next_step": "Submit final warm1200/1260 attempt in canonical digest; classify from Brief.",
   "open": [
-    "G1/frontend/cleanup NOT_RUN; missing specs UNKNOWN.",
+    "Warm2 pending; frontend/cleanup NOT_RUN as reported, specs UNKNOWN.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
   ],
   "owner": "network",
@@ -138,7 +146,7 @@
   },
   "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T22:11:25Z",
+  "updated_utc": "2026-10-23T22:16:45Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "170800b4-abc4-4267-8282-dd5fff1dee71",
