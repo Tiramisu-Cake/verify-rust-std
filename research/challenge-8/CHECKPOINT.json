@@ -24,20 +24,16 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "summary": "Build active.",
-    "evidence": []
+    "summary": "Translator compile.",
+    "evidence": [
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json",
+        "sha256": "2e5b90dd108f0f171d9979c52282c258e3d721513db34c0e35479468d16e7c2b",
+        "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
+      }
+    ]
   },
   "confirmed": [
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "R19 CLOSED: 0 Builds/spent, 3600s retired, carry0. Candidate/tool published; Cloud UNVERIFIED, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R19-CLOSEOUT-20261022.json",
-          "sha256": "64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "R20 P1: compile5legs0; raw caller BOTH_TARGETS_EXIT0/stagesall0/sourceexact/posts preserved;5R19 controls MATCHED. Static shape != F5 resource negative. Bounded only, credit0.",
@@ -56,27 +52,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 P2: five R19 controls MATCHED; synthetic F5 failed callback/invariant setup gates, state fatal diagnostic lacks target context; both INCONCLUSIVE, credit0.",
-      "evidence": [
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
-          "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
-        },
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/observations/a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6.json",
-          "sha256": "a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6"
-        },
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/observations/3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323.json",
-          "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "R22 P1: exporter101 (E0382/E0433), proof_attemptedfalse; target/controls unproved, credit0.",
       "evidence": [
         {
@@ -85,9 +60,20 @@
           "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 P2: exporter/decoder0; translator1 missingidentity; proof_attemptedfalse, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json",
+          "sha256": "2e5b90dd108f0f171d9979c52282c258e3d721513db34c0e35479468d16e7c2b",
+          "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
+        }
+      ]
     }
   ],
-  "next_step": "Brief.",
+  "next_step": "Fix.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -121,21 +107,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "fb2529be-bf1d-4721-8632-4c5493e2fedd"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:14:00Z",
     "main_deadline_utc": "2026-10-23T09:44:00Z",
-    "remaining_seconds": 3246,
+    "remaining_seconds": 2880,
     "retired_seconds": 0,
-    "spent_seconds": 354,
+    "spent_seconds": 720,
     "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T08:38:26Z",
+  "updated_utc": "2026-10-23T08:49:36Z",
   "decisions": [
     {
       "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
@@ -178,6 +162,10 @@
     {
       "decision": "Submit exact reviewed source5b6c4236 instead of adding review-only files to proofsource before dispatch.",
       "reason": "Measured571217/cap571567/margin350. Review/checkpoint docs are committed after Build registration; exact5b6c publishedtip independently verified before submit. No cap change or report pruning required."
+    },
+    {
+      "decision": "Fix all three synthetic D.region record constructors in translator with explicit identity=Nothing; keep lifetime matching patterns and real source metadata unchanged.",
+      "reason": "P2 exporter/decoder exit0; translator fieldidentity missing. Static scan finds constructors2623/10814/10890; patterns10527/10528 intentionallyignorefields, warnings9disabled inexistingDune. Unknown metadata on synthetic lifetimes is not inferred ReVar identity or borrow authority. No sameconfigrerun."
     }
   ],
   "pause": {
@@ -205,8 +193,8 @@
     "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
   },
   "watcher_event": {
-    "job_id": "dbb7da76-a81a-45d2-ae8a-70505a7e1c25",
-    "event_id": "ca2948c4-a88b-4505-aa9a-5420ba1c9336",
+    "job_id": "818bd214-e11e-4560-a64e-c0f30a6bb782",
+    "event_id": "e43302e3-515a-4b4b-a306-9942945f5414",
     "ack_mode": "CONTINUE_EXISTING_WINDOW"
   },
   "historical_artifacts": [
@@ -232,7 +220,7 @@
     "tool_sha": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
     "profile_sha256": "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e",
     "admission_review": "R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
-    "cloud_status": "ACTIVE_UNVERIFIED",
+    "cloud_status": "COMPILE_FAILED_NO_PROOF",
     "proof_credit": false
   },
   "prepared_candidates": [
@@ -249,6 +237,39 @@
       "cross_stage_mapping": "UNESTABLISHED",
       "ownership_consumer": "NOT_IMPLEMENTED",
       "proof_credit": false
+    }
+  ],
+  "historical_confirmed": [
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "R19 CLOSED: 0 Builds/spent, 3600s retired, carry0. Candidate/tool published; Cloud UNVERIFIED, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R19-CLOSEOUT-20261022.json",
+          "sha256": "64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R20 P2: five R19 controls MATCHED; synthetic F5 failed callback/invariant setup gates, state fatal diagnostic lacks target context; both INCONCLUSIVE, credit0.",
+      "evidence": [
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
+          "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
+        },
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/observations/a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6.json",
+          "sha256": "a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6"
+        },
+        {
+          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
+          "path": "research/challenge-8/observations/3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323.json",
+          "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
+        }
+      ]
     }
   ]
 }

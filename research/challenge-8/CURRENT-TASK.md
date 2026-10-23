@@ -49,10 +49,10 @@ Next: New task: re-register on reviewed e70c9115; HANDOFF Build t1200 early.
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-23-r22 · merge · MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 · HANDOFF**
-Updated: 2026-10-23T08:38:26Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
-Dates: T0 `2026-10-23T07:44:00Z`; main `2026-10-23T09:44:00Z`; absolute `2026-10-23T10:14:00Z`. Budget 3600s: 354s spent, 0s retired, 3246s remaining including reservations.
-Active Build IDs: fb2529be-bf1d-4721-8632-4c5493e2fedd; unresolved: none recorded.
-Blocker: Build active.
-Next: Brief.
+**merge-caller-acceptance-autonomous-2026-10-23-r22 · merge · MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 · ACTIVE**
+Updated: 2026-10-23T08:49:36Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
+Dates: T0 `2026-10-23T07:44:00Z`; main `2026-10-23T09:44:00Z`; absolute `2026-10-23T10:14:00Z`. Budget 3600s: 720s spent, 0s retired, 2880s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Translator compile.
+Next: Fix.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

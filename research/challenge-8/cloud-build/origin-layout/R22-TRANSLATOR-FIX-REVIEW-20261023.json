@@ -1,0 +1,31 @@
+{
+  "schema": "merge-r22-translator-fix-review-v1",
+  "reviewer": "Codex",
+  "model": "GPT-6 Luna (reasoning high)",
+  "candidate": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
+  "baseline": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+  "spec_sha256": "3ab881d5ed03c2126d3785f25ba475271a2d3089fe982028bafc1b33e0a0d0f7",
+  "packet_sha256": "c9febcc3777aa58387fab337527361a45dc1500b0169badb474f500988af3224",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0; exact candidate/spec/packet identities matched",
+  "decision": "GO_WITH_LIMITATIONS",
+  "findings": [],
+  "review_findings": [
+    "The exact delta changes only three synthetic Lifetime record constructors in vf_mir_translator.ml. Each now supplies `identity = Nothing`, matching the optional typed identity field in the Region schema; that metadata is reserved for exporter-provided inference-variable or erased identities. These synthetic values have no compiler identity to preserve.",
+    "All three legacy lifetime IDs are unchanged: the added late-bound placeholder remains `'erased`, the parsed specialization lifetime remains `x`, and the resolved specialization lifetime remains the same `List.assoc` value. The matching patterns intentionally continue to use the legacy IDs and do not invent semantic identity matches.",
+    "A source scan found no other Lifetime record constructors in this translator file. The declared schema and Dune dependency snapshots are unchanged. This is a typed-record construction repair only; it adds no lifetime rule, identity premise, or proof behavior."
+  ],
+  "reviewer_checks_pass": [
+    "review packet check",
+    "exact one-file three-constructor diff inspection",
+    "git diff --check",
+    "schema Region identity type and exporter identity encoding inspected",
+    "translator Lifetime constructor inventory inspected"
+  ],
+  "not_run": [
+    "OCaml/Dune compilation or translator execution",
+    "Cloud compile, target, or controls",
+    "Proof execution; proof credit remains NONE"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

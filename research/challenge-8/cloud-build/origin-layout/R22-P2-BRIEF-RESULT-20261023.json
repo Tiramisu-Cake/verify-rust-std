@@ -1,0 +1,241 @@
+{
+  "schema": "merge-r22-p2-brief-result-v1",
+  "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd",
+  "source_sha": "5b6c4236007e28ded39f095c8f0e09b182f9b59b",
+  "tool_sha": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+  "profile_sha256": "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e",
+  "observed_utc": "2026-10-23T08:49:36Z",
+  "assurance": "SOURCE_REPORTED",
+  "classification": "TRANSLATOR_COMPILE_FAILED_NO_PROOF",
+  "proof_credit": false,
+  "charged_seconds": 366,
+  "cumulative_charged_seconds": 720,
+  "summary": "Exporter/decoder0, translator1 missingidentity syntheticLifetime2623; candidateconsole/refiner null, not inferredNOT_RUN. Sourceproof_attemptedfalse; no target/control credit. No repeat sameconfig.",
+  "responses": {
+    "proof_audit": {
+      "archive_sha256": "71158c33476b88e9a4739cb9b5518f58f7cf1c6b03e685966c0512f6454269af",
+      "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "child_count": 11,
+      "complete": true,
+      "content_filtered": false,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+      "index_sha256": "ce5ad3950cadea8ba99b201f2deb8742784e44bb54d932bb48e2f177a5848eb9",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "EXACT_JSON_CHILDREN",
+      "request": {
+        "expected_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": ""
+      },
+      "request_id": "44205e7fb0cf45b7063c23c26f8d2bfbd64d818be073ca8d137e1cce1fd89ec1",
+      "results": [
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/accepted",
+          "value": false
+        },
+        {
+          "child_count": 0,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/bridge_diagnostic"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/build_mode",
+          "value": "selected-drop-minimal"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/classification",
+          "value": "INCONCLUSIVE"
+        },
+        {
+          "child_count": 5,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/compiler"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/diagnostic_complete",
+          "value": false
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/exit_status",
+          "value": 1
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/lane",
+          "value": "merge"
+        },
+        {
+          "exact": true,
+          "kind": "boolean",
+          "pointer": "/proof_attempted",
+          "value": false
+        },
+        {
+          "child_count": 0,
+          "exact": true,
+          "kind": "object",
+          "pointer": "/retained_six_smoke"
+        },
+        {
+          "exact": true,
+          "kind": "string",
+          "pointer": "/schema",
+          "value": "smallsort-merge-cloud-diagnostic-v1"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "selected_kind": "object",
+      "source_absence_established": false,
+      "status": "OK"
+    },
+    "translator_context": {
+      "archive_sha256": "71158c33476b88e9a4739cb9b5518f58f7cf1c6b03e685966c0512f6454269af",
+      "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "complete": true,
+      "content_filtered": false,
+      "coordinates": {
+        "base": 1,
+        "end_inclusive": 4,
+        "line_separator": "LF",
+        "source_lines": 4,
+        "start": 1,
+        "unit": "line"
+      },
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+      "file_path": "allprooflogs/tracked-md-build/translator-build.log",
+      "file_sha256": "fe312d5fdad23d8b43d9906197f927591d7c3e514aa54ba8f069a3f273181546",
+      "index_sha256": "ce5ad3950cadea8ba99b201f2deb8742784e44bb54d932bb48e2f177a5848eb9",
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "range_clamped": false,
+      "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+      "request": {
+        "end": 4,
+        "expected_sha256": "fe312d5fdad23d8b43d9906197f927591d7c3e514aa54ba8f069a3f273181546",
+        "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+        "start": 1
+      },
+      "request_id": "bd6ad0f5e0a04fdcccad0977c9cb28ab4a6132487d34e459570de21b06e51279",
+      "requested_end": 4,
+      "results": [
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 1,
+          "text": "File \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 2623, characters 36-54:"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 2,
+          "text": "2623 |                   { kind = Lifetime { id = \"'erased\" } })"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 3,
+          "text": "                                           ^^^^^^^^^^^^^^^^^^"
+        },
+        {
+          "ending": "\n",
+          "exact": true,
+          "line": 4,
+          "text": "Error: Some record fields are undefined: identity"
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "status": "OK"
+    },
+    "compiler_stages": {
+      "archive_sha256": "71158c33476b88e9a4739cb9b5518f58f7cf1c6b03e685966c0512f6454269af",
+      "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd",
+      "causal_status": "UNKNOWN",
+      "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+      "child_count": 5,
+      "complete": true,
+      "content_filtered": false,
+      "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+      "exact": true,
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "file_path": "proof-audit.json",
+      "file_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+      "index_sha256": "ce5ad3950cadea8ba99b201f2deb8742784e44bb54d932bb48e2f177a5848eb9",
+      "next_offset": null,
+      "offset": 0,
+      "parser_input_binding": "NOT_ESTABLISHED",
+      "path_sanitized": false,
+      "policy": "economical-exact-v1",
+      "representation": "EXACT_JSON_CHILDREN",
+      "request": {
+        "expected_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "pointer": "/compiler/candidate_stages"
+      },
+      "request_id": "fd5430db49317849c6a549dfe034885ca8a9a8ef192f7007170adc9a1c87ebab",
+      "results": [
+        {
+          "exact": true,
+          "kind": "null",
+          "pointer": "/compiler/candidate_stages/console-build",
+          "value": null
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/compiler/candidate_stages/decoder-build",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/compiler/candidate_stages/exporter-build",
+          "value": 0
+        },
+        {
+          "exact": true,
+          "kind": "null",
+          "pointer": "/compiler/candidate_stages/refiner-build",
+          "value": null
+        },
+        {
+          "exact": true,
+          "kind": "number",
+          "pointer": "/compiler/candidate_stages/translator-build",
+          "value": 1
+        }
+      ],
+      "schema": "smallsort-targeted-observation-v2",
+      "selected_kind": "object",
+      "source_absence_established": false,
+      "status": "OK"
+    }
+  }
+}
