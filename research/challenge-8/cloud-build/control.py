@@ -2548,11 +2548,13 @@ def r23_validate_sources(probe_sha,proof_sha):
   selected_control=subprocess.check_output(['git','show',proof_sha+':research/challenge-8/cloud-build/control.py'],cwd=ROOT,stderr=subprocess.PIPE).decode()
  except (subprocess.CalledProcessError,UnicodeDecodeError):
   raise SystemExit('R23 S10 publisher control unavailable')
+ if (ROOT/'research/challenge-8/cloud-build/control.py').read_text()!=selected_control:
+  raise SystemExit('R23 S10 current client differs from selected committed control')
  r14_validate_publisher_control(baseline_control,selected_control)
  source_spec=importlib.util.spec_from_file_location('r23_pinned_source',DIR/'source-input.py')
  source=importlib.util.module_from_spec(source_spec);source_spec.loader.exec_module(source)
  try:
-  infra_paths=source.infra_paths(ROOT,proof_sha)
+  infra_paths=source.infra_paths(ROOT,proof_sha,lane="merge")
   paths=sorted(set(selected['proof_paths']+selected['infra_paths']+infra_paths+[recipe_path]))
   raw=subprocess.check_output(['git','ls-tree','-r','-z',proof_sha,'--',*paths],cwd=ROOT,stderr=subprocess.PIPE)
  except (subprocess.CalledProcessError,KeyError,TypeError,ValueError,UnicodeDecodeError,SystemExit):

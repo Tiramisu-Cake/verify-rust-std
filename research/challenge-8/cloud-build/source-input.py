@@ -177,13 +177,24 @@ def list_committed_tree(repo: Path, root_tree: str, prefix: str,
     return result
 
 
-def infra_paths(repo: Path, commit: str) -> list[str]:
+MERGE_VPS_ONLY_INFRA_PATHS = frozenset({
+    "research/challenge-8/cloud-build/control.py",
+    "research/challenge-8/cloud-build/coordination-regression.py",
+    "research/challenge-8/cloud-build/coordination-v3-test.py",
+    "research/challenge-8/cloud-build/coordination-v3-transition.py",
+})
+
+
+def infra_paths(repo: Path, commit: str, lane: str | None = None) -> list[str]:
     root = root_tree_of(repo, commit)
     objects: dict[str, tuple[str, bytes]] = {}
     paths = list(INFRA_EXACT_PATHS)
     for prefix in INFRA_PYTHON_PREFIXES:
         paths.extend(list_committed_tree(repo, root, prefix, objects))
-    return sorted(set(valid_path(path) for path in paths))
+    selected = set(valid_path(path) for path in paths)
+    if lane == "merge":
+        selected -= MERGE_VPS_ONLY_INFRA_PATHS
+    return sorted(selected)
 
 
 def validate_recipe(recipe: dict, lane: str) -> dict:
@@ -246,7 +257,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
     """Return deterministic gzip JSON for the requested source commits."""
     repo = repo.resolve()
     recipe = None if lane in ("stock", "constructor") else committed_recipe(repo, infra_sha, lane)
-    selected_infra = infra_paths(repo, infra_sha)
+    selected_infra = infra_paths(repo, infra_sha, lane=lane)
     if recipe:
         selected_infra = sorted(set(selected_infra + recipe["infra_paths"] + [RECIPE_PREFIX + lane + ".json"]))
     infra, _ = repo_record(repo, infra_sha, selected_infra)
@@ -321,6 +332,8 @@ def expected_infra_paths(repo_record_data: dict, recipe: dict | None = None) -> 
 
     recipe_paths = set(recipe["infra_paths"] + [RECIPE_PREFIX + recipe["lane"] + ".json"]) if recipe else set()
     expected = [path for path in paths if path in INFRA_EXACT_PATHS or allowed_python(path) or path in recipe_paths]
+    if recipe and recipe.get("lane") == "merge" and set(paths) & MERGE_VPS_ONLY_INFRA_PATHS:
+        stop("merge archive contains a VPS-only infrastructure file")
     if sorted(set(expected)) != sorted(paths):
         stop("bundle contains an unapproved infra path")
     if not set(INFRA_EXACT_PATHS).issubset(expected):
