@@ -26,6 +26,9 @@ MAX_FILE = 256 * 1024
 MAX_JOBS = 64
 MAX_EVENTS = 128
 MAX_DELIVERY_SECONDS = 20
+MAX_POLL_SECONDS = 55
+POLL_RESERVE_SECONDS = MAX_DELIVERY_SECONDS + 5
+MAX_POLL_DIAGNOSTICS = 12
 TERMINAL_JOB_STATES = {"DELIVERED", "DELIVERY_UNKNOWN", "ACKED", "STOPPED", "STALE", "EXPIRED"}
 ACTIVE_JOB_STATES = {"ARMED", "MONITORING", "READY", "DELIVERING"}
 JOB_ID_RE = re.compile(r"[0-9a-f-]{36}\Z")
@@ -421,6 +424,43 @@ def _attempt_delivery(store, job, bindings, codex, status, mode, event_name, now
             _mark(store, job, "DELIVERY_UNKNOWN", status="enqueue outcome unknown", now=now_fn())
 
 
+def _record_poll_issue(store, job, exc, *, stage, started, now, busy=False):
+    # Persist before any delivery refresh reloads the job. Never include raw
+    # stderr, exception messages, commands, environment or evidence content.
+    chain = []
+    seen = set()
+    current = exc
+    while current is not None and len(chain) < 4 and id(current) not in seen:
+        seen.add(id(current))
+        item = {"type": type(current).__name__[:80]}
+        kind = getattr(current, "kind", None)
+        if isinstance(kind, str):
+            item["kind"] = kind[:80]
+        code = getattr(current, "returncode", None)
+        if type(code) is int:
+            item["returncode"] = code
+        digest = getattr(current, "stderr_sha256", None)
+        if isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest):
+            item["stderr_sha256"] = digest
+        chain.append(item)
+        current = current.__cause__
+    record = {"utc": _stamp(now), "stage": stage,
+              "elapsed_seconds": round(max(0, time.monotonic() - started), 3),
+              "deferred": busy, "exceptions": chain}
+    job["poll_diagnostics"] = (job.get("poll_diagnostics", []) + [record])[-MAX_POLL_DIAGNOSTICS:]
+    if busy:
+        job["poll_deferrals"] = job.get("poll_deferrals", 0) + 1
+    else:
+        job["poll_failures"] += 1
+    _mark(store, job, job["state"] if job["state"] == "READY" else "MONITORING",
+          status="coordinator busy; poll deferred" if busy else "status query failed", now=now)
+
+
+def _poll_busy(bindings, exc):
+    busy_type = getattr(bindings, "PollBusy", ())
+    return bool(busy_type and isinstance(exc, busy_type))
+
+
 def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow):
     bindings = bindings or _adapter("watch_bindings")
     codex = codex or _adapter("watch_codex")
@@ -440,6 +480,7 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
         if now >= _parse_stamp(job["binding"]["deadline_utc"]):
             _mark(store, job, "EXPIRED", status="absolute deadline passed", now=now)
             return job
+        validation_started = time.monotonic()
         try:
             result = _validate_job(store, job, bindings)
         except Exception as exc:
@@ -447,13 +488,14 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
             if binding_error and isinstance(exc, binding_error):
                 _mark(store, job, "STALE", status="authorization binding stale", now=now)
                 return job
-            job["poll_failures"] += 1
+            busy = _poll_busy(bindings, exc)
+            _record_poll_issue(store, job, exc, stage="validate", started=validation_started, now=now_fn(), busy=busy)
+            if busy:
+                return job
             if job["poll_failures"] >= 3:
                 mode = "CLOSEOUT_ONLY" if now >= _parse_stamp(job["binding"]["main_deadline_utc"]) else "CONTINUE_EXISTING_WINDOW"
                 _attempt_delivery(store, job, bindings, codex, "watch status unavailable after three failures",
                                   mode, "monitor_error", now_fn)
-            else:
-                _mark(store, job, "MONITORING", status="status query failed", now=now)
             return job
         now = now_fn()
         if job.get("stop_requested") or _stop_requested(store, job_id):
@@ -481,6 +523,7 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
             mode = "CLOSEOUT_ONLY" if now >= _parse_stamp(job["binding"]["main_deadline_utc"]) else "CONTINUE_EXISTING_WINDOW"
             _attempt_delivery(store, job, bindings, codex, result["status"], mode, "build_terminal", now_fn)
             return job
+        poll_started = time.monotonic()
         try:
             if _stop_requested(store, job_id):
                 _mark(store, job, "STOPPED", status="stopped by operator", now=now_fn())
@@ -492,21 +535,36 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
             client_state_dir = store.file(job_id + ".state")
             if client_state_dir.is_symlink() or not client_state_dir.is_dir():
                 raise WatchError("private client state directory is missing or unsafe")
-            observed = bindings.poll(job["binding"], str(client_state_dir))
+            remaining = (_parse_stamp(job["binding"]["deadline_utc"]) - now).total_seconds()
+            if remaining <= POLL_RESERVE_SECONDS:
+                _attempt_delivery(store, job, bindings, codex, "insufficient window for another status query",
+                                  "CLOSEOUT_ONLY", "deadline_near", now_fn)
+                return job
+            observed = bindings.poll(job["binding"], str(client_state_dir),
+                                     timeout_seconds=min(MAX_POLL_SECONDS, remaining - POLL_RESERVE_SECONDS))
+            now = now_fn()
             if not isinstance(observed, dict) or not {"terminal", "status", "accounted"}.issubset(observed):
                 raise WatchError("poll returned incomplete status")
+            if _stop_requested(store, job_id):
+                _mark(store, job, "STOPPED", status="stopped by operator during poll", now=now)
+                return job
+            if now >= _parse_stamp(job["binding"]["deadline_utc"]):
+                _mark(store, job, "EXPIRED", status="absolute deadline passed during poll", now=now)
+                return job
+            job["last_successful_status"] = observed["status"]
+            job["last_successful_poll_utc"] = _stamp(now)
             if observed["terminal"] and observed["accounted"]:
                 job["poll_failures"] = 0
+                _mark(store, job, "MONITORING", status=observed["status"], now=now)
                 mode = "CLOSEOUT_ONLY" if now >= _parse_stamp(job["binding"]["main_deadline_utc"]) else "CONTINUE_EXISTING_WINDOW"
                 _attempt_delivery(store, job, bindings, codex, observed["status"], mode, "build_terminal", now_fn)
             elif observed["terminal"] and not observed["accounted"]:
                 job["poll_failures"] += 1
+                _mark(store, job, "MONITORING", status="terminal status is not yet accounted", now=now)
                 if job["poll_failures"] >= 3:
                     mode = "CLOSEOUT_ONLY" if now >= _parse_stamp(job["binding"]["main_deadline_utc"]) else "CONTINUE_EXISTING_WINDOW"
                     _attempt_delivery(store, job, bindings, codex, "terminal status is not yet accounted",
                                       mode, "monitor_error", now_fn)
-                else:
-                    _mark(store, job, "MONITORING", status="terminal status is not yet accounted", now=now)
             else:
                 job["poll_failures"] = 0
                 _mark(store, job, "MONITORING", status=observed["status"], now=now)
@@ -515,13 +573,14 @@ def tick(store: Store, job_id: str, *, bindings=None, codex=None, now_fn=_utcnow
             if binding_error and isinstance(exc, binding_error):
                 _mark(store, job, "STALE", status="authorization binding stale during poll", now=now_fn())
                 return job
-            job["poll_failures"] += 1
+            busy = _poll_busy(bindings, exc)
+            _record_poll_issue(store, job, exc, stage="poll", started=poll_started, now=now_fn(), busy=busy)
+            if busy:
+                return job
             if job["poll_failures"] >= 3:
                 _attempt_delivery(store, job, bindings, codex, "watch status unavailable after three failures",
                                   "CLOSEOUT_ONLY" if now >= _parse_stamp(job["binding"]["main_deadline_utc"]) else "CONTINUE_EXISTING_WINDOW",
                                   "monitor_error", now_fn)
-            else:
-                _mark(store, job, "MONITORING", status="status query failed", now=now)
         return job
 
 
@@ -605,7 +664,9 @@ def start(store: Store, job_id: str, *, popen=subprocess.Popen, sleep=time.sleep
 def status(store: Store, job_id: str):
     job = store.read_job(job_id)
     result = {k: job.get(k) for k in ("job_id", "state", "event_id", "thread_id", "created_utc", "updated_utc",
-                                      "heartbeat_utc", "last_status", "attempts", "queue_id", "delivery_error", "ack_mode")}
+                                      "heartbeat_utc", "last_status", "attempts", "queue_id", "delivery_error", "ack_mode",
+                                      "poll_failures", "poll_deferrals", "poll_diagnostics",
+                                      "last_successful_status", "last_successful_poll_utc")}
     result["stop_requested"] = bool((job.get("stop_requested") or _stop_requested(store, job_id))
                                       and job.get("state") != "ACKED")
     return result

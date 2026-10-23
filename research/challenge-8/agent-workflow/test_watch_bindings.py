@@ -1,5 +1,7 @@
 """Isolated synthetic authority/accounting tests; never invoke Cloud/Codex."""
 import copy
+from concurrent.futures import ThreadPoolExecutor
+import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -255,7 +257,9 @@ class BindingTests(unittest.TestCase):
         original_run = wb._run
         for response in (b"{}", b"null", b"[]", b'{"id":null,"status":"SUCCESS"}',
                          json.dumps({"id": THREAD, "status": "SUCCESS"}).encode(),
-                         json.dumps({"id": BUILD, "status": "SUCCESS"}).encode(), b"invalid"):
+                         json.dumps({"id": BUILD, "status": "SUCCESS"}).encode(),
+                         json.dumps({"id": BUILD, "status": []}).encode(),
+                         json.dumps({"id": BUILD, "status": {}}).encode(), b"invalid"):
             def run(argv, **kwargs):
                 return original_run(argv, **kwargs) if argv[0] == "git" else response
             with self.subTest(response=response), patch.object(wb, "_run", side_effect=run), self.assertRaises(wb.PollError):
@@ -272,6 +276,61 @@ class BindingTests(unittest.TestCase):
             wb._run([sys.executable, "-c", "print('x'*10000)"], cap=128)
         with self.assertRaises(wb.PollError):
             wb._run([sys.executable, "-c", "import time; time.sleep(2)"], timeout=.05)
+
+
+    def test_poll_passes_longer_but_bounded_status_budget(self):
+        original_run = wb._run
+        seen = []
+        def run(argv, **kwargs):
+            if argv[0] == "git":
+                return original_run(argv, **kwargs)
+            seen.append(kwargs["timeout"])
+            return json.dumps({"id": BUILD, "status": "WORKING"}).encode()
+        for budget in (55, 4):
+            with patch.object(wb, "_run", side_effect=run):
+                wb.poll(self.binding, Path(self.tmp.name) / "private-state", timeout_seconds=budget)
+            self.assertGreater(seen[-1], 0)
+            self.assertLessEqual(seen[-1], budget)
+        for budget in (0, -1, 56, True, None, float('nan'), float('inf')):
+            with self.subTest(budget=budget), self.assertRaises(ValueError):
+                wb.poll(self.binding, Path(self.tmp.name) / "private-state", timeout_seconds=budget)
+
+    def test_coordinator_lock_contention_has_separate_typed_result(self):
+        with (self.f.coord / "lock").open("rb") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            values = {args: wb._git(self.f.root, *args) for args in (
+                ("rev-parse", "--show-toplevel"), ("branch", "--show-current"), ("remote", "get-url", "origin"))}
+            with patch.object(wb, "_git", side_effect=lambda root, *args: values[args]), patch.object(wb.time, "monotonic", side_effect=[0, 6]):
+                with self.assertRaises(wb.PollBusy) as caught:
+                    wb.validate(self.binding)
+            self.assertEqual(caught.exception.kind, "coordinator_busy")
+
+    def test_three_simultaneous_synthetic_status_clients_share_lock(self):
+        # A tiny committed status stub, not the production coordinator. Real
+        # subprocesses contend on one temporary lock; all metadata is synthetic.
+        client = self.f.root / wb.CLIENT
+        client.write_text("import fcntl,json,sys,time\nfrom pathlib import Path\n"
+                          + "with Path(" + repr(str(self.f.coord / 'lock')) + ").open('rb') as lock:\n"
+                          + " fcntl.flock(lock,fcntl.LOCK_EX)\n time.sleep(.1)\n"
+                          + " print(json.dumps({'id':sys.argv[-1],'status':'WORKING'}))\n")
+        self.f.git("add", wb.CLIENT)
+        self.f.git("commit", "-qm", "synthetic shared-lock status")
+        self.binding = wb.capture(self.f.spec)
+        def poll(index):
+            return wb.poll(self.binding, Path(self.tmp.name) / ('private-' + str(index)), timeout_seconds=5)
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            results = list(pool.map(poll, range(3)))
+        self.assertEqual(results, [{"terminal": False, "status": "WORKING", "accounted": False}] * 3)
+
+    def test_subprocess_failure_diagnostics_preserve_exit_hash_and_cause(self):
+        with self.assertRaises(wb.PollError) as caught:
+            wb._run([sys.executable, "-c", "import sys;sys.stderr.write('synthetic private text');sys.exit(7)"])
+        self.assertEqual(caught.exception.returncode, 7)
+        self.assertEqual(caught.exception.stderr_sha256, hashlib.sha256(b'synthetic private text').hexdigest())
+        self.assertNotIn('synthetic private text', str(caught.exception))
+        with self.assertRaises(wb.PollError) as caught:
+            wb._run([sys.executable, "-c", "import time;time.sleep(5)"], timeout=.05)
+        self.assertEqual(caught.exception.kind, 'subprocess_timeout')
 
 
 class OwnerRepositoryTests(unittest.TestCase):

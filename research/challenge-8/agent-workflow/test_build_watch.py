@@ -7,6 +7,9 @@ from pathlib import Path
 import tempfile
 import unittest
 import uuid
+from unittest.mock import patch
+
+import watch_bindings as wb
 
 MODULE = Path(__file__).with_name("build_watch.py")
 spec = importlib.util.spec_from_file_location("build_watch", MODULE)
@@ -44,7 +47,7 @@ class Bindings:
         self.validated += 1
         return {"terminal": False, "status": "WORKING", "accounted": False}
 
-    def poll(self, binding, client_state_dir):
+    def poll(self, binding, client_state_dir, *, timeout_seconds=55):
         self.poll_calls += 1
         if self.poll_error:
             raise OSError("synthetic status error")
@@ -317,7 +320,7 @@ class WatchTests(unittest.TestCase):
     def test_changed_binding_after_poll_prevents_enqueue(self):
         class Changed(Bindings):
             BindingError = watch.WatchError
-            def poll(self, binding, client_state_dir):
+            def poll(self, binding, client_state_dir, *, timeout_seconds=55):
                 return {"terminal": True, "status": "SUCCESS", "accounted": True}
             def validate(self, binding):
                 self.validated += 1
@@ -334,7 +337,7 @@ class WatchTests(unittest.TestCase):
             def validate(self, binding):
                 self.validated += 1
                 return {"terminal": True, "status": "SUCCESS", "accounted": False}
-            def poll(self, binding, client_state_dir):
+            def poll(self, binding, client_state_dir, *, timeout_seconds=55):
                 self.poll_calls += 1
                 return {"terminal": True, "status": "SUCCESS", "accounted": True}
         recon = Reconciles()
@@ -347,7 +350,7 @@ class WatchTests(unittest.TestCase):
             def validate(self, binding):
                 self.validated += 1
                 return {"terminal": True, "status": "SUCCESS", "accounted": False}
-            def poll(self, binding, client_state_dir):
+            def poll(self, binding, client_state_dir, *, timeout_seconds=55):
                 self.poll_calls += 1
                 return {"terminal": True, "status": "SUCCESS", "accounted": False}
         stalled = Unaccounted()
@@ -453,6 +456,121 @@ class WatchTests(unittest.TestCase):
         result = self.tick()
         self.assertEqual(result["state"], "DELIVERED")
         self.assertEqual(self.codex.deliveries[0][1]["status"], "watch status unavailable after three failures")
+
+
+    def test_working_status_never_counts_as_a_failure(self):
+        self.bindings.poll_error = True
+        self.tick()
+        self.bindings.poll_error = False
+        for _ in range(6):
+            self.assertEqual(self.tick()["poll_failures"], 0)
+        self.assertEqual(self.store.read_job(self.job["job_id"])["last_successful_status"], "WORKING")
+        self.assertFalse(self.codex.deliveries)
+
+    def test_third_poll_failure_and_diagnostics_survive_delivery_reload(self):
+        self.bindings.poll_error = True
+        for _ in range(3):
+            result = self.tick()
+        saved = self.store.read_job(self.job["job_id"])
+        self.assertEqual((result["state"], saved["poll_failures"], len(saved["poll_diagnostics"])), ("DELIVERED", 3, 3))
+        self.assertEqual(watch.status(self.store, self.job["job_id"])["poll_failures"], 3)
+        self.assertEqual(saved["poll_diagnostics"][-1]["stage"], "poll")
+
+    def test_third_validation_failure_survives_delivery_reload(self):
+        status = {"terminal": False, "status": "WORKING", "accounted": False}
+        with patch.object(self.bindings, "validate", side_effect=[wb.PollError("failed")] * 3 + [status]):
+            for _ in range(3):
+                result = self.tick()
+        self.assertEqual(result["state"], "DELIVERED")
+        self.assertEqual(result["poll_failures"], 3)
+        self.assertEqual(result["poll_diagnostics"][-1]["stage"], "validate")
+
+    def test_coordinator_contention_defers_without_false_monitor_error(self):
+        self.bindings.PollBusy = wb.PollBusy
+        for stage in ("validate", "poll"):
+            with self.subTest(stage=stage), patch.object(self.bindings, stage, side_effect=wb.PollBusy()):
+                for _ in range(4):
+                    result = self.tick()
+            self.assertEqual(result["state"], "MONITORING")
+            self.assertEqual(result["poll_failures"], 0)
+            self.assertEqual(result["poll_diagnostics"][-1]["stage"], stage)
+        self.assertEqual(result["poll_deferrals"], 8)
+        self.assertFalse(self.codex.deliveries)
+        self.assertEqual(self.tick()["last_status"], "WORKING")
+
+    def test_contention_does_not_clear_a_real_failure_or_bypass_expiry(self):
+        self.bindings.PollBusy = wb.PollBusy
+        self.bindings.poll_error = True
+        self.tick()
+        with patch.object(self.bindings, "validate", side_effect=wb.PollBusy()):
+            self.assertEqual(self.tick()["poll_failures"], 1)
+            self.assertEqual(watch.tick(self.store, self.job["job_id"], bindings=self.bindings, codex=self.codex,
+                                       now_fn=lambda: NOW + dt.timedelta(seconds=1200))["state"], "EXPIRED")
+        self.assertFalse(self.codex.deliveries)
+
+    def test_diagnostics_are_bounded_and_do_not_copy_subprocess_content(self):
+        self.codex.thread["latest_turn_status"] = "inProgress"
+        cause = wb.PollError("SECRET subprocess output", kind="subprocess_exit", returncode=9, stderr_sha256="a" * 64)
+        try:
+            raise cause
+        except wb.PollError as inner:
+            try:
+                raise wb.PollError("SECRET command") from inner
+            except wb.PollError as outer:
+                error = outer
+        with patch.object(self.bindings, "validate", side_effect=error):
+            for _ in range(16):
+                result = self.tick()
+        records = result["poll_diagnostics"]
+        self.assertEqual(len(records), watch.MAX_POLL_DIAGNOSTICS)
+        self.assertNotIn("SECRET", json.dumps(watch.status(self.store, self.job["job_id"])))
+        self.assertEqual(records[-1]["exceptions"][1], {"type": "PollError", "kind": "subprocess_exit", "returncode": 9, "stderr_sha256": "a" * 64})
+        self.assertGreaterEqual(records[-1]["elapsed_seconds"], 0)
+        self.assertEqual(result["poll_failures"], 16)
+        self.assertFalse(self.codex.deliveries)
+
+    def test_status_receives_bounded_longer_timeout(self):
+        poll = self.bindings.poll
+        with patch.object(self.bindings, "poll", wraps=poll) as observed:
+            self.tick()
+        self.assertEqual(observed.call_args.kwargs, {"timeout_seconds": 55})
+
+    def test_status_timeout_shrinks_to_preserve_delivery_reserve(self):
+        # Time advances after the ordinary deadline alert check, immediately
+        # before polling. The last25s remain reserved for refresh/delivery.
+        times = iter([NOW, NOW, NOW + dt.timedelta(seconds=1170)])
+        now = NOW + dt.timedelta(seconds=1170)
+        with patch.object(self.bindings, "poll", wraps=self.bindings.poll) as observed:
+            watch.tick(self.store, self.job["job_id"], bindings=self.bindings, codex=self.codex,
+                       now_fn=lambda: next(times, now))
+        self.assertEqual(observed.call_args.kwargs, {"timeout_seconds": 5})
+
+    def test_no_poll_if_only_delivery_reserve_remains(self):
+        now = NOW + dt.timedelta(seconds=1180)
+        times = iter([NOW, NOW, now])
+        result = watch.tick(self.store, self.job["job_id"], bindings=self.bindings, codex=self.codex,
+                            now_fn=lambda: next(times, now))
+        self.assertEqual(self.bindings.poll_calls, 0)
+        self.assertEqual(result["state"], "DELIVERED")
+        self.assertEqual(self.codex.deliveries[0][1]["event_name"], "deadline_near")
+
+    def test_expiry_or_stop_during_slow_poll_prevents_delivery(self):
+        current = [NOW]
+        def expired_poll(*args, **kwargs):
+            current[0] = NOW + dt.timedelta(seconds=1200)
+            return {"terminal": True, "status": "SUCCESS", "accounted": True}
+        with patch.object(self.bindings, "poll", side_effect=expired_poll):
+            result = watch.tick(self.store, self.job["job_id"], bindings=self.bindings, codex=self.codex, now_fn=lambda: current[0])
+        self.assertEqual(result["state"], "EXPIRED")
+        self.assertFalse(self.codex.deliveries)
+
+    def test_stop_during_slow_poll_prevents_delivery(self):
+        def stopped_poll(*args, **kwargs):
+            watch.stop(self.store, self.job["job_id"], now=NOW)
+            return {"terminal": True, "status": "SUCCESS", "accounted": True}
+        with patch.object(self.bindings, "poll", side_effect=stopped_poll):
+            self.assertEqual(self.tick()["state"], "STOPPED")
+        self.assertFalse(self.codex.deliveries)
 
 
 if __name__ == "__main__":

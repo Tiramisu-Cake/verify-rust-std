@@ -47,7 +47,7 @@ class Bindings:
             raise self.BindingError("checkpoint changed")
         return {"terminal": False, "status": "WORKING", "accounted": False}
 
-    def poll(self, binding, client_state_dir):
+    def poll(self, binding, client_state_dir, *, timeout_seconds=55):
         self.poll_calls += 1
         status = self.statuses[min(self.poll_calls, len(self.statuses)) - 1]
         if isinstance(status, Exception):

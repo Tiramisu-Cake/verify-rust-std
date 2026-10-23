@@ -6,6 +6,10 @@ Watcher готов для **следующих Select/Merge сессий**. Ра
 
 Watcher — отдельный локальный Python-процесс без модели. Раз в30с вызывает **существующий** branch `control.py status` с собственными owner/phase/ledger; сохраняет штатные coordination/accounting gates. Следит только за одним уже зарегистрированным Build. При terminal и завершённом учёте, повторяющейся ошибке мониторинга или приближении границы окна делает одну попытку `codex queue` в точный thread и останавливается. Metadata SUCCESS не устанавливает proof acceptance; после terminal результаты читаются через Evidence Brief.
 
+Один subprocess `control.py status` получает до55с: этот client последовательно выполняет global/own reconciliation под прежним общим lock. Перед опросом watcher сокращает лимит по остатку absolute window, резервируя25с для последующих проверок/доставки; после долгого опроса снова проверяет stop и absolute. Это предел status subprocess, а не обещание длительности полного tick или гарантированной доставки. Git/identity helpers и queue сохраняют прежние отдельные пределы. Период15–60с отсчитывается после завершения tick.
+
+Занятый coordinator read lock даёт `coordinator busy; poll deferred`: запрос metadata не состоялся, `poll_failures` не увеличивается, прежние ошибки не сбрасываются. Stop/absolute остаются действующими; при непрерывно недоступном authority доставка не разрешается. Успешный опрос сбрасывает последовательные ошибки; после трёх реальных ошибок по-прежнему готовится одно `monitor_error`.
+
 ## Передать ожидание
 
 1. Проверь своё текущее задание, окно/бюджет, опубликованные pins и зарегистрированный Build. Запиши CHECKPOINT со state `HANDOFF`, ровно одним `active_build_ids` и пустым `unresolved_ids`. Сгенерируй STATUS/отчёт обычным `checkpoint write-views`. Счёт остаётся AUTHORIZED; task/T0/phase/Build не меняются. После arm **не менять байты CHECKPOINT до ack**.
@@ -44,6 +48,8 @@ Ack сверяет event и точное сообщение в новом turn, 
 smallsort-session watch status --job JOB_UUID
 smallsort-session watch stop --job JOB_UUID
 ```
+
+`status` дополнительно показывает `poll_failures`, суммарные `poll_deferrals`, последний успешный status/UTC и последние12 `poll_diagnostics`. Диагностика содержит этап (`validate`/`poll`), длительность, UTC, тип/код причины и при наличии exit code/SHA stderr. Текст stderr, команды, environment и evidence не сохраняются в диагностике. Третья ошибка сохраняется до попытки доставки и не теряется при повторном чтении job. Старые jobs без новых полей читаются без миграции; их прежняя диагностика не восстанавливается.
 
 Stop записывает локальный запрет следующей доставки/ack. **Не** отменяет Cloud Build, не освобождает slot, не закрывает ledger и не retire бюджет. Если queue-вызов уже начался, сообщение ещё может прийти; stop блокирует его принятие. Удалённое из Codex уведомление/отменённый пользователем turn автоматически не восстанавливаются.
 

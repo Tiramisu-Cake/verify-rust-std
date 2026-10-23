@@ -52,7 +52,18 @@ class BindingError(ValueError):
 
 
 class PollError(RuntimeError):
-    """The existing status path could not establish current metadata."""
+    """Bounded diagnostics without subprocess output or command text."""
+    def __init__(self, message, *, kind="status_error", returncode=None, stderr_sha256=None):
+        super().__init__(message)
+        self.kind = kind
+        self.returncode = returncode
+        self.stderr_sha256 = stderr_sha256
+
+
+class PollBusy(PollError):
+    """Coordinator contention deferred a poll; no metadata request failed."""
+    def __init__(self):
+        super().__init__("coordinator read lock busy", kind="coordinator_busy")
 
 
 def _hash(value):
@@ -116,7 +127,7 @@ def _run(argv, cwd=None, cap=256 * 1024, timeout=20):
         while selector.get_map():
             remaining = deadline - time.monotonic()
             if remaining <= 0:
-                raise PollError("status subprocess timeout")
+                raise PollError("status subprocess timeout", kind="subprocess_timeout")
             for item, _ in selector.select(min(.2, remaining)):
                 part = os.read(item.fd, 8192)
                 if not part:
@@ -124,11 +135,12 @@ def _run(argv, cwd=None, cap=256 * 1024, timeout=20):
                     continue
                 target = result[item.data]
                 if len(target) + len(part) > (cap if item.data == "stdout" else 8192):
-                    raise PollError("metadata subprocess output cap")
+                    raise PollError("metadata subprocess output cap", kind="output_cap")
                 target.extend(part)
         code = proc.wait(timeout=max(.01, deadline - time.monotonic()))
         if code:
-            raise PollError(f"metadata subprocess exit={code}; stderr_sha256={_hash(result['stderr'])}")
+            raise PollError(f"metadata subprocess exit={code}", kind="subprocess_exit",
+                            returncode=code, stderr_sha256=_hash(result["stderr"]))
         return bytes(result["stdout"])
     finally:
         selector.close()
@@ -213,7 +225,7 @@ def _snapshot(spec):
                     break
                 except BlockingIOError:
                     if time.monotonic() >= end:
-                        raise PollError("coordinator read lock busy")
+                        raise PollBusy()
                     time.sleep(.05)
             ledger = _load(ledger_path)
             if ledger.get("status") != "AUTHORIZED" or ledger.get("owner") != owner or ledger.get("phase") != checkpoint["phase"]:
@@ -299,7 +311,13 @@ def validate(binding):
     return status
 
 
-def poll(binding, client_state_dir):
+def poll(binding, client_state_dir, *, timeout_seconds=55):
+    # A status invocation reconciles all occupied owners under the existing
+    # coordinator lock. Allow a bounded envelope, rather than the Git helper's
+    # 20s default. The caller further limits this by the absolute deadline.
+    if isinstance(timeout_seconds, bool) or not isinstance(timeout_seconds, (int, float)) or not 0 < timeout_seconds <= 55:
+        raise ValueError("status timeout must be positive and at most55 seconds")
+    end = time.monotonic() + timeout_seconds
     validate(binding)
     target = Path(client_state_dir).absolute()
     if target.exists():
@@ -309,12 +327,15 @@ def poll(binding, client_state_dir):
         target.mkdir(mode=0o700)
     argv = [sys.executable, str(Path(binding["worktree"]) / CLIENT), "--owner", binding["owner"], "--phase-id", binding["phase"], "--ledger", binding["ledger_path"], "--state-dir", str(target), "status", binding["build_id"]]
     try:
-        response = json.loads(_run(argv, cwd=binding["worktree"]))
+        remaining = end - time.monotonic()
+        if remaining <= 0:
+            raise PollError("status validation exhausted poll budget", kind="subprocess_timeout")
+        response = json.loads(_run(argv, cwd=binding["worktree"], timeout=remaining))
     except (OSError, ValueError, PollError, subprocess.TimeoutExpired) as exc:
         raise PollError("existing status client failed; no verification inference") from exc
-    if not isinstance(response, dict) or response.get("id") != binding["build_id"] or response.get("status") not in LIVE | TERMINAL:
-        raise PollError("status metadata missing/mismatched")
+    if not isinstance(response, dict) or response.get("id") != binding["build_id"] or not isinstance(response.get("status"), str) or response["status"] not in LIVE | TERMINAL:
+        raise PollError("status metadata missing/mismatched", kind="metadata_mismatch")
     result = validate(binding)
     if result["status"] != response["status"]:
-        raise PollError("Build status and reconciled account differ")
+        raise PollError("Build status and reconciled account differ", kind="account_mismatch")
     return result
