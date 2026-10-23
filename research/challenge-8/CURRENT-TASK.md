@@ -47,10 +47,10 @@ Next: Register N8, fix Docker API, cold image then warm G1.
 
 ## Отчёт агента
 
-**network-refinedrust-g1-2026-10-24-n8 · network · NETWORK-RR-G1-2026-10-24-N8 · HANDOFF**
-Updated: 2026-10-23T21:44:51Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`.
-Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5009s: 0s spent, 0s retired, 5009s remaining including reservations.
-Active Build IDs: 03245c6c-a86c-4cba-8c06-3927fef55672; unresolved: none recorded.
-Blocker: N8 cold Build active; Dockerfile start not yet classified.
-Next: Watcher ack; terminal Brief/accounting push, then classify start/receipt.
+**network-refinedrust-g1-2026-10-24-n8 · network · NETWORK-RR-G1-2026-10-24-N8 · ACTIVE**
+Updated: 2026-10-23T21:58:20Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`.
+Dates: T0 `2026-10-23T20:56:24Z`; main `2026-10-26T20:56:24Z`; absolute `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit). Budget 5009s: 741s spent, 0s retired, 4268s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Cold SUCCESS metadata; exact Brief start/digest/receipt pending.
+Next: Read Brief, classify Dockerfile start, freeze image pins and review.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
