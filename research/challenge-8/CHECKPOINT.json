@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
     "evidence": [],
-    "summary": "W4source/MIR capture pending; bodyproof and8const-call linkage remainopen. P2 PUBLISHED."
+    "summary": "W4capture terminalFAILURE accounted; actualresult pendingBrief. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
@@ -1102,8 +1102,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
-  "next_step": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
+  "next": "Brief aeff12eb W4capture source/MIR/refinement andfailure; fixorchecked8const-call linkage/C5.",
+  "next_step": "Brief aeff12eb W4capture source/MIR/refinement andfailure; fixorchecked8const-call linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1196,17 +1196,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "aeff12eb-0836-4b79-86ae-7ef54c2521d4"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 13950,
+    "remaining_seconds": 13610,
     "retired_seconds": 0,
-    "spent_seconds": 7650,
+    "spent_seconds": 7990,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1218,14 +1216,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T22:50:27Z",
+  "updated_utc": "2026-10-23T22:56:01Z",
   "w4_capture_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "body_proof_run": false,
     "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+    "build_seconds": 340,
     "call_linkage": false,
     "candidate": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6",
     "config_sha256": "eba1352fe1996074a30ba1194571423abb268acc975137ba680e9798f1d8c3b2",
@@ -1233,10 +1232,10 @@
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_CAPTURE_ONLY",
+    "result": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
     "schema": "select-r24-w4-capture-submission-v1",
     "source_payload_sha256": "ef033d754129849b5f2f3642faa24fcc7223e2448768d9d3e002f7fe1d94538e",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "w4_capture_candidate": {
@@ -1257,7 +1256,7 @@
       "sha256": "98ac0470e33e95203941fa040a22f36134bd7e97d5504d286650b5d7c47860f6"
     },
     "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
-    "state": "SUBMITTED"
+    "state": "TERMINAL_ACCOUNTED_PENDING_BRIEF"
   },
   "w4_capture_preparation": {
     "accepted": false,
@@ -1292,9 +1291,12 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack": "SUCCESS_CONTINUE",
+      "ack_utc": "2026-10-23T22:56:01Z",
       "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
       "checkpoint_frozen_after_arm": true,
       "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
+      "event_id": "22de2de8-1a6f-4446-99f8-5ccf09493105",
       "spec_path": "/tmp/select-r24-w4-capture-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
