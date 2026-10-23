@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "eaf71058befb1aef5146a5d058a775555a8fcdff514180db7d260736a9237784",
+  "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 3,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "a145735173d99ab0655ac0bceff519c774a341ee262b8ca2af91408402a9f468",
+  "file_path": "allprooflogs/cases/r24-mut-matrix-fingerprint/MUT-MATRIX-FINGERPRINT.json",
+  "file_sha256": "341e12a4ba91e6f8ccc9fee614fdd18b1dc7e5ea535894379e5ead1d0d436334",
+  "index_sha256": "106bf6b36c3bdd799137e008d02a4f4e7fbadfb3c7356e4193833b7c9dff98ca",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "341e12a4ba91e6f8ccc9fee614fdd18b1dc7e5ea535894379e5ead1d0d436334",
+    "file_id": "a145735173d99ab0655ac0bceff519c774a341ee262b8ca2af91408402a9f468",
+    "pointer": "/rows/omit-unselected-own/fingerprint/snapshots/body-6"
+  },
+  "request_id": "462f3d911b29dbfb23927491f3431171e46ba9dc22ec29b4df92ac16e327613d",
+  "results": [
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/omit-unselected-own/fingerprint/snapshots/body-6/bytes",
+      "value": 4337
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/omit-unselected-own/fingerprint/snapshots/body-6/file",
+      "value": "actual-nested-9-body-6.marshal"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/omit-unselected-own/fingerprint/snapshots/body-6/sha256",
+      "value": "bc3bcf2330b3f74c4f3cd5e99c64970869bf323b53c795f9802b9e4230d67704"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
