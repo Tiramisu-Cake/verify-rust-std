@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-TRANSPORT-20261024.json",
-      "sha256": "b31ede157937525df7d8905e1298eedc90c86107eea06f2d84653c4fcee64f69"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-BRIEF-20261024.json",
       "sha256": "750cee1daff885ba72bd1a6fd3b1fd9059f54678a3af3a7b531460a24ec664c4"
     },
@@ -27,6 +23,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P9-TRANSPORT-20261024.json",
       "sha256": "e4c42b09d1cb416a3cb3e7ec5f194b3481e1abecf84d87ae2def53f067a395f7"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P9-COMPILE-BRIEF-20261024.json",
+      "sha256": "d915cd7681a9ba7da19f4f5873d75ba022d6fe53748af2ed23a4d4687b1b9076"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,27 +36,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P9 registered; actual compiler/proof outcome pending.",
+    "summary": "P9 epilogue grouping fixed; actual compiler/proof unverified.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P8-COMPILE-BRIEF-20261024.json",
-        "sha256": "ea9e2404e2bc748f91fbdb5a32aa2aff8986e16f445011e9e49f2549ce955522",
-        "build_id": "216684d9-bfb4-4169-96d5-345a27b2db80"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P9-COMPILE-BRIEF-20261024.json",
+        "sha256": "d915cd7681a9ba7da19f4f5873d75ba022d6fe53748af2ed23a4d4687b1b9076",
+        "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P3 rawcaller both targets and four stages0; all5 R19 controls matched. State refiner refusal matched, index INCONCLUSIVE. Synthetic resource error at exactline148 reached, trace gate notmatched; no proofcredit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
-          "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e",
-          "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P6 exporter0/decoder0, translator1: duplicate RawPtrTyRd; proof_attempted=false. Alias and decoder-layer fixes unverified; credit0.",
@@ -89,9 +78,20 @@
           "build_id": "216684d9-bfb4-4169-96d5-345a27b2db80"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P9 exporter0/decoder0, translator1: option/list precedence at3627; proof_attempted=false, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P9-COMPILE-BRIEF-20261024.json",
+          "sha256": "d915cd7681a9ba7da19f4f5873d75ba022d6fe53748af2ed23a4d4687b1b9076",
+          "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher event ACK, then P9 Evidence Brief.",
+  "next_step": "Review P10 grouping and exact pins; measure transport; Cloud.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -112,23 +112,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "b7703889-63f7-4a34-ace6-9760ebc5adc2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 10140,
+    "remaining_seconds": 9788,
     "retired_seconds": 0,
-    "spent_seconds": 4260,
+    "spent_seconds": 4612,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T14:30:50.661933Z",
+  "updated_utc": "2026-10-23T14:39:15.938619Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -291,6 +289,14 @@
       "dispatch_token": "dispatch-7a27ae7c52a24944be8b12e6fb93b1df",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Repair P9 unwind epilogue expression grouping",
+      "reason": "Actual compiler3627 rejects Some constructor in list context. Intended epilogue option must wrap existing statement list concatenated with original unwind_stmts. Parenthesize only; preserve Assert/Label/sourcepost/array_to_array/original unwind sequence, ownership, exact applicability and all controls. Audit added option/list/ref constructors against existing definitions; no local compilation or new premise.",
+      "proof_credit": 0,
+      "tool_sha": "736c3d98f3bd1e2c486dc16ab40b3081cddcd56d",
+      "profile_sha256": "cd4da840a3aec8f475af46c0b86590d52339a038957e10e7c641415de5d48727",
+      "static_audit": "Option/list/ref and AST constructors checked against actual local declarations; no other likely mismatch found. Profile6/phase8 pass. Tool published; Cloud-unverified."
     }
   ],
   "mission_queue": [
@@ -301,8 +307,8 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "ddd2cad6-2fee-4641-9ce0-638aad81fd51",
-    "event_id": "aef89896-2933-4e8a-ad1a-4236825aeaf8",
+    "job_id": "56ed13b2-9793-4fea-8ce7-11fa775249d8",
+    "event_id": "a00dc086-a5bf-4838-9628-4d07393cd409",
     "event_name": "build_terminal",
     "ack": "CONTINUE_EXISTING_WINDOW",
     "status_after_event": "FAILURE",
@@ -395,6 +401,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-REVIEW-20261024.json",
       "sha256": "858bdbbdd8b8c4f8c271a094311d64160efb62f31c6349be36032a6806c51538"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-TRANSPORT-20261024.json",
+      "sha256": "b31ede157937525df7d8905e1298eedc90c86107eea06f2d84653c4fcee64f69"
     }
   ],
   "historical_confirmed": [
@@ -450,6 +460,17 @@
           "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json",
           "sha256": "25fe5c3e19c0ff64dbc19c5b54509e849492e98dbf1250871f0d945cab0d09ee",
           "build_id": "1416b764-486b-4414-be77-3116866838e2"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P3 rawcaller both targets and four stages0; all5 R19 controls matched. State refiner refusal matched, index INCONCLUSIVE. Synthetic resource error at exactline148 reached, trace gate notmatched; no proofcredit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
+          "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e",
+          "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d"
         }
       ]
     }

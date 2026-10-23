@@ -955,7 +955,7 @@ index 436a5f7a..3d651a0b 100644
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..a239507c 100644
+index 9813a884..03f90c73 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -8,2 +8,7 @@ module DecoderAux = Decoder_aux
@@ -1495,11 +1495,11 @@ index 9813a884..a239507c 100644
 +                                             (loc, Ast.Int
 +                                               (Ast.Unsigned, Ast.FixedWidthRank 3))),
 +                                         Ast.Var (loc, "r23_array_p")))], Ast.Static)) in
-+                                   plan.r23_unwind_epilogue <- Some
++                                   plan.r23_unwind_epilogue <- Some (
 +                                     [Ast.Assert (loc, Ast.False loc);
 +                                      Ast.LabelStmt (loc, plan.r23_unwind_label);
 +                                      fresh_first_callback_stmt plan.r23_post_stmt;
-+                                      array_to_array] @ unwind_stmts;
++                                      array_to_array] @ unwind_stmts);
 +                                   [recover; Ast.GotoStmt (loc, plan.r23_unwind_label)]
 +                               | None ->
                                (match late_callback_cleanup,

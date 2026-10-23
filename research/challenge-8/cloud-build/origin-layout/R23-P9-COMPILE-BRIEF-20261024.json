@@ -1,0 +1,48 @@
+{
+  "record_type": "bounded_compile_diagnostic_evidence_brief",
+  "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2",
+  "report_schema": "smallsort-evidence-index-v8",
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit_source_claim": 1,
+  "archive_inventory": {
+    "archive_sha256": "1ae2f28768024c130cfa647efc149bec341961c4ce4f2522ea2321c0fc853781",
+    "index_sha256": "0c6e16279a1af3bd463e01f56463b8c818a1f7608f1798264e10d4df0102a6d3",
+    "files": 155,
+    "content_files": 126,
+    "integrity_meaning": "archive and inventory integrity only; not proof acceptance"
+  },
+  "translator_diagnostic": {
+    "stage": "translator-build",
+    "exit_source_claim": 1,
+    "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+    "path": "allprooflogs/tracked-md-build/translator-build.log",
+    "bounded_fragment": {
+      "request_id": "f8e0a823d17a04f7c846249be2966e0d50023ed9b2183c9124d18a36940345ae",
+      "lines": "1-5",
+      "exact": true,
+      "complete": true,
+      "source_sha256": "7f02ad7a24f2a094a414bb6732dcb6e5b8cb950bd9577b1c2152e2108a78f389",
+      "source_size_bytes": 357
+    },
+    "reported_location": "vf_mir_translator.ml:3627",
+    "bounded_diagnostic": "Some variant expected to have list type; no constructor Some within type list"
+  },
+  "tool_milestones_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "console": 0,
+    "translator": 1,
+    "refiner": "NOT_PRESENT_IN_VERIFIED_ARCHIVE"
+  },
+  "proof_audit_observation": {
+    "path": "proof-audit.json",
+    "source_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+    "observed_proof_attempted": false,
+    "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF"
+  },
+  "causality": "UNKNOWN",
+  "planned_change": "Parenthesize complete existing epilogue list concatenation under Some, preserving normal/unwind commands and checks. Static audit before changed candidate; no compiler locally.",
+  "proof_credit": false,
+  "independent_credit": false
+}
