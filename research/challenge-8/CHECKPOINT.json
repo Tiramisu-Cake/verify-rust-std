@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "881d6f8cbe5f3348fb942ebcfc46fe55b4c345e9f2c7db7541ab9ac2a5108d2a"
+      "sha256": "e178501437f1c4092b6a77a1755eb9cc5035071c395342226c0080c504e206ef"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+    "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
         "sha256": "0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee"
       }
     ],
-    "summary": "Mutable P2 still lacks actual source/MIR pins and checked certificates."
+    "summary": "Await mutable capture Brief; P2 remains NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -421,9 +421,25 @@
     {
       "obligation": "Fresh exact mutable P2 source/MIR capture",
       "reason": "All8const matrix observations qualified; P2 source-only17142 chain needs authorizedCloud capture, freshnormal/readonly+10snapshots before any mutableadmission.",
-      "state": "DESIGN_RECORDED_BEFORE_EDIT"
+      "state": "CAPTURE_BUILD_ACTIVE"
     }
   ],
+  "mutable_capture_build": {
+    "accounted": false,
+    "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+    "candidate": "890f9a78f02c72081077a4a333463b447d1fcc1a",
+    "config_sha256": "224fd55e35ec9b23936e9302e51267a7cc7f33f9c25fd93b28202e68cdcfd83b",
+    "dispatch_token": "dispatch-7214b7c61358473db495ce7cd7604b07",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "schema": "select-r24-mut-capture-submission-v1",
+    "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
+    "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "mutable_capture_candidate": {
     "candidate": "890f9a78f02c72081077a4a333463b447d1fcc1a",
     "proof_credit": 0,
@@ -437,7 +453,7 @@
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
-    "state": "REVIEWED_PUBLISHED_READY_FOR_CAPTURE_BUILD"
+    "state": "CAPTURE_BUILD_ACTIVE"
   },
   "mutable_capture_decision": {
     "alternatives_rejected": [
@@ -475,7 +491,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "Submit reviewed mutable capture; full1200, no proof admission.",
+  "next": "ACK first, then Brief capture stages, pins and refusal.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -520,7 +536,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "37e4142a-949d-4638-b735-84f8b72c3693"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -540,17 +558,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:29:56Z",
+  "updated_utc": "2026-10-23T14:31:31Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "b08ded8a-dbb3-4c4c-b498-82f47020d9b5",
-    "acknowledged_job_id": "5e4ff81c-8b47-4798-a862-94a35e4ca4ad",
-    "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window; reviewed fresh eight-row classified matrix, no new authority or proof credit.",
-    "spec_path": "/tmp/select-r24-matrix-route-watch.json",
+    "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
+    "spec_path": "/tmp/select-r24-mut-capture-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -612,6 +627,16 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 T0/account/window, exact nine-profile correction; no new authority or proof credit.",
       "spec_path": "/tmp/select-r24-checked-outcomes-nine-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "b08ded8a-dbb3-4c4c-b498-82f47020d9b5",
+      "acknowledged_job_id": "5e4ff81c-8b47-4798-a862-94a35e4ca4ad",
+      "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; reviewed fresh eight-row classified matrix, no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-matrix-route-watch.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]
