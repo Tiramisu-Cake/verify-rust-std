@@ -1,0 +1,52 @@
+{
+  "schema": "smallsort-cloud-profile-draft-v1",
+  "profile_id": "RR-G1-PROFILE-20261024-N6",
+  "status": "DRAFT_UNQUALIFIED",
+  "owner": "network",
+  "lane": "network-rr-g1",
+  "purpose": "RefinedRust G1 frontend-admission diagnostic on exact core insert_tail; generation/diagnostic only, no safety PASS, no proof credit",
+  "tool": {
+    "name": "refinedrust",
+    "source_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "source_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "upstream": "https://gitlab.mpi-sws.org/lgaeher/refinedrust-dev.git",
+    "patched": false,
+    "frontend_patches_allowed": false
+  },
+  "compiler": {
+    "channel": "nightly-2026-08-28",
+    "rustc_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "std_source": {
+    "preferred_baseline": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "frozen_g1_package_baseline": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+    "note": "Re-anchor the G1 annotations on the preferred baseline; fall back to the frozen package baseline only with a recorded mismatch"
+  },
+  "g1_package": {
+    "branch": "research/refinedrust-feasibility-20261011",
+    "commit": "68671873669cd8578796ad4cb74f0fc28e622f2f",
+    "path": "research/challenge-8/refinedrust-feasibility/g1-minimal"
+  },
+  "envelopes": {
+    "cold_image": {
+      "timeout_seconds": 1740,
+      "reservation_seconds": 1800,
+      "attempts": 1
+    },
+    "warm_g1": {
+      "timeout_seconds": 1200,
+      "reservation_seconds": 1260,
+      "attempts": 2
+    }
+  },
+  "flags": {
+    "cloud_build_enabled": false,
+    "profile_accepted": false,
+    "proof_credit": 0,
+    "independent_credit": 0,
+    "admitted": false
+  },
+  "created": "2026-10-24",
+  "created_by": "coordinator (owner-directed, PROGRESS-REVIEW §9 follow-up)"
+}
