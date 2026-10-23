@@ -1,11 +1,15 @@
 {
   "action": "Retry identical arm after lock release; no coordinator/code/authority/Build/CHECKPOINT changes.",
+  "attempts": 2,
   "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
   "job_absence_basis": "build_watch.arm captures bindings before allocating UUID/private state; read-lock refusal occurred during capture.",
   "job_created": false,
+  "last_observation_utc": "2026-10-23T11:35:11Z",
+  "lock_owner_probe": "No holder entry observed in /proc/locks at a later read-only inspection; no coordinator state was changed.",
   "proof_credit": 0,
   "recorded_utc": "2026-10-23T11:34:17Z",
   "result": "REFUSED_COORDINATOR_READ_LOCK_BUSY",
   "schema": "select-r24-watcher-arm-refusal-v1",
+  "second_result": "REFUSED_COORDINATOR_READ_LOCK_BUSY",
   "spec_path": "/tmp/select-r24-ast-watch.json"
 }
