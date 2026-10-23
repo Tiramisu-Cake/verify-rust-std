@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "326ed000a04841416e2a6c853ef85bd30ea34981de3ef52a037bc14e4d2df814",
+  "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 13,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6",
+  "file_path": "allprooflogs/cases/r21-fractional-fingerprint/r21-fractional-fingerprint.json",
+  "file_sha256": "87b9129d653632be1bf5b98eba71dfa41bb4aeee3c26165a9576823655c76d09",
+  "index_sha256": "38876d647acaaf238990d18b0f10746f8c68e93e0ead26aeff034267dedb4e60",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "87b9129d653632be1bf5b98eba71dfa41bb4aeee3c26165a9576823655c76d09",
+    "file_id": "cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6",
+    "pointer": ""
+  },
+  "request_id": "8224a5da5a4860afe722611f2ee37f41b3d089ce061f642bb699f544a5b6aea0",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/base_source"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_proof_run",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "R21_FRACTIONAL_FINGERPRINT_COMPLETE"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/complete",
+      "value": true
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/dependencies"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/location_control"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/mode",
+      "value": "fingerprint"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/proof_credit",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/schema",
+      "value": "r21-fractional-forget-fingerprint-v1"
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/snapshot_pins"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/variant_order"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/variants"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

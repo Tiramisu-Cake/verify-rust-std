@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "aba85b2ddda092314cec0cf27acaefc70edc82c9",
+  "baseline_commit": "395533a54da8495af70ae68e9e5425a10e3d2e84",
+  "candidate_tree": "693aaf6d73abea19652903139b11d35eaa615d63",
+  "spec_sha256": "802e00bce324f07a451728641e84861652a391b27542032234a7bb049077b64e",
+  "packet_sha256": "819f2eabc11a1f34981ac32a07ae707053f4bdea5c924157faf8a5bfd9bb30e5",
+  "diff_sha256": "b48d3799bf0a090b46dee1ab733d5de9d3ce3e3fb8b3ffc4707855b6a136c614",
+  "continuation_of": "R23-reader-types-review.json",
+  "decision": "NO_GO",
+  "scope": "bounded local Brief projection and its pagination/type/child-inventory validation",
+  "verified": [
+    "review check matched exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "prior request-key/type/value findings are resolved; container-page offset requires exact int type/value",
+    "partial or incomplete consumed scalars are refused without string continuation; scalar kinds and Python value types are checked",
+    "unchanged fingerprint_to_pins and validate_pins dependencies remain pinned; projection still emits an explicitly partial record and omitted-field receipt",
+    "the previous non-forward string continuation path is removed"
+  ],
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-helper/project_r21_fingerprint_brief.py:_collect and project nested-container handling",
+      "finding": "Container descriptor metadata is not required to agree across pages or between a parent child row and the follow-up selection. _collect validates selected_kind and child_count only from the last page; earlier page child_count/kind values are ignored. For nested containers, project checks the parent row kind but ignores that row's child_count and does not compare it with the selected-container child_count.",
+      "impact": "Responses with the same file/index/archive identity but contradictory container kind/count metadata can be combined and accepted as one projection. This fails the exact child-inventory/fail-closed invariant, especially for objects whose unconsumed keys are intentionally omitted.",
+      "fix": "Require every page to provide the same selected_kind and exact-int child_count; retain and compare these values across pages. For nested containers, require the parent descriptor child_count to be an exact int matching the child selector's reported count. Add synthetic page-drift and parent/child mismatch refusal cases."
+    }
+  ],
+  "not_run": [
+    "synthetic tests (reported seven pass; inspected but not executed per packet instruction not to execute packet source)",
+    "live Brief protocol/projection or production request-savings measurement",
+    "Cloud, raw evidence, compiler, verifier, and proof work"
+  ],
+  "limitations": [
+    "Approval for this reader, when achieved, applies to future use of this bounded version. It does not attribute any already-started projection to this candidate; any prior projection must retain its actual reader version and request receipt.",
+    "The projection is partial local input tooling and provides no evidence validation or proof credit."
+  ],
+  "proof_credit": 0
+}

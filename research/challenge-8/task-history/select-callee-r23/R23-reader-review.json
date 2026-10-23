@@ -1,0 +1,38 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "ff182ad474c824d90ab61364f3fea0b08c8a97ea",
+  "baseline_commit": "1a699bd42b627c96d276d9210764cf8aeac88bcb",
+  "candidate_tree": "9f4456063b7002cd8452e023fff021aa92895ede",
+  "spec_sha256": "492fc15f773710bf731dc230cd6c0159498365c20947a357a67e95a199eec70a",
+  "packet_sha256": "7f7dda8be9ebaf5ea6249f4c5675c495a58982117d4e3af7722492196c299c0f",
+  "diff_sha256": "c46db476742ed54b50edc3c19fe015c20cb803b130472d5b4c8e0b818fca0f74",
+  "decision": "NO_GO",
+  "scope": "local Brief projection of fields consumed by the pinned R21 fingerprint_to_pins",
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-helper/project_r21_fingerprint_brief.py:115-124",
+      "finding": "The adapter checks request.offset and request.value_start only when the corresponding argument was supplied. It accepts unexpected optional selectors when offset/value_start are None, and it ignores other extra selector keys. The committed smallsort-brief CLI adds offset/value_start only when explicitly requested, so these echoes can be validated exactly.",
+      "impact": "A malformed targeted response can be accepted even though its echoed request differs from the adapter's actual CLI request; the receipt then records the local selector tuple rather than rejecting that mismatch. This fails the exact Brief request and fail-closed invariant.",
+      "fix": "Require the echoed request selector object to equal exactly {pointer, file_id, expected_sha256} plus offset or value_start only when that argument was sent; reject unexpected selectors and offset/value_start combinations. Add synthetic negative cases for unexpected and mixed selectors."
+    }
+  ],
+  "verified": [
+    "review check matched exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "RECORD_SPEC includes the fields read by the pinned fingerprint_to_pins across base source, default snapshot pins, location control, all eight variants, stage fields, snapshots, checks, normal MIR completeness, and variant order",
+    "projection schema marks consumed inventories exact where the downstream validator requires exact keys and records omitted branches/fields explicitly",
+    "pagination follows returned next_offset and next_value_start, checks response identity consistency, completeness, types, duplicate/non-child pointers, and child inventory",
+    "the projection emits request IDs and available coverage metadata, and writes output only after successful projection"
+  ],
+  "not_run": [
+    "synthetic tests (inspected, not executed per packet instruction not to execute packet source)",
+    "live Brief request/response protocol or production request-savings measurement",
+    "Cloud, raw evidence, compiler, verifier, and proof work"
+  ],
+  "limitations": [
+    "The projection is an input reconstruction helper only; no live projection has established protocol compatibility or measured savings.",
+    "A successful identity check validates packet structure and committed inputs only; it is not evidence validation or proof credit."
+  ],
+  "proof_credit": 0
+}

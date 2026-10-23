@@ -1,22 +1,19 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r23
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: HANDOFF
-- Updated: 2026-10-23T07:46:46Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R23 | state: ACTIVE
+- Updated: 2026-10-23T07:59:48Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T07:37:19Z`; main deadline `2026-10-23T09:37:19Z`; absolute deadline `2026-10-23T10:07:19Z`
-- Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
-- Active Build IDs: 739f982d-078a-4ff5-9860-aabef75dc027
+- Budget: 3600s total; 311s spent; 0s retired; 3289s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] R20 S3 cd3e6cae: merged unit admitted; parse error lib.rs:219. credit0. — [research/challenge-8/task-history/select-callee-r20/S3-evidence.json](task-history/select-callee-r20/S3-evidence.json) SHA `baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5` Build `cd3e6cae-721f-45d8-ae82-5e198e00312b`
-- [SOURCE_REPORTED] R20 S3b edb9fb81: branch unit runs; positive fails lib.rsspec:462. R20 closed, carry0. — [research/challenge-8/task-history/select-callee-r20/S3b-evidence.json](task-history/select-callee-r20/S3b-evidence.json) SHA `c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863` Build `edb9fb81-29e8-4103-9fbe-1a7731233b43`; [research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json](cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json) SHA `61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf`
-- [SOURCE_REPORTED] R21 S2d: branch-selected fingerprint complete (10 snapshots). credit0. — [research/challenge-8/task-history/select-callee-r21/S2d-evidence.json](task-history/select-callee-r21/S2d-evidence.json) SHA `33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35` Build `79ba86f3-200c-4678-b9b2-80450b0be061`
-- [SOURCE_REPORTED] R21 branch-selected proof: fails result==selected (lib.rs143). credit0. — [research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json](task-history/select-callee-r21/S3-branch-selected-evidence.json) SHA `b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d` Build `1bbfc87e-8b0a-4042-b54f-71acb3690dd6`
-- [SOURCE_REPORTED] R21 fractional fingerprints complete for 8 variants. credit0. — [research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json](task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json) SHA `e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf` Build `7cd83dd2-f0e9-41e8-85ef-589447085239`
+- [SOURCE_REPORTED] R20/R21 historical parse/body/fingerprint results preserved; no callee acceptance, credit0. — [research/challenge-8/task-history/select-callee-r23/HISTORICAL-R20-R21-CLAIMS.json](task-history/select-callee-r23/HISTORICAL-R20-R21-CLAIMS.json) SHA `4c3469f63e38e743de94fc96f06320234a8442aaa8d08cc59625dc4b0044939e`
 - [SOURCE_REPORTED] R22 71401a80: all 8 rows stop at parser defect `[1/2] <T>.own`. credit0. — [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-PARSE-EVIDENCE.json) SHA `7c7efe004784ceb89f786b824cd1441352f060a2adb8c312c7d00f1f08d69a40` Build `71401a80-e20c-407f-90b3-366c1a12a0bd`
 - [SOURCE_REPORTED] R22 cfc83426: parser fixed; 4 callee controls at intended obligations; merge_fractions form unsupported. credit0. — [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json) SHA `a649849a4b3418171c873b3db026a1de1914bc3b5b8c3c9fe09ac6d77385d910` Build `cfc83426-d82a-4cb7-95f7-24ee94255952`
 - [SOURCE_REPORTED] R22 7e23e945: positive passes callee/merge/assert/final calls; fails only end leak (2 ptr-own chunks). credit0. — [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json) SHA `292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e` Build `7e23e945-9190-4928-b0e6-67f2cd3e31ec`
+- [SOURCE_REPORTED] R23 739f982d: fingerprint record reports COMPLETE, complete=true, accepted/proof_credit/body_proof_run=false; detailed row binding pending. — [research/challenge-8/task-history/select-callee-r23/FINGERPRINT-739F982D-ROOT.json](task-history/select-callee-r23/FINGERPRINT-739F982D-ROOT.json) SHA `89f2a9e73f12f92e74ba7ffabc40fcd7d53f4735892b7bb78ee0c15334ed3b0d` Build `739f982d-078a-4ff5-9860-aabef75dc027`
 
 ## Open
 - Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.
@@ -34,7 +31,7 @@ Positive fails only function-end leak of 2 pointer-value own chunks (constructor
 - [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json) SHA `292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e` Build `7e23e945-9190-4928-b0e6-67f2cd3e31ec`
 
 ## Next
-Watcher for fingerprint 739f982d: ack event before any checkpoint change; Brief terminal evidence, reviewed consumed-field projection, fresh R22b row binding and proof candidate review; continue no-Cloud mutable preparation in same R23 window.
+Bounded fingerprint projection in flight; strict validator then exact R22b rows/proof review/Build1200. Mutable source chain: fix Cloud provider and finite type rewrite before review; P2 remains NOT_PUBLISHED.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64`

@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "395533a54da8495af70ae68e9e5425a10e3d2e84",
+  "baseline_commit": "51e80dd22549472e26ab4b0b4378002f748f1b60",
+  "candidate_tree": "b944eaf233d80c98689cd1ee9207ddbd71efddb6",
+  "spec_sha256": "9f981cd016e5b7e4cfa648c586ddf74cac9b094ea80684e5ec190977b47f229e",
+  "packet_sha256": "4ed017af825f13292f2860801e4591e67976271571fc7ade47908cd4afa69e05",
+  "diff_sha256": "66ab00f7eb7bef6b88056dd5494ac4c6b2925455cc52ac13df531a2410d146b2",
+  "continuation_of": "R23-reader-delta-review.json",
+  "prior_review_sha256": "5730e73993d56d79beb100fe0384b7f301bac45aae9be5ddceb579f7a1010fa0",
+  "decision": "NO_GO",
+  "scope": "delta review of Brief request selector types and pagination continuation handling",
+  "prior_blockers_resolved": true,
+  "verified": [
+    "review check matched exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "request echoes now require exactly the expected key set and exact Python types and values, resolving extra-selector and bool/int equality findings",
+    "container-page response offset now requires exact int type and must equal the requested/server-selected page offset",
+    "pinned fingerprint consumer dependencies and the projection schema are unchanged from the prior reviewed candidate"
+  ],
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-helper/project_r21_fingerprint_brief.py:_scalar continuation loop",
+      "finding": "Returned next_value_start values are checked for integer type, nonnegativity, and repeats, but not for strict forward progress. A sequence such as 9 -> 4 -> 13 is accepted and the corresponding string pieces are concatenated in request order, which can duplicate/overlap decoded text and produce an inexact projected scalar.",
+      "impact": "The projection can emit a reconstructed consumed value from a malformed/non-forward continuation sequence despite the exact-value and fail-closed invariant.",
+      "fix": "Require every returned next_value_start to be strictly greater than the value_start used for that response; add a synthetic backward-but-nonrepeating continuation refusal case."
+    }
+  ],
+  "not_run": [
+    "synthetic tests (reported seven pass; inspected but not executed per packet instruction not to execute packet source)",
+    "live Brief protocol or production request-savings measurement",
+    "Cloud, raw evidence, compiler, verifier, and proof work"
+  ],
+  "limitations": [
+    "The projection remains partial local input tooling; no live projection has established protocol compatibility or measured production savings."
+  ],
+  "proof_credit": 0
+}

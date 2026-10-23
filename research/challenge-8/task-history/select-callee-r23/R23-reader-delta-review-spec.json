@@ -1,0 +1,24 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "ff182ad474c824d90ab61364f3fea0b08c8a97ea",
+  "candidate_commit": "51e80dd22549472e26ab4b0b4378002f748f1b60",
+  "defect": "Fix reviewer NO_GO: require exact echoed request equality, including absence of unrequested selector/continuation keys.",
+  "applicability": "Local Brief client projection only, no Cloud proof helper/validator/runner changes; emitted JSON is explicitly partial record plus receipt.",
+  "invariants": [
+    "Every consumed value comes from exact Brief response bound to build/file/SHA/index/archive; no inferred or substituted values.",
+    "Use only returned pagination offsets/value starts, reject missing/malformed/inexact/identity drift; preserve request IDs/coverage.",
+    "Projected record must pass unchanged fingerprint_to_pins and validate_pins; omission list explicitly declares unread branches."
+  ],
+  "controls": [
+    "6 synthetic tests pass with unexpected offset/value_start/selector refusal."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No live projection yet; synthetic request savings are not measured production savings."
+  ]
+}

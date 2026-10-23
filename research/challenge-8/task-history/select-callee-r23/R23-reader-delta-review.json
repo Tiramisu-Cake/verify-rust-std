@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "51e80dd22549472e26ab4b0b4378002f748f1b60",
+  "baseline_commit": "ff182ad474c824d90ab61364f3fea0b08c8a97ea",
+  "candidate_tree": "cfa3570b0cf1fa8b76406b37ad0ac42ae70e8067",
+  "spec_sha256": "c0d6febf8f06cfa68caddef953e7b57faa32d55f0d87dbfdb4307374f1b20abc",
+  "packet_sha256": "59e1bb822a99fd46f57ee5acad13315e9a306ff3559fdd82756c2299af18a923",
+  "diff_sha256": "6fda64c1ce2bcac133d1b53184f4be39d2cfd20a258de1c03b11e07c1bea555d",
+  "continuation_of": "R23-reader-review.json",
+  "prior_review_sha256": "d2d4f7f96f9813e51e783d3910ec0f2f8e26acd53180649cbe9d7174fe98bfb8",
+  "decision": "NO_GO",
+  "scope": "delta review of exact Brief request selector matching",
+  "prior_blocker_resolved": true,
+  "verified": [
+    "review check matched exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "the previous missing-negative-check issue is fixed: the echoed request dictionary must equal the requested selector dictionary, rejecting unexpected offset, value_start, and extra selector keys",
+    "the change is confined to the local Brief projection and its synthetic test; pinned fingerprint_to_pins/validate_pins dependencies remain unchanged",
+    "reported six synthetic tests include unexpected selector refusal; tests were inspected but not run per packet instruction"
+  ],
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-helper/project_r21_fingerprint_brief.py:_response expected_request comparison",
+      "finding": "Python dict equality treats bool and int values as equal when numerically equal. The expected server offsets/value starts are validated as ints before requests, but an echoed request containing offset=false for requested offset=0, offset=true for 1, or equivalent value_start values compares equal and is accepted.",
+      "impact": "The code still accepts a malformed echoed selector object despite the exact-request/fail-closed invariant.",
+      "fix": "Validate offset and value_start echoes with type(value) is int and exact value equality (or compare a type-tagged/canonical representation); add synthetic bool-for-int refusal cases for zero and nonzero values."
+    }
+  ],
+  "not_run": [
+    "synthetic tests (inspected, not executed per packet instruction not to execute packet source)",
+    "live Brief protocol or production request-savings measurement",
+    "Cloud, raw evidence, compiler, verifier, and proof work"
+  ],
+  "limitations": [
+    "The projection remains partial local input tooling; no live projection has established protocol compatibility or measured production savings."
+  ],
+  "proof_credit": 0
+}

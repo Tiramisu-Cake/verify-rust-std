@@ -24,60 +24,11 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S3 cd3e6cae: merged unit admitted; parse error lib.rs:219. credit0.",
+      "claim": "R20/R21 historical parse/body/fingerprint results preserved; no callee acceptance, credit0.",
       "evidence": [
         {
-          "build_id": "cd3e6cae-721f-45d8-ae82-5e198e00312b",
-          "path": "research/challenge-8/task-history/select-callee-r20/S3-evidence.json",
-          "sha256": "baf76fb258ea30dc3b5e4a46da56d82e920bc25216db283072543da6fa1e8eb5"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R20 S3b edb9fb81: branch unit runs; positive fails lib.rsspec:462. R20 closed, carry0.",
-      "evidence": [
-        {
-          "build_id": "edb9fb81-29e8-4103-9fbe-1a7731233b43",
-          "path": "research/challenge-8/task-history/select-callee-r20/S3b-evidence.json",
-          "sha256": "c4404beae1edc4f9972851fb5c85daeb4936fa0e09d099dd0d05fbd96037e863"
-        },
-        {
-          "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-22-R20.json",
-          "sha256": "61a12011d011eed7515fe8cea0d16cd24041f0b0e0e12fba2dd2b52b831619cf"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R21 S2d: branch-selected fingerprint complete (10 snapshots). credit0.",
-      "evidence": [
-        {
-          "build_id": "79ba86f3-200c-4678-b9b2-80450b0be061",
-          "path": "research/challenge-8/task-history/select-callee-r21/S2d-evidence.json",
-          "sha256": "33818a756c6ddd2f5d1cc2bc35f30621b3bc675641d1a8c0ca0c2073441ead35"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R21 branch-selected proof: fails result==selected (lib.rs143). credit0.",
-      "evidence": [
-        {
-          "build_id": "1bbfc87e-8b0a-4042-b54f-71acb3690dd6",
-          "path": "research/challenge-8/task-history/select-callee-r21/S3-branch-selected-evidence.json",
-          "sha256": "b0795f640400066ebc2af1b3faa0a8b27ffb41cb70e442a50656605f2d527d9d"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R21 fractional fingerprints complete for 8 variants. credit0.",
-      "evidence": [
-        {
-          "build_id": "7cd83dd2-f0e9-41e8-85ef-589447085239",
-          "path": "research/challenge-8/task-history/select-callee-r21/FRACTIONAL-FINGERPRINT-EVIDENCE.json",
-          "sha256": "e001b299c13fd7d9e2d54d6718e8f472c9bbb58273ab52a4bbaceddcf0d7dbaf"
+          "path": "research/challenge-8/task-history/select-callee-r23/HISTORICAL-R20-R21-CLAIMS.json",
+          "sha256": "4c3469f63e38e743de94fc96f06320234a8442aaa8d08cc59625dc4b0044939e"
         }
       ]
     },
@@ -113,9 +64,20 @@
           "sha256": "292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R23 739f982d: fingerprint record reports COMPLETE, complete=true, accepted/proof_credit/body_proof_run=false; detailed row binding pending.",
+      "evidence": [
+        {
+          "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+          "path": "research/challenge-8/task-history/select-callee-r23/FINGERPRINT-739F982D-ROOT.json",
+          "sha256": "89f2a9e73f12f92e74ba7ffabc40fcd7d53f4735892b7bb78ee0c15334ed3b0d"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher for fingerprint 739f982d: ack event before any checkpoint change; Brief terminal evidence, reviewed consumed-field projection, fresh R22b row binding and proof candidate review; continue no-Cloud mutable preparation in same R23 window.",
+  "next_step": "Bounded fingerprint projection in flight; strict validator then exact R22b rows/proof review/Build1200. Mutable source chain: fix Cloud provider and finite type rewrite before review; P2 remains NOT_PUBLISHED.",
   "open": [
     "Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.",
     "Callee controls observed at intended obligations (4) and no-retained-half at l.213; targets not yet pinned/reviewed.",
@@ -148,21 +110,19 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "739f982d-078a-4ff5-9860-aabef75dc027"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:07:19Z",
     "main_deadline_utc": "2026-10-23T09:37:19Z",
-    "remaining_seconds": 3600,
+    "remaining_seconds": 3289,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 311,
     "t0": "2026-10-23T07:37:19Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
-  "updated_utc": "2026-10-23T07:46:46Z",
+  "updated_utc": "2026-10-23T07:59:48Z",
   "mission_queue": [
     {
       "obligation": "W1 repaired fractional callee + seven intended controls + normal/unwind/nested-Drop acceptance",
@@ -178,6 +138,14 @@
       "obligation": "W4 dormant body C5 168/191 count-five requalification",
       "reason": "Choose next after callee acceptance/linkage; avoid premature summary or body admission.",
       "state": "WAIT_CALLEE_ACCEPTANCE"
+    }
+  ],
+  "watcher_events": [
+    {
+      "job_id": "e73320a0-dbde-4a57-845b-3fe4145a5319",
+      "event_id": "54e56200-92b7-474e-b5c6-5ad9c146834c",
+      "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+      "ack_mode": "CONTINUE_EXISTING_WINDOW"
     }
   ]
 }

@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "fafd4b217aac8d64aac306872da4e1e314b7e157",
+  "baseline_commit": "aba85b2ddda092314cec0cf27acaefc70edc82c9",
+  "candidate_tree": "883eb965303b4633c888715196d16227fe85a874",
+  "spec_sha256": "be670ccffe0c4d9a691a1730bfad80388dab20b7782bf21f8f5590b977166101",
+  "packet_sha256": "401d8b8bce71cfd141c0034658778808ca8a24dafdd54a22d9949648cf4bc00c",
+  "diff_sha256": "c9ab1573908aa0df812afc059811b85f19312daa88a459e597ca9774f7270404",
+  "decision": "GO_WITH_NITS",
+  "scope": "bounded local Brief consumed-field projection; no proof or admission credit",
+  "verified": [
+    "review check matched the exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "request selector echoes require exact keys/types/values; page offsets and next offsets require exact integer types and valid progression",
+    "container selected_kind and exact nonnegative child_count are checked on every page and kept stable; total returned rows must equal child_count",
+    "nested object/array parent descriptors require exact nonnegative child_count matching the selected child container",
+    "a page with next_offset must report complete=false; terminal page must report complete=true",
+    "array pointer indexes must be canonical decimal strings; duplicate and noncontiguous indexes are rejected",
+    "consumed scalar kind and Python value type are checked; partial or incomplete scalars are refused without string continuation",
+    "RECORD_SPEC preserves the consumed variant inventory, snapshot/source map inventories, required scalar fields, and the omitted-field receipt; unchanged strict fingerprint_to_pins/validate_pins remain pinned"
+  ],
+  "nits": [
+    "The eight synthetic regression tests are reported passing but were not executed during this review, per the packet instruction not to execute packet source.",
+    "No live projection with this reader version or production request-savings measurement has been established; confirm actual Brief kind labels through the authorized read-only path. Any earlier projection remains attributable to its actual reader version and receipt, not this review."
+  ],
+  "not_run": [
+    "synthetic tests (inspected only)",
+    "live Brief protocol/projection and production request-savings measurement",
+    "Cloud, raw evidence, compiler, verifier, and proof work"
+  ],
+  "proof_credit": 0
+}

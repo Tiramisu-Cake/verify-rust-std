@@ -48,10 +48,10 @@ Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WIN
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · HANDOFF**
-Updated: 2026-10-23T07:46:46Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
-Active Build IDs: 739f982d-078a-4ff5-9860-aabef75dc027; unresolved: none recorded.
+**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · ACTIVE**
+Updated: 2026-10-23T07:59:48Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 311s spent, 0s retired, 3289s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
-Next: Watcher for fingerprint 739f982d: ack event before any checkpoint change; Brief terminal evidence, reviewed consumed-field projection, fresh R22b row binding and proof candidate review; continue no-Cloud mutable preparation in same R23 window.
+Next: Bounded fingerprint projection in flight; strict validator then exact R22b rows/proof review/Build1200. Mutable source chain: fix Cloud provider and finite type rewrite before review; P2 remains NOT_PUBLISHED.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

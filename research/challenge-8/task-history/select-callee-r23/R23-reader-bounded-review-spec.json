@@ -1,0 +1,24 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "395533a54da8495af70ae68e9e5425a10e3d2e84",
+  "candidate_commit": "aba85b2ddda092314cec0cf27acaefc70edc82c9",
+  "defect": "Eliminate unused long-string continuation feature: refuse any partial/incomplete scalar; validate scalar kind. Container pagination only, exact selector/type echo retained.",
+  "applicability": "Local Brief client projection only, no Cloud proof helper/validator/runner changes; emitted JSON is explicitly partial record plus receipt.",
+  "invariants": [
+    "Every consumed value comes from exact Brief response bound to build/file/SHA/index/archive; no inferred or substituted values.",
+    "Use only returned pagination offsets/value starts, reject missing/malformed/inexact/identity drift; preserve request IDs/coverage.",
+    "Projected record must pass unchanged fingerprint_to_pins and validate_pins; omission list explicitly declares unread branches."
+  ],
+  "controls": [
+    "7 synthetic tests passed, partial/incomplete strings and wrong scalar kind refused; unchanged pin validator accepts complete projected record."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Bounded consumed-field reader rejects partial strings; any such field needs narrower/manual Brief observation."
+  ]
+}
