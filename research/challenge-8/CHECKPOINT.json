@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "c6ad376eecd1803efa816fff569c22a1a69465665ad95d724c0c25487470b370"
+      "sha256": "ef08702ae9f3bb7b5898bc3a9259ab0cc266b3d3d9f607f1a375efb5c2be23bb"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-FIRST-OBSERVATIONS.json",
-        "sha256": "a87220c8b96dd9937829371b7fb022a0da37ebf65dbf85bc95021971ac91ae30"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-api-review.json",
+        "sha256": "3a4e314371ec4862130f003afbf99bbbe28cbf0ddebcc54dfc362fd02c77ecba"
       }
     ],
-    "summary": "W4refresh API arity fiximplemented/unbuilt; freshsource/MIR stillpending. P2 PUBLISHED."
+    "summary": "W4refresh4tuple fix reviewedGO/unbuilt; freshcapture stillpending. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "c6ad376eecd1803efa816fff569c22a1a69465665ad95d724c0c25487470b370"
+    "sha256": "ef08702ae9f3bb7b5898bc3a9259ab0cc266b3d3d9f607f1a375efb5c2be23bb"
   },
   "brief_observation_refs": [
     {
@@ -1116,8 +1116,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review refresh4tuple/stagefix; full1200freshW4capture thenchecked8constlinkage/C5.",
-  "next_step": "Review refresh4tuple/stagefix; full1200freshW4capture thenchecked8constlinkage/C5.",
+  "next": "Publishffc3725; full1200freshW4capture thenBrief/checked8constlinkage/C5.",
+  "next_step": "Publishffc3725; full1200freshW4capture thenBrief/checked8constlinkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1232,7 +1232,27 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T22:59:52Z",
+  "updated_utc": "2026-10-23T23:02:24Z",
+  "w4_api_candidate": {
+    "accepted": false,
+    "body_proof_run": false,
+    "call_linkage": false,
+    "candidate": "ffc37256f396ca6edd40108affc6f23d8feff367",
+    "helper_sha256": "8f3c8bddd385754aeaa4b784f3273a56e6af2f5356658c4df3d50f7c519f812d",
+    "mode_sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-API-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "8730b661f487d59eecd08a78d9dc94b8baa99f3340ddadc504fc58de713f0fca",
+    "proof_credit": 0,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-w4-api-review.json",
+    "review_sha256": "3a4e314371ec4862130f003afbf99bbbe28cbf0ddebcc54dfc362fd02c77ecba",
+    "runtime_closure": {
+      "bytes": 3339985,
+      "entries": 148,
+      "sha256": "8853229099727754144b21f8984925a81f1e8834db970a9d3933e5c829982cc6"
+    },
+    "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
+    "state": "REVIEWED_UNBUILT"
+  },
   "w4_capture_build": {
     "accepted": false,
     "accounted": true,
@@ -1288,7 +1308,7 @@
       "sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
     },
     "proof_credit": 0,
-    "state": "API_FIX_IMPLEMENTED_UNBUILT",
+    "state": "API_FIX_REVIEWED_UNBUILT",
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
   },

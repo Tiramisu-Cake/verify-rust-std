@@ -1,0 +1,40 @@
+{
+  "schema": "select-r24-w4-capture-api-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_ONE_FULL_1200S_W4_SOURCE_MIR_CAPTURE_BUILD",
+  "baseline_commit": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6",
+  "candidate_commit": "ffc37256f396ca6edd40108affc6f23d8feff367",
+  "candidate_tree": "92ff4ab2198c164062f0f3a5a0c3ee751cb0dd19",
+  "spec_sha256": "b14b9108e2c87b12cee4c932dd41d05e29156bca7764087d6ca0e495c8225bc5",
+  "packet_sha256": "538842e60d61bfc1efba397e1eb6679147d20154edb425746150cb3716be85e2",
+  "diff_sha256": "8ef85330936449066b251f914968903c577cf74c4a494f4ea12bb5054abad87d",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-capture-review.json",
+      "sha256": "31c0b92c89d5b76e8a7389cb48b04a3e4e5be59beea1ae180250133c3a3ab202"
+    }
+  ],
+  "verified": [
+    "Exact candidate, tree, packet and eight dependency hashes match the handoff; the prior W4 capture review hash also matches.",
+    "The only production-code delta is the W4 capture helper and its shell pin. The helper now validates the pinned refresh_callback_coordinates result is a four-tuple, checks target sort4_stable, verifies verified/original are bytes and metadata is a dict, and then unpacks the four values correctly.",
+    "The exact pinned a1-actual-body-r21.py API returns (name, verified, original, metadata); the new call matches that contract. The validated pair still flows through the existing ghost-strip identity, exact source/body counts, and ordered comparator-coordinate checks.",
+    "The helper sets and persists failed_stage=source-preparation before invoking the source constructor, so constructor/API failures are attributed there. The existing BaseException handler records partial artifacts and exception details and re-raises the original exception.",
+    "The runner changes only the helper SHA pin. Capture mode, published P2/const qualification pins, R24/R21 route, native tool hashes, source/profile pins, default-off route and no-verifier capture branch are unchanged."
+  ],
+  "findings": [],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Independently verified all eight declared dependency snapshots and the prior-review record hash.",
+    "Reviewed the submitted isolated tests statically. The packet reports tests for the actual pinned four-tuple API, invalid tuple/name/types, callback BaseException snapshots, and extracted-shell routing. I did not rerun tests or execute source preparation or native tools locally."
+  ],
+  "limitations": [
+    "This GO authorizes only one full 1200-second W4 capture Build under the same authorized R24 owner/lane/phase/ledger. It does not authorize body proof, typed selector linkage, caller acceptance, publication or proof credit.",
+    "Prior Build aeff12eb-0836-4b79-86ae-7ef54c2521d4 remains incomplete and accounted; its Brief root audit reports evidence_complete=false despite a receipt header marked complete. Its failure and accounting are not overwritten or credited.",
+    "Fresh W4 source/MIR evidence remains unrun in this candidate. Typed call linkage at eight selector sites remains UNKNOWN, and full caller/callee proof obligations remain open."
+  ],
+  "proof_credit": 0
+}
