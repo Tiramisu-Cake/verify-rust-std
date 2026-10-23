@@ -75,6 +75,7 @@ SNAPSHOT_NAMES = ('unit', *(f'body-{index}' for index in range(9)))
 REFUSAL_MARKER = (
     'SORT4-ACTUAL-NESTED-FINGERPRINT: diagnostic refusal: '
     'snapshot complete; no proof rule admitted')
+NATIVE_REFUSAL_LINE = 'Fatal error: exception Failure("' + REFUSAL_MARKER + '")'
 CAPTURE_LOG = 'nine-body-fingerprint-refusal.log'
 SUMMARY_REL = Path('cases/r24-mut-capture/MUT-CAPTURE-SUMMARY.json')
 BLOCKED_OPT_INS = {
@@ -490,7 +491,8 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
             log_text = log.read_bytes().decode('utf-8', errors='strict')
         except (OSError, UnicodeDecodeError):
             log_text = ''
-        if log_text.splitlines().count(REFUSAL_MARKER) != 1:
+        if (log_text.splitlines().count(NATIVE_REFUSAL_LINE) != 1 or
+                log_text.count(REFUSAL_MARKER) != 1):
             errors.append('native mode-9 refusal marker is missing, duplicated, or malformed')
         try:
             emitted_errors = [match for line in log_text.splitlines()
@@ -499,7 +501,8 @@ def _capture_errors(capture, source: dict[str, Any], case: Path,
             emitted_errors = ['diagnostic error matcher unavailable']
         if emitted_errors:
             errors.append('native mode-9 log contains verifier error diagnostics')
-        if any(line.startswith('Fatal error:') for line in log_text.splitlines()):
+        if any(line.startswith('Fatal error:') and line != NATIVE_REFUSAL_LINE
+               for line in log_text.splitlines()):
             errors.append('native mode-9 log contains a fatal/native exception')
         snapshots = fingerprint.get('snapshots')
         if not isinstance(snapshots, dict) or set(snapshots) != set(SNAPSHOT_NAMES):

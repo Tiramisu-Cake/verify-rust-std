@@ -108,3 +108,15 @@ and assert tx<assume<forget<actual after insertion. Retain actualhelper tail,
 source body/signature/ghoststrip/inventory checks and unchanged expected/native
 9body order gates. Do not relax the checker or expected order. Requalify fresh
 source/MIR/snapshot pins in Cloud; source-only/no proof or publication.
+
+Third capture reached all10 snapshots. Exact bounded Brief line11 confirms
+canonical native transport: Fatal error: exception Failure("SORT4-ACTUAL-NESTED-FINGERPRINT: diagnostic refusal: snapshot complete; no proof rule admitted").
+The frozen native mode9 success path calls reject/failwith, so the adapter's
+bare-marker fixture and blanket fatal rejection misclassify the intended
+diagnostic. Before edit: recognize only that whole canonical native line,
+exactly once and exactly one marker occurrence anywhere. Bare, malformed,
+alternate exception, embedded/duplicate marker and unexpectedfatal/locatederror
+remain refusals. Keep all source/normal/readonly/refinement/order/snapshot/exit2
+checks. This classifies a diagnostic source capture, never a formal proof or
+checker exemption; native checker/probe and bodyproof/accepted/credit remain
+unchanged. Preserve old failed verdict and require review/fresh full1200Cloud.

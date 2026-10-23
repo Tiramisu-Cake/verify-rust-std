@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "a3bb91c55d6b106915dc10a9a02f34ba9851091b6ec696c4b93c4ff885ab845a"
+      "sha256": "4b70eab8cdf88c48ce21294f72ea57038f6c75d28cff3658e5253ab511000a86"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -35,11 +35,11 @@
     "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-SECOND-OBSERVATIONS.json",
-        "sha256": "38207b634184c8ca083161a24ccf443606e96f32f74e92ba33bce18920c9b5ff"
+        "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-THIRD-OBSERVATIONS.json",
+        "sha256": "65fdd1aba252e6920ae173dcde2b3ed6f6ee61c57161e9334434af090016c167"
       }
     ],
-    "summary": "Await mutable capture Brief; P2 remains NOT_PUBLISHED."
+    "summary": "Capture parser misreads expected native Failure wrapper."
   },
   "brief_observation_refs": [
     {
@@ -121,6 +121,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/48cbe2d576674bc9580592b046d729152a475b1f35ecfa36c61bcfe42f92a903.json",
       "sha256": "48cbe2d576674bc9580592b046d729152a475b1f35ecfa36c61bcfe42f92a903"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/505b2971a50d832f5c2d2562162bef74da9f82d2314524be8bc932a7eaaa93c2.json",
+      "sha256": "505b2971a50d832f5c2d2562162bef74da9f82d2314524be8bc932a7eaaa93c2"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/50c02be1fe9f68bb9030f7d9c43a3d2c183996d2943ddc168027d52d9b8fa0f1.json",
@@ -227,8 +231,16 @@
       "sha256": "bdfbf8a11f73773eda296696c99dd83b9ce758a8245fb4e253e86db7addf8c50"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/c1a66e7ad3c18ae1fa173aec50418becb25a1bc0134281a43f700d9870aa7df7.json",
+      "sha256": "c1a66e7ad3c18ae1fa173aec50418becb25a1bc0134281a43f700d9870aa7df7"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c279dd5a731eae6fdd7a5ffbe648bd8d058e840c25d58e2b958a202157614102.json",
       "sha256": "c279dd5a731eae6fdd7a5ffbe648bd8d058e840c25d58e2b958a202157614102"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/c723b519358ebe6758ba4a6f12a378ccc48fe756f0909d0bbe24172419fbc64f.json",
+      "sha256": "c723b519358ebe6758ba4a6f12a378ccc48fe756f0909d0bbe24172419fbc64f"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486.json",
@@ -261,6 +273,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/f55275d63f18aee3aaa70876c1ad0cee261805bd2ca6270203e3c295c4dc4a0d.json",
       "sha256": "f55275d63f18aee3aaa70876c1ad0cee261805bd2ca6270203e3c295c4dc4a0d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/f6ecabed4774ad7a59dffcf81a1547c443054d2d1caed5127e3b410cd36ef55a.json",
+      "sha256": "f6ecabed4774ad7a59dffcf81a1547c443054d2d1caed5127e3b410cd36ef55a"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/fd4bd3247d73620f0ffcd9491b3a7d00b1ee1fdd8cf07278c038ab0846d0d1a7.json",
@@ -469,23 +485,24 @@
     {
       "obligation": "Fresh exact mutable P2 source/MIR capture",
       "reason": "All8const matrix observations qualified; P2 source-only17142 chain needs authorizedCloud capture, freshnormal/readonly+10snapshots before any mutableadmission.",
-      "state": "CAPTURE_BUILD_ACTIVE"
+      "state": "NATIVE_REFUSAL_TRANSPORT_FIX_PENDING_REVIEW"
     }
   ],
   "mutable_capture_build": {
-    "accounted": false,
+    "accounted": true,
     "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
+    "build_seconds": 338,
     "candidate": "0a853e89841a3f81135e831d03d49951ef0e354a",
     "config_sha256": "ee6f0964e52db7eacb7a4e205a91a1f3a4690e251c423bcdf0bfee4b1cd38f00",
     "dispatch_token": "dispatch-a6da8ae24b324cc1bdfc45769f2ede32",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "ALL_TEN_SNAPSHOTS_SOURCE_REPORTED_CANONICAL_REFUSAL_PARSER_MISMATCH",
     "schema": "select-r24-mut-capture-submission-v1",
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_capture_build_history": [
@@ -537,7 +554,7 @@
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "e51501cd897ed7f1d5c044a82f5b428126583e521a7bc54dbf3ea07fa47e12d9",
-    "state": "CAPTURE_BUILD_ACTIVE"
+    "state": "FAILED_CAPTURE_CLASSIFIER_ACCOUNTED"
   },
   "mutable_capture_candidate_history": [
     {
@@ -603,6 +620,18 @@
       "defect": "Production located-error regex lacks MULTILINE; whole-log findall misses marker-first later errors. Fake wrongly added re.M.",
       "proof_credit": 0
     },
+    "native_refusal_transport_fix": {
+      "alternatives_rejected": [
+        "Generic fatal/exception waiver or substring-only marker match",
+        "Change native proof/checker/diagnostic implementation to suit erroneous fixture",
+        "Rewrite historical capture verdict as complete"
+      ],
+      "assurance": "IMPLEMENTED_STATIC_SYNTHETIC_13_PLUS_4_PASS_PENDING_REVIEW",
+      "choice": "Recognize only exact canonical native Failure line for this fixed capture profile, exactlyonce, and exactlyone diagnosticpayload occurrence. Bare marker, malformed/different wrapper, duplicate payload, unexpectedfatal and all locatederrors refuse. Preserve source/refinement/9body/10snapshot/exit2 integrity gates; no native/checker/calleeproof change or credit.",
+      "controls": "Synthetic native-wrapper success plus bare/malformed/alternate exception/duplicate/embedded/locatederror/fatal mixture refusal; current source gates retained. Fresh full1200Cloud after review.",
+      "defect": "Frozen native probe intentionally failwiths exact snapshot-complete diagnostic. Brief exactline11 confirms canonical Fatal error: exception Failure wrapper; adapter falsely expects bareline and treats intended diagnostic transport as unexpectedfatal.",
+      "proof_credit": 0
+    },
     "owner_lookup_fix": {
       "assurance": "REVIEW_GO_STATIC_AND_ISOLATED_PASS_UNBUILT",
       "choice": "Resolve pinned owner through existing module loader and reuse same checked ghost-strip function for all3sites. Require callable strip_ghost. Update exact nested-writer hash in capture adapter. No fixture/runtime/contract/gate relaxation.",
@@ -627,7 +656,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "ACK first, then Brief source/MIR pins and snapshot refusal.",
+  "next": "Review canonical native refusal parser; full1200 capture.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -672,17 +701,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "49b3e3d5-27c5-4d5b-999a-e83b470685f3"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 18561,
+    "remaining_seconds": 18223,
     "retired_seconds": 0,
-    "spent_seconds": 3039,
+    "spent_seconds": 3377,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -694,12 +721,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:58:16Z",
+  "updated_utc": "2026-10-23T15:08:56Z",
   "watcher_handoff": {
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "acknowledged_event_id": "6a1f8ed9-3e5a-4c98-bb68-c79c933648ef",
+    "acknowledged_job_id": "6776940a-a976-4d9c-90a0-116b452d86cd",
     "build_id": "49b3e3d5-27c5-4d5b-999a-e83b470685f3",
-    "checkpoint_frozen_after_arm": true,
+    "checkpoint_frozen_after_arm": false,
     "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
     "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
     "store": "/root/.local/state/smallsort-watch-select-r24",

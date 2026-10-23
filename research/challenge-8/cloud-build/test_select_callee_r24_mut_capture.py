@@ -231,10 +231,20 @@ class FakeCapture:
                 continue
             data = ('marshal:' + name).encode()
             (case / f'actual-nested-9-{name}.marshal').write_bytes(data)
-        marker = TARGET.REFUSAL_MARKER
+        marker = TARGET.NATIVE_REFUSAL_LINE
         if self.mode == 'wrong-marker':
             marker = 'wrong refusal marker'
         if self.mode == 'duplicate-marker':
+            marker += '\n' + TARGET.NATIVE_REFUSAL_LINE
+        if self.mode == 'bare-marker':
+            marker = TARGET.REFUSAL_MARKER
+        if self.mode == 'alternate-exception':
+            marker = TARGET.NATIVE_REFUSAL_LINE.replace('Failure(', 'Invalid_argument(')
+        if self.mode == 'suffix-marker':
+            marker += ' appended text'
+        if self.mode == 'embedded-marker':
+            marker = 'debug: ' + marker
+        if self.mode == 'mixed-markers':
             marker += '\n' + TARGET.REFUSAL_MARKER
         log_text = marker + '\n'
         if self.mode == 'fatal-with-refusal':
@@ -488,7 +498,8 @@ class CaptureAdapterTests(unittest.TestCase):
         for mode in ('missing-snapshot', 'wrong-marker', 'duplicate-marker', 'wrong-probe',
                      'fingerprint-source-false', 'fingerprint-source-null',
                      'fingerprint-source-absent', 'fatal-with-refusal',
-                     'error-with-refusal', 'post-source-drift'):
+                     'error-with-refusal', 'post-source-drift', 'bare-marker',
+                     'alternate-exception', 'suffix-marker', 'embedded-marker', 'mixed-markers'):
             self.evidence = self.root / ('ev-' + mode)
             self.evidence.mkdir()
             with self.subTest(mode=mode):

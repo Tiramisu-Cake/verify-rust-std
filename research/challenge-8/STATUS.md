@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
-- Updated: 2026-10-23T14:58:16Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
+- Updated: 2026-10-23T15:08:56Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 21600s total; 3039s spent; 0s retired; 18561s remaining including active reservations
-- Active Build IDs: 49b3e3d5-27c5-4d5b-999a-e83b470685f3
+- Budget: 21600s total; 3377s spent; 0s retired; 18223s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,8 +20,8 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Await mutable capture Brief; P2 remains NOT_PUBLISHED. [Build `49b3e3d5-27c5-4d5b-999a-e83b470685f3`]
-- [research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-SECOND-OBSERVATIONS.json](task-history/select-callee-r24/MUT-CAPTURE-SECOND-OBSERVATIONS.json) SHA `38207b634184c8ca083161a24ccf443606e96f32f74e92ba33bce18920c9b5ff`
+Capture parser misreads expected native Failure wrapper. [Build `49b3e3d5-27c5-4d5b-999a-e83b470685f3`]
+- [research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-THIRD-OBSERVATIONS.json](task-history/select-callee-r24/MUT-CAPTURE-THIRD-OBSERVATIONS.json) SHA `65fdd1aba252e6920ae173dcde2b3ed6f6ee61c57161e9334434af090016c167`
 
 ## Next
 Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.
@@ -29,4 +29,4 @@ Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud captur
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `36a0c91750b152d3cd2fedf1aa1a153f5620fa116365a7d4275b63cc1798d852`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a3bb91c55d6b106915dc10a9a02f34ba9851091b6ec696c4b93c4ff885ab845a`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `4b70eab8cdf88c48ce21294f72ea57038f6c75d28cff3658e5253ab511000a86`
