@@ -12,12 +12,12 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "summary": "Fresh pins bound (72a38f11 complete); proof 7e23e945 pending.",
+    "summary": "Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.",
     "evidence": [
       {
-        "build_id": "cfc83426-d82a-4cb7-95f7-24ee94255952",
-        "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-MERGE-EVIDENCE.json",
-        "sha256": "a649849a4b3418171c873b3db026a1de1914bc3b5b8c3c9fe09ac6d77385d910"
+        "build_id": "7e23e945-9190-4928-b0e6-67f2cd3e31ec",
+        "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json",
+        "sha256": "292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e"
       }
     ]
   },
@@ -102,15 +102,25 @@
           "sha256": "a649849a4b3418171c873b3db026a1de1914bc3b5b8c3c9fe09ac6d77385d910"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R22 7e23e945 (fresh pins): all rows admitted; positive passes callee, merge, full assert, final calls; fails only end leak of 2 MaybeUninit_pointer_own; callee controls stable. credit0.",
+      "evidence": [
+        {
+          "build_id": "7e23e945-9190-4928-b0e6-67f2cd3e31ec",
+          "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json",
+          "sha256": "292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e"
+        }
+      ]
     }
   ],
-  "next_step": "Wait 7e23e945 (dbaf41e6, t1200); read positive and 7 controls via Brief.",
+  "next_step": "LEAK-REPAIR-NEXT: bind constructor chunks, ghost open; fingerprint, pins, proof.",
   "open": [
-    "Actual fractional callee positive and normal/unwind/nested-Drop matrix remain unaccepted; *mut T/generic P2 remains open.",
-    "Network P1 accepted for integration only, P3 grammar decided; no mutable/generic callee summary or proof credit.",
-    "Corrected candidate288fa7cd reviewed GO,113parts; compiler/proof UNKNOWN after retry124. Callee diagnostic targets unpinned.",
-    "Inactive body lane168/191, count5/5-8-4 gates prepared/reviewed; requires actual callee acceptance/linkage and control requalification.",
-    "P2 interface NOT_PUBLISHED (select-callee-r22/P2-INTERFACE.json); *mut gate inventory prepared, source route next."
+    "Fractional positive: end leak of constructor pointer-own chunks (LEAK-REPAIR-NEXT); omit-* target at lib.rsspec:462/463 unpinned.",
+    "Callee controls observed at intended obligations (4) and no-retained-half at l.213; targets not yet pinned/reviewed.",
+    "P2 *mut: interface NOT_PUBLISHED; writer+gate inventory prepared; translator mut gates open.",
+    "Inactive body lane168/191 waits for callee acceptance/linkage and count-five requalification."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R22",
@@ -133,9 +143,7 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "7e23e945-9190-4928-b0e6-67f2cd3e31ec"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T00:55:06Z",
     "main_deadline_utc": "2026-10-23T00:25:06Z",
@@ -145,7 +153,7 @@
     "t0": "2026-10-22T22:25:06Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-22T23:51:00Z"
+  "updated_utc": "2026-10-23T00:03:00Z"
 }

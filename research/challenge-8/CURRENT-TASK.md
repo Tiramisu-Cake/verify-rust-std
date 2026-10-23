@@ -47,10 +47,10 @@ Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, th
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · HANDOFF**
-Updated: 2026-10-22T23:51:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · ACTIVE**
+Updated: 2026-10-23T00:03:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 967s spent, 0s retired, 2633s remaining including reservations.
-Active Build IDs: 7e23e945-9190-4928-b0e6-67f2cd3e31ec; unresolved: none recorded.
-Blocker: Fresh pins bound (72a38f11 complete); proof 7e23e945 pending.
-Next: Wait 7e23e945 (dbaf41e6, t1200); read positive and 7 controls via Brief.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
+Next: LEAK-REPAIR-NEXT: bind constructor chunks, ghost open; fingerprint, pins, proof.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

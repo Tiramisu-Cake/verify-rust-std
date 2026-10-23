@@ -1,0 +1,75 @@
+{
+  "schema": "select-r22-fractional-proof-evidence-v1",
+  "build_id": "7e23e945-9190-4928-b0e6-67f2cd3e31ec",
+  "source_sha": "dbaf41e612cc7836c58704bd80466e90e21eafa7",
+  "timeout_seconds": 1200,
+  "assurance": "SOURCE_REPORTED",
+  "proof_credit": 0,
+  "accepted": false,
+  "classified_record": {
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "sha256": "631f7ae2d379c260311b930a7d833d6b699aaf38d739585df39606ca9d306dc4",
+    "classification": "R21_FRACTIONAL_CLASSIFIED_PROOF_INCOMPLETE",
+    "run_exit": 4
+  },
+  "rows": {
+    "positive": {
+      "classification": "POSITIVE_FAILED",
+      "log_sha256": "75f8d3dc3303e1a9093f468efc8a5fd24365c3c825db1318d90e069ff14c8df4",
+      "first_error_line": 585,
+      "request_ids": [
+        "01d812765723",
+        "2c627fd73b9d",
+        "e1e36c8df368"
+      ],
+      "diagnostic": "verified/lib.rs(230,1-2): error: Function leaks heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, __result0), std::mem::MaybeUninit_pointer_own(Element_typeid)(t, __result)",
+      "trace": "Executes line 212 merge, 213 full assert, final statement line 228 (wrapper select + assume_init calls verified), return at 230; fails only at leak check (log lines 573-584)."
+    },
+    "no-retained-half": {
+      "classification": "CONTROL_FAILURE_TARGET_MISMATCH",
+      "log_sha256": "e306b9ac392a1e7550a464bd88afa9a2ce99df5d63855e03ca6503537b60670c",
+      "request_id": "7dd68fbaf307",
+      "diagnostic": "verified/lib.rs(213,39-42): error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)"
+    },
+    "omit-selected-own": {
+      "classification": "CONTROL_FAILURE_TARGET_MISMATCH",
+      "log_sha256": "631c929708bbdac2958d443bf2459468d912846224878a213d4d980920edb1fd",
+      "request_id": "7f0978ff407a",
+      "diagnostic": "bin/rust/std/lib.rsspec(462,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))"
+    },
+    "omit-unselected-own": {
+      "classification": "CONTROL_FAILURE_TARGET_MISMATCH",
+      "log_sha256": "aa79bfdad8e47746b439acc48272752ff0c5e449a5dc77bc2d408ccb4ce84af2",
+      "request_id": "c19115ff0334",
+      "diagnostic": "bin/rust/std/lib.rsspec(463,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))"
+    },
+    "callee-false-normal": {
+      "classification": "TARGET_UNPINNED",
+      "log_sha256": "f6869f79b8766a9d5e6cfd72ebcc0d1350cae75447d5887b07ea930c04f19c8d",
+      "request_id": "456f003ff12c",
+      "diagnostic": "verified/lib.rs(126,53-58): error: Cannot prove condition. (Cannot prove false.)"
+    },
+    "callee-owner-duplicate": {
+      "classification": "TARGET_UNPINNED",
+      "log_sha256": "8f2dd9946ef848dacb74f22c4e61261a295a8502374e0f2d50d9b5dc63cc6830",
+      "request_id": "ab420ba87a04",
+      "diagnostic": "verified/lib.rs(126,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)"
+    },
+    "callee-owner-loss": {
+      "classification": "TARGET_UNPINNED",
+      "log_sha256": "7a69a4c979a958bba52f703f72b59e3226c38dceb0e1e385b71a039ca9fa3af2",
+      "request_id": "a741bf0c56b5",
+      "diagnostic": "verified/lib.rs(133,1-2): error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)"
+    },
+    "callee-thread-duplicate": {
+      "classification": "TARGET_UNPINNED",
+      "log_sha256": "a7dab8758822ac28315c301ae60b3052cec64ed7f99cacfdf98ef4c5f6321bf6",
+      "request_id": "722d1332183c",
+      "diagnostic": "verified/lib.rs(126,27-39): error: No matching heap chunks: thread_token(tid)"
+    }
+  },
+  "observation": "Fresh pins admitted every row (no certificate refusal). Positive now passes the callee half contract, the merge_fractions repair, the full payload assert and the final select/assume_init calls, and fails only the function-end leak check on two pointer-value ownership chunks. Callee controls repeat their cfc83426 diagnostics. no-retained-half fails at the full payload assert (intended obligation). omit-selected/unselected fail at the wrapper-select lemma precondition in lib.rsspec, not at the verified/lib.rs final-select site that the classifier pins.",
+  "static_diagnosis": "MaybeUninit_pointer_own<Element>(t,v) is a checked definitional predicate (lib.rsspec:440) owning no pointee: none=>true, some(p)=>raw_ptr_own(t,p) which is true. The leaked chunks are pointer-value ownership not consumed by the end of the body. Inference about their origin (constructor results vs. re-closed wrappers) is UNKNOWN until the source lines are bound.",
+  "actual_fractional_callee_result": "POSITIVE_FAILED (leak check only)",
+  "proof_credit_reason": "positive not verified; matrix incomplete"
+}
