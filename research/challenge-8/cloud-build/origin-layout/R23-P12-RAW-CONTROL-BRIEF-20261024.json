@@ -1,0 +1,123 @@
+{
+  "schema": "r23-p12-raw-control-brief-v1",
+  "build": {
+    "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_claim_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 1,
+    "evidence_complete_source_claim": true,
+    "tool_build_milestones_source_claim": {
+      "exporter": 0,
+      "translator": 0,
+      "decoder": 0,
+      "refiner": 0
+    },
+    "proof_audit_source_claim": {
+      "proof_attempted": true,
+      "compiler_classification": "PASS",
+      "accepted": false,
+      "proof_credit": false,
+      "independent_credit": false,
+      "diagnostic_complete": false,
+      "path": "proof-audit.json",
+      "sha256": "1190b5973bb079cf92a312a806dce245c4de37a9fe6b103327f189ecde87938b"
+    },
+    "interpretation": "P12 source claims show tool builds exit 0 and a proof attempt, but the run is not accepted and no proof or independent credit is recorded."
+  },
+  "brief_identity": {
+    "archive_sha256": "0143b8b613aab7adbf71082e16802425747819d720d29ec2ac4b66bb89914480",
+    "index_sha256": "f6d6986e6318e389b18bb08e8afc2fe333104ac389222cc2c586962a954e7585",
+    "report_schema": "smallsort-evidence-index-v8",
+    "catalogue_complete": true,
+    "catalogue_files": 4541,
+    "retained_content_files": 633,
+    "retained_content_bytes": 2093921,
+    "source_scan_bytes": 8388608,
+    "availability_counts": {
+      "PROJECTED": 627,
+      "CONTENT_BUDGET_EXCEEDED": 646,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "SCAN_BUDGET_EXCEEDED": 1636,
+      "UNSUPPORTED_FILE_TYPE": 1626
+    },
+    "catalogue_selector": "unsupported_index_projection",
+    "coverage_limit": "Catalogue is complete; per-source projection remains bounded/incomplete. All classifications are source claims; parser_input_binding is NOT_ESTABLISHED and causal_status is UNKNOWN."
+  },
+  "index_control": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/cases/unsupported_index_projection/classification.json",
+    "file_id": "b40b7c3a4acafb081a2de7d11f8ef298c1596c512ccbc4011c8352793e1643ac",
+    "sha256": "7c0cecacda600c6b790d167e8bdaf344b4e68d1f963c2abf0d01ad53cdce051c",
+    "catalogue_status": "PROJECTED",
+    "catalogue_request_id_exposed": false,
+    "exact_targeted_requests": [
+      {
+        "request_id": "9b3e891c5efa2970f3b3d56752fce0dfc09ecbad5db86c4e9808623772211dd0",
+        "pointer": "",
+        "exact": true,
+        "complete": true
+      },
+      {
+        "request_id": "13b86a52d0edc5f72dbfb7e410ca5cd726fad931df1510ddbd7bd782e8938e95",
+        "pointer": "/stages",
+        "exact": true,
+        "complete": true
+      },
+      {
+        "request_id": "139f3dc9fc4b3b93072f84996ed8d2f22f3170072092a2b94cd9ac526281d2d5",
+        "pointer": "/target_binding",
+        "exact": true,
+        "complete": true
+      }
+    ],
+    "classification": "EXPECTED_REFINER_REFUSAL",
+    "matched": true,
+    "accepted": false,
+    "b2_achieved": false,
+    "proof_credit": false,
+    "reason": "exact refiner refusal matched the isolated function and command target",
+    "stages": {
+      "decode": 0,
+      "exporter": 0,
+      "refinement": 1,
+      "verifast": 2
+    },
+    "target_binding": {
+      "admitted": true,
+      "function": "r17_rawptr_control",
+      "function_context_present": true,
+      "exact_diagnostic_count": 1,
+      "diagnostic_files_count": 2,
+      "command_listing_present": true,
+      "cross_kind_listing_present": true,
+      "state_local_pair_listing_present": true,
+      "source_target_anchor": "let begin = &raw mut values[0]",
+      "source_target_line": 5,
+      "source_target_unique": true
+    },
+    "frontier": "The index case now reaches a source-classified, uniquely bound refiner refusal with a nonzero refinement stage; the P11 nonzero-refiner gate is satisfied."
+  },
+  "p11_comparison": {
+    "classification": "INCONCLUSIVE",
+    "matched": false,
+    "refinement_exit": 0,
+    "p12_classification": "EXPECTED_REFINER_REFUSAL",
+    "p12_matched": true,
+    "p12_refinement_exit": 1,
+    "interpretation": "P12 changed the index case result from an identical-body fast-path pass to the intended exact refiner refusal. P11 evidence remains historical and unchanged."
+  },
+  "source_claim_vs_credit": {
+    "source_classification_only": true,
+    "run_accepted": false,
+    "proof_attempted": true,
+    "proof_credit": false,
+    "independent_credit": false
+  },
+  "integrity": {
+    "brief_catalogue_and_targeted_service_only": true,
+    "raw_archive_or_full_log_downloaded": false,
+    "local_tool_or_proof_run": false,
+    "code_changes": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

@@ -322,7 +322,7 @@ index 86c298fc..3b470283 100644
 +    ownedNllCaptureUnattachedCount @13: UInt32;
  }
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 684d3f76..a646aae9 100644
+index 684d3f76..a04a352a 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -17,13 +17,7 @@
@@ -777,7 +777,7 @@ index 684d3f76..a646aae9 100644
 +                    let source_ty_cpn = source_ty_option.init_something();
 +                    Self::encode_ty(tcx, enc_ctx, source_ty, source_ty_cpn);
                      let ty_cpn = cast_data_cpn.init_ty();
-@@ -3118,2 +3316,133 @@ use rustc_span::RemapPathScopeComponents;
+@@ -3118,2 +3316,144 @@ use rustc_span::RemapPathScopeComponents;
              }
 +
 +            Self::attach_r23_slice_projection(tcx, enc_ctx, func, fn_call_data_cpn);
@@ -897,8 +897,19 @@ index 684d3f76..a646aae9 100644
 +                return Some("callee MIR terminator is not Return");
 +            }
 +            for statement in &block.statements {
++                if matches!(
++                    &statement.kind,
++                    mir::StatementKind::StorageLive(_) | mir::StatementKind::StorageDead(_)
++                ) {
++                    continue;
++                }
 +                let mir::StatementKind::Assign((lhs, rvalue)) = &statement.kind else {
-+                    return Some("callee MIR contains a non-assignment statement");
++                    return Some(match &statement.kind {
++                        mir::StatementKind::Nop => "callee MIR contains a Nop statement",
++                        mir::StatementKind::PlaceMention(..) => "callee MIR contains a PlaceMention statement",
++                        mir::StatementKind::FakeRead(..) => "callee MIR contains a FakeRead statement",
++                        _ => "callee MIR contains an unsupported non-assignment statement",
++                    });
 +                };
 +                if !lhs.projection.is_empty() {
 +                    return Some("callee MIR assignment does not target a bare local");
@@ -955,7 +966,7 @@ index 436a5f7a..3d651a0b 100644
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..5a14290a 100644
+index 9813a884..6b0a47ca 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -8,2 +8,7 @@ module DecoderAux = Decoder_aux
@@ -998,12 +1009,13 @@ index 9813a884..5a14290a 100644
      fn_specializer : string -> D.generic_arg list -> string * D.generic_arg list;
 +    r23_checked_slice_helper : BodyRd.t option;
    }
-@@ -1947,2 +1969,244 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1947,2 +1969,308 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 +  type r23_pure_slice_projection = {
 +    r23_projection_input : string;
 +    r23_projection_output : string;
 +    r23_projection_steps : string list;
++    r23_projection_trace : string list;
 +    r23_projection_local_count : int;
 +    r23_projection_local_mutabilities : string list;
 +    r23_projection_block_count : int;
@@ -1068,6 +1080,12 @@ index 9813a884..5a14290a 100644
 +    let local_ty id = match List.assoc_opt id local_types with
 +      | Some ty -> ty
 +      | None -> fail "projection operand or destination has no local declaration" in
++    let local_index id =
++      let rec find index = function
++        | [] -> fail "projection statement refers to an undeclared local"
++        | (candidate, _) :: rest ->
++            if candidate = id then index else find (index + 1) rest in
++      find 0 local_types in
 +    let input_local, output_local = match local_decls with
 +      | ret :: arg :: _ ->
 +          let ret_id = LocalDeclIdRd.name_get (LocalDeclRd.id_get ret)
@@ -1093,8 +1111,54 @@ index 9813a884..5a14290a 100644
 +    let provenance = ref [input_local] in
 +    let assigned = ref [] in
 +    let step_edges = ref [] in
-+    let steps = List.map (fun stmt ->
++    let statements = BasicBlockRd.statements_get_list block in
++    let storage_locals = List.fold_left (fun locals stmt ->
++      let id = match StatementKindRd.get (StatementRd.kind_get stmt) with
++        | StatementKindRd.StorageLive local
++        | StatementKindRd.StorageDead local ->
++            Some (LocalDeclIdRd.name_get local)
++        | _ -> None in
++      match id with
++      | Some id when not (List.mem id locals) -> id :: locals
++      | _ -> locals) [] statements in
++    List.iter (fun id ->
++      ignore (local_index id);
++      if id = input_local || id = output_local then
++        fail "storage markers target the receiver or return local";
++      if not (String.starts_with ~prefix:"raw-"
++          (r23_projection_type_key loc generic_bindings (local_ty id))) then
++        fail "storage markers target a non-pointer temporary") storage_locals;
++    let storage_states = ref (List.map (fun id -> id, false) storage_locals) in
++    let storage_started = ref [] in
++    let storage_ended = ref [] in
++    let steps = ref [] in
++    (* Locals with no storage markers are live for the whole body. For marked
++       temporaries, accept only one explicit, balanced Live/Dead pair. *)
++    let local_is_live id = match List.assoc_opt id !storage_states with
++      | Some live -> live
++      | None -> true in
++    let set_storage_live id live =
++      storage_states := List.map (fun (candidate, old_live) ->
++        candidate, if candidate = id then live else old_live) !storage_states in
++    let trace = List.map (fun stmt ->
 +      match StatementKindRd.get (StatementRd.kind_get stmt) with
++      | StatementKindRd.StorageLive local ->
++          let id = LocalDeclIdRd.name_get local in
++          if List.mem id !storage_started || local_is_live id then
++            fail "storage local has a duplicate or overlapping Live event";
++          storage_started := id :: !storage_started;
++          set_storage_live id true;
++          "storage-live:" ^ string_of_int (local_index id)
++      | StatementKindRd.StorageDead local ->
++          let id = LocalDeclIdRd.name_get local in
++          if not (List.mem id !storage_started) ||
++             List.mem id !storage_ended || not (local_is_live id) then
++            fail "storage local has an unmatched or overlapping Dead event";
++          if not (List.mem id !provenance) then
++            fail "storage local becomes dead before receiving a projection value";
++          storage_ended := id :: !storage_ended;
++          set_storage_live id false;
++          "storage-dead:" ^ string_of_int (local_index id)
 +      | StatementKindRd.Assign data ->
 +          let lhs = AssignDataRd.lhs_place_get data in
 +          if PlaceRd.projection_get_list lhs <> [] then
@@ -1108,9 +1172,10 @@ index 9813a884..5a14290a 100644
 +                   when PlaceRd.projection_get_list place = [] ->
 +                     LocalDeclIdRd.name_get (PlaceRd.local_get place)
 +                 | _ -> fail "projection cast source is not a bare local" in
-+               if not (List.mem src !provenance) ||
++               if not (List.mem src !provenance) || not (local_is_live src) ||
++                  not (local_is_live dst) ||
 +                  List.mem dst !assigned || dst = input_local then
-+                 fail "projection result is not a unique dataflow from the receiver";
++                 fail "projection cast uses a dead local or is not a unique dataflow from the receiver";
 +               let source_type = match OptionRd.get
 +                   (CastDataRd.source_ty_get cast_data) with
 +                 | OptionRd.Something ptr -> VfMirRd.of_pointer ptr
@@ -1139,10 +1204,19 @@ index 9813a884..5a14290a 100644
 +               provenance := dst :: !provenance;
 +               assigned := dst :: !assigned;
 +               step_edges := !step_edges @ [(src, dst)];
-+               source_key ^ "->" ^ target_key ^ ":" ^ cast_kind
++               let edge = source_key ^ "->" ^ target_key ^ ":" ^ cast_kind in
++               steps := edge :: !steps;
++               "cast:" ^ string_of_int (local_index src) ^ ":" ^
++               string_of_int (local_index dst) ^ ":" ^ edge
 +           | _ -> fail "projection contains a non-cast rvalue")
 +      | _ -> fail "projection contains a non-assignment statement")
-+      (BasicBlockRd.statements_get_list block) in
++      statements in
++    let steps = List.rev !steps in
++    if List.sort_uniq String.compare !storage_started <>
++         List.sort_uniq String.compare storage_locals ||
++       List.sort_uniq String.compare !storage_ended <>
++         List.sort_uniq String.compare storage_locals then
++      fail "storage marker locals do not have one complete Live/Dead pair";
 +    if steps = [] || List.hd !assigned <> output_local ||
 +       not (List.mem output_local !provenance) then
 +      fail "returned raw pointer is not the final cast result";
@@ -1159,6 +1233,7 @@ index 9813a884..5a14290a 100644
 +    { r23_projection_input = input_key;
 +      r23_projection_output = output_key;
 +      r23_projection_steps = steps;
++      r23_projection_trace = trace;
 +      r23_projection_local_count = List.length local_decls;
 +      r23_projection_local_mutabilities = local_mutabilities;
 +      r23_projection_block_count = block_count;
@@ -1243,7 +1318,7 @@ index 9813a884..5a14290a 100644
 +    helper_name
 +
    type var_id_trs_entry = { id : string; internal_name : string }
-@@ -1969,2 +2233,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1969,2 +2297,37 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 +  type r23_source_array_adapter_plan = {
 +    r23_pre_marker_loc : Ast.loc;
@@ -1281,27 +1356,27 @@ index 9813a884..5a14290a 100644
 +  }
 +
    let fresh_first_callback_stmt = function
-@@ -1975,2 +2274,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1975,2 +2338,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 +  (* Shared by body-level admission and terminator translation. *)
 +  let translate_basic_block_id (bblock_id_cpn : BasicBlockIdRd.t) =
 +    Stdint.Uint32.to_string (BasicBlockIdRd.index_get bblock_id_cpn)
 +
    module TranslatorArgs = Args
-@@ -1981,2 +2284,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1981,2 +2348,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      val body_imp_loc : Ast.loc
 +    val body_name : string
 +    val body_def_hash : string
 +    val body_mir_fingerprint : string
 +    val body_mir_phase : string
      val body_tr_defs_ctx : body_tr_defs_ctx
-@@ -1989,2 +2296,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1989,2 +2360,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      val late_callback : late_callback_plan option
 +    val r23_source_array_adapter : r23_source_array_adapter_plan option
 +    val r9_guard_return : r9_guard_return_plan option
 +    val r19_unwind_cleanup : (Ast.loc * Ast.stmt) option
    end) =
-@@ -2004,2 +2314,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2004,2 +2378,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let late_callback = Args.late_callback
 +      let r23_source_array_adapter = Args.r23_source_array_adapter
 +      let r23_adapter_ref_assignment = ref false
@@ -1312,19 +1387,19 @@ index 9813a884..5a14290a 100644
 +      let r19_unwind_cleanup = Args.r19_unwind_cleanup
 +      let r19_unwind_cleanup_used = ref false
        let first_callback_used = ref false
-@@ -2018,2 +2336,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2018,2 +2400,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let translating_selected_resume = ref false
 +      let current_block = ref ""
 +      let current_is_cleanup = ref false
        let generated_glue = Args.body_tr_defs_ctx.generated_glue
-@@ -2430,4 +2750,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2430,4 +2814,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        in
 -      let translate_regular_fn_call substs fn_name =
 -        let targs =
 +      let translate_regular_fn_call ?targs_override substs fn_name =
 +        let inferred_targs =
            substs
-@@ -2440,7 +2760,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2440,7 +2824,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          let* targs =
 -          match OptionRd.get ghost_generic_arg_list_opt_cpn with
 -          | Nothing -> Ok targs
@@ -1340,12 +1415,12 @@ index 9813a884..5a14290a 100644
 +                   let ghost_generic_arg_list_cpn = VfMirRd.of_pointer ptr_cpn in
 +                   translate_ghost_generic_arg_list ghost_generic_arg_list_cpn)
          in
-@@ -2595,3 +2918,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2595,3 +2982,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                  (fun i : D.generic_arg ->
 -                  { kind = Lifetime { id = "'erased" } })
 +                  { kind = Lifetime { id = "'erased"; identity = Nothing } })
            in
-@@ -2870,2 +3193,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2870,2 +3257,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                      FnCallResult (Ast.CastExpr (fn_loc, PtrTypeExpr (fn_loc, gen_arg_ty_info.vf_ty), arg)) )
 +            | "std::slice::<impl [T]>::as_mut_ptr" ->
 +                (match State.r23_source_array_adapter,
@@ -1414,13 +1489,13 @@ index 9813a884..5a14290a 100644
 +                       "R23 source adapter as_mut_ptr call shape changed after body admission"
 +                       None)
              | "std::str::<impl str>::len" | "std::slice::<impl [T]>::len" | "std::ptr::const_ptr::<impl *const [T]>::len" | "std::ptr::mut_ptr::<impl *mut [T]>::len" ->
-@@ -2898,5 +3287,2 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2898,5 +3351,2 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 -    let translate_basic_block_id (bblock_id_cpn : BasicBlockIdRd.t) =
 -      Stdint.Uint32.to_string (BasicBlockIdRd.index_get bblock_id_cpn)
 -
      let translate_unwind_action (unwind_action_cpn : UnwindActionRd.t)
-@@ -3105,2 +3491,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3105,2 +3555,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
         | _ -> ());
 +      (* R19: the marked block after insert_tail also runs on unwind. *)
 +      let r19_unwind_cleanup =
@@ -1453,7 +1528,7 @@ index 9813a884..5a14290a 100644
 +        | _ -> None
 +      in
        let* dst, dst_is_mutable =
-@@ -3144,5 +3560,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3144,5 +3624,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
 +            let assignment_with_r23_recovery e =
 +              match !(State.r23_adapter_post_bridge) with
@@ -1467,13 +1542,13 @@ index 9813a884..5a14290a 100644
 -              | FnCallResult e -> assignment e
 +              | FnCallResult e -> assignment_with_r23_recovery e
                | FnCallOutcome e ->
-@@ -3164,2 +3587,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3164,2 +3651,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                [ assignment (Ast.Var (loc, "__result")) ] @
 +                              (match !(State.r23_adapter_post_bridge) with
 +                               | Some recover -> [recover]
 +                               | None -> []) @
                                (match late_callback_cleanup,
-@@ -3180,2 +3606,29 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3180,2 +3670,29 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                CallExpr (loc, "unwinding", [], [], [], Static),
 +                              (match State.r23_source_array_adapter with
 +                               | Some plan ->
@@ -1503,7 +1578,7 @@ index 9813a884..5a14290a 100644
 +                                   [recover; Ast.GotoStmt (loc, plan.r23_unwind_label)]
 +                               | None ->
                                (match late_callback_cleanup,
-@@ -3193,7 +3646,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3193,7 +3710,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                     [s; Ast.GotoStmt (loc, State.callback_unwind_label)]
 -                               | None, None, None -> unwind_stmts
 +                               | None, None, None ->
@@ -1517,7 +1592,7 @@ index 9813a884..5a14290a 100644
              in
 +            State.r23_adapter_post_bridge := None;
              (match late_callback_cleanup, call_stmt with
-@@ -3374,2 +3831,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3374,2 +3895,21 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 +    (* Diagnostic events are parser-inexpressible and execute through the
 +       verifier on the selected path. They neither assume nor produce resources.
@@ -1539,13 +1614,13 @@ index 9813a884..5a14290a 100644
 +      end else []
 +
      let translate_terminator_kind (ret_place_id : string)
-@@ -3396,3 +3872,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3396,3 +3936,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            in
 -          Ok ([ Ast.ReturnStmt (loc, Some result) ], EncodedTerminator, [])
 +          Ok (r9_guard_trace loc "kind=return outcome=returning" @
 +              [Ast.ReturnStmt (loc, Some result)], EncodedTerminator, [])
        | Unreachable ->
-@@ -3465,5 +3942,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3465,5 +4006,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                [Ast.LitPat receiver], Ast.Static) in
 +            let unwind_binding = match UnwindActionRd.get (unwind_action_get drop_data_cpn) with
 +              | UnwindActionRd.Continue -> "continue"
@@ -1595,12 +1670,12 @@ index 9813a884..5a14290a 100644
 +              Ast.SwitchStmtClause (loc, call "unwinding" [],
 +                finish @ r9_guard_trace loc (binding "unwinding") @ unwind_stmts)]) in
              Ok ([ghost "close_points_to" [address];
-@@ -3548,3 +4067,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3548,3 +4131,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            Ok
 -            ( [
 +            ( r9_guard_trace loc "kind=resume outcome=unwinding" @ [
                  Ast.ReturnStmt
-@@ -3841,3 +4360,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3841,3 +4424,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            in
 -          if ignore_ref_creation then
 +          if !(State.r23_adapter_ref_assignment) then
@@ -1610,7 +1685,7 @@ index 9813a884..5a14290a 100644
 +            Ok (`TrRvalueExpr (Ast.AddressOf (loc, place_expr)))
 +          else if ignore_ref_creation then
              Ok (`TrRvalueExpr (Ast.AddressOf (loc, place_expr)))
-@@ -3942,15 +4466,50 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3942,15 +4530,50 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            | _ ->
 -          let* ty_info = translate_decoded_ty cast_data.ty loc in
 -          let ty = ty_info.vf_ty in
@@ -1674,7 +1749,7 @@ index 9813a884..5a14290a 100644
 +                  let fn_name = fn_def_ty_cpn.id.name in
 +                  Ok (`TrRvalueExpr (Ast.CastExpr (loc, ty, Var (loc, fn_name)))))
        | BinaryOp bin_op_data_cpn ->
-@@ -4012,4 +4571,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4012,4 +4635,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 +    (* Decoded Body provenance for storage on an invariant annotation line.
 +       This is a translation plan, explicitly separate from R11_EXEC. *)
@@ -1700,7 +1775,7 @@ index 9813a884..5a14290a 100644
 -        (loc : Ast.loc) (mir_loc : Ast.loc) =
 +        (loc : Ast.loc) (mir_loc : Ast.loc) block_id is_cleanup =
        let open StatementKindRd in
-@@ -4024,5 +4603,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4024,5 +4667,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let rhs_rvalue_cpn = AssignData.rhs_rvalue_get assign_data_cpn in
 -          let* rhs_rvalue =
 +          let lhs_local =
@@ -1736,30 +1811,30 @@ index 9813a884..5a14290a 100644
 +          let* rhs_rvalue =
 +            rhs_rvalue_result
            in
-@@ -4168,2 +4775,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4168,2 +4839,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let local = translate_local_decl_id local in
 +          r11_storage_plan block_id is_cleanup "Live" mir_local_id local loc mir_loc;
            Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageLive" @@ fun () ->
-@@ -4175,2 +4783,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4175,2 +4847,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let local = translate_local_decl_id local in
 +          r11_storage_plan block_id is_cleanup "Dead" mir_local_id local loc mir_loc;
            Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageDead" @@ fun () ->
-@@ -4205,3 +4814,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4205,3 +4878,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
  
 -    let translate_statement (statement_cpn : StatementRd.t) =
 +    let translate_statement block_id is_cleanup (statement_cpn : StatementRd.t) =
        let open StatementRd in
-@@ -4220,3 +4829,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4220,3 +4893,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let kind_cpn = kind_get statement_cpn in
 -      translate_statement_kind kind_cpn loc mir_loc
 +      translate_statement_kind kind_cpn loc mir_loc block_id is_cleanup
  
-@@ -4244,3 +4853,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4244,3 +4917,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                  Rocq_writer.rocq_print_big_list_element TranslatorArgs.rocq_writer @@ fun () ->
 -                  translate_statement statement_cpn
 +                  translate_statement id (is_cleanup_get bblock_cpn) statement_cpn
          in
-@@ -4251,4 +4860,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4251,4 +4924,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              State.translating_selected_resume := List.mem id !State.selected_resume_targets;
 +            State.current_block := id;
 +            State.current_is_cleanup := is_cleanup_get bblock_cpn;
@@ -1768,7 +1843,7 @@ index 9813a884..5a14290a 100644
 +            State.current_block := "";
 +            State.current_is_cleanup := false;
              result
-@@ -4467,2 +5080,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4467,2 +5144,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          | Walking (k', _) ->
 +            (* R10 read-only binding receipt from the same decoded Body and
 +               reconstructed CFG. This is discovery, not path execution. *)
@@ -1784,7 +1859,7 @@ index 9813a884..5a14290a 100644
 +                bb.id from (Ast.string_of_loc head_loc)
 +            end;
              bb.internal_predecessor_count <- bb.internal_predecessor_count + 1;
-@@ -4573,2 +5199,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4573,2 +5263,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                in
 +              let r23_scoped_decls =
 +                match State.r23_source_array_adapter with
@@ -1802,13 +1877,13 @@ index 9813a884..5a14290a 100644
 +                | _ -> []
 +              in
                ( external_predecessor_count + internal_predecessor_count,
-@@ -4578,3 +5219,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4578,3 +5283,4 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                        decls,
 -                      strict_scope_start @ (Ast.LabelStmt (loc, id)
 +                      strict_scope_start @ r23_scoped_decls @
 +                      (Ast.LabelStmt (loc, id)
                        :: (stmts0
-@@ -4587,2 +5229,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4587,2 +5293,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            | _ ->
 +              (* The admitted late-binding declaration must remain first in
 +                 the Rust source block. Relocation leaves its exact Noop at
@@ -1825,11 +1900,11 @@ index 9813a884..5a14290a 100644
 +                | _ -> stmts
 +              in
                let predecessor_count, stmt =
-@@ -5632,2 +6288,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5632,2 +6352,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let open BodyRd in
 +    r23_source_array3_interp_active := false;
      let is_generated_glue =
-@@ -5650,2 +6307,63 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5650,2 +6371,63 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let ghost_stmts_cpn = ghost_stmts_get_list body_cpn in
 +    let r23_contains_substring text needle =
 +      let text_len = String.length text and needle_len = String.length needle in
@@ -1893,7 +1968,7 @@ index 9813a884..5a14290a 100644
 +    let r23_lifetime_decl_locs =
 +      List.map fst r23_lifetime_decl_blocks in
      let stack_addr_occurrences =
-@@ -5668,3 +6386,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5668,3 +6450,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        (ContractRd.annotations_get_list (contract_get body_cpn));
 -    let* ghost_stmts = ListAux.try_map translate_ghost_stmt ghost_stmts_cpn in
 +    let* ghost_stmts = ListAux.try_map translate_ghost_stmt ordinary_ghost_stmts_cpn in
@@ -1901,13 +1976,13 @@ index 9813a884..5a14290a 100644
 +      List.map (fun loc -> Ast.NoopStmt loc) r23_lifetime_decl_locs @ ghost_stmts
 +    in
      let* ghost_stmts =
-@@ -5681,2 +6402,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5681,2 +6466,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
 +    let ghost_decl_blocks =
 +      List.map snd r23_lifetime_decl_blocks @ ghost_decl_blocks
 +    in
      (* This opt-in proof CFG is supplied by three adjacent ghost annotations.
-@@ -5696,3 +6420,784 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5696,3 +6484,784 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
 +    let r23_adapter_marker name stmt =
 +      let unpure = function Ast.PureStmt (_, inner) -> inner | stmt -> stmt in
@@ -2692,7 +2767,7 @@ index 9813a884..5a14290a 100644
 +          Ast.static_error marker_loc "R9 guard-return marker is ambiguous" None
 +    in
      let scope_markers =
-@@ -6323,2 +7828,104 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6323,2 +7892,104 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          None;
 +    let r9_bound_drop_present = match body_tr_defs_ctx.generated_glue with
 +      | None -> false
@@ -2797,7 +2872,7 @@ index 9813a884..5a14290a 100644
 +          stripped
 +    in
      let late_strict_scope_ends =
-@@ -6328,3 +7935,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6328,3 +7999,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let strict_lft_scope_ends =
 -      strict_lft_scope_ends @ first_strict_scope_ends @ late_strict_scope_ends in
 +      strict_lft_scope_ends @ first_strict_scope_ends @ late_strict_scope_ends @
@@ -2805,7 +2880,7 @@ index 9813a884..5a14290a 100644
 +       | Some plan -> [(plan.r23_post_marker_loc, "'r23_borrow")]
 +       | None -> []) in
      let source_pos l = fst (Ast.lexed_loc l) in
-@@ -6356,2 +7966,30 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6356,2 +8030,30 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
 +    let ghost_decl_blocks =
 +      match r23_source_array_adapter with
@@ -2836,7 +2911,7 @@ index 9813a884..5a14290a 100644
 +          blocks
 +    in
      let ghost_stmts =
-@@ -6359,3 +7997,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6359,3 +8061,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          let l = Ast.stmt_loc stmt in
 -        if (match first_callback with
 +        if (match r9_guard_return with
@@ -2844,20 +2919,20 @@ index 9813a884..5a14290a 100644
 +            | None -> false) then Some (Ast.NoopStmt l)
 +        else if (match first_callback with
              | Some plan -> l = plan.first_close_loc ||
-@@ -6483,2 +8124,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6483,2 +8188,6 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let body_imp_loc = imp_loc
 +      let body_name = TrName.translate_def_path (def_path_get body_cpn)
 +      let body_def_hash = def_path_hash_get body_cpn
 +      let body_mir_fingerprint = captured_mir_hash_get body_cpn
 +      let body_mir_phase = captured_mir_phase_get body_cpn
        let body_tr_defs_ctx = body_tr_defs_ctx
-@@ -6491,2 +8136,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -6491,2 +8200,5 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let late_callback = late_callback
 +      let r23_source_array_adapter = r23_source_array_adapter
 +      let r9_guard_return = r9_guard_return
 +      let r19_unwind_cleanup = r19_unwind_cleanup
      end) in
-@@ -7175,4 +8823,52 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7175,4 +8887,52 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                  None;
 +            let r23_scoped_local_ids =
 +              match State.r23_source_array_adapter with
@@ -2911,7 +2986,7 @@ index 9813a884..5a14290a 100644
 +                   not (List.mem id r23_scoped_local_ids))
 +              |> List.map (translate_to_vf_local_decl loc)
              in
-@@ -7197,2 +8893,103 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7197,2 +8957,103 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let bblocks_cpn = basic_blocks_get_list body_cpn in
 +            (* R11: place the logical cut after the complete lifetime of the
 +               compiler-inserted ghost-command result. Keep every native
@@ -3015,7 +3090,7 @@ index 9813a884..5a14290a 100644
 +                          invariant_stmt, inv_at))
 +            in
              State.selected_resume_targets := List.filter_map (fun block ->
-@@ -7223,2 +9020,74 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7223,2 +9084,74 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
 +            let bblocks = match r11_cut_plan with
 +              | None -> bblocks
@@ -3090,7 +3165,7 @@ index 9813a884..5a14290a 100644
 +                    else bb) bblocks
 +            in
              let bblocks =
-@@ -7512,2 +9381,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7512,2 +9445,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
 +            (match State.r19_unwind_cleanup with
 +             | Some (l, _) when not !State.r19_unwind_cleanup_used ->
@@ -3123,7 +3198,7 @@ index 9813a884..5a14290a 100644
 +                     "R9 guard-return checked commands were not attached to every exact MIR returning edge"
 +                     None);
              let vf_bblocks =
-@@ -7530,2 +9429,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7530,2 +9493,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              in
 +            let vf_bblocks =
 +              match State.r23_source_array_adapter with
@@ -3136,25 +3211,25 @@ index 9813a884..5a14290a 100644
 +              | None -> vf_bblocks
 +            in
              Ok
-@@ -7543,2 +9452,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7543,2 +9516,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          in
 +        r23_source_array3_interp_active := false;
          Ok
-@@ -10047,2 +11957,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -10047,2 +12021,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                                 List.assoc name env.lifetime_env;
 +                                             identity = Nothing;
                                             };
-@@ -10253,3 +12164,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -10253,3 +12228,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          if String.starts_with ~prefix:"'" x then
 -          { kind = Lifetime { id = x } }
 +          { kind = Lifetime { id = x; identity = Nothing } }
          else
-@@ -10329,3 +12240,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -10329,3 +12304,3 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                      if String.starts_with ~prefix:"'" x then
 -                      { kind = Lifetime { id = List.assoc x env.lifetime_env } }
 +                      { kind = Lifetime { id = List.assoc x env.lifetime_env; identity = Nothing } }
                      else
-@@ -10568,4 +12479,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -10568,4 +12543,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let body_tr_defs_ctx =
 +        let r23_checked_slice_helpers = List.filter (fun body ->
 +          let name = TrName.translate_def_path (BodyRd.def_path_get body) in

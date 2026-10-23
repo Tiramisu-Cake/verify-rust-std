@@ -1,0 +1,62 @@
+{
+  "schema": "merge-r23-p12-source-borrow-brief-v1",
+  "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "proof_attempted_source_claim": true,
+  "tool_stage_exits_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "0143b8b613aab7adbf71082e16802425747819d720d29ec2ac4b66bb89914480",
+  "index_sha256": "f6d6986e6318e389b18bb08e8afc2fe333104ac389222cc2c586962a954e7585",
+  "source_case_stages": {
+    "file_id": "b9b1162440c5335e9f043ff61235df54616b7c008b4346ed68378100fcc960e2",
+    "source_sha256": "591c9fdb08770ff381f1ca89eeaebe55a9bb72c138e10360f8be21d968919c58",
+    "request_id": "30c3c836d45fed62251e1fbdc47926d8af93c3b201f5b719324121ae06a70685",
+    "pointer": "/stages",
+    "exact": true,
+    "complete": true,
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    }
+  },
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "bba0967cadf76883cfd791c4d4592d265d90f0bc5d859c5f3e0e2f23e81076c6",
+    "source_size_bytes": 3139,
+    "locate_request": "974dc0ca8b7e0457b16acb52f03fc5bf2d1e0512bb9f10b5b9e35f6c5c66ed53",
+    "lines_request": "04dba2c3d2574967eb5e67888893021a5720233289a259d022937a147476495d",
+    "lines": "160-164",
+    "exact": true,
+    "complete": false,
+    "reported_location": "verified/lib.rs:618",
+    "message": "R23 checked slice helper equivalence refused: exporter marked the standard callee body unsupported or unavailable"
+  },
+  "descriptor_reason": {
+    "file_id": "cfc061067449df8584bbb3d12b5cf86b193c1335e5dc9e859f2b21056353e25e",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r23_source_borrow/cases/actual_three_from_local_source_borrow/decode.out",
+    "source_sha256": "a3cd2febd35b4b0e7f79930c3231bbe6cbb4f9a2f0d3bd727b8b26cf55ac7a8c",
+    "source_size_bytes": 1307338,
+    "locate_request": "bbaa7f2fe7d55d468dde6dcd59fb45f353296f1b944a18aba3139f661c74a6b3",
+    "lines_request": "fef02292533d827cb7571a0233eb20d9af2379992f118be24ce4c041046a6e7d",
+    "lines": "32262-32273",
+    "exact": true,
+    "complete": false,
+    "blockCount": 1,
+    "statementCount": 4,
+    "unsupportedReason": "callee MIR contains a non-assignment statement",
+    "actual_non_assignment_kind": "UNKNOWN",
+    "source_reference": "nightly-2026-09-25 core/src/slice/mod.rs:763"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}
