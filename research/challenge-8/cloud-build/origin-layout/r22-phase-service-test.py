@@ -177,17 +177,22 @@ class R22PhaseTests(unittest.TestCase):
         selected_recipe = json.loads(recipe_path.read_text())
         pruned_inputs = "research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json"
         retained_start = "research/challenge-8/cloud-build/origin-layout/R11-START-20261021.json"
+        pruned_build1 = "research/challenge-8/cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json"
         self.assertIn(pruned_inputs, m.R22_REMOVED_PATHS)
         self.assertNotIn(pruned_inputs, selected_recipe["proof_paths"])
+        self.assertIn(pruned_build1, m.R22_REMOVED_PATHS)
+        self.assertNotIn(pruned_build1, selected_recipe["proof_paths"])
         self.assertIn(retained_start, selected_recipe["proof_paths"])
         runtime_paths = selected_recipe["proof_paths"] + selected_recipe["infra_paths"]
         for rel in runtime_paths:
             if rel.endswith((".py", ".sh")):
                 body = (HERE.parents[3] / rel).read_text()
                 self.assertNotIn(pruned_inputs, body, rel)
+                self.assertNotIn(pruned_build1, body, rel)
         prove_source = (HERE.parents[3] / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py").read_text()
         self.assertIn("R11-START-20261021.json", prove_source)
         self.assertNotIn(pruned_inputs, prove_source)
+        self.assertNotIn(pruned_build1, prove_source)
         old = sorted({"a", "b", *m.R22_REMOVED_PATHS})
         before = {"schema": "smallsort-cloud-recipe-v1", "lane": "merge", "infra_paths": ["i"], "proof_paths": old}
         selected = dict(before, proof_paths=sorted(({"a", "b"} | m.R22_ADDED_PATHS)))

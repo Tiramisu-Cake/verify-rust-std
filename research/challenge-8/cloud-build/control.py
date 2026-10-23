@@ -167,7 +167,7 @@ R22_BASELINE_SHA=R22_PROBE_SOURCE
 R22_STARTING_SOURCE_SHA=R20_STARTING_SOURCE_SHA
 R22_LEDGER_PATH='research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R22-BUDGET-20261023.json'
 R22_ADDED_PATHS={R22_LEDGER_PATH}
-R22_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD3-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD2-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json'}
+R22_REMOVED_PATHS={'research/challenge-8/cloud-build/origin-layout/R11-BUILD5-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD3-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD2-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD4-RESULT-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-INPUTS-20261021.json', 'research/challenge-8/cloud-build/origin-layout/R11-BUILD1-RESULT-20261021.json'}
 R22_PROFILE_PATH=R20_PROFILE_PATH
 R22_PROFILE_SHA256=R20_METADATA_PROFILE_SHA256
 R22_STARTING_TOOL_COMMIT=R20_METADATA_TOOL_COMMIT
@@ -181,24 +181,25 @@ R22_COMPILE_FIX_EXPORTER_SHA256='0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5
 R22_COMPILE_FIX_TRANSLATOR_SHA256='e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2'
 R22_COMPILE_FIX_PATCH_SHA256='6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d'
 R22_COMPILE_FIX_PROFILE_SHA256='d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579'
-R22_COMPILE_FIX_PROVIDER_SHA256='84c1908b12b1269425971ad022f14e28dbce66d21d8525ed5e693c76fe5980df'
-R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b'
-R22_OWNED_NLL_TOOL_COMMIT='419ff27dcee1a31a9f62e8db69049adb725bdbe2'
+R22_COMPILE_FIX_PROVIDER_SHA256='06c871818bad4a3e3538ff460d477d45845b8f276bbb9978b32b336eba5e65e9'
+R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='e7dae89d920535b60acae855232e6f200b19a97f7fdd7473585ea2f488520e71'
+R22_OWNED_NLL_TOOL_COMMIT='fc0208d4f53583d458670cd07bd0370636d4b2eb'
 R22_OWNED_NLL_EXPORTER_SHA256='7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d'
 R22_OWNED_NLL_SCHEMA_SHA256='ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92'
 R22_OWNED_NLL_REFINER_CORE_SHA256='11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8'
-R22_OWNED_NLL_PATCH_SHA256='74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b'
-R22_OWNED_NLL_PROFILE_SHA256='bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa'
-R22_OWNED_NLL_PROVIDER_SHA256='84c1908b12b1269425971ad022f14e28dbce66d21d8525ed5e693c76fe5980df'
-R22_OWNED_NLL_PROVIDER_PROVE_SHA256='99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b'
+R22_OWNED_NLL_TRANSLATOR_SHA256='bc60d926e5b34aeaa5f18ca6b08d2f9c0e707bd2d537e9081ea762d5a41fcfb2'
+R22_OWNED_NLL_PATCH_SHA256='097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5'
+R22_OWNED_NLL_PROFILE_SHA256='3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88'
+R22_OWNED_NLL_PROVIDER_SHA256='06c871818bad4a3e3538ff460d477d45845b8f276bbb9978b32b336eba5e65e9'
+R22_OWNED_NLL_PROVIDER_PROVE_SHA256='e7dae89d920535b60acae855232e6f200b19a97f7fdd7473585ea2f488520e71'
 R22_OWNED_NLL_REGISTRATION={
  'schema':'merge-r22-owned-nll-diagnostic-registration-v1',
  'phase_id':R22_PHASE,
  'baseline_profile_sha256':R22_COMPILE_FIX_PROFILE_SHA256,
  'starting_tool_commit':R22_COMPILE_FIX_TOOL_COMMIT,
  'candidate_tool_commit':R22_OWNED_NLL_TOOL_COMMIT,
- 'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs','src/rust_frontend/vf_mir/vf_mir.capnp','src/refinement_checker/refinement_checker.ml'],
- 'source_applicability':'diagnostic-only optional owned-NLL capture for exact registered source cases; serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.'}
+ 'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs', 'src/rust_frontend/vf_mir/vf_mir.capnp', 'src/refinement_checker/refinement_checker.ml', 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+ 'source_applicability':'diagnostic-only optional owned-NLL capture for exact registered source cases; identity=Nothing initializes all three synthetic Lifetime fixtures. Serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.'}
 R22_START='2026-10-23T07:44:00Z'
 R22_MAIN_DEADLINE='2026-10-23T09:44:00Z'
 R22_DEADLINE='2026-10-23T10:14:00Z'
@@ -2085,7 +2086,7 @@ def r22_validate_owned_nll_candidate_pins(baseline_profile,selected_profile,curr
      profile.get('exporter_source_sha256')!=R22_OWNED_NLL_EXPORTER_SHA256 or
      profile.get('schema_sha256')!=R22_OWNED_NLL_SCHEMA_SHA256 or
      profile.get('refiner_core_source_sha256')!=R22_OWNED_NLL_REFINER_CORE_SHA256 or
-     profile.get('translator_sha256')!=R22_COMPILE_FIX_TRANSLATOR_SHA256 or
+     profile.get('translator_sha256')!=R22_OWNED_NLL_TRANSLATOR_SHA256 or
      profile.get('guard_return_trace_patch_sha256')!=R22_OWNED_NLL_PATCH_SHA256 or
      type(chain) is not list or len(chain)!=19 or type(chain[-1]) is not dict or
      chain[-1].get('sha256')!=R22_OWNED_NLL_PATCH_SHA256 or
@@ -2096,6 +2097,7 @@ def r22_validate_owned_nll_candidate_pins(baseline_profile,selected_profile,curr
  reversed_profile['exporter_source_sha256']=R22_COMPILE_FIX_EXPORTER_SHA256
  reversed_profile['schema_sha256']=R20_METADATA_SCHEMA_SHA256
  reversed_profile['refiner_core_source_sha256']=R20_METADATA_REFINER_CORE_SHA256
+ reversed_profile['translator_sha256']=R22_COMPILE_FIX_TRANSLATOR_SHA256
  reversed_profile['guard_return_trace_patch_sha256']=R22_COMPILE_FIX_PATCH_SHA256
  reversed_profile['ordered_patch_chain']=list(chain)
  reversed_profile['ordered_patch_chain'][-1]={'path':'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch','sha256':R22_COMPILE_FIX_PATCH_SHA256}

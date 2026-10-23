@@ -67,20 +67,21 @@ R22_COMPILE_FIX_TOOL_COMMIT = '65f0bb35e4f188cf8ce405a67253127173c5c3a1'
 R22_COMPILE_FIX_EXPORTER_SHA256 = '0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345'
 R22_COMPILE_FIX_PATCH_SHA256 = '6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d'
 R22_COMPILE_FIX_TRANSLATOR_SHA256 = 'e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2'
-R22_OWNED_NLL_PROFILE_SHA256 = 'bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa'
-R22_OWNED_NLL_TOOL_COMMIT = '419ff27dcee1a31a9f62e8db69049adb725bdbe2'
+R22_OWNED_NLL_PROFILE_SHA256 = '3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88'
+R22_OWNED_NLL_TOOL_COMMIT = 'fc0208d4f53583d458670cd07bd0370636d4b2eb'
 R22_OWNED_NLL_EXPORTER_SHA256 = '7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d'
 R22_OWNED_NLL_SCHEMA_SHA256 = 'ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92'
 R22_OWNED_NLL_REFINER_CORE_SHA256 = '11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8'
-R22_OWNED_NLL_PATCH_SHA256 = '74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b'
+R22_OWNED_NLL_TRANSLATOR_SHA256 = 'bc60d926e5b34aeaa5f18ca6b08d2f9c0e707bd2d537e9081ea762d5a41fcfb2'
+R22_OWNED_NLL_PATCH_SHA256 = '097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5'
 R22_OWNED_NLL_REGISTRATION = {
     'schema': 'merge-r22-owned-nll-diagnostic-registration-v1',
     'phase_id': 'MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',
     'baseline_profile_sha256': R22_COMPILE_FIX_PROFILE_SHA256,
     'starting_tool_commit': R22_COMPILE_FIX_TOOL_COMMIT,
     'candidate_tool_commit': R22_OWNED_NLL_TOOL_COMMIT,
-    'tool_source_paths': ['src/rust_frontend/vf_mir_exporter/src/lib.rs', 'src/rust_frontend/vf_mir/vf_mir.capnp', 'src/refinement_checker/refinement_checker.ml'],
-    'source_applicability': 'diagnostic-only optional owned-NLL capture for exact registered source cases; serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.',
+    'tool_source_paths': ['src/rust_frontend/vf_mir_exporter/src/lib.rs', 'src/rust_frontend/vf_mir/vf_mir.capnp', 'src/refinement_checker/refinement_checker.ml', 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+    'source_applicability': 'diagnostic-only optional owned-NLL capture for exact registered source cases; identity=Nothing initializes all three synthetic Lifetime fixtures. Serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.',
 }
 VF_EXPORT_OWNED_NLL_FACTS = 'VF_EXPORT_OWNED_NLL_FACTS'
 R22_COMPILE_FIX_REGISTRATION = {
@@ -260,7 +261,7 @@ def _r22_owned_nll_registration_matches(profile_path, selected_profile, profile=
                 profile.get('exporter_source_sha256') == R22_OWNED_NLL_EXPORTER_SHA256 and
                 profile.get('schema_sha256') == R22_OWNED_NLL_SCHEMA_SHA256 and
                 profile.get('refiner_core_source_sha256') == R22_OWNED_NLL_REFINER_CORE_SHA256 and
-                profile.get('translator_sha256') == R22_COMPILE_FIX_TRANSLATOR_SHA256 and
+                profile.get('translator_sha256') == R22_OWNED_NLL_TRANSLATOR_SHA256 and
                 profile.get('guard_return_trace_patch_sha256') == R22_OWNED_NLL_PATCH_SHA256 and
                 type(chain) is list and len(chain) == 19 and type(chain[-1]) is dict and
                 chain[-1].get('sha256') == R22_OWNED_NLL_PATCH_SHA256):
@@ -271,6 +272,7 @@ def _r22_owned_nll_registration_matches(profile_path, selected_profile, profile=
         reversed_profile['exporter_source_sha256'] = R22_COMPILE_FIX_EXPORTER_SHA256
         reversed_profile['schema_sha256'] = 'a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5'
         reversed_profile['refiner_core_source_sha256'] = '7be8a6f16ce45173866bddcc6b6d606ac4ef2a6748885eca1fc982611c753614'
+        reversed_profile['translator_sha256'] = R22_COMPILE_FIX_TRANSLATOR_SHA256
         reversed_profile['guard_return_trace_patch_sha256'] = R22_COMPILE_FIX_PATCH_SHA256
         reversed_profile['ordered_patch_chain'] = list(chain)
         reversed_profile['ordered_patch_chain'][-1] = {

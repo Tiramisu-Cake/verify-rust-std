@@ -77,12 +77,12 @@ R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 R22_PROFILE = "r22-compile-fix-overlay"
 R22_OWNED_NLL_PROFILE = "r22-owned-nll-overlay"
 R22_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "e7dae89d920535b60acae855232e6f200b19a97f7fdd7473585ea2f488520e71",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }
 R22_OWNED_NLL_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "e7dae89d920535b60acae855232e6f200b19a97f7fdd7473585ea2f488520e71",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }
@@ -110,21 +110,21 @@ def profile_identity(profile_card: dict) -> str:
     if profile == R11_PROFILE and "r22_owned_nll_registration" in profile_card:
         registration=profile_card.get("r22_owned_nll_registration")
         chain=profile_card.get("ordered_patch_chain")
-        if (hashlib.sha256(json.dumps(profile_card,indent=2,ensure_ascii=False).encode()+b"\n").hexdigest() != "bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa" or
+        if (hashlib.sha256(json.dumps(profile_card,indent=2,ensure_ascii=False).encode()+b"\n").hexdigest() != "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88" or
                 not isinstance(registration,dict) or
                 registration.get("schema")!="merge-r22-owned-nll-diagnostic-registration-v1" or
                 registration.get("phase_id")!="MERGE-CALLER-ACCEPTANCE-R22-2026-10-23" or
                 registration.get("baseline_profile_sha256")!="d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579" or
                 registration.get("starting_tool_commit")!="65f0bb35e4f188cf8ce405a67253127173c5c3a1" or
-                registration.get("candidate_tool_commit")!="419ff27dcee1a31a9f62e8db69049adb725bdbe2" or
-                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs","src/rust_frontend/vf_mir/vf_mir.capnp","src/refinement_checker/refinement_checker.ml"] or
-                profile_card.get("effective_tool_commit")!="419ff27dcee1a31a9f62e8db69049adb725bdbe2" or
+                registration.get("candidate_tool_commit")!="fc0208d4f53583d458670cd07bd0370636d4b2eb" or
+                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs", "src/rust_frontend/vf_mir/vf_mir.capnp", "src/refinement_checker/refinement_checker.ml", "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"] or
+                profile_card.get("effective_tool_commit")!="fc0208d4f53583d458670cd07bd0370636d4b2eb" or
                 profile_card.get("exporter_source_sha256")!="7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d" or
                 profile_card.get("schema_sha256")!="ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92" or
                 profile_card.get("refiner_core_source_sha256")!="11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8" or
-                profile_card.get("translator_sha256")!="e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2" or
-                profile_card.get("guard_return_trace_patch_sha256")!="74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b" or
-                not isinstance(chain,list) or len(chain)!=19 or type(chain[-1]) is not dict or chain[-1].get("sha256")!="74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b"):
+                profile_card.get("translator_sha256")!="bc60d926e5b34aeaa5f18ca6b08d2f9c0e707bd2d537e9081ea762d5a41fcfb2" or
+                profile_card.get("guard_return_trace_patch_sha256")!="097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5" or
+                not isinstance(chain,list) or len(chain)!=19 or type(chain[-1]) is not dict or chain[-1].get("sha256")!="097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5"):
             raise SystemExit("R22 owned-NLL diagnostic profile registration mismatch")
         return R22_OWNED_NLL_PROFILE
     if profile == R11_PROFILE and "r22_compile_fix_registration" in profile_card:

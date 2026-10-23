@@ -137,20 +137,21 @@ R22_EXPORTER_SHA256 = "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aa
 R22_TRANSLATOR_SHA256 = "e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2"
 R22_PATCH_SHA256 = "6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d"
 R22_PROFILE_SHA256 = "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579"
-R22_OWNED_NLL_TOOL_COMMIT = "419ff27dcee1a31a9f62e8db69049adb725bdbe2"
+R22_OWNED_NLL_TOOL_COMMIT = "fc0208d4f53583d458670cd07bd0370636d4b2eb"
 R22_OWNED_NLL_EXPORTER_SHA256 = "7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d"
 R22_OWNED_NLL_SCHEMA_SHA256 = "ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92"
 R22_OWNED_NLL_REFINER_CORE_SHA256 = "11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8"
-R22_OWNED_NLL_PATCH_SHA256 = "74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b"
-R22_OWNED_NLL_PROFILE_SHA256 = "bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa"
+R22_OWNED_NLL_TRANSLATOR_SHA256 = "bc60d926e5b34aeaa5f18ca6b08d2f9c0e707bd2d537e9081ea762d5a41fcfb2"
+R22_OWNED_NLL_PATCH_SHA256 = "097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5"
+R22_OWNED_NLL_PROFILE_SHA256 = "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88"
 R22_OWNED_NLL_REGISTRATION = {
     "schema": "merge-r22-owned-nll-diagnostic-registration-v1",
     "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
     "baseline_profile_sha256": R22_PROFILE_SHA256,
     "starting_tool_commit": R22_TOOL_COMMIT,
     "candidate_tool_commit": R22_OWNED_NLL_TOOL_COMMIT,
-    "tool_source_paths": ["src/rust_frontend/vf_mir_exporter/src/lib.rs", "src/rust_frontend/vf_mir/vf_mir.capnp", "src/refinement_checker/refinement_checker.ml"],
-    "source_applicability": "diagnostic-only optional owned-NLL capture for exact registered source cases; serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.",
+    "tool_source_paths": ['src/rust_frontend/vf_mir_exporter/src/lib.rs', 'src/rust_frontend/vf_mir/vf_mir.capnp', 'src/refinement_checker/refinement_checker.ml', 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+    "source_applicability": "diagnostic-only optional owned-NLL capture for exact registered source cases; identity=Nothing initializes all three synthetic Lifetime fixtures. Serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.",
 }
 R22_REGISTRATION = {
     "schema": "merge-r22-compile-fix-registration-v1",
@@ -288,7 +289,7 @@ def validate_r22_owned_nll_profile_extension(profile: object, r17_baseline_bytes
             profile.get("exporter_source_sha256") != R22_OWNED_NLL_EXPORTER_SHA256 or
             profile.get("schema_sha256") != R22_OWNED_NLL_SCHEMA_SHA256 or
             profile.get("refiner_core_source_sha256") != R22_OWNED_NLL_REFINER_CORE_SHA256 or
-            profile.get("translator_sha256") != R22_TRANSLATOR_SHA256 or
+            profile.get("translator_sha256") != R22_OWNED_NLL_TRANSLATOR_SHA256 or
             profile.get("guard_return_trace_patch_sha256") != R22_OWNED_NLL_PATCH_SHA256 or
             type(chain) is not list or len(chain) != 19 or type(chain[-1]) is not dict or
             chain[-1].get("path") != "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch" or
@@ -303,6 +304,7 @@ def validate_r22_owned_nll_profile_extension(profile: object, r17_baseline_bytes
     baseline["exporter_source_sha256"] = R22_EXPORTER_SHA256
     baseline["schema_sha256"] = R20_SCHEMA_SHA256
     baseline["refiner_core_source_sha256"] = R20_REFINER_CORE_SHA256
+    baseline["translator_sha256"] = R22_TRANSLATOR_SHA256
     baseline["guard_return_trace_patch_sha256"] = R22_PATCH_SHA256
     baseline["ordered_patch_chain"][-1]["sha256"] = R22_PATCH_SHA256
     baseline_bytes = (json.dumps(baseline, indent=2, ensure_ascii=False) + "\n").encode()
@@ -1087,13 +1089,13 @@ def main() -> int:
                 expected_nll = {"exporter_source_sha256": R22_OWNED_NLL_EXPORTER_SHA256,
                                 "schema_sha256": R22_OWNED_NLL_SCHEMA_SHA256,
                                 "refiner_core_source_sha256": R22_OWNED_NLL_REFINER_CORE_SHA256,
-                                "translator_sha256": R22_TRANSLATOR_SHA256}[key]
+                                "translator_sha256": R22_OWNED_NLL_TRANSLATOR_SHA256}[key]
                 if profile_card.get(key) != expected_nll:
                     raise RuntimeError(f"R22 owned-NLL {key} pin differs from the reviewed diagnostic commit")
                 continue
             if "r22_compile_fix_registration" in profile_card and "r22_owned_nll_registration" not in profile_card and key in ("exporter_source_sha256", "translator_sha256"):
                 expected_r22 = {"exporter_source_sha256": R22_EXPORTER_SHA256,
-                                "translator_sha256": R22_TRANSLATOR_SHA256}[key]
+                                "translator_sha256": R22_OWNED_NLL_TRANSLATOR_SHA256}[key]
                 if profile_card.get(key) != expected_r22:
                     raise RuntimeError(f"R22 {key} pin differs from the reviewed compile-fix commit")
                 continue
