@@ -1,0 +1,67 @@
+{
+  "actual_ast_sha256": "50ae0cf9953864422f3ccc589b45045db6387d6ae90ac301205d505277b5757e",
+  "base_translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+  "candidate_commit": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+  "changes": "Exact translator overlay plus R24 proof callback/runner/recipe integration; no Rust/ghost/source/fingerprint changes",
+  "closure": {
+    "bytes": 2253706,
+    "entries": 96,
+    "scope": "union exact infra core+recipe paths+proof paths, committed blobs",
+    "sha256": "63e2e3bae9e474bea4b142c6ce1c03347c1cf88691005ad028cee4e23277f04c"
+  },
+  "default": "OFF",
+  "expected_baseline_ast_flag": "ABSENT",
+  "expected_ordinary_proof_flag": "1 for all8variants, callback only",
+  "expected_projection_marker": "SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 assume_init=1; raw MIR cleanup retained",
+  "fingerprint_build": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "fingerprint_sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5",
+  "flag": "SORT4_R24_CHECKED_POINTER_OUTCOMES=1",
+  "lane": "o26-select-callee-r20",
+  "owner": "select-sort4",
+  "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+  "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+  "patch_sha256": "81c5e18b5f754298aae94940a98a8fa3495b9d73b179d2697493b1c704070ddc",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "printer_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+  "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+  "projects": [
+    {
+      "cleanup_target": 28,
+      "destination": "_31",
+      "external_callee": "std::ptr::mut_ptr::<impl *mut T>::drop_in_place",
+      "local_callee": "sort4_checked_pointer_drop<Element>",
+      "normal_target": 16,
+      "operand": "Move(_32)"
+    },
+    {
+      "cleanup_target": 28,
+      "destination": "_0",
+      "external_callee": "std::mem::MaybeUninit::<T>::assume_init",
+      "local_callee": "checked_assume_init_pointer<Element>",
+      "normal_target": 25,
+      "operand": "Move(_41)"
+    }
+  ],
+  "proof_credit": 0,
+  "queue_reserve_seconds": 60,
+  "report_reserve_seconds": 240,
+  "result_translator_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c",
+  "review": {
+    "decision": "GO_WITH_NITS",
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-review.json",
+    "sha256": "911a2bf01d56c2b2dafab1ef8c71039ca57a7d9fd43df86ebac205c4a59253e3"
+  },
+  "review_packet_sha256": "762fd935a026c0f8d7b2bdaf4703850777ae3eeba985fe5e924d0fb9132a6d72",
+  "review_spec_sha256": "9fa705597de5db4d5d1d0b9ba382b07612b702a4a3d910cd89d5f970e0821aed",
+  "route": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "schema": "select-r24-checked-outcomes-build-pins-v1",
+  "source_and_fingerprint_rows_changed": false,
+  "status": "REVIEW_GO_WITH_NITS_UNBUILT",
+  "timeout_seconds": 1200,
+  "tool_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "transport_preflight": {
+    "path": "research/challenge-8/task-history/select-callee-r24/CHECKED-OUTCOMES-TRANSPORT-PREFLIGHT.json",
+    "sha256": "5d2c053274831dc09452bd0e86999c8c92e7f0c5ec0a7ffa3f30916f04fa1007"
+  },
+  "validation": "synthetic/static tests only; no compiler, proof, source preparation, or Cloud"
+}

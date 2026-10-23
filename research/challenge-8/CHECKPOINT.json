@@ -22,7 +22,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e423bed4fbb66db3f473b8f6a99046b29b792fcf2a541dc42d55a9c9e9151730"
+      "sha256": "338afe4beba56356f8014b5e2b726a37c6eaa224ca4197eebd9b0dd88162a892"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -125,10 +125,11 @@
     }
   ],
   "checked_outcomes_decision": {
+    "candidate": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING"
+    "state": "REVIEW_GO_WITH_NITS_UNBUILT"
   },
   "confirmed": [
     {
@@ -221,10 +222,10 @@
     {
       "obligation": "Exact checked const-pointer Outcome projection",
       "reason": "Only emitted AST refs to shared cleanup are two same-unit false-unwind calls; use exact existing result projection. No raw MIR or checker edits.",
-      "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING"
+      "state": "REVIEW_GO_WITH_NITS_UNBUILT"
     }
   ],
-  "next_step": "Review exact checked pointer outcome projection, static transport, then full1200 Cloud positive and controls; preserve raw MIR and proof envelope.",
+  "next_step": "Submit reviewed2aba4276 exact checked pointer outcome projection at full1200; then Brief positive and all control stages.",
   "open": [
     "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."

@@ -26,7 +26,7 @@ Positive103a34 still exits1 with the same three dead-code sites; AST binding/cau
 - [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00` Build `af904556-010f-4159-9e4d-573e06e43d17`
 
 ## Next
-Review exact checked pointer outcome projection, static transport, then full1200 Cloud positive and controls; preserve raw MIR and proof envelope.
+Submit reviewed2aba4276 exact checked pointer outcome projection at full1200; then Brief positive and all control stages.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md](task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md) — `9b8756b2527417701207bd0acdda593a32aa7e6c002af2984cd03542db97c83d`
@@ -34,4 +34,4 @@ Review exact checked pointer outcome projection, static transport, then full1200
 - [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) — `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 - [research/challenge-8/task-history/select-callee-r24/R24-status-review.json](task-history/select-callee-r24/R24-status-review.json) — `7306e523cd70c0f9657bbb1057a4fa2ac46803772d9f80df5ff54f84a96b3df9`
 - [research/challenge-8/task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json](task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json) — `b3e327e087fe6b29440ac2a222dc8b0c6c2043e1f09c6c7b6b351d8ef4eecb0a`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `e423bed4fbb66db3f473b8f6a99046b29b792fcf2a541dc42d55a9c9e9151730`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `338afe4beba56356f8014b5e2b726a37c6eaa224ca4197eebd9b0dd88162a892`

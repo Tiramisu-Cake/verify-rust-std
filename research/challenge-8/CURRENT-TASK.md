@@ -52,5 +52,5 @@ Updated: 2026-10-23T12:03:25Z. Baseline source/tool/profile: `81226dafedd2e8d1df
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 1018s spent, 0s retired, 20582s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive103a34 still exits1 with the same three dead-code sites; AST binding/cause open. [Build `af904556-010f-4159-9e4d-573e06e43d17`]
-Next: Review exact checked pointer outcome projection, static transport, then full1200 Cloud positive and controls; preserve raw MIR and proof envelope.
+Next: Submit reviewed2aba4276 exact checked pointer outcome projection at full1200; then Brief positive and all control stages.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

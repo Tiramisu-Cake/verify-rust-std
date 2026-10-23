@@ -1,0 +1,43 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+  "baseline_commit": "6a586183c16599b5716ccdb23d2b86df4992c357",
+  "candidate_tree": "ab80429948fac4adb2e80b64200df567e35c0e46",
+  "spec_sha256": "9fa705597de5db4d5d1d0b9ba382b07612b702a4a3d910cd89d5f970e0821aed",
+  "packet_sha256": "762fd935a026c0f8d7b2bdaf4703850777ae3eeba985fe5e924d0fb9132a6d72",
+  "diff_sha256": "c1c95b790ae880322840999668d4572802ba67eaafa7095d7da984bfa8913c0d",
+  "decision": "GO_WITH_NITS",
+  "scope": "Independent semantic review of the exact R24 checked pointer outcome translator overlay and its opt-in runner/entry wiring.",
+  "verified": [
+    "smallsort-session review check matched the exact candidate, spec and packet; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "The 81c5e18b patch applies to frozen translator103 SHA 103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44 and reproduces pinned result SHA 6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c.",
+    "The OCaml gate is default-off and requires exact R24 session and R21 route, certified fractional nine-body state, PointerDrop/A1Nine/A1Link active, and unwind paths enabled. Unknown flag values reject.",
+    "The translator matcher is limited to select_unpredictable and the two specified FnDef names. It checks each exact type substitution, local operand, no projection, destination, normal target, Cleanup target, typed Outcome AST call, and one occurrence; active mismatches reject, and final counters require exactly one of each.",
+    "Only those two exact calls convert through the existing result_of_outcome/FnCallResult path and normal-only translated successor inventory. The raw MIR cleanup facts/certificate admission and same-unit ordinary callee verification are not changed by the patch.",
+    "Entry CLI and runner enable the flag only for exact R24 on the R21 Cloud route, around ordinary proof callbacks; all variants use that callback. Baseline AST inventory runs before the flag is set; finally restores the environment. Default-off and exception identity/cleanup controls are retained.",
+    "The runner checks patch/base/result translator hashes and final modified-file inventory; recipe/profile closure pins the new translator result. No source, classifier, target-map, model, checker, certificate, or Rust changes are introduced by the translator patch.",
+    "Patch reproduced in a temporary directory from the frozen source. python3 test_r24_checked_pointer_outcomes.py passed 2 tests; test_r24_checked_outcomes_entry.py passed 4; test_select_callee_r21_fractional_proof_entry.py passed 7; test_select_callee_r24_ast_inventory.py passed 14. bash -n on the runner and py_compile on the entry passed."
+  ],
+  "findings": [],
+  "nits": [
+    "git diff --check reports two trailing-whitespace lines in the added patch file (its two intended blank source lines contain a space). This is a source-formatting nit; patch application and result hash match.",
+    "The exact OCaml overlay remains unbuilt. Static pattern review and Python harnesses do not establish OCaml compilation, actual translator execution, AST artifact behavior, or proof acceptance.",
+    "The source-reported AST span hypothesis does not establish parser-input binding, physical checker-location identity, or causal explanation for the prior dead-code diagnostics."
+  ],
+  "not_run": [
+    "Local compiler, exporter, MIR decoder, verifier, source preparation, actual proof execution, Cloud Build, or raw evidence access.",
+    "Compilation or execution in the dirty external VeriFast tool worktree.",
+    "The main-reported encoded transport preflight was inspected as a report, not independently rerun by this reviewer."
+  ],
+  "limitations": "GO_WITH_NITS is limited to the reviewed static implementation and routing boundary. Actual compilation, clean positive and control results, same-unit callee acceptance, causal diagnosis, and proof credit remain unestablished.",
+  "main_reported_after_candidate": {
+    "transport_preflight": "PASS",
+    "payload_bytes": 384055,
+    "payload_sha256": "556f966188df0a5523f99eebc48702e3a627c558f26a077983b8e116a0a98033",
+    "encoded_config_bytes": "27272/28000",
+    "max_argument_bytes": "2778/10000",
+    "attribution": "Reported by main agent; no Cloud or proof call."
+  },
+  "proof_credit": 0
+}

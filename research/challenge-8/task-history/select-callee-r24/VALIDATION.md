@@ -173,3 +173,27 @@ suite first failed its single literal argv expectation; updated it to require
 both explicit R24 options (all original route/helper assertions retained).
 Removed worker toy gate/call models: they did not execute the translator and
 are not validation of exact admission. Cloud compile/proof/matrix still pending.
+
+
+Checked-outcomes candidate2aba4276 static encoded transport passes: source
+payload384055 bytes/SHA556f9661, encodedconfig27272/28000, maxarg2778/10000.
+The successful command used exact git rev-parse identity after a mistyped SHA
+was rejected by git-show before payload creation. Runtime inventory includes
+96 unique committed blobs (exact infrastructure core plus recipe and proof
+paths),2253706 bytes, canonical inventorySHA63e2e3ba. Neither operation ran
+source preparation, exporter, OCaml compiler, verifier, proof or Cloud calls.
+
+Unchanged fractional classifier suite:11pass. The R23 static binding suite
+initially failed one count assertion: it expected two occurrences of the103
+translator hash; the new overlay correctly adds a third exact base assertion.
+Updated the count to3 with explanatory comment, retaining every original pin,
+patch hash, source/fingerprint and recipe check. This is test-only and does
+not change reviewed runtime inputs or the proof candidate. Four tests pass.
+
+Independent Luna HIGH review of exact2aba4276: GO_WITH_NITS, no semantic
+findings. Packet762fd935/spec9fa70559 verified. Reviewer independently
+reproduced81c5e18b patch→translator6a710d26 and ran2patch/4callback/7entry/
+14AST tests plusbash-n/py_compile. No local actualtoolchain/proof/Cloud.
+Nits retained: two whitespace-only patch lines, unbuilt OCaml and unproved
+coordinate hypothesis. No semantic edits after the reviewed candidate; later
+changes are test-only/metadata and do not enter runtime transport closure.

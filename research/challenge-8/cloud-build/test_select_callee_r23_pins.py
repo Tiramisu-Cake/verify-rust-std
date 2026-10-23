@@ -44,7 +44,8 @@ class R23Pins(unittest.TestCase):
         self.assertEqual(runner.count(cfg['translator_sha256']), 1)
         ghost = json.loads((HIST / 'GHOST-CFG-PROOF-PINS.json').read_text())
         self.assertEqual(hashlib.sha256((ROOT / ghost['patch']).read_bytes()).hexdigest(), ghost['patch_sha256'])
-        self.assertEqual(runner.count(ghost['translator_sha256']), 2)
+        # The R24 overlay adds an exact base check after the two R23 checks.
+        self.assertEqual(runner.count(ghost['translator_sha256']), 3)
         self.assertIn(ghost['patch_sha256'], runner)
         self.assertIn(cfg['patch_sha256'], runner)
         self.assertIn('stage r21-fractional-proof python3', runner)
