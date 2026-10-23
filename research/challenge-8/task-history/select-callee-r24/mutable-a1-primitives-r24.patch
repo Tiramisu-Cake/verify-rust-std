@@ -1,0 +1,121 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1931,6 +1931,12 @@
+       | Some _ -> reject "flag must be absent or exactly 1"
+   end
+ 
++
++  module Sort4MutableA1Primitives = struct
++    let inhabited_count = ref 0
++    let transmute_count = ref 0
++    let reject why = failwith ("SORT4-R24-MUTABLE-A1-PRIMITIVES: refusal: " ^ why)
++  end
+ 
+   module CapnpAux = struct
+     open Stdint
+@@ -4251,6 +4257,23 @@
+                      "outer actual assume_init type/body shape")
+             (* Todo @Nima: For cases where we inline an expression instead of a function call,
+                there is a problem with extending the implementation for clean-up paths *)
++            | "std::intrinsics::assert_inhabited"
++              when !Sort4MutA1Nine.active &&
++                   !Sort4MutR24CheckedPointerOutcomes.active &&
++                   State.body_name = Sort4MutA1Link.caller_name ->
++                (match fn_def_ty_cpn.substs, substs_cpn, args_cpn with
++                 | [{kind=Type p}], [{kind=Type q}], []
++                   when fn_def_ty_cpn.late_bound_generic_param_count = 0 &&
++                        p = q && Sort4MutA1Link.const_ptr p ->
++                     incr Sort4MutableA1Primitives.inhabited_count;
++                     if !Sort4MutableA1Primitives.inhabited_count <> 1 then
++                       Sort4MutableA1Primitives.reject "assert_inhabited count";
++                     (* A raw pointer value is inhabited for unrestricted Element;
++                        no pointee ownership or Drop premise is introduced. The
++                        exact local graph retains the nounwind intrinsic edge. *)
++                     Ok (tmp_rvalue_binders, FnCallResult (mk_unit_expr fn_loc))
++                 | _ -> Sort4MutableA1Primitives.reject
++                     "exact mutable assert_inhabited type/body/substitutions")
+             | "std::intrinsics::assert_inhabited" -> (
+                 (* Raw pointers to an arbitrary Element are inhabited.  This is
+                    the precise specialization in the 26.10 assume_init body;
+@@ -6273,6 +6296,45 @@
+               operand = Move { local = { name = source_local };
+                                projection = [] };
+               ty = { kind = RawPtr {
++                ty = ({ kind = Param "Element" } as elem_ty); mutability = Mut } } }
++              when !Sort4MutA1Nine.active &&
++                   !Sort4MutR24CheckedPointerOutcomes.active &&
++                   State.body_name = Sort4MutA1Link.callee_name &&
++                   source_local = "_3" &&
++                   (match List.assoc_opt source_local Args.local_decl_types with
++              | Some { kind = Adt {
++                  id = { name = "std::mem::MaybeUninit" };
++                  kind = UnionKind;
++                  substs = [ { kind = Type { kind = RawPtr {
++                    ty = source_elem; mutability = Mut } } } ] } } ->
++                    source_elem = elem_ty
++              | _ -> false) ->
++            (* The operand is a plain local Move, never a Box projection.
++               The per-body MIR declaration confirms its exact source type,
++               including mutable pointer kind and the same complete Element.
++               The generated primitive's typed parameter is an independent
++               backstop against Box and other source types. *)
++            incr Sort4MutableA1Primitives.transmute_count;
++            if !Sort4MutableA1Primitives.transmute_count <> 1 then
++              Sort4MutableA1Primitives.reject "transmute count";
++            (match operand with
++            | `TrOperandMove (expr, _) ->
++                let* elem_info = translate_decoded_ty elem_ty loc in
++                let call =
++                  Ast.CallExpr
++                    (loc, "std::mem::maybe_uninit_pointer_transmute",
++                     [ elem_info.vf_ty ], [], [ LitPat expr ], Static)
++                in
++                (* A Regular Rust function returns fn_outcome<T>.  The
++                   primitive's false unwind post makes this returning(T),
++                   and the existing outcome projection gives the cast T. *)
++                Ok (`TrRvalueExpr (result_of_outcome loc call))
++            | _ -> Error (`TrRvalue
++                      "pointer transmute requires a plain moved local"))
++          | { kind = Transmute;
++              operand = Move { local = { name = source_local };
++                               projection = [] };
++              ty = { kind = RawPtr {
+                 ty = ({ kind = Param _ } as elem_ty); mutability = Not } } }
+               when (match List.assoc_opt source_local Args.local_decl_types with
+               | Some { kind = Adt {
+@@ -6301,6 +6363,10 @@
+                 Ok (`TrRvalueExpr (result_of_outcome loc call))
+             | _ -> Error (`TrRvalue
+                       "pointer transmute requires a plain moved local"))
++          | { kind = Transmute; ty = { kind = RawPtr {mutability = Mut; _} } }
++              when !Sort4MutA1Nine.active ->
++            Error (`TrRvalue
++              "uncertified mutable-pointer transmute source, body, or operand")
+           | {operand=Copy {local; projection=[BoxAsNonNull _]}} ->
+             let id = translate_local_decl_id_ local.name in
+             let e =
+@@ -19987,6 +20053,8 @@
+     Ok ()
+ 
+   let certify_sort4_mutable_bundle vf_mir =
++    Sort4MutableA1Primitives.inhabited_count := 0;
++    Sort4MutableA1Primitives.transmute_count := 0;
+     Sort4MutableProfile.root := None;
+     Sort4MutableProfile.selected := None;
+     Sort4MutCertificate.active := false;
+@@ -20523,9 +20591,13 @@
+         Printf.printf
+           "SORT4-SELECT-INTRINSIC: checked SAFE adapter translated (ptr=%d, wrapper=%d)\n%!"
+           !Sort4MutSelectIntrinsic.ptr_count !Sort4MutSelectIntrinsic.mu_count);
+-      if !Sort4MutR24CheckedPointerOutcomes.active then
++      if !Sort4MutR24CheckedPointerOutcomes.active then (
++        if !Sort4MutableA1Primitives.inhabited_count <> 1 ||
++           !Sort4MutableA1Primitives.transmute_count <> 1 then
++          Sort4MutableA1Primitives.reject "exactly one inherited mutable primitive at each A1 site";
++        Printf.printf "SORT4-R24-MUTABLE-A1-PRIMITIVES: assert_inhabited=1 transmute=1\n%!";
+         Printf.printf "SORT4-R24-MUTABLE-CERTIFICATES: case=%s bodies=9 pointer_drop=1 assume_init=1; raw MIR cleanup retained\n%!"
+-          (Sort4MutableProfile.case_name ());
++          (Sort4MutableProfile.case_name ()));
+       (* `vfide` relies on the similarity of the order of function declarations
+          over several calls to `verifast` hence we are sorting them since `rustc` does not keep that order the same.
+       *)

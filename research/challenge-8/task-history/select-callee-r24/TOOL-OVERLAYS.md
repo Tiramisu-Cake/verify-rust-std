@@ -117,3 +117,7 @@ unqualified pending exact target pins and classifier prior/current repair.
 ## Separate UNBUILT mutable candidate (not part of hosted chain)
 
 `mutable-certificates-r24.patch` SHA-256 `e1b5b8aa78e905884565e16318e29559050e2fba41366a60d61ebdbe1aeb9099` applies after row31/C8. Generated final translator SHA-256 `eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162`. Closed R24 mutable case/root selector, separate predicates/certifiers/translation state; const profile retained. Independent review pending; no actual compile/proof or P2 publication. Generators and scope: [MUTABLE-NATIVE-CANDIDATE.md](MUTABLE-NATIVE-CANDIDATE.md).
+
+## Incremental mutable A1 primitive candidate — UNBUILT
+
+Row33 `mutable-a1-primitives-r24.patch` SHA-256 `e81f3a4c64df13432cbcdb9287a7247bd1e87884a6a35c901eefd0d7e0efbc4d`, base translator `eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162`, final `11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f`. Applies only inside exact mutable positive mode after row32. New closed typed mutable A1 arms for assert_inhabited and checked MaybeUninit-pointer transmute; counters1/1; old const arms retained. Row32 compiled on Build4509, whose mutable translation stops at const-only assert_inhabited. No mutable body proof/publication/credit. Review/Cloud for row33 pending.
