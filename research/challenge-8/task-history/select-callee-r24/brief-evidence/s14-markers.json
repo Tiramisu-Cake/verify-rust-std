@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "8520198490f4658ab3d8e52b2c39b42854adba5c7c96161ffd561adf4244964f",
+  "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 62,
+    "line_separator": "LF",
+    "source_lines": 710,
+    "start": 61,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+  "file_path": "allprooflogs/cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/r24-mut-proof-positive.log",
+  "file_sha256": "7278c66db12e097a8d0808752f2871bc2373ed93129d4e2a0c6935b54036dd70",
+  "index_sha256": "57b5f78745a2cbd21c80cc7a1db4a063a74e36fda2949df4ff46bebe02f7defb",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 62,
+    "expected_sha256": "7278c66db12e097a8d0808752f2871bc2373ed93129d4e2a0c6935b54036dd70",
+    "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+    "start": 61
+  },
+  "request_id": "e7ba0bbf5420fff4f96f78557fc08e7c7337e4d2519f8344a98fb93326cd556c",
+  "requested_end": 62,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 61,
+      "text": "SORT4-R24-MUTABLE-A1-PRIMITIVES: assert_inhabited=1 transmute=1"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 62,
+      "text": "SORT4-R24-MUTABLE-CERTIFICATES: case=positive bodies=9 pointer_drop=1 assume_init=1; raw MIR cleanup retained"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

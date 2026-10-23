@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "8520198490f4658ab3d8e52b2c39b42854adba5c7c96161ffd561adf4244964f",
+  "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 10,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "39e8a0e955aba1e572a1b6475a9b8e2ba767f27e67135524abf3c636b7069f5f",
+  "file_path": "allprooflogs/cases/r24-mut-proof/MUT-PROOF.json",
+  "file_sha256": "652a37532106780c43b04b22bb43f8737c4d1212d5ab61302e62f9d5723d554f",
+  "index_sha256": "57b5f78745a2cbd21c80cc7a1db4a063a74e36fda2949df4ff46bebe02f7defb",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "652a37532106780c43b04b22bb43f8737c4d1212d5ab61302e62f9d5723d554f",
+    "file_id": "39e8a0e955aba1e572a1b6475a9b8e2ba767f27e67135524abf3c636b7069f5f",
+    "pointer": "/rows/positive/proof_stage"
+  },
+  "request_id": "1ff5e13952844adb3f084fbad347403f89f8b336d1703d7727181c9a078c149d",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/positive/proof_stage/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/positive/proof_stage/exit",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/proof_stage/intrinsic_gate_active",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/proof_stage/pointer_drop_gate_active",
+      "value": false
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/proof_stage/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/positive/proof_stage/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/positive/proof_stage/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/proof_stage/status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/proof_stage/stderr",
+      "value": "r24-mut-proof-positive.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/positive/proof_stage/stdout",
+      "value": "r24-mut-proof-positive.log"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

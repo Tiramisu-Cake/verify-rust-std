@@ -1,0 +1,61 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD",
+  "baseline_commit": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
+  "candidate_commit": "993dd9e5dbd98332aa620e3a36a64040ed8d487f",
+  "candidate_tree": "5883534ced44028ed63b8c93596c77efa2dc99f3",
+  "spec_sha256": "5a9f6b39aad5e4d3805e14afbf7822549b895b26836c82095ceba17baa8c83a9",
+  "packet_sha256": "5e6c3e58ed8a2f5eaad465ddb7b22ecca6ec5ce0f69e697f7b3544a3cdeca8aa",
+  "packet_diff_sha256": "f75a15c3b5bf20fcb8905abda737e3b1025e78c78c68570c8f3b61387517f759",
+  "commit_diff_sha256": "c8417dcd99745229932c3a9ca7a08073cb73e932f3135b2b978802ef8cf2e65e",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-native-review.json",
+      "sha256": "2f60b54b42f9ea9c145cfcde451dc0c0f6d8c89ad3a25dcb43b42833e9065853",
+      "decision": "GO_LIBRARY_ONLY; unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-review.json",
+      "sha256": "66a214ba2544334947a51e8c067bcf6e4e793af9ff31638cd6ffb544d8c8f691",
+      "decision": "NO_GO for provenance reporting; preserved unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
+      "sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1",
+      "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD; unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
+      "sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
+      "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD; unchanged"
+    }
+  ],
+  "scope": "Independent review of the tiny mutable checked-successor filter delta and exact tool transport update. GO is limited to the full1200 Cloud Build with same-tool const regression and mutable positive; this does not approve acceptance, publication or proof credit.",
+  "verified": [
+    "Exact packet check passed for candidate 993dd9e5dbd98332aa620e3a36a64040ed8d487f, baseline 51797daecd14ed7ac0cc16affcb926f6e797bf2b, spec SHA 5a9f6b39aad5e4d3805e14afbf7822549b895b26836c82095ceba17baa8c83a9 and packet SHA 5e6c3e58ed8a2f5eaad465ddb7b22ecca6ec5ce0f69e697f7b3544a3cdeca8aa; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The entire translator source delta adds only `checked_mut_owner_no_unwind` and `checked_mut_r24_pointer_outcome` to the existing final FnCallResult/Goto successor-filter condition. The filter returns the already computed emitted normal targets; raw Rust MIR normal/Cleanup edges and their existing certification are not modified.",
+    "These flags are set only for the existing exact mutable same-unit forget, pointer-drop and assume_init calls. The existing checks bind active mutable certificates, caller/body identity, typed callees/substitutions, plain moved operands, destinations, normal and Cleanup targets, and false-unwind behavior. The mutable checked-outcome path also refuses when unwind paths are ignored. A missed shape rejects before the new flags enable the successor filter.",
+    "The new behavior makes the emitted AST successor inventory match the lowering already performed for FnCallOutcome to FnCallResult. No new projection, proof premise, checker behavior, source pin, MIR pin, ownership gate, counter or body admission is introduced. The existing const flags, normal/unwind/drop/leak/refinement checks and ordinary nine body obligations remain unchanged.",
+    "The exact mutable patch applies to the pinned 11d4 translator bytes and yields the expected final SHA 8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007. The shell applies it only in the exact positive mode after checking base/patch/final hashes and unchanged tool inventory; the profile hash selects this final translator only in that mode.",
+    "The prior candidate's source-reported compile/proof observations were supplied in the task handoff, not independently audited here. The candidate's static payload preflight reports 427113 bytes (SHA256 88ac00d35f849967959b268b6c79a81bc1ddec44e041204adb7acddc98abb28f), max argument 2778 and encoded config 27408/28000. Runtime closure reports 117 entries and 2832597 bytes (SHA256 7697d8bdfaa7e4ee4e6dcd979eff568ec6567fce7a086f4b75a65e875f12b0e7)."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-successor-review --expect-candidate 993dd9e5dbd98332aa620e3a36a64040ed8d487f --expect-spec-sha256 5a9f6b39aad5e4d3805e14afbf7822549b895b26836c82095ceba17baa8c83a9 (pass)",
+      "Applied mutable-checked-successors-r24.patch to a disposable copy of exact 11d4 source; final SHA matches 8a026... (pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof.py (17 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof_entry.py (7 tests, pass)",
+      "Bash syntax and Python proof-library/entry syntax checks (pass)",
+      "git diff --check baseline..candidate (only mandatory unified-patch context-prefix whitespace reports)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build, Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "This GO approves only the configured positive plus same-tool const-regression Build. The successor inconsistency is a statically verified translator issue and its correction is a falsifiable hypothesis for the prior dead-code observation; no causal proof or verification result is claimed. Actual native compile/body proof and the full mutable negative/refusal matrix remain pending. P2 remains unpublished, accepted/publication are false, and proof credit is zero.",
+  "proof_credit": 0
+}
