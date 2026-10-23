@@ -15,6 +15,14 @@
     {
       "path": "research/challenge-8/verifast-swap-size.md",
       "sha256": "986740419fdfd6dc789fb8edb56524f0623e0469fa22bfb537cf49b9553f1e13"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
+      "sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540"
+    },
+    {
+      "path": "research/challenge-8/network/r7/N5-DISPATCH-CLOSURE.json",
+      "sha256": "2c3153f6be13898b3706a10e2c28d435aba5ea4e14c47823f1c7a71684de3052"
     }
   ],
   "assignment_sha256": "2696a2806c419cb4cbd9448d19c79de2c4d54a0520d7880acc869b297bcf0ff5",
@@ -26,11 +34,12 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/network/n13/N4-HANDOFF.md",
-        "sha256": "8e6344d99a986677208df9a374c87054e82ec42eb5ff7e5bcc7be4f62bcf6ce3"
+        "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+        "path": "research/challenge-8/network/r7/TRANSFER-CARD.json",
+        "sha256": "ae30f7194086b58ed7cc9842283f3a27fca18dbea49f8297200b199cf3eb5c90"
       }
     ],
-    "summary": "Universal terminal; Brief classification pending. R7 reviewed, UNRUN."
+    "summary": "R7 Cloud running; P2 NOT_PUBLISHED. N13 math matrix accepted SOURCE_REPORTED."
   },
   "confirmed": [
     {
@@ -64,6 +73,25 @@
           "sha256": "9db8cfc9a0009e42821da8309d80e435add1653ce25e11b27740f130dc6b2e8f"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N5 standalone universal480 accepted:392.876794885s,19bodies,7675return/leakchecks,exit0,errors0,unitf65fe336 unchanged. Full exact N13 mathematical matrix complete with compatible N4/N5 receipts and updated checked positive prefixes; independent/Rustcaller credit0.",
+      "evidence": [
+        {
+          "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
+          "path": "research/challenge-8/observations/d2a79856150c6ae7f90bfbd21a11a48218f792bdfca4e9ca633bf7d8f7abff05.json",
+          "sha256": "d2a79856150c6ae7f90bfbd21a11a48218f792bdfca4e9ca633bf7d8f7abff05"
+        },
+        {
+          "path": "research/challenge-8/network/n13/N5-RESULT.md",
+          "sha256": "b7448dc2495380b01ef7cad07b0a96e98e418ad4e8e781d1a9947d1e0414fd34"
+        },
+        {
+          "path": "research/challenge-8/network/n13/N5-COMPATIBLE-IDENTITIES.json",
+          "sha256": "93936d2499370e60df5b5d641c9450a573e52421c6664bf332929851bd77cb45"
+        }
+      ]
     }
   ],
   "decisions": [
@@ -81,13 +109,13 @@
       "choice": "First controls-order600, then standalone universal480 and compatible checked dependency coverage",
       "obligation": "N13 full mathematical matrix",
       "reason": "Explicit N5 priority; preserve all prior failures and exact pins",
-      "state": "ORDER_ACCEPTED_UNIVERSAL_RUNNING"
+      "state": "COMPLETE_SOURCE_REPORTED_MATH_MATRIX"
     },
     {
       "choice": "Cloud-only source-preserving isolated helper stage on stock26.09",
       "obligation": "R7 baseline transfer",
       "reason": "Independent of Select P2, explicit second N5 goal",
-      "state": "R7_REVIEW_GO_AWAITING_CLOUD"
+      "state": "R7_CLOUD_RUNNING"
     },
     {
       "choice": "Check PUBLISHED P2 after N13/R7; no new W8 candidates",
@@ -96,29 +124,34 @@
       "state": "EXTERNAL_INTERFACE_NOT_PUBLISHED"
     }
   ],
-  "next_step": "Classify universal Brief; final closure/pins; submit R7 swap-size1185.",
+  "next_step": "Ack R7 watcher; Brief verifier/refiner/source/trace receipts; result card and final accounting.",
   "open": [
-    "Order negative UNRUN; standalone universal INCONCLUSIVE; full acceptance OPEN. Universal480 profile and W8 preparer UNRUN.",
-    "R4/W7 P2 NOT_PUBLISHED; actual W8 needs W3/W5/W7. R7 transfer to baseline cd371e0 NOT_STARTED."
+    "Actual Rust swap_if_less/network9/network13 source/MIR binding, ownership, normal/unwind and caller coverage remain OPEN; the N13 ghost matrix does not close W7.",
+    "R7 component transfer is RUNNING_UNVERIFIED. R4/W7 require PUBLISHED P2; actual W8 requires publishedW3/W5/W7 resources; no new W8 candidate."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-24-N5",
   "r7_preparation": {
+    "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
     "candidate_commit": "ed3bedb8802ed3ef5b38b5b3250d7691c426dd4d",
+    "config_sha256": "800eb711dc68dd8cb9c902196c41cf2497f8e6ff93a5ba1b1c07b974ec664d0c",
+    "dispatch_token": "dispatch-6a9f8bb6792742dfb769726597c2d3c7",
     "integration_delta": "research/challenge-8/cloud-build/control.py",
     "notes": [
       "Same network-n13 lane stage swap-size; separate additional profile pin leaves N13 profile unchanged.",
       "Envelope stage810=compiler450+verifier180+refiner180; build1185=810+120setup+15soft+240report.",
       "4 synthetic wrapper tests pass; worker runner requires localized receipt/unchanged-input fixes before independent review.",
       "Localized fixes/tests passed; extra R7 stage/profile connected only after universal dispatch. N13 profile bytes unchanged; fresh review required.",
-      "Static closure initially refused because local live ledger differs from committed snapshot; retain refusal, commit metadata snapshot and rerun before R7 submit."
+      "Static closure initially refused because local live ledger differs from committed snapshot; retain refusal, commit metadata snapshot and rerun before R7 submit.",
+      "Final static closure passed on47647a67,15entries/187186bytes; final transport27920base64<28000,45source substitutions; semantic paths unchanged from revieweded3bedb8. Old refused closure attempts preserved as diagnostics, no proof inferred."
     ],
     "profile": "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
     "profile_sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540",
+    "published_candidate": "47647a67de32787cfa2e3671bdd578c6901e31da",
     "review": "research/challenge-8/network/r7/REVIEW-N5.md",
     "review_spec_sha256": "cb70925bb9724e5371599f1460c6c7c2636eb4326c3b073479b221ee5e32dbae",
     "runner": "research/challenge-8/network/r7/run-cloud.py",
-    "status": "REVIEW_GO_UNRUN",
+    "status": "RUNNING_UNVERIFIED",
     "wrapper": "research/challenge-8/cloud-build/network-n13/run-r7.sh"
   },
   "rejected": [
@@ -135,7 +168,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "7dda802c-ea08-4741-acf3-f9b91821ca45"
+    ],
     "budget_seconds": 10800,
     "deadline_utc": "2026-10-26T11:48:37Z",
     "finish_minutes": 60,
@@ -150,9 +185,9 @@
   "session_notes": [
     "First submit invocation refused missing explicit state-dir before any dispatch; corrected with fresh /tmp/smallsort-network-n5. No duplicate dispatch."
   ],
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T11:15:34Z",
+  "updated_utc": "2026-10-23T11:19:03Z",
   "watch_events": [
     {
       "ack": "CONTINUE_EXISTING_WINDOW",

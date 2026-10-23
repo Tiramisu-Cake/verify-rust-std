@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "8735512c547a4b63db05d17c1df443b08231fb0dfd97a571872de034e14f625c",
+  "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 7,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+  "file_path": "allprooflogs/cases/results.json",
+  "file_sha256": "067b27a0d0036c3a2b4be3a3d631f7f696412e518dde230c4c28fd191dfd4ac0",
+  "index_sha256": "09fdb297719abb42d474a37f4150074545cf05c289e47167c20b2247686f7ab5",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "067b27a0d0036c3a2b4be3a3d631f7f696412e518dde230c4c28fd191dfd4ac0",
+    "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+    "pointer": "/source"
+  },
+  "request_id": "b03a1cf7122937bdce621794bf9bec17252dd39878ff05d0bba1ccb08f98304b",
+  "results": [
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/source/call_count",
+      "value": 45
+    },
+    {
+      "child_count": 45,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/source/calls"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/commit",
+      "value": "5b4dba1627b9f0632faf9816ee611634b28351a8"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/git_blob",
+      "value": "40939f922bcb6fdc7ee0d30427fa861827043827"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/path",
+      "value": "library/core/src/slice/sort/shared/smallsort.rs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/schedule_sha256",
+      "value": "d2cf2d9ea3cd84e315941e7ad1a37745adfdabfa185b56a745f2013ab6e19173"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/sha256",
+      "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

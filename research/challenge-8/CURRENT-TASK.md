@@ -48,10 +48,10 @@ Next: Register N5; order negative 600/975+60, then universal 480/855+60 and cove
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-24-n5 · network · NETWORK-N13-EXACT-2026-10-24-N5 · ACTIVE**
-Updated: 2026-10-23T11:15:34Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`.
+**network-n13-exact-cloud-2026-10-24-n5 · network · NETWORK-N13-EXACT-2026-10-24-N5 · HANDOFF**
+Updated: 2026-10-23T11:19:03Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`.
 Dates: T0 `2026-10-23T10:48:37Z`; main `2026-10-26T10:48:37Z`; absolute `2026-10-26T11:48:37Z`; window 4320 min main + 60 min closeout (explicit). Budget 10800s: 1131s spent, 0s retired, 9669s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Universal terminal; Brief classification pending. R7 reviewed, UNRUN.
-Next: Classify universal Brief; final closure/pins; submit R7 swap-size1185.
+Active Build IDs: 7dda802c-ea08-4741-acf3-f9b91821ca45; unresolved: none recorded.
+Blocker: R7 Cloud running; P2 NOT_PUBLISHED. N13 math matrix accepted SOURCE_REPORTED.
+Next: Ack R7 watcher; Brief verifier/refiner/source/trace receipts; result card and final accounting.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

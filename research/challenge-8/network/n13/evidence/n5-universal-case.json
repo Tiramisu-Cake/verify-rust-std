@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "8735512c547a4b63db05d17c1df443b08231fb0dfd97a571872de034e14f625c",
+  "build_id": "b56024de-3990-4016-b758-bf061f4d6c12",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 22,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+  "file_path": "allprooflogs/cases/results.json",
+  "file_sha256": "067b27a0d0036c3a2b4be3a3d631f7f696412e518dde230c4c28fd191dfd4ac0",
+  "index_sha256": "09fdb297719abb42d474a37f4150074545cf05c289e47167c20b2247686f7ab5",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "067b27a0d0036c3a2b4be3a3d631f7f696412e518dde230c4c28fd191dfd4ac0",
+    "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+    "pointer": "/cases/0/result"
+  },
+  "request_id": "8eb9e354f8eb6e7ab5d53f2c9e77fe2371bdad6752e6a8cfc14b5b605cecf996",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/0/result/accepted",
+      "value": true
+    },
+    {
+      "child_count": 19,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/body_milestones"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/0/result/body_milestones_complete",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/body_milestones_count",
+      "value": 19
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/boundary",
+      "value": "universal ghost assertion harness; ensures true is not an exported Rust callee summary"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/case",
+      "value": "network13_symbolic_swo_composition"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/cases/0/result/classifier_rejection_controls",
+      "value": null
+    },
+    {
+      "child_count": 9,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/command"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/errors"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/exit",
+      "value": 0
+    },
+    {
+      "child_count": 19,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/cases/0/result/expected_bodies"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/cases/0/result/last_statement"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/leak_checks",
+      "value": 7675
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/log",
+      "value": "/workspace/evidence/allprooflogs/cases/network13_symbolic_swo_composition.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/log_sha256",
+      "value": "4cbdf399a38fd983042b7e01be775ee5ad4a98d4a239ba20a0e49380b17e9252"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/cases/0/result/negative",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/refinement",
+      "value": "not applicable to mathematical C ghosts; Rust bridge not proved"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/cases/0/result/return_checks",
+      "value": 7675
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/result/source_sha256",
+      "value": "f65fe3366282ce905cc895c2a5326a13cb8e6a0b78fddb7ef46c988e1a1454bf"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/cases/0/result/source_unchanged",
+      "value": true
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
