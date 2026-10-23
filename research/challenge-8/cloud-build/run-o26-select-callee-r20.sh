@@ -89,6 +89,13 @@ if [[ -e "$r24_mut_classified_mode_file" ]]; then
   [[ "$(sha256sum "$r24_mut_classified_mode_file" | cut -d' ' -f1)" == 3e17c17a993f01e8d136effd2ec3026f11825ef30793eb5178d9fe2f787131b7 ]] || exit 2
   r24_mut_classified_proof_enabled=1
 fi
+r24_mut_refusal_enabled=0
+r24_mut_refusal_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-REFUSAL-MODE.json"
+if [[ -e "$r24_mut_refusal_mode_file" ]]; then
+  (( r24_mut_classified_proof_enabled == 1 )) || exit 2
+  [[ "$(sha256sum "$r24_mut_refusal_mode_file" | cut -d' ' -f1)" == 658f4d8bd18958ed78e87f6ddd14a2252140a895cb9dd8b063b957a4a2078289 ]] || exit 2
+  r24_mut_refusal_enabled=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -108,7 +115,7 @@ mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
   if (( r24_mut_classified_proof_enabled == 1 )); then
-    local classified_audit_exit=0 consequence_audit_exit=0
+    local classified_audit_exit=0 consequence_audit_exit=0 p2_composite_audit_exit=0 refusal_audit_exit=0
     python3 "$cloud_dir/select-callee-r24-mut-classified-proof.py" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --classified-mode-file "$r24_mut_classified_mode_file" \
@@ -118,10 +125,10 @@ audit_result() {
     python3 "$cloud_dir/select-callee-r24-p2-entailment.py" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --tool-home "${source_home:-/workspace/missing-native-tool}" \
-      --schema "${schema:-/workspace/missing-schema}" --candidate "$current_sha" \
-      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
+      --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-}" \
+      --candidate "$current_sha" --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
       --output "$ev/p2-consequence-audit.json" --runner-exit "$1" --failed-stage "$2" || consequence_audit_exit=$?
-    python3 - "$evidence_root/proof-audit.json" "$ev/p2-consequence-audit.json" "$classified_audit_exit" "$consequence_audit_exit" <<'P2_CONSEQUENCE_AUDIT'
+    python3 - "$evidence_root/proof-audit.json" "$ev/p2-consequence-audit.json" "$classified_audit_exit" "$consequence_audit_exit" <<'P2_CONSEQUENCE_AUDIT' || p2_composite_audit_exit=$?
 import json,pathlib,sys
 root,extra=map(pathlib.Path,sys.argv[1:3]);codes=list(map(int,sys.argv[3:]));read_errors=[]
 def read(path):
@@ -140,7 +147,39 @@ record.update(accepted=False,publication_allowed=False,proof_credit=0,verificati
 root.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
 assert record['evidence_complete'] is True
 P2_CONSEQUENCE_AUDIT
-    return
+    if (( r24_mut_refusal_enabled == 1 )); then
+      python3 "$cloud_dir/select-callee-r24-mut-refusal-entry.py" audit \
+        --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+        --refusal-mode-file "$r24_mut_refusal_mode_file" \
+        --classified-mode-file "$r24_mut_classified_mode_file" \
+        --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file" \
+        --tool-home "${source_home:-/workspace/missing-native-tool}" \
+        --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-}" \
+        --candidate "$current_sha" --deadline-epoch "$deadline" \
+        --output "$ev/mutable-refusal-audit.json" \
+        --runner-exit "$1" --failed-stage "$2" || refusal_audit_exit=$?
+      python3 - "$evidence_root/proof-audit.json" "$ev/mutable-refusal-audit.json" "$p2_composite_audit_exit" "$refusal_audit_exit" <<'MUT_REFUSAL_AUDIT'
+import json,pathlib,sys
+root,extra=map(pathlib.Path,sys.argv[1:3]);codes=list(map(int,sys.argv[3:]));read_errors=[]
+def read(path):
+ try:
+  value=json.loads(path.read_text())
+  if not isinstance(value,dict):raise ValueError('audit is not an object')
+  return value
+ except (OSError,ValueError) as exc:
+  read_errors.append(path.name+': '+str(exc));return {'evidence_complete':False}
+record=read(root);refusals=read(extra)
+record['mutable_refusal_audit']=refusals
+record['refusal_composite_audit_exits']=codes
+record['refusal_composite_audit_errors']=read_errors
+record['evidence_complete']=codes==[0,0] and not read_errors and record.get('evidence_complete') is True and refusals.get('evidence_complete') is True
+record.update(accepted=False,publication_allowed=False,proof_credit=0,verification_accepted=False)
+root.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+assert record['evidence_complete'] is True
+MUT_REFUSAL_AUDIT
+      return "$?"
+    fi
+    return "$p2_composite_audit_exit"
   fi
   if (( r24_mut_matrix_proof_enabled == 1 )); then
     python3 "$cloud_dir/select-callee-r24-mut-matrix-proof.py" audit \
@@ -615,6 +654,15 @@ CONST_REGRESSION
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
       --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file"
+  fi
+  if (( r24_mut_refusal_enabled == 1 )); then
+    stage r24-mut-refusals python3 "$cloud_dir/select-callee-r24-mut-refusal-entry.py" run \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --refusal-mode-file "$r24_mut_refusal_mode_file" \
+      --classified-mode-file "$r24_mut_classified_mode_file" \
       --matrix-proof-mode-file "$r24_mut_matrix_proof_mode_file"
   fi
   current_stage=r24-mut-proof-audit

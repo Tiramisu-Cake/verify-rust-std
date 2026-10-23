@@ -61,7 +61,7 @@ REFUSAL_PREFIX = 'Fatal error: exception Failure("SORT4-R24-MUTABLE-CERTIFICATES
 REFUSAL_SUFFIX = '")'
 SOURCE_HASH_REFUSAL = "exact mutable verified source SHA256"
 ROUTE_REFUSAL = "exact R24/R21 profile and unwind-preserving route required"
-PARTIAL_SELECTOR_REFUSAL = "partial mutable case/root selector"
+PARTIAL_SELECTOR_REFUSAL = "mutable repository root missing"
 UNKNOWN_CASE_REFUSAL = "mutable case selector must be one closed enum value"
 LEGACY_SELECTOR = "SORT4_R24_CHECKED_POINTER_OUTCOMES"
 LEGACY_REFUSAL = "legacy semantic opt-in present: " + LEGACY_SELECTOR
@@ -688,6 +688,10 @@ def audit_controls(*, evidence: Path, positive_case: Path, repo: Path,
               positive_record.get("publication_status") == "NOT_PUBLISHED" and
               positive_record.get("proof_credit") == 0,
               "positive source-record status differs during audit")
+        positive_original = (positive_case / "original/lib.rs").read_bytes()
+        positive_verified = (positive_case / "verified/lib.rs").read_bytes()
+        _need(owner.strip_ghost(positive_verified) == positive_original,
+              "positive source ghost-strip identity differs during audit")
         root = evidence / SUMMARY_RELATIVE.parent / "variants"
         controls = summary.get("controls")
         _need(root.is_dir() and not root.is_symlink() and isinstance(controls, dict) and
@@ -702,13 +706,25 @@ def audit_controls(*, evidence: Path, positive_case: Path, repo: Path,
                       expected_case.is_dir() and not expected_case.is_symlink(),
                       "control row or physical case path differs: " + control)
                 actual_pair = _source_pair_hashes(expected_case)
+                expected_verified = (
+                    mutate_verified_source(control, positive_verified)
+                    if control in SOURCE_CONTROLS else positive_verified)
+                expected_original = owner.strip_ghost(expected_verified)
+                actual_original = (expected_case / "original/lib.rs").read_bytes()
+                actual_verified = (expected_case / "verified/lib.rs").read_bytes()
+                _need(actual_original == expected_original and
+                      actual_verified == expected_verified,
+                      "physical source bytes do not reproduce the pinned control: " + control)
                 _need(row.get("source_before") == actual_pair and
                       row.get("source_after") == actual_pair and
                       row.get("source_unchanged") is True and
-                      owner.strip_ghost((expected_case / "verified/lib.rs").read_bytes()) ==
-                      (expected_case / "original/lib.rs").read_bytes() and
+                      owner.strip_ghost(actual_verified) == actual_original and
                       row.get("ghost_strip_identity") is True,
                       "control physical source bytes/ghost-strip identity differ: " + control)
+                _need(row.get("child_environment_delta") ==
+                      _child_environment_delta(control, repo) and
+                      row.get("expected_gate") == EXPECTED_REFUSALS[control],
+                      "control child selector or expected gate differs: " + control)
                 frontend = row.get("frontend_capture")
                 _need(isinstance(frontend, dict) and frontend.get("errors") == [] and
                       isinstance(frontend.get("source_record"), dict),

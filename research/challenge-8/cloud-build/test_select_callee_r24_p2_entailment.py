@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import re
+import shlex
 import tempfile
 import unittest
 from pathlib import Path
@@ -133,6 +134,42 @@ class P2EntailmentTests(unittest.TestCase):
         self.assertTrue(proof_log.is_file())
         audited = entailment.audit(args, diag=diag)
         self.assertTrue(audited['evidence_complete'])
+
+    def test_missing_sysroot_fails_before_run_or_audit_reconstructs_commands(self):
+        args, diag, evidence = self.fixture()
+        args.compiler_sysroot = None
+        with self.assertRaisesRegex(RuntimeError, 'compiler sysroot is required'):
+            entailment.run(args, diag=diag, stage=self.stage_service(args, diag))
+        self.assertFalse((evidence/entailment.SUMMARY_REL).exists())
+
+        # A local audit must write an incomplete record and reject before
+        # validate_case reconstructs stage argv with a missing sysroot.
+        args, diag, _ = self.fixture()
+        entailment.run(args, diag=diag, stage=self.stage_service(args, diag))
+        args.compiler_sysroot = ''
+        audited = entailment.audit(args, diag=diag)
+        self.assertFalse(audited['evidence_complete'])
+        self.assertIn('compiler sysroot is required', audited['errors'][0])
+        self.assertTrue(args.output.is_file())
+
+    def test_audit_rejects_different_nonempty_sysroot_from_run(self):
+        args, diag, _ = self.fixture()
+        entailment.run(args, diag=diag, stage=self.stage_service(args, diag))
+        args.compiler_sysroot = str(Path(args.compiler_sysroot).parent/'other-sysroot')
+        audited = entailment.audit(args, diag=diag)
+        self.assertFalse(audited['evidence_complete'])
+        self.assertIn('stage command/outputs differ: normal-export', audited['errors'][0])
+
+    def test_shell_consequence_audit_passes_compiler_sysroot_argument(self):
+        shell = MODULE_PATH.with_name('run-o26-select-callee-r20.sh').read_text()
+        match = re.search(
+            r'python3 "\$cloud_dir/select-callee-r24-p2-entailment\.py" audit \\\n(.*?)\|\| consequence_audit_exit',
+            shell, re.S)
+        self.assertIsNotNone(match, 'shell consequence audit invocation absent')
+        argv = shlex.split(match.group(1).replace('\\\n', ' '))
+        self.assertIn('--compiler-sysroot', argv)
+        index = argv.index('--compiler-sysroot')
+        self.assertEqual(argv[index + 1], '${compiler_sysroot:-}')
 
     def test_bad_stage_status_exit_timeout_and_argv_refuse(self):
         mutations = (

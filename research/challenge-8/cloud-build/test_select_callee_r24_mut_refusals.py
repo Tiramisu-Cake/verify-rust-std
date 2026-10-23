@@ -287,6 +287,37 @@ class R24MutRefusalTests(unittest.TestCase):
             for key, value in prior.items():
                 self.assertEqual(os.environ.get(key), value)
             self.assertTrue((evidence / REFUSALS.SUMMARY_RELATIVE).is_file())
+            summary_path = evidence / REFUSALS.SUMMARY_RELATIVE
+            physical_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            control = REFUSALS.ALL_CONTROLS[0]
+            row = physical_summary["controls"][control]
+            case = evidence / row["case_path"]
+            alternate_verified = REFUSALS.mutate_verified_source(
+                "extra-pointer-depth", (positive / "verified/lib.rs").read_bytes())
+            (case / "original/lib.rs").write_bytes(alternate_verified)
+            (case / "verified/lib.rs").write_bytes(alternate_verified)
+            changed_pair = _hashes(case)
+            row["source_before"] = changed_pair
+            row["source_after"] = changed_pair
+            row["frontend_capture"]["source_record"]["original_sha256"] = changed_pair["original/lib.rs"]
+            row["frontend_capture"]["source_record"]["verified_sha256"] = changed_pair["verified/lib.rs"]
+            for item in physical_summary["artifact_inventory"]:
+                if item["path"] in {
+                    row["case_path"] + "/original/lib.rs",
+                    row["case_path"] + "/verified/lib.rs",
+                }:
+                    artifact = evidence / item["path"]
+                    item["bytes"] = artifact.stat().st_size
+                    item["sha256"] = hashlib.sha256(artifact.read_bytes()).hexdigest()
+            summary_path.write_text(json.dumps(physical_summary), encoding="utf-8")
+            with patch.dict(os.environ, env, clear=False):
+                tampered_source_audit = REFUSALS.audit_controls(
+                    evidence=evidence, positive_case=positive, repo=repo,
+                    owner=_IdentityGhostStripper, capture=object(),
+                    capture_errors=lambda *_args, **_kwargs: [],
+                    tool_home=tool_home, tool_spec=tool_spec,
+                    build_id=BUILD_ID, provider_record=provider_record, env=env)
+            self.assertFalse(tampered_source_audit["complete"])
             first_log = evidence / summary["controls"][REFUSALS.ALL_CONTROLS[0]]["case_path"] / \
                 summary["controls"][REFUSALS.ALL_CONTROLS[0]]["log"]["path"]
             first_log.write_bytes(first_log.read_bytes() + b"\nerror: tampered\n")

@@ -112,6 +112,7 @@ class MatrixMetadataGuards(MetadataGuards):
             with self.subTest(location=value):self.assertFalse(self.audit(bad)['evidence_complete'])
 
 class P2CompositeAudit(unittest.TestCase):
+    BLOCK="P2_CONSEQUENCE_AUDIT"
     def test_composite_preserves_auxiliary_failure_and_missing_audit(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)/'root.json';extra=Path(tmp)/'extra.json'
@@ -121,14 +122,17 @@ class P2CompositeAudit(unittest.TestCase):
                 else:extra.write_text(json.dumps(aux))
                 argv=['audit',str(root),str(extra),*map(str,codes)]
                 with patch.object(sys,'argv',argv):
-                    if expected:exec(block('P2_CONSEQUENCE_AUDIT'),{})
+                    if expected:exec(block(self.BLOCK),{})
                     else:
-                        with self.assertRaises(AssertionError):exec(block('P2_CONSEQUENCE_AUDIT'),{})
+                        with self.assertRaises(AssertionError):exec(block(self.BLOCK),{})
                 report=json.loads(root.read_text());self.assertIs(report['evidence_complete'],expected)
                 for key in ('accepted','publication_allowed','verification_accepted'):self.assertIs(report[key],False)
                 self.assertEqual(report['proof_credit'],0)
             run({'evidence_complete':True},{'evidence_complete':True},[0,0],True)
             for primary,aux,codes in [({'evidence_complete':True},{'evidence_complete':False},[0,4]),({'evidence_complete':True},None,[0,1]),({'evidence_complete':True},[],[0,0]),({'evidence_complete':True},{'evidence_complete':'true'},[0,0]),({'evidence_complete':True},{'evidence_complete':True},[4,0]),({'evidence_complete':False},{'evidence_complete':True},[0,0])]:
                 with self.subTest(primary=primary,aux=aux,codes=codes):run(primary,aux,codes,False)
+
+class MutableRefusalCompositeAudit(P2CompositeAudit):
+    BLOCK='MUT_REFUSAL_AUDIT'
 
 if __name__=='__main__':unittest.main()

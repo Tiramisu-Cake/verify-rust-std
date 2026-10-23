@@ -47,6 +47,9 @@ NAMES=('normal-export','readonly-export','normal-decode','readonly-decode','refi
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def need(ok,why):
     if not ok:raise RuntimeError('R24-P2-ENTAILMENT: '+why)
+def require_compiler_sysroot(args):
+    value=getattr(args,'compiler_sysroot',None)
+    need(isinstance(value,str) and bool(value.strip()),'compiler sysroot is required for stage identity')
 def load_diag(cloud):
     p=cloud/'select-callee-r24-mut-matrix-proof.py';need(p.is_file() and not p.is_symlink() and sha(p.read_bytes())==D_SHA,'frozen diagnostic library changed')
     spec=importlib.util.spec_from_file_location('r24_p2_consequence_diagnostic',p);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
@@ -94,6 +97,7 @@ def validate_case(case,args,diag):
     return {'source_hashes':source,'stages':stages,'lemma_headers':1,'proof_log_sha256':sha(raw),'artifact_inventory':inv}
 
 def run(args,*,diag=None,stage=None):
+    require_compiler_sysroot(args)
     diag=diag or load_diag(Path(args.cloud_dir));lib=diag.load_library(Path(args.cloud_dir))
     build=diag._validate_context(args,dict(os.environ),lib)
     diag.validate_mode(Path(args.repo),Path(args.matrix_proof_mode_file),lib)
@@ -129,6 +133,7 @@ def run(args,*,diag=None,stage=None):
 def audit(args,*,diag=None):
     diag=diag or load_diag(Path(args.cloud_dir));errors=[];report=None
     try:
+        require_compiler_sysroot(args)
         lib=diag.load_library(Path(args.cloud_dir));build=diag._validate_context(args,dict(os.environ),lib)
         diag.validate_mode(Path(args.repo),Path(args.matrix_proof_mode_file),lib)
         evidence=Path(args.evidence);tool=Path(args.tool_home)
@@ -150,7 +155,7 @@ def main():
     p.add_argument('--output',type=Path);p.add_argument('--runner-exit',type=int);p.add_argument('--failed-stage')
     args=p.parse_args()
     if args.action=='run':
-        need(args.compiler_sysroot is not None and args.deadline_epoch is not None,'run arguments incomplete');run(args)
+        need(args.deadline_epoch is not None,'run arguments incomplete');require_compiler_sysroot(args);run(args)
     else:
         need(args.output is not None and args.runner_exit is not None and args.failed_stage is not None,'audit arguments incomplete')
         if audit(args)['evidence_complete'] is not True:raise SystemExit(4)
