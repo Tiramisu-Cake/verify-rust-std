@@ -1,0 +1,57 @@
+{
+  "applicability": "New own N8 phase/ledger only: Docker API1.41 preflight/classic build, evidence-bound actual-start counting, unchanged pinned online image route and exact G1 runner.",
+  "baseline_commit": "b38e1a1229dacebe5853a47139f4c8db306a0ba5",
+  "candidate_commit": "55d1f6ee3fdf7f0c0bf6a2778b1b4e14f864b169",
+  "controls": [
+    "9 synthetic rr_lane tests PASS: actual vs infra count, bound start evidence/source/stage, UNKNOWN gate, cold/warm limits, unchanged config, images/timeouts and oldlane envelope.",
+    "15 cold audit/API parser tests PASS: API override bounds, malformed/null/wrongtype snapshots, preserved exceptions and no credit.",
+    "4 stubbed cold-script service tests PASS: API env on every fake Docker call, same DOCKER_CONFIG, success digest, original builderror37/timeout124, preflight malformed snapshot before build, foreign registry refusal.",
+    "17 N13 tests PASS; AST/bash syntax PASS; session prepare/check PASS. Actual Docker/compiler/RR NOT_RUN locally."
+  ],
+  "defect": "Docker clientAPI1.52 rejected by daemon1.41 before target Dockerfile in N7; old submit-count admission superseded by explicit owner actual-start rule. User grants separate N8 account5009 with old fixed deadlines; N7 ledger immutable.",
+  "dependencies": [
+    "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+    "research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+    "research/challenge-8/agent-workflow/CORE.md",
+    "research/challenge-8/agent-workflow/RUNTIME-CODEX.md",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+    "research/challenge-8/network/rr/g1-minimal/run.py",
+    "research/challenge-8/network/rr/g1-minimal/service.py",
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1/cloud/Dockerfile.candidate",
+    "research/challenge-8/network/rr/g1/cloud/write-image-receipt.py"
+  ],
+  "invariants": [
+    "N7 closed ledger SHA77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8 unchanged; N8 grant5009 is separate from N7 retired budget.",
+    "Fixed deadlines main2026-10-26T20:56:24Z and closeout21:56:24Z; original tooling window anchor preserved, actual N8 start separately recorded, no renewed72h.",
+    "Cold1740/1800 report240, warm1200/1260; cold up to2 Brief-confirmed Dockerfile starts, infrastructure budget/window bounded without derived submit count; UNKNOWN never means exhaustion.",
+    "Same exact RR332d945f/treeb33b/compiler nightly2026-08-28 archives/stdcd371e0; runtime/algorithm/generic/CFG/ownership/normal/unwind/cleanup/p0/source checks unchanged; no stronger premises/shims/only_spec/frontend patch.",
+    "Canonical digest warm selection and cold receipt/binary freeze/pins-only delta review; proofcredit0/readiness unchanged; no shared coordinator/IAM/transport or foreign lanes changes."
+  ],
+  "known_limitations": [
+    "API source audit supports explicit override but real daemon/build/push compatibility remains unverified until Cloud. No image digest yet.",
+    "Actual cold start classifications must be populated from bound Brief facts after each terminal Build before retry/warm. UNKNOWN is an evidence-pending gate, not exhaustion; metadata-only EXPIRED execution0 follows explicit owner precedent.",
+    "Legacy stock packager tool_profile is not actual RR/VF execution evidence; explicit cold/G1 records are authoritative source observations.",
+    "No changed RR frontend/semantics or local actual tools; all evidence via Brief, no raw fallback."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
+      "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
+    },
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
+      "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}
