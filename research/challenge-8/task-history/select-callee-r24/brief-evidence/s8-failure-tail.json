@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "e79689b7b611ac59cfc23c05834ebca43491096123c925c5b72c26f68a230437",
+  "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 12,
+    "start": 8,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "a1e9d3e525b458bebefb9dc4c2ccde8f2b06367c151d96f0dddf07589571ddaf",
+  "file_path": "allprooflogs/r24-mut-source-capture.log",
+  "file_sha256": "d2b7e1a154b9a2f104ce85f27fd998d227bff852a8ae187795870b3ee8366310",
+  "index_sha256": "6a4bf1a02fec04d19f9f51dc217640b8cfdfc03203978474ff7ea3badbeccbec",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "d2b7e1a154b9a2f104ce85f27fd998d227bff852a8ae187795870b3ee8366310",
+    "file_id": "a1e9d3e525b458bebefb9dc4c2ccde8f2b06367c151d96f0dddf07589571ddaf",
+    "start": 8
+  },
+  "request_id": "689b2254c2ce4536f5952fb540c53f8120e89d2a527574427c19b983855ba909",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r24-mut-capture.py\", line 371, in _run_source_chain"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "    nested_result = writers['nested_drop_writer'].write_case(owner_dir, nested_out, repo)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "  File \"/workspace/evidence/allprooflogs/cases/r24-mut-capture/source-repository/research/challenge-8/overnight-guard-actual/prepare-actual-nested-drop-mut.py\", line 145, in write_case"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "    linked.OWNER.strip_ghost(base_verified) == base_original,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "AttributeError: module 'p2_mut_owner_linked_source' has no attribute 'OWNER'"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

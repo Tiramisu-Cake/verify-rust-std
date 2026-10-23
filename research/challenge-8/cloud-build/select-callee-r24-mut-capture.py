@@ -36,7 +36,7 @@ MUTABLE_SOURCE_FILES = {
     'owner_writer': ('research/challenge-8/overnight-helper/prepare-actual-owner-linked-mut.py',
         '1656b8f84ec8216ccf6e7079a5417d1699d76ac16b05cb6f622bf31d3ef2d8a8'),
     'nested_drop_writer': ('research/challenge-8/overnight-guard-actual/prepare-actual-nested-drop-mut.py',
-        '20ea2cb3089549bdfa6ccfb134a7b8bcc681ec05f2d405ea7570042bbcc7bb5b'),
+        'a9877f693b12a374206a306aa73a2c8f82e69ca36b4979a16127887e802ab4e8'),
     'nine_body_writer': ('research/challenge-8/overnight-assume-actual/prepare-actual-nine-body-mut.py',
         '9b226ee015cc3f5404f4075d29c36abda45222087c7854b2b48e4cd9b44a5600'),
     'fingerprint_request': ('research/challenge-8/overnight-helper/prepare-mut-fingerprint-request.py',
@@ -569,6 +569,7 @@ def run(args, *, provider_loader=load_provider, capture_loader=load_capture_runt
     summary: dict[str, Any] = {
         'schema': SCHEMA, 'classification': 'INCOMPLETE_MUTABLE_SOURCE_MIR_CAPTURE',
         'complete': False, 'source_chain_commit': SOURCE_CHAIN_COMMIT,
+        'source_chain_reference_role': 'HISTORICAL_REVIEW_NOT_ACTIVE_SOURCE_IDENTITY',
         'r24_session_phase_id': R24_PHASE, 'r21_route_phase_id': R21_PHASE,
         'provider_record': provider_record, 'native_build_id': provider_record['build_id'],
         'mode_manifest': {'path': MODE_REL.as_posix(),

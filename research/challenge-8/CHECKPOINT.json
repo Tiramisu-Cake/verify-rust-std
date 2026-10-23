@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e178501437f1c4092b6a77a1755eb9cc5035071c395342226c0080c504e206ef"
+      "sha256": "7b4670b13d23700d13b23aaf1493df81027dead9d38fd7220c9fe98727f27204"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -35,11 +35,11 @@
     "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
-        "sha256": "0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee"
+        "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-FIRST-OBSERVATIONS.json",
+        "sha256": "7b446a5a69f702c45bbc775a2d41ad5462c0b42d810017dc5edd5b432b4307cc"
       }
     ],
-    "summary": "Await mutable capture Brief; P2 remains NOT_PUBLISHED."
+    "summary": "Mutable source preparation lacks valid owner-module linkage."
   },
   "brief_observation_refs": [
     {
@@ -61,6 +61,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/0d26f6269a2091562194bef7c4b9542d7695b11d467927704c53e3cb71a5f12f.json",
       "sha256": "0d26f6269a2091562194bef7c4b9542d7695b11d467927704c53e3cb71a5f12f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/149d212fd6784f8e824db19783cc78a233d08fd4a6337cdb60a8bf76124f95e4.json",
+      "sha256": "149d212fd6784f8e824db19783cc78a233d08fd4a6337cdb60a8bf76124f95e4"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/199c644863b7ff35d22b8896c8f7adfd2ecbc650af06cd54b6660ef77f7f3be3.json",
@@ -131,6 +135,10 @@
       "sha256": "684bf57de9791f6059e70a08c4ac6081f745bf01df03a3df972cdc77b6b48cab"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/68f1eca75859e84b32577a5543f11d01019bd2514538d7b5da0f12c8b7c45ccc.json",
+      "sha256": "68f1eca75859e84b32577a5543f11d01019bd2514538d7b5da0f12c8b7c45ccc"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/6aeb4458ed26c7ad404ccfa564caf6cdf61a4a16a599265be8a06c6c6d6625b3.json",
       "sha256": "6aeb4458ed26c7ad404ccfa564caf6cdf61a4a16a599265be8a06c6c6d6625b3"
     },
@@ -149,6 +157,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/84ffc277502355d2cbe71b96bc2ba9a0d345feb241f80dd615927e3fe426fad9.json",
       "sha256": "84ffc277502355d2cbe71b96bc2ba9a0d345feb241f80dd615927e3fe426fad9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/87422e403f2636626c87d4f18b42122c473de9e1ab2de7156a682fc53242d2e5.json",
+      "sha256": "87422e403f2636626c87d4f18b42122c473de9e1ab2de7156a682fc53242d2e5"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/8c51d1358ea140f2a2420e0be73d6963b976e544dc68da936a635fc9232a41d7.json",
@@ -217,6 +229,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/e93d269d7f3ba778081d31574dd9d06ff2da1b63da058d99862421bd2f364864.json",
       "sha256": "e93d269d7f3ba778081d31574dd9d06ff2da1b63da058d99862421bd2f364864"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/fd4bd3247d73620f0ffcd9491b3a7d00b1ee1fdd8cf07278c038ab0846d0d1a7.json",
+      "sha256": "fd4bd3247d73620f0ffcd9491b3a7d00b1ee1fdd8cf07278c038ab0846d0d1a7"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/fff45f1c6860ec0480a422d3218db80957d4d2e010e345fd7a2044c0dbb723fc.json",
@@ -421,23 +437,24 @@
     {
       "obligation": "Fresh exact mutable P2 source/MIR capture",
       "reason": "All8const matrix observations qualified; P2 source-only17142 chain needs authorizedCloud capture, freshnormal/readonly+10snapshots before any mutableadmission.",
-      "state": "CAPTURE_BUILD_ACTIVE"
+      "state": "OWNER_LOOKUP_FIX_PENDING_REVIEW"
     }
   ],
   "mutable_capture_build": {
-    "accounted": false,
+    "accounted": true,
     "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+    "build_seconds": 352,
     "candidate": "890f9a78f02c72081077a4a333463b447d1fcc1a",
     "config_sha256": "224fd55e35ec9b23936e9302e51267a7cc7f33f9c25fd93b28202e68cdcfd83b",
     "dispatch_token": "dispatch-7214b7c61358473db495ce7cd7604b07",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF",
+    "result": "INCOMPLETE_SOURCE_PREPARATION_OWNER_MODULE_INTERFACE",
     "schema": "select-r24-mut-capture-submission-v1",
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200
   },
   "mutable_capture_candidate": {
@@ -453,7 +470,7 @@
     },
     "scope": "SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "f0263d73f72b8eb9dd252aa642614265eeae5f1738e2f96f2621ca720f290764",
-    "state": "CAPTURE_BUILD_ACTIVE"
+    "state": "FAILED_SOURCE_PREPARATION_ACCOUNTED"
   },
   "mutable_capture_decision": {
     "alternatives_rejected": [
@@ -475,6 +492,14 @@
       "defect": "Production located-error regex lacks MULTILINE; whole-log findall misses marker-first later errors. Fake wrongly added re.M.",
       "proof_credit": 0
     },
+    "owner_lookup_fix": {
+      "assurance": "IMPLEMENTED_STATIC_AND_ISOLATED_13_PLUS_4_PASS_PENDING_REVIEW",
+      "choice": "Resolve pinned owner through existing module loader and reuse same checked ghost-strip function for all3sites. Require callable strip_ghost. Update exact nested-writer hash in capture adapter. No fixture/runtime/contract/gate relaxation.",
+      "controls": "Isolated fake module interface tests; existing adapter controls; static source pin closure and independent review before new Build.",
+      "defect": "Cloud source-reported AttributeError plus static missing linked.OWNER; public interface is linked.load_modules()[0].",
+      "nested_writer_sha256": "a9877f693b12a374206a306aa73a2c8f82e69ca36b4979a16127887e802ab4e8",
+      "proof_credit": 0
+    },
     "proof_credit": 0,
     "review_delta": {
       "assurance": "DESIGN_RECORDED_BEFORE_EDIT",
@@ -491,7 +516,7 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
-  "next": "ACK first, then Brief capture stages, pins and refusal.",
+  "next": "Review owner lookup fix, then fresh full1200 capture.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -536,17 +561,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "37e4142a-949d-4638-b735-84f8b72c3693"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 19228,
+    "remaining_seconds": 18876,
     "retired_seconds": 0,
-    "spent_seconds": 2372,
+    "spent_seconds": 2724,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -558,12 +581,15 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T14:31:31Z",
+  "updated_utc": "2026-10-23T14:40:48Z",
   "watcher_handoff": {
+    "ack_mode": "CONTINUE_EXISTING_WINDOW",
+    "acknowledged_event_id": "52f069e6-f572-4002-b244-d045d90eb3e8",
+    "acknowledged_job_id": "d19f2ec3-107a-4311-ba48-2c436da0b8ab",
     "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
-    "checkpoint_frozen_after_arm": true,
+    "checkpoint_frozen_after_arm": false,
     "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
     "spec_path": "/tmp/select-r24-mut-capture-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"

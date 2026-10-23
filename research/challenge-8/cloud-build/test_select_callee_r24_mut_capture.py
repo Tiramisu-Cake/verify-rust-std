@@ -328,6 +328,25 @@ class CaptureAdapterTests(unittest.TestCase):
                 capture_loader=self.capture_loader, source_loader=self.source_loader,
                 source_view_builder=self.source_view_builder)
 
+    def test_nested_writer_resolves_existing_owner_module_interface(self):
+        path = HERE.parent / 'overnight-guard-actual/prepare-actual-nested-drop-mut.py'
+        tree = ast.parse(path.read_text())
+        helper = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                      and node.name == 'owner_projection')
+        def require(ok, message):
+            if not ok:
+                raise ValueError(message)
+        namespace = {'require': require}
+        exec(compile(ast.Module(body=[helper], type_ignores=[]), str(path), 'exec'), namespace)
+        owner = FakeOwner()
+        linked = type('PinnedOwnerLinked', (), {'load_modules': lambda self: (owner,)})()
+        self.assertFalse(hasattr(linked, 'OWNER'))
+        self.assertIs(namespace['owner_projection'](linked), owner)
+        bad = type('BadOwnerLinked', (), {'load_modules': lambda self: (object(),)})()
+        with self.assertRaisesRegex(ValueError, 'ghost-strip service'):
+            namespace['owner_projection'](bad)
+        # No whole source builder/preparation is invoked by this isolated test.
+
     def test_wrong_route_mode_hash_or_provider_refuses_before_source_services(self):
         wrong_envs = [dict(self.env, **{TARGET.R24_PHASE_ENV: 'wrong'}),
                       dict(self.env, SMALLSORT_EXECUTION_PROVIDER='github')]

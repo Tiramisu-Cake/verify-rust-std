@@ -130,11 +130,19 @@ def insert_owned_forget(verified: bytes, original: bytes, owned_method: bytes,
                           "ghost_strip_identity": True}
 
 
+def owner_projection(linked):
+    owner = linked.load_modules()[0]
+    require(callable(getattr(owner, "strip_ghost", None)),
+            "pinned owner projection lacks ghost-strip service")
+    return owner
+
+
 def write_case(owner_linked_dir: Path, out: Path, repo: Path = REPO) -> dict:
     linked, h2, forget = modules()
     provider = require_cloud_provider()
     require(repo.resolve() == REPO.resolve() and not out.exists(),
             "mutable nested-drop repository/output identity changed")
+    owner = owner_projection(linked)
     base_record = json.loads((owner_linked_dir / "fixture.json").read_text())
     base_verified = (owner_linked_dir / "verified/lib.rs").read_bytes()
     base_original = (owner_linked_dir / "original/lib.rs").read_bytes()
@@ -142,13 +150,13 @@ def write_case(owner_linked_dir: Path, out: Path, repo: Path = REPO) -> dict:
             "SOURCE_ONLY_MUTABLE_OWNER_LINKED_CANDIDATE" and
             base_record.get("typed_mir_binding_established") is False and
             base_record.get("helper_proof_status") == "NOT_RUN" and
-            linked.OWNER.strip_ghost(base_verified) == base_original,
+            owner.strip_ghost(base_verified) == base_original,
             "mutable owner-linked input identity/status differs")
     out.mkdir(parents=True)
     body, method_cert = h2.H2A.source_certificate()
     method = h2.checked_method(body)
     six_original, six_verified, method_stage = insert_generic_drop(
-        base_verified, base_original, method, linked.OWNER.strip_ghost)
+        base_verified, base_original, method, owner.strip_ghost)
     six_dir = out / "six-body-mut"
     (six_dir / "original").mkdir(parents=True)
     (six_dir / "verified").mkdir()
@@ -179,7 +187,7 @@ def write_case(owner_linked_dir: Path, out: Path, repo: Path = REPO) -> dict:
     owned_method = owned_verified[len(header):]
     seven_original, seven_verified, owned_stage = insert_owned_forget(
         six_verified, six_original, owned_method,
-        b"use std::mem::MaybeUninit;\n", linked.OWNER.strip_ghost)
+        b"use std::mem::MaybeUninit;\n", owner.strip_ghost)
     seven_dir = out / "seven-body-owned-forget-mut"
     (seven_dir / "original").mkdir(parents=True)
     (seven_dir / "verified").mkdir()

@@ -1,0 +1,23 @@
+{
+  "accepted": false,
+  "archive_sha256": "e79689b7b611ac59cfc23c05834ebca43491096123c925c5b72c26f68a230437",
+  "assurance": "SOURCE_REPORTED; ARCHIVE_INTEGRITY_IS_NOT_PROOF",
+  "body_proof_run": false,
+  "build_id": "37e4142a-949d-4638-b735-84f8b72c3693",
+  "build_seconds_accounted": 352,
+  "candidate": "890f9a78f02c72081077a4a333463b447d1fcc1a",
+  "console_build_exit_source_claim": 0,
+  "diagnostic_verifier_invoked_source_claim": false,
+  "exception_message_source_claim": "module 'p2_mut_owner_linked_source' has no attribute 'OWNER'",
+  "index_sha256": "6a4bf1a02fec04d19f9f51dc217640b8cfdfc03203978474ff7ea3badbeccbec",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "remaining_seconds": 18876,
+  "result": "INCOMPLETE_SOURCE_PREPARATION_OWNER_MODULE_INTERFACE",
+  "runner_exit_source_claim": 1,
+  "schema": "select-r24-mut-capture-first-observations-v1",
+  "stages_source_claim": {},
+  "static_consistency": "nested mutable generator refers to linked.OWNER, but owner-linked module supplies load_modules()[0]. Nine-body mutable builder already uses this public interface.",
+  "used_total_seconds": 2724
+}

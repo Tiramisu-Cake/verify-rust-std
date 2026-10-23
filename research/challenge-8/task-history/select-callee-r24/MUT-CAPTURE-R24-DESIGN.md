@@ -88,3 +88,12 @@ whole-log findall can miss a located error after the marker. Synthetic fixture
 must extract the actual literal matcher from check-helper.py AST, without
 importing/running the actual source drivers, and retain marker-first error
 regression. Native/callee/proof semantics remain unchanged; no Build submitted.
+
+First Cloud capture failed source preparation: nested mutable writer refers to
+linked.OWNER, while pinned owner-linked module exposes load_modules()[0]; the
+nine-body mutable writer already uses that interface. Before next edit: resolve
+owner through the pinned loader, require callable strip_ghost, and reuse it at
+all three old sites. Keep every source/status/ghost-strip check; no generated
+runtime/contract change. Pin the changed nested writer in the capture adapter.
+Test only the isolated module interface on VPS, never actual source preparation.
+Static dependency checks/review/fresh full1200 Cloud capture remain required.
