@@ -48,10 +48,10 @@ Next: Register N5; order negative 600/975+60, then universal 480/855+60 and cove
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-24-n5 · network · NETWORK-N13-EXACT-2026-10-24-N5 · HANDOFF**
-Updated: 2026-10-23T11:19:03Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`.
-Dates: T0 `2026-10-23T10:48:37Z`; main `2026-10-26T10:48:37Z`; absolute `2026-10-26T11:48:37Z`; window 4320 min main + 60 min closeout (explicit). Budget 10800s: 1131s spent, 0s retired, 9669s remaining including reservations.
-Active Build IDs: 7dda802c-ea08-4741-acf3-f9b91821ca45; unresolved: none recorded.
-Blocker: R7 Cloud running; P2 NOT_PUBLISHED. N13 math matrix accepted SOURCE_REPORTED.
-Next: Ack R7 watcher; Brief verifier/refiner/source/trace receipts; result card and final accounting.
+**network-n13-exact-cloud-2026-10-24-n5 · network · NETWORK-N13-EXACT-2026-10-24-N5 · CLOSED**
+Updated: 2026-10-23T11:24:08Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `08e016f4c97d919421b5325c41c98e94ea987162d44681be04dc91b1476f6e13`.
+Dates: T0 `2026-10-23T10:48:37Z`; main `2026-10-26T10:48:37Z`; absolute `2026-10-26T11:48:37Z`; window 4320 min main + 60 min closeout (explicit). Budget 10800s: 1284s spent, 9516s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: N5 goals complete SOURCE_REPORTED; future W7/R4 waits PUBLISHED P2.
+Next: N5 closed; future W7/R4 needs PUBLISHED P2; W8 also needs published W3/W5/W7.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

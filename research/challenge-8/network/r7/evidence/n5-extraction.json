@@ -1,0 +1,105 @@
+{
+  "archive_sha256": "2597826064a9918b998165f204deb689f2890ae88960f0e04b7ada568a37b15e",
+  "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 12,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+  "file_path": "allprooflogs/cases/results.json",
+  "file_sha256": "ddc2fd8814bb731688fbfad93e9e697814ad4799061664ee7dafbb60dea799f1",
+  "index_sha256": "68105448fd01652d79c71a42ba5effef6803ae0b833c68e06ed72abd16762c3d",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "ddc2fd8814bb731688fbfad93e9e697814ad4799061664ee7dafbb60dea799f1",
+    "file_id": "f87f1fd41efa5373161a40bced0063b2d18817d3c9768c0d6d986cc3f8baddf4",
+    "pointer": "/source/extraction"
+  },
+  "request_id": "6e80d649eb9ad322a9bb7ee0ee174e86966e0b2cadf78e54c38b13b159aa9480",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/contract",
+      "value": "req true; ens result == (std::mem::size_of::<T>() <= 8); generic T unrestricted"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/source/extraction/expected_specified_target_bodies",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/source/extraction/ghost_comment_only",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/ghost_contract",
+      "value": "/*@ req true; @*/ /*@ ens result == (std::mem::size_of::<T>() <= 8); @*/ "
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/original_sha256",
+      "value": "67498d2bb70dca7525c06ba5700370c8a1a81d19b11d722170e4f3573a5994f6"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/source",
+      "value": "library/core/src/slice/sort/shared/smallsort.rs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/source_sha256",
+      "value": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/source/extraction/source_span_bytes",
+      "value": 197
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/source_span_sha256",
+      "value": "eeb87db6d322c8b28de87b203cdd44ec1cdffd29ec1388ba5c00267bf40f88bf"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/specified_function",
+      "value": "has_efficient_in_place_swap<T>"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/source/extraction/target_statement_lines"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/source/extraction/verified_sha256",
+      "value": "15ec6b89e749ad7d7168182d3488744ba9d7ac4307fbd6ca93bc6de7da385fdb"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

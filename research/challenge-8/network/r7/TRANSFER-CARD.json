@@ -1,7 +1,81 @@
 {
   "actual_callees": "size_of via stock rust/spec profile; exact source-only isolated crate and ghost-strip/refinement checks required.",
-  "assurance": "NO_EXECUTION_EVIDENCE",
-  "body_statement_records": null,
+  "assurance": "SOURCE_REPORTED",
+  "body_statement_records": 4,
+  "bounded_brief_evidence": [
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-body-trace.json",
+      "sha256": "6009a02af4e3c9ac8efe0d79119ec3c6b03b3d91627a74028d589128f6a52f3d"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-commands.json",
+      "sha256": "a91df9515af229c9f7010ca69861c632336f74b6c0c9b386a11f91b58f15808b"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-compiler.json",
+      "sha256": "f721b928a098a036eb7ee233eaff84a98e0e2cf3f2c15145e28966b5daa960b9"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-extraction.json",
+      "sha256": "f7ba7713775997f330ec000ab2a49520073b961469ceed528d89697c65ba7c64"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-named-trace.json",
+      "sha256": "55ed8a38ad7553372a8ded4c0c333c73f901f6a55da7b378bff446d89092a31c"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-profile.json",
+      "sha256": "2bac92ad504837633f11336a2a1b232f89e9499d99785ced24c1ce99127afbe8"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-refiner.json",
+      "sha256": "931af5748b1922a18c0cbb6efdd2fb5c6c0e53e94e73f3283f97f61e38baf79d"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-results-catalogue.json",
+      "sha256": "b67f0f49ad138123eaff4772f9e3d438f4231e18973803681de343f9826cde7e"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-results-info.json",
+      "sha256": "11e73acf636e4095a25cf184ac850c5dc114f38b294a57872d1c3acf8d455e40"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-root-tail.json",
+      "sha256": "33c84266cd5346affeaa8feeac693e6b778317e7cf4057a46155e960bab9ed16"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-root.json",
+      "sha256": "bc9d24bed3f57ff84935afc89d854e27e7390348f7484e4d205d358d3f99926b"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-source.json",
+      "sha256": "2753b8e71163cd302fd5b2150cfaa4dd25c61226d9365facaee47af8383b2b46"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-tool-inventory.json",
+      "sha256": "ada62274188cca4fc448977d769dfc2c1a696c654773a622bdb4238383639963"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-tool-refiner.json",
+      "sha256": "6ad9d056cb8966f121ca3d65d9c6d45dda23f8296dc95d98a3a5cfb33339e0b2"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-tool-verifier.json",
+      "sha256": "8e72630e2abcf7b5924855dbcdb83924f7db8c8391d64f39966027e6bdcc9f74"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-tools.json",
+      "sha256": "3bb667a12bb85271fcee1c3e6cd687f579216fa5252aefad32af91601dbb5165"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-trace.json",
+      "sha256": "365c9ac912fb26490282619210958cd51a016ba4f0238c8373146363072ce894"
+    },
+    {
+      "path": "research/challenge-8/network/r7/evidence/n5-verifier.json",
+      "sha256": "053f8ccacd881edc9699c53249898a369149c8e233bce8337a25a700c0b98365"
+    }
+  ],
   "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
   "caller_credit": false,
   "compiler": "nightly-2026-02-05",
@@ -9,25 +83,69 @@
   "config_sha256": "800eb711dc68dd8cb9c902196c41cf2497f8e6ff93a5ba1b1c07b974ec664d0c",
   "dispatch_token": "dispatch-6a9f8bb6792742dfb769726597c2d3c7",
   "domain": "Unrestricted Sized T; no runtime arguments, slice, pointer, ownership or comparator preconditions.",
-  "first_unclosed_obligation": "Actual Cloud tool execution and exact Brief receipts; dispatch consumers remain outside isolated theorem.",
+  "evidence_archive_sha256": "2597826064a9918b998165f204deb689f2890ae88960f0e04b7ada568a37b15e",
+  "evidence_index_sha256": "68105448fd01652d79c71a42ba5effef6803ae0b833c68e06ed72abd16762c3d",
+  "first_unclosed_obligation": "Dispatch consumption/actual callers and wider R1-R3/W7/W8 obligations; isolated helper only, independentB1/B2credit0.",
+  "ghost_strip": "CHECKED_BY_REVIEWED_RUNNER_AS_REPORTED; stock refiner exit0",
   "infra_commit": "47647a67de32787cfa2e3671bdd578c6901e31da",
-  "named_body_records": null,
+  "named_body_records": 1,
   "normal_statement": "req true; ens result == (std::mem::size_of::<T>() <= 8);",
+  "observations": [
+    {
+      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+      "path": "research/challenge-8/observations/32af625ee43ff82aeb6c02a08b1343a21324015aed80c47369fdfc52556cb33a.json",
+      "sha256": "32af625ee43ff82aeb6c02a08b1343a21324015aed80c47369fdfc52556cb33a"
+    },
+    {
+      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+      "path": "research/challenge-8/observations/0239704d64ba5524a99a604a07af926e097519b6d6aa48408d4ecfc01c9433ef.json",
+      "sha256": "0239704d64ba5524a99a604a07af926e097519b6d6aa48408d4ecfc01c9433ef"
+    },
+    {
+      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+      "path": "research/challenge-8/observations/9d58c342f2c935065add720507a626d600344d3e39e84b01621e408f01fe19e5.json",
+      "sha256": "9d58c342f2c935065add720507a626d600344d3e39e84b01621e408f01fe19e5"
+    },
+    {
+      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+      "path": "research/challenge-8/observations/fcbbca8788a688a1047f1c2bc08676dfcee5b8ad2209f925746a8dc4872e3f69.json",
+      "sha256": "fcbbca8788a688a1047f1c2bc08676dfcee5b8ad2209f925746a8dc4872e3f69"
+    },
+    {
+      "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+      "path": "research/challenge-8/observations/b163b5e2f7af425715d11ffbcf1a728d0b7f90a9c369963fa122bb7642dc90d2.json",
+      "sha256": "b163b5e2f7af425715d11ffbcf1a728d0b7f90a9c369963fa122bb7642dc90d2"
+    }
+  ],
+  "original_sha256": "67498d2bb70dca7525c06ba5700370c8a1a81d19b11d722170e4f3573a5994f6",
   "profile_sha256": "305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540",
   "proof_commit": "47647a67de32787cfa2e3671bdd578c6901e31da",
   "proof_credit": false,
-  "refiner_exit": null,
+  "proof_inputs_unchanged": true,
+  "refiner_exit": 0,
+  "result_file_sha256": "ddc2fd8814bb731688fbfad93e9e697814ad4799061664ee7dafbb60dea799f1",
   "schema": "network-r7-component-transfer-v1",
   "semantic_candidate": "ed3bedb8802ed3ef5b38b5b3250d7691c426dd4d",
   "source_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
   "source_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
   "source_function": "core::slice::sort::shared::smallsort::has_efficient_in_place_swap<T>",
   "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
-  "status": "RUNNING_UNVERIFIED",
+  "source_span_bytes": 197,
+  "source_span_sha256": "eeb87db6d322c8b28de87b203cdd44ec1cdffd29ec1388ba5c00267bf40f88bf",
+  "source_tool_target_match": true,
+  "source_unchanged": true,
+  "status": "COMPONENT_ACCEPTED_AS_REPORTED",
+  "stock_console_sha256": "dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc",
+  "stock_refiner_sha256": "9f38829f30cb3295653ca111b53592946a97807eee54cba438fffed14c8c1ffe",
+  "stock_spec_inventory_file_count": 47,
+  "stock_spec_inventory_sha256": "6bdf311d4263454f2e73cf220d962252d91cac30f75356386a6618bbc2debe8a",
   "target": "x86_64-unknown-linux-gnu/LP64",
   "tool_patches": [],
   "tool_profile": "official-stock-VeriFast-26.09",
   "tool_source": "809de4596839b739dd999f9e462242c835e3af46",
-  "unwind_abort_statement": "The extracted item has only a size query and comparison; no caller unwind/abort statement is transferred.",
-  "verifier_exit": null
+  "unwind_abort_statement": "No separate caller unwind/abort theorem or ownership claim is transferred by this isolated helper contract.",
+  "updated_utc": "2026-10-23T11:24:08Z",
+  "verified_sha256": "15ec6b89e749ad7d7168182d3488744ba9d7ac4307fbd6ca93bc6de7da385fdb",
+  "verifier_error_records": 0,
+  "verifier_exit": 0
 }

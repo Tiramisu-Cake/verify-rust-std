@@ -1,5 +1,12 @@
 # VeriFast generic swap-size helper
 
+Current-source Cloud transfer (N5): source `cd371e0`, stock VeriFast26.09,
+Build `7dda802c-ea08-4741-acf3-f9b91821ca45`; verifier/refiner exits0, one named
+body and four body/return records, accepted as SOURCE_REPORTED. See the
+[result](network/r7/N5-RESULT.md) and [transfer card](network/r7/TRANSFER-CARD.json).
+This remains an isolated component; independent B1/B2 and caller credit stay0.
+The historical Actions evidence below is preserved.
+
 Verified on Actions:
 [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
 source `9fb8940437be22b316c45a3b23f9ece325944aae`,90min. One named target
