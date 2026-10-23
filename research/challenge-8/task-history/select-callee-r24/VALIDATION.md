@@ -251,3 +251,13 @@ Independent Luna HIGH scope delta review56a456f3: GO_WITH_NITS/no findings.
 Packet68e77380/speca7280b19 verified; two-overlay hash reproduction and all
 seven embedded Python parses plusbash-n pass. Original review preserved;
 lexical correction is not compile evidence. Full1200 corrected Build next.
+
+
+Corrected-scope Buildbba86d46-3d8f-4275-a7ad-bd36328f4127 submitted at full1200 through existing
+coordinator. Coherent infra/proof56a456f3; published metadata head28798269
+verified remotely, runtime97-file closure matches candidate. Exact payload
+SHA29647677 matches preflight; configfc1dd24fc8468ffee157e887444010aae07af9496c7e850557bb179c30635b1b,
+dispatchdispatch-372854cc6bfa41ba92ad3aee34f6216d, reserve1260, initialledgerQUEUED.
+Accounted1319s,20281s remain including active reservation. Actual compilation,
+projection counters, proof and acceptance pending Brief; credit0. No duplicate
+submit, source or raw-MIR change. Hand off to exact-thread watcher.
