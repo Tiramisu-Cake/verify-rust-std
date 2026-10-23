@@ -100,7 +100,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T19:05:05.145959Z",
+  "updated_utc": "2026-10-23T19:08:07.462837Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -413,10 +413,11 @@
         "No local compiler/schema generation/parser/exporter/proof; actual Cloud validates applicability; actual P13 rvalue kind remains UNKNOWN."
       ],
       "proof_credit": 0,
-      "tool_sha": "8d58286d64dafd88b9ebf29755d93f0b11335302",
-      "profile_sha256": "b31fe4e3c2391968a00a76b0a115d0128a940bcee653c35db6b59dd5ebb06e03",
+      "tool_sha": "215b46962d46aabb7dd35f7e4faedadd5c23e15b",
+      "profile_sha256": "d8da09a9362bcca1ceb800389f319b3a02b753c2f95a88bd6e0cc82b2688b7dd",
       "static_validation": "Optional kind is struct union via existing Mutability pattern, not enum.get; optional reader payload unwrapped with of_pointer. Root binding mutability not confused with mutable-reference place kind. All rawptr writers/synthetic initializers audited: only common exporter writer, legacy Nothing automatic. Exact one first Mut receiver Deref plus final PtrToPtr, full typed trace/lifecycle equality. Profile6/phase8/diffcheck pass; no actual toolchain/schema generation locally.",
-      "primary_kind_reference": "https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/enum.RawPtrKind.html — FakeForPtrMetadata retag distinction retained; no equivalence between RawPtr and Cast introduced."
+      "primary_kind_reference": "https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/enum.RawPtrKind.html — FakeForPtrMetadata retag distinction retained; no equivalence between RawPtr and Cast introduced.",
+      "null_payload_guard": "Main added explicit of_pointer payload None rejection before union discriminant read, preventing default Mut for a malformed null Some payload. Existing missing/non-Mut guards retained. Final profile6/phase8 pass."
     }
   ],
   "mission_queue": [
@@ -780,9 +781,9 @@
     "active_build": null
   },
   "prepared_tool_candidate": {
-    "tool_sha": "8d58286d64dafd88b9ebf29755d93f0b11335302",
+    "tool_sha": "215b46962d46aabb7dd35f7e4faedadd5c23e15b",
     "status": "PUBLISHED_REVIEW_PENDING",
     "scope": "optional exact RawPtrKind metadata and conditional exact receiver raw-pointer helper equivalence; actual P13 rvalue kind UNKNOWN",
-    "profile_sha256": "b31fe4e3c2391968a00a76b0a115d0128a940bcee653c35db6b59dd5ebb06e03"
+    "profile_sha256": "d8da09a9362bcca1ceb800389f319b3a02b753c2f95a88bd6e0cc82b2688b7dd"
   }
 }
