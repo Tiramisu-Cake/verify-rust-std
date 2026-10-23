@@ -1,4 +1,12 @@
 {
+  "admission": {
+    "candidate_commit": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+    "config_sha256": "fba46819541eb3384c43971eb14340893d0e5920aa0a5eac49bd0c2624d369a6",
+    "dispatch_token": "dispatch-b1a61edd3d1f4047b416a58d5a6c506f",
+    "reserved_seconds": 1035,
+    "review": "research/challenge-8/network/n13/REVIEW-N5-ADMISSION.md",
+    "static_preflight": "research/challenge-8/network/n13/N5-STATIC-PREFLIGHT.json"
+  },
   "artifacts": [
     {
       "path": "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
@@ -52,7 +60,7 @@
       "choice": "First controls-order600, then standalone universal480 and compatible checked dependency coverage",
       "obligation": "N13 full mathematical matrix",
       "reason": "Explicit N5 priority; preserve all prior failures and exact pins",
-      "state": "PREPARING"
+      "state": "ORDER_RUNNING"
     },
     {
       "choice": "Cloud-only source-preserving isolated helper stage on stock26.09",
@@ -67,7 +75,7 @@
       "state": "PENDING"
     }
   ],
-  "next_step": "Register N5; order negative 600/975+60, then universal 480/855+60 and coverage; then the R7 Cloud stage on stock 26.09 against source cd371e0.",
+  "next_step": "Read order Build747fac72 Evidence Brief after terminal; then standalone universal480/855. In parallel prepare separate R7 source-preserving Cloud runner.",
   "open": [
     "Order negative UNRUN; standalone universal INCONCLUSIVE; full acceptance OPEN. Universal480 profile and W8 preparer UNRUN.",
     "R4/W7 P2 NOT_PUBLISHED; actual W8 needs W3/W5/W7. R7 transfer to baseline cd371e0 NOT_STARTED."
@@ -88,7 +96,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "747fac72-bd79-46d8-aa25-2e97279d0b22"
+    ],
     "budget_seconds": 10800,
     "deadline_utc": "2026-10-26T11:48:37Z",
     "finish_minutes": 60,
@@ -100,7 +110,10 @@
     "t0": "2026-10-23T10:48:37Z",
     "unresolved_ids": []
   },
+  "session_notes": [
+    "First submit invocation refused missing explicit state-dir before any dispatch; corrected with fresh /tmp/smallsort-network-n5. No duplicate dispatch."
+  ],
   "state": "ACTIVE",
   "task_id": "network-n13-exact-cloud-2026-10-24-n5",
-  "updated_utc": "2026-10-23T10:49:57Z"
+  "updated_utc": "2026-10-23T10:54:19Z"
 }

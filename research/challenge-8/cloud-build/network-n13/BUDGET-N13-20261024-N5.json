@@ -1,12 +1,30 @@
 {
-  "active_build": null,
+  "active_build": "747fac72-bd79-46d8-aa25-2e97279d0b22",
   "allowed_lanes": [
     "network-n13"
   ],
   "authorization": "Explicit CURRENT-TASK N5 and user instruction; dispatch gated by independent review and published exact candidate.",
   "authorization_model": "bounded-cloud-budget",
   "baseline_sha": "9a7a3d00e830d848ddee46d18c892bcbdb1081d2",
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-b1a61edd3d1f4047b416a58d5a6c506f",
+      "owner": "network",
+      "phase_id": "NETWORK-N13-EXACT-2026-10-24-N5",
+      "infra_sha": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+      "proof_sha": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+      "lane": "network-n13",
+      "stage": "controls-order",
+      "submitted_config_sha256": "fba46819541eb3384c43971eb14340893d0e5920aa0a5eac49bd0c2624d369a6",
+      "reserved_seconds": 1035,
+      "timeout_seconds": 975,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "f0f1dc7b58552d8fa7db6769ac3304045a2721163dbfe1919fc6f368e790d5db",
+      "build_id": "747fac72-bd79-46d8-aa25-2e97279d0b22"
+    }
+  ],
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 10800,

@@ -1,0 +1,39 @@
+{
+  "applicability": "Network N5 only;source cd371e0/stock26.09;10800s,T0 2026-10-23T10:48:37Z,4320+60min window.",
+  "baseline_commit": "f25aa438fdf204664217ed42aef93877328fda7a",
+  "candidate_commit": "5b4dba1627b9f0632faf9816ee611634b28351a8",
+  "controls": [
+    "15 synthetic Network client tests pass, including 4 new N5 tests accepting exact account/order975/universal855 and refusing draft/closed/mismatch/unknown stage/shortened timeout/full envelope overflow.",
+    "15 existing admission/runner synthetic tests pass; no actual generator/compiler/verifier on VPS.",
+    "git diff --check passes."
+  ],
+  "defect": "N4 closed; exact fresh N5 account/phase admission required before order and standalone universal, preserving N4-HANDOFF profile.",
+  "dependencies": [
+    "research/challenge-8/CURRENT-TASK.md",
+    "research/challenge-8/network/n13/N5-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/n13/N4-HANDOFF.md",
+    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
+    "research/challenge-8/cloud-build/network-n13/run.sh",
+    "research/challenge-8/network/n13/run-cloud.py"
+  ],
+  "invariants": [
+    "No source/tool/proof/runner changes; all posts and controls retained.",
+    "Old ledger/profile bytes and shared coordinator/transport unchanged.",
+    "Fresh N5 exact owner/lane/budget/dates/profile and recipe closure; no new trusted premise."
+  ],
+  "known_limitations": [
+    "No N5 Build run yet; full N13 acceptance OPEN. R7 is a later separate semantic candidate."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/n13/REVIEW-TIMING-HANDOFF-N4.md",
+      "sha256": "3a37f7121367790cddc3d9c79bc07fc5343be24c890efb56c0085bb244bc0dcd"
+    },
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/n13/REVIEW-PUBLIC-POST-N4.md",
+      "sha256": "f8000a7a2525c487b714303d9b4abb0707768d5301321e4383ff722557e39774"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}
