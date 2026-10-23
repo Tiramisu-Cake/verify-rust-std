@@ -431,6 +431,7 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
     }
     if target_map is not None:
         record['current_build_id'] = current_build_id
+        record['tool_home'] = str(tool_home)
         record['diagnostic_target_validation'] = target_validation
         record['diagnostic_target_map_sha256'] = target_validation['target_map_sha256']
     path = root / 'r21-fractional-proof.json'
@@ -508,8 +509,15 @@ def proof_batch(*, evidence: Path, original: bytes, base_verified: bytes,
                 row['stage'] = stage
                 log_path = case / 'r20-merged-optin.log'
                 log_bytes = log_path.read_bytes() if log_path.is_file() else None
-                log_text = (log_bytes.decode('utf-8', errors='replace')
-                            if log_bytes is not None else None)
+                if log_bytes is None:
+                    log_text = None
+                elif target_map is not None:
+                    try:
+                        log_text = log_bytes.decode('utf-8', errors='strict')
+                    except UnicodeDecodeError:
+                        log_text = None
+                else:
+                    log_text = log_bytes.decode('utf-8', errors='replace')
                 observed_sources = {name: (sha((case / name).read_bytes())
                     if (case / name).is_file() else None) for name in expected_sources}
                 current_log_path = (log_path.relative_to(evidence).as_posix()

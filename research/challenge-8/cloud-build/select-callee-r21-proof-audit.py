@@ -96,6 +96,11 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
     except (ValueError, AttributeError, TypeError):
         return False
     provider_record = dependencies.get('provider_record')
+    tool_home_value = proof.get('tool_home')
+    if not isinstance(tool_home_value, str) or not Path(tool_home_value).is_absolute():
+        return False
+    expected_argv = [str(Path(tool_home_value) / 'bin/verifast'), '-rustc_args',
+                     '--edition 2021', '-verbose', '1', 'verified/lib.rs']
     if (canonical_build_id != native_build_id.lower() or
             proof.get('current_build_id') != canonical_build_id or
             not isinstance(provider_record, dict) or
@@ -132,6 +137,10 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
                 stage.get('intrinsic_gate_active') is not True or
                 stage.get('pointer_drop_gate_active') is not True or
                 stage.get('source_unchanged') is not True or
+                stage.get('argv') != expected_argv or
+                stage.get('stdout') != 'r20-merged-optin.log' or
+                stage.get('stderr') != 'r20-merged-optin.log' or
+                row.get('log_file') != 'r20-merged-optin.log' or
                 stage.get('source_before') != expected_sources or
                 stage.get('source_after') != expected_sources):
             return False
@@ -180,6 +189,10 @@ def complete_matrix(proof, *, evidence_root=None, native_build_id=None):
             return False
         physical_log_sha = hashlib.sha256(log_bytes).hexdigest()
         if physical_log_sha != current.get('log_sha256'):
+            return False
+        try:
+            log_bytes.decode('utf-8', errors='strict')
+        except UnicodeDecodeError:
             return False
         if variant != 'positive':
             target_pin = validation['targets'].get(variant)

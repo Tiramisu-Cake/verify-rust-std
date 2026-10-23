@@ -311,6 +311,29 @@ class FractionalProofTests(unittest.TestCase):
         self.assertNotIn('current_stage_observation',
                          record['rows']['positive'])
 
+    def test_mapped_positive_invalid_utf8_is_inconclusive_and_no_map_is_compatible(self):
+        target_map = target_map_fixture()
+
+        def invalid_positive(**kwargs):
+            stage = self.good_proof_stage(**kwargs)
+            if kwargs['variant'] == 'positive':
+                (kwargs['case'] / 'r20-merged-optin.log').write_bytes(
+                    b'\xff verified: all obligations discharged\n')
+            return stage
+
+        record = self.run_batch(target_map=target_map,
+                                proof_stage=invalid_positive)
+        self.assertFalse(record['complete'])
+        self.assertNotEqual(record['rows']['positive']['classification'],
+                            'POSITIVE_VERIFIED_SOURCE_REPORTED')
+        self.assertEqual(record['rows']['positive']['current_stage_observation'][
+            'log_sha256'], record['rows']['positive']['log_sha256'])
+
+        self.evidence = self.root / 'invalid-utf8-no-map'
+        compatible = self.run_batch(proof_stage=invalid_positive)
+        self.assertEqual(compatible['rows']['positive']['classification'],
+                         'POSITIVE_VERIFIED_SOURCE_REPORTED')
+
     def test_fingerprint_to_pins_rejects_partial_and_malformed_per_case_data(self):
         record = fingerprint_fixture()
         self.assertEqual(TARGET.fingerprint_to_pins(record)['schema'], TARGET.SCHEMA)

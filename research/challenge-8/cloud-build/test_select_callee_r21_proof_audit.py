@@ -195,6 +195,7 @@ class AuditTests(unittest.TestCase):
             'complete': True, 'accepted': False, 'proof_credit': False,
             'body_proof_run': True, 'variant_order': list(MODULE.VARIANTS),
             'current_build_id': build_id,
+            'tool_home': str(tool_home),
             'pins': {'base_original_sha256': original_sha, 'cases': cases},
             'rows': rows, 'diagnostic_target_validation': validation,
             'diagnostic_target_map_sha256': validation['target_map_sha256'],
@@ -217,6 +218,17 @@ class AuditTests(unittest.TestCase):
         self.assertFalse(MODULE.complete_matrix(
             proof, evidence_root=evidence,
             native_build_id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'))
+
+        def corrupt_both_argv(p):
+            p['rows']['callee-owner-loss']['stage']['argv'] = ['wrong verifier', 'args']
+            p['rows']['callee-owner-loss']['current_stage_observation']['argv'] = [
+                'wrong verifier', 'args']
+
+        def corrupt_both_log_channels(p):
+            for field in ('stdout', 'stderr'):
+                p['rows']['callee-owner-loss']['stage'][field] = 'wrong.log'
+                p['rows']['callee-owner-loss']['current_stage_observation'][field] = 'wrong.log'
+
         for mutate in (
             lambda p: p['rows']['no-retained-half']['observed_sources_after_stage'].__setitem__(
                 'verified/lib.rs', '0' * 64),
@@ -231,6 +243,8 @@ class AuditTests(unittest.TestCase):
                 'build_id', 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'),
             lambda p: p['rows']['no-retained-half']['current_stage_observation'].__setitem__(
                 'log_path', 'wrong.log'),
+            corrupt_both_argv,
+            corrupt_both_log_channels,
             lambda p: p['rows']['callee-owner-loss']['stage'].update(
                 status='TIMED_OUT', exit=124),
             lambda p: p['rows']['positive']['stage'].update(exit=1),
@@ -245,6 +259,19 @@ class AuditTests(unittest.TestCase):
         self.assertFalse(MODULE.complete_matrix(
             proof, evidence_root=evidence, native_build_id=build_id))
         bad_physical.write_bytes(original_bytes)
+
+        positive = evidence / rows['positive']['current_stage_observation']['log_path']
+        positive_bytes = positive.read_bytes()
+        invalid_utf8 = b'\xff verified: 0 errors found\n'
+        positive.write_bytes(invalid_utf8)
+        invalid = json.loads(json.dumps(proof))
+        invalid['rows']['positive']['log_sha256'] = _sha(invalid_utf8)
+        invalid['rows']['positive']['current_stage_observation']['log_sha256'] = \
+            _sha(invalid_utf8)
+        self.assertFalse(MODULE.complete_matrix(
+            invalid, evidence_root=evidence, native_build_id=build_id))
+        positive.write_bytes(positive_bytes)
+
         alias = bad_physical.with_suffix('.alias')
         alias.write_bytes(original_bytes)
         bad_physical.unlink()
