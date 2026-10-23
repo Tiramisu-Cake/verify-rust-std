@@ -106,3 +106,10 @@ The diagnostic may consume up to110s from the existing execute deadline;
 full1200 Build and240s report reserve stay unchanged. Transport preflight
 27184/28000 bytes and85-entry closure passed for the exact coherent infra/proof
 pair34659222859070631912f6088c9582f396aa1535. No new fingerprint or credit.
+
+Second Build234e58e3-dee9-4c45-ba4c-974c8ad102a8 was submitted with coherent
+infra/proof34659222 and full1200. Source payload SHA matches the static
+preflight. First real WORKING status completed in8.033963615016546s, below
+the20s watcher subprocess bound. New job will monitor this new Build; the
+acknowledged first monitor-error job is not rearmed. First Build remains
+accounted325s;21275s remaining including the new1260s reservation.

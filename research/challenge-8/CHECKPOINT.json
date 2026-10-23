@@ -22,10 +22,20 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "84d5afc48071b55dd900eab113a2b0c6bbec6af904ca5bdb9315eab36d33c943"
+      "sha256": "7a251938504359d6bc0f96a0ece69cf3f4eff6b023fba11ec94b6518bc31828f"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
+  "ast_build": {
+    "ast_binding": "PENDING_BRIEF",
+    "id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+    "infra_sha": "34659222859070631912f6088c9582f396aa1535",
+    "proof_credit": 0,
+    "proof_sha": "34659222859070631912f6088c9582f396aa1535",
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "status": "WORKING"
+  },
   "baseline": {
     "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
@@ -143,10 +153,10 @@
       "candidate": "34659222859070631912f6088c9582f396aa1535",
       "obligation": "Additive emitted AST inventory for unchanged positive103a34",
       "reason": "Static MIR spans map diagnostics to bb26/27/28 cleanup. Need exact emitted AST node identity/label structure; checker uses physical location equality. Additive inventory preserves proof/controls.",
-      "state": "REVIEW_GO_READY_FOR_BUILD"
+      "state": "BUILD_WORKING"
     }
   ],
-  "next_step": "Publish and submit reviewed AST inventory34659222 at full1200; then watcher/Brief to bind the cleanup nodes.",
+  "next_step": "Ack watcher before CHECKPOINT edits; then Brief234e58e3. Locate AST and compare cleanup26/27/28; credit0.",
   "open": [
     "103a34 built: positive exit1 with unchanged3dead-code sites. Exact emitted AST binding/cause UNKNOWN. Seven control targets remain unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; mutable chain 17142eb2 source-only. W4 waits for callee acceptance."
@@ -178,7 +188,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "234e58e3-dee9-4c45-ba4c-974c8ad102a8"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -198,17 +210,26 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T11:30:13Z",
+  "updated_utc": "2026-10-23T11:32:57Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "3434ee4f-f8d6-4e9b-8b6a-13614843802d",
-    "acknowledged_job_id": "a2b2fd94-969c-4707-b58a-23ac33a7fda2",
-    "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window; no new authorization or proof credit.",
-    "spec_path": "/tmp/select-r24-first-watch.json",
+    "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
+    "spec_path": "/tmp/select-r24-ast-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-  }
+  },
+  "watcher_history": [
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "3434ee4f-f8d6-4e9b-8b6a-13614843802d",
+      "acknowledged_job_id": "a2b2fd94-969c-4707-b58a-23ac33a7fda2",
+      "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; no new authorization or proof credit.",
+      "spec_path": "/tmp/select-r24-first-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    }
+  ]
 }

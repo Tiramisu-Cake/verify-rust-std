@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T11:30:13Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-23T11:32:57Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 325s spent; 0s retired; 21275s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 234e58e3-dee9-4c45-ba4c-974c8ad102a8
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -25,7 +25,7 @@ Positive103a34 still exits1 with the same three dead-code sites; AST binding/cau
 - [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00` Build `af904556-010f-4159-9e4d-573e06e43d17`
 
 ## Next
-Publish and submit reviewed AST inventory34659222 at full1200; then watcher/Brief to bind the cleanup nodes.
+Ack watcher before CHECKPOINT edits; then Brief234e58e3. Locate AST and compare cleanup26/27/28; credit0.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md](task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md) — `9b8756b2527417701207bd0acdda593a32aa7e6c002af2984cd03542db97c83d`
@@ -33,4 +33,4 @@ Publish and submit reviewed AST inventory34659222 at full1200; then watcher/Brie
 - [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) — `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 - [research/challenge-8/task-history/select-callee-r24/R24-status-review.json](task-history/select-callee-r24/R24-status-review.json) — `7306e523cd70c0f9657bbb1057a4fa2ac46803772d9f80df5ff54f84a96b3df9`
 - [research/challenge-8/task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json](task-history/select-callee-r24/STATIC-DEADCODE-SITE-BINDING.json) — `b3e327e087fe6b29440ac2a222dc8b0c6c2043e1f09c6c7b6b351d8ef4eecb0a`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `84d5afc48071b55dd900eab113a2b0c6bbec6af904ca5bdb9315eab36d33c943`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `7a251938504359d6bc0f96a0ece69cf3f4eff6b023fba11ec94b6518bc31828f`
