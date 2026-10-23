@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/FIRST-BUILD-PINS.json",
-      "sha256": "e7f8911aa3f202004c1a019b485497dc660645b0fbb4c6964695c7a7082f7763"
+      "sha256": "82e7b568c0f0f60695ab62d5406a9da8cbf115ef42b69dba98a24a2a8e11a32d"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-admission-review-spec.json",
@@ -26,7 +26,11 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/VALIDATION.md",
-      "sha256": "412544638160bf191075e244df312c01cc0952ac16a09c2ae404eb6cebee0bde"
+      "sha256": "e746050cf6954380c3f0a8dace6830be32ebad11dcc650154358c2b67559fd6a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/FIRST-BUILD-DISPATCH.json",
+      "sha256": "e6e4f70d5ef246931aabae50aff7cabb770ae17c2ad46ac754c8295618aa2a61"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -59,11 +63,21 @@
       ]
     }
   ],
+  "first_build": {
+    "id": "af904556-010f-4159-9e4d-573e06e43d17",
+    "infra_sha": "538431e3d6463d177a693393dc20b36c1b29a314",
+    "proof_credit": 0,
+    "proof_sha": "a4737f9febf20ec5373eafa641268c26c6e674c7",
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "status": "WORKING",
+    "translator_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44"
+  },
   "mission_queue": [
     {
       "obligation": "R24 exact registration and first reviewed 103a34 callee Build",
       "reason": "Explicit owner first action; fresh phase/account required; same source and fingerprint rows, no new fingerprint.",
-      "state": "IN_PROGRESS"
+      "state": "BUILD_WORKING"
     },
     {
       "obligation": "Clean W1 callee positive and full compatible matrix",
@@ -83,10 +97,10 @@
     {
       "obligation": "Publish tool overlay chain for maintainer",
       "reason": "Explicit owner documentation requirement; static hashes and application order only, no proof transfer.",
-      "state": "PREPARED_FOR_PUBLICATION"
+      "state": "PUBLISHED"
     }
   ],
-  "next_step": "Publish reviewed R24 admission and unchanged a4737f9f proof pins, register exact phase via branch client, submit first full1200 proof Build, then Brief.",
+  "next_step": "Ack exact watcher technical event before any CHECKPOINT mutation; then smallsort-brief af904556-010f-4159-9e4d-573e06e43d17. If dead-code persists, bind exact sites and choose next falsifiable candidate; on clean positive pin seven controls and qualify full matrix before P2/W4.",
   "open": [
     "Dead-code failure after leak-check: cause UNKNOWN; reviewed unbuilt candidate a4737f9f/103a34 UNBUILT. Seven control targets not pinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; mutable chain 17142eb2 source-only. W4 waits for callee acceptance."
@@ -107,7 +121,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "af904556-010f-4159-9e4d-573e06e43d17"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -121,13 +137,20 @@
   },
   "startup": {
     "head": "f565e3ee26a6cc38e90822c729677408f79d548b",
-    "registration": "REVIEWED_AUTHORIZED_PENDING_BRANCH_CLIENT_REQUEST",
+    "registration": "REGISTERED_EXACT_R24_REQUEST_SUCCEEDED",
     "t0_basis": "First session_meta timestamp 2026-10-23T10:48:18.874Z rounded down to second; preparation included.",
     "task_baseline_relation": "505aea0d ancestor; intervening task install and CORE metadata commits only.",
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T10:56:01Z"
+  "updated_utc": "2026-10-23T10:58:08Z",
+  "watcher_handoff": {
+    "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window; no new authorization or proof credit.",
+    "spec_path": "/tmp/select-r24-first-watch.json",
+    "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+  }
 }
