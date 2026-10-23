@@ -32,7 +32,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P17 registered; actual compiler/proof outcome pending.",
+    "summary": "P17 terminal FAILURE; Evidence Brief diagnosis pending.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P16-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +65,7 @@
       ]
     }
   ],
-  "next_step": "ACK; coordinator status; publish accounting; P17 Evidence Brief.",
+  "next_step": "Read P17 Evidence Brief after accounting publication.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -86,23 +86,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 4424,
+    "remaining_seconds": 3490,
     "retired_seconds": 0,
-    "spent_seconds": 9976,
+    "spent_seconds": 10910,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T20:22:25.544516Z",
+  "updated_utc": "2026-10-23T20:38:07.775060Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -506,8 +504,8 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "61257250-a461-49d0-8f23-01ea888ef6ff",
-    "event_id": "58e49a0e-ede0-45ef-9f32-39795ade61d7",
+    "job_id": "be0a3080-1551-4198-a934-e4fdf99c6ac1",
+    "event_id": "0651a30c-98fa-44be-997a-add47a66f04a",
     "event_name": "build_terminal",
     "ack": "CONTINUE_EXISTING_WINDOW",
     "status_after_event": "FAILURE",
@@ -927,18 +925,18 @@
     "post_terminal_sequence": "ACK -> coordinator status -> commit/push ledger+CHECKPOINT+STATUS views -> Evidence Brief and next step"
   },
   "accounting_reconciliation": {
-    "build_id": "9a071bc9-4b43-4bd1-add9-dfa93de3d6d9",
+    "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c",
     "coordinator_status": "FAILURE",
     "accounted": true,
-    "build_seconds": 896,
-    "spent_seconds": 9976,
-    "remaining_seconds": 4424,
+    "build_seconds": 934,
+    "spent_seconds": 10910,
+    "remaining_seconds": 3490,
     "active_build": null
   },
   "prepared_tool_candidate": {
     "tool_sha": "a7b28465193e0e5185d3b45a56745fa8aa4ed194",
     "profile_sha256": "2365bb221842f4ccf01e760c75ae7b8a0e16a11ac9d98ad7909277a8c6294582",
-    "status": "REVIEW_GO_BUILD_ACTIVE_CLOUD_UNVERIFIED",
+    "status": "BUILD_TERMINAL_FAILURE_PROOF_UNDETERMINED",
     "scope": "exact R23 Unsize expression uses existing constructor outcome result; pointer/length/lifetime/cast/resources unchanged",
     "source_sha": "a11613d485b2b66ad7da9012b829ccdf11aed0e7",
     "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
