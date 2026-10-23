@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r23-p7-decoder-layer-review-v1",
+  "reviewer": "Codex",
+  "candidate": "95b927be569dc0548482da32d5e80b771e8a8a86",
+  "baseline": "ea659460f448b6c39c1d7ab0666156b7062e13cc",
+  "tool_commit": "1e31357f9f6b99b43d35078796365d36e9d1b01c",
+  "spec_sha256": "b3a784956087ab126e912d5e2347704ba47468526b98b0214537c1cc98d4cda7",
+  "packet_sha256": "a3ac74c54a26ea0fd493fb5e57fe973e60396ef153bc63081c468601d29a2e6f",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P7 decoder-layer delta",
+  "decision": "GO",
+  "review_scope": [
+    "P7 reader/D-record/semantic type decoder boundary corrections at eight R23 sites",
+    "Removal of the duplicate RawPtrTyRd reader alias while retaining the original alias",
+    "Exact P7 tool source pins and profile reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "At the eight changed R23 type checks, the conversions now follow the existing layer boundary: TyRd reader values are passed through D.decode_ty and then the translator's semantic decode_ty; values already represented as D.ty are passed to the semantic decoder directly; generic argument records are unwrapped before semantic type matching.",
+    "The updated checks retain the same accepted predicates: exact u64, [u64; 3], mutable reference to that array, and mutable u64 slice for the implicit Unsize. The cast-kind, source/local type agreement, and rejection branches are unchanged.",
+    "The removed RawPtrTyRd alias was a duplicate declaration; the original alias remains in vf_mir_capnp_alias.ml and continues to serve the R23 projection type check.",
+    "No resource, lifetime, source admission, helper equivalence, normal/unwind, proof, or authorization condition changed in the focused tool delta.",
+    "Current translator SHA-256 3cbfd9df6ca4c99e14746a5317527bc50d64486fa4e678344521f92b11e548f6 and alias SHA-256 960cdd000f9e758f858e5dcc1c05bb94c815df0231819df51a5992cd56e4d0d2 match the exact P7 profile pins; exporter SHA-256 c2437b2d48b357f2d160510311026388c5b9f8d5a9817cce95611b5121391455 and schema SHA-256 e9942a875a4177de95c6c6b0777e4b2dfcfea65ffd576d8ebc94950d9a2ca014 remain pinned.",
+    "The profile binds tool commit 1e31357f9f6b99b43d35078796365d36e9d1b01c, profile SHA-256 1f825600395e54e8f8618766adb5d1b70d7bf3dec7657aa1f658ecabeaac5c03, and patch SHA-256 aeeeb11d3f01f939ddb7d3400399a16b4c1694aa7a91d7a2d6a443c965077bce; the reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This focused delta review relies on prior exact-candidate full semantic review for unchanged source-borrow behavior.",
+    "The corrected decoder-layer usage is statically checked against existing translator APIs; actual translator compilation remains unverified.",
+    "Reported service tests were not rerun. No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

@@ -1,14 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
-      "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-REVIEW-20261024.json",
-      "sha256": "a7261b33fb428d4207e9bfe84639386783b7ed353d09ae336f4e95187c313902"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-TRANSPORT-20261024.json",
       "sha256": "b99ee0dc394d0f00cde794b5bd845d902da3cd14bc7ccc84e29f519b00b66766"
     },
@@ -27,6 +19,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
       "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-REVIEW-20261024.json",
+      "sha256": "858bdbbdd8b8c4f8c271a094311d64160efb62f31c6349be36032a6806c51538"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-TRANSPORT-20261024.json",
+      "sha256": "b31ede157937525df7d8905e1298eedc90c86107eea06f2d84653c4fcee64f69"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,7 +36,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P7 translator fixes prepared; review pending.",
+    "summary": "P7 running; source proof unverified.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
@@ -102,7 +102,7 @@
       ]
     }
   ],
-  "next_step": "Review alias/type decoding fixes; full P7.",
+  "next_step": "Ack watcher; P7 Brief; continue R23.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -123,7 +123,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "dccc154e-5b42-4e90-8d26-b7b3df4b6b80"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -135,9 +137,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:54:36.114949Z",
+  "updated_utc": "2026-10-23T13:58:44.322235Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -256,6 +258,16 @@
       "tool_sha": "1e31357f9f6b99b43d35078796365d36e9d1b01c",
       "profile_sha256": "1f825600395e54e8f8618766adb5d1b70d7bf3dec7657aa1f658ecabeaac5c03",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P7 full compiler/source-borrow validation after alias/type layer repairs",
+      "reason": "Luna HIGH focusedGO95b927be; specb3a78495/packeta3ac74c5. Published root/toolremote verified. SourcegatePASS, patch exact5sources/kernelunchanged; payload559105/571567 SHAc8e65c6b; config27448/28000. Mandatorycapturefalse, full1200/reservesunchanged. No useful independent change before actualcompiler/proof outcome; freshwatcher HANDOFF.",
+      "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80",
+      "source_sha": "95b927be569dc0548482da32d5e80b771e8a8a86",
+      "config_sha256": "83d9311ae9a90b2c3de71ffe6f624c7ae1e33916f6f341d9a51a9ffef8c6e761",
+      "dispatch_token": "dispatch-aff047db505c4b1292f66772a5631988",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -266,11 +278,10 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "12345a77-e2bc-4202-849e-9b897d80997e",
-    "event_id": "ad5ff93a-72cc-4b11-9184-fa04a5092dc5",
-    "event_name": "build_terminal",
-    "ack": "CONTINUE_EXISTING_WINDOW",
-    "status_after_event": "FAILURE",
+    "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80",
+    "status": "PREPARED_HANDOFF",
+    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
+    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
     "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
@@ -328,6 +339,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-TRANSPORT-20261024.json",
       "sha256": "d5b82d393db4be4cec50b4d6735143cc86a7c2b37deadae8ae0b0ac54a788a76"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
+      "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-REVIEW-20261024.json",
+      "sha256": "a7261b33fb428d4207e9bfe84639386783b7ed353d09ae336f4e95187c313902"
     }
   ],
   "historical_confirmed": [
