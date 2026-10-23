@@ -26,9 +26,9 @@ New gate fails OCaml name resolution; exact one-line enclosing-functor correctio
 - [research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json) SHA `415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83`
 
 ## Next
-Review same-boundary compile-scope fix, static closure/transport, then full1200 Build. Do not repeat failed configuration.
+Submit reviewed56a456f3 at full1200; then Brief compile/positive/controls. Do not reuse failed2aba configuration.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `c55a04f68acbb368e375fc948d1512e5f3a27fa9f9372e24012e4aed5463fd3f`
 - [research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json) — `415b825ee4a14184900194d52be1f1fd0f560ab35dd977f631e115c9d0827f83`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `9b3ba759ebb3e1e1c057e6baf00f72850d36addf2b5c1075b45cd5a972c4e623`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `238a0f93228ec8a137525e1241bf7634c4fb498303120dff29772246955d688e`

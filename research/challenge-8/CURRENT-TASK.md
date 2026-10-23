@@ -52,5 +52,5 @@ Updated: 2026-10-23T12:29:25Z. Baseline source/tool/profile: `81226dafedd2e8d1df
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 1319s spent, 0s retired, 20281s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: New gate fails OCaml name resolution; exact one-line enclosing-functor correction pending review and Cloud. [Build `0b240663-a082-41e9-a3e2-19a0b8738958`]
-Next: Review same-boundary compile-scope fix, static closure/transport, then full1200 Build. Do not repeat failed configuration.
+Next: Submit reviewed56a456f3 at full1200; then Brief compile/positive/controls. Do not reuse failed2aba configuration.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

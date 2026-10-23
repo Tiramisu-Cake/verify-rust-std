@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "9b3ba759ebb3e1e1c057e6baf00f72850d36addf2b5c1075b45cd5a972c4e623"
+      "sha256": "238a0f93228ec8a137525e1241bf7634c4fb498303120dff29772246955d688e"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -127,12 +127,12 @@
     "status": "FAILURE"
   },
   "checked_outcomes_decision": {
-    "candidate": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+    "candidate": "56a456f3716d721d59545940345091dbb3476435",
     "compile_fix": "Use enclosing Args.ignore_unwind_paths instead of later TranslatorArgs alias; same bool and boundary, standalone overlay retains failed patch.",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "COMPILE_SCOPE_FIX_REVIEW_PENDING"
+    "state": "COMPILE_SCOPE_FIX_REVIEW_GO_UNBUILT"
   },
   "confirmed": [
     {
@@ -225,10 +225,10 @@
     {
       "obligation": "Exact checked const-pointer Outcome projection",
       "reason": "First checked-outcome build fails on out-of-scope TranslatorArgs. One-line enclosing Args correction; exact same guards and two projection sites.",
-      "state": "COMPILE_SCOPE_FIX_REVIEW_PENDING"
+      "state": "COMPILE_SCOPE_FIX_REVIEW_GO_UNBUILT"
     }
   ],
-  "next_step": "Review same-boundary compile-scope fix, static closure/transport, then full1200 Build. Do not repeat failed configuration.",
+  "next_step": "Submit reviewed56a456f3 at full1200; then Brief compile/positive/controls. Do not reuse failed2aba configuration.",
   "open": [
     "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."

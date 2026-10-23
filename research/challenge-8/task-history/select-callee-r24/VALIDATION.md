@@ -222,7 +222,7 @@ mission state was removed. No watcher was armed before successful validation.
 
 ## Fourth terminal result and compilation-scope correction
 
-Watcherd885065f ACKED CONTINUE_EXISTING_WINDOW at12:29:08Z before CP edits.
+Watcher2cd91d32 eventd885065f ACKED CONTINUE_EXISTING_WINDOW at12:29:08Z before CP edits.
 Build0b240663 FAILURE/accounted301s; total1319s, remaining20281s. DefaultBrief
 NOT_ACCEPTED_AS_REPORTED, runexit2, evidencecompletefalse. Exactconsolelog
 1091-1095 reports Unbound module TranslatorArgs atnewmodule1124; console-build
@@ -238,3 +238,16 @@ of rows29+30 to frozen103 reproduces translator e3c99165. Two actualpatch/hash
 checks now cover both overlays; bash-n/threeinlinePython ASTparse checks pass.
 Entry/helper/flags/source/certificates/control/classifier behavior unchanged;
 no reason to repeat their passed tests. Delta review and Cloud compile/proof pending.
+
+
+Scope-fix candidate56a456f3 static transport passes: payload384617 bytes/
+SHA29647677; encodedconfig27272/28000, maxarg2778/10000. Runtime97committed
+blob inventory2255084bytes/SHA47249647. Reviewer packet prior_reviews input
+was rejected first for extra fields, then for a relative path; fixed to exact
+absolute path+SHA only before packet creation. Valid packet68e77380/speca7280b19.
+These are preparation-only errors, no Cloud call or changed runtime inputs.
+
+Independent Luna HIGH scope delta review56a456f3: GO_WITH_NITS/no findings.
+Packet68e77380/speca7280b19 verified; two-overlay hash reproduction and all
+seven embedded Python parses plusbash-n pass. Original review preserved;
+lexical correction is not compile evidence. Full1200 corrected Build next.

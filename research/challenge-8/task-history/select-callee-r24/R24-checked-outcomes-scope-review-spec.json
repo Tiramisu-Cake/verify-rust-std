@@ -1,0 +1,38 @@
+{
+  "applicability": "Same exact closed R24 checked-outcome boundary as prior GO_WITH_NITS. Separate row30 after original row29; only early gate reference TranslatorArgs.ignore_unwind_paths -> Args.ignore_unwind_paths. Enclosing Make(Args) at340 exposes this bool.",
+  "baseline_commit": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+  "candidate_commit": "56a456f3716d721d59545940345091dbb3476435",
+  "controls": [
+    "Two actual static patch/hash checks reproduce original103 ->6a ->e3; bash-n and all three inline Python blocks parse.",
+    "Test-only delta since prior candidate adjusts R23 old intermediate hash occurrence count from2 to3 for the new base assert, preserving all binding checks; previously fourpass. Prior entry/AST suites unchanged."
+  ],
+  "defect": "Build0b240663 console-build exit2: new admission module at1124 references TranslatorArgs alias declared later at2717. Exact log1091-1095 retained via Brief.",
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r24/CHECKED-OUTCOMES-COMPILE-FIX-PINS.json",
+    "research/challenge-8/task-history/select-callee-r24/COMPILE-SCOPE-FIX-DESIGN.md",
+    "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch",
+    "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+    "research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-review.json",
+    "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/task-history/select-callee-r24/FOURTH-PROOF-OBSERVATIONS.json"
+  ],
+  "invariants": [
+    "Same bool, no-ignore-unwind requirement, exact gates, two projections/counters, typed const pointers and raw ten-edge source/MIR admission unchanged.",
+    "Same-unit ordinary callee proofs, normal/unwind/abort, Drop/leak/refinement/validity and ownership/provenance/thread controls unchanged. No checker/source/prelude/classifier/target pin change.",
+    "Original81c5 row29 patch and failed2abaBuildpins preserved. Runner checks old intermediate6a then row30 patch and finale3c99165; final four-file inventory unchanged. Actual profile metadata uses final e3 hash.",
+    "Entry and proof flag scope unchanged; fingerprint and baseline AST still default-off. No local toolchain/compiler/verifier/proof or Cloud run for this correction."
+  ],
+  "known_limitations": [
+    "UNBUILT scope correction; compilation may reveal later errors. Actual projection/proof acceptance/causal diagnosis not established.",
+    "Previous GO_WITH_NITS remains a static review and did not catch scope defect; do not rewrite it or transfer proof credit."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-review.json",
+      "sha256": "911a2bf01d56c2b2dafab1ef8c71039ca57a7d9fd43df86ebac205c4a59253e3"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}

@@ -1,0 +1,54 @@
+{
+  "candidate_commit": "56a456f3716d721d59545940345091dbb3476435",
+  "closure": {
+    "bytes": 2255084,
+    "entries": 97,
+    "scope": "union exact infra core+recipe+proof paths, committed blobs",
+    "sha256": "4724964743485c06768c3908a339628b3697e1b63d6935b59dd7deacc221347e"
+  },
+  "expected_baseline_ast_flag": "ABSENT",
+  "expected_ordinary_proof_flag": "1 for all8variants, callback only",
+  "expected_projection_marker": "SORT4-R24-CHECKED-POINTER-OUTCOMES: pointer_drop=1 assume_init=1; raw MIR cleanup retained",
+  "fingerprint_build": "739f982d-078a-4ff5-9860-aabef75dc027",
+  "fingerprint_sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5",
+  "lane": "o26-select-callee-r20",
+  "owner": "select-sort4",
+  "parser_sha256": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "printer_sha256": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+  "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
+  "proof_credit": 0,
+  "queue_reserve_seconds": 60,
+  "report_reserve_seconds": 240,
+  "review": {
+    "decision": "GO_WITH_NITS",
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-scope-review.json",
+    "sha256": "8a60e8e6442385569c3edf22ba49fd4459d044b74e6a68ff2e35edfa51609b48"
+  },
+  "review_packet_sha256": "68e77380ea1a9760199db5e0943a9cad4e05671a08c91396e609af46ef4cac0c",
+  "review_spec_sha256": "a7280b19e316c7c331a3bbd0ca1a36f4567a32e297deefd7b52fdfc0a872c180",
+  "schema": "select-r24-checked-outcomes-scope-build-pins-v1",
+  "source_and_fingerprint_rows_changed": false,
+  "status": "REVIEW_GO_WITH_NITS_UNBUILT",
+  "timeout_seconds": 1200,
+  "tool_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "translator_chain": [
+    {
+      "base_sha256": "103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
+      "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-r24.patch",
+      "patch_sha256": "81c5e18b5f754298aae94940a98a8fa3495b9d73b179d2697493b1c704070ddc",
+      "result_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c"
+    },
+    {
+      "base_sha256": "6a710d26c41d69accd17aeb637e719ce7eabc321990d465a6d956ca0d0d7d93c",
+      "patch": "research/challenge-8/task-history/select-callee-r24/checked-pointer-outcomes-scope-r24.patch",
+      "patch_sha256": "3f342a74bd855cc4dd4e8e639fbd6d96790d14c76e718fed1b475e673a275563",
+      "result_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db"
+    }
+  ],
+  "translator_sha256": "e3c99165c2e5fc8ef5700dbaa3885c81310d26868e5e5ca61ecb019c4205d5db",
+  "transport_preflight": {
+    "path": "research/challenge-8/task-history/select-callee-r24/CHECKED-OUTCOMES-SCOPE-TRANSPORT-PREFLIGHT.json",
+    "sha256": "593f75c3824f05084321c9c1c7ec5c2e8c22592d7ba103146cc95211b4a1bbc0"
+  }
+}
