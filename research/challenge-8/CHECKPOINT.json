@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-COMPILE-REVIEW-20261024.json",
-      "sha256": "570bb3a0c0206487fdc745c23811870b0c40cb41038a212e9d21a76524d7f4bc"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-TRANSPORT-20261024.json",
       "sha256": "734b383229aed628953a6fbf7db6b1d36a680f2ae73c930f3812c7f65154bcd2"
     },
@@ -23,6 +19,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-TRANSPORT-20261024.json",
       "sha256": "bda14770749506c2c929a30294c6db8ddbfa13b40b50f6051925f8a05600a4a4"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "c1720ef45a0e1cea621800e177ff1b6b900867deaa1ee8d35ed7577d202faeec"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,27 +32,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P19 terminal FAILURE; Evidence Brief diagnosis pending.",
+    "summary": "P19 generated unwind epilog rejected: epilog statement must be pure.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
-        "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d",
-        "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
+        "sha256": "c1720ef45a0e1cea621800e177ff1b6b900867deaa1ee8d35ed7577d202faeec",
+        "build_id": "374eb841-66e4-4509-88b1-09862d2677e4"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P18 alltoolstages0/proof attempted; caller reaches postcleanup after end_lifetime, borrow_end631 refuses out-of-scope r23_array_p; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d",
-          "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P18 all three source negatives intended; rawptr and R19 all_matched=true; credit0.",
@@ -63,12 +52,24 @@
           "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P19 alltoolstages0/proof attempted; normal caller reaches end/free array, then generated epilog purity refusal; full caller OPEN, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "c1720ef45a0e1cea621800e177ff1b6b900867deaa1ee8d35ed7577d202faeec",
+          "build_id": "374eb841-66e4-4509-88b1-09862d2677e4"
+        }
+      ]
     }
   ],
-  "next_step": "Read P19 Brief after accounting publication; follow revised owner priorities.",
+  "next_step": "P20 Continue-only runtime continuation placement, delta review, final full Cloud cycle.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
-    "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
+    "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0.",
+    "Issue56 organizer answer OPEN; no anticipatory generic/panic expansions. Post-adapter priority: general insert_tail after sort8 <=32 and bidirectional_merge/W5; no R5/induction redo."
   ],
   "owner": "merge",
   "phase": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
@@ -100,7 +101,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T21:33:45.318578Z",
+  "updated_utc": "2026-10-23T21:43:17.002580Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -535,12 +536,21 @@
       "obligation": "P19 stale watcher recovery without changing R23 authority",
       "reason": "Watcher saw terminal FAILURE21:25:33Z but suppressed delivery: thread has a newer turn. No event/queue attempt exists. Stop command returned already terminal STALE unchanged. Owner explicitly preserved R23 on priority clarification; status request resumes same authorized work. Same T0/phase/ledger/budget/deadlines, no automatic rearm same Build.",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P20 Continue-only R23 runtime unwind continuation placement",
+      "defect": "R23 appends runtime Assert/Label/restoration/original unwind Return after a top-level normal Return. Kernel treats it as function epilog and rejects non-pure statements.",
+      "applicability": "P19 selected as_mut_ptr source628 decoded Continue,target12. Add strict selected method Continue admission; refuse other actions. Use existing callback empty-decl/empty-free-list BlockStmt normal-body wrapper and outer runtime continuation, with original unwind Return last.",
+      "invariant": "No runtime statements marked pure, no kernel/model/spec/CFG action change. Goto crosses ordinary wrapper with dynamic tenv/ghostenv/env unchanged; inner strict lifetime exit retains pre-borrow ghost binders from P19. Same checked restoration/body order and original Continue unwind; all scopes/noescape/resources/source/callee gates preserved.",
+      "controls": "Continue observed in exact bounded Brief fragment; runtime decoder guard fail-closed for Cleanup/Terminate/Unreachable. Existing callback BlockStmt label continuation audited in current kernel. Keep required unique chain/missing bridge/epilogue/scopeddecl checks, raw/source controls; profile/phase checks and independent semantic delta review; only Cloud actualcompiler/proof.",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
     "three NEEDS_FIX fixes + delta review + R23 exact phase admission",
     "owned-NLL diagnostic capture <=2 Cloud cycles; require actual-body/location ESTABLISHED mapping",
     "source-level checked borrow adapter if capture stop-loss fails",
+    "After source-adapter: general-route insert_tail after sort8 <=32; bidirectional_merge/W5 actual lengths; issue56-dependent strengthening stays OPEN",
     "F5 resource/state/index intended controls",
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
@@ -554,7 +564,8 @@
     "auto_rearm_same_build": false,
     "store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
     "recovery_authority": "Owner steer explicitly preserves R23 and budget/stop-loss; current status request steers existing active task. New user turn invalidated old watcher handoff, not task/phase/ledger. STALE has no event/queue attempt; no fabricated ack, automatic rearm, or new window.",
-    "stop_command_result": "Already terminal STALE; CLI stop returned unchanged state and stop_requested=false. No runner/delivery remains active."
+    "stop_command_result": "Already terminal STALE; CLI stop returned unchanged state and stop_requested=false. No runner/delivery remains active.",
+    "coordination_error": "After owner priority steer I acknowledged WAITING without rebinding the watcher to the newer turn; old delivery was suppressed at terminal. Build execution unaffected; status/accounting recovered in user status turn. Future handoff must bind latest turn."
   },
   "owned_nll_stop_loss": {
     "cycles_started": 2,
@@ -783,6 +794,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P17-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "98335619c192bf13babecfc93016a6d500f9cc542e44b660caa74c5588379129"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-COMPILE-REVIEW-20261024.json",
+      "sha256": "570bb3a0c0206487fdc745c23811870b0c40cb41038a212e9d21a76524d7f4bc"
     }
   ],
   "historical_confirmed": [
@@ -1016,6 +1031,17 @@
           "build_id": "df9dd55b-a1a1-4409-bbc5-adc953d8bb3c"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P18 alltoolstages0/proof attempted; caller reaches postcleanup after end_lifetime, borrow_end631 refuses out-of-scope r23_array_p; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d",
+          "build_id": "c5d67f50-81f1-422c-88fd-bfe455cea3f4"
+        }
+      ]
     }
   ],
   "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
@@ -1039,11 +1065,18 @@
     "active_build": null
   },
   "prepared_tool_candidate": {
-    "tool_sha": "9679ae38fcafdfa227ea278b5f04c88f4f668622",
-    "profile_sha256": "7232accf54d5606ea3bee232975382a73001faca840fbd20f1069f5a2a498814",
-    "status": "BUILD_TERMINAL_FAILURE_PROOF_UNDETERMINED",
-    "scope": "exact original let_lft binding start and scoped Ref/Unsize decl injection; pre ghost binders outer, strict post-marker end unchanged",
-    "source_sha": "54a5895ff74cb4f9e401410c63caad6901a4c14e",
-    "build_id": "374eb841-66e4-4509-88b1-09862d2677e4"
+    "tool_sha": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
+    "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+    "status": "PREPARED_REVIEW_REQUIRED_CLOUD_UNVERIFIED",
+    "scope": "selected Continue-only callback-pattern normal BlockStmt wrapper plus unchanged outer runtime unwind continuation; source ghost scopes preserved"
+  },
+  "policy_adoption_20261024": {
+    "commit": "926979f352156ef3f626ff962892e4de1167cb8f",
+    "path": "research/challenge-8/WORK-POLICY.md",
+    "sha256": "37788f8abfa94dc33e717cc63ba129ac0e65022d896cda0daf4c87679254a346",
+    "read_section": "2, Revision2026-10-24",
+    "authority": "Owner explicitly says does not interrupt R23; budget and stop-loss unchanged",
+    "scope": "Keep current source-adapter original caller borrow lifecycle. Do not redo fallback R5 lengths1..16 covered by KaniPR694 per owner; no arbitrary-length induction or generic expansion. After adapter prioritize insert_tail after sort8 to32 and actual bidirectional_merge/W5. Preserve existing pinned normal/unwind/ownership/control checks.",
+    "issue56": "OPEN; universalT/panicking comparator/generalization dependent on organizer answer not implemented ahead"
   }
 }

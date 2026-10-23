@@ -1,0 +1,54 @@
+{
+  "schema": "merge-r23-p19-source-borrow-brief-v1",
+  "build_id": "374eb841-66e4-4509-88b1-09862d2677e4",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not successful formal verification",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "0c1087e67d310e1942155e48270a7d397a1d9c142cdfddf6c3f46d9388a2c616",
+  "index_sha256": "c340a1f460660ea5da2c71516c827b7da99d750007eccff34b009e99b851fc84",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "source_sha256": "2964829dd002feee4a49abf8471ac06744c07c622a0a12b88555055e9244540d",
+    "source_size_bytes": 469199,
+    "request_id": "d9102621c5dae50edefbf76714bc21e11194b82ffc09f00714acc71e79f601e2",
+    "lines": "3983-3992",
+    "exact": true,
+    "complete": false,
+    "location": "verified/lib.rs:628:17-36",
+    "message": "An epilog statement must be a pure statement."
+  },
+  "static_control_flow_inference": "Normal caller now reaches source end649 and frees actual array values; later generated epilog representation is rejected. This does not establish accepted normal/unwind caller/helper verification. Inspect proper existing epilog vs runtime CFG placement, preserving unwind recovery and kernel checks.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false,
+  "locator": {
+    "request_id": "dea0fd332328c5dec06125de3665bbe712bb96ecd99a8c7486291b72456fd387",
+    "literal": "error:",
+    "exact": true,
+    "complete": true,
+    "matches": 1
+  },
+  "selected_call_unwind_observation": {
+    "assurance": "SOURCE_REPORTED",
+    "file_id": "cfc061067449df8584bbb3d12b5cf86b193c1335e5dc9e859f2b21056353e25e",
+    "source_sha256": "7fa37b1a6c6747d564221229afc8741cfdee52cac8f5dbc7bdd3ca866dad2fd6",
+    "source_size_bytes": 1315826,
+    "call_name_request": "0e2a8c03eb33ec48e7dc921f9a65626c84cf31661a60cba8398bb0cdfec628ad",
+    "call_name_lines": "32118-32129",
+    "action_request": "b9ef8bbb3672c3dbffe986bf1e29d25303c4c75c7f568ed7aaf36c02c55cf6a2",
+    "action_lines": "32151-32162",
+    "call_span": "verified/lib.rs:628",
+    "action": "Continue",
+    "target_index": 12,
+    "exact": true,
+    "complete": false,
+    "parser_input_binding": "NOT_ESTABLISHED"
+  }
+}
