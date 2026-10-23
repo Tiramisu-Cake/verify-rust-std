@@ -220,7 +220,10 @@ def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str
     else:
         lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
                   f"    requires finite_swo(rel, {exact_domain}) == true;"]
-    lines += ["    ensures " + full_post(exact_domain) + ";", "{"]
+    # The public N13 theorem exports all original facts in one pure formula,
+    # so its negative callers do not repeat the measured Sep assumption cost.
+    public_separator = " &&\n            " if n == 13 else " &*&\n            "
+    lines += ["    ensures " + full_post(exact_domain, public_separator) + ";", "{"]
     if n == 13:
         lines += ["    network13_domain_package(d);",
                   "    network13_swo_package_create(rel, d);",
