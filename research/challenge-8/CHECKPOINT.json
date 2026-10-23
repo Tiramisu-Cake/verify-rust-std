@@ -13,7 +13,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "RR G1 never executed: compatible image and own lane registration missing."
+    "summary": "Cold context and compatible immutable image receipt absent; registry discovery denied. Frontend target NOT_RUN."
   },
   "confirmed": [
     {
@@ -28,7 +28,7 @@
       ]
     }
   ],
-  "next_step": "Transfer the G1 package, register lane network-rr-g1, cold image then warm G1 once, classify, write RR-G1-RESULT.md with GO_G2/STOP_RR/INCONCLUSIVE.",
+  "next_step": "Complete static image/admission boundary audit, independent review, and record G1 classification without bypassing missing identities or permissions.",
   "open": [
     "RefinedRust G1 NOT_RUN: prepared package on feasibility branch 68671873 (frozen std c7ca8c46, RR 332d945f, nightly-2026-08-28); image digest unconfirmed; Cloud 0/0 so far.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
@@ -46,17 +46,17 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 5400,
-    "deadline_utc": null,
+    "deadline_utc": "2026-10-26T21:15:53Z",
     "finish_minutes": 60,
-    "main_deadline_utc": null,
+    "main_deadline_utc": "2026-10-26T20:15:53Z",
     "main_minutes": 4320,
     "remaining_seconds": 5400,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-23T20:15:53Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n6",
-  "updated_utc": "2026-10-23T20:13:24Z"
+  "updated_utc": "2026-10-23T20:18:26Z"
 }

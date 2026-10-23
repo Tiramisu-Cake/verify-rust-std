@@ -1,0 +1,54 @@
+{
+  "assurance": "SOURCE_REPORTED_TOOL_RESPONSES",
+  "brief_file_id": null,
+  "brief_index_sha256": null,
+  "build_ids": [],
+  "limitations": [
+    "Denied inventory does not prove absent image or absent repository.",
+    "Dispatcher permissions do not establish builder service-account permissions.",
+    "No privileged identity, IAM change, repository creation, impersonation or Cloud Build used.",
+    "No matching filtered metadata does not establish exhaustive image absence."
+  ],
+  "observed_utc": "2026-10-23T20:20:18Z",
+  "operations": [
+    {
+      "exit_code": 1,
+      "operation": "artifacts repositories list --location=all",
+      "permission": "artifactregistry.locations.list",
+      "result": "PERMISSION_DENIED"
+    },
+    {
+      "exit_code": 1,
+      "operation": "artifacts repositories list --location=us-central1",
+      "permission": "artifactregistry.repositories.list",
+      "result": "PERMISSION_DENIED"
+    },
+    {
+      "exit_code": 1,
+      "operation": "container images list --repository=gcr.io/smallsort-ci",
+      "permission": "artifactregistry.repositories.downloadArtifacts",
+      "resource": "projects/smallsort-ci/locations/us/repositories/gcr.io",
+      "result": "PERMISSION_DENIED"
+    },
+    {
+      "exit_code": 1,
+      "operation": "artifacts repositories describe gcr.io --location=us",
+      "permission": "artifactregistry.repositories.get",
+      "result": "PERMISSION_DENIED"
+    },
+    {
+      "exit_code": 0,
+      "operation": "builds list --filter=tags:network-rr-g1 --limit=5",
+      "result": []
+    },
+    {
+      "exit_code": 0,
+      "operation": "builds list --filter=images:refinedrust --limit=10",
+      "result": []
+    }
+  ],
+  "principal": "smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com",
+  "project": "smallsort-ci",
+  "proof_credit": 0,
+  "schema": "network-rr-g1-environment-observation-v1"
+}

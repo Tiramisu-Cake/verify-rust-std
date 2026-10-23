@@ -1,0 +1,12 @@
+--- a/research/challenge-8/refinedrust-feasibility/g1/cloud/Dockerfile.candidate
++++ b/research/challenge-8/refinedrust-feasibility/g1/cloud/Dockerfile.candidate
+@@ -14,6 +14,8 @@
+ ARG DEB_BUNDLE_SHA256
+ ARG VENDOR_TREE_SHA256
+ ARG CARGO_CONFIG_SHA256
++
++ENV CARGO_BUILD_JOBS=1
+
+ ENV LD_LIBRARY_PATH=/opt/rust/lib:/opt/rust/lib/rustlib/x86_64-unknown-linux-gnu/lib
+
+# End of unapplied proposal.

@@ -1,0 +1,176 @@
+{
+  "compiler": {
+    "channel": "nightly-2026-08-28",
+    "commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+    "host": "x86_64-unknown-linux-gnu",
+    "manifest_sha256": "a10ff685d2159307e414d29c1a1f97e576c77c59ebe93c4c13d075fc7e088d4b"
+  },
+  "profile": "rr-g1-frontend-unpatched-v1",
+  "rr": {
+    "commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+    "files": [
+      {
+        "blob": "1d7891a06d5dc4e5e5d5f8566f25526968f25331",
+        "bytes": 1213,
+        "mode": "100644",
+        "path": "rr_frontend/Cargo.toml",
+        "sha256": "5c8636be6c5f25949e57d07b8462c636aa2f2d91d91da12c66234477bc9290f7"
+      },
+      {
+        "blob": "d357fa171478753f558fede6ec0131194099e0f7",
+        "bytes": 35371,
+        "mode": "100644",
+        "path": "rr_frontend/Cargo.lock",
+        "sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa"
+      },
+      {
+        "blob": "1c9f8e2eac71626fee9584d8a27d5b944e0ff7df",
+        "bytes": 130,
+        "mode": "100644",
+        "path": "rr_frontend/rust-toolchain.toml",
+        "sha256": "79ef42e730fcc0bc23bde84ca0509970d4e1702d59e92300c85108488cf24aba"
+      },
+      {
+        "blob": "4de3d90610e0a3c40620ce9ef034ecfa7f58495a",
+        "bytes": 4598,
+        "mode": "100644",
+        "path": "rr_frontend/refinedrust_frontend/src/bin/cargo-refinedrust.rs",
+        "sha256": "8f811a28f21a373048004b17c499b91b8f99b8d292492705cdf2d5677b8f8c56"
+      },
+      {
+        "blob": "2e0a15eb4d22a3e1bc0a0b4028f66c4ababb43b3",
+        "bytes": 6658,
+        "mode": "100644",
+        "path": "rr_frontend/refinedrust_frontend/src/bin/refinedrust-rustc.rs",
+        "sha256": "d09d07f730ca7a47dd0e2dfcf6bb33f3047d02951d4a331a57ac84f6a91e7131"
+      },
+      {
+        "blob": "d3635e40ea569949addf02ca4f0bf7f2bfc473ce",
+        "bytes": 13349,
+        "mode": "100644",
+        "path": "rr_frontend/rrconfig/src/lib.rs",
+        "sha256": "2b0a0da357204bbe5794cdf4fcc78dc37452ff71927f7cbcbdb0fcc1f3522228"
+      }
+    ],
+    "gitlinks": {},
+    "tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+    "verify_paths": [
+      ""
+    ]
+  },
+  "source": {
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "files": [
+      {
+        "blob": "f6f232c1afc3409b8921c675266979aa2e02fcf3",
+        "bytes": 231,
+        "mode": "100644",
+        "path": "rust-toolchain.toml",
+        "sha256": "92afe57dacdcf8f9c928f33eaaec59997e5dbd8568e3a91d80ee674c1415ed04"
+      },
+      {
+        "blob": "788c990c163440c389f4891cc0b3fa521ba79ad4",
+        "bytes": 3070,
+        "mode": "100644",
+        "path": "library/Cargo.toml",
+        "sha256": "b346ae33bd9648949894510a2bcc1d1f8b78c7301c3110e4a98b68bacd3b4584"
+      },
+      {
+        "blob": "a07eac016fd533417c397e4f2007cef9b76fb121",
+        "bytes": 12144,
+        "mode": "100644",
+        "path": "library/Cargo.lock",
+        "sha256": "88fdaad2a51bee8366e3f464bccdbbd0dc390a86d9724cb5a1960890f4ec1b2f"
+      },
+      {
+        "blob": "b61474ba7f1d6b61fba207a97d1fb72e4ba6d827",
+        "bytes": 1948,
+        "mode": "100644",
+        "path": "library/core/Cargo.toml",
+        "sha256": "e3ee2d4e067de386e907e6aed8cfde52af3df121826909b1d2f4e5081809e649"
+      },
+      {
+        "blob": "a18ca9f9af5b4be855cf34de4c9ec03eb133ffce",
+        "bytes": 13738,
+        "mode": "100644",
+        "path": "library/core/src/lib.rs",
+        "sha256": "e863edfb92a0758f4ba0b92636d901a20617bbe4928566bf7a791ec9dcecee9d"
+      },
+      {
+        "blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "bytes": 32293,
+        "mode": "100644",
+        "path": "library/core/src/slice/sort/shared/smallsort.rs",
+        "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      {
+        "blob": "3fb844c7c2927876ad082f2ba904e51d520a0f1e",
+        "bytes": 11051,
+        "mode": "100644",
+        "path": "library/core/src/mem/manually_drop.rs",
+        "sha256": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25"
+      },
+      {
+        "blob": "46e5228a2da3fc74330fcb55fc70cbca71db6c36",
+        "bytes": 4388,
+        "mode": "100644",
+        "path": "library/core/src/mem/maybe_dangling.rs",
+        "sha256": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182"
+      },
+      {
+        "blob": "7e568140fa10dc560c0c4528932be4a1a2acb62c",
+        "bytes": 130865,
+        "mode": "100644",
+        "path": "library/core/src/ptr/mod.rs",
+        "sha256": "5f70e87f1d2d8becf475ff88c48fb4c718895d3249ed7b45a0cddf68c2e663f8"
+      },
+      {
+        "blob": "1c4d25f551667a453e9e3fb5ecad0fc55ca1224e",
+        "bytes": 116300,
+        "mode": "100644",
+        "path": "library/core/src/ptr/const_ptr.rs",
+        "sha256": "0c2faf5702586f429585e07b3ef6773aa4034b48804f66a1439370c602793e4d"
+      },
+      {
+        "blob": "c9d3c8d737b4aa980595f68f62e11ca1d7e21f2b",
+        "bytes": 133785,
+        "mode": "100644",
+        "path": "library/core/src/ptr/mut_ptr.rs",
+        "sha256": "f10ffcdeed5a97d1f219ddbfa2e1fd11e7b4ca3825189801985b96629cda16f7"
+      },
+      {
+        "blob": "d40603e15bb1bb043c1082bec7b2dd9fbc8f54c8",
+        "bytes": 12329,
+        "mode": "100644",
+        "path": "library/core/src/ops/function.rs",
+        "sha256": "440723ac6b7e45814696b2b11dc0b77d8e921934bfef4ba8e7af2f3ca4ffaa7d"
+      },
+      {
+        "blob": "8b0134981647f61bcb0288631c9b3904368091f8",
+        "bytes": 245,
+        "mode": "100644",
+        "path": ".gitmodules",
+        "sha256": "93f8aef14130e19df0a76f15159e96aa033e7b80be9662a3c52a02a2d2307c66"
+      }
+    ],
+    "gitlinks": {
+      "library/backtrace": {
+        "commit": "d902726a1dcdc1e1c66f73d1162181b5423c645b",
+        "files": [],
+        "gitlinks": {},
+        "verify_paths": [
+          ""
+        ]
+      }
+    },
+    "trees": {
+      "library": "60a63d3fdaa2b5e3fe3643403f47792753dc287a",
+      "library/contracts": "f05daf8f588874108a5e92b07b3bfad8f21996ea",
+      "library/portable-simd": "b6efb843f0e12b5ee024048b2c60785e3050459f",
+      "library/stdarch": "5f790a4b17e3bb24e7abcb916d83b6ff0eaa6c87"
+    },
+    "verify_paths": [
+      "library"
+    ]
+  }
+}

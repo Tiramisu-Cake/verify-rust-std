@@ -48,10 +48,10 @@ Next: Transfer the G1 package, register lane network-rr-g1, cold image then warm
 
 ## Отчёт агента
 
-**network-refinedrust-g1-2026-10-24-n6 · network · NETWORK-RR-G1-2026-10-24-N6 · NOT_STARTED**
-Updated: 2026-10-23T20:13:24Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
+**network-refinedrust-g1-2026-10-24-n6 · network · NETWORK-RR-G1-2026-10-24-N6 · ACTIVE**
+Updated: 2026-10-23T20:18:26Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `332d945fafa14bf55c0c8390cb35ec4b0c012cff` / `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`.
+Dates: T0 `2026-10-23T20:15:53Z`; main `2026-10-26T20:15:53Z`; absolute `2026-10-26T21:15:53Z`; window 4320 min main + 60 min closeout (explicit). Budget 5400s: 0s spent, 0s retired, 5400s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: RR G1 never executed: compatible image and own lane registration missing.
-Next: Transfer the G1 package, register lane network-rr-g1, cold image then warm G1 once, classify, write RR-G1-RESULT.md with GO_G2/STOP_RR/INCONCLUSIVE.
+Blocker: Cold context and compatible immutable image receipt absent; registry discovery denied. Frontend target NOT_RUN.
+Next: Complete static image/admission boundary audit, independent review, and record G1 classification without bypassing missing identities or permissions.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

@@ -1,0 +1,74 @@
+{
+  "additional_dependencies": [
+    "g1/annotate.py",
+    "g1/verify_inputs.py",
+    "g1/controls/p0/Cargo.lock",
+    "g1/controls/p0/Cargo.toml",
+    "g1/controls/p0/src/lib.rs",
+    "g1/cloud/COLD-BUILD-RECIPE.json",
+    "g1/cloud/IMAGE-INPUTS.json",
+    "g1/cloud/Dockerfile.candidate",
+    "g1/cloud/write-image-receipt.py"
+  ],
+  "anchors": [
+    {
+      "anchor_count": 1,
+      "offset": 2727,
+      "path": "library/core/src/lib.rs",
+      "source_sha256": "e863edfb92a0758f4ba0b92636d901a20617bbe4928566bf7a791ec9dcecee9d",
+      "symbol": "core::rr tool registration"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 10547,
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "symbol": "CopyOnDrop<T>::drop"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 19471,
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "symbol": "insert_tail<T,F>"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 6667,
+      "path": "library/core/src/mem/manually_drop.rs",
+      "source_sha256": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "symbol": "ManuallyDrop<T>::new"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 10607,
+      "path": "library/core/src/mem/manually_drop.rs",
+      "source_sha256": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "symbol": "Deref for ManuallyDrop<T>::deref"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 3357,
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "source_sha256": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "symbol": "MaybeDangling<P>::new"
+    },
+    {
+      "anchor_count": 1,
+      "offset": 3585,
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "source_sha256": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "symbol": "MaybeDangling<P>::as_ref"
+    }
+  ],
+  "annotations_sha256": "689c32728c6fcf205e4299a53d5f0ff3976cd710f88241fb1ec96d862aae7ff0",
+  "assurance": "STATIC_GIT_AND_BYTES_ONLY",
+  "credit": 0,
+  "frontend": "NOT_RUN",
+  "package_origin_commit": "68671873669cd8578796ad4cb74f0fc28e622f2f",
+  "previous_source_commit": "c7ca8c467aecf10a4b53039372ee97714f854ee3",
+  "runtime_source_modified": false,
+  "schema": "network-rr-g1-static-rebind-v1",
+  "source_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "source_inputs_sha256": "a683bb98b1fa292335e7aaae26ca460bf292f7af84bbebfae8dbcaf6ef87be5c"
+}

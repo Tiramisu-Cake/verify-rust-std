@@ -1,0 +1,12 @@
+[package]
+name = "rr-g1-p0"
+version = "0.0.0"
+edition = "2024"
+
+[lib]
+path = "src/lib.rs"
+
+[workspace]
+
+[profile.dev]
+panic = "unwind"

@@ -1,0 +1,31 @@
+{
+  "entrypoint": "research/challenge-8/cloud-build/network-rr/run-g1.sh",
+  "infra_paths": [
+    "research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261024-N5.json",
+    "research/challenge-8/cloud-build/network-rr/RR-G1-PROFILE-20261024-N6.json",
+    "research/challenge-8/cloud-build/network-rr/run-g1.sh",
+    "research/challenge-8/cloud-build/provider.py"
+  ],
+  "infra_transport": "exact-recipe-v1",
+  "lane": "network-rr-g1",
+  "network_stages": [
+    "cold-image",
+    "warm-g1"
+  ],
+  "proof_paths": [
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/entrypoint.sh",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/restore-source.sh",
+    "research/challenge-8/network/rr/g1-minimal/run.py",
+    "research/challenge-8/network/rr/g1-minimal/service.py",
+    "research/challenge-8/network/rr/g1/annotate.py",
+    "research/challenge-8/network/rr/g1/controls/p0/Cargo.lock",
+    "research/challenge-8/network/rr/g1/controls/p0/Cargo.toml",
+    "research/challenge-8/network/rr/g1/controls/p0/src/lib.rs",
+    "research/challenge-8/network/rr/g1/verify_inputs.py"
+  ],
+  "schema": "smallsort-cloud-recipe-v1",
+  "status": "PREPARED_NOT_REGISTERED"
+}

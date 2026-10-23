@@ -1,0 +1,90 @@
+{
+  "files": [
+    {
+      "insertions": [
+        {
+          "anchor": "#![stable(feature = \"core\", since = \"1.6.0\")]\n",
+          "attributes": [
+            "#![feature(register_tool)]",
+            "#![register_tool(rr)]",
+            "#![feature(custom_inner_attributes)]",
+            "#![rr::include(\"ptr\")]",
+            "#![rr::include(\"closures\")]",
+            "#![rr::include(\"sized\")]"
+          ],
+          "symbol": "core::rr tool registration"
+        }
+      ],
+      "path": "library/core/src/lib.rs",
+      "sha256": "e863edfb92a0758f4ba0b92636d901a20617bbe4928566bf7a791ec9dcecee9d",
+      "source_key": "core_lib"
+    },
+    {
+      "insertions": [
+        {
+          "anchor": "    fn drop(&mut self) {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ],
+          "symbol": "CopyOnDrop<T>::drop"
+        },
+        {
+          "anchor": "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {\n",
+          "attributes": [
+            "#[rr::verify]"
+          ],
+          "symbol": "insert_tail<T,F>"
+        }
+      ],
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+      "source_key": "smallsort"
+    },
+    {
+      "insertions": [
+        {
+          "anchor": "    pub const fn new(value: T) -> ManuallyDrop<T> {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ],
+          "symbol": "ManuallyDrop<T>::new"
+        },
+        {
+          "anchor": "    fn deref(&self) -> &T {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ],
+          "symbol": "Deref for ManuallyDrop<T>::deref"
+        }
+      ],
+      "path": "library/core/src/mem/manually_drop.rs",
+      "sha256": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "source_key": "manually_drop"
+    },
+    {
+      "insertions": [
+        {
+          "anchor": "    pub const fn new(x: P) -> Self\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ],
+          "symbol": "MaybeDangling<P>::new"
+        },
+        {
+          "anchor": "    pub const fn as_ref(&self) -> &P {\n",
+          "attributes": [
+            "    #[rr::verify]"
+          ],
+          "symbol": "MaybeDangling<P>::as_ref"
+        }
+      ],
+      "path": "library/core/src/mem/maybe_dangling.rs",
+      "sha256": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "source_key": "maybe_dangling"
+    }
+  ],
+  "purpose": "First stock frontend diagnostic only; no unit refinement, assumed summary or True unwind resource post.",
+  "refinedrust_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "schema": "g1-ghost-annotations-v1",
+  "source_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d"
+}
