@@ -272,6 +272,11 @@ NETWORK_PHASES[NETWORK_N5_PHASE]={
  'profile_sha256':NETWORK_N4_PROFILE_SHA256,'timeout':(270,1200),
  'stages':NETWORK_N3_STAGES,
  'stage_seconds':{'preflight':360,'exact':600,'controls':780,'controls-order':600,'regressions':660,'regressions-n13':480,'regressions-n9':180}}
+NETWORK_R7_PROFILE='research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json'
+NETWORK_R7_PROFILE_SHA256='305cde425b482eb05c5752395d2586ba5ce981ac3561147592e1b4eace5be540'
+NETWORK_PHASES[NETWORK_N5_PHASE]['stages']=NETWORK_N3_STAGES | frozenset(('swap-size',))
+NETWORK_PHASES[NETWORK_N5_PHASE]['stage_seconds']['swap-size']=810
+NETWORK_PHASES[NETWORK_N5_PHASE]['stage_profiles']={'swap-size':(NETWORK_R7_PROFILE,NETWORK_R7_PROFILE_SHA256)}
 NETWORK_RESERVE=240
 
 def network_time_budget(seconds):
@@ -299,7 +304,8 @@ def network_authorized(a,ledger):
  return deadline
 
 def network_profile_stage_gate(profile,stage,build_timeout,case_seconds):
- if not isinstance(profile,dict) or profile.get('schema')!='smallsort-network-n13-execution-profile-v1':
+ schema='smallsort-network-r7-execution-profile-v1' if stage=='swap-size' else 'smallsort-network-n13-execution-profile-v1'
+ if not isinstance(profile,dict) or profile.get('schema')!=schema:
   raise SystemExit('Network execution profile schema is invalid')
  record=profile.get('stages',{}).get(stage) if isinstance(profile.get('stages'),dict) else None
  expected_build=case_seconds+375
@@ -319,10 +325,11 @@ def network_submit_gate(a):
  if not low<=a.timeout<=high:raise SystemExit(f'Network timeout must be{low}..{high} seconds')
  if getattr(a,'stage',None) not in r['stages']:raise SystemExit('Network submission requires a registered stage')
  try:
-  profile_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+r['profile']],cwd=ROOT)
+  profile_path,profile_sha=r.get('stage_profiles',{}).get(a.stage,(r['profile'],r['profile_sha256']))
+  profile_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+profile_path],cwd=ROOT)
   recipe_bytes=subprocess.check_output(['git','show',a.infra_sha+':'+NETWORK_N3_RECIPE],cwd=ROOT)
  except subprocess.CalledProcessError as error:raise SystemExit('Network profile or recipe is absent from selected infrastructure commit') from error
- if digest(profile_bytes)!=r['profile_sha256']:raise SystemExit('Network execution profile differs from phase pin')
+ if digest(profile_bytes)!=profile_sha:raise SystemExit('Network execution profile differs from phase pin')
  try:profile=json.loads(profile_bytes); recipe=json.loads(recipe_bytes)
  except (ValueError,UnicodeDecodeError) as error:raise SystemExit('Network profile or recipe JSON is invalid') from error
  expected=r['stage_seconds'][a.stage]+375
@@ -336,7 +343,13 @@ def network_env(proof,phase_id):
  r=NETWORK_PHASES[phase_id]
  profile_bytes=subprocess.check_output(['git','show',proof+':'+r['profile']],cwd=ROOT)
  if digest(profile_bytes)!=r['profile_sha256']:raise SystemExit('Network pinned profile bytes differ')
- return ['NETWORK_PHASE_ID='+phase_id,'NETWORK_PROFILE_SHA256='+digest(profile_bytes)]
+ result=['NETWORK_PHASE_ID='+phase_id,'NETWORK_PROFILE_SHA256='+digest(profile_bytes)]
+ if 'swap-size' in r.get('stage_profiles',{}):
+  path,sha=r['stage_profiles']['swap-size']
+  raw=subprocess.check_output(['git','show',proof+':'+path],cwd=ROOT)
+  if digest(raw)!=sha:raise SystemExit('Network R7 profile differs from phase pin')
+  result.append('NETWORK_R7_PROFILE_SHA256='+sha)
+ return result
 
 def read(p):return coordination.read(p)
 def write(p,x):coordination.write(p,x)
@@ -916,7 +929,7 @@ def authorized_phase(a,ledger):
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path);p.add_argument('--phase-id');p.add_argument('--ledger',type=Path);p.add_argument('--owner')
  sub=p.add_subparsers(dest='command',required=True)
- q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
+ q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--stage',choices=('preflight','exact','controls','controls-order','regressions','regressions-n13','regressions-n9','swap-size'));q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
  q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True);q.add_argument('--text-logs',action='store_true')
  q=sub.add_parser('cancel');q.add_argument('build_id')

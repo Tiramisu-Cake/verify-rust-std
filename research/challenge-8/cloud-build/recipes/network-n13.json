@@ -3,6 +3,8 @@
   "infra_paths": [
     "research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261024-N5.json",
     "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N4-HANDOFF.json",
+    "research/challenge-8/cloud-build/network-n13/R7-EXECUTION-PROFILE-20261024-N5.json",
+    "research/challenge-8/cloud-build/network-n13/run-r7.sh",
     "research/challenge-8/cloud-build/network-n13/run.sh",
     "research/challenge-8/cloud-build/provider.py"
   ],
@@ -15,11 +17,14 @@
     "preflight",
     "regressions",
     "regressions-n13",
-    "regressions-n9"
+    "regressions-n9",
+    "swap-size"
   ],
   "proof_paths": [
     "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/extract-verifast-swap-size.py",
     "research/challenge-8/network/n13/run-cloud.py",
+    "research/challenge-8/network/r7/run-cloud.py",
     "research/challenge-8/networks/SOURCE-MAP.md",
     "research/challenge-8/networks/prove-ranks.py",
     "research/challenge-8/networks/prove.py",

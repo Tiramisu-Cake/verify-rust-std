@@ -18,6 +18,7 @@ import control
 
 
 CANDIDATE = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=CLOUD_BUILD).decode().strip()
+N4_CANDIDATE = "5b4dba1627b9f0632faf9816ee611634b28351a8"
 PHASE = control.NETWORK_N4_PHASE
 
 
@@ -38,7 +39,7 @@ class NetworkN13ClientTests(unittest.TestCase):
             with self.assertRaisesRegex(SystemExit, "queue reserve exceeds main"):
                 control.network_submit_gate(self.args(timeout=975))
 
-    def args(self, *, stage="exact", timeout=975, infra_sha=CANDIDATE):
+    def args(self, *, stage="exact", timeout=975, infra_sha=N4_CANDIDATE):
         values = {"phase_id": PHASE, "timeout": timeout, "infra_sha": infra_sha}
         if stage is not None:
             values["stage"] = stage
@@ -288,7 +289,8 @@ class NetworkN5AdmissionTests(unittest.TestCase):
         control.network_submit_gate(self.args)
         self.assertEqual(control.network_env(CANDIDATE, control.NETWORK_N5_PHASE),
                          ["NETWORK_PHASE_ID=" + control.NETWORK_N5_PHASE,
-                          "NETWORK_PROFILE_SHA256=" + control.NETWORK_N4_PROFILE_SHA256])
+                          "NETWORK_PROFILE_SHA256=" + control.NETWORK_N4_PROFILE_SHA256,
+                          "NETWORK_R7_PROFILE_SHA256=" + control.NETWORK_R7_PROFILE_SHA256])
 
     def test_draft_historical_or_mismatched_accounts_are_refused(self):
         for key, value in (("status", "PREPARED_NOT_REGISTERED"), ("status", "CLOSED"),
@@ -312,6 +314,34 @@ class NetworkN5AdmissionTests(unittest.TestCase):
         record["main_deadline_utc"] = "2026-10-23T11:17:14Z"
         with mock.patch.dict(control.NETWORK_PHASES, {control.NETWORK_N5_PHASE: record}), \
                 self.assertRaisesRegex(SystemExit, "queue reserve exceeds main"):
+            control.network_submit_gate(self.args)
+
+    def test_r7_stage_requires_its_exact_profile_and_full_envelope(self):
+        self.args.stage = "swap-size"
+        self.args.timeout = 1185
+        control.network_submit_gate(self.args)
+        profile = json.loads((CLOUD_BUILD / "network-n13" /
+                              "R7-EXECUTION-PROFILE-20261024-N5.json").read_text())
+        control.network_profile_stage_gate(profile, "swap-size", 1185, 810)
+        self.args.timeout = 1184
+        with self.assertRaises(SystemExit):
+            control.network_submit_gate(self.args)
+        for key, value in (("schema", "smallsort-network-n13-execution-profile-v1"),
+                           ("stages", {"swap-size": {"timeout_seconds": 809,
+                                                     "build_timeout_seconds": 1185}})):
+            with self.subTest(key=key), self.assertRaises(SystemExit):
+                control.network_profile_stage_gate(dict(profile, **{key: value}),
+                                                   "swap-size", 1185, 810)
+
+    def test_r7_is_not_admitted_to_historical_phase(self):
+        self.args.phase_id = control.NETWORK_N4_PHASE
+        self.args.stage = "swap-size"
+        self.args.timeout = 1185
+        record = dict(control.NETWORK_PHASES[control.NETWORK_N4_PHASE])
+        record.update(start_utc="2026-10-23T10:48:37Z",
+                      main_deadline_utc="2026-10-26T10:48:37Z")
+        with mock.patch.dict(control.NETWORK_PHASES, {control.NETWORK_N4_PHASE: record}), \
+                self.assertRaisesRegex(SystemExit, "registered stage"):
             control.network_submit_gate(self.args)
 
 

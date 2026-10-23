@@ -3,7 +3,7 @@ set -euo pipefail
 
 stage=${NETWORK_STAGE:?NETWORK_STAGE is required}
 case "$stage" in
-  preflight|exact|controls|controls-order|regressions|regressions-n13|regressions-n9) ;;
+  preflight|exact|controls|controls-order|regressions|regressions-n13|regressions-n9|swap-size) ;;
   *) printf 'unsupported Network N13 stage: %s\n' "$stage" >&2; exit 2 ;;
 esac
 
@@ -112,6 +112,11 @@ setup_run tool-extract tar -xzf "$archive" -C "$tool_parent"
 printf '%s  %s\n' \
   dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc \
   "$tool_home/bin/verifast" | setup_run tool-console-check sha256sum -c - | tee "$work_root/verifast-console-sha256.txt"
+
+if [[ "$stage" == swap-size ]]; then
+  bash "$infra_root/research/challenge-8/cloud-build/network-n13/run-r7.sh" "$tool_home" "$runner_evidence"
+  exit "$?"
+fi
 
 set +e
 export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
