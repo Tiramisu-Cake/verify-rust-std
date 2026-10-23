@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r23-p6-lifetime-binding-review-v1",
+  "reviewer": "Codex",
+  "candidate": "88dae559d3e0e908a3dce6db453ad7587d92545f",
+  "baseline": "49dcbf9a457facb7bea3f2f0df6b116083c47e8c",
+  "tool_commit": "7591e3a0b2488461f700e4d4f1362ba1b2a54d60",
+  "spec_sha256": "fac68c7b6b76c35f5b3cbfd5e81611beaf6d99f9ce2eda7af47f9f78b0b960a9",
+  "packet_sha256": "55ab47e2265d6ad86747f4e9c9ae1f307302b6f9a06cdce7a45064cbf7d451fe",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P6 HIR binding delta",
+  "decision": "GO",
+  "review_scope": [
+    "P6 helper lifetime inventory gate and its existing HIR Cap'n Proto reader API use",
+    "P6 removal of the single unused mut binding under deny(warnings)",
+    "Exact profile, tool source pins, and baseline reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The helper declares only the input lifetime fn<'a>(s: &'a mut [u64]); this input-only lifetime is expected in source HIR but absent from early-bound MIR Body.generics. The validator now requires Body.generics to be empty and independently requires exactly one HIR generic parameter whose plain identifier is 'a and whose kind is Lifetime.",
+    "The new name and kind accessors are existing APIs: the same translator uses HirGenericParamNameRd.Plain with IdentRd.name_get/SymbolRd.name_get and matches HirGenericParamKindRd constructors at lines 10311-10326; aliases are already present in vf_mir_capnp_alias.ml.",
+    "Missing, fresh/undefined, renamed, extra, type, const, or early-bound parameter cases refuse. Existing checked-helper identity, MIR phase/hash, nonempty contract, full typed signature, and cast-body equivalence checks remain after the new inventory gate.",
+    "No lifetime erasure or name substitution was added; helper source signature/body/hash remain unchanged at the pinned source hash 14f3ab4939f5cdc4c0fde69157464b132811dbbbbe9962f15b67ae276c8663c6.",
+    "The exporter change removes only the reported unused mut binding. The exact exporter source pin is c2437b2d48b357f2d160510311026388c5b9f8d5a9817cce95611b5121391455; the exact translator pin is b7fd8c453959205b519358cc2c1b89f0fef791af4f342ca8d34c66367b056300.",
+    "The profile pins tool commit 7591e3a0b2488461f700e4d4f1362ba1b2a54d60 and profile SHA-256 b68cd49a56f751d06befe8489ce94d363398b59fd6c35c4ff10ee3bfef3d3b4a. The checked profile reverses to baseline 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88 with baseline tool fc0208d4f53583d458670cd07bd0370636d4b2eb."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Rust exporter compilation",
+    "Translator compilation or HIR capture by the actual compiler",
+    "Compiler, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This is a focused delta review relying on the prior exact-candidate full semantic review for the connected source-borrow implementation.",
+    "The expected HIR inventory is statically justified from the fixed source declaration and existing exporter/reader code; actual compiler HIR output remains unverified.",
+    "Reported service checks were not rerun. No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
