@@ -20,13 +20,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Full matrix waits for reviewed target pins and current log binding. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
+Route fences implemented; complete matrix delta review and Cloud still pending. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
 - [research/challenge-8/task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json) SHA `6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a`
 
 ## Next
-Review classifier and seven targets; full1200 matrix with exact current-stage binding.
+Review exact R24/mode/marker fences, then full1200 matrix with fresh logs.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `36a0c91750b152d3cd2fedf1aa1a153f5620fa116365a7d4275b63cc1798d852`
 - [research/challenge-8/task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json) — `6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `7e9ed252c091445675b064bca12ac5635fac7d5e717ba1df5bb83358b9bb6fa7`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `75f5001d55af5bb1b08e7cf2754ba6f7b82cf93b8e7d0f1a6709fba48d8a9623`

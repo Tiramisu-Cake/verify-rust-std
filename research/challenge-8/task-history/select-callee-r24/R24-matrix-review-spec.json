@@ -1,0 +1,60 @@
+{
+  "applicability": "Post-clean-positive85c88d85; same const source/c8tool/d33spec. R24-only exact7map, separate native current-stage binding, physical audit.",
+  "baseline_commit": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+  "candidate_commit": "6b4c29d19d10ff37f9a6e1d16d56686ebc242798",
+  "controls": [
+    "Worker27meaningful synthetics pass incl timestamp-only drift, extra/fatal/message drift, wrongcurrentidentity/source/path/hash, physicalmutation, malformed/maphash/context, UTF8positive and pairedargv/channel tampering.",
+    "Main7entrytests/bash-n/entryparse/diffcheck pass. Statictool-spec reproducesd33/lines462-463. See CLASSIFIER-REPAIR-DESIGN and VALIDATION for full contract/failures."
+  ],
+  "defect": "CLASSIFIER-REPAIR-NEXT: current timestamped log must not equal prior log hash; prior provenance must not be relabeled current. Seven targets were gated on cleanpositive.",
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r24/CLASSIFIER-REPAIR-DESIGN.md",
+    "research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json",
+    "research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS-PROVENANCE.json",
+    "research/challenge-8/task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json",
+    "research/challenge-8/task-history/select-callee-r23/CLASSIFIER-REPAIR-NEXT.md",
+    "research/challenge-8/cloud-build/select-callee-r22-control-targets.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+    "research/challenge-8/cloud-build/run-o26-select-callee-r20.sh",
+    "research/challenge-8/cloud-build/recipes/o26-select-callee-r20.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-callee-false-normal-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-callee-owner-duplicate-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-callee-owner-loss-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-callee-thread-duplicate-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-no-retained-half-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-omit-selected-own-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-control-omit-unselected-own-error-window.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-actual-profile.json",
+    "research/challenge-8/task-history/select-callee-r24/brief-evidence/s6-verified-source-catalogue.json"
+  ],
+  "invariants": [
+    "Immutable prior Build/loghash/Brief provenance and full diagnostic remain separate. Match sole current file/line/columns/fullmessage; permit unrelated elapsed timestamps to change currenthash.",
+    "Current nativeCLOUD_BUILD_ID/provider, variant/source/tool/argv/channels/status/exit/gates/rawbytes/path/prepostcaptures bound. Audit rereads physical logs and rejects symlink/UTF8/hash/diagnostic drift.",
+    "Positive0+7negative1 and exact classifications/source/snapshots/gates/raw+canonicalmaphashes required. No-map/timeouts/malformed/failedpositive cannotcomplete; accepted/credit stayfalse.",
+    "Native tool/source/MIR/checker/contracts and full normal/unwind/Drop/leak/refinement/ownership/thread controls unchanged. Fingerprints739 and toolc8/specd33 retained.",
+    "Fresh exact seven prior targets: nohalf219 supersedes213, omissions fullvalue6/value2. Sidecar binds boundedBrief receipts; helper labels priorprovenance caller-declared/notauthenticated.",
+    "Entry helper/proof hashpins updated; exactR24 runner checks rawmapa6 and passes it; sortedrecipeaddsmap. No localactualRustprep/toolchain/proof or posthoc oldmatrixpromotion."
+  ],
+  "known_limitations": [
+    "New code/map integration unqualified pending review/statictransport/freshfull1200Cloudmatrix. Prior cleanpositive is source-reported, no fullcalleeacceptance/independentcredit.",
+    "Preserve R23NO_GO records; judge complete delta. Prior helperprovenance remains caller-declared, boundedBrief receipts are external archived observations, not parser-input/causal proof."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-nine-review.json",
+      "sha256": "14e99666e302e0ee1cbc3904d85114dd265cb9ea4cd19e200832541288e85e9d"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r23/R23-classifier-review.json",
+      "sha256": "0946dd2f8c063a91641fd414ee5505829284b50fa297b79a9389f81fc0eef601"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r23/R23-target-helper-review.json",
+      "sha256": "6ab83f8a7cf816884462bed487c78033a6aa7a2bfabf8f5db7640552669d011b"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night"
+}

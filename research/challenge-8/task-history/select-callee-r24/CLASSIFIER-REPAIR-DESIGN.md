@@ -45,3 +45,16 @@ currentrecord are changed together; fixed in4c2140f1. Focused27synthetic tests
 andpy_compile pass; mainentry7tests/bash-n pass. Independent semantic review,
 static fulltransport and a fresh full1200 Cloudmatrix are mandatory. Do not
 posthoc promote the prior85c run using repaired code locally.
+
+
+Initial complete review6b4c29d1 is NO_GO (R24-matrix-review.json), preserved
+unchanged and never submitted. Runner was R24-only, but direct entry/batch
+API could load a map on a plain R21 route. The route correction requires
+exact live R24 and an explicit checked-mode request at entry and batch;
+ambient native flag stays callback-only. Mapped records and physical audit
+bind exact native R24 context, per-stage checked-mode request and one exact
+native1/1projection marker. The marker distinguishes a request from observed
+native execution; current physicalbytes are rechecked. Missing/duplicate
+markers, wrong/missing phase/mode must refuse. AST diagnostic stays optional.
+Default no-map behavior and every source/normal/unwind/capture/control check
+remain unchanged. Fresh coherent delta review is required before Build.

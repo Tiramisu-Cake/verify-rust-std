@@ -1,0 +1,65 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "6b4c29d19d10ff37f9a6e1d16d56686ebc242798",
+  "baseline_commit": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+  "candidate_tree": "5c85ae013a97109f103334da43c5ab1e2d83fdbe",
+  "spec_sha256": "e6339031a59e12347819a6ef2eeafef38ef528eb95cc39fe6af979af42057dd3",
+  "packet_sha256": "b3d866c12c93d0cca31f34a99ae30348cdea7512e60d8a84400c16f836cecd63",
+  "diff_sha256": "a8fac9f0ad417df758b957541178d66b42c38cac6e2e0c25c85be9655edfa6a0",
+  "decision": "NO_GO",
+  "scope": "Complete R24 seven-target classifier and runner integration, including prior R23 classifier/helper NO_GO fixes; no Cloud or proof validation.",
+  "verified": [
+    "smallsort-session review check matched the exact candidate, spec and packet; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "R23-CLASSIFIER-1 is fixed: prior whole-log hash remains in the target observation, while fresh current log bytes are hashed separately; matching checks exact diagnostic fields without equating the current full log digest to the prior digest.",
+    "R23-CLASSIFIER-2 is fixed: current-stage observation has the current native Build ID, stage, current path/hash, source/tool hashes, and no copied prior provenance object. Prior provenance stays with the immutable map target and is labeled caller-declared/not-authenticated.",
+    "R23-TH-2 is fixed: the no-retained-half source anchor first finds a unique select_unpredictable body, then requires exactly one retained-half merge and full-cell assertion within that body and the merge before the assertion; target line is 219.",
+    "The map has exactly seven required negative variants; omission diagnostics bind full value6/value2 messages and tool-spec lines 462/463. Runner pins raw map SHA a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc only in its R24 branch, and the recipe proof_paths list is sorted.",
+    "The physical audit checks native current Build ID/provider, source/tool/argv/channels/status/exit/gates/captures, strict UTF-8 including positive, expected relative log paths, raw current log hashes, descendant symlink rejection, and the exact sole negative diagnostic. Completion remains accepted=false and proof_credit=false.",
+    "R24 matrix synthetic suites passed: fractional proof 13 tests, proof audit 3, target helper 11, and entry 7. Runner bash -n and AST parsing of the four changed Python files passed; git diff --check passed for relevant code/map paths.",
+    "Directly confirmed the uncovered route: test_optional_exact_seven_row_map_classifies_all_negative_targets invokes proof_batch with a seven-row map and a live environment containing Cloud provider, R21 phase and native test Build ID, but no R24 session or checked-pointer-outcomes opt-in; it reaches complete=true. Entry.run likewise only applies the R24 guard when positive_ast_inventory or checked_pointer_outcomes is true, then loads args.target_map without an R24 guard."
+  ],
+  "findings": [
+    {
+      "id": "R24-MATRIX-1",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py::run (lines 216-221, 278-285); research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py::proof_batch (lines 392-419)",
+      "finding": "The new seven-target map path is not bound to R24 at the entry/helper boundary. The entry requires exact R24 only when positive_ast_inventory or checked_pointer_outcomes is enabled; args.target_map is loaded and passed independently. proof_batch requires an R21 Cloud route and native Build ID but does not require R24. The committed synthetic test demonstrates map classification can complete with no R24 session and no checked-pointer-outcomes opt-in. The runner itself passes the pinned map only on R24, but a direct entry/helper invocation can activate this previously dormant classifier on the older R21 route, outside the authorized R24 scope.",
+      "fix": "Fail closed when target_map is supplied unless the live R24 session phase is exact and checked_pointer_outcomes is true (at least in entry.run; also guard proof_batch if its callable API is intended to enforce the route). Add negative tests for absent/wrong R24 session and missing checked-outcomes opt-in with a supplied map. Preserve the existing runner R24-only path."
+    }
+  ],
+  "nits": [
+    "The clean positive prerequisite Build85c88d85 is source-reported as RAN/exit0 with 0 errors/142 statements and both projections, but this reviewer did not retrieve a Brief or independently establish it. It is not proof credit.",
+    "The target-map sidecar expressly keeps prior Brief/archive provenance caller-declared and unauthenticated. This record treats those targets as observations only; no parser-input identity, causal proof, callee theorem acceptance, or proof credit is inferred."
+  ],
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-checked-outcomes-nine-review.json",
+      "sha256": "14e99666e302e0ee1cbc3904d85114dd265cb9ea4cd19e200832541288e85e9d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r23/R23-classifier-review.json",
+      "sha256": "0946dd2f8c063a91641fd414ee5505829284b50fa297b79a9389f81fc0eef601"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r23/R23-target-helper-review.json",
+      "sha256": "6ab83f8a7cf816884462bed487c78033a6aa7a2bfabf8f5db7640552669d011b"
+    }
+  ],
+  "not_run": [
+    "Actual Rust source preparation, compiler/exporter/MIR decoder/verifier, proof, Cloud Build or SmallSort Brief invocation.",
+    "Raw logs, full logs, archives, or dirty external VeriFast tool worktree.",
+    "Main-reported static transport preflight was not independently rerun."
+  ],
+  "main_reported_transport": {
+    "status": "PASS",
+    "payload_bytes": 388243,
+    "payload_sha256": "c8d68b44d3d29fd1a8828393635d8313442fe1831b24d55deb8b5f54c5ad96a8",
+    "encoded_config_bytes": "27280/28000",
+    "max_argument_bytes": "2778/10000",
+    "runtime_closure": "99 unique blobs, 2277351 bytes; inventory SHA 133951ae379bbb3e4401a7ac5fde4d6f1e19ec7dfdc754badca6ec922c714dff",
+    "attribution": "Reported by main agent; static transport only, no Cloud/proof call."
+  },
+  "limitations": "NO_GO is limited to the unguarded R24-only map activation path. The rest of this review is static/synthetic and does not qualify the matrix, establish the source-reported clean positive, verify current Cloud evidence, or grant proof credit.",
+  "proof_credit": 0
+}

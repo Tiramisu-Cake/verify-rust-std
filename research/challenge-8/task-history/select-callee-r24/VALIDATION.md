@@ -363,3 +363,35 @@ mappedpositive andexactexpectedargv/channels checks evenpairedtampering.
 Focused27tests/py_compile/diffcheck pass. Main pinsentryhelperEF481/proofD595,
 addsR24-only targetmapargs and sortedrecipeasset;7entrytests/bash-n/entryparse
 pass. Native translator/spec/actualsources and allformalcontrols unchanged.
+
+
+Matrix candidate6b4c29d1 statictransportPASS: payload388243/SHA c8d68b44,
+encodedconfig27280/28000,maxarg2778/10000. Runtime99unique committedblobs,
+2277351bytes/inventorySHA133951ae. Initial verbose review-spec rendering
+exceeded8KiB before packet creation; compressed instructions with samecode/
+targetboundary and full design/receipts referenced. Validpacketb3d866c1/spec
+e6339031,25files. No sourcecode or runtime changes after candidate; noCloud.
+
+
+Independent matrixreview6b4c29d1: NO_GO for missing direct map R24 fence;
+entry gated diagnostic/checked options, notmap, and batch tests demonstrated
+R21-only mapcompletion. No Build submitted. Initial review/spec/preflight
+remain intact. Main entry now gates map on exactR24+checkedmode,10entrytests
+pass (3new functional route checks beforeloader). Worker closing batch/audit
+fences plus exactnativeprojection-marker binding, no ambientflag. Entry passes
+explicit requestedmode into batch. Final hashes/tests and delta review pending.
+
+
+Workerb97e09ba closes mapped batch/audit R24 bounds: exactliveR24 phase,
+explicitchecked-mode request (nativeflag remains callback-only), mappedrecord
+phase/mode, nativeauditcontext and per-stage request. Mapped classification
+andphysicalaudit require exactlyone native1/1projectionmarker. Proofsuite15,
+auditsuite3 pass; targethelper unchanged from reviewed13test run. DuringWIP,
+entrypin test correctly failed onchanged helper bytes; main pin41c2173 now
+matches and all10entry tests pass. Auditfinal336d5c4c; native tools unchanged.
+Initial6b4 NO_GO is retained; route-delta review and fullstatictransport next.
+
+Independent read-only P2 planning completed and saved in P2-NEXT-OBLIGATIONS.
+Currentinterface remains NOT_PUBLISHED; all4criteria still required after full
+constmatrix. Source-generation candidate17142 remains source-only; no mutable
+source preparation/proof, newlane/phase/account or publication performed.

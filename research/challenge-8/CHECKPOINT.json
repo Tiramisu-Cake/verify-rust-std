@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "7e9ed252c091445675b064bca12ac5635fac7d5e717ba1df5bb83358b9bb6fa7"
+      "sha256": "75f5001d55af5bb1b08e7cf2754ba6f7b82cf93b8e7d0f1a6709fba48d8a9623"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -39,7 +39,7 @@
         "sha256": "6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a"
       }
     ],
-    "summary": "Full matrix waits for reviewed target pins and current log binding."
+    "summary": "Route fences implemented; complete matrix delta review and Cloud still pending."
   },
   "brief_observation_refs": [
     {
@@ -287,7 +287,7 @@
     "prior_build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
     "proof_credit": 0,
     "raw_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc",
-    "state": "PINNED_PRIOR_OBSERVATIONS_PENDING_REVIEW_AND_FRESH_MATRIX"
+    "state": "PINNED_PRIOR_OBSERVATIONS_ROUTE_FIX_REVIEW_PENDING"
   },
   "first_build": {
     "accounted": true,
@@ -349,11 +349,11 @@
     },
     {
       "obligation": "Pin seven control targets and repair classifier binding",
-      "reason": "Current85c full diagnostics pinned (nohalf219). Repair prior/current records and physical current log binding, then fresh matrix; no acceptance yet.",
-      "state": "IMPLEMENTED_REVIEW_PENDING"
+      "reason": "Entry/batch/audit now bind exact R24, checked request and one native1/1marker; initial NO_GO retained. Fresh complete matrix required.",
+      "state": "ROUTE_FIX_REVIEW_PENDING"
     }
   ],
-  "next_step": "Review classifier and seven targets; full1200 matrix with exact current-stage binding.",
+  "next_step": "Review exact R24/mode/marker fences, then full1200 matrix with fresh logs.",
   "open": [
     "Seven fresh prior targets pinned; classifier/code delta and full fresh matrix still unqualified.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."

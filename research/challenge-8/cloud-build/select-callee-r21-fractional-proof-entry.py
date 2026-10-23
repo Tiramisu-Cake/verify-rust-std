@@ -20,7 +20,7 @@ from typing import Any
 
 CASE = 'nine-body-a1-owned-forget'
 FINGERPRINT_HELPER_SHA256 = '9cb4dee13b134f1ba328b35c23e667c4ef73961cf980147fdda8f9cb56d16c71'
-PROOF_HELPER_SHA256 = 'd5958f6ecd268cc45bcc11cfccea1282c7fe36508ab2b6de2b7a63a157d1a8d5'
+PROOF_HELPER_SHA256 = '41c2173cd81f770bb15d5d5afa908a4c970a0da4dfbf0b3030a47af6ce11a16e'
 R20_HELPER_SHA256 = '83d2d0940fcb255a58b97db8d6161ec3b39660a62905f89a33f926a96d3099ba'
 O26_RECIPE_SHA256 = '464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c'
 O26_REFRESH_SHA256 = '2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3'
@@ -213,12 +213,15 @@ def run(args, *, runtime_loader=load_runtime,
     positive_ast_inventory = bool(getattr(args, 'positive_ast_inventory', False))
     checked_pointer_outcomes = getattr(args, 'checked_pointer_outcomes', False)
     need(type(checked_pointer_outcomes) is bool, 'checked outcomes option must be boolean')
-    if positive_ast_inventory or checked_pointer_outcomes:
+    target_map_requested = getattr(args, 'target_map', None) is not None
+    if positive_ast_inventory or checked_pointer_outcomes or target_map_requested:
         need(selected_env.get(PHASE_ENV) == PHASE and
              selected_env.get(R24_SESSION_ENV) == R24_SESSION_PHASE and
              selected_env.get('SMALLSORT_EXECUTION_PROVIDER') == 'cloud-build' and
              not selected_env.get('GITHUB_ACTIONS'),
-             'R24 diagnostics/checked outcomes require exact R24 Cloud session on the R21 route')
+             'R24 diagnostics/checked outcomes/target map require exact R24 Cloud session on the R21 route')
+    if target_map_requested:
+        need(checked_pointer_outcomes, 'target map requires the checked pointer outcome mode')
     runtime = runtime_loader(args.repo, args.cloud_dir, args.evidence)
     provider = runtime.get('provider')
     need(callable(getattr(provider, 'require_supported_provider', None)),
@@ -377,6 +380,7 @@ def run(args, *, runtime_loader=load_runtime,
             deadline_epoch=args.deadline_epoch,
             phase_key=fractional.PHASE_ENV, phase_value=fractional.PHASE,
             opt_in_key=OPT_IN_KEY, env=selected_env,
+            checked_pointer_outcomes=checked_pointer_outcomes,
             target_map=target_map, target_helper=target_helper,
             tool_spec=tool_spec, tool_spec_file=tool_spec_file)
     except BaseException:

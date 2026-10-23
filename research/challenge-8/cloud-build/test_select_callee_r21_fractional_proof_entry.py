@@ -11,7 +11,7 @@ import tempfile
 import time
 import unittest
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 HERE = Path(__file__).resolve().parent
 SPEC = importlib.util.spec_from_file_location(
@@ -259,6 +259,36 @@ class EntryTests(unittest.TestCase):
         path.write_text('VALUE = 1\n')
         with self.assertRaisesRegex(RuntimeError, 'pinned module differs'):
             TARGET.load(path, 'synthetic_bad_pin', '0' * 64)
+
+    def test_target_map_rejected_on_old_route_before_loader(self):
+        self.args.target_map = self.root / 'synthetic-target-map.json'
+        self.args.checked_pointer_outcomes = True
+        loader = MagicMock(side_effect=AssertionError('loader must not run'))
+        with patch.dict(os.environ, self.env, clear=True):
+            with self.assertRaisesRegex(RuntimeError, 'exact R24 Cloud session'):
+                TARGET.run(self.args, runtime_loader=loader)
+        loader.assert_not_called()
+
+    def test_target_map_requires_checked_mode_in_r24(self):
+        self.args.target_map = self.root / 'synthetic-target-map.json'
+        self.args.checked_pointer_outcomes = False
+        loader = MagicMock(side_effect=AssertionError('loader must not run'))
+        with patch.dict(os.environ, {**self.env, TARGET.R24_SESSION_ENV: TARGET.R24_SESSION_PHASE}, clear=True):
+            with self.assertRaisesRegex(RuntimeError, 'requires the checked pointer outcome mode'):
+                TARGET.run(self.args, runtime_loader=loader)
+        loader.assert_not_called()
+
+    def test_exact_r24_map_mode_reaches_loader_without_ast_diagnostic(self):
+        self.args.target_map = self.root / 'synthetic-target-map.json'
+        self.args.checked_pointer_outcomes = True
+        self.args.positive_ast_inventory = False
+        reached = LookupError('past exact route admission')
+        loader = MagicMock(side_effect=reached)
+        with patch.dict(os.environ, {**self.env, TARGET.R24_SESSION_ENV: TARGET.R24_SESSION_PHASE}, clear=True):
+            with self.assertRaises(LookupError) as caught:
+                TARGET.run(self.args, runtime_loader=loader)
+        self.assertIs(caught.exception, reached)
+        loader.assert_called_once()
 
     def test_entry_pin_matches_reviewed_proof_helper_bytes(self):
         helper = HERE / 'select-callee-r21-fractional-proof.py'
