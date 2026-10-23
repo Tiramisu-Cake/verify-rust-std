@@ -1,0 +1,47 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_CLASSIFIED_MUTABLE_DIAGNOSTIC_AND_P2_CONSEQUENCE_BUILD",
+  "baseline_commit": "3a71cd2b8fdeea5e565da6cdf131597b981087a0",
+  "candidate_commit": "32d42e1595496af26aa27ebd138b4cb7f119d173",
+  "candidate_tree": "693126bc758951520c8e8ab75aeccab594d99dc7",
+  "spec_sha256": "cddd75027c91fd9dbf476a7fd5be1ff5229abe5bb05654abf1996ed0421ea899",
+  "packet_sha256": "6fb1d3cb0f29bcf31a64d744b2b26c064d707fb4dd134a308450a8bd82af95a6",
+  "packet_diff_sha256": "1786c102ad097d6270147e1ba7dd7b4b135eed1426a443887d2d3da014883a52",
+  "commit_diff_sha256": "1786c102ad097d6270147e1ba7dd7b4b135eed1426a443887d2d3da014883a52",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-matrix-proof-review.json",
+      "sha256": "bb7f9a2666ed62545ede30d785fc87b832d7a51f5cab1e8def62f1fbc5dc96e6",
+      "decision": "GO_FOR_MATRIX_DIAGNOSTIC_BUILD; carried forward"
+    }
+  ],
+  "scope": "Independent review of the exact R24 fresh mutable seven-target classifier, checked normal-post consequence, runner mode, recipe closure and composite root audit. GO is limited to the full 1200-second same-tool const-regression-first diagnostic Build. It grants no P2 publication or proof credit.",
+  "verified": [
+    "Exact review check passed: candidate 32d42e1595496af26aa27ebd138b4cb7f119d173, baseline 3a71cd2b8fdeea5e565da6cdf131597b981087a0, spec SHA cddd75027c91fd9dbf476a7fd5be1ff5229abe5bb05654abf1996ed0421ea899, packet SHA 6fb1d3cb0f29bcf31a64d744b2b26c064d707fb4dd134a308450a8bd82af95a6; packet state PACKET_VALID_NOT_REVIEWED, proof credit NONE.",
+    "The classifier imports the exact frozen matrix wrapper and target validator by SHA, composes the frozen all-eight proof library, and requires exact R24/R21/lane/profile/native Build context, current source and ten-snapshot pins, same-tool full const regression, the fresh matrix proof report, and exact current source/stage/log identities. The positive row must be source-intact, exit 0, marker count 1, and error-free. Each of seven negatives is classified only when its current log has exactly one strict-UTF8 diagnostic matching the pinned source/tool target, exact argv/stage/source pair and native mutable-certificate marker; failures remain UNKNOWN. The historical proof summary is preserved and not promoted.",
+    "The target map validates exact per-variant source/tool hashes and source or tool-precondition anchors, diagnostic coordinates/message shape, and caller-declared prior Brief provenance. The helper explicitly labels provenance unauthenticated; current negative matching is independently recomputed from physical current log bytes. No prior raw log authenticity or formal acceptance is inferred.",
+    "The consequence lemma has precondition equal to the mutable actual stronger normal post (thread token plus conditional pointer-cast equality and raw_ptr_own) and conclusion equal to the planned weak P2 normal post. It only opens the existing raw_ptr_own predicate. I independently checked the exact pinned f760 model blob: SHA ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d; `raw_ptr_own<T>() = true` and `<*T>.own = raw_ptr_own`. The planned P2 contract text hashes to dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870. This supports the logical consequence without adding pointee ownership or changing the interface text. The separate checked lemma is not an unchecked summary and does not replace the actual callee proof.",
+    "The consequence runner checks exact lemma bytes, ghost-strip identity, current model/tool hashes before and after, normal and readonly export/decode, refinement and proof stage success, exact argv/stage/source observations, one verifier header and zero-error summary. Its audit reopens physical artifacts. The shell runs it only after the classified all-eight stage succeeds; the composite audit requires both independent audits and both exit codes to succeed, and forces acceptance/publication/verification acceptance false and proof credit zero.",
+    "The exact new mode is default off, hash pinned, chained after the existing mutable matrix proof mode and before no legacy fallthrough; without it previous routes remain unchanged. The recipe adds the classifier, target validator, consequence module and mode/map dependencies. Static transport preflight records 441082-byte payload, SHA c5d6f1ef061d532d028959c610b15e684250f3b083972b12a48885899e2c18e6, max argument 2778, encoded config 27452/28000, and closure 125 entries / 2951019 bytes, SHA 5d79f925b4edaa6fee1324949ce02a5b71c1cc58e3c34dc62cb6dc84acd67fa1."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check for the exact packet (pass)",
+      "test_select_callee_r24_mut_classified_proof.py (7 tests, pass)",
+      "test_select_callee_r24_mut_control_targets.py (12 tests, pass)",
+      "test_select_callee_r24_p2_entailment.py (8 tests, pass)",
+      "test_r24_mut_capture_runner.py (11 tests, pass)",
+      "bash -n run-o26-select-callee-r20.sh and git diff --check (pass)",
+      "Read-only git show of pinned f760 general.rsspec and SHA-256 verification; P2 planned contract hash recomputation (pass)"
+    ],
+    "not_run": [
+      "Actual mutable source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build or Evidence Brief; raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "The reviewed mode remains diagnostic only: seven negative target matches are source-reported and prior provenance is caller-declared, not authenticated. The fresh mutable matrix and consequence have not run in Cloud. This review does not accept the mutable callee, publish P2, authorize W4, or award proof credit. Dedicated mutable admission/refusal controls and final independent interface review remain pending. Existing platform FAILURE and source-reported evidence remain as recorded. Untracked refusal-collector files and transport-preflight metadata were excluded from the candidate and preserved untouched.",
+  "proof_credit": 0
+}

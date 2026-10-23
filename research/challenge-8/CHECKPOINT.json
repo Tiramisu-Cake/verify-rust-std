@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e9018565f079653eeb66e1334203f2e12ff4ff54dcac9271aa0e41dac47c92e8"
+      "sha256": "e15ae96c1d0aa6aa9a6adf381dc92491ceb6788db8d05f7eac98c2ed55605c57"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,11 +34,11 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-PROOF-FIRST-OBSERVATIONS.json",
-        "sha256": "97ece803a2bc57584646df152403537d529f8301b4270871a74e8b3c3ca59288"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-classified-review.json",
+        "sha256": "a6cbff3adaf15f0ee70fd929b169000a52c3683eb8ac85c38e39b2bace2c887a"
       }
     ],
-    "summary": "Fresh mutable seven targets observed; reviewed classification and closed admission refusal controls pending. P2 NOT_PUBLISHED."
+    "summary": "Reviewed classified matrix+checked P2 consequence unbuilt; dedicated mutable refusals pending. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1297,6 +1297,23 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
+  "mutable_classified_candidate": {
+    "accepted": false,
+    "candidate": "32d42e1595496af26aa27ebd138b4cb7f119d173",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-CLASSIFIED-PROOF-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "247e9650169f5c1e688bd34ef16a23aaafd7cb64d173da7b1c8207a144fc4cdf",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-classified-review.json",
+    "review_sha256": "a6cbff3adaf15f0ee70fd929b169000a52c3683eb8ac85c38e39b2bace2c887a",
+    "runtime_closure": {
+      "bytes": 2951019,
+      "entries": 125,
+      "sha256": "5d79f925b4edaa6fee1324949ce02a5b71c1cc58e3c34dc62cb6dc84acd67fa1"
+    },
+    "scope": "FRESH_MUTABLE_SEVEN_EXACT_TARGET_MATCHES_AND_CHECKED_NORMAL_POST_CONSEQUENCE",
+    "state": "REVIEWED_UNBUILT"
+  },
   "mutable_matrix_fingerprint_build": {
     "accounted": true,
     "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
@@ -1498,6 +1515,17 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
+  "mutable_refusal_work_in_progress": {
+    "next": "Inspect completed collector/audit; main entry/mode/wiring+independentreview beforeCloud.",
+    "paths": [
+      "research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py",
+      "research/challenge-8/cloud-build/test_select_callee_r24_mut_refusals.py"
+    ],
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "state": "UNTRACKED_WIP_NOT_IN_BUILD_CANDIDATE",
+    "worker": "r24_admission"
+  },
   "mutable_successor_candidate": {
     "candidate": "993dd9e5dbd98332aa620e3a36a64040ed8d487f",
     "proof_credit": 0,
@@ -1514,8 +1542,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Implement/review fresh mutable classified matrix and refusal controls on unchanged native tool/source; then P2 publication and W4.",
-  "next_step": "Implement/review fresh mutable classified matrix and refusal controls on unchanged native tool/source; then P2 publication and W4.",
+  "next": "Submit reviewed32d42 exact full1200 classified mutable matrix+P2 consequence; dedicatedrefusals then finalreview/P2 andW4.",
+  "next_step": "Submit reviewed32d42 exact full1200 classified mutable matrix+P2 consequence; dedicatedrefusals then finalreview/P2 andW4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated."
@@ -1581,7 +1609,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T20:31:31Z",
+  "updated_utc": "2026-10-23T20:44:28Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
