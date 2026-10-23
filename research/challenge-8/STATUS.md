@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T22:23:24Z
+- Updated: 2026-10-23T22:33:51Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 7650s spent; 0s retired; 13950s remaining including active reservations
@@ -9,11 +9,11 @@
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] 38c94d both8matrices/consequence/all11refusals/rootaudit complete. PlatformFAILURE retained; finalP2qualification pending,credit0. — [research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json) SHA `6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c` Build `38c94d41-ccd9-49f5-b58c-0efd10b406b6`
+- [SOURCE_REPORTED] P2 exactrawmutpointer contract qualified/publishedafterfinalscopedGO; constregression qualified. Noindependentcredit; W4linkage remainsopen. — [research/challenge-8/task-history/select-callee-r24/P2-INTERFACE.json](task-history/select-callee-r24/P2-INTERFACE.json) SHA `656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322`; [research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json](task-history/select-callee-r24/R24-p2-publication-review.json) SHA `0e4569adee40ed4f8e819bc7e13432e509e75a9e37160c9993d79cf35713a057`
 
 ## Open
 - Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.
-- MutableP2 NOT_PUBLISHED; full11refusals/root qualification and final interface review pending. W4 gated.
+- P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.
 - Issue56 answer: final required universality/panicking-comparator domain remains pending owner/organizer clarification. No dependent enhancement implemented.
 
 ## Rejected approaches
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Full P2 sourceevidence complete; final independentqualification/interface review pending.
-- [research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json) SHA `6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c`
+W4 eightactualconst-call linkage/sourceMIR capture notyetimplemented; C5body pending.
+- [research/challenge-8/task-history/select-callee-r24/W4-R24-REPRESENTATIVE-SCOPE-DECISION.json](task-history/select-callee-r24/W4-R24-REPRESENTATIVE-SCOPE-DECISION.json) SHA `ed8db7bd6793b87a9d627865297cbf5e0d8928ced3a7c456709743e3ef82e3e3`
 
 ## Next
-Prepare exactP2qualification/interface; independentreview thenpublish, thenW4.
+W4: reviewedclosed capturemode inexistingR24lane; freshbodyMIR+8constcalls, thencheckedlinkage/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `61af99b20ee15eeba56e3faccd9d14f24b541f76b3d4fb87df469eafa11bcb5b`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `5bff245c306f935e9e4c036dda9a755f4d5e227d8e8e27ae55e9e744def86a4f`

@@ -1,0 +1,75 @@
+{
+  "schema": "select-r24-p2-independent-publication-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_EXACT_EXPERIMENTAL_RAW_POINTER_QUALIFICATION_AND_P2_PUBLICATION",
+  "baseline_commit": "59be4e64eb8e62c31bd4114df60da5cc0bb673e8",
+  "candidate_commit": "59be4e64eb8e62c31bd4114df60da5cc0bb673e8",
+  "candidate_tree": "7cc9d0d103f52b1d2aa78f174cf1d363bbc54cb1",
+  "spec_sha256": "290752c94793cb4d4ee1d4545e618fcad9cbd89c07c790126080a07604119698",
+  "packet_sha256": "314bb3179500172d34425480f9834217efcf27f8ac543944f0ab5e569ced961e",
+  "packet_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "commit_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "packet_check": {
+    "command": "smallsort-session review check",
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "source_proof_candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-matrix-route-review.json",
+      "sha256": "1cc1126eb4625facc8d33c8ef1a499378f5ce6dcaf9b221e05c5cbfb0e1ba46c"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-classified-review.json",
+      "sha256": "a6cbff3adaf15f0ee70fd929b169000a52c3683eb8ac85c38e39b2bace2c887a"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-legacy-target-review.json",
+      "sha256": "4c1f30eba9d9a119a61898e3f736a97a0ddcca92251b1f7704bfd3e910239b81"
+    }
+  ],
+  "supplemental_bounded_receipt": {
+    "commit": "cd4932eb9bfa6c533fb1bcacb3931569140436b3",
+    "path": "research/challenge-8/task-history/select-callee-r24/P2-POSITIVE-BODY-OBSERVATIONS.json",
+    "sha256": "8a6d402a321e436fa8f364a95d72771fb40bb6d577e2f636be259c51740cb9f3",
+    "native_log_sha256": "cbcfc12710e9da7bc443d33a6950936b1524119c059c2cea5fe92d3e0f20df6b",
+    "observations": [
+      "line 437: Verifying function select_unpredictable at verified/lib.rs:137..238",
+      "lines 438-440: function lifetime token and statement execution",
+      "lines 699 and 705: leak checks; line 706: 0 errors found (142 statements verified)"
+    ],
+    "role": "Additional source-reported bounded Brief evidence for the same Build; receipt-only commit does not change the reviewed proof candidate or runtime."
+  },
+  "scope": {
+    "qualification": "Exact reviewed experimental raw-pointer source/tool/profile pins, including the const regression qualification and mutable P2 result for T=*mut Element with unrestricted Element.",
+    "published_p2_contract": "core::hint::select_unpredictable at signature pub fn select_unpredictable<Element>(condition: bool, true_val: *mut Element, false_val: *mut Element) -> *mut Element; contract SHA-256 dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870.",
+    "contract_effect": "thread_token plus conditional pointer-cast result equality; false unwind inherited from the same-version checked callee. The checked ordinary consequence lemma removes only the existing empty raw_ptr_own predicate.",
+    "excluded": [
+      "No pointee ownership, generic-T value claim, panicking-Drop claim, independent B1/B2 credit, sorting guarantee, or unchecked summary. Network/W4 callsite linkage and proof remain consumer obligations; W4 eight-call linkage is not qualified by this review."
+    ]
+  },
+  "verified": [
+    "Exact packet identities and candidate tree match the review handoff; packet diff is empty because this is a final evidence snapshot with baseline=candidate.",
+    "All 66 Brief receipts and all 14 catalogues in MUT-P2-COMPLETE-OBSERVATIONS.json were independently read from candidate 59be and their SHA-256 values matched.",
+    "Seven current native target receipts were hash-checked; each current log SHA, Brief physical line, source span, and literal diagnostic matched its pinned intended target. Historical validator provenance remains caller-declared and NOT_AUTHENTICATED.",
+    "Same-Build const positive and eight-row matrix, mutable positive and eight-row matrix, eleven source-envelope refusals, physical capture audits, root audit, and checked consequence are complete in the bounded Brief observations. The positive mutable verifier excerpt directly reports the actual select_unpredictable body and clean 142-statement run.",
+    "Reviewed exact certificate generator, native patch, A1 and successor overlays, frozen proof/classifier/control/refusal helpers, source and body pin manifests, and consequence helper hashes. The mutable family is separately gated and typed; the selected post is stronger than the published post by only empty raw_ptr_own. No new model axiom or premise is introduced.",
+    "The const and mutable matrix evidence is tied to the same Build/tool profile; the 11 refusal results stay at the source/profile-envelope level and do not claim internal typed-MIR guard coverage.",
+    "Active R23 interface remains NOT_PUBLISHED in the reviewed snapshot; this GO permits the authorized publication commit to add the reviewed qualification/interface record with the exact pins and this review record identity."
+  ],
+  "findings": [],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Read-only receipt hash and current diagnostic source-span/literal checks passed for 66 receipts, 14 catalogues, and seven current target diagnostics.",
+    "Verified three supplemental bounded positive-body receipt hashes; no Cloud Build, compiler/exporter/decoder/refinement/verifier, or raw evidence access was performed."
+  ],
+  "limitations": [
+    "Evidence is source-reported through Evidence Brief. Brief explicitly says parser-input binding is NOT_ESTABLISHED; this review does not elevate it to independent parser-input or proof-credit evidence.",
+    "Build platform_status is FAILURE, runner_exit_source_claim is 0, and causal status is UNKNOWN. The successful verifier-body result is a bounded source-reported result from that Build; the platform failure remains visible and unexplained.",
+    "No raw GCS archive, full verifier log, Cloud Logging, or local native tool execution was used. No independent B1/B2 assessment or proof credit is awarded.",
+    "Qualification is only for exact pinned raw-pointer instantiations under the reviewed experimental profile. The P2 contract is the *mut Element form; Network/W4 compatibility remains separately checked by consumers."
+  ],
+  "proof_credit": 0
+}

@@ -1,3 +1,5 @@
+> R24 supersedes the historical decision below: the active [P2 interface](P2-INTERFACE.json) is now `PUBLISHED` under the exact scoped experimental profile. See [R24 qualification](../select-callee-r24/P2-MUT-QUALIFIED-PROFILE.json) and [independent review](../select-callee-r24/R24-p2-publication-review.json). Independent proof credit remains zero; caller linkage remains a consumer obligation.
+
 # Select R23 response to Network P2 (`select_unpredictable` at `*mut T`)
 
 Decision date: 2026-10-23. Pin this file and the adjacent `P2-INTERFACE.json` by their full Select Git commit and SHA-256. This response grants no Network Cloud lane, no summary, and no proof credit. It carries forward the exact planned contract from R22; it does not publish that contract.

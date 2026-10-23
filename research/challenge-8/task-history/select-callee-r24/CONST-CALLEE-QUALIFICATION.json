@@ -1,0 +1,94 @@
+{
+  "accepted": true,
+  "all8_sameversion_matrix": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json",
+    "sha256": "6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c"
+  },
+  "assurance": "SOURCE_REPORTED_CI_WITH_INDEPENDENT_STATIC_PROFILE_QUALIFICATION",
+  "bounds": "Constregression qualifiedonlyunderexactreviewedexperimentalprofile. W4eightcalllinkage notqualified; no pointeeownership/genericT/panickingDrop/callerclaim. Historicalsourceflags unchanged.",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "fingerprint_input": {
+    "path": "research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json",
+    "sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5"
+  },
+  "independent_review": {
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json",
+    "sha256": "0e4569adee40ed4f8e819bc7e13432e509e75a9e37160c9993d79cf35713a057"
+  },
+  "instantiation": "T=*const Element; Element unrestricted",
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "positive_snapshot_input": {
+    "body-0": {
+      "bytes": 4498,
+      "file": "actual-nested-9-body-0.marshal",
+      "sha256": "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc"
+    },
+    "body-1": {
+      "bytes": 4849,
+      "file": "actual-nested-9-body-1.marshal",
+      "sha256": "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562"
+    },
+    "body-2": {
+      "bytes": 3503,
+      "file": "actual-nested-9-body-2.marshal",
+      "sha256": "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182"
+    },
+    "body-3": {
+      "bytes": 3490,
+      "file": "actual-nested-9-body-3.marshal",
+      "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+    },
+    "body-4": {
+      "bytes": 4093,
+      "file": "actual-nested-9-body-4.marshal",
+      "sha256": "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed"
+    },
+    "body-5": {
+      "bytes": 4707,
+      "file": "actual-nested-9-body-5.marshal",
+      "sha256": "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6"
+    },
+    "body-6": {
+      "bytes": 4337,
+      "file": "actual-nested-9-body-6.marshal",
+      "sha256": "15206a96e20e8c68cb41f1f2cbfe06fa5f782bd2c5a02689d43dcdd06cfa2508"
+    },
+    "body-7": {
+      "bytes": 45868,
+      "file": "actual-nested-9-body-7.marshal",
+      "sha256": "d370bf5eeeaf553ba450d3add562b85f46673bbac21c249b439ef126443bbb08"
+    },
+    "body-8": {
+      "bytes": 4920,
+      "file": "actual-nested-9-body-8.marshal",
+      "sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    },
+    "unit": {
+      "bytes": 83678,
+      "file": "actual-nested-9-unit.marshal",
+      "sha256": "cc6292e0683b62b8457267f2963bfb29901d0a5492fa10933c0be9cb2f674925"
+    }
+  },
+  "proof_credit": 0,
+  "schema": "select-r24-const-callee-qualification-v1",
+  "source": {
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "verified_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff"
+  },
+  "source_matrix_history": {
+    "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
+    "sha256": "0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee"
+  },
+  "source_proof_candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+  "status": "QUALIFIED_UNDER_EXACT_EXPERIMENTAL_PROFILE",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  }
+}
