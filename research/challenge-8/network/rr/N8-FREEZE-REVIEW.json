@@ -1,0 +1,24 @@
+{
+  "baseline_commit": "55d1f6ee3fdf7f0c0bf6a2778b1b4e14f864b169",
+  "candidate_commit": "e2b7d480389af7b4229f69f9a3d6910244127bc6",
+  "critical_findings": [],
+  "evidence_limitations": [
+    "Reviewer legacy Brief projections redacted long hashes; author targeted --refresh exact selections returned content_filtered=false and full source-reported hashes. Both preserve SOURCE_REPORTED assurance and zero independent proof credit.",
+    "N7 ledger byte-identical; image generation/archive integrity does not establish G1 or safety proof."
+  ],
+  "independent_proof_credit": 0,
+  "metadata_corrections": [
+    "Move terminal cold active_dispatch to last_dispatch.",
+    "Replace absent-image/freeze OPEN with G1/cleanup NOT_RUN."
+  ],
+  "model": "gpt-6-luna",
+  "observed_utc": "2026-10-23T22:08:43Z",
+  "packet_sha256": "4d5550d6a7eedfc5182bbe3aa0b53ea521e38825d3d492c44a5adbc8fe23a0e6",
+  "proof_credit": 0,
+  "reasoning_effort": "high",
+  "reviewer": "independent Luna HIGH /root/n7_independent_review",
+  "schema": "network-rr-g1-independent-review-v1",
+  "scope": "Pins-only canonical digest, internal receipt, four executable hashes, apt receipt pointer; exact execution profile SHA pin. No runner/proof logic changes.",
+  "spec_sha256": "492b3f54655070597a208269d4d7c8991b3f36d6bd9a56cfa114e0040c3db618",
+  "verdict": "GO_WARM_G1_AFTER_ORDINARY_ADMISSION"
+}

@@ -1,0 +1,54 @@
+{
+  "applicability": "Pins-only image/freeze delta and cold-start accounting. No runner/control logic change except exact profile SHA pin; new canonical digest/binary SHA values/apt receipt pointer and Brief start observation.",
+  "baseline_commit": "55d1f6ee3fdf7f0c0bf6a2778b1b4e14f864b169",
+  "candidate_commit": "e2b7d480389af7b4229f69f9a3d6910244127bc6",
+  "controls": [
+    "Actual frozen v2 values pass the pure online_freeze validator; no actual local tools.",
+    "Brief-bound daemon Step1/17 FROM pinned base confirms first actual cold start; ledger source/stage/Build binding exact, one STARTED record.",
+    "Registry internal_receipt_sha256 equals catalogue image-receipt SHA and internal checksum list; Cargo.lock hashes match originalb66 across catalogue/image/registry/internal list.",
+    "Four executable hashes match image receipt objects and executable list; reconstructed checksum lists match catalogue SHA8a7 and24a. Compiler/RR/tree/clean/archive pins match; apt inventory180 entries stored in verified receipt, not downloaded wholesale.",
+    "Readonly Artifact Registry describes same sha256:11c9b4... canonical digest. Cold Build741s accounted/pushed before freeze;4268s remain, N7 ledger unchanged."
+  ],
+  "defect": "Successful first N8 cold Build produced canonical image and exact internal receipt; warm was deliberately blocked until the image/binary pins were frozen and reviewed.",
+  "dependencies": [
+    "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
+    "research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+    "research/challenge-8/agent-workflow/CORE.md",
+    "research/challenge-8/agent-workflow/RUNTIME-CODEX.md",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+    "research/challenge-8/network/rr/g1-minimal/run.py",
+    "research/challenge-8/network/rr/g1-minimal/service.py",
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1/cloud/Dockerfile.candidate",
+    "research/challenge-8/network/rr/g1/cloud/write-image-receipt.py"
+  ],
+  "invariants": [
+    "N7 closed ledger SHA77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8 unchanged; N8 grant5009 is separate from N7 retired budget.",
+    "Fixed deadlines main2026-10-26T20:56:24Z and closeout21:56:24Z; original tooling window anchor preserved, actual N8 start separately recorded, no renewed72h.",
+    "Cold1740/1800 report240, warm1200/1260; cold up to2 Brief-confirmed Dockerfile starts, infrastructure budget/window bounded without derived submit count; UNKNOWN never means exhaustion.",
+    "Same exact RR332d945f/treeb33b/compiler nightly2026-08-28 archives/stdcd371e0; runtime/algorithm/generic/CFG/ownership/normal/unwind/cleanup/p0/source checks unchanged; no stronger premises/shims/only_spec/frontend patch.",
+    "Canonical digest warm selection and cold receipt/binary freeze/pins-only delta review; proofcredit0/readiness unchanged; no shared coordinator/IAM/transport or foreign lanes changes."
+  ],
+  "known_limitations": [
+    "All cold facts SOURCE_REPORTED, not independently established proof. Archive integrity and successful image generation are not G1/safety proof.",
+    "Image internal receipt intentionally has image_digest=null; external registry receipt binds canonical digest to internal receipt SHA without circular image hashing.",
+    "APT package list is retained in image receipt (180 entries); only its container count and file identity were read, no wholesale evidence download.",
+    "G1/frontend/cleanup NOT_RUN; warm1200/1260 in exact canonical digest follows only after this review."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-networks/research/challenge-8/network/rr/N8-INDEPENDENT-REVIEW.json",
+      "sha256": "54a3c4c36bead4fffd90895f3a2127b78a0a9eefa2b46ef5b1ea777737978c7f"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

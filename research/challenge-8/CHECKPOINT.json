@@ -1,15 +1,5 @@
 {
-  "active_dispatch": {
-    "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
-    "config_sha256": "5e083d5cd1bb32cc00b37252f1fa5e8aa090cf2c7cda1f91fcb85e4d0ddd9988",
-    "dispatch_token": "dispatch-30e7a52507004afc9732efef720800cd",
-    "infra_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
-    "proof_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
-    "reservation_seconds": 1800,
-    "stage": "cold-image",
-    "state_dir": "/root/smallsort-cloud-network-rr-n8",
-    "timeout_seconds": 1740
-  },
+  "actual_execution_profile_sha256": "abd1aed0a91ad29e82251f2151b004a305ddfc315e3ed1c224a0d705c78a5d9b",
   "actual_work_start_utc": "2026-10-23T21:33:57Z",
   "artifacts": [
     {
@@ -19,6 +9,18 @@
     {
       "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
       "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-FREEZE-REVIEW.json",
+      "sha256": "da1b1f4324bf827673666c2c3e8c19849599af34bb6b25720f5a8e68f9770c39"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N8-COLD-IMAGE-EVIDENCE.json",
+      "sha256": "1993ca7e07be69929d41fb349f50eed4c65767e8d60030e9b8959b9161361aa6"
+    },
+    {
+      "path": "research/challenge-8/network/rr/observations/42fede290bef98d00701b13c8edbb52b2220171c6d654961bf498de8efc75b68.json",
+      "sha256": "42fede290bef98d00701b13c8edbb52b2220171c6d654961bf498de8efc75b68"
     }
   ],
   "assignment_sha256": "a1948b97694ffa3f64c6781312f74b9974b6dbb8dcdb338ec71e56925f9a597b",
@@ -28,13 +30,8 @@
     "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
-        "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
-      }
-    ],
-    "summary": "Cold image/start confirmed; pins-only freeze review pending."
+    "evidence": [],
+    "summary": "Warm G1 not run; canonical freeze reviewed GO."
   },
   "cold_attempt_accounting": {
     "cold_attempts_started": 1,
@@ -70,20 +67,46 @@
           "sha256": "54a3c4c36bead4fffd90895f3a2127b78a0a9eefa2b46ef5b1ea777737978c7f"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N8 cold SUCCESS741s; Dockerfile STARTED1; canonical image/receipt/binaries frozen and pins-only review GO. G1 NOT_RUN,credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N8-COLD-IMAGE-EVIDENCE.json",
+          "sha256": "1993ca7e07be69929d41fb349f50eed4c65767e8d60030e9b8959b9161361aa6"
+        },
+        {
+          "path": "research/challenge-8/network/rr/N8-FREEZE-REVIEW.json",
+          "sha256": "da1b1f4324bf827673666c2c3e8c19849599af34bb6b25720f5a8e68f9770c39"
+        }
+      ]
     }
   ],
   "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+  "last_dispatch": {
+    "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
+    "config_sha256": "5e083d5cd1bb32cc00b37252f1fa5e8aa090cf2c7cda1f91fcb85e4d0ddd9988",
+    "dispatch_token": "dispatch-30e7a52507004afc9732efef720800cd",
+    "infra_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+    "proof_sha": "4af985cacc49c5c25c0005516018ae3ade557114",
+    "reservation_seconds": 1800,
+    "stage": "cold-image",
+    "state_dir": "/root/smallsort-cloud-network-rr-n8",
+    "timeout_seconds": 1740
+  },
   "last_terminal_build": {
-    "assurance": "BUILD_METADATA_ONLY",
+    "assurance": "SOURCE_REPORTED",
+    "brief_status": "VERIFIED_ARCHIVE_AND_INVENTORY; cold image only, credit0",
     "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
     "build_seconds": 741,
     "execution_seconds": 740,
     "proof_credit": 0,
     "status": "SUCCESS"
   },
-  "next_step": "Pins-only review, then warm G1 in the canonical digest.",
+  "next_step": "Submit reviewed warm G1, full1200/1260, canonical digest; classify through Brief.",
   "open": [
-    "Image digest/binary freeze absent; G1/cleanup NOT_RUN; specs UNKNOWN.",
+    "G1/frontend/cleanup NOT_RUN; missing specs UNKNOWN.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
   ],
   "owner": "network",
@@ -116,7 +139,7 @@
   },
   "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T22:02:24Z",
+  "updated_utc": "2026-10-23T22:08:43Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "aea29b59-c9f8-463b-9e89-164e05496e55",
