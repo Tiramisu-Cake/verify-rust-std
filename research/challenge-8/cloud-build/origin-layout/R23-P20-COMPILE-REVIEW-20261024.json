@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r23-p20-unwind-epilogue-placement-review-v1",
+  "reviewer": "Codex",
+  "candidate": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+  "baseline": "790fa28f1897a2c87ec710ae8652c54e0eb28227",
+  "tool_commit": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
+  "spec_sha256": "4a25aea24e0bd2ea1b3367db58cf8ef154aa6c90812ab6c6ec596fdbd374b8ee",
+  "packet_sha256": "79a8e451e8ebf611da94db101b04487502e6a602af13ab706865810181a39f7f",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P19-COMPILE-REVIEW-20261024.json; P20 only bounds the selected unwind action and moves the existing runtime recovery epilogue outside a normal-body BlockStmt",
+  "decision": "GO",
+  "review_scope": [
+    "Selected as_mut_ptr Continue action guard and rejection of other unwind actions",
+    "Normal body BlockStmt placement, label continuation, strict lifetime scope exit, and appended unwind epilogue",
+    "Preservation of post-borrow cleanup, original unwind Return, ownership/resource checks, and exact profile pins"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256. The packet declares proof_credit NONE.",
+    "P20's prepass selects the unique source slice::as_mut_ptr call and now requires its decoded unwind action to be Continue. The existing translate_unwind_action maps Continue to exactly Return unwinding(); other actions map to distinct control, and P20 fails closed for them. This guards the recovery sequence against substituting a cleanup/terminate/unreachable source edge whose original behavior differs.",
+    "For the selected helper's unwind outcome, the existing generated sequence remains recovery bridge, Goto to the R23 label, then at that label the source post-borrow cleanup, array_to_array bridge, and the unchanged original unwind statements. Since the selected call action is Continue, the original unwind statements end in Return unwinding(). The epilogue is required to be nonempty and is emitted at most once.",
+    "P20 wraps only the existing normal vf_bblocks in BlockStmt with empty declarations and an empty locals-to-free list, then appends the runtime unwind epilogue outside. The existing callback translator uses this same BlockStmt/outer-label layout. The kernel's BlockStmt label continuation forwards the current heap, type environment, ghost environment, and value environment for a non-strict block; it does not discard resources or locals for this empty-list wrapper.",
+    "The selected unwind Goto exits the existing strict lifetime block before reaching the outer epilogue. The kernel's strict-scope label continuation performs its existing lifetime-token restoration, checks that no lifetime-scoped heap chunk or type escaped, restores outer bounds/environment, and only then invokes the outer label continuation. Thus recovery uses outer source binders while scoped Ref/Unsize temporaries remain within the existing shortened scope.",
+    "The normal body is isolated from the appended epilogue. Ordinary completion reaches the existing Assert false guard before the unwind label; the selected unwind branch jumps directly to the label. The unwind cleanup and final Return therefore execute only on the selected unwind path, while the normal Return remains in the wrapped original body.",
+    "P20 changes one translator file by 10 additions and 1 deletion. The translator SHA-256 is dc272265df244c5d6ef80db8b186b5cf558a880e9aaad1c8767cde4d25381713; tool commit is 74cebc3bd91b3f88edae3a0dde42061712119e2b; profile SHA-256 is af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf; patch SHA-256 is a55ca88b21acf766a846feea9be77bdffed6b84963bc204a1d3cfe5c68a2e90f. The exact source profile retains reverse baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "git diff --check passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "Profile6 and phase8 checks reported in the P20 packet",
+    "P19 Brief diagnostic and selected Continue observation included in the P20 packet"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This is a static review of the exact pinned translator delta and unchanged kernel behavior. Actual AST parsing, source caller verification, and normal/unwind proof acceptance remain unverified.",
+    "Profile/phase checks and P19 Brief claims were not independently rerun or audited for proof acceptance. No source-positive acceptance, build admission, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

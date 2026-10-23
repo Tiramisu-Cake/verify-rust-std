@@ -47,10 +47,10 @@ Next: Fix the three findings, delta review, register R23, early full-1200 Build;
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · ACTIVE**
-Updated: 2026-10-23T21:43:17.002580Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · HANDOFF**
+Updated: 2026-10-23T21:47:29.206686Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
 Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 12721s spent, 0s retired, 1679s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: P19 generated unwind epilog rejected: epilog statement must be pure.
-Next: P20 Continue-only runtime continuation placement, delta review, final full Cloud cycle.
+Active Build IDs: 925fadd6-138d-46d3-acc8-66fbd59f272a; unresolved: none recorded.
+Blocker: P20 registered; actual compiler/proof outcome pending.
+Next: ACK; coordinator status; publish accounting; P20 Evidence Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

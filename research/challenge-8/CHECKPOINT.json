@@ -1,14 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-TRANSPORT-20261024.json",
-      "sha256": "734b383229aed628953a6fbf7db6b1d36a680f2ae73c930f3812c7f65154bcd2"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-CONTROL-BRIEF-20261024.json",
       "sha256": "c6966c2c97ec2e278ead115de7e90e755e6dc840c651f65f99c6cf1ec65190c2"
     },
@@ -23,6 +15,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "c1720ef45a0e1cea621800e177ff1b6b900867deaa1ee8d35ed7577d202faeec"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-COMPILE-REVIEW-20261024.json",
+      "sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-TRANSPORT-20261024.json",
+      "sha256": "5d4c32512a5a48a273bf22249e1c654928b505b0b0c5ecc833022603df2979b5"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +32,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P19 generated unwind epilog rejected: epilog statement must be pure.",
+    "summary": "P20 registered; actual compiler/proof outcome pending.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +65,7 @@
       ]
     }
   ],
-  "next_step": "P20 Continue-only runtime continuation placement, delta review, final full Cloud cycle.",
+  "next_step": "ACK; coordinator status; publish accounting; P20 Evidence Brief.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0.",
@@ -87,7 +87,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "925fadd6-138d-46d3-acc8-66fbd59f272a"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -99,9 +101,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T21:43:17.002580Z",
+  "updated_utc": "2026-10-23T21:47:29.206686Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -544,6 +546,16 @@
       "invariant": "No runtime statements marked pure, no kernel/model/spec/CFG action change. Goto crosses ordinary wrapper with dynamic tenv/ghostenv/env unchanged; inner strict lifetime exit retains pre-borrow ghost binders from P19. Same checked restoration/body order and original Continue unwind; all scopes/noescape/resources/source/callee gates preserved.",
       "controls": "Continue observed in exact bounded Brief fragment; runtime decoder guard fail-closed for Cleanup/Terminate/Unreachable. Existing callback BlockStmt label continuation audited in current kernel. Keep required unique chain/missing bridge/epilogue/scopeddecl checks, raw/source controls; profile/phase checks and independent semantic delta review; only Cloud actualcompiler/proof.",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P20 full compiler/source-borrow validation after reviewed fix",
+      "reason": "Luna HIGH GO exact 908cab9fd7b55ce02343a616112de1fa9e8a3b01; spec 4a25aea24e0bd2ea1b3367db58cf8ef154aa6c90812ab6c6ec596fdbd374b8ee; packet 79a8e451e8ebf611da94db101b04487502e6a602af13ab706865810181a39f7f. Published root/tool remotes checked. Source gate and cumulative patch five pins/kernel PASS. Payload565229/571567 SHAe252dc99af6883d8648a6a71651339bdb70039fbe588c782d981ab4de4bf699c; config27464/28000. Capturefalse and full1200/reserves unchanged. Further useful proof changes depend on actual outcome; fresh watcher HANDOFF.",
+      "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a",
+      "source_sha": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+      "config_sha256": "fe162027c9e87f63855d39ab47b5f48f98cc21bf2788339015b9d7954d4c3484",
+      "dispatch_token": "dispatch-ea4199e0661a49509f8aa768c5d56db1",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -798,6 +810,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-COMPILE-REVIEW-20261024.json",
       "sha256": "570bb3a0c0206487fdc745c23811870b0c40cb41038a212e9d21a76524d7f4bc"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-TRANSPORT-20261024.json",
+      "sha256": "734b383229aed628953a6fbf7db6b1d36a680f2ae73c930f3812c7f65154bcd2"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d"
     }
   ],
   "historical_confirmed": [
@@ -1067,8 +1087,10 @@
   "prepared_tool_candidate": {
     "tool_sha": "74cebc3bd91b3f88edae3a0dde42061712119e2b",
     "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
-    "status": "PREPARED_REVIEW_REQUIRED_CLOUD_UNVERIFIED",
-    "scope": "selected Continue-only callback-pattern normal BlockStmt wrapper plus unchanged outer runtime unwind continuation; source ghost scopes preserved"
+    "status": "REVIEW_GO_BUILD_ACTIVE_CLOUD_UNVERIFIED",
+    "scope": "selected Continue-only callback-pattern normal BlockStmt wrapper plus unchanged outer runtime unwind continuation; source ghost scopes preserved",
+    "source_sha": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+    "build_id": "925fadd6-138d-46d3-acc8-66fbd59f272a"
   },
   "policy_adoption_20261024": {
     "commit": "926979f352156ef3f626ff962892e4de1167cb8f",
