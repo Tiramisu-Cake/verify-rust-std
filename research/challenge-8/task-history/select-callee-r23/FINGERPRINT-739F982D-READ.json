@@ -1,0 +1,1197 @@
+{
+  "claims": "Exact returned values only; projection is not a complete source record, source/MIR binding, proof result, or proof credit.",
+  "coverage": {},
+  "execution_is_later_reviewed_revision": false,
+  "identity": {
+    "archive_sha256": "326ed000a04841416e2a6c853ef85bd30ea34981de3ef52a037bc14e4d2df814",
+    "build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
+    "file_id": "cf5243b717f88480816712c81bd1a4752c8e2646b2223cee42be47665377e8b6",
+    "file_path": "allprooflogs/cases/r21-fractional-fingerprint/r21-fractional-fingerprint.json",
+    "file_sha256": "87b9129d653632be1bf5b98eba71dfa41bb4aeee3c26165a9576823655c76d09",
+    "index_sha256": "38876d647acaaf238990d18b0f10746f8c68e93e0ead26aeff034267dedb4e60"
+  },
+  "later_reviewed_reader_commit": "fafd4b217aac8d64aac306872da4e1e314b7e157",
+  "omitted_fields": [
+    "root fields not consumed by fingerprint_to_pins (including mode and classification)",
+    "base_source fields other than original_sha256 and verified_sha256",
+    "variant metadata other than the fields in the projected record",
+    "fingerprint stage argv and any stage fields not read by fingerprint_to_pins",
+    "normal_mir_check fields other than complete",
+    "all unrelated fingerprint/check fields and all unselected record branches"
+  ],
+  "post_validation": {
+    "all_projected_scalar_strings_shorter_than_512": true,
+    "identity_matches_separately_read_root": true,
+    "maximum_string_codepoints": 64,
+    "unchanged_fingerprint_to_pins": "ACCEPTED",
+    "unchanged_validate_pins": "ACCEPTED"
+  },
+  "provenance_caveat": "Earlier execution is attributed to its actual reader version, not the later reviewed revision. All emitted required values accepted unchanged strict validator; no proof or independent credit.",
+  "reader_execution_commit": "395533a54da8495af70ae68e9e5425a10e3d2e84",
+  "reader_execution_sha256": "3062910f9dbbc1a9e26b7f31b11d8b209105aa8c28a81fa75d9a8b30d7557b18",
+  "requests": [
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "",
+      "request_id": "8224a5da5a4860afe722611f2ee37f41b3d089ce061f642bb699f544a5b6aea0",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/base_source",
+      "request_id": "94b1c9e0694fa0d56a015b7fb195050887323442039182498cf69a4a73097f0d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variant_order",
+      "request_id": "08673d0b8aaba114b2ce845ff356f7847896263ebbc658b9e1700c0acacef6e6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/snapshot_pins",
+      "request_id": "f4faabf837b6561b77a576ec92817a996a9fcd708b02e689175c54384cfcd930",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control",
+      "request_id": "3cc3d1f823147b24755c81560ce11cf0734ab4832633a8016d6ced13894c0c22",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint_check",
+      "request_id": "b7f71f3b950af5c8045bad90adc83707ff7b43d63edaef6d277126bc6850fe8a",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint",
+      "request_id": "006c52ffbb11ec175033f5e678d24caf6b970a2ac7f28aaee380a78f8776b6ba",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/stage",
+      "request_id": "56904d41976e409d65a14b732fd2606a7c948d7eb1380205b1f9406af336b78e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/stage/source_before",
+      "request_id": "39dfdb8def93a27fa72f41f8da2b6f60f4ff7567698306cd47a0fb5791da96b0",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/stage/source_after",
+      "request_id": "2f817d9e853eb6b730dabf85632ad91039560dba46fabf826e43fd628f8c7323",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots",
+      "request_id": "83bc22f6411da54a51cbdf3dd8d6b4242438c2bcbf90494680f26e310942c5c7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/unit",
+      "request_id": "46f4b55a01b95e172b66e8fbb35f45e7b03a6c63ff99d3511adfeddf46935dbf",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-0",
+      "request_id": "a7f8929144a59be4646886a7ecae16d0bb021fc23e31e13da4dfbcf90bb689ff",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-1",
+      "request_id": "675fc9b9f32f2ccf54e4ebac0f24aa95401905452d71cc96cd582705ba1547d4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-2",
+      "request_id": "c39e518dbc7eddbc9b74525d621bc91b72b026a7819ddf16a564cc6b3700703d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-3",
+      "request_id": "8e51eb689cac7be9beecd64e345611b264319e13908ca44e8f5d2f931363d2b4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-4",
+      "request_id": "05f94fa3df07853170944dd0b16077e660662e1a05a79f6694b8e9e5bdab54d2",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-5",
+      "request_id": "f086fcb75e3ce3a8bd1c8a61f22072a00ea22f0a00ba0221f1653af16e7790ed",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-6",
+      "request_id": "d849e310ef2c760cec60486bc817348fb689305340118db9024cd1eeb0c33db8",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-7",
+      "request_id": "d7fcf57b9397cd248e9b084038623c83b3020d994782a579e9169350c028ca13",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/location_control/fingerprint/snapshots/body-8",
+      "request_id": "a22e3d72ad2a3dc2489e8388caf4ff0530ae28b48a95eac391486ff2dad33ccd",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants",
+      "request_id": "15b9ad6595a803a491ff67580b525b9157a00387b9cf215801380576253d7426",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive",
+      "request_id": "d40754092c7c63b74fc5efcedacf1a4af57a0c7a6a5ddc0255d1ddfd13487f84",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint",
+      "request_id": "c3e21a12399e84c832c220471d8a99a317e7d2a5d140f169a6512e91286e15dc",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/stage",
+      "request_id": "0afcd8f720264b2ed805acda2006982dcbc9a5334db04b025621f3d04b81ea63",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/stage/source_before",
+      "request_id": "f9eda31467f118683406743b0d095482c8fb50a7d1508512fcf0d025d8a463c7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/stage/source_after",
+      "request_id": "f53cf293c7012484336da63bb86dddce412d8a1bba4f4a826a6973d8df017e99",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots",
+      "request_id": "781e9d05057783650a0a9a47f0290690b298dfc58f23e06362cb1c0f0ededea7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/unit",
+      "request_id": "1f91be59b3397acd5511b366a1848964540bee34563ae657f564dc976b3be54e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-0",
+      "request_id": "a6ffc6900d874e399b59766a4efbd1b11329f4952c96d3dea1fbdce321fc2f9e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-1",
+      "request_id": "f354888317e8e48f0778fb6ee3eb8434de1ef38444b93239145e9ee9b1304148",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-2",
+      "request_id": "9f64c64429700eac574a843e0822c402685a5f6cb150b3c0d48f3ff962959baa",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-3",
+      "request_id": "5958e7b9fc60ad3f1115e430f3843f7230de91befaf1d3cf75993dd5f49b29b6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-4",
+      "request_id": "4ad31a65f77b27f70cfd7b766c68335903f1365c1af36200a0d7d4f39f5251f3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-5",
+      "request_id": "47dfc74c66f4c140c912690cf323fa2050b700db44562722d232d0766e46e576",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-6",
+      "request_id": "776b6038bede286d9dddf2638fd689af48faac12e67fc12a368f7217c7c8c3d6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-7",
+      "request_id": "8c3989b906bee98d1b3e95f56eeaf74ed403e48455fcca5626798937a9d3738f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint/snapshots/body-8",
+      "request_id": "80cb5683c6a0d24af0075bda5e65c76b88ad404be6a78bde0636f50a7bbe0c52",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/fingerprint_check",
+      "request_id": "2bd754280d718a096c2197217f83ecdda5a003352d44b050d437c3fc8ce32a95",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/positive/normal_mir_check",
+      "request_id": "d4c1b123da7b6008b5862353e705dd6b0373a855b8ab4037739b693bcf8fa489",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own",
+      "request_id": "16a1a3dda9bbe73cec668ecbf6d48bb9baa0d406be1091ccc4076b7141b99be6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint",
+      "request_id": "b00595611ae5276601e7e7727c319b168871e769e56778f8ebfe41e543bf8496",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/stage",
+      "request_id": "ee6b5fb19ce28ce7e036d17dbb576a1ef8d878f629b56eda2cb2d8968ffec21e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/stage/source_before",
+      "request_id": "6ae79ebc9fda02824cbdf60b63435701a63c9d0774529de3c47a008efcb44d58",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/stage/source_after",
+      "request_id": "42e6ce9586d14fb8ac2835c3e3ea6a96cc0c7177a12aa413f93e7e57a9aa43a0",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots",
+      "request_id": "f80cc9d1a08fca67d4c57b4a702b4903747fdc85c298a90d3288b7f3a73b9aaf",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/unit",
+      "request_id": "a83350d9f8cfc3e125efe80c95e5d767adf4338127d5b9ee986d6a364f4a080b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-0",
+      "request_id": "300442bca7d1168aafb0c17a18113347c109643733998b684a7a7695d15bad10",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-1",
+      "request_id": "5be923588fd795a763d9a466bd7f6ba3cdbb1ec90ab9aa74cebc56fd7992a6fd",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-2",
+      "request_id": "e23cbcbff9a5643ac770d01d850daeef7a5215f76ff01f5e4ec802947f17a84d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-3",
+      "request_id": "d407b8ae0028ec1f50681701365be43a42c368790192019a98722869f3772226",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-4",
+      "request_id": "2e765f3417231d792b7c09dbedc00fc328eb3024eddf0d0e66e810444fed6935",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-5",
+      "request_id": "86e6b51655b24a5ff89a5787ec1967aa8ba45082e305eddab4cd3c5cc260ea37",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-6",
+      "request_id": "ec9bb8993bc8ad55a08cbff102146c87703633b48c582a2c3da7e53c067f3d1a",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-7",
+      "request_id": "b318dd1f85141276d99996cde11098af21bdfbb0f0be7f7be18bc3a388001985",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint/snapshots/body-8",
+      "request_id": "6d1ff509a20051cddb7319c7286a93927b79d60d3466ca71b46085bb336d0f5f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/fingerprint_check",
+      "request_id": "e129ac313025fdb74c3dc8a3e9adabb9a25fcef6c09973c254b3db293a51202d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-selected-own/normal_mir_check",
+      "request_id": "b7a04f552de5d3aa4ff555e22b237a6dd817e8fc033c53d97583213fc3a68a57",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own",
+      "request_id": "00ba576367828192b196f45851cb761a5e6da756d3c06dd9cce1460942f93e6b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint",
+      "request_id": "8238ff3274fe6a223338017b0db301cab4bb4512910aaf47e8c5d2188fae3960",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/stage",
+      "request_id": "18ee14d3169105e1b3b3878caad2b6992e21a963529c90f2e04ce7a8d6c09215",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/stage/source_before",
+      "request_id": "80cc034d2c3585a87dc69244b25ab121eee892ac344192244588f911f304eba4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/stage/source_after",
+      "request_id": "20320d3221cfb7771d80ea4874e2239a1ab66b48e7c91b487f954112f7827a83",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots",
+      "request_id": "bf04345289c36f29a396b02f686ea7dafc70952e0697e746e99d7f804542844c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/unit",
+      "request_id": "19001b1b4cb049efc71bcfa5710d5849a85d34c624d75d06ed5d57de9b68607c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-0",
+      "request_id": "a29f596d9effbd67d55c77f1dd5df451b9cfc3271c984a7b46b4d5a1b4568fe8",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-1",
+      "request_id": "cb913a201d0758bbf7859a7038fe0c1afaea1bf3028cd00ac1819bb6ef4c7279",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-2",
+      "request_id": "5ba4fe52c69ff398c155165f3829ce1552c9da23ab4f8de09aa06f5771380223",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-3",
+      "request_id": "4b43b809934f191bbc3a51520982912c7057a51dd0fedfbcdf6682cf72b12c08",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-4",
+      "request_id": "313920f4e48bf775dfda9e1aa523f48fda59a84e2caaa0baf605a28b0e7cacad",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-5",
+      "request_id": "bf3ca7a5af3a522b6a7b91eb2987f014fb9ea7f19bf9fcd26a53556ad29fbd62",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-6",
+      "request_id": "22cc3787a9a5a0bba50aded10720412a1ae727b3553e71af451bed7e53247522",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-7",
+      "request_id": "6df5b0ef664b7c13393508d36b1404b71dee14bcfd4b6035a718a0a89ad9870c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint/snapshots/body-8",
+      "request_id": "f43e34e92f267c684795ff23d08a87f6cec522df42084887ec588d616b46733b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/fingerprint_check",
+      "request_id": "3b947a3b553053b0c172599797978f38a3e16d550fdf764d338d396c9d1c42a8",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/omit-unselected-own/normal_mir_check",
+      "request_id": "bc3659addcb0ca4b5364a112f6850fef54a3fd66285b7245f9c78f04736daee0",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half",
+      "request_id": "fc176e5b9862f8bded7770fd3d80974986cf8951b670e8d39c5db439703a8b90",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint",
+      "request_id": "3a7d6f29acf0490b1daa4e085323f506f486fca5f67725cb2240572035829e2e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/stage",
+      "request_id": "a2c2352bb64fbd763bc359f79f652552777f6cdd043c0db003d5958e11f0147d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/stage/source_before",
+      "request_id": "4e19d107e6ceffc89d622bfbb61cc9cffe2e45e5b219312f2034251209889be1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/stage/source_after",
+      "request_id": "b041002ae2443ab18925ef2aecfb8a7cc890180fe25c74f130fbfe911ba4303d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots",
+      "request_id": "52ff761bbe165abd07ceae9dd5aead6076f0079a5797c82a1ffd13d079f2df10",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/unit",
+      "request_id": "c1dfde97b7e431431d8494cd8ec586ae1e117b4587e24240c755878bc5f97266",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-0",
+      "request_id": "96fcde1cd42c7061ed8b1157489b487c937f01bea262f1e1ca1ae7a82cef7238",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-1",
+      "request_id": "f3d6aa15889af700667d5dd994a3ffc5554ce57b23a5953e4058587536ccf0a4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-2",
+      "request_id": "09b59f12bcf2924b0b4219db7302d4af259448398535ba82694d330bcb9a77c5",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-3",
+      "request_id": "7f71656e89f8517f69fb1932ffbb381760883cab166b1bea69d959df9a7440b7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-4",
+      "request_id": "58cc27378c7cc1245f1e5290007d2c640c3ca0524da716b6fcae75782a8b35d3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-5",
+      "request_id": "5ca96695167298a0922b21e200ccf3f85d0a195f92d460b3a53a373907199cdb",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-6",
+      "request_id": "8447ba157c63e84856868a980ab950bc73f7fb330fc58ed33f92d9207297f059",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-7",
+      "request_id": "e7fccb3dcc4c3c21d4e2abc96e31c122e5c273e5ad6a21ef0c4428949a6b1ca4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint/snapshots/body-8",
+      "request_id": "c59cd97c065e589321a3c5d900c10ad4a5cc69411c2fabe46243df83963c36d3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/fingerprint_check",
+      "request_id": "177b1d218611d4ad626a674dc27867d7e992c97ca93a2cadc06c1e34527ea440",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/no-retained-half/normal_mir_check",
+      "request_id": "03984d7b1084d61ef2d288ed6c5be13493230fd2787ef702923fb693eaa93462",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal",
+      "request_id": "c33b4665f398ff703cbb31919146e4c2e30eb4484b2a219b76b554e423f20a3c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint",
+      "request_id": "c736b055b5deedb098015e4f377d138d8e58bf7e5bd0e08ab9a58f1070a23e8f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/stage",
+      "request_id": "3976fcd1f4e6adbfda1f644ba2edecb9c37935bbe0fb3629f7910da8d7c633b3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/stage/source_before",
+      "request_id": "d170a008d9467360828f6ebf04805c1b777e5ea91bd6337234722c7ebe33f5b4",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/stage/source_after",
+      "request_id": "8c739a0b02c58e9537a84c9342f52fcd89c3f622c493dfaa5a0c166077967c38",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots",
+      "request_id": "06968a88bec0c6100e2890eaae244ccf3705acdac56827fa1f8a7a15e7b85c7f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/unit",
+      "request_id": "acd899c90c67f858757ae8a6953a879b5481a6c6654e242b07b7e7bb473f1d11",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-0",
+      "request_id": "d6df323a26f0f0a682e9f19714765022c2d9594c0aea355a8506fc03e74222a9",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-1",
+      "request_id": "dea6e28b880bc2fb21b85086d2119296e10a4201155e5347154dc15abd557f6b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-2",
+      "request_id": "02dc3910afd55c34857927763bb09b78199add640445be2e008aa6b26b6843f1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-3",
+      "request_id": "f32f6d9d1809df30837b2b951fc15d369d567be3c09a5fa978549819c0d111cf",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-4",
+      "request_id": "da0d6cbafa1aa972439ba57c38c6084ef6e1d6dda2beb29b2483150e80b288ac",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-5",
+      "request_id": "b1c93f80455bb6112323dd58453c7de5181cee02a007bfceba879b9df2d71a9e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-6",
+      "request_id": "014f3dcf5176a901231b2f70a7db77e6fc6c8e2cd40e5f0bc6e6e162bbf11dba",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-7",
+      "request_id": "3f55ac35629c42bb225836b25fa2918dd05eed4e998d0fa66f922c61f03c1709",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint/snapshots/body-8",
+      "request_id": "1e0be8df3a41b2cdeab269391e9d4a9a39ae50046aee01bd3ff8b72cc1df4a57",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/fingerprint_check",
+      "request_id": "7710973cd623c67c28ebc0d782cdd19bcfe81266a341f31377876d7f82f4e627",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-false-normal/normal_mir_check",
+      "request_id": "69ba23cb1df7dac6c2a80fbe6df16bd38f1a05410ab7fb3f039687eb45232d13",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate",
+      "request_id": "7ae5dcde738510576bd441b37eaea076e2f5d9e32cc5f96ffa6e831cf0311110",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint",
+      "request_id": "f567c8dfbcb1ee6269abbbce8c49691abcba3f0e123b08af799ef875d48c41ab",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/stage",
+      "request_id": "f52fb1ce1566506194f6d4f5147deeb5e31c2c566d16cc17b8dbdf1e1bb65c9f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/stage/source_before",
+      "request_id": "68fd8e85ee2ef188536faaf726286894d046773fba659081814ab32e17af46c8",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/stage/source_after",
+      "request_id": "776177b10346d28118a336d1becbdf178c8d4803900da9753d31780f38bcae35",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots",
+      "request_id": "df23378b12641579e52af12c2fd7a9ee0bb4b3b47c87bcc668a35abaf141f85c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/unit",
+      "request_id": "5767e57fea9529417eec7f22bd73cc7cdac31d0fe1401494bf342af2b6aaeaf1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-0",
+      "request_id": "efe1f22123c238a9e569e3d8c74441eef273215486dc68d765575312b42d6799",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-1",
+      "request_id": "7388fb2bc740ee8cc309a298e9371d205d56b6c8bc4ce3e523387583f16081dc",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-2",
+      "request_id": "7cdd20145fdb3ca08a37dc398cf9026eb5060352c48ed1e6f1404a727aa7bd3a",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-3",
+      "request_id": "c88d3d35ba5b92176d4aedca71265e2b375e01086f36efc24e46c96e0554d549",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-4",
+      "request_id": "ee71b4ce82e40d54c291a05db687ee50521f15a02115cdd71629f97d8d00a9f2",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-5",
+      "request_id": "cdea957c0affe1fa8c2f8bd5d8ee38317bba44d4c7c3449495e43476d15817f2",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-6",
+      "request_id": "0852dcb98b07377b7afcf3285be3eaef98448489a281649b2577ffef75fc966d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-7",
+      "request_id": "6a8d109f23bc0973e5547ee8d4ebfa689afd360c9b3a7e5f0682f6e69dec8129",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint/snapshots/body-8",
+      "request_id": "bb167ad3baa86c4786b293994d8d0d3765373d293e55067527909d6b9036cee6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/fingerprint_check",
+      "request_id": "5bf533fa12451c8e7249202c9fffc191360a08545a4480a809e94aafd41d17ad",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-duplicate/normal_mir_check",
+      "request_id": "0ab9b44c199ae7be9927511c255aaef3a359fb9e6d030d8786c42a02ab4275fa",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss",
+      "request_id": "3f43ef28f74d92de2dd2987e114b016b949ad87dd5e707661d57442ec1d8a34b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint",
+      "request_id": "780c37257c6ae0d8c0f113bee76d87b8152618be53bb1b76713775edc29695f3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/stage",
+      "request_id": "13c4e11c8ea41bbcf754c4c07ef624c424202a050b000365e5ae942b004d0fd8",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/stage/source_before",
+      "request_id": "4dd7bcfc23c95b1e202f54186b3ac82ada274399279144d69d04a2aa3ee9bce1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/stage/source_after",
+      "request_id": "036368ccbfad33e8fcd193f2a18c4d80e35a58b2bac3ccfdeb8e59720dba17d3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots",
+      "request_id": "1022d008db1f62f8e0aa1fc433d1f2858d98ae09058909b409a6c930fa4518dc",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/unit",
+      "request_id": "c04c6d1b2f4525cbd0860855eb1545000e2a57e586a4f3b742dfe44b8d95d5a6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-0",
+      "request_id": "df0f17692a9c40312071cce4041002a9573c1da28ed52b445986e8e6271e26e7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-1",
+      "request_id": "25a78add5440f71b1f289dfbc88f0fca3ab50b3adc439e3492eca31dac6ea976",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-2",
+      "request_id": "c034600ae4f12d7f9ac2dc31309478345ad4e0e6fffd4b8dc3c601837d176db7",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-3",
+      "request_id": "2aa5a6ed1a4e0d06293b2723f0b2a071915a004da76d9fdafa4c9910a602a2be",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-4",
+      "request_id": "8cca71f83bf30d3b6077e2d5e235fae1ef7fc3493cd01c59895c45510b851648",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-5",
+      "request_id": "8eba5b84f585c5f44c7a95ca90526a496ce74814f4724ed82e4b433e34469983",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-6",
+      "request_id": "51b3e6a6f22f37e06a69033ddabed995225a3935a504d08b573bed92157f4e3f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-7",
+      "request_id": "cc682183a1dd00c78933673783276fa0b03a6b769f67d79c39a0df348525d4c0",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint/snapshots/body-8",
+      "request_id": "5de13de7b1ab3cfa09e69d2acb2f9c6f90db7f22a65ae0eeae6a6ede438566b2",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/fingerprint_check",
+      "request_id": "a0ea87e5a6f5d66a226ec414e082357c8d731010da952afbf10aed448c991dd6",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-owner-loss/normal_mir_check",
+      "request_id": "1de5130c63b54f980cc3b06f749a3b0348795136581ac0cb766c8c0a7063794d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate",
+      "request_id": "5637267ace6633d657059ce9f8c4fd709a8e5b658ab398f56d0c9ee7b37c25df",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint",
+      "request_id": "4af1617550f227a21ea784220b9468ef0d53c6f29b2b7132e61d576c0319c8ad",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/stage",
+      "request_id": "5a49989ad4bd0220a97e010b0edeb5a0bddb99d972c763c54d54bd411cf66e8f",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/stage/source_before",
+      "request_id": "bc0047f54a0079c17ebe90482f18b3d3f2c8ac3f2f3a70d599a046cccecc53b1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/stage/source_after",
+      "request_id": "6eb68bcd16b744dad4eb065ef71b9a1c91ba7dc5f6509e2755586d9d8714e594",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots",
+      "request_id": "3936c4df8af904d0088dae60ae1fc43ae74b3088df2addc7a5bce0c3a45470cc",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/unit",
+      "request_id": "69ccd258ecf15a9b647f9aede59d848e4df32f7a80d3347a129a0a58abe504af",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-0",
+      "request_id": "f5240e965feb733f2a5deb884f6596fcf94bd8c4d95e4b4d2996d00532628f9e",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-1",
+      "request_id": "d1e31dfdf73f57428c3fa1ae44ce56b19b824c03576810019419467773163a27",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-2",
+      "request_id": "babaffc532fb3421a52b7356ec2590f0a2f691df43cbb144fb6326ea798cb766",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-3",
+      "request_id": "942e105fb2a327ef03be6005ef0ee29b1ede2d41b109520a83b70f76997cfa8b",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-4",
+      "request_id": "6a8a11fdc76bf6de16cb2b492267abb70366a31fbb1191db64c575d63970347c",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-5",
+      "request_id": "14d6c05fe70c8b479344f35b0a8f86c38a3d3e70eee3976e2e491103e59a656d",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-6",
+      "request_id": "4e15583992cd10e749c5634186abe07a56a9fb21d7662a973617dc987d15efb2",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-7",
+      "request_id": "0ee9808cae1f7fac6eba4b57dcf912503554a0f2bdc2671291b1e4d40714e8d1",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint/snapshots/body-8",
+      "request_id": "8dac7d2f33532a5fad1466e83244e1c0072cbfaec73c38b9e0cef3da1e3db9f3",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/fingerprint_check",
+      "request_id": "77ca2b3f18328a7f52b5a7eccf9bd15d80b2252da3576178f36d0af6886b8407",
+      "value_start": null
+    },
+    {
+      "complete": true,
+      "offset": null,
+      "pointer": "/variants/callee-thread-duplicate/normal_mir_check",
+      "request_id": "8fc52832ed0dc9d8160808dfa73b2034699587cbba0b603921fc6bfcffd04926",
+      "value_start": null
+    }
+  ],
+  "schema": "r21-fingerprint-brief-projection-receipt-v1"
+}

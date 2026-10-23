@@ -35,7 +35,7 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
-  python3 "$cloud_dir/select-callee-r21-fractional.py" audit --evidence "$ev" \
+  python3 "$cloud_dir/select-callee-r21-proof-audit.py" --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
 }
@@ -186,12 +186,12 @@ branch_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-
 stage branch-refresh-check git -C "$source_home" apply --check "$branch_patch"
 stage branch-refresh-apply git -C "$source_home" apply "$branch_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 606235c66c76412d2fdcef5f30436c342771ad5a087b343f618cfb7c8a2344d2 ]] || exit 2
-fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-fractional-forget-26.10.patch"
+fractional_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r23-fractional-forget-26.10.patch"
 current_stage=fractional-patch-identity
-[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == 219f3dc0ffcae5422cf7daa4e052291b7d5ee04a64a80dd4728519704961de8d ]] || exit 2
+[[ "$(sha256sum "$fractional_patch" | cut -d' ' -f1)" == f954fb593665b71b2042d9e1476fbc0d1b8de124861fb8f48aed4be8d791d084 ]] || exit 2
 stage fractional-refresh-check git -C "$source_home" apply --check "$fractional_patch"
 stage fractional-refresh-apply git -C "$source_home" apply "$fractional_patch"
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == e9a953ca2e1a0a95456e38f6be2509413bdda53389b710fc3d0365053ce9f2ba ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 2d6f1950bd95b655560c767c54af8facfecde724f29a72c4218b65b6c6438c19 ]] || exit 2
 # R22 parser-only fix: a one-element coefficient before `<T>.pred(..)` in an
 # assertion is parsed as CoefAsn instead of a `<` comparison on a list.
 parser_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-coef-typepred-parser-26.10.patch"
@@ -201,7 +201,7 @@ current_stage=parser-patch-identity
 stage parser-refresh-check git -C "$source_home" apply --check "$parser_patch"
 stage parser-refresh-apply git -C "$source_home" apply "$parser_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/rust_parser.ml" | cut -d' ' -f1)" == 6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246 ]] || exit 2
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == e9a953ca2e1a0a95456e38f6be2509413bdda53389b710fc3d0365053ce9f2ba ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 2d6f1950bd95b655560c767c54af8facfecde724f29a72c4218b65b6c6438c19 ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -260,12 +260,12 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# R22b constructor-ownership release changes every fractional row's ghost
-# source: take fresh mode-9 fingerprints only before binding new rows.
-stage r21-fractional-fingerprint python3 "$cloud_dir/select-callee-r21-fractional.py" fingerprint \
+# Fresh R23 fingerprint pins bind the unchanged reviewed R22b release ghosts.
+stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
-  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" \
+  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json"
 
 current_stage=audit
 audit_result 0 complete
