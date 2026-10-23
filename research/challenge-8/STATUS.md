@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T23:19:47Z
+- Updated: 2026-10-23T23:42:17Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 8321s spent; 0s retired; 13279s remaining including active reservations
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Native diagnostic stage API/channel/env fixes unbuilt; delta review pending. P2 PUBLISHED.
-- [research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json](task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json) SHA `04fb41f741c5734784be26b594e074724dc7cfe964818f7558720df3e2c0809c`
+Reviewed W4 stageAPI/env diagnostic candidate unbuilt. P2 PUBLISHED; checked8call linkage and C5proof remainopen.
+- [research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-api-review.json](task-history/select-callee-r24/R24-w4-linkage-api-review.json) SHA `92a9b38fda94cfec742ddf4c027f61f66486d123cb6d62d34d3bda8624b1eda5`
 
 ## Next
-ReviewstageAPI/envdelta; full1200typed8call/nativefirstbarrier observations, thencheckedlinkage/C5.
+Publish exactc2f reviewedcandidate; full1200 typed8call/nativebarrier diagnostic, thenBriefandcheckedlinkage/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a8b4f562fb8cc060492c15a7f001ed3b581867dcc81e1316325faf8348a8609d`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a02c1bd011434567a2c02367dd2fd9b151369f78672a20b05a061d3823902a82`

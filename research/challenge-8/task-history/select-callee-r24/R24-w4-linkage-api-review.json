@@ -1,0 +1,44 @@
+{
+  "baseline_commit": "59a584684043dac2042f540a87d0ed3181a59a87",
+  "candidate_commit": "c2f8529fc92efb4da27c8b9dab0bc01e0e78b636",
+  "candidate_tree": "4a8b489aad28e84e6b6fb09f1011d4819376ef7b",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_RAW_TYPED_CALL_AND_NATIVE_BARRIER_DIAGNOSTIC_ONLY",
+  "diff_sha256": "5de0554947e87da9b55e401cb3f4cc667f6548a1521fa9ad99a2d99841a2ff01",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one authorized full-1200-second W4 structural typed-call observation plus raw ordinary-native first-barrier diagnostic, with existing R24 ledger/deadline/route admission still required.",
+    "The typed parser remains a structural observation: source-site mapping is emitted-coordinate equality and typed callee linkage remains UNKNOWN. This does not establish call linkage, W4 proof, body proof, caller acceptance, P2 publication, or independent proof credit.",
+    "Actual full MIR parser compatibility and native stage result remain unverified until the single Cloud diagnostic run."
+  ],
+  "not_run": [
+    "No Cloud Build, source preparation, compiler/exporter/decoder/refinement/verifier, native tool execution, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "2df4ff6b00d4332e74144b45c43372884fdc056f9d8e81536a4506cbd26b0481",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-diagnostic-review.json",
+      "sha256": "d9d67460999b87cb21c79106e06509ee2c623c870ffc511396ebba230c2103b8"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-linkage-api-independent-review-v1",
+  "spec_sha256": "846aad4f8d7af9ff1b20a38e7ef8f97ba6aa7af7f1ee0e0b21139ca123567866",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static diff review and direct pinned-runner API/source inspection passed; git diff --check passed for the reviewed implementation delta.",
+    "The packet reports 11 wrapper and 7 Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check; all declared dependency snapshot hashes matched.",
+    "All four reported API defects are fixed in the candidate: it pins and loads overnight-sort4/capture.py (0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060), calls run_stage with stdout_name, and validates/hashes the separate first-barrier-stderr.log output.",
+    "Inspected the pinned run_stage implementation directly: its signature is (name, argv, root, env, fixture_hashes, deadline, cap, stdin_name=None, stdout_name=None); named stdout selects a distinct {name}-stderr.log. The candidate binds this exact API and records both channels.",
+    "Native invocation preserves the inherited environment and prepends the pinned tool bin to PATH; exact R24/R21/profile values are set and extra SORT4_* opt-ins are refused by route validation.",
+    "Diagnostic mode continues to assert call_linkage=false, body_proof_admission=false, accepted=false, publication_allowed=false and independent_proof_credit=0. Parser-incomplete results remain overall incomplete; native exit is raw diagnostic only."
+  ]
+}
