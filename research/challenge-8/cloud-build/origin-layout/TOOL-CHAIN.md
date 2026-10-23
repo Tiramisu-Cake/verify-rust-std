@@ -12,11 +12,11 @@ inventory assigns no proof work and changes no profile pins.
 | merge/r22-owned-nll-capture-20261023 | fc0208d4f53583d458670cd07bd0370636d4b2eb | 6b7d43fa owned NLL diagnostic capture;961d9171 decoder default; e81c4640 unavailable derived relation;5ed5617a synchronized storage;bbf919a3 exact collision equality;419ff27d/fc0208d4 region fixtures | Current root profile3fec93b5; R23 root admission delta reviewed GO49e60ed7; P1 Build692c1943 compiled all tool stages at exit0 (SOURCE_REPORTED); B2 dispatch NOT_RUN from stale compatibility source pin; no mapping/proof credit |
 | merge/r22-owned-nll-borrow-sites-20261023 | 0f4e336b52441e8f341a567250adba2b200c54d1 | 26d0ee13 typed capture-stage Ref sites and loan joins,0f4e336b multiline identity fixture | Reviewed preparatory candidate, NOT adopted by current profile; emitted-stage mapping UNESTABLISHED |
 
-| merge/r23-source-borrow-adapter-20261024 | 736c3d98f3bd1e2c486dc16ab40b3081cddcd56d | 80576cc6 candidate, compile fixes7a1dd1c9/966c6d23/1525292d, HIR7591e3a0, alias/type layers1ad47b6c/1e31357f region reader71a7fcc4, ref reads ef925c8a, epilogue grouping736c3d98; default-off exact u64/array3 Ref–Unsize–as_mut_ptr checked resource representation; complete actual callee descriptor and same-unit checked helper cast-body equivalence; existing unwind action retained | Published exact head; P9 exporter0/decoder0, translator1/no proof: option/list precedence; epilogue grouping corrected, Luna HIGH GO118078a6; P10 7fe57d03 active, Cloud-unverified |
+| merge/r23-source-borrow-adapter-20261024 | 9639b5b99f056b399f18bfa68c060798704e7955 | 80576cc6 candidate, compile fixes7a1dd1c9/966c6d23/1525292d, HIR7591e3a0, alias/type layers1ad47b6c/1e31357f region reader71a7fcc4, ref reads ef925c8a, epilogue grouping736c3d98, length constant decoder9639b5b9; default-off exact u64/array3 Ref–Unsize–as_mut_ptr checked resource representation; complete actual callee descriptor and same-unit checked helper cast-body equivalence; existing unwind action retained | Published exact head; P10 exporter0/decoder0, translator1/no proof: TyConst Reader-to-decoded boundary; corrected, P11 prepared for review and Cloud |
 
 Current prepared GLUE-PROFILE SHA256:
-`cd4da840a3aec8f475af46c0b86590d52339a038957e10e7c641415de5d48727`.
-It selects 736c3d98 and reverses byte-exactly to diagnostic profile3fec93b5
+`c5e14f58f9673d153ed33c8471cd7ea0fa3ff3f5d2922f4e1c7cf68bc751fd02`.
+It selects 9639b5b9 and reverses byte-exactly to diagnostic profile3fec93b5
 and toolfc0208d4. The nineteen-entry chain keeps its paths; the cumulative
 r9 patch includes the source-preserving R23 delta. Kernel, prelude, std model,
 R8 premise bounds, source std and actual caller runtime remain unchanged.

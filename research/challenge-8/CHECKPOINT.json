@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P8-TRANSPORT-20261024.json",
-      "sha256": "206a6490eb2364fa3226865000bfc977154e42c1ac037a7b4811d3a39860a381"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P8-COMPILE-BRIEF-20261024.json",
       "sha256": "ea9e2404e2bc748f91fbdb5a32aa2aff8986e16f445011e9e49f2549ce955522"
     },
@@ -27,6 +23,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P10-TRANSPORT-20261024.json",
       "sha256": "a44116ca85e16c09a29f3bccc7fc94d0717b2ed2816fdd3cc5fbd7b9a84e87fe"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P10-COMPILE-BRIEF-20261024.json",
+      "sha256": "d9126d95c5aba234413f9eba3bf5e9c9475ed3eaa941e4bbcb6284a5da9766fa"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,27 +36,16 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P10 registered; actual compiler/proof outcome pending.",
+    "summary": "P10 TyConst decoding fixed; actual compiler/proof unverified.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P9-COMPILE-BRIEF-20261024.json",
-        "sha256": "d915cd7681a9ba7da19f4f5873d75ba022d6fe53748af2ed23a4d4687b1b9076",
-        "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P10-COMPILE-BRIEF-20261024.json",
+        "sha256": "d9126d95c5aba234413f9eba3bf5e9c9475ed3eaa941e4bbcb6284a5da9766fa",
+        "build_id": "7fe57d03-f93b-4c68-8cd6-ed1c3f5e94bf"
       }
     ]
   },
   "confirmed": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P6 exporter0/decoder0, translator1: duplicate RawPtrTyRd; proof_attempted=false. Alias and decoder-layer fixes unverified; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
-          "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40",
-          "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
-        }
-      ]
-    },
     {
       "assurance": "SOURCE_REPORTED",
       "claim": "P7 exporter0/decoder0, translator1: unbound RegionIdentityRd.InferenceVariable; no proof attempted, credit0.",
@@ -89,9 +78,20 @@
           "build_id": "b7703889-63f7-4a34-ace6-9760ebc5adc2"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P10 exporter0/decoder0, translator1: Reader TyConst supplied where D.ty_const required at6634; no proof attempted, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P10-COMPILE-BRIEF-20261024.json",
+          "sha256": "d9126d95c5aba234413f9eba3bf5e9c9475ed3eaa941e4bbcb6284a5da9766fa",
+          "build_id": "7fe57d03-f93b-4c68-8cd6-ed1c3f5e94bf"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher event ACK, then P10 Evidence Brief.",
+  "next_step": "Review P11 exact decoder boundary; transport; full Cloud.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -112,23 +112,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "7fe57d03-f93b-4c68-8cd6-ed1c3f5e94bf"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 9788,
+    "remaining_seconds": 9382,
     "retired_seconds": 0,
-    "spent_seconds": 4612,
+    "spent_seconds": 5018,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T14:42:06.051420Z",
+  "updated_utc": "2026-10-23T14:50:54.120055Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -315,6 +313,14 @@
       "reason": "Default store contains65 historical jobs and CLI capacity64 refuses before newjob creation. All8 jobs of this exact thread verified ACKED; no active/unresolved/deliveryunknown watcher in old store. WATCH explicitly supports --store DIR. Use dedicated private R23 store consistently for arm/start/status/ack; preserve all historical store records and shared code unchanged. This changes no Build/coordinator/admission/budget identities.",
       "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Repair P10 array length constant Reader-to-decoded boundary",
+      "reason": "Compiler6634 expects D.ty_const, ArrayTyRd.size_get yields ReaderTyConst. Existing translation helper translate_ty_const requires decoded D record (signature1809), existing constant route2574 uses D.decode_ty_const. Apply same decoder at new array3 check, preserving exact integer comparison to3 and unsupported-expression refusal. Static audit new Reader-consuming helpers before changed candidate; no ownership/lifetime/CFG/source/gate change or new premise.",
+      "proof_credit": 0,
+      "tool_sha": "9639b5b99f056b399f18bfa68c060798704e7955",
+      "profile_sha256": "c5e14f58f9673d153ed33c8471cd7ea0fa3ff3f5d2922f4e1c7cf68bc751fd02",
+      "static_audit": "All added decode/translate calls compared to actual helper signatures and producer types: new translate_ty_const site was sole missing TyConst decoder; existing decoded-array route correct. Reader Ty calls use D.decode_ty, decoded cast_data.ty uses translate_decoded_ty; generic arg unwrap retained. Profile6/phase8 pass."
     }
   ],
   "mission_queue": [
@@ -325,12 +331,13 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "56ed13b2-9793-4fea-8ce7-11fa775249d8",
-    "event_id": "a00dc086-a5bf-4838-9628-4d07393cd409",
+    "job_id": "781b16db-9ce2-47d5-ba56-c62ed5c57179",
+    "event_id": "17a0ed3e-5518-46b0-aa2f-c318fe6b1ea2",
     "event_name": "build_terminal",
     "ack": "CONTINUE_EXISTING_WINDOW",
     "status_after_event": "FAILURE",
-    "auto_rearm_same_build": false
+    "auto_rearm_same_build": false,
+    "store": "/root/.local/state/smallsort-watch-merge-r23-20261024"
   },
   "owned_nll_stop_loss": {
     "cycles_started": 2,
@@ -431,6 +438,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P8-COMPILE-REVIEW-20261024.json",
       "sha256": "b4975a682b6878409de9bfbfbce181c4e4b53fc84c8a585b57e02d5c794fe770"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P8-TRANSPORT-20261024.json",
+      "sha256": "206a6490eb2364fa3226865000bfc977154e42c1ac037a7b4811d3a39860a381"
     }
   ],
   "historical_confirmed": [
@@ -497,6 +508,17 @@
           "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
           "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e",
           "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P6 exporter0/decoder0, translator1: duplicate RawPtrTyRd; proof_attempted=false. Alias and decoder-layer fixes unverified; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
+          "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40",
+          "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
         }
       ]
     }

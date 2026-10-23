@@ -955,7 +955,7 @@ index 436a5f7a..3d651a0b 100644
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 9813a884..03f90c73 100644
+index 9813a884..09cfd1d3 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -8,2 +8,7 @@ module DecoderAux = Decoder_aux
@@ -2111,7 +2111,7 @@ index 9813a884..03f90c73 100644
 +                then Ok false
 +                else
 +                  let* len_expr = translate_ty_const
-+                    (ArrayTyRd.size_get array_ty) loc in
++                    (D.decode_ty_const (ArrayTyRd.size_get array_ty)) loc in
 +                  (match len_expr with
 +                   | Ast.CastExpr (_, _, Ast.IntLit (_, n, _, _, _))
 +                   | Ast.IntLit (_, n, _, _, _) ->
