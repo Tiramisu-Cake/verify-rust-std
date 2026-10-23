@@ -1,0 +1,73 @@
+{
+  "schema": "r23-p13-control-brief-v1",
+  "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
+  "brief": {
+    "source_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit": 1,
+    "proof_attempted_source_claim": true,
+    "compiler_classification_source_claim": "PASS",
+    "archive_sha256": "a3a96b2634c8e19f5c52ff71c2dd27eb91f4ef2c755061ae44758efd39a79620",
+    "index_sha256": "e04af821b16afbd4b4963dd0052e1c2be55fa7c2f6231f8837e4662e6ad4e920",
+    "catalogue_complete": true,
+    "catalogue_files": 4541,
+    "retained_content_files": 633,
+    "catalogue_projection_coverage": {
+      "PROJECTED": 627,
+      "CONTENT_BUDGET_EXCEEDED": 646,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "SCAN_BUDGET_EXCEEDED": 1636,
+      "UNSUPPORTED_FILE_TYPE": 1626
+    },
+    "causality": "UNKNOWN"
+  },
+  "r23_source_borrow_controls": [
+    {
+      "control": "missing_end_marker",
+      "classification_source": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r23_source_borrow/cases/actual_three_from_local_source_borrow_missing_end_marker/classification.json",
+      "file_id": "c5c909b52bd4f5ef5957bbc0ae8138b8e203abbda00e3f0bc694d05af1e8010c",
+      "sha256": "cbc9f3c42af11f080c1acedcaf0f977a004043b94ae6dbae3c353c4abb5d44da",
+      "record_status": "PROJECTED_COMPLETE_SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "source_reason": "missing_end_marker reached its exact registered source-adapter refusal",
+      "proof_credit": false
+    },
+    {
+      "control": "duplicate_begin_marker",
+      "classification_source": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r23_source_borrow/cases/actual_three_from_local_source_borrow_duplicate_begin_marker/classification.json",
+      "file_id": "f1565eece8f06389e5a3444e3d8af63f71e4f0551009affdc43e1aec3ae2c4aa",
+      "sha256": "44ddd09e7adba6e03b3295f562c761d5569dffcc540664d7db6279f604e49f53",
+      "record_status": "PROJECTED_COMPLETE_SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "source_reason": "duplicate_begin_marker reached its exact registered source-adapter refusal",
+      "proof_credit": false
+    },
+    {
+      "control": "wrong_logical_lifetime_binding",
+      "classification_source": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r23_source_borrow/cases/actual_three_from_local_source_borrow_wrong_logical_lifetime_binding/classification.json",
+      "file_id": "575c883c93539cc747178ad2568c51db62091030fb33fb646814e4575e320cbd",
+      "sha256": "b8d0c8934d563fb17a03bfda4e5fae9ee6bd78bc2081f3a48f7f890289c30c3e",
+      "record_status": "PROJECTED_COMPLETE_SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "source_reason": "wrong_logical_lifetime_binding reached its exact registered source-adapter refusal",
+      "proof_credit": false
+    }
+  ],
+  "optional_aggregate_observations": [
+    {
+      "campaign": "r17-rawptr-controls-v1",
+      "source": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/result.json",
+      "file_id": "0f36e5b51c3b5cec613b2eaaa7e372b054d623f1bf30cb1a3a6bb95d1faaa53c",
+      "sha256": "f2c725e4a8fc209ec5530788c8f01c5a98ea33f54aac360d54692c625d8ca835",
+      "all_matched_source_claim": true,
+      "proof_credit": false
+    },
+    {
+      "campaign": "r19-unwind-controls-v1",
+      "source": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/result.json",
+      "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+      "sha256": "7d88810eabf0dfa1028b9248b380b2fd6f8c153615c3c4aa151b20b3f625462a",
+      "classification_source_claim": "ALL_R19_UNWIND_CONTROLS_MATCHED",
+      "all_matched_source_claim": true,
+      "proof_credit": false
+    }
+  ],
+  "evidence_boundary": "Evidence Brief retained sanitized projections only. These are source-reported control classifications; they do not establish successful proof acceptance, causality, or independently verified proof credit. No raw archive/log access was used.",
+  "independent_proof_credit": 0
+}

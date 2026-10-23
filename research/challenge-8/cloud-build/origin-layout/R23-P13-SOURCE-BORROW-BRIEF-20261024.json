@@ -1,0 +1,41 @@
+{
+  "schema": "merge-r23-p13-source-borrow-brief-v1",
+  "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not proof acceptance",
+  "proof_attempted_source_claim": true,
+  "tool_stages_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "a3a96b2634c8e19f5c52ff71c2dd27eb91f4ef2c755061ae44758efd39a79620",
+  "index_sha256": "e04af821b16afbd4b4963dd0052e1c2be55fa7c2f6231f8837e4662e6ad4e920",
+  "native_refusal": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "sha256": "bba0967cadf76883cfd791c4d4592d265d90f0bc5d859c5f3e0e2f23e81076c6",
+    "request_id": "ce22d6b16fa448748446cb83dd556f3231b6ab1b2b1e23a5cf7b8cfd3c1ed4ca",
+    "lines": "162-164",
+    "exact": true,
+    "complete": false,
+    "message": "R23 checked slice helper equivalence refused: exporter marked the standard callee body unsupported or unavailable"
+  },
+  "descriptor": {
+    "file_id": "cfc061067449df8584bbb3d12b5cf86b193c1335e5dc9e859f2b21056353e25e",
+    "sha256": "59db72e9f00dbff3f9302c48af1d89cf470c58731ae08144c67b47c90f985961",
+    "source_size_bytes": 1307342,
+    "request_id": "3fce86caf610044ed096b584a97eb0435c733a73c6d548fddd7f672fc03d3528",
+    "lines": "32264-32270",
+    "exact": true,
+    "complete": false,
+    "blockCount": 1,
+    "statementCount": 4,
+    "unsupportedReason": "callee MIR contains an unsupported projection step",
+    "actual_rvalue_kind": "UNKNOWN"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false
+}

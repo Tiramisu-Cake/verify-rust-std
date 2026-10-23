@@ -1,18 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-RAW-CONTROL-BRIEF-20261024.json",
-      "sha256": "301f8768b19a7d701bc39c8bd36b418ed4f6ae9e6817eadd15082959d09a834d"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-COMPILE-REVIEW-20261024.json",
-      "sha256": "ea46ff2a91beeda277c48c82ac5407c587a796a4217262b2366bb0e2532dc126"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-TRANSPORT-20261024.json",
-      "sha256": "72fd8bbda1269f3575c36d4373347b90cc6e2febfbf9e9f9874bfc23a2258428"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5"
     },
@@ -27,6 +15,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-TRANSPORT-20261024.json",
       "sha256": "beb862f448220d37a3500289804003b3965894599f2530f6dfd70c50f6999623"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "ddfdd7eda582df2ef2b96734adc5c5072e2654ca7c3199f574d16c21f54d3d66"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-CONTROL-BRIEF-20261024.json",
+      "sha256": "9f5e391faaae23ee6915dfd8f15f386090bd680e4c353b1a14e5715092b3e797"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,40 +32,40 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P13 registered; actual compiler/proof outcome pending.",
+    "summary": "Actual callee descriptor rejects unsupported projection step.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
-        "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5",
-        "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
+        "sha256": "ddfdd7eda582df2ef2b96734adc5c5072e2654ca7c3199f574d16c21f54d3d66",
+        "build_id": "025c652d-6aba-4ccc-be45-34257b689518"
       }
     ]
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P12 alltoolstages0/proof attempted; sourceborrow VF1: actual callee descriptor marked unsupported/unavailable; no credit.",
+      "claim": "P13 alltoolstages0/proof attempted; callee descriptor now unsupported projection step (one block/four statements); actual rvalue kind UNKNOWN, credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
-          "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5",
-          "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec"
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "ddfdd7eda582df2ef2b96734adc5c5072e2654ca7c3199f574d16c21f54d3d66",
+          "build_id": "025c652d-6aba-4ccc-be45-34257b689518"
         }
       ]
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P12 index now EXPECTED_REFINER_REFUSAL: refinement1, exact diagnostic1/function/command binding matched; accepted/B2/creditfalse.",
+      "claim": "P13 all three source-adapter negatives report intended refusals; rawptr and R19 all_matched=true; no independent credit.",
       "evidence": [
         {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-RAW-CONTROL-BRIEF-20261024.json",
-          "sha256": "fb487bfce1a690fcd2240ddce5b993ca7f61ffd5fa1b5e0f84b1522ed43e76c0",
-          "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec"
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-CONTROL-BRIEF-20261024.json",
+          "sha256": "9f5e391faaae23ee6915dfd8f15f386090bd680e4c353b1a14e5715092b3e797",
+          "build_id": "025c652d-6aba-4ccc-be45-34257b689518"
         }
       ]
     }
   ],
-  "next_step": "Watcher event ACK, then P13 Evidence Brief.",
+  "next_step": "Implement exact kind metadata and bounded verified address projection.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -90,23 +86,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "025c652d-6aba-4ccc-be45-34257b689518"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 7880,
+    "remaining_seconds": 6925,
     "retired_seconds": 0,
-    "spent_seconds": 6520,
+    "spent_seconds": 7475,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T15:59:58.214892Z",
+  "updated_utc": "2026-10-23T19:03:33.015988Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -401,6 +395,24 @@
       "dispatch_token": "dispatch-189b788fc13a4e018f457c9c775497b9",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Preserve exact raw-pointer kind for conditional checked receiver-address projection",
+      "defect": "P13 exact descriptor rejects unsupported projection step; actual rvalue kind UNKNOWN. Static exporter currently merges RawPtrKind::FakeForPtrMetadata into Mutability::Mut, insufficient for exact helper/std equivalence if receiver RawPtr support is added.",
+      "choice": "Extend optional source metadata with exact original RawPtrKind, emitted for every RawPtr; absent or non-Mut refuses in R23. Conditional pure projection may accept only one Mut RawPtr of input receiver local_1 with exactly Deref, typed &mut[u64] -> *mut[u64], then final PtrToPtr to output *mutu64. Preserve every instruction, counts, kind, lifecycle and interleaved trace; full std/helper equality and verified helper stillrequired.",
+      "invariants": [
+        "No ownership from address equality, new memory premise or unchecked summary; actual primitive is already handled by normal checked frontend, and same-unit helper must verify with unchanged full_borrow contract.",
+        "RawPtr operation is only address-of one dereference of initialized live input reference, no memory value read/write, indexing, nested projection, new reference, pointer arithmetic or arbitrary local.",
+        "Exact kind metadata mandatory for both std and helper; do not infer Mut from mutability or missing optional data. FakeForPtrMetadata/Const/unknown reject.",
+        "Only one address step first, then one exact typed PtrToPtr slice-to-element cast; preserve existing cast-only path, all storage guards and complete instruction/local/count/trace equality.",
+        "General refiner/RawPtr domain unchanged; old/synthetic metadata defaults absent and legacy behavior retained outside R23. All caller/lifetime/normalunwind/controls/checks retained."
+      ],
+      "controls": [
+        "Audit schema optional defaults and every synthetic RawPtr record/decoder/alias scope; defaultoff source-preserving metadata only.",
+        "Reject missing/non-Mut kind, wrong source/destination type, receiver/projection/index/mutability, extra address/cast/use, mismatched std/helper trace or lifecycle.",
+        "No local compiler/schema generation/parser/exporter/proof; actual Cloud validates applicability; actual P13 rvalue kind remains UNKNOWN."
+      ],
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -411,8 +423,8 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "bc56f38a-22c2-459f-8b83-8fa567dbfad8",
-    "event_id": "97ad2b2b-fad4-43e5-88ed-4f8475d2e2e5",
+    "job_id": "042a98ba-db01-4ec9-9c06-f4a7393518c3",
+    "event_id": "0b4e2fe2-debf-41ae-8a56-a18d679437df",
     "event_name": "build_terminal",
     "ack": "CONTINUE_EXISTING_WINDOW",
     "status_after_event": "FAILURE",
@@ -562,6 +574,18 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "ce28e747da6bdb33db4e298dde22855bdb46768dee519f96eb2f3df60a41da4f"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-RAW-CONTROL-BRIEF-20261024.json",
+      "sha256": "301f8768b19a7d701bc39c8bd36b418ed4f6ae9e6817eadd15082959d09a834d"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-COMPILE-REVIEW-20261024.json",
+      "sha256": "ea46ff2a91beeda277c48c82ac5407c587a796a4217262b2366bb0e2532dc126"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-TRANSPORT-20261024.json",
+      "sha256": "72fd8bbda1269f3575c36d4373347b90cc6e2febfbf9e9f9874bfc23a2258428"
     }
   ],
   "historical_confirmed": [
@@ -707,7 +731,52 @@
           "build_id": "9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P12 alltoolstages0/proof attempted; sourceborrow VF1: actual callee descriptor marked unsupported/unavailable; no credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
+          "sha256": "fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5",
+          "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P12 index now EXPECTED_REFINER_REFUSAL: refinement1, exact diagnostic1/function/command binding matched; accepted/B2/creditfalse.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-RAW-CONTROL-BRIEF-20261024.json",
+          "sha256": "fb487bfce1a690fcd2240ddce5b993ca7f61ffd5fa1b5e0f84b1522ed43e76c0",
+          "build_id": "6e6a5d1f-3ae9-4c75-ad06-fbca3f1971ec"
+        }
+      ]
     }
   ],
-  "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024"
+  "watcher_store": "/root/.local/state/smallsort-watch-merge-r23-20261024",
+  "continuation_limits": {
+    "authority": "UNCHANGED_EXISTING_R23",
+    "remaining_at_owner_steer_seconds": 6925,
+    "last_source_level_route_budget": true,
+    "publish_terminal_accounting_before_next_step": true,
+    "close_on_goal_budget_or_true_boundary": true,
+    "closeout_and_reviewed_handoff_on_budget_exhaustion": true,
+    "request_new_window": false
+  },
+  "accounting_reconciliation": {
+    "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
+    "coordinator_status": "FAILURE",
+    "accounted": true,
+    "build_seconds": 955,
+    "spent_seconds": 7475,
+    "remaining_seconds": 6925,
+    "active_build": null
+  },
+  "prepared_tool_candidate": {
+    "tool_sha": "8d58286d64dafd88b9ebf29755d93f0b11335302",
+    "status": "COMMITTED_UNREVIEWED_UNSUBMITTED",
+    "scope": "optional exact RawPtrKind metadata and conditional exact receiver raw-pointer helper equivalence; actual P13 rvalue kind UNKNOWN"
+  }
 }
