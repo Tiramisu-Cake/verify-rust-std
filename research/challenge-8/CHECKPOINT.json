@@ -34,19 +34,17 @@
         "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
       }
     ],
-    "summary": "Cold SUCCESS metadata; exact Brief start/digest/receipt pending."
+    "summary": "Cold image/start confirmed; pins-only freeze review pending."
   },
   "cold_attempt_accounting": {
-    "cold_attempts_started": 0,
+    "cold_attempts_started": 1,
     "infrastructure_setup_builds": 0,
-    "pending_brief_start_build_ids": [
-      "03245c6c-a86c-4cba-8c06-3927fef55672"
-    ],
+    "pending_brief_start_build_ids": [],
     "policy": {
       "path": "research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md",
       "sha256": "1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e"
     },
-    "unknown_start_builds": 1
+    "unknown_start_builds": 0
   },
   "confirmed": [
     {
@@ -74,6 +72,7 @@
       ]
     }
   ],
+  "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
   "last_terminal_build": {
     "assurance": "BUILD_METADATA_ONLY",
     "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
@@ -82,7 +81,7 @@
     "proof_credit": 0,
     "status": "SUCCESS"
   },
-  "next_step": "Read Brief, classify Dockerfile start, freeze image pins and review.",
+  "next_step": "Pins-only review, then warm G1 in the canonical digest.",
   "open": [
     "Image digest/binary freeze absent; G1/cleanup NOT_RUN; specs UNKNOWN.",
     "R4/W7 waits PUBLISHED mutable P2; W8 needs W3/W5/W7 resources."
@@ -117,7 +116,7 @@
   },
   "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n8",
-  "updated_utc": "2026-10-23T21:58:20Z",
+  "updated_utc": "2026-10-23T22:02:24Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "aea29b59-c9f8-463b-9e89-164e05496e55",

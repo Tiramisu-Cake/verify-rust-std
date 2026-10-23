@@ -45,14 +45,24 @@
     "path": "research/challenge-8/refinedrust-feasibility/g1-minimal"
   },
   "image_build": {
+    "apt_package_count": 180,
+    "apt_receipt_pointer": "/os_package_inventory",
     "base_os_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "binary_sha256": {
+      "cargo": "81e71237e670052998ed706b53d48e2b54aaefce5662eee37d2fb29835808bbe",
+      "cargo-refinedrust": "db9ef5010cf49d11948563e96fbf5f8ba1139692bdf7a570dd30ae2327ef3987",
+      "refinedrust-rustc": "edd6055e64c6095357b6192f4bb3cece5cd0d0dc1643606e5707797cdfa8ab0a",
+      "rustc": "c1e36d28c57b7a1a17c4dd8e7857fdaeeee35307357cb3aaa7d96170c81f1c7d"
+    },
     "cargo_jobs_cold": 2,
+    "cold_build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
     "cold_executor": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
     "docker_api_target": "1.41",
     "docker_buildkit": "0",
     "docker_client": "Cloud-only apt docker.io in pinned Ubuntu executor; existing daemon socket",
     "freeze": "image digest + sha256 of rustc/cargo/cargo-refinedrust/refinedrust-rustc + apt package list + Cargo.lock recorded in the cold Build evidence; the offline deb/vendor/cargo-config gates of the N6 package are retired for G1",
-    "image_digest": null,
+    "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+    "image_receipt_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
     "machine_type_cold": "E2_STANDARD_2",
     "machine_type_warm": "E2_STANDARD_2",
     "network_during_image_build": "enabled (owner decision 2026-10-23): pinned archives by SHA-256, RR git clone at the pinned commit verified by tree hash, crates by rr_frontend Cargo.lock --locked",

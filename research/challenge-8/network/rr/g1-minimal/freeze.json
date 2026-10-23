@@ -1,26 +1,38 @@
 {
-  "schema": "rr-g1-minimal-freeze-v1",
-  "status": "CANDIDATE_NOT_FROZEN",
-  "image_digest": null,
-  "cargo_home": "/opt/g1-cargo",
-  "cargo_config_sha256": null,
-  "lib_load_paths": ["/opt/refinedrust/stdlib"],
+  "apt_inventory_evidence": {
+    "all_package_values_read_locally": false,
+    "file_id": "7100e83a2e344a310a438ae5df6149434b0cc718d4704ab0c416b6d564c9f96b",
+    "file_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
+    "package_count": 180,
+    "pointer": "/os_package_inventory"
+  },
   "binaries": {
-    "rustc": {
-      "path": "/opt/rust/bin/rustc",
-      "sha256": null
-    },
     "cargo": {
       "path": "/opt/rust/bin/cargo",
-      "sha256": null
+      "sha256": "81e71237e670052998ed706b53d48e2b54aaefce5662eee37d2fb29835808bbe"
     },
     "cargo-refinedrust": {
       "path": "/opt/rr-bin/cargo-refinedrust",
-      "sha256": null
+      "sha256": "db9ef5010cf49d11948563e96fbf5f8ba1139692bdf7a570dd30ae2327ef3987"
     },
     "refinedrust-rustc": {
       "path": "/opt/rr-bin/refinedrust-rustc",
-      "sha256": null
+      "sha256": "edd6055e64c6095357b6192f4bb3cece5cd0d0dc1643606e5707797cdfa8ab0a"
+    },
+    "rustc": {
+      "path": "/opt/rust/bin/rustc",
+      "sha256": "c1e36d28c57b7a1a17c4dd8e7857fdaeeee35307357cb3aaa7d96170c81f1c7d"
     }
-  }
+  },
+  "cargo_home": "/opt/g1-cargo",
+  "cold_build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
+  "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+  "image_receipt_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
+  "lib_load_paths": [
+    "/opt/refinedrust/stdlib"
+  ],
+  "proof_credit": 0,
+  "rr_frontend_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+  "schema": "rr-g1-online-freeze-v2",
+  "status": "FROZEN_COLD_IMAGE_DIAGNOSTIC_ONLY"
 }

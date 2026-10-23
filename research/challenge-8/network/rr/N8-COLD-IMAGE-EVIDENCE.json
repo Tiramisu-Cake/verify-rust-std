@@ -1,0 +1,147 @@
+{
+  "apt_inventory": {
+    "all_package_values_read_locally": false,
+    "file_id": "7100e83a2e344a310a438ae5df6149434b0cc718d4704ab0c416b6d564c9f96b",
+    "file_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
+    "package_count": 180,
+    "pointer": "/os_package_inventory"
+  },
+  "archive_sha256": "9ea37b9482a0ed66d3a78b7b8ebe1f26b3e6913f5d2beb985e3a565719dfe2b2",
+  "assurance": "SOURCE_REPORTED_NOT_PROOF",
+  "binaries": {
+    "cargo": {
+      "path": "/opt/rust/bin/cargo",
+      "sha256": "81e71237e670052998ed706b53d48e2b54aaefce5662eee37d2fb29835808bbe"
+    },
+    "cargo-refinedrust": {
+      "path": "/opt/rr-bin/cargo-refinedrust",
+      "sha256": "db9ef5010cf49d11948563e96fbf5f8ba1139692bdf7a570dd30ae2327ef3987"
+    },
+    "refinedrust-rustc": {
+      "path": "/opt/rr-bin/refinedrust-rustc",
+      "sha256": "edd6055e64c6095357b6192f4bb3cece5cd0d0dc1643606e5707797cdfa8ab0a"
+    },
+    "rustc": {
+      "path": "/opt/rust/bin/rustc",
+      "sha256": "c1e36d28c57b7a1a17c4dd8e7857fdaeeee35307357cb3aaa7d96170c81f1c7d"
+    }
+  },
+  "binary_receipt_requests": {
+    "cargo": "04bb4fad61048105d7078048820711aa4bf73e9eb4e6de17a406eedfaf6c68e5",
+    "cargo-refinedrust": "4544a60a3e5e2b28e3e02c74adf9d9fcdaf85d6c7b68e0c00c9ffa2bcd997feb",
+    "refinedrust-rustc": "02815786ae74092401e41e9ef816fabe9a4775c8f046c02ca83a1b99a1962b79",
+    "rustc": "6517daf1b52ea9c35bc768b373cb262e4f61d419ba268e12bd8e1074c6132a45"
+  },
+  "build_id": "03245c6c-a86c-4cba-8c06-3927fef55672",
+  "cargo_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
+  "cold_start": "STARTED",
+  "cold_start_basis": "Actual daemon Step1/17 FROM pinned base in the exact target Dockerfile build log, not a wrapper/context/invocation marker.",
+  "compiler_commit": "e457a7b0d326d67b4322ef0d11bd715cfaeda48f",
+  "cross_checks": {
+    "cargo_lock_catalogue_and_internal_and_image_hash_match": true,
+    "executable_list_reconstructed_hash_matches_catalogue": true,
+    "four_binary_hashes_match_image_receipt_and_executable_list": true,
+    "internal_list_reconstructed_hash_matches_catalogue": true,
+    "registry_metadata_exact_digest_matches": true,
+    "registry_receipt_internal_hash_matches_catalogue_and_internal_list": true
+  },
+  "docker_api": {
+    "accepted": false,
+    "client": "1.41",
+    "server_max": "1.41",
+    "server_min": "1.12",
+    "state": "COMPATIBLE_API"
+  },
+  "files": [
+    {
+      "complete": false,
+      "coverage": {
+        "end": 10,
+        "source_lines": 821,
+        "start": 6
+      },
+      "exact": true,
+      "file_id": "318afd6880d5fdbc0edb4a986a8a47b860b7676fa1b331e8b731f5ba62923ca1",
+      "observed": "Step 1/17 : FROM ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401; followed by pull/digest/up-to-date base record.",
+      "path": "cold-image/docker-build.log",
+      "request_id": "521b65a6fa078adeb6fc1590bfcebdeadecb496003f247bb3b684e989d52764a",
+      "selector": {
+        "end": 10,
+        "start": 6
+      },
+      "sha256": "b7464ac703b6024608969ca4876f88240d5970014a349d6d870d8707cad47b5d"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "32c5e421ca57718922564d94f0d733de7de1f8cf18cb8e557719d30cbaa25ae6",
+      "path": "cold-image/registry-receipt.json",
+      "request_id": "a7abba0b80f2e35ef1281e72e7b2406bbef49c05351a4d7b78ac38d537b550a1",
+      "selector": {
+        "pointer": ""
+      },
+      "sha256": "73e0a27d0b424cd86b1f1927991e3626f541c1ad56e90137ecec8257b93f9a1a"
+    },
+    {
+      "children": 18,
+      "complete": true,
+      "exact": true,
+      "file_id": "7100e83a2e344a310a438ae5df6149434b0cc718d4704ab0c416b6d564c9f96b",
+      "path": "cold-image/image-receipt.json",
+      "request_id": "505da1488f960c3b9e03e69c0615fbc00fefcbf1dd3e4f34792918213fcd67a7",
+      "selector": {
+        "pointer": ""
+      },
+      "sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "f513f9561d343e7d7646d7519c46f9187e0cd586d3170f371450859efc382433",
+      "path": "cold-image/g1-executables.sha256",
+      "request_id": "6aef06738f5571b93664d8db726707a1e4c44b00e0cd0cffb3185920ef300faf",
+      "selector": {
+        "end": 4,
+        "start": 1
+      },
+      "sha256": "8a7a2cfcbddc48e899b7a137b7a696039df36d3b296592ee21aab2b76947c309"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "3e3f5bcbe819c081b12e2e71c425d3d8155e4bd9ab5a200c28d4f99c7db92a37",
+      "path": "cold-image/internal-artifacts.sha256",
+      "request_id": "51e7112f50ae1e4a5cc1763ae9557b98ff9e7d45f84a79db28a3c417f51c5761",
+      "selector": {
+        "end": 3,
+        "start": 1
+      },
+      "sha256": "24a7641a54abdc94985c3140c61fcafb342b4824925b93e8696b2bf33c86fa00"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "b49bd2f0689c43ba59385fb589d5fb3e98ea5eb90375f779a6c1c87141e7d313",
+      "path": "cold-image/docker-api-preflight.json",
+      "request_id": "f25811123d501b452574ce3bc1bcc6e6e225b644eed0a9de4a0949a787b00e9f",
+      "selector": {
+        "pointer": ""
+      },
+      "sha256": "1cf8d27a9cc8896fd0bae855b8ef89ff7c8e170d8523063659665be49ca2fdb8"
+    }
+  ],
+  "image_digest": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1@sha256:11c9b4c994048bb73f91084bde97958bcd47e599fb0a21a8ee4bac5ff5f5ac4d",
+  "image_receipt_sha256": "9f281a989080e2689fc28e0f53ad1500a14b3583d4c103c669fc53a110a31f3d",
+  "independent_proof_credit": 0,
+  "index_sha256": "a1a7f86e262d50a5a29f6c09fc0c9ce094774aa73ad60a3cc4cfb920a3111119",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_credit": 0,
+  "rr_checkout_clean": true,
+  "rr_commit": "332d945fafa14bf55c0c8390cb35ec4b0c012cff",
+  "rr_tree": "b33bcccbbbd6168ac73e0c7238a1edddbe34057c",
+  "rust_archive_hash_request": "af18321352c790fd249e18156c57e454010608e96133940295da3ba5ef1e2eed",
+  "rust_archive_hashes_match_pins": true,
+  "schema": "network-n8-cold-image-evidence-v1",
+  "source_commit": "4af985cacc49c5c25c0005516018ae3ade557114",
+  "warm_g1": "NOT_RUN"
+}

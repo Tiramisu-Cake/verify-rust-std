@@ -1,7 +1,7 @@
 # Agent checkpoint: network-refinedrust-g1-2026-10-24-n8
 
 - Owner: network | phase: NETWORK-RR-G1-2026-10-24-N8 | state: ACTIVE
-- Updated: 2026-10-23T21:58:20Z
+- Updated: 2026-10-23T22:02:24Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, profile `c3e91c1b7d287bddca2277927271e1646f0a78eea195c249c381c9a3a7723335`
 - Session dates: T0 `2026-10-23T20:56:24Z`; main deadline `2026-10-26T20:56:24Z`; absolute deadline `2026-10-26T21:56:24Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 5009s total; 741s spent; 0s retired; 4268s remaining including active reservations
@@ -20,11 +20,11 @@
 - Count infrastructure submissions as cold attempts or reopen N7 account — Explicit owner update: count Dockerfile starts; N7 ledger unchanged; newN8 budget.; [research/challenge-8/network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md](network/rr/N7-COLD-ATTEMPT-OWNER-UPDATE.md) SHA `1ce40c5ddef330d8db05a8159a519db02039d44ac8f81b4b5e9cdcf58226af1e`
 
 ## Blocker
-Cold SUCCESS metadata; exact Brief start/digest/receipt pending.
+Cold image/start confirmed; pins-only freeze review pending.
 - [research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json](network/rr/N7-COLD-FAILURE-EVIDENCE.json) SHA `9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279`
 
 ## Next
-Read Brief, classify Dockerfile start, freeze image pins and review.
+Pins-only review, then warm G1 in the canonical digest.
 
 ## Artifacts
 - [research/challenge-8/network/rr/N8-OWNER-DIRECTIONS.md](network/rr/N8-OWNER-DIRECTIONS.md) — `87774f7b34ff43045c17ad6d17e55e37315aa023f790d46b606ac91253bdc273`
