@@ -1,7 +1,7 @@
-# Select-R22 — fractional callee 288fa7cd, controls/matrix, *mut T, маршрут в sort4
+# Select-R23 — leak repair R22b, приёмка fractional callee, controls, P2
 
-Task ID: `select-callee-acceptance-autonomous-2026-10-23-r22`; previous task: `select-callee-acceptance-autonomous-2026-10-23-r21`.
-Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R22`. Lane: `o26-select-callee-r20`.
+Task ID: `select-callee-acceptance-autonomous-2026-10-23-r23`; previous task: `select-callee-acceptance-autonomous-2026-10-23-r22`.
+Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R23`. Lane: `o26-select-callee-r20`.
 
 ## Mission
 
@@ -13,43 +13,44 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `f8ef054f4c31e3edeb1a5ea76c8f3adbf48fbb6b`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
+Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `cb364c5be02b759e436f1d2af056215636bcc172`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
 Tool worktree `/root/verifast-select-sort4-c2-bind-20261010` on `challenge8/select-sort4-c2-bound-20261010` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R22.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R21.json`.
+Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R23.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R22.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R22 и Builds разрешены. Цель — приёмка checked actual callee select_unpredictable (W1) через одобренный fractional-кандидат 288fa7cd: positive, controls, normal/unwind/nested-Drop; затем *mut T (P2 для Network) и маршрут в sort4. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
+R23 и Builds разрешены. Цель — довести checked actual callee select_unpredictable (W1) до приёмки: устранить последний leak (R22b), закрепить controls, прогнать normal/unwind/nested-Drop; затем P2 (*mut T) для Network и маршрут в sort4. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
 
-1. Statically recheck 288fa7cd (patch, translator pins, 113-part transport) per NEXT-WINDOW-HANDOFF, register R22, then early one full-envelope Build of the fractional positive and eight-row matrix. Optionally first: reviewed bootstrap stage receipts in control.py::config so a timeout shows its stage.
-2. By result: pin callee control targets (site, message, stage, fields; now TARGET_UNPINNED), then normal/unwind/nested-Drop, ownership, leak/refinement and same-site omission controls. In parallel without Cloud: *mut T/generic unit (MUTABLE-CALLEE-NEXT) and a pinnable P2 answer for Network.
-3. Then the dormant body route (BODY-C5-NEXT, 168/191) after callee acceptance/linkage and count-five control requalification. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W1/W4), recording choice and reason in CHECKPOINT; else prepare a reviewed HANDOFF.
+1. Register R23 reusing the R22 route-marker pattern. Early: R22b fingerprint Build at HEAD, rebind r22b rows from it, restore the proof entry, review, proof Build. Before the second cycle consider a reviewed way to shorten fingerprint→rows (fewer Brief requests, static binding test) without weakening the checks.
+2. On a clean positive: re-observe and pin the seven control targets (CONTROL-TARGET-PROPOSAL, omit-* at lib.rsspec:462/463), then normal/unwind/nested-Drop, ownership, leak/refinement and same-site controls; record callee acceptance only on the full matrix. Without Cloud in parallel: *mut T chain (MUTABLE-GATE-INVENTORY) and P2 publication to Network.
+3. Then the dormant body route (BODY-C5-NEXT, 168/191) after acceptance/linkage and count-five requalification. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W1/W4), recording choice and reason in CHECKPOINT; else prepare a reviewed HANDOFF.
 
 ## Special bounds
 
 - Proof Builds use timeout 1200; never shorten it to fit the remaining window: if the full envelope does not fit main, no Build. A compile error or a run without proof stage is fixed statically first; never repeat the same config. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push. No cap change.
-- Keep R16-R21 chain and strict R13 checks (5 calls/8 selects/4 copies, no leak relaxation). Beyond the owner-approved fractional candidate, any gate exemption, guard-own=true or broad forget summary needs an owner decision. No address-only bridge. Tool WT: pinned Git objects. coordination.py (v4) read-only.
+- Keep R16-R22 chain and strict R13 checks (5 calls/8 selects/4 copies, no leak relaxation). Beyond the owner-approved fractional candidate, any gate exemption, guard-own=true or broad forget summary needs an owner decision. No address-only bridge. Tool WT: pinned Git objects. coordination.py (v4) read-only.
 - Use the whole main window; no admissible Build is not a boundary. An early stop lists each checked independent task and why it is unavailable in closure_reason.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Actual fractional callee proof UNKNOWN: corrected retry exited124 with incomplete stage evidence; acceptance and controls remain open.
-Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, then checked fractional proof and exact controls.
+Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
+Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WINDOW-HANDOFF.
 
 ## References
 
-- [R21 next-window handoff](task-history/select-callee-r21/NEXT-WINDOW-HANDOFF.md)
-- [Fractional forget proposal (owner-approved)](task-history/select-callee-r21/FRACTIONAL-FORGET-PROPOSAL.md)
+- [R22 next-window handoff](task-history/select-callee-r22/NEXT-WINDOW-HANDOFF.md)
+- [Leak repair next](task-history/select-callee-r22/LEAK-REPAIR-NEXT.md)
+- [Control target proposal](task-history/select-callee-r22/CONTROL-TARGET-PROPOSAL.json)
 - [Completion plan](COMPLETION-PLAN.md)
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · CLOSED**
-Updated: 2026-10-23T00:26:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 1293s spent, 2307s retired, 0s remaining including reservations.
+**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · NOT_STARTED**
+Updated: 2026-10-23T07:28:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
 Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WINDOW-HANDOFF.

@@ -5,21 +5,21 @@
       "sha256": "5c9337ff3b293d6509f185b09267d800f78da56c2cdf6fa270db8f447f0f1b64"
     }
   ],
-  "assignment_sha256": "96b70eb21913d312e274c5fe9eca952d1cfa0a05b97dcab0370a98c599955cd8",
+  "assignment_sha256": "8ad2d52a98b68cbf111302ed2549e5ff6c9b9411d14ec2c5fc1bfafdf40142ab",
   "baseline": {
     "profile_sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622",
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "summary": "Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.",
     "evidence": [
       {
         "build_id": "7e23e945-9190-4928-b0e6-67f2cd3e31ec",
         "path": "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json",
         "sha256": "292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e"
       }
-    ]
+    ],
+    "summary": "Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned."
   },
   "confirmed": [
     {
@@ -123,7 +123,7 @@
     "Inactive body lane168/191 waits for callee acceptance/linkage and count-five requalification."
   ],
   "owner": "select-sort4",
-  "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R22",
+  "phase": "SORT4-ACTUAL-SELECT-2026-10-23-R23",
   "rejected": [
     {
       "approach": "Assumed/address-only resource bridge or helper PASS as full-body proof",
@@ -142,23 +142,23 @@
     },
     {
       "approach": "Short timeout or proof without fresh pins after ghost edit",
-      "reason": "fe704af2 (600s) gave no stages; ghost edits need fingerprint first.",
-      "evidence": []
+      "evidence": [],
+      "reason": "fe704af2 (600s) gave no stages; ghost edits need fingerprint first."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": "2026-10-23T00:55:06Z",
-    "main_deadline_utc": "2026-10-23T00:25:06Z",
-    "remaining_seconds": 0,
-    "retired_seconds": 2307,
-    "spent_seconds": 1293,
-    "t0": "2026-10-22T22:25:06Z",
+    "deadline_utc": null,
+    "main_deadline_utc": null,
+    "remaining_seconds": 3600,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "state": "CLOSED",
-  "task_id": "select-callee-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T00:26:00Z"
+  "state": "NOT_STARTED",
+  "task_id": "select-callee-acceptance-autonomous-2026-10-23-r23",
+  "updated_utc": "2026-10-23T07:28:19Z"
 }
