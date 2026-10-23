@@ -57,7 +57,10 @@
   "carry_seconds": 0,
   "carryover_allowed": false,
   "ceiling_build_seconds": 5400,
+  "closed_utc": "2026-10-23T21:22:20Z",
+  "closure_reason": "REAL_BOUNDARY / INCONCLUSIVE: two authorized cold admissions exhausted (one EXPIRED metadata execution0/Brief404, one reviewed setup repair FAILURE coldexit1 at Docker clientAPI1.52 versus daemon maximum1.41). No third cold Build authorized; timeout/reserve unchanged;391s spent,5009s retired/carry0. Independent obligations checked: exact package/source anchors retained, online image/client/recipe implementation+review and45 synthetic controls completed; source pins not changed. Image push/freeze unavailable because the selected script failed at its first docker build; warm G1 unavailable without successful cold digest/binary receipt. Actual insert_tail/Drop/callees/cleanup/missing specs remain NOT_RUN/UNKNOWN, so no frontend patch, GO_G2, STOP_RR semantics inference or G2 proof/estimate. Next setup options documented unverified only, not a checked fix; no extra Build. Final Select published d6aca506 has no R24 PUBLISHED P2 (R23 NOT_PUBLISHED), so R4/W7 consumption unavailable; W8 requires PUBLISHED P2 and W3/W5/W7 resources, no new candidate. N9/N13/R7 bounded prior results retained; unrelated repeats would not resolve setup and have no N7 lane admission. RR frontend/stock VF/runtime/coordination/IAM/shared transport/foreign ledgers unchanged.",
   "deadline_utc": "2026-10-26T21:56:24Z",
+  "goal_outcome": "INCONCLUSIVE_COLD_DOCKER_API_MISMATCH",
   "main_deadline_utc": "2026-10-26T20:56:24Z",
   "max_builds": null,
   "max_timeout_seconds": 1740,
@@ -66,9 +69,9 @@
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N7",
   "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
-  "remaining_build_seconds": 5009,
+  "remaining_build_seconds": 0,
   "report_reserve_seconds": 240,
-  "retired_seconds": 0,
+  "retired_seconds": 5009,
   "schema": "smallsort-prepared-session-ledger-v1",
   "setup_repair": {
     "candidate_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
@@ -79,7 +82,7 @@
   },
   "spent_build_seconds": 391,
   "start_utc": "2026-10-23T20:56:24Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
   "used_build_seconds": 391
 }

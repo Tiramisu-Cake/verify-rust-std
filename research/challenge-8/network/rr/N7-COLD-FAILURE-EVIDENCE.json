@@ -1,0 +1,103 @@
+{
+  "archive_sha256": "f8a9df8200129445c71af60b911eb5cdc64a6ea9667d8fcd4424c67d365e94a2",
+  "assurance": "SOURCE_REPORTED_NOT_PROOF",
+  "binding": {
+    "config_sha256": "81eda7d83a0a4d61cc1aa4c04ce9661e3eaccef5eef49e791f5a8f6849f9ffa5",
+    "operation": "first docker build pipeline; set -Eeuo pipefail/EXIT trap preserve exit1",
+    "script": "research/challenge-8/cloud-build/network-rr/cold-image.sh",
+    "selected_git_commit": "2df9908134a736965bcea6921cebcd16584b2a08",
+    "source_input_sha256": "9fd78c7368aeaf0af916ae470d744fcea617cc4606ecd346d7a6bdf73fb6ae65"
+  },
+  "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+  "classification": {
+    "causal_assurance": "Inference from exact source diagnostic, matching cold status/exit, and the selected script stopping on its first Docker build pipeline. Reader parser causal_status remains UNKNOWN.",
+    "cleanup_output": "NOT_RUN",
+    "client_api": "1.52",
+    "daemon_max_api": "1.41",
+    "first_causal_stage": "cold-image / Docker client-daemon API negotiation",
+    "image_digest": null,
+    "missing_specs": "UNKNOWN",
+    "proof_credit": 0,
+    "rr_frontend": "NOT_RUN",
+    "rust_span": null,
+    "symbol": "docker build",
+    "verdict": "INCONCLUSIVE"
+  },
+  "files": [
+    {
+      "complete": false,
+      "coverage": {
+        "returned_lines": [
+          5,
+          6
+        ],
+        "source_lines": 6
+      },
+      "exact": true,
+      "file_id": "7d1bbbfbf1c5e8ba88a9edf75e9649ec1794f4d5ec989a75f09ee303ed63fec1",
+      "observed": {
+        "line5": "Sending build context to Docker daemon 14.85kB",
+        "line6": "Error response from daemon: client version 1.52 is too new. Maximum supported API version is 1.41"
+      },
+      "path": "allprooflogs/cold-image.log",
+      "request_id": "6f55c692f11c01e726823d8d2665dad40fa3878ee095891ec3c0589839264f28",
+      "selector": {
+        "end": 6,
+        "start": 5
+      },
+      "sha256": "d91360715dbf58a2c89861341c002c6db81f4ca9056f2936d9766df1959cca56"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "child_count": 6,
+        "next_offset": null
+      },
+      "exact": true,
+      "file_id": "098420d189d9029bba6a701d6cc0789e3c43d0337365bfd13cc1348c7593fcd8",
+      "observed": {
+        "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+        "exit_code": 1,
+        "image_tag": "us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1:n7-3e604123-0d22-415d-b629-5ce2bf05aca7",
+        "stage": "cold-image",
+        "state": "FAILED"
+      },
+      "path": "cold-image/build-status.json",
+      "request_id": "51c1ef77d74bbb1023d07364d12c063fd8f757f2ef0f8b0e5feed799e8c24e20",
+      "selector": {
+        "pointer": ""
+      },
+      "sha256": "c8957f638c9e02aa283d44d36abd4a723700b3973376561c2c6e44b30d96aaec"
+    },
+    {
+      "complete": true,
+      "coverage": {
+        "child_count": 10,
+        "next_offset": null
+      },
+      "exact": true,
+      "file_id": "50b5089b31e7ecdd3f596ded0ec80666eab0c3653ce036df8894ee8840a8af61",
+      "observed": {
+        "accepted": false,
+        "classification": "INCONCLUSIVE",
+        "diagnostic_complete": false,
+        "failure_class": "stage-error",
+        "lane": "network-rr-g1",
+        "proof_credit": false,
+        "stage": "cold-image",
+        "stage_exit_status": 1
+      },
+      "path": "allprooflogs/proof-audit.json",
+      "request_id": "89d58e46b963babe27d2c0861407173eb62beeadeb99469e9d604d2858f37031",
+      "selector": {
+        "pointer": ""
+      },
+      "sha256": "c513a6aa43f0218adf36417579c9938c5e038cb137a32ee13b06b1447e41e41a"
+    }
+  ],
+  "index_sha256": "aa617e137ac5575c1708dd0090cb7a2508b847ca7cb6587b89bedad10bd99eb4",
+  "observed_utc": "2026-10-23T21:20:46Z",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "raw_evidence_access": false,
+  "schema": "network-n7-cold-failure-evidence-v1"
+}

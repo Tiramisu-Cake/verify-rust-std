@@ -1,89 +1,90 @@
-# N6 RefinedRust G1 — INCONCLUSIVE (pre-dispatch setup boundary)
+# N7 RefinedRust G1 — INCONCLUSIVE (cold setup failed)
 
-2026-10-23. Stock frontend admission of exact generic `insert_tail` and actual
-`CopyOnDrop::drop` remains **NOT_RUN**. No safety PASS or proof credit; readiness
-index unchanged. The verdict is about unavailable confirmed setup, not a
-RefinedRust rejection of either selected symbol.
+2026-10-23 UTC. The online Artifact Registry route was implemented and exercised
+through two authorized cold Builds. **No RefinedRust image digest was obtained;
+G1 frontend admission and cleanup generation remain NOT_RUN.** Proof credit0,
+independent proof credit0, readiness index unchanged. N6 is preserved separately
+in [N6-RR-G1-RESULT.md](N6-RR-G1-RESULT.md).
 
-## First causal boundary
+## First causal failure
 
-Stage: **cold image admission / immutable context freeze, before Build**.
-Symbol/span: **not available**; no compiler/frontend diagnostics exist.
+Stage: **cold-image / Docker client-daemon API negotiation**.
+Operation/symbol: `docker build`, before executing the image Dockerfile.
+Rust symbol/span: **not reached / unavailable**.
 
-The inherited offline cold recipe explicitly blocks submission until context
-URI/generation/SHA256, exact deb snapshot/bundle, frontend+core dependency vendor
-closure/config, builder image digest and registry destination are frozen. All
-are still unassigned. Warm image and binary/config hashes are also null. The
-exact RR source is available locally, but that alone supplies neither context
-nor a compatible image receipt. See [environment observation](ENVIRONMENT-OBSERVATION.json)
-and [preparation boundary](N6-PREPARATION.md).
+The exact archived diagnostic at `allprooflogs/cold-image.log:6` reports client
+API **1.52** rejected because the daemon supports at most **1.41**. The archived
+cold status binds the same Build, lane/stage and original exit **1**. The selected
+script `cold-image.sh:59` is its first Docker build pipeline, followed by
+`set -Eeuo pipefail`/EXIT handling that preserves this exit; receipt copy and
+push occur later. This is the source-based attribution of the first setup
+failure, not an RR/compiler rejection. Reader's generic causal/parser status
+remains UNKNOWN and no AST/MIR/source proof binding is inferred.
 
-Read-only discovery tried project/location repository listing, direct gcr.io
-image listing and direct gcr.io repository lookup. They returned dispatcher
-permission denials. Filtered Cloud Build metadata returned no candidate receipt;
-this is not exhaustive image inventory. **Image existence and builder account
-permissions remain UNKNOWN.** No credentials, IAM, repository provisioning or
-shared infrastructure were changed. No Build was submitted to probe unknown
-resources or bypass frozen-input gates.
+Exact selectors, request IDs, file/index/archive SHA256s and scope limits are
+recorded in [N7-COLD-FAILURE-EVIDENCE.json](N7-COLD-FAILURE-EVIDENCE.json) and the
+immutable observation linked by [N7-RESULT-IDENTITIES.json](N7-RESULT-IDENTITIES.json).
+Brief integrity `VERIFIED_ARCHIVE_AND_INVENTORY` confirms archive/inventory only.
+The source audit is INCONCLUSIVE, accepted=false, diagnostic_complete=false,
+proof_credit=false; it does not establish formal verification.
 
-## Exact identities and evidence state
+## Builds and accounting
+
+| Build | Outcome | Accounted | Execution | Evidence |
+| --- | --- | ---: | ---: | --- |
+| `efd32c5f-83e5-4cae-8b4a-a83dc7bc072a` | EXPIRED before steps | 297s | 0s | normal client metadata; Brief HTTP404 |
+| `3e604123-0d22-415d-b629-5ce2bf05aca7` | FAILURE, cold exit1 | 94s | 93s | exact Brief cold log/status/audit |
+
+Total **391/5400s spent**, **5009s retired**, carry0. These are conservative
+Cloud ledger seconds including queue, not active agent time. Both terminal
+accounts and CHECKPOINT/STATUS were committed and pushed before further work.
+The first queue expiry's mechanism is UNKNOWN; null step metadata does not
+establish quota or capacity cause. The one reviewed repair reduced the request
+from E2_HIGHCPU_8/jobs4 to allowed E2_STANDARD_2/jobs2, keeping timeout1740,
+queue60 and report reserve240. It reached cold setup and then hit the API error.
+The two cold Build admissions are now exhausted; warm cannot run without image
+and binary freeze. No third attempt, shortened timeout or budget transfer occurs.
+
+## Exact identities
 
 - RR `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, tree
-  `b33bcccbbbd6168ac73e0c7238a1edddbe34057c`, unpatched.
-- Compiler `nightly-2026-08-28`, rustc source
-  `e457a7b0d326d67b4322ef0d11bd715cfaeda48f`; not executed here.
+  `b33bcccbbbd6168ac73e0c7238a1edddbe34057c`, unpatched; binary hash UNKNOWN.
+- Compiler pin `nightly-2026-08-28` /
+  `e457a7b0d326d67b4322ef0d11bd715cfaeda48f`; binary hash UNKNOWN, not executed.
 - Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, SmallSort blob
-  `40939f922bcb6fdc7ee0d30427fa861827043827`.
-- Package origin `68671873669cd8578796ad4cb74f0fc28e622f2f`; prepared candidate
-  `0c2b92b67eaa9c23292dcdfb38dacb94511f7039`. Exact package tree and SHA256s
-  are in [RESULT-IDENTITIES.json](RESULT-IDENTITIES.json), with file provenance
-  in [PACKAGE-PROVENANCE.json](PACKAGE-PROVENANCE.json).
-- Image digest/context generation/registry destination: **UNKNOWN / not frozen**.
-- Build IDs: **none**. Evidence Brief file/index IDs: **not applicable**;
-  no terminal Build, archive, generation output or proof acceptance is claimed.
-- Cloud spent **0/5400 s**; all **5400 s retired**, carry0 at closure. Client **NOT_REGISTERED**; generated session bundle
-  is **PREPARED_NOT_REGISTERED**, not dispatch admission.
+  `40939f922bcb6fdc7ee0d30427fa861827043827`; seven exact annotation anchors and
+  runtime bodies retained from N6.
+- Package origin `68671873669cd8578796ad4cb74f0fc28e622f2f`; executed repair
+  candidate `2df9908134a736965bcea6921cebcd16584b2a08`. Initial and delta review
+  identities: [N7-INDEPENDENT-REVIEW](N7-INDEPENDENT-REVIEW.json),
+  [N7-REPAIR-REVIEW](N7-REPAIR-REVIEW.json).
+- Registry `us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1`;
+  image digest and executable receipt **not established**.
+- Repair Brief archive SHA256
+  `f8a9df8200129445c71af60b911eb5cdc64a6ea9667d8fcd4424c67d365e94a2`;
+  index SHA256 `aa617e137ac5575c1708dd0090cb7a2508b847ca7cb6587b89bedad10bd99eb4`.
+  Causal file ID `7d1bbbfbf1c5e8ba88a9edf75e9649ec1794f4d5ec989a75f09ee303ed63fec1`,
+  SHA256 `d91360715dbf58a2c89861341c002c6db81f4ca9056f2936d9766df1959cca56`, lines5–6.
 
-## Work completed and limits
+Full profile/package/config/source-input identities are in N7-RESULT-IDENTITIES.
+The legacy packager stock tool_profile is not an actual VF/compiler execution
+identity for this lane; the explicit N7 cold/G1 records govern interpretation.
+No raw archive/log/Cloud Logging fallback or download_verified claim was used.
 
-Transferred only G1 package material and required sibling helper/control/image
-recipe dependencies into the Network branch; feasibility history stays unchanged.
-Rebound the complete source file/tree/gitlink inventories, restoration pins and
-all seven unique anchors to cd371e0. The selected struct/drop/insert_tail bodies
-are byte-equal to the frozen source; fallback c7ca8c4 was unnecessary. Runtime
-std and RR frontend are unchanged. Proposals adding a fourth owner, shared
-coordinator changes and dispatcher patches remain unapplied.
+## Exit and remaining obligations
 
-The bounded upstream freshness check observed HEAD `fd52421e…` and nine commits
-after the assigned pin; no documented slices/union addition was established.
-No repin was made. This is not a claim that upstream support is absent.
+Missing specifications: **UNKNOWN**. Actual `insert_tail`, `CopyOnDrop::drop`,
+reached callees and cleanup/unwind output: **NOT_RUN**. Neither GO_G2 nor a
+STOP_RR frontend/semantics conclusion is justified; no G2 estimate is fabricated.
+RR work stops with INCONCLUSIVE after the allowed setup repair. A later task can
+address the localized Docker API defect; [N7-NEXT-SETUP.md](N7-NEXT-SETUP.md)
+records unverified options without treating them as checked fixes.
 
-Four inherited synthetic service tests passed; Python AST and shell syntax
-checks passed. Session prepare/check passed and committed closure inventory has
-16 entries / 44409 bytes. These establish static preparation, not Cloud
-compatibility, frontend generation, cleanup edges or resource proof.
-
-Missing specifications: **UNKNOWN**, because the frontend never reached target
-admission. Cleanup/unwind output: **NOT_RUN**. No finite spec list or GO_G2 cost
-estimate can be justified. No frontend/semantics patch, stronger premise,
-`only_spec`, shim or alternative source subset was attempted.
-
-## Exit and next assignment prerequisites
-
-Independent Luna HIGH approved candidate0c2b92b as static preparation only and
-confirmed this INCONCLUSIVE setup boundary; [review record](N6-INDEPENDENT-REVIEW.json)
-binds the candidate/spec/packet and grants no dispatch admission. Inherited
-cold/warm candidate recipes remain inert; only the generated main N6 recipe
-has current ledger/profile references.
-The unresolved route requires either a compatible immutable image+receipt or a
-pre-frozen authorized cold context and known registry destination under existing
-permissions. Those identities, rather than a retry of this unchanged config,
-are prerequisites to any later G1 window. N6's cold/warm allocation has not been
-silently spent on a replacement bootstrap pipeline. RR work stops at this setup
-boundary; G2 is not authorized by this result.
-
-The published Select head `27ad1dbcb927eaba018ce801d83822b23e53f150` has no R24
-P2-INTERFACE; retained R23 P2 is NOT_PUBLISHED. See
-[N6-SELECT-RECHECK.json](N6-SELECT-RECHECK.json). W7 stays gated on PUBLISHED P2;
-W8 requires published W3/W5/W7 resources. N9/N13/R7 bounded source-reported
-results are retained without extra credit or unrelated repeat Builds.
+Final published Select recheck at `d6aca506e4344b6f6ef6ee0e6770c4b59652875e`
+has no R24 P2 interface and retained R23 P2 is NOT_PUBLISHED. W7/R4 remains gated;
+W8 needs published W3/W5/W7 resources. See [N7-SELECT-RECHECK](N7-SELECT-RECHECK.json).
+Existing N9/N13/R7 bounded source-reported results are retained without new
+credit or unrelated repeat Builds. Stock VeriFast profile, RR frontend,
+coordination/IAM/shared transport, runtime std and other owners' ledgers are
+unchanged. Independent review plus45 distinct synthetic controls/syntax/closure
+validate only the prepared runner/client boundary, not a completed image or G1.

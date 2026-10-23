@@ -15,6 +15,38 @@
     {
       "path": "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
       "sha256": "bfa8704ef3e1263864bd5cd1f14faeeaf8e426fe2fe18cae0b18b301769a25e3"
+    },
+    {
+      "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
+      "sha256": "25db9e05efa97b82eeb44b6954d179996310a2330047d0b689ab660a23eab15e"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-RESULT-IDENTITIES.json",
+      "sha256": "6b589f89dd00b2511a29f1e8f95f84ae958a7773077f73094ba6f038604dd41a"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
+      "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-SELECT-RECHECK.json",
+      "sha256": "361e13988fdf8f0a66afcb708332aedd86fdd14a94b3276b38fecbcb055a8d3d"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-NEXT-SETUP.md",
+      "sha256": "b967bdbf8678f3515cd757914ea4dc4a847e372caf5a9499efaf881386816fcf"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
+      "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
+      "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+      "sha256": "77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8"
     }
   ],
   "assignment_sha256": "8b921e1dde7207e0d9ba7714715d44c935bd4387580f15c1891d6673ea4fed38",
@@ -24,13 +56,26 @@
     "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
   },
   "blocker": {
-    "evidence": [],
-    "summary": "Cold repair FAILURE;391s spent; first setup diagnostic in Brief."
+    "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+    "evidence": [
+      {
+        "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
+        "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
+      }
+    ],
+    "summary": "INCONCLUSIVE: Docker API1.52>daemon1.41; cold limit2 used; G1 NOT_RUN."
   },
+  "brief_observation_refs": [
+    {
+      "path": "research/challenge-8/network/rr/observations/da1c87ecc579cdaafc42ee5e4622f8837581294e8b150ae270309bf925d0bea4.json",
+      "sha256": "da1c87ecc579cdaafc42ee5e4622f8837581294e8b150ae270309bf925d0bea4"
+    }
+  ],
+  "closure_reason": "REAL_BOUNDARY / INCONCLUSIVE: two authorized cold admissions exhausted (one EXPIRED metadata execution0/Brief404, one reviewed setup repair FAILURE coldexit1 at Docker clientAPI1.52 versus daemon maximum1.41). No third cold Build authorized; timeout/reserve unchanged;391s spent,5009s retired/carry0. Independent obligations checked: exact package/source anchors retained, online image/client/recipe implementation+review and45 synthetic controls completed; source pins not changed. Image push/freeze unavailable because the selected script failed at its first docker build; warm G1 unavailable without successful cold digest/binary receipt. Actual insert_tail/Drop/callees/cleanup/missing specs remain NOT_RUN/UNKNOWN, so no frontend patch, GO_G2, STOP_RR semantics inference or G2 proof/estimate. Next setup options documented unverified only, not a checked fix; no extra Build. Final Select published d6aca506 has no R24 PUBLISHED P2 (R23 NOT_PUBLISHED), so R4/W7 consumption unavailable; W8 requires PUBLISHED P2 and W3/W5/W7 resources, no new candidate. N9/N13/R7 bounded prior results retained; unrelated repeats would not resolve setup and have no N7 lane admission. RR frontend/stock VF/runtime/coordination/IAM/shared transport/foreign ledgers unchanged.",
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N6: G1 package transferred and rebound to cd371e0 (seven unique anchors, bodies byte-equal); upstream freshness found no documented slices/union addition; Cloud 0/5400, INCONCLUSIVE at the cold setup boundary, credit0.",
+      "claim": "N6 retained: exact cd371e0 source/seven anchors/bodies; G1 NOT_RUN,credit0.",
       "evidence": [
         {
           "path": "research/challenge-8/network/rr/N6-RR-G1-RESULT.md",
@@ -40,33 +85,44 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "N7 candidate14a91c3 reviewed GO for first cold under exact admission;44 synthetic controls/syntax/closure PASS; no toolchain run or credit.",
+      "claim": "N7 cold candidate and one setup repair reviewed by Luna HIGH;45 distinct synthetic checks; runtime/RR/frontend/controls retained,credit0.",
       "evidence": [
         {
           "path": "research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
           "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
         },
         {
-          "path": "research/challenge-8/network/rr/N7-STATIC-VALIDATION.json",
-          "sha256": "888ea07e2e4315daa797e0dea8cceb7d4e5c7d3f3ba9106efad3811c3ab4883f"
+          "path": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
+          "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
         }
       ]
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "First cold efd32c5f EXPIRED: metadata execution0/step fields null,297s accounted; Brief404. Same Luna HIGH approves one changed setup retry, no proof claim.",
+      "claim": "N7 INCONCLUSIVE: EXPIRED then coldexit1(API1.52>daemon1.41), no image/G1. Two terminal Builds,391s spent,5009s retired/carry0;credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/network/rr/N7-COLD-EXPIRED-OBSERVATION.json",
-          "sha256": "42e95937952feeee7118dedb274ef5bb9342ffb8afe6bbeba3fb746601ccbf15"
+          "path": "research/challenge-8/network/rr/N7-COLD-FAILURE-EVIDENCE.json",
+          "sha256": "9670507a2946e7a877cf24c3155ec2004cd826ba6785312eac06a6c3a8183279"
         },
         {
-          "path": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json",
-          "sha256": "a78c578b0fba15168f60a32112276a9c7e400bfd41070850d7b74a5c0ca2b81b"
+          "path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json",
+          "sha256": "77ba5464d930ca7878f64c4cc2133cdedc4ef109c398234530d9e00eb3f321c8"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Select d6aca506: no R24 P2 interface, R23 NOT_PUBLISHED; R4/W7/W8 gated.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-SELECT-RECHECK.json",
+          "sha256": "361e13988fdf8f0a66afcb708332aedd86fdd14a94b3276b38fecbcb055a8d3d"
         }
       ]
     }
   ],
+  "goal_outcome": "INCONCLUSIVE_COLD_DOCKER_API_MISMATCH",
   "last_terminal_build": {
     "assurance": "BUILD_METADATA_ONLY",
     "brief_status": "VERIFIED_ARCHIVE_AND_INVENTORY_NOT_PROOF",
@@ -76,24 +132,67 @@
     "proof_credit": 0,
     "status": "FAILURE"
   },
-  "next_step": "Pin exact Brief failure; close bounded N7 without third cold Build.",
+  "mission_queue": [
+    {
+      "obligation": "Online cold lane/image implementation and review",
+      "reason": "Exact N7 pins/gates/controls retained,45 synthetic tests; two actual cold attempts recorded.",
+      "state": "COMPLETE_STATIC_AND_SETUP_EXERCISED"
+    },
+    {
+      "obligation": "Image push/freeze and warm G1",
+      "reason": "Docker API rejection; no cold digest/receipt; two cold attempts exhausted.",
+      "state": "SETUP_BOUNDARY_NOT_RUN"
+    },
+    {
+      "obligation": "G1 classification and next setup",
+      "reason": "Exact Brief first setup failure recorded; later-task options unverified, no third Build.",
+      "state": "COMPLETE_INCONCLUSIVE"
+    },
+    {
+      "obligation": "G2",
+      "reason": "Requires GO_G2; G1 did not reach frontend.",
+      "state": "NOT_AUTHORIZED"
+    },
+    {
+      "obligation": "R4/W7",
+      "reason": "Published Select P2 NOT_PUBLISHED.",
+      "state": "GATED"
+    },
+    {
+      "obligation": "W8",
+      "reason": "PUBLISHED P2 and W3/W5/W7 resources required.",
+      "state": "GATED"
+    },
+    {
+      "obligation": "N9/N13/R7",
+      "reason": "Prior source-reported bounded goals retained; unrelated retries outside N7 goal/lane.",
+      "state": "RETAINED_BOUNDED"
+    }
+  ],
+  "next_step": "RR stopped. New task needed for compatible Docker API/client; N7 carry0.",
   "open": [
-    "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
-    "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources.",
-    "Expired cold Build efd32c5f has Brief404; scheduler cause UNKNOWN. Admin audit would require separate authorization; no proof evidence inferred."
+    "Compatible Docker client/API configuration is not validated. Current selected cold setup fails before image Dockerfile execution; image digest/executable freeze absent.",
+    "First cold expiry cause UNKNOWN and Brief404; any administrative raw audit needs explicit separate authorization.",
+    "G1 frontend admission/selected symbols/callees/cleanup NOT_RUN; finite missing-spec list UNKNOWN. No G2 or RR semantic rejection credit.",
+    "R4/W7 requires applicable PUBLISHED mutable P2; W8 requires published W3/W5/W7 resources."
   ],
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N7",
   "rejected": [
     {
-      "approach": "Offline-only cold image with frozen deb/vendor context before any Build (N6 package gates)",
-      "evidence": [
-        {
-          "path": "research/challenge-8/network/rr/N6-RR-G1-RESULT.md",
-          "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
-        }
-      ],
-      "reason": "Needs context objects and registry provisioning nobody can produce in-window; owner replaced it with the online pinned image route (2026-10-23)."
+      "approach": "Offline-only N6 context gates",
+      "evidence": [],
+      "reason": "Owner replaced them with online Artifact Registry route in N7."
+    },
+    {
+      "approach": "Third cold Build or exclude EXPIRED from attempt count",
+      "evidence": [],
+      "reason": "N7 permits two cold admissions total; both consumed. Remaining budget grants no extra attempt."
+    },
+    {
+      "approach": "Treat Docker setup rejection as RR rejection or proof",
+      "evidence": [],
+      "reason": "RR not reached; archive integrity and source diagnostics confer no proof credit."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
@@ -104,8 +203,8 @@
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T20:56:24Z",
     "main_minutes": 4320,
-    "remaining_seconds": 5009,
-    "retired_seconds": 0,
+    "remaining_seconds": 0,
+    "retired_seconds": 5009,
     "spent_seconds": 391,
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
@@ -117,9 +216,9 @@
     "reason": "Metadata-only pre-execution EXPIRED; cause UNKNOWN; Brief404 unavailable. Single changed E2_STANDARD_2/jobs2 setup retry, same1740/60/240.",
     "review": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json"
   },
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:18:37Z",
+  "updated_utc": "2026-10-23T21:22:20Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "ba034348-79ee-471e-b2ad-38d1ce065def",
