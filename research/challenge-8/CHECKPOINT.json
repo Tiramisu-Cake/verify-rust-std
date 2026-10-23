@@ -1,26 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json",
-      "sha256": "79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-ADMISSION-REVIEW-20261024.json",
-      "sha256": "b3caaa75472eb8636456d8b1955b69ab5eb9d93c455aa8352393c62585ef0e38"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-COMPATIBILITY-PIN-REVIEW-20261024.json",
-      "sha256": "a54919611380487bd921c649059e5fcc74abc95754b5ed81ba6aeb8b65ff0943"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md",
-      "sha256": "66236a87afe0195449bb10fcf93620f95f28ef4e0214da4b0a9525e2d1ecbe6c"
-    },
-    {
-      "path": "research/challenge-8/observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json",
-      "sha256": "b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json",
       "sha256": "25fe5c3e19c0ff64dbc19c5b54509e849492e98dbf1250871f0d945cab0d09ee"
     },
@@ -35,6 +15,18 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-STATIC-VALIDATION-20261024.json",
       "sha256": "3a67fc05149a93d79eec361d58e5ce560a7b035e35e8118b05a03a932a147700"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json",
+      "sha256": "5f377c34e387db4da6b47fa15d4e2c6666470e39c38beeaa8f9d52adaa86f837"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-CALL-TRACE-AUDIT-20261024.json",
+      "sha256": "6ba3553829c1dd7258ca39435d7d3417d72df5103c725c22fb55ffd48a2ec53a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-TRANSPORT-20261024.json",
+      "sha256": "d5b82d393db4be4cec50b4d6735143cc86a7c2b37deadae8ae0b0ac54a788a76"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -50,7 +42,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "Source/control delta ready; independent review and Cloud pending."
+    "summary": "P4 running; source/control proof unverified."
   },
   "confirmed": [
     {
@@ -98,7 +90,7 @@
       ]
     }
   ],
-  "next_step": "Review fixed tuple and intended-control repair; full Cloud submit.",
+  "next_step": "Ack watcher; P4 Brief; continue R23.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -119,7 +111,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "cbadd3c4-9001-4725-818e-3b49133e7d2a"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -131,9 +125,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:01:43.210988Z",
+  "updated_utc": "2026-10-23T13:05:49.596503Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -201,6 +195,16 @@
       "reason": "Luna HIGH NEEDS_FIX f4aa/tool805 found only two localized compile blockers: DefPathHash formatting and stmt/expr pattern mixing. Original workers fixed them in published7a1dd1c9; profilec0f25685 exact reversal preserved. P3 all5 R19 controls match, rawcaller allstages0 sourceclaim. Keep F5 INCONCLUSIVE until same-source callee/call/target/stage trace gates; kernel native call wording is Verifying call, while classifier expects Verifying function call. Indexcontrol must isolate projected-place pair after matching prefix; no diagnostic/control gate weakening.",
       "tool_sha": "7a1dd1c98516441705d555fa8f0f12607112a7a1",
       "profile_sha256": "c0f2568591b6d7cd903a3167a3582376a44d9f11eff52d2ae24825361d31fe43"
+    },
+    {
+      "obligation": "P4 capture-off actual caller/source-borrow and intended control validation",
+      "reason": "Independent Luna HIGH full candidate NEEDS_FIX then delta GO a5a0b90d, exact packet d7d7d207/spec29dd3d66. Published root/tool remote SHAs confirmed. Final source gatePASS, cumulative patch exact5 sourcepins and unchangedkernel, payload558234/571567 SHA638862cc, config27448/28000. Two owned-NLL cycles exhausted; policyfalse mandatory. Full1200 timeout/reserves unchanged. No independent work remains before native compiler/proof results; HANDOFF to fresh watcher.",
+      "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a",
+      "source_sha": "a5a0b90d4d9971cf1ae3d42808747c01dcae94e9",
+      "config_sha256": "cad8a7a350f5077decc858102263234249406131642797fbb77396aa3ad06639",
+      "dispatch_token": "dispatch-bf53330ed8584a7cbdae7297d8ce55a8",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -211,13 +215,11 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "640243d3-087d-44b3-9d47-777b9a8b6895",
-    "event_id": "62355d71-890c-4c6e-8755-18258624b0da",
-    "event_name": "monitor_error",
-    "ack": "CONTINUE_EXISTING_WINDOW",
-    "first_ack_refusal": "coordinator read lock busy",
-    "status_after_event": "WORKING",
-    "auto_rearm": false
+    "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a",
+    "status": "PREPARED_HANDOFF",
+    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
+    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
+    "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
     "cycles_started": 2,
@@ -225,5 +227,27 @@
     "third_capture_cycle_allowed": false,
     "success": false,
     "next_build_requires_capture_off": true
-  }
+  },
+  "historical_artifacts": [
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json",
+      "sha256": "79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-ADMISSION-REVIEW-20261024.json",
+      "sha256": "b3caaa75472eb8636456d8b1955b69ab5eb9d93c455aa8352393c62585ef0e38"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-COMPATIBILITY-PIN-REVIEW-20261024.json",
+      "sha256": "a54919611380487bd921c649059e5fcc74abc95754b5ed81ba6aeb8b65ff0943"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md",
+      "sha256": "66236a87afe0195449bb10fcf93620f95f28ef4e0214da4b0a9525e2d1ecbe6c"
+    },
+    {
+      "path": "research/challenge-8/observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json",
+      "sha256": "b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf"
+    }
+  ]
 }

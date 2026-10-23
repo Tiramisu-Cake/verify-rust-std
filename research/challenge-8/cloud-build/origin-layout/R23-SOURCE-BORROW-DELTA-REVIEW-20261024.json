@@ -1,0 +1,46 @@
+{
+  "schema": "merge-r23-source-borrow-delta-review-v1",
+  "reviewer": "Codex",
+  "candidate": "a5a0b90d4d9971cf1ae3d42808747c01dcae94e9",
+  "baseline": "f4aa655a45c5def89bee7d1b46e62e96f9bb2295",
+  "tool_commit": "7a1dd1c98516441705d555fa8f0f12607112a7a1",
+  "spec_sha256": "29dd3d6602e66b1f5d69ec1240730b3bc5a5d7607e933ad518f80827a42d2cc4",
+  "packet_sha256": "d7d7d207b180cb4abc97fcd190555ba6d6c1cd70c1bc34716317b1e09e3b5780",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_review": "R23-SOURCE-BORROW-REVIEW-20261024.json; prior two compile blockers fixed in this candidate",
+  "decision": "GO",
+  "review_scope": [
+    "Full connected R23 source-borrow candidate, with focused delta review against f4aa655a",
+    "Two prior exporter/translator compile findings and their exact fixes",
+    "R17 unsupported-index negative control source-pair correction",
+    "R19 native call-trace parser and direct always-panicking synthetic callee correction"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Exporter now formats DefPathHash with {:?}, matching existing scope ID and body encoding conventions.",
+    "Translator r23_raw_marker_call now matches only Ast.ExprStmt(Ast.CallExpr(...)); all alternatives are statement-typed.",
+    "R17 unsupported_index_projection now uses the identical indexed source bytes for original and verified. The indexed projection remains the exact unique target, so the control isolates the unsupported projected-place diagnostic after a matched source prefix rather than conflating it with an earlier source change.",
+    "R19 synthetic panic fixture now uses the same direct core::panicking::panic(\"explicit panic\") source statement in both units, with panic_internals enabled in both crate headers; runtime-equality and exact panic-line checks remain in the fixture builder.",
+    "R19 trace matching accepts the two observed native call labels, Verifying call and Verifying function call, only at the exact generated source line and inside the expected callee/caller trace segment; it still requires ordered function headers, exact unwind-resource failure, executed target, sole matching error, and zero exporter/decode/refinement stage codes.",
+    "R19 mutation controls retain wrong function, wrong call/panic line, absent call trace, missing callee/header, wrong target, and additional-error rejection paths. No historical F5 acceptance is inferred.",
+    "The connected R23 source-borrow/refinement contract and tool admission remain as reviewed in the prior exact-candidate record; the tool delta is limited to the two compile fixes."
+  ],
+  "reported_checks_not_rerun": [
+    "R17 raw-pointer control suite: 10 tests",
+    "R19 unwind control suite: 14 tests",
+    "R23 profile suite: 6 tests and phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Exporter or translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This review establishes source-level delta correctness only. Rust toolchain compatibility, native call trace production, and VeriFast acceptance remain unverified by execution.",
+    "R17 and R19 test results above are parent-reported and were not rerun during this review.",
+    "The earlier reviewer record covered the previous candidate and is retained as a finding history; this GO applies only to the exact candidate and packet identities above.",
+    "No admission, proof acceptance, B1/B2 credit, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

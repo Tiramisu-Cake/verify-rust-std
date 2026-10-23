@@ -1,0 +1,22 @@
+{
+  "schema": "r23-p3-caller-trace-observation-v1",
+  "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d",
+  "archive_sha256": "8489aae8127ff5f33fda6f36c59d01a7395c60553bbc2955ae55de1de0992c09",
+  "index_sha256": "b112dae20f1961d260d01ad4be71bb8ca92a344e3f909b97090cb16a3e1adc95",
+  "file_id": "bb9085752d83266a92da8f4e4242338027041867adfc4eab055664729aedc8e1",
+  "file_sha256": "3818525fa6b6d57654b939c6f035eb81b83467444718af1cdef6a8688e701de8",
+  "request_id": "fd4fe8760651af085fbfdc9aeba6bbc5d6d56823402c4fa2b75774cb82b88d96",
+  "selector": "lines312-320",
+  "exact": true,
+  "complete": false,
+  "requested_window_complete": true,
+  "source_observations": [
+    "Log317: verified/lib.rs(146,5-46): Verifying call",
+    "Log319: verified/lib.rs(147,5-150,38): Executing statement",
+    "Log320: verified/lib.rs(148,9-15): Executing statement"
+  ],
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "interpretation": "Confirms native short call wording at source146 before resource target148. It does not bind parser/AST/MIR inputs, prove a call identity, or repair historical callee macro-span evidence. Historical F5 remains INCONCLUSIVE."
+}
