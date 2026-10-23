@@ -31,3 +31,11 @@ One independent Luna HIGH review covers connected cold/client/warm candidate;
 pin-only freeze delta returns to that reviewer. Missing output is UNKNOWN/NOT_RUN,
 never a target refusal. Terminal accounting/checkpoint commit+push precedes next
 Build or repair.
+
+Static executor compatibility correction before submit: the resolved Google
+Docker builder source uses Ubuntu20.04 (Python3.8/Git2.25), while unchanged exact
+source transport requires Git's --object-format support. Use the already pinned
+Ubuntu executor for cold and install docker.io client in the Cloud bootstrap;
+this preserves the shared transport bytes. Cold-only bootstrap cap180s, within
+the unchanged1500s work/240s reporting envelope; image Dockerfile pins unchanged.
+No local installation and no extra Cloud Build is introduced.

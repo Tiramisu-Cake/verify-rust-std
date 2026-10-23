@@ -4,7 +4,7 @@ import re
 PHASE = 'NETWORK-RR-G1-2026-10-24-N7'
 LANE = 'network-rr-g1'
 REPOSITORY = 'us-central1-docker.pkg.dev/smallsort-ci/smallsort-tools/refinedrust-g1'
-DOCKER = 'gcr.io/cloud-builders/docker@sha256:0aca0f95e1ba8f9107263d3e9782d5ce99a5b60d35b3f8985e4534b65552636f'
+COLD_EXECUTOR = 'ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401'
 TIMEOUTS = {'cold-image': 1740, 'warm-g1': 1200}
 PROFILE = 'research/challenge-8/cloud-build/network-rr/RR-G1-EXECUTION-PROFILE-20261024-N7.json'
 LEDGER = 'research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N7.json'
@@ -38,11 +38,11 @@ def profile_gate(profile, stage, seconds):
     require(isinstance(source, dict) and source.get('selected_baseline') == 'cd371e035c7e573760c43bf934d53e8118ee3e7d',
             'RR source baseline mismatch')
     build = profile.get('image_build')
-    require(isinstance(build, dict) and build.get('docker_builder') == DOCKER, 'RR Docker builder digest mismatch')
+    require(isinstance(build, dict) and build.get('cold_executor') == COLD_EXECUTOR, 'RR cold executor digest mismatch')
     require(profile.get('proof_credit') is False and profile.get('independent_credit') is False and
             profile.get('profile_accepted') is False, 'RR diagnostic cannot carry proof acceptance')
     if stage == 'cold-image':
-        return DOCKER
+        return COLD_EXECUTOR
     image = image_digest(build.get('image_digest'))
     require(isinstance(build.get('image_receipt_sha256'), str) and
             re.fullmatch(r'[0-9a-f]{64}', build['image_receipt_sha256']) and

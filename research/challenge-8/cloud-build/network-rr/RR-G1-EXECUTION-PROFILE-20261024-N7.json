@@ -38,7 +38,8 @@
   },
   "image_build": {
     "base_os_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
-    "docker_builder": "gcr.io/cloud-builders/docker@sha256:0aca0f95e1ba8f9107263d3e9782d5ce99a5b60d35b3f8985e4534b65552636f",
+    "cold_executor": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "docker_client": "Cloud-only apt docker.io in pinned Ubuntu executor; existing daemon socket",
     "freeze": "image digest + sha256 of rustc/cargo/cargo-refinedrust/refinedrust-rustc + apt package list + Cargo.lock recorded in the cold Build evidence; the offline deb/vendor/cargo-config gates of the N6 package are retired for G1",
     "image_digest": null,
     "machine_type_cold": "up to E2_HIGHCPU_8 for the cold image Build only (branch-local lane config)",

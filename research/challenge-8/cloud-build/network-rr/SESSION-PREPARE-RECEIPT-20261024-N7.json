@@ -1,7 +1,7 @@
 {
   "bundle_inventory_sha256": "819010bb7ada561a2cb31c31d2b7722d3e92d56ce00be6e712abd8ef4ca3366a",
   "client_registration": "owner network, exact N7 phase/ledger/window, cold1740 warm1200, before submit requires review/published pins",
-  "execution_profile_sha256": "928037bc33d892d8448b5f1c65e9165c3b445f751952a703a83a008cf103811e",
+  "execution_profile_sha256": "1f7575737a17e274af4bfdc2fbfddf2bf0ce9a610548e717be491618f196a21b",
   "files": {
     "bundle.json": "c1f479720afc5045f8846486da96dad4c194af8212507ecdb632e97a57f2d664",
     "closure.json": "4ef38289ca407643d8fbdd7a84aec7aaff552d29a308d2869f82e074343e3aaf",
@@ -15,6 +15,10 @@
     "source_recipe.json": "40223921c85eee691c509f890956984cca4862fbd090d87ef9593ab3057986b7",
     "spec.json": "1400bdb62269b0e573125b36c6cf8f477615778d518d5f4f5804069c59e14587"
   },
+  "post_preparation_adjustments": [
+    "Exact authorized N7 phase/ledger and execution profile enabled for diagnostic Cloud only; acceptance/credit remain false.",
+    "Cold executor changed before submit to pinned Ubuntu plus apt docker.io to preserve unchanged modern Git source transport; see N7-DESIGN."
+  ],
   "proof_credit": 0,
   "schema": "network-n7-session-preparation-v1",
   "selected_head": "b43c8364432480dcee77b7bd0dd12bef2870a69d",

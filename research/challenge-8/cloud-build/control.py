@@ -282,7 +282,7 @@ NETWORK_PHASES[rr_lane.PHASE]={
  'ceiling':5400,'lanes':frozenset((rr_lane.LANE,)),
  'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
  'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
- 'profile_sha256':'928037bc33d892d8448b5f1c65e9165c3b445f751952a703a83a008cf103811e','timeout':(1200,1740),
+ 'profile_sha256':'1f7575737a17e274af4bfdc2fbfddf2bf0ce9a610548e717be491618f196a21b','timeout':(1200,1740),
  'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
 NETWORK_RESERVE=240
 
@@ -662,6 +662,8 @@ def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None,stag
   old_setup=" export DEBIAN_FRONTEND=noninteractive\n apt-get update\n apt-get install --yes --no-install-recommends ca-certificates curl git python3 time\n"
   if old_setup not in work:raise RuntimeError('Network base setup insertion point is missing')
   setup=network_bootstrap_script()
+  if phase_id==rr_lane.PHASE and stage=='cold-image':
+   setup=setup.replace('+ 120 ))','+ 180 ))').replace('ca-certificates curl git python3 time','ca-certificates curl git python3 time docker.io')
   if phase_id==rr_lane.PHASE and stage=='warm-g1':
    setup=setup[:setup.index('export DEBIAN_FRONTEND=noninteractive')]
   work=work.replace(old_setup,' '+setup.replace('\n','\n ')+'\n',1)

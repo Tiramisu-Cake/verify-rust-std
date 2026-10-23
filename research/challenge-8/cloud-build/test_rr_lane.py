@@ -16,7 +16,7 @@ def profile():
     value.update(authorization_phase_id=rr_lane.PHASE, proof_credit=False,
                  independent_credit=False, profile_accepted=False)
     value['std_source']['selected_baseline'] = 'cd371e035c7e573760c43bf934d53e8118ee3e7d'
-    value['image_build'].update(docker_builder=rr_lane.DOCKER,
+    value['image_build'].update(cold_executor=rr_lane.COLD_EXECUTOR,
         image_digest=rr_lane.REPOSITORY + '@sha256:' + 'a' * 64,
         image_receipt_sha256='b' * 64, cold_build_id='01234567-1234-1234-1234-012345678901')
     return value
@@ -25,7 +25,7 @@ def profile():
 class RRLaneTests(unittest.TestCase):
     def test_exact_stage_images_and_timeouts(self):
         p = profile()
-        self.assertEqual(rr_lane.profile_gate(p, 'cold-image', 1740), rr_lane.DOCKER)
+        self.assertEqual(rr_lane.profile_gate(p, 'cold-image', 1740), rr_lane.COLD_EXECUTOR)
         self.assertEqual(rr_lane.profile_gate(p, 'warm-g1', 1200), p['image_build']['image_digest'])
         for stage, seconds in [('cold-image', 1739), ('warm-g1', 1199), ('NOT_RUN', 1200),
                                (None, 1740), ('warm-g1', True)]:
@@ -36,7 +36,7 @@ class RRLaneTests(unittest.TestCase):
         for key, bad in [('image_digest', None), ('image_digest', 'tag:latest'),
                          ('image_digest', 'foreign@sha256:' + 'a' * 64),
                          ('image_receipt_sha256', None), ('cold_build_id', []),
-                         ('docker_builder', control.UBUNTU)]:
+                         ('cold_executor', control.SDK)]:
             p = profile(); p['image_build'][key] = bad
             with self.subTest(key=key, bad=bad), self.assertRaises(ValueError):
                 rr_lane.profile_gate(p, 'warm-g1', 1200)
