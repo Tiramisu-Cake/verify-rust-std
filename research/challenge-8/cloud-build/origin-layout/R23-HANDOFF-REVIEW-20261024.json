@@ -1,0 +1,49 @@
+{
+  "schema": "merge-r23-handoff-closeout-document-review-v1",
+  "reviewer": "Codex",
+  "doc_audit_only": true,
+  "candidate": "6e84226f2c2138be13845ee877b309a680fe6f44",
+  "baseline": "01c8febb47b5a972a0abf2a7b15924db3037cf23",
+  "spec_sha256": "375f1c0eadc7fb5869f4d9187a47a884ce98272a56da4564fbff7387d4bcd056",
+  "packet_sha256": "c43487a637c9e59aa62f1a5a466ad3c41af7a8f159c0e878c232ba6e86b3b6d8",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "artifacts": {
+    "handoff_path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
+    "handoff_sha256": "8670e1165ce0077d71ee6f1160221acc6c68cd0ec5b01d8e8472a05ee5edf2ab",
+    "closeout_path": "research/challenge-8/cloud-build/origin-layout/R23-CLOSEOUT-20261024.json",
+    "closeout_sha256": "b105d673d9d6820b92b5c9e413b620921ea27d4f6f4adc731b2d45442cff13a7",
+    "source_brief_sha256": "fdae318833b79bebcb75c4dcee6c65dfc5ca7bada6fd26a3e5882093c3009396",
+    "control_brief_sha256": "a4224451fd45b859e567f857b928b73455d6f299943617d3c01b462801e8fbc2",
+    "p20_review_sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23",
+    "profile_sha256": "af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf",
+    "compiled_source_candidate": "908cab9fd7b55ce02343a616112de1fa9e8a3b01",
+    "compiled_tool": "74cebc3bd91b3f88edae3a0dde42061712119e2b"
+  },
+  "decision": "NEEDS_FIX",
+  "findings": [
+    {
+      "location": "R23-HANDOFF-20261024.json, next_route.resource_limits, final item",
+      "issue": "The phrase 'no snapshots or unchecked summary' is broader than the intended ownership/resource restriction. It could be read to prohibit ordinary ghost value-history snapshots needed for the separate sortedness/permutation obligations, which the handoff correctly leaves open.",
+      "requested_edit": "Replace it with a scoped statement such as: 'Do not replace current-value restoration or ownership derivation with stale entry snapshots, duplicate owners, or unchecked summaries; ordinary ghost value-history snapshots for separate sortedness/permutation proofs remain separate.'"
+    }
+  ],
+  "reviewer_checks_pass": [
+    "The review packet matched candidate 6e84226f2c2138be13845ee877b309a680fe6f44, spec SHA-256 375f1c0eadc7fb5869f4d9187a47a884ce98272a56da4564fbff7387d4bcd056, and packet SHA-256 c43487a637c9e59aa62f1a5a466ad3c41af7a8f159c0e878c232ba6e86b3b6d8.",
+    "Handoff and closeout SHA-256 values match their referenced paths. The P20 source/control Brief and compile review hashes match the handoff/closeout references. All eight navigation artifact paths exist and match their listed SHA-256 values.",
+    "The closeout ledger contains 20 unique terminal accounted Build rows. Each row is an exact projection of the current recovery ledger; the ledger Build rows are unchanged from baseline 01c8febb47b5a972a0abf2a7b15924db3037cf23. Charged seconds sum to 13,685; 13,685 spent plus 715 retired equals 14,400 authorized, with zero remaining/carry. The 1,260-second minimum full envelope exceeds the retired 715 seconds.",
+    "P20 source and control results are explicitly SOURCE_REPORTED. The source Brief reports three targets and four stages at exit 0 with source exact/unchanged, posts preserved, and the receipt gate admitted. It also preserves accepted=false, B2=false, proof_credit=false, independent_credit=false, parser_input_binding NOT_ESTABLISHED, causal_status UNKNOWN, and the generic diagnostic flags as false. The control Brief records all three intended source refusals and rawptr/R19 matched, without proof credit. The handoff does not promote these claims to accepted proof.",
+    "The compiled tuple is consistently pinned to source 908cab9fd7b55ce02343a616112de1fa9e8a3b01, tool 74cebc3bd91b3f88edae3a0dde42061712119e2b, and profile af1ac0bd60fc52bab189be46cad9a31807cba1e7530bccf6f045285384224ebf. Current smallsort.rs Git blob 40939f922bcb6fdc7ee0d30427fa861827043827 matches the handoff, and it is unchanged between baseline and candidate.",
+    "The len17 handoff is framed as a source-derived next obligation, not completed verification. It requires binding the two sort8 calls, the unique second-half insertion at i=8, and final len17 merge; len16 is only a shape control. The W5 caller and reachable-length proof, general17..32 route, functional sortedness/permutation obligations, and representative specialization remain open.",
+    "The handoff preserves owner policy commit 926979f3: no R5 redo or arbitrary-length induction, no issue56-dependent generic-T/panic expansion, no new admission, and no carry/window. It states closed R23 grants no further Build/admission/carry."
+  ],
+  "reported_checks_not_rerun": [
+    "P20 Brief source and control observations are cited as source-reported evidence only; this review did not fetch or inspect raw evidence."
+  ],
+  "limitations": [
+    "This review audits document consistency, hash references, recorded accounting, and evidence wording only. It does not repeat the P20 semantic review or establish actual compiler/parser/toolchain/proof acceptance.",
+    "The handoff/closeout correctly report overall Build FAILURE, no accepted result, no B2 or independent credit, and an open general route. This review does not grant source-positive or proof credit and does not admit another Build."
+  ],
+  "proof_credit": false,
+  "independent_credit": false,
+  "build_admission": false
+}

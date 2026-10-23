@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-COMPILE-REVIEW-20261024.json",
-      "sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-TRANSPORT-20261024.json",
       "sha256": "5d4c32512a5a48a273bf22249e1c654928b505b0b0c5ecc833022603df2979b5"
     },
@@ -22,7 +18,11 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
-      "sha256": "8670e1165ce0077d71ee6f1160221acc6c68cd0ec5b01d8e8472a05ee5edf2ab"
+      "sha256": "5f369c90d80e4849a8496a271df90e1ac6a279bea2a24c7a5ac1946f647ae511"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-REVIEW-20261024.json",
+      "sha256": "29fc6356fb5eaa43b28e276ff7f03b12fec2336a6c551cb3e73a1ac03f7d2df3"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -836,6 +836,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P19-SOURCE-BORROW-BRIEF-20261024.json",
       "sha256": "c1720ef45a0e1cea621800e177ff1b6b900867deaa1ee8d35ed7577d202faeec"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P20-COMPILE-REVIEW-20261024.json",
+      "sha256": "22e5a654bb8d239698aab3d03bc0a5fd0c7595af2ee43156331699cc35b77f23"
     }
   ],
   "historical_confirmed": [
@@ -1169,8 +1173,12 @@
   },
   "handoff": {
     "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-20261024.json",
-    "sha256": "8670e1165ce0077d71ee6f1160221acc6c68cd0ec5b01d8e8472a05ee5edf2ab",
-    "review_status": "PENDING_INDEPENDENT_DOCUMENT_AUDIT",
-    "authority": "NO_NEW_ADMISSION_OR_BUDGET"
+    "sha256": "5f369c90d80e4849a8496a271df90e1ac6a279bea2a24c7a5ac1946f647ae511",
+    "review_status": "LOCALIZED_DOCUMENT_FIX_READY_FOR_DELTA_AUDIT",
+    "authority": "NO_NEW_ADMISSION_OR_BUDGET",
+    "initial_review": {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-HANDOFF-REVIEW-20261024.json",
+      "sha256": "29fc6356fb5eaa43b28e276ff7f03b12fec2336a6c551cb3e73a1ac03f7d2df3"
+    }
   }
 }

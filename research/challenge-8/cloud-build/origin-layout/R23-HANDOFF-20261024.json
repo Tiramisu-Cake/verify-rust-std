@@ -80,7 +80,7 @@
       "v is initialized and carries the original owners; scratch is MaybeUninit. Byte copies do not duplicate T.own.",
       "Final general merge target v has initialized old Some options. sort8 and network targets are MaybeUninit and have different destination posts.",
       "sort8/insertion can unwind before CopyOnDrop exists; later guard does not protect these pre-guard paths.",
-      "For final merge derive current scratch resources, initialized target v options, pointer/provenance/separation, callback frame and F. Compose normal with forget and unwind with actual CopyOnDrop, restoring current values/owners once; no snapshots or unchecked summary."
+      "For final merge derive current scratch resources, initialized target v options, pointer/provenance/separation, callback frame and F. Compose normal with forget and unwind with actual CopyOnDrop, restoring current values/owners once; do not replace that restoration or ownership derivation with stale entry-snapshot restoration, synthesized/duplicate owners, or unchecked summaries. Ordinary ghost value-history snapshots for separate sortedness/permutation proofs remain separate."
     ],
     "w5": {
       "sequence": "The len17 general case includes actual merge n=17 and actual sort8 internal merges n=8. Close those real caller interfaces before expanding across general n<=32.",
