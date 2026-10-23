@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "546471b26588a43163568d2a9e860e931cdec0fa2b399c5b732d311aebc7e6bf",
+  "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 26,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+  "file_path": "allprooflogs/cases/r24-w4-capture/W4-CAPTURE.json",
+  "file_sha256": "5c303cee30c94bcd84e6b9f239df983df1ed1e8beef211f0140dba7e054c1eb8",
+  "index_sha256": "cd40477e38b7bb79aa80e5c3d46f0d4c33b4fb48fbe411076d156cd6d1853181",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "5c303cee30c94bcd84e6b9f239df983df1ed1e8beef211f0140dba7e054c1eb8",
+    "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+    "pointer": ""
+  },
+  "request_id": "1d947c25d6369af48b2a84166da19c40b51fae33f7e3793d1403bbab6710ec42",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/artifact_inventory"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_proof_run",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/call_linkage",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/call_linkage_status",
+      "value": "UNKNOWN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/candidate",
+      "value": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "INCOMPLETE_W4_CAPTURE"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/complete",
+      "value": false
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/errors"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/exception"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/failed_stage",
+      "value": "tool-preflight"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/independent_proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/lane",
+      "value": "o26-select-callee-r20"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/mode_sha256",
+      "value": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/owner",
+      "value": "select-sort4"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/proof_admission",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/proof_credit",
+      "value": 0
+    },
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/provider_record"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/publication_allowed",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/r24_session_phase_id",
+      "value": "SORT4-ACTUAL-SELECT-2026-10-24-R24"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

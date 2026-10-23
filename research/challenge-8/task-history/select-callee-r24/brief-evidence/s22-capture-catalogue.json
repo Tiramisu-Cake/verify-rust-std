@@ -1,0 +1,78 @@
+{
+  "archive_sha256": "546471b26588a43163568d2a9e860e931cdec0fa2b399c5b732d311aebc7e6bf",
+  "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 72,
+      "PROJECTED": 214,
+      "UNSUPPORTED_FILE_TYPE": 18
+    },
+    "catalogue_complete": true,
+    "content_bytes": 569480,
+    "content_files": 286,
+    "files": 304,
+    "source_scan_bytes": 662165
+  },
+  "index_sha256": "cd40477e38b7bb79aa80e5c3d46f0d4c33b4fb48fbe411076d156cd6d1853181",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-capture/W4-CAPTURE.json",
+      "path_sanitized": false,
+      "scanned_bytes": 2606,
+      "sha256": "5c303cee30c94bcd84e6b9f239df983df1ed1e8beef211f0140dba7e054c1eb8",
+      "size_bytes": 2606,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "5eaeb18dec0c3e27310e98de8f908332905c4f9b8a23d4d8a4896c6330dbebc5",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-capture-exit-code.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 2,
+      "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "size_bytes": 2,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "fa0a2490bec8a42424d566b4eb942335599c767985a63bd326c842c202e5eda2",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-capture-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 1466,
+      "sha256": "53b5fad278de892236716f5c82dcd18e2559b4406a13987485ac721177b9bb19",
+      "size_bytes": 1466,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "59220702b3b641e7a35813dccf33dddbf160639cf872cc559b4dc41506853e61",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-capture.log",
+      "path_sanitized": false,
+      "scanned_bytes": 48,
+      "sha256": "2a2cbe35fb9cdae2a058e33171cff1b11095e921b59aeb62a2e49bd34f428b6a",
+      "size_bytes": 48,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 304,
+    "files_with_incomplete_content": 138,
+    "matches_in_retained_data": 4,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

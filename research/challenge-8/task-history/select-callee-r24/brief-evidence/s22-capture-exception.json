@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "546471b26588a43163568d2a9e860e931cdec0fa2b399c5b732d311aebc7e6bf",
+  "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 3,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+  "file_path": "allprooflogs/cases/r24-w4-capture/W4-CAPTURE.json",
+  "file_sha256": "5c303cee30c94bcd84e6b9f239df983df1ed1e8beef211f0140dba7e054c1eb8",
+  "index_sha256": "cd40477e38b7bb79aa80e5c3d46f0d4c33b4fb48fbe411076d156cd6d1853181",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "5c303cee30c94bcd84e6b9f239df983df1ed1e8beef211f0140dba7e054c1eb8",
+    "file_id": "6281ff8facf2e0bd4076b8718bb184e3ae87bc3335849c38d803d8bddb6c8d45",
+    "pointer": "/exception"
+  },
+  "request_id": "8c7666213d96b14216e12c503569737b113cf54661228549ceab8a88ab1f0188",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/exception/message",
+      "value": "too many values to unpack (expected 3)"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/exception/traceback",
+      "value": "Traceback (most recent call last):\n  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r24-w4-capture.py\", line 427, in collect\n    source = _construct(repo, evidence, modules, profile)\n  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r24-w4-capture.py\", line 284, in _construct\n    verified, original, metadata = body.refresh_callback_coordinates(\nValueError: too many values to unpack (expected 3)\n"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/exception/type",
+      "value": "ValueError"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

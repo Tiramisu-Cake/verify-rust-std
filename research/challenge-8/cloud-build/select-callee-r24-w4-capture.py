@@ -262,6 +262,17 @@ def _source_comparator_lines(source: bytes) -> list[int]:
     return lines
 
 
+def _refresh_coordinates(refresh, case: tuple[Any, ...]) -> tuple[bytes, bytes, dict[str, Any]]:
+    refreshed = refresh(case)
+    _need(isinstance(refreshed, tuple) and len(refreshed) == 4,
+          'refresh_callback_coordinates must return (case_name, verified, original, metadata)')
+    case_name, verified, original, metadata = refreshed
+    _need(case_name == 'sort4_stable', 'refreshed target name differs')
+    _need(isinstance(verified, bytes) and isinstance(original, bytes) and
+          isinstance(metadata, dict), 'refreshed source pair/metadata has wrong type')
+    return verified, original, metadata
+
+
 def _construct(repo: Path, evidence: Path, modules: dict[str, Any], profile: dict[str, Any]) -> dict[str, Any]:
     source_path = repo / SOURCE_REL
     _need(source_path.is_file() and not source_path.is_symlink(), 'pinned std source missing')
@@ -281,7 +292,8 @@ def _construct(repo: Path, evidence: Path, modules: dict[str, Any], profile: dic
           'recovery helper bytes changed')
     verified, original, metadata = c5.construct_c5(
         source, ghost, cap, pair, four, c1, body.construct_actual, body.lemma_metadata)
-    verified, original, metadata = body.refresh_callback_coordinates(
+    verified, original, metadata = _refresh_coordinates(
+        body.refresh_callback_coordinates,
         ('sort4_stable', verified, original, metadata))
     _need(metadata.get('actual_indexed_calls') == 5 and
           metadata.get('callback_call_lines') and len(metadata['callback_call_lines']) == 5 and
@@ -424,6 +436,8 @@ def collect(args: argparse.Namespace, *, stage_runner=None) -> dict[str, Any]:
         report['schema_sha256'] = sha(Path(args.schema).read_bytes())
         _atomic_json(summary_path, report)
         profile, modules = _load_constructor_inputs(repo, mode)
+        report['failed_stage'] = 'source-preparation'
+        _atomic_json(summary_path, report)
         source = _construct(repo, evidence, modules, profile)
         source_hashes = {rel: digest for rel, digest in (
             ('original/lib.rs', source['original_sha256']),

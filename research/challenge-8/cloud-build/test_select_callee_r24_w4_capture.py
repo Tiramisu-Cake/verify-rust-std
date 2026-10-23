@@ -127,8 +127,42 @@ class W4CaptureTests(unittest.TestCase):
         self.assertEqual(observation['typed_call_linkage'], 'UNKNOWN')
         self.assertEqual(observation['raw_occurrences'], 1)
 
+    def test_refresh_coordinates_accepts_actual_four_tuple_and_rejects_bad_shapes(self):
+        case = ('sort4_stable', b'verified', b'original', {'actual_indexed_calls': 5})
+        self.assertEqual(CAP._refresh_coordinates(lambda _case: case, ('input',)),
+                         (b'verified', b'original', {'actual_indexed_calls': 5}))
+        for malformed in (None, 'sort4_stable', ('sort4_stable', b'v', b'o'),
+                          ('wrong-target', b'v', b'o', {}),
+                          ('sort4_stable', None, b'o', {}),
+                          ('sort4_stable', b'v', None, {}),
+                          ('sort4_stable', b'v', b'o', None),
+                          ['sort4_stable', b'v', b'o', {}]):
+            with self.subTest(malformed=malformed), self.assertRaises(ValueError):
+                CAP._refresh_coordinates(lambda _case: malformed, ('input',))
+        class OriginalFailure(Exception):
+            pass
+        def explode(_case):
+            raise OriginalFailure('refresh callback failure')
+        with self.assertRaisesRegex(OriginalFailure, 'refresh callback failure'):
+            CAP._refresh_coordinates(explode, ('input',))
+
+    def test_pinned_refresh_api_returns_case_name_and_four_values(self):
+        repo = HELPER.resolve().parents[3]
+        _, modules = CAP._load_constructor_inputs(repo, CAP.expected_mode())
+        verified = (b'let c1 = is_less(a, b);\nlet c2 = is_less(a, b);\n'
+                    b'let c3 = is_less(a, b);\nlet c4 = is_less(a, b);\n'
+                    b'let c5 = is_less(a, b);\n')
+        metadata = {'actual_c1_recovery': True, 'actual_indexed_calls': 5}
+        result = modules['sort4_body'].refresh_callback_coordinates(
+            ('sort4_stable', verified, b'original', metadata))
+        self.assertEqual(len(result), 4)
+        self.assertEqual(result[0], 'sort4_stable')
+        self.assertEqual(CAP._refresh_coordinates(
+            modules['sort4_body'].refresh_callback_coordinates,
+            ('sort4_stable', verified, b'original', metadata))[0], verified)
+
     def _install_fake_runtime(self, root: Path, evidence: Path, *, failing_stage=None,
-                              exception=None):
+                              exception=None, source_exception=None):
         repo = root / 'repo'; repo.mkdir()
         source_raw = _base_source(repo)
         mode_path = repo / CAP.MODE_REL
@@ -148,6 +182,8 @@ class W4CaptureTests(unittest.TestCase):
             deadline_epoch=9999999999, mode_file=mode_path,
             candidate='candidate-sha', mode_sha256=CAP.MODE_SHA256)
         def fake_construct(_repo, _evidence, _modules, _profile):
+            if source_exception is not None:
+                raise source_exception
             return _source_record(_evidence)
 
         def fake_stage(name, argv, fixture_root, env, hashes, deadline, cap,
@@ -226,6 +262,22 @@ class W4CaptureTests(unittest.TestCase):
             self.assertFalse(summary['complete'])
             self.assertEqual(summary['exception']['type'], 'Injected')
             self.assertFalse(summary['body_proof_run'])
+            self.assertEqual(summary['proof_credit'], 0)
+
+    def test_source_preparation_exception_preserves_partial_summary_and_stage(self):
+        class SourceFailure(BaseException):
+            pass
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); evidence = root / 'evidence'; evidence.mkdir()
+            args, stage = self._install_fake_runtime(
+                root, evidence, source_exception=SourceFailure('constructor failure'))
+            with self.assertRaisesRegex(SourceFailure, 'constructor failure'):
+                CAP.collect(args, stage_runner=stage)
+            summary = json.loads((evidence / CAP.SUMMARY_REL).read_text())
+            self.assertFalse(summary['complete'])
+            self.assertEqual(summary['failed_stage'], 'source-preparation')
+            self.assertEqual(summary['exception']['type'], 'SourceFailure')
+            self.assertEqual(summary['runner_exit'], 4)
             self.assertEqual(summary['proof_credit'], 0)
 
 

@@ -106,7 +106,7 @@ if [[ -e "$r24_w4_mode_file" ]]; then
   [[ "${SORT4_R24_SESSION_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-24-R24 ]] || exit 2
   [[ ! -v SORT4_R21_BODY_PHASE_ID ]] || exit 2
   [[ "$(sha256sum "$r24_w4_mode_file" | cut -d' ' -f1)" == 1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3 ]] || exit 2
-  [[ "$(sha256sum "$r24_w4_helper" | cut -d' ' -f1)" == bf6c0e6c71872efae5fee81a2ead825696fd03089a07813c49f529c482851df6 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_helper" | cut -d' ' -f1)" == 8f3c8bddd385754aeaa4b784f3273a56e6af2f5356658c4df3d50f7c519f812d ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json" | cut -d' ' -f1)" == 656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322 ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json" | cut -d' ' -f1)" == 1d50cc12011cd8bae26f1a69fee7e43579ab3ef9bacf5708eac33875a4a00794 ]] || exit 2
   r24_w4_capture_only=1
