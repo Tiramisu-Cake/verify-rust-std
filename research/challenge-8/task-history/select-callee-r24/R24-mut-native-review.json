@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_LIBRARY_ONLY",
+  "baseline_commit": "e2b6c1674d24985dc7b845bd5c0ace788c40465a",
+  "candidate_commit": "08ee42fc877d917fda596adaf8758e113b911c41",
+  "candidate_tree": "e3c9835f924791310c9b2d7071aa20f62a3a8d9c",
+  "spec_sha256": "baa1c4ed022a26c7b850820c08a067de044cf87cfee8aee1d8b440e132550ae8",
+  "packet_sha256": "cdada1ee724ca43e7ba6be4f903dc39578b0b2eaf77da7279d412a8af33d0af1",
+  "packet_diff_sha256": "21065de423adbded01c85f0b15afd7e247b6bf98cc4c1f6ba4f06b01650c3215",
+  "commit_diff_sha256": "b2233ca219d590ff4012d69b6d9d8e67edc3bdac4085b0409bd2ed32360e07f1",
+  "scope": "Independent static review of the separate, currently unwired R24 mutable native certificate/proof-library candidate: deterministic source generators, generated OCaml overlay and proof-runner boundary. No Build or proof acceptance is authorized by this record.",
+  "decision_basis": "No concrete static soundness blocker found within the library-only scope. The candidate keeps the const translator branches and certificates intact, makes mutable admission opt-in behind exact R24/R21/profile and a closed case selector, and retains ordinary same-unit proof translation with mutable-specific checks.",
+  "verified": [
+    "Exact review packet check passed: candidate 08ee42fc877d917fda596adaf8758e113b911c41, baseline e2b6c1674d24985dc7b845bd5c0ace788c40465a, spec SHA baa1c4ed022a26c7b850820c08a067de044cf87cfee8aee1d8b440e132550ae8, packet SHA cdada1ee724ca43e7ba6be4f903dc39578b0b2eaf77da7279d412a8af33d0af1; state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The deterministic generator verifies the exact frozen C8 input SHA c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e, capture and matrix pin hashes, closed eight-case order, original source pin and source-only/no-credit flags. Regeneration reproduced the committed patch SHA e1b5b8aa78e905884565e16318e29559050e2fba41366a60d61ebdbe1aeb9099; generated translator SHA is eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162.",
+    "Static native admission binds the exact nine-body order, current source and original source hashes, complete eager decoded unit and body hashes, mutable pointer types, typed FnDef substitutions, move operands, destinations, call arity and normal/Cleanup edges before activating the new family. The cloned local source/MIR certifiers retain their source, span, CFG, ownership and contract checks; the mutable A1 nine-body gate requires the independently checked interface and graph pair before activation.",
+    "The mutable route uses separate active state and translation branches. Its fixed private environment getter is only available after route validation and does not mutate process environment. Absent selectors leave the family inactive; partial selector pairs, unknown/legacy semantic selectors, wrong profile/provider/phases, skipped unwind paths, and mismatched source/MIR pins refuse.",
+    "The proof library runs the frozen source-only eight-case fingerprint capture first, checks all ten snapshot pins and location control, then invokes only the ordinary stage callback with the per-case mutable selectors. The positive requires the exact native marker, exit 0, intact source and no reported diagnostics; negative rows remain UNKNOWN. All accepted/publication/proof-credit fields remain false/0.",
+    "15 focused synthetic proof-service tests pass. Python syntax compilation for the two generators and proof runner passes. `mutable-certificates.py --check` passes, and the generated patch bytes match the committed patch. `git diff --check` reports only the three documented unchanged blank context lines required by unified patch format."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-native-review --expect-candidate 08ee42fc877d917fda596adaf8758e113b911c41 --expect-spec-sha256 baa1c4ed022a26c7b850820c08a067de044cf87cfee8aee1d8b440e132550ae8 (pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof.py (15 tests, pass)",
+      "python3 -m py_compile on both mutable generators and the proof runner (pass)",
+      "python3 research/challenge-8/task-history/select-callee-r24/mutable-certificates.py --check (pass)",
+      "Generated patch SHA compared with committed patch SHA (match)",
+      "git diff --check baseline..candidate (only 3 unified-patch context-prefix whitespace reports; documented in candidate spec)"
+    ],
+    "not_run": [
+      "Native OCaml compile, native toolchain, source preparation, compiler/exporter, MIR decode, refinement, verifier, const regression or mutable proof matrix",
+      "Cloud Build, Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "GO is limited to the static, unwired library candidate and does not establish that the generated OCaml compiles or that mutable source, ownership, normal/unwind, const-regression or proof controls pass on the native toolchain. No Cloud Build or actual mutable proof was run. P2 remains unpublished; independent proof credit is zero.",
+  "proof_credit": 0
+}

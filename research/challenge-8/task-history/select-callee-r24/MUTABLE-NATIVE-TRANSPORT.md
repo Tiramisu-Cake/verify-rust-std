@@ -1,0 +1,7 @@
+# R24 mutable positive transport — UNBUILT
+
+An exact committed positive-proof mode selects the new native patch in the existing R24 lane. The source capture modes remain frozen and continue to authorize only source/MIR diagnostics within their own callbacks. New native proof selectors exist only around the ordinary proof subprocess. The shell first executes the unchanged const capture/compare/baseline/full-eight-row callbacks with the new tool and requires their full audit. Then the new positive entry regenerates all eight mutable fingerprints and location control, checks all ten pins for each case, and runs the mutable positive.
+
+Patch/base/final translator identities are checked before native compilation and again in the profile record; the other frozen tool/spec/exporter/refiner identities remain checked. Default paths with the new mode absent are retained. Root audit requires the exact mode/context/current native UUID, same-tool const audit, complete mutable capture and intact positive ordinary stage. It never publishes acceptance or independent credit. Failure/partial/timeout/NOT_RUN records remain data and prevent completeness.
+
+This delta connects library candidate 08ee42fc, reviewed GO_LIBRARY_ONLY, to transport. It needs independent delta review and a fresh full1200 Build. Static Bash/Python parsing and synthetic service/audit tests do not establish native compilation or proof. Mutable full proof matrix and dedicated refusals remain pending, so P2 remains NOT_PUBLISHED.

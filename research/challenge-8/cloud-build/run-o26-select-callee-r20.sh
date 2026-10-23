@@ -66,6 +66,14 @@ assert m['variant_order']==['positive','omit-selected-own','omit-unselected-own'
 MUT_MATRIX_MODE
   r24_mut_matrix_fingerprint_only=1
 fi
+r24_mut_proof_enabled=0
+r24_mut_proof_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-PROOF-MODE.json"
+if [[ -e "$r24_mut_proof_mode_file" ]]; then
+  (( r24_mut_matrix_fingerprint_only == 1 )) || exit 2
+  [[ "${SORT4_R24_SESSION_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-24-R24 ]] || exit 2
+  [[ "$(sha256sum "$r24_mut_proof_mode_file" | cut -d' ' -f1)" == bcbe8f080fd29cc3fc2c9282a92d6e54202c526de7d187d57ab47f822489046e ]] || exit 2
+  r24_mut_proof_enabled=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -84,6 +92,13 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( r24_mut_proof_enabled == 1 )); then
+    python3 "$cloud_dir/select-callee-r24-mut-proof-entry.py" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --proof-mode-file "$r24_mut_proof_mode_file" --output "$evidence_root/proof-audit.json" \
+      --runner-exit "$1" --failed-stage "$2"
+    return
+  fi
   if (( r24_mut_matrix_fingerprint_only == 1 )); then
     python3 - "$ev/cases/r24-mut-matrix-fingerprint/MUT-MATRIX-FINGERPRINT.json" "$evidence_root/proof-audit.json" "$1" "$2" <<'MUT_MATRIX_AUDIT'
 import json,os,pathlib,re,sys,uuid
@@ -395,6 +410,18 @@ if (( ${#positive_ast_args[@]} > 0 )); then
 fi
 
 
+# Separate mutable family is compiled only for its exact committed mode.
+if (( r24_mut_proof_enabled == 1 )); then
+  mut_patch="$proof_root/research/challenge-8/task-history/select-callee-r24/mutable-certificates-r24.patch"
+  [[ "$(sha256sum "$mut_patch" | cut -d' ' -f1)" == e1b5b8aa78e905884565e16318e29559050e2fba41366a60d61ebdbe1aeb9099 ]] || exit 2
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e ]] || exit 2
+  stage mutable-certificates-check git -C "$source_home" apply --check "$mut_patch"
+  stage mutable-certificates-apply git -C "$source_home" apply "$mut_patch"
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162 ]] || exit 2
+  git -C "$source_home" diff --name-only > "$ev/r24-mut-tool-modified-files.txt"
+  cmp "$ev/r24-final-tool-modified-files.txt" "$ev/r24-mut-tool-modified-files.txt"
+fi
+
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
@@ -423,7 +450,7 @@ fi
 for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.so; do
   cmp "$stock_home/bin/$binary" "$source_home/bin/$binary"
 done
-python3 - "$manifest" "$source_home" "$ev/profile-hashes.json" <<'HASHES'
+python3 - "$manifest" "$source_home" "$ev/profile-hashes.json" "$r24_mut_proof_enabled" <<'HASHES'
 import hashlib,json,os,pathlib,sys
 m=json.load(open(sys.argv[1])); root=pathlib.Path(sys.argv[2]); out=pathlib.Path(sys.argv[3])
 rows={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in m['hosted_profile_hashes']}
@@ -434,7 +461,8 @@ for path in rows:
  elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
 if os.environ.get('SORT4_R24_SESSION_PHASE_ID') == 'SORT4-ACTUAL-SELECT-2026-10-24-R24':
- if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!='c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e':
+ expected_translator='eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162' if sys.argv[4]=='1' else 'c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e'
+ if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!=expected_translator:
   raise SystemExit('R24 checked outcomes translator pin differs')
  path='src/frontend/ocaml_expr_of_ast.ml'
  rows[path]=hashlib.sha256((root/path).read_bytes()).hexdigest()
@@ -445,6 +473,52 @@ out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes']
 HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
+
+run_const_regression() {
+mkdir -p "$ev/cases/candidate"
+stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
+  --tool-home "$source_home" --schema "$schema" \
+  --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/candidate/capture" \
+  --deadline-epoch "$deadline" --fingerprint
+stage candidate-source-compare python3 "$cloud_dir/o26-refresh-recipe.py" compare \
+  --evidence "$ev"
+# Baseline reproduction of the recorded blocker; its verifier exit is data.
+stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
+  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+  --tool-home "$source_home" --schema "$schema" \
+  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+# Fresh R23 fingerprint pins bind the unchanged reviewed R22b release ghosts.
+stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" "${positive_ast_args[@]}" "${target_map_args[@]}" \
+  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+  --tool-home "$source_home" --schema "$schema" \
+  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" \
+  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json"
+
+}
+
+# Same-tool const matrix first, then exact mutable positive. No publication.
+if (( r24_mut_proof_enabled == 1 )); then
+  run_const_regression
+  stage const-regression-audit python3 "$cloud_dir/select-callee-r21-proof-audit.py" \
+    --evidence "$ev" --output "$ev/const-regression-audit.json" \
+    --runner-exit 0 --failed-stage complete
+  python3 - "$ev/const-regression-audit.json" <<'CONST_REGRESSION'
+import json,sys
+assert json.load(open(sys.argv[1]))['evidence_complete'] is True
+CONST_REGRESSION
+  stage r24-mut-proof python3 "$cloud_dir/select-callee-r24-mut-proof-entry.py" run \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --deadline-epoch "$deadline" --candidate "$current_sha" \
+    --proof-mode-file "$r24_mut_proof_mode_file" \
+    --mode-file "$r24_mut_mode_file" \
+    --mode-sha256 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624 \
+    --matrix-mode-file "$r24_mut_matrix_mode_file" \
+    --matrix-mode-sha256 0f8c816ff1e588cd8f2cb066fae862ea17b07103397b5282982cb1c86cc84317
+  current_stage=r24-mut-proof-audit
+  audit_result 0 complete
+  exit 0
+fi
 
 # Full mutable fingerprint exits before every proof callback.
 if (( r24_mut_matrix_fingerprint_only == 1 )); then
@@ -472,24 +546,7 @@ if (( r24_mut_capture_only == 1 )); then
   exit 0
 fi
 
-mkdir -p "$ev/cases/candidate"
-stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
-  --tool-home "$source_home" --schema "$schema" \
-  --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/candidate/capture" \
-  --deadline-epoch "$deadline" --fingerprint
-stage candidate-source-compare python3 "$cloud_dir/o26-refresh-recipe.py" compare \
-  --evidence "$ev"
-# Baseline reproduction of the recorded blocker; its verifier exit is data.
-stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
-  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
-  --tool-home "$source_home" --schema "$schema" \
-  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
-# Fresh R23 fingerprint pins bind the unchanged reviewed R22b release ghosts.
-stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" "${positive_ast_args[@]}" "${target_map_args[@]}" \
-  --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
-  --tool-home "$source_home" --schema "$schema" \
-  --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" \
-  --pins-json "$proof_root/research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json"
+run_const_regression
 
 current_stage=audit
 audit_result 0 complete
