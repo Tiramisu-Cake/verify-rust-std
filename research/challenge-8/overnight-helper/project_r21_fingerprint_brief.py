@@ -145,7 +145,9 @@ class Projector:
             expected_request["offset"] = offset
         if value_start is not None:
             expected_request["value_start"] = value_start
-        if req != expected_request:
+        if set(req) != set(expected_request) or any(
+                type(req[key]) is not type(value) or req[key] != value
+                for key, value in expected_request.items()):
             self._fail("Brief request identity differs from the exact requested selector")
         ident = {key: d.get(key) for key in IDENTITY_FIELDS}
         if any(not isinstance(ident[key], str) or not ident[key] for key in IDENTITY_FIELDS):
@@ -181,7 +183,8 @@ class Projector:
         while True:
             d = self._response(pointer, offset, None)
             last = d
-            if d.get("offset", 0) != (0 if offset is None else offset):
+            expected_offset = 0 if offset is None else offset
+            if type(d.get("offset")) is not int or d["offset"] != expected_offset:
                 self._fail("Brief returned offset differs from requested page")
             results = d.get("results")
             if not isinstance(results, list):

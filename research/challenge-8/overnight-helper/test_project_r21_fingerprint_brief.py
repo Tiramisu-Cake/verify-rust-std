@@ -277,6 +277,65 @@ class ProjectionTests(unittest.TestCase):
                 with self.assertRaises(p.ProjectionError):
                     projector.run()
 
+    def test_bool_cannot_echo_integer_continuation_selectors(self):
+        tree = make_record()
+        tree.update({f"extra-{i}": i for i in range(30)})
+        projector, service = self.projector(tree)
+        base_call = service.__call__
+        def one_item_first_root_page(pointer, offset=None, value_start=None):
+            d = base_call(pointer, offset, value_start)
+            if pointer == "" and offset is None:
+                d["results"] = d["results"][:1]
+                d["next_offset"] = 1
+                d["complete"] = False
+            return d
+        service.__call__ = one_item_first_root_page
+        def bool_offset(pointer, offset=None, value_start=None):
+            d = one_item_first_root_page(pointer, offset, value_start)
+            if offset is not None:
+                d["request"]["offset"] = True
+            return d
+        projector.call = bool_offset
+        with self.assertRaisesRegex(p.ProjectionError, "exact requested selector"):
+            projector.run()
+
+        projector, service = self.projector(tree)
+        original_call = service.__call__
+        def bool_response_offset(pointer, offset=None, value_start=None):
+            d = original_call(pointer, offset, value_start)
+            if pointer == "" and offset == 1:
+                d["offset"] = True
+            return d
+        def one_item_page(pointer, offset=None, value_start=None):
+            d = bool_response_offset(pointer, offset, value_start)
+            if pointer == "" and offset is None:
+                d["results"] = d["results"][:1]
+                d["next_offset"] = 1
+                d["complete"] = False
+            return d
+        projector.call = one_item_page
+        with self.assertRaisesRegex(p.ProjectionError, "returned offset differs"):
+            projector.run()
+
+        projector, service = self.projector()
+        original_call = service.__call__
+        stage_pointer = "/variants/positive/fingerprint/stage"
+        stdout_pointer = stage_pointer + "/stdout"
+        def bool_value_start(pointer, offset=None, value_start=None):
+            d = original_call(pointer, offset, value_start)
+            if pointer == stage_pointer:
+                for row in d["results"]:
+                    if row["pointer"] == stdout_pointer:
+                        row["value"] = "n"
+                        row["next_value_start"] = 1
+            elif pointer == stdout_pointer and value_start is not None:
+                d["results"][0]["value"] = "ine-body-fingerprint-refusal.log"
+                d["request"]["value_start"] = True
+            return d
+        projector.call = bool_value_start
+        with self.assertRaisesRegex(p.ProjectionError, "exact requested selector"):
+            projector.run()
+
     def test_server_offset_only_pagination_and_error_refusal(self):
         projector, service = self.projector()
         # Root has >20 direct children; the second selector must use the
