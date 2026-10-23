@@ -181,8 +181,24 @@ R22_COMPILE_FIX_EXPORTER_SHA256='0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5
 R22_COMPILE_FIX_TRANSLATOR_SHA256='e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2'
 R22_COMPILE_FIX_PATCH_SHA256='6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d'
 R22_COMPILE_FIX_PROFILE_SHA256='d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579'
-R22_COMPILE_FIX_PROVIDER_SHA256='273ca33e0a0257ba423b027b3a382be9e6d5c2eb10f13b8e1d616238ead45d84'
-R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='27aa21befd51475f377da7cd47828176d00ea30c22bc16476ad9a2e2827ffc80'
+R22_COMPILE_FIX_PROVIDER_SHA256='84c1908b12b1269425971ad022f14e28dbce66d21d8525ed5e693c76fe5980df'
+R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b'
+R22_OWNED_NLL_TOOL_COMMIT='419ff27dcee1a31a9f62e8db69049adb725bdbe2'
+R22_OWNED_NLL_EXPORTER_SHA256='7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d'
+R22_OWNED_NLL_SCHEMA_SHA256='ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92'
+R22_OWNED_NLL_REFINER_CORE_SHA256='11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8'
+R22_OWNED_NLL_PATCH_SHA256='74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b'
+R22_OWNED_NLL_PROFILE_SHA256='bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa'
+R22_OWNED_NLL_PROVIDER_SHA256='84c1908b12b1269425971ad022f14e28dbce66d21d8525ed5e693c76fe5980df'
+R22_OWNED_NLL_PROVIDER_PROVE_SHA256='99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b'
+R22_OWNED_NLL_REGISTRATION={
+ 'schema':'merge-r22-owned-nll-diagnostic-registration-v1',
+ 'phase_id':R22_PHASE,
+ 'baseline_profile_sha256':R22_COMPILE_FIX_PROFILE_SHA256,
+ 'starting_tool_commit':R22_COMPILE_FIX_TOOL_COMMIT,
+ 'candidate_tool_commit':R22_OWNED_NLL_TOOL_COMMIT,
+ 'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs','src/rust_frontend/vf_mir/vf_mir.capnp','src/refinement_checker/refinement_checker.ml'],
+ 'source_applicability':'diagnostic-only optional owned-NLL capture for exact registered source cases; serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change.'}
 R22_START='2026-10-23T07:44:00Z'
 R22_MAIN_DEADLINE='2026-10-23T09:44:00Z'
 R22_DEADLINE='2026-10-23T10:14:00Z'
@@ -1118,7 +1134,7 @@ def r22_parse_provider_pin_tables(source):
   module=ast.parse(source.decode('utf-8'))
   tables={}
   for node in module.body:
-   if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name) and node.targets[0].id in ('FILES','R11_FILES','R22_FILES'):
+   if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name) and node.targets[0].id in ('FILES','R11_FILES','R22_FILES','R22_OWNED_NLL_FILES'):
     name=node.targets[0].id
     if name in tables or not isinstance(node.value,ast.Dict):raise ValueError('duplicate or non-dict table')
     keys=[];values=[]
@@ -1132,18 +1148,19 @@ def r22_parse_provider_pin_tables(source):
     if type(table) is not dict or len(table)!=len(keys):raise ValueError('invalid table')
     if any(not re.fullmatch('[0-9a-f]{64}',digest) for digest in values):raise ValueError('invalid digest')
     tables[name]=table
-  if set(tables)!= {'FILES','R11_FILES','R22_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES']) not in (2,3) or len(tables['R22_FILES'])!=len(tables['R11_FILES']):
+  if set(tables)!= {'FILES','R11_FILES','R22_FILES','R22_OWNED_NLL_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES']) not in (2,3) or len(tables['R22_FILES'])!=len(tables['R11_FILES']) or len(tables['R22_OWNED_NLL_FILES'])!=len(tables['R11_FILES']):
    raise ValueError('wrong table schema/count')
-  if set(tables['FILES']) & (set(tables['R11_FILES'])|set(tables['R22_FILES'])):
+  if set(tables['FILES']) & (set(tables['R11_FILES'])|set(tables['R22_FILES'])|set(tables['R22_OWNED_NLL_FILES'])):
    raise ValueError('provider tables overlap common sources')
   proof_path='research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py'
-  if set(tables['R11_FILES'])!=set(tables['R22_FILES']) or proof_path not in tables['R22_FILES']:
+  if set(tables['R11_FILES'])!=set(tables['R22_FILES']) or set(tables['R11_FILES'])!=set(tables['R22_OWNED_NLL_FILES']) or proof_path not in tables['R22_FILES']:
    raise ValueError('R22 provider path set differs from R11')
-  if any(tables['R11_FILES'][path]!=tables['R22_FILES'][path]
+  if any(tables['R11_FILES'][path]!=tables['R22_FILES'][path] or tables['R11_FILES'][path]!=tables['R22_OWNED_NLL_FILES'][path]
          for path in set(tables['R11_FILES'])-{proof_path}):
    raise ValueError('R22 control pins differ from R11')
-  if tables['R11_FILES'][proof_path]==tables['R22_FILES'][proof_path]:
-   raise ValueError('R22 prove.py pin was not extended')
+  if (tables['R11_FILES'][proof_path] in (tables['R22_FILES'][proof_path],tables['R22_OWNED_NLL_FILES'][proof_path]) or
+      tables['R22_FILES']!=tables['R22_OWNED_NLL_FILES']):
+   raise ValueError('R22 profile pin tables are not exact and distinct from historical R11')
   return tables
  except (SyntaxError,UnicodeDecodeError,ValueError,TypeError,RecursionError):
   raise SystemExit('R22 S16 malformed provider pin tables')
@@ -2052,6 +2069,50 @@ def r22_validate_historical_closure(paths,before,selected):
   raise SystemExit('R22 S7 historical closure changed outside the exact R22 profile extension')
 
 
+def r22_validate_owned_nll_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
+                                         baseline_provider,selected_provider,current_provider):
+ if any(type(value) is not bytes for value in (baseline_profile,selected_profile,current_profile,selected_patch,baseline_provider,selected_provider,current_provider)):
+  raise SystemExit('R22 S6 owned-NLL profile/patch/provider pins must be exact byte strings')
+ if hashlib.sha256(baseline_profile).hexdigest()!=R22_PROFILE_SHA256:
+  raise SystemExit('R22 S6 owned-NLL immutable profile9496 baseline differs')
+ try: profile=json.loads(selected_profile)
+ except (ValueError,UnicodeDecodeError): raise SystemExit('R22 S6 owned-NLL profile JSON unavailable')
+ chain=profile.get('ordered_patch_chain') if type(profile) is dict else None
+ if (hashlib.sha256(selected_profile).hexdigest()!=R22_OWNED_NLL_PROFILE_SHA256 or current_profile!=selected_profile or
+     profile.get('profile')!='experimental-merge-label-storage-r11-v1' or
+     profile.get('r22_owned_nll_registration')!=R22_OWNED_NLL_REGISTRATION or
+     profile.get('effective_tool_commit')!=R22_OWNED_NLL_TOOL_COMMIT or
+     profile.get('exporter_source_sha256')!=R22_OWNED_NLL_EXPORTER_SHA256 or
+     profile.get('schema_sha256')!=R22_OWNED_NLL_SCHEMA_SHA256 or
+     profile.get('refiner_core_source_sha256')!=R22_OWNED_NLL_REFINER_CORE_SHA256 or
+     profile.get('translator_sha256')!=R22_COMPILE_FIX_TRANSLATOR_SHA256 or
+     profile.get('guard_return_trace_patch_sha256')!=R22_OWNED_NLL_PATCH_SHA256 or
+     type(chain) is not list or len(chain)!=19 or type(chain[-1]) is not dict or
+     chain[-1].get('sha256')!=R22_OWNED_NLL_PATCH_SHA256 or
+     hashlib.sha256(selected_patch).hexdigest()!=R22_OWNED_NLL_PATCH_SHA256):
+  raise SystemExit('R22 S6 owned-NLL candidate is not the exact registered tool/source/patch profile')
+ reversed_profile=dict(profile); reversed_profile.pop('r22_owned_nll_registration',None)
+ reversed_profile['effective_tool_commit']=R22_COMPILE_FIX_TOOL_COMMIT
+ reversed_profile['exporter_source_sha256']=R22_COMPILE_FIX_EXPORTER_SHA256
+ reversed_profile['schema_sha256']=R20_METADATA_SCHEMA_SHA256
+ reversed_profile['refiner_core_source_sha256']=R20_METADATA_REFINER_CORE_SHA256
+ reversed_profile['guard_return_trace_patch_sha256']=R22_COMPILE_FIX_PATCH_SHA256
+ reversed_profile['ordered_patch_chain']=list(chain)
+ reversed_profile['ordered_patch_chain'][-1]={'path':'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch','sha256':R22_COMPILE_FIX_PATCH_SHA256}
+ reversed_bytes=(json.dumps(reversed_profile,indent=2,ensure_ascii=False)+'\n').encode()
+ if hashlib.sha256(reversed_bytes).hexdigest()!=R22_COMPILE_FIX_PROFILE_SHA256:
+  raise SystemExit('R22 S6 owned-NLL profile does not reverse exactly to compile profile65f')
+ if (hashlib.sha256(baseline_provider).hexdigest()!=R22_PROVIDER_SHA256 or
+     hashlib.sha256(selected_provider).hexdigest()!=R22_OWNED_NLL_PROVIDER_SHA256 or
+     current_provider!=selected_provider):
+  raise SystemExit('R22 S6 owned-NLL provider module differs')
+ tables=r22_parse_provider_pin_tables(selected_provider)
+ prove_path='research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py'
+ if tables['R22_OWNED_NLL_FILES'].get(prove_path)!=R22_OWNED_NLL_PROVIDER_PROVE_SHA256:
+  raise SystemExit('R22 S6 owned-NLL prove.py source pin differs')
+ return 'r22-owned-nll-diagnostic'
+
+
 def r22_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
                                 baseline_provider,selected_provider,current_provider):
  if any(type(value) is not bytes for value in
@@ -2060,6 +2121,11 @@ def r22_validate_candidate_pins(baseline_profile,selected_profile,current_profil
   raise SystemExit('R22 S6 profile/patch/provider pins must be exact byte strings')
  if hashlib.sha256(baseline_profile).hexdigest()!=R22_PROFILE_SHA256:
   raise SystemExit('R22 S6 immutable profile9496 baseline differs')
+ try: selected_card=json.loads(selected_profile)
+ except (ValueError,UnicodeDecodeError): raise SystemExit('R22 S6 pinned profile JSON unavailable')
+ if isinstance(selected_card,dict) and 'r22_owned_nll_registration' in selected_card:
+  return r22_validate_owned_nll_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
+                                               baseline_provider,selected_provider,current_provider)
  if selected_profile==baseline_profile:
   # Historical R22 admission remains available with the exact original tuple.
   try:profile=json.loads(selected_profile)
@@ -2169,8 +2235,8 @@ def r22_validate_sources(probe_sha,proof_sha):
   current_provider=(ROOT/R17_PROVIDER_OVERLAYS_PATH).read_bytes()
  except (subprocess.CalledProcessError,OSError):
   raise SystemExit('R22 S6 pinned profile, patch, or provider unavailable')
- r22_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
-                             baseline_provider,selected_provider,current_provider)
+ admission=r22_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
+                                      baseline_provider,selected_provider,current_provider)
  r22_validate_historical_closure(check_paths,old_map,new_map)
  try:
   gate_selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
@@ -2207,7 +2273,8 @@ def r22_validate_sources(probe_sha,proof_sha):
    pinned={**pins['FILES'],**pins['R11_FILES']}
   else:
    pins=r22_parse_provider_pin_tables(provider_selected)
-   pinned={**pins['FILES'],**pins['R22_FILES']}
+   extension=pins['R22_OWNED_NLL_FILES'] if admission=='r22-owned-nll-diagnostic' else pins['R22_FILES']
+   pinned={**pins['FILES'],**extension}
   if R17_PROVIDER_OVERLAYS_PATH not in found or not set(pinned).issubset(found):
    raise SystemExit('R22 S16 provider pins absent from selected source closure')
   for path,expected in pinned.items():

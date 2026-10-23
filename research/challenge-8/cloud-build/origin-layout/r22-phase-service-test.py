@@ -223,6 +223,12 @@ class R22PhaseTests(unittest.TestCase):
         candidate_provider = (HERE.parents[1] / "merge/cloud-build/provider-overlays.py").read_bytes()
         self.assertEqual(m.r22_validate_candidate_pins(
             baseline_profile, candidate_profile, candidate_profile, candidate_patch,
+            baseline_provider, candidate_provider, candidate_provider), "r22-owned-nll-diagnostic")
+        compile_profile = subprocess.check_output(
+            ["git", "show", "4ee2a25345e7362d4c3872178e326f956d96ab1b:" + m.R22_PROFILE_PATH], cwd=root)
+        compile_patch = subprocess.check_output(["git", "show", "4ee2a25345e7362d4c3872178e326f956d96ab1b:" + m.R17_PATCH_PATH], cwd=root)
+        self.assertEqual(m.r22_validate_candidate_pins(
+            baseline_profile, compile_profile, compile_profile, compile_patch,
             baseline_provider, candidate_provider, candidate_provider), "r22-compile-fix")
         legacy = show(m.R20_METADATA_TEST_PATH)  # any other bytes
         for index, value in ((0, legacy), (1, legacy), (2, legacy), (3, legacy), (4, legacy), (5, legacy), (6, legacy)):
@@ -239,7 +245,7 @@ class R22PhaseTests(unittest.TestCase):
             with self.subTest(null_index=index), self.assertRaises(SystemExit):
                 m.r22_validate_candidate_pins(*values)
         partial = json.loads(candidate_profile)
-        del partial["r22_compile_fix_registration"]["tool_source_paths"]
+        del partial["r22_owned_nll_registration"]["tool_source_paths"]
         partial_bytes = (json.dumps(partial, indent=2, ensure_ascii=False) + "\n").encode()
         for index, value in ((1, partial_bytes), (2, partial_bytes),
                              (3, candidate_patch + b"x"), (5, candidate_provider + b"\n"),
@@ -251,10 +257,12 @@ class R22PhaseTests(unittest.TestCase):
                 m.r22_validate_candidate_pins(*values)
         for field, value in (("exporter_source_sha256", None),
                              ("exporter_source_sha256", 17),
+                             ("schema_sha256", None),
+                             ("refiner_core_source_sha256", 17),
                              ("translator_sha256", None),
                              ("translator_sha256", "e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde3"[:-1] + "0"),
                              ("effective_tool_commit", None),
-                             ("effective_tool_commit", "e1ee4415b711d1b368cbfaad27bda88ed0a216e0"),
+                             ("effective_tool_commit", "419ff27dcee1a31a9f62e8db69049adb725bdbe0"),
                              ("guard_return_trace_patch_sha256", None)):
             malformed = json.loads(candidate_profile)
             malformed[field] = value
@@ -263,7 +271,7 @@ class R22PhaseTests(unittest.TestCase):
                 m.r22_validate_candidate_pins(baseline_profile, malformed_bytes, malformed_bytes,
                                               candidate_patch, baseline_provider,
                                               candidate_provider, candidate_provider)
-        wrong_tool = candidate_profile.replace(m.R22_COMPILE_FIX_TOOL_COMMIT.encode(), b"0" * 40)
+        wrong_tool = candidate_profile.replace(m.R22_OWNED_NLL_TOOL_COMMIT.encode(), b"0" * 40)
         with self.assertRaises(SystemExit):
             m.r22_validate_candidate_pins(baseline_profile, wrong_tool, wrong_tool, candidate_patch,
                                           baseline_provider, candidate_provider, candidate_provider)
@@ -308,22 +316,25 @@ class R22PhaseTests(unittest.TestCase):
             path.write_bytes(r20_baseline)
             self.assertTrue(callback._r19_registration_matches(path, callback.R11_PROFILE))
             path.write_bytes(candidate)
-            self.assertTrue(callback._r22_compile_fix_registration_matches(
+            self.assertTrue(callback._r22_owned_nll_registration_matches(
                 path, callback.R22_PROFILE))
             self.assertTrue(callback._r19_registration_matches(path, callback.R22_PROFILE))
             self.assertTrue(callback._r17_registration_matches(
                 path, callback.R22_PROFILE, {"profile": callback.R22_PROFILE}))
             card = json.loads(candidate)
-            self.assertEqual(provider.profile_identity(card), provider.R22_PROFILE)
-            selected = provider.files_for_profile(provider.R22_PROFILE)
+            self.assertEqual(provider.profile_identity(card), provider.R22_OWNED_NLL_PROFILE)
+            selected = provider.files_for_profile(provider.R22_OWNED_NLL_PROFILE)
             self.assertEqual(selected["research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"],
-                             m.R22_COMPILE_FIX_PROVIDER_PROVE_SHA256)
+                             m.R22_OWNED_NLL_PROVIDER_PROVE_SHA256)
             with self.assertRaises(SystemExit):
-                provider.profile_identity(dict(card, profile=provider.R22_PROFILE))
+                provider.profile_identity(dict(card, profile=provider.R22_OWNED_NLL_PROFILE))
+            compile_card = json.loads(__import__("subprocess").check_output([
+                "git", "show", "4ee2a25345e7362d4c3872178e326f956d96ab1b:" + m.R22_PROFILE_PATH], cwd=HERE.parents[3]))
+            self.assertEqual(provider.profile_identity(compile_card), provider.R22_PROFILE)
             bad = json.loads(candidate)
-            bad["r22_compile_fix_registration"]["tool_source_paths"] = []
+            bad["r22_owned_nll_registration"]["tool_source_paths"] = []
             path.write_text(json.dumps(bad, indent=2) + "\n")
-            self.assertFalse(callback._r22_compile_fix_registration_matches(
+            self.assertFalse(callback._r22_owned_nll_registration_matches(
                 path, callback.R22_PROFILE))
 
     def test_onecell_profile_dispatch_accepts_only_exact_r22_and_r20_extensions(self):
@@ -335,9 +346,10 @@ class R22PhaseTests(unittest.TestCase):
         self.assertTrue(prove.admit_r17_profile_extension_if_present(old, baseline))
         self.assertTrue(prove.admit_r17_profile_extension_if_present(current, baseline))
         corruptions = []
-        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"] = "partial"; corruptions.append(value)
-        value = json.loads(json.dumps(current)); del value["r22_compile_fix_registration"]["tool_source_paths"]; corruptions.append(value)
-        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["candidate_tool_commit"] = "0" * 40; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["r22_owned_nll_registration"] = "partial"; corruptions.append(value)
+        value = json.loads(json.dumps(current)); del value["r22_owned_nll_registration"]["tool_source_paths"]; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["tool_source_paths"] = []; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["r22_owned_nll_registration"]["candidate_tool_commit"] = "0" * 40; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["tool_source_paths"] = ["src/rust_frontend/vf_mir_exporter/src/lib.rs"]; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["effective_tool_commit"] = prove.R20_TOOL_COMMIT; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["exporter_source_sha256"] = "0" * 64; corruptions.append(value)
@@ -352,13 +364,53 @@ class R22PhaseTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             prove.admit_r17_profile_extension_if_present(current, baseline + b" ")
 
+    def test_owned_nll_capture_env_is_exact_case_scoped_and_preserves_results(self):
+        outcomes = [
+            {"exit_code": 0, "classification": "PASS"},
+            {"exit_code": 2, "classification": "ERROR"},
+            {"classification": "PARTIAL"}, {}, None, "wrong-type",
+            {"classification": "NOT_RUN"}, {"source_stage_target": "mismatch"},
+        ]
+        original_env = {"VF_EXPORT_OWNED_NLL_FACTS": "inherited"}
+        for outcome in outcomes:
+            observed = {}
+            def execute(case, args, case_env):
+                observed.update(case_env)
+                return outcome
+            result = callback._execute_case_with_r9_trace(
+                execute, Path("case"), object(), original_env, profile=callback.R11_PROFILE,
+                actual_callback_case=True, owned_nll_capture=True)
+            self.assertIs(result, outcome)
+            self.assertEqual(observed.get(callback.VF_EXPORT_OWNED_NLL_FACTS), "1")
+            self.assertEqual(original_env[callback.VF_EXPORT_OWNED_NLL_FACTS], "inherited")
+        for actual_case, enabled in ((False, True), (True, False)):
+            observed = {}
+            def execute(case, args, case_env):
+                observed.update(case_env)
+                return {"classification": "NOT_RUN"}
+            result = callback._execute_case_with_r9_trace(
+                execute, Path("case"), object(), original_env, profile=callback.R11_PROFILE,
+                actual_callback_case=actual_case, owned_nll_capture=enabled)
+            self.assertEqual(result, {"classification": "NOT_RUN"})
+            self.assertNotIn(callback.VF_EXPORT_OWNED_NLL_FACTS, observed)
+        import subprocess
+        for error in (TimeoutError("synthetic timeout"),
+                      subprocess.TimeoutExpired(["synthetic"], 1), SystemExit(7)):
+            def fail(case, args, case_env):
+                raise error
+            with self.assertRaises(type(error)) as raised:
+                callback._execute_case_with_r9_trace(
+                    fail, Path("case"), object(), {}, profile=callback.R11_PROFILE,
+                    actual_callback_case=True, owned_nll_capture=True)
+            self.assertIs(raised.exception, error)
+
     def test_r22_provider_overlay_keeps_public_r11_runtime_profile_name(self):
         path = "research/challenge-8/merge/overnight/run.sh"
         original = (HERE.parents[3] / path).read_bytes()
-        transformed = provider.transform(path, original, {"network_sha": "a" * 64},
-                                         profile=provider.R22_PROFILE)
-        self.assertIn(b"experimental-merge-label-storage-r11-v1", transformed)
-        self.assertNotIn(provider.R22_PROFILE.encode(), transformed)
+        for selector in (provider.R22_PROFILE, provider.R22_OWNED_NLL_PROFILE):
+            transformed = provider.transform(path, original, {"network_sha": "a" * 64}, profile=selector)
+            self.assertIn(b"experimental-merge-label-storage-r11-v1", transformed)
+            self.assertNotIn(selector.encode(), transformed)
 
     def test_execute_budget_preserves_reserve_and_780_second_cap(self):
         for timeout, execute in ((510, 90), (1200, 780)):

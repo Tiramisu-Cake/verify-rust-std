@@ -75,12 +75,18 @@ R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 R22_PROFILE = "r22-compile-fix-overlay"
+R22_OWNED_NLL_PROFILE = "r22-owned-nll-overlay"
 R22_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "27aa21befd51475f377da7cd47828176d00ea30c22bc16476ad9a2e2827ffc80",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }
-SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE, R22_PROFILE}
+R22_OWNED_NLL_FILES = {
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "99f5b8db1b8fe9d456a0de9d2d69a3cf5a90dcb157676e3a76612b79e570830b",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
+}
+SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE, R22_PROFILE, R22_OWNED_NLL_PROFILE}
 
 
 def files_for_profile(profile: str) -> dict[str, str]:
@@ -90,6 +96,8 @@ def files_for_profile(profile: str) -> dict[str, str]:
         return {**FILES, **R11_FILES}
     if profile == R22_PROFILE:
         return {**FILES, **R22_FILES}
+    if profile == R22_OWNED_NLL_PROFILE:
+        return {**FILES, **R22_OWNED_NLL_FILES}
     return dict(FILES)
 
 
@@ -97,8 +105,28 @@ def profile_identity(profile_card: dict) -> str:
     if not isinstance(profile_card, dict):
         raise SystemExit("merge profile card must be an object")
     profile = profile_card.get("profile")
-    if profile == R22_PROFILE or profile not in SUPPORTED_PROFILES - {R22_PROFILE} or profile_card.get("accepted") is not False:
+    if profile in (R22_PROFILE,R22_OWNED_NLL_PROFILE) or profile not in SUPPORTED_PROFILES - {R22_PROFILE,R22_OWNED_NLL_PROFILE} or profile_card.get("accepted") is not False:
         raise SystemExit("unsupported or accepted merge profile")
+    if profile == R11_PROFILE and "r22_owned_nll_registration" in profile_card:
+        registration=profile_card.get("r22_owned_nll_registration")
+        chain=profile_card.get("ordered_patch_chain")
+        if (hashlib.sha256(json.dumps(profile_card,indent=2,ensure_ascii=False).encode()+b"\n").hexdigest() != "bfb249e805b5ca3a5e9de55363fc931909db9fcad65dc4293aa44a00316864fa" or
+                not isinstance(registration,dict) or
+                registration.get("schema")!="merge-r22-owned-nll-diagnostic-registration-v1" or
+                registration.get("phase_id")!="MERGE-CALLER-ACCEPTANCE-R22-2026-10-23" or
+                registration.get("baseline_profile_sha256")!="d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579" or
+                registration.get("starting_tool_commit")!="65f0bb35e4f188cf8ce405a67253127173c5c3a1" or
+                registration.get("candidate_tool_commit")!="419ff27dcee1a31a9f62e8db69049adb725bdbe2" or
+                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs","src/rust_frontend/vf_mir/vf_mir.capnp","src/refinement_checker/refinement_checker.ml"] or
+                profile_card.get("effective_tool_commit")!="419ff27dcee1a31a9f62e8db69049adb725bdbe2" or
+                profile_card.get("exporter_source_sha256")!="7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d" or
+                profile_card.get("schema_sha256")!="ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92" or
+                profile_card.get("refiner_core_source_sha256")!="11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8" or
+                profile_card.get("translator_sha256")!="e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2" or
+                profile_card.get("guard_return_trace_patch_sha256")!="74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b" or
+                not isinstance(chain,list) or len(chain)!=19 or type(chain[-1]) is not dict or chain[-1].get("sha256")!="74e95dcec3c4df940eafe57cc6abf0ff36951a33d55089250aca98faaa75d22b"):
+            raise SystemExit("R22 owned-NLL diagnostic profile registration mismatch")
+        return R22_OWNED_NLL_PROFILE
     if profile == R11_PROFILE and "r22_compile_fix_registration" in profile_card:
         registration = profile_card.get("r22_compile_fix_registration")
         chain=profile_card.get("ordered_patch_chain")
@@ -127,12 +155,16 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
     if profile not in SUPPORTED_PROFILES:
         raise SystemExit("unsupported merge profile for provider overlay")
     if path in R11_FILES:
-        if profile not in (R11_PROFILE, R22_PROFILE):
-            raise SystemExit("R11 provider source is only valid for the selected R11/R22 profile")
+        if profile not in (R11_PROFILE, R22_PROFILE, R22_OWNED_NLL_PROFILE):
+            raise SystemExit("R11 provider source is only valid for a selected R11/R22 profile")
+        return original
+    if path in R22_OWNED_NLL_FILES:
+        if profile != R22_OWNED_NLL_PROFILE:
+            raise SystemExit("owned-NLL provider source is only valid for its exact registered profile")
         return original
     if path in R22_FILES:
         if profile != R22_PROFILE:
-            raise SystemExit("R22 provider source is only valid for the selected R22 profile")
+            raise SystemExit("compile-fix provider source is only valid for its exact profile")
         return original
     data = original
     pins = pins or {}
@@ -258,7 +290,7 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
             # R4 keeps the baseline run.sh SHA strict; only the staged identity changes.
             data = replace_once(data,
                 b'experimental-merge-first-callback-u64-v1',
-                (R11_PROFILE if profile == R22_PROFILE else profile).encode(), path)
+                (R11_PROFILE if profile in (R22_PROFILE,R22_OWNED_NLL_PROFILE) else profile).encode(), path)
             data = replace_once(data,
                 b'run_one bidirectional-len23-diagnostic 400 python3',
                 b'run_one bidirectional-len23-diagnostic 760 python3', path)
