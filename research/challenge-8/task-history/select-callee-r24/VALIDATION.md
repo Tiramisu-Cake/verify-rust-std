@@ -341,3 +341,25 @@ runner/recipepins andBrief sourceobservations. No actualVPSsourceprep/toolchain.
 
 Control owner-loss narrowlogwindow hitHTTP429; request remains pending after
 independent work/backoff. No raw fallback or newBuild for Reader availability.
+
+
+Seven fresh prior diagnostic targets now pinned in CONTROL-TARGETS.json:
+rawSHAa6bde55b, canonicalSHAa5537cf8; full details/receipts in provenance sidecar.
+No-retained-half sourcecoordinate219supersedesold213; fullsymbolicmessage
+__result1/_ pinned. Omitstdpreconditions462/463 fullvalue6/value2 messages.
+Each log has one whole-file literalerror: location and exactbounded diagnostic;
+this does not claim absence of everypossiblefatal. Fresh currentclassifier
+must scanallrecognized diagnostics and reread physical logs. Currentverified
+source catalogue hashes matchall739variant pins. Actualprofilec8/d33 plusstatic
+27overlaytool-spec reproduction match; no actualRustsourceprep onVPS.
+
+Owner-loss window429 resolved bynarrowline430. No-retained-half window429
+occurred twice while otherrequests ran; later isolatedline563 query succeeded.
+No rawfallback or newBuild forReader. All successfulreceipts preserved.
+
+Worker96cecf21 implements immutableprior/currentstage split and nativeBuild/
+rawcurrentlog/physicalaudit binding. Primaryfollowup4c2140f1 addsstrictUTF8
+mappedpositive andexactexpectedargv/channels checks evenpairedtampering.
+Focused27tests/py_compile/diffcheck pass. Main pinsentryhelperEF481/proofD595,
+addsR24-only targetmapargs and sortedrecipeasset;7entrytests/bash-n/entryparse
+pass. Native translator/spec/actualsources and allformalcontrols unchanged.

@@ -28,9 +28,13 @@ done
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build ]] || exit 2
 [[ -z "${GITHUB_ACTIONS:-}" ]] || { printf 'fake GitHub identity prohibited\n' >&2; exit 2; }
 positive_ast_args=()
+target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
   [[ "${SORT4_R24_SESSION_PHASE_ID}" == SORT4-ACTUAL-SELECT-2026-10-24-R24 ]] || exit 2
   positive_ast_args=(--positive-ast-inventory --checked-pointer-outcomes)
+  target_map_path="$proof_root/research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json"
+  [[ "$(sha256sum "$target_map_path" | cut -d' ' -f1)" == a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc ]] || exit 2
+  target_map_args=(--target-map "$target_map_path")
 fi
 [[ "$(git -C "$proof_root" rev-parse HEAD)" == "$current_sha" ]] || exit 2
 [[ -d "$cloud_dir" ]] || exit 2
@@ -336,7 +340,7 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 # Fresh R23 fingerprint pins bind the unchanged reviewed R22b release ghosts.
-stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" "${positive_ast_args[@]}" \
+stage r21-fractional-proof python3 "$cloud_dir/select-callee-r21-fractional-proof-entry.py" "${positive_ast_args[@]}" "${target_map_args[@]}" \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" \

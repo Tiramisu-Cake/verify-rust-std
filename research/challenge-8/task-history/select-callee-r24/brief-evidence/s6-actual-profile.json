@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "cdb611c16e846b6519aff28cbf3c3f7323ea1489e1f1a8d969c8f1fcc9c9e073",
+  "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 8,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "36aaec3f3db4a1116a3f62cda6e944b9fdd46ab494ee15fd45df87a96b850f19",
+  "file_path": "allprooflogs/profile-hashes.json",
+  "file_sha256": "57c580377ee6ab2c33e4514b60625e39b50e29f16d3f0b5bb29c0baeb4e9157c",
+  "index_sha256": "94e25cd040e18fa413568f17e283ff31b29c6414bea0b8a6691c8b2debe22555",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "57c580377ee6ab2c33e4514b60625e39b50e29f16d3f0b5bb29c0baeb4e9157c",
+    "file_id": "36aaec3f3db4a1116a3f62cda6e944b9fdd46ab494ee15fd45df87a96b850f19",
+    "pointer": "/actual"
+  },
+  "request_id": "979eee41e911dc34676cd09f7a568e1ce54475f7520cd7957e1be925747e1e32",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/bin~1verifast",
+      "value": "941776669416b497b4e5cfe5993bbfc1518da1677702d1028d96fff91467cb7c"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/bin~1vf-rust-mir-exporter",
+      "value": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/bin~1refinement-checker",
+      "value": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/bin~1rust~1std~1lib.rsspec",
+      "value": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/src~1rust_frontend~1vf_mir~1vf_mir.capnp",
+      "value": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/src~1rust_frontend~1vf_mir_translator~1vf_mir_translator.ml",
+      "value": "c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/src~1rust_frontend~1vf_mir_translator~1rust_parser.ml",
+      "value": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual/src~1frontend~1ocaml_expr_of_ast.ml",
+      "value": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

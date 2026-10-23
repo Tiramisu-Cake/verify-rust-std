@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "cdb611c16e846b6519aff28cbf3c3f7323ea1489e1f1a8d969c8f1fcc9c9e073",
+  "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 428,
+    "line_separator": "LF",
+    "source_lines": 460,
+    "start": 427,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/variants/callee-owner-duplicate/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "2a926550967263e3c08cf793e366c793592a71e946125fb9bab0c5f2b3eb36a0",
+  "index_sha256": "94e25cd040e18fa413568f17e283ff31b29c6414bea0b8a6691c8b2debe22555",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 428,
+    "expected_sha256": "2a926550967263e3c08cf793e366c793592a71e946125fb9bab0c5f2b3eb36a0",
+    "file_id": "f76ee8e236dc6d2fde8fd0fc0a95a33821cf51f87361cf386f5234ac1b0a3748",
+    "start": 427
+  },
+  "request_id": "1ef511dc62b5da494142d6174a4f317b95a9aa5264579ce180d2cf3f017f2895",
+  "requested_end": 428,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 427,
+      "text": "  0.241675s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 428,
+      "text": "verified/lib.rs(126,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
