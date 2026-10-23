@@ -323,7 +323,7 @@ class RunCloudTests(unittest.TestCase):
         self.assertTrue(summary["complete"])
         self.assertFalse(summary["proof_credit"])
         self.assertEqual([row["target"] for row in summary["cases"]], ["universal-n13-regression"])
-        self.assertEqual((summary["stage_timeout_seconds"], summary["build_timeout_seconds"]), (360, 735))
+        self.assertEqual((summary["stage_timeout_seconds"], summary["build_timeout_seconds"]), (480, 855))
         self.assertEqual(FakeRanks.composition_calls, [(13, False)])
         self.assertEqual([row["name"] for row in self.generated], ["network13_symbolic_swo_composition"])
 
