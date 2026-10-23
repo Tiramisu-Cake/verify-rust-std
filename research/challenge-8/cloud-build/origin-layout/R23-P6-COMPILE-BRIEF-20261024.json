@@ -1,0 +1,50 @@
+{
+  "record_type": "bounded_compile_diagnostic_evidence_brief",
+  "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53",
+  "report_schema": "smallsort-evidence-index-v8",
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit_source_claim": 1,
+  "archive_inventory": {
+    "archive_sha256": "059cd9a53439fbf462288fe9d9611b80ebe6d2e350053ff3070a796af4fddbbc",
+    "index_sha256": "3dff25f4700dabd7ff2dc6d4322d2764b7ef22bc055ac7bdf387a6cbce923c4d",
+    "files": 155,
+    "content_files": 126,
+    "integrity_meaning": "archive and inventory integrity only; not proof acceptance"
+  },
+  "translator_diagnostic": {
+    "stage": "translator-build",
+    "exit_source_claim": 1,
+    "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+    "path": "allprooflogs/tracked-md-build/translator-build.log",
+    "line_window": "1-5 of 5",
+    "source_sha256": "3d5c074555d8c0064a6825400cb665bb2c6d8f51275d4d4cbf3b7b5347004762",
+    "source_size_bytes": 295,
+    "bounded_diagnostic": "Error: Multiple definition of the module name RawPtrTyRd. Names must be unique in a given structure or signature.",
+    "reported_location": "vf_mir_capnp_alias.ml:97",
+    "request_id": "f0d4242e6bf26b3d11e6c9fa6278b86e0bc01e481857af4f955f3b419369067c",
+    "exact": true,
+    "complete": true,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "requested_lines": [
+      1,
+      5
+    ]
+  },
+  "proof_audit_observation": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "path": "proof-audit.json",
+    "source_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+    "size_bytes": 698,
+    "projection_status": "PROJECTED",
+    "projection_complete": false,
+    "projection_omissions": {
+      "VALUE_TRANSFORMED": 2
+    },
+    "source_claim_proof_attempted": false,
+    "credit": "source observation only; not proof evidence"
+  },
+  "causality": "UNKNOWN",
+  "prior_static_audit_correction": "The earlier claim that duplicate OCaml module aliases are legal shadowing was incorrect; this compile diagnostic establishes that names must be unique in a structure/signature.",
+  "response": "Removed only the newly introduced duplicate RawPtrTyRd alias; retained the baseline definition. No compiler, Dune, verifier, or actual build was run locally."
+}

@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-TRANSPORT-20261024.json",
-      "sha256": "d5b82d393db4be4cec50b4d6735143cc86a7c2b37deadae8ae0b0ac54a788a76"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
       "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc"
     },
@@ -27,6 +23,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-TRANSPORT-20261024.json",
       "sha256": "755f98e60eda31e7995098c3019587ad44759b3c7324d03abae4309b99b45f56"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
+      "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,12 +36,12 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P6 running; source proof unverified.",
+    "summary": "P7 translator fixes prepared; review pending.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
-        "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8",
-        "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
+        "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40",
+        "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
       }
     ]
   },
@@ -89,9 +89,20 @@
           "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P6 exporter0/decoder0, translator1: duplicate RawPtrTyRd; proof_attempted=false. Alias and decoder-layer fixes unverified; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
+          "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40",
+          "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher; P6 Brief; continue R23.",
+  "next_step": "Review alias/type decoding fixes; full P7.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -112,23 +123,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "2720afdf-49a3-49ef-bb72-34d112886c53"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 11399,
+    "remaining_seconds": 11021,
     "retired_seconds": 0,
-    "spent_seconds": 3001,
+    "spent_seconds": 3379,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:41:06.190954Z",
+  "updated_utc": "2026-10-23T13:54:36.114949Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -240,6 +249,13 @@
       "dispatch_token": "dispatch-0f0e7115f2cf468b9b3e1393d7bf3b93",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Repair P6 alias error and statically found Reader/type layering defects",
+      "reason": "P6 exporter anddecoderexit0; translatorstopsduplicateRawPtrTyRd. Keepbaselinealias, removeonlynewduplicate; scan94/94unique. Main static audit thenidentifiedrecord-vs-semantic type misuse missedearlier; originalworkerfixedrequiredReader->Drecord->semantic transitions at8newR23 typechecks, exactU64/array3/Ref/Unsize predicatesunchanged. No source/runtime/resource/normalunwind/controls changes. Tool1e31357f published/exactremote; profile1f825600 reverse3fec. Actualtranslator/proof remainsunverified; no same-config repeat.",
+      "tool_sha": "1e31357f9f6b99b43d35078796365d36e9d1b01c",
+      "profile_sha256": "1f825600395e54e8f8618766adb5d1b70d7bf3dec7657aa1f658ecabeaac5c03",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -250,10 +266,11 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53",
-    "status": "PREPARED_HANDOFF",
-    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
-    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
+    "job_id": "12345a77-e2bc-4202-849e-9b897d80997e",
+    "event_id": "ad5ff93a-72cc-4b11-9184-fa04a5092dc5",
+    "event_name": "build_terminal",
+    "ack": "CONTINUE_EXISTING_WINDOW",
+    "status_after_event": "FAILURE",
     "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
@@ -307,6 +324,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-CALL-TRACE-AUDIT-20261024.json",
       "sha256": "6ba3553829c1dd7258ca39435d7d3417d72df5103c725c22fb55ffd48a2ec53a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-TRANSPORT-20261024.json",
+      "sha256": "d5b82d393db4be4cec50b4d6735143cc86a7c2b37deadae8ae0b0ac54a788a76"
     }
   ],
   "historical_confirmed": [
