@@ -1,7 +1,7 @@
-# Network N3 — first Cloud lane and exact N13 mathematical adapter
+# Network N4 — exact N13 shape3, controls и regressions; R4 при появлении Select P2
 
-Task ID: `network-n13-exact-cloud-2026-10-23-n3`; previous task: `network-coordinator-v4-2026-10-22-n2`.
-Owner: **Network**. Phase: `NETWORK-N13-EXACT-2026-10-23-N3`. Lane: `network-n13`.
+Task ID: `network-n13-exact-cloud-2026-10-23-n4`; previous task: `network-n13-exact-cloud-2026-10-23-n3`.
+Owner: **Network**. Phase: `NETWORK-N13-EXACT-2026-10-23-N4`. Lane: `network-n13`.
 
 ## Mission
 
@@ -13,45 +13,44 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `a9cf16786ab9cc82ab119dd5c5e36cc4560b72ac`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+Worktree `/root/verify-rust-std-networks` on branch `challenge-8/networks`; baseline `996edcdef603839affd6a5fcf0a1568c2b199276`; source `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
 Tool worktree `/root/verifast-network-n13` on `challenge8/network-n13-20261023` at `809de4596839b739dd999f9e462242c835e3af46`.
-Profile `research/challenge-8/cloud-build/network-n13/N13-SEED-PROFILE-20261023-N3.json` SHA-256 `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`. New ledger path: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N3.json`; previous closed ledger: none (closed zero-budget task).
+Profile `research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json` SHA-256 `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`. New ledger path: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N4.json`; previous closed ledger: `research/challenge-8/cloud-build/network-n13/BUDGET-N13-20261023-N3.json`.
 Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-N3 и Builds разрешены. Поднять минимальную Network Cloud lane и закрыть exact N13 adapter с полным post по H1. Это независимая математическая задача; R4/W7 ждут пригодного Select P1/P2.
+N4 и Builds разрешены. Цель — приёмка exact N13 adapter (shape3 5544c2aa) с полными posts, intended controls и совместимыми regressions; затем R4/W7, если Select опубликует active P1 и принятый P2. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии W7/W8.
 
-1. At actual T0 prepare/register the first Network account, network-n13 recipe and cloud-build/ ledger. Import required common runner closure from the pinned Select commit in seed. Rebind current-source admission with exact 25/45 body/schedule checks; port Actions-only gates to Cloud admission without spoofing env. Pin the execution profile; synthetic service/error tests and Luna HIGH review before submit.
-2. Record H1 and one reviewed adapter shape from N13-ADAPTER-NOTE; preserve full exact membership/order/arbitrary-q posts and checked dependencies. Cloud preflight -> exact target -> intended membership/order negatives, missing-incomparability negative and all seven classifier controls -> required N9/generic/universal-N13 regressions on final compatible pins. Timeout/setup/wrong-site failure is INCONCLUSIVE; universal-only PASS does not close exact N13.
-3. Continue useful checked-lemma/runner/test/review work after a blocker or if another Cloud cycle cannot fit; publish an exact HANDOFF when unfinished. Remaining time may prepare R4 consumption inputs only after Select publishes an active P1 route and checked mutable-pointer P2. No R4/W7 Build in this phase and no parallel select/callback layer.
+1. Register N4 (the N3 client registration expired), recheck shape3 5544c2aa and profile pins; preflight only if identities changed. Early: one exact shape3 Build. Shape2 reached the final wrapper call at 389s of a 420s case limit: set the case limit from measured need with margin inside timeout1200 (no third 420s exact). Classify by exact receipts.
+2. On an accepted exact unit: membership/order and missing-incomparability negatives plus the seven classifier controls at intended sites, then N9 and universal-N13 regressions on final compatible pins (N3-HANDOFF table). Timeout/setup/wrong-site results stay INCONCLUSIVE.
+3. Check Select's branch for an active P1 route and published P2; if present, prepare R4 consumption inputs (no R4/W7 Build in this phase). When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W7/W8), recording choice and reason in CHECKPOINT; else prepare a reviewed HANDOFF.
 
 ## Special bounds
 
-- Stock VeriFast26.09 only: source809de459, archive/console pins in seed, no tool/kernel/prelude patch or new axiom/bodyless bridge. Pure mathematical functionality only; Rust safety/ownership/unwind and Challenge completion remain separate. Preserve every post, body inventory, return/leak/source gate.
-- v4 is already adopted: coordination.py and shared coordinator/IAM/transport unchanged; no other worktree/ledger edits or Actions dispatch. First Cloud session, no old budget/carry. Max Build1200s, report reserve>=240s; case limits and any justified delta per N3-SCOPE. No local generator/compiler/verifier execution.
-- N3-SCOPE is authoritative here; old N1/N2/Actions plans are historical. Follow CORE main/closure rules. After first Network ledger, record FIRST_SESSION/CLOUD_HISTORY follow-up for workflow owner; no shared workflow edits.
+- Stock VeriFast 26.09 only (source 809de459, seed archive/console pins): no tool/kernel/prelude patch, new axiom or bodyless bridge. Pure mathematical claims; Rust safety/ownership/unwind and Challenge completion are separate. Preserve every post, body inventory, return/leak/source gate. No parallel select/callback layer.
+- Never shorten a timeout or case limit to fit the remaining window: if the full envelope does not fit main, no Build. A setup error or run without proof stage is fixed statically first; never repeat the same config. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push.
+- coordination.py (v4), shared coordinator/IAM/transport, other worktrees and ledgers unchanged; no Actions dispatch; no local generator/compiler/verifier. Use the whole main window; an early stop lists each checked independent task and why it is unavailable in closure_reason.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Exact N13 adapter OPEN after historical timeout; first Network Cloud runner/source admission must be prepared from the unqualified seed.
-Next: At actual T0 register N3, review Cloud/source admission and the exact H1 candidate, then its first Build.
+Blocker: N3 closed; shape3 unrun, full acceptance OPEN.
+Next: Fresh admission: shape3 exact, controls, compatible matrix.
 
 ## References
 
-- [N3 scope, pins, controls and acceptance](network/n13/N3-SCOPE-20261023.md)
-- [N13 H1 and adapter candidates](network/N13-ADAPTER-NOTE.md)
-- [Historical N9/N13 results and exact open post](networks/RANK-RESULTS.md)
-- [Current shared source and exact schedules](networks/SOURCE-MAP.md)
-- [Completed coordinator v4 adoption](network/coordinator-v4-adoption-20261022/ADOPTION.md)
+- [N3 handoff](network/n13/N3-HANDOFF.md)
+- [N3 experiment (shape3)](network/n13/N3-EXPERIMENT.md)
+- [N3 scope](network/n13/N3-SCOPE-20261023.md)
+- [Completion plan](COMPLETION-PLAN.md)
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n3 · network · NETWORK-N13-EXACT-2026-10-23-N3 · CLOSED**
-Updated: 2026-10-23T07:47:22Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `77df69ccd018f5cbd7a73fdc20f562db1f006d2d696818fae3fee3aa8dab0286`.
-Dates: T0 `2026-10-22T20:43:40Z`; main `2026-10-22T22:43:40Z`; absolute `2026-10-22T23:13:40Z`. Budget 3600s: 2535s spent, 1065s retired, 0s remaining including reservations.
+**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · NOT_STARTED**
+Updated: 2026-10-23T07:48:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: N3 closed; shape3 unrun, full acceptance OPEN.
 Next: Fresh admission: shape3 exact, controls, compatible matrix.
