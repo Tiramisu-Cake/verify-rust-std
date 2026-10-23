@@ -22,7 +22,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "338afe4beba56356f8014b5e2b726a37c6eaa224ca4197eebd9b0dd88162a892"
+      "sha256": "e5ec4384bd937f1f5d91ce7d7e16b13c15bbe60a73fae5d167f447dfa2cf55ce"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -43,17 +43,7 @@
     "source_sha": "81226dafedd2e8d1dfb140ab0e4dd88556bfd7db",
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
-  "blocker": {
-    "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
-    "evidence": [
-      {
-        "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
-        "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
-        "sha256": "22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00"
-      }
-    ],
-    "summary": "Positive103a34 still exits1 with the same three dead-code sites; AST binding/cause open."
-  },
+  "blocker": "Await exact checked pointer outcomes Cloud Build; compilation and formal results pending Brief.",
   "brief_observation_refs": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/026294fa8b806b0a4cb6717a2d4718039ec7badce45f8d84fee585d301ee7f6e.json",
@@ -124,12 +114,21 @@
       "sha256": "c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486"
     }
   ],
+  "checked_outcomes_build": {
+    "id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+    "infra_sha": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+    "proof_credit": 0,
+    "proof_sha": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "status": "QUEUED"
+  },
   "checked_outcomes_decision": {
     "candidate": "2aba42768ac5c3cf8182f85ffc098a83b6b9a220",
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "REVIEW_GO_WITH_NITS_UNBUILT"
+    "state": "SUBMITTED_PENDING_BRIEF"
   },
   "confirmed": [
     {
@@ -222,10 +221,10 @@
     {
       "obligation": "Exact checked const-pointer Outcome projection",
       "reason": "Only emitted AST refs to shared cleanup are two same-unit false-unwind calls; use exact existing result projection. No raw MIR or checker edits.",
-      "state": "REVIEW_GO_WITH_NITS_UNBUILT"
+      "state": "SUBMITTED_PENDING_BRIEF"
     }
   ],
-  "next_step": "Submit reviewed2aba4276 exact checked pointer outcome projection at full1200; then Brief positive and all control stages.",
+  "next_step": "Watcher resumes same R24 window: ACK event before checkpoint edits, then Evidence Brief for compile, positive and all controls. No classifier/pins before clean positive.",
   "open": [
     "Const-pointer positive not clean; same-unit checked-result projection candidate pending review and Cloud. Control targets unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
@@ -269,7 +268,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "0b240663-a082-41e9-a3e2-19a0b8738958"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -289,17 +290,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T12:03:25Z",
+  "updated_utc": "2026-10-23T12:24:10Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "d433e26c-785a-4001-ba55-a7f98486f27d",
-    "acknowledged_job_id": "8f24447b-51f1-4f5c-8000-492dea5cb0e1",
-    "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window; repaired serializer candidate, zero credit pending Brief.",
-    "spec_path": "/tmp/select-r24-serializer-watch.json",
+    "build_id": "0b240663-a082-41e9-a3e2-19a0b8738958",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window, exact checked-outcomes candidate; no new authority or proof credit.",
+    "spec_path": "/tmp/select-r24-checked-outcomes-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -321,6 +319,16 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
       "spec_path": "/tmp/select-r24-ast-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "d433e26c-785a-4001-ba55-a7f98486f27d",
+      "acknowledged_job_id": "8f24447b-51f1-4f5c-8000-492dea5cb0e1",
+      "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; repaired serializer candidate, zero credit pending Brief.",
+      "spec_path": "/tmp/select-r24-serializer-watch.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]

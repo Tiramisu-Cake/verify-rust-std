@@ -197,3 +197,13 @@ reproduced81c5e18b patch→translator6a710d26 and ran2patch/4callback/7entry/
 Nits retained: two whitespace-only patch lines, unbuilt OCaml and unproved
 coordinate hypothesis. No semantic edits after the reviewed candidate; later
 changes are test-only/metadata and do not enter runtime transport closure.
+
+
+Build0b240663-a082-41e9-a3e2-19a0b8738958 submitted at full1200 through
+existing coordinator. Coherent infra/proof2aba4276; published metadatahead
+af9aa4bc verified remotely, runtime96-file closure identical to candidate.
+Exact source payloadSHA556f9661 matches static preflight. Config8dfce426,
+dispatch1650b00d, reserve1260, initial ledgerQUEUED. No duplicate submit during
+DISPATCH_PENDING. Accounted1018s,20582s remain including active reservation.
+Compilation, actual projection counters, positive/controls and acceptance
+remain pending Evidence Brief; all proof credit0. Handoff to exact-thread watcher.
