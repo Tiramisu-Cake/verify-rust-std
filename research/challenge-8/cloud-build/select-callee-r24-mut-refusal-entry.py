@@ -16,7 +16,7 @@ from typing import Any
 
 
 MODE_REL = Path("research/challenge-8/task-history/select-callee-r24/P2-MUT-REFUSAL-MODE.json")
-MODE_SHA256 = "acec242babdbf1ddbd8913ce4c8b2a296fb2ef806b14d0c1f8353f9eb7a954c7"
+MODE_SHA256 = "63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9"
 MODE_SCHEMA = "select-r24-mut-refusal-mode-v1"
 R24 = "SORT4-ACTUAL-SELECT-2026-10-24-R24"
 R21 = "SORT4-ACTUAL-SELECT-2026-10-23-R21"
@@ -40,7 +40,7 @@ MATRIX_MODE_SHA256 = "7870ea7c985914a1af049f685d62291bfe8d9768c0e4719c40422106d5
 MATRIX_PINS_REL = Path("research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json")
 MATRIX_PINS_SHA256 = "5aee793196c2e0ab5960f1c0ea4aab8880ca68e61d74876363e2ccf3febadbed"
 COLLECTOR_REL = Path("research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py")
-COLLECTOR_SHA256 = "a204baa85e37d1eaf4a7ba131fe099f2fcaed16d4fee95e5c0111bfbfc08db19"
+COLLECTOR_SHA256 = "9650fba24cb2ebd1b58e964e576daafec5d87a9dc270f17eca63e72fc42655f2"
 ENTAILMENT_REL = Path("research/challenge-8/cloud-build/select-callee-r24-p2-entailment.py")
 ENTAILMENT_SHA256 = "a0cdf07ed378e8daf3986661f1fb239391e1632d68b2a3e3654a5d5082bbb389"
 CAPTURE_SUMMARY_REL = Path("cases/r24-mut-capture/MUT-CAPTURE-SUMMARY.json")

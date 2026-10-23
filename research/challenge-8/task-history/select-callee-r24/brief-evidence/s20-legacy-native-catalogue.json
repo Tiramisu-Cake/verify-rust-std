@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "8785eb0249f9657c69a71a431739cc568ff07ada5bcb6d2525964843944550ef",
+  "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 125,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "PROJECTED": 489,
+      "SCAN_BUDGET_EXCEEDED": 562,
+      "UNSUPPORTED_FILE_TYPE": 588
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2094543,
+    "content_files": 570,
+    "files": 1845,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "4fc973e0d3e1d3f0ea0f8a063c5462312a67a6774f898ae3d1f579ae41c55b09",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "5fa472c7fc284ce72ee733d1d47679b231197d5a300e8ab2a3ad05042fd9809b",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-mut-refusals/variants/legacy-selector/r24-mut-refusal-legacy-selector.log",
+      "path_sanitized": false,
+      "scanned_bytes": 0,
+      "sha256": "9f631293e1afeebeb1a1c6af7b0e99185b80b4ebe6a008b21e8de9ca0c51ffc4",
+      "size_bytes": 1880,
+      "status": "SCAN_BUDGET_EXCEEDED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1845,
+    "files_with_incomplete_content": 1662,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

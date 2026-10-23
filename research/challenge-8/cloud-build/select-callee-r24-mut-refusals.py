@@ -64,7 +64,12 @@ ROUTE_REFUSAL = "exact R24/R21 profile and unwind-preserving route required"
 PARTIAL_SELECTOR_REFUSAL = "partial mutable case/root selector"
 UNKNOWN_CASE_REFUSAL = "mutable case selector must be one closed enum value"
 LEGACY_SELECTOR = "SORT4_R24_CHECKED_POINTER_OUTCOMES"
-LEGACY_REFUSAL = "legacy semantic opt-in present: " + LEGACY_SELECTOR
+# The real legacy flag is rejected by the earlier const-profile admit() route
+# guard before the mutable certificate family is reached (observed ed261d30).
+LEGACY_REFUSAL = "exact R24/R21 certified fractional nine-body route required"
+LEGACY_MARKER_PREFIX = "SORT4-R24-CHECKED-POINTER-OUTCOMES:"
+LEGACY_REFUSAL_PREFIX = 'Fatal error: exception Failure("' + LEGACY_MARKER_PREFIX + ' refusal: '
+
 
 SOURCE_CONTROLS = (
     "const-substitution",
@@ -295,17 +300,22 @@ def _read_log(case: Path, stage: object, stage_name: str) -> tuple[bytes, str, s
     return raw, text, path.relative_to(case).as_posix()
 
 
+def _expected_refusal_line(control: str) -> str:
+    prefix = LEGACY_REFUSAL_PREFIX if control == "legacy-selector" else REFUSAL_PREFIX
+    return prefix + EXPECTED_REFUSALS[control] + REFUSAL_SUFFIX
+
+
 def _classify_log(control: str, text: str) -> tuple[bool, str | None, str]:
     expected = EXPECTED_REFUSALS[control]
     lines = [line.strip() for line in text.splitlines()
              if any(marker.casefold() in line.casefold() for marker in ERROR_MARKERS)]
-    expected_line = REFUSAL_PREFIX + expected + REFUSAL_SUFFIX
+    expected_line = _expected_refusal_line(control)
     marker_lines = [line.strip() for line in text.splitlines()
-                    if MARKER_PREFIX in line]
+                    if MARKER_PREFIX in line or LEGACY_MARKER_PREFIX in line]
     _need(not marker_lines or marker_lines == [expected_line],
-          "native log contains mutable positive admission marker")
+          "native certificate marker inventory differs from exact expected refusal")
     if len(lines) != 1 or lines[0] != expected_line:
-        return False, expected if expected else None, (
+        return False, None, (
             "unexpected native diagnostic; expected exact refusal line")
     return True, expected, "exact source-envelope refusal observed"
 

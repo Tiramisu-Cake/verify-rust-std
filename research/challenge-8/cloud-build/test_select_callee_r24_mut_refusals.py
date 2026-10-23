@@ -156,6 +156,22 @@ class R24MutRefusalTests(unittest.TestCase):
         with self.assertRaises(REFUSALS.RefusalError):
             REFUSALS._classify_log('partial-case-root',wrong+'\n')
 
+    def test_legacy_selector_uses_only_exact_earlier_route_refusal(self):
+        observed = 'Fatal error: exception Failure("SORT4-R24-CHECKED-POINTER-OUTCOMES: refusal: exact R24/R21 certified fractional nine-body route required")'
+        matched, gate, _ = REFUSALS._classify_log('legacy-selector',observed+'\n')
+        self.assertTrue(matched)
+        self.assertEqual(gate,'exact R24/R21 certified fractional nine-body route required')
+        for control in REFUSALS.ALL_CONTROLS:
+            if control != 'legacy-selector':
+                with self.subTest(control=control), self.assertRaises(REFUSALS.RefusalError):
+                    REFUSALS._classify_log(control,observed+'\n')
+        for marker in (REFUSALS.MARKER_PREFIX,REFUSALS.LEGACY_MARKER_PREFIX):
+            with self.subTest(marker=marker), self.assertRaises(REFUSALS.RefusalError):
+                REFUSALS._classify_log('legacy-selector',observed+'\n'+marker+' admitted\n')
+        wrong = 'Fatal error: exception Failure("SORT4-R24-MUTABLE-CERTIFICATES: refusal: legacy semantic opt-in present: SORT4_R24_CHECKED_POINTER_OUTCOMES")'
+        with self.assertRaises(REFUSALS.RefusalError):
+            REFUSALS._classify_log('legacy-selector',wrong+'\n')
+
     def test_provider_record_requires_current_canonical_native_build(self):
         provider = {**REFUSALS.SUPPORTED_PROVIDER, "build_id": BUILD_ID}
         self.assertEqual(REFUSALS._validate_provider_record(provider, BUILD_ID), provider)
@@ -182,7 +198,8 @@ class R24MutRefusalTests(unittest.TestCase):
         for log in cases:
             with self.subTest(log=log):
                 try:
-                    matched, _, _ = REFUSALS._classify_log(control, log)
+                    matched, gate, _ = REFUSALS._classify_log(control, log)
+                    if not matched:self.assertIsNone(gate)
                 except REFUSALS.RefusalError:
                     matched = False
                 self.assertFalse(matched)
@@ -237,7 +254,7 @@ class R24MutRefusalTests(unittest.TestCase):
                 self.assertEqual(os.environ.get(REFUSALS.CASE_ENV),
                                  child_environment_delta.get(REFUSALS.CASE_ENV))
                 expected = REFUSALS.EXPECTED_REFUSALS[variant]
-                diagnostic = REFUSALS.REFUSAL_PREFIX + expected + REFUSALS.REFUSAL_SUFFIX
+                diagnostic = REFUSALS._expected_refusal_line(variant)
                 log_name = name + ".log"
                 (case / log_name).write_text(diagnostic + "\n", encoding="utf-8")
                 return {
