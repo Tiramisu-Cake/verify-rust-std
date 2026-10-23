@@ -27,6 +27,23 @@ for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
 done
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build ]] || exit 2
 [[ -z "${GITHUB_ACTIONS:-}" ]] || { printf 'fake GitHub identity prohibited\n' >&2; exit 2; }
+# The committed request is an explicit capture-only profile; absence is default off.
+r24_mut_capture_only=0
+r24_mut_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-MODE.json"
+if [[ -e "$r24_mut_mode_file" ]]; then
+  [[ "$(sha256sum "$r24_mut_mode_file" | cut -d' ' -f1)" == 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624 ]] || exit 2
+  python3 - "$r24_mut_mode_file" <<'MUT_MODE'
+import json,os,pathlib,sys
+m=json.loads(pathlib.Path(sys.argv[1]).read_text())
+assert m['schema']=='select-r24-mut-capture-mode-v1'
+assert m['enabled'] is True and m['source_only'] is True
+assert m['proof_admission'] is False and m['publication_allowed'] is False
+assert m['phase_id']==os.environ.get('SORT4_R24_SESSION_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-24-R24'
+assert m['route_phase_id']==os.environ.get('SORT4_R20_CALLEE_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-23-R21'
+assert m['owner']=='select-sort4' and m['independent_proof_credit']==0
+MUT_MODE
+  r24_mut_capture_only=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -45,6 +62,38 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( r24_mut_capture_only == 1 )); then
+    python3 - "$ev/cases/r24-mut-capture/MUT-CAPTURE-SUMMARY.json" "$evidence_root/proof-audit.json" "$1" "$2" <<'MUT_AUDIT'
+import json,os,pathlib,sys,uuid
+source,output=map(pathlib.Path,sys.argv[1:3]); code=int(sys.argv[3]); failed=sys.argv[4]
+summary=None; error=None
+try:
+ summary=json.loads(source.read_text())
+except (OSError,ValueError) as exc:
+ error=str(exc)
+provider=summary.get('provider_record') if isinstance(summary,dict) else None
+try:
+ native_build_id=str(uuid.UUID(os.environ.get('CLOUD_BUILD_ID','')))
+except (ValueError,TypeError,AttributeError):
+ native_build_id=None
+complete=(code==0 and isinstance(summary,dict) and summary.get('schema')=='select-r24-mut-capture-summary-v1'
+ and summary.get('complete') is True and summary.get('body_proof_run') is False
+ and summary.get('typed_admission') is False and summary.get('semantic_rule_enabled') is False
+ and summary.get('publication_allowed') is False and summary.get('accepted') is False
+ and type(summary.get('proof_credit')) is int and summary.get('proof_credit')==0 and isinstance(provider,dict)
+ and native_build_id is not None and native_build_id==os.environ.get('CLOUD_BUILD_ID')
+ and provider.get('provider')=='cloud-build' and provider.get('build_id')==native_build_id
+ and provider.get('project')=='smallsort-ci' and provider.get('region')=='global'
+ and provider.get('os')=='ubuntu-22.04' and provider.get('arch')=='x86_64'
+ and summary.get('r24_session_phase_id')==os.environ.get('SORT4_R24_SESSION_PHASE_ID')=='SORT4-ACTUAL-SELECT-2026-10-24-R24')
+record={'schema':'select-r24-mut-capture-audit-v1','scope':'SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_ADMISSION',
+ 'runner_exit':code,'failed_stage':failed,'evidence_complete':complete,'capture_summary':summary,
+ 'capture_summary_error':error,'body_proof_run':False,'typed_admission':False,
+ 'verification_accepted':False,'accepted':False,'proof_credit':False,'publication_allowed':False}
+output.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+MUT_AUDIT
+    return
+  fi
   python3 "$cloud_dir/select-callee-r21-proof-audit.py" --evidence "$ev" \
     --output "$evidence_root/proof-audit.json" \
     --runner-exit "$1" --failed-stage "$2"
@@ -326,6 +375,18 @@ out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes']
 HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
+
+# Capture-only exits before every const proof and matrix callback.
+if (( r24_mut_capture_only == 1 )); then
+  stage r24-mut-source-capture python3 "$cloud_dir/select-callee-r24-mut-capture.py" \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --deadline-epoch "$deadline" --mode-file "$r24_mut_mode_file" \
+    --mode-sha256 5ac2662dc74c166f17c01d11c7b44aa716ead91cc1ab24d6ee5fd6ad405ce624
+  current_stage=r24-mut-capture-audit
+  audit_result 0 complete
+  exit 0
+fi
 
 mkdir -p "$ev/cases/candidate"
 stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
