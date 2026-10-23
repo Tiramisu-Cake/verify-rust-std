@@ -225,6 +225,36 @@ def _link(path: str) -> str:
     return posixpath.relpath(path, "research/challenge-8")
 
 
+ASSIGNMENT_WINDOW = re.compile(r"Wall window: (\d+) minutes main \+ (\d+) minutes closeout")
+ASSIGNMENT_BUDGET = re.compile(r"Cloud budget: (\d+) seconds")
+
+
+def assignment_terms(prefix: str) -> dict[str, int] | None:
+    """Window/budget stated by a generated CURRENT-TASK prefix, or None for legacy text.
+
+    The returned values are what the digest-bound assignment authorizes; checkpoint
+    sessions and prepared ledgers must repeat them exactly.
+    """
+    window, budget = ASSIGNMENT_WINDOW.findall(prefix), ASSIGNMENT_BUDGET.findall(prefix)
+    if not window and not budget:
+        return None
+    if len(window) != 1 or len(budget) != 1:
+        _fail("CURRENT-TASK must state exactly one Wall window and one Cloud budget line")
+    return {"main_minutes": int(window[0][0]), "finish_minutes": int(window[0][1]), "budget_seconds": int(budget[0])}
+
+
+def check_session_against_assignment(session: dict[str, Any], prefix: str) -> None:
+    """Fail when the session's window or budget differs from the assignment text."""
+    terms = assignment_terms(prefix)
+    if terms is None:
+        return
+    main, finish = session_window(session)
+    if (main, finish) != (terms["main_minutes"], terms["finish_minutes"]):
+        _fail(f"session window {main}+{finish} minutes differs from the assignment's {terms['main_minutes']}+{terms['finish_minutes']}")
+    if session["budget_seconds"] != terms["budget_seconds"]:
+        _fail(f"session budget {session['budget_seconds']} differs from the assignment's {terms['budget_seconds']} seconds")
+
+
 def session_window(session: dict[str, Any]) -> tuple[int, int]:
     """Return (main_minutes, finish_minutes) of a session, validating explicit values."""
     values = []
@@ -338,6 +368,7 @@ def write_views(checkpoint_path: Path, status_path: Path, task_path: Path) -> No
     digest = hashlib.sha256(prefix).hexdigest()
     if digest.lower() != data["assignment_sha256"].lower():
         _fail("assignment_sha256 does not match CURRENT-TASK prefix")
+    check_session_against_assignment(data["session"], prefix.decode("utf-8", "strict"))
     status_new = render(data, "status").encode("utf-8")
     task_new = prefix + render(data, "report").encode("utf-8")
     if len(task_new) > MAX_OUTPUT:

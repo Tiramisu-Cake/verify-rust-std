@@ -365,8 +365,27 @@ class SessionPrepareTests(unittest.TestCase):
         module.check(out)
         ledger["main_deadline_utc"] = "2026-10-22T12:00:00Z"
         (out / "ledger.json").write_text(json.dumps(ledger, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
-        with self.assertRaises(module.PrepareError):
+        with self.assertRaisesRegex(module.PrepareError, "differs from the complete spec-derived fresh ledger"):
             module.check(out)
+
+    def test_spec_must_match_installed_assignment_window_budget_and_phase(self):
+        task = self.fx.root / "research/challenge-8/CURRENT-TASK.md"
+        def install_task(phase, window, budget, timeout):
+            task.write_text(f"# Task\n\nOwner: **Merge**. Phase: `{phase}`. Lane: `merge`.\n"
+                            f"Cloud budget: {budget} seconds. Wall window: {window} (explicit). Per-Build timeout \u2264{timeout} seconds.\n\n"
+                            "## Отчёт агента\n\nnot started\n", encoding="utf-8")
+            git(self.fx.root, "add", "."); git(self.fx.root, "commit", "-qm", "install task")
+        install_task(self.fx.spec["phase"], "4320 minutes main + 60 minutes closeout", 21600, 1200)
+        explicit = {**self.fx.spec, "main_minutes": 4320, "finish_minutes": 60, "cloud_seconds": 21600}
+        module.check(self.prepare(explicit))
+        for override, message in (({}, "spec window 120\\+30 differs"),
+                                  ({"main_minutes": 4320, "finish_minutes": 60}, "spec cloud_seconds 3600 differs"),
+                                  ({**explicit, "max_timeout_seconds": 1500}, "exceeds the assignment's 1200"),
+                                  ({**explicit, "phase": "MERGE-OTHER-2026-10-24"}, "differs from the installed assignment phase")):
+            with self.subTest(override=override), self.assertRaisesRegex(module.PrepareError, message):
+                self.prepare({**self.fx.spec, **override})
+        install_task(self.fx.spec["phase"], "120 minutes main + 30 minutes closeout", 3600, 1200)
+        module.check(self.prepare(self.fx.spec, self.parent / "default-window-bundle"))
 
     def test_rejects_active_old_ledger_and_requires_retired_closure(self):
         path = self.fx.root / self.fx.old_ledger

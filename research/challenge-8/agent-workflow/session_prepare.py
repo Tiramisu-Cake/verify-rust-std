@@ -18,6 +18,8 @@ import subprocess
 import sys
 from typing import Any
 
+import checkpoint as cp
+
 
 SPEC_KEYS = {
     "schema", "task_id", "phase", "owner", "worktree", "branch",
@@ -579,6 +581,39 @@ def _registration_plan(s: dict[str, Any], control_path: str, hooks: dict[str, in
     return transport_note + f"""# Registration plan — {s['phase']}\n\nThis bundle is **PREPARED_NOT_REGISTERED**. It does not authorize or dispatch a Cloud Build.\n\n- Owner/task: `{s['owner']}` / `{s['task_id']}`\n- Branch and selected HEAD: `{s['branch']}` / see `bundle.json`\n- Baseline checkpoint: `{s['baseline_sha']}`\n- Window: T0 `{s['_t0'].strftime('%Y-%m-%dT%H:%M:%SZ')}`, main deadline `{main}`, absolute deadline `{absolute}`\n- Budget: `{s['cloud_seconds']}` Cloud seconds, max timeout `{s['max_timeout_seconds']}`, report reserve `{s['report_reserve_seconds']}`\n- Lane: `{s['lane']}`\n- Profile: {profile_line}\n{first_session_line}\n## Required branch-client registration\n\nThe selected client remains authoritative at `{control_path}`. The phase ID `{s['phase']}` {literal_status}. Existing client hooks found by static source inspection: {hook_lines}. Review/add exact phase-specific checks in `authorized_phase` (account/owner/lane/window/deadline and timeout), profile/environment binding in `envs`, source/recipe checks in `config` or source preparation, and final authorization before reservation in `run_command`. The branch lane entrypoint must consume the {consumed}. Add matching synthetic registration and service error-path tests.\n\nThe generated ledger's draft status intentionally fails current submission gates. The session preparer does not create permissive client hooks, alter the live coordinator, or decide trusted proof/profile semantics. Commit the reviewed generated files and client registration on the assigned branch, then run the branch's static preflight and synthetic service tests before any separately authorized use.\n"""
 
 
+ASSIGNMENT_PHASE = re.compile(r"Phase: `([A-Z][A-Z0-9-]{0,100})`")
+ASSIGNMENT_TIMEOUT = re.compile(r"Per-Build timeout \u2264(\d+) seconds")
+
+
+def _check_installed_assignment(root: Path, head: str, s: dict[str, Any]) -> None:
+    """Bind the session spec to the committed CURRENT-TASK of the same phase, if installed."""
+    show = subprocess.run(["git", "-C", str(root), "show", f"{head}:research/challenge-8/CURRENT-TASK.md"],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if show.returncode != 0:
+        return  # no installed assignment on this branch (legacy or fixture worktree)
+    try:
+        text = show.stdout.decode("utf-8", "strict")
+    except UnicodeDecodeError:
+        raise PrepareError("installed CURRENT-TASK is not UTF-8") from None
+    prefix = text.split(cp.REPORT_MARKER, 1)[0]
+    phases = ASSIGNMENT_PHASE.findall(prefix)
+    if phases and phases[0] != s["phase"]:
+        raise PrepareError(f"spec phase {s['phase']} differs from the installed assignment phase {phases[0]}")
+    try:
+        terms = cp.assignment_terms(prefix)
+    except cp.CheckpointError as exc:
+        raise PrepareError(f"installed CURRENT-TASK: {exc}") from None
+    if terms is None:
+        return
+    if (s["main_minutes"], s["finish_minutes"]) != (terms["main_minutes"], terms["finish_minutes"]):
+        raise PrepareError(f"spec window {s['main_minutes']}+{s['finish_minutes']} differs from the assignment's {terms['main_minutes']}+{terms['finish_minutes']} minutes")
+    if s["cloud_seconds"] != terms["budget_seconds"]:
+        raise PrepareError(f"spec cloud_seconds {s['cloud_seconds']} differs from the assignment's {terms['budget_seconds']} seconds")
+    timeouts = ASSIGNMENT_TIMEOUT.findall(prefix)
+    if timeouts and s["max_timeout_seconds"] > int(timeouts[0]):
+        raise PrepareError(f"spec max_timeout_seconds {s['max_timeout_seconds']} exceeds the assignment's {timeouts[0]} seconds")
+
+
 def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     try:
         raw_spec = json.loads(spec_path.read_text(encoding="utf-8"))
@@ -602,6 +637,7 @@ def prepare(spec_path: Path, out_path: Path) -> dict[str, Any]:
     for path in (s["profile_path"], s["recipe_path"], s["old_ledger_path"]):
         if path is not None:
             _committed_file(root, head, path)
+    _check_installed_assignment(root, head, s)
     old_raw = None
     if s["old_ledger_path"] is not None:
         _, _, old_raw = _committed_file(root, head, s["old_ledger_path"])

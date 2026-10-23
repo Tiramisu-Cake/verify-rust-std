@@ -378,6 +378,51 @@ class AssignmentTests(unittest.TestCase):
             assignment.install(self.spec_path, self.coordination)
         self.assertEqual(self.snapshot(), before)
 
+    def test_window_timeout_must_fit_budget(self):
+        spec = copy.deepcopy(self.spec)
+        spec.update({"cloud_budget_seconds": 1200, "window": {"main_minutes": 120, "finish_minutes": 30, "max_timeout_seconds": 1500}})
+        with self.assertRaisesRegex(assignment.AssignmentError, "must not exceed cloud_budget_seconds"):
+            assignment.validate_spec(spec)
+
+    def test_install_refuses_prior_checkpoint_window_that_differs_from_prior_task_text(self):
+        prefix = (f"# Prior mission\n\nTask ID: `{PREVIOUS}`; Owner: **Select/sort4**. Phase: `{OLD_PHASE}`. Ledger: `{self.previous_ledger_rel}`.\n"
+                  "Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout.\n\n").encode()
+        oldcp = self.closed_checkpoint(hashlib.sha256(prefix).hexdigest())
+        oldcp["session"].update({"main_minutes": 240, "main_deadline_utc": "2026-10-08T12:00:00Z", "deadline_utc": "2026-10-08T12:30:00Z"})
+        checkpoint.validate(oldcp)
+        (self.base / "CURRENT-TASK.md").write_bytes(prefix + checkpoint.REPORT_MARKER.encode() + b"\nold closeout\n")
+        (self.base / "CHECKPOINT.json").write_text(json.dumps(oldcp), encoding="utf-8")
+        git(self.repo, "add", "research"); git(self.repo, "commit", "-q", "-m", "self-declared window")
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "does not match the prior assignment: session window 240"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_history_target_symlink_file_or_archive_collision_fail_without_writes(self):
+        history = self.base / "task-history" / PREVIOUS
+        history.parent.mkdir(parents=True, exist_ok=True)
+        outside = self.tmp_root / "outside"; outside.mkdir()
+        history.symlink_to(outside, target_is_directory=True)
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "symlink"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+        history.unlink(); history.write_text("not a directory\n", encoding="utf-8")
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "not a directory"):
+                assignment.install(self.spec_path, self.coordination)
+        history.unlink(); history.mkdir()
+        status_digest = hashlib.sha256(b"old status\n").hexdigest()
+        (history / f"STATUS.md.{status_digest}").write_text("stale partial archive\n", encoding="utf-8")
+        before = self.snapshot()
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            with self.assertRaisesRegex(assignment.AssignmentError, "archive file already exists"):
+                assignment.install(self.spec_path, self.coordination)
+        self.assertEqual(self.snapshot(), before)
+        self.assertFalse((history / "manifest.json").exists())
+
     def test_install_archives_into_existing_agent_history_dir_without_manifest(self):
         history = self.base / "task-history" / PREVIOUS
         history.mkdir(parents=True)
@@ -505,7 +550,7 @@ class AssignmentTests(unittest.TestCase):
             ({"cloud_budget_seconds": -1}, "must be 0 or a positive integer up to 86400"),
             ({"cloud_budget_seconds": 86401}, "must be 0 or a positive integer up to 86400"),
             ({"cloud_budget_seconds": True}, "must be 0 or a positive integer up to 86400"),
-            ({"window": {"max_timeout_seconds": 1200}}, "requires a Cloud budget"),
+            ({"window": {"main_minutes": 120, "finish_minutes": 30, "max_timeout_seconds": 1200}}, "requires a Cloud budget"),
             ({"bootstrap": "yes"}, "bootstrap must be true or false"),
         ):
             spec = self.network_bootstrap_spec()
@@ -541,8 +586,10 @@ class AssignmentTests(unittest.TestCase):
         plain_task, plain_cp = assignment.render_task(plain)
         self.assertIn(b"Cloud budget: 1800 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout", plain_task)
         self.assertNotIn("main_minutes", plain_cp["session"])
-        for bad in ({}, {"main_minutes": 0}, {"main_minutes": 10081}, {"finish_minutes": 241},
-                    {"max_timeout_seconds": 1741}, {"max_timeout_seconds": 59}, {"hours": 1}, "4320"):
+        for bad in ({}, {"main_minutes": 240}, {"finish_minutes": 60}, {"main_minutes": 0, "finish_minutes": 30},
+                    {"main_minutes": 10081, "finish_minutes": 30}, {"main_minutes": 120, "finish_minutes": 241},
+                    {"main_minutes": 120, "finish_minutes": 30, "max_timeout_seconds": 1741},
+                    {"main_minutes": 120, "finish_minutes": 30, "max_timeout_seconds": 59}, {"hours": 1}, "4320"):
             spec = copy.deepcopy(self.spec)
             spec["window"] = bad
             with self.subTest(window=bad), self.assertRaises(assignment.AssignmentError):

@@ -127,6 +127,35 @@ class CheckpointTests(unittest.TestCase):
             with self.subTest(bad=bad), self.assertRaisesRegex(checkpoint.CheckpointError, "expected integer minutes"):
                 checkpoint.validate(data)
 
+    def test_assignment_terms_bind_session_window_and_budget(self):
+        self.assertIsNone(checkpoint.assignment_terms("# Legacy task\n\nno generated lines\n"))
+        prefix = "# Task\n\nCloud budget: 21600 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit).\n"
+        self.assertEqual(checkpoint.assignment_terms(prefix), {"main_minutes": 4320, "finish_minutes": 60, "budget_seconds": 21600})
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "exactly one"):
+            checkpoint.assignment_terms(prefix + "Cloud budget: 3600 seconds.\n")
+        session = sample("NOT_STARTED")["session"]
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "session window 120\\+30 minutes differs"):
+            checkpoint.check_session_against_assignment(session, prefix)
+        session.update({"main_minutes": 4320, "finish_minutes": 60})
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "session budget 3600 differs"):
+            checkpoint.check_session_against_assignment(session, prefix)
+        session.update({"budget_seconds": 21600, "remaining_seconds": 21600})
+        checkpoint.check_session_against_assignment(session, prefix)
+        # write-views refuses a checkpoint whose self-declared window differs from its digest-bound task text.
+        self.prefix = "# Task\n\nCloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout.\n\n"
+        data = sample()
+        data["session"].update({"main_minutes": 240, "main_deadline_utc": "2026-10-21T12:00:00Z", "deadline_utc": "2026-10-21T12:30:00Z"})
+        data["assignment_sha256"] = hashlib.sha256(self.prefix.encode()).hexdigest()
+        self.checkpoint_path.write_text(json.dumps(data), encoding="utf-8")
+        self.task_path.write_text(self.prefix + checkpoint.REPORT_MARKER + "\nold\n", encoding="utf-8")
+        before = self.task_path.read_bytes()
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "session window 240\\+30 minutes differs"):
+            checkpoint.write_views(self.checkpoint_path, self.status_path, self.task_path)
+        self.assertEqual(self.task_path.read_bytes(), before)
+        data["session"].update({"main_minutes": 120, "main_deadline_utc": "2026-10-21T10:00:00Z", "deadline_utc": "2026-10-21T10:30:00Z"})
+        self.checkpoint_path.write_text(json.dumps(data), encoding="utf-8")
+        checkpoint.write_views(self.checkpoint_path, self.status_path, self.task_path)
+
     def test_rejects_oversized_narrative_or_render(self):
         data = sample()
         data["next_step"] = "x" * (checkpoint.MAX_NARRATIVE + 1)

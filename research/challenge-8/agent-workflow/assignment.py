@@ -137,7 +137,7 @@ def validate_spec(value: Any) -> dict[str, Any]:
         _err(f"cloud_budget_seconds must be 0 or a positive integer up to {MAX_CLOUD_BUDGET}")
     window = spec.setdefault("window", None)
     if window is not None:
-        if not isinstance(window, dict) or not window or set(window) - WINDOW_KEYS:
+        if not isinstance(window, dict) or set(window) - WINDOW_KEYS or not {"main_minutes", "finish_minutes"} <= set(window):
             _err("window must be an object with main_minutes, finish_minutes and optional max_timeout_seconds")
         if budget == 0 and "max_timeout_seconds" in window:
             _err("window.max_timeout_seconds requires a Cloud budget")
@@ -151,6 +151,8 @@ def validate_spec(value: Any) -> dict[str, Any]:
             value = explicit[key]
             if type(value) is not int or value < low or value > high:
                 _err(f"window.{key} must be an integer in {low}..{high}")
+        if budget and explicit["max_timeout_seconds"] > budget:
+            _err("window.max_timeout_seconds must not exceed cloud_budget_seconds")
         spec["window"] = explicit
     if budget and spec["owner"] not in CLOUD_OWNERS:
         _err(f"owner {spec['owner']} has no Cloud lane; cloud_budget_seconds must be 0")
@@ -591,6 +593,11 @@ def _check_previous_task(root: Path, spec: dict[str, Any], old_phase: str | None
             granted_zero = len(budget_lines) == 1 and budget_lines[0].startswith(NO_CLOUD_BUDGET_LINE)
             if not granted_zero or session["budget_seconds"] != 0 or old_checkpoint["task_id"] != spec["previous_task_id"]:
                 _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
+        # The prior session's window and budget must be the ones its digest-bound text granted.
+        try:
+            cp.check_session_against_assignment(session, prior_prefix.decode("utf-8", "strict"))
+        except cp.CheckpointError as exc:
+            _err(f"existing checkpoint session does not match the prior assignment: {exc}")
     elif spec["previous_ledger_path"] is None:
         _err("a null previous ledger requires the closed zero-budget checkpoint of the previous task")
     return preserved
@@ -692,6 +699,9 @@ def _archive_and_install(root: Path, spec: dict[str, Any], preserved: dict[str, 
     manifest = {name: hashlib.sha256(content).hexdigest() for name, content in preserved.items()}
     archive_files = {history / f"{name}.{digest}": preserved[name] for name, digest in manifest.items()}
     archive_files[history / "manifest.json"] = _json_bytes({"task_id": spec["previous_task_id"], "files": manifest})
+    for path in archive_files:
+        if path.exists() or path.is_symlink():
+            _err(f"history archive file already exists: {path.name}")
     # All validation and generated content checks are complete before creating history.
     history.mkdir(parents=True, exist_ok=True)
     for path, content in archive_files.items():
