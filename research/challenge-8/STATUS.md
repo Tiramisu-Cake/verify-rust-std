@@ -1,9 +1,9 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r21
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 | state: NOT_STARTED
-- Updated: 2026-10-22T22:10:03Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R21-2026-10-23 | state: ACTIVE
+- Updated: 2026-10-23T07:25:12Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-22T22:25:31Z`; main deadline `2026-10-23T00:25:31Z`; absolute deadline `2026-10-23T00:55:31Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
@@ -25,16 +25,15 @@
 - Short outer timeout990/execute570 chosen using prior whole-cycle timings — Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission.
+Original caller/F5/state/index/CURRENT OPEN; tool578 Cloud admission pending.
 - [research/challenge-8/cloud-build/origin-layout/R20-CLOSEOUT-20261023.json](cloud-build/origin-layout/R20-CLOSEOUT-20261023.json) SHA `1c661431cec942ad4781a1013a86c5d835a965a4500c4631b329d4b5ae57476a`
 
 ## Next
-Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.
+Submit HANDOFF tuple timeout1200; wait; Brief.
 
 ## Artifacts
-- [research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md](cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md) — `571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e`
-- [research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md](cloud-build/origin-layout/R19-REVIEW-20261022.md) — `6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8`
 - [research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md](cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md) — `d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8`
 - [research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json](cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json) — `c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50`
 - [research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json) — `d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1`
 - [research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json](cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json) — `840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91`
+- [research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json](cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json) — `34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459`

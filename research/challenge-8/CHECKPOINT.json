@@ -1,14 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R19-UNWIND-CLEANUP-DESIGN-20261022.md",
-      "sha256": "571f1acd4a0ad8f86c7fe2bfa95e9a5a80450cbe0a5dc84c81fe5f8309ad857e"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R19-REVIEW-20261022.md",
-      "sha256": "6b9a227165ed4cc3ba6e71d77ee2083ca14c4505fe64205b2233068c444fc1a8"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md",
       "sha256": "d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8"
     },
@@ -23,6 +15,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
       "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
+      "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
     }
   ],
   "assignment_sha256": "c17494a59511c0548220a1d663dc13a1fbbdf9e31f6f40a757ba7561b3f46bab",
@@ -38,7 +34,7 @@
         "sha256": "1c661431cec942ad4781a1013a86c5d835a965a4500c4631b329d4b5ae57476a"
       }
     ],
-    "summary": "Original caller/F5/state/index/CURRENT OPEN; tool578 HANDOFF needs fresh Cloud admission."
+    "summary": "Original caller/F5/state/index/CURRENT OPEN; tool578 Cloud admission pending."
   },
   "confirmed": [
     {
@@ -89,7 +85,7 @@
       ]
     }
   ],
-  "next_step": "Fresh task/ledger; build reviewed tool578/profile9496 HANDOFF.",
+  "next_step": "Submit HANDOFF tuple timeout1200; wait; Brief.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -125,15 +121,15 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-23T00:55:31Z",
+    "main_deadline_utc": "2026-10-23T00:25:31Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-22T22:25:31Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r21",
-  "updated_utc": "2026-10-22T22:10:03Z"
+  "updated_utc": "2026-10-23T07:25:12Z"
 }

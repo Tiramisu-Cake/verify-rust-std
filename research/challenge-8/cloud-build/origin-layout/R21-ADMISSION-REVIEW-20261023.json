@@ -1,0 +1,49 @@
+{
+  "schema": "merge-r21-admission-review-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5 (effort high)",
+  "candidate": "e70c911549a4fb91fb3a9d1087d0554499c30b3d",
+  "baseline": "e97144554384be7354879cf73ed37b78a26b3837",
+  "spec_sha256": "32d7af0d7705dced1f6d0a489237bcb9bb93e0b101d9172237454845e523036b",
+  "packet_sha256": "8c05f25de9680f3a8fac10c91b5ec5d7463e6d5a436b5f779bc2f592b8edf756",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED exit0",
+  "decision": "GO_WITH_NITS",
+  "findings": [
+    {
+      "severity": "should-fix-operational",
+      "summary": "Transport margin ~910 bytes; recipe delta fixed to +R21 ledger/-r20 metadata test, so new proof/control files or large edits need a further reviewed gate delta. Fails closed.",
+      "action": "Measure payload on activation and before each proof edit; plan follow-up gate delta early."
+    },
+    {
+      "severity": "nit",
+      "summary": "T0 fixed in control.py/ledger but not yet in CHECKPOINT.",
+      "action": "Recorded with activation."
+    },
+    {
+      "severity": "nit",
+      "summary": "r21 wrong-tool negative is rejected by the earlier byte-equality check; tool branch redundant with profile SHA pin.",
+      "action": "No soundness impact; left unchanged to avoid candidate churn."
+    }
+  ],
+  "reviewer_tests_pass": [
+    "r21-phase 11",
+    "r20-phase 11",
+    "r19-phase 13",
+    "r20-metadata 7",
+    "r17-phase 16",
+    "r18-phase 13",
+    "r13-r16 phase/preflight",
+    "r17-rawptr 10",
+    "r19-unwind 12",
+    "source-input-transport",
+    "r12/r13 upload-config"
+  ],
+  "preexisting_failure": "r12-phase-service-test string assertion fails identically at e9714455/e819a315/41d449f3; not caused by candidate.",
+  "reviewer_deviation": "source-input-transport test rewrote tracked SOURCE-INPUT-TRANSPORT-SERVICE-RECEIPT.json; reviewer restored it with git checkout of that file only.",
+  "not_run": [
+    "Cloud admission/compile/target/controls",
+    "r21_validate_sources on published activation commit (author probe PASS unverified by reviewer)"
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
