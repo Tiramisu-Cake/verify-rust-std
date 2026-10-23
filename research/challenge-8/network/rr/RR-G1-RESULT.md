@@ -82,7 +82,7 @@ are prerequisites to any later G1 window. N6's cold/warm allocation has not been
 silently spent on a replacement bootstrap pipeline. RR work stops at this setup
 boundary; G2 is not authorized by this result.
 
-The published Select head `7794d10a7ead355d0e63b7f55dd4096670b27750` has no R24
+The published Select head `27ad1dbcb927eaba018ce801d83822b23e53f150` has no R24
 P2-INTERFACE; retained R23 P2 is NOT_PUBLISHED. See
 [N6-SELECT-RECHECK.json](N6-SELECT-RECHECK.json). W7 stays gated on PUBLISHED P2;
 W8 requires published W3/W5/W7 resources. N9/N13/R7 bounded source-reported
