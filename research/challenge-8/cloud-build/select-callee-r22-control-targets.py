@@ -73,6 +73,8 @@ _LOCATION = re.compile(
     r"^(?P<file>.+)\((?P<line>[1-9][0-9]*),(?P<start>[1-9][0-9]*)-"
     r"(?P<end>[1-9][0-9]*)\): (?P<message>\S.*)$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_CHAR_LITERAL = re.compile(
+    rb"'(?:[^\\'\n]|\\(?:x[0-9a-fA-F]{2}|u\{[0-9a-fA-F_]+\}|.))'")
 
 
 class TargetError(ValueError):
@@ -150,11 +152,11 @@ def _select_function_bounds(source: bytes) -> tuple[int, int]:
             _need(nested == 0, "unterminated comment in select function")
             continue
         if source[i:i + 1] == b"'":
-            # Rust lifetimes use apostrophes without a matching quote. Skip
-            # only a short character literal; otherwise leave it as syntax.
-            char_end = i + (3 if source[i + 1:i + 2] != b"\\" else 4)
-            if char_end < len(source) and source[char_end:char_end + 1] == b"'":
-                i = char_end + 1
+            # Rust lifetimes are apostrophes without a closing quote. Skip a
+            # character literal, including escaped/unicode-brace forms.
+            literal = _CHAR_LITERAL.match(source, i)
+            if literal is not None:
+                i = literal.end()
                 continue
             i += 1
             continue

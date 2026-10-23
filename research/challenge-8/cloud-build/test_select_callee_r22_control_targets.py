@@ -164,6 +164,12 @@ class R22ControlTargetHelperTests(unittest.TestCase):
         other = (b"\npub fn unrelated() {\n" + TARGET.RETAINED_HALF_MERGE +
                  b"\n" + TARGET.FULL_CELL_ASSERT + b"}\n")
         self.assertEqual(TARGET._source_anchor(variant, original + other)[1], line)
+        with_char_literals = original.replace(
+            b"    let true_payload",
+            b"    let brace = '{'; let escaped = '\\u{7d}';\n"
+            b"    let true_payload", 1)
+        self.assertEqual(TARGET._source_anchor(variant, with_char_literals)[1],
+                         line + 1)
         with self.assertRaises(TARGET.TargetError):
             TARGET._source_anchor(variant,
                 original.replace(TARGET.SELECT_SIGNATURE,
