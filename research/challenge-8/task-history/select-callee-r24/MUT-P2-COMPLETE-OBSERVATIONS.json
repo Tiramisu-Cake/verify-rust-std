@@ -1,0 +1,1197 @@
+{
+  "accepted": false,
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "assurance": "SOURCE_REPORTED",
+  "boundaries": [
+    "No platformFAILURE rewritten or greenonlyretry.",
+    "Source reports and static qualification distinct from independently established B1/B2credit.",
+    "Refusals establish closed source/profile envelope, not internaltypedMIRguard execution.",
+    "Complete JSON child list does not imply nested/string values complete; receipt coverage retained."
+  ],
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "build_seconds": 405,
+  "candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+  "catalogues": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-audit-catalogue.json",
+      "sha256": "0948e5693f309caa464a2884ba37993f64a909352e8393cfeca2d48b088f2b68"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-callee-false-normal-catalogue.json",
+      "sha256": "84e379a7855f0e90f95f56ec4ae5b5176e76ea804207593834438f56afca2973"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-callee-owner-duplicate-catalogue.json",
+      "sha256": "72ad65f9e185d1e9757002984e19321b26d617073b63ba4960d7e0035495a474"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-callee-owner-loss-catalogue.json",
+      "sha256": "c951c1261438422dd5c487bf5a6add90bca0789813b88ed3f5a71205da17a190"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-callee-thread-duplicate-catalogue.json",
+      "sha256": "3cb9f821934cdc9e1fffe22c3ba0104755225063bdf30ce69405ee966c071488"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-no-retained-half-catalogue.json",
+      "sha256": "982e7fb19d082c963a8b9ff6d209eaab2b4d798e9579463b84158ef7ead9ded8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-omit-selected-own-catalogue.json",
+      "sha256": "78526b7152bbf86c634e63ffa249f2e2a774bb4f7ce3ef339117618c840ed1ed"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-omit-unselected-own-catalogue.json",
+      "sha256": "11e41642acf5ee086da9ef8d8ea6988ab395fba1ad11de216b134461cf9b83cd"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-catalogue.json",
+      "sha256": "d82cc49806f7b17ef1cc208b4491d141998bae492691dc27c8044096d9f021dc"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-cat-MUT-CLASSIFIED-PROOF.json",
+      "sha256": "5afd4e1b0f5661cab11e8ab11c2d94b5ea52030ec295c2c8653552f1b06393be"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-cat-P2-ENTAILMENT.json",
+      "sha256": "5423f399375bb207cbf9a72a4b2b5c05f70bdb99c213ef2bcce74f0769fb0598"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-cat-const-regression-audit.json",
+      "sha256": "dfee65987ac70459b02a3a35ef43220a78ba244336fc74ef492ac007bc84f376"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-cat-mutable-refusal-audit.json",
+      "sha256": "7a8697ff4128a29bafc771133638292226fb349f675806c0f93e46aa7a902b94"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-cat-proof-audit.json",
+      "sha256": "6c6aebb1572b09e3a6e6099ab0fe64aac99dbee0746e118b02230e892bca8159"
+    }
+  ],
+  "causal_status": "UNKNOWN",
+  "checked_consequence_observation": {
+    "artifact_inventory": 16,
+    "lemma_headers": 1,
+    "proof_log_sha256": "e2dfe4c385622d3c7a27dd55ead231e45bdbb097245e645bcaee1a2a1d26c55d",
+    "source_hashes": 2,
+    "stages": 6
+  },
+  "classified_summary_targets_pinned_source_claim": true,
+  "collector_physical_audit": {
+    "accepted": false,
+    "classification": "COMPLETE_SOURCE_REPORTED_REFUSALS_NO_PROOF_CREDIT",
+    "complete": true,
+    "controls_checked": 11,
+    "errors": 0,
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "schema": "select-r24-mut-refusal-audit-v1"
+  },
+  "const_rows": {
+    "callee-false-normal": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "6ad76a7b3893a75c3f8b6421fce1b513538abaa476ad653e3aaa8fc2bd46fe8b",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-false-normal",
+      "verified_sha256": "064206aa5b9c7c3a2c252ea89fc6dfd242b2418fd750dbddff9f807715358e81"
+    },
+    "callee-owner-duplicate": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "f158c6ab2bd18e0079be6362589b7772fb11bc47758e27602e2fa10bb6b608e4",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-owner-duplicate",
+      "verified_sha256": "c2b73b9c39a1546bcce6799e1b8e8ed9b8db13240291b40c5ef8e5a940bf304c"
+    },
+    "callee-owner-loss": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "e6df1e08ded3f1a2897e2248509b42c4c80aa7f164b5897d711452dd77c7af61",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-owner-loss",
+      "verified_sha256": "11c757d94fb1764e1b896ba89a2d6aac4cf7c2585f439baf4fe1f8b36def0b46"
+    },
+    "callee-thread-duplicate": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "bbc8a82c95354dec0871c5d5acf77d3203b777395476848dbad5c0ba8537cebc",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-thread-duplicate",
+      "verified_sha256": "c2062ed685fdd3dd7aee4e3352628b3326fc0dfa56d65c9dbc67629244247c81"
+    },
+    "no-retained-half": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "2b45e9d25def10035657be9a7c25882cc91fe41c314d5a0d21f71c7285789e19",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "no-retained-half",
+      "verified_sha256": "2427ad1bc2d04a87357d8cec22fa3bb57eb7cf3c619c3640914eb3fa035c61f1"
+    },
+    "omit-selected-own": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 12,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "ed1330a664e8d68108aa019d5ee3e658ae40b389b0c3c4520b4218953a1c3323",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "omit-selected-own",
+      "verified_sha256": "d5ea96a8bcd83ff013bb14454bfac15e1ce3b056a7268f4130c5fc18db52b10d"
+    },
+    "omit-unselected-own": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 12,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "4636810d8ded803bcd051b29e6544f6274e96131e3512c25abbd32a41377d472",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "omit-unselected-own",
+      "verified_sha256": "3f5462388b130992cb0b24b2cfae52d950deb10989a5abccb6c24bf92c2f1ec2"
+    },
+    "positive": {
+      "bound_verdict": "POSITIVE_VERIFIED_SOURCE_REPORTED",
+      "classification": "POSITIVE_VERIFIED_SOURCE_REPORTED",
+      "current_stage_observation": 20,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "e92e8ca8c6e1e800299d1478689f7eacdfc5967cccbc774b93d98038d6d2e5e4",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 12,
+      "status": "COMPLETE",
+      "variant": "positive",
+      "verified_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff"
+    }
+  },
+  "current_target_observation_authentication": {
+    "callee-false-normal": {
+      "brief_native_line": "verified/lib.rs(128,53-58): error: Cannot prove condition. (Cannot prove false.)",
+      "brief_native_line_number": 431,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/callee-false-normal",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-callee-false-normal",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "66e9ab0ea8f0c1c2f180e1e2b28eb0a5176992a425d74d150d81daae218ad7be",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 431,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/callee-false-normal/r24-mut-proof-callee-false-normal.log",
+        "log_sha256": "66e9ab0ea8f0c1c2f180e1e2b28eb0a5176992a425d74d150d81daae218ad7be",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "callee-false-normal"
+      }
+    },
+    "callee-owner-duplicate": {
+      "brief_native_line": "verified/lib.rs(128,53-54): error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "brief_native_line_number": 430,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/callee-owner-duplicate",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-callee-owner-duplicate",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "2b1f1e670fd212c990e00cb1cb79943877db507a97fcb8b4521dbbc514a6b121",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 430,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/callee-owner-duplicate/r24-mut-proof-callee-owner-duplicate.log",
+        "log_sha256": "2b1f1e670fd212c990e00cb1cb79943877db507a97fcb8b4521dbbc514a6b121",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "callee-owner-duplicate"
+      }
+    },
+    "callee-owner-loss": {
+      "brief_native_line": "verified/lib.rs(135,1-2): error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+      "brief_native_line_number": 432,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/callee-owner-loss",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-callee-owner-loss",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "da9fdfdb2766a870d8775e0597ec158a48a0d2179ad04cc86132e64eff496432",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 432,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/callee-owner-loss/r24-mut-proof-callee-owner-loss.log",
+        "log_sha256": "da9fdfdb2766a870d8775e0597ec158a48a0d2179ad04cc86132e64eff496432",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "callee-owner-loss"
+      }
+    },
+    "callee-thread-duplicate": {
+      "brief_native_line": "verified/lib.rs(128,27-39): error: No matching heap chunks: thread_token(tid)",
+      "brief_native_line_number": 430,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/callee-thread-duplicate",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-callee-thread-duplicate",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "f708d22e463c51117cf9319d7b6438ae32f8de82c059758c732978a755fa8520",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 430,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/callee-thread-duplicate/r24-mut-proof-callee-thread-duplicate.log",
+        "log_sha256": "f708d22e463c51117cf9319d7b6438ae32f8de82c059758c732978a755fa8520",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "callee-thread-duplicate"
+      }
+    },
+    "no-retained-half": {
+      "brief_native_line": "verified/lib.rs(221,39-42): error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)",
+      "brief_native_line_number": 565,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/no-retained-half",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-no-retained-half",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "5c0a0832acf81927c4ab23bedcbea437b35cd1e0fdc568945e1f43e425417d0f",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 565,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/no-retained-half/r24-mut-proof-no-retained-half.log",
+        "log_sha256": "5c0a0832acf81927c4ab23bedcbea437b35cd1e0fdc568945e1f43e425417d0f",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "no-retained-half"
+      }
+    },
+    "omit-selected-own": {
+      "brief_native_line": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(462,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))",
+      "brief_native_line_number": 588,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/omit-selected-own",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-omit-selected-own",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "5fb452f03188cae5a2d421bf7aa5b587df48216f3c4f354b02195c2fdc369136",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 588,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/omit-selected-own/r24-mut-proof-omit-selected-own.log",
+        "log_sha256": "5fb452f03188cae5a2d421bf7aa5b587df48216f3c4f354b02195c2fdc369136",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "omit-selected-own"
+      }
+    },
+    "omit-unselected-own": {
+      "brief_native_line": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec(463,47-48): error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))",
+      "brief_native_line_number": 588,
+      "current_stage_source_claim": {
+        "accepted": false,
+        "case_path": "cases/r24-mut-matrix-fingerprint/variants/omit-unselected-own",
+        "classification": "UNKNOWN_UNCLASSIFIED",
+        "errors": 0,
+        "log": 3,
+        "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "native_marker_count": 1,
+        "original_stage_record": 10,
+        "proof_credit": 0,
+        "proof_stage_exception": null,
+        "source_after": 2,
+        "source_before": 2,
+        "source_intact": true,
+        "stage_exit": 1,
+        "stage_name": "r24-mut-proof-omit-unselected-own",
+        "stage_source_after": 2,
+        "stage_source_before": 2,
+        "stage_status": "RAN",
+        "targets_pinned": false,
+        "tool_hashes": 8
+      },
+      "native_log_sha256": "0bafa8ba7e1aa5f0aca2bbe90e3e41d6294f1840e5a9c29992166d964eae6f41",
+      "status": "BRIEF_SHA256_BOUND_CURRENT_LITERAL_MATCH; NOT_PARSER_INPUT_BINDING",
+      "target_match_source_claim": {
+        "accepted": false,
+        "classification": "SOURCE_REPORTED",
+        "current_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+        "diagnostic_line": 588,
+        "log_path": "cases/r24-mut-matrix-fingerprint/variants/omit-unselected-own/r24-mut-proof-omit-unselected-own.log",
+        "log_sha256": "0bafa8ba7e1aa5f0aca2bbe90e3e41d6294f1840e5a9c29992166d964eae6f41",
+        "matches_first_and_only_error": true,
+        "proof_credit": 0,
+        "provenance_status": "CALLER_DECLARED_PRIOR_OBSERVATION_CONSISTENT_NOT_AUTHENTICATED",
+        "publication_allowed": false,
+        "schema": "select-r24-mut-control-diagnostic-observation-v1",
+        "target": 5,
+        "variant": "omit-unselected-own"
+      }
+    }
+  },
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "mode_in_build_sha256": "63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9",
+  "mutable_positive_diagnostic": {
+    "accepted": false,
+    "case_path": "cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut",
+    "classification": "POSITIVE_STAGE_RAN_SOURCE_REPORTED",
+    "errors": 0,
+    "log": 3,
+    "native_build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+    "native_marker_count": 1,
+    "original_stage_record": 10,
+    "proof_credit": 0,
+    "proof_stage_exception": null,
+    "source_after": 2,
+    "source_before": 2,
+    "source_intact": true,
+    "stage_exit": 0,
+    "stage_name": "r24-mut-proof-positive",
+    "stage_source_after": 2,
+    "stage_source_before": 2,
+    "stage_status": "RAN",
+    "targets_pinned": false,
+    "tool_hashes": 8
+  },
+  "mutable_rows": {
+    "callee-false-normal": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "callee-false-normal"
+    },
+    "callee-owner-duplicate": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "callee-owner-duplicate"
+    },
+    "callee-owner-loss": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "callee-owner-loss"
+    },
+    "callee-thread-duplicate": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "callee-thread-duplicate"
+    },
+    "no-retained-half": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "no-retained-half"
+    },
+    "omit-selected-own": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "omit-selected-own"
+    },
+    "omit-unselected-own": {
+      "accepted": false,
+      "classification": "NEGATIVE_SOLE_TARGET_MATCHED_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "target_match": 13,
+      "targets_pinned": true,
+      "variant": "omit-unselected-own"
+    },
+    "positive": {
+      "accepted": false,
+      "classification": "POSITIVE_STAGE_RAN_SOURCE_REPORTED",
+      "diagnostic_row": 21,
+      "errors": 0,
+      "proof_credit": 0,
+      "targets_pinned": false,
+      "variant": "positive"
+    }
+  },
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-collector-controls.json",
+      "sha256": "4d7faa8841c7b368b6acbed24ea9717e253da5b867724827671635b953822a33"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-collector-last.json",
+      "sha256": "ae567e876d50a9cec32f88565056bf0b2a76b7ef14def739a989882578d5bde9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-collector-physical.json",
+      "sha256": "817bdbe69e55940e295dee42374a38ed223dfe37c90e0b98e2bb4deb971b65f3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-collector.json",
+      "sha256": "a9048940a5fb77d81b3d39138cbb3c7a21cf6245c4af829d0c5d2b1746a226c9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-consequence-audit.json",
+      "sha256": "8604a7f7db7324c27f966a76d74284ae9de2525126fbddad561ec1533101561b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-consequence-observation.json",
+      "sha256": "b0aac65934966d1c4e6f9265618765e12a083ab6a1f54b106b59223567eea3db"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-consequence-tools.json",
+      "sha256": "936cdd6863e9f77505b2f7ba51e989b0e71e4389979871dc40b6013565549e74"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-consequence.json",
+      "sha256": "67cfa127f26571125a5f67cf2993e36f6799bc92bc74f550d45ea3d099b78b59"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-audit.json",
+      "sha256": "113d71e03ef7f32a83139843e2dc4ad462062dbe025da7ab03388098c8e64b28"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-callee-false-normal.json",
+      "sha256": "6d9d60256073de08f80cbc79002d9f3309416286aa956334e7a8a3987e22c4a5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-callee-owner-duplicate.json",
+      "sha256": "940c631e64d9945dae4d3a17dc27eae16ff6a186fa2f0dc2b0e52f8427adf36d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-callee-owner-loss.json",
+      "sha256": "626de0e4b8a8f6c54382b0f9846341ce4ccce68d5d09b8ebaed920f2cf7b218f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-callee-thread-duplicate.json",
+      "sha256": "239188ee80f50510c38406ffd712eba0d57c095428d4b5878a8d4aa4ccb8b930"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-fractional.json",
+      "sha256": "919f9622c423b11e4262c9f46f644efd3077152ef67409465133418454371e73"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-no-retained-half.json",
+      "sha256": "f34e020ed699deb6d1b978c1998f887cf63a22651bae6befb127756da010cd47"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-omit-selected-own.json",
+      "sha256": "78556c057cd689ac4d9f426b7d68a827b57619b5722f0295b63159b53d826533"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-omit-unselected-own.json",
+      "sha256": "6735760064e37a3e59526d358a8a46122ea07692e3f95cdeb8096de75bc74227"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-const-positive.json",
+      "sha256": "530e5f632b7120b7aa1a4fc1dcde3e86858e3cfddaccb249cc9f88af350d8f92"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-audit.json",
+      "sha256": "4f690e5caead644ee4cc63363864211f77d3e7051badf9170e764bbdefe56e0a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-callee-false-normal.json",
+      "sha256": "acf1d1e06362a3a80fa57308493328e42ddbbfbdda9fbd08a3748afada7d55f2"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-callee-owner-duplicate.json",
+      "sha256": "e24aeb55ac95d870580cd42b8cf6e8e1e1693a3ca31d27aa1224cfe17c45b6b9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-callee-owner-loss.json",
+      "sha256": "33495e2bec0945c7e5957dc929a5beef73bf5dd21a62fc8022def19f38d76a03"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-callee-thread-duplicate.json",
+      "sha256": "868abecfe245f5f57720a543eda3eef7cd17da484658e2dc1926f2e2356eafb5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-classified-last.json",
+      "sha256": "3d42c2448a72743a950524f9c264950f069f81fb39bb40203f9498ab1bf53d56"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-classified.json",
+      "sha256": "c6d66618374da3a87749711775f1c37d519992772771c67a8103d22310e24c73"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-callee-false-normal.json",
+      "sha256": "fd51a5b12eb7b4adeae15e6fcfc2b5db4c051db9725ba6eee43253bfb958b8ee"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-callee-owner-duplicate.json",
+      "sha256": "f4defc13a4bceb042b461fabd7ef3effb5ab5f527987febab1cd94da15237f75"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-callee-owner-loss.json",
+      "sha256": "67fb6f88e112b0d787f1b175b7d4944169d3702cd0ababb3bd959b10f271f690"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-callee-thread-duplicate.json",
+      "sha256": "65769a3a2ac6fa394b44893d1e0a4816de9a5b56b084c5ff435e78222928e73b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-no-retained-half.json",
+      "sha256": "7da207fa3580dec17a067e51aac1ca3baf0db3aa613e42726542a88a9b2e75e5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-omit-selected-own.json",
+      "sha256": "ba2365bfa1d95b1a51405e1ded4d1edd14169552bd2f2c3c5c96318bc57e15a8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-diag-omit-unselected-own.json",
+      "sha256": "80026681c522d539fb9c516fb95e4fff22dbec578c864c6f1069aa24360f58ff"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-no-retained-half.json",
+      "sha256": "b28a71baf744cf205b072511f43125761eec08f3c15c08b40f1107874155e1b1"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-omit-selected-own.json",
+      "sha256": "c5d5a1c614c673531e1e7de55d215b1af8772e47164e2b0e4949134a424940d6"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-omit-unselected-own.json",
+      "sha256": "8e07b9d23997798aee3a014955a1b7603ab69611c8703e3ecda77f804a3c8890"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-positive-diagnostic.json",
+      "sha256": "31f752108fd5898cba3e1b9c5a0ac5a0df6849d6ddc4b77b0980c57206b5da87"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-positive-last.json",
+      "sha256": "10452a4b3aaf706e19fc2a1cb042dbf39764e22116ec69170abbe0cbe3f1dfec"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-positive.json",
+      "sha256": "680857cc112f890fb861de601246fdd847be2b3d19b270d993ff6c72e4dda732"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-callee-false-normal.json",
+      "sha256": "625b510f43451e00c35c81eeec16b02aa9e46dce5c22e3a9baad69263c86b890"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-callee-owner-duplicate.json",
+      "sha256": "cf9fa654566de13163245b4f25ee630811d8d4f0159acba5385976ed589ed455"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-callee-owner-loss.json",
+      "sha256": "7cb486833a3ceaa9b2187ccf84f116a199b5d1573e6086ebc5e322f78940be1e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-callee-thread-duplicate.json",
+      "sha256": "83b164e7aa24ec61c883b9915c61886de3ec815e26fb08f2e8aea3bd579e2d9e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-no-retained-half.json",
+      "sha256": "a129bff34898dd5cc1b93e3f43169698f441ea6118727b8c47522cea78e651ff"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-omit-selected-own.json",
+      "sha256": "bcbead35e5e6020f52714c52b0862f6cf89c45083cad5c06f26b83ab718f606d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-omit-unselected-own.json",
+      "sha256": "d6fbedd5742d441ec1423d05fd3525257dd4b583c395004b3dce63e62904bcf9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-mutable-target-validation.json",
+      "sha256": "bb04b9608661be323cd4595e0400b9e00886336a83e25159fabf96e397e50e55"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-callee-false-normal.json",
+      "sha256": "733fa717a65025d593259e2fc3dc971bd83331bc367fd74b62ac9101b0d3afc4"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-callee-owner-duplicate.json",
+      "sha256": "d33251232811b5bfcd1776607b902a86367db98065e432063c82e54b7ee188c4"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-callee-owner-loss.json",
+      "sha256": "3654df9baa2f88aed514286363bb2080117567a3b1464e7b2cb71508b1a73b8b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-callee-thread-duplicate.json",
+      "sha256": "7b9a7533c1d9992d8b7217590c89cdfb3e9ac64951d886223f036c70d47b811e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-no-retained-half.json",
+      "sha256": "54081c2d2a15ad921564677cfba4ce770e3f86b547fd20fe0645fab7d068d77f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-omit-selected-own.json",
+      "sha256": "f3c2d9e9d0a2d1c7d72440f8e945d61577c27ef75818f8c296dac5572aa9fb18"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-native-target-omit-unselected-own.json",
+      "sha256": "ad7d6418af3eea3917d8bcc28855c6a3472ef66e8adfa0aaa6749acf6dac982f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-audit.json",
+      "sha256": "9bc35580c59d6796f93f3faab7bd08749be0ce0cc99f30f34294c4cdf75c2932"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-changed-cleanup-graph.json",
+      "sha256": "cb9a1350e59d918af6d96934f9fa0550d7f775cb861914e04fa28a84444d2b63"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-changed-runtime-body.json",
+      "sha256": "1fde9354a429c2b96bcb8a91b9edd4bdde6f67c3e5f7a200633054e134f231bf"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-const-substitution.json",
+      "sha256": "32eb721147d6f91dbf9c52d7310eabc68e92420c81c0f45939b72039bb218266"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-extra-pointer-depth.json",
+      "sha256": "6ac5a259ceb168ead3f552b29f944cbd344fe37563d6d60ae75785f398cf4e87"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-legacy-selector.json",
+      "sha256": "6f6481f94d04e1ef6d9bfd03f13ac60322bf5fdc922c2e2a1e4ea0ab0c1b4b66"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-partial-case-root.json",
+      "sha256": "d5382d0dc2fe596df76539133471322a7e854928dbcf53594a806e3fcc7a7ead"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-renamed-generic-element.json",
+      "sha256": "a06267300ee53bb9c290e1c6e54b668662fc18b06c8a19a12669f8f23c972cad"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-swapped-final-branch-result.json",
+      "sha256": "f9658688f84b60db6b3c2834dbc36dae0c42c26e2c48d993f0b90fdc916e0976"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-swapped-selected-pointer-operand.json",
+      "sha256": "4295eb852dbb1995f5b166a80a529c8ad52d0798d1cf1b1eec14866412f48ec0"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-unknown-case.json",
+      "sha256": "68d45ffd43e4a5bf7edd196cff3855c994713b8249900f227cd54fe62c73092d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-refusal-wrong-phase.json",
+      "sha256": "0cc04a94e9e71552ae4e824b0310602c1a524205e38656e9d4ccb45bae7f5b57"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s21-root.json",
+      "sha256": "719bbf092649098860a780b1c8389def1d70378864b824c81f6acee3b63d1297"
+    }
+  ],
+  "refusal_rows": {
+    "changed-cleanup-graph": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/changed-cleanup-graph",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "changed-cleanup-graph",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "changed-cleanup-graph",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-changed-cleanup-graph"
+    },
+    "changed-runtime-body": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/changed-runtime-body",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "changed-runtime-body",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "changed-runtime-body",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-changed-runtime-body"
+    },
+    "const-substitution": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/const-substitution",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "const-substitution",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "const-substitution",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-const-substitution"
+    },
+    "extra-pointer-depth": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/extra-pointer-depth",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "extra-pointer-depth",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "extra-pointer-depth",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-extra-pointer-depth"
+    },
+    "legacy-selector": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/legacy-selector",
+      "child_environment_delta": 3,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "legacy-selector",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact R24/R21 certified fractional nine-body route required",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": null,
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-legacy-selector"
+    },
+    "partial-case-root": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/partial-case-root",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "partial-case-root",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "partial mutable case/root selector",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": null,
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-partial-case-root"
+    },
+    "renamed-generic-element": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/renamed-generic-element",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "renamed-generic-element",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "renamed-generic-element",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-renamed-generic-element"
+    },
+    "swapped-final-branch-result": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/swapped-final-branch-result",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "swapped-final-branch-result",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "swapped-final-branch-result",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-swapped-final-branch-result"
+    },
+    "swapped-selected-pointer-operand": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/swapped-selected-pointer-operand",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "swapped-selected-pointer-operand",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact mutable verified source SHA256",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": "swapped-selected-pointer-operand",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-swapped-selected-pointer-operand"
+    },
+    "unknown-case": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/unknown-case",
+      "child_environment_delta": 2,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "unknown-case",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "mutable case selector must be one closed enum value",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": null,
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-unknown-case"
+    },
+    "wrong-phase": {
+      "accepted": false,
+      "case_path": "cases/r24-mut-refusals/variants/wrong-phase",
+      "child_environment_delta": 3,
+      "classification": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED",
+      "control": "wrong-phase",
+      "diagnostic": 3,
+      "errors": 0,
+      "expected_gate": "exact R24/R21 profile and unwind-preserving route required",
+      "frontend_capture": 5,
+      "ghost_strip_identity": true,
+      "log": 3,
+      "mutation": null,
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "source_after": 2,
+      "source_before": 2,
+      "source_unchanged": true,
+      "stage": 10,
+      "stage_name": "r24-mut-refusal-wrong-phase"
+    }
+  },
+  "remaining_obligations": [
+    "Independent final qualification against all4P2criteria",
+    "Publish exactqualified interface onlyafterGO",
+    "W4checkedlinkage/bodyC5 afterP2publication"
+  ],
+  "root_evidence_complete_source_claim": true,
+  "root_targets_pinned_boundary_note": "Rootfalse inherited from diagnostic audit; paginated classified summary andsevenclassifiedrows aretrue. No historical rawflag changed.",
+  "runner_exit_source_claim": 0,
+  "schema": "select-r24-mut-p2-complete-observations-v1",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  }
+}

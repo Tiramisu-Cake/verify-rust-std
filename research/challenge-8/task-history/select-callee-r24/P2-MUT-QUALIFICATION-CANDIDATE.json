@@ -1,0 +1,128 @@
+{
+  "assurance": "SOURCE_REPORTED_CI_PLUS_REQUIRED_INDEPENDENT_STATIC_QUALIFICATION; NOT_INDEPENDENT_B1_OR_B2_CREDIT",
+  "base_profile": {
+    "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json",
+    "sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622"
+  },
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "closed_modes": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-REFUSAL-MODE.json",
+      "sha256": "63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CLASSIFIED-PROOF-MODE.json",
+      "sha256": "3e17c17a993f01e8d136effd2ec3026f11825ef30793eb5178d9fe2f787131b7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PROOF-MODE.json",
+      "sha256": "7870ea7c985914a1af049f685d62291bfe8d9768c0e4719c40422106d559fa94"
+    }
+  ],
+  "contract": {
+    "consequence_module": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-p2-entailment.py",
+      "sha256": "a0cdf07ed378e8daf3986661f1fb239391e1632d68b2a3e3654a5d5082bbb389"
+    },
+    "model": "Existing compiler-to-model MaybeUninit pointertransmute trust boundary; raw_ptr_own owns no pointee; no newmemory/alias model ortrustedpremise.",
+    "planned_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+    "strong_actual_normal_post": "thread_token(t) plus conditional pointer-cast equality plus raw_ptr_own<Element>(t,result)",
+    "weak_contract_derivation": "Ordinary checked select_p2_post_consequence lemma opens existingempty raw_ptr_own, retains thread_token/equality. Falseunwind inheritedfromactualcallee; no bodyreplacement."
+  },
+  "criteria": {
+    "1_actual_callee_and_controls": {
+      "const_matrix": [
+        "callee-false-normal",
+        "callee-owner-duplicate",
+        "callee-owner-loss",
+        "callee-thread-duplicate",
+        "no-retained-half",
+        "omit-selected-own",
+        "omit-unselected-own",
+        "positive"
+      ],
+      "final_acceptance_requested": true,
+      "mutable_matrix": [
+        "callee-false-normal",
+        "callee-owner-duplicate",
+        "callee-owner-loss",
+        "callee-thread-duplicate",
+        "no-retained-half",
+        "omit-selected-own",
+        "omit-unselected-own",
+        "positive"
+      ],
+      "qualification_basis": "SameBuild ordinary nativebodypositive exit0+exactclosedmarker, physicalaudits andfullcontrolmatrix, withstaticreview ofexactsource/typedcertificate binding. Brief service itself doesnotestablish parser-inputbinding orformalcredit.",
+      "required_checks": [
+        "Actual unchanged std runtime and generic source signature; same-version typed source/unit/body/certificate guards",
+        "Normal conditional pointer equality and thread-token post; false-unwind post; actual nestedDrop inventory preserved",
+        "Selected/unselected wrapper ownership omission and retained-half controls; duplicate/lost owner and thread controls; false normal post rejected",
+        "Ordinary verifier dead-code/leak/validity/uninitialized checks and original refinement remain active"
+      ],
+      "source_evidence_complete": true
+    },
+    "2_fresh_mutable_route": {
+      "certificate_overlay": {
+        "path": "research/challenge-8/task-history/select-callee-r24/mutable-certificates-r24.patch",
+        "sha256": "e1b5b8aa78e905884565e16318e29559050e2fba41366a60d61ebdbe1aeb9099"
+      },
+      "closed_mutable_certificates": {
+        "path": "research/challenge-8/task-history/select-callee-r24/mutable-certificates.py",
+        "sha256": "2bb3a3358e8da37590d61b7cdd848632b414607d081252e0f996919bba1a013c"
+      },
+      "matrix_pins": {
+        "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json",
+        "sha256": "5aee793196c2e0ab5960f1c0ea4aab8880ca68e61d74876363e2ccf3febadbed"
+      },
+      "same_build_reproduction": "Reviewed current nativeprooflib/capture andphysicalaudits require exact original/verified/ghoststrip, normal+readonly decode andall10unit/body snapshots; older capture-only records remainunchanged.",
+      "source_and_snapshot_pins": {
+        "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
+        "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
+      },
+      "typed_route": "Separatemutable opt-in family; constpins/PASS never substitute mutableevidence."
+    },
+    "3_same_version_positive_matrix_refusals": {
+      "all11_refusals_source_complete": true,
+      "all8_matrix_source_complete": true,
+      "current_target_authentication": "Seven fresh current nativeerror lines queried throughBrief at exact logSHA/line; literal file/span/message matches static intendedtargets. Oldvalidator CALLER_DECLARED provenance kept unchanged. Notindependentproofcredit.",
+      "refusal_scope": "Source/profile envelope only; modified source/signature/cleanup rejected by exactsourceSHA; no internalMIRguard executionclaim; legacy rejectedbyearlierconstroute."
+    },
+    "4_independent_review_and_pinned_interface": {
+      "active_interface_unchanged_until_GO": "research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json",
+      "proposal_path": "research/challenge-8/task-history/select-callee-r24/P2-INTERFACE-CANDIDATE.json",
+      "review_record_path": "research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json",
+      "status": "FINAL_GO_REQUIRED_BEFORE_PUBLICATION"
+    }
+  },
+  "evidence": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json",
+    "sha256": "6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c"
+  },
+  "overlay_chain": {
+    "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
+    "sha256": "aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7"
+  },
+  "preserved_boundaries": [
+    "Build platformFAILURE retained despite source runner0/rootcomplete; externalcauseUNKNOWN. No greenonlyretry.",
+    "Historical accepted/publication/proofcredit/targetprovenance flags remain untouched; newqualified publication decision requires finalreview.",
+    "No rawGCS/archive/fullLog/CloudLogging access andno download_verified bit.",
+    "Pointercontract doesnotprove sorting orcallerlinkage; Network/W4 mustcheck eachactualcall undercompatibleidentities."
+  ],
+  "profile_label": "experimental-s6-26.10-v1",
+  "proof_credit": 0,
+  "schema": "select-r24-p2-qualification-candidate-v1",
+  "scope": "Actual unchanged select_unpredictable runtime at raw pointer instantiations only: T=*const Element and T=*mut Element; Element unrestricted. No pointee ownership, genericT value or panickingDrop claim.",
+  "source_proof_candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43",
+  "status": "PROPOSED_FOR_INDEPENDENT_FINAL_QUALIFICATION",
+  "tool_base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 113,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 8,
+      "PROJECTED": 488,
+      "SCAN_BUDGET_EXCEEDED": 573,
+      "UNSUPPORTED_FILE_TYPE": 588
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2092842,
+    "content_files": 571,
+    "files": 1845,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "kind": "json",
+      "path": "proof-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 262144,
+      "sha256": "f8b40be3b28bfaf8bf0178e0e8642658a51244eaa0879471d6329856ab4e7706",
+      "size_bytes": 444788,
+      "status": "JSON_EXCEEDS_SCAN_LIMIT",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "9f681951fa5cfd161d1bff4db92c605f7a8d1c3ba7a875f3208f6ca15b3a4b77",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-mut-refusals/preconditions/MUT-CLASSIFIED-PROOF-AUDIT.json",
+      "path_sanitized": false,
+      "scanned_bytes": 95366,
+      "sha256": "1553dfb184d552ae54dea69c2b13b95712ed5e2851e6664b9b4bbe3ebbddda12",
+      "size_bytes": 95366,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1845,
+    "files_with_incomplete_content": 1661,
+    "matches_in_retained_data": 2,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

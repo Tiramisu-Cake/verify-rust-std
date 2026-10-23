@@ -1,0 +1,147 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 19,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "35f364bcfdb0cd87d6365e5cd99e0c3381d15455916c9f9b8193a3b98bbbfdc6",
+  "file_path": "allprooflogs/cases/r24-mut-refusals/MUT-REFUSALS.json",
+  "file_sha256": "4de5a8d0f23690c87c1a96d6d861649256c4443363a636d775b8c90081b2f305",
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "4de5a8d0f23690c87c1a96d6d861649256c4443363a636d775b8c90081b2f305",
+    "file_id": "35f364bcfdb0cd87d6365e5cd99e0c3381d15455916c9f9b8193a3b98bbbfdc6",
+    "pointer": "/controls/partial-case-root"
+  },
+  "request_id": "7c9e9d5d59742352d2e19728725d3487c9b50cb782ac3f0f1588b2a2f11cdee3",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/controls/partial-case-root/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/controls/partial-case-root/case_path",
+      "value": "cases/r24-mut-refusals/variants/partial-case-root"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/child_environment_delta"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/controls/partial-case-root/classification",
+      "value": "NATIVE_SOURCE_ENVELOPE_REFUSAL_SOURCE_REPORTED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/controls/partial-case-root/control",
+      "value": "partial-case-root"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/diagnostic"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/controls/partial-case-root/errors"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/controls/partial-case-root/expected_gate",
+      "value": "partial mutable case/root selector"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/frontend_capture"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/controls/partial-case-root/ghost_strip_identity",
+      "value": true
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/log"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/controls/partial-case-root/mutation",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/controls/partial-case-root/proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/controls/partial-case-root/publication_allowed",
+      "value": false
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/controls/partial-case-root/source_unchanged",
+      "value": true
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls/partial-case-root/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/controls/partial-case-root/stage_name",
+      "value": "r24-mut-refusal-partial-case-root"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

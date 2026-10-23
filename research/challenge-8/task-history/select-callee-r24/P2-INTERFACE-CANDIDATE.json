@@ -1,0 +1,230 @@
+{
+  "callee": "core::hint::select_unpredictable",
+  "consumer_rule": "Use exactpublishedcontract/source/tool/profile commit only with checked compatibleactualcallee linkage. Networkcaller/W4 proof andeachcallsitebinding remainconsumer obligations; no unchecked summary authorized.",
+  "contract_text": "/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n/*@\nens thread_token(t) &*& (result as pointer) ==\n    (if condition { true_val as pointer } else { false_val as pointer });\n@*/\n/*@\non_unwind_ens false;\n@*/\n",
+  "contract_text_is_planned": false,
+  "contract_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+  "evidence": {
+    "all11_closed_refusals_source_claim": true,
+    "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+    "assurance": "SOURCE_REPORTED_CI_PLUS_REQUIRED_INDEPENDENT_STATIC_QUALIFICATION; NOT_INDEPENDENT_B1_OR_B2_CREDIT",
+    "brief_files": [
+      {
+        "complete": true,
+        "exact": true,
+        "file_id": "2ff8baf8f57e26c5869f1f679a0eab53d930e479fc584f1f3eba76a2d116d862",
+        "file_path": "allprooflogs/mutable-refusal-audit.json",
+        "file_sha256": "95641fc22e30c87071482c2f9e15217e1cf7f82819c35e99ef10960821c2fb25",
+        "request_id": "8bde8f9121389c257d54da85ea97612b32b3c8af8256eec78bc0e5de8e3ec25d"
+      },
+      {
+        "complete": true,
+        "exact": true,
+        "file_id": "6a72ec23196d39e555f29db1cc9e159a8d75d94496b0274dff218c606da5b6e4",
+        "file_path": "allprooflogs/cases/r24-p2-entailment/P2-ENTAILMENT.json",
+        "file_sha256": "e3b9c34cc9056dbe73cd2e91188781c4309c9ccadbc22c66cae21d5672ed3746",
+        "request_id": "94d2610834b5dfbe4eb6613639f293d8f853eb5ca4fbe0f29d82270a5aaac2b4"
+      },
+      {
+        "complete": true,
+        "exact": true,
+        "file_id": "1841a3a6df2de8ab85b19f1e41bada35d2eacc895769069c23635fa86d468991",
+        "file_path": "allprooflogs/const-regression-audit.json",
+        "file_sha256": "927d1864231f8962dfae86405a5b85584d300608e58423a2d10245c4c860bc10",
+        "request_id": "e16edd8097f122239fb780eced8354e11134da77fe53b4a78fe0b436efa88691"
+      },
+      {
+        "complete": false,
+        "exact": true,
+        "file_id": "fbafbea41bdc0f6833c441a09b697ddf447ac7a797274f9ad75052ad0bd3e6df",
+        "file_path": "allprooflogs/cases/r24-mut-matrix-proof/MUT-CLASSIFIED-PROOF.json",
+        "file_sha256": "031d25f5cffdeaa81689fae706492e68045e1ddd3b3c0f727798cb1896f2a0ed",
+        "request_id": "3788e03b2a791557ed62104e2b6a42eeec7484f0702d7919cd4d237e2c9a3195"
+      },
+      {
+        "complete": false,
+        "exact": true,
+        "file_id": "fbafbea41bdc0f6833c441a09b697ddf447ac7a797274f9ad75052ad0bd3e6df",
+        "file_path": "allprooflogs/cases/r24-mut-matrix-proof/MUT-CLASSIFIED-PROOF.json",
+        "file_sha256": "031d25f5cffdeaa81689fae706492e68045e1ddd3b3c0f727798cb1896f2a0ed",
+        "request_id": "f0d43b8b42ca4d0c4923f9559215904f42b83484db1f2a2c6255a06fa9c197ad"
+      },
+      {
+        "complete": true,
+        "exact": true,
+        "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+        "file_path": "proof-audit.json",
+        "file_sha256": "f8b40be3b28bfaf8bf0178e0e8642658a51244eaa0879471d6329856ab4e7706",
+        "request_id": "481032798680464d996f830f3bafeb7ad43c019a995beab305ec402e453e0ddc"
+      }
+    ],
+    "build_ids": [
+      "38c94d41-ccd9-49f5-b58c-0efd10b406b6"
+    ],
+    "causal_status": "UNKNOWN",
+    "checked_consequence_source_claim": true,
+    "independent_review_record_path": "research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json",
+    "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+    "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+    "platform_status": "FAILURE",
+    "record": {
+      "path": "research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json",
+      "sha256": "6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c"
+    },
+    "root_complete_source_claim": true,
+    "runner_exit_source_claim": 0,
+    "same_version_full_const_matrix_source_claim": true,
+    "same_version_full_mutable_matrix_source_claim": true,
+    "source_proof_candidate": "5401fce0db3abd5549681d3102fd63d2b2fb4e43"
+  },
+  "generic_T_covered": false,
+  "historical_interface": {
+    "path": "research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json",
+    "sha256": "3f32d44e57c1c931af640db45edc8daebfef3582185a152f3aa45f5d402bc985"
+  },
+  "instantiation": "T = *mut Element (Element unrestricted generic)",
+  "limits": [
+    "Build platformFAILURE retained despite source runner0/rootcomplete; externalcauseUNKNOWN. No greenonlyretry.",
+    "Historical accepted/publication/proofcredit/targetprovenance flags remain untouched; newqualified publication decision requires finalreview.",
+    "No rawGCS/archive/fullLog/CloudLogging access andno download_verified bit.",
+    "Pointercontract doesnotprove sorting orcallerlinkage; Network/W4 mustcheck eachactualcall undercompatibleidentities."
+  ],
+  "network_generator_rule": "select_spec may refer to this exact contract only after finalGO/publication andwithchecked sameversioncallee linkage. This doesnotgrant NetworkCloud authority orcalleracceptance.",
+  "pointee_ownership": false,
+  "proof_credit": 0,
+  "proof_profile": {
+    "base_profile": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json",
+      "sha256": "d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622"
+    },
+    "closed_modes": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-REFUSAL-MODE.json",
+        "sha256": "63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9"
+      },
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CLASSIFIED-PROOF-MODE.json",
+        "sha256": "3e17c17a993f01e8d136effd2ec3026f11825ef30793eb5178d9fe2f787131b7"
+      },
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PROOF-MODE.json",
+        "sha256": "7870ea7c985914a1af049f685d62291bfe8d9768c0e4719c40422106d559fa94"
+      }
+    ],
+    "label": "experimental-s6-26.10-v1",
+    "overlay_chain": {
+      "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
+      "sha256": "aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7"
+    },
+    "qualified_candidate": {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-QUALIFICATION-CANDIDATE.json",
+      "sha256": "720a39bad6ee45d46989566568898944cbbaeb67d7ae0db5b67e1dddfba1a1b4"
+    },
+    "tool_base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "tool_hashes": {
+      "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+      "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+      "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+    }
+  },
+  "publication_activation": "PROPOSAL_ONLY_UNTIL_FINAL_GO_AND_PUBLICATION_COMMIT; activeR23interface remainsNOT_PUBLISHED untilthen",
+  "publication_scope": "QUALIFIED_EXPERIMENTAL_RAW_MUT_POINTER_CALLEE_ONLY",
+  "schema": "select-p2-interface-v1",
+  "signature": "pub fn select_unpredictable<Element>(condition: bool, true_val: *mut Element, false_val: *mut Element) -> *mut Element",
+  "source_unit_body_pins": {
+    "all8_matrix_input_ref": {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-MATRIX-PINS.json",
+      "sha256": "5aee793196c2e0ab5960f1c0ea4aab8880ca68e61d74876363e2ccf3febadbed"
+    },
+    "capture_input_ref": {
+      "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
+      "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
+    },
+    "normal": {
+      "classification": "COMPLETE_NINE_BODY_CAPTURE_ONLY",
+      "decoded_sha256": "df9a9e3ddf2fbab08133473d57b226c89ecf6c3b9785f68e79fbc236e5fd1cd1",
+      "exact_body_count_and_order": true
+    },
+    "pin_assurance": "Historicalcapture-onlyinputs reproducedbycurrentreviewedproof/physicalaudits; fixedbodyderivation caveats remain ininputrecord. NoBriefparser-inputbinding inferred.",
+    "readonly": {
+      "classification": "COMPLETE_NINE_BODY_CAPTURE_ONLY",
+      "decoded_sha256": "fea41b1dd6a4ae912c20e53c9afc8de24906f5934b89aadd15b92d6f48a1eb91",
+      "exact_body_count_and_order": true
+    },
+    "snapshots": {
+      "body-0": {
+        "bytes": 4498,
+        "file": "actual-nested-9-body-0.marshal",
+        "sha256": "4ed3047c111f3511c4558c658ace858e76ef31a4874503e7b0aae8961276e09d"
+      },
+      "body-1": {
+        "bytes": 4849,
+        "file": "actual-nested-9-body-1.marshal",
+        "sha256": "da41200aa7341508a30af0d4053926e2a6d71f44a957cdb26c009ccb169f5e29"
+      },
+      "body-2": {
+        "bytes": 3503,
+        "file": "actual-nested-9-body-2.marshal",
+        "sha256": "f50e6ab3f60921d9519397dcac78e44886b6a99b2cc518545f594fb2e27d131e"
+      },
+      "body-3": {
+        "bytes": 3490,
+        "file": "actual-nested-9-body-3.marshal",
+        "sha256": "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951"
+      },
+      "body-4": {
+        "bytes": 4093,
+        "file": "actual-nested-9-body-4.marshal",
+        "sha256": "40c6f20a5896d5027e47e9ebd04a3f5041f835a364209e8ef01978404130f19a"
+      },
+      "body-5": {
+        "bytes": 4707,
+        "file": "actual-nested-9-body-5.marshal",
+        "sha256": "1fdba2ad7662d5669c750e06743a8b3370cd359d8eda8b243e5ee80274d3ce6c"
+      },
+      "body-6": {
+        "bytes": 4337,
+        "file": "actual-nested-9-body-6.marshal",
+        "sha256": "bc3bcf2330b3f74c4f3cd5e99c64970869bf323b53c795f9802b9e4230d67704"
+      },
+      "body-7": {
+        "bytes": 45868,
+        "file": "actual-nested-9-body-7.marshal",
+        "sha256": "4ada582bdd9fad1a74cc7e4e59e37d5f8f626221dfa88a5f217cc4aae2421887"
+      },
+      "body-8": {
+        "bytes": 4920,
+        "file": "actual-nested-9-body-8.marshal",
+        "sha256": "f509741a4d46480b5b01c0fbb9d2ab3fe101272d38d703306b9329a6d130e353"
+      },
+      "unit": {
+        "bytes": 83678,
+        "file": "actual-nested-9-unit.marshal",
+        "sha256": "2cc0cc4b9ef59eef23603678b39cb3db5af348a992611dc2952ad4f75b8533e1"
+      }
+    },
+    "source": {
+      "contract_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+      "original_sha256": "3bf0bf792c8135bf964f19b3aaadef38b8ca5ee9ec95107029ad99d28a807aaa",
+      "specialization": "T = *mut Element; Element unrestricted",
+      "verified_sha256": "74b20681c4c34cdc9ecd0fbb7fb3d44c51941e5d9640ede5705c5d6b6fa25165"
+    }
+  },
+  "status": "PUBLISHED",
+  "strong_post_to_published_contract": {
+    "consequence_module": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-p2-entailment.py",
+      "sha256": "a0cdf07ed378e8daf3986661f1fb239391e1632d68b2a3e3654a5d5082bbb389"
+    },
+    "model": "Existing compiler-to-model MaybeUninit pointertransmute trust boundary; raw_ptr_own owns no pointee; no newmemory/alias model ortrustedpremise.",
+    "planned_text_sha256": "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870",
+    "strong_actual_normal_post": "thread_token(t) plus conditional pointer-cast equality plus raw_ptr_own<Element>(t,result)",
+    "weak_contract_derivation": "Ordinary checked select_p2_post_consequence lemma opens existingempty raw_ptr_own, retains thread_token/equality. Falseunwind inheritedfromactualcallee; no bodyreplacement."
+  },
+  "unwind_contract": "false; inheritedfromsameversioncheckedactualcallee, notfromnormalconsequencelemma"
+}

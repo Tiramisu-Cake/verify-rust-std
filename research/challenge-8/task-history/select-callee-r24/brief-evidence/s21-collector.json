@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 21,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "35f364bcfdb0cd87d6365e5cd99e0c3381d15455916c9f9b8193a3b98bbbfdc6",
+  "file_path": "allprooflogs/cases/r24-mut-refusals/MUT-REFUSALS.json",
+  "file_sha256": "4de5a8d0f23690c87c1a96d6d861649256c4443363a636d775b8c90081b2f305",
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "4de5a8d0f23690c87c1a96d6d861649256c4443363a636d775b8c90081b2f305",
+    "file_id": "35f364bcfdb0cd87d6365e5cd99e0c3381d15455916c9f9b8193a3b98bbbfdc6",
+    "pointer": ""
+  },
+  "request_id": "d841f0ef9d0f6ecd1f0e82e275938b126da5c37d1b0fc71375cca63da1981754",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "child_count": 473,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/artifact_inventory"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/capture_pins_sha256",
+      "value": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "COMPLETE_SOURCE_REPORTED_REFUSAL_COLLECTOR_NO_PROOF_CREDIT"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/complete",
+      "value": true
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/controls"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/lane",
+      "value": "o26-select-callee-r20"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_build_id",
+      "value": "38c94d41-ccd9-49f5-b58c-0efd10b406b6"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/positive_source_hashes"
+    },
+    {
+      "child_count": 18,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/positive_source_record"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/profile",
+      "value": "experimental-s6-26.10-v1"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/provider",
+      "value": "cloud-build"
+    },
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/provider_record"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/publication_allowed",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/r21_route_phase_id",
+      "value": "SORT4-ACTUAL-SELECT-2026-10-23-R21"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/r24_session_phase_id",
+      "value": "SORT4-ACTUAL-SELECT-2026-10-24-R24"
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/requested_controls"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/schema",
+      "value": "select-r24-mut-refusal-collection-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/scope",
+      "value": "SOURCE_ENVELOPE_REFUSALS_ONLY; NO INTERNAL-PREDICATE CLAIM"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

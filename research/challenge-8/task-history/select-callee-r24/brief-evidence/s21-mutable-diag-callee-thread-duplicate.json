@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 21,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "fbafbea41bdc0f6833c441a09b697ddf447ac7a797274f9ad75052ad0bd3e6df",
+  "file_path": "allprooflogs/cases/r24-mut-matrix-proof/MUT-CLASSIFIED-PROOF.json",
+  "file_sha256": "031d25f5cffdeaa81689fae706492e68045e1ddd3b3c0f727798cb1896f2a0ed",
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "031d25f5cffdeaa81689fae706492e68045e1ddd3b3c0f727798cb1896f2a0ed",
+    "file_id": "fbafbea41bdc0f6833c441a09b697ddf447ac7a797274f9ad75052ad0bd3e6df",
+    "pointer": "/rows/callee-thread-duplicate/diagnostic_row"
+  },
+  "request_id": "405deb53309c934a64051f2a0266a44121d1bf215e137a30fd94f7c5f4e5460b",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/case_path",
+      "value": "cases/r24-mut-matrix-fingerprint/variants/callee-thread-duplicate"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/classification",
+      "value": "UNKNOWN_UNCLASSIFIED"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/errors"
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/native_build_id",
+      "value": "38c94d41-ccd9-49f5-b58c-0efd10b406b6"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/native_marker_count",
+      "value": 1
+    },
+    {
+      "child_count": 10,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/original_stage_record"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/proof_stage_exception",
+      "value": null
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/source_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/source_intact",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/stage_exit",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/stage_name",
+      "value": "r24-mut-proof-callee-thread-duplicate"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/stage_source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/stage_source_before"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/stage_status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/targets_pinned",
+      "value": false
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_row/tool_hashes"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 113,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 8,
+      "PROJECTED": 488,
+      "SCAN_BUDGET_EXCEEDED": 573,
+      "UNSUPPORTED_FILE_TYPE": 588
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2092842,
+    "content_files": 571,
+    "files": 1845,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "a5deb6a0e87241cb21f5c0107dcc6e97c39c0ab520b2ad93f85e898fb7204706",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-mut-matrix-fingerprint/variants/callee-owner-loss/r24-mut-proof-callee-owner-loss.log",
+      "path_sanitized": false,
+      "scanned_bytes": 0,
+      "sha256": "da9fdfdb2766a870d8775e0597ec158a48a0d2179ad04cc86132e64eff496432",
+      "size_bytes": 40336,
+      "status": "SCAN_BUDGET_EXCEEDED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1845,
+    "files_with_incomplete_content": 1661,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

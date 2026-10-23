@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "aaa63eec9f125153b4e43a69970369e1713f4adb3b0b020ec10772d86fc554d5",
+  "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 113,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 8,
+      "PROJECTED": 488,
+      "SCAN_BUDGET_EXCEEDED": 573,
+      "UNSUPPORTED_FILE_TYPE": 588
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2092842,
+    "content_files": 571,
+    "files": 1845,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "775f2031a0a01b6460e62249cf55ed3b8303908ff35536683518497e6f838524",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "9987b395c6bdd09212e4d32c61bacb973043807f4f0f278e5678cd3d1d9eda2f",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-mut-matrix-fingerprint/variants/callee-owner-duplicate/r24-mut-proof-callee-owner-duplicate.log",
+      "path_sanitized": false,
+      "scanned_bytes": 40563,
+      "sha256": "2b1f1e670fd212c990e00cb1cb79943877db507a97fcb8b4521dbbc514a6b121",
+      "size_bytes": 40563,
+      "status": "CONTENT_BUDGET_EXCEEDED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1845,
+    "files_with_incomplete_content": 1661,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
