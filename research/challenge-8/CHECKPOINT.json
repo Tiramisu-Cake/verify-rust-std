@@ -32,7 +32,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "Actual callee descriptor rejects unsupported projection step.",
+    "summary": "P14 exact kind/address representation prepared; Cloud-unverified.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +65,7 @@
       ]
     }
   ],
-  "next_step": "Implement exact kind metadata and bounded verified address projection.",
+  "next_step": "Review P14 exact kind and helper trace; measure transport; Cloud.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -100,7 +100,7 @@
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T19:03:33.015988Z",
+  "updated_utc": "2026-10-23T19:05:05.145959Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -412,7 +412,11 @@
         "Reject missing/non-Mut kind, wrong source/destination type, receiver/projection/index/mutability, extra address/cast/use, mismatched std/helper trace or lifecycle.",
         "No local compiler/schema generation/parser/exporter/proof; actual Cloud validates applicability; actual P13 rvalue kind remains UNKNOWN."
       ],
-      "proof_credit": 0
+      "proof_credit": 0,
+      "tool_sha": "8d58286d64dafd88b9ebf29755d93f0b11335302",
+      "profile_sha256": "b31fe4e3c2391968a00a76b0a115d0128a940bcee653c35db6b59dd5ebb06e03",
+      "static_validation": "Optional kind is struct union via existing Mutability pattern, not enum.get; optional reader payload unwrapped with of_pointer. Root binding mutability not confused with mutable-reference place kind. All rawptr writers/synthetic initializers audited: only common exporter writer, legacy Nothing automatic. Exact one first Mut receiver Deref plus final PtrToPtr, full typed trace/lifecycle equality. Profile6/phase8/diffcheck pass; no actual toolchain/schema generation locally.",
+      "primary_kind_reference": "https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/mir/enum.RawPtrKind.html — FakeForPtrMetadata retag distinction retained; no equivalence between RawPtr and Cast introduced."
     }
   ],
   "mission_queue": [
@@ -763,7 +767,8 @@
     "publish_terminal_accounting_before_next_step": true,
     "close_on_goal_budget_or_true_boundary": true,
     "closeout_and_reviewed_handoff_on_budget_exhaustion": true,
-    "request_new_window": false
+    "request_new_window": false,
+    "post_terminal_sequence": "ACK -> coordinator status -> commit/push ledger+CHECKPOINT+STATUS views -> Evidence Brief and next step"
   },
   "accounting_reconciliation": {
     "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
@@ -776,7 +781,8 @@
   },
   "prepared_tool_candidate": {
     "tool_sha": "8d58286d64dafd88b9ebf29755d93f0b11335302",
-    "status": "COMMITTED_UNREVIEWED_UNSUBMITTED",
-    "scope": "optional exact RawPtrKind metadata and conditional exact receiver raw-pointer helper equivalence; actual P13 rvalue kind UNKNOWN"
+    "status": "PUBLISHED_REVIEW_PENDING",
+    "scope": "optional exact RawPtrKind metadata and conditional exact receiver raw-pointer helper equivalence; actual P13 rvalue kind UNKNOWN",
+    "profile_sha256": "b31fe4e3c2391968a00a76b0a115d0128a940bcee653c35db6b59dd5ebb06e03"
   }
 }

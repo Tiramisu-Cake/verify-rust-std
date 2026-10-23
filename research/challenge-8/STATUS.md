@@ -1,7 +1,7 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-24-r23
 
 - Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: ACTIVE
-- Updated: 2026-10-23T19:03:33.015988Z
+- Updated: 2026-10-23T19:05:05.145959Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `0f4e336b52441e8f341a567250adba2b200c54d1`, profile `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`
 - Session dates: T0 `2026-10-23T10:45:00Z`; main deadline `2026-10-26T10:45:00Z`; absolute deadline `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 14400s total; 7475s spent; 0s retired; 6925s remaining including active reservations
@@ -20,11 +20,11 @@
 - Broad placeholder exemption, address-only borrow bridge, short outer timeout — No slice metadata, lifetime/full_borrow or memory authority; short timeouts missed the compile reserve.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Actual callee descriptor rejects unsupported projection step.
+P14 exact kind/address representation prepared; Cloud-unverified.
 - [research/challenge-8/cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json](cloud-build/origin-layout/R23-P13-SOURCE-BORROW-BRIEF-20261024.json) SHA `ddfdd7eda582df2ef2b96734adc5c5072e2654ca7c3199f574d16c21f54d3d66` Build `025c652d-6aba-4ccc-be45-34257b689518`
 
 ## Next
-Implement exact kind metadata and bounded verified address projection.
+Review P14 exact kind and helper trace; measure transport; Cloud.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json](cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json) — `fab09b113113f928ceb4a321e011f80650857e86d73e5aec604a2883e2fff6c5`
