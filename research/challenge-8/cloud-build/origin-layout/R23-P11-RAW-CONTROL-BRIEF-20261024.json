@@ -1,0 +1,203 @@
+{
+  "schema": "r23-p11-raw-control-brief-v1",
+  "build": {
+    "build_id": "9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_claim_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 1,
+    "evidence_complete_source_claim": true,
+    "tool_build_milestones": {
+      "exporter": 0,
+      "translator": 0,
+      "decoder": 0,
+      "refiner": 0
+    },
+    "proof_audit_source_claim": {
+      "proof_attempted": true,
+      "compiler_classification": "PASS",
+      "accepted": false,
+      "independent_credit": false,
+      "proof_credit": false,
+      "diagnostic_complete": false,
+      "file_id": "faa45bb751ddfcde6155dd81909bcd49f77e00a3154a25a9b49727b9513d6008",
+      "sha256": "faa45bb751ddfcde6155dd81909bcd49f77e00a3154a25a9b49727b9513d6008"
+    },
+    "home_diagnostic": {
+      "source": "full-stderr.log",
+      "sha256": "1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff",
+      "causality": "UNKNOWN"
+    }
+  },
+  "brief_identity": {
+    "archive_sha256": "564f993de6cb66c4cc6543aebe7ff6bf5539698a0077cc383411de4b85a138fa",
+    "index_sha256": "e853f5bf6485fbe5ce386cc763da8f32ebac1aaee59d6e060b05a23b69d68986",
+    "report_schema": "smallsort-evidence-index-v8",
+    "catalogue_complete": true,
+    "catalogue_files": 4541,
+    "retained_content_files": 633,
+    "retained_content_bytes": 2092289,
+    "source_scan_bytes": 8388608,
+    "availability_counts": {
+      "PROJECTED": 627,
+      "CONTENT_BUDGET_EXCEEDED": 646,
+      "JSON_EXCEEDS_SCAN_LIMIT": 6,
+      "SCAN_BUDGET_EXCEEDED": 1636,
+      "UNSUPPORTED_FILE_TYPE": 1626
+    },
+    "coverage_limit": "Catalogue is complete, but source projection is bounded and incomplete. Source claims are not independent proof credit; parser-input binding and causality remain NOT_ESTABLISHED/UNKNOWN."
+  },
+  "aggregate": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/aggregate.json",
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "sha256": "791a5ad26d5d6a7f9b42fe73784333b501f3485a5f28be30b57989a1ea1873c2",
+    "size_bytes": 729135,
+    "catalogue_status": "JSON_EXCEEDS_SCAN_LIMIT",
+    "direct_pointer_attempts": [
+      {"request_pointer": "/results/raw_local_caller", "status": "HTTP_400"},
+      {"request_pointer": "/results/rawptr_controls", "status": "HTTP_429"},
+      {"request_pointer": "/results/r19_unwind_controls", "status": "HTTP_429"},
+      {"request_pointer": "", "status": "HTTP_400"}
+    ],
+    "fallback_used": "Exact pointers on bounded per-case result files; no raw source fallback."
+  },
+  "raw_local_caller": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/raw_local_caller/cases/actual_three_from_local_raw/classification.json",
+    "file_id": "2eeaf6a244fd8b7731cdac0a155c9979aaad8ced4ad2e5042e02c13049dbf04c",
+    "sha256": "9c07d38376c1ca7dc4b31763a342b657c96d554fb53df435f737fc62a6d1a9d7",
+    "root_request_id": "cb231fd8b8ec86fbce6bd6a2ce4b9cd0bb5ff74102554ffdab5bad15c0bf9447",
+    "stages_request_id": "41319c5ce9ef6c51cc23bec561d53e9864396c11be63d10af26680b557e5fcdb",
+    "classification": "RAW_LOCAL_CALLER_BOTH_TARGETS_EXIT0",
+    "stages": {"decode": 0, "exporter": 0, "refinement": 0, "verifast": 0},
+    "source_exact": true,
+    "source_unchanged_at_every_stage": true,
+    "body_bytes_preserved": true,
+    "posts_preserved": true,
+    "verifier_target_observed": true,
+    "caller_or_prefix_gate": false,
+    "full_target": false,
+    "qualification": false,
+    "accepted": false,
+    "proof_credit": false,
+    "independent_credit": false,
+    "source_reason": "actual insert_tail and raw local caller targets reached typed verification with all required stages at exit 0"
+  },
+  "rawptr_controls": {
+    "campaign_path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/result.json",
+    "campaign_file_id": "0f36e5b51c3b5cec613b2eaaa7e372b054d623f1bf30cb1a3a6bb95d1faaa53c",
+    "campaign_sha256": "cf045452b671b34a20ecd1303962fca4c0933f47783bcbf693d676a768606571",
+    "campaign_request_id": "e9b2cf40ca29c7592bc7fa696a45408ac2a4125215dee8dc5ceb0c434bfe1264",
+    "classification": "RAW_PTR_CONTROLS_INCONCLUSIVE",
+    "all_matched": false,
+    "accepted": false,
+    "proof_credit": false,
+    "independent_credit": false,
+    "state_case": {
+      "name": "unequal_address_taken_state",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/cases/unequal_address_taken_state/classification.json",
+      "file_id": "e20b1507166467116d9b0bb2b95808df3a92cf26579bb7782c97b69642308c6a",
+      "sha256": "69801afffda72c889ece898b0fbd68f332ac9323baf52f2f4529c1a84ec3a5f7",
+      "request_id": "a1ab947eb773e9c88f3cd864585e52355b9d87191e0aa7f793e4c02470912a06",
+      "classification": "EXPECTED_REFINER_REFUSAL",
+      "matched": true,
+      "accepted": false,
+      "proof_credit": false,
+      "reason": "exact refiner refusal matched the isolated function and command target",
+      "stages": "UNKNOWN_NOT_QUERIED"
+    },
+    "index_case": {
+      "name": "unsupported_index_projection",
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r17-rawptr-controls/cases/unsupported_index_projection/classification.json",
+      "file_id": "b40b7c3a4acafb081a2de7d11f8ef298c1596c512ccbc4011c8352793e1643ac",
+      "sha256": "7f6a9d8d0d7c31a1c71ed7064253bf7886415af58bc0190c5fc6de6ff4676eb4",
+      "root_request_id": "7ead059c62092e130af9a423c18c828d20826a40034ba0f2b54f16a53dfc0f7e",
+      "stages_request_id": "59840fcec09b29ada84494ed477b3ed90d18cc68df44aebec259adab01fcb25c",
+      "classification": "INCONCLUSIVE",
+      "matched": false,
+      "accepted": false,
+      "proof_credit": false,
+      "reason": "typed source/stage receipts did not match",
+      "stages": {"decode": 0, "exporter": 0, "refinement": 0, "verifast": 2},
+      "refinement_gate_row": {
+        "request_id": "90a58a7e1a3d705d3b250beae949a64e3b1ef5c51f7dc2352b7e4aaf965a013a",
+        "exact": true,
+        "admitted": false,
+        "exit_code": 0,
+        "source_identity_matches": true,
+        "typed_exit_matches": true,
+        "successful_stage_wrapper": true,
+        "required_stage_result_matches": false,
+        "status": null,
+        "reason": "The control gate requires a nonzero, non-setup refinement exit for this negative case; the exact typed receipt reports zero."
+      }
+    },
+    "targeted_query_failures": "Raw aggregate pointer requests were rejected (HTTP 400/429); per-case exact source and stage receipts above succeeded. No repeated retry loop."
+  },
+  "r19_unwind_controls": {
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/result.json",
+    "file_id": "53062662a993659bac257a20c2f554e322a8d8675a5394271df103b663f36dce",
+    "sha256": "7d88810eabf0dfa1028b9248b380b2fd6f8c153615c3c4aa151b20b3f625462a",
+    "root_request_id": "7ac8b508b0795fcf4e2ea6d6c2c0af258eff2c49a1c05d7bca602d9f8460cfdc",
+    "classification": "ALL_R19_UNWIND_CONTROLS_MATCHED",
+    "all_matched": true,
+    "accepted": false,
+    "b2_achieved": false,
+    "proof_credit": false,
+    "independent_credit": false,
+    "synthetic_unwind_resource": {
+      "request_id": "3bd0c25510522313413bbf79ea1c10dfc0d62b4ec075737fb25b1b71af4dd826",
+      "classification": "EXPECTED_SYNTHETIC_RESOURCE_REFUSAL",
+      "matched": true,
+      "accepted": false,
+      "proof_credit": false,
+      "reason": "callee and caller traces reached the exact synthetic unwind resource refusal",
+      "caller_call_trace": true,
+      "caller_header_count": 1,
+      "callee_body_trace": true,
+      "callee_header_count": 1,
+      "target_executed": true,
+      "target_line": 149,
+      "target_error_count": 1,
+      "target_trace_count": 1,
+      "resource_message": true,
+      "dead_code": [],
+      "stages_request_id": "b356f3ecc83093fc7a5593a575c00158875563e8c403af7277419566a12bc876",
+      "stages": {"decode": 0, "exporter": 0, "refinement": 0, "verifast": 1}
+    },
+    "verifier_log": {
+      "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r19-unwind-controls/synthetic_unwind_resource/cases/synthetic_unwind_resource/verifast.log",
+      "file_id": "bb9085752d83266a92da8f4e4242338027041867adfc4eab055664729aedc8e1",
+      "sha256": "02948d14a44a4ccca36d5ed71fedcf248d171a33ddb6bcf2882e7d006bd0f405",
+      "catalogue_status": "SCAN_BUDGET_EXCEEDED",
+      "whole_file_bounded_locate_requests": {
+        "literal_Verifying_function_id": "092490c603ee505a050b4d2d3237fd0284f20731f9fac3c54f68d926dffda206",
+        "literal_Verifying_function_call_id": "80fa66c66ceebef0a192875bf8bdd10d036c0d00bd5168fe7b5fac5ea38ba0eb",
+        "literal_Executing_call_id": "f0e9e9b654220bc7167b13c75f12b79909c8b1b8842305df23d8122e6fd45074",
+        "literal_No_matching_heap_chunks_id": "7f853abbceafe462ce8b6f3296a999a0bb88fe78ab521a1e84ac0d95c253943c"
+      },
+      "observations": {
+        "Verifying function": "13 exact matches in whole-file locate; relevant error-context window shows function b2_three_from_local at log line 327.",
+        "Verifying function call": "No match in exact whole-file literal search.",
+        "Executing call": "No match in exact whole-file literal search.",
+        "resource_error": "One exact match at log line 321: verified/lib.rs(149,28-29): error: No matching heap chunks: array<u64>(values_addr, 4, _)."
+      },
+      "error_window_request_id": "d154532a269683767134b8d103ea1518310dc48fa4185726d34263392bdd835f",
+      "opening_window_request_id": "1b08e899c0f5098877179c930fe017bc3acbaaf23ea8f95d16a00197b0df279c",
+      "call_trace_wording": "NOT_ESTABLISHED_FROM_LOG_TEXT; source classification reports caller_call_trace=true, but the exact call trace wording was not identified."
+    }
+  },
+  "source_claim_vs_credit": {
+    "source_claims_only": true,
+    "proof_accepted": false,
+    "proof_credit": false,
+    "independent_credit": false,
+    "proof_attempted": true
+  },
+  "integrity": {
+    "brief_catalogue_and_targeted_service_only": true,
+    "raw_archive_or_full_log_downloaded": false,
+    "local_tool_or_proof_run": false,
+    "code_changes": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN"
+  }
+}

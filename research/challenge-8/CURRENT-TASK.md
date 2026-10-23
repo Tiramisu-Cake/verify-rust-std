@@ -47,10 +47,10 @@ Next: Fix the three findings, delta review, register R23, early full-1200 Build;
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · HANDOFF**
-Updated: 2026-10-23T14:52:50.797398Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
-Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 5018s spent, 0s retired, 9382s remaining including reservations.
-Active Build IDs: 9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86; unresolved: none recorded.
-Blocker: P11 registered; actual compiler/proof outcome pending.
-Next: Watcher event ACK, then P11 Evidence Brief.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · ACTIVE**
+Updated: 2026-10-23T15:20:30.578003Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 5616s spent, 0s retired, 8784s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: P11 let_lft parser boundary fixed; new tool Cloud-unverified.
+Next: Review P12 parser repair; index input evidence remains OPEN.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

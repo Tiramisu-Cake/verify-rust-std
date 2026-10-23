@@ -1,0 +1,83 @@
+{
+  "schema": "merge-r23-p11-source-borrow-brief-v1",
+  "build_id": "9c8a2dc7-74ba-4bf8-8708-fd6a35f62e86",
+  "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "integrity_meaning": "archive/inventory only, not proof acceptance",
+  "verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "proof_attempted_source_claim": true,
+  "compiler_classification_source_claim": "PASS",
+  "tool_stage_exits_source_claim": {
+    "exporter": 0,
+    "decoder": 0,
+    "translator": 0,
+    "refiner": 0
+  },
+  "archive_sha256": "564f993de6cb66c4cc6543aebe7ff6bf5539698a0077cc383411de4b85a138fa",
+  "index_sha256": "e853f5bf6485fbe5ce386cc763da8f32ebac1aaee59d6e060b05a23b69d68986",
+  "aggregate": {
+    "file_id": "92de6ec3e223362f51aea2b8cc39115cc6c5d03bbd4db225e49afe7e70412da2",
+    "sha256": "791a5ad26d5d6a7f9b42fe73784333b501f3485a5f28be30b57989a1ea1873c2",
+    "results_keys_request": "6eab1628ffc88ff43242913cfbc8067131aeebdb63c9c7cf1a3bee741e3597b4",
+    "exact": true,
+    "complete": true
+  },
+  "source_case": {
+    "file_id": "b9b1162440c5335e9f043ff61235df54616b7c008b4346ed68378100fcc960e2",
+    "sha256": "591c9fdb08770ff381f1ca89eeaebe55a9bb72c138e10360f8be21d968919c58",
+    "root_request": "0ab223dd3c5d56ebee23bca7741cb97a1f2e53bee448ad9738250a7d14a08fd0",
+    "stages_request": "b4646f49441f88d4e25eb208e3ef6ecefcc15149718f6450c902149ae6fe6973",
+    "exact": true,
+    "complete": true,
+    "classification": "INCONCLUSIVE",
+    "source_exact": true,
+    "source_unchanged_at_every_stage": true,
+    "posts_preserved": true,
+    "body_bytes_preserved": false,
+    "verifier_target_observed": false,
+    "reason": "one or more required verifier targets were not established",
+    "stages": {
+      "exporter": 0,
+      "decode": 0,
+      "refinement": 0,
+      "verifast": 1
+    }
+  },
+  "native_error": {
+    "file_id": "62579048b440285209d54779fafd9c375e1ca3162b25cd6f2e4eff0a2c70042c",
+    "path": "allprooflogs/checked-minimal-bridge/actual-insert-tail-b2/r23_source_borrow/cases/actual_three_from_local_source_borrow/verifast.log",
+    "sha256": "988e887f8a83cf63de9be77653661e93d3d4083d176a545f9fcf205d39804ead",
+    "size_bytes": 3008,
+    "locate_request": "19f9fc066f5c1d96d204b98f1da01fee6c6de6fa3988eb7b655c123d0c3b31c8",
+    "lines_request": "06a9a0201bcd30c534e7812b03ed0318e6e1410504a82b9b8c948437f162c6dc",
+    "lines": "155-164",
+    "exact": true,
+    "complete": false,
+    "diagnostic": "verified/lib.rs(627,5-12): Parse error at let_lft declaration",
+    "source_statement": "//@ let_lft 'r23_borrow = r23_borrow_k;"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "causal_status": "UNKNOWN",
+  "proof_credit": false,
+  "independent_credit": false,
+  "source_controls": {
+    "keys_request": "30286f9d870ca558c05deb5a7af34e55d4a23a54fe20a5d47ba0c9d3c17529e0",
+    "keys_exact": true,
+    "keys_complete": true,
+    "duplicate_begin_marker": {
+      "classification": "INCONCLUSIVE",
+      "request_id": "3388874cd2a1c75ffa019323721aeb695cde89d6992959c97e095efa333e2e56",
+      "exact": true,
+      "complete": true
+    },
+    "missing_end_marker": {
+      "status": "HTTP_429",
+      "classification": "UNKNOWN",
+      "no_inference": true
+    },
+    "wrong_logical_lifetime_binding": {
+      "status": "HTTP_429",
+      "classification": "UNKNOWN",
+      "no_inference": true
+    }
+  }
+}
