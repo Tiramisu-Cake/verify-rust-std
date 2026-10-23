@@ -1,7 +1,7 @@
-# Merge-R22 — Cloud HANDOFF tool578/profile9496 по admission e70c9115, raw caller controls, borrow/unsize
+# Merge-R23 — NEEDS_FIX, early Build, owned-NLL stop-loss, source-level borrow route
 
-Task ID: `merge-caller-acceptance-autonomous-2026-10-23-r22`; previous task: `merge-caller-acceptance-autonomous-2026-10-23-r21`.
-Owner: **Merge**. Phase: `MERGE-CALLER-ACCEPTANCE-R22-2026-10-23`. Lane: `merge`.
+Task ID: `merge-caller-acceptance-autonomous-2026-10-24-r23`; previous task: `merge-caller-acceptance-autonomous-2026-10-23-r22`.
+Owner: **Merge**. Phase: `MERGE-CALLER-ACCEPTANCE-R23-2026-10-24`. Lane: `merge`.
 
 ## Mission
 
@@ -13,46 +13,44 @@ No previous budget, T0, ledger authorization, profile acceptance, or proof credi
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `fd4281a5f89cf313bc6d977cc401d2faa9e32909`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
-Tool worktree `/root/verifast-merge-actual-glue` on `merge/actual-glue-instance-20261011` at `578120769161e217e53bd569bafdccbd4b2e020e`.
-Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R22-BUDGET-20261023.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R21-BUDGET-20261023.json`.
-Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥420 seconds. T0 remains NOT_SET until actual work starts.
+Worktree `/root/verify-rust-std-merge-origin` on branch `merge/incoming-origin-20261009`; baseline `733b6a7d68259787f1caf58177060589b6af779e`; source `6fd50c699500cbac5c65912174d4aa49b49db19f`.
+Tool worktree `/root/verifast-merge-actual-glue` on `merge/r22-owned-nll-borrow-sites-20261023` at `0f4e336b52441e8f341a567250adba2b200c54d1`.
+Profile `research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json` SHA-256 `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`. New ledger path: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R23-BUDGET-20261024.json`; previous closed ledger: `research/challenge-8/cloud-build/origin-layout/CURRENT-RECOVERY-R22-BUDGET-20261023.json`.
+Cloud budget: 14400 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1200 seconds; report reserve ≥420 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R22 и Builds разрешены. Цель — Cloud-проверка reviewed HANDOFF 41d449f3 (tool 57812076, profile 9496), приёмка raw caller с controls (F5, state, index), затем исходный as_mut_ptr/unsize caller с actual borrow lifecycle и матрица CURRENT/normal/unwind. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
+R23 and Builds authorized. One-time extended window: close on goal, budget or a real boundary, not on time (R23-OWNER-DIRECTIONS). Goal: the plan's first end-to-end branch, the actual insert_tail caller (W3) with a real borrow lifecycle and W2 normal/unwind restoration. Stop-loss: two Cloud cycles on owned-NLL, then a source-level adapter.
 
-1. Re-register as R22 on the reviewed R21 admission e70c9115 (R21-ADMISSION-REVIEW; delta review of the R22 registration only); recheck pins and transport margin. Cloud preflight, then early one full-envelope Build: raw caller target, five R19 controls, state/index controls on the new tuple; classify by exact receipts. A compile error or a run without proof stage (R20 P3/P4) is fixed statically first; never repeat the same config.
-2. By result: F5 as a real verifier negative (not a setup failure), intended state-context and index-projection controls; then original as_mut_ptr/unsize: owned NLL fact capture, source-bound borrow/reference lifecycle and checked resource conversion in the same admitted domain.
-3. Then CURRENT/backedge, false/true/panic/Drop/Resume and the final matrix on compatible pins. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W2/W3/W5), recording choice and reason in CHECKPOINT; if a Cloud cycle does not fit, prepare a reviewed HANDOFF.
+1. Without Cloud: fix the three NEEDS_FIX findings (compile-profile translator pin; strip inherited VF_EXPORT_OWNED_NLL_FACTS from every copied campaign/placement env; distinct NLL eligibility flag for exact registered positive cases only) with service error-path tests; one delta review. Register R23 with HEAD profile 3fec93b5; re-measure transport; early full-envelope Build.
+2. Stop-loss: at most two full Cloud cycles on owned-NLL capture; success = owned facts bound to the actual MIR body/location with an ESTABLISHED cross-stage mapping. Otherwise record the exact gap and switch to the source-level route of R20-CALLER-AND-CONTROL-FRONTIER (exact coercion/types/lifetime, checked array conversions, borrow/borrow_end encapsulation); no new trusted premise.
+3. Then raw caller intended controls (F5 real resource negative, state context, index projection) and the CURRENT/backedge, false/true/panic/Drop/Resume matrix on compatible pins. Record self-chosen obligations in CHECKPOINT.
 
 ## Special bounds
 
-- Envelope timeout1200/execute<=780/soft<=765/reserve>=420, nested compile reserve140. Never shorten a timeout to fit the remaining window: if the full envelope does not fit main, no Build. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push. Measure transport before each submit; no cap increase.
-- RawPtr: same mutability/pointee/place/full origin; no RawPtr<->Ref, address-only ownership, broad placeholders or new borrow/trusted premises. Keep the R8 allocation boundary, posts and controls. cloud-build/coordination.py is the owner-adopted v4 client: do not edit it.
-- Raw caller, original caller and isolated body are separate claims; missing bindings => INCONCLUSIVE; no B2/independent credit. Use the whole main window; an early stop lists each checked independent task and why it is unavailable in closure_reason.
+- Window deadlines exist only for ledger/watcher. Envelope timeout1200/execute<=780/soft<=765/reserve>=420, nested compile reserve140, never shortened; compile error or no-proof-stage run fixed statically, same config never repeated. Review once per semantic candidate; progress note about every 2 h.
+- RawPtr: same mutability/pointee/place/full origin; no RawPtr<->Ref, address-only ownership, broad placeholders or new trusted premises. Keep the R8 boundary, posts and controls. coordination.py v4 read-only. Raw, original and isolated-body claims stay separate; no B2 credit.
+- Maintain cloud-build/origin-layout/TOOL-CHAIN.md (fork branches, heads, scope, gating, status) for the VeriFast maintainer; the maintainer takes no proof work and changes no pins. Fixes for a finished Codex worker go through a follow-up task.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: R21 lost to permission stall, 0 Builds; tool578 admission pending.
-Next: New task: re-register on reviewed e70c9115; HANDOFF Build t1200 early.
+Blocker: Admission NEEDS_FIX (3 findings); no Build until fixed, reviewed, transport re-measured.
+Next: Fix the three findings, delta review, register R23, early full-1200 Build; then owned-NLL stop-loss and the source-level route.
 
 ## References
 
-- [R21 admission design](cloud-build/origin-layout/R21-ADMISSION-DESIGN-20261023.md)
-- [R21 admission review](cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json)
-- [R20 closeout](cloud-build/origin-layout/R20-CLOSEOUT-20261023.json)
+- [Owner directions R23](cloud-build/origin-layout/R23-OWNER-DIRECTIONS-20261024.md)
+- [R22 owned-NLL adoption review (NEEDS_FIX)](cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json)
 - [R20 caller and control frontier](cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md)
-- [Completion plan](COMPLETION-PLAN.md)
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-23-r22 · merge · MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 · CLOSED**
-Updated: 2026-10-23T09:47:20Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `578120769161e217e53bd569bafdccbd4b2e020e` / `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`.
-Dates: T0 `2026-10-23T07:44:00Z`; main `2026-10-23T09:44:00Z`; absolute `2026-10-23T10:14:00Z`. Budget 3600s: 1120s spent, 2480s retired, 0s remaining including reservations.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · NOT_STARTED**
+Updated: 2026-10-23T10:26:47Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 0s spent, 0s retired, 14400s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Admission NEEDS_FIX.
-Next: Fresh task; fix3findings.
+Blocker: Admission NEEDS_FIX (3 findings); no Build until fixed, reviewed, transport re-measured.
+Next: Fix the three findings, delta review, register R23, early full-1200 Build; then owned-NLL stop-loss and the source-level route.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

@@ -1,355 +1,67 @@
 {
-  "artifacts": [
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json",
-      "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json",
-      "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-MULTILINE-REGION-REVIEW-20261023.json",
-      "sha256": "dccf2b008bc042bba16c8c29d053343b568bcd33051d27be7c1f1391e5efbb7a"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-TYPED-NLL-REVIEW-20261023.json",
-      "sha256": "c27d92e649c2f3f95137865099032906d2f34806b27971d0037c867d0dfd56de"
-    }
-  ],
-  "assignment_sha256": "c415d4a1a29898ba0fa496dac8a185b455df5a4100338a6445ec6b466967d7d9",
+  "artifacts": [],
+  "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
   "baseline": {
-    "profile_sha256": "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301",
+    "profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
     "source_sha": "6fd50c699500cbac5c65912174d4aa49b49db19f",
-    "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
+    "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "Admission NEEDS_FIX.",
-    "evidence": []
+    "evidence": [
+      {
+        "path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json",
+        "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
+      }
+    ],
+    "summary": "Admission NEEDS_FIX (3 findings); no Build until fixed, reviewed, transport re-measured."
   },
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "R20 P1: compile5legs0; raw caller BOTH_TARGETS_EXIT0/stagesall0/sourceexact/posts preserved;5R19 controls MATCHED. Static shape != F5 resource negative. Bounded only, credit0.",
+      "claim": "R20 P1 196e1b52: raw caller exit0, 5 R19 controls MATCHED; bounded, credit0. R22 P2/P3: translator failed, no proof.",
       "evidence": [
         {
-          "build_id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
-          "path": "research/challenge-8/observations/28d241ff4bace6c455a0621a17de2bb59bc13cf90d79f14103b2dec836cb8557.json",
-          "sha256": "28d241ff4bace6c455a0621a17de2bb59bc13cf90d79f14103b2dec836cb8557"
-        },
-        {
-          "build_id": "196e1b52-23bf-47e8-bf0a-72caa5c1bbf2",
-          "path": "research/challenge-8/observations/91dbaddf063900fe558593f5aeb413f306f4b691cd07575d77416e026cdb657a.json",
-          "sha256": "91dbaddf063900fe558593f5aeb413f306f4b691cd07575d77416e026cdb657a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R22 P2: exporter/decoder0; translator1 missingidentity; proof_attemptedfalse, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R22-P2-BRIEF-RESULT-20261023.json",
-          "sha256": "2e5b90dd108f0f171d9979c52282c258e3d721513db34c0e35479468d16e7c2b",
-          "build_id": "fb2529be-bf1d-4721-8632-4c5493e2fedd"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R22 P3: exporter/decoder0; translator1 atmultiline10605; proof_attemptedfalse, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R22-P3-BRIEF-RESULT-20261023.json",
-          "sha256": "16870107a443c26dd2f06915a541ca76c8c383f9f822b618b11a9059b39472c3",
-          "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
+          "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3",
+          "path": "research/challenge-8/cloud-build/origin-layout/R22-CLOSEOUT-20261023.json",
+          "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
         }
       ]
     }
   ],
-  "next_step": "Fresh task; fix3findings.",
+  "next_step": "Fix the three findings, delta review, register R23, early full-1200 Build; then owned-NLL stop-loss and the source-level route.",
   "open": [
-    "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
-    "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
-    "F5 separate synthetic resource negative INCONCLUSIVE; actual missing-owner control is static shape refusal.",
-    "P3 exporter/decoder0, translator10605failed; fourconstructorfixes Cloud-UNVERIFIED; CURRENT/normal/unwind matrix OPEN.",
-    "No B2/generic/arbitrary-n/sorting/tool qualification/independent credit.",
-    "RootNLLadmission1f805 NEEDS_FIX: legacytranslatorpin, inheritedflag, exact-case scope. No oldwindow resumption."
+    "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
+    "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
   ],
   "owner": "merge",
-  "phase": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+  "phase": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
   "rejected": [
     {
-      "approach": "Broad placeholder/cast inference exemption or address-only borrow bridge",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R16-CALLER-DESIGN-20261021.md",
-          "sha256": "c1e8f851b5c0b18edf3ed5ac2b758a32daa0eda2f4ea88551b8e37e03288b940"
-        }
-      ],
-      "reason": "Does not establish slice metadata, valid lifetime/full_borrow or memory authority; original gate must remain."
-    },
-    {
-      "approach": "Short outer timeout990/execute570 chosen using prior whole-cycle timings",
+      "approach": "Broad placeholder exemption, address-only borrow bridge, short outer timeout",
       "evidence": [
         {
           "path": "research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md",
           "sha256": "7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa"
         }
       ],
-      "reason": "Missed nested compile reserve140; P4 timed out before proof. Keep full1200 plan unless effective inner budget reviewed."
+      "reason": "No slice metadata, lifetime/full_borrow or memory authority; short timeouts missed the compile reserve."
     }
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
     "active_build_ids": [],
-    "budget_seconds": 3600,
-    "deadline_utc": "2026-10-23T10:14:00Z",
-    "main_deadline_utc": "2026-10-23T09:44:00Z",
-    "remaining_seconds": 0,
-    "retired_seconds": 2480,
-    "spent_seconds": 1120,
-    "t0": "2026-10-23T07:44:00Z",
+    "budget_seconds": 14400,
+    "deadline_utc": null,
+    "finish_minutes": 60,
+    "main_deadline_utc": null,
+    "main_minutes": 4320,
+    "remaining_seconds": 14400,
+    "retired_seconds": 0,
+    "spent_seconds": 0,
+    "t0": null,
     "unresolved_ids": []
   },
-  "state": "CLOSED",
-  "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T09:47:20Z",
-  "decisions": [
-    {
-      "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
-      "reason": "Actual session preparation began before clock reading; conservative minute fixes boundaries without extending authorization."
-    },
-    {
-      "decision": "Manual exact-phase R22 preparation after smallsort-session prepare refused pinned numeric independent_credit=0; do not alter profile or shared generator.",
-      "alternatives": [
-        "Change pinned profile (rejected: violates exact tuple)",
-        "Wait for owner (rejected: owner unavailable)",
-        "Manual existing-client registration with delta review (selected)"
-      ],
-      "reason": "Existing client gates remain authoritative; only registration delta and unreferenced historical report recipe pruning require review."
-    },
-    {
-      "decision": "Preserve uncommitted R22 registration draft at owner pause.",
-      "reason": "R22 phase 12 tests, historical R21/R20/R19 phase 11/11/13, metadata7/rawptr10/unwind12 passed. Transport unmeasured, independent review/activation/publication NOT_RUN. Recipe prunes R11 BUILD2..5 reports; references in historical R11-INPUTS selected_paths remain to be reviewed. Tool remote publication not yet verified (queried wrong repository branch returned no match)."
-    },
-    {
-      "decision": "After initial raw-caller Cloud result, prioritize W3 original caller owned NLL capture then checked array/slice borrow lifecycle, with W2 normal/unwind resource restoration.",
-      "alternatives": [
-        "Broaden pointer/ref ownership premise (rejected)",
-        "Claim raw caller exit0 establishes original caller (rejected)",
-        "Own NLL rows bound to actual MIR body/location and existing lifetime lemmas (selected)"
-      ],
-      "reason": "COMPLETION-PLAN W2/W3 need callable resource protocol. Exporter dormant query interception must capture owned facts without static transmute before MIR stolen; exact rustc-private API is unverified. New tool/profile/admission delta and review required before next Cloud."
-    },
-    {
-      "decision": "Keep existing R11 profile name for compile-fix tuple; distinguish new tuple by exact R22 registration and hashes.",
-      "alternatives": [
-        "Rename profile and extend all runner branches (rejected)",
-        "Retain admitted domain name and exact reversible compile-only registration (selected)"
-      ],
-      "reason": "Static check found build-profile.sh and compile-preflight.sh require original profile name. Avoid setup-only rerun and preserve existing options/control routing."
-    },
-    {
-      "decision": "Keep owned NLL capture diagnostic-only and separate from emitted MIR region IDs; absent origin_live_on_entry is explicitly unavailable.",
-      "reason": "Pinned rustc f7575a9 consumers API is plural and regenerates region IDs. Input facts have no derived output origin_live_on_entry relation; static API error fixed before Cloud. Cross-stage mapping must be checked before resource use."
-    },
-    {
-      "decision": "Submit exact reviewed source5b6c4236 instead of adding review-only files to proofsource before dispatch.",
-      "reason": "Measured571217/cap571567/margin350. Review/checkpoint docs are committed after Build registration; exact5b6c publishedtip independently verified before submit. No cap change or report pruning required."
-    },
-    {
-      "decision": "Fix all three synthetic D.region record constructors in translator with explicit identity=Nothing; keep lifetime matching patterns and real source metadata unchanged.",
-      "reason": "P2 exporter/decoder exit0; translator fieldidentity missing. Static scan finds constructors2623/10814/10890; patterns10527/10528 intentionallyignorefields, warnings9disabled inexistingDune. Unknown metadata on synthetic lifetimes is not inferred ReVar identity or borrow authority. No sameconfigrerun."
-    },
-    {
-      "decision": "After raw compile-fix submit, prepare owned-NLL diagnostic profile/admission as next independent W3 HANDOFF while this Build executes.",
-      "reason": "Tool419 reviewed/published; cross-stage mapping and ownership consumer remain absent. Preserve fullraw controls and initial578tuple, no newtrusted premises. NewCloud onlyaftercurrentterminal, reviewedexactcandidate and full1200+60 envelope fitsmain; otherwise prepareHANDOFFwithoutCloud.",
-      "alternatives": [
-        "Stopaftercompileblocker(rejected: usefulW3workavailable)",
-        "Addunprovenborrowbridge(rejected)",
-        "Diagnosticcaptureplusreviewedsourcebindingprep(selected)"
-      ]
-    },
-    {
-      "decision": "After P3 missedmultilineRegion, scan comment/string-aware balancedrecordsyntax andclassifyremainingid-onlysites. FixfourthsyntheticproducerwithNothing; preservematchingrules andrealencodedidentities.",
-      "reason": "Literal single-line scan and previouslimitedreview missedconstructor10605. New6755/fc toolsreviewedmetadatafixonly; no claimcompilerpass."
-    },
-    {
-      "decision": "No furtherCloud unless complete reviewed1200+60 cyclefitsmain; continue NLLHANDOFF/typedsitepreparation to main09:44.",
-      "reason": "Newtool/admission/transportreview remains; never shorten1200timeout. RawP3compilefailed; sameconfigneverrepeat; ownerunavailabledoesnotextendwindow."
-    },
-    {
-      "decision": "CloseR22atmaincutoff; retire2480carry0, preserveNEEDS_FIX ratherthanextendimplementationwindow.",
-      "reason": "Main sentfixes withsend_message tocompletedworker instead offollowup_task; threefindings notimplemented beforemaincutoff. PreserveNEEDS_FIX."
-    }
-  ],
-  "pause": {
-    "requested_by": "owner",
-    "paused_at_utc": "2026-10-23T07:50:56Z",
-    "clock_extended": false,
-    "builds_submitted": 0,
-    "note": "Owner requested pause; no active Builds, no reviewer or watcher spawned. Uncommitted R22 admission draft preserved.",
-    "resumed_at_utc": "2026-10-23T07:51:43+00:00"
-  },
-  "watcher_event": {
-    "job_id": "818bd214-e11e-4560-a64e-c0f30a6bb782",
-    "event_id": "e43302e3-515a-4b4b-a306-9942945f5414",
-    "ack_mode": "CONTINUE_EXISTING_WINDOW"
-  },
-  "historical_artifacts": [
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-CALLER-AND-CONTROL-FRONTIER-20261023.md",
-      "sha256": "d08d28d9859bfa6b319ceb99c22aade95e0f54efa02c27db93d44af4aca2f0f8"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-STATE-CONTROL-REVIEW-20261023.json",
-      "sha256": "c2050c3cde4909c2c2c631dc2ead4659753c6bbb00629b76726765fc5df9ba50"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-FINAL-ADOPTION-REVIEW-20261023.json",
-      "sha256": "d842a8f96a7d752686e4505b42fc20df79d08186018ba5a616e1e967376f9fd1"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R20-HANDOFF-REVIEWS-20261023.json",
-      "sha256": "840f697189cef868679e44a98674f0d80550f17988e156a0feebfbb61866ad91"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R21-ADMISSION-REVIEW-20261023.json",
-      "sha256": "34c931ec55c5b36735a163aaabca83aada514a8cdba7cbd93cb717764666c459"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-ADMISSION-REVIEW-20261023.json",
-      "sha256": "c19f179e419a6aa5ee8e7b4ef4cf9a5a9eca7da73b3aec198388d3da55e5a20c"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-TOOL-COMPILE-FIX-REVIEW-20261023.json",
-      "sha256": "329e987ad686f0178a15017e18adc7298dab8db80e72f6f91aa274c80fa535f8"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-COMPILE-ADOPTION-FINAL-REVIEW-20261023.json",
-      "sha256": "408dd1a9e2b5d7756f2483b502f5986de212d16d6f5594620a83302958198195"
-    },
-    {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-TRANSLATOR-ADOPTION-REVIEW-20261023.json",
-      "sha256": "8cce6734aff196fe857c3853886a3cd14687e291148ea1afb3aa0bf8be4e6e05"
-    }
-  ],
-  "current_tuple": {
-    "source_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
-    "tool_sha": "65f0bb35e4f188cf8ce405a67253127173c5c3a1",
-    "profile_sha256": "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579",
-    "cloud_status": "P3_COMPILE_FAILED_NO_PROOF",
-    "proof_credit": false
-  },
-  "prepared_candidates": [
-    {
-      "tool_sha": "6755ae501ab2e4bdaba5760fcd16c3c166533c76",
-      "branch": "merge/r22-complete-region-fixtures-20261023",
-      "scope": "four syntheticRegionidentityconstructors; compileUNVERIFIED",
-      "published_remote_sha_verified": true,
-      "tool_review": "GO_WITH_LIMITATIONS",
-      "compiler_validation": "NOT_RUN",
-      "proof_credit": false
-    },
-    {
-      "tool_sha": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
-      "branch": "merge/r22-owned-nll-capture-20261023",
-      "scope": "defaultoff ownedNLLdata; emittedmappingUNESTABLISHED; compilerUNVERIFIED",
-      "published_remote_sha_verified": true,
-      "tool_review": "GO_WITH_LIMITATIONS",
-      "compiler_validation": "NOT_RUN",
-      "proof_credit": false
-    },
-    {
-      "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1",
-      "branch": "merge/r22-owned-nll-borrow-sites-20261023",
-      "scope": "typedcapture-stageRefSite/loanrows andsame-stagejoin; notrootadmitted; compilerUNVERIFIED",
-      "published_remote_sha_verified": true,
-      "tool_review": "GO_WITH_LIMITATIONS",
-      "compiler_validation": "NOT_RUN",
-      "proof_credit": false
-    }
-  ],
-  "historical_confirmed": [
-    {
-      "assurance": "INDEPENDENTLY_ESTABLISHED",
-      "claim": "R19 CLOSED: 0 Builds/spent, 3600s retired, carry0. Candidate/tool published; Cloud UNVERIFIED, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R19-CLOSEOUT-20261022.json",
-          "sha256": "64c5f76009562d166d0d057a6dab6e1198fd7431bb8a8dd867bac6656ceb055b"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R20 P2: five R19 controls MATCHED; synthetic F5 failed callback/invariant setup gates, state fatal diagnostic lacks target context; both INCONCLUSIVE, credit0.",
-      "evidence": [
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/cloud-build/origin-layout/R20-PROOF2-RESULT-20261023.json",
-          "sha256": "2ae30e48c2f9114a3323966d64dee8333752446986b3a32c139bc74e33a03ca5"
-        },
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/observations/a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6.json",
-          "sha256": "a848fcdc9a71e422dfc38da4c6e0454afe7d8eb5e6b6c7fd0c5d944c904909c6"
-        },
-        {
-          "build_id": "17095248-45ee-433d-83d1-66679a8a1db5",
-          "path": "research/challenge-8/observations/3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323.json",
-          "sha256": "3c8c597476cc7dffd9fa35d51249e8805b4e2301ff7e9209df1c20b7dfb1a323"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R22 P1: exporter101 (E0382/E0433), proof_attemptedfalse; target/controls unproved, credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R22-P1-BRIEF-RESULT-20261023.json",
-          "sha256": "f1c73102bb21c3b70db5ca10a2018260f7cfb19ebcc5f16bde2769adf2cdabdf",
-          "build_id": "ea3ac285-9c9a-4e16-a1a2-2ea463861ef7"
-        }
-      ]
-    }
-  ],
-  "last_build_pins": {
-    "dispatch_token": "dispatch-f70a97ddf3874a7bbdaaa577fb854b93",
-    "owner": "merge",
-    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
-    "infra_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
-    "proof_sha": "4ee2a25345e7362d4c3872178e326f956d96ab1b",
-    "lane": "merge",
-    "submitted_config_sha256": "3a93ec1f6628c6f58740229be4b241959e705abed51aa98e7dd82e251eb1a6d9",
-    "reserved_seconds": 1260,
-    "timeout_seconds": 1200,
-    "status": "QUEUED",
-    "publish_text_logs": true,
-    "source_mode": "pinned-objects",
-    "source_input_sha256": "6cb47f1e919c020b384652b8f01cff8f22c994a81fd86022f76e37ef6d9bee45",
-    "build_id": "d5970bc6-6c90-4cdc-a56e-81c4ca596df3"
-  },
-  "prepared_root_handoff": {
-    "candidate": "1f805a2c304a3bda2e7e252aba6c013162c67721",
-    "tool": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
-    "review": "NEEDS_FIX",
-    "payload_bytes": 571333,
-    "cap_bytes": 571567,
-    "runtime_validation": "NOT_RUN",
-    "findings": [
-      "legacycompile-onlytranslatorpin selects NLL hash",
-      "inheritedNLLflag reachesdirectplacementcontrolpath",
-      "broadactual_callback_case enablesNLLonmutant/derivedcontrols"
-    ],
-    "review_path": "research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json",
-    "review_sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f",
-    "source_gate_assurance": "WORKER_REPORTED_STATIC_PASS_NOT_BUILD_ADMISSION",
-    "static_closure": {
-      "path": "research/challenge-8/cloud-build/origin-layout/R22-HANDOFF-STATIC-CLOSURE-20261023.json",
-      "sha256": "f2e564e68579fef69e89bdcc05fe6ad03f1682f782fa01f4fe74d087fba8e81d",
-      "status": "STATIC_ONLY_NOT_PROOF"
-    }
-  }
+  "state": "NOT_STARTED",
+  "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
+  "updated_utc": "2026-10-23T10:26:47Z"
 }
