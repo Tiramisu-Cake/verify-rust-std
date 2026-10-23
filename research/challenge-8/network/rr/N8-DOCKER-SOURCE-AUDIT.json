@@ -1,0 +1,18 @@
+{
+  "assurance": "SOURCE_REPORTED_READ_ONLY_SOURCE_AUDIT",
+  "local_tool_execution": "NONE",
+  "observations": [
+    "Docker docs: explicit API override disables negotiation.",
+    "CLI29.1 bundled Moby client applies env API version directly, bypassing negotiation minimum; operations used by cold script predate API1.41.",
+    "Compatibility remains best-effort and is not established until Cloud execution; classic Docker build selected with DOCKER_BUILDKIT=0."
+  ],
+  "proof_credit": 0,
+  "recommendation": "DOCKER_API_VERSION=1.41 in cold executor, preserve Docker config; exercise version/client/server preflight in Cloud. No replacement binary/source patch.",
+  "schema": "network-n8-docker-api-source-audit-v1",
+  "sources": [
+    "https://docs.docker.com/reference/api/engine/",
+    "https://github.com/moby/moby/blob/docker-v29.1.0/client/client.go",
+    "https://github.com/docker/cli/blob/v29.1.0/vendor.mod",
+    "https://docs.docker.com/reference/api/engine/version-history/"
+  ]
+}
