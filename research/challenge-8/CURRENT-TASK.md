@@ -47,10 +47,10 @@ Next: Fix the three findings, delta review, register R23, early full-1200 Build;
 
 ## Отчёт агента
 
-**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · ACTIVE**
-Updated: 2026-10-23T19:55:23.035080Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
+**merge-caller-acceptance-autonomous-2026-10-24-r23 · merge · MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 · HANDOFF**
+Updated: 2026-10-23T19:58:28.771877Z. Baseline source/tool/profile: `6fd50c699500cbac5c65912174d4aa49b49db19f` / `0f4e336b52441e8f341a567250adba2b200c54d1` / `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`.
 Dates: T0 `2026-10-23T10:45:00Z`; main `2026-10-26T10:45:00Z`; absolute `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit). Budget 14400s: 9080s spent, 0s retired, 5320s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: P15 requires slice recovery on earlier ghost-call unwind; exact selected-call guard needed.
-Next: P16 exact selected-call recovery guard, delta review, full Cloud envelope.
+Active Build IDs: 9a071bc9-4b43-4bd1-add9-dfa93de3d6d9; unresolved: none recorded.
+Blocker: P16 registered; actual compiler/proof outcome pending.
+Next: ACK; coordinator status; publish accounting; P16 Evidence Brief.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

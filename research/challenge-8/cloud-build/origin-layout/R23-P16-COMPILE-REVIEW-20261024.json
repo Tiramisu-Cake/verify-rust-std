@@ -1,0 +1,43 @@
+{
+  "schema": "merge-r23-p16-selected-helper-unwind-review-v1",
+  "reviewer": "Codex",
+  "candidate": "1cc63b92dd9b040806d4f8ce8f424841039316ac",
+  "baseline": "6a1b1d7cf2058330513c69c87f13f64ae5cc6137",
+  "tool_commit": "54d0ddf533aed4f010d8022627a5c9e870c2e588",
+  "spec_sha256": "ce595cdff502683f4319c4d7ebbd8a857e7a812aaa6d2a3e39c9819a2a336a36",
+  "packet_sha256": "588cdfb3c0b77ee4527fba7e4ad16bb268778d553ed83ff4de41422c4e73f534",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P15-COMPILE-REVIEW-20261024.json; P16 narrows only the R23 unwind recovery branch to its selected checked helper call",
+  "decision": "GO",
+  "review_scope": [
+    "P16 selected-helper recognition in the call outcome unwind arm",
+    "Retention of the selected-call missing-bridge hard failure",
+    "Fallback preservation for unrelated callback, R19, and ordinary unwind paths",
+    "Exact P16 translator pin, profile hash, and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The selected as_mut_ptr translation first checks the unique admitted receiver/type/use chain and checked actual-callee projection, retrieves the previously bound helper name, sets r23_call_seen, sets the post bridge, and calls translate_regular_fn_call with that exact helper name. It also requires the translated helper call to be FnCallOutcome, so the selected call reaches the outcome-switch path.",
+    "The new unwind guard requires both the plan's selected-call state and an FnCallOutcome whose Ast.CallExpr name equals plan.r23_checked_helper_name. The selected helper call satisfies both predicates by construction. Its bridge lookup remains inside that branch and still raises the exact R23 missing-bridge static error if the bridge is absent; the required selected-call refusal was not weakened.",
+    "When an active R23 plan is present but the outcome belongs to another helper/function call, the new `Some _ | None` fallback applies the existing late-callback, first/callback recovery, R19 cleanup, or original unwind statements. The bodies of those generic branches are unchanged. The R23 post bridge is created immediately around the selected helper call and cleared after each call's outcome is built, so unrelated calls do not receive the selected-helper recovery epilogue.",
+    "The normal returning arm, selected helper body/contract, post-bridge construction, exact source call binding, original normal successor, lifetime closure, and array restoration epilogue are unchanged. The R23 end-of-body check still rejects an unconsumed bridge and requires the one admitted Ref-Unsize-as_mut_ptr chain.",
+    "The P16 tool delta is limited to this outcome-arm condition and exhaustive fallback pattern. Translator source hash 19ea0ec25f34587fe29017a5a71d73dc3be6f8c7efa15421558049fcd0b6cbfd matches GLUE-PROFILE. Tool commit is 54d0ddf533aed4f010d8022627a5c9e870c2e588; profile SHA-256 is 855fac08f1ef228495dc4e48b618996997cda6a27aa65f7b337cb382291de60d; patch SHA-256 is c9ef2af833954c95ab504e650380492ce142d3f0c275c429eec3ea4edc0859dc; reverse baseline profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88.",
+    "`git diff --check` passed for the reviewed tool delta."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "This focused review establishes the selected-helper unwind branch behavior statically. Actual parser/translator and unwind verification behavior were not executed locally.",
+    "Reported profile and phase checks were not rerun. No source-positive acceptance, build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
