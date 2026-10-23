@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r23-p9-ref-option-review-v1",
+  "reviewer": "Codex",
+  "candidate": "de3032b22fe35fb7ab9b1696de48cdb9a21a3be1",
+  "baseline": "911caeb10600978a9ca846aad18742b139862b85",
+  "tool_commit": "ef925c8acff7a7c0639e3fc5806435293b984c16",
+  "spec_sha256": "4fb0d0ea70b86ea51d5087370f36dc761e588b52026a323295b4f8662cdec504",
+  "packet_sha256": "ad31983a5f1c4b8d337277dced9299b374403302a92eb3a45db3a4b2edd98863",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P9 mutable-reference read correction",
+  "decision": "GO",
+  "review_scope": [
+    "Five P9 dereferences of mutable R23 translator state refs",
+    "Write/read/reset order for post bridge and Ref/Unsize assignment flags",
+    "Exact P9 tool profile/source pins and baseline reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "All five changed reads dereference the existing ref cells and preserve the prior branch conditions: three reads of r23_adapter_post_bridge and one read each of r23_adapter_ref_assignment and r23_adapter_unsize_assignment.",
+    "The post bridge is assigned Some(post_bridge) before translating the checked helper call. Normal-result and unwind-arm construction read the same option value; the unwind branch still refuses when the recovery bridge is absent. The option is reset to None immediately after building the call statement, as before.",
+    "The Ref and Unsize flags are set immediately before translating the corresponding admitted MIR rvalue, read only during that rvalue translation, and reset to false immediately after translation returns. Duplicate assignment and unexpected-shape refusals remain unchanged.",
+    "No write, reset, scope, branch command, resource command, or normal/unwind ordering changed; the patch is exactly five `!` dereferences on existing ref reads.",
+    "The candidate translator SHA-256 92486efd0a82848288b93af4c0930cb87f68b6529a4c1cb583fab453843460e3 matches the exact profile pin; exporter, schema, alias, and refiner pins remain unchanged from the preceding reviewed candidate.",
+    "The profile binds tool commit ef925c8acff7a7c0639e3fc5806435293b984c16, profile SHA-256 7035ac8d99859b6cd13a1556733fb23ee3eea44cc50b2af9cd67dd1b7b169950, and patch SHA-256 f8de54b6326c4a2182a4e9a2494a90d81c06bdec77dff1d6885fd5dfec47d004; its reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This focused delta review relies on the prior exact-candidate full semantic review for unchanged source-borrow behavior.",
+    "Reported service checks were not rerun; toolchain acceptance remains unverified.",
+    "No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
