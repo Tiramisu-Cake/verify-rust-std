@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "fe6331c30b787e29f21ed584b2452fa8b8db7fe7d104197ae6efdd6b5406901b"
+      "sha256": "7cb4cea1a07c16a310b94ee3807442e828c3b6fd5de4f9cdf8bd96f4ce52defc"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-capture-review.json",
-        "sha256": "31c0b92c89d5b76e8a7389cb48b04a3e4e5be59beea1ae180250133c3a3ab202"
-      }
-    ],
-    "summary": "W4capture reviewedGO/unbuilt; freshactualMIR and8const-call linkage pending. P2 PUBLISHED."
+    "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+    "evidence": [],
+    "summary": "W4source/MIR capture pending; bodyproof and8const-call linkage remainopen. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "fe6331c30b787e29f21ed584b2452fa8b8db7fe7d104197ae6efdd6b5406901b"
+    "sha256": "7cb4cea1a07c16a310b94ee3807442e828c3b6fd5de4f9cdf8bd96f4ce52defc"
   },
   "brief_observation_refs": [
     {
@@ -1106,8 +1102,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publisha167b28; full1200W4capture Build, then Brief/checked8const-call linkage/C5.",
-  "next_step": "Publisha167b28; full1200W4capture Build, then Brief/checked8const-call linkage/C5.",
+  "next": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
+  "next_step": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1200,7 +1196,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "aeff12eb-0836-4b79-86ae-7ef54c2521d4"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1220,9 +1218,27 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T22:49:09Z",
+  "updated_utc": "2026-10-23T22:50:27Z",
+  "w4_capture_build": {
+    "accepted": false,
+    "accounted": false,
+    "body_proof_run": false,
+    "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+    "call_linkage": false,
+    "candidate": "a167b28fecf3f4d87efb83fe437a4f680e25d1c6",
+    "config_sha256": "eba1352fe1996074a30ba1194571423abb268acc975137ba680e9798f1d8c3b2",
+    "dispatch_token": "dispatch-f6268d9df61e4397b97b5c6ed2d29604",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CAPTURE_ONLY",
+    "schema": "select-r24-w4-capture-submission-v1",
+    "source_payload_sha256": "ef033d754129849b5f2f3642faa24fcc7223e2448768d9d3e002f7fe1d94538e",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "w4_capture_candidate": {
     "accepted": false,
     "body_proof_run": false,
@@ -1241,7 +1257,7 @@
       "sha256": "98ac0470e33e95203941fa040a22f36134bd7e97d5504d286650b5d7c47860f6"
     },
     "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
-    "state": "REVIEWED_UNBUILT"
+    "state": "SUBMITTED"
   },
   "w4_capture_preparation": {
     "accepted": false,
@@ -1259,7 +1275,7 @@
       "sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
     },
     "proof_credit": 0,
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "tests": "7capture +7shell isolatedtests pass;13existingmutrunner tests pass; Bashn/staticpins/diffcheck pass",
     "worker": "r24_admission"
   },
@@ -1272,6 +1288,14 @@
       "continuation": "SameR24/T0/account/window; latestownerpolicy926979f3. ACKbeforeCP, immediatelypush terminalaccountingbeforeBrief.",
       "event_id": "18044316-06cf-48f8-b397-b8fdfb409da1",
       "spec_path": "/tmp/select-r24-mut-legacy-target-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
+      "spec_path": "/tmp/select-r24-w4-capture-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

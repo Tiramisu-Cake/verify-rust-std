@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T22:49:09Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T22:50:27Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 7650s spent, 0s retired, 13950s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: W4capture reviewedGO/unbuilt; freshactualMIR and8const-call linkage pending. P2 PUBLISHED.
-Next: Publisha167b28; full1200W4capture Build, then Brief/checked8const-call linkage/C5.
+Active Build IDs: aeff12eb-0836-4b79-86ae-7ef54c2521d4; unresolved: none recorded.
+Blocker: W4source/MIR capture pending; bodyproof and8const-call linkage remainopen. P2 PUBLISHED. [Build `aeff12eb-0836-4b79-86ae-7ef54c2521d4`]
+Next: ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
