@@ -24,6 +24,7 @@ NEW_FEATURE = b"#![feature(core_intrinsics, transmute_neo, sized_type_properties
 OLD_IMPORT = b"use std::mem::MaybeUninit;\n"
 NEW_IMPORT = b"use std::mem::{SizedTypeProperties, transmute_neo};\n"
 ACTUAL_MARKER = b"pub fn select_unpredictable<Element>("
+FORGET_MARKER = b"pub unsafe fn checked_forget_owned<T>(t: T)"
 TRANSMUTE_NAME = "checked_transmute_neo_pointer"
 ASSUME_NAME = "checked_assume_init_pointer"
 EXPECTED_ORDER = (
@@ -152,7 +153,9 @@ def insert_a1_pair(seven_original: bytes, seven_verified: bytes,
             seven_verified.count(NEW_IMPORT) == 0 and
             seven_verified.count(tx_marker) == 0 and
             seven_verified.count(as_marker) == 0 and
-            seven_verified.count(ACTUAL_MARKER) == 1,
+            seven_verified.count(ACTUAL_MARKER) == 1 and
+            seven_verified.count(FORGET_MARKER) == 1 and
+            seven_verified.index(FORGET_MARKER) < seven_verified.index(ACTUAL_MARKER),
             "mutable seven-body A1 insertion boundary changed")
     mut_sig_tx = (tx_marker +
         b"<Element>(src: MaybeUninit<*mut Element>) -> *mut Element\n")
@@ -170,12 +173,14 @@ def insert_a1_pair(seven_original: bytes, seven_verified: bytes,
             "A1 mutable source pair missing, const-specialized, or reordered")
     verified = seven_verified.replace(OLD_FEATURE, NEW_FEATURE, 1)
     verified = verified.replace(OLD_IMPORT, OLD_IMPORT + NEW_IMPORT, 1)
-    at = verified.index(ACTUAL_MARKER)
+    at = verified.index(FORGET_MARKER)
     verified = verified[:at] + pair + b"\n\n" + verified[at:]
     original = strip_ghost(verified)
     actual_at = verified.index(ACTUAL_MARKER)
     old_actual_at = seven_verified.index(ACTUAL_MARKER)
-    require(verified[actual_at:] == seven_verified[old_actual_at:] and
+    require(verified.index(tx_marker) < verified.index(as_marker) <
+            verified.index(FORGET_MARKER) < actual_at and
+            verified[actual_at:] == seven_verified[old_actual_at:] and
             original[original.index(ACTUAL_MARKER):] ==
                 seven_original[seven_original.index(ACTUAL_MARKER):] and
             verified.count(b"*mut Element") >= 3 and
@@ -187,6 +192,7 @@ def insert_a1_pair(seven_original: bytes, seven_verified: bytes,
         "a1_pair_sha256": sha(pair),
         "a1_source_certificate_for_generation_only": a1_record,
         "a1_pair_inserted_before_actual_helper": True,
+        "a1_pair_inserted_before_owned_forget": True,
         "ghost_strip_identity": True,
         "typed_mir_binding_established": False,
     }

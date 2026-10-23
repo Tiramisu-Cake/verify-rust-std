@@ -155,6 +155,7 @@ class MutableSourceChain(unittest.TestCase):
                          {"transmute": 4, "assume_init": 3})
         seven = (
             NINE.OLD_FEATURE + NINE.OLD_IMPORT +
+            b"pub unsafe fn checked_forget_owned<T>(t: T) { synthetic_forget(t); }\n" +
             b"pub fn select_unpredictable<Element>(\n"
             b"    condition: bool,\n    true_val: *mut Element,\n"
             b"    false_val: *mut Element,\n) -> *mut Element {\n"
@@ -175,9 +176,22 @@ class MutableSourceChain(unittest.TestCase):
         self.assertEqual(verified.count(b"transmute_unchecked(src)"), 1)
         self.assertEqual(verified.count(b"transmute_neo(storage)"), 1)
         self.assertEqual(verified.count(b"assert_inhabited::<*mut Element>()"), 1)
+        self.assertTrue(stage["a1_pair_inserted_before_owned_forget"])
+        ordered = [b"pub unsafe fn checked_transmute_neo_pointer",
+                   b"pub unsafe fn checked_assume_init_pointer", NINE.FORGET_MARKER,
+                   NINE.ACTUAL_MARKER]
+        positions = [verified.index(marker) for marker in ordered]
+        self.assertEqual(positions, sorted(positions))
+        forget_line = b"pub unsafe fn checked_forget_owned<T>(t: T) { synthetic_forget(t); }\n"
+        for bad in (seven.replace(forget_line, b""),
+                    seven.replace(forget_line, forget_line * 2),
+                    seven.replace(forget_line, b"") + forget_line):
+            with self.subTest(anchor=bad), self.assertRaises(ValueError):
+                NINE.insert_a1_pair(OWNER.strip_ghost(bad), bad, pair, {}, OWNER.strip_ghost)
         self.assertNotIn(b"*const Element", verified)
         seven = (
             NINE.OLD_FEATURE + NINE.OLD_IMPORT +
+            b"pub unsafe fn checked_forget_owned<T>(t: T) { synthetic_forget(t); }\n" +
             b"pub fn select_unpredictable<Element>(\n"
             b"    condition: bool,\n    true_val: *mut Element,\n"
             b"    false_val: *mut Element,\n) -> *mut Element {\n"

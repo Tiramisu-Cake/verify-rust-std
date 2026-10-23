@@ -97,3 +97,14 @@ all three old sites. Keep every source/status/ghost-strip check; no generated
 runtime/contract change. Pin the changed nested writer in the capture adapter.
 Test only the isolated module interface on VPS, never actual source preparation.
 Static dependency checks/review/fresh full1200 Cloud capture remain required.
+
+Second Cloud capture: source-reported refinement true, but normal exact body
+order false and full_body_capture raises order mismatch. Static mutable builder
+declares A1 tx/assume before ownedforget yet inserts them after it. Exact bounded
+Normal text coordinates show forget91733 before tx112370; this establishes text
+order only, not parser binding or formal causality. Before edit: insert the same
+A1pair before unique ownedforget marker, require ownedforget before actualhelper,
+and assert tx<assume<forget<actual after insertion. Retain actualhelper tail,
+source body/signature/ghoststrip/inventory checks and unchanged expected/native
+9body order gates. Do not relax the checker or expected order. Requalify fresh
+source/MIR/snapshot pins in Cloud; source-only/no proof or publication.

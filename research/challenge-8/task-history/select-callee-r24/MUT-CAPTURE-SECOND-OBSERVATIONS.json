@@ -1,0 +1,30 @@
+{
+  "accepted": false,
+  "archive_sha256": "7775dc516a82ed0ad9dc9d985273e3a7a59767ff4e1a092fd3c8a77190836028",
+  "assurance": "SOURCE_REPORTED; ARCHIVE_INTEGRITY_IS_NOT_PROOF",
+  "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+  "build_seconds_accounted": 315,
+  "candidate": "3442e7f16184e749ed8d5ace5b22251656b8be09",
+  "capture_complete_source_claim": false,
+  "console_build_exit_source_claim": 0,
+  "diagnostic_verifier_invoked_source_claim": false,
+  "exception_message_source_claim": "normal: nine-body source/MIR order changed",
+  "index_sha256": "a0680cefacc1cd0100d3e4934241b4a48279d342fcce6172fa644dfb97cda15d",
+  "literal_positions": {
+    "checked_forget_owned": 91733,
+    "checked_transmute_neo_pointer": 112370
+  },
+  "normal_decoded_text_sha256": "cc1d7f75eef8811195b8cb1a83601bd78b81d3554afbd15ce713fe08ebe4d041",
+  "normal_exact_body_order_source_claim": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "remaining_seconds": 18561,
+  "result": "INCOMPLETE_EXACT_BODY_ORDER",
+  "runner_exit_source_claim": 1,
+  "schema": "select-r24-mut-capture-second-observations-v1",
+  "source_frontend_refinement_claim": true,
+  "static_consistency": "Mutable nine builder declares A1 pair before ownedforget but inserts it after. Preserve exact order gates; correct insertion boundary and requalify fresh bytepins.",
+  "used_total_seconds": 3039
+}

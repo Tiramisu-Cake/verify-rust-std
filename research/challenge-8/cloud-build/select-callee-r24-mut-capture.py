@@ -38,7 +38,7 @@ MUTABLE_SOURCE_FILES = {
     'nested_drop_writer': ('research/challenge-8/overnight-guard-actual/prepare-actual-nested-drop-mut.py',
         'a9877f693b12a374206a306aa73a2c8f82e69ca36b4979a16127887e802ab4e8'),
     'nine_body_writer': ('research/challenge-8/overnight-assume-actual/prepare-actual-nine-body-mut.py',
-        '9b226ee015cc3f5404f4075d29c36abda45222087c7854b2b48e4cd9b44a5600'),
+        'f6c73c237297b3465453257fa8da1388e94106747d0beed2155f9133c74b6c8b'),
     'fingerprint_request': ('research/challenge-8/overnight-helper/prepare-mut-fingerprint-request.py',
         'b373e5836205ffb48e1cbd9dbd413939f5a26e49ee876103233c2ae4b2821bcd'),
     'mutable_provider': ('research/challenge-8/overnight-helper/mut_source_cloud_provider.py',
