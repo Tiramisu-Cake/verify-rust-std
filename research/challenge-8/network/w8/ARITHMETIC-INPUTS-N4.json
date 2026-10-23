@@ -1,0 +1,56 @@
+{
+  "schema": "smallsort-w8-arithmetic-inputs-v1",
+  "state": "UNVERIFIED_STATIC_PREPARATION",
+  "proof_credit": false,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "source": {
+    "commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "inputs": {
+    "header": {
+      "path": "research/challenge-8/network/w8/region-arithmetic.gh",
+      "sha256": "e87f023764910c636df32d2422b4265c6c5fffbf4274894f05de0fa20c523ea0"
+    },
+    "positive": {
+      "path": "research/challenge-8/network/w8/region-arithmetic-lemmas.c",
+      "sha256": "a67df90bd3723d6332e72f1851ab7c454363a94bc4cd9ed65c818a3fccebe129"
+    },
+    "len25-both-prefixes-9": {
+      "path": "research/challenge-8/network/w8/len25-both-prefixes-9.negative.inc",
+      "sha256": "481a94ec78205cd85cb8b3bb5b830cf3ff1194976622a4c7940ab702aa6292fa"
+    },
+    "region8-prefix-9": {
+      "path": "research/challenge-8/network/w8/region8-prefix-9.negative.inc",
+      "sha256": "781597cb80a68328c78aaca0641427ad0b5e0c72d7683d8e3a3b67103e249679"
+    },
+    "len33-fits32": {
+      "path": "research/challenge-8/network/w8/len33-fits32.negative.inc",
+      "sha256": "7fb9989ad850a8986392d9e3ae40f2e6a8c0a7b8397ff4e2ee23111601a07398"
+    }
+  },
+  "positive_body_inventory": [
+    "w8_prefix_in_bounds",
+    "w8_split_and_prefix_facts",
+    "w8_prefix_choice_facts"
+  ],
+  "negative_controls": [
+    {
+      "id": "len25-both-prefixes-9",
+      "target_marker": "TARGET_ASSERTION",
+      "expected_diagnostic_predicate": null
+    },
+    {
+      "id": "region8-prefix-9",
+      "target_marker": "TARGET_ASSERTION",
+      "expected_diagnostic_predicate": null
+    },
+    {
+      "id": "len33-fits32",
+      "target_marker": "TARGET_ASSERTION",
+      "expected_diagnostic_predicate": null
+    }
+  ]
+}

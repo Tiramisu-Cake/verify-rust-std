@@ -19,7 +19,7 @@ the pinned source text, not a parser/MIR/source-binding result.
 
 * `region-arithmetic.gh` defines the integer prefix selector and split
   expressions.
-* `region-arithmetic-lemmas.c` contains checked-body candidates for the
+* `region-arithmetic-lemmas.c` contains candidate bodies for the
   prefix bounds and the finite `18..=32` split/choice facts. The split lemma
   uses explicit cases for every admitted length, so it does not depend on an
   unproved general division bridge.
@@ -36,6 +36,31 @@ must check and inventory the complete three-body positive set
 `w8_prefix_choice_facts`) before its single negative target. The fragments
 are not standalone inputs and intentionally do not include a `.c` file.
 
+`ARITHMETIC-INPUTS-N4.json` uses input schema
+`smallsort-w8-arithmetic-inputs-v1` and pins the source and byte inputs. The
+inert module
+`prepare-region-arithmetic.py` exposes pure byte validation and assembly
+helpers. Its CLI first calls the existing provider guard, then reads the
+manifest, pinned source bytes, and exact inputs; it writes only to a new
+output directory and removes a partial directory on failure. It emits one
+positive unit and three separate positive-plus-one-fragment units, along with
+the header definitions closure and preparation metadata. The metadata records
+source, input, and assembled-unit hashes, the complete three-body positive
+inventory, each unit's full body inventory, and distinct marker, fragment
+assertion, and assembled-unit assertion lines for each control. The expected
+diagnostic predicate remains null/unpinned, so target-line metadata alone
+cannot establish acceptance.
+The output schema is `smallsort-w8-prepared-arithmetic-v1`. Its lexical body
+and banned-token checks only establish that expected source bodies are
+present and no explicit `assume`, `assume_correct`, or `lemma_auto` token was
+found; they do not establish that any body verifies. Negative fragments with
+CRLF line endings are refused so the reported source coordinates stay exact.
+
+`test_prepare_region_arithmetic.py` tests only synthetic byte fixtures and a
+mocked provider. Ten tests passed for success, refusal, provider-gate
+ordering, and partial-write cleanup. The CLI itself was not run, and no
+actual assembled unit hash is claimed in this handoff.
+
 The input-length facts `len < 2` and `len > 32` remain prospective routing
 observations from source inspection only. This artifact does not claim that
 actual Rust returns or aborts for those values, or that the branch guards are
@@ -44,7 +69,8 @@ bound to ghost facts.
 ## Limits and next validation
 
 The stock VeriFast 26.09 syntax and proof obligations have not been executed
-or checked. In a future authorized Cloud phase, first bind this component to
+or checked. Importing the helper is inert; only a future authorized Cloud
+invocation may use its CLI. In that phase, first bind this component to
 the exact source/MIR stage and target, then check the positive unit and each
 negative at its intended assertion with body inventory, return/leak checks,
 and the required source-stage-target mismatch controls. Integration still
