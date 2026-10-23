@@ -1,0 +1,41 @@
+{
+  "schema": "merge-r23-p8-schema-qualifier-review-v1",
+  "reviewer": "Codex",
+  "candidate": "60b291a2ff80974e26d4c70d31c2bc43d81d08fa",
+  "baseline": "d6efa9c683685e4f4d7b21d0e85526cc58949d23",
+  "tool_commit": "71a7fcc4e2b755ff45961e73793e7d335db2cf26",
+  "spec_sha256": "1cb8bd6c1c32565d1854bfdb5fabf1d246e5b56e7e07bfd09c43fb90c5113e58",
+  "packet_sha256": "bcbd7a5d945707bc9dd442ccd73cae98bd7afa16ac25b19abddea2499c2f8816",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused P8 schema-reader alias delta",
+  "decision": "GO",
+  "review_scope": [
+    "P8 correction of the Region.InferenceVariable reader module qualifier",
+    "Unchanged Region.Identity discriminant and inference-variable field comparisons",
+    "Exact tool source pins and profile reversal"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "The schema declares Region.Identity and Region.InferenceVariable as sibling nested structs under Region. Therefore RegionInferenceVariableRd = RegionRd.InferenceVariable is the correct reader module alias; the previous RegionIdentityRd.InferenceVariable path could not resolve.",
+    "The fix changes only that alias target. RegionIdentityRd remains RegionRd.Identity and still discriminates InferenceVariable versus Erased; the translator's scope_id and variable_id reads and comparisons are unchanged.",
+    "The alias namespace has one RegionInferenceVariableRd declaration after the change. No fallback region case or broader identity interpretation was introduced.",
+    "The candidate alias source SHA-256 891812fb51038a5e8c41a8adbcaeed96301bcc1b45552ae9235cbdfa7313b23c matches its exact profile pin. Translator SHA-256 3cbfd9df6ca4c99e14746a5317527bc50d64486fa4e678344521f92b11e548f6 and schema SHA-256 e9942a875a4177de95c6c6b0777e4b2dfcfea65ffd576d8ebc94950d9a2ca014 remain pinned.",
+    "The profile binds tool commit 71a7fcc4e2b755ff45961e73793e7d335db2cf26, profile SHA-256 8ae65144328bf78de8eebafe5600f36d469a15e6efde17390ca287797e1fd171, and patch SHA-256 68cabbfa401f0d3697ec90ce13be061e29ce69f5223b0981e9b104af8411f884; the reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests"
+  ],
+  "not_run": [
+    "Translator compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This focused delta review relies on the prior exact-candidate full semantic review for unchanged source-borrow behavior.",
+    "Reported tests were not rerun. Actual compiler, translator, and proof acceptance remain unverified.",
+    "No proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
