@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import uuid
 
@@ -60,14 +61,23 @@ def audit_record(summary, const_audit, exit_code, failed, env, lib, pins):
     else:
         if (summary.get('schema')!=lib.SCHEMA or summary.get('complete') is not True or
             summary.get('proof_mode')!='positive' or summary.get('proof_variants')!=['positive'] or
-            summary.get('native_build_id')!=native or summary.get('provider')!='cloud-build' or
+            summary.get('native_build_id')!=native or summary.get('candidate')!=env.get('PROOF_SHA') or
+            not isinstance(env.get('PROOF_SHA'),str) or re.fullmatch('[0-9a-f]{40}',env['PROOF_SHA']) is None or
+            summary.get('body_proof_run') is not True or summary.get('provider')!='cloud-build' or
             summary.get('lane')!=lib.LANE or summary.get('profile')!=lib.PROFILE or
             summary.get('r24_session_phase_id')!=R24 or summary.get('r21_route_phase_id')!=R21 or
             summary.get('pins')!={'path':lib.PINS_REL.as_posix(),'sha256':lib.PINS_SHA256}):
             errors.append('mutable proof summary identity/completeness differs')
         if any(summary.get(k) is not False for k in ('accepted','publication_allowed')) or type(summary.get('proof_credit')) is not int or summary.get('proof_credit')!=0:
             errors.append('unearned acceptance/publication/credit')
-        errors+=lib._validate_capture(summary.get('complete_source_observation'),pins,native)
+        captured=summary.get('complete_source_observation')
+        errors+=lib._validate_capture(captured,pins,native)
+        provider=captured.get('provider_record') if isinstance(captured,dict) else None
+        if (not isinstance(provider,dict) or provider.get('provider')!='cloud-build' or
+            provider.get('build_id')!=native or provider.get('project')!='smallsort-ci' or
+            provider.get('region')!='global' or provider.get('os')!='ubuntu-22.04' or
+            provider.get('arch')!='x86_64'):
+            errors.append('capture native provider binding differs')
         rows=summary.get('rows')
         if not isinstance(rows,dict) or set(rows)!={'positive'}:errors.append('positive row inventory differs')
         else:
@@ -103,6 +113,8 @@ def main():
     args=parser.parse_args();lib=load_library(args.cloud_dir);mode(args.repo,args.proof_mode_file,lib)
     if args.action=='run':
         need(all(getattr(args,n) is not None for n in ['tool_home','schema','compiler_sysroot','mode_file','matrix_mode_file','deadline_epoch','mode_sha256','matrix_mode_sha256','candidate']),'complete run arguments')
+        need(args.candidate==os.environ.get('PROOF_SHA') and
+             re.fullmatch('[0-9a-f]{40}',args.candidate) is not None,'exact committed proof candidate')
         args.proof_mode='positive';args.proof_variants=['positive']
         result=lib.run(args)
         print(json.dumps({'complete':result['complete'],'classification':result['classification'],'accepted':False,'proof_credit':0}))

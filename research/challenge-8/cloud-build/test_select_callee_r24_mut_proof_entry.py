@@ -15,7 +15,7 @@ lib=load('r24_mut_proof_tests','select-callee-r24-mut-proof.py')
 class AuditTests(unittest.TestCase):
     def setUp(self):
         self.native='11111111-2222-3333-4444-555555555555'
-        self.env={'CLOUD_BUILD_ID':self.native,'SMALLSORT_EXECUTION_PROVIDER':'cloud-build',
+        self.env={'PROOF_SHA':'a'*40,'CLOUD_BUILD_ID':self.native,'SMALLSORT_EXECUTION_PROVIDER':'cloud-build',
                   lib.R24_PHASE_ENV:lib.R24_PHASE,lib.R21_PHASE_ENV:lib.R21_PHASE,
                   'LANE':lib.LANE,'SORT4_SELECT_PROFILE':lib.PROFILE}
         self.pins=lib._load_pins(HERE.parents[2].resolve())
@@ -27,7 +27,7 @@ class AuditTests(unittest.TestCase):
                      'original_sha256':self.pins['source']['original_sha256'],
                      'verified_sha256':pin['source']['verified_sha256'],
                      'fingerprint':{'snapshots':pin['snapshots']}}
-        captured={'complete':True,'native_build_id':self.native,'variant_order':list(lib.VARIANTS),
+        captured={'provider_record':{'provider':'cloud-build','build_id':self.native,'project':'smallsort-ci','region':'global','os':'ubuntu-22.04','arch':'x86_64'},'complete':True,'native_build_id':self.native,'variant_order':list(lib.VARIANTS),
                   'rows':rows,'location_control':{'complete':True,'native_build_id':self.native,
                    'reproduces_positive_pins':True,'fingerprint':{'snapshots':self.pins['cases']['positive']['snapshots']}}}
         pair={'original/lib.rs':self.pins['source']['original_sha256'],
@@ -37,7 +37,7 @@ class AuditTests(unittest.TestCase):
         row={'variant':'positive','stage_name':'r24-mut-proof-positive',
              'classification':'POSITIVE_PROOF_STAGE_RAN_SOURCE_INTACT','source_intact':True,
              'source_before':pair,'source_after':pair,'errors':[],'native_marker_seen':1,'proof_stage':stage}
-        self.summary={'schema':lib.SCHEMA,'complete':True,'proof_mode':'positive','proof_variants':['positive'],
+        self.summary={'candidate':'a'*40,'body_proof_run':True,'schema':lib.SCHEMA,'complete':True,'proof_mode':'positive','proof_variants':['positive'],
                       'native_build_id':self.native,'provider':'cloud-build','lane':lib.LANE,'profile':lib.PROFILE,
                       'r24_session_phase_id':lib.R24_PHASE,'r21_route_phase_id':lib.R21_PHASE,
                       'pins':{'path':lib.PINS_REL.as_posix(),'sha256':lib.PINS_SHA256},
@@ -70,6 +70,10 @@ class AuditTests(unittest.TestCase):
     def test_const_regression_and_context_and_exit_required(self):
         for const in [{},{'evidence_complete':None},{'evidence_complete':False}]:self.assertFalse(self.audit(const=const)['evidence_complete'])
         self.assertFalse(self.audit(exit=4)['evidence_complete'])
+        self.assertFalse(self.audit(s=dict(self.summary,candidate='b'*40))['evidence_complete'])
+        self.assertFalse(self.audit(s=dict(self.summary,body_proof_run=False))['evidence_complete'])
+        s=copy.deepcopy(self.summary);s['complete_source_observation']['provider_record']['build_id']='wrong'
+        self.assertFalse(self.audit(s=s)['evidence_complete'])
         self.assertFalse(self.audit(env=dict(self.env,LANE='wrong'))['evidence_complete'])
         self.assertFalse(self.audit(env=dict(self.env,SORT4_R24_MUTABLE_CASE='positive'))['evidence_complete'])
     def test_no_earned_credit_or_publication(self):
