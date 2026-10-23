@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-TRANSPORT-20261024.json",
-      "sha256": "b99ee0dc394d0f00cde794b5bd845d902da3cd14bc7ccc84e29f519b00b66766"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
       "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8"
     },
@@ -27,6 +23,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-TRANSPORT-20261024.json",
       "sha256": "b31ede157937525df7d8905e1298eedc90c86107eea06f2d84653c4fcee64f69"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-BRIEF-20261024.json",
+      "sha256": "750cee1daff885ba72bd1a6fd3b1fd9059f54678a3af3a7b531460a24ec664c4"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -36,12 +36,12 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P7 running; source proof unverified.",
+    "summary": "P8 region reader alias fix; review pending.",
     "evidence": [
       {
-        "path": "research/challenge-8/cloud-build/origin-layout/R23-P6-COMPILE-BRIEF-20261024.json",
-        "sha256": "4ebf20b0a4e33313e1a68ac6222a45dac389cc203bcca05ec632ce27c2de5d40",
-        "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
+        "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-BRIEF-20261024.json",
+        "sha256": "750cee1daff885ba72bd1a6fd3b1fd9059f54678a3af3a7b531460a24ec664c4",
+        "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80"
       }
     ]
   },
@@ -70,28 +70,6 @@
     },
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "P4 exporter101; four FnDef Binder API errors; proof_attempted=false. Compiler fix966c6d23 unverified; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
-          "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc",
-          "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P5 exporter101: one unused_mut error; proof_attempted=false. Lint policy preserved; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
-          "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8",
-          "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
       "claim": "P6 exporter0/decoder0, translator1: duplicate RawPtrTyRd; proof_attempted=false. Alias and decoder-layer fixes unverified; credit0.",
       "evidence": [
         {
@@ -100,9 +78,20 @@
           "build_id": "2720afdf-49a3-49ef-bb72-34d112886c53"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P7 exporter0/decoder0, translator1: unbound RegionIdentityRd.InferenceVariable; no proof attempted, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P7-COMPILE-BRIEF-20261024.json",
+          "sha256": "750cee1daff885ba72bd1a6fd3b1fd9059f54678a3af3a7b531460a24ec664c4",
+          "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80"
+        }
+      ]
     }
   ],
-  "next_step": "Ack watcher; P7 Brief; continue R23.",
+  "next_step": "Review schema namespace fix; full P8.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -123,23 +112,21 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "dccc154e-5b42-4e90-8d26-b7b3df4b6b80"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 11021,
+    "remaining_seconds": 10584,
     "retired_seconds": 0,
-    "spent_seconds": 3379,
+    "spent_seconds": 3816,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:58:44.322235Z",
+  "updated_utc": "2026-10-23T14:10:00.624669Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -268,6 +255,13 @@
       "dispatch_token": "dispatch-aff047db505c4b1292f66772a5631988",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
       "proof_credit": 0
+    },
+    {
+      "obligation": "Repair P7 generated Reader namespace mismatch",
+      "reason": "P7 exactcompilererror referencesunbound RegionIdentityRd.InferenceVariable. Actualschema placesIdentity andInferenceVariable as siblingsunderRegion; redirectonlyalias toRegionRd.InferenceVariable. ScopeId/variableId andallidentitycomparisonlogic retained. Allnewaliaspaths auditedagainstschema andunique. Tool71a7fcc4 published; profile8ae65144 exactreverse3fec, profile6/phase8pass. Compiler/proof remainsunverified; source/std/resources/normalunwind/controls unchanged.",
+      "tool_sha": "71a7fcc4e2b755ff45961e73793e7d335db2cf26",
+      "profile_sha256": "8ae65144328bf78de8eebafe5600f36d469a15e6efde17390ca287797e1fd171",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -278,10 +272,11 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80",
-    "status": "PREPARED_HANDOFF",
-    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
-    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
+    "job_id": "e5572d1d-a54c-4f21-b0ea-09963c9170d7",
+    "event_id": "8f94e6dc-a433-4c48-af04-29f241defd24",
+    "event_name": "build_terminal",
+    "ack": "CONTINUE_EXISTING_WINDOW",
+    "status_after_event": "FAILURE",
     "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
@@ -347,6 +342,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-REVIEW-20261024.json",
       "sha256": "a7261b33fb428d4207e9bfe84639386783b7ed353d09ae336f4e95187c313902"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-TRANSPORT-20261024.json",
+      "sha256": "b99ee0dc394d0f00cde794b5bd845d902da3cd14bc7ccc84e29f519b00b66766"
     }
   ],
   "historical_confirmed": [
@@ -369,6 +368,28 @@
           "path": "research/challenge-8/cloud-build/origin-layout/R23-P1-BRIEF-RESULT-20261024.json",
           "sha256": "4c3e6a628d995c589f31d166047554ce7681a605c7aa5e3669529f3b2beb0cd7",
           "build_id": "692c1943-771d-4e99-b498-c5c480f4280a"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P4 exporter101; four FnDef Binder API errors; proof_attempted=false. Compiler fix966c6d23 unverified; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
+          "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc",
+          "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "P5 exporter101: one unused_mut error; proof_attempted=false. Lint policy preserved; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-BRIEF-20261024.json",
+          "sha256": "8fdb5d9b4c1058c2bca26bebc185107a48cac6ebbdfa716342bbdea938fa9cc8",
+          "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6"
         }
       ]
     }

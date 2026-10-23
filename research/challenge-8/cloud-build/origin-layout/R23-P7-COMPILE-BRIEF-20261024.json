@@ -1,0 +1,47 @@
+{
+  "record_type": "bounded_compile_diagnostic_evidence_brief",
+  "build_id": "dccc154e-5b42-4e90-8d26-b7b3df4b6b80",
+  "report_schema": "smallsort-evidence-index-v8",
+  "processing_status": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "proof_verdict_source_claim": "NOT_ACCEPTED_AS_REPORTED",
+  "run_exit_source_claim": 1,
+  "archive_inventory": {
+    "archive_sha256": "540cc871793db0661af114627e48e55ac8f9494477b056ac3975ab6c4fa309a0",
+    "index_sha256": "86ea4f93049a8dbfb1ea9a2d221df1dde9f2b26c8354da6760bb24d23848d936",
+    "files": 155,
+    "content_files": 126,
+    "integrity_meaning": "archive and inventory integrity only; not proof acceptance"
+  },
+  "translator_diagnostic": {
+    "stage": "translator-build",
+    "exit_source_claim": 1,
+    "file_id": "cc341914290c0f0e0581a43f0d5f3d36bf0dc12f46afcce4bb40c21fad809ae3",
+    "path": "allprooflogs/tracked-md-build/translator-build.log",
+    "bounded_fragment": {
+      "request_id": "b1e93cf3693249939f7368727b1199bd9e1b676af9526f2b44e85564bfbdffc7",
+      "lines": "1-4",
+      "exact": true,
+      "source_sha256": "a962d384813ae35c587ee0dab823c700c19316ac14dee62530d76beebb912ddc",
+      "source_size_bytes": 299
+    },
+    "reported_location": "vf_mir_capnp_alias.ml:103",
+    "bounded_diagnostic": "Unbound module RegionIdentityRd.InferenceVariable"
+  },
+  "proof_audit_observation": {
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "path": "proof-audit.json",
+    "source_sha256": "58b0ee69e012a08bc45dc7cba9d9f98988df3489f35ec45924d0b6cb08e4cd7f",
+    "size_bytes": 698,
+    "pointer": "/proof_attempted",
+    "observed_value": false,
+    "projection_complete": false,
+    "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF"
+  },
+  "schema_correction": {
+    "region_identity_path": "Region.Identity",
+    "region_inference_variable_path": "Region.InferenceVariable",
+    "reason": "InferenceVariable is a sibling nested struct under Region, not nested under Identity."
+  },
+  "causality": "UNKNOWN",
+  "change": "Redirected only RegionInferenceVariableRd from RegionIdentityRd.InferenceVariable to RegionRd.InferenceVariable; identity comparisons remain unchanged. No compiler, Dune, verifier, or actual build was run locally."
+}

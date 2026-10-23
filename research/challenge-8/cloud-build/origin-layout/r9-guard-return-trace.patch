@@ -912,7 +912,7 @@ index 684d3f76..a646aae9 100644
 +            None
          }
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml b/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
-index 436a5f7a..52589228 100644
+index 436a5f7a..3d651a0b 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
 @@ -47,2 +47,6 @@ module UnwindActionRd = VfMirStub.Reader.UnwindAction
@@ -950,7 +950,7 @@ index 436a5f7a..52589228 100644
 @@ -86,2 +101,6 @@ module FieldDefRd = VariantDefRd.FieldDef
  module RegionRd = VfMirStub.Reader.Region
 +module RegionIdentityRd = RegionRd.Identity
-+module RegionInferenceVariableRd = RegionIdentityRd.InferenceVariable
++module RegionInferenceVariableRd = RegionRd.InferenceVariable
 +module GenericParamDefRd = VfMirStub.Reader.GenericParamDef
 +module GenericParamDefKindRd = VfMirStub.Reader.GenericParamDefKind
  
