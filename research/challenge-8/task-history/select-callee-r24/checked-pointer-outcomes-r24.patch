@@ -40,17 +40,7 @@
    module CapnpAux = struct
      open Stdint
  
-@@ -3614,7 +3647,8 @@
-             | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
-               when !Sort4PointerDrop.active &&
-                    !Sort4SelectIntrinsic.active &&
--                   !Sort4SelectIntrinsic.actual_certified &&
-+                   (!Sort4SelectIntrinsic.actual_certified ||
-+                    !Sort4R24CheckedPointerOutcomes.active) &&
-                    State.body_name = "select_unpredictable" ->
-                 (match fn_def_ty_cpn.substs,
-                        fn_def_ty_cpn.late_bound_generic_param_count,
-@@ -3970,8 +4004,73 @@
+@@ -3970,8 +4003,73 @@
            | _ -> Sort4ActualForgetOwn.reject
                "typed SAFE forget call/outcome/shared cleanup"
        in
@@ -72,7 +62,7 @@
 +          | Constant {const=Val {ty={kind=FnDef
 +              {id={name="std::ptr::mut_ptr::<impl *mut T>::drop_in_place";
 +               substs=[{kind=Type pointer}];
-+               late_bound_generic_param_count=0}}}},
++               late_bound_generic_param_count=0}}}}},
 +            [Move {local={name="_32"};projection=[]}],
 +            FnCallOutcome (Ast.CallExpr
 +              (_, "sort4_checked_pointer_drop",
@@ -95,7 +85,7 @@
 +          | Constant {const=Val {ty={kind=FnDef
 +              {id={name="std::mem::MaybeUninit::<T>::assume_init"};
 +               substs=[{kind=Type pointer}];
-+               late_bound_generic_param_count=0}}}},
++               late_bound_generic_param_count=0}}}}},
 +            [Move {local={name="_41"};projection=[]}],
 +            FnCallOutcome (Ast.CallExpr
 +              (_, "checked_assume_init_pointer",
@@ -125,7 +115,7 @@
            match fn_call_rexpr with
            | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
            | _ -> assert false
-@@ -4169,7 +4268,8 @@
+@@ -4169,7 +4267,8 @@
                (match fn_call_rexpr, terminator with
                | FnCallResult _, Mir.GotoTerminator _
                  when !manuallydrop_new_identity_lowering ||
@@ -135,7 +125,7 @@
                    (* The identity lowering emits only the normal assignment/goto.
                       The separately proved G1 callee has false unwind.  Keep
                       successor inventory faithful to the emitted CFG. *)
-@@ -14021,6 +14121,7 @@
+@@ -14021,6 +14120,7 @@
                    Sort4G1Call.translated := 0; Ok ()
          | Some root -> certify_sort4_g1_call vf_mir_cpn root
        in
@@ -143,7 +133,7 @@
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -14260,7 +14361,16 @@
+@@ -14260,7 +14360,16 @@
             !Sort4A1Nine.assume_init_redirects <> 1 then
            Sort4A1Nine.reject "exactly one redirect at each A1 site required";
          Printf.printf

@@ -65,6 +65,7 @@ class CheckedPointerOutcomeTests(unittest.TestCase):
         self.assertIn('Some "SORT4-ACTUAL-SELECT-2026-10-23-R21"', patch)
         self.assertIn("FnCallResult (result_of_outcome fn_loc call)", patch)
         self.assertIn("checked_r24_pointer_outcome ->", patch)
+        self.assertNotIn("(!Sort4SelectIntrinsic.actual_certified ||", patch)
         self.assertIn("SORT4-R24-CHECKED-POINTER-OUTCOMES", patch)
         self.assertNotIn("ignore_unwind_paths :=", patch)
 
