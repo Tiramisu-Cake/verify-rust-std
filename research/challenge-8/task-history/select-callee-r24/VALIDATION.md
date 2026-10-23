@@ -305,3 +305,13 @@ and explicit two-body exclusion audited, ordinary same-unit body proof stays
 mandatory. Reviewer reproduced three-overlay chain and2patch/hash checks,
 bash-n/7Pythonheredocparse. No compile/proof/Cloud or credit; transport is
 main-reported only. No semantic edits after the reviewed candidate.
+
+
+Nine-gate Build85c88d85-0bac-4f7f-8186-93a8b079b162 submitted at full1200 through existing
+coordinator. Coherent infra/proof6e62d359; published metadata head3905f160
+verified remotely, runtime98-file closure matches candidate. Exact payload
+SHA00da828a matches preflight; configddeea20a76c441df58102ee317e862b9524a172a5d170bbfdad866b73b2e9880,
+dispatchdispatch-49baa66e5b124d2fbbaa02b705355a89, reserve1260, initialledgerQUEUED.
+Accounted1642s,19958s remain including active reservation. Actual compilation,
+projection counters, proof and acceptance pending Brief; credit0. No duplicate
+submit, source or raw-MIR change. Hand off to exact-thread watcher.

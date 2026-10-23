@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "ec802790c3fa0d3def082a57de4b5b31d31ad7565ede4126f8df0f62d71622a7"
+      "sha256": "03b5ef35e633a50d987b3a530beb82ec747054d8b7e6ba8a2a884168a9d00d6a"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+    "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json",
         "sha256": "6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0"
       }
     ],
-    "summary": "Positive gate wrongly requires two A1 profiles; correction pending Cloud."
+    "summary": "Await nine-gate Cloud run; compilation and proof pending Brief."
   },
   "brief_observation_refs": [
     {
@@ -141,7 +141,16 @@
     "proof_credit": 0,
     "raw_mir": "All ten cleanup edges and admission unchanged",
     "reason": "Emitted AST has two checked false-unwind call branches to shared cleanup; test exact checked-result projection, not checker suppression.",
-    "state": "NINE_GATE_FIX_REVIEW_GO_UNBUILT"
+    "state": "NINE_GATE_FIX_SUBMITTED_PENDING_BRIEF"
+  },
+  "checked_outcomes_nine_build": {
+    "id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+    "infra_sha": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+    "proof_credit": 0,
+    "proof_sha": "6e62d35936f7d85f2fb1601def987e7f67c2b276",
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "status": "QUEUED"
   },
   "checked_outcomes_scope_build": {
     "accounted": true,
@@ -258,10 +267,10 @@
     {
       "obligation": "Exact checked const-pointer Outcome projection",
       "reason": "A1Nine already checks same local pair/interface/graph and forbids A1Link two-body locator. Require nine active, two-body inactive/absent; retain ordinary body proofs.",
-      "state": "NINE_GATE_FIX_REVIEW_GO_UNBUILT"
+      "state": "NINE_GATE_FIX_SUBMITTED_PENDING_BRIEF"
     }
   ],
-  "next_step": "Submit reviewed6e62d359 at full1200; then Brief positive and all controls.",
+  "next_step": "ACK event first, then Brief positive/counters/controls. Keep classifier closed.",
   "open": [
     "Positive remains unaccepted: new gate refused before projection. Correct nine-body profile selector pending review/Cloud; classifier NO_GO and control targets unpinned.",
     "P2 *mut NOT_PUBLISHED; W4 gated on callee acceptance."
@@ -305,7 +314,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "85c88d85-0bac-4f7f-8186-93a8b079b162"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -325,17 +336,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T12:41:27Z",
+  "updated_utc": "2026-10-23T12:50:04Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "c1c403d7-c58a-4d50-b446-376283b1cfcf",
-    "acknowledged_job_id": "e4e3162b-5ef6-4b2d-84a3-0baff91c8c29",
-    "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window, exact compile-scope correction; no new authority or proof credit.",
-    "spec_path": "/tmp/select-r24-checked-outcomes-scope-watch.json",
+    "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window, exact nine-profile correction; no new authority or proof credit.",
+    "spec_path": "/tmp/select-r24-checked-outcomes-nine-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -377,6 +385,16 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 T0/account/window, exact checked-outcomes candidate; no new authority or proof credit.",
       "spec_path": "/tmp/select-r24-checked-outcomes-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "c1c403d7-c58a-4d50-b446-376283b1cfcf",
+      "acknowledged_job_id": "e4e3162b-5ef6-4b2d-84a3-0baff91c8c29",
+      "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window, exact compile-scope correction; no new authority or proof credit.",
+      "spec_path": "/tmp/select-r24-checked-outcomes-scope-watch.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]

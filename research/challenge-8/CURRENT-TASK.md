@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T12:41:27Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T12:50:04Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 1642s spent, 0s retired, 19958s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Positive gate wrongly requires two A1 profiles; correction pending Cloud. [Build `bba86d46-3d8f-4275-a7ad-bd36328f4127`]
-Next: Submit reviewed6e62d359 at full1200; then Brief positive and all controls.
+Active Build IDs: 85c88d85-0bac-4f7f-8186-93a8b079b162; unresolved: none recorded.
+Blocker: Await nine-gate Cloud run; compilation and proof pending Brief. [Build `85c88d85-0bac-4f7f-8186-93a8b079b162`]
+Next: ACK event first, then Brief positive/counters/controls. Keep classifier closed.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
