@@ -1,57 +1,56 @@
-# Select-R23 — leak repair R22b, приёмка fractional callee, controls, P2
+# Select-R24 — clean positive callee (103a34), full matrix, P2 *mut to PUBLISHED, then W4
 
-Task ID: `select-callee-acceptance-autonomous-2026-10-23-r23`; previous task: `select-callee-acceptance-autonomous-2026-10-23-r22`.
-Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R23`. Lane: `o26-select-callee-r20`.
+Task ID: `select-callee-acceptance-autonomous-2026-10-24-r24`; previous task: `select-callee-acceptance-autonomous-2026-10-23-r23`.
+Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-24-R24`. Lane: `o26-select-callee-r20`.
 
 ## Mission
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Codex. Follow CORE and RUNTIME-CODEX (review and watcher).
-T0 includes preparation. Use smallsort-session; review and register exact phase before Builds.
+Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
 
-Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `cb364c5be02b759e436f1d2af056215636bcc172`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
+Worktree `/root/verify-rust-std-select-night` on branch `research/night-select-sort4-cloud-2026-10-09`; baseline `505aea0d8d48814d41918ecfc7d6f307a06d4727`; source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`.
 Tool worktree `/root/verifast-select-sort4-c2-bind-20261010` on `challenge8/select-sort4-c2-bound-20261010` at `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R23.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R22.json`.
-Cloud budget: 3600 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
+Profile `research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-C3-R19-PROFILE-2026-10-22.json` SHA-256 `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`. New ledger path: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-24-R24.json`; previous closed ledger: `research/challenge-8/cloud-build/sort4-caller-entry-native/BUDGET-A1-ACTUAL-SELECT-2026-10-23-R23.json`.
+Cloud budget: 21600 seconds. Wall window: 4320 minutes main + 60 minutes closeout (explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds. T0 remains NOT_SET until actual work starts.
 
 ## Goal and steps
 
-R23 и Builds разрешены. Цель — довести checked actual callee select_unpredictable (W1) до приёмки: устранить последний leak (R22b), закрепить controls, прогнать normal/unwind/nested-Drop; затем P2 (*mut T) для Network и маршрут в sort4. Закрыв план или упёршись в границу, агент сам ставит следующие задачи по миссии.
+R24 and Builds authorized. One-time extended window: close on goal, budget or a real boundary, not on time (OWNER-DIRECTIONS). Select is the critical path. Goal: clean positive of the checked actual callee select_unpredictable (W1) with the full matrix; then P2 (*mut T) to PUBLISHED; then W4 body C5.
 
-1. Register R23 reusing the R22 route-marker pattern. Early: R22b fingerprint Build at HEAD, rebind r22b rows from it, restore the proof entry, review, proof Build. Before the second cycle consider a reviewed way to shorten fingerprint→rows (fewer Brief requests, static binding test) without weakening the checks.
-2. On a clean positive: re-observe and pin the seven control targets (CONTROL-TARGET-PROPOSAL, omit-* at lib.rsspec:462/463), then normal/unwind/nested-Drop, ownership, leak/refinement and same-site controls; record callee acceptance only on the full matrix. Without Cloud in parallel: *mut T chain (MUTABLE-GATE-INVENTORY) and P2 publication to Network.
-3. Then the dormant body route (BODY-C5-NEXT, 168/191) after acceptance/linkage and count-five requalification. When the plan is done or blocked, pick next obligations yourself from COMPLETION-PLAN/mission (W1/W4), recording choice and reason in CHECKPOINT; else prepare a reviewed HANDOFF.
+1. Register R24. First Build: reviewed UNBUILT candidate a4737f9f (translator 103a34…) on fingerprint rows 739f982d, full 1200; no new fingerprint. If dead-code persists: bind exact diagnostic sites statically, next falsifiable hypothesis; never an exemption/suppression. Classifier and omit-* pins only after a clean positive.
+2. On a clean positive: pin the seven control targets; normal/unwind/nested-Drop, ownership, leak/refinement, same-site omission controls; acceptance only on the full matrix. Then the mutable route: fresh exact *mut source/fingerprint, mutable certificates under closed opt-in, mutable positive plus refusal controls, review GO, P2-INTERFACE status PUBLISHED.
+3. Then W4: dormant body route (BODY-C5-NEXT 168/191) after acceptance/linkage and count-five requalification. Record each self-chosen obligation and reason in CHECKPOINT mission_queue.
 
 ## Special bounds
 
-- Proof Builds use timeout 1200; never shorten it to fit the remaining window: if the full envelope does not fit main, no Build. A compile error or a run without proof stage is fixed statically first; never repeat the same config. No new Build/retry after main; the 30 min only for started Builds, evidence, accounting, checkpoint, push. No cap change.
-- Keep R16-R22 chain and strict R13 checks (5 calls/8 selects/4 copies, no leak relaxation). Beyond the owner-approved fractional candidate, any gate exemption, guard-own=true or broad forget summary needs an owner decision. No address-only bridge. Tool WT: pinned Git objects. coordination.py (v4) read-only.
-- Use the whole main window; no admissible Build is not a boundary. An early stop lists each checked independent task and why it is unavailable in closure_reason.
+- Window deadlines exist only for ledger/watcher. Timeout 1200 never shortened; compile error or no-proof-stage run fixed statically, same config never repeated. Review once per semantic candidate (CORE 2026-10-23); progress note about every 2 h.
+- Keep the R16–R23 chain and strict R13 checks. Gate exemption, guard-own=true, broad forget summary or dead-code checker change are owner-reserved: opt-in experimental candidate without credit plus an open question. No address-only bridge. coordination.py v4 read-only.
+- Publish the overlay chain (patch paths, SHA-256, translator hashes, gating) in task-history/select-callee-r24/TOOL-OVERLAYS.md for the VeriFast maintainer; the maintainer takes no proof work and changes no pins.
 
 ## Starting checkpoint
 
 Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
 
-Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
-Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WINDOW-HANDOFF.
+Blocker: S3 positive fails dead-code check after outer return/leak-check; cause unresolved. [Build cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9]
+Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at full 1200; on clean positive run the matrix, then mutable P2 to PUBLISHED.
 
 ## References
 
-- [R22 next-window handoff](task-history/select-callee-r22/NEXT-WINDOW-HANDOFF.md)
-- [Leak repair next](task-history/select-callee-r22/LEAK-REPAIR-NEXT.md)
-- [Control target proposal](task-history/select-callee-r22/CONTROL-TARGET-PROPOSAL.json)
-- [Completion plan](COMPLETION-PLAN.md)
+- [Owner directions R24](task-history/select-callee-r24/OWNER-DIRECTIONS.md)
+- [R23 next-window handoff](task-history/select-callee-r23/NEXT-WINDOW-HANDOFF.md)
+- [Ghost-CFG candidate pins](task-history/select-callee-r23/GHOST-CFG-PROOF-PINS.json)
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · CLOSED**
-Updated: 2026-10-23T09:38:10Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 998s spent, 2602s retired, 0s remaining including reservations.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · NOT_STARTED**
+Updated: 2026-10-23T10:29:18Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 0s spent, 0s retired, 21600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: S3 positive fails dead-code check after outer return/leak-check event; cause unresolved. Synthetic ghost unwind-successor inventory hypothesis under static review; no suppression allowed.
-Next: Newowner-authorizedwindowonly: freshT0/phase/ledger registration; full1200proof ofreviewedUNBUILT103a34samefingerprintrows; fixclassifierprovenance/timestampbugs andqualifymatrixonlyaftercleanpositive. No R23authority/budgettransfer.
+Blocker: S3 positive fails dead-code check after outer return/leak-check; cause unresolved. [Build `cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9`]
+Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at full 1200; on clean positive run the matrix, then mutable P2 to PUBLISHED.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
