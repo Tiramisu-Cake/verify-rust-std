@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import unittest
@@ -14,6 +15,15 @@ sys.path.insert(0, str(HERE.parents[0]))
 spec = importlib.util.spec_from_file_location("r22_control", HERE.parents[0] / "control.py")
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
+callback_spec = importlib.util.spec_from_file_location("r22_first_callback", HERE / "first-callback.py")
+callback = importlib.util.module_from_spec(callback_spec)
+sys.modules[callback_spec.name] = callback
+callback_spec.loader.exec_module(callback)
+provider_spec = importlib.util.spec_from_file_location(
+    "r22_provider_overlays", HERE.parents[1] / "merge/cloud-build/provider-overlays.py")
+provider = importlib.util.module_from_spec(provider_spec)
+sys.modules[provider_spec.name] = provider
+provider_spec.loader.exec_module(provider)
 
 
 def account():
@@ -183,18 +193,114 @@ class R22PhaseTests(unittest.TestCase):
         root = HERE.parents[2]
         import subprocess
         show = lambda rel: subprocess.check_output(["git", "show", m.R22_PROBE_SOURCE + ":" + rel], cwd=root)
-        profile, patch_bytes = show(m.R22_PROFILE_PATH), show(m.R17_PATCH_PATH)
-        provider = show(m.R17_PROVIDER_OVERLAYS_PATH)
-        m.r22_validate_candidate_pins(profile, profile, profile, patch_bytes, provider, provider, provider)
+        baseline_profile, baseline_patch = show(m.R22_PROFILE_PATH), show(m.R17_PATCH_PATH)
+        baseline_provider = show(m.R17_PROVIDER_OVERLAYS_PATH)
+        m.r22_validate_candidate_pins(baseline_profile, baseline_profile, baseline_profile,
+                                      baseline_patch, baseline_provider, baseline_provider,
+                                      baseline_provider)
+        candidate_profile = (HERE / "GLUE-PROFILE.json").read_bytes()
+        candidate_patch = (HERE / "r9-guard-return-trace.patch").read_bytes()
+        candidate_provider = (HERE.parents[1] / "merge/cloud-build/provider-overlays.py").read_bytes()
+        self.assertEqual(m.r22_validate_candidate_pins(
+            baseline_profile, candidate_profile, candidate_profile, candidate_patch,
+            baseline_provider, candidate_provider, candidate_provider), "r22-compile-fix")
         legacy = show(m.R20_METADATA_TEST_PATH)  # any other bytes
         for index, value in ((0, legacy), (1, legacy), (2, legacy), (3, legacy), (4, legacy), (5, legacy), (6, legacy)):
-            values = [profile, profile, profile, patch_bytes, provider, provider, provider]
+            values = [baseline_profile, candidate_profile, candidate_profile, candidate_patch,
+                      baseline_provider, candidate_provider, candidate_provider]
             values[index] = value
             with self.subTest(index=index), self.assertRaises(SystemExit):
                 m.r22_validate_candidate_pins(*values)
-        wrong_tool = profile.replace(m.R22_STARTING_TOOL_COMMIT.encode(), b"0" * 40)
+        for index, value in ((0, None), (1, None), (2, None), (3, None),
+                             (4, None), (5, None), (6, None)):
+            values = [baseline_profile, candidate_profile, candidate_profile, candidate_patch,
+                      baseline_provider, candidate_provider, candidate_provider]
+            values[index] = value
+            with self.subTest(null_index=index), self.assertRaises(SystemExit):
+                m.r22_validate_candidate_pins(*values)
+        partial = json.loads(candidate_profile)
+        del partial["r22_compile_fix_registration"]["tool_source_paths"]
+        partial_bytes = (json.dumps(partial, indent=2, ensure_ascii=False) + "\n").encode()
+        for index, value in ((1, partial_bytes), (2, partial_bytes),
+                             (3, candidate_patch + b"x"), (5, candidate_provider + b"\n"),
+                             (6, candidate_provider + b"\n")):
+            values = [baseline_profile, candidate_profile, candidate_profile, candidate_patch,
+                      baseline_provider, candidate_provider, candidate_provider]
+            values[index] = value
+            with self.subTest(partial_or_off_by_one=index), self.assertRaises(SystemExit):
+                m.r22_validate_candidate_pins(*values)
+        for field, value in (("exporter_source_sha256", None),
+                             ("exporter_source_sha256", 17),
+                             ("effective_tool_commit", None),
+                             ("effective_tool_commit", "e1ee4415b711d1b368cbfaad27bda88ed0a216e0"),
+                             ("guard_return_trace_patch_sha256", None)):
+            malformed = json.loads(candidate_profile)
+            malformed[field] = value
+            malformed_bytes = (json.dumps(malformed, indent=2, ensure_ascii=False) + "\n").encode()
+            with self.subTest(profile_pin=(field, value)), self.assertRaises(SystemExit):
+                m.r22_validate_candidate_pins(baseline_profile, malformed_bytes, malformed_bytes,
+                                              candidate_patch, baseline_provider,
+                                              candidate_provider, candidate_provider)
+        wrong_tool = candidate_profile.replace(m.R22_COMPILE_FIX_TOOL_COMMIT.encode(), b"0" * 40)
         with self.assertRaises(SystemExit):
-            m.r22_validate_candidate_pins(profile, wrong_tool, wrong_tool, patch_bytes, provider, provider, provider)
+            m.r22_validate_candidate_pins(baseline_profile, wrong_tool, wrong_tool, candidate_patch,
+                                          baseline_provider, candidate_provider, candidate_provider)
+
+    def test_r22_historical_closure_allows_only_profile_extension(self):
+        path = m.R22_PROFILE_PATH
+        required = {m.R21_LEDGER_PATH, m.R20_LEDGER_PATH, m.R19_LEDGER_PATH, m.R18_LEDGER_PATH,
+                    m.R17_LEDGER_PATH, m.R16_LEDGER_PATH, m.R13_MODE_PATH, m.R14_GATE_PATH,
+                    m.R17_PROFILE_PATH, path}
+        old = {item: ("100644", "blob", "a" * 40) for item in required}
+        old["other"] = ("100644", "blob", "b" * 40)
+        candidate = dict(old, **{path: ("100644", "blob", "c" * 40)})
+        m.r22_validate_historical_closure(set(old), old, candidate)
+        changed_other = dict(candidate, other=("100644", "blob", "d" * 40))
+        with self.assertRaises(SystemExit):
+            m.r22_validate_historical_closure(set(old), old, changed_other)
+        malformed_profile = dict(candidate, **{path: ("100755", "blob", "c" * 40)})
+        with self.assertRaises(SystemExit):
+            m.r22_validate_historical_closure(set(old), old, malformed_profile)
+
+    def test_callback_accepts_exact_r22_extension_and_keeps_r20_tuple(self):
+        git = lambda rev, rel: __import__("subprocess").check_output(
+            ["git", "show", rev + ":" + rel], cwd=HERE.parents[3])
+        r20_baseline = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R22_PROFILE_PATH)
+        baseline = git(m.R22_PROBE_SOURCE, m.R22_PROFILE_PATH)
+        candidate = (HERE / "GLUE-PROFILE.json").read_bytes()
+        old_provider = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R17_PROVIDER_OVERLAYS_PATH)
+        r20_provider = git(m.R22_PROBE_SOURCE, m.R17_PROVIDER_OVERLAYS_PATH)
+        old_patch = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R17_PATCH_PATH)
+        r20_patch = git(m.R22_PROBE_SOURCE, m.R17_PATCH_PATH)
+        self.assertFalse(m.r20_validate_candidate_pins(
+            r20_baseline, r20_baseline, r20_baseline, old_patch,
+            old_provider, old_provider, old_provider))
+        self.assertTrue(m.r20_validate_candidate_pins(
+            r20_baseline, baseline, baseline, r20_patch,
+            old_provider, r20_provider, r20_provider))
+        with __import__("tempfile").TemporaryDirectory(prefix="r22-profile-") as temporary:
+            path = Path(temporary) / "profile.json"
+            path.write_bytes(baseline)
+            self.assertTrue(callback._r20_metadata_registration_matches(
+                path, callback.R11_PROFILE, json.loads(baseline)))
+            path.write_bytes(r20_baseline)
+            self.assertTrue(callback._r19_registration_matches(path, callback.R11_PROFILE))
+            path.write_bytes(candidate)
+            self.assertTrue(callback._r22_compile_fix_registration_matches(
+                path, callback.R22_PROFILE))
+            self.assertTrue(callback._r19_registration_matches(path, callback.R22_PROFILE))
+            self.assertTrue(callback._r17_registration_matches(
+                path, callback.R22_PROFILE, {"profile": callback.R22_PROFILE}))
+            card = json.loads(candidate)
+            self.assertEqual(provider.profile_identity(card), provider.R22_PROFILE)
+            selected = provider.files_for_profile(provider.R22_PROFILE)
+            self.assertEqual(selected["research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py"],
+                             m.R22_COMPILE_FIX_PROVIDER_PROVE_SHA256)
+            bad = json.loads(candidate)
+            bad["r22_compile_fix_registration"]["tool_source_paths"] = []
+            path.write_text(json.dumps(bad, indent=2) + "\n")
+            self.assertFalse(callback._r22_compile_fix_registration_matches(
+                path, callback.R22_PROFILE))
 
     def test_execute_budget_preserves_reserve_and_780_second_cap(self):
         for timeout, execute in ((510, 90), (1200, 780)):

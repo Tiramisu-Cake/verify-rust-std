@@ -174,6 +174,14 @@ R22_STARTING_TOOL_COMMIT=R20_METADATA_TOOL_COMMIT
 R22_PATCH_SHA256=R20_METADATA_PATCH_SHA256
 R22_PROVIDER_SHA256=R20_METADATA_PROVIDER_SHA256
 R22_PROVIDER_PROVE_SHA256=R20_METADATA_PROVIDER_PROVE_SHA256
+# R22 compile-only exporter extension.  The original tuple above remains a
+# valid admission; these pins are populated only for the reviewed extension.
+R22_COMPILE_FIX_TOOL_COMMIT='e1ee4415b711d1b368cbfaad27bda88ed0a216e1'
+R22_COMPILE_FIX_EXPORTER_SHA256='0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345'
+R22_COMPILE_FIX_PATCH_SHA256='0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7'
+R22_COMPILE_FIX_PROFILE_SHA256='5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e'
+R22_COMPILE_FIX_PROVIDER_SHA256='f666f91a60940d580483df7bef41110155cad7888ca651e8349c826ce08a2bc4'
+R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='504b1e067bf269a77053ee4f701ba6a914d1854868a0d33cfc35736db736c6bd'
 R22_START='2026-10-23T07:44:00Z'
 R22_MAIN_DEADLINE='2026-10-23T09:44:00Z'
 R22_DEADLINE='2026-10-23T10:14:00Z'
@@ -1103,6 +1111,43 @@ def r17_parse_provider_pin_tables(source):
   raise SystemExit('R17 S16 malformed provider pin tables')
 
 
+def r22_parse_provider_pin_tables(source):
+ try:
+  if not isinstance(source,bytes):raise ValueError('not bytes')
+  module=ast.parse(source.decode('utf-8'))
+  tables={}
+  for node in module.body:
+   if isinstance(node,ast.Assign) and len(node.targets)==1 and isinstance(node.targets[0],ast.Name) and node.targets[0].id in ('FILES','R11_FILES','R22_FILES'):
+    name=node.targets[0].id
+    if name in tables or not isinstance(node.value,ast.Dict):raise ValueError('duplicate or non-dict table')
+    keys=[];values=[]
+    for key,value in zip(node.value.keys,node.value.values):
+     if (not isinstance(key,ast.Constant) or type(key.value) is not str or
+         not isinstance(value,ast.Constant) or type(value.value) is not str):
+      raise ValueError('nonliteral path or digest')
+     keys.append(key.value);values.append(value.value)
+    if len(keys)!=len(set(keys)):raise ValueError('duplicate path')
+    table=ast.literal_eval(node.value)
+    if type(table) is not dict or len(table)!=len(keys):raise ValueError('invalid table')
+    if any(not re.fullmatch('[0-9a-f]{64}',digest) for digest in values):raise ValueError('invalid digest')
+    tables[name]=table
+  if set(tables)!= {'FILES','R11_FILES','R22_FILES'} or len(tables['FILES'])!=18 or len(tables['R11_FILES']) not in (2,3) or len(tables['R22_FILES'])!=len(tables['R11_FILES']):
+   raise ValueError('wrong table schema/count')
+  if set(tables['FILES']) & (set(tables['R11_FILES'])|set(tables['R22_FILES'])):
+   raise ValueError('provider tables overlap common sources')
+  proof_path='research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py'
+  if set(tables['R11_FILES'])!=set(tables['R22_FILES']) or proof_path not in tables['R22_FILES']:
+   raise ValueError('R22 provider path set differs from R11')
+  if any(tables['R11_FILES'][path]!=tables['R22_FILES'][path]
+         for path in set(tables['R11_FILES'])-{proof_path}):
+   raise ValueError('R22 control pins differ from R11')
+  if tables['R11_FILES'][proof_path]==tables['R22_FILES'][proof_path]:
+   raise ValueError('R22 prove.py pin was not extended')
+  return tables
+ except (SyntaxError,UnicodeDecodeError,ValueError,TypeError,RecursionError):
+  raise SystemExit('R22 S16 malformed provider pin tables')
+
+
 def r17_validate_provider_module_delta(baseline_source,selected_source):
  old_prove=R17_PROVIDER_OLD_PROVE_SHA256.encode()
  new_prove=R17_PROVIDER_NEW_PROVE_SHA256.encode()
@@ -1999,24 +2044,84 @@ def r22_validate_historical_closure(paths,before,selected):
  required={R21_LEDGER_PATH,R20_LEDGER_PATH,R19_LEDGER_PATH,R18_LEDGER_PATH,R17_LEDGER_PATH,R16_LEDGER_PATH,
            R13_MODE_PATH,R14_GATE_PATH,R17_PROFILE_PATH,R22_PROFILE_PATH}
  if (not required.issubset(paths) or set(before)!=set(paths) or set(selected)!=set(paths) or
-     selected!=before or any(value[:2]!=('100644','blob') for value in selected.values())):
+     any(value[:2]!=('100644','blob') for value in selected.values())):
   raise SystemExit('R22 S7 historical R20 closure, profile, mode, or gate changed')
+ differences={path for path in paths if before[path]!=selected[path]}
+ if differences not in (set(),{R22_PROFILE_PATH}):
+  raise SystemExit('R22 S7 historical closure changed outside the exact R22 profile extension')
 
 
 def r22_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
                                 baseline_provider,selected_provider,current_provider):
- if (hashlib.sha256(baseline_profile).hexdigest()!=R22_PROFILE_SHA256 or
-     selected_profile!=baseline_profile or current_profile!=selected_profile or
-     hashlib.sha256(selected_patch).hexdigest()!=R22_PATCH_SHA256):
-  raise SystemExit('R22 S6 pinned profile or cumulative patch differs from reviewed tool578 HANDOFF')
+ if any(type(value) is not bytes for value in
+        (baseline_profile,selected_profile,current_profile,selected_patch,
+         baseline_provider,selected_provider,current_provider)):
+  raise SystemExit('R22 S6 profile/patch/provider pins must be exact byte strings')
+ if hashlib.sha256(baseline_profile).hexdigest()!=R22_PROFILE_SHA256:
+  raise SystemExit('R22 S6 immutable profile9496 baseline differs')
+ if selected_profile==baseline_profile:
+  # Historical R22 admission remains available with the exact original tuple.
+  try:profile=json.loads(selected_profile)
+  except (ValueError,UnicodeDecodeError):raise SystemExit('R22 S6 pinned profile JSON unavailable')
+  if (current_profile!=selected_profile or
+      hashlib.sha256(selected_patch).hexdigest()!=R22_PATCH_SHA256 or
+      type(profile) is not dict or profile.get('effective_tool_commit')!=R22_STARTING_TOOL_COMMIT):
+   raise SystemExit('R22 S6 original tool578/profile9496 tuple differs')
+  if (hashlib.sha256(baseline_provider).hexdigest()!=R22_PROVIDER_SHA256 or
+      selected_provider!=baseline_provider or current_provider!=selected_provider or
+      baseline_provider.count(R22_PROVIDER_PROVE_SHA256.encode())!=1):
+   raise SystemExit('R22 S6 original provider module differs from exact tool578 pin')
+  return 'tool578-profile9496'
+
+ # The sole alternative is the narrow compile-fix profile.  Reversing its
+ # four extension fields must recreate the immutable profile9496 bytes.
  try:profile=json.loads(selected_profile)
- except (ValueError,UnicodeDecodeError):raise SystemExit('R22 S6 pinned profile JSON unavailable')
- if type(profile) is not dict or profile.get('effective_tool_commit')!=R22_STARTING_TOOL_COMMIT:
-  raise SystemExit('R22 S6 pinned profile tool commit differs')
+ except (ValueError,UnicodeDecodeError):raise SystemExit('R22 S6 compile-fix profile JSON unavailable')
+ if (hashlib.sha256(selected_profile).hexdigest()!=R22_COMPILE_FIX_PROFILE_SHA256 or
+     current_profile!=selected_profile or type(profile) is not dict or
+     profile.get('profile')!='experimental-merge-label-storage-r11-v1' or
+     type(profile.get('r22_compile_fix_registration')) is not dict or
+     profile['r22_compile_fix_registration']!={
+       'schema':'merge-r22-compile-fix-registration-v1',
+       'phase_id':R22_PHASE,
+       'baseline_profile_sha256':R22_PROFILE_SHA256,
+       'starting_tool_commit':R22_STARTING_TOOL_COMMIT,
+       'candidate_tool_commit':R22_COMPILE_FIX_TOOL_COMMIT,
+       'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs'],
+       'source_applicability':('compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, '
+                               'and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, '
+                               'postcondition, or control change.')} or
+     profile.get('effective_tool_commit')!=R22_COMPILE_FIX_TOOL_COMMIT or
+     profile.get('exporter_source_sha256')!=R22_COMPILE_FIX_EXPORTER_SHA256 or
+     profile.get('guard_return_trace_patch_sha256')!=R22_COMPILE_FIX_PATCH_SHA256):
+  raise SystemExit('R22 S6 candidate is not the exact reversible compile-fix profile extension')
+ reversed_profile=dict(profile)
+ reversed_profile.pop('r22_compile_fix_registration',None)
+ reversed_profile['profile']='experimental-merge-label-storage-r11-v1'
+ reversed_profile['effective_tool_commit']=R22_STARTING_TOOL_COMMIT
+ reversed_profile['exporter_source_sha256']=R20_METADATA_EXPORTER_SHA256
+ reversed_profile['guard_return_trace_patch_sha256']=R22_PATCH_SHA256
+ reversed_profile['ordered_patch_chain']=list(reversed_profile.get('ordered_patch_chain',[]))
+ if reversed_profile['ordered_patch_chain']:
+  reversed_profile['ordered_patch_chain'][-1]={'path':'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch','sha256':R22_PATCH_SHA256}
+ reversed_bytes=(json.dumps(reversed_profile,indent=2,ensure_ascii=False)+'\n').encode()
+ if reversed_bytes!=baseline_profile:
+  raise SystemExit('R22 S6 compile-fix profile does not reverse byte-exactly to profile9496')
+ chain=profile.get('ordered_patch_chain')
+ if (type(chain) is not list or len(chain)!=19 or type(chain[-1]) is not dict or
+     chain[-1].get('path')!='research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch' or
+     chain[-1].get('sha256')!=R22_COMPILE_FIX_PATCH_SHA256 or
+     hashlib.sha256(selected_patch).hexdigest()!=R22_COMPILE_FIX_PATCH_SHA256):
+  raise SystemExit('R22 S6 candidate cumulative patch pin differs')
  if (hashlib.sha256(baseline_provider).hexdigest()!=R22_PROVIDER_SHA256 or
-     selected_provider!=baseline_provider or current_provider!=selected_provider or
-     baseline_provider.count(R22_PROVIDER_PROVE_SHA256.encode())!=1):
-  raise SystemExit('R22 S6 provider module differs from exact published tool578 pin')
+     hashlib.sha256(selected_provider).hexdigest()!=R22_COMPILE_FIX_PROVIDER_SHA256 or
+     current_provider!=selected_provider or
+     selected_provider.count(R22_COMPILE_FIX_PROVIDER_PROVE_SHA256.encode())<1):
+  raise SystemExit('R22 S6 compile-fix provider module or prove.py pin differs')
+ tables=r22_parse_provider_pin_tables(selected_provider)
+ if tables['R22_FILES'].get('research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py')!=R22_COMPILE_FIX_PROVIDER_PROVE_SHA256:
+  raise SystemExit('R22 S6 compile-fix prove.py source pin differs')
+ return 'r22-compile-fix'
 
 
 def r22_final_deadline_check(a,ledger):
@@ -2096,8 +2201,12 @@ def r22_validate_sources(probe_sha,proof_sha):
  if set(found)!=set(paths):raise SystemExit('R22 S13 incomplete selected source closure')
  try:
   provider_selected=subprocess.check_output(['git','show',proof_sha+':'+R17_PROVIDER_OVERLAYS_PATH],cwd=ROOT,stderr=subprocess.PIPE)
-  pins=r17_parse_provider_pin_tables(provider_selected)
-  pinned={**pins['FILES'],**pins['R11_FILES']}
+  if selected_profile==baseline_profile:
+   pins=r17_parse_provider_pin_tables(provider_selected)
+   pinned={**pins['FILES'],**pins['R11_FILES']}
+  else:
+   pins=r22_parse_provider_pin_tables(provider_selected)
+   pinned={**pins['FILES'],**pins['R22_FILES']}
   if R17_PROVIDER_OVERLAYS_PATH not in found or not set(pinned).issubset(found):
    raise SystemExit('R22 S16 provider pins absent from selected source closure')
   for path,expected in pinned.items():

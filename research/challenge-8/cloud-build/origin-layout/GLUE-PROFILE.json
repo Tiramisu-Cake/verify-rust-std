@@ -31,7 +31,7 @@
   "baseline_exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
   "guard_layout_patch_sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
   "guard_layout_tool_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
-  "exporter_source_sha256": "8bcb126ea684d1c671b96425940b0d24904fdaa3beb69a09316bd222316fca42",
+  "exporter_source_sha256": "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345",
   "schema_sha256": "a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5",
   "selected_drop_patch_sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
   "selected_drop_tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
@@ -112,7 +112,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch",
-      "sha256": "3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b"
+      "sha256": "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -121,7 +121,7 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Owner-authorized R8 experimental trusted allocation premise: default-off explicit flag, real Rust StorageLive u64 local only, 64-bit, CURRENT positive initialized canonical u64 array subrange nonempty and full-pointer-contained in a unique positive incoming array3. Excludes only CURRENT subrange numeric interval from fresh local; no heap chunks changed or ownership from numeric equality. Hidden borrow/absent current canonical owner/wrong type/count/root/default-off give no new fact. Existing scalar/local/points_to rule and runtime/posts/compiler/prelude/model file unchanged; no Rocq credit. Experimental profile unqualified.",
-  "effective_tool_commit": "578120769161e217e53bd569bafdccbd4b2e020e",
+  "effective_tool_commit": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
@@ -155,7 +155,7 @@
   "qualification": "OPEN",
   "authorization": "Direct owner async reply during R8: narrow rule justification/model-design, independent review, separate experimental profile and positive/negative controls; original window and budget unchanged; qualification separate.",
   "previous_profile_sha256": "c3f5d286777ffd388e1eb0894ad0ff9e8f1f87f72424291041cb800385f7c979",
-  "guard_return_trace_patch_sha256": "3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b",
+  "guard_return_trace_patch_sha256": "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7",
   "guard_return_trace_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
   "guard_return_trace_scope": "Existing R9 exact MIR Drop/Return/Resume bounded48 heap terms; R10 read-only missing-invariant bounded96heap/128env, reconstructed CFG Body identity and ordinary checked LoopInv entry/backedge receipts. No assumptions/resource/control changes.; R10 missing-invariant backedge read-only inventory bounded96 chunks/128 env entries, then unchanged refusal",
   "guard_return_trace_activation_env": "SMALLSORT_R9_GUARD_TRACE=1; authorized R9/R10 nonprefix actual callback only",
@@ -238,5 +238,16 @@
       "src/rust_frontend/vf_mir_exporter/src/lib.rs"
     ],
     "source_applicability": "source-preserving MIR metadata: real CastData.sourceTy is encoded as Some(exact operand type); the schema permits None, and synthetic built-in Cast fixtures explicitly use None. Pointer-coercion metadata remains exact when present. Inference-region identity remains body-scoped; synthetic fixture regions use identity None and empty region_scope_id, never an inferred identity. Retains diagnostic-only context for the existing unequal LocalAddressTaken refusal (function, paired block/command positions and full listings, same standalone fatal diagnostic) and the prior closed-usize Value/Leaf interpreter case (UIntPtrWidth outer/value type match, scalar size 1..8 and bits fit). Strict RawPtr projected-place classifier unchanged; other index cases unsupported/inconclusive; no pointer, resource, lifetime or memory-model rule."
+  },
+  "r22_compile_fix_registration": {
+    "schema": "merge-r22-compile-fix-registration-v1",
+    "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+    "baseline_profile_sha256": "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301",
+    "starting_tool_commit": "578120769161e217e53bd569bafdccbd4b2e020e",
+    "candidate_tool_commit": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+    "tool_source_paths": [
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs"
+    ],
+    "source_applicability": "compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, postcondition, or control change."
   }
 }

@@ -1213,3 +1213,24 @@ index d0d20748..f6805d65 100644
              produce_asn env [] [] ghostenv env inv real_unit None None (fun h ghostenv env ->
 +              r11_label_state leminfo l h env "kind=label_invariant phase=body gate=produced" true;
                let blocks_done = block::blocks_done in
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index 3f45c136..0cf7ee38 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -489,6 +489,7 @@ use crate::vf_mir_capnp::span_data as span_data_cpn;
+     use crate::vf_mir_capnp::visibility as visibility_cpn;
+     use crate::vf_mir_capnp::variant_def as variant_def_cpn;
+     use crate::vf_mir_capnp::operand as operand_cpn;
++    use crate::vf_mir_capnp::pointer_coercion_data as pointer_coercion_data_cpn;
+     use crate::vf_mir_capnp::rvalue as rvalue_cpn;
+     use crate::vf_mir_capnp::statement as statement_cpn;
+     use crate::vf_mir_capnp::terminator as terminator_cpn;
+@@ -2542,7 +2543,7 @@ use rustc_span::RemapPathScopeComponents;
+                     region_cpn.set_id(/*&format!("{:?}", region)*/ "'<erased>");
+                 }
+                 ty::RegionKind::ReErased => {
+-                    region_cpn.init_identity().init_something().set_erased(());
++                    region_cpn.reborrow().init_identity().init_something().set_erased(());
+                     region_cpn.set_id("'<erased>");
+                 }
+                 ty::RegionKind::RePlaceholder(_placeholder_region) => bug!(),

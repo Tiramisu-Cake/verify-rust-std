@@ -39,6 +39,7 @@ R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
+R22_PROFILE_SHA256 = "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e"
 R17_BASELINE_RELATIVE = "research/challenge-8/cloud-build/origin-layout/R17-BASELINE-PROFILE-20261021.json"
 R17_BASELINE_SHA256 = "eb61e49397cd9973ec12d1675bd8bd4867c7374de22e7c1c6a8a58e991266375"
 R17_TOOL_COMMIT = "a66c1d30214e463a16a325cdef30b0ec8555e0af"
@@ -507,7 +508,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     r11_run_identity = None
 
     if args.profile == R11_PROFILE and r11_native_raw is not None:
-        if not isinstance(r11_native_raw, dict) or r11_native_raw.get("profile") != R11_PROFILE:
+        if not isinstance(r11_native_raw, dict) or r11_native_raw.get("profile") != args.profile:
             raise RuntimeError("R11 callback parent receipt has wrong type or profile")
         provider = r11_native_raw.get("provider")
         build_id = r11_native_raw.get("cloud_build_id")
@@ -526,7 +527,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
         source_sha = r11_native_raw.get("source_sha256")
         proof_sha = r11_native_raw.get("proof_sha")
         if (r11_native_raw.get("accepted") is not False or
-                profile_card.get("profile") != R11_PROFILE or
+                profile_card.get("profile") != args.profile or
                 profile_card.get("accepted") is not False or
                 profile_sha != r11_native_raw.get("profile_sha256", profile_sha) or
                 tool_commit != profile_card.get("effective_tool_commit") or
@@ -549,7 +550,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
             raise RuntimeError("R11 current case SmallSort source differs from parent receipt")
         r11_run_identity = {
             "cloud_build_id": build_id, "proof_sha": proof_sha,
-            "source_sha256": source_sha, "profile": R11_PROFILE,
+            "source_sha256": source_sha, "profile": args.profile,
             "profile_sha256": profile_sha, "tool_commit": tool_commit,
             "tool_sha256": expected_tool_hashes,
             "provider": {key: provider[key] for key in ("provider", "build_id", "project", "region")},
@@ -939,6 +940,29 @@ def main() -> int:
                 chain[-2].get("sha256") != profile_card.get("owned_array_allocation_patch_sha256")):
             raise RuntimeError("R9 patch chain must preserve the exact captured R8 baseline plus one extension")
     if args.profile == R11_PROFILE:
+        if "r22_compile_fix_registration" in profile_card:
+            profile_path = Path(os.environ.get("SMALLSORT_MERGE_PROFILE", ""))
+            registration = profile_card.get("r22_compile_fix_registration")
+            chain = profile_card.get("ordered_patch_chain")
+            expected_registration = {
+                "schema": "merge-r22-compile-fix-registration-v1",
+                "phase_id": "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23",
+                "baseline_profile_sha256": "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301",
+                "starting_tool_commit": "578120769161e217e53bd569bafdccbd4b2e020e",
+                "candidate_tool_commit": "e1ee4415b711d1b368cbfaad27bda88ed0a216e1",
+                "tool_source_paths": ["src/rust_frontend/vf_mir_exporter/src/lib.rs"],
+                "source_applicability": ("compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, "
+                                         "and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, "
+                                         "postcondition, or control change."),
+            }
+            if (base.file_sha(profile_path) != R22_PROFILE_SHA256 or
+                    profile_card.get("profile") != R11_PROFILE or registration != expected_registration or
+                    profile_card.get("effective_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
+                    profile_card.get("exporter_source_sha256") != "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345" or
+                    not isinstance(chain, list) or len(chain) != 19 or
+                    chain[-1].get("path") != "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch" or
+                    chain[-1].get("sha256") != "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"):
+                raise RuntimeError("R22 compile-fix profile is not the exact registered exporter candidate")
         baseline_path = HERE.parents[3] / "cloud-build/origin-layout/R11-BASELINE-PROFILE-20261021.json"
         start_path = HERE.parents[3] / "cloud-build/origin-layout/R11-START-20261021.json"
         trace_patch = HERE.parents[3] / "cloud-build/origin-layout/r9-guard-return-trace.patch"
@@ -984,6 +1008,10 @@ def main() -> int:
             "src/vfide/vfide.ml": "ide_source_sha256",
         }.items():
             if is_r17_extension and key == "refiner_core_source_sha256":
+                continue
+            if "r22_compile_fix_registration" in profile_card and key == "exporter_source_sha256":
+                if profile_card.get(key) != "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345":
+                    raise RuntimeError("R22 exporter source pin differs from the reviewed compile-fix commit")
                 continue
             if profile_card.get(key) != baseline_profile.get(key):
                 raise RuntimeError(f"R11 changed a source pin outside its authorized two-file diagnostic delta: {relative}")

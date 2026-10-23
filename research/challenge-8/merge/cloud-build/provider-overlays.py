@@ -74,13 +74,23 @@ R8_PROFILE = "experimental-merge-owned-array-allocation-r8-v1"
 R9_PROFILE = "experimental-merge-guard-current-return-r9-v1"
 R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
-SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE}
+R22_PROFILE = "r22-compile-fix-overlay"
+R22_FILES = {
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "504b1e067bf269a77053ee4f701ba6a914d1854868a0d33cfc35736db736c6bd",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
+}
+SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE, R22_PROFILE}
 
 
 def files_for_profile(profile: str) -> dict[str, str]:
     if profile not in SUPPORTED_PROFILES:
         raise SystemExit("unsupported merge profile for provider overlay")
-    return {**FILES, **R11_FILES} if profile == R11_PROFILE else dict(FILES)
+    if profile == R11_PROFILE:
+        return {**FILES, **R11_FILES}
+    if profile == R22_PROFILE:
+        return {**FILES, **R22_FILES}
+    return dict(FILES)
 
 
 def profile_identity(profile_card: dict) -> str:
@@ -89,6 +99,17 @@ def profile_identity(profile_card: dict) -> str:
     profile = profile_card.get("profile")
     if profile not in SUPPORTED_PROFILES or profile_card.get("accepted") is not False:
         raise SystemExit("unsupported or accepted merge profile")
+    if profile == R11_PROFILE and "r22_compile_fix_registration" in profile_card:
+        registration = profile_card.get("r22_compile_fix_registration")
+        if (not isinstance(registration, dict) or
+                registration.get("schema") != "merge-r22-compile-fix-registration-v1" or
+                registration.get("phase_id") != "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23" or
+                registration.get("baseline_profile_sha256") != "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301" or
+                registration.get("starting_tool_commit") != "578120769161e217e53bd569bafdccbd4b2e020e" or
+                registration.get("candidate_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
+                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs"]):
+            raise SystemExit("R22 compile-fix profile registration mismatch")
+        return R22_PROFILE
     return profile
 
 
@@ -97,8 +118,12 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None,
     if profile not in SUPPORTED_PROFILES:
         raise SystemExit("unsupported merge profile for provider overlay")
     if path in R11_FILES:
-        if profile != R11_PROFILE:
-            raise SystemExit("R11 provider source is only valid for the selected R11 profile")
+        if profile not in (R11_PROFILE, R22_PROFILE):
+            raise SystemExit("R11 provider source is only valid for the selected R11/R22 profile")
+        return original
+    if path in R22_FILES:
+        if profile != R22_PROFILE:
+            raise SystemExit("R22 provider source is only valid for the selected R22 profile")
         return original
     data = original
     pins = pins or {}

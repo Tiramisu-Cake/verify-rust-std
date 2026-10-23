@@ -22,6 +22,7 @@ R8_PROFILE = 'experimental-merge-owned-array-allocation-r8-v1'
 R9_PROFILE = 'experimental-merge-guard-current-return-r9-v1'
 R10_PROFILE = 'experimental-merge-moving-gap-r10-v1'
 R11_PROFILE = 'experimental-merge-label-storage-r11-v1'
+R22_PROFILE = R11_PROFILE
 R11_LABEL_TRACE_ENV = 'SMALLSORT_R11_LABEL_STORAGE_TRACE'
 R11_LABEL_PLACEMENT_ENV = 'SMALLSORT_R11_LABEL_STORAGE_PLACEMENT'
 R9_GUARD_RETURN_RECOVERY_ENV = 'SMALLSORT_R9_GUARD_RETURN_RECOVERY'
@@ -60,6 +61,21 @@ R20_METADATA_EXPORTER_SHA256 = '8bcb126ea684d1c671b96425940b0d24904fdaa3beb69a09
 R20_METADATA_SCHEMA_SHA256 = 'a894cfc85246c0c33b239c0ee5b729762475f79f46931546937f082e1a6ad7c5'
 R20_METADATA_REFINER_CORE_SHA256 = '7be8a6f16ce45173866bddcc6b6d606ac4ef2a6748885eca1fc982611c753614'
 R20_METADATA_PATCH_SHA256 = '3112458ee12910ea17f69465a271d2cda848c7e50223a4b0c2b30c5e892ea33b'
+R22_COMPILE_FIX_PROFILE_SHA256 = '5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e'
+R22_COMPILE_FIX_TOOL_COMMIT = 'e1ee4415b711d1b368cbfaad27bda88ed0a216e1'
+R22_COMPILE_FIX_EXPORTER_SHA256 = '0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345'
+R22_COMPILE_FIX_PATCH_SHA256 = '0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7'
+R22_COMPILE_FIX_REGISTRATION = {
+    'schema': 'merge-r22-compile-fix-registration-v1',
+    'phase_id': 'MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',
+    'baseline_profile_sha256': R20_METADATA_PROFILE_SHA256,
+    'starting_tool_commit': R20_METADATA_TOOL_COMMIT,
+    'candidate_tool_commit': R22_COMPILE_FIX_TOOL_COMMIT,
+    'tool_source_paths': ['src/rust_frontend/vf_mir_exporter/src/lib.rs'],
+    'source_applicability': ('compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, '
+                             'and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, '
+                             'postcondition, or control change.'),
+}
 R20_METADATA_REGISTRATION = {
     'schema': 'merge-r20-source-preserving-metadata-registration-v1',
     'phase_id': 'MERGE-UNWIND-ACCEPTANCE-R20-2026-10-23',
@@ -126,13 +142,14 @@ def _r17_registration_matches(profile_path, selected_profile, validated_receipt)
     try:
         profile = json.loads(Path(profile_path).read_text())
         registration = profile.get('r17_registration')
-        return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
-                type(validated_receipt) is dict and validated_receipt.get('profile') == R11_PROFILE and
+        return (selected_profile == R11_PROFILE and profile.get('profile') == selected_profile and
+                type(validated_receipt) is dict and validated_receipt.get('profile') == selected_profile and
                 type(registration) is dict and registration == R17_PROFILE_REGISTRATION and
                 (profile.get('effective_tool_commit') == R17_CANDIDATE_TOOL_COMMIT or
                  (profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT and
                   profile.get('r19_registration') == R19_PROFILE_REGISTRATION) or
-                 _r20_metadata_registration_matches(profile_path, selected_profile, profile)))
+                 _r20_metadata_registration_matches(profile_path, selected_profile, profile) or
+                 _r22_compile_fix_registration_matches(profile_path, selected_profile, profile)))
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
         return False
 
@@ -140,10 +157,11 @@ def _r17_registration_matches(profile_path, selected_profile, validated_receipt)
 def _r19_registration_matches(profile_path, selected_profile):
     try:
         profile = json.loads(Path(profile_path).read_text())
-        return (selected_profile == R11_PROFILE and profile.get('profile') == R11_PROFILE and
+        return (selected_profile == R11_PROFILE and profile.get('profile') == selected_profile and
                 profile.get('r19_registration') == R19_PROFILE_REGISTRATION and
                 (profile.get('effective_tool_commit') == R19_CANDIDATE_TOOL_COMMIT or
-                 _r20_metadata_registration_matches(profile_path, selected_profile, profile)))
+                 _r20_metadata_registration_matches(profile_path, selected_profile, profile) or
+                 _r22_compile_fix_registration_matches(profile_path, selected_profile, profile)))
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
         return False
 
@@ -168,6 +186,42 @@ def _r20_metadata_registration_matches(profile_path, selected_profile, profile=N
                 chain[-1].get('path') == 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch' and
                 chain[-1].get('sha256') == R20_METADATA_PATCH_SHA256)
     except (OSError, json.JSONDecodeError, AttributeError, TypeError):
+        return False
+
+
+def _r22_compile_fix_registration_matches(profile_path, selected_profile, profile=None):
+    try:
+        raw = Path(profile_path).read_bytes()
+        if _sha(raw) != R22_COMPILE_FIX_PROFILE_SHA256:
+            return False
+        if profile is None:
+            profile = json.loads(raw)
+        chain = profile.get('ordered_patch_chain')
+        if not (selected_profile == R22_PROFILE and profile.get('profile') == R22_PROFILE and
+                profile.get('r19_registration') == R19_PROFILE_REGISTRATION and
+                profile.get('r20_metadata_registration') == R20_METADATA_REGISTRATION and
+                profile.get('r22_compile_fix_registration') == R22_COMPILE_FIX_REGISTRATION and
+                profile.get('effective_tool_commit') == R22_COMPILE_FIX_TOOL_COMMIT and
+                profile.get('exporter_source_sha256') == R22_COMPILE_FIX_EXPORTER_SHA256 and
+                profile.get('guard_return_trace_patch_sha256') == R22_COMPILE_FIX_PATCH_SHA256 and
+                type(chain) is list and len(chain) == 19 and type(chain[-1]) is dict and
+                chain[-1].get('path') == 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch' and
+                chain[-1].get('sha256') == R22_COMPILE_FIX_PATCH_SHA256):
+            return False
+        reversed_profile = dict(profile)
+        reversed_profile.pop('r22_compile_fix_registration', None)
+        reversed_profile['profile'] = R11_PROFILE
+        reversed_profile['effective_tool_commit'] = R20_METADATA_TOOL_COMMIT
+        reversed_profile['exporter_source_sha256'] = R20_METADATA_EXPORTER_SHA256
+        reversed_profile['guard_return_trace_patch_sha256'] = R20_METADATA_PATCH_SHA256
+        reversed_profile['ordered_patch_chain'] = list(chain)
+        reversed_profile['ordered_patch_chain'][-1] = {
+            'path': 'research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch',
+            'sha256': R20_METADATA_PATCH_SHA256,
+        }
+        reversed_bytes = (json.dumps(reversed_profile, indent=2, ensure_ascii=False) + '\n').encode()
+        return _sha(reversed_bytes) == R20_METADATA_PROFILE_SHA256
+    except (OSError, json.JSONDecodeError, AttributeError, TypeError, UnicodeDecodeError):
         return False
 
 
@@ -1497,7 +1551,7 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
     if placement_active:
         case_env[R11_LABEL_PLACEMENT_ENV] = '1'
     if native_active:
-        if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != R11_PROFILE:
+        if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != profile:
             raise RuntimeError('R11 fullbody native placement requires the validated current R11 receipt')
     sentinel = object()
     previous = getattr(args, 'r11_native_run', sentinel) if native_active else sentinel
@@ -1614,9 +1668,12 @@ def run(evidence, args, env, execute_case, validated_receipt):
     if (selected_profile not in SUPPORTED_PROFILES or not profile_path or
             json.loads(Path(profile_path).read_text()).get('profile') != selected_profile):
         raise RuntimeError('first callback requires the exact supported experimental profile')
+    profile_card = json.loads(Path(profile_path).read_text())
+    if 'r22_compile_fix_registration' in profile_card and not _r22_compile_fix_registration_matches(profile_path, selected_profile, profile_card):
+        raise RuntimeError('R22 compile-fix registration is not the exact reversible exporter extension')
     if selected_profile == R11_PROFILE and (
             not isinstance(validated_receipt, dict) or
-            validated_receipt.get('profile') != R11_PROFILE):
+            validated_receipt.get('profile') != selected_profile):
         raise RuntimeError('R11 first callback requires the validated current R11 receipt')
     proof = _load('first_callback_hosted_proof', HERE.parents[1] / 'merge/overnight/copy-on-drop-prove.py')
     proof.require_hosted_cloud()
