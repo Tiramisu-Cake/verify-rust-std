@@ -1,0 +1,43 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "a7f7a67bfd611f80b7288582a7781037890d37ca",
+  "baseline_commit": "da6326ed47b84da07a8302b5b1cf60821bd06938",
+  "candidate_tree": "43c8cd2647f9944de5f9fac4d7d6384e7fa8c320",
+  "spec_sha256": "2792103835778f3376fd683cc6f6e87e91678ad549d6aeda27046501921340d6",
+  "packet_sha256": "d1a0cb11018be8aa6d4d5b94f82d3cb028b9f151e5a499643fcbdb8812598acb",
+  "diff_sha256": "1b2d65e188abeabbf8a6f763d962fae91cac298dad7f4e62a176f66c6557c3ae",
+  "decision": "NO_GO",
+  "scope": "optional S3 seven-target classifier/entry/audit integration; no accepted map, positive proof, or proof credit",
+  "verified": [
+    "review check matched the exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "the optional map path preserves the previous unpinned classification when no map is passed, and loaded helper/map/tool identities are recorded",
+    "target rows are checked against the pinned transformed source variants, and the existing R20 argv/source/gate/log-path and physical pre/post snapshot checks remain in the flow",
+    "the candidate and its draft explicitly acknowledge that prior S3 observations and current proof-stage logs are distinct and that elapsed timestamps can change full-log hashes"
+  ],
+  "findings": [
+    {
+      "id": "R23-CLASSIFIER-1",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py::_classify; research/challenge-8/cloud-build/select-callee-r22-control-targets.py::match_first_and_only_error",
+      "finding": "The classifier compares the current proof-stage log SHA with the whole-log SHA stored on the prior S3 target row. `match_first_and_only_error` requires `target.log_sha256 == sha(log_text)`, but `_classify` computes `log_observation.log_sha256` from the newly executed matrix log while target_map rows carry the S3 log digest. Those logs contain elapsed timestamps, so a fresh run with the same exact diagnostic normally has a different whole-file digest and is classified CONTROL_FAILURE_TARGET_MISMATCH; the seven negative rows cannot complete the matrix.",
+      "fix": "Keep the prior observation artifact SHA/provenance attached to the prior target-map record. Match the current stage log against the exact diagnostic fields without requiring its whole-file digest to equal the prior artifact digest. Record/hash the current log separately and bind it to the current stage output. If a content-derived stable digest is needed for the diagnostic, hash the exact normalized diagnostic line separately from the full artifact."
+    },
+    {
+      "id": "R23-CLASSIFIER-2",
+      "severity": "blocker",
+      "location": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py::_classify and research/challenge-8/cloud-build/select-callee-r21-proof-audit.py::complete_matrix",
+      "finding": "`_classify` constructs the current `log_observation` by copying `target_map[variant].provenance` (the prior S3 build/archive/request provenance) into the current-log observation. The current stage identity is separately checked for argv/source/gates/log filename, but no current-stage build/artifact provenance is associated with that current log hash. This mixes prior target provenance into a current observation and does not establish the current log provenance. The audit also checks current observation SHA against row SHA but does not distinguish or validate a current-stage provenance record against the prior pin.",
+      "fix": "Keep two explicit records: prior target observation provenance from S3, and current stage/log identity from the current stage receipt. Do not copy the former into the latter. Have the audit require both and preserve their distinct roles; current log path/hash must be bound to the current stage record while the target map remains a prior observed expectation."
+    }
+  ],
+  "nits": [
+    "The packet reports the current positive row still fails on dead-code diagnostics. Even after the target-log issue is fixed, this candidate cannot yield a complete matrix until a clean positive run is separately established.",
+    "The 21 synthetic tests are packet-reported passing but were not executed during this review, per packet instructions. No actual proof, Cloud, compiler, source preparation, raw evidence, archive, or log tooling was used."
+  ],
+  "not_run": [
+    "packet test suites",
+    "proof runner, compiler, verifier, Cloud, source preparation, raw evidence, archives, and logs"
+  ],
+  "proof_credit": 0
+}

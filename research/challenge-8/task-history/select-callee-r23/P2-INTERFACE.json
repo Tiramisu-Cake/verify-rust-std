@@ -14,12 +14,13 @@
   "evidence": {
     "build_ids": [
       "739f982d-078a-4ff5-9860-aabef75dc027",
-      "e25a96d4-25c0-416f-a55c-debb87baacb1"
+      "e25a96d4-25c0-416f-a55c-debb87baacb1",
+      "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9"
     ],
     "const_route_candidate": "288fa7cd7a3c7d25c7af4b1cc41134b24ffc32d5",
-    "const_route_latest_candidate": "53914f8210f79e8542a80494e41ffb2300621ec0",
-    "const_route_latest_build": "e25a96d4-25c0-416f-a55c-debb87baacb1",
-    "const_route_status": "SOURCE_REPORTED_FAILED_BEFORE_SYMBOLIC_EXECUTION; certificate mismatch at owner shared-cleanup predecessor inventory",
+    "const_route_latest_candidate": "0b2b5adc41ac803e3d72213a531d3105b2f8caaf",
+    "const_route_latest_build": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+    "const_route_status": "SOURCE_REPORTED_SE_RETURN_AND_LEAKCHECK_EVENT_THEN_DEAD_CODE_EXIT_1",
     "const_route_accepted": false,
     "fingerprint_build_id": "739f982d-078a-4ff5-9860-aabef75dc027",
     "fingerprint_status": "SOURCE_OBSERVATIONS_NOT_PROOF; complete exact source observation; unchanged strict fingerprint_to_pins and validate_pins accepted eight rows",
@@ -43,9 +44,9 @@
       "later_reviewed_reader_commit": "fafd4b217aac8d64aac306872da4e1e314b7e157",
       "reader_revision_attribution_caveat": "The read execution is attributed to its actual reader commit, not the later reviewed revision."
     },
-    "const_route_proof_build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
-    "const_route_proof_status": "SOURCE_REPORTED_FAILED_BEFORE_SYMBOLIC_EXECUTION",
-    "const_route_proof_failure": "Certificate mismatch at owner shared-cleanup predecessor inventory; this is not a leak check cleared and is not proof acceptance.",
+    "const_route_proof_build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+    "const_route_proof_status": "SOURCE_REPORTED_SE_RETURN_AND_LEAKCHECK_EVENT_THEN_DEAD_CODE_EXIT_1",
+    "const_route_proof_failure": "CFG admission repaired; positive reaches normal return/leak-check event but reports dead code. Cause unresolved, no callee acceptance.",
     "mut_route_exists": false,
     "mut_route_candidate": "17142eb2eba8e62a757e90552dffc592f79cec4e",
     "mut_source_writer": "R23 mutable source-only chain at 17142eb2eba8e62a757e90552dffc592f79cec4e; independently reviewed GO, actual source/MIR unrun",
@@ -56,21 +57,17 @@
     "mutable_source_bound": false,
     "mutable_typed_mir_bound": false,
     "mutable_translator_admission": "OPEN_NOT_IMPLEMENTED",
-    "source_report_record_for_proof_build": "research/challenge-8/task-history/select-callee-r23/S2-POSITIVE-ERROR.json",
+    "source_report_record_for_proof_build": "research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json",
     "proof_credit": 0,
     "mutable_source_chain_exists": true,
     "const_proof_brief": {
-      "build_id": "e25a96d4-25c0-416f-a55c-debb87baacb1",
-      "file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
-      "file_path": "allprooflogs/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
-      "file_sha256": "1cbfcc98de0269fa2eba2925db3dd8ec57182b23b53a697024a646815bdb90dd",
-      "index_sha256": "1b12dad9dbffd4d9bcf8ffaa457794c07e270b944879df73b454347fbd954778",
-      "archive_sha256": "358cf3fbd02d01fb07e97d34d65345df01484c99cdfb9e9506f224ea477e8951",
-      "request_id": "ea16d9ae15211e345cfcfe09bc844922886a6cced4dda9372eddd7f6d6673a21",
-      "exact": true,
-      "complete": false,
-      "artifact_sha256": "a6d908a3dd584375a51d2bd2989d3be0120422cc354e8f21ba30b43832309250"
-    }
+      "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
+      "positive_log_file_id": "86425c90cf3e364e18add683fec07607e94604f85d013ddcf20eb5d4bb2c8df6",
+      "positive_log_sha256": "b58cc0f746157f33c8b1ee9d08e8c86bdcf251ede8cd246fa55241728a1232f8",
+      "index_sha256": "c13dda3fdd7d2ebb7fdf3bf4e6a3cb4676dbd12f04aaed6b1e6265c46ad21a7f",
+      "archive_sha256": "789083793bd4ed400f1c21c8b7e9da7770ebbec95914ee510a49055769d4f898"
+    },
+    "source_report_record_sha256": "5dc1604e74e89619fea102fadb2c2fc5181f8cfd8f80863297f41f9878a545db"
   },
   "proof_credit": 0
 }

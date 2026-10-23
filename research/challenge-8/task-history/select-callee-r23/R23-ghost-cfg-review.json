@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "nested_delegation": false,
+  "verdict": "GO_WITH_NITS",
+  "candidate_commit": "a4737f9febf20ec5373eafa641268c26c6e674c7",
+  "candidate_tree": "2759e9281ca5e54b92e5900f6832e21344480d9f",
+  "baseline_commit": "a7f7a67bfd611f80b7288582a7781037890d37ca",
+  "diff_sha256": "12d37611f9c633433034026474a41b339bf01a76159be5699993aed151a251fd",
+  "packet_sha256": "397fa4c8ad48be700c53bc05281d718bbd883db1535aad0ba4a5119ca6588d98",
+  "spec_sha256": "3cefdbf0cce1a49606c4c67a08b51e0a5d0d95de01eef390fc7076f80542de20",
+  "scope": "Independent static review of the unbuilt R23 fractional ghost cleanup successor overlay and runner pin changes.",
+  "findings": [],
+  "verified": [
+    "Review check matched the candidate, spec, and packet; packet reports proof_credit NONE and PACKET_VALID_NOT_REVIEWED.",
+    "The patch is confined to the existing VeriFast_ghost_command replacement branches and gated by exact body name select_unpredictable plus the admitted fractional variant. Ordinary ghost statements remain the same AST node and callback markers remain NoopStmt; both retain their normal Goto successor when present.",
+    "EncodedTerminator maps to an empty successor list in this branch, consistent with a call having no normal target; the change does not invent a no-unwind fact for a real call. The patch does not change callback unwind pairing/recovery, call outcomes, unwind translation, or real pointer-drop/forget/assume-init branches.",
+    "The new edge filter only affects translated successor accounting for the erased ghost-command call. Raw MIR admission still checks the ten cleanup edges to bb28 and the pinned body/source identities; the three real-call cleanup edges are not selected by this AST replacement branch.",
+    "Runner and recipe changes pin the overlay patch and its resulting translator hash after the fractional layout overlay. The existing parser hash check remains and the updated final translator hash is asserted after parser application.",
+    "The design and pins clearly label the candidate UNBUILT, dead-code cause UNKNOWN, and proof credit zero; the S3 trace reference does not claim acceptance or establish the hypothesized cause."
+  ],
+  "nits": [
+    "The synthetic tests model successor lists and inspect patch text; they do not compile the OCaml translator or exercise the concrete callback-marker path in generated AST. This is acceptable for the declared unbuilt candidate but must be closed by the next authorized hosted run and appropriate translator-level evidence before causal or proof claims.",
+    "No test suite, patch application, compiler, exporter, decoder, source preparation, verifier, Cloud, or proof runner was executed in this review. Main reports prior synthetic controls and cumulative apply reproduction; this review did not independently rerun them."
+  ],
+  "limitations": "GO_WITH_NITS applies only to the inactive, unbuilt source candidate and its scope. The hypothesized cause of the S3 dead-code result remains unconfirmed. No actual toolchain behavior, formal verification result, acceptance, or proof credit is established.",
+  "not_run": [
+    "Candidate test modules and cumulative patch application/reproduction.",
+    "Compiler, exporter, decoder, verifier, Cloud, source preparation, proof runner, and raw evidence access."
+  ],
+  "proof_credit": 0
+}

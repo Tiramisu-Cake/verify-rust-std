@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "a7f7a67bfd611f80b7288582a7781037890d37ca",
+  "candidate_commit": "a4737f9febf20ec5373eafa641268c26c6e674c7",
+  "defect": "S3 normalreturn/leakcheckevent reachedbutpositiveexit1deadcode. Localizedtranslatorinconsistency: erasedbuiltinGhostCommandASTretainsunwindpredecessor. Hypothesisunconfirmed, preparecandidateonly.",
+  "applicability": "Newoverlayaftercadaa, admittedfractional+State.body_name select_unpredictable onlyexistingbuiltinGhostCommandlowering; source/ghost/rawMIRpinsremainunchanged.",
+  "invariants": [
+    "Retainexactsourceghoststmt/Noopandallnormalghostsuccessors; removeerasedsyntheticghostunwindonlyfromtranslatedCFGaccounting.",
+    "Raw10cleanupedges\u2192bb28andfullsource/unit/bodyhash+countchecksunchanged. Realpointerdrop/forget/assumeunwindedgesunchanged.",
+    "No globaldeadcodeeq/suppression/ignore_unwind/ownership/trustedsummarychanges. Nonfractional/defaultbehaviorunchanged.",
+    "03f91patchappliesaftercadaa\u2192103a34; runnerrecipefreshpins andparserdfda unchanged; UNBUILT no acceptancedeadcodecauseUNKNOWN."
+  ],
+  "controls": [
+    "5syntheticstaticghostcontrols+4runnerpins+10R23admission+shellpass; mainfreshcumulativegitapplyreproduced103a34. No actualtools/Cloud."
+  ],
+  "dependencies": [
+    "research/challenge-8/overnight-assume-actual/verifast-r23-fractional-forget-26.10.patch",
+    "research/challenge-8/overnight-assume-actual/verifast-r23-fractional-mir-layout-26.10.patch",
+    "research/challenge-8/task-history/select-callee-r23/CFG-INVENTORY.json",
+    "research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Actualdeadcodecauseunestablished; noCloudcompile/proof fornewcandidate. MustremainUNBUILT/unverifiednextwindow.",
+    "Classifieroptionalmap pathseparateNO_GOtimestamp/provenancebugs, no targets supplied. Thisreviewdoesnotqualifyit."
+  ]
+}
