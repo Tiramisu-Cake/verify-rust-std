@@ -31,3 +31,13 @@ tests. Actual preparation/compiler/proof runs only in Cloud after review.
 Generator refusal: reused profile carries acceptance/admission/credit flags:
 /r10_registration/independent_credit, /r11_placement/independent_credit.
 Changing pinned profile or silently upgrading shared tooling was rejected.
+
+Transport measurement b3e0dc61:573055 bytes exceeds unchanged571567 cap by1488.
+Selected recipe drops only test-provider-base-pins.py and
+test-r11-provider-overlay-service.py from Cloud transfer. These static/synthetic
+historical test harnesses remain unchanged in Git, are absent from provider
+pin tables and are not invoked by any selected runtime Python/shell source.
+No required Cloud control, stage, check or source pin is removed. Their
+historical fixed source assertions also predate the current R22 chain; R23
+service tests independently retain exact source table and corruption checks.
+This is a transfer closure change, not deletion or relaxation of a control.
