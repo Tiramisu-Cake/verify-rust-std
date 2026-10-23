@@ -1,9 +1,9 @@
 # Agent checkpoint: network-n13-exact-cloud-2026-10-23-n4
 
-- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N4 | state: NOT_STARTED
-- Updated: 2026-10-23T07:48:00Z
+- Owner: network | phase: NETWORK-N13-EXACT-2026-10-23-N4 | state: ACTIVE
+- Updated: 2026-10-23T07:54:12Z
 - Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `809de4596839b739dd999f9e462242c835e3af46`, profile `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-23T07:52:10Z`; main deadline `2026-10-23T09:52:10Z`; absolute deadline `2026-10-23T10:22:10Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
@@ -19,10 +19,9 @@
 - [SOURCE_REPORTED] Shape2 setup0eef timeout/624s;3f978 apt100/67s, NOT_REACHED. Shape2:1715 timeout420;25starts,last wrapper call389s;charge561s. — [research/challenge-8/observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json](observations/3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7.json) SHA `3ca9b8ebe9b88083f957c5378ccb06970b4b99eec96d82a2d8db2ae86d0487c7`; [research/challenge-8/observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json](observations/2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f.json) SHA `2c0be67e1938d2706a303739ea35d5dfa833ec2e553a27c5e26118cb73e6449f`; [research/challenge-8/observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json](observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json) SHA `84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4`
 
 ## Open
-- Shape3 scoped GO, unrun; fresh admission required.
-- Full exact, controls, compatible regressions OPEN.
-- R4/W7 blocked: Select P1 inactive/P2 pending. W8 needs Merge.
-- Workflow-owner follow-up recorded; shared changes outside N3.
+- Shape3 scoped GO; exact/controls/final matrix OPEN.
+- R4/W7 require active Select P1/P2; W8 requires Merge evidence.
+- N4 timing decision600/975 and unchanged-preflight basis: network/n13/N4-EXPERIMENT.md.
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
@@ -33,7 +32,7 @@ N3 closed; shape3 unrun, full acceptance OPEN.
 - [research/challenge-8/observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json](observations/84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4.json) SHA `84e32295e04e5d3a08b441727a6c0f6e36981f7fa1a92eeba892131982a3c3f4`
 
 ## Next
-Fresh admission: shape3 exact, controls, compatible matrix.
+Review N4 admission; publish; exact600/Build975.
 
 ## Artifacts
 - [research/challenge-8/network/n13/N3-SCOPE-20261023.md](network/n13/N3-SCOPE-20261023.md) — `0ff306d681bab5fb9997ebb53bb9fe9df9e58d93f1b20e030a263c72aeb79e78`

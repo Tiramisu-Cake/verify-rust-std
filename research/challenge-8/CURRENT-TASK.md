@@ -48,10 +48,10 @@ Next: Fresh admission: shape3 exact, controls, compatible matrix.
 
 ## Отчёт агента
 
-**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · NOT_STARTED**
-Updated: 2026-10-23T07:48:00Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**network-n13-exact-cloud-2026-10-23-n4 · network · NETWORK-N13-EXACT-2026-10-23-N4 · ACTIVE**
+Updated: 2026-10-23T07:54:12Z. Baseline source/tool/profile: `cd371e035c7e573760c43bf934d53e8118ee3e7d` / `809de4596839b739dd999f9e462242c835e3af46` / `09d78c44f4ea8eb1e472b575384afb5e2e63d2b7d0eaf25394fa40565e61e7ab`.
+Dates: T0 `2026-10-23T07:52:10Z`; main `2026-10-23T09:52:10Z`; absolute `2026-10-23T10:22:10Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: N3 closed; shape3 unrun, full acceptance OPEN.
-Next: Fresh admission: shape3 exact, controls, compatible matrix.
+Next: Review N4 admission; publish; exact600/Build975.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
