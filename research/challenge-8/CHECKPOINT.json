@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "5bff245c306f935e9e4c036dda9a755f4d5e227d8e8e27ae55e9e744def86a4f"
+      "sha256": "4c71cd261149093c17a7d1d29523b95fe04eef549e054c555392604aa779a602"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -43,7 +43,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "5bff245c306f935e9e4c036dda9a755f4d5e227d8e8e27ae55e9e744def86a4f"
+    "sha256": "4c71cd261149093c17a7d1d29523b95fe04eef549e054c555392604aa779a602"
   },
   "brief_observation_refs": [
     {
@@ -1145,6 +1145,7 @@
       "sha256": "656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322"
     },
     "proof_credit": 0,
+    "publication_commit": "95fff9287569b255c887b3799c38ab00677fdfd7",
     "qualified_profile": {
       "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-QUALIFIED-PROFILE.json",
       "sha256": "4ae19eea0042c0dd1dbbe2aa7ca04dccea7df7355bbe2c00ceea3e934b83af13"
@@ -1222,6 +1223,26 @@
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
   "updated_utc": "2026-10-23T22:33:51Z",
+  "w4_capture_preparation": {
+    "accepted": false,
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-R24-DESIGN.json",
+      "sha256": "98e59ec19e1f9231431ea56dc428093083f085ea269bc8e9e5d49cf50ac67c2f"
+    },
+    "helper": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-capture.py",
+      "sha256": "bf6c0e6c71872efae5fee81a2ead825696fd03089a07813c49f529c482851df6"
+    },
+    "main_scope": "shell exactmode/audit/recipe integration; no native/tool changes",
+    "mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-MODE.json",
+      "sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
+    },
+    "proof_credit": 0,
+    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "tests": "7capture +7shell isolatedtests pass;13existingmutrunner tests pass; Bashn/staticpins/diffcheck pass",
+    "worker": "r24_admission"
+  },
   "watcher_history": [
     {
       "ack": "SUCCESS_CONTINUE",

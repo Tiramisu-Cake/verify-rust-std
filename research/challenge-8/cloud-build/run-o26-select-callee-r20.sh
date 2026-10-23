@@ -96,6 +96,21 @@ if [[ -e "$r24_mut_refusal_mode_file" ]]; then
   [[ "$(sha256sum "$r24_mut_refusal_mode_file" | cut -d' ' -f1)" == 63e2ae67bf6c66868fd9d79f4c21919909649e8befcb188bda22c257cead71b9 ]] || exit 2
   r24_mut_refusal_enabled=1
 fi
+# This separate W4 step captures the unchanged body; it never calls a verifier.
+# The absent mode keeps the existing callee pipeline and its matrices unchanged.
+r24_w4_capture_only=0
+r24_w4_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-MODE.json"
+r24_w4_helper="$cloud_dir/select-callee-r24-w4-capture.py"
+if [[ -e "$r24_w4_mode_file" ]]; then
+  (( r24_mut_proof_enabled == 1 )) || exit 2
+  [[ "${SORT4_R24_SESSION_PHASE_ID:-}" == SORT4-ACTUAL-SELECT-2026-10-24-R24 ]] || exit 2
+  [[ ! -v SORT4_R21_BODY_PHASE_ID ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_mode_file" | cut -d' ' -f1)" == 1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_helper" | cut -d' ' -f1)" == bf6c0e6c71872efae5fee81a2ead825696fd03089a07813c49f529c482851df6 ]] || exit 2
+  [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json" | cut -d' ' -f1)" == 656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322 ]] || exit 2
+  [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json" | cut -d' ' -f1)" == 1d50cc12011cd8bae26f1a69fee7e43579ab3ef9bacf5708eac33875a4a00794 ]] || exit 2
+  r24_w4_capture_only=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -114,6 +129,15 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( ${r24_w4_capture_only:-0} == 1 )); then
+    python3 "$r24_w4_helper" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "${source_home:-/workspace/missing-native-tool}" \
+      --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-/workspace/missing-sysroot}" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" --mode-file "$r24_w4_mode_file" \
+      --output "$evidence_root/proof-audit.json" --runner-exit "$1" --failed-stage "$2"
+    return $?
+  fi
   if (( r24_mut_classified_proof_enabled == 1 )); then
     local classified_audit_exit=0 consequence_audit_exit=0 p2_composite_audit_exit=0 refusal_audit_exit=0
     python3 "$cloud_dir/select-callee-r24-mut-classified-proof.py" audit \
@@ -584,6 +608,16 @@ out.write_text(json.dumps({'actual':rows,'historical':m['hosted_profile_hashes']
 HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
+
+if (( r24_w4_capture_only == 1 )); then
+  stage r24-w4-capture python3 "$r24_w4_helper" run \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --deadline-epoch "$deadline" --candidate "$current_sha" --mode-file "$r24_w4_mode_file"
+  current_stage=r24-w4-capture-audit
+  audit_result 0 complete
+  exit 0
+fi
 
 run_const_regression() {
 mkdir -p "$ev/cases/candidate"

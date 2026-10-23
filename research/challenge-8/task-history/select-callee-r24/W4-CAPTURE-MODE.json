@@ -1,0 +1,70 @@
+{
+  "accepted": false,
+  "body_proof_run": false,
+  "call_linkage": false,
+  "const_qualification_path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json",
+  "const_qualification_sha256": "1d50cc12011cd8bae26f1a69fee7e43579ab3ef9bacf5708eac33875a4a00794",
+  "constructor_profile_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/A1-ACTUAL-BODY-R21-TRANSPORT-PROFILE.json",
+  "constructor_profile_sha256": "d1e0d2ddf6cd8eba5dab5a7b2a68a7530595f9b7745c6f8276f20f155b0f546d",
+  "enabled": true,
+  "helpers": {
+    "c1": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c1.py",
+      "sha256": "8af19b63552b7ef6e4b6026b4f188fa00c4344a4bb1b75848008e7b46141441e"
+    },
+    "c2_c5": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-c2.py",
+      "sha256": "4afc89d4790a2b9d8ff5501835f50eb23c26a50033b0fb68ef4f69cdf2fd528d"
+    },
+    "capture": {
+      "path": "research/challenge-8/overnight-sort4/capture.py",
+      "sha256": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
+    },
+    "ghost_grammar": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-ghost-grammar.py",
+      "sha256": "603827833b3a5524fa35c1f6c924c2dfcab73ecdbe3a18daa2d249c0ef8e08ce"
+    },
+    "ghost_strip": {
+      "path": "research/challenge-8/cloud-build/sort4-native-c1-bound/ghost-strip.py",
+      "sha256": "1b1187a78b461fd37980e82b679c6df01e95b440896eea347da4cea8fe27c70d"
+    },
+    "recover_four": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-four.rs",
+      "sha256": "9637aee892e633c2521d8cef62770a6be0982a1835492b6afffafc97f9246d8b"
+    },
+    "recover_pair": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-recover-pair.rs",
+      "sha256": "7a28ae5734c5288ff466764e6645eff236f30c097a7951ebd086f5bb7f5eff72"
+    },
+    "sort4_body": {
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-r21.py",
+      "sha256": "ae8c57e0549e3a900ad3660ddd302e0d4029293aa074b6accc132f003b655c16"
+    }
+  },
+  "independent_proof_credit": 0,
+  "lane": "o26-select-callee-r20",
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "profile": "experimental-s6-26.10-v1",
+  "proof_admission": false,
+  "publication_allowed": false,
+  "published_interface_path": "research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json",
+  "published_interface_sha256": "656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322",
+  "qualified_profile_sha256": "4ae19eea0042c0dd1dbbe2aa7ca04dccea7df7355bbe2c00ceea3e934b83af13",
+  "route_phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "schema": "select-r24-w4-capture-mode-v1",
+  "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+  "source_only": true,
+  "source_path": "library/core/src/slice/sort/shared/smallsort.rs",
+  "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "01eaa29335277643e2c16dd35b561e2aecee867fbdd64cf13b8eb1d082602cd6",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007"
+  }
+}
