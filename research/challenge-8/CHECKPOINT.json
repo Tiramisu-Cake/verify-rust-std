@@ -32,13 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
+    "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-FIRST-OBSERVATIONS.json",
-        "sha256": "48f06569a52f325c21ab81d48049310b114302d57550b2011a48cdff5bd5b101"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
+        "sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57"
       }
     ],
-    "summary": "Mutable A1 primitive translation still const-only; narrow closed mutable arms needed. P2 NOT_PUBLISHED."
+    "summary": "Await incremental mutable A1/const regression/positive Brief; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -839,7 +840,7 @@
     {
       "obligation": "Closed mutable native certificate + same-tool const regression + mutable positive",
       "reason": "Separate freshmutable family retains const profile and allordinary callee proofs; rootmodepositiveonly and sourceclaims distinct from proof credit.",
-      "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
+      "state": "BUILD_ACTIVE_A1_PRIMITIVES"
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -847,7 +848,7 @@
     "proof_credit": 0,
     "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
     "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
-    "state": "REVIEW_GO_UNBUILT",
+    "state": "BUILD_ACTIVE",
     "translator_sha256": "11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f"
   },
   "mutable_a1_primitives_decision": {
@@ -1132,29 +1133,47 @@
     "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
   },
   "mutable_positive_build": {
-    "accounted": true,
-    "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
-    "build_seconds": 377,
-    "candidate": "39a928cee896905a0993db80a27c12b127f51850",
-    "config_sha256": "77da4005fc0c42a66dee24cb74cfda6e1603b9fa42c936cbd969c915e303a86f",
-    "dispatch_token": "dispatch-026615d55e1f4d20a620084ac73c7558",
+    "accounted": false,
+    "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+    "candidate": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
+    "config_sha256": "a25999c7590e2687ee0e7f7635dddf3400cae9f5668e0fadcd2b44bb1582f3d6",
+    "dispatch_token": "dispatch-8266cda06096408ebf80f9fd6b366a5a",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "SOURCE_REPORTED_NATIVE_COMPILE0_CONST_AUDIT_TRUE_MUTABLE_TRANSLATION_CONST_INHABITED_REFUSAL",
+    "result": "PENDING_BRIEF",
     "schema": "select-r24-mut-positive-submission-v1",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
-    "source_payload_sha256": "4fce0c94f80eeb1d1c7781d0376563329e2b18aaecc3bc7aa1ea4142d37bbc93",
-    "status": "FAILURE",
+    "source_payload_sha256": "fc9fa754490c4b21abb952600c0b39a37dca0419cd2d03ce5e4c1078c9ab92d5",
+    "status": "QUEUED",
     "timeout_seconds": 1200
   },
+  "mutable_positive_build_history": [
+    {
+      "accounted": true,
+      "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+      "build_seconds": 377,
+      "candidate": "39a928cee896905a0993db80a27c12b127f51850",
+      "config_sha256": "77da4005fc0c42a66dee24cb74cfda6e1603b9fa42c936cbd969c915e303a86f",
+      "dispatch_token": "dispatch-026615d55e1f4d20a620084ac73c7558",
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reserved_seconds": 1260,
+      "result": "SOURCE_REPORTED_NATIVE_COMPILE0_CONST_AUDIT_TRUE_MUTABLE_TRANSLATION_CONST_INHABITED_REFUSAL",
+      "schema": "select-r24-mut-positive-submission-v1",
+      "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
+      "source_payload_sha256": "4fce0c94f80eeb1d1c7781d0376563329e2b18aaecc3bc7aa1ea4142d37bbc93",
+      "status": "FAILURE",
+      "timeout_seconds": 1200
+    }
+  ],
   "mutable_positive_candidate": {
     "candidate": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
     "proof_credit": 0,
     "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
     "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
-    "state": "REVIEW_GO_UNBUILT"
+    "state": "BUILD_ACTIVE"
   },
   "mutable_positive_candidate_history": [
     {
@@ -1173,8 +1192,8 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "Full1200 Cloud 51797d on unchanged mutable pins: const regression + mutable positive.",
-  "next_step": "Full1200 Cloud 51797d on unchanged mutable pins: const regression + mutable positive.",
+  "next": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
+  "next_step": "ACK event; immediately commit/push terminal accounting+views; then Brief and next obligation.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; capture-only next, then narrowcertificates/proof/refusals. W4 remains gated."
@@ -1218,7 +1237,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "489c0456-18a7-4b7e-8056-4210678debf2"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1238,9 +1259,17 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T19:29:29Z",
+  "updated_utc": "2026-10-23T19:30:27Z",
+  "watcher_handoff": {
+    "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24/T0/account/window. ACK dedicated watcher before CP mutation; immediate terminal accounting commit/push before Brief. Evidence only through Brief.",
+    "spec_path": "/tmp/select-r24-mut-a1-primitives-watch.json",
+    "store": "/root/.local/state/smallsort-watch-select-r24",
+    "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+  },
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
