@@ -282,7 +282,7 @@ NETWORK_PHASES[rr_lane.PHASE]={
  'ceiling':5400,'lanes':frozenset((rr_lane.LANE,)),
  'start_utc':'2026-10-23T20:56:24Z','main_deadline_utc':'2026-10-26T20:56:24Z',
  'deadline_utc':'2026-10-26T21:56:24Z','profile':rr_lane.PROFILE,
- 'profile_sha256':'1f7575737a17e274af4bfdc2fbfddf2bf0ce9a610548e717be491618f196a21b','timeout':(1200,1740),
+ 'profile_sha256':'ed323e34cbea59a58ff5a66a01590eb189053a4b0d1e783163a908ea3e99e3bd','timeout':(1200,1740),
  'stages':frozenset(rr_lane.TIMEOUTS),'recipe':rr_lane.RECIPE}
 NETWORK_RESERVE=240
 
@@ -634,7 +634,9 @@ def config(infra,proof,lane,seconds,token,source_payload=None,phase_id=None,stag
   if lane!=rr_lane.LANE or source_payload is None:raise SystemExit('RR requires its own lane and pinned-objects source transport')
   profile_bytes=subprocess.check_output(['git','show',infra+':'+rr_lane.PROFILE],cwd=ROOT)
   if digest(profile_bytes)!=NETWORK_PHASES[phase_id]['profile_sha256']:raise SystemExit('RR configuration profile bytes differ from registration')
-  try:image=rr_lane.profile_gate(json.loads(profile_bytes),stage,seconds)
+  try:
+   rr_profile=json.loads(profile_bytes)
+   image=rr_lane.profile_gate(rr_profile,stage,seconds)
   except (ValueError,TypeError) as error:raise SystemExit(str(error)) from error
  budget=rr_lane.time_budget(seconds,stage) if phase_id==rr_lane.PHASE else network_time_budget(seconds) if phase_id in NETWORK_PHASES else r17_time_budget(seconds) if phase_id in (A1_R17_PHASE,A1_R18_PHASE,A1_R19_PHASE) else r16_time_budget(seconds) if phase_id==A1_R16_PHASE else r15_time_budget(seconds) if phase_id==A1_R15_PHASE else r14_time_budget(seconds) if phase_id==A1_R14_PHASE else r13_time_budget(seconds) if phase_id==A1_R13_PHASE else r12_time_budget(seconds) if phase_id==A1_R12_PHASE else r11_time_budget(seconds) if phase_id==A1_R11_PHASE else r10_time_budget(seconds) if phase_id==A1_R10_PHASE else {'work_seconds':seconds-70,'soft_margin':15}
  work_seconds=budget['work_seconds']
@@ -778,7 +780,7 @@ except Exception as e:
  if phase_id in NETWORK_PHASES:run_env.append('NETWORK_STAGE='+stage)
  options={'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'}
  if phase_id==rr_lane.PHASE:
-  options.update(machineType='E2_HIGHCPU_8' if stage=='cold-image' else 'E2_STANDARD_2',diskSizeGb=100)
+  options.update(machineType=rr_lane.machine_type(rr_profile,stage),diskSizeGb=100)
  return {'steps':[{'id':'execute','name':image,'entrypoint':'bash','args':['-ceu',body],'env':run_env+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane,phase_id,image)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':options,'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger,ledger_path):

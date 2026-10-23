@@ -22,6 +22,16 @@ def image_digest(value):
     return value
 
 
+def machine_type(profile, stage):
+    require(isinstance(profile, dict) and isinstance(profile.get('image_build'), dict), 'RR machine profile missing')
+    require(stage in TIMEOUTS, 'RR machine stage mismatch')
+    key = 'machine_type_cold' if stage == 'cold-image' else 'machine_type_warm'
+    value = profile['image_build'].get(key)
+    allowed = ('E2_STANDARD_2', 'E2_HIGHCPU_8') if stage == 'cold-image' else ('E2_STANDARD_2',)
+    require(value in allowed, 'RR machine type exceeds the stage authorization')
+    return value
+
+
 def profile_gate(profile, stage, seconds):
     require(stage in TIMEOUTS and type(seconds) is int and seconds == TIMEOUTS[stage],
             'RR stage requires its full exact timeout')
@@ -39,6 +49,7 @@ def profile_gate(profile, stage, seconds):
             'RR source baseline mismatch')
     build = profile.get('image_build')
     require(isinstance(build, dict) and build.get('cold_executor') == COLD_EXECUTOR, 'RR cold executor digest mismatch')
+    machine_type(profile, stage)
     require(profile.get('proof_credit') is False and profile.get('independent_credit') is False and
             profile.get('profile_accepted') is False, 'RR diagnostic cannot carry proof acceptance')
     if stage == 'cold-image':

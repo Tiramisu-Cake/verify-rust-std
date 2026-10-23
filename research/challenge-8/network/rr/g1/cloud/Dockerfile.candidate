@@ -49,7 +49,7 @@ RUN set -eu; \
     grep -Fq 'commit-hash: e457a7b0d326d67b4322ef0d11bd715cfaeda48f' /tmp/g1-rustc-vv.txt; \
     cd /opt/refinedrust/rr_frontend; \
     PATH=/opt/rust/bin:/usr/bin:/bin CARGO_HOME=/opt/g1-cargo RUSTC=/opt/rust/bin/rustc /opt/rust/bin/cargo fetch --locked; \
-    PATH=/opt/rust/bin:/usr/bin:/bin CARGO_HOME=/opt/g1-cargo CARGO_TARGET_DIR=/tmp/g1-target RUSTC=/opt/rust/bin/rustc CARGO_BUILD_JOBS=4 /opt/rust/bin/cargo build -p refinedrust_frontend --bins --release --locked --jobs 4; \
+    PATH=/opt/rust/bin:/usr/bin:/bin CARGO_HOME=/opt/g1-cargo CARGO_TARGET_DIR=/tmp/g1-target RUSTC=/opt/rust/bin/rustc CARGO_BUILD_JOBS=2 /opt/rust/bin/cargo build -p refinedrust_frontend --bins --release --locked --jobs 2; \
     mkdir -p /opt/rr-bin; \
     cp /tmp/g1-target/release/cargo-refinedrust /tmp/g1-target/release/refinedrust-rustc /opt/rr-bin/; \
     chmod 755 /opt/rr-bin/*; \

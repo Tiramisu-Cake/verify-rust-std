@@ -38,11 +38,12 @@
   },
   "image_build": {
     "base_os_digest": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+    "cargo_jobs_cold": 2,
     "cold_executor": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
     "docker_client": "Cloud-only apt docker.io in pinned Ubuntu executor; existing daemon socket",
     "freeze": "image digest + sha256 of rustc/cargo/cargo-refinedrust/refinedrust-rustc + apt package list + Cargo.lock recorded in the cold Build evidence; the offline deb/vendor/cargo-config gates of the N6 package are retired for G1",
     "image_digest": null,
-    "machine_type_cold": "up to E2_HIGHCPU_8 for the cold image Build only (branch-local lane config)",
+    "machine_type_cold": "E2_STANDARD_2",
     "machine_type_warm": "E2_STANDARD_2",
     "network_during_image_build": "enabled (owner decision 2026-10-23): pinned archives by SHA-256, RR git clone at the pinned commit verified by tree hash, crates by rr_frontend Cargo.lock --locked",
     "rr_frontend_lock_sha256": "b66b9e281478be8263eab9ba210964cdd8f1db92535b7b81305f50dea03682aa",
@@ -53,7 +54,8 @@
       "rust-std": "73c5854230a3424379137953e835ce0c83d0282929214722e43831bebd547ce3",
       "rustc": "b41f2e026eae47d66d67b9199c31084e470a05166c78d6770e8a838f8e98331f",
       "rustc-dev": "f6a29511f80d08ff780a566b63ee54775d8f875b33716202035641748e40be71"
-    }
+    },
+    "setup_repair_reason": "First cold EXPIRED before any step; waiting cause UNKNOWN; reduce resource request, preserve1740/60/240."
   },
   "independent_credit": false,
   "lane": "network-rr-g1",

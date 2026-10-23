@@ -17,12 +17,25 @@ def profile():
                  independent_credit=False, profile_accepted=False)
     value['std_source']['selected_baseline'] = 'cd371e035c7e573760c43bf934d53e8118ee3e7d'
     value['image_build'].update(cold_executor=rr_lane.COLD_EXECUTOR,
+        machine_type_cold='E2_HIGHCPU_8', machine_type_warm='E2_STANDARD_2',
         image_digest=rr_lane.REPOSITORY + '@sha256:' + 'a' * 64,
         image_receipt_sha256='b' * 64, cold_build_id='01234567-1234-1234-1234-012345678901')
     return value
 
 
 class RRLaneTests(unittest.TestCase):
+    def test_cold_setup_repair_may_reduce_machine_without_shortening_timeout(self):
+        p = profile()
+        p['image_build']['machine_type_cold'] = 'E2_STANDARD_2'
+        self.assertEqual(rr_lane.machine_type(p, 'cold-image'), 'E2_STANDARD_2')
+        self.assertEqual(rr_lane.profile_gate(p, 'cold-image', 1740), rr_lane.COLD_EXECUTOR)
+        for stage, key, value in [('cold-image', 'machine_type_cold', 'E2_HIGHCPU_32'),
+                                  ('cold-image', 'machine_type_cold', None),
+                                  ('warm-g1', 'machine_type_warm', 'E2_HIGHCPU_8')]:
+            bad = copy.deepcopy(p); bad['image_build'][key] = value
+            with self.subTest(stage=stage, value=value), self.assertRaises(ValueError):
+                rr_lane.profile_gate(bad, stage, rr_lane.TIMEOUTS[stage])
+
     def test_exact_stage_images_and_timeouts(self):
         p = profile()
         self.assertEqual(rr_lane.profile_gate(p, 'cold-image', 1740), rr_lane.COLD_EXECUTOR)

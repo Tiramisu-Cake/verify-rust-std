@@ -39,3 +39,12 @@ Ubuntu executor for cold and install docker.io client in the Cloud bootstrap;
 this preserves the shared transport bytes. Cold-only bootstrap cap180s, within
 the unchanged1500s work/240s reporting envelope; image Dockerfile pins unchanged.
 No local installation and no extra Cloud Build is introduced.
+
+First cold Build efd32c5f terminal EXPIRED before any step status/timing, billed
+297s including queue, execution0. Brief404; exact waiting cause UNKNOWN. Before
+semantic repair record: reduce cold resource request to allowed E2_STANDARD_2
+and jobs2, retaining1740 timeout/60 queue/240 report and immutable source/tool
+pins. This is the single setup-error repair, not a frontend or source change.
+Source preservation/control invariants unchanged; synthetic config tests must
+distinguish allowed2/8 CPU requests, refuse unsupported/cross-stage shapes, and
+retain old N13 config. No raw audit or proof inference from missing Brief.
