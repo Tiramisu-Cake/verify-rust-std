@@ -647,6 +647,7 @@ def _replay_environment(env: dict) -> dict:
     """Drop inherited owned-NLL capture before placement replay child setup."""
     scoped = dict(env)
     scoped.pop("VF_EXPORT_OWNED_NLL_FACTS", None)
+    scoped.pop("SMALLSORT_R23_SOURCE_ARRAY_BORROW", None)
     return scoped
 
 

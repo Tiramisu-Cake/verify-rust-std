@@ -231,8 +231,8 @@ class R22PhaseTests(unittest.TestCase):
         m.r22_validate_candidate_pins(baseline_profile, baseline_profile, baseline_profile,
                                       baseline_patch, baseline_provider, baseline_provider,
                                       baseline_provider)
-        candidate_profile = (HERE / "GLUE-PROFILE.json").read_bytes()
-        candidate_patch = (HERE / "r9-guard-return-trace.patch").read_bytes()
+        candidate_profile = historical_provider(m.R22_PROFILE_PATH)
+        candidate_patch = historical_provider(m.R17_PATCH_PATH)
         # R22's candidate provider is historical: R23 updates these pin tables.
         candidate_provider = historical_provider(m.R17_PROVIDER_OVERLAYS_PATH)
         self.assertEqual(m.r22_validate_candidate_pins(
@@ -311,7 +311,7 @@ class R22PhaseTests(unittest.TestCase):
             ["git", "show", rev + ":" + rel], cwd=HERE.parents[3])
         r20_baseline = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R22_PROFILE_PATH)
         baseline = git(m.R22_PROBE_SOURCE, m.R22_PROFILE_PATH)
-        candidate = (HERE / "GLUE-PROFILE.json").read_bytes()
+        candidate = git("733b6a7d68259787f1caf58177060589b6af779e", m.R22_PROFILE_PATH)
         old_provider = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R17_PROVIDER_OVERLAYS_PATH)
         r20_provider = git(m.R22_PROBE_SOURCE, m.R17_PROVIDER_OVERLAYS_PATH)
         old_patch = git("e278869253e5a1e553d0ac0c1bc7adb5221b681e", m.R17_PATCH_PATH)

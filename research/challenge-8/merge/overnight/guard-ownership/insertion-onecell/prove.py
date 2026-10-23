@@ -313,10 +313,18 @@ def validate_r22_owned_nll_profile_extension(profile: object, r17_baseline_bytes
     validate_r22_compile_fix_profile_extension(baseline, r17_baseline_bytes)
 
 
+def _r23_source_registry():
+    return load("r23_source_profile_prove", HERE.parents[3] / "cloud-build/origin-layout/r23-source-profile.py")
+
+
 def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: object) -> bool:
     """Leave legacy profiles on their existing route; validate each exact extension."""
     if not isinstance(profile, dict):
         raise ValueError("profile must be a JSON object")
+    if "r23_source_borrow_registration" in profile:
+        baseline = _r23_source_registry().reverse_profile(profile)
+        validate_r22_owned_nll_profile_extension(baseline, baseline_bytes)
+        return True
     if "r22_owned_nll_registration" in profile:
         validate_r22_owned_nll_profile_extension(profile, baseline_bytes)
         return True
@@ -338,6 +346,12 @@ def admit_r17_profile_extension_if_present(profile: object, baseline_bytes: obje
 def _r11_r22_source_pin_matches(profile_card: dict, baseline_profile: dict,
                                 is_r17_extension: bool, key: str) -> bool:
     """Check the R22 source pin used by the R11 diagnostic source-pin route."""
+    if "r23_source_borrow_registration" in profile_card:
+        registry = _r23_source_registry()
+        baseline = registry.reverse_profile(profile_card)
+        if key in registry.CANDIDATE_VALUES:
+            return profile_card.get(key) == registry.CANDIDATE_VALUES[key]
+        return _r11_r22_source_pin_matches(baseline, baseline_profile, is_r17_extension, key)
     if is_r17_extension and key == "refiner_core_source_sha256":
         return True
     if "r22_owned_nll_registration" in profile_card and key in (
@@ -1146,6 +1160,8 @@ def main() -> int:
     for relative, key in source_pins.items():
         if base.file_sha(args.tool_home / relative) != profile_card[key]:
             raise RuntimeError(f"tracked MD source pin differs: {relative}")
+    if "r23_source_borrow_registration" in profile_card:
+        _r23_source_registry().validate_tool_sources(args.tool_home, profile_card)
     rustc = shutil.which("rustc")
     if rustc is None:
         raise RuntimeError("hosted rustc missing")

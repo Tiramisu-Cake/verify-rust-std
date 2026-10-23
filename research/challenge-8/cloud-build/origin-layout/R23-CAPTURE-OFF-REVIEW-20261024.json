@@ -1,0 +1,38 @@
+{
+  "schema": "merge-r23-capture-off-review-v1",
+  "reviewer": "Codex",
+  "candidate": "f91f763c4d210d2ea91c4d3efbbbbccf584cbcf9",
+  "baseline": "2e728320267d1d6bb353bf81ab062abed3cc3379",
+  "spec_sha256": "2d48b75c9e3ee6607254d4a5989520794f24df19b872fe0d6e0517f5564d79e4",
+  "packet_sha256": "44a78d61ab6d3ca568a73e202474a9d4b87cf9e34385b49be2706bccfb9b41e9",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "decision": "GO",
+  "review_scope": [
+    "R23 mandatory post-stop-loss owned-NLL capture-off policy and source-admission binding",
+    "R20 array-to-slice content helper predicate-expression substitutions",
+    "Transfer pruning of historical R5 and R9 source-preflight scripts"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Capture policy service suite passed: 5 tests",
+    "Array/slice helper static service suite passed: 3 tests",
+    "R23 phase service suite passed: 8 tests",
+    "R22 runner/source-pin service suite passed: 20 tests",
+    "R23 source admission binds the exact capture-policy bytes and requires the committed file in the regular-file source closure; runtime policy rejects malformed, mismatched, true, symlink, and directory cases",
+    "With the R23 ledger present, missing policy fails closed; legacy absence preserves prior behavior only when both R23 policy and ledger are absent",
+    "Owned-NLL registration/profile/source validation remains active; exact R23 policy makes the producer flag inactive, and copied campaign/placement environments continue stripping inherited capture flags",
+    "Array predicate alias is exactly the pinned prelude type_pred_def: for<T> <[T]>.full_borrow_content = slice_full_borrow_content::<T>; pinned prelude SHA-256 d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "The helper preserves array ownership resources, pointer-metadata equality, length-3 constraints, both conversion directions, both implies chunks, full_borrow_implies calls, and direct constructor open/close commands; only predicate spelling/application changes",
+    "The two removed R5/R9 preflight scripts remain in Git; selected runtime/current preflight source has no call or import to either removed path. Current compile, R8, R11, and publication gates remain selected"
+  ],
+  "not_run": [
+    "Cloud source preparation, compiler, exporter, translator, verifier, or proof execution",
+    "Cloud acceptance of the changed array/slice helper"
+  ],
+  "limitations": [
+    "This GO covers the capture-off and helper source-contract delta only; it grants no phase admission, proof acceptance, B1/B2 credit, or proof credit.",
+    "Owned-NLL mapping remains UNESTABLISHED. The helper syntax change has static service coverage only and requires an authorized Cloud run for verifier acceptance."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

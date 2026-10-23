@@ -3,7 +3,7 @@
   "profile": "experimental-merge-label-storage-r11-v1",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
-  "translator_sha256": "bc60d926e5b34aeaa5f18ca6b08d2f9c0e707bd2d537e9081ea762d5a41fcfb2",
+  "translator_sha256": "7cd5c13920e595c27c8783a229cb7d44cf27bba6cc8e9fa6fe11ec1214f0f94d",
   "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
   "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
   "kernel_sha256": "8b8fe7e4ced29c988a620edcea762a04a5c5af6ac29c4bc454611ec9b5f55b3f",
@@ -31,8 +31,8 @@
   "baseline_exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
   "guard_layout_patch_sha256": "16476ac7e615831bfd49cec3efdcefd1d76eab1a57f2df47b97f43fb8d6a1d74",
   "guard_layout_tool_commit": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
-  "exporter_source_sha256": "7bdf554c34feaa15a96f0d652be272bddae2c915a0122e5af09adfe9acd4430d",
-  "schema_sha256": "ed44ed45da772052e0b767beb47ef33af958ac6ee7bd03f3c100d9f906f6eb92",
+  "exporter_source_sha256": "8c8a2b0222ecc4f93aeffe05e2b06eb79655bf1db0d13d6f9604a30fbeee22fc",
+  "schema_sha256": "e9942a875a4177de95c6c6b0777e4b2dfcfea65ffd576d8ebc94950d9a2ca014",
   "selected_drop_patch_sha256": "57bab179dc11366369689c0980209c2e76acf82339a346b02e1cc99fdfbb610a",
   "selected_drop_tool_commit": "8a3f63eabf18cc76cc9048c086dda95fbec84d03",
   "preserved_profile_sha256": "0b8cf55b0e7b5a1d0e0595b1483726459cb1d2f40264311e2014d3580ad189b8",
@@ -112,7 +112,7 @@
     },
     {
       "path": "research/challenge-8/cloud-build/origin-layout/r9-guard-return-trace.patch",
-      "sha256": "097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5"
+      "sha256": "1c8fc175b834ef1cf8c114b99bd1029e7a73dbc7f1317fb2fbd24b9c8536e596"
     }
   ],
   "previous_selected_profile_sha256": "7e4f6088574056a0846aad2887895836b5e03edf06bb5a493d29daf44151cfff",
@@ -121,13 +121,13 @@
   "preserved_selected_profile_sha256": "803abaa58eab515886cfc87499a5b864ecac98e28ee580b2c895a50ff8027307",
   "glue_credit": "EXPERIMENTAL_NOT_PROVED",
   "semantic_delta": "Owner-authorized R8 experimental trusted allocation premise: default-off explicit flag, real Rust StorageLive u64 local only, 64-bit, CURRENT positive initialized canonical u64 array subrange nonempty and full-pointer-contained in a unique positive incoming array3. Excludes only CURRENT subrange numeric interval from fresh local; no heap chunks changed or ownership from numeric equality. Hidden borrow/absent current canonical owner/wrong type/count/root/default-off give no new fact. Existing scalar/local/points_to rule and runtime/posts/compiler/prelude/model file unchanged; no Rocq credit. Experimental profile unqualified.",
-  "effective_tool_commit": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+  "effective_tool_commit": "80576cc6d18a1d3776fc96978b6ea72a0eba3360",
   "previous_glue_observation_profile_sha256": "ede5bd5e338703a6c1f99e6ee0dfe422115241fef9a7a9fadc4a9f9e71f63e1b",
   "glue_body_tool_commit": "a158398e336edce9817f62a55733a3470a986d7b",
   "glue_body_patch_sha256": "0aad1332daa465a6c175c830c7caf561736c928d9169b5429b674a0b84c1e687",
   "baseline_refiner_binary_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
   "refiner_main_source_sha256": "a13ff238a13ccd886ab8570f8bfe79cb7911feb22cd0fbdf491bfbe212f14456",
-  "refiner_core_source_sha256": "11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8",
+  "refiner_core_source_sha256": "b68454fafab7e1360fccae300b14712356c230e7a28a25b252c7a50121dc269a",
   "draft_status": "STATIC_MODEL_CANDIDATE_NOT_BUILT",
   "last_buildable_exporter_profile": "experimental-merge-actual-glue-body-v2",
   "previous_body_profile_sha256": "eba00d6fa3ba916bf04c50b2879a466e1b8eb4598ae4b7daf5ae32223ea1d78d",
@@ -155,7 +155,7 @@
   "qualification": "OPEN",
   "authorization": "Direct owner async reply during R8: narrow rule justification/model-design, independent review, separate experimental profile and positive/negative controls; original window and budget unchanged; qualification separate.",
   "previous_profile_sha256": "c3f5d286777ffd388e1eb0894ad0ff9e8f1f87f72424291041cb800385f7c979",
-  "guard_return_trace_patch_sha256": "097f1ea2caba540a6c2fbff51bcded4726f4fb73536dbc6e803423f70b9df9c5",
+  "guard_return_trace_patch_sha256": "1c8fc175b834ef1cf8c114b99bd1029e7a73dbc7f1317fb2fbd24b9c8536e596",
   "guard_return_trace_tool_commit": "660b576b6b1608db913c51e0785b443a8733396f",
   "guard_return_trace_scope": "Existing R9 exact MIR Drop/Return/Resume bounded48 heap terms; R10 read-only missing-invariant bounded96heap/128env, reconstructed CFG Body identity and ordinary checked LoopInv entry/backedge receipts. No assumptions/resource/control changes.; R10 missing-invariant backedge read-only inventory bounded96 chunks/128 env entries, then unchanged refusal",
   "guard_return_trace_activation_env": "SMALLSORT_R9_GUARD_TRACE=1; authorized R9/R10 nonprefix actual callback only",
@@ -264,5 +264,28 @@
       "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
     ],
     "source_applicability": "diagnostic-only optional owned-NLL capture for exact registered source cases; identity=Nothing initializes all three synthetic Lifetime fixtures. Serialization retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin stays unavailable, and no proof credit or ownership authority is granted. No runtime, model, CFG, normal-unwind, or source-control change."
+  },
+  "r23_source_borrow_registration": {
+    "schema": "merge-r23-checked-source-borrow-registration-v1",
+    "phase_id": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
+    "baseline_profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
+    "starting_tool_commit": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+    "candidate_tool_commit": "80576cc6d18a1d3776fc96978b6ea72a0eba3360",
+    "tool_source_paths": [
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs",
+      "src/rust_frontend/vf_mir/vf_mir.capnp",
+      "src/refinement_checker/refinement_checker.ml",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+      "src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml"
+    ],
+    "source_pins": {
+      "src/rust_frontend/vf_mir_exporter/src/lib.rs": "8c8a2b0222ecc4f93aeffe05e2b06eb79655bf1db0d13d6f9604a30fbeee22fc",
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "e9942a875a4177de95c6c6b0777e4b2dfcfea65ffd576d8ebc94950d9a2ca014",
+      "src/refinement_checker/refinement_checker.ml": "b68454fafab7e1360fccae300b14712356c230e7a28a25b252c7a50121dc269a",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "7cd5c13920e595c27c8783a229cb7d44cf27bba6cc8e9fa6fe11ec1214f0f94d",
+      "src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml": "a11c33a8a6b9ecb3021443fffe7abc7ff4884924dbb5ea4f3dc523b800f352de"
+    },
+    "activation_environment": "SMALLSORT_R23_SOURCE_ARRAY_BORROW",
+    "source_applicability": "exact marked u64 array3 Ref/Unsize/as_mut_ptr chain; checked source lifetime and reversible existing full_borrow resources; complete actual callee/helper typed cast-body equivalence; original normal/unwind action and runtime unchanged; default off; no new trusted premise"
   }
 }

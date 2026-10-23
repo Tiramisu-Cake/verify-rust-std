@@ -182,6 +182,19 @@ def _profile_refiner_source_pin(profile: str, profile_path: Path | None = None) 
         row.update(profile_binding='REJECTED', expected_source_sha256=None,
                    binding_error='profile file is not an object for the selected public profile')
         return row
+    if 'r23_source_borrow_registration' in card:
+        try:
+            spec = importlib.util.spec_from_file_location('r23_source_profile_compat', HERE / 'r23-source-profile.py')
+            registry = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(registry)
+            registry.reverse_profile(card)
+            if profile != R22_OWNED_NLL_PROFILE:
+                raise ValueError('R23 selected public profile differs')
+            row.update(profile_binding='EXACT_R23_SOURCE_BORROW_REGISTRATION',
+                expected_source_sha256=registry.CANDIDATE_VALUES['refiner_core_source_sha256'])
+        except (ValueError, OSError, TypeError, AttributeError) as error:
+            row.update(profile_binding='REJECTED', expected_source_sha256=None, binding_error=str(error))
+        return row
     if 'r22_owned_nll_registration' in card:
         exact = (profile == R22_OWNED_NLL_PROFILE and
                  row['profile_sha256'] == R22_OWNED_NLL_PROFILE_SHA256 and

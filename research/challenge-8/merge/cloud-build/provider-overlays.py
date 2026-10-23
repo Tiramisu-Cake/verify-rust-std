@@ -77,14 +77,14 @@ R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 R22_PROFILE = "r22-compile-fix-overlay"
 R22_OWNED_NLL_PROFILE = "r22-owned-nll-overlay"
 R22_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7",
-    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d",
-    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "7c784fb1e00cf48e9b62c3978976e3fd33a91004be8d8e23e8599184181f92ef",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "801a711f6d4ebb1aba95e9f00d8e97a672e59742fc370493f9690077fb9f4faa",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "f710146680415de30b7e88d85a5112310ddc43b8aae9773a7c3f649bb27ad605",
 }
 R22_OWNED_NLL_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7",
-    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d",
-    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "7c784fb1e00cf48e9b62c3978976e3fd33a91004be8d8e23e8599184181f92ef",
+    "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "801a711f6d4ebb1aba95e9f00d8e97a672e59742fc370493f9690077fb9f4faa",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "f710146680415de30b7e88d85a5112310ddc43b8aae9773a7c3f649bb27ad605",
 }
 SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE, R22_PROFILE, R22_OWNED_NLL_PROFILE}
 
@@ -107,6 +107,13 @@ def profile_identity(profile_card: dict) -> str:
     profile = profile_card.get("profile")
     if profile in (R22_PROFILE,R22_OWNED_NLL_PROFILE) or profile not in SUPPORTED_PROFILES - {R22_PROFILE,R22_OWNED_NLL_PROFILE} or profile_card.get("accepted") is not False:
         raise SystemExit("unsupported or accepted merge profile")
+    if profile == R11_PROFILE and "r23_source_borrow_registration" in profile_card:
+        import runpy
+        registry = runpy.run_path(str(Path(__file__).resolve().parents[2] / "cloud-build/origin-layout/r23-source-profile.py"))
+        baseline = registry["reverse_profile"](profile_card)
+        if profile_identity(baseline) != R22_OWNED_NLL_PROFILE:
+            raise SystemExit("R23 source profile does not retain its exact R22 baseline")
+        return R22_OWNED_NLL_PROFILE
     if profile == R11_PROFILE and "r22_owned_nll_registration" in profile_card:
         registration=profile_card.get("r22_owned_nll_registration")
         chain=profile_card.get("ordered_patch_chain")

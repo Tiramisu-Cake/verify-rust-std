@@ -108,6 +108,13 @@ R20_METADATA_REGISTRATION = {
 }
 BODY_ISOLATION_NAME = 'actual_insert_tail_body_isolated'
 RAW_LOCAL_CALLER_NAME = 'actual_three_from_local_raw'
+R23_SOURCE_BORROW_NAME = 'actual_three_from_local_source_borrow'
+R23_SOURCE_BORROW_ENV = 'SMALLSORT_R23_SOURCE_ARRAY_BORROW'
+R23_SOURCE_BORROW_CONTROLS = {
+    'missing_end_marker': 'R23 source array adapter requires exactly one pre/post marker pair',
+    'duplicate_begin_marker': 'R23 source array adapter requires exactly one pre/post marker pair',
+    'wrong_logical_lifetime_binding': "R23 source array adapter marker refused: missing explicit let_lft 'r23_borrow = r23_borrow_k binding",
+}
 SUPPORTED_PROFILES = (PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE)
 R9_GUARD_TRACE_ENV = 'SMALLSORT_R9_GUARD_TRACE'
 PREFIX_NAME = b'insert_tail_first_callback_prefix'
@@ -246,9 +253,17 @@ def _r22_compile_fix_registration_matches(profile_path, selected_profile, profil
         return False
 
 
-def _r22_owned_nll_registration_matches(profile_path, selected_profile, profile=None):
+def _r22_owned_nll_registration_matches(profile_path, selected_profile, profile=None, raw_override=None):
     try:
-        raw = Path(profile_path).read_bytes()
+        raw = Path(profile_path).read_bytes() if raw_override is None else raw_override
+        if profile is None:
+            profile = json.loads(raw)
+        if 'r23_source_borrow_registration' in profile:
+            registry = _load('r23_source_profile_callback', HERE / 'r23-source-profile.py')
+            baseline = registry.reverse_profile(profile)
+            registry.validate_helper_sources(HERE)
+            return _r22_owned_nll_registration_matches(
+                profile_path, selected_profile, baseline, raw_override=registry.serialize(baseline))
         if _sha(raw) != R22_OWNED_NLL_PROFILE_SHA256:
             return False
         if profile is None:
@@ -282,7 +297,7 @@ def _r22_owned_nll_registration_matches(profile_path, selected_profile, profile=
         reversed_bytes = (json.dumps(reversed_profile, indent=2, ensure_ascii=False) + '\n').encode()
         return _r22_compile_fix_registration_matches(
             profile_path, selected_profile, reversed_profile, raw_override=reversed_bytes)
-    except (OSError, json.JSONDecodeError, AttributeError, TypeError, UnicodeDecodeError):
+    except (OSError, ValueError, AttributeError, TypeError, UnicodeDecodeError):
         return False
 
 
@@ -1000,6 +1015,354 @@ def _raw_parent_body(evidence, parent_case, parent_record, old,
     return canonical, original_body, verified_body
 
 
+def _r23_source_borrow_inputs(old):
+    paths = {
+        'array_content': HERE / 'r23-array3-borrow-content.rs',
+        'checked_callee': HERE / 'r23-checked-slice-as-mut-ptr.rs',
+        'template': HERE / 'R23-SOURCE-BORROW-TEMPLATE-20261024.rs',
+    }
+    blobs = {key: path.read_bytes() for key, path in paths.items()}
+    expected = {
+        'array_content': 'dd925b2a140875496fb14d1a80368a29cfb60626da91821ab593c67e95c929ef',
+        'checked_callee': '14f3ab4939f5cdc4c0fde69157464b132811dbbbbe9962f15b67ae276c8663c6',
+        'template': 'e7e0580876e2b43c964d4e366188fcdc462b5a5817b5c14e422ad7e1b8a7f19f',
+    }
+    if any(_sha(blobs[key]) != digest for key, digest in expected.items()):
+        raise ValueError('R23 source-borrow helper/template input pin mismatch')
+    content = (HERE / 'r20-array-slice-content.rs').read_bytes()
+    if _sha(content) != R20_ARRAY_SLICE_CONTENT_SHA256:
+        raise ValueError('checked R20 array/slice content helper pin mismatch')
+    if (old.WRAPPER_RUNTIME.count(b'let mut values = [10_u64, 20_u64, 5_u64];') != 1 or
+            old.WRAPPER_RUNTIME.count(b'let begin = values.as_mut_ptr();') != 1 or
+            old.WRAPPER_RUNTIME.count(b'insert_tail(begin, begin.add(2), is_less);') != 1 or
+            b'/*@' in old.WRAPPER_RUNTIME or b'//@' in old.WRAPPER_RUNTIME):
+        raise ValueError('R23 source-borrow requires exact canonical caller runtime markers')
+    helper_bundle = b'\n' + RAW_ARRAY_INV_LEMMA + content + blobs['array_content'] + blobs['checked_callee']
+    checked_runtime = re.sub(rb'/\*.*?\*/|//[^\n]*', b'', blobs['checked_callee'], flags=re.S)
+    if checked_runtime.count(b'pub unsafe fn r23_checked_slice_as_mut_ptr') != 1:
+        raise ValueError('checked slice pointer projection runtime definition is ambiguous')
+    return blobs, helper_bundle, checked_runtime
+
+
+def _r23_parent_stage_gate_matches(parent_case, parent_record, stage_gate):
+    if (type(parent_record) is not dict or type(stage_gate) is not dict or
+            stage_gate.get('admitted') is not True or type(stage_gate.get('stages')) is not dict):
+        return False
+    parent_case = Path(parent_case)
+    stage_rows = stage_gate['stages']
+    expected_names = ('exporter', 'decode', 'verifast', 'refinement')
+    if set(stage_rows) != set(expected_names):
+        return False
+    try:
+        original_sha = _sha((parent_case / 'original/lib.rs').read_bytes())
+        verified_sha = _sha((parent_case / 'verified/lib.rs').read_bytes())
+        if (original_sha != parent_record.get('original_sha256') or
+                verified_sha != parent_record.get('verified_sha256')):
+            return False
+        for name in expected_names:
+            row = stage_rows[name]
+            if (type(row) is not dict or row.get('present') is not True or
+                    row.get('admitted') is not True or type(row.get('exit_code')) is not int or
+                    row.get('exit_code') != row.get('callback_exit_code')):
+                return False
+            receipt = json.loads((parent_case / f'{name}-stage.json').read_text())
+            before = receipt.get('source_before')
+            after = receipt.get('source_after')
+            if (receipt.get('stage') != name or receipt.get('exit_code') != row.get('exit_code') or
+                    receipt.get('status') != row.get('status') or
+                    receipt.get('source_unchanged') is not True or type(before) is not dict or
+                    before != after or
+                    before.get('original/lib.rs') != original_sha or
+                    before.get('verified/lib.rs') != verified_sha or
+                    before.get('small_sort_source') != parent_record.get('source_sha256') or
+                    row.get('source_unchanged') is not True):
+                return False
+        return True
+    except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError):
+        return False
+
+
+def _r23_source_borrow_verified_runtime(old, template, control=None):
+    runtime = old.WRAPPER_RUNTIME
+    begin_line = b'    let begin = values.as_mut_ptr();\n'
+    call_line = b'    insert_tail(begin, begin.add(2), is_less);\n'
+    if runtime.count(begin_line) != 1 or runtime.count(call_line) != 1:
+        raise ValueError('R23 source-borrow canonical insertion points are ambiguous')
+    before, after_begin = template.split(b'let begin = values.as_mut_ptr();\n', 1)
+    adapter_end, post_commands = after_begin.split(b'//@ r23_source_array_borrow_adapter_end', 1)
+    adapter_end += b'//@ r23_source_array_borrow_adapter_end' + post_commands.split(b'\n', 1)[0] + b'\n'
+    post_commands = post_commands.split(b'\n', 1)[1]
+    if control == 'missing_end_marker':
+        adapter_end = b''
+    if control == 'duplicate_begin_marker':
+        marker = b'//@ r23_source_array_borrow_adapter(r23_borrow_k, values);\n'
+        if before.count(marker) != 1:
+            raise ValueError('R23 source-borrow begin marker is not unique in template')
+        before = before.replace(marker, marker + marker, 1)
+    if control == 'wrong_logical_lifetime_binding':
+        before = before.replace(b"let_lft 'r23_borrow = r23_borrow_k;",
+                                b"let_lft 'r23_wrong_borrow = r23_borrow_k;", 1)
+    post_marker = adapter_end + post_commands
+    before_call = (b'    /*@ { r18_u64_array_inv(begin, 3);\n'
+                   b'        assert array::<u64>(begin, 3, ?r16_current);\n'
+                   b'        r9_make_u64_owners(t, r16_current); } @*/\n')
+    after_call = (b'    /*@ { r19_insert_tail_unwind_cleanup();\n'
+                  b'        assert array::<u64>(begin, 3, ?r16_normal_current);\n'
+                  b'        r9_drop_u64_owners(t, r16_normal_current);\n'
+                  b'        array_to_array_(begin); } @*/\n')
+    runtime = runtime.replace(begin_line, before + begin_line + post_marker + before_call, 1)
+    runtime = runtime.replace(call_line, call_line + after_call, 1)
+    if runtime.count(b'let begin = values.as_mut_ptr();') != 1 or runtime.count(call_line) != 1:
+        raise ValueError('R23 source-borrow transformation changed canonical runtime expression count')
+    return runtime
+
+
+def _prepare_r23_source_borrow(evidence, parent_case, parent_record, old,
+                               parent_preparation_sha, parent_source_unchanged,
+                               parent_stage_receipt_gate, control=None):
+    if not _r23_parent_stage_gate_matches(parent_case, parent_record, parent_stage_receipt_gate):
+        raise ValueError('R23 source-borrow requires exact admitted full-body stage receipts')
+    canonical, original_body, verified_body = _raw_parent_body(
+        evidence, parent_case, parent_record, old, parent_preparation_sha,
+        parent_source_unchanged, parent_stage_receipt_gate)
+    if control is not None and control not in R23_SOURCE_BORROW_CONTROLS:
+        raise ValueError('unknown R23 source-borrow control')
+    blobs, helper_bundle, checked_runtime = _r23_source_borrow_inputs(old)
+    verified_runtime = _r23_source_borrow_verified_runtime(old, blobs['template'], control)
+    original = original_body + checked_runtime + old.WRAPPER_RUNTIME
+    signature_end = verified_runtime.index(old.WRAPPER_SIGNATURE) + len(old.WRAPPER_SIGNATURE)
+    verified = (verified_body + helper_bundle + old.WRAPPER_SIGNATURE + old.WRAPPER_CONTRACT +
+                verified_runtime[signature_end:])
+    if not _body_runtime_equal(original, verified):
+        raise ValueError('R23 source-borrow candidate changed canonical caller or helper runtime')
+    suffix = '' if control is None else f'_{control}'
+    root = Path(evidence) / 'r23_source_borrow'
+    case = root / 'cases' / f'{R23_SOURCE_BORROW_NAME}{suffix}'
+    case.mkdir(parents=True, exist_ok=False)
+    (case / 'original').mkdir()
+    (case / 'verified').mkdir()
+    (case / 'original/lib.rs').write_bytes(original)
+    (case / 'verified/lib.rs').write_bytes(verified)
+    record = {
+        'schema': 'merge-r23-source-array-borrow-v1',
+        'profile': parent_record['profile'],
+        'case': case.name,
+        'control': control,
+        'parent_case': str(Path(parent_case).resolve()),
+        'parent_preparation_sha256': parent_preparation_sha,
+        'parent_source_unchanged': True,
+        'parent_stage_receipt_gate': parent_stage_receipt_gate,
+        'parent_original_sha256': parent_record['original_sha256'],
+        'parent_verified_sha256': parent_record['verified_sha256'],
+        'source_sha256': parent_record['source_sha256'],
+        'source_git_blob': parent_record['source_git_blob'],
+        'actual_drop_sha256': parent_record['actual_drop_sha256'],
+        'actual_insert_tail_sha256': parent_record['actual_insert_tail_sha256'],
+        'actual_insert_tail_bytes': parent_record['actual_insert_tail_bytes'],
+        'mechanically_specialized_insert_sha256': parent_record['mechanically_specialized_insert_sha256'],
+        'final_posts_sha256': parent_record['final_posts_sha256'],
+        'helpers_sha256': {key: _sha(value) for key, value in blobs.items()},
+        'r20_content_sha256': _sha((HERE / 'r20-array-slice-content.rs').read_bytes()),
+        'helper_bundle_sha256': _sha(helper_bundle),
+        'helper_runtime_sha256': _sha(checked_runtime),
+        'original_sha256': _sha(original),
+        'verified_sha256': _sha(verified),
+        'canonical_original_body_sha256': _sha(canonical['original_body']),
+        'runtime_unchanged': True,
+        'posts_preserved': True,
+        'source_adapter_eligible': True,
+        'accepted': False,
+        'proof_credit': False,
+        'b2_achieved': False,
+        'independent_credit': False,
+    }
+    (case / 'preparation.json').write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
+    return case, record
+
+
+def _r23_source_borrow_source_gate(case, parent_case, parent_record, record, old,
+                                  parent_preparation_sha, parent_stage_receipt_gate,
+                                  control=None):
+    try:
+        if (type(record) is not dict or type(parent_record) is not dict or
+                type(parent_stage_receipt_gate) is not dict or
+                parent_stage_receipt_gate.get('admitted') is not True or
+                not _r23_parent_stage_gate_matches(parent_case, parent_record, parent_stage_receipt_gate) or
+                record.get('schema') != 'merge-r23-source-array-borrow-v1' or
+                record.get('profile') != parent_record.get('profile') or
+                record.get('parent_stage_receipt_gate') != parent_stage_receipt_gate or
+                record.get('parent_source_unchanged') is not True or
+                record.get('source_adapter_eligible') is not True or
+                record.get('runtime_unchanged') is not True or
+                record.get('posts_preserved') is not True or
+                record.get('control') != control):
+            return False
+        expected_name = R23_SOURCE_BORROW_NAME + ('' if control is None else f'_{control}')
+        if record.get('case') != expected_name or Path(case).name != expected_name:
+            return False
+        evidence_root = Path(case).resolve().parents[2]
+        expected_case = evidence_root / 'r23_source_borrow' / 'cases' / expected_name
+        if Path(case).resolve() != expected_case.resolve():
+            return False
+        canonical, original_body, verified_body = _raw_parent_body(
+            Path(case).resolve().parents[2], parent_case, parent_record, old,
+            parent_preparation_sha, True, parent_stage_receipt_gate)
+        blobs, helper_bundle, checked_runtime = _r23_source_borrow_inputs(old)
+        expected_original = original_body + checked_runtime + old.WRAPPER_RUNTIME
+        verified_runtime = _r23_source_borrow_verified_runtime(old, blobs['template'], control)
+        signature_end = verified_runtime.index(old.WRAPPER_SIGNATURE) + len(old.WRAPPER_SIGNATURE)
+        expected_verified = (verified_body + helper_bundle + old.WRAPPER_SIGNATURE +
+                             old.WRAPPER_CONTRACT + verified_runtime[signature_end:])
+        original = (Path(case) / 'original/lib.rs').read_bytes()
+        verified = (Path(case) / 'verified/lib.rs').read_bytes()
+        prep_bytes = (Path(case) / 'preparation.json').read_bytes()
+        if (original != expected_original or verified != expected_verified or
+                json.loads(prep_bytes) != record or
+                record.get('parent_case') != str(Path(parent_case).resolve()) or
+                record.get('parent_preparation_sha256') != parent_preparation_sha or
+                record.get('parent_original_sha256') != parent_record.get('original_sha256') or
+                record.get('parent_verified_sha256') != parent_record.get('verified_sha256') or
+                record.get('canonical_original_body_sha256') != _sha(canonical['original_body']) or
+                record.get('helpers_sha256') != {key: _sha(value) for key, value in blobs.items()} or
+                record.get('r20_content_sha256') != _sha((HERE / 'r20-array-slice-content.rs').read_bytes()) or
+                record.get('helper_bundle_sha256') != _sha(helper_bundle) or
+                record.get('helper_runtime_sha256') != _sha(checked_runtime) or
+                record.get('original_sha256') != _sha(original) or
+                record.get('verified_sha256') != _sha(verified) or
+                record.get('source_sha256') != canonical['source_sha256'] or
+                record.get('source_git_blob') != canonical['source_git_blob'] or
+                record.get('actual_insert_tail_sha256') != canonical['actual_insert_tail_sha256'] or
+                record.get('actual_insert_tail_bytes') != parent_record.get('actual_insert_tail_bytes') or
+                record.get('actual_drop_sha256') != canonical['actual_drop_sha256'] or
+                record.get('mechanically_specialized_insert_sha256') != parent_record.get('mechanically_specialized_insert_sha256') or
+                record.get('final_posts_sha256') != _sha(old.INSERT_CONTRACT) or
+                not _body_runtime_equal(original, verified)):
+            return False
+        return True
+    except (OSError, ValueError, KeyError, TypeError, IndexError, json.JSONDecodeError):
+        return False
+
+
+def _r23_source_borrow_outcome(classification, reason, *, evidence, **kwargs):
+    result = _body_isolation_outcome(
+        classification, reason, evidence=evidence, result_subdir='r23_source_borrow',
+        **kwargs)
+    result.update(schema='merge-r23-source-array-borrow-result-v1',
+                  source_adapter_eligible=False, accepted=False,
+                  proof_credit=False, b2_achieved=False, independent_credit=False)
+    return result
+
+
+def _classify_r23_source_borrow(case, parent_case, parent_record, record,
+                                execution, old, parent_preparation_sha, control=None,
+                                parent_stage_receipt_gate=None):
+    def finish(classification, reason):
+        result = _r23_source_borrow_outcome(
+            classification, reason, evidence=Path(case).parents[2], case=case,
+            record=record, execution=execution, phase='classification',
+            source_exact=_r23_source_borrow_source_gate(
+                case, parent_case, parent_record, record, old, parent_preparation_sha,
+                parent_stage_receipt_gate, control))
+        result['source_adapter_eligible'] = False
+        return result
+
+    if type(execution) is not dict:
+        return finish('INCONCLUSIVE', 'source-borrow execution result has the wrong type')
+    stages = execution.get('stages')
+    if execution.get('status') == 'NOT_RUN' or execution.get('classification') == 'NOT_RUN':
+        return finish('NOT_RUN', 'source-borrow diagnostic was explicitly marked not run')
+    if not _r23_source_borrow_source_gate(
+            case, parent_case, parent_record, record, old, parent_preparation_sha,
+            parent_stage_receipt_gate, control):
+        return finish('INCONCLUSIVE', 'source, helper, parent, or stage identity did not match')
+    if type(stages) is not dict or any(
+            type(stages.get(name)) is not int
+            for name in ('exporter', 'decode', 'verifast', 'refinement')):
+        return finish('INCONCLUSIVE', 'required stage results are missing, null, or wrong type')
+    if execution.get('exception') is not None:
+        return finish('INCONCLUSIVE', 'source-borrow diagnostic raised an exception')
+    if (execution.get('source_unchanged_at_every_stage') is not True or
+            type(execution.get('stage_receipt_gate')) is not dict or
+            execution['stage_receipt_gate'].get('admitted') is not True):
+        return finish('INCONCLUSIVE', 'exact stage/source receipts were missing or mismatched')
+    logs = []
+    verifier_log = Path(case) / 'verifast.log'
+    try:
+        logs = verifier_log.read_text(errors='replace').splitlines() if verifier_log.is_file() else []
+    except OSError:
+        logs = []
+    errors = [line for line in logs if re.search(r'\berror:', line, re.I)]
+    dead = [line for line in logs if re.search(r'dead code', line, re.I)]
+    targets = set()
+    for line in logs:
+        match = re.search(r"Verifying function ['\"]([^'\"]+)['\"]", line)
+        if match:
+            targets.add(match.group(1).rsplit('::', 1)[-1])
+    if control is not None:
+        expected = R23_SOURCE_BORROW_CONTROLS.get(control)
+        exact_refusal = [line for line in logs if expected and expected in line]
+        exact_refusal_count = sum(line.count(expected) for line in logs) if expected else 0
+        exact_frontend_failure = (
+            stages.get('exporter') == 0 and stages.get('decode') == 0 and
+            type(stages.get('verifast')) is int and stages['verifast'] not in (0, 124, 125) and
+            stages.get('refinement') == 0)
+        only_expected_error = (len(errors) == 1 and expected and expected in errors[0])
+        if (len(exact_refusal) == 1 and exact_refusal_count == 1 and
+                exact_frontend_failure and only_expected_error and
+                'b2_three_from_local' not in targets and not dead):
+            result = finish('SOURCE_ADAPTER_INTENDED_REFUSAL',
+                            f'{control} reached its exact registered source-adapter refusal')
+            result['intended_negative'] = True
+            result['expected_refusal'] = expected
+            result['source_adapter_eligible'] = True
+            return result
+        result = finish('INCONCLUSIVE',
+                        f'{control} did not reach its exact source-adapter refusal')
+        result['intended_negative'] = False
+        result['expected_refusal'] = expected
+        return result
+    expected_targets = {'insert_tail', 'b2_three_from_local', 'r23_checked_slice_as_mut_ptr'}
+    if (all(stages[name] == 0 for name in ('exporter', 'decode', 'verifast', 'refinement')) and
+            expected_targets <= targets and not errors and not dead):
+        result = finish(
+            'SOURCE_ARRAY_BORROW_ALL_TARGETS_EXIT0',
+            'actual insert_tail, caller, and checked callee targets reached verification with all stages at exit 0')
+        result['source_adapter_eligible'] = True
+        result['verifier_targets_observed'] = sorted(expected_targets)
+        return result
+    if 124 in stages.values():
+        reason = 'a required source-borrow stage timed out'
+    elif 125 in stages.values():
+        reason = 'a required source-borrow stage was skipped or setup did not complete'
+    else:
+        reason = ('one or more required verifier targets were not established'
+                  if not expected_targets <= targets else
+                  'a required stage failed, verifier reported an error, or source contained dead code')
+    result = finish('INCONCLUSIVE', reason)
+    result['verifier_targets_observed'] = sorted(targets)
+    return result
+
+
+def _run_r23_source_borrow_diagnostic(evidence, parent_case, parent_record, old,
+                                      consumer, args, selected_profile, dispatch,
+                                      *, parent_preparation_sha, parent_source_unchanged,
+                                      parent_stage_receipt_gate, control=None):
+    prepare = lambda *values: _prepare_r23_source_borrow(*values, control=control)
+    source_gate = lambda case, pcase, prec, rec, module, prep: _r23_source_borrow_source_gate(
+        case, pcase, prec, rec, module, prep, parent_stage_receipt_gate, control)
+    classify_fn = lambda case, pcase, prec, rec, execution, module, prep: _classify_r23_source_borrow(
+        case, pcase, prec, rec, execution, module, prep, control,
+        parent_stage_receipt_gate)
+    return _run_body_isolation_diagnostic(
+        evidence, parent_case, parent_record, old, consumer, args, selected_profile, dispatch,
+        parent_preparation_sha=parent_preparation_sha,
+        parent_source_unchanged=parent_source_unchanged,
+        parent_stage_receipt_gate=parent_stage_receipt_gate,
+        prepare_fn=prepare, source_gate_fn=source_gate, classify_fn=classify_fn,
+        outcome_fn=_r23_source_borrow_outcome, unit_label='R23 source-array borrow',
+        source_adapter_eligible=True)
+
+
 def _prepare_raw_local_caller(evidence, parent_case, parent_record, old,
                               parent_preparation_sha, parent_source_unchanged,
                               parent_stage_receipt_gate):
@@ -1356,7 +1719,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
                                   parent_stage_receipt_gate, prepare_fn=None,
                                   source_gate_fn=None, classify_fn=None,
                                   outcome_fn=None, unit_label='body-only',
-                                  owned_nll_capture_eligible=False):
+                                  owned_nll_capture_eligible=False,
+                                  source_adapter_eligible=False):
     prepare_fn = _prepare_body_isolation if prepare_fn is None else prepare_fn
     source_gate_fn = _body_isolation_source_gate if source_gate_fn is None else source_gate_fn
     classify_fn = _classify_body_isolation if classify_fn is None else classify_fn
@@ -1393,7 +1757,8 @@ def _run_body_isolation_diagnostic(evidence, parent_case, parent_record, old,
         try:
             body_execution = dispatch(body_case, args, actual_callback_case=True,
                                       body_isolation_native=native_body,
-                                      owned_nll_capture_eligible=owned_nll_capture_eligible)
+                                      owned_nll_capture_eligible=owned_nll_capture_eligible,
+                                      source_adapter_eligible=source_adapter_eligible)
         except Exception as error:
             dispatch_error = error
         finally:
@@ -1600,13 +1965,15 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
                                 prefix=False, actual_callback_case=False,
                                 r11_native_fullbody=False, validated_receipt=None,
                                 owned_nll_capture=False,
-                                owned_nll_capture_eligible=False):
+                                owned_nll_capture_eligible=False,
+                                source_adapter_eligible=False):
     case_env = dict(env)
     case_env.pop(R9_GUARD_TRACE_ENV, None)
     case_env.pop(R11_LABEL_TRACE_ENV, None)
     case_env.pop(R11_LABEL_PLACEMENT_ENV, None)
     case_env.pop(R9_GUARD_RETURN_RECOVERY_ENV, None)
     case_env.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
+    case_env.pop(R23_SOURCE_BORROW_ENV, None)
     placement_active = (profile == R11_PROFILE and not prefix and actual_callback_case)
     native_active = placement_active and r11_native_fullbody
     if profile in (R9_PROFILE, R10_PROFILE, R11_PROFILE) and not prefix and actual_callback_case:
@@ -1619,6 +1986,12 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
     if (owned_nll_capture and profile == R11_PROFILE and
             owned_nll_capture_eligible and actual_callback_case):
         case_env[VF_EXPORT_OWNED_NLL_FACTS] = '1'
+    allowed_adapter_cases = {R23_SOURCE_BORROW_NAME} | {
+        f'{R23_SOURCE_BORROW_NAME}_{name}' for name in R23_SOURCE_BORROW_CONTROLS}
+    if source_adapter_eligible:
+        if case.name not in allowed_adapter_cases or not actual_callback_case:
+            raise RuntimeError('R23 source adapter eligibility is restricted to exact registered source-borrow cases')
+        case_env[R23_SOURCE_BORROW_ENV] = '1'
     if native_active:
         if not isinstance(validated_receipt, dict) or validated_receipt.get('profile') != profile:
             raise RuntimeError('R11 fullbody native placement requires the validated current R11 receipt')
@@ -1639,6 +2012,7 @@ def _execute_case_with_r9_trace(execute_case, case, args, env, *, profile,
 def _r11_storage_placement_env(env):
     scoped = dict(env)
     scoped.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
+    scoped.pop(R23_SOURCE_BORROW_ENV, None)
     scoped.pop(R11_LABEL_PLACEMENT_ENV, None)
     scoped.pop(R11_LABEL_TRACE_ENV, None)
     scoped.pop(R9_GUARD_TRACE_ENV, None)
@@ -1684,6 +2058,7 @@ def _owned_nll_capture_allowed(root):
 def _campaign_environment(env):
     campaign_env = dict(env)
     campaign_env.pop(VF_EXPORT_OWNED_NLL_FACTS, None)
+    campaign_env.pop(R23_SOURCE_BORROW_ENV, None)
     campaign_env.pop(R9_GUARD_TRACE_ENV, None)
     campaign_env.pop(R11_LABEL_TRACE_ENV, None)
     campaign_env.pop(R11_LABEL_PLACEMENT_ENV, None)
@@ -1776,6 +2151,7 @@ def run(evidence, args, env, execute_case, validated_receipt):
             json.loads(Path(profile_path).read_text()).get('profile') != selected_profile):
         raise RuntimeError('first callback requires the exact supported experimental profile')
     profile_card = json.loads(Path(profile_path).read_text())
+    source_borrow_registered = 'r23_source_borrow_registration' in profile_card
     owned_nll_registered = 'r22_owned_nll_registration' in profile_card
     if owned_nll_registered and not _r22_owned_nll_registration_matches(profile_path, selected_profile, profile_card):
         raise RuntimeError('R22 owned-NLL registration is not the exact reversible diagnostic extension')
@@ -1796,10 +2172,13 @@ def run(evidence, args, env, execute_case, validated_receipt):
     r19_controls_enabled = _r19_registration_matches(profile_path, selected_profile)
     evidence.mkdir(parents=True, exist_ok=False)
     def dispatch(case, case_args, case_env=None, *, prefix=False, actual_callback_case=False,
-                 body_isolation_native=False, owned_nll_capture_eligible=False):
+                 body_isolation_native=False, owned_nll_capture_eligible=False,
+                 source_adapter_eligible=False):
         case_path = Path(case)
         if body_isolation_native and (selected_profile != R11_PROFILE or not actual_callback_case):
             raise RuntimeError('R11 body-isolation native placement requires current R11 actual-body scope')
+        if source_adapter_eligible and not source_borrow_registered:
+            raise RuntimeError('R23 source adapter requires the registered source-borrow profile field')
         return _execute_case_with_r9_trace(
             execute_case, case_path, case_args, campaign_env if case_env is None else case_env,
             profile=selected_profile,
@@ -1810,7 +2189,8 @@ def run(evidence, args, env, execute_case, validated_receipt):
                  case_path.parent.parent.name == 'full_body') or body_isolation_native),
             validated_receipt=validated_receipt,
             owned_nll_capture=owned_nll_active,
-            owned_nll_capture_eligible=owned_nll_capture_eligible)
+            owned_nll_capture_eligible=owned_nll_capture_eligible,
+            source_adapter_eligible=source_adapter_eligible)
     share_controls = _load('r6_share_controls', HERE/'r6-share-controls.py')
     results = {'share_representation_controls': share_controls.run(
         evidence/'share-representation-controls', args, campaign_env,
@@ -1888,6 +2268,60 @@ def run(evidence, args, env, execute_case, validated_receipt):
             results['body_isolation'] = _body_isolation_outcome(
                 'INCONCLUSIVE', 'body-only parent identity setup raised an exception',
                 evidence=evidence, phase='parent_identity', error=error)
+        if not source_borrow_registered:
+            results['r23_source_borrow'] = _r23_source_borrow_outcome(
+                'NOT_APPLICABLE_REGISTRATION_ABSENT',
+                'profile has no r23_source_borrow_registration field',
+                evidence=evidence)
+            results['r23_source_borrow_controls'] = {
+                name: dict(classification='NOT_APPLICABLE_REGISTRATION_ABSENT',
+                           intended_negative=False, accepted=False,
+                           proof_credit=False, b2_achieved=False)
+                for name in R23_SOURCE_BORROW_CONTROLS
+            }
+        elif (captured_parent_identity is None or
+              captured_parent_identity.get('preparation_sha256') is None or
+              full_body_execution_observation is None):
+            results['r23_source_borrow'] = _r23_source_borrow_outcome(
+                'NOT_RUN', 'admitted full-body parent identity/receipts are unavailable',
+                evidence=evidence, phase='parent_identity')
+            results['r23_source_borrow_controls'] = {
+                name: dict(classification='NOT_RUN', intended_negative=False,
+                           accepted=False, proof_credit=False, b2_achieved=False)
+                for name in R23_SOURCE_BORROW_CONTROLS
+            }
+        elif captured_parent_identity.get('receipt_error') is not None:
+            results['r23_source_borrow'] = _r23_source_borrow_outcome(
+                'INCONCLUSIVE', 'full-body preparation receipt capture failed',
+                evidence=evidence, phase='parent_identity',
+                error=captured_parent_identity['receipt_error'])
+            results['r23_source_borrow_controls'] = {
+                name: dict(classification='NOT_RUN', intended_negative=False,
+                           accepted=False, proof_credit=False, b2_achieved=False)
+                for name in R23_SOURCE_BORROW_CONTROLS
+            }
+        else:
+            source_parent_record = captured_parent_identity['record']
+            source_prep_sha = captured_parent_identity['preparation_sha256']
+            source_parent_ok = full_body_execution_observation.get('source_unchanged')
+            source_parent_gate = full_body_execution_observation.get('stage_receipt_gate')
+            source_old = _load('r23_source_borrow_source', HERE / 'actual-insert-tail-b2.py')
+            results['r23_source_borrow'] = _run_r23_source_borrow_diagnostic(
+                evidence, parent_case, source_parent_record, source_old,
+                consumer, args, selected_profile, dispatch,
+                parent_preparation_sha=source_prep_sha,
+                parent_source_unchanged=source_parent_ok,
+                parent_stage_receipt_gate=source_parent_gate)
+            control_results = {}
+            for control_name in R23_SOURCE_BORROW_CONTROLS:
+                control_results[control_name] = _run_r23_source_borrow_diagnostic(
+                    evidence, parent_case, source_parent_record, source_old,
+                    consumer, args, selected_profile, dispatch,
+                    parent_preparation_sha=source_prep_sha,
+                    parent_source_unchanged=source_parent_ok,
+                    parent_stage_receipt_gate=source_parent_gate,
+                    control=control_name)
+            results['r23_source_borrow_controls'] = control_results
         try:
             control_identity = (dict(captured_parent_identity,
                                      full_body_execution_observation=full_body_execution_observation)

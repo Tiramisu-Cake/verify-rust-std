@@ -1,10 +1,10 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-24-r23
 
 - Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: ACTIVE
-- Updated: 2026-10-23T12:08:56.802656Z
+- Updated: 2026-10-23T12:44:02.809931Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `0f4e336b52441e8f341a567250adba2b200c54d1`, profile `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`
 - Session dates: T0 `2026-10-23T10:45:00Z`; main deadline `2026-10-26T10:45:00Z`; absolute deadline `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 14400s total; 1392s spent; 0s retired; 13008s remaining including active reservations
+- Budget: 14400s total; 2236s spent; 0s retired; 12164s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
@@ -14,18 +14,18 @@
 - [SOURCE_REPORTED] P2 owned capture6/attached3/unattached3; actual b2 cross-stage map UNESTABLISHED and derived liveness unavailable. Two-cycle stop-loss exhausted; no credit. — [research/challenge-8/cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json](cloud-build/origin-layout/R23-P2-CAPTURE-BRIEF-20261024.json) SHA `25fe5c3e19c0ff64dbc19c5b54509e849492e98dbf1250871f0d945cab0d09ee` Build `1416b764-486b-4414-be77-3116866838e2`
 
 ## Open
-- Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.
-- Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit.
+- Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.
+- Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0.
 
 ## Rejected approaches
 - Broad placeholder exemption, address-only borrow bridge, short outer timeout — No slice metadata, lifetime/full_borrow or memory authority; short timeouts missed the compile reserve.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-Capture mapping UNESTABLISHED; source borrow adapter unverified.
+Source adapter candidate prepared; review/build pending.
 - [research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json) SHA `6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f`
 
 ## Next
-Checked source adapter, capture off; preserve raw/matrix controls.
+Review exact source profile/tool/helper candidate; full Cloud cycle.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json](cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json) — `79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d`

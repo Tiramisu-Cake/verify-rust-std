@@ -221,12 +221,21 @@ R23_PROFILE_PATH=R22_PROFILE_PATH
 R23_PROFILE_SHA256=R22_OWNED_NLL_PROFILE_SHA256
 R23_STARTING_TOOL_COMMIT=R22_OWNED_NLL_TOOL_COMMIT
 R23_PATCH_SHA256=R22_OWNED_NLL_PATCH_SHA256
-R23_PROVIDER_SHA256='7bb419631596d9678fe355243ddbcb1c3517b79ca9b25165c7df3b019ca3214f'
+R23_SOURCE_PROFILE_SHA256='2119ad73877cfeac2158c20dbf03bf148236e4344f5ba2e60e8974a03d1626ba'
+R23_SOURCE_PATCH_SHA256='1c8fc175b834ef1cf8c114b99bd1029e7a73dbc7f1317fb2fbd24b9c8536e596'
+R23_SOURCE_REGISTRY_PATH='research/challenge-8/cloud-build/origin-layout/r23-source-profile.py'
+R23_SOURCE_REGISTRY_SHA256='bfaaf9ab9b6100e2300f61887a5edbb3cb5ebcfa2ff52d4ba8131413efe57644'
+R23_SOURCE_ADDED_PATHS={R23_SOURCE_REGISTRY_PATH,
+ 'research/challenge-8/cloud-build/origin-layout/R23-SOURCE-BORROW-TEMPLATE-20261024.rs',
+ 'research/challenge-8/cloud-build/origin-layout/r23-array3-borrow-content.rs',
+ 'research/challenge-8/cloud-build/origin-layout/r23-checked-slice-as-mut-ptr.rs'}
+R23_ADDED_PATHS |= R23_SOURCE_ADDED_PATHS
+R23_PROVIDER_SHA256='acad333bb74a416af8f5515d414740f7241358316d3cc6c1e417d85b7fccc20e'
 R23_PLACEMENT_PATH='research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py'
-R23_PLACEMENT_SHA256='8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d'
-R23_PROVE_SHA256='63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7'
+R23_PLACEMENT_SHA256='801a711f6d4ebb1aba95e9f00d8e97a672e59742fc370493f9690077fb9f4faa'
+R23_PROVE_SHA256='7c784fb1e00cf48e9b62c3978976e3fd33a91004be8d8e23e8599184181f92ef'
 R23_COMPAT_PATH='research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py'
-R23_COMPAT_SHA256='d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7'
+R23_COMPAT_SHA256='f710146680415de30b7e88d85a5112310ddc43b8aae9773a7c3f649bb27ad605'
 R23_START='2026-10-23T10:45:00Z'
 R23_MAIN_DEADLINE='2026-10-26T10:45:00Z'
 R23_DEADLINE='2026-10-26T11:45:00Z'
@@ -2385,14 +2394,14 @@ def r23_validate_recipe_delta(before,selected):
   raise SystemExit('R23 S3 recipe path closure/registration mismatch')
 
 
-def r23_validate_historical_closure(paths,before,selected):
+def r23_validate_historical_closure(paths,before,selected,*,profile_extension=False):
  required={R22_LEDGER_PATH,R21_LEDGER_PATH,R20_LEDGER_PATH,R19_LEDGER_PATH,R18_LEDGER_PATH,R17_LEDGER_PATH,R16_LEDGER_PATH,
            R13_MODE_PATH,R14_GATE_PATH,R17_PROFILE_PATH,R23_PROFILE_PATH}
  if (not required.issubset(paths) or set(before)!=set(paths) or set(selected)!=set(paths) or
      any(value[:2]!=('100644','blob') for value in selected.values())):
   raise SystemExit('R23 S7 historical R20 closure, profile, mode, or gate changed')
  differences={path for path in paths if before[path]!=selected[path]}
- if differences:
+ if differences-({R23_PROFILE_PATH} if profile_extension is True else set()):
   raise SystemExit('R23 S7 historical closure changed outside the exact R23 profile extension')
 
 
@@ -2455,12 +2464,24 @@ def r23_validate_candidate_pins(baseline_profile,selected_profile,current_profil
          baseline_provider,selected_provider,current_provider)):
   raise SystemExit('R23 S6 exact byte-string pins required')
  if (hashlib.sha256(baseline_profile).hexdigest()!=R23_PROFILE_SHA256 or
-     selected_profile!=baseline_profile or current_profile!=selected_profile or
-     hashlib.sha256(selected_patch).hexdigest()!=R23_PATCH_SHA256 or
+     current_profile!=selected_profile or
+     hashlib.sha256(selected_profile).hexdigest() not in (R23_PROFILE_SHA256,R23_SOURCE_PROFILE_SHA256) or
+     hashlib.sha256(selected_patch).hexdigest()!=(R23_PATCH_SHA256 if selected_profile==baseline_profile else R23_SOURCE_PATCH_SHA256) or
      hashlib.sha256(baseline_provider).hexdigest()!=R22_OWNED_NLL_PROVIDER_SHA256 or
      hashlib.sha256(selected_provider).hexdigest()!=R23_PROVIDER_SHA256 or
      current_provider!=selected_provider):
   raise SystemExit('R23 S6 exact diagnostic profile/patch/provider tuple differs')
+ if selected_profile!=baseline_profile:
+  try:
+   registry_path=ROOT/R23_SOURCE_REGISTRY_PATH
+   if hashlib.sha256(registry_path.read_bytes()).hexdigest()!=R23_SOURCE_REGISTRY_SHA256:
+    raise ValueError('registry source differs')
+   spec=importlib.util.spec_from_file_location('r23_source_registry_client',registry_path)
+   registry=importlib.util.module_from_spec(spec);spec.loader.exec_module(registry)
+   reversed_profile=registry.reverse_profile(json.loads(selected_profile))
+   if registry.serialize(reversed_profile)!=baseline_profile:raise ValueError('reverse differs')
+  except (OSError,ValueError,TypeError,AttributeError):
+   raise SystemExit('R23 S6 checked source profile does not reverse exactly to diagnostic baseline')
 
 
 def r23_validate_sources(probe_sha,proof_sha):
@@ -2500,6 +2521,13 @@ def r23_validate_sources(probe_sha,proof_sha):
  r23_validate_candidate_pins(baseline_profile,selected_profile,current_profile,selected_patch,
                              baseline_provider,selected_provider,current_provider)
  try:
+  registry_selected=subprocess.check_output(['git','show',proof_sha+':'+R23_SOURCE_REGISTRY_PATH],cwd=ROOT,stderr=subprocess.PIPE)
+  if (hashlib.sha256(registry_selected).hexdigest()!=R23_SOURCE_REGISTRY_SHA256 or
+      (ROOT/R23_SOURCE_REGISTRY_PATH).read_bytes()!=registry_selected):
+   raise SystemExit('R23 S6 exact source registry differs')
+ except (subprocess.CalledProcessError,OSError):
+  raise SystemExit('R23 S6 source registry unavailable')
+ try:
   capture_policy=subprocess.check_output(['git','show',proof_sha+':'+R23_CAPTURE_POLICY_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   current_capture_policy=(ROOT/R23_CAPTURE_POLICY_PATH).read_bytes()
  except (subprocess.CalledProcessError,OSError):
@@ -2507,7 +2535,7 @@ def r23_validate_sources(probe_sha,proof_sha):
  if (hashlib.sha256(capture_policy).hexdigest()!=R23_CAPTURE_POLICY_SHA256 or
      current_capture_policy!=capture_policy):
   raise SystemExit('R23 S6 exact capture-off policy differs')
- r23_validate_historical_closure(check_paths,old_map,new_map)
+ r23_validate_historical_closure(check_paths,old_map,new_map,profile_extension=selected_profile!=baseline_profile)
  try:
   gate_selected=subprocess.check_output(['git','show',proof_sha+':'+R14_GATE_PATH],cwd=ROOT,stderr=subprocess.PIPE)
   gate_current=(ROOT/R14_GATE_PATH).read_bytes()

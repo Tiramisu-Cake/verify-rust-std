@@ -85,7 +85,7 @@ with tempfile.TemporaryDirectory(prefix='compat-r22-profile-service-') as temp:
              module.LEGACY_DROP_DEFAULTS + '\n').encode()
     source.write_bytes(valid)
     real_profile = HERE / 'GLUE-PROFILE.json'
-    profile.write_bytes(real_profile.read_bytes())
+    profile.write_bytes(__import__("subprocess").check_output(["git", "show", "733b6a7d68259787f1caf58177060589b6af779e:research/challenge-8/cloud-build/origin-layout/GLUE-PROFILE.json"], cwd=HERE))
     digest = module._sha(source)
     with patch.object(module, 'R22_OWNED_NLL_REFINER_SOURCE_SHA256', digest):
         row = module._synthetic_defaults_gate(source, refiner, r11, profile)

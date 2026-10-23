@@ -42,7 +42,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "Capture mapping UNESTABLISHED; source borrow adapter unverified."
+    "summary": "Source adapter candidate prepared; review/build pending."
   },
   "confirmed": [
     {
@@ -79,10 +79,10 @@
       ]
     }
   ],
-  "next_step": "Checked source adapter, capture off; preserve raw/matrix controls.",
+  "next_step": "Review exact source profile/tool/helper candidate; full Cloud cycle.",
   "open": [
-    "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
-    "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
+    "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
+    "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
   ],
   "owner": "merge",
   "phase": "MERGE-CALLER-ACCEPTANCE-R23-2026-10-24",
@@ -106,15 +106,15 @@
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 13008,
+    "remaining_seconds": 12164,
     "retired_seconds": 0,
-    "spent_seconds": 1392,
+    "spent_seconds": 2236,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
   "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T12:08:56.802656Z",
+  "updated_utc": "2026-10-23T12:44:02.809931Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -158,6 +158,24 @@
     {
       "obligation": "Validate raw/control helper repair in a capture-off Build",
       "reason": "P2 synthetic unwind failure confirmed by exact Brief /verifier_errors request4c3bf1aa: type mismatch at43 beforetarget148. Use existing type_pred_def specialization of same sliceFBC; keep contract assertion applications(), open/close, resources/length/pointer terms/implications unchanged. Reviewed capture-off policy prevents a third diagnostic cycle; independent source frontend work continues in separate tool worktree."
+    },
+    {
+      "obligation": "P3 non-capture raw/control validation",
+      "reason": "Independent GO f91f763c; published same SHA; payload571005/571567 SHAa417747bff12dccf1ad5215f376da84788a6752a103829718af6aa0d2cd7c5a4; config27292/28000. Capture policy false after two cycles. Full1200 envelope unchanged.",
+      "build_id": "386a06d8-9620-4c37-8fa0-8a23f8232e9d",
+      "source_sha": "f91f763c4d210d2ea91c4d3efbbbbccf584cbcf9",
+      "config_sha256": "956621b0d3537917ea9fe3f64e0c8cc1dd04c5c9d5eb9326ccd3bb50210d460f"
+    },
+    {
+      "obligation": "Actual as_mut_ptr callee proof dependency",
+      "reason": "No standard body/spec is registered in old tool. Reject a name-only regular call/unchecked summary. New opt-in source-preserving compiler descriptor retains full typed actual callee MIR; source helper body is paired and checked, and redirect requires complete pure projection equivalence under actualu64 substitution. Helper target must verify same unit/version before caller credit; hashes/navigation do not prove equivalence. Compiler/API/code remains Cloud-UNVERIFIED."
+    },
+    {
+      "obligation": "R23 checked source-borrow connected candidate",
+      "reason": "P3 terminal FAILURE, compiler stages0 and isolated insert_tail exit0 SOURCE_REPORTED; Brief initially404 then available, bounded control queries pending. Tool80576cc6 published, profile2119ad73 reverses to3fec, cumulative patch1c8fc175 and unchanged19 paths. Source predicates/lemmas and explicit lifetime preserve physical array/element resources on normal/unwind; actual callee complete typed cast body must match same-unit verified helper. New trusted memory/alias premise rejected. All proof acceptance Cloud-UNVERIFIED.",
+      "tool_sha": "80576cc6d18a1d3776fc96978b6ea72a0eba3360",
+      "profile_sha256": "2119ad73877cfeac2158c20dbf03bf148236e4344f5ba2e60e8974a03d1626ba",
+      "capture_enabled": false
     }
   ],
   "mission_queue": [
