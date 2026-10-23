@@ -236,6 +236,8 @@ class R22PhaseTests(unittest.TestCase):
                 m.r22_validate_candidate_pins(*values)
         for field, value in (("exporter_source_sha256", None),
                              ("exporter_source_sha256", 17),
+                             ("translator_sha256", None),
+                             ("translator_sha256", "e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde3"[:-1] + "0"),
                              ("effective_tool_commit", None),
                              ("effective_tool_commit", "e1ee4415b711d1b368cbfaad27bda88ed0a216e0"),
                              ("guard_return_trace_patch_sha256", None)):
@@ -321,8 +323,10 @@ class R22PhaseTests(unittest.TestCase):
         value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"] = "partial"; corruptions.append(value)
         value = json.loads(json.dumps(current)); del value["r22_compile_fix_registration"]["tool_source_paths"]; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["candidate_tool_commit"] = "0" * 40; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["r22_compile_fix_registration"]["tool_source_paths"] = ["src/rust_frontend/vf_mir_exporter/src/lib.rs"]; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["effective_tool_commit"] = prove.R20_TOOL_COMMIT; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["exporter_source_sha256"] = "0" * 64; corruptions.append(value)
+        value = json.loads(json.dumps(current)); value["translator_sha256"] = "0" * 64; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["guard_return_trace_patch_sha256"] = "0" * 64; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["ordered_patch_chain"][-1]["path"] = "unrelated.patch"; corruptions.append(value)
         value = json.loads(json.dumps(current)); value["kernel_sha256"] = "0" * 64; corruptions.append(value)

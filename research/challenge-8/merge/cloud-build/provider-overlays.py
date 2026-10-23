@@ -76,7 +76,7 @@ R10_PROFILE = "experimental-merge-moving-gap-r10-v1"
 R11_PROFILE = "experimental-merge-label-storage-r11-v1"
 R22_PROFILE = "r22-compile-fix-overlay"
 R22_FILES = {
-    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "582a5f985353d648a08f391a34f50ccd2e387c0693ffa4c0d2ab0fcde2dc650a",
+    "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "27aa21befd51475f377da7cd47828176d00ea30c22bc16476ad9a2e2827ffc80",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "0bea1e5390aa6297975552a9f29d600c8e7f9f6ab30caf26b07d27979cddf100",
     "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
 }
@@ -103,19 +103,20 @@ def profile_identity(profile_card: dict) -> str:
         registration = profile_card.get("r22_compile_fix_registration")
         chain=profile_card.get("ordered_patch_chain")
         if (hashlib.sha256(json.dumps(profile_card,indent=2,ensure_ascii=False).encode()+b"\n").hexdigest() !=
-                "5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e" or
+                "d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579" or
                 not isinstance(registration, dict) or
                 registration.get("schema") != "merge-r22-compile-fix-registration-v1" or
                 registration.get("phase_id") != "MERGE-CALLER-ACCEPTANCE-R22-2026-10-23" or
                 registration.get("baseline_profile_sha256") != "949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301" or
                 registration.get("starting_tool_commit") != "578120769161e217e53bd569bafdccbd4b2e020e" or
-                registration.get("candidate_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
-                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs"] or
-                profile_card.get("effective_tool_commit") != "e1ee4415b711d1b368cbfaad27bda88ed0a216e1" or
+                registration.get("candidate_tool_commit") != "65f0bb35e4f188cf8ce405a67253127173c5c3a1" or
+                registration.get("tool_source_paths") != ["src/rust_frontend/vf_mir_exporter/src/lib.rs", "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"] or
+                profile_card.get("effective_tool_commit") != "65f0bb35e4f188cf8ce405a67253127173c5c3a1" or
                 profile_card.get("exporter_source_sha256") != "0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345" or
-                profile_card.get("guard_return_trace_patch_sha256") != "0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7" or
+                profile_card.get("translator_sha256") != "e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2" or
+                profile_card.get("guard_return_trace_patch_sha256") != "6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d" or
                 not isinstance(chain,list) or len(chain)!=19 or type(chain[-1]) is not dict or
-                chain[-1].get("sha256")!="0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7"):
+                chain[-1].get("sha256")!="6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d"):
             raise SystemExit("R22 compile-fix profile registration mismatch")
         return R22_PROFILE
     return profile

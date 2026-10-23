@@ -52,3 +52,12 @@ Candidate profile SHA-256:
 Validation is static and synthetic in this worktree. It does not run the Rust
 compiler, exporter, MIR preparation, verifier, or Cloud Build. R22 P1's
 compile-only failure remains historical and receives no proof credit.
+
+
+## P2 translator compile-fix tuple
+
+The first R22 compile-fix candidate (tool `e1ee4415`) remained compile-only but its P2 Build `fb2529be` still failed during translator compilation: three synthetic `Lifetime` records omitted the generated `identity` field. The Brief reported exporter/decoder errors 0, translator errors 1, and `proof_attempted=false`. That Build added no proof credit. Its Build, review, and ledger records remain historical; this selected candidate supersedes only the effective R22 admission tuple.
+
+The new exact candidate is tool commit `65f0bb35e4f188cf8ce405a67253127173c5c3a1`, parented on the reviewed `e1ee4415` candidate. Its only delta is three synthetic translator fixtures assigning `identity=Nothing` (translator SHA-256 `e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2`). The exporter remains `0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345`. The cumulative patch appends the exact e1ee-to-65f translator diff to the established patch; source replay must match the exact 65f tool blobs. This extends the same R22 registration and public R11 profile name with both affected source paths; it does not introduce a third accepted tuple or change runtime/phase/control gates.
+
+R22 admission pins the exact registration, tool commit, exporter and translator source hashes, cumulative patch and profile bytes. Reversal restores both exporter and translator hashes, tool578, and the original profile9496 patch before calling unchanged R20/R19 admission. The historical tool578/profile9496 tuple remains admitted independently. The earlier e1ee tuple is not a current alternative.

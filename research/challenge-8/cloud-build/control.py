@@ -174,14 +174,15 @@ R22_STARTING_TOOL_COMMIT=R20_METADATA_TOOL_COMMIT
 R22_PATCH_SHA256=R20_METADATA_PATCH_SHA256
 R22_PROVIDER_SHA256=R20_METADATA_PROVIDER_SHA256
 R22_PROVIDER_PROVE_SHA256=R20_METADATA_PROVIDER_PROVE_SHA256
-# R22 compile-only exporter extension.  The original tuple above remains a
+# R22 compile-only exporter/translator extension. The original tuple above remains a
 # valid admission; these pins are populated only for the reviewed extension.
-R22_COMPILE_FIX_TOOL_COMMIT='e1ee4415b711d1b368cbfaad27bda88ed0a216e1'
+R22_COMPILE_FIX_TOOL_COMMIT='65f0bb35e4f188cf8ce405a67253127173c5c3a1'
 R22_COMPILE_FIX_EXPORTER_SHA256='0b456d055d498429c3da5bd4b7a1eb455b1b691bb0133a5f61bb449aad4e4345'
-R22_COMPILE_FIX_PATCH_SHA256='0ffeb7464c7f0ef96bb0f29f0d144a5cd1a1ad1cad5c967e3d726b0cc49855e7'
-R22_COMPILE_FIX_PROFILE_SHA256='5fd081ec48a07354d9158bd7f4c09c9be88fa72519d8849943a612705c1e452e'
-R22_COMPILE_FIX_PROVIDER_SHA256='5b60c22b36d564c0b7d5089e4be7168848c1c5cb5b873c071bc208134f604b48'
-R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='582a5f985353d648a08f391a34f50ccd2e387c0693ffa4c0d2ab0fcde2dc650a'
+R22_COMPILE_FIX_TRANSLATOR_SHA256='e5fe47a16b1a94dcfd07d7d7c0355d4e5acb999650f00498d11606909960dde2'
+R22_COMPILE_FIX_PATCH_SHA256='6d76e07dec9b8d3e093e442d74ed9b930f6e9b85da3d0ea74e912a8a94b7f20d'
+R22_COMPILE_FIX_PROFILE_SHA256='d2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579'
+R22_COMPILE_FIX_PROVIDER_SHA256='273ca33e0a0257ba423b027b3a382be9e6d5c2eb10f13b8e1d616238ead45d84'
+R22_COMPILE_FIX_PROVIDER_PROVE_SHA256='27aa21befd51475f377da7cd47828176d00ea30c22bc16476ad9a2e2827ffc80'
 R22_START='2026-10-23T07:44:00Z'
 R22_MAIN_DEADLINE='2026-10-23T09:44:00Z'
 R22_DEADLINE='2026-10-23T10:14:00Z'
@@ -2087,12 +2088,11 @@ def r22_validate_candidate_pins(baseline_profile,selected_profile,current_profil
        'baseline_profile_sha256':R22_PROFILE_SHA256,
        'starting_tool_commit':R22_STARTING_TOOL_COMMIT,
        'candidate_tool_commit':R22_COMPILE_FIX_TOOL_COMMIT,
-       'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs'],
-       'source_applicability':('compile-only Rust ownership fix: reborrow the erased-region Cap’n Proto builder before initializing identity, '
-                               'and import the generated pointer-coercion data module; no emitted MIR, schema, refinement, proof, runtime, CFG, '
-                               'postcondition, or control change.')} or
+       'tool_source_paths':['src/rust_frontend/vf_mir_exporter/src/lib.rs','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+       'source_applicability':('compile-only Rust fixes: reborrow the erased-region Cap’n Proto builder before initializing identity; import the generated pointer-coercion data module; initialize identity=Nothing on three synthetic Lifetime records. No emitted MIR, schema, refinement, proof, runtime, CFG, postcondition, or control change.')} or
      profile.get('effective_tool_commit')!=R22_COMPILE_FIX_TOOL_COMMIT or
      profile.get('exporter_source_sha256')!=R22_COMPILE_FIX_EXPORTER_SHA256 or
+     profile.get('translator_sha256')!=R22_COMPILE_FIX_TRANSLATOR_SHA256 or
      profile.get('guard_return_trace_patch_sha256')!=R22_COMPILE_FIX_PATCH_SHA256):
   raise SystemExit('R22 S6 candidate is not the exact reversible compile-fix profile extension')
  reversed_profile=dict(profile)
@@ -2100,6 +2100,7 @@ def r22_validate_candidate_pins(baseline_profile,selected_profile,current_profil
  reversed_profile['profile']='experimental-merge-label-storage-r11-v1'
  reversed_profile['effective_tool_commit']=R22_STARTING_TOOL_COMMIT
  reversed_profile['exporter_source_sha256']=R20_METADATA_EXPORTER_SHA256
+ reversed_profile['translator_sha256']='1cb46fbbf1aed7654766c820a33ef3651139efa877e1ef3b13a25b02d9897c8b'
  reversed_profile['guard_return_trace_patch_sha256']=R22_PATCH_SHA256
  reversed_profile['ordered_patch_chain']=list(reversed_profile.get('ordered_patch_chain',[]))
  if reversed_profile['ordered_patch_chain']:
