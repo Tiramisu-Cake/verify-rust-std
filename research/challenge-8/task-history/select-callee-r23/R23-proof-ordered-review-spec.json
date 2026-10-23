@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "d3ff3454b9ce3d407595f460b5c7a960eff7affb",
+  "candidate_commit": "fbe7ab2304e63302768d5bc60f661f67212ba3b2",
+  "defect": "Reviewed R22b constructor release changes eight source/body/unit rows; R23 fingerprint739f982d reports complete. Rebind inactive R22b patch and restore proof stage with fresh rows. Static source-input preflight requires sorted proof_paths; the two new paths now inserted in sorted order.",
+  "applicability": "Same const fractional callee/source/runtime/ghost transform as reviewed R22b; only derived patch eight row tuples, proof stage/audit path and new pins JSON on recipe change.",
+  "invariants": [
+    "Patch differs from reviewed R22b ONLY in eight tuples (verified source/body6/body7/unit), preserving all non-row bytes, ghost reconstruction and gate checks.",
+    "Fresh projected input passes unchanged fingerprint_to_pins and validate_pins; default bodies0..5,8/source pair unchanged; no guessed values.",
+    "Runner uses R23 patch SHA f954fb59 and rederived translator2d6f1950 at both sites; parser dfdaff60/6a866aa5 unchanged; proof entry/classifier/audit unchanged.",
+    "Fingerprint execution is explicitly reader395533a5, not falsely attributed to later GO fafd4b21. Every projected string is at most64 chars (<512); strict semantic validator accepted all8rows; receipt retains166request IDs and exact build/file/index/archive identity matching separately observed root. No partial-string concatenation can produce these accepted fixed short values under Brief512chunk protocol.",
+    "No proof acceptance before fresh proof and full intended control matrix. Current classifier targets remain unpinned intentionally."
+  ],
+  "controls": [
+    "4 new static row/patch/runner/receipt tests pass;10R23admission and27fractional service tests pass; bash -n runner passes; static gitapply chain independently rederived from pinned tool Git objects."
+  ],
+  "dependencies": [
+    "research/challenge-8/overnight-assume-actual/verifast-r22b-fractional-forget-26.10.patch",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py",
+    "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+    "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py",
+    "research/challenge-8/task-history/select-callee-r22/R22b-review.json",
+    "research/challenge-8/task-history/select-callee-r23/FINGERPRINT-739F982D-ROOT.json",
+    "research/challenge-8/task-history/select-callee-r23/R23-reader-inventory-review.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Source-observation projected JSON, not byte copy of archived member. Actual readerexecution395533a5 had NO_GO for long-string continuation metadata; later revised readerGO fafd4b21 not retroactively attributed. All actual projected strings <=64, no continuation fields consumed; exact166request IDs retained.",
+    "Positive leak repair/parser match still unverified until this Cloud proof; controls still intentionally TARGET_UNPINNED/mismatch pending re-observation after clean positive. Mutable new code is inactive, absent from callee recipe."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "reviewer": "Codex independent reviewer",
+  "nested_delegation": false,
+  "verdict": "NO_GO",
+  "candidate_commit": "d3ff3454b9ce3d407595f460b5c7a960eff7affb",
+  "candidate_tree": "d7ecaaabd640ad9acfa70c10314cc1b9026ff895",
+  "baseline_commit": "a797b30186c8b05a1239610e1cd6255d682581bf",
+  "diff_sha256": "c0e5fec8dcaa9c57bc2973c46021f2a7528d935600ff50274c10ff794183207a",
+  "packet_sha256": "5c7e44ca5462ab552e71fb494cd72db8bda039b0d6535ca85a255d7b798d36eb",
+  "spec_sha256": "e05feed6cdc99e5b41afc7c24be98c300480718ce84cd344225726f4f2846a06",
+  "scope": "Independent semantic review of the inactive mutable source chain and alternative request/downstream adapters.",
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-assume-actual/prepare-actual-nine-body-mut.py:73-85,106-120; research/challenge-8/overnight-helper/prepare-assume-init-2610.py:184-186,289-312",
+      "finding": "The new nine-body route obtains its A1 pair from `linkage_fixture_source`, whose two adapters are concretely specialized to `*const Element` (the source builder spells these types in the generated signatures and transmute substitutions). `insert_a1_pair` inserts those bytes unchanged, then requires that the combined source contain no `*const Element`; there is no mutable type rewrite or finite rewrite inventory for this component.",
+      "impact": "The actual pinned A1 pair cannot pass the new route's own post-insertion gate, so `write_case` cannot emit its advertised mutable nine-body candidate. The synthetic test supplies generic `Src`/`Dst` adapters without the pinned const-pointer signatures, so it misses this failure.",
+      "fix": "Add a separately pinned, finite type rewrite for the A1 component signatures/substitutions, verify exact mutable pointer depth and runtime/ghost-strip identity, and test against a synthetic pair that retains the actual `*const Element` source shapes."
+    },
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-assume-actual/prepare-mut-owner-fractional-capture.py:119-167,191-198",
+      "finding": "The alternative `transform_pair`/`write_candidate` path rewrites and writes a source candidate but has no Cloud provider gate. It can be invoked locally despite CORE's Cloud-only actual-preparation boundary.",
+      "impact": "The new candidate adds a source-preparation entry point that can emit transformed full-unit source outside the assigned Cloud provider environment.",
+      "fix": "Apply the pinned Cloud-only provider gate before reading/writing this source candidate, or remove/limit the adapter so it cannot perform source preparation outside the authorized Cloud path."
+    },
+    {
+      "severity": "blocker",
+      "location": "research/challenge-8/overnight-assume-actual/prepare-mut-owner-fractional-capture.py:86-87,142-154",
+      "finding": "`validate_pair` accepts an omitted `contract_text_sha256` by defaulting it to the expected constant, without hashing the contract bytes in `verified`. The output stage then records the expected contract hash unconditionally. A synthetic mutable pair with the helper's unwind contract changed to `on_unwind_ens true;`, updated source hashes, and no contract hash was accepted by `transform_pair` and emitted a record claiming the pinned contract hash.",
+      "impact": "The alternative adapter can produce a source candidate whose contract annotations differ from the pinned P2 contract while its stage record reports the pinned contract identity, breaking the source/contract pin invariant for later capture.",
+      "fix": "Require an explicit input contract hash and verify the exact expected contract bytes at their intended source boundary before transformation; derive the output hash only from bytes actually verified."
+    }
+  ],
+  "verified": [
+    "smallsort-session review check matched exact candidate, spec, packet, and 15 packet files; packet proof_credit is NONE",
+    "The primary helper/owner/drop chain is Cloud-gated, uses the pinned provider module, rejects GitHub identity, and the owner-linked stage calls the mutable parallel fixture writer rather than the const fixture writer",
+    "Primary source adapters preserve ghost-stripped runtime bytes and label source certificates as generation-only; emitted records keep typed MIR binding false, proof NOT_RUN, admission absent, publication NOT_PUBLISHED, and proof credit zero",
+    "Per-component mutable rewrites in the owner-linked stage have expected counts 2/3/1 and reject wrong signature/depth patterns",
+    "17 synthetic tests passed across provider, primary source-chain, and alternate downstream adapters",
+    "A separate synthetic negative demonstrated acceptance of changed helper contract bytes when the input contract hash is omitted"
+  ],
+  "not_run": [
+    "Static request test suite: its setup calls the existing fixture writer against repository std source; skipped to honor the no-local-source-preparation boundary",
+    "Actual std source extraction/preparation, compiler/exporter/MIR decoder/refiner/verifier, Cloud, and proof runner",
+    "Any real proof or publication checks"
+  ],
+  "limitations": "This review establishes no Build result, typed MIR binding, translator admission, formal proof, publication, or proof credit.",
+  "proof_credit": 0
+}

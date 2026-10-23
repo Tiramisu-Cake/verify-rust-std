@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "a797b30186c8b05a1239610e1cd6255d682581bf",
+  "candidate_commit": "d3ff3454b9ce3d407595f460b5c7a960eff7affb",
+  "defect": "Network P2 mutable instantiation has no source-to-nine-body preparation chain; existing full route calls const fixture writer and typed gates remain const-only.",
+  "applicability": "New inactive source-only mutable capture chain, plus static request/downstream alternate adapter; no runner/recipe/translator activation, no Cloud or actual preparation locally.",
+  "invariants": [
+    "Exact pinned std runtime body, contract SHA dc985de2, mutable fixture specialization; ghost-strip identity; const files unchanged.",
+    "Cloud-only provider from pinned existing provider.py; no fake GitHub env and transitive source-builder gates retained or called only via ungated pure builders.",
+    "Finite expected per-component pointer rewrite inventories 2/3/1, wrong depth/source/signature/call/body drift refused.",
+    "Source-only outputs never establish typed MIR, admission, proof, publication or credit. P2 remains NOT_PUBLISHED."
+  ],
+  "controls": [
+    "22 synthetic tests passed across provider, mutable source chain, downstream alternate and static request; no real std extraction/compiler/exporter/decoder/verifier used."
+  ],
+  "dependencies": [
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/overnight-helper/prepare-actual-helper-capture.py",
+    "research/challenge-8/overnight-helper/prepare-actual-helper-capture-mut.py",
+    "research/challenge-8/overnight-helper/prepare-actual-owner-projection.py",
+    "research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py",
+    "research/challenge-8/overnight-guard/capture-guard-linkage.py",
+    "research/challenge-8/overnight-forget-own/prepare.py",
+    "research/challenge-8/overnight-helper/prepare-assume-init-2610.py",
+    "research/challenge-8/overnight-assume-actual/r21_fractional_forget.py",
+    "research/challenge-8/task-history/select-callee-r22/P2-INTERFACE.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Inactive source route only. Actual Cloud source/preparation integration and fresh typed MIR+unit/body/snapshot pins absent; no mutable translator certificates or proof matrix."
+  ]
+}

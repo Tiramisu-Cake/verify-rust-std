@@ -1,0 +1,7 @@
+# R23 validation correction
+
+The earlier report of "22 synthetic tests" for mutable preparation was inaccurate. The five tests in `overnight-helper/test_prepare_mut_fingerprint_request.py` invoked the existing mutable fixture writer on real repository std sources during setup. Main executed that suite standalone and within the 22-test command; the worker also reported it. That is local actual source preparation and violates CORE's Cloud-only preparation boundary even though it is Python text processing and no Rust/compiler/exporter/decoder/refiner/verifier was run. It establishes no Cloud evidence, MIR binding or proof credit.
+
+The independent mutable reviewer detected the setup behavior and skipped that suite. The remaining 17 tests were synthetic service/byte-transform tests. The original validation outputs/reviews are preserved; this note corrects their interpretation rather than rewriting history. The source-backed test setup must be replaced by synthetic bytes/mocks before the suite is used again. Main has returned that fix together with the three concrete mutable findings to the original worker.
+
+The const R22b/R23 fingerprint was prepared and executed in Cloud Build `739f982d-078a-4ff5-9860-aabef75dc027`; its source observations/pins are independent of this inactive mutable test suite. The mutable files are absent from the active callee recipe, and no mutable source result or local test is used for const proof admission.

@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "candidate_commit": "fbe7ab2304e63302768d5bc60f661f67212ba3b2",
+  "baseline_commit": "d3ff3454b9ce3d407595f460b5c7a960eff7affb",
+  "candidate_tree": "25b3b83236a20d319eebe9ff6d3086b6ef411405",
+  "spec_sha256": "09b259bcf2b5ede74c7231f7116b0f076f13b4093552acadb9d7b156733d8b7a",
+  "packet_sha256": "f7f0711d8d6a1d10c6b04bab5427a5aedef1ff484f720c7b49fe10c13c2c4b7d",
+  "diff_sha256": "af270f79042eb0139b7b9ce2f5ab3b839fa382453d07681514117115162d3dbf",
+  "decision": "GO_WITH_NITS",
+  "scope": "R23 proof candidate patch/runner/input binding; no Cloud proof result or acceptance",
+  "verified": [
+    "review check matched the exact candidate, spec, and packet; packet reports proof_credit NONE",
+    "R23 fractional patch is byte-identical to reviewed R22b outside the eight row tuples; all eight tuples match the corresponding verified source/body-6/body-7/unit hashes in the R23 fingerprint input",
+    "R23 patch SHA matches PROOF-PINS and the runner pin; the runner reasserts translator SHA 2d6f1950... at the fractional and post-parser checkpoints",
+    "the recipe includes the R23 patch and fingerprint input in lexicographically sorted proof_paths; the final ordered candidate differs from 1b024c only by those path-order moves, with runner, patch, and rows unchanged",
+    "the runner restores the proof-entry stage with the exact R23 pins JSON and switches to the pinned proof audit; the entry path validates fresh fingerprint pins and source hashes before running rows",
+    "the read receipt records actual reader execution commit 395533a54da8495af70ae68e9e5425a10e3d2e84, explicitly not the later GO reader; its 166 requests have no offset or value_start continuations, strings are at most 64 codepoints, and its identity matches the separate root observation",
+    "the reported strict fingerprint_to_pins/validate_pins acceptance is consistent with the included fixed-schema input and tuple bindings; no proof credit is claimed"
+  ],
+  "nits": [
+    "The strict-validator acceptance and static Git-chain rederivation are packet-reported controls; this review did not execute test code, patch application, compiler, or verifier.",
+    "The fingerprint was obtained with reader 395533a5, whose continuation branch was previously NO_GO. The receipt shows that branch was not exercised: no value_start requests, all observations complete, and no retained scalar exceeded 64 codepoints. This review does not attribute that execution to reader fafd4b21 or any later version.",
+    "The proof-audit classifier still intentionally has CALLEE_TARGETS empty, so no proof acceptance is possible from this candidate alone; re-observe and pin the intended controls after a clean positive, then establish the full matrix."
+  ],
+  "not_run": [
+    "synthetic/static test suites (inspected, not executed per packet instruction)",
+    "Cloud, compiler, verifier, proof runner, raw evidence, and archive/log access"
+  ],
+  "proof_credit": 0
+}
