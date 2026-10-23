@@ -158,17 +158,27 @@ class PrepareRegionArithmeticTests(unittest.TestCase):
 
     def test_production_manifest_rejects_self_repinned_alternate_input(self):
         manifest, source, inputs = synthetic_fixture()
+        original_pins = {
+            name: (entry["path"], entry["sha256"])
+            for name, entry in manifest["inputs"].items()
+        }
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)), \
+             mock.patch.object(prepare, "INPUT_PINS", original_pins):
+            prepare.assemble_units(manifest, source, inputs)
+
         changed = dict(inputs)
-        changed["header"] += b"/*@ axiom synthetic_bad_header(); @*/\n"
+        changed["header"] += b"// benign alternate header bytes\n"
         wrong = json.loads(json.dumps(manifest))
         wrong["inputs"]["header"]["sha256"] = digest(changed["header"])
-        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)), \
+             mock.patch.object(prepare, "INPUT_PINS", original_pins):
             with self.assertRaisesRegex(prepare.PreparationError, "input header path/SHA-256 pin mismatch"):
                 prepare.validate_manifest(wrong)
 
         wrong = json.loads(json.dumps(manifest))
         wrong["inputs"]["header"]["path"] = "research/challenge-8/network/w8/other.gh"
-        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)), \
+             mock.patch.object(prepare, "INPUT_PINS", original_pins):
             with self.assertRaisesRegex(prepare.PreparationError, "input header path/SHA-256 pin mismatch"):
                 prepare.validate_manifest(wrong)
 
