@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-23T20:52:12Z
+- Updated: 2026-10-23T20:56:20Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 6062s spent; 0s retired; 15538s remaining including active reservations
@@ -9,7 +9,7 @@
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] ca689: all8 sourceintact/native1; positive0/sevennegative1; collection/auditcomplete. Fresh7targets proposed; classification/refusals pending,credit0. — [research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-PROOF-FIRST-OBSERVATIONS.json](task-history/select-callee-r24/MUT-MATRIX-PROOF-FIRST-OBSERVATIONS.json) SHA `97ece803a2bc57584646df152403537d529f8301b4270871a74e8b3c3ca59288` Build `ca689298-e7d6-41ed-9127-665422a679bd`
+- [SOURCE_REPORTED] 4267: classifier7targets and consequence complete; rootauditfalse due argv mismatch. Fix/sysroot+refusals pending;credit0. — [research/challenge-8/task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json](task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json) SHA `1391475d234935f6a8a67adf162373c22511df6d14dcf7a305272ada96c62c0b` Build `4267f58b-10da-4f3c-bb3f-1cc0f0879125`
 
 ## Open
 - Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.
@@ -20,12 +20,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-4267 terminal FAILURE; classified matrix/P2 consequence awaiting Brief. P2 NOT_PUBLISHED. [Build `4267f58b-10da-4f3c-bb3f-1cc0f0879125`]
+4267 subproof reports complete; composite sysroot mismatch. Refusals pending; P2 NOT_PUBLISHED.
+- [research/challenge-8/task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json](task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json) SHA `1391475d234935f6a8a67adf162373c22511df6d14dcf7a305272ada96c62c0b`
 
 ## Next
-Brief4267: classifier, consequence and root audit. Then refusal controls/P2/W4.
+Review sysroot fix+refusal entry; fresh full matrix/consequence/refusals, then P2/W4.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `72896ea52ae35cb44b897787b3dd52a46dc08ed4cd1be16661f8362747bac8e2`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `7ddeafc79911b2242eb0f1ae32ee25b4680765395c948dfbbed29155135a7509`

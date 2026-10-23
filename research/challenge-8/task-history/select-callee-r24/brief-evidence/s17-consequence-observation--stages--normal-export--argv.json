@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 5,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6a72ec23196d39e555f29db1cc9e159a8d75d94496b0274dff218c606da5b6e4",
+  "file_path": "allprooflogs/cases/r24-p2-entailment/P2-ENTAILMENT.json",
+  "file_sha256": "c356d504390b280852d89d9384baf0363ae4129de4e5f5b448669e42c1c71a81",
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "c356d504390b280852d89d9384baf0363ae4129de4e5f5b448669e42c1c71a81",
+    "file_id": "6a72ec23196d39e555f29db1cc9e159a8d75d94496b0274dff218c606da5b6e4",
+    "pointer": "/observation/stages/normal-export/argv"
+  },
+  "request_id": "cd7dd3f0fec2e3e822651de78f9859e09503451bab457c99c96d53cecfc2612b",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation/stages/normal-export/argv/0",
+      "value": "/workspace/smallsort-work/o26-refresh/source/bin/vf-rust-mir-exporter"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation/stages/normal-export/argv/1",
+      "value": "verified/lib.rs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation/stages/normal-export/argv/2",
+      "value": "--sysroot=/workspace/smallsort-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation/stages/normal-export/argv/3",
+      "value": "--edition"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/observation/stages/normal-export/argv/4",
+      "value": "2021"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}

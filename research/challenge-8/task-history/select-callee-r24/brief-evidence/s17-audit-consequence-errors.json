@@ -1,0 +1,39 @@
+{
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 1,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+  "file_path": "proof-audit.json",
+  "file_sha256": "b69a45e81342b79fe263df2cd09439404393a8c419c9d8c216f94dbdb0c707df",
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b69a45e81342b79fe263df2cd09439404393a8c419c9d8c216f94dbdb0c707df",
+    "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+    "pointer": "/p2_consequence_audit/errors"
+  },
+  "request_id": "54c45e247d757ca81ea4a26e08f56ea030f41205268f9d04d387b44601b292ad",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/p2_consequence_audit/errors/0",
+      "value": "RuntimeError: R24-P2-ENTAILMENT: stage command/outputs differ: normal-export"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}

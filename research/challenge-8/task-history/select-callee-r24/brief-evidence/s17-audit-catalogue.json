@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 132,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 5,
+      "PROJECTED": 426,
+      "SCAN_BUDGET_EXCEEDED": 182,
+      "UNSUPPORTED_FILE_TYPE": 544
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2080876,
+    "content_files": 506,
+    "files": 1364,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "kind": "json",
+      "path": "proof-audit.json",
+      "path_sanitized": false,
+      "scanned_bytes": 106918,
+      "sha256": "b69a45e81342b79fe263df2cd09439404393a8c419c9d8c216f94dbdb0c707df",
+      "size_bytes": 106918,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1364,
+    "files_with_incomplete_content": 1180,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

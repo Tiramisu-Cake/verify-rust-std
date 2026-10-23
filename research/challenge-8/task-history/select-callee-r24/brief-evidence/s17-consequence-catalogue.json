@@ -1,0 +1,45 @@
+{
+  "archive_sha256": "cda746a118077bef609b675f4b98b84af5dfb50ca475a650456272c12203ace3",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 132,
+      "EMPTY_FILE": 75,
+      "JSON_EXCEEDS_SCAN_LIMIT": 5,
+      "PROJECTED": 426,
+      "SCAN_BUDGET_EXCEEDED": 182,
+      "UNSUPPORTED_FILE_TYPE": 544
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2080876,
+    "content_files": 506,
+    "files": 1364,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "f8c29e6ff0974fdbee5c7b2b102ff23d30e4b16c7e043fd23d8b22543d968e1b",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "6a72ec23196d39e555f29db1cc9e159a8d75d94496b0274dff218c606da5b6e4",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-p2-entailment/P2-ENTAILMENT.json",
+      "path_sanitized": false,
+      "scanned_bytes": 10152,
+      "sha256": "c356d504390b280852d89d9384baf0363ae4129de4e5f5b448669e42c1c71a81",
+      "size_bytes": 10152,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1364,
+    "files_with_incomplete_content": 1180,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

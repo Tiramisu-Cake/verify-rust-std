@@ -1,0 +1,34 @@
+{
+  "accepted": false,
+  "assurance": "SOURCE_REPORTED_AND_STATIC_CODE_READING",
+  "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
+  "candidate": "32d42e1595496af26aa27ebd138b4cb7f119d173",
+  "causal_status": "STATIC_RUNNER_ARGUMENT_MISMATCH; FORMAL_PROOF_CAUSALITY_UNKNOWN",
+  "discriminating_controls": [
+    "Matching real run/audit sysroot succeeds in isolated fixture.",
+    "Missing/wrong sysroot fails closed before completeness.",
+    "Root composite audit remains false if either auxiliary audit fails."
+  ],
+  "fix": "Pass same current compiler_sysroot into audit; require nonempty sysroot in consequence run/audit CLI and test run-to-audit argument boundary.",
+  "invariants": [
+    "No source/native/model/lemma/fingerprint changes.",
+    "Preserve strict exact argv/output/source/log/tool audit comparisons and failed prior report.",
+    "All accepted/publication false and credit0; full classified matrix+consequence+refusals still required before P2."
+  ],
+  "observed": {
+    "classified_complete_source_claim": true,
+    "composite_audit_exits_source_claim": [
+      0,
+      4
+    ],
+    "composite_evidence_complete_source_claim": false,
+    "consequence_complete_source_claim": true,
+    "exact_error": "RuntimeError: R24-P2-ENTAILMENT: stage command/outputs differ: normal-export"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "schema": "select-r24-p2-audit-sysroot-defect-v1",
+  "static_cause": "Shell consequence audit omits --compiler-sysroot. validate_case reconstructs normal exporter argv with args.compiler_sysroot=None instead of the run-stage sysroot.",
+  "status": "FIX_IMPLEMENTING_UNBUILT"
+}
