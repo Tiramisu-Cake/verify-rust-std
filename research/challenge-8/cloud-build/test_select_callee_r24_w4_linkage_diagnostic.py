@@ -4,7 +4,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib.util
+import inspect
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -12,6 +14,7 @@ from unittest import mock
 
 
 HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[2]
 SCRIPT = HERE / 'select-callee-r24-w4-linkage-diagnostic.py'
 SPEC = importlib.util.spec_from_file_location('w4_linkage_diagnostic_under_test', SCRIPT)
 MOD = importlib.util.module_from_spec(SPEC)
@@ -167,17 +170,20 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.addCleanup(stack.stop)
         self.patchers = values
 
-    def native_stage(self, name, argv, root, env, hashes, deadline, cap, stdin=None, stdout=None):
-        self.native_call = (name, list(argv), dict(env), dict(hashes), cap, stdout)
+    def native_stage(self, name, argv, root, env, hashes, deadline, cap,
+                     stdin_name=None, stdout_name=None):
+        self.native_call = (name, list(argv), dict(env), dict(hashes), cap, stdout_name)
         if isinstance(self.native_result, BaseException):
             raise self.native_result
         result = self.native_result
         if result is None:
-            out = root / stdout
+            out = root / stdout_name
             out.write_text('raw diagnostic only\n', encoding='utf-8')
+            (root / 'first-barrier-stderr.log').write_text('raw stderr\n', encoding='utf-8')
             result = {'argv': list(argv), 'exit': 0, 'timeout_seconds': cap,
                       'fixture_before': dict(hashes), 'fixture_after': dict(hashes),
-                      'fixture_integrity': True, 'stdout': stdout, 'stderr': stdout}
+                      'fixture_integrity': True, 'stdout': stdout_name,
+                      'stderr': 'first-barrier-stderr.log'}
         (root / 'first-barrier-stage.json').write_text(json.dumps(result), encoding='utf-8')
         return result
 
@@ -186,7 +192,12 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         return MOD.run(self.args, services=self.services())
 
     def test_success_is_typed_diagnostic_only_with_exact_native_argv_and_isolated_copy(self):
-        report = self.run_wrapper()
+        with mock.patch.dict(os.environ, {'LD_LIBRARY_PATH': '/synthetic/lib',
+                                          'RUSTUP_HOME': '/synthetic/rustup',
+                                          'CARGO_HOME': '/synthetic/cargo',
+                                          'RUSTUP_TOOLCHAIN': 'synthetic-toolchain',
+                                          'PATH': '/synthetic/base-path'}):
+            report = self.run_wrapper()
         self.assertTrue(report['complete'], report['errors'])
         self.assertTrue(report['typed_call_inventory_complete'])
         self.assertTrue(report['verifier_invoked'])
@@ -198,9 +209,28 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.assertEqual(self.native_call[1], [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]])
         self.assertEqual(set(k for k in self.native_call[2] if k.startswith('SORT4_')),
                          {MOD.R24_PHASE_ENV, MOD.R21_PHASE_ENV, 'SORT4_SELECT_PROFILE'})
+        self.assertIn('PATH', self.native_call[2])
+        self.assertEqual(self.native_call[2]['LD_LIBRARY_PATH'], '/synthetic/lib')
+        self.assertEqual(self.native_call[2]['RUSTUP_HOME'], '/synthetic/rustup')
+        self.assertTrue(self.native_call[2]['PATH'].startswith(str(self.tools / 'bin') + os.pathsep))
         copied = self.evidence / MOD.CASE_REL / 'verified/lib.rs'
         self.assertEqual(copied.read_bytes(), self.verified)
         self.assertEqual(report['native']['logs']['stdout']['sha256'], sha(b'raw diagnostic only\n'))
+        self.assertEqual(report['native']['logs']['stderr']['sha256'], sha(b'raw stderr\n'))
+
+    def test_pinned_production_stage_runner_exports_actual_keyword_api(self):
+        module = MOD._load(REPO / MOD.NATIVE_STAGE_RUNNER_REL,
+                           'w4_pinned_actual_stage_module_test', MOD.NATIVE_STAGE_RUNNER_SHA256)
+        self.assertTrue(callable(getattr(module, 'run_stage', None)))
+        signature = inspect.signature(module.run_stage)
+        bound = signature.bind('first-barrier', ['/tool/bin/verifast', 'verified/lib.rs'],
+                               self.root / 'case', {'PATH': '/tool/bin'},
+                               {'verified/lib.rs': 'a' * 64}, 9999999999, 1200,
+                               stdout_name='w4-first-barrier.log')
+        bound.apply_defaults()
+        self.assertEqual(bound.arguments['stdout_name'], 'w4-first-barrier.log')
+        self.assertIsNone(bound.arguments['stdin_name'])
+        self.assertNotIn('stderr_name', signature.parameters)
 
     def test_exit_zero_one_two_are_raw_diagnostics_and_nonzero_is_not_success_claim(self):
         for index, exit_code in enumerate((0, 1, 2)):
@@ -215,11 +245,12 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
                                       'fixture_after': {'original/lib.rs': sha(self.original),
                                                         'verified/lib.rs': sha(self.verified)},
                                       'fixture_integrity': True, 'stdout': 'w4-first-barrier.log',
-                                      'stderr': 'w4-first-barrier.log'}
+                                      'stderr': 'first-barrier-stderr.log'}
                 # Write expected stage output in its independent native tree.
                 def stage(*args, **kwargs):
                     root = args[2]
                     (root / 'w4-first-barrier.log').write_text(f'exit={exit_code}\n', encoding='utf-8')
+                    (root / 'first-barrier-stderr.log').write_text(f'stderr={exit_code}\n', encoding='utf-8')
                     (root / 'first-barrier-stage.json').write_text(
                         json.dumps(self.native_result), encoding='utf-8')
                     return self.native_result
@@ -233,7 +264,7 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         cases = [
             {'argv': [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]], 'exit': 124,
              'fixture_before': {}, 'fixture_after': {}, 'fixture_integrity': False,
-             'stdout': 'w4-first-barrier.log', 'stderr': 'w4-first-barrier.log'},
+             'stdout': 'w4-first-barrier.log', 'stderr': 'first-barrier-stderr.log'},
             None,
             {},
             'bad stage',
@@ -248,6 +279,8 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
                     def stage_runner(*args, **kwargs):
                         root = args[2]
                         (root / 'w4-first-barrier.log').write_text('partial\n', encoding='utf-8')
+                        (root / 'first-barrier-stderr.log').write_text('partial stderr\n', encoding='utf-8')
+                        (root / 'first-barrier-stderr.log').write_text('partial stderr\n', encoding='utf-8')
                         (root / 'first-barrier-stage.json').write_text(json.dumps(stage), encoding='utf-8')
                         return stage
                     services = {**self.services(), 'native_stage_runner': stage_runner}
@@ -286,12 +319,13 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
 
     def test_source_stage_target_mismatch_is_refused(self):
         def wrong_target(*args, **kwargs):
-            root, stdout = args[2], kwargs['stdout']
+            root, stdout = args[2], kwargs['stdout_name']
             (root / stdout).write_text('diagnostic\n', encoding='utf-8')
+            (root / 'first-barrier-stderr.log').write_text('diagnostic stderr\n', encoding='utf-8')
             stage = {'argv': [str(self.tools / 'bin/verifast'), *MOD.NATIVE_ARGV[1:]],
                      'exit': 0, 'fixture_before': {'verified/lib.rs': 'wrong'},
                      'fixture_after': {'verified/lib.rs': 'wrong'}, 'fixture_integrity': True,
-                     'stdout': stdout, 'stderr': stdout}
+                     'stdout': stdout, 'stderr': 'first-barrier-stderr.log'}
             (root / 'first-barrier-stage.json').write_text(json.dumps(stage), encoding='utf-8')
             return stage
         self.guard()

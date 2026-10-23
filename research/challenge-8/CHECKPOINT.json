@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "8e83e0734191971257090fc8815433c302ad2d935093c9ed525eeed652ff9f7e"
+      "sha256": "a8b4f562fb8cc060492c15a7f001ed3b581867dcc81e1316325faf8348a8609d"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json",
-        "sha256": "f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json",
+        "sha256": "04fb41f741c5734784be26b594e074724dc7cfe964818f7558720df3e2c0809c"
       }
     ],
-    "summary": "FreshW4capture complete; strict8typedconst-call analysis andnativefirstbarrier pending. P2 PUBLISHED."
+    "summary": "Native diagnostic stage API/channel/env fixes unbuilt; delta review pending. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "8e83e0734191971257090fc8815433c302ad2d935093c9ed525eeed652ff9f7e"
+    "sha256": "a8b4f562fb8cc060492c15a7f001ed3b581867dcc81e1316325faf8348a8609d"
   },
   "brief_observation_refs": [
     {
@@ -1126,8 +1126,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Closedtyped8call observation extractor +ordinarynativefirst-barrier diagnostic; thencheckedcallee linkage/C5.",
-  "next_step": "Closedtyped8call observation extractor +ordinarynativefirst-barrier diagnostic; thencheckedcallee linkage/C5.",
+  "next": "ReviewstageAPI/envdelta; full1200typed8call/nativefirstbarrier observations, thencheckedlinkage/C5.",
+  "next_step": "ReviewstageAPI/envdelta; full1200typed8call/nativefirstbarrier observations, thencheckedlinkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1346,6 +1346,10 @@
     "worker": "r24_admission"
   },
   "w4_linkage_diagnostic_preparation": {
+    "defect": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json",
+      "sha256": "04fb41f741c5734784be26b594e074724dc7cfe964818f7558720df3e2c0809c"
+    },
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-DESIGN.json",
       "sha256": "a49fca6b1d17212b830b9c90bdc4783be15b453f4912a85fa14034743e57adfa"
@@ -1356,16 +1360,20 @@
     },
     "helper": {
       "path": "research/challenge-8/cloud-build/select-callee-r24-w4-linkage-diagnostic.py",
-      "sha256": "65e1dd4fa8e38f94743786c731d5615b725d0eaa249b093e2195dd8e9e156524"
+      "sha256": "38a4b0d4ed3091de3fc5bbbfa76c6fc50652c382b5fa6c579ccacaa590e78c16"
     },
     "main_scope": "shell/mode/recipe/PINS/evidence; no native/std/model changes",
     "mode": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-MODE.json",
-      "sha256": "381853c2c5186f627bb90f92e8770bb5d996e69605321420a5765a2bad5e2b5f"
+      "sha256": "2bcb7ad105ded0eae339173458b85ce248042960c2d78a1d7119132148f4bb87"
     },
     "proof_credit": 0,
-    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
-    "tests": "10parser+10wrapper+7newBash tests pass;20default/captureBash regressiontests pass; Bashn/diff/pins pass",
+    "rejected_review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-diagnostic-review.json",
+      "sha256": "d9d67460999b87cb21c79106e06509ee2c623c870ffc511396ebba230c2103b8"
+    },
+    "state": "STAGE_API_FIX_IMPLEMENTED_UNBUILT",
+    "tests": "10parser+11wrapper+7newBash;20default/captureBash regression pass; actualpinnedrunner signature bind, Bashn/staticpins/diff pass",
     "workers": {
       "pure_mir_calls": "r24_admission",
       "wrapper": "r24_mut_proof_runner"

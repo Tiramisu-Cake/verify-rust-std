@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-FreshW4capture complete; strict8typedconst-call analysis andnativefirstbarrier pending. P2 PUBLISHED.
-- [research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json](task-history/select-callee-r24/W4-CAPTURE-PINS.json) SHA `f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0`
+Native diagnostic stage API/channel/env fixes unbuilt; delta review pending. P2 PUBLISHED.
+- [research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json](task-history/select-callee-r24/W4-LINKAGE-STAGE-API-DEFECT.json) SHA `04fb41f741c5734784be26b594e074724dc7cfe964818f7558720df3e2c0809c`
 
 ## Next
-Closedtyped8call observation extractor +ordinarynativefirst-barrier diagnostic; thencheckedcallee linkage/C5.
+ReviewstageAPI/envdelta; full1200typed8call/nativefirstbarrier observations, thencheckedlinkage/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `aef745d5049513cb675a4b0e717fa36cd5079103ed78d4328dc4fd3ed71f15b7`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `8e83e0734191971257090fc8815433c302ad2d935093c9ed525eeed652ff9f7e`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a8b4f562fb8cc060492c15a7f001ed3b581867dcc81e1316325faf8348a8609d`

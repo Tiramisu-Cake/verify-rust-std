@@ -32,8 +32,10 @@ CAPTURE_PINS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-
 CAPTURE_PINS_SHA256 = 'f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0'
 MIR_CALLS_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-mir-calls.py')
 MIR_CALLS_SHA256 = 'ea7a738a5c564a4c2d00b72dc47aa67f5277b44080aa7eaf28e2fc2d01c25d51'
+NATIVE_STAGE_RUNNER_REL = Path('research/challenge-8/overnight-sort4/capture.py')
+NATIVE_STAGE_RUNNER_SHA256 = '0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060'
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-DIAGNOSTIC-MODE.json')
-MODE_SHA256 = '381853c2c5186f627bb90f92e8770bb5d996e69605321420a5765a2bad5e2b5f'
+MODE_SHA256 = '2bcb7ad105ded0eae339173458b85ce248042960c2d78a1d7119132148f4bb87'
 R24_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
 R21_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 R24_PHASE_ENV = 'SORT4_R24_SESSION_PHASE_ID'
@@ -111,6 +113,8 @@ def expected_mode() -> dict[str, Any]:
         'capture_pins_sha256': CAPTURE_PINS_SHA256,
         'mir_calls_path': MIR_CALLS_REL.as_posix(),
         'mir_calls_sha256': MIR_CALLS_SHA256,
+        'native_stage_runner_path': NATIVE_STAGE_RUNNER_REL.as_posix(),
+        'native_stage_runner_sha256': NATIVE_STAGE_RUNNER_SHA256,
         'tool_hashes': TOOL_HASHES,
         'call_linkage': False,
         'body_proof_admission': False,
@@ -163,6 +167,10 @@ def _validate_mode(repo: Path, mode_path: Path, capture_mode_path: Path,
     need(analyzer_path.is_file() and not analyzer_path.is_symlink() and
          digest(analyzer_path.read_bytes()) == MIR_CALLS_SHA256,
          'typed MIR call analyzer pin differs')
+    native_stage_runner = repo / NATIVE_STAGE_RUNNER_REL
+    need(native_stage_runner.is_file() and not native_stage_runner.is_symlink() and
+         digest(native_stage_runner.read_bytes()) == NATIVE_STAGE_RUNNER_SHA256,
+         'native stage runner pin differs')
     return mode
 
 
@@ -239,15 +247,23 @@ def _stage_is_ran(stage: object) -> bool:
     return isinstance(stage, dict) and type(stage.get('exit')) is int and stage.get('skipped') is None
 
 
-def _native_stage(capture: Any, args: argparse.Namespace, evidence: Path,
+def _native_stage(args: argparse.Namespace, repo: Path, evidence: Path,
                   tool_home: Path, hashes: dict[str, str], stage_runner=None) -> dict[str, Any]:
     native_root = evidence / CASE_REL
-    env = {'PATH': str(tool_home / 'bin') + os.pathsep + os.defpath,
-           R24_PHASE_ENV: R24_PHASE, R21_PHASE_ENV: R21_PHASE, 'SORT4_SELECT_PROFILE': PROFILE}
+    # Route validation rejected extra SORT4_* opt-ins. Preserve the compiler
+    # and shared-library environment required by VeriFast's Rust frontend.
+    env = dict(os.environ)
+    env['PATH'] = str(tool_home / 'bin') + os.pathsep + env.get('PATH', os.defpath)
+    env.update({R24_PHASE_ENV: R24_PHASE, R21_PHASE_ENV: R21_PHASE,
+                'SORT4_SELECT_PROFILE': PROFILE})
     argv = [str(tool_home / part) if part == 'bin/verifast' else part for part in NATIVE_ARGV]
-    runner = stage_runner or capture.run_stage
+    runner = stage_runner
+    if runner is None:
+        module = _load(repo / NATIVE_STAGE_RUNNER_REL,
+                       'r24_w4_native_stage_runner', NATIVE_STAGE_RUNNER_SHA256)
+        runner = module.run_stage
     return runner('first-barrier', argv, native_root, env, hashes, args.deadline_epoch,
-                  1200, stdout='w4-first-barrier.log')
+                  1200, stdout_name='w4-first-barrier.log')
 
 
 def _source_state(repo: Path) -> dict[str, Any]:
@@ -307,7 +323,7 @@ def _validate_native(evidence: Path, stage: object, facts: dict[str, Any], hashe
     argv = stage.get('argv')
     if argv != [str(tool_home / 'bin/verifast'), *NATIVE_ARGV[1:]]:
         errors.append('native argv differs from exact first-barrier command')
-    if stage.get('stdout') != 'w4-first-barrier.log' or stage.get('stderr') != 'w4-first-barrier.log':
+    if stage.get('stdout') != 'w4-first-barrier.log' or stage.get('stderr') != 'first-barrier-stderr.log':
         errors.append('native stdout/stderr target differs from pinned diagnostic log')
     if facts.get('stage_record', {}).get('matches_stage') is not True:
         errors.append('physical native stage record missing or differs')
@@ -401,7 +417,7 @@ def run(args: argparse.Namespace, *, services: dict[str, Any] | None = None) -> 
         report['native_source_hashes'] = hashes
         report['failed_stage'] = 'first-barrier'
         write_json(output, report)
-        stage = _native_stage(capture, args, evidence, tool_home, hashes,
+        stage = _native_stage(args, repo, evidence, tool_home, hashes,
                               (services or {}).get('native_stage_runner'))
         facts = _native_facts(evidence, stage)
         report['native'] = facts

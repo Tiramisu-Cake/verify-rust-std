@@ -1,0 +1,50 @@
+{
+  "schema": "select-r24-w4-linkage-diagnostic-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "NO_GO_FIX_REQUIRED_BEFORE_W4_OBSERVATION_NATIVE_BARRIER_BUILD",
+  "baseline_commit": "ffc37256f396ca6edd40108affc6f23d8feff367",
+  "candidate_commit": "59a584684043dac2042f540a87d0ed3181a59a87",
+  "candidate_tree": "563c12c4115028f361507ae892e9a52a998f125e",
+  "spec_sha256": "88b5fee71e1bbbb4e4b876d1f1f9da7ccbd4032fbefc2acccef4413b2f81cc48",
+  "packet_sha256": "47e7cd7136b7d1158aec9cbb63d4208a8073701afb52f85c841f1cbe0ee53df9",
+  "diff_sha256": "74f926fdc2bbb718a413f0bb73fca40d9fe200298d077cfd65e548d35da07c5b",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-api-review.json",
+      "sha256": "3a4e314371ec4862130f003afbf99bbbe28cbf0ddebcc54dfc362fd02c77ecba"
+    }
+  ],
+  "verified": [
+    "Exact packet, candidate tree, 13 declared dependency snapshots, and prior W4 API review hash verified.",
+    "The diagnostic wrapper retains explicit UNKNOWN typed linkage/body proof status and zero acceptance/publication/credit. Parser-incomplete results are recorded as incomplete while the independent native barrier is attempted; native source/tool/capture mismatches remain fail-closed.",
+    "The frozen capture producer API was inspected directly: run_stage(name, argv, root, env, fixture_hashes, deadline, cap, stdin_name=None, stdout_name=None)."
+  ],
+  "findings": [
+    {
+      "severity": "BLOCKER",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-linkage-diagnostic.py::_native_stage",
+      "issue": "The production default runner is the pinned capture.run_stage, whose keyword parameter is stdout_name. _native_stage passes stdout=..., which raises TypeError before VeriFast is invoked. The unit test fake runner accepts stdout, so it does not exercise this actual API.",
+      "required_fix": "Call the frozen runner with stdout_name=... (or the exact positional argument), and test against the pinned signature without invoking the native tool."
+    },
+    {
+      "severity": "BLOCKER",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-linkage-diagnostic.py::_validate_native",
+      "issue": "The frozen run_stage writes a named stdout file to w4-first-barrier.log but writes stderr to first-barrier-stderr.log. Validation currently requires both stage stdout and stderr to equal w4-first-barrier.log. After correcting the API call, every actual stage record will still fail native validation.",
+      "required_fix": "Validate the distinct pinned stderr filename emitted by run_stage and continue to hash/UTF-8-check both physical logs. Update the synthetic native stage fixture to model that exact layout."
+    }
+  ],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Verified 13 dependency hashes and the prior review hash.",
+    "Static API comparison exposed the mismatch; I did not run candidate tests or any actual source preparation, compiler/exporter/decoder/refinement/verifier, Cloud action, or raw evidence access."
+  ],
+  "limitations": [
+    "The prior fresh W4 source/MIR capture is source-reported complete, but this candidate cannot invoke the requested native diagnostic due to the blockers above. No W4 typed linkage/body proof or acceptance is established.",
+    "The parser and wrapper remain diagnostic only. Even after these fixes, a clean run can report structural calls with typed_call_linkage UNKNOWN and zero proof credit; caller linkage and proof remain separate obligations."
+  ],
+  "proof_credit": 0
+}
