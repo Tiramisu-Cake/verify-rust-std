@@ -1,5 +1,5 @@
 {
-  "active_build": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+  "active_build": null,
   "allowed_lanes": [
     "network-rr-g1"
   ],
@@ -31,21 +31,27 @@
       "timeout_seconds": 1740
     },
     {
+      "accounted": true,
+      "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+      "build_seconds": 94,
+      "create_time": "2026-10-23T21:16:07.640158591Z",
       "dispatch_token": "dispatch-41da4c5732584c8b9881976ad48402bb",
+      "execution_seconds": 93,
+      "finish_time": "2026-10-23T21:17:41.040244Z",
+      "infra_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
+      "lane": "network-rr-g1",
       "owner": "network",
       "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
-      "infra_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
       "proof_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
-      "lane": "network-rr-g1",
-      "stage": "cold-image",
-      "submitted_config_sha256": "81eda7d83a0a4d61cc1aa4c04ce9661e3eaccef5eef49e791f5a8f6849f9ffa5",
-      "reserved_seconds": 1800,
-      "timeout_seconds": 1740,
-      "status": "QUEUED",
       "publish_text_logs": true,
-      "source_mode": "pinned-objects",
+      "reserved_seconds": 1800,
       "source_input_sha256": "9fd78c7368aeaf0af916ae470d744fcea617cc4606ecd346d7a6bdf73fb6ae65",
-      "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7"
+      "source_mode": "pinned-objects",
+      "stage": "cold-image",
+      "start_time": "2026-10-23T21:16:08.330255167Z",
+      "status": "FAILURE",
+      "submitted_config_sha256": "81eda7d83a0a4d61cc1aa4c04ce9661e3eaccef5eef49e791f5a8f6849f9ffa5",
+      "timeout_seconds": 1740
     }
   ],
   "carry_seconds": 0,
@@ -60,7 +66,7 @@
   "owner": "network",
   "phase": "NETWORK-RR-G1-2026-10-24-N7",
   "phase_id": "NETWORK-RR-G1-2026-10-24-N7",
-  "remaining_build_seconds": 5103,
+  "remaining_build_seconds": 5009,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
@@ -71,9 +77,9 @@
     "reason": "Metadata-only pre-execution EXPIRED; cause UNKNOWN; Brief404 unavailable. Single changed E2_STANDARD_2/jobs2 setup retry, same1740/60/240.",
     "review": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json"
   },
-  "spent_build_seconds": 297,
+  "spent_build_seconds": 391,
   "start_utc": "2026-10-23T20:56:24Z",
   "status": "AUTHORIZED",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "used_build_seconds": 297
+  "used_build_seconds": 391
 }

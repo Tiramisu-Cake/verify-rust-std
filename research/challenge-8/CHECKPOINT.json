@@ -25,7 +25,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold setup repair active; image/frontend still unconfirmed."
+    "summary": "Cold repair FAILURE;391s spent; first setup diagnostic in Brief."
   },
   "confirmed": [
     {
@@ -69,14 +69,14 @@
   ],
   "last_terminal_build": {
     "assurance": "BUILD_METADATA_ONLY",
-    "brief_status": "PENDING",
-    "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
-    "build_seconds": 297,
-    "execution_seconds": 0,
+    "brief_status": "VERIFIED_ARCHIVE_AND_INVENTORY_NOT_PROOF",
+    "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+    "build_seconds": 94,
+    "execution_seconds": 93,
     "proof_credit": 0,
-    "status": "EXPIRED"
+    "status": "FAILURE"
   },
-  "next_step": "Watcher ack; terminal Brief/accounting push before next step.",
+  "next_step": "Pin exact Brief failure; close bounded N7 without third cold Build.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources.",
@@ -98,17 +98,15 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "3e604123-0d22-415d-b629-5ce2bf05aca7"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 5400,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T20:56:24Z",
     "main_minutes": 4320,
-    "remaining_seconds": 5103,
+    "remaining_seconds": 5009,
     "retired_seconds": 0,
-    "spent_seconds": 297,
+    "spent_seconds": 391,
     "t0": "2026-10-23T20:56:24Z",
     "unresolved_ids": []
   },
@@ -119,13 +117,13 @@
     "reason": "Metadata-only pre-execution EXPIRED; cause UNKNOWN; Brief404 unavailable. Single changed E2_STANDARD_2/jobs2 setup retry, same1740/60/240.",
     "review": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json"
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:16:25Z",
+  "updated_utc": "2026-10-23T21:18:37Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
-    "event_id": "ff54c407-7dc3-49de-9e31-7c6973afccc2",
-    "job_id": "03d2c00e-060b-4da5-8ac5-d9e3b682a011",
+    "event_id": "ba034348-79ee-471e-b2ad-38d1ce065def",
+    "job_id": "59ea94ed-3a0a-4456-ba75-1e3d017da7a7",
     "store": "/root/.local/state/smallsort-watch-network-n7"
   }
 }
