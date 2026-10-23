@@ -344,12 +344,29 @@ class SessionPrepareTests(unittest.TestCase):
                 self.prepare({**self.fx.spec, **override})
 
     def test_rejects_negative_or_out_of_policy_budget(self):
-        for override in ({"cloud_seconds": -1}, {"max_timeout_seconds": 1201},
+        for override in ({"cloud_seconds": -1}, {"cloud_seconds": 86401}, {"max_timeout_seconds": 1741},
                          {"max_timeout_seconds": 0}, {"report_reserve_seconds": 419},
                          {"max_timeout_seconds": 420},
-                         {"main_minutes": 121}, {"finish_minutes": -30}):
+                         {"main_minutes": 0}, {"main_minutes": 10081}, {"main_minutes": "120"},
+                         {"finish_minutes": -30}, {"finish_minutes": 241}):
             with self.subTest(override=override), self.assertRaises(module.PrepareError):
                 self.prepare({**self.fx.spec, **override})
+
+    def test_explicit_window_and_budget_drive_ledger_deadlines_and_check(self):
+        explicit = {**self.fx.spec, "main_minutes": 4320, "finish_minutes": 60,
+                    "cloud_seconds": 21600, "max_timeout_seconds": 1500}
+        out = self.prepare(explicit)
+        ledger = json.loads((out / "ledger.json").read_text(encoding="utf-8"))
+        self.assertEqual((ledger["ceiling_build_seconds"], ledger["remaining_build_seconds"]), (21600, 21600))
+        self.assertEqual((ledger["main_deadline_utc"], ledger["deadline_utc"]), ("2026-10-25T10:00:00Z", "2026-10-25T11:00:00Z"))
+        self.assertEqual(ledger["max_timeout_seconds"], 1500)
+        plan = (out / "registration-plan.md").read_text(encoding="utf-8")
+        self.assertIn("main deadline `2026-10-25T10:00:00Z`, absolute deadline `2026-10-25T11:00:00Z`", plan)
+        module.check(out)
+        ledger["main_deadline_utc"] = "2026-10-22T12:00:00Z"
+        (out / "ledger.json").write_text(json.dumps(ledger, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+        with self.assertRaises(module.PrepareError):
+            module.check(out)
 
     def test_rejects_active_old_ledger_and_requires_retired_closure(self):
         path = self.fx.root / self.fx.old_ledger

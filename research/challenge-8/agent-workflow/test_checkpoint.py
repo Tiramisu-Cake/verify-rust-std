@@ -109,6 +109,24 @@ class CheckpointTests(unittest.TestCase):
         with self.assertRaisesRegex(checkpoint.CheckpointError, "CLOSED requires"):
             checkpoint.validate(data)
 
+    def test_explicit_window_validates_dates_and_renders_note(self):
+        data = sample()
+        data["session"].update({"main_minutes": 4320, "finish_minutes": 60,
+                                "main_deadline_utc": "2026-10-24T08:00:00Z", "deadline_utc": "2026-10-24T09:00:00Z"})
+        checkpoint.validate(copy.deepcopy(data))
+        status = checkpoint.render(copy.deepcopy(data), "status")
+        self.assertIn("window 4320 min main + 60 min closeout (explicit)", status)
+        self.assertIn("window 4320 min main + 60 min closeout (explicit)", checkpoint.render(copy.deepcopy(data), "report"))
+        self.assertNotIn("(explicit)", checkpoint.render(sample(), "status"))
+        data["session"]["deadline_utc"] = "2026-10-24T08:30:00Z"
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "4320 minutes main window and \\+60 minutes"):
+            checkpoint.validate(data)
+        for bad in ({"main_minutes": 0}, {"main_minutes": 10081}, {"finish_minutes": "60"}, {"finish_minutes": 241}):
+            data = sample("NOT_STARTED")
+            data["session"].update(bad)
+            with self.subTest(bad=bad), self.assertRaisesRegex(checkpoint.CheckpointError, "expected integer minutes"):
+                checkpoint.validate(data)
+
     def test_rejects_oversized_narrative_or_render(self):
         data = sample()
         data["next_step"] = "x" * (checkpoint.MAX_NARRATIVE + 1)

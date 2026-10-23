@@ -41,8 +41,15 @@ SPEC_KEYS = {
 # cloud_budget_seconds: Cloud account of the task, 3600 (default) or 0. With 0 the task has
 # no Cloud lane, and profile/ledger paths may be null. bootstrap: first task of an owner
 # without Cloud history in a worktree without CURRENT-TASK/CHECKPOINT; zero budget only.
-OPTIONAL_SPEC_KEYS = {"runtime", "cloud_budget_seconds", "bootstrap"}
+# window: optional explicit owner-authorized session window {main_minutes, finish_minutes,
+# max_timeout_seconds?}; absent means the CORE default 120 + 30 minutes and timeout 1200.
+OPTIONAL_SPEC_KEYS = {"runtime", "cloud_budget_seconds", "bootstrap", "window"}
 DEFAULT_CLOUD_BUDGET = 3600
+MAX_CLOUD_BUDGET = 86400
+DEFAULT_MAX_TIMEOUT = 1200
+# Coordinator envelope: timeout + 60 s queue reserve must stay within 1800 s.
+MAX_BUILD_TIMEOUT = 1740
+WINDOW_KEYS = {"main_minutes", "finish_minutes", "max_timeout_seconds"}
 NO_CLOUD_BUDGET_LINE = "Cloud budget: 0 seconds (no Cloud lane)."
 # Runtime label, root entry file read by that runtime, runtime profile in agent-workflow.
 RUNTIMES = {
@@ -126,8 +133,25 @@ def validate_spec(value: Any) -> dict[str, Any]:
         if not isinstance(spec[key], str) or not SHA40.fullmatch(spec[key]):
             _err(f"{key} must be a lowercase full Git SHA")
     budget = spec.setdefault("cloud_budget_seconds", DEFAULT_CLOUD_BUDGET)
-    if type(budget) is not int or budget not in (0, DEFAULT_CLOUD_BUDGET):
-        _err(f"cloud_budget_seconds must be 0 or {DEFAULT_CLOUD_BUDGET}")
+    if type(budget) is not int or budget < 0 or budget > MAX_CLOUD_BUDGET:
+        _err(f"cloud_budget_seconds must be 0 or a positive integer up to {MAX_CLOUD_BUDGET}")
+    window = spec.setdefault("window", None)
+    if window is not None:
+        if not isinstance(window, dict) or not window or set(window) - WINDOW_KEYS:
+            _err("window must be an object with main_minutes, finish_minutes and optional max_timeout_seconds")
+        if budget == 0 and "max_timeout_seconds" in window:
+            _err("window.max_timeout_seconds requires a Cloud budget")
+        explicit = {
+            "main_minutes": window.get("main_minutes", cp.DEFAULT_MAIN_MINUTES),
+            "finish_minutes": window.get("finish_minutes", cp.DEFAULT_FINISH_MINUTES),
+            "max_timeout_seconds": window.get("max_timeout_seconds", DEFAULT_MAX_TIMEOUT),
+        }
+        for key, low, high in (("main_minutes", 1, cp.MAX_MAIN_MINUTES), ("finish_minutes", 1, cp.MAX_FINISH_MINUTES),
+                               ("max_timeout_seconds", 60, MAX_BUILD_TIMEOUT)):
+            value = explicit[key]
+            if type(value) is not int or value < low or value > high:
+                _err(f"window.{key} must be an integer in {low}..{high}")
+        spec["window"] = explicit
     if budget and spec["owner"] not in CLOUD_OWNERS:
         _err(f"owner {spec['owner']} has no Cloud lane; cloud_budget_seconds must be 0")
     bootstrap = spec.setdefault("bootstrap", False)
@@ -180,7 +204,7 @@ def validate_spec(value: Any) -> dict[str, Any]:
         "phase": spec["phase"], "state": "NOT_STARTED", "updated_utc": "2000-01-01T00:00:00Z",
         "assignment_sha256": "0" * 64,
         "baseline": {"source_sha": spec["source_sha"], "tool_sha": spec["tool_sha"], "profile_sha256": spec["profile_sha256"]},
-        "session": _not_started_session(budget),
+        "session": _not_started_session(budget, spec["window"]),
         **handoff,
     }
     try:
@@ -190,10 +214,23 @@ def validate_spec(value: Any) -> dict[str, Any]:
     return spec
 
 
-def _not_started_session(budget: int) -> dict[str, Any]:
-    return {"t0": None, "main_deadline_utc": None, "deadline_utc": None,
-            "budget_seconds": budget, "spent_seconds": 0, "retired_seconds": 0,
-            "remaining_seconds": budget, "active_build_ids": [], "unresolved_ids": []}
+def _not_started_session(budget: int, window: dict[str, Any] | None = None) -> dict[str, Any]:
+    session = {"t0": None, "main_deadline_utc": None, "deadline_utc": None,
+               "budget_seconds": budget, "spent_seconds": 0, "retired_seconds": 0,
+               "remaining_seconds": budget, "active_build_ids": [], "unresolved_ids": []}
+    if window is not None:
+        # The explicit window travels with the checkpoint so later ACTIVE/CLOSED
+        # session dates are validated against the authorized window, not the default.
+        session["main_minutes"] = window["main_minutes"]
+        session["finish_minutes"] = window["finish_minutes"]
+    return session
+
+
+def _wall_window_line(window: dict[str, Any] | None) -> str:
+    if window is None:
+        return f"Wall window: {cp.DEFAULT_MAIN_MINUTES} minutes main + {cp.DEFAULT_FINISH_MINUTES} minutes closeout."
+    return (f"Wall window: {window['main_minutes']} minutes main + {window['finish_minutes']} minutes closeout "
+            "(explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines).")
 
 
 def _bullet(label: str, items: list[str], fallback: str = "none recorded") -> str:
@@ -226,12 +263,15 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
                    f"under `task-history/{spec['previous_task_id']}`; its claims keep their own dated scope.")
     else:
         mission = "This is a bounded continuation of the previous task under a newly authorized window."
+    window = spec["window"]
+    wall = _wall_window_line(window)
     if budget:
+        timeout = window["max_timeout_seconds"] if window is not None else DEFAULT_MAX_TIMEOUT
         procedure = "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock."
-        budget_line = f"Cloud budget: {budget} seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout ≤1200 seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts."
+        budget_line = f"Cloud budget: {budget} seconds. {wall} Per-Build timeout ≤{timeout} seconds; report reserve ≥{420 if spec['owner'] == 'merge' else 240} seconds. T0 remains NOT_SET until actual work starts."
     else:
         procedure = "The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task."
-        budget_line = f"{NO_CLOUD_BUDGET_LINE} Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts."
+        budget_line = f"{NO_CLOUD_BUDGET_LINE} {wall} T0 remains NOT_SET until actual work starts."
     profile = (f"Profile `{spec['profile_path']}` SHA-256 `{spec['profile_sha256']}`." if spec["profile_path"] is not None
                else "Profile: none (no Cloud lane).")
     new_ledger = f"`{spec['ledger_path']}`" if spec["ledger_path"] is not None else "none"
@@ -277,7 +317,7 @@ def render_task(spec: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         "state": "NOT_STARTED", "updated_utc": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "assignment_sha256": hashlib.sha256(prefix).hexdigest(),
         "baseline": {"source_sha": spec["source_sha"], "tool_sha": spec["tool_sha"], "profile_sha256": spec["profile_sha256"]},
-        "session": _not_started_session(budget),
+        "session": _not_started_session(budget, window),
         "confirmed": h["confirmed"], "open": h["open"], "blocker": h["blocker"],
         "rejected": h["rejected"], "next_step": h["next_step"], "artifacts": h["artifacts"],
     }

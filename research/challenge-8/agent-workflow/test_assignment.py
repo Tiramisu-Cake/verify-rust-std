@@ -476,9 +476,10 @@ class AssignmentTests(unittest.TestCase):
             ({"owner": "select-sort4"}, "bootstrap is only for owners without Cloud history"),
             ({"owner": "merge", "bootstrap": False, "cloud_budget_seconds": 3600}, "may be null only when cloud_budget_seconds is 0"),
             ({"profile_sha256": SHA256}, "both be set or both be null"),
-            ({"cloud_budget_seconds": -1}, "must be 0 or 3600"),
-            ({"cloud_budget_seconds": 1800}, "must be 0 or 3600"),
-            ({"cloud_budget_seconds": True}, "must be 0 or 3600"),
+            ({"cloud_budget_seconds": -1}, "must be 0 or a positive integer up to 86400"),
+            ({"cloud_budget_seconds": 86401}, "must be 0 or a positive integer up to 86400"),
+            ({"cloud_budget_seconds": True}, "must be 0 or a positive integer up to 86400"),
+            ({"window": {"max_timeout_seconds": 1200}}, "requires a Cloud budget"),
             ({"bootstrap": "yes"}, "bootstrap must be true or false"),
         ):
             spec = self.network_bootstrap_spec()
@@ -486,6 +487,40 @@ class AssignmentTests(unittest.TestCase):
             with self.subTest(update=update):
                 with self.assertRaisesRegex(assignment.AssignmentError, message):
                     assignment.validate_spec(spec)
+
+    def test_explicit_window_and_budget_render_and_bind_checkpoint(self):
+        spec = copy.deepcopy(self.spec)
+        spec.update({"cloud_budget_seconds": 21600, "window": {"main_minutes": 4320, "finish_minutes": 60}})
+        task, cpdata = assignment.render_task(copy.deepcopy(spec))
+        self.assertIn(("Cloud budget: 21600 seconds. Wall window: 4320 minutes main + 60 minutes closeout "
+                       "(explicit window authorized by this task only; CORE main/closeout rules apply to these deadlines). "
+                       "Per-Build timeout ≤1200 seconds; report reserve ≥240 seconds.").encode("utf-8"), task)
+        self.assertEqual((cpdata["session"]["budget_seconds"], cpdata["session"]["remaining_seconds"]), (21600, 21600))
+        self.assertEqual((cpdata["session"]["main_minutes"], cpdata["session"]["finish_minutes"]), (4320, 60))
+        # A later ACTIVE checkpoint must use the explicit window, not the default one.
+        active = copy.deepcopy(cpdata)
+        active.update({"state": "ACTIVE"})
+        active["session"].update({"t0": "2026-10-24T00:00:00Z", "main_deadline_utc": "2026-10-27T00:00:00Z",
+                                  "deadline_utc": "2026-10-27T01:00:00Z"})
+        checkpoint.validate(copy.deepcopy(active))
+        active["session"]["main_deadline_utc"] = "2026-10-24T02:00:00Z"
+        with self.assertRaisesRegex(checkpoint.CheckpointError, "4320 minutes"):
+            checkpoint.validate(active)
+        spec["window"]["max_timeout_seconds"] = 1500
+        task, _ = assignment.render_task(copy.deepcopy(spec))
+        self.assertIn("Per-Build timeout ≤1500 seconds".encode("utf-8"), task)
+        # Default rendering stays byte-identical when no window is given; 1800 s budgets are plain values.
+        plain = copy.deepcopy(self.spec)
+        plain["cloud_budget_seconds"] = 1800
+        plain_task, plain_cp = assignment.render_task(plain)
+        self.assertIn(b"Cloud budget: 1800 seconds. Wall window: 120 minutes main + 30 minutes closeout. Per-Build timeout", plain_task)
+        self.assertNotIn("main_minutes", plain_cp["session"])
+        for bad in ({}, {"main_minutes": 0}, {"main_minutes": 10081}, {"finish_minutes": 241},
+                    {"max_timeout_seconds": 1741}, {"max_timeout_seconds": 59}, {"hours": 1}, "4320"):
+            spec = copy.deepcopy(self.spec)
+            spec["window"] = bad
+            with self.subTest(window=bad), self.assertRaises(assignment.AssignmentError):
+                assignment.validate_spec(spec)
 
     def test_network_cloud_lane_and_owner_without_lane(self):
         spec = self.network_bootstrap_spec()

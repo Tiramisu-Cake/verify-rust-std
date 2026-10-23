@@ -11,6 +11,8 @@
 третьей на тот же интерфейс. Достигнутый раньше контрольный результат позволяет
 пересмотреть следующий шаг раньше.
 
+> **Редакция 2, 23 октября 2026 — контрольный разбор и решения: [§9](#9-редакция-2--контрольный-разбор-23-октября-2026).** §1–8 сохраняют baseline 11 октября без переписывания.
+
 ## 1. Что означает процент
 
 Это условный индекс зрелости десяти целевых доказательств: семь safety-целей R1–R7
@@ -190,6 +192,7 @@ evidence и оставшийся blocker. Не менять чужие worktrees
 | Дата | Индекс | Артефакты | Причина |
 | --- | ---: | --- | --- |
 | 2026-10-11 | 15% | A1/A2/B1/B2 не достигнуты | Первая оценка по шкале v1; текущие proof-сессии считаются №1 |
+| 2026-10-23 | 15% | A1/A2/B1/B2 не достигнуты | Контрольный разбор после Select R23, Merge R22, Network N4 (§9): ни одна цель не перешла на новую ступень; решения 1–6 и разовое расширенное окно |
 
 Основной [COMPLETION-PLAN](COMPLETION-PLAN.md) сохраняет конечные требования.
 Этот документ задаёт измерение и ближайшую точку решения. Принятие документа —
@@ -206,3 +209,74 @@ evidence и оставшийся blocker. Не менять чужие worktrees
 - E6 — [select STATUS, 04c9208d](https://github.com/Tiramisu-Cake/verify-rust-std/blob/04c9208d266305b04645b26fcb858916e0f08d94/research/challenge-8/STATUS.md): идентичность первой сессии.
 - E7 — [merge STATUS, de2f3f5f](https://github.com/Tiramisu-Cake/verify-rust-std/blob/de2f3f5f80c4e10488ef1024b8bba76bf476c548/research/challenge-8/STATUS.md): идентичность первой сессии, body-v4 build failure и body-v5 pending.
 - E8 — [upstream #694](https://github.com/model-checking/verify-rust-std/pull/694), [#701](https://github.com/model-checking/verify-rust-std/pull/701): контекст выбора приоритетов; их PR claims не считаются нашими доказательствами.
+
+## 9. Редакция 2 — контрольный разбор 23 октября 2026
+
+Разбор выполнен по закрытым checkpoint Select R23 (`505aea0d`), Merge R22
+(`733b6a7d`), Network N4 (`9a7a3d00`) и STATUS роли verifast (`92fb66c5`).
+Обязательный разбор «после второй сессии» из §6 с 11 октября формально не
+проводился; вместо него 19–23 октября расширялась автономия агентов. Эта
+редакция закрывает долг и фиксирует решения владельца, принятые 23 октября.
+
+### 9.1 Индекс и артефакты
+
+Индекс остаётся **15%**: R4/R5/R6 — 25%, R7 — 75%, остальные — 0%. Ни одна
+целевая функция не перешла на новую ступень. Контрольные артефакты A1/A2 и
+B1/B2 не зафиксированы как достигнутые. Ближайшие к ступени результаты:
+
+| Owner | Что есть (SOURCE_REPORTED, credit 0) | Первый blocker |
+| --- | --- | --- |
+| Select (W1/W4) | Fractional checked callee `select_unpredictable`: positive доходит до outer return и leak-check (Build `cf8405cc`); 8 fingerprint rows (`739f982d`); reviewed unbuilt кандидат 103a34 (ghost-CFG successors) | Dead-code отказ после leak-check, причина не установлена |
+| Merge (W2/W3/W5) | Raw caller insert_tail: bounded exit0, 5 controls R19 совпали (`196e1b52`); exporter/decoder0, translator падает на synthetic region fixtures | Admission owned-NLL capture NEEDS_FIX (3 finding); original caller нуждается в borrow lifecycle |
+| Network (W7/W8) | Exact N13 shape5 принят математически (`cbbe4b5f`), membership/missing negatives и 7 классификаторов; N9 regression | Order negative UNRUN, universal standalone timeout; W7/W8 ждут Select P2 |
+| VeriFast | ManuallyDrop патч ac6a63d5, зелёный CI форка, upstream draft PR 1046 открыт 20.10 | Ответа upstream нет; новых «готовых» патчей не передано |
+
+### 9.2 Что показал учёт
+
+| Метрика (ledgers по 23.10) | Select | Merge | Network |
+| --- | ---: | ---: | ---: |
+| Окон всего / с нулём Builds | 30 / 1 | 32 / 3 | 2 / 0 |
+| Builds / SUCCESS | 108 / 8 | 100 / 8 | 12 / 4 |
+| Cloud-часов | 14,0 | 14,3 | 1,6 |
+| Retired в окнах R16–R23 / R17–R22 / N3–N4 | 1400–3024 из 3600 | 589–3600 из 3600 | 407–1065 |
+| Review-пакетов в последнем окне | 14 | 13 | ~6 |
+
+Выводы: Cloud-бюджет не узкое место, узкое место — стена 120 минут и
+церемония окна (регистрация, Brief-чтение fingerprint ~20 мин, 13–14 review на
+окно). Четыре из последних 14 окон Select/Merge потеряны по процессным причинам
+(Merge R19, R21; Select R18, R19); CORE от 23.10 это закрывает. Tool-цепочка
+Merge ушла от stock 26.09 на 91 commit, Select накладывает proof-time overlays
+translator; maintainer этой цепочки не видел — риск W10. Merge ушёл в
+compiler-plumbing (owned-NLL facts в exporter) с UNESTABLISHED cross-stage
+mapping — случай из §6 «пересмотреть способ получения compiler evidence».
+
+### 9.3 Решения владельца от 23 октября
+
+1. **Select — критический путь.** Следующее окно начинать с Build кандидата
+   103a34 на тех же fingerprint rows; classifier-трек и omit-* pins — после
+   чистого positive. Сразу после clean positive — mutable route P2 до
+   `PUBLISHED`, затем W4.
+2. **Merge — stop-loss.** Сначала три finding NEEDS_FIX без Cloud. Не более
+   двух полных Cloud-циклов на owned-NLL diagnostic capture; при
+   UNESTABLISHED mapping — source-level checked borrow adapter на существующей
+   lifetime logic и W2 normal/unwind на raw caller.
+3. **Network — один Build на order negative и universal 480, затем перенос
+   R7** `has_efficient_in_place_swap` на baseline cd371e0 в stock-профиле;
+   W8-подготовку не расширять до `PUBLISHED` P2.
+4. **Maintainer — консолидация tool-цепочки** (Merge fork-ветки + Select
+   overlays + ManuallyDrop) в одну integration-ветку форка с полным CI,
+   отчётом о совместимости и trust ledger; без разработки proof-blockers.
+5. **Режим окна (разовая практика).** Следующие задания всех четырёх owner'ов
+   выданы без ограничения времени сессии: формальные deadlines в ledger
+   (T0+4320 мин main, +60 мин closeout) нужны только tooling; окно закрывается
+   по цели, бюджету или настоящей границе. Бюджеты: Select 21600 с, Merge
+   14400 с, Network 10800 с; timeout 1200. Review — один раз на semantic
+   candidate, не на каждый commit (CORE 2026-10-23). После этих заданий
+   действует прежний default 120+30/3600, если владелец не решит иначе.
+6. **Следующий разбор** — после закрытия этих заданий, не позднее 27 октября
+   2026: новая строка истории, статус A1/A2/B1/B2, оценка stop-loss Merge и
+   переноса R7.
+
+Критерии ступеней §1 и веса не меняются. Индекс повышается только по evidence
+закрытой ступени; расширенное окно и бюджет сами по себе его не меняют.
+

@@ -37,6 +37,11 @@ PROTECTED_PROFILE_KEYS = {
 }
 # Owners whose first Cloud session may be prepared without an old ledger/profile.
 FIRST_SESSION_OWNERS = {"network"}
+# Bounds for an explicit task window/budget; defaults remain 120 + 30 minutes and 3600 s.
+MAX_MAIN_MINUTES = 10080
+MAX_FINISH_MINUTES = 240
+MAX_CLOUD_SECONDS = 86400
+MAX_BUILD_TIMEOUT = 1740
 TERMINAL_STATES = {"SUCCESS", "FAILURE", "INTERNAL_ERROR", "TIMEOUT", "CANCELLED", "EXPIRED"}
 
 
@@ -106,16 +111,18 @@ def _validate_spec(spec: Any) -> dict[str, Any]:
         raise PrepareError("worktree must be an absolute path")
     if not SHA_RE.fullmatch(str(s["baseline_sha"])):
         raise PrepareError("baseline_sha must be a lowercase 40-character Git SHA")
-    for key, expected in (("main_minutes", 120), ("finish_minutes", 30)):
-        if type(s[key]) is not int or s[key] != expected:
-            raise PrepareError(f"{key} must be exactly {expected}")
+    # The window and budget come from the installed assignment text (CORE default
+    # 120 + 30 minutes and 3600 s, or the explicit window/budget it states).
+    for key, low, high in (("main_minutes", 1, MAX_MAIN_MINUTES), ("finish_minutes", 1, MAX_FINISH_MINUTES)):
+        if type(s[key]) is not int or s[key] < low or s[key] > high:
+            raise PrepareError(f"{key} must be an integer in {low}..{high}")
     for key in ("cloud_seconds", "max_timeout_seconds", "report_reserve_seconds"):
         if type(s[key]) is not int or s[key] <= 0:
             raise PrepareError(f"{key} must be a positive integer")
-    if s["cloud_seconds"] != 3600:
-        raise PrepareError("cloud_seconds must be exactly 3600")
-    if s["max_timeout_seconds"] > 1200:
-        raise PrepareError("max_timeout_seconds must be at most 1200")
+    if s["cloud_seconds"] > MAX_CLOUD_SECONDS:
+        raise PrepareError(f"cloud_seconds must be at most {MAX_CLOUD_SECONDS}")
+    if s["max_timeout_seconds"] > MAX_BUILD_TIMEOUT:
+        raise PrepareError(f"max_timeout_seconds must be at most {MAX_BUILD_TIMEOUT} (coordinator envelope timeout + 60 s queue <= 1800)")
     minimum_reserve = 420 if s["owner"] == "merge" else 240
     if s["report_reserve_seconds"] < minimum_reserve:
         raise PrepareError(f"report_reserve_seconds must be at least {minimum_reserve} for {s['owner']}")
@@ -714,7 +721,9 @@ def _validate_bundle_contract(bundle: Path) -> dict[str, Any]:
     if ledger.get("baseline_sha") != spec["baseline_sha"] or ledger.get("builds") != [] or ledger.get("active_build") is not None:
         raise PrepareError("ledger baseline or fresh-account fields invalid")
     start = _parse_utc(spec["t0"], "t0")
-    if ledger.get("start_utc") != spec["t0"] or ledger.get("main_deadline_utc") != (start + dt.timedelta(minutes=120)).strftime("%Y-%m-%dT%H:%M:%SZ") or ledger.get("deadline_utc") != (start + dt.timedelta(minutes=150)).strftime("%Y-%m-%dT%H:%M:%SZ"):
+    expected_main = (start + dt.timedelta(minutes=spec["main_minutes"])).strftime("%Y-%m-%dT%H:%M:%SZ")
+    expected_absolute = (start + dt.timedelta(minutes=spec["main_minutes"] + spec["finish_minutes"])).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if ledger.get("start_utc") != spec["t0"] or ledger.get("main_deadline_utc") != expected_main or ledger.get("deadline_utc") != expected_absolute:
         raise PrepareError("ledger deadline fields do not match spec")
     if reuse_profile:
         _check_reused_profile(source_profile, recipe, spec)

@@ -7,7 +7,8 @@ updated_utc; assignment_sha256 (SHA-256 of CURRENT-TASK text before its single
 "## Отчёт агента" marker); baseline={source_sha,tool_sha (40 hex or null),
 profile_sha256 (64 hex or null)}; session={t0,main_deadline_utc,deadline_utc,
 budget_seconds,spent_seconds,retired_seconds,remaining_seconds,
-active_build_ids,unresolved_ids}; confirmed=[{claim,assurance,evidence}],
+active_build_ids,unresolved_ids, optional main_minutes/finish_minutes (explicit
+owner-authorized window; default 120/30)}; confirmed=[{claim,assurance,evidence}],
 open=[strings], blocker={summary,location?,build_id?,evidence},
 rejected=[{approach,reason,evidence}], next_step, artifacts=[{path,sha256}].
 Evidence entries have path, sha256, and optional build_id. UNKNOWN/null remains
@@ -44,6 +45,12 @@ BUILD_UUID = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA
 STATES = {"NOT_STARTED", "ACTIVE", "CLOSED", "HANDOFF"}
 OWNERS = {"merge", "select-sort4", "network"}
 ASSURANCES = {"SOURCE_REPORTED", "INDEPENDENTLY_ESTABLISHED"}
+# Default session window; an assignment may state another explicit window, which the
+# session then carries as main_minutes/finish_minutes (bounded, never open-ended).
+DEFAULT_MAIN_MINUTES = 120
+DEFAULT_FINISH_MINUTES = 30
+MAX_MAIN_MINUTES = 10080
+MAX_FINISH_MINUTES = 240
 
 
 class CheckpointError(ValueError):
@@ -134,6 +141,7 @@ def validate(data: Any) -> dict[str, Any]:
             _fail(f"session.{key}: expected non-negative integer")
     if session["spent_seconds"] + session["retired_seconds"] + session["remaining_seconds"] != session["budget_seconds"]:
         _fail("session budget arithmetic must satisfy spent + retired + remaining = budget")
+    window = session_window(session)
     for key in ("active_build_ids", "unresolved_ids"):
         value = session.get(key)
         if not isinstance(value, list) or len(value) > 32:
@@ -152,8 +160,8 @@ def validate(data: Any) -> dict[str, Any]:
         if None in (t0, main, deadline):
             _fail(f"{data['state']} requires all session dates")
         assert t0 is not None and main is not None and deadline is not None
-        if main != t0 + dt.timedelta(minutes=120) or deadline != main + dt.timedelta(minutes=30):
-            _fail("session dates must use t0 + 120 minutes main window and +30 minutes closeout")
+        if main != t0 + dt.timedelta(minutes=window[0]) or deadline != main + dt.timedelta(minutes=window[1]):
+            _fail(f"session dates must use t0 + {window[0]} minutes main window and +{window[1]} minutes closeout")
     if data["state"] == "CLOSED" and (session["remaining_seconds"] != 0 or session["active_build_ids"] or session["unresolved_ids"]):
         _fail("CLOSED requires zero remaining time and no active builds or unresolved IDs")
 
@@ -217,14 +225,34 @@ def _link(path: str) -> str:
     return posixpath.relpath(path, "research/challenge-8")
 
 
+def session_window(session: dict[str, Any]) -> tuple[int, int]:
+    """Return (main_minutes, finish_minutes) of a session, validating explicit values."""
+    values = []
+    for key, default, cap in (("main_minutes", DEFAULT_MAIN_MINUTES, MAX_MAIN_MINUTES),
+                              ("finish_minutes", DEFAULT_FINISH_MINUTES, MAX_FINISH_MINUTES)):
+        value = session.get(key, default)
+        if type(value) is not int or value < 1 or value > cap:
+            _fail(f"session.{key}: expected integer minutes in 1..{cap}")
+        values.append(value)
+    return values[0], values[1]
+
+
+def _window_note(session: dict[str, Any]) -> str:
+    main, finish = session_window(session)
+    if (main, finish) == (DEFAULT_MAIN_MINUTES, DEFAULT_FINISH_MINUTES):
+        return ""
+    return f"; window {main} min main + {finish} min closeout (explicit)"
+
+
 def render(data: dict[str, Any], fmt: str) -> str:
     validate(data)
     session = data["session"]
     t0 = session["t0"] or "NOT_SET"
     main_deadline = session["main_deadline_utc"] or "NOT_SET"
     absolute_deadline = session["deadline_utc"] or "NOT_SET"
+    window_note = _window_note(session)
     if fmt == "status":
-        lines = [f"# Agent checkpoint: {data['task_id']}", "", f"- Owner: {data['owner']} | phase: {data['phase']} | state: {data['state']}", f"- Updated: {data['updated_utc']}", f"- Baseline: source `{data['baseline']['source_sha'] or 'UNKNOWN'}`, tool `{data['baseline']['tool_sha'] or 'UNKNOWN'}`, profile `{data['baseline']['profile_sha256'] or 'UNKNOWN'}`", f"- Session dates: T0 `{t0}`; main deadline `{main_deadline}`; absolute deadline `{absolute_deadline}`", f"- Budget: {session['budget_seconds']}s total; {session['spent_seconds']}s spent; {session['retired_seconds']}s retired; {session['remaining_seconds']}s remaining including active reservations", f"- Active Build IDs: {', '.join(session['active_build_ids']) or 'none recorded'}", f"- Unresolved IDs: {', '.join(session['unresolved_ids']) or 'none recorded'}", "", "## Confirmed claims"]
+        lines = [f"# Agent checkpoint: {data['task_id']}", "", f"- Owner: {data['owner']} | phase: {data['phase']} | state: {data['state']}", f"- Updated: {data['updated_utc']}", f"- Baseline: source `{data['baseline']['source_sha'] or 'UNKNOWN'}`, tool `{data['baseline']['tool_sha'] or 'UNKNOWN'}`, profile `{data['baseline']['profile_sha256'] or 'UNKNOWN'}`", f"- Session dates: T0 `{t0}`; main deadline `{main_deadline}`; absolute deadline `{absolute_deadline}`{window_note}", f"- Budget: {session['budget_seconds']}s total; {session['spent_seconds']}s spent; {session['retired_seconds']}s retired; {session['remaining_seconds']}s remaining including active reservations", f"- Active Build IDs: {', '.join(session['active_build_ids']) or 'none recorded'}", f"- Unresolved IDs: {', '.join(session['unresolved_ids']) or 'none recorded'}", "", "## Confirmed claims"]
         for item in data["confirmed"]:
             evidence = "; ".join(f"[{e['path']}]({_link(e['path'])}) SHA `{e['sha256']}`" + (f" Build `{e['build_id']}`" if e.get("build_id") else "") for e in item["evidence"])
             lines.append(f"- [{item['assurance']}] {item['claim']} — {evidence}")
@@ -256,7 +284,7 @@ def render(data: dict[str, Any], fmt: str) -> str:
         return _bounded("\n".join(lines) + "\n")
     if fmt != "report":
         _fail("format must be status or report")
-    lines = [f"{REPORT_MARKER}", "", f"**{data['task_id']} · {data['owner']} · {data['phase']} · {data['state']}**", f"Updated: {data['updated_utc']}. Baseline source/tool/profile: `{data['baseline']['source_sha'] or 'UNKNOWN'}` / `{data['baseline']['tool_sha'] or 'UNKNOWN'}` / `{data['baseline']['profile_sha256'] or 'UNKNOWN'}`.", f"Dates: T0 `{t0}`; main `{main_deadline}`; absolute `{absolute_deadline}`. Budget {session['budget_seconds']}s: {session['spent_seconds']}s spent, {session['retired_seconds']}s retired, {session['remaining_seconds']}s remaining including reservations.", f"Active Build IDs: {', '.join(session['active_build_ids']) or 'none recorded'}; unresolved: {', '.join(session['unresolved_ids']) or 'none recorded'}.", f"Blocker: {data['blocker']['summary']}" + (f" [Build `{data['blocker']['build_id']}`]" if data['blocker'].get("build_id") else ""), f"Next: {data['next_step']}", "See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities."]
+    lines = [f"{REPORT_MARKER}", "", f"**{data['task_id']} · {data['owner']} · {data['phase']} · {data['state']}**", f"Updated: {data['updated_utc']}. Baseline source/tool/profile: `{data['baseline']['source_sha'] or 'UNKNOWN'}` / `{data['baseline']['tool_sha'] or 'UNKNOWN'}` / `{data['baseline']['profile_sha256'] or 'UNKNOWN'}`.", f"Dates: T0 `{t0}`; main `{main_deadline}`; absolute `{absolute_deadline}`{window_note}. Budget {session['budget_seconds']}s: {session['spent_seconds']}s spent, {session['retired_seconds']}s retired, {session['remaining_seconds']}s remaining including reservations.", f"Active Build IDs: {', '.join(session['active_build_ids']) or 'none recorded'}; unresolved: {', '.join(session['unresolved_ids']) or 'none recorded'}.", f"Blocker: {data['blocker']['summary']}" + (f" [Build `{data['blocker']['build_id']}`]" if data['blocker'].get("build_id") else ""), f"Next: {data['next_step']}", "See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities."]
     return _bounded("\n".join(lines) + "\n")
 
 
