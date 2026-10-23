@@ -7,8 +7,8 @@ Owner: **Select/sort4**. Phase: `SORT4-ACTUAL-SELECT-2026-10-23-R23`. Lane: `o26
 
 This is a bounded continuation of the previous task under a newly authorized window.
 
-Runtime: Claude Code. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CLAUDE.md`](agent-workflow/RUNTIME-CLAUDE.md), the compact root [CLAUDE.md](../../CLAUDE.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
-The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. Prepare fresh-session inputs with `/usr/local/bin/smallsort-session`, obtain required independent review and register the exact phase through the assigned branch client before proof work. Registration does not restart the clock.
+Runtime: Codex. Follow CORE and RUNTIME-CODEX (review and watcher).
+T0 includes preparation. Use smallsort-session; review and register exact phase before Builds.
 No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
 
 ## Baseline and controls
@@ -48,10 +48,10 @@ Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WIN
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · NOT_STARTED**
-Updated: 2026-10-23T07:28:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
+**select-callee-acceptance-autonomous-2026-10-23-r23 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R23 · ACTIVE**
+Updated: 2026-10-23T07:37:19Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T07:37:19Z`; main `2026-10-23T09:37:19Z`; absolute `2026-10-23T10:07:19Z`. Budget 3600s: 0s spent, 0s retired, 3600s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
-Next: New window: R22b fingerprint (HEAD), rebind r22b rows, proof; see NEXT-WINDOW-HANDOFF.
+Next: Register exact R23 admission; submit reviewed R22b fingerprint early with timeout 1200; parallel no-Cloud mutable capture/P2 preparation.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
