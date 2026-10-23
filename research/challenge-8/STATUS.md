@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-23-r22
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-23-R22 | state: ACTIVE
-- Updated: 2026-10-23T00:07:30Z
+- Updated: 2026-10-23T00:17:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-22T22:25:06Z`; main deadline `2026-10-23T00:25:06Z`; absolute deadline `2026-10-23T00:55:06Z`
 - Budget: 3600s total; 967s spent; 0s retired; 2633s remaining including active reservations
@@ -33,7 +33,7 @@ Positive fails only function-end leak of 2 pointer-value own chunks (constructor
 - [research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json](task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json) SHA `292f1c6dfc7a35fd3afbd9d54101222392f7a262da2444fc20c0ddc38fce459e` Build `7e23e945-9190-4928-b0e6-67f2cd3e31ec`
 
 ## Next
-LEAK-REPAIR-NEXT: bind constructor chunks, ghost open; fingerprint, pins, proof.
+Run R22b fingerprint (HEAD), rebind r22b rows, proof Build; see NEXT-WINDOW-HANDOFF.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `6ebbe62418faaf4bf047376d97d966f6e110832700e610601cce3c6baefd6747`
+- [research/challenge-8/task-history/select-callee-r22/ARTIFACT-INDEX.json](task-history/select-callee-r22/ARTIFACT-INDEX.json) — `0fe0f53144bb6f81f9e18da96663d446818a0464c3de511a6fe5f5eb16708ceb`

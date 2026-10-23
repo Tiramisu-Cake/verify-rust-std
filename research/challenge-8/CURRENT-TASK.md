@@ -48,9 +48,9 @@ Next: New authorized window/ledger: use NEXT-WINDOW-HANDOFF; recheck288fa7cd, th
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-23-r22 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-23-R22 · ACTIVE**
-Updated: 2026-10-23T00:07:30Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Updated: 2026-10-23T00:17:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-22T22:25:06Z`; main `2026-10-23T00:25:06Z`; absolute `2026-10-23T00:55:06Z`. Budget 3600s: 967s spent, 0s retired, 2633s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
 Blocker: Positive fails only function-end leak of 2 pointer-value own chunks (constructor results); omit-* target unpinned.
-Next: LEAK-REPAIR-NEXT: bind constructor chunks, ghost open; fingerprint, pins, proof.
+Next: Run R22b fingerprint (HEAD), rebind r22b rows, proof Build; see NEXT-WINDOW-HANDOFF.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

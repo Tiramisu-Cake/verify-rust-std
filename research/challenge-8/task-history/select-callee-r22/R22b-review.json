@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "claude-subagent:smallsort-reviewer",
+  "model": "claude-opus-5-5",
+  "effort": "high",
+  "candidate_commit": "2d5c075b6138c4b934a6851ce9dfd8242bc16e5b",
+  "baseline_commit": "fbbcf13dcd121318b759211b996ce906d77da637",
+  "spec_sha256": "118069e7c32037b61b6361776e5547c4243ba4c3a656758998e9a90d78f28bde",
+  "packet_sha256": "43b665a61a1a6b19bc8074247fb3efeec8955156ef4c35e0bab23bc9109a486c",
+  "decision": "GO_WITH_NITS",
+  "scope": "fingerprint-only candidate + inactive r22b proof patch",
+  "verified": [
+    "release ghosts bind exact constructor values before open_MaybeUninit; fail closed otherwise; only true-bodied predicates opened; identical to select_MaybeUninit_pointer_own lemma body",
+    "strip_ghost runtime identity",
+    "ghost match parse path exists (rust_parser.ml:626)",
+    "r22b on pre-fractional 606235c6 gives 9cf03ca8; differs from r22 only in fractional wrappers/expected_ghosts; literals equal transform",
+    "fingerprint runner form as 363d7752",
+    "pin cascade 8a23499c/9cb4dee1"
+  ],
+  "nits": [
+    "add static test binding r22b literals and SHA (added after review: R22bProofPatchLiterals, 6 OK)",
+    "when activating r22b: rebind rows, recipe proof_paths, runner pins 9097d01a/9cf03ca8, restore proof entry with new pins path"
+  ],
+  "not_run": [
+    "OCaml compile r22b",
+    "Cloud parsing of ghost match/qualified names",
+    "positive no-leak"
+  ],
+  "proof_credit": 0
+}

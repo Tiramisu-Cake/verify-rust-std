@@ -158,5 +158,25 @@ class FractionalForgetTransform(unittest.TestCase):
         self.assertEqual(GHOST.strip_ghost(out), GHOST.strip_ghost(self.input))
 
 
+class R22bProofPatchLiterals(unittest.TestCase):
+    """Static binding of the inactive r22b certificate text to the transform."""
+
+    def test_r22b_patch_literals_equal_release_ghosts(self):
+        patch = HERE / "verifast-r22b-fractional-forget-26.10.patch"
+        raw = patch.read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),
+                         "9097d01a54778ca71a0f3659b598f0a1afd1095f0aeeb61ad7cbd0239a388f2a")
+        text = raw.decode()
+        release = TRANSFORM.CONSTRUCTOR_OWN_RELEASE.decode()
+        escaped = release.replace("\n", "\\n")
+        # Source reconstruction: indentation, the release, then the anchor tail.
+        self.assertIn('+      "    " ^ "' + escaped + '" ^', text)
+        blocks = [b + "@*/" for b in release.split("@*/")[:-1]]
+        blocks = [b.lstrip("\n") for b in blocks]
+        self.assertEqual(len(blocks), 4)
+        for block in blocks:
+            self.assertIn('+      "' + block.replace("\n", "\\n") + '"', text)
+        self.assertEqual(TRANSFORM.OPEN_WRAPPERS_ANCHOR[:4], b"    ")
+
 if __name__ == "__main__":
     unittest.main()

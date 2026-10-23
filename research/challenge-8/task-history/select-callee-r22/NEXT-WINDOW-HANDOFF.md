@@ -20,6 +20,10 @@ Pins: `FRACTIONAL-FINGERPRINT-INPUT.json` (R22), reconstructed from the Brief re
 | `72a38f11` | `363d7752` | Ghost repaired; fingerprint complete |
 | `7e23e945` | `dbaf41e6` | Positive reaches function end and fails **only** the leak check: two `MaybeUninit_pointer_own` chunks, the constructor results |
 
+## R22b candidate (HEAD, reviewed GO_WITH_NITS, unbuilt)
+
+HEAD carries the leak repair (`LEAK-REPAIR-NEXT.md`, `R22b-review.json`) as a **fingerprint-only** candidate: transform `8a23499c`, helper `9cb4dee1`, R22 tool chain, runner stage `r21-fractional-fingerprint`. The next window should first run that fingerprint Build. Then rebind `fractional_rows` in the inactive `verifast-r22b-fractional-forget-26.10.patch` (`9097d01a`, translator `9cf03ca8`); put it on the runner with the new pins JSON and recipe paths; restore the proof entry; review; and run the proof Build.
+
 ## Next obligations, in order
 
 1. `LEAK-REPAIR-NEXT.md`: bind and consume the two constructor pointer-ownership chunks with checked ghost opens, by exact value. Then:

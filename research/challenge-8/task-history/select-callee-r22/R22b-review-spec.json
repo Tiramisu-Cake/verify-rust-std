@@ -1,0 +1,26 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-select-night",
+  "baseline_commit": "fbbcf13dcd121318b759211b996ce906d77da637",
+  "candidate_commit": "2d5c075b6138c4b934a6851ce9dfd8242bc16e5b",
+  "defect": "Build 7e23e945: positive fails only the function-end leak check on MaybeUninit_pointer_own(t, __result0/__result), the checked constructor results that the projection never consumes.",
+  "applicability": "Fractional route of the owner-approved callee; ghost-only; this candidate is a fingerprint-only Build plus an inactive proof patch revision (r22b) whose rows are still stale.",
+  "invariants": [
+    "Release ghosts bind the cells' exact wrapper values before open_MaybeUninit; open of MaybeUninit_pointer_own/raw_ptr_own checked against definitions (lib.rsspec:440, general.rsspec:109); no lemma/axiom/premise; leak check unchanged.",
+    "Ghost placement keeps strip_ghost(verified) byte-identical to the base original.",
+    "r22b patch differs from r22 only in fractional-conditional wrappers/expected_ghosts; default and nine routes unchanged; rows intentionally stale until rebound."
+  ],
+  "controls": [
+    "Synthetic transform tests (runtime-preserving, invertible, ghost counts), fingerprint/proof/entry/runner/registration suites.",
+    "Cloud next: fingerprint complete for 8 variants; then proof: positive verified with no leak; controls as in CONTROL-TARGET-PROPOSAL.json."
+  ],
+  "dependencies": [
+    "research/challenge-8/task-history/select-callee-r22/LEAK-REPAIR-NEXT.md",
+    "research/challenge-8/task-history/select-callee-r22/FRACTIONAL-PROOF-LEAK-EVIDENCE.json",
+    "research/challenge-8/overnight-assume-actual/verifast-r22-fractional-forget-26.10.patch"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Ghost `match` statement inside a function-body ghost block is not yet observed parsing in this route; Cloud only. r22b rows stale; not on any runner."
+  ]
+}
