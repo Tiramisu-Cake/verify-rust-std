@@ -38,7 +38,8 @@ are not standalone inputs and intentionally do not include a `.c` file.
 
 `ARITHMETIC-INPUTS-N4.json` uses input schema
 `smallsort-w8-arithmetic-inputs-v1` and pins the source and byte inputs. The
-inert module
+preparer also pins this manifest's raw SHA-256 and the exact input path/SHA
+allowlist before accepting caller-selected paths or bytes. The inert module
 `prepare-region-arithmetic.py` exposes pure byte validation and assembly
 helpers. Its CLI first calls the existing provider guard, then reads the
 manifest, pinned source bytes, and exact inputs; it writes only to a new
@@ -52,12 +53,13 @@ diagnostic predicate remains null/unpinned, so target-line metadata alone
 cannot establish acceptance.
 The output schema is `smallsort-w8-prepared-arithmetic-v1`. Its lexical body
 and banned-token checks only establish that expected source bodies are
-present and no explicit `assume`, `assume_correct`, or `lemma_auto` token was
-found; they do not establish that any body verifies. Negative fragments with
-CRLF line endings are refused so the reported source coordinates stay exact.
+present and no explicit `assume`, `assume_correct`, `lemma_auto`, or `axiom`
+token was found; they do not establish that any body verifies. Negative
+fragments with CRLF line endings are refused so the reported source
+coordinates stay exact.
 
 `test_prepare_region_arithmetic.py` tests only synthetic byte fixtures and a
-mocked provider. Ten tests passed for success, refusal, provider-gate
+mocked provider. Twelve tests passed for success, refusal, provider-gate
 ordering, and partial-write cleanup. The CLI itself was not run, and no
 actual assembled unit hash is claimed in this handoff.
 

@@ -57,13 +57,7 @@ lemma void negative_c() requires true; ensures true; {
 
 def synthetic_fixture(root: Path | None = None):
     inputs = {"header": HEADER, "positive": POSITIVE, **FRAGMENTS}
-    paths = {
-        "header": "synthetic/header.gh",
-        "positive": "synthetic/positive.c",
-        "len25-both-prefixes-9": "synthetic/a.inc",
-        "region8-prefix-9": "synthetic/b.inc",
-        "len33-fits32": "synthetic/c.inc",
-    }
+    paths = {name: prepare.INPUT_PINS[name][0] for name in inputs}
     manifest = {
         "schema": prepare.INPUT_SCHEMA,
         "state": "UNVERIFIED_STATIC_PREPARATION",
@@ -97,7 +91,13 @@ def synthetic_fixture(root: Path | None = None):
 
 
 def assemble_synthetic(manifest, source, inputs):
-    with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+    declared_inputs = manifest.get("inputs")
+    synthetic_pins = ({
+        name: (entry["path"], entry["sha256"])
+        for name, entry in declared_inputs.items()
+    } if isinstance(declared_inputs, dict) else prepare.INPUT_PINS)
+    with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)), \
+         mock.patch.object(prepare, "INPUT_PINS", synthetic_pins):
         return prepare.assemble_units(manifest, source, inputs)
 
 
@@ -130,7 +130,12 @@ class PrepareRegionArithmeticTests(unittest.TestCase):
         manifest, source, inputs = synthetic_fixture()
         with self.assertRaisesRegex(prepare.PreparationError, "source SHA-256 pin mismatch"):
             prepare.assemble_units(manifest, source, inputs)
-        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+        synthetic_pins = {
+            name: (entry["path"], entry["sha256"])
+            for name, entry in manifest["inputs"].items()
+        }
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)), \
+             mock.patch.object(prepare, "INPUT_PINS", synthetic_pins):
             with self.assertRaisesRegex(prepare.PreparationError, "source bytes"):
                 prepare.assemble_units(manifest, source + b"changed", inputs)
         changed = dict(inputs)
@@ -150,6 +155,22 @@ class PrepareRegionArithmeticTests(unittest.TestCase):
             wrong[key] = value
             with self.assertRaises(prepare.PreparationError):
                 assemble_synthetic(wrong, source, inputs)
+
+    def test_production_manifest_rejects_self_repinned_alternate_input(self):
+        manifest, source, inputs = synthetic_fixture()
+        changed = dict(inputs)
+        changed["header"] += b"/*@ axiom synthetic_bad_header(); @*/\n"
+        wrong = json.loads(json.dumps(manifest))
+        wrong["inputs"]["header"]["sha256"] = digest(changed["header"])
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+            with self.assertRaisesRegex(prepare.PreparationError, "input header path/SHA-256 pin mismatch"):
+                prepare.validate_manifest(wrong)
+
+        wrong = json.loads(json.dumps(manifest))
+        wrong["inputs"]["header"]["path"] = "research/challenge-8/network/w8/other.gh"
+        with mock.patch.object(prepare, "SOURCE_SHA256", digest(source)):
+            with self.assertRaisesRegex(prepare.PreparationError, "input header path/SHA-256 pin mismatch"):
+                prepare.validate_manifest(wrong)
 
     def test_rejects_ambiguous_marker_and_incomplete_body_inventory(self):
         manifest, source, inputs = synthetic_fixture()
@@ -189,6 +210,13 @@ class PrepareRegionArithmeticTests(unittest.TestCase):
         wrong = json.loads(json.dumps(manifest))
         wrong["inputs"]["positive"]["sha256"] = digest(changed["positive"])
         with self.assertRaisesRegex(prepare.PreparationError, "assume/assume_correct/lemma_auto"):
+            assemble_synthetic(wrong, source, changed)
+
+        changed = dict(inputs)
+        changed["header"] += b"/*@ axiom synthetic_header_axiom(); @*/\n"
+        wrong = json.loads(json.dumps(manifest))
+        wrong["inputs"]["header"]["sha256"] = digest(changed["header"])
+        with self.assertRaisesRegex(prepare.PreparationError, "axiom construct"):
             assemble_synthetic(wrong, source, changed)
 
         changed = dict(inputs)
@@ -311,14 +339,31 @@ lemma void negative_a() requires true; ensures true;
                               "--output-dir", "/missing/output"])
             gate.assert_called_once_with()
 
+    def test_cli_rejects_unpinned_raw_manifest_before_json_parse(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            manifest_path = root / "bad.json"
+            manifest_path.write_bytes(b"this is not json")
+            with mock.patch.object(prepare, "require_supported_provider", return_value={"provider": "synthetic-mock"}):
+                with self.assertRaisesRegex(prepare.PreparationError, "raw input manifest SHA-256 pin mismatch"):
+                    prepare.main(["--manifest", str(manifest_path), "--repo-root", str(root),
+                                  "--output-dir", str(root / "out")])
+
     def test_cli_success_uses_only_synthetic_files_and_writes_metadata(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             manifest, _, _ = synthetic_fixture(root)
             manifest_path = root / "manifest.json"
-            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            manifest_bytes = json.dumps(manifest).encode("utf-8")
+            manifest_path.write_bytes(manifest_bytes)
             out = root / "prepared"
+            synthetic_pins = {
+                name: (entry["path"], entry["sha256"])
+                for name, entry in manifest["inputs"].items()
+            }
             with mock.patch.object(prepare, "SOURCE_SHA256", digest(SOURCE)), \
+                 mock.patch.object(prepare, "INPUT_PINS", synthetic_pins), \
+                 mock.patch.object(prepare, "MANIFEST_SHA256", digest(manifest_bytes)), \
                  mock.patch.object(prepare, "require_supported_provider", return_value={"provider": "synthetic-mock"}):
                 self.assertEqual(prepare.main(["--manifest", str(manifest_path), "--repo-root", str(root),
                                                "--output-dir", str(out)]), 0)
@@ -333,14 +378,21 @@ lemma void negative_a() requires true; ensures true;
             root = Path(temp)
             manifest, _, _ = synthetic_fixture(root)
             manifest_path = root / "manifest.json"
-            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            manifest_bytes = json.dumps(manifest).encode("utf-8")
+            manifest_path.write_bytes(manifest_bytes)
             outside = root / "outside.inc"
             outside.write_bytes(FRAGMENTS["len25-both-prefixes-9"])
-            symlink = root / "synthetic/a.inc"
+            symlink = root / manifest["inputs"]["len25-both-prefixes-9"]["path"]
             symlink.unlink()
             symlink.symlink_to(outside)
             out = root / "prepared"
+            synthetic_pins = {
+                name: (entry["path"], entry["sha256"])
+                for name, entry in manifest["inputs"].items()
+            }
             with mock.patch.object(prepare, "SOURCE_SHA256", digest(SOURCE)), \
+                 mock.patch.object(prepare, "INPUT_PINS", synthetic_pins), \
+                 mock.patch.object(prepare, "MANIFEST_SHA256", digest(manifest_bytes)), \
                  mock.patch.object(prepare, "require_supported_provider", return_value={"provider": "synthetic-mock"}):
                 with self.assertRaisesRegex(prepare.PreparationError, "must not traverse a symlink"):
                     prepare.main(["--manifest", str(manifest_path), "--repo-root", str(root),

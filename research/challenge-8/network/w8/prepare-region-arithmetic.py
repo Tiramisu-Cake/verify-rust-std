@@ -11,7 +11,6 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import os
 from pathlib import Path
 import re
 import shutil
@@ -36,6 +35,29 @@ SOURCE_PATH = "library/core/src/slice/sort/shared/smallsort.rs"
 SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 INPUT_SCHEMA = "smallsort-w8-arithmetic-inputs-v1"
 OUTPUT_SCHEMA = "smallsort-w8-prepared-arithmetic-v1"
+MANIFEST_SHA256 = "4af99419c8219101ee0c45bc6d817e0189c914c89e4884948de9ee260cf6b72e"
+INPUT_PINS = {
+    "header": (
+        "research/challenge-8/network/w8/region-arithmetic.gh",
+        "e87f023764910c636df32d2422b4265c6c5fffbf4274894f05de0fa20c523ea0",
+    ),
+    "positive": (
+        "research/challenge-8/network/w8/region-arithmetic-lemmas.c",
+        "a67df90bd3723d6332e72f1851ab7c454363a94bc4cd9ed65c818a3fccebe129",
+    ),
+    "len25-both-prefixes-9": (
+        "research/challenge-8/network/w8/len25-both-prefixes-9.negative.inc",
+        "481a94ec78205cd85cb8b3bb5b830cf3ff1194976622a4c7940ab702aa6292fa",
+    ),
+    "region8-prefix-9": (
+        "research/challenge-8/network/w8/region8-prefix-9.negative.inc",
+        "781597cb80a68328c78aaca0641427ad0b5e0c72d7683d8e3a3b67103e249679",
+    ),
+    "len33-fits32": (
+        "research/challenge-8/network/w8/len33-fits32.negative.inc",
+        "7fb9989ad850a8986392d9e3ae40f2e6a8c0a7b8397ff4e2ee23111601a07398",
+    ),
+}
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 LEMMA_NAME = re.compile(r"\blemma\s+void\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(")
 
@@ -108,6 +130,8 @@ def validate_manifest(manifest: Any) -> dict[str, Any]:
         entry = _require_mapping(entry_value, f"inputs.{name}")
         entry["path"] = _safe_relative_path(entry.get("path"), f"inputs.{name}.path")
         entry["sha256"] = _require_sha(entry.get("sha256"), f"inputs.{name}.sha256")
+        if (entry["path"], entry["sha256"]) != INPUT_PINS[name]:
+            raise PreparationError(f"input {name} path/SHA-256 pin mismatch")
 
     bodies = manifest.get("positive_body_inventory")
     if not isinstance(bodies, list) or any(not isinstance(x, str) for x in bodies):
@@ -146,8 +170,8 @@ def _body_inventory(source: bytes) -> list[str]:
 
 def _validate_checked_bodies(source: bytes, names: list[str]) -> None:
     text = _ghost_code(source)
-    if re.search(r"\b(?:assume|assume_correct|lemma_auto)\b", text):
-        raise PreparationError("unchecked assume/assume_correct/lemma_auto construct is forbidden")
+    if re.search(r"\b(?:assume|assume_correct|lemma_auto|axiom)\b", text):
+        raise PreparationError("unchecked assume/assume_correct/lemma_auto/axiom construct is forbidden")
     starts = list(LEMMA_NAME.finditer(text))
     if [match.group(1) for match in starts] != names:
         raise PreparationError("positive body inventory mismatch")
@@ -178,8 +202,8 @@ def _validate_header(header: bytes) -> None:
     code = re.sub(r"/\*@([\s\S]*?)@\*/", r"\1", code)
     code = re.sub(r"/\*[\s\S]*?\*/", " ", code)
     code = re.sub(r"//[^\n]*", " ", code)
-    if re.search(r"\b(?:assume|assume_correct|lemma_auto)\b", code):
-        raise PreparationError("unchecked assume/assume_correct/lemma_auto construct is forbidden in header")
+    if re.search(r"\b(?:assume|assume_correct|lemma_auto|axiom)\b", code):
+        raise PreparationError("unchecked assume/assume_correct/lemma_auto/axiom construct is forbidden in header")
     if LEMMA_NAME.search(code):
         raise PreparationError("header definitions closure must not contain lemma bodies")
 
@@ -359,7 +383,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args(argv)
 
-    manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    manifest_bytes = args.manifest.read_bytes()
+    if sha256(manifest_bytes) != MANIFEST_SHA256:
+        raise PreparationError("raw input manifest SHA-256 pin mismatch")
+    manifest = json.loads(manifest_bytes.decode("utf-8"))
     manifest = validate_manifest(manifest)
     repo_root = args.repo_root
     source = _read_repo_file(repo_root, manifest["source"]["path"])
