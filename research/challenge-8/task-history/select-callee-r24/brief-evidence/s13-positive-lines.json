@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "3e3b6e685496572673370f260ae53832eb3d471ac77ce1a69a0c4252c85ef7ee",
+  "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 16,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+  "file_path": "allprooflogs/cases/r24-mut-capture/source-preparation/nine-body/nine-body-mut/r24-mut-proof-positive.log",
+  "file_sha256": "60d0e8a5fe0feef4879d8a2dc6dfba7741a5a51449ba34e5a1c4ee4527e7e9a6",
+  "index_sha256": "e90de738649d672812aad4cf2f3d7415fc2029180b65e7024e1e36da9e560a14",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "60d0e8a5fe0feef4879d8a2dc6dfba7741a5a51449ba34e5a1c4ee4527e7e9a6",
+    "file_id": "41ac5c43b799d5910432d6c317038a3d6a20827773c7009cc835c86daa7dfc46",
+    "start": 1
+  },
+  "request_id": "e5357ebad8cf116722ce1f6a630bdbd92fb1e7052be2aa3ca890568c4606212f",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "SORT4-MAYBEUNINIT: full typed constructor MIR graph accepted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "SORT4-MAYBEUNINIT: certified local body sort4_certified_maybeuninit::sort4_checked_maybeuninit_new from verified/lib.rs"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "SORT4-AS-MUT-PTR: full typed body MIR graph accepted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "SORT4-AS-MUT-PTR: certified SAFE local body sort4_checked_as_mut_ptr"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "SORT4-ACTUAL-OWNER-NINE: exact source and complete decoded MIR admission only"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "SORT4-ACTUAL-NESTED-H2: exact nine-body same-unit method/Drop admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "SORT4-POINTER-DROP: full typed method MIR graph accepted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "SORT4-A1-NINE: exact source, typed local pair and outer cleanup call admitted"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "(type)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "SORT4-POINTER-DROP: modeled typed pointer drop 1"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

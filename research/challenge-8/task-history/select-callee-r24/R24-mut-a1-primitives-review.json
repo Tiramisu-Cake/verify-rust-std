@@ -1,0 +1,58 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD",
+  "baseline_commit": "39a928cee896905a0993db80a27c12b127f51850",
+  "candidate_commit": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
+  "candidate_tree": "1d02c58428aab78644157278d221378064aeff40",
+  "spec_sha256": "0ecc5a6669f2be65f1ac3a9f28a7623e992dc4e0fc09f83a1d2391300d9fb8be",
+  "packet_sha256": "e8c9d90b043f27d66ef4de6b05b45eaec2e7f2e79da1914df7ba1b8668adc70d",
+  "packet_diff_sha256": "d3aad45614145e3c64f094fe8b22f8a4caa3a9c7fb05dad3db24785418d75328",
+  "commit_diff_sha256": "45e24bfa96d96a5ed5e2a2f5e2ce0b66c5d4e1063e4b50d029c2b836cf1a6820",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-native-review.json",
+      "sha256": "2f60b54b42f9ea9c145cfcde451dc0c0f6d8c89ad3a25dcb43b42833e9065853",
+      "decision": "GO_LIBRARY_ONLY; unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-review.json",
+      "sha256": "66a214ba2544334947a51e8c067bcf6e4e793af9ff31638cd6ffb544d8c8f691",
+      "decision": "NO_GO for body_proof_run provenance; preserved unchanged"
+    },
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
+      "sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1",
+      "decision": "GO_FOR_POSITIVE_TRANSPORT_BUILD; unchanged"
+    }
+  ],
+  "scope": "Independent same-boundary review of the incremental mutable A1 primitive generator/patch and exact shell/recipe tool-hash update. GO is limited to a full1200 Cloud Build with same-tool const regression and mutable positive. No acceptance or publication is approved.",
+  "verified": [
+    "Exact review packet check passed for candidate 51797daecd14ed7ac0cc16affcb926f6e797bf2b, baseline 39a928cee896905a0993db80a27c12b127f51850, spec SHA 0ecc5a6669f2be65f1ac3a9f28a7623e992dc4e0fc09f83a1d2391300d9fb8be and packet SHA e8c9d90b043f27d66ef4de6b05b45eaec2e7f2e79da1914df7ba1b8668adc70d; packet state PACKET_VALID_NOT_REVIEWED and proof credit NONE.",
+    "The additive A1 overlay generator accepts only the exact prior mutable translator SHA eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162. Deterministic generation reproduces patch SHA e81f3a4c64df13432cbcdb9287a7247bd1e87884a6a35c901eefd0d7e0efbc4d and final translator SHA 11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f.",
+    "The new assert_inhabited arm requires active mutable A1 nine-body and checked-outcome certificates, exact caller body, zero late-bound parameters, equal resolved/original substitutions, the mutable Element pointer shape, and no operands. It returns the intrinsic's unit result without adding pointee ownership, Copy/Freeze or a memory premise.",
+    "The new transmute arm requires the exact mutable A1 callee, a plain Move(_3), matching MaybeUninit<*mut Element> local and *mut Element destination with identical complete Element type. It reuses the previously pinned typed MaybeUninit-pointer representation primitive and existing outcome projection. The source/runtime tool declares this existing primitive as a trusted compiler-to-model representation correspondence; this delta adds no new primitive declaration, axiom or trusted premise. The translator's ordinary raw-pointer type erases const/mutability in the existing model, while the new native gate checks the concrete mutable MIR types.",
+    "A mutable-pointer Transmute refusal arm is active only when the mutable nine-body certificate is active and appears before Box/ordinary cast fallback. Other shapes in the active closed profile refuse; exact valid uses increment a separate counter. Both new counters reset at bundle initialization and must each equal one before the existing mutable certificate marker prints. The old const arms remain unchanged; with the mutable selector absent, the new branches are inactive.",
+    "The shell applies this incremental patch only in the exact positive proof mode after checking its hash and the expected eca translator base, then checks the exact 11d4 final translator hash and unchanged modified-file inventory. Profile hashing expects the new final translator only for that mode. The exact-mode same-tool const regression and mutable source/fingerprint/positive ordering remain unchanged.",
+    "The stale shell header comment from the prior candidate is corrected to describe the exact R24 mutable positive route. Parent static transport preflight passed for this exact candidate: payload 426727 bytes, SHA256 fc9fa754490c4b21abb952600c0b39a37dca0419cd2d03ce5e4c1078c9ab92d5, max argument 2778, encoded config 27408/28000. Runtime closure passed: 116 entries, 2830909 bytes, SHA256 50ec2663aa6968addff99530da964fbcff2097955a8cccdc33ca7d802e73c3bd."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check --bundle /tmp/r24-mut-a1-primitives-review --expect-candidate 51797daecd14ed7ac0cc16affcb926f6e797bf2b --expect-spec-sha256 0ecc5a6669f2be65f1ac3a9f28a7623e992dc4e0fc09f83a1d2391300d9fb8be (pass)",
+      "python3 research/challenge-8/task-history/select-callee-r24/mutable-a1-primitives.py --check (pass; generated patch/final hashes match)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof.py (17 tests, pass)",
+      "python3 research/challenge-8/cloud-build/test_select_callee_r24_mut_proof_entry.py (7 tests, pass)",
+      "Python syntax compilation for A1 generator, proof library and entry (pass)",
+      "bash -n research/challenge-8/cloud-build/run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (only 3 unified-patch context-prefix whitespace reports)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement or verifier",
+      "Cloud Build, Evidence Brief, raw/full logs, archives or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "Approval is limited to the exact configured positive plus same-tool const-regression Cloud Build. The failure and prior complete source capture are source-reported context, not independent proof. This translator delta remains unbuilt; native compile, mutable body proof and refusal matrix remain unestablished. P2 remains unpublished, accepted/publication are false, and proof credit is zero.",
+  "proof_credit": 0
+}

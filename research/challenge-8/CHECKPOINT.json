@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "3e80a1be998806fd31399b69e14b083f5263a124db74a874914b6af8fd954112"
+      "sha256": "118527776d9230482f9b6867a856ad54982f39ca47e3c115305bf30687bd62ea"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "29be88dc6ebd037327062d7463d51900129de411c1016eaab6b4c2c608f270ff"
+      "sha256": "d484994c34e5894a9d44ed13d220741952b792a06f64449ce8e4c5c72b77ce1a"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,13 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
-        "sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1"
+        "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-FIRST-OBSERVATIONS.json",
+        "sha256": "48f06569a52f325c21ab81d48049310b114302d57550b2011a48cdff5bd5b101"
       }
     ],
-    "summary": "4509 terminal FAILURE; stage/cause awaiting Brief. P2 NOT_PUBLISHED."
+    "summary": "Mutable A1 primitive translation still const-only; narrow closed mutable arms needed. P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -65,6 +64,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/081b37b130153cca4eb3fc16666adc44aa1a5a223e5b5fbf7c045e85fed67caa.json",
       "sha256": "081b37b130153cca4eb3fc16666adc44aa1a5a223e5b5fbf7c045e85fed67caa"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/08a89284410710934a0554974480ff0bf8c2487e9b46873fd89911d0b735293d.json",
+      "sha256": "08a89284410710934a0554974480ff0bf8c2487e9b46873fd89911d0b735293d"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/090da07da1cafcdd98a1a1d02fde1627665847ef3764490ce22ee502b3a6b405.json",
@@ -355,6 +358,10 @@
       "sha256": "96e2f068c8491f71e76f4bff686b62f7ee6ad4cebf4486f084a2186d4a0794bb"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/975e037c04a312ac7eed48dd396c479585ddb8421cf5c98dcd6e7eac00a34a61.json",
+      "sha256": "975e037c04a312ac7eed48dd396c479585ddb8421cf5c98dcd6e7eac00a34a61"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/9a7b210bfac6bdaaa1c3049b1a222fce7b82d1f9678b3c8d0b4f2eb533210423.json",
       "sha256": "9a7b210bfac6bdaaa1c3049b1a222fce7b82d1f9678b3c8d0b4f2eb533210423"
     },
@@ -409,6 +416,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/ae25ec3f3875d59477f1cce73e1cae4e69266151bffe1c869071f241dce48157.json",
       "sha256": "ae25ec3f3875d59477f1cce73e1cae4e69266151bffe1c869071f241dce48157"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/ae3655503e5155d5d7f12a90c46d799c58b4698a502802ba14860bbf977631ec.json",
+      "sha256": "ae3655503e5155d5d7f12a90c46d799c58b4698a502802ba14860bbf977631ec"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/af21deb31bc517b1c24f9b3e7dfcdd7d5e90eb3a69f2149c38cdf8a557e9d7bb.json",
@@ -467,12 +478,20 @@
       "sha256": "c49e499a7b4e8f5f4ca340cdfe69d346088639e32ff5e6e11b7217f211b23ddb"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/c67a10bc829791475f2b27465bc45bbda30fd73e2c9d4da48c00da1895cca03b.json",
+      "sha256": "c67a10bc829791475f2b27465bc45bbda30fd73e2c9d4da48c00da1895cca03b"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c723b519358ebe6758ba4a6f12a378ccc48fe756f0909d0bbe24172419fbc64f.json",
       "sha256": "c723b519358ebe6758ba4a6f12a378ccc48fe756f0909d0bbe24172419fbc64f"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c7407339085b04749a971b2c8e8f0e455157b82602730479a6927765021b6764.json",
       "sha256": "c7407339085b04749a971b2c8e8f0e455157b82602730479a6927765021b6764"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/c7b17b2b1af1b80f225fae81a658e95d2474678cd7a00f864aea92b4c3a616c2.json",
+      "sha256": "c7b17b2b1af1b80f225fae81a658e95d2474678cd7a00f864aea92b4c3a616c2"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/c8b91f3f2bd5de5d338fd61ed8c6974c4059e7fbbe6f4ee98666a6f5ba035486.json",
@@ -489,6 +508,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/cf6bffd98683192e54eb347233ba295b53f1b8ebb9a27d74d3137f44a19b5d6f.json",
       "sha256": "cf6bffd98683192e54eb347233ba295b53f1b8ebb9a27d74d3137f44a19b5d6f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/d7e19290fab632b82ade2052d40a25b5b937352e50239505f2ec115396674aed.json",
+      "sha256": "d7e19290fab632b82ade2052d40a25b5b937352e50239505f2ec115396674aed"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/db9663d421014865a4b2832c98d5cf6a541db543e0361a09a1655c69dea35924.json",
@@ -555,6 +578,10 @@
       "sha256": "fd4bd3247d73620f0ffcd9491b3a7d00b1ee1fdd8cf07278c038ab0846d0d1a7"
     },
     {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/fe62ccd45f15435ada859db59cd96c68bb60942ca88a66e210709304d45c63f2.json",
+      "sha256": "fe62ccd45f15435ada859db59cd96c68bb60942ca88a66e210709304d45c63f2"
+    },
+    {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/ff5a604399ba42986eabb1413301d2d87e346d823e5e791a5ed7df250dfae088.json",
       "sha256": "ff5a604399ba42986eabb1413301d2d87e346d823e5e791a5ed7df250dfae088"
     },
@@ -616,12 +643,12 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "25f0: all8 mutable fingerprints and audit complete; location reproduces pins. No proof/admission,credit0.",
+      "claim": "4509: nativecompile0,const audit/freshmutablecapture complete; positive refuses const-only assert_inhabited. Bodyproof unknown,credit0.",
       "evidence": [
         {
-          "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-FINGERPRINT-OBSERVATIONS.json",
-          "sha256": "4f706555dc3c52847e200f33212c9cc294c102f1224b20d0a6ebb051a8f5023a"
+          "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
+          "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-FIRST-OBSERVATIONS.json",
+          "sha256": "48f06569a52f325c21ab81d48049310b114302d57550b2011a48cdff5bd5b101"
         }
       ]
     }
@@ -701,6 +728,17 @@
           "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
           "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-FOURTH-OBSERVATIONS.json",
           "sha256": "8d271871cfdf716409100245acedde955ba75a29110cc7421c9dc2e6f86f6d5b"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "25f0: all8 mutable fingerprints and audit complete; location reproduces pins. No proof/admission,credit0.",
+      "evidence": [
+        {
+          "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
+          "path": "research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-FINGERPRINT-OBSERVATIONS.json",
+          "sha256": "4f706555dc3c52847e200f33212c9cc294c102f1224b20d0a6ebb051a8f5023a"
         }
       ]
     }
@@ -804,6 +842,22 @@
       "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
     }
   ],
+  "mutable_a1_primitives_candidate": {
+    "candidate": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
+    "proof_credit": 0,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
+    "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
+    "state": "REVIEW_GO_UNBUILT",
+    "translator_sha256": "11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f"
+  },
+  "mutable_a1_primitives_decision": {
+    "choice": "Separate exact mutable A1 primitive arms guarded by closed nine-body mutable certificate and exact local caller/callee/type/substitutions/operand; source and unit/all9body pins unchanged. Reuse existing pointer-value erased representation checked primitive, no memory premise. Add counters1/1 and explicit mutable-transmute refusal instead of falling through to unchecked cast. Preserve original const arms. Incremental patch over exact eca translator, original patch/history retained.",
+    "controls": "Freshfull1200 same-toolconst8 + mutablepositive afterstaticfix+same reviewer delta. Required actual mutablematrix/type/source/signature/cleanup/operand/branch refusals remain pending. No newfingerprint needed for translator-only change.",
+    "defect": "4509 source log line15: assert_inhabited admitted only for const pointer. Static scan finds two pointer-only translation primitives outside Sort4-prefixed hooks: assert_inhabited and MaybeUninit pointer Transmute cast; mutable route otherwise falls into ordinary cast fallback.",
+    "invariant": "Raw pointer values only; unrestricted Element, no pointee ownership/Copy/Freeze/addressbridge. Same-unit ordinary local bodies still proved; fullsource/MIR/type/normal-unwind/CFG/Drop/leak/refinement controls retained.",
+    "proof_credit": 0,
+    "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
+  },
   "mutable_capture_build": {
     "accounted": true,
     "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
@@ -1087,7 +1141,7 @@
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_FAILURE_AWAIT_BRIEF",
+    "result": "SOURCE_REPORTED_NATIVE_COMPILE0_CONST_AUDIT_TRUE_MUTABLE_TRANSLATION_CONST_INHABITED_REFUSAL",
     "schema": "select-r24-mut-positive-submission-v1",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
     "source_payload_sha256": "4fce0c94f80eeb1d1c7781d0376563329e2b18aaecc3bc7aa1ea4142d37bbc93",
@@ -1095,22 +1149,32 @@
     "timeout_seconds": 1200
   },
   "mutable_positive_candidate": {
-    "candidate": "39a928cee896905a0993db80a27c12b127f51850",
-    "native_library_candidate": "08ee42fc877d917fda596adaf8758e113b911c41",
-    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-TRANSPORT-PREFLIGHT.json",
-    "preflight_sha256": "b1e72540ac66171a1ab5b0804de804e6e1de17f7b8f3e636f979c97dae638b86",
+    "candidate": "51797daecd14ed7ac0cc16affcb926f6e797bf2b",
     "proof_credit": 0,
-    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
-    "review_sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1",
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-a1-primitives-review.json",
+    "review_sha256": "742f1622c472043a9396875f56468b2a8a0ac710beb91260613f36ce03355e57",
     "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
-    "state": "TERMINAL_FAILURE_AWAIT_BRIEF"
+    "state": "REVIEW_GO_UNBUILT"
   },
+  "mutable_positive_candidate_history": [
+    {
+      "candidate": "39a928cee896905a0993db80a27c12b127f51850",
+      "native_library_candidate": "08ee42fc877d917fda596adaf8758e113b911c41",
+      "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-TRANSPORT-PREFLIGHT.json",
+      "preflight_sha256": "b1e72540ac66171a1ab5b0804de804e6e1de17f7b8f3e636f979c97dae638b86",
+      "proof_credit": 0,
+      "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-positive-provenance-review.json",
+      "review_sha256": "0822e8dc01bf3c27b1c322af07f67e7dd5891a7ec735d27ab0a6bcb28418fbd1",
+      "scope": "CONST_FULL8_REGRESSION_AND_MUTABLE_POSITIVE_NO_ACCEPTANCE",
+      "state": "FAILED_TRANSLATION_ACCOUNTED"
+    }
+  ],
   "mutable_positive_pins_ref": {
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "Evidence Brief 4509: identify exact failed stage; static fix before any new Build.",
-  "next_step": "Evidence Brief 4509: identify exact failed stage; static fix before any new Build.",
+  "next": "Full1200 Cloud 51797d on unchanged mutable pins: const regression + mutable positive.",
+  "next_step": "Full1200 Cloud 51797d on unchanged mutable pins: const regression + mutable positive.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; capture-only next, then narrowcertificates/proof/refusals. W4 remains gated."
@@ -1176,7 +1240,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T19:20:15Z",
+  "updated_utc": "2026-10-23T19:29:29Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",
