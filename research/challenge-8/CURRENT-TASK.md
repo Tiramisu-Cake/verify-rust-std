@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-23T15:50:08Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-23T15:51:49Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 3709s spent, 0s retired, 17891s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Mutable closed certificates and full matrix remain unqualified. [Build `b606d510-6832-483e-8168-afe8ef5fe9b4`]
+Active Build IDs: 25f0b6ae-c038-4886-a742-4c3448f88512; unresolved: none recorded.
+Blocker: Await mutable eight-row fingerprint Brief; P2 NOT_PUBLISHED. [Build `25f0b6ae-c038-4886-a742-4c3448f88512`]
 Next: Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

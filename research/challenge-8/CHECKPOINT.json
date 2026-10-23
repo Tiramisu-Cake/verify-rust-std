@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "aedf9a1084bb79a69a05a58317cf80b382be83fadf2ad21b5e1f4e41e2870db7"
+      "sha256": "aff2e601ce7ceaaff8fe4b86422cc3d9d58f4b98bf4f3e8948e2a76bbc65814e"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,14 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+    "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
     "evidence": [
       {
         "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
         "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
       }
     ],
-    "summary": "Mutable closed certificates and full matrix remain unqualified."
+    "summary": "Await mutable eight-row fingerprint Brief; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -565,7 +565,7 @@
     {
       "obligation": "Fresh mutable eight-row fingerprint and location control",
       "reason": "Build b606 sourcecapture complete/audittrue; need same-version negative pins before closed mutable nativecertificates and actual fullproofmatrix.",
-      "state": "DESIGN_RECORDED_BEFORE_EDIT"
+      "state": "FINGERPRINT_BUILD_ACTIVE"
     }
   ],
   "mutable_capture_build": {
@@ -768,6 +768,22 @@
       "schema": "select-r24-mut-capture-request-v1"
     }
   },
+  "mutable_matrix_fingerprint_build": {
+    "accounted": false,
+    "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
+    "candidate": "b3806fc8e8a58a1c69a3f0dfd520dc76a2028643",
+    "config_sha256": "52853410ef22c89c1d993a2cec15a3b8979a96f22aa1a1124dd304a3245c8655",
+    "dispatch_token": "dispatch-3dc583898dea4672a037a5c5e24e4b6d",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "schema": "select-r24-mut-matrix-fingerprint-submission-v1",
+    "scope": "SOURCE_MIR_MATRIX_FINGERPRINT_ONLY_NO_PROOF_ADMISSION",
+    "source_payload_sha256": "741436a03fbc31dd02b617f018f66bf335a2c9f83b0730b570875ba0888d5956",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "mutable_matrix_fingerprint_candidate": {
     "candidate": "b3806fc8e8a58a1c69a3f0dfd520dc76a2028643",
     "proof_credit": 0,
@@ -781,7 +797,7 @@
     },
     "scope": "SOURCE_MIR_MATRIX_FINGERPRINT_ONLY_NO_PROOF_ADMISSION",
     "source_payload_sha256": "741436a03fbc31dd02b617f018f66bf335a2c9f83b0730b570875ba0888d5956",
-    "state": "REVIEWED_PUBLISHED_READY_FOR_SOURCE_ONLY_FINGERPRINT"
+    "state": "FINGERPRINT_BUILD_ACTIVE"
   },
   "mutable_matrix_fingerprint_decision": {
     "assurance": "REVIEW_GO_STATIC_SYNTHETIC_PASS_UNBUILT",
@@ -797,7 +813,7 @@
     "path": "research/challenge-8/task-history/select-callee-r24/P2-MUT-CAPTURE-PINS.json",
     "sha256": "b10d8f472fd9babc5e73cb7a8da14ad691b0563975d0d6d956366165a47401d0"
   },
-  "next": "Submit reviewed mutable matrix fingerprint; full1200.",
+  "next": "ACK, then Brief all8/source/location/native pins.",
   "next_step": "Review closed R24 mutable capture adapter and lane wiring; full1200 Cloud capture only.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
@@ -842,7 +858,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "25f0b6ae-c038-4886-a742-4c3448f88512"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -862,17 +880,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T15:50:08Z",
+  "updated_utc": "2026-10-23T15:51:49Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "5d6b90e3-1155-4dac-843d-c7f13b7050c3",
-    "acknowledged_job_id": "328126cf-4bdc-4e5f-866d-19dcf42c9f29",
-    "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
-    "checkpoint_frozen_after_arm": false,
+    "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
+    "checkpoint_frozen_after_arm": true,
     "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
-    "spec_path": "/tmp/select-r24-mut-refusal-watch.json",
+    "spec_path": "/tmp/select-r24-mut-matrix-fingerprint-watch.json",
     "store": "/root/.local/state/smallsort-watch-select-r24",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
@@ -981,6 +996,17 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
       "spec_path": "/tmp/select-r24-mut-insertion-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "5d6b90e3-1155-4dac-843d-c7f13b7050c3",
+      "acknowledged_job_id": "328126cf-4bdc-4e5f-866d-19dcf42c9f29",
+      "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 phase/T0/account/window. ACK with dedicated store before checkpoint mutation; terminal evidence only through Brief.",
+      "spec_path": "/tmp/select-r24-mut-refusal-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
