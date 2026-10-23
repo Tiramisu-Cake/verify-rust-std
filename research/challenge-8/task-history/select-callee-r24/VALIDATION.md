@@ -139,3 +139,10 @@ The initial review and spec are retained. Review spec was normalized from
 ASCII-escaped Unicode arrow to canonical UTF8 with identical fields to match
 the packet. Final delta review is GO_WITH_NITS; no old R15 proof credit or
 new source/premise/model authorization is inferred.
+
+Third Build0d214997-138c-41ea-abcf-b337cffb8c72 was submitted at full1200
+for reviewed coherent infra/proofdc2df135. Remote metadata head0fb3dd1f was
+verified; runtime closure matches the reviewed candidate and source payload
+SHA matches the successful static preflight. Initial client status WORKING.
+Total accounted remains674s;20926s remaining includes the1260s active reserve.
+No new AST, compilation result or proof credit is inferred before Brief.

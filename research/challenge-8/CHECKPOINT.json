@@ -6,7 +6,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "dd7e5ba67a97d79485030b26afe8f83959f8763cf75d12b3999941e1b67fdfb2"
+      "sha256": "8fb5e8c2a4927e9e8e3457248940c09e1564f3816934ac109b33a6bd3604fdb1"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
@@ -22,7 +22,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "629ab8f9e7bd3a38d74e32232156a312fa33cf4ee9f5c4002090045f3f5c8248"
+      "sha256": "1d62c86b7827f272f30794442c0ec97348b4351ee08add373931360074aadca0"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -186,14 +186,14 @@
       ],
       "obligation": "Additive emitted AST inventory for unchanged positive103a34",
       "reason": "Native serializer has MergeFractionsStmt TODO used by positive. Reuse existing lossless R15 overlay under exact R24 gate; same source/fingerprint/translator, no verifier/model changes.",
-      "state": "REVIEW_GO_SERIALIZER_REPAIR"
+      "state": "SERIALIZER_BUILD_WORKING"
     }
   ],
-  "next_step": "Submit reviewed printer repair dc2df135 at full1200; watcher/Brief for AST cleanup26/27/28. No credit.",
+  "next_step": "Ack watcher before CHECKPOINT edits; Brief0d214997, then inspect AST cleanup26/27/28. credit0.",
   "open": [
     "103a34 built: positive exit1 with unchanged3dead-code sites. Exact emitted AST binding/cause UNKNOWN. Seven control targets remain unpinned; classifier NO_GO.",
     "P2 *mut NOT_PUBLISHED; mutable chain 17142eb2 source-only. W4 waits for callee acceptance.",
-    "AST setup failed on serializer TODO; dc2df135 reuses lossless R15 printer overlay, reviewed but UNBUILT. Actual AST/causality pending; no raw fallback for Reader429/500."
+    "AST setup failed on serializer TODO; lossless R15 printer repair dc2df135 submitted. Actual AST/cause pending; no raw fallback for Reader429/500."
   ],
   "owner": "select-sort4",
   "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
@@ -221,8 +221,20 @@
     }
   ],
   "schema": "smallsort-checkpoint-v1",
+  "serializer_build": {
+    "ast_binding": "PENDING_BRIEF",
+    "id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+    "infra_sha": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+    "proof_credit": 0,
+    "proof_sha": "dc2df135837a95b4cc675dc8a9bcfe6e917bad21",
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF",
+    "status": "WORKING"
+  },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "0d214997-138c-41ea-abcf-b337cffb8c72"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -242,17 +254,14 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T11:55:37Z",
+  "updated_utc": "2026-10-23T11:58:36Z",
   "watcher_handoff": {
-    "ack_mode": "CONTINUE_EXISTING_WINDOW",
-    "acknowledged_event_id": "8614abb4-f8d8-4e26-80e5-d0785c85b71c",
-    "acknowledged_job_id": "db113fcb-a351-4414-b5de-6ab16406665b",
-    "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
-    "checkpoint_frozen_after_arm": false,
-    "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
-    "spec_path": "/tmp/select-r24-ast-watch.json",
+    "build_id": "0d214997-138c-41ea-abcf-b337cffb8c72",
+    "checkpoint_frozen_after_arm": true,
+    "continuation": "Same R24 T0/account/window; repaired serializer candidate, zero credit pending Brief.",
+    "spec_path": "/tmp/select-r24-serializer-watch.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
@@ -264,6 +273,16 @@
       "checkpoint_frozen_after_arm": false,
       "continuation": "Same R24 T0/account/window; no new authorization or proof credit.",
       "spec_path": "/tmp/select-r24-first-watch.json",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
+      "acknowledged_event_id": "8614abb4-f8d8-4e26-80e5-d0785c85b71c",
+      "acknowledged_job_id": "db113fcb-a351-4414-b5de-6ab16406665b",
+      "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
+      "checkpoint_frozen_after_arm": false,
+      "continuation": "Same R24 T0/account/window; new Build after reviewed status fix, not a retry of old monitor job.",
+      "spec_path": "/tmp/select-r24-ast-watch.json",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
   ]

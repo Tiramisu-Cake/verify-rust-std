@@ -1,10 +1,10 @@
 # Select R24 tool overlays
 
-Base: upstream VeriFast `f76012fb518703b1d98e243ac4f487f16877cfcb`. Apply the rows below in order. Rows 1–27 are the const callee chain from reviewed candidate `a4737f9febf20ec5373eafa641268c26c6e674c7`. Row 28 is an UNBUILT R24-only AST diagnostic utility overlay; the normal verifier/translator semantics are unchanged.
+Base: upstream VeriFast `f76012fb518703b1d98e243ac4f487f16877cfcb`. Apply the rows below in order. Rows 1–27 are the const callee chain from reviewed candidate `a4737f9febf20ec5373eafa641268c26c6e674c7`. Row 28 is an R24-only AST diagnostic utility overlay, submitted in Build `0d214997-138c-41ea-abcf-b337cffb8c72` with result pending; the normal verifier/translator semantics are unchanged.
 
 Base translator SHA-256: `c1eb897673f88b0b8dc50798deca603bdad2c60818b6d5380ccf1dda055fe445`. Final translator SHA-256: `103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44`. Final parser SHA-256: `6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246`.
 
-Static patch application against committed base files reproduced these hashes. No local compiler, exporter, MIR decoder, source preparation or verifier was run. R24 Builds af904556 and 234e58e3 did not accept the callee; row 28 remains UNBUILT. This document grants no proof credit or profile acceptance.
+Static patch application against committed base files reproduced these hashes. No local compiler, exporter, MIR decoder, source preparation or verifier was run. R24 Builds af904556 and 234e58e3 did not accept the callee; row 28 is now submitted, with its hosted result pending. This document grants no proof credit or profile acceptance.
 
 ## Gating and scope
 
