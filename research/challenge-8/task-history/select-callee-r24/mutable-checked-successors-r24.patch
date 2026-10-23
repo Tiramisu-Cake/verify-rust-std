@@ -1,0 +1,13 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -5565,7 +5565,9 @@
+               | FnCallResult _, Mir.GotoTerminator _
+                 when !manuallydrop_new_identity_lowering ||
+                      checked_g1_no_unwind || checked_owner_no_unwind ||
+-                     checked_r24_pointer_outcome ->
++                     checked_r24_pointer_outcome ||
++                     checked_mut_owner_no_unwind ||
++                     checked_mut_r24_pointer_outcome ->
+                   (* The identity lowering emits only the normal assignment/goto.
+                      The separately proved G1 callee has false unwind.  Keep
+                      successor inventory faithful to the emitted CFG. *)

@@ -121,3 +121,7 @@ unqualified pending exact target pins and classifier prior/current repair.
 ## Incremental mutable A1 primitive candidate — UNBUILT
 
 Row33 `mutable-a1-primitives-r24.patch` SHA-256 `e81f3a4c64df13432cbcdb9287a7247bd1e87884a6a35c901eefd0d7e0efbc4d`, base translator `eca440a605ab3900c39d9e58328b487104a1b33f75d90323036f6beab09aa162`, final `11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f`. Applies only inside exact mutable positive mode after row32. New closed typed mutable A1 arms for assert_inhabited and checked MaybeUninit-pointer transmute; counters1/1; old const arms retained. Row32 compiled on Build4509, whose mutable translation stops at const-only assert_inhabited. No mutable body proof/publication/credit. Review/Cloud for row33 pending.
+
+## Incremental mutable checked-successor candidate — UNBUILT
+
+Row34 `mutable-checked-successors-r24.patch` SHA-256 `07eed4b28d098812bb5e263297bac08c7dc372bc707be95f3d2b01c5832275a1`, base `11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f`, final `8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007`. Applies after row33 under existing exact mutable positive mode. Add the two already-checked mutable projection booleans to existing FnCallResult/Goto successor filter. No rawMIR/checker/gate/source/model change. Row33 compiled and A1 counts1/1 observed on489c, which fails with3deadcode lines. Row34 review/Cloud pending; no mutable acceptance or credit.

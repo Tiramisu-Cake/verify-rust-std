@@ -427,6 +427,13 @@ if (( r24_mut_proof_enabled == 1 )); then
   [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f ]] || exit 2
   git -C "$source_home" diff --name-only > "$ev/r24-mut-a1-modified-files.txt"
   cmp "$ev/r24-final-tool-modified-files.txt" "$ev/r24-mut-a1-modified-files.txt"
+  mut_successor_patch="$proof_root/research/challenge-8/task-history/select-callee-r24/mutable-checked-successors-r24.patch"
+  [[ "$(sha256sum "$mut_successor_patch" | cut -d' ' -f1)" == 07eed4b28d098812bb5e263297bac08c7dc372bc707be95f3d2b01c5832275a1 ]] || exit 2
+  stage mutable-successors-check git -C "$source_home" apply --check "$mut_successor_patch"
+  stage mutable-successors-apply git -C "$source_home" apply "$mut_successor_patch"
+  [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007 ]] || exit 2
+  git -C "$source_home" diff --name-only > "$ev/r24-mut-successor-modified-files.txt"
+  cmp "$ev/r24-final-tool-modified-files.txt" "$ev/r24-mut-successor-modified-files.txt"
 fi
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
@@ -468,7 +475,7 @@ for path in rows:
  elif path not in ('bin/verifast','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') and rows[path]!=m['hosted_profile_hashes'][path]:
   raise SystemExit(f'frozen O26 tool/spec pin differs: {path}')
 if os.environ.get('SORT4_R24_SESSION_PHASE_ID') == 'SORT4-ACTUAL-SELECT-2026-10-24-R24':
- expected_translator='11d4a092b3d91570307779cfc1e5b46ff37525343a62abb162109bfedbc22d0f' if sys.argv[4]=='1' else 'c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e'
+ expected_translator='8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007' if sys.argv[4]=='1' else 'c8f5ce1da4f88a4b029b8ed12cc7667a0e227836b1843a1590f78769e073201e'
  if rows['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']!=expected_translator:
   raise SystemExit('R24 checked outcomes translator pin differs')
  path='src/frontend/ocaml_expr_of_ast.ml'
