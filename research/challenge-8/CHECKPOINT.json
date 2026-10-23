@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "686b1ed24c241d8c268258cd527312150498e1d5ff493b419eeea1d626ec903b"
+      "sha256": "9e28984d03bec5ad6914970c24817d476879a5b8938ea33fc9939e3b45f1b2e8"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,11 +34,11 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-SECOND-OBSERVATIONS.json",
-        "sha256": "45c0c438402ee13c70548dd66cab0f67f029261187354e99ade738a917ba0623"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-mut-partial-target-review.json",
+        "sha256": "fb44a477735ab0d42754714e7e77fdf8f814377c51b35b748ef16dddce855552"
       }
     ],
-    "summary": "Partial-pair native refusal expectation corrected; all11 fresh controls pending. P2 NOT_PUBLISHED."
+    "summary": "Reviewed partial-selector expectation fix unbuilt; P2 NOT_PUBLISHED."
   },
   "brief_observation_refs": [
     {
@@ -1703,6 +1703,24 @@
     "provenance_fix": "Original faf7 NO_GO preserved. Callback/row existence no bodyproof claim; no callback false, attempted unresolved null, only clean positive true;17+7tests pass.",
     "state": "REVIEW_GO_STATIC_PREFLIGHT_PASS_UNBUILT"
   },
+  "mutable_partial_target_candidate": {
+    "accepted": false,
+    "candidate": "9ffbdc566ef3f704401900b98e6f303621345c16",
+    "mode_sha256": "acec242babdbf1ddbd8913ce4c8b2a296fb2ef806b14d0c1f8353f9eb7a954c7",
+    "preflight_path": "research/challenge-8/task-history/select-callee-r24/MUT-PARTIAL-TARGET-TRANSPORT-PREFLIGHT.json",
+    "preflight_sha256": "32b10b5056cf4a46f6078493eec3b3600f7c030c5a09bebbfc4e0dc666074f54",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review_path": "research/challenge-8/task-history/select-callee-r24/R24-mut-partial-target-review.json",
+    "review_sha256": "fb44a477735ab0d42754714e7e77fdf8f814377c51b35b748ef16dddce855552",
+    "runtime_closure": {
+      "bytes": 3022316,
+      "entries": 128,
+      "sha256": "21dbdff388a9334bbf0bab68374bd9bcf868aaefb8b9d757d3e17ef5a243aea8"
+    },
+    "scope": "EXACT_OBSERVED_PARTIAL_SELECTOR_REFUSAL_AND_CLOSED_PIN_REFRESH",
+    "state": "REVIEWED_UNBUILT"
+  },
   "mutable_positive_build": {
     "accounted": true,
     "build_id": "cb6ab304-085f-41e3-9f0a-a5cd3d0a4147",
@@ -1858,16 +1876,16 @@
     "state": "TERMINAL_ACCOUNTED_PARTIAL_PAIR_TARGET_FIX_PENDING"
   },
   "mutable_refusal_work_in_progress": {
-    "commit": "348e7f78b042db89350ef705373ddcbc9378e0e7",
-    "next": "Fresh full1200 matrices/consequence/all11refusals; no qualified nativecontrols yet.",
+    "commit": "9ffbdc566ef3f704401900b98e6f303621345c16",
+    "next": "Fresh full11native controls androotaudit beforeP2publicationreview.",
     "paths": [
       "research/challenge-8/cloud-build/select-callee-r24-mut-refusals.py",
       "research/challenge-8/cloud-build/test_select_callee_r24_mut_refusals.py"
     ],
     "proof_credit": 0,
     "publication_allowed": false,
-    "state": "SUBMITTED",
-    "tests": "7entrytests withrealhelperboundary pass",
+    "state": "REVIEWED_UNBUILT",
+    "tests": "31focusedtests pass",
     "worker": "r24_admission"
   },
   "mutable_successor_candidate": {
@@ -1886,8 +1904,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review exact observed partial-pair target andpins; fullmatrix/refusals, then P2/W4.",
-  "next_step": "Review exact observed partial-pair target andpins; fullmatrix/refusals, then P2/W4.",
+  "next": "Submit9ffbd full1200; qualify all11controls/rootaudit, then P2 andconcreteW4.",
+  "next_step": "Submit9ffbd full1200; qualify all11controls/rootaudit, then P2 andconcreteW4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "MutableP2 NOT_PUBLISHED; native positive/fullmatrix/refusals pending. W4 remains gated.",
@@ -1961,7 +1979,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T21:44:51Z",
+  "updated_utc": "2026-10-23T21:47:54Z",
   "watcher_history": [
     {
       "ack_mode": "CONTINUE_EXISTING_WINDOW",

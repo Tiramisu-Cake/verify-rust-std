@@ -1,0 +1,45 @@
+{
+  "schema": "smallsort-review-record-v1",
+  "reviewer": "codex-independent-review",
+  "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD",
+  "baseline_commit": "348e7f78b042db89350ef705373ddcbc9378e0e7",
+  "candidate_commit": "9ffbdc566ef3f704401900b98e6f303621345c16",
+  "candidate_tree": "dbd2daed634204eb19bbcceb16c79b8015a341c0",
+  "spec_sha256": "57b4b1e17363b94e71645332a3dc21accbf08341b7b67b3dd324935422bdf861",
+  "packet_sha256": "ea4ab29dd83f3025e0c261e549de0212edad99df6613f3c1942c28e67f18f751",
+  "packet_diff_sha256": "1d69cd51f9796c7cb24b972c08e557d01d4774e46bacf98a25b0ea35687fa68b",
+  "commit_diff_sha256": "1d69cd51f9796c7cb24b972c08e557d01d4774e46bacf98a25b0ea35687fa68b",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-select-night/research/challenge-8/task-history/select-callee-r24/R24-mut-refusal-path-review.json",
+      "sha256": "c517cf2c0c776872c3f3d077cc91c6b9a456c4e6049ac8eabc1c830bf559afbc",
+      "decision": "GO_FOR_ONE_FULL_1200S_MUTABLE_REFUSAL_AND_CONSEQUENCE_BUILD; carried forward"
+    }
+  ],
+  "scope": "Independent same-boundary review of the corrected partial-case/root refusal literal and refreshed collector/mode/entry/shell hash pins. GO is limited to one full 1200-second diagnostic Build with the existing const and mutable matrices, consequence, and all eleven refusal controls. No P2 publication or proof credit.",
+  "verified": [
+    "Exact review check passed: candidate 9ffbdc566ef3f704401900b98e6f303621345c16, baseline 348e7f78b042db89350ef705373ddcbc9378e0e7, spec SHA 57b4b1e17363b94e71645332a3dc21accbf08341b7b67b3dd324935422bdf861, packet SHA ea4ab29dd83f3025e0c261e549de0212edad99df6613f3c1942c28e67f18f751; packet state PACKET_VALID_NOT_REVIEWED, proof credit NONE.",
+    "The frozen source generator's outer `match (SORT4_R24_MUTABLE_CASE, SORT4_R24_MUTABLE_REPO_ROOT)` accepts only `(None,None)` or `(Some selected,Some root)`; the partial pair rejects with `partial mutable case/root selector` before entering `Sort4MutCertificate.certify` and its separate missing-root check. The generated patch contains that same match and rejection, and the call to `certify_sort4_mutable_bundle` is in the translator path. This confirms the previous missing-root expectation was inconsistent with actual dispatch order.",
+    "The bounded Brief observation receipt reports the exact native line `Fatal error: exception Failure(\"SORT4-R24-MUTABLE-CERTIFICATES: refusal: partial mutable case/root selector\")`. Its parser-input binding and causal status remain explicitly unknown; this review treats the line as a source-reported target for the next native run, not proof of attribution or acceptance.",
+    "The collector now expects only that exact partial-pair refusal for the existing fixture where the case selector is present and repository-root selector absent. The regression test matches the observed literal and rejects the former incorrect missing-root literal. Collector, mode, entry, and shell hashes are consistent; native translator/source/model/lemma and fixture remain unchanged.",
+    "Other eight observed refusals, the positive and classified matrices, checked consequence, stage/source/frontend/log validation, exact route, and false acceptance/publication/zero-credit boundaries remain unchanged. The mode still describes source-envelope diagnostics only and makes no internal typed-MIR guard coverage claim."
+  ],
+  "findings": [],
+  "tests": {
+    "run": [
+      "smallsort-session review check for exact packet (pass)",
+      "test_select_callee_r24_mut_refusals.py (11 tests, pass)",
+      "test_select_callee_r24_mut_refusal_entry.py (7 tests, pass)",
+      "test_r24_mut_capture_runner.py (13 tests, pass)",
+      "bash -n run-o26-select-callee-r20.sh (pass)",
+      "git diff --check baseline..candidate (pass)"
+    ],
+    "not_run": [
+      "Actual source preparation, compiler/native compile, exporter, MIR decode, refinement, or verifier",
+      "Cloud Build or Evidence Brief; raw/full logs, archives, or Cloud Logging",
+      "Dirty external VeriFast tool worktree"
+    ]
+  },
+  "limitations": "The cited literal is a bounded source-reported observation with parser-input binding and causal status unknown. Fresh native execution of all eleven controls is still required. This GO permits only the requested diagnostic Build; it does not establish internal typed-MIR guard coverage, mutable proof acceptance, P2 publication, or formal proof credit. The previous Build failure/history remains unchanged and receives no credit. Static transport and closure measurements are those recorded in the packet, not runtime execution.",
+  "proof_credit": 0
+}
