@@ -1,0 +1,49 @@
+{
+  "schema": "merge-r23-p13-storage-lifecycle-review-v1",
+  "reviewer": "Codex",
+  "candidate": "9ea683bb7958025a6af59774f15a19aa9af8d4c4",
+  "baseline": "0c4a86f894b4e16d93393e7be9c7023f7e844ec3",
+  "tool_commit": "4d77ebcd955a7246451bc1ec50e56893214f756f",
+  "spec_sha256": "1de5c3c5c40e42dae1e7ded491c45bc28b3a8f9aea4d528311ad13c8afbbb73b",
+  "packet_sha256": "b6a64cc8842e48950a73fbc6d3d9bab1d2bec27d4c5e2371e12cfef3d1641ac7",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-P12-COMPILE-REVIEW-20261024.json; this focused delta permits and validates one balanced explicit storage lifecycle for pointer temporaries",
+  "decision": "GO",
+  "review_scope": [
+    "Exporter handling of StorageLive/StorageDead for the bounded actual-callee descriptor",
+    "Translator validation of storage allocation state and the interleaved typed cast trace",
+    "Preservation of exact source/helper, lifetime, normal/unwind, stage, and refusal gates",
+    "Exact P13 tool pins and reverse profile contract"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "The packet check matched the exact candidate, spec SHA-256, and packet SHA-256.",
+    "Exporter body statement and block counts are computed from the complete MIR lists. StorageLive/StorageDead are exempted only from the unsupported-statement classifier; supported bodies are still encoded through the ordinary complete basic-block encoder, which serializes both event kinds. The new admission does not filter these statements or decrement counts.",
+    "Exporter remains limited to one block, Return terminator, bounded locals/statements, bare-local assignments, and the existing Copy/Move use or pointer-cast rvalues. Every other non-assignment statement still receives an unsupported reason; Nop, PlaceMention, and FakeRead now have explicit refusal labels.",
+    "Translator derives the unique set of storage-event locals from the full statement list, validates each against the declared locals, rejects argument/return markers and non-raw-pointer types, and then replays events in original order. The ordered trace records each storage event and cast with source/destination local ordinals and typed edge.",
+    "Explicitly marked locals begin unallocated in the checker state, require one Live before use and one Dead after receiving a projection value, and reject duplicate/repeated, unmatched, overlapping, or unbalanced events. Casts reject dead sources and destinations. The one-pair limit is conservative: Rust MIR permits more general lifecycle patterns, but unsupported repeated cycles are refused rather than normalized.",
+    "Locals with no storage markers are treated as live throughout, consistent with Rustc MIR documentation. The receiver is initially initialized; all other projection values must be established by the checked cast assignments and existing provenance checks.",
+    "The complete projection record, including the new ordered trace, is compared structurally between the actual standard callee descriptor and the same-unit checked helper descriptor. Signature, generic binding T=u64, one-block/Return shape, pointer types, cast kinds, linear dataflow, local count/mutability, body counts, helper source contract, and helper HIR lifetime restrictions remain enforced.",
+    "The existing caller checks still require the unique actual as_mut_ptr call and descriptor, exact Ref/Unsize/local/call source trace, exact source lifetime, reversible full_borrow resource sequence, original normal successor, and existing normal/unwind restoration. The P13 patch does not change runtime source, CFG, schema, refiner, kernel, or trusted assumptions.",
+    "The recorded Rustc MIR documentation says unmarked locals are implicitly allocated for the full function and documents the more permissive repeated StorageLive/StorageDead behavior. The implementation deliberately accepts only a single balanced pair, so that broader behavior is not imported into the proof checker: https://doc.rust-lang.org/stable/nightly-rustc/rustc_middle/mir/enum.StatementKind.html#variant.StorageLive.",
+    "The P13 tool profile binds commit 4d77ebcd955a7246451bc1ec50e56893214f756f and GLUE-PROFILE SHA-256 e7395d03b503d094f557661a4924ebdbbfd0998f141ddabc6ed0f165eccaddd2. The changed exporter and translator hashes match profile pins b603f2765665dbe17969aefdcefad1190010df7546b92e21c2350fc293906a8f and 13c01535d80baa2df7f6672626530bada6f0090ddb622299b8ca7818c06a694d; schema/refiner/alias hashes are unchanged and match their pins. Patch SHA-256 is 150d1675f6e4e0d3b4d54b53e61a2b071618210147d51beb95ed2fd2ab931b9c. Reverse profile SHA-256 remains 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile suite: 6 tests",
+    "R23 phase suite: 8 tests",
+    "R23 tool diff check"
+  ],
+  "not_run": [
+    "Rust exporter compilation",
+    "OCaml translator/parser compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or transport roundtrip"
+  ],
+  "limitations": [
+    "The lifecycle representation and checks were reviewed statically. The candidate storage sequence has not been executed or observed, so acceptance of that MIR and complete helper equivalence remain unverified.",
+    "The P12 descriptor identified an unsupported non-assignment statement but did not establish its kind. P13 conditionally admits only the two explicit storage event kinds; any other statement remains refused.",
+    "Reported profile and phase checks were not rerun. No source-positive acceptance, build admission, proof acceptance, B1/B2 evidence, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

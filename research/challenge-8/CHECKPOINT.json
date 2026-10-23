@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-SOURCE-BORROW-BRIEF-20261024.json",
-      "sha256": "ce28e747da6bdb33db4e298dde22855bdb46768dee519f96eb2f3df60a41da4f"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "301f8768b19a7d701bc39c8bd36b418ed4f6ae9e6817eadd15082959d09a834d"
     },
@@ -23,6 +19,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "fb487bfce1a690fcd2240ddce5b993ca7f61ffd5fa1b5e0f84b1522ed43e76c0"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-COMPILE-REVIEW-20261024.json",
+      "sha256": "c463f8555bb3f485af977fd881338bfd1a7a308ed9846998b3fef109fac65037"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P13-TRANSPORT-20261024.json",
+      "sha256": "beb862f448220d37a3500289804003b3965894599f2530f6dfd70c50f6999623"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +36,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P13 storage trace prepared; actual callee kind still UNKNOWN.",
+    "summary": "P13 registered; actual compiler/proof outcome pending.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P12-SOURCE-BORROW-BRIEF-20261024.json",
@@ -65,7 +69,7 @@
       ]
     }
   ],
-  "next_step": "Review P13 exact storage equivalence; transport; full Cloud.",
+  "next_step": "Watcher event ACK, then P13 Evidence Brief.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -86,7 +90,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "025c652d-6aba-4ccc-be45-34257b689518"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -98,9 +104,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T15:56:27.811144Z",
+  "updated_utc": "2026-10-23T15:59:58.214892Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -385,6 +391,16 @@
       "profile_sha256": "e7395d03b503d094f557661a4924ebdbbfd0998f141ddabc6ed0f165eccaddd2",
       "implementation": "Exporter StorageLive/Dead allowlist retains encoding/counts. Frontend full interleaved storage/cast normalized trace plus declared pointertemporary/one-balancedpair/live-init validation. All other nonassign refused; explicit Nop/PlaceMention/FakeRead labels now diagnostic. Main checked Reader APIs vs existing storage translation, ref bindings, record equality and current schema. Profile6/phase8/diffcheck pass; no actual toolchain locally.",
       "primary_semantics": "https://doc.rust-lang.org/stable/nightly-rustc/rustc_middle/mir/enum.StatementKind.html#variant.StorageLive — no-marker locals implicitly allocated for function; use while unallocated UB; unique balanced pair is conservative subset, not new ownership premise. Actual P12 kind still UNKNOWN."
+    },
+    {
+      "obligation": "P13 full compiler/source-borrow validation after reviewed fix",
+      "reason": "Luna HIGH GO exact 9ea683bb7958025a6af59774f15a19aa9af8d4c4; spec 1de5c3c5c40e42dae1e7ded491c45bc28b3a8f9aea4d528311ad13c8afbbb73b; packet b6a64cc8842e48950a73fbc6d3d9bab1d2bec27d4c5e2371e12cfef3d1641ac7. Published root/tool remotes checked. Source gate and cumulative patch five pins/kernel PASS. Payload561743/571567 SHA82f7735f6c21b91306c2c8b6e62d48d25938c4073257b44e9c30d7b32725802d; config27456/28000. Capturefalse and full1200/reserves unchanged. Further useful proof changes depend on actual outcome; fresh watcher HANDOFF.",
+      "build_id": "025c652d-6aba-4ccc-be45-34257b689518",
+      "source_sha": "9ea683bb7958025a6af59774f15a19aa9af8d4c4",
+      "config_sha256": "7a975b214e14d4bf433abe0e588c58372112838d70d04f7e9466f6eb144ec6f0",
+      "dispatch_token": "dispatch-189b788fc13a4e018f457c9c775497b9",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -542,6 +558,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-TRANSPORT-20261024.json",
       "sha256": "c47fd7a674d0c57b358c1e088e6322be3d768b719b14f632a0fc68b59a106cd6"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P11-SOURCE-BORROW-BRIEF-20261024.json",
+      "sha256": "ce28e747da6bdb33db4e298dde22855bdb46768dee519f96eb2f3df60a41da4f"
     }
   ],
   "historical_confirmed": [
