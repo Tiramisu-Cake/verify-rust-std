@@ -53,3 +53,32 @@ unwind post must itself be proved before caller resource-negative credit.
 
 This is a navigation/implementation plan, not an established adapter or a new
 trusted premise. B2/generic/arbitrary-n/sorting credit remains zero.
+
+## Follow-up: exact source lifetime binding mechanism
+
+`rust_parser.ml:948` parses `let_lft 'a = e` to TypeWithTypeidDecl using
+`typeid_of_lft(e)`. Translator4679–4729 emits strict lifetime scope markers;
+verifast2736–2790/2981–3050 consumes the lifetime token, rejects shadowing and
+prevents lifetime-bound chunks/variables/bounds or exceptions escaping.
+Call-site ghost args `/*@::<'a>@*/` are parsed in vf_mir_annot_parser84–89 and
+replace MIR-derived type args in translator2413–2473. This specializes a call
+but does not identify the erased region of a separate Ref/Unsize operation.
+
+A candidate may bind an explicit source-scoped ghost lifetime only after a
+unique exact Ref -> Unsize -> as_mut_ptr operand chain has been checked against
+actual exported place/type/mutability, N/T, source span and scoped inference
+identity. PointerCoercion::Unsize is distinct from ArrayToPointer. Current
+translator reads only legacy region.id and ignores typed inference identity;
+that is a representation/binding implementation gap, not permission to give
+all erased refs authority. P2 must determine whether that identity is actually
+present in the relevant emitted Ref and receiver type.
+
+Use one accepted borrowing protocol consistently. RustBelt borrow/borrow_end
+consumes/restores the exact content; create_ref_mut/end_ref_mut belongs to the
+separate TreeBorrows ref_mut_end_token protocol and must not be mixed in as an
+unproved bridge. The current caller proof path ignores mutable Ref creation;
+an exact opt-in source adapter must supply the checked resource lifecycle at
+that specific chain. A let_lft scope cannot simply contain a possibly unwinding
+call; its no-exception-escape check and actual normal/unwind restoration remain
+required. Lifetime boundary placement is unresolved until the actual chain is
+observed and checked. No generalized erased-lifetime substitution is accepted.

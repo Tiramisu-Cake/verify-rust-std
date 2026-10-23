@@ -9,8 +9,16 @@
       "sha256": "b3caaa75472eb8636456d8b1955b69ab5eb9d93c455aa8352393c62585ef0e38"
     },
     {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-COMPATIBILITY-PIN-REVIEW-20261024.json",
+      "sha256": "a54919611380487bd921c649059e5fcc74abc95754b5ed81ba6aeb8b65ff0943"
+    },
+    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md",
-      "sha256": "1d3a0abe77f295644f184883c9be5e63b727b61568173c30320e296e5dc7fe0e"
+      "sha256": "66236a87afe0195449bb10fcf93620f95f28ef4e0214da4b0a9525e2d1ecbe6c"
+    },
+    {
+      "path": "research/challenge-8/observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json",
+      "sha256": "b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -26,7 +34,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "P1: compatibility source pin stale; caller/capture NOT_RUN."
+    "summary": "P2 running; final owned-NLL cycle; mapping UNKNOWN."
   },
   "confirmed": [
     {
@@ -52,7 +60,7 @@
       ]
     }
   ],
-  "next_step": "Fix exact compatibility binding; review; final diagnostic P2.",
+  "next_step": "Ack watcher; read P2 Brief; apply capture stop-loss.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -73,7 +81,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "1416b764-486b-4414-be77-3116866838e2"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -85,15 +95,15 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T11:15:55.707642Z",
+  "updated_utc": "2026-10-23T11:24:14.021170Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
       "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
       "owned_nll_cycles": 0,
-      "owned_nll_cycles_started": 1,
+      "owned_nll_cycles_started": 2,
       "owned_nll_cycles_completed": 1
     },
     {
@@ -111,6 +121,18 @@
     {
       "obligation": "Repair exact compatibility source binding before second/final owned-NLL cycle",
       "reason": "P1 selected seven/admission/receiver controls matched, but compatibility gate expects historical refiner48d02b while exact3fec profile pins11a0ff. Preserve all old pins/default checks and register3fec->11a0ff narrowly; no gate weakening. P1 consumes one full capture cycle even though target never dispatched."
+    },
+    {
+      "obligation": "Second/final owned-NLL capture cycle",
+      "reason": "Exact compatibility binding fixed without weakening defaults or legacy controls; Luna HIGH delta GO d27a1f14. Published SHA exact; payload571461/571567 SHA056717e1ecbb48ac995a6c4a888587ebcf33ed4bfcdfb0cf5ba498d7828c6093, config27292/28000. No third owned-NLL capture cycle; absent ESTABLISHED actual-body/location mapping selects checked source route.",
+      "build_id": "1416b764-486b-4414-be77-3116866838e2",
+      "source_sha": "d27a1f14b0cfed5674fae5c5a8a1246f4871c7b6",
+      "config_sha256": "9b5810ec3fe7b60f6fd6a39c106bc14ae0f0ad27074041111fd892e5a34bd116",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state"
+    },
+    {
+      "obligation": "Prepare source-level adapter worktree",
+      "reason": "Separate worktree /root/verifast-merge-r23-source-adapter, branch merge/r23-source-borrow-adapter-20261024 atfc0208d4. No tool semantic edits. Source let_lft/call-site ghost args can name an existing logical lifetime but do not bind an erased Ref automatically; require exact Ref/Unsize/receiver typed identity and no escape. RustBelt resource protocol must not silently mix with TreeBorrows primitive."
     }
   ],
   "mission_queue": [

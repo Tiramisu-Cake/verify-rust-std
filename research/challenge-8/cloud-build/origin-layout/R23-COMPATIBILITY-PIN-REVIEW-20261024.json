@@ -1,0 +1,36 @@
+{
+  "schema": "merge-r23-compatibility-pin-review-v1",
+  "reviewer": "Codex",
+  "candidate": "d27a1f14b0cfed5674fae5c5a8a1246f4871c7b6",
+  "baseline": "1b6adce3ee1df51e711c9feff420e812f470917e",
+  "spec_sha256": "63abd9babbc4016d1bb3ec34ad12b7e273845bdaf5cfa804868325838d35d4e5",
+  "packet_sha256": "9f631c90002ed034a5edd02fc81afb3507a6cc1ff68dc58e359eb33243bef622",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "decision": "GO",
+  "review_scope": [
+    "Exact R23 profile-file selection for the generated-glue compatibility source gate",
+    "Compatibility module and provider pin updates, including preservation of the historical R11 provider table",
+    "Removal of the uninvoked historical R10 source preflight from transfer"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Generated-glue compatibility service test passed (static only)",
+    "R23 phase service suite passed: 8 tests",
+    "R22 runner/source-pin service suite passed: 20 tests",
+    "Exact profile file SHA-256 is 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88; exact tool refiner source SHA-256 is 11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8",
+    "Actual selected refiner source contains exactly two kind=Drop constructors and exactly two complete unqualified-default constructor fragments",
+    "Compatibility exception requires exact profile bytes, public R11 name, effective tool commit, full owned-NLL registration, and matching selected refiner source; missing/malformed/wrong profile paths reject",
+    "Legacy refiner pins and constructor-count/default gates remain unchanged; the R11 historical provider pin table remains unchanged while R22 and owned-NLL tables pin the updated module",
+    "R23 provider parser pins the exact compatibility module and rejects a corrupted compatibility digest",
+    "The R10 preflight remains in Git unchanged; current selected recipe retains compile-preflight.sh and current R11 source-preflight/controls. No selected runtime or current preflight source invokes or imports r10-source-preflight.py"
+  ],
+  "not_run": [
+    "Cloud source preparation, compiler, exporter, translator, verifier, or proof execution"
+  ],
+  "limitations": [
+    "This GO covers the compatibility binding and transfer-closure delta only; it grants no phase admission, proof acceptance, B1/B2 credit, or proof credit.",
+    "R23 P1 was source-reported as compiler PASS with caller/capture campaign NOT_RUN; owned-NLL mapping remains UNESTABLISHED."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}

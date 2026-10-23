@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-24-r23
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: ACTIVE
-- Updated: 2026-10-23T11:15:55.707642Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: HANDOFF
+- Updated: 2026-10-23T11:24:14.021170Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `0f4e336b52441e8f341a567250adba2b200c54d1`, profile `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`
 - Session dates: T0 `2026-10-23T10:45:00Z`; main deadline `2026-10-26T10:45:00Z`; absolute deadline `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 14400s total; 578s spent; 0s retired; 13822s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 1416b764-486b-4414-be77-3116866838e2
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,13 +20,15 @@
 - Broad placeholder exemption, address-only borrow bridge, short outer timeout — No slice metadata, lifetime/full_borrow or memory authority; short timeouts missed the compile reserve.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P1: compatibility source pin stale; caller/capture NOT_RUN.
+P2 running; final owned-NLL cycle; mapping UNKNOWN.
 - [research/challenge-8/cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json](cloud-build/origin-layout/R22-OWNED-NLL-ADOPTION-REVIEW-20261023.json) SHA `6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f`
 
 ## Next
-Fix exact compatibility binding; review; final diagnostic P2.
+Ack watcher; read P2 Brief; apply capture stop-loss.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json](cloud-build/origin-layout/R23-STATIC-VALIDATION-20261024.json) — `79e79994dc05e3b26e26de77d009e03621738b5ec439d4ed9e76bdba435e812d`
 - [research/challenge-8/cloud-build/origin-layout/R23-ADMISSION-REVIEW-20261024.json](cloud-build/origin-layout/R23-ADMISSION-REVIEW-20261024.json) — `b3caaa75472eb8636456d8b1955b69ab5eb9d93c455aa8352393c62585ef0e38`
-- [research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md](cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md) — `1d3a0abe77f295644f184883c9be5e63b727b61568173c30320e296e5dc7fe0e`
+- [research/challenge-8/cloud-build/origin-layout/R23-COMPATIBILITY-PIN-REVIEW-20261024.json](cloud-build/origin-layout/R23-COMPATIBILITY-PIN-REVIEW-20261024.json) — `a54919611380487bd921c649059e5fcc74abc95754b5ed81ba6aeb8b65ff0943`
+- [research/challenge-8/cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md](cloud-build/origin-layout/R23-BORROW-ROUTE-STATIC-20261024.md) — `66236a87afe0195449bb10fcf93620f95f28ef4e0214da4b0a9525e2d1ecbe6c`
+- [research/challenge-8/observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json](observations/b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf.json) — `b43f9893f989120c713d72460c9d22e26264bcd546eb7b0ed05551223c6135bf`
