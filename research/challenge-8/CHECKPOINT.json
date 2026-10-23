@@ -21,7 +21,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Shape4 timeout600 at result predicate open436.857s; exact OPEN."
+    "summary": "Reviewed shape5 exact cbbe4b5f running; acceptance OPEN."
   },
   "confirmed": [
     {
@@ -73,15 +73,24 @@
           "sha256": "1d56f6fee45c5edce6bc3885a0583f7504d67d5ede720d577fa75a9fdd0b9eb9"
         }
       ]
+    },
+    {
+      "assurance": "INDEPENDENTLY_ESTABLISHED",
+      "claim": "Luna HIGH scoped GO for shape5 candidate8fd5dad1; no proof credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/n13/REVIEW-SHAPE5-N4.md",
+          "sha256": "f934f730b42c8fec68dea8e6873ac3f44c1519239a42dd7dc3b9e4a654b958ee"
+        }
+      ]
     }
   ],
-  "next_step": "Shape5: batch same26 result facts into one conjunction; review then exact600.",
+  "next_step": "Ack watcher; Brief shape5. If exact accepted: required controls, order, compatible N9/universal coverage.",
   "open": [
-    "Exact/controls/final matrix OPEN; shape4 review in REVIEW-SHAPE4-N4.md.",
-    "R4/W7 P1 inactive/P2 NOT_PUBLISHED; dependency pins prepared.",
-    "Independent W8 branch/ZST/interface plan prepared: network/w8/CALLER-OBLIGATIONS-N4.md.",
-    "Watcher arm twice refused coordinator read lock busy08:18; normal retry after30s succeeded. No bypass/state changes.",
-    "Autonomous shape5 and alternatives/source trace recorded before edit in N4-EXPERIMENT.md."
+    "Exact/controls/compatible final matrix OPEN.",
+    "R4/W7 blocked P1/P2; W8 source/interface plan prepared.",
+    "Shape5 source-traced batching decision/alternatives in N4-EXPERIMENT.md.",
+    "Shape4 watcher arm lock refusals resolved via normal30s retry; no shared change."
   ],
   "owner": "network",
   "phase": "NETWORK-N13-EXACT-2026-10-23-N4",
@@ -109,7 +118,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "cbbe4b5f-0482-40a9-8c51-af65e33abb07"
+    ],
     "budget_seconds": 3600,
     "deadline_utc": "2026-10-23T10:22:10Z",
     "main_deadline_utc": "2026-10-23T09:52:10Z",
@@ -119,7 +130,7 @@
     "t0": "2026-10-23T07:52:10Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-n13-exact-cloud-2026-10-23-n4",
-  "updated_utc": "2026-10-23T08:32:40Z"
+  "updated_utc": "2026-10-23T08:35:58Z"
 }
