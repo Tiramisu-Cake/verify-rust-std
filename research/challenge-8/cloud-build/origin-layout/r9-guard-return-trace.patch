@@ -322,7 +322,7 @@ index 86c298fc..3b470283 100644
 +    ownedNllCaptureUnattachedCount @13: UInt32;
  }
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 684d3f76..74d439ad 100644
+index 684d3f76..50133b03 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -17,13 +17,7 @@
@@ -777,7 +777,7 @@ index 684d3f76..74d439ad 100644
 +                    let source_ty_cpn = source_ty_option.init_something();
 +                    Self::encode_ty(tcx, enc_ctx, source_ty, source_ty_cpn);
                      let ty_cpn = cast_data_cpn.init_ty();
-@@ -3118,2 +3316,127 @@ use rustc_span::RemapPathScopeComponents;
+@@ -3118,2 +3316,133 @@ use rustc_span::RemapPathScopeComponents;
              }
 +
 +            Self::attach_r23_slice_projection(tcx, enc_ctx, func, fn_call_data_cpn);
@@ -795,7 +795,7 @@ index 684d3f76..74d439ad 100644
 +                return;
 +            }
 +            let ty = func.ty(&enc_ctx.body().local_decls, tcx);
-+            let ty::TyKind::FnDef(def_id, args) = ty.kind() else { return; };
++            let ty::TyKind::FnDef(def_id, fn_args) = ty.kind() else { return; };
 +            let callee_name = tcx.def_path_str(*def_id);
 +            if callee_name != "core::slice::<impl [T]>::as_mut_ptr" {
 +                return;
@@ -805,6 +805,12 @@ index 684d3f76..74d439ad 100644
 +                .init_something();
 +            projection.set_callee_name(&callee_name);
 +            projection.set_callee_def_path_hash(&format!("{:?}", tcx.def_path_hash(*def_id)));
++            let Some(args) = fn_args.no_bound_vars() else {
++                projection.set_unsupported_reason(
++                    "callee FnDef substitutions contain bound variables and cannot be flattened",
++                );
++                return;
++            };
 +            if !tcx.is_mir_available(*def_id) {
 +                projection.set_unavailable_reason("compiler reports no MIR body for the exact callee");
 +                return;

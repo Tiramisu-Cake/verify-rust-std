@@ -1,0 +1,157 @@
+{
+  "schema": "r23-p4-exporter-compile-brief-v1",
+  "build": {
+    "build_id": "cbadd3c4-9001-4725-818e-3b49133e7d2a",
+    "processing": "VERIFIED_ARCHIVE_AND_INVENTORY",
+    "source_claim_verdict": "NOT_ACCEPTED_AS_REPORTED",
+    "run_exit_source_claim": 101,
+    "evidence_complete_source_claim": true,
+    "exporter_build_exit": 101,
+    "translator_decoder_refiner": "NOT_PRESENT_IN_VERIFIED_ARCHIVE",
+    "proof_audit": {
+      "path": "proof-audit.json",
+      "file_id": "cc20cf422e3f3828330adb99a0a55222711961bbb855f3b12dfc360c537a3e96",
+      "sha256": "1e8b1402d8c804f1adf572099b3556dd84b263ed03db1a8a0c235d9deb77f81c",
+      "request_id": "eed52e35c1adcaca2329ae01ee1c298ab341667ab5d6406f9c0ab5f858f13504",
+      "pointer": "",
+      "exact": true,
+      "complete": true,
+      "proof_attempted": false,
+      "compiler_classification": "FAIL_OR_INCOMPLETE",
+      "classification": "INCONCLUSIVE",
+      "diagnostic_complete": false
+    },
+    "other_observed_diagnostic": {
+      "source": "full-stderr.log",
+      "sha256": "1421ef97c119a9ee9833afe3bb5a77e9a23a5731747d0291a3ae891cf5a453ff",
+      "observations": [
+        "$HOME differs from euid-obtained home directory: you may be using sudo",
+        "$HOME directory: /builder/home",
+        "euid-obtained home directory: /root"
+      ],
+      "causality": "UNKNOWN"
+    },
+    "interpretation": "Exporter compile errors were observed; no proof attempt occurred. No causal attribution among diagnostics is made."
+  },
+  "brief_identity": {
+    "archive_sha256": "d24df8f6f9b2f32dec7d21980eac3725e4b00e1003761bddd45f6a2168d1aff8",
+    "index_sha256": "9b1a0a6e0d6ff2f8df5e87c7bc33077f46af7f64a9bc8a5e5cbaa7c798d9df9c",
+    "report_schema": "smallsort-evidence-index-v8",
+    "catalogue_complete": true,
+    "catalogue_files": 149,
+    "retained_content_files": 120,
+    "retained_content_bytes": 366185,
+    "source_scan_bytes": 563648,
+    "availability_counts": {
+      "PROJECTED": 103,
+      "EMPTY_FILE": 17,
+      "UNSUPPORTED_FILE_TYPE": 29
+    },
+    "coverage_limit": "All selected diagnostics and pointers are exact bounded observations. Parser-input binding is NOT_ESTABLISHED; causal status UNKNOWN."
+  },
+  "exporter_log": {
+    "path": "allprooflogs/tracked-md-build/exporter-build.log",
+    "file_id": "09c84eb67408f263ae1e1bbb7cceccf31bf8511634f315df79528d1e2449e8ca",
+    "sha256": "9611f85b67812c367c0503158302c788ead1efee9501ea55cfad3f20a20e7440",
+    "catalogue_status": "PROJECTED",
+    "source_size_bytes": 9029,
+    "source_lines": 162,
+    "targeted_requests": [
+      {
+        "request_id": "4537f2525a8bf7e049a74f642c10635f3b9546ab99bd55e8f09e2726c06c7e4f",
+        "selector": "info",
+        "exact": true,
+        "source_lines": 162
+      },
+      {
+        "request_id": "1ed19a2335aa9a67094903be27b6c0ef26d076da0c1a5608969ef260d036f422",
+        "selector": "locate:error",
+        "exact": true,
+        "matches": [66, 75, 105, 124, 160, 161, 162]
+      },
+      {
+        "request_id": "85a6d190c2da553f448175638d3ee436eaaae9b2bcb3c4c01eb4083e79bf17ed",
+        "lines": [62, 73],
+        "exact_lines": true
+      },
+      {
+        "request_id": "6fc7ed52fba244255bcc54d7590f333fac5588ae2fbfbaf739c2b493b7190861",
+        "lines": [71, 82],
+        "exact_lines": true
+      },
+      {
+        "request_id": "0aa9ddf6def57237b35f47259daada53fb769eae14c7c978e4d9a75a6891842d",
+        "lines": [101, 112],
+        "exact_lines": true
+      },
+      {
+        "request_id": "3c01d2d5b9edafcf4251b49846d80fb1a9089fd11ff8fd4c97621538e2c78426",
+        "lines": [120, 131],
+        "exact_lines": true
+      },
+      {
+        "request_id": "4c870af877e77758d5bdb6f7bf0889d7a81e2e8ed4c7f5423d4f57117cf7e7ed",
+        "lines": [154, 162],
+        "exact_lines": true
+      }
+    ],
+    "observed_errors": [
+      {
+        "code": "E0599",
+        "log_line": 66,
+        "source": "src/lib.rs:3360:49",
+        "excerpt": "no method named len found for reference &Binder<TyCtxt<'_>, &RawList<(), GenericArg<'tcx>>>",
+        "expression": "args.len() != generics.count()"
+      },
+      {
+        "code": "E0277",
+        "log_line": 75,
+        "source": "src/lib.rs:3361:46",
+        "excerpt": "impl Iterator<Item = Binder<TyCtxt<'tcx>, _>>: ExactSizeIterator is not satisfied",
+        "expression": "args.iter().enumerate() passed to fill_generic_bindings"
+      },
+      {
+        "code": "E0308",
+        "log_line": 105,
+        "source": "src/lib.rs:3369:52",
+        "excerpt": "expected GenericArg<'_>, found Binder<TyCtxt<'_>, GenericArg<'_>>",
+        "expression": "encode_gen_arg(..., arg, ...)"
+      },
+      {
+        "code": "E0277",
+        "log_line": 124,
+        "source": "src/lib.rs:3371:60",
+        "excerpt": "Binder<TyCtxt<'tcx>, &RawList<(), GenericArg<'tcx>>>: SliceLike is not satisfied",
+        "expression": "tcx.fn_sig(*def_id).instantiate(tcx, args)"
+      }
+    ],
+    "compiler_summary": "Exporter log states four previous errors; no proof result follows from this excerpt."
+  },
+  "tool_fix_design": {
+    "scope": "Only the new R23 exporter FnDef generic binding/signature projection path in src/rust_frontend/vf_mir_exporter/src/lib.rs.",
+    "existing_pattern": "The frozen exporter FnDef encoder uses substs.no_bound_vars().expect(...) before treating substitutions as GenericArgsRef; other actual-callee resolution uses instantiate_bound_regions_with_erased only where its bound-region semantics are explicitly needed.",
+    "change": "Bind fn_args.no_bound_vars() to an explicit Option before len/iteration/signature instantiation. The Some value is the raw GenericArgsRef consumed by existing fill_generic_bindings, encode_gen_arg, and fn_sig.instantiate APIs.",
+    "bound_variable_case": "If no_bound_vars returns None, emit explicit unsupportedReason and return without flattening/substituting the bound values. Do not call skip_binder as a guessed erasure.",
+    "preserved": [
+      "Default-off and exact-callee path gate",
+      "No caller MIR/query/borrowck changes",
+      "Generic parameter names use Generics::param_at across parent parameters",
+      "Full typed callee body steps and unsupported-body refusal rules"
+    ],
+    "status": "STATIC_CANDIDATE_ONLY; COMPILER_UNVERIFIED"
+  },
+  "local_static_validation": {
+    "git_diff_check": "PASS",
+    "exporter_source_sha256": "bf321171e83a28ddc64f026e203c32f2cb7b0c3353bfe1197131eab287eb1381",
+    "compiler_or_cargo_run": false,
+    "tests_run": false,
+    "commit_created": false
+  },
+  "integrity": {
+    "brief_catalogue_and_targeted_service_only": true,
+    "raw_archive_or_full_log_downloaded": false,
+    "parser_input_binding": "NOT_ESTABLISHED",
+    "causal_status": "UNKNOWN",
+    "proof_attempted": false
+  }
+}

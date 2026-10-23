@@ -12,11 +12,11 @@ inventory assigns no proof work and changes no profile pins.
 | merge/r22-owned-nll-capture-20261023 | fc0208d4f53583d458670cd07bd0370636d4b2eb | 6b7d43fa owned NLL diagnostic capture;961d9171 decoder default; e81c4640 unavailable derived relation;5ed5617a synchronized storage;bbf919a3 exact collision equality;419ff27d/fc0208d4 region fixtures | Current root profile3fec93b5; R23 root admission delta reviewed GO49e60ed7; P1 Build692c1943 compiled all tool stages at exit0 (SOURCE_REPORTED); B2 dispatch NOT_RUN from stale compatibility source pin; no mapping/proof credit |
 | merge/r22-owned-nll-borrow-sites-20261023 | 0f4e336b52441e8f341a567250adba2b200c54d1 | 26d0ee13 typed capture-stage Ref sites and loan joins,0f4e336b multiline identity fixture | Reviewed preparatory candidate, NOT adopted by current profile; emitted-stage mapping UNESTABLISHED |
 
-| merge/r23-source-borrow-adapter-20261024 | 7a1dd1c98516441705d555fa8f0f12607112a7a1 | 80576cc6 candidate plus localized review compile fixes7a1dd1c9; default-off exact u64/array3 Ref–Unsize–as_mut_ptr checked resource representation; complete actual callee descriptor and same-unit checked helper cast-body equivalence; existing unwind action retained | Published exact head; prior compile findings addressed, Luna HIGH GO a5a0b90d; P4 cbadd3c4 active, Cloud-UNVERIFIED |
+| merge/r23-source-borrow-adapter-20261024 | 966c6d23f75da38472a1b1039ee99fe5a88f2632 | 80576cc6 candidate, review compile fixes7a1dd1c9 and checked FnDef binder966c6d23; default-off exact u64/array3 Ref–Unsize–as_mut_ptr checked resource representation; complete actual callee descriptor and same-unit checked helper cast-body equivalence; existing unwind action retained | Published exact head; P4 exporter101/proof not attempted; checked Binder API fix prepared, delta review pending; Cloud-UNVERIFIED |
 
 Current prepared GLUE-PROFILE SHA256:
-`c0f2568591b6d7cd903a3167a3582376a44d9f11eff52d2ae24825361d31fe43`.
-It selects 7a1dd1c9 and reverses byte-exactly to diagnostic profile3fec93b5
+`0124f6a0266d92ce9e70054b4410b663883c3e6233242019ae525f6cd146c7b7`.
+It selects 966c6d23 and reverses byte-exactly to diagnostic profile3fec93b5
 and toolfc0208d4. The nineteen-entry chain keeps its paths; the cumulative
 r9 patch includes the source-preserving R23 delta. Kernel, prelude, std model,
 R8 premise bounds, source std and actual caller runtime remain unchanged.
