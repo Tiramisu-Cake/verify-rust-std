@@ -1,11 +1,11 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-24-r23
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: HANDOFF
-- Updated: 2026-10-23T21:10:48.422216Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R23-2026-10-24 | state: ACTIVE
+- Updated: 2026-10-23T21:33:45.318578Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `0f4e336b52441e8f341a567250adba2b200c54d1`, profile `3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88`
 - Session dates: T0 `2026-10-23T10:45:00Z`; main deadline `2026-10-26T10:45:00Z`; absolute deadline `2026-10-26T11:45:00Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 14400s total; 11815s spent; 0s retired; 2585s remaining including active reservations
-- Active Build IDs: 374eb841-66e4-4509-88b1-09862d2677e4
+- Budget: 14400s total; 12721s spent; 0s retired; 1679s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -20,11 +20,11 @@
 - Broad placeholder exemption, address-only borrow bridge, short outer timeout — No slice metadata, lifetime/full_borrow or memory authority; short timeouts missed the compile reserve.; [research/challenge-8/cloud-build/origin-layout/R16-REVIEW-20261021.md](cloud-build/origin-layout/R16-REVIEW-20261021.md) SHA `7ea120ef137323755ae4381de8915f8347d9a64bdd6b9e8b9753d561bdf70efa`
 
 ## Blocker
-P19 registered; actual compiler/proof outcome pending.
+P19 terminal FAILURE; Evidence Brief diagnosis pending.
 - [research/challenge-8/cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json](cloud-build/origin-layout/R23-P18-SOURCE-BORROW-BRIEF-20261024.json) SHA `747d4427d617d618be7b70dfc0f3d78569183676ec00ec8590c5e8120545c16d` Build `c5d67f50-81f1-422c-88fd-bfe455cea3f4`
 
 ## Next
-ACK; coordinator status; publish accounting; P19 Evidence Brief.
+Read P19 Brief after accounting publication; follow revised owner priorities.
 
 ## Artifacts
 - [research/challenge-8/cloud-build/origin-layout/R23-P18-COMPILE-REVIEW-20261024.json](cloud-build/origin-layout/R23-P18-COMPILE-REVIEW-20261024.json) — `570bb3a0c0206487fdc745c23811870b0c40cb41038a212e9d21a76524d7f4bc`
