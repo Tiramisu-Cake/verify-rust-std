@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "5b843d9367137698b5a9e35c7d4af82d05f9ea19b6558efdb8b638c5f6d7239b",
+  "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 20,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "184e6a8ee0e28ba3920077d0c6a99b87283cfcfa5335e144deb1571a7b9817d7",
+  "index_sha256": "2b87257a647e6ce61b814efa27c227b66f7f8c23c1fd266348cd4bd1e6cff4ac",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "184e6a8ee0e28ba3920077d0c6a99b87283cfcfa5335e144deb1571a7b9817d7",
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "pointer": "/rows/callee-false-normal/current_stage_observation"
+  },
+  "request_id": "d97a0e29c5e0e15d66412197ec30d6c57f33ed8b4babfd10dfc06e5cad7b735b",
+  "results": [
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/argv"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/build_id",
+      "value": "db09fcc8-f33f-42c5-9d40-50c2c3d63658"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/exit",
+      "value": 1
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/intrinsic_gate_active",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/log_path",
+      "value": "cases/r21-fractional-proof/variants/callee-false-normal/nine-body-a1-owned-forget/r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/log_sha256",
+      "value": "686b02f61f0f7448fe50976c213883d6d060477dfa174171ed0ba67e411c5340"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/pointer_drop_gate_active",
+      "value": true
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/postflight_capture_check"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/preflight_capture_check"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/r24_checked_pointer_outcomes_requested",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/schema",
+      "value": "select-current-stage-target-observation-v1"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/source_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/source_before"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/source_hashes"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/source_unchanged",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/status",
+      "value": "RAN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/stderr",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/stdout",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/tool_spec_sha256",
+      "value": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-false-normal/current_stage_observation/variant",
+      "value": "callee-false-normal"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

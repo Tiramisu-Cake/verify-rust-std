@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "5b843d9367137698b5a9e35c7d4af82d05f9ea19b6558efdb8b638c5f6d7239b",
+  "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 20,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+  "file_path": "allprooflogs/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "184e6a8ee0e28ba3920077d0c6a99b87283cfcfa5335e144deb1571a7b9817d7",
+  "index_sha256": "2b87257a647e6ce61b814efa27c227b66f7f8c23c1fd266348cd4bd1e6cff4ac",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "184e6a8ee0e28ba3920077d0c6a99b87283cfcfa5335e144deb1571a7b9817d7",
+    "file_id": "f952a8e1803116244393180808ea59adcd3946a06b3f1c3c2a63abb0ae92fbeb",
+    "pointer": "/rows/callee-thread-duplicate"
+  },
+  "request_id": "c7c441e5356c35ab96798ea8fd83cb65ef0b262a2ebf91f9c071b3b1281a43d6",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/bound_verdict",
+      "value": "POSITIVE_FAILED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/classification",
+      "value": "EXPECTED_CALLEE_CONTRACT_REJECTION"
+    },
+    {
+      "child_count": 20,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/current_stage_observation"
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/diagnostic_target_observation"
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/expected_diagnostic_target"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/log_file",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/log_sha256",
+      "value": "0b6a5afb58f4cc76c67c1f676cab31c796347ad2b129c65502d823a23b50e74a"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/normal_unwind_nested_drop_gates",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/observed_sources_after_stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/original_sha256",
+      "value": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/postflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/postflight_capture_check"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/preflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/preflight_capture_check"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/source_intact_after_stages",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-thread-duplicate/source_intact_before_stage",
+      "value": true
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-thread-duplicate/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/status",
+      "value": "COMPLETE"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/variant",
+      "value": "callee-thread-duplicate"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-thread-duplicate/verified_sha256",
+      "value": "c2062ed685fdd3dd7aee4e3352628b3326fc0dfa56d65c9dbc67629244247c81"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
