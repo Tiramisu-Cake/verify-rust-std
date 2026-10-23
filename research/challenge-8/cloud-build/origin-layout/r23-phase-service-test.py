@@ -139,8 +139,10 @@ class R23PhaseTests(unittest.TestCase):
         pins = m.r23_parse_provider_pin_tables(source)
         self.assertEqual(pins['R22_FILES'], pins['R22_OWNED_NLL_FILES'])
         self.assertEqual(pins['R22_FILES'][m.R23_PLACEMENT_PATH], m.R23_PLACEMENT_SHA256)
+        self.assertEqual(pins['R22_FILES'][m.R23_COMPAT_PATH], m.R23_COMPAT_SHA256)
         for wrong in (None, b'{}', source.replace(m.R23_PLACEMENT_SHA256.encode(), b'0'*64),
-                      source.replace(m.R23_PROVE_SHA256.encode(), b'0'*64)):
+                      source.replace(m.R23_PROVE_SHA256.encode(), b'0'*64),
+                      source.replace(m.R23_COMPAT_SHA256.encode(), b'0'*64)):
             with self.assertRaises(SystemExit): m.r23_parse_provider_pin_tables(wrong)
         with self.assertRaises(SystemExit): m.r22_parse_provider_pin_tables(source)
 

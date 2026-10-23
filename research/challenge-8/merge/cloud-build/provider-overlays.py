@@ -79,12 +79,12 @@ R22_OWNED_NLL_PROFILE = "r22-owned-nll-overlay"
 R22_FILES = {
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d",
-    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7",
 }
 R22_OWNED_NLL_FILES = {
     "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py": "63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7",
     "research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py": "8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d",
-    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "2cedb29c2c0194e8e7f4eb254c9a5e27c8eb8b5faa864bc4bd60f3a37065b2c3",
+    "research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py": "d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7",
 }
 SUPPORTED_PROFILES = {BASELINE_PROFILE, R5_PROFILE, R7_PROFILE, R8_PROFILE, R9_PROFILE, R10_PROFILE, R11_PROFILE, R22_PROFILE, R22_OWNED_NLL_PROFILE}
 

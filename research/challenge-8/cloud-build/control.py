@@ -219,10 +219,12 @@ R23_PROFILE_PATH=R22_PROFILE_PATH
 R23_PROFILE_SHA256=R22_OWNED_NLL_PROFILE_SHA256
 R23_STARTING_TOOL_COMMIT=R22_OWNED_NLL_TOOL_COMMIT
 R23_PATCH_SHA256=R22_OWNED_NLL_PATCH_SHA256
-R23_PROVIDER_SHA256='aed0d29555b960fe13bb91a808f5f46fd8901bcff04ccb09b4c9fe8dfb7e6bb4'
+R23_PROVIDER_SHA256='7bb419631596d9678fe355243ddbcb1c3517b79ca9b25165c7df3b019ca3214f'
 R23_PLACEMENT_PATH='research/challenge-8/cloud-build/origin-layout/r11-storage-placement-controls.py'
 R23_PLACEMENT_SHA256='8e54ac8f87ea9c62b47a6a28f12dd1a6164c89f3db6d501b2cfc4a113378c15d'
 R23_PROVE_SHA256='63ffb2659d0767b71d3d169cfcecbe5657607e5fc208f3144c577b86851cfca7'
+R23_COMPAT_PATH='research/challenge-8/cloud-build/origin-layout/generated-glue-compatibility-controls.py'
+R23_COMPAT_SHA256='d97e9527d9bcdb17c6bdfdd6ba97e6e63b31fad0df4b3f250ac5e2c2611234f7'
 R23_START='2026-10-23T10:45:00Z'
 R23_MAIN_DEADLINE='2026-10-26T10:45:00Z'
 R23_DEADLINE='2026-10-26T11:45:00Z'
@@ -2430,13 +2432,14 @@ def r23_parse_provider_pin_tables(source):
   if set(tables['R11_FILES'])!=set(tables['R22_FILES']) or set(tables['R11_FILES'])!=set(tables['R22_OWNED_NLL_FILES']) or proof_path not in tables['R22_FILES']:
    raise ValueError('R22 provider path set differs from R11')
   if any(tables['R11_FILES'][path]!=tables['R22_FILES'][path] or tables['R11_FILES'][path]!=tables['R22_OWNED_NLL_FILES'][path]
-         for path in set(tables['R11_FILES'])-{proof_path,R23_PLACEMENT_PATH}):
+         for path in set(tables['R11_FILES'])-{proof_path,R23_PLACEMENT_PATH,R23_COMPAT_PATH}):
    raise ValueError('R22 control pins differ from R11')
   if (tables['R11_FILES'][proof_path] in (tables['R22_FILES'][proof_path],tables['R22_OWNED_NLL_FILES'][proof_path]) or
       tables['R22_FILES']!=tables['R22_OWNED_NLL_FILES']):
    raise ValueError('R22 profile pin tables are not exact and distinct from historical R11')
   if (tables['R22_FILES'].get(proof_path)!=R23_PROVE_SHA256 or
-      tables['R22_FILES'].get(R23_PLACEMENT_PATH)!=R23_PLACEMENT_SHA256):
+      tables['R22_FILES'].get(R23_PLACEMENT_PATH)!=R23_PLACEMENT_SHA256 or
+      tables['R22_FILES'].get(R23_COMPAT_PATH)!=R23_COMPAT_SHA256):
    raise ValueError('R23 exact runner source pins differ')
   return tables
  except (SyntaxError,UnicodeDecodeError,ValueError,TypeError,RecursionError):

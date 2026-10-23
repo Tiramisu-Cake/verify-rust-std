@@ -26,7 +26,7 @@
         "sha256": "6616377a6167daa7cec142c3361f8924d967890d8e36425a7413e80e7e36570f"
       }
     ],
-    "summary": "WAITING R23 P1 Build692c1943; capture mapping/proof status UNKNOWN pending Brief."
+    "summary": "P1: compatibility source pin stale; caller/capture NOT_RUN."
   },
   "confirmed": [
     {
@@ -39,9 +39,20 @@
           "sha256": "e9d26bee7beb4a180fc5c90199fabbb0caf7c16976aad099956981dc8ff2e530"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "R23 P1 compiler PASS/proof_attempted=true; caller campaign NOT_RUN due stale compatibility source pin; no capture/proof credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/cloud-build/origin-layout/R23-P1-BRIEF-RESULT-20261024.json",
+          "sha256": "4c3e6a628d995c589f31d166047554ce7681a605c7aa5e3669529f3b2beb0cd7",
+          "build_id": "692c1943-771d-4e99-b498-c5c480f4280a"
+        }
+      ]
     }
   ],
-  "next_step": "Watcher event -> ack before checkpoint edit -> Brief; owned-NLL stop-loss <=2 cycles, then checked source borrow route.",
+  "next_step": "Fix exact compatibility binding; review; final diagnostic P2.",
   "open": [
     "Root NLL admission 1f805a2c NEEDS_FIX (translator pin, inherited flag, exact-case scope); constructor fixes Cloud-UNVERIFIED.",
     "Original as_mut_ptr/unsize caller, borrow lifecycle, full caller normal/unwind OPEN; raw caller state/index controls OPEN; F5 INCONCLUSIVE; no B2 credit."
@@ -62,30 +73,28 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [
-      "692c1943-771d-4e99-b498-c5c480f4280a"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:45:00Z",
     "main_minutes": 4320,
-    "remaining_seconds": 14400,
+    "remaining_seconds": 13822,
     "retired_seconds": 0,
-    "spent_seconds": 0,
+    "spent_seconds": 578,
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T11:01:11.960204Z",
+  "updated_utc": "2026-10-23T11:15:55.707642Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
       "reason": "Owner prescribed first step; preserve exact profile3fec and existing source model. T0 conservatively includes initial preparation minute 10:45Z. Worker owns three runner fixes; main owns admission and pins.",
       "owned_nll_cycles": 0,
       "owned_nll_cycles_started": 1,
-      "owned_nll_cycles_completed": 0
+      "owned_nll_cycles_completed": 1
     },
     {
       "obligation": "Transfer closure",
@@ -98,6 +107,10 @@
       "source_sha": "12dde2397d21adc23ce79f19099e38694fd61291",
       "config_sha256": "9225a97bf716fd476912d6437f5a91b298f5ee92fafa70fd0b5c6afff651cce8",
       "state_dir": "/tmp/smallsort-merge-r23-cloud-state"
+    },
+    {
+      "obligation": "Repair exact compatibility source binding before second/final owned-NLL cycle",
+      "reason": "P1 selected seven/admission/receiver controls matched, but compatibility gate expects historical refiner48d02b while exact3fec profile pins11a0ff. Preserve all old pins/default checks and register3fec->11a0ff narrowly; no gate weakening. P1 consumes one full capture cycle even though target never dispatched."
     }
   ],
   "mission_queue": [
@@ -106,5 +119,14 @@
     "source-level checked borrow adapter if capture stop-loss fails",
     "F5 resource/state/index intended controls",
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
-  ]
+  ],
+  "watcher": {
+    "job_id": "640243d3-087d-44b3-9d47-777b9a8b6895",
+    "event_id": "62355d71-890c-4c6e-8755-18258624b0da",
+    "event_name": "monitor_error",
+    "ack": "CONTINUE_EXISTING_WINDOW",
+    "first_ack_refusal": "coordinator read lock busy",
+    "status_after_event": "WORKING",
+    "auto_rearm": false
+  }
 }

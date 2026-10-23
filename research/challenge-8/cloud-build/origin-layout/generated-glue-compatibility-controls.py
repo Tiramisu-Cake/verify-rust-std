@@ -39,6 +39,29 @@ PINNED_REFINER_SOURCE_SHA256_BY_PROFILE = {
     'experimental-merge-label-storage-r11-v1':
         '48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0',
 }
+R22_OWNED_NLL_PROFILE_SHA256 = '3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88'
+R22_OWNED_NLL_PROFILE = 'experimental-merge-label-storage-r11-v1'
+R22_OWNED_NLL_TOOL_COMMIT = 'fc0208d4f53583d458670cd07bd0370636d4b2eb'
+R22_OWNED_NLL_REFINER_SOURCE_SHA256 = '11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8'
+R22_OWNED_NLL_REGISTRATION = {
+    'schema': 'merge-r22-owned-nll-diagnostic-registration-v1',
+    'phase_id': 'MERGE-CALLER-ACCEPTANCE-R22-2026-10-23',
+    'baseline_profile_sha256': 'd2640ee7088ecfe61c8115bc27df81c45e77742ce990295c22cdf6de90eb7579',
+    'starting_tool_commit': '65f0bb35e4f188cf8ce405a67253127173c5c3a1',
+    'candidate_tool_commit': R22_OWNED_NLL_TOOL_COMMIT,
+    'tool_source_paths': [
+        'src/rust_frontend/vf_mir_exporter/src/lib.rs',
+        'src/rust_frontend/vf_mir/vf_mir.capnp',
+        'src/refinement_checker/refinement_checker.ml',
+        'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml',
+    ],
+    'source_applicability': (
+        'diagnostic-only optional owned-NLL capture for exact registered source cases; '
+        'identity=Nothing initializes all three synthetic Lifetime fixtures. Serialization '
+        'retains captured facts but cross-stage mapping is UNESTABLISHED, derived origin '
+        'stays unavailable, and no proof credit or ownership authority is granted. No '
+        'runtime, model, CFG, normal-unwind, or source-control change.'),
+}
 LEGACY_DROP_DEFAULTS = (
     'kind=Drop {\n'
     '              selected_drop_path=""; selected_drop_hash=""; selected_guard_path="";\n'
@@ -134,18 +157,61 @@ def _ordinary_mutant(text: str, nonunit: bool, remove: bool) -> str:
     return text[:start] + body + text[end:]
 
 
-def _synthetic_defaults_gate(source: Path, refiner: Path, profile: str) -> dict:
-    """Bind both old Box Drop constructors to exact source and built binary."""
+def _profile_refiner_source_pin(profile: str, profile_path: Path | None = None) -> dict:
+    """Resolve an exact legacy pin or the one exact registered R22 owned-NLL profile."""
+    row = {'profile': profile, 'profile_path': str(profile_path) if profile_path is not None else None,
+           'profile_binding': 'LEGACY_PROFILE_PIN', 'profile_sha256': None,
+           'expected_source_sha256': PINNED_REFINER_SOURCE_SHA256_BY_PROFILE.get(profile),
+           'binding_error': None}
+    if profile_path is None:
+        return row
+    try:
+        raw = Path(profile_path).read_bytes()
+    except OSError as error:
+        row.update(profile_binding='REJECTED', expected_source_sha256=None,
+                   binding_error=f'{type(error).__name__}: {error}')
+        return row
+    row['profile_sha256'] = hashlib.sha256(raw).hexdigest()
+    try:
+        card = json.loads(raw)
+    except (ValueError, UnicodeDecodeError) as error:
+        row.update(profile_binding='REJECTED', expected_source_sha256=None,
+                   binding_error=f'{type(error).__name__}: {error}')
+        return row
+    if type(card) is not dict or card.get('profile') != profile:
+        row.update(profile_binding='REJECTED', expected_source_sha256=None,
+                   binding_error='profile file is not an object for the selected public profile')
+        return row
+    if 'r22_owned_nll_registration' in card:
+        exact = (profile == R22_OWNED_NLL_PROFILE and
+                 row['profile_sha256'] == R22_OWNED_NLL_PROFILE_SHA256 and
+                 card.get('effective_tool_commit') == R22_OWNED_NLL_TOOL_COMMIT and
+                 card.get('r22_owned_nll_registration') == R22_OWNED_NLL_REGISTRATION)
+        if not exact:
+            row.update(profile_binding='REJECTED', expected_source_sha256=None,
+                       binding_error='owned-NLL profile bytes, tool commit, or registration differ')
+            return row
+        row.update(profile_binding='EXACT_R22_OWNED_NLL_REGISTRATION',
+                   expected_source_sha256=R22_OWNED_NLL_REFINER_SOURCE_SHA256)
+    return row
+
+
+def _synthetic_defaults_gate(source: Path, refiner: Path, profile: str,
+                             profile_path: Path | None = None) -> dict:
+    """Bind legacy Drop constructors to exact source and the registered profile/refiner."""
     content = source.read_text()
     count = content.count(LEGACY_DROP_DEFAULTS)
     total = content.count('kind=Drop {')
-    expected = PINNED_REFINER_SOURCE_SHA256_BY_PROFILE.get(profile)
+    pin = _profile_refiner_source_pin(profile, profile_path)
     row = {'profile': profile, 'source_path': str(source), 'source_sha256': _sha(source),
-           'expected_source_sha256': expected,
+           'profile_file_sha256': pin['profile_sha256'],
+           'profile_binding': pin['profile_binding'], 'profile_binding_error': pin['binding_error'],
+           'expected_source_sha256': pin['expected_source_sha256'],
            'refiner_sha256': _sha(refiner), 'synthetic_drop_count': total,
            'explicit_unqualified_default_count': count,
            'classification': 'STATIC_SOURCE_COMPATIBILITY_ONLY_NO_PROOF_CREDIT'}
-    row['matched'] = (expected is not None and row['source_sha256'] == expected and
+    row['matched'] = (pin['expected_source_sha256'] is not None and
+                      row['source_sha256'] == pin['expected_source_sha256'] and
                       total == 2 and count == 2)
     return row
 
@@ -278,8 +344,12 @@ def run(evidence: Path, args, env: dict[str, str], base, positive_case: Path) ->
     capnp = shutil.which('capnp')
     if capnp is None or not refiner.is_file():
         raise FileNotFoundError('hosted capnp and official refiner are required')
+    profile_path_value = env.get('SMALLSORT_MERGE_PROFILE') if type(env) is dict else None
+    profile_path = (Path(profile_path_value) if type(profile_path_value) is str and profile_path_value
+                    else evidence / '__missing_SMALLSORT_MERGE_PROFILE__')
     source_gate = _synthetic_defaults_gate(
-        Path(args.tool_home) / 'src/refinement_checker/refinement_checker.ml', refiner, args.profile)
+        Path(args.tool_home) / 'src/refinement_checker/refinement_checker.ml',
+        refiner, args.profile, profile_path=profile_path)
     gate_case = evidence / 'source-compatibility' / 'cases' / 'legacy_synthetic_drop_defaults'
     gate_case.mkdir(parents=True)
     (gate_case / 'classification.json').write_text(json.dumps({

@@ -1,0 +1,80 @@
+{
+  "schema": "merge-r23-p1-brief-result-v1",
+  "build_id": "692c1943-771d-4e99-b498-c5c480f4280a",
+  "source_sha": "12dde2397d21adc23ce79f19099e38694fd61291",
+  "profile_sha256": "3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88",
+  "tool_sha": "fc0208d4f53583d458670cd07bd0370636d4b2eb",
+  "config_sha256": "9225a97bf716fd476912d6437f5a91b298f5ee92fafa70fd0b5c6afff651cce8",
+  "archive_sha256": "4697bc090b158416d2863998cfd0575e7d198b3433c3b5f903a3f70bb3b18e6e",
+  "index_sha256": "50fee4cb051e69e32722297a9c8c1d3c22dd584cfc53130cacc99431e9010233",
+  "brief_integrity": "VERIFIED_ARCHIVE_AND_INVENTORY",
+  "assurance": "SOURCE_REPORTED",
+  "status": "FAILURE",
+  "run_exit": 1,
+  "proof_attempted": true,
+  "compiler_classification": "PASS",
+  "compile_milestones": {
+    "exporter-build": 0,
+    "decoder-build": 0,
+    "translator-build": 0,
+    "refiner-build": 0,
+    "console-build": 0,
+    "tracked-md-compile": 0,
+    "tracked-md-preparation": 0
+  },
+  "actual_caller_campaign": "NOT_RUN_PREREQUISITE_FAILED",
+  "owned_nll_capture": "NOT_RUN_WITH_CALLER_CAMPAIGN; no mapping inferred",
+  "selected_drop_seven_cases": "positive fragment plus six expected controls",
+  "generated_admission_controls_all_matched": true,
+  "generated_receiver_controls_all_matched": true,
+  "compatibility_controls": {
+    "all_matched": false,
+    "status": "INCONCLUSIVE",
+    "observed_source_sha256": "11a0ff9057e6da92a684c20b1cda1e4825d986ea6d80980a7a967f236f0c9db8",
+    "expected_legacy_source_sha256": "48d02bf44f4a082709a427e3e0d78af5498c1f240082fb27c7891dc8a3a283b0",
+    "error_coverage": "first512 of682 codepoints observed; both source hashes explicit"
+  },
+  "proof_credit": false,
+  "independent_credit": false,
+  "b2_achieved": false,
+  "charge_seconds": 578,
+  "remaining_seconds": 13822,
+  "receipts": [
+    {
+      "file_id": "09d55a35ddea85108045fdbee354f9a17ab811a228641c22544c729a7ed79ccf",
+      "file_sha256": "6d32d30e1df9f62b8d83e25c342a21d7d70695f7dc553ce164ad16e28b85c428",
+      "pointer": "",
+      "request_id": "d2b870569485fe1c80b6e9740b448ebfa598196df0c77d68116d54da4940ef77",
+      "exact": true,
+      "complete": true,
+      "coverage": "all9rootchildren"
+    },
+    {
+      "file_id": "ef83e105b67d52cca12bba107aa8faedb84a0f27680ac5a379eb2ac137d5c945",
+      "file_sha256": "1aa35a73424b05408675dab238c7c7efae99e2fb6e53407ab6d88e3b8d044e59",
+      "pointer": "/selected_drop/generated_glue_compatibility_controls",
+      "request_id": "dcda3b97e5c560be7a9ba3c3a042070804296c6b801def3e0dd702a3c598997d",
+      "exact": true,
+      "complete": true,
+      "coverage": "all3children; errorstring prefix512/682 only"
+    },
+    {
+      "file_id": "ef83e105b67d52cca12bba107aa8faedb84a0f27680ac5a379eb2ac137d5c945",
+      "file_sha256": "1aa35a73424b05408675dab238c7c7efae99e2fb6e53407ab6d88e3b8d044e59",
+      "pointer": "/selected_drop/generated_glue_admission_controls",
+      "request_id": "229af8a653c44fef52e12ae16a7bff42c13a2c59a994beb0bbf66112b91a75d5",
+      "exact": true,
+      "complete": true,
+      "coverage": "all16children"
+    },
+    {
+      "file_id": "ef83e105b67d52cca12bba107aa8faedb84a0f27680ac5a379eb2ac137d5c945",
+      "file_sha256": "1aa35a73424b05408675dab238c7c7efae99e2fb6e53407ab6d88e3b8d044e59",
+      "pointer": "/selected_drop/generated_glue_receiver_controls",
+      "request_id": "5d94203619d14ace45dc25b77f37c6d52298b3f8701c7793090920b11e520d47",
+      "exact": true,
+      "complete": true,
+      "coverage": "all13children"
+    }
+  ]
+}
