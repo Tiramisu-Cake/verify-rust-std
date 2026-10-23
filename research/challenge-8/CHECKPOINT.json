@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "ef08702ae9f3bb7b5898bc3a9259ab0cc266b3d3d9f607f1a375efb5c2be23bb"
+      "sha256": "509fd2b6bfc2ae7a75c630a9bb9bfd0970a57f120640ef19c0c3ab95eb9c7289"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-api-review.json",
-        "sha256": "3a4e314371ec4862130f003afbf99bbbe28cbf0ddebcc54dfc362fd02c77ecba"
-      }
-    ],
-    "summary": "W4refresh4tuple fix reviewedGO/unbuilt; freshcapture stillpending. P2 PUBLISHED."
+    "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+    "evidence": [],
+    "summary": "W4source/MIR capture pending; bodyproof and8const-call linkage remainopen. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "ef08702ae9f3bb7b5898bc3a9259ab0cc266b3d3d9f607f1a375efb5c2be23bb"
+    "sha256": "509fd2b6bfc2ae7a75c630a9bb9bfd0970a57f120640ef19c0c3ab95eb9c7289"
   },
   "brief_observation_refs": [
     {
@@ -1116,8 +1112,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publishffc3725; full1200freshW4capture thenBrief/checked8constlinkage/C5.",
-  "next_step": "Publishffc3725; full1200freshW4capture thenBrief/checked8constlinkage/C5.",
+  "next": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
+  "next_step": "ACK; push terminalaccounting; Brief W4capture source/normal+readonly/calls/refinement, thencheckedconstlinkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1210,7 +1206,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "cf667c5d-ce30-4803-b166-18f48b5cde6f"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1230,9 +1228,27 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:02:24Z",
+  "updated_utc": "2026-10-23T23:04:01Z",
+  "w4_api_build": {
+    "accepted": false,
+    "accounted": false,
+    "body_proof_run": false,
+    "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+    "call_linkage": false,
+    "candidate": "ffc37256f396ca6edd40108affc6f23d8feff367",
+    "config_sha256": "4f9aadd14fe283619fdfeb2dfc19a399ccd3c3ceb6d61390dd54a2227d786670",
+    "dispatch_token": "dispatch-36a3bd3b12b64c88b4b07223ebeed552",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CAPTURE_ONLY",
+    "schema": "select-r24-w4-api-submission-v1",
+    "source_payload_sha256": "0745fb80b900492e8523f8058d6a69671e829cf795279d4f125a5f9d5a474d04",
+    "status": "QUEUED",
+    "timeout_seconds": 1200
+  },
   "w4_api_candidate": {
     "accepted": false,
     "body_proof_run": false,
@@ -1251,7 +1267,7 @@
       "sha256": "8853229099727754144b21f8984925a81f1e8834db970a9d3933e5c829982cc6"
     },
     "scope": "W4_SOURCE_MIR_CAPTURE_ONLY_NO_PROOF_OR_LINKAGE",
-    "state": "REVIEWED_UNBUILT"
+    "state": "SUBMITTED"
   },
   "w4_capture_build": {
     "accepted": false,
@@ -1308,7 +1324,7 @@
       "sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
     },
     "proof_credit": 0,
-    "state": "API_FIX_REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
   },
@@ -1332,6 +1348,14 @@
       "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
       "event_id": "22de2de8-1a6f-4446-99f8-5ccf09493105",
       "spec_path": "/tmp/select-r24-w4-capture-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
+      "spec_path": "/tmp/select-r24-w4-api-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
