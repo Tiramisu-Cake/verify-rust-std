@@ -87,3 +87,40 @@ pass and open/finalpost completes within600s. Falsifiers: helper close stalls,
 wrapper open stalls again, or finalpost/any assertion fails. Preserve each
 failure/timing. No new axiom,premise,bodyless bridge or trusted summary.
 Independent semantic review before the next exact Cloud submission.
+
+## Exact shape5 receipt and caller post grouping
+
+Buildcbbe4b5f source-accepted exact in375.176676s,zeroerrors,28bodies,
+7684return/leakchecks,unit2c9213a9unchanged;stagecomplete=true. Charge506s,
+1983spent,1617remaining. Brief's generic top-level NOT_ACCEPTED projection
+is not the custom mathematical case receipt; targeted results bind the
+source-reported acceptance. No independent B1/B2/Rust proofcredit follows.
+
+Next bounded representation correction (before first controls): the negative
+wrapper calls the public exact theorem, whose Sep post would again produce26
+separate assumptions under literal/SWO input, the measured shape3 hot path.
+Group ONLY that public N13 post into the same single Boolean conjunction of
+identical26propositions. Its precondition,signature,body,alloriginal component
+posts and allnegative bodies/assertions/metadata gates stay unchanged. N9 and
+symbolicN13 generation remain byte-identical. This does not drop a post or
+change its truth condition; it makes the checked theorem usable by callers.
+
+Alternatives: dispatch the predicted expensive Sep-call negatives unchanged;
+or pre-establish their result via an additional checked producer call (would
+make post controls depend on another supplier, so rejected). Choose direct
+same-fact public post batching, independently reviewed before controls.
+
+The standalone accepted unit has a DIFFERENT source hash from this correction;
+its acceptance is not silently transferred. Every complete negative unit must
+recheck all28positive bodies with the updated full post BEFORE its intended
+final assertion. Existing full inventory/return/leak/source/diagnostic and
+7classifier gates remain mandatory. The accepted exact stage preceded controls;
+updated body proof is an included checked dependency, not an assumed summary.
+Per N3-SCOPE no-duplicate-checked-dependency rule, do not spend another Build
+merely duplicating a body actually rechecked in these units. If any prefix is
+incomplete/wrong-site/timeout, keep updated exact/full acceptance OPEN.
+
+Prediction: full positive prefix completes, then the membership/order negative
+reaches the unchanged intended assertion within600s. All three negatives and
+seven classifier controls remain mandatory, plus final compatible N9/universal
+coverage. No new profile,tool,premise,axiom,summary or weakened gate.
