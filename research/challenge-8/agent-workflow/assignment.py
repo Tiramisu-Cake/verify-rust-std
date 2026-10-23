@@ -533,7 +533,11 @@ def _ledger_closed(root: Path, spec: dict[str, Any]) -> str:
     if unused_retired is not None:
         if type(unused_retired) is not int or unused_retired < 0:
             _err("previous ledger unused-retired accounting is invalid")
-        if spent + unused_retired != total or remaining != unused_retired or carry != 0:
+        # Two closed conventions are accounted: the legacy hold (remaining still shows the
+        # unused seconds) and the CORE closeout (remaining 0, the same seconds retired).
+        fully_retired = remaining == 0 and retired == unused_retired
+        legacy_hold = remaining == unused_retired
+        if spent + unused_retired != total or not (fully_retired or legacy_hold) or carry != 0:
             _err("closed ledger retirement/remaining values are inconsistent")
     elif retired is not None:
         if type(retired) is not int or retired < 0 or spent + retired + remaining != total or remaining != 0:
@@ -645,8 +649,16 @@ def _archive_and_install(root: Path, spec: dict[str, Any], preserved: dict[str, 
             resolved = cursor.resolve(strict=True)
             if not resolved.is_relative_to(root) or not resolved.is_dir():
                 _err("task-history parent is outside the worktree or not a directory")
-    if history.exists() or history.is_symlink():
-        _err("history target already exists; refusing to overwrite archived task")
+    if history.is_symlink():
+        _err("history target is a symlink; refusing to archive")
+    if history.exists():
+        # Agents keep their own artifacts under task-history/<task_id>/; the archive may
+        # join that directory, but never an already archived task (manifest present).
+        resolved = history.resolve(strict=True)
+        if not resolved.is_relative_to(root) or not resolved.is_dir():
+            _err("history target is outside the worktree or not a directory")
+        if (history / "manifest.json").exists() or (history / "manifest.json").is_symlink():
+            _err("history target already exists; refusing to overwrite archived task")
     canonical: dict[str, bytes] = {}
     for name in CANONICAL_INSTALLS:
         source = CORE_DIR / name
@@ -681,7 +693,7 @@ def _archive_and_install(root: Path, spec: dict[str, Any], preserved: dict[str, 
     archive_files = {history / f"{name}.{digest}": preserved[name] for name, digest in manifest.items()}
     archive_files[history / "manifest.json"] = _json_bytes({"task_id": spec["previous_task_id"], "files": manifest})
     # All validation and generated content checks are complete before creating history.
-    history.mkdir(parents=True)
+    history.mkdir(parents=True, exist_ok=True)
     for path, content in archive_files.items():
         _write_atomic_new(path, content)
     core_parent.mkdir(parents=True, exist_ok=True)

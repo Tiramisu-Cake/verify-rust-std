@@ -370,11 +370,37 @@ class AssignmentTests(unittest.TestCase):
                     assignment.install(self.spec_path, self.coordination)
                 self.assertEqual(self.snapshot(), before)
         self.spec = self.make_spec(); self.write_spec()
-        (self.base / "task-history" / PREVIOUS).mkdir(parents=True)
+        history = self.base / "task-history" / PREVIOUS
+        history.mkdir(parents=True)
+        (history / "manifest.json").write_text("{}", encoding="utf-8")
         before = self.snapshot()
         with self.assertRaisesRegex(assignment.AssignmentError, "already exists"):
             assignment.install(self.spec_path, self.coordination)
         self.assertEqual(self.snapshot(), before)
+
+    def test_install_archives_into_existing_agent_history_dir_without_manifest(self):
+        history = self.base / "task-history" / PREVIOUS
+        history.mkdir(parents=True)
+        (history / "ENTRY-CONFIRMED.json").write_text("{}", encoding="utf-8")
+        git(self.repo, "add", "research"); git(self.repo, "commit", "-q", "-m", "agent artifacts in task-history")
+        with patch.object(assignment, "CORE_DIR", self.canonical):
+            assignment.install(self.spec_path, self.coordination)
+        manifest = json.loads((history / "manifest.json").read_text())
+        self.assertIn("CURRENT-TASK.md", manifest["files"])
+        self.assertEqual((history / "ENTRY-CONFIRMED.json").read_text(), "{}")
+
+    def test_closed_ledger_accepts_fully_retired_closeout_with_unused_retired(self):
+        ledger = json.loads(self.ledger_bytes)
+        # CORE closeout: remaining 0, unused seconds retired (Select R23 convention).
+        ledger.update(remaining_build_seconds=0, retired_seconds=1708, unused_retired_seconds=1708)
+        self.ledger.write_bytes((json.dumps(ledger, sort_keys=True) + "\n").encode())
+        git(self.repo, "add", self.previous_ledger_rel); git(self.repo, "commit", "-q", "-m", "fully retired ledger")
+        self.assertEqual(assignment._ledger_closed(self.repo, self.spec), OLD_PHASE)
+        ledger.update(retired_seconds=1700)
+        self.ledger.write_bytes((json.dumps(ledger, sort_keys=True) + "\n").encode())
+        git(self.repo, "add", self.previous_ledger_rel); git(self.repo, "commit", "-q", "-m", "inconsistent retirement")
+        with self.assertRaisesRegex(assignment.AssignmentError, "inconsistent"):
+            assignment._ledger_closed(self.repo, self.spec)
 
     def test_symlink_profile_fails_before_mutation(self):
         self.profile.unlink()
