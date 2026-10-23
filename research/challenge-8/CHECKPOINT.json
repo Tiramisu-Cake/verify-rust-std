@@ -13,7 +13,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold image NOT_RUN; candidate preparation/review in progress."
+    "summary": "Cold image NOT_RUN; reviewed candidate ready for submit."
   },
   "confirmed": [
     {
@@ -25,9 +25,23 @@
           "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N7 candidate14a91c3 reviewed GO for first cold under exact admission;44 synthetic controls/syntax/closure PASS; no toolchain run or credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N7-INDEPENDENT-REVIEW.json",
+          "sha256": "c3e55106d6c860427834eacd31d33fcf4ff7c4f49388757c63f933a76ee78713"
+        },
+        {
+          "path": "research/challenge-8/network/rr/N7-STATIC-VALIDATION.json",
+          "sha256": "888ea07e2e4315daa797e0dea8cceb7d4e5c7d3f3ba9106efad3811c3ab4883f"
+        }
+      ]
     }
   ],
-  "next_step": "Review/register N7; cold image, freeze digest, warm G1.",
+  "next_step": "Submit cold1740/1800, then Brief/accounting push before freeze.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources."
@@ -62,5 +76,5 @@
   },
   "state": "ACTIVE",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T20:57:50Z"
+  "updated_utc": "2026-10-23T21:05:48Z"
 }

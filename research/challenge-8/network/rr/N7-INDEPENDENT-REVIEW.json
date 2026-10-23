@@ -1,0 +1,21 @@
+{
+  "baseline_commit": "e9fcf59caea3fd851cdc8d051e664e11e997f4b0",
+  "candidate_commit": "14a91c3e674afc835167dd8ea646413c4e9c5882",
+  "critical_findings": [],
+  "independent_proof_credit": 0,
+  "model": "gpt-6-luna",
+  "observed_utc": "2026-10-23T21:05:48Z",
+  "packet_sha256": "13a9ab9c2556a8afa79b8fb000c43317f6fb261403cdc4171b5e6e247fb954f4",
+  "post_build_checks": [
+    "Before freeze, compare registry internal_receipt_sha256 with Brief catalogue image-receipt file SHA and internal-artifacts/executable checksum identities.",
+    "Read all actual RR image identities from exact cold/g1 receipts; legacy packager tool_profile is not evidence of a VF/compiler run.",
+    "Return pins-only freeze delta to same reviewer before warm."
+  ],
+  "proof_credit": 0,
+  "reasoning_effort": "high",
+  "reviewer": "independent Luna HIGH /root/n7_independent_review",
+  "schema": "network-rr-g1-independent-review-v1",
+  "scope": "Connected cold image/registry, exact N7 phase/account/client, digest warm selection and locked-online G1 runner; preserved runtime/std/RR frontend/ownership/unwind/control boundaries.",
+  "spec_sha256": "e217b758e9cb72306e82593446ce062341991afa8d9edc21f8cdeb942c686ef2",
+  "verdict": "GO_FIRST_COLD_SUBMISSION_AFTER_ORDINARY_ADMISSION"
+}

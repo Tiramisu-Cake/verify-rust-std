@@ -1,0 +1,46 @@
+{
+  "applicability": "Own network-rr-g1 lane only: exact N7 phase/account, pinned Ubuntu+Cloud docker client cold setup, online pinned RR image, original exact source/ghost G1 diagnostic with online locked Cargo.",
+  "baseline_commit": "e9fcf59caea3fd851cdc8d051e664e11e997f4b0",
+  "candidate_commit": "14a91c3e674afc835167dd8ea646413c4e9c5882",
+  "controls": [
+    "5 rr_lane synthetic admission/config tests PASS: success, shortenedtimeouts, partial/missing/null/wrongtype/NOT_RUN, foreignsource/stage/image, retries/unknown, oldlane envelopes.",
+    "12 cold audit synthetic tests PASS: success/error/timeout/partial/missing/null/wrongtype/NOT_RUN/stage/build/lock mismatch.",
+    "6 g1 saved-record/freeze tests PASS;17 existing N13 client tests PASS (historical N5 fixture status corrected for mocked active time);4 R7wrapper tests PASS.",
+    "AST/shellsyntax PASS; session prepare/check PASS; actual source payload/config caps to be checked on committed candidate before submit."
+  ],
+  "defect": "N6 offline cold gates and Ubuntu-only Network client prevent owner-authorized N7 online Artifact Registry image build and digest warm G1.",
+  "dependencies": [
+    "research/challenge-8/agent-workflow/CORE.md",
+    "research/challenge-8/agent-workflow/RUNTIME-CODEX.md",
+    "research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+    "research/challenge-8/network/rr/G1-PINNED-FRONTEND-AUDIT.md",
+    "research/challenge-8/network/rr/g1-minimal/annotations.json",
+    "research/challenge-8/network/rr/g1-minimal/inputs.json",
+    "research/challenge-8/network/rr/g1-minimal/freeze.json",
+    "research/challenge-8/network/rr/g1/annotate.py",
+    "research/challenge-8/network/rr/g1/verify_inputs.py",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/run-proof.sh",
+    "research/challenge-8/cloud-build/exact-infra-transport-controls.py"
+  ],
+  "invariants": [
+    "No runtime std or RR frontend/semantics modifications; exact RR332d945f/treeb33bcccb, compiler nightly2026-08-28/archiveSHA, stdcd371e0.",
+    "No only_spec/shims/strongerFnMut/Copy/Freeze/purity or trusted premises; retain p0 before target and all ghost-strip/source/cleanup requirements.",
+    "No coordinator/IAM/shared transport/foreign lane or ledger changes; previous N13 configurations and envelopes preserved.",
+    "Cold1740/1800 E2_HIGHCPU_8 max2 with recorded setup repair; warm1200/1260 E2_STANDARD_2 max2 with evidence repair;240 report reserve; unknown submit never retried.",
+    "Registry is exact assigned smallsort-tools/refinedrust-g1; warm requires canonical digest and reviewed cold receipt/binary freeze. Collector success is diagnostic, proofcredit0."
+  ],
+  "known_limitations": [
+    "Cold/warm toolchains NOT_RUN; no image digest yet so warm refuses until pins-only delta review.",
+    "Online cold route explicitly owner-authorized replacing N6 offlinecontext gates. Warm uses --locked online dependencies, exact core Cargo.lock frozen by source inputs.",
+    "Cold uses pinned Ubuntu executor+apt docker.io, preserving modern Git transport; resolved GoogleDockerbuilder source uses Ubuntu20.04 (Git2.25), so it was not selected.",
+    "Existing packager manifest.tool_profile is a legacy constant for stock lanes with no proof-tools-executed scope; actual RR identities are carried in cold/g1 receipts, not that legacy field. Assess if per-lane metadata adjustment is necessary.",
+    "No safety/formalverification claim, G1 missing-spec/cleanup classification remains manual via Brief."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}
