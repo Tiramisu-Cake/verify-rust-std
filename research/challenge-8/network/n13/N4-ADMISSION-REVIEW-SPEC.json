@@ -1,0 +1,27 @@
+{
+  "applicability": "N4 pure math stock26.09/sourcecd371e;3600s;07:52:10..09:52:10 main,10:22:10 absolute.",
+  "baseline_commit": "4837468689f52f464da86f5057efd70d9fa90d88",
+  "candidate_commit": "6ea689b7e479474f84d71c3a08a64cdfcd44bb6a",
+  "controls": [
+    "15 synthetic admission/runner tests pass;11 Network client tests pass including full main-envelope refusal;syntax/diffcheck. No actual generators/tools locally."
+  ],
+  "defect": "N3 expired; fresh N4 phase/ledger and measured600s case needed. Add main-envelope refusal. Shape3 unchanged.",
+  "dependencies": [
+    "research/challenge-8/network/n13/REVIEW-SHAPE3-N3.md",
+    "research/challenge-8/network/n13/N4-EXPERIMENT.md",
+    "research/challenge-8/cloud-build/network-n13/N13-EXECUTION-PROFILE-20261023-N3.json",
+    "research/challenge-8/CURRENT-TASK.md"
+  ],
+  "invariants": [
+    "All shape3 math/posts/gates/source/tool unchanged; no trust expansion.",
+    "N3 historical profile/ledger preserved; coordinator unchanged.",
+    "Exact600/Build975; membership600+missing180/Build1155;order600/Build975;all7classifier controls preserved.",
+    "Preflight unchanged dependencies; controls/regressions mandatory before acceptance."
+  ],
+  "known_limitations": [
+    "Shape3 unrun; no formal credit. Fresh review before dispatch.600s not proven sufficient."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-networks"
+}

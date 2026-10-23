@@ -22,6 +22,7 @@
 - Full exact/controls/compatible regressions OPEN.
 - N4 autonomous shape4 decision and alternatives: network/n13/N4-EXPERIMENT.md.
 - R4/W7 P1 inactive/P2 NOT_PUBLISHED; future consumer notes prepared.
+- Independent W8 length/region/ZST/merge-interface preparation: network/w8/CALLER-OBLIGATIONS-N4.md (unverified).
 
 ## Rejected approaches
 - Собственная параллельная реализация pointer-select/callback слоя — Divergent trusted profiles; W10 integration debt.; [research/challenge-8/network/BOOTSTRAP-2026-10-22.md](network/BOOTSTRAP-2026-10-22.md) SHA `1b219aee9b85b36d65a20e50b473cb54b14f544f6ac2703a8517283a13972712`
