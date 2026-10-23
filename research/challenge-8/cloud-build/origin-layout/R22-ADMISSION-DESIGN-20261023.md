@@ -1,0 +1,11 @@
+# R22 registration delta on reviewed e70c9115 admission
+
+New R22 authorization only: fresh 3600 seconds, T0 2026-10-23T07:44:00Z (conservative initial preparation minute), main 09:44Z, absolute 10:14Z. Owner pause at 07:50:56Z and resume do not extend the window. Baseline 3fbbd0f6 (R22 assignment after R21 closeout); R21 remains CLOSED/3600 retired/carry0.
+
+Preserve tool578120769161e217e53bd569bafdccbd4b2e020e and profile949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301 exactly. No proof/runtime/control changes. R22 duplicates the reviewed R21 client registration and routes upload guard, spent alias, phase authorization, execute validator and final reservation check. R22 also requires timeout+60 queue envelope to fit main at initial and final source validation, as CURRENT CORE requires. Timeout1200, execute<=780, soft<=765, reserve>=420, nested compile reserve140 unchanged. Existing coordinator v4 untouched.
+
+Recipe delta: +R22 ledger, -R11-BUILD2..5-RESULT reports. These are historical report documents, retained unchanged in Git; they are referenced only as historical digests in R11-INPUTS selected_paths, not consumed by runtime/preflight/proof code. Every baseline historical ledger, profile, mode, gate and required control/test remains in closure. This preserves the 571567-byte transport cap, pending committed measurement. No changed accepted control or compiler/proof source is pruned. Historical R19/R20/R21 negative upload-guard tests update their exact tuple mutation to include R22; their tested failure remains required.
+
+smallsort-session prepare was attempted on /tmp/merge-r22-session.json and refused reused profile /r10_registration/independent_credit and /r11_placement/independent_credit because numeric zero is not boolean false. Changing pinned profile violates the assignment; manual exact registration through the existing authoritative client is selected, with independent delta review. No shared generator change or bypass of client admission.
+
+Validation so far: R22 phase12; R21/R20 phase11 each; R19 phase13; metadata admission7; rawptr10; unwind12; bash -n merge.sh and diff check. Cloud preflight/compiler/target/controls NOT_RUN; no new proof credit.

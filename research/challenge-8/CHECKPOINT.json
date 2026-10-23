@@ -28,13 +28,8 @@
     "tool_sha": "578120769161e217e53bd569bafdccbd4b2e020e"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/cloud-build/origin-layout/R20-CLOSEOUT-20261023.json",
-        "sha256": "1c661431cec942ad4781a1013a86c5d835a965a4500c4631b329d4b5ae57476a"
-      }
-    ],
-    "summary": "R21 lost to permission stall, 0 Builds; tool578 admission pending."
+    "summary": "R22 admission review/activation pending; no Builds.",
+    "evidence": []
   },
   "confirmed": [
     {
@@ -85,7 +80,7 @@
       ]
     }
   ],
-  "next_step": "New task: re-register on reviewed e70c9115; HANDOFF Build t1200 early.",
+  "next_step": "Measure transport; review/publish/activate R22; submit timeout1200 within original main window.",
   "open": [
     "Original as_mut_ptr/unsize and real borrow/reference lifecycle plus full caller normal/unwind OPEN.",
     "Raw caller bounded source-reported exit0 only; state context and index-projection intended controls OPEN.",
@@ -121,15 +116,42 @@
   "session": {
     "active_build_ids": [],
     "budget_seconds": 3600,
-    "deadline_utc": null,
-    "main_deadline_utc": null,
+    "deadline_utc": "2026-10-23T10:14:00Z",
+    "main_deadline_utc": "2026-10-23T09:44:00Z",
     "remaining_seconds": 3600,
     "retired_seconds": 0,
     "spent_seconds": 0,
-    "t0": null,
+    "t0": "2026-10-23T07:44:00Z",
     "unresolved_ids": []
   },
-  "state": "NOT_STARTED",
+  "state": "ACTIVE",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-23-r22",
-  "updated_utc": "2026-10-23T07:39:49Z"
+  "updated_utc": "2026-10-23T07:51:43+00:00",
+  "decisions": [
+    {
+      "decision": "Use conservative T0 07:44:00Z covering initial document preparation before first clock reading 07:45:51Z; never shift it on registration.",
+      "reason": "Actual session preparation began before clock reading; conservative minute fixes boundaries without extending authorization."
+    },
+    {
+      "decision": "Manual exact-phase R22 preparation after smallsort-session prepare refused pinned numeric independent_credit=0; do not alter profile or shared generator.",
+      "alternatives": [
+        "Change pinned profile (rejected: violates exact tuple)",
+        "Wait for owner (rejected: owner unavailable)",
+        "Manual existing-client registration with delta review (selected)"
+      ],
+      "reason": "Existing client gates remain authoritative; only registration delta and unreferenced historical report recipe pruning require review."
+    },
+    {
+      "decision": "Preserve uncommitted R22 registration draft at owner pause.",
+      "reason": "R22 phase 12 tests, historical R21/R20/R19 phase 11/11/13, metadata7/rawptr10/unwind12 passed. Transport unmeasured, independent review/activation/publication NOT_RUN. Recipe prunes R11 BUILD2..5 reports; references in historical R11-INPUTS selected_paths remain to be reviewed. Tool remote publication not yet verified (queried wrong repository branch returned no match)."
+    }
+  ],
+  "pause": {
+    "requested_by": "owner",
+    "paused_at_utc": "2026-10-23T07:50:56Z",
+    "clock_extended": false,
+    "builds_submitted": 0,
+    "note": "Owner requested pause; no active Builds, no reviewer or watcher spawned. Uncommitted R22 admission draft preserved.",
+    "resumed_at_utc": "2026-10-23T07:51:43+00:00"
+  }
 }

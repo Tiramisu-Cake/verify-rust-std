@@ -1,9 +1,9 @@
 # Agent checkpoint: merge-caller-acceptance-autonomous-2026-10-23-r22
 
-- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: NOT_STARTED
-- Updated: 2026-10-23T07:39:49Z
+- Owner: merge | phase: MERGE-CALLER-ACCEPTANCE-R22-2026-10-23 | state: ACTIVE
+- Updated: 2026-10-23T07:45:51Z
 - Baseline: source `6fd50c699500cbac5c65912174d4aa49b49db19f`, tool `578120769161e217e53bd569bafdccbd4b2e020e`, profile `949633103e909f27a721573ae88f4d3180278de5bcc2c60031239f93fe0b0301`
-- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`
+- Session dates: T0 `2026-10-23T07:44:00Z`; main deadline `2026-10-23T09:44:00Z`; absolute deadline `2026-10-23T10:14:00Z`
 - Budget: 3600s total; 0s spent; 0s retired; 3600s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
