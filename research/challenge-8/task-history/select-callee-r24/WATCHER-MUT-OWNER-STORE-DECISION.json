@@ -1,0 +1,64 @@
+{
+  "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
+  "decision": "Copied exact eight own ACKED job JSON records into dedicated store. Prior original records remain unchanged; no active/delivered/unknown own jobs were present. Existing coordinator/admission/phase/ledger/window/capacity limits retained.",
+  "documented_mechanism": "WATCH.md: all commands use same store; separate store via --store DIR supported.",
+  "new_store": "/root/.local/state/smallsort-watch-select-r24",
+  "prior_scope_jobs": [
+    {
+      "job_id": "a2b2fd94-969c-4707-b58a-23ac33a7fda2",
+      "path": "/root/.local/state/smallsort-watch/a2b2fd94-969c-4707-b58a-23ac33a7fda2.json",
+      "sha256": "0994f5620a081be6fd0d2d3a6de047903ee36c7a9b5177af7f2e569b5934b6dd",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "db113fcb-a351-4414-b5de-6ab16406665b",
+      "path": "/root/.local/state/smallsort-watch/db113fcb-a351-4414-b5de-6ab16406665b.json",
+      "sha256": "588eb8d7afebaeadf19422b12fd5afe42f8462463853e21ad1ee2e008961a5fc",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "8f24447b-51f1-4f5c-8000-492dea5cb0e1",
+      "path": "/root/.local/state/smallsort-watch/8f24447b-51f1-4f5c-8000-492dea5cb0e1.json",
+      "sha256": "66a6f384b8228d674c7e6dc76ed18fa902059f16be1babcc3075cc09ea876599",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "2cd91d32-9f9a-46e9-8880-3ad9967a691f",
+      "path": "/root/.local/state/smallsort-watch/2cd91d32-9f9a-46e9-8880-3ad9967a691f.json",
+      "sha256": "4b6ee3d630f0b39604c1b12474610cc6a85be50928190e6763bc27e6eff009b0",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "5e4ff81c-8b47-4798-a862-94a35e4ca4ad",
+      "path": "/root/.local/state/smallsort-watch/5e4ff81c-8b47-4798-a862-94a35e4ca4ad.json",
+      "sha256": "b9c7c0fdaf83e2514d4aa8aa2ea85edbd0858f722e6a6d0f6d1d8edcd88b7276",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "e4e3162b-5ef6-4b2d-84a3-0baff91c8c29",
+      "path": "/root/.local/state/smallsort-watch/e4e3162b-5ef6-4b2d-84a3-0baff91c8c29.json",
+      "sha256": "315820b9a963704cabed7724f4741fee0b863979563a096b0fa5502ca3526ebd",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "4a55a292-8776-468e-b92b-183d57a4bb69",
+      "path": "/root/.local/state/smallsort-watch/4a55a292-8776-468e-b92b-183d57a4bb69.json",
+      "sha256": "a4c44b71b7191f8a5cbdbce20b6487635145a24ee5b9bcc546cae8709ff2480a",
+      "state": "ACKED"
+    },
+    {
+      "job_id": "d19f2ec3-107a-4311-ba48-2c436da0b8ab",
+      "path": "/root/.local/state/smallsort-watch/d19f2ec3-107a-4311-ba48-2c436da0b8ab.json",
+      "sha256": "ef55d6b6601730db2924b385eab08bb0e79cfb1a53e52d679cdea95a24ad71be",
+      "state": "ACKED"
+    }
+  ],
+  "proof_credit": 0,
+  "refusals": [
+    "watch: coordinator read lock busy",
+    "watch: job store capacity exceeded"
+  ],
+  "schema": "select-r24-watch-local-store-decision-v1",
+  "shared_store_job_count": 65,
+  "watcher_max_jobs_per_store": 64
+}

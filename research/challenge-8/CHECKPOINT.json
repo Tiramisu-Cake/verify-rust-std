@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "c77f3b6e04ca4c81ced1faf39d7441f9f066fe60158416895be9065acac885a6"
+      "sha256": "751be511e1a493ad96a5cc4870f8cb7611d62a0b96e03f0fff842ade0e689961"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -625,7 +625,13 @@
     "build_id": "d86c7df3-c2f3-42ec-889c-480e9f38d3c0",
     "checkpoint_frozen_after_arm": true,
     "continuation": "Same R24 phase/T0/account/window. ACK before checkpoint mutation; terminal evidence only through Brief.",
+    "prior_arm_refusals": [
+      "watch: coordinator read lock busy",
+      "watch: job store capacity exceeded"
+    ],
     "spec_path": "/tmp/select-r24-mut-owner-watch.json",
+    "store": "/root/.local/state/smallsort-watch-select-r24",
+    "store_decision_ref": "research/challenge-8/task-history/select-callee-r24/WATCHER-MUT-OWNER-STORE-DECISION.json",
     "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
   },
   "watcher_history": [
