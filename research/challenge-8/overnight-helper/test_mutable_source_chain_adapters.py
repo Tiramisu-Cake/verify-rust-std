@@ -36,6 +36,44 @@ def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def synthetic_a1_const_pair():
+    """Pinned A1 source shapes, synthesized without reading repository std."""
+    a1 = NINE.load_a1()
+    tx_body = a1.TRANSMUTE_BODY.replace(
+        b"Src::SIZE",
+        b"<MaybeUninit<*const Element> as SizedTypeProperties>::SIZE").replace(
+        b"Dst::SIZE", b"<*const Element as SizedTypeProperties>::SIZE")
+    tx_contract = a1.ghost(
+        b"req thread_token(?tid) &*& tid == currentThread &*& "
+        b"std::mem::MaybeUninit::inner(src) == some(?p) &*& "
+        b"std::mem::MaybeUninit_pointer_own::<Element>()(tid, src);\n"
+        b"ens thread_token(tid) &*& result == p &*& "
+        b"raw_ptr_own::<Element>()(tid, result);\n"
+        b"on_unwind_ens false;")
+    tx = (b"pub unsafe fn " + a1.TRANSMUTE_ADAPTER_NAME.encode() +
+          b"<Element>(src: MaybeUninit<*const Element>) -> *const Element\n" +
+          tx_contract + tx_body + b"\n")
+    as_body = a1.METHOD_BODY.replace(b"::<T>", b"::<*const Element>").replace(
+        b"transmute_neo(self)", b"transmute_neo(storage)")
+    as_contract = a1.ghost(
+        b"req thread_token(?tid) &*& tid == currentThread &*& "
+        b"std::mem::MaybeUninit::inner(storage) == some(?p) &*& "
+        b"std::mem::MaybeUninit_pointer_own::<Element>()(tid, storage);\n"
+        b"ens thread_token(tid) &*& result == p &*& "
+        b"raw_ptr_own::<Element>()(tid, result);\n"
+        b"on_unwind_ens false;")
+    assume = (b"pub unsafe fn " + a1.ADAPTER_NAME.encode() +
+              b"<Element>(storage: MaybeUninit<*const Element>) -> *const Element\n" +
+              as_contract + as_body + b"\n")
+    pair = tx + b"\n" + assume
+    if (pair.count(b"*const Element") != 7 or
+            pair.count(b"assert_inhabited::<*const Element>()") != 1 or
+            pair.count(b"transmute_unchecked(src)") != 1 or
+            pair.count(b"transmute_neo(storage)") != 1):
+        raise AssertionError("synthetic A1 source shape drifted")
+    return pair
+
+
 class MutableSourceChain(unittest.TestCase):
     def test_parallel_fixture_writer_is_const_independent_and_capture_only(self):
         body = b"{\n    crate::mem::forget(guard);\n}"
@@ -105,13 +143,39 @@ class MutableSourceChain(unittest.TestCase):
         self.assertTrue(owned_stage["saved_guard_transfer"])
         self.assertEqual(seven_original.count(b"crate::mem::forget(guard);"), 1)
 
-    def test_nine_body_adapter_inserts_generic_a1_without_changing_helper_suffix(self):
+    def test_nine_body_adapter_finitely_specializes_pinned_a1_types(self):
         a1 = NINE.load_a1()
-        pair = (
-            b"pub unsafe fn " + a1.TRANSMUTE_ADAPTER_NAME.encode() +
-            b"<Src, Dst>(src: Src) -> Dst { transmute_unchecked(src) }\n"
-            b"pub unsafe fn " + a1.ADAPTER_NAME.encode() +
-            b"<T>(storage: T) -> T { transmute_neo(storage) }\n")
+        const_pair = synthetic_a1_const_pair()
+        self.assertEqual(const_pair.count(b"*const Element"), 7)
+        pair, adapted = NINE.adapt_a1_pair_mut(const_pair, a1)
+        self.assertEqual(pair.count(b"*mut Element"), 7)
+        self.assertNotIn(b"*const Element", pair)
+        self.assertEqual(pair.replace(b"*mut Element", b"*const Element"), const_pair)
+        self.assertEqual(adapted["const_pointer_type_sites"],
+                         {"transmute": 4, "assume_init": 3})
+        seven = (
+            NINE.OLD_FEATURE + NINE.OLD_IMPORT +
+            b"pub fn select_unpredictable<Element>(\n"
+            b"    condition: bool,\n    true_val: *mut Element,\n"
+            b"    false_val: *mut Element,\n) -> *mut Element {\n"
+            b"        crate::mem::forget(guard);\n"
+            b"        crate::intrinsics::select_unpredictable(condition, true_val, false_val);\n"
+            b"        crate::intrinsics::select_unpredictable(condition, true_val, false_val);\n"
+            b"        crate::intrinsics::select_unpredictable(condition, true_val, false_val);\n"
+            b"}\n")
+        seven_original = OWNER.strip_ghost(seven)
+        original, verified, stage = NINE.insert_a1_pair(
+            seven_original, seven, pair, {"typed_mir_binding": False},
+            OWNER.strip_ghost)
+        self.assertEqual(verified[verified.index(NINE.ACTUAL_MARKER):],
+                         seven[seven.index(NINE.ACTUAL_MARKER):])
+        self.assertEqual(original[original.index(NINE.ACTUAL_MARKER):],
+                         seven_original[seven_original.index(NINE.ACTUAL_MARKER):])
+        self.assertTrue(stage["ghost_strip_identity"])
+        self.assertEqual(verified.count(b"transmute_unchecked(src)"), 1)
+        self.assertEqual(verified.count(b"transmute_neo(storage)"), 1)
+        self.assertEqual(verified.count(b"assert_inhabited::<*mut Element>()"), 1)
+        self.assertNotIn(b"*const Element", verified)
         seven = (
             NINE.OLD_FEATURE + NINE.OLD_IMPORT +
             b"pub fn select_unpredictable<Element>(\n"
@@ -200,11 +264,7 @@ class MutableSourceChain(unittest.TestCase):
             six_verified, six_original, owned_method,
             b"use std::mem::MaybeUninit;\n", OWNER.strip_ghost)
         a1 = NINE.load_a1()
-        pair = (
-            b"pub unsafe fn " + a1.TRANSMUTE_ADAPTER_NAME.encode() +
-            b"<Src, Dst>(src: Src) -> Dst { transmute_unchecked(src) }\n"
-            b"pub unsafe fn " + a1.ADAPTER_NAME.encode() +
-            b"<T>(storage: T) -> T { transmute_neo(storage) }\n")
+        pair, _ = NINE.adapt_a1_pair_mut(synthetic_a1_const_pair(), a1)
         nine_original, nine_verified, _ = NINE.insert_a1_pair(
             seven_original, seven_verified, pair, {}, OWNER.strip_ghost)
         final = NINE.apply_fractional_candidate(

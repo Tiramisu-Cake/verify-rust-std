@@ -40,14 +40,19 @@ The inactive source-generation route is now parallel at each source stage:
 3. `overnight-guard-actual/prepare-actual-nested-drop-mut.py` adds the
    generic checked Drop method and owner-preserving forget source, with the
    saved-guard transfer.
-4. `overnight-assume-actual/prepare-actual-nine-body-mut.py` adds the generic
-   A1 adapter pair, then applies the pinned R21 transform, which composes the
+4. `overnight-assume-actual/prepare-actual-nine-body-mut.py` adapts the
+   pinned A1 pair from its exact const-pointer source signatures to mutable
+   signatures using finite inventories (four sites in transmute, three in
+   assume-init) and verifies reverse substitution reproduces the complete
+   original pair. It then applies the pinned R21 transform, which composes the
    pinned R20 branch-selected repair.
 
 The older
 `overnight-assume-actual/prepare-mut-owner-fractional-capture.py` remains a
-downstream adapter for a separately prepared pre-owner-projection full-unit
-pair. The new full route does not depend on it.
+separate downstream adapter for a pre-owner-projection full-unit pair. Its
+writer is Cloud-gated, and it verifies the required P2 contract hash against
+the exact helper contract bytes at the signature boundary. Its pure
+`transform_pair` function remains useful for synthetic source tests.
 
 Every mutable source record says typed MIR is unbound, admission is absent,
 proof was not run, publication is not allowed, and credit is zero. Shared S6
@@ -63,11 +68,12 @@ the existing normal/unwind, ownership, leak, refinement, and same-site source
 controls. It adds no translator rule and does not establish any typed MIR
 fact.
 
-The paired synthetic test exercises the source stages on small byte fixtures,
-including the final R21/R20 transformation. It confirms the source-generation
-transforms produce identical const/mut annotations modulo the fixture
-signature in a separate comparison, and rejects const substitution, wrong
-pointer depth, source/hash drift, and missing anchors.
+Synthetic tests exercise the source stages on byte fixtures, including the
+final R21/R20 transformation and A1 pointer specialization. They synthesize
+the pinned A1 const-pointer signature/body shapes and verify all seven
+specialization sites and byte-exact reverse substitution. The fingerprint
+request test also uses synthetic source bytes and does not run the std source
+writer locally.
 
 ## Remaining gate
 
@@ -98,3 +104,17 @@ and nested-drop/nine-body writers consumed that result. The current parallel
 chain removes that dependency for source generation; its generated adapter
 text still requires fresh mutable MIR binding and proof.
 
+
+## R23 independent-review repair
+
+The first source candidate was NO_GO. The new nine-body source adapter now
+SHA-pins the A1 source builder and specializes the exact 4 transmute and 3
+assume-init pointer type sites, with typed signature/body and inverse rewrite
+checks. The alternate full-unit writer requires the same pinned Cloud gate
+before filesystem input/output, and requires both the explicit contract hash
+and exact contract bytes at the mutable helper signature. Its recorded
+contract hash is computed from those checked bytes. The formerly source-backed
+request tests now construct synthetic bytes; see VALIDATION-NOTES.md. All 30
+current source/provider/target-helper tests pass using synthetic inputs only.
+Actual source/MIR fingerprints and proof remain absent; the repair is pending
+independent delta review and stays inactive.

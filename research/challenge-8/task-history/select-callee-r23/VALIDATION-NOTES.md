@@ -5,3 +5,10 @@ The earlier report of "22 synthetic tests" for mutable preparation was inaccurat
 The independent mutable reviewer detected the setup behavior and skipped that suite. The remaining 17 tests were synthetic service/byte-transform tests. The original validation outputs/reviews are preserved; this note corrects their interpretation rather than rewriting history. The source-backed test setup must be replaced by synthetic bytes/mocks before the suite is used again. Main has returned that fix together with the three concrete mutable findings to the original worker.
 
 The const R22b/R23 fingerprint was prepared and executed in Cloud Build `739f982d-078a-4ff5-9860-aabef75dc027`; its source observations/pins are independent of this inactive mutable test suite. The mutable files are absent from the active callee recipe, and no mutable source result or local test is used for const proof admission.
+
+Correction implemented: the request suite now constructs its source pair from
+synthetic byte literals, importing only signature constants from the existing
+writer. Main inspected this setup before rerunning it. The corrected five
+suites (provider, primary chain, alternate downstream, static request, inactive
+target helper) passed 30 synthetic tests. This does not erase the earlier
+local preparation deviation and grants no actual-source/MIR/proof evidence.

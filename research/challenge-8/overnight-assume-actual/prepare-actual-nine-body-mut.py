@@ -15,6 +15,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 R21_SHA256 = "8a23499c9852dfdc9973cca186daa83dcc2f7836642c40627ab1def6dd763772"
+A1_SHA256 = "875e0f14bda4971c812bfb5ed34e04ae46caddba1506c4f3f5a6093c807e7b40"
 PROVIDER_ADAPTER_PATH = REPO / "research/challenge-8/overnight-helper/mut_source_cloud_provider.py"
 PROVIDER_ADAPTER_SHA256 = "04fd1ca82bdbfb7f837a49ed303199024208c85124cf1a45b7893f6d20ed1871"
 A1_PATH = REPO / "research/challenge-8/overnight-helper/prepare-assume-init-2610.py"
@@ -61,6 +62,8 @@ def require_cloud_provider() -> dict:
 
 
 def load_a1():
+    require(A1_PATH.is_file() and sha(A1_PATH.read_bytes()) == A1_SHA256,
+            "pinned A1 source builder changed")
     spec = importlib.util.spec_from_file_location("p2_mut_nine_a1_source", A1_PATH)
     require(spec is not None and spec.loader is not None,
             "generic A1 source builder unavailable")
@@ -70,19 +73,72 @@ def load_a1():
     return module
 
 
+def adapt_a1_pair_mut(pair: bytes, a1) -> tuple[bytes, dict]:
+    """Specialize the pinned const-pointer A1 source pair to mutable pointers.
+
+    The two components have fixed source inventories from the pinned builder:
+    four pointer-type sites in the transmute adapter and three in assume_init.
+    Only the pointer type spelling changes; reverse substitution must recover
+    the complete input pair byte-for-byte.
+    """
+    tx_marker = b"pub unsafe fn " + a1.TRANSMUTE_ADAPTER_NAME.encode()
+    as_marker = b"pub unsafe fn " + a1.ADAPTER_NAME.encode()
+    const_sig_tx = (tx_marker +
+        b"<Element>(src: MaybeUninit<*const Element>) -> *const Element\n")
+    const_sig_as = (as_marker +
+        b"<Element>(storage: MaybeUninit<*const Element>) -> *const Element\n")
+    mut_sig_tx = (tx_marker +
+        b"<Element>(src: MaybeUninit<*mut Element>) -> *mut Element\n")
+    mut_sig_as = (as_marker +
+        b"<Element>(storage: MaybeUninit<*mut Element>) -> *mut Element\n")
+    require(isinstance(pair, bytes) and pair.count(tx_marker) == 1 and
+            pair.count(as_marker) == 1 and pair.index(tx_marker) < pair.index(as_marker),
+            "A1 local adapter pair missing, duplicated, or reordered")
+    tx_at, as_at = pair.index(tx_marker), pair.index(as_marker)
+    tx_component, as_component = pair[tx_at:as_at], pair[as_at:]
+    require(tx_component.count(const_sig_tx) == 1 and
+            tx_component.count(b"*const Element") == 4 and
+            tx_component.count(b"transmute_unchecked(src)") == 1 and
+            tx_component.count(b"<MaybeUninit<*const Element> as SizedTypeProperties>::SIZE") == 1 and
+            tx_component.count(b"<*const Element as SizedTypeProperties>::SIZE") == 1,
+            "pinned A1 transmute adapter types/body differ from the finite inventory")
+    require(as_component.count(const_sig_as) == 1 and
+            as_component.count(b"*const Element") == 3 and
+            as_component.count(b"assert_inhabited::<*const Element>()") == 1 and
+            as_component.count(b"transmute_neo(storage)") == 1,
+            "pinned A1 assume_init adapter types/body differ from the finite inventory")
+    mut_pair = pair.replace(b"*const Element", b"*mut Element")
+    require(mut_pair.count(b"*const Element") == 0 and
+            mut_pair.count(mut_sig_tx) == 1 and mut_pair.count(mut_sig_as) == 1 and
+            mut_pair.count(b"<MaybeUninit<*mut Element> as SizedTypeProperties>::SIZE") == 1 and
+            mut_pair.count(b"<*mut Element as SizedTypeProperties>::SIZE") == 1 and
+            mut_pair.count(b"assert_inhabited::<*mut Element>()") == 1 and
+            mut_pair.count(b"transmute_unchecked(src)") == 1 and
+            mut_pair.count(b"transmute_neo(storage)") == 1 and
+            mut_pair.replace(b"*mut Element", b"*const Element") == pair,
+            "finite mutable A1 adaptation changed source outside pointer specialization")
+    return mut_pair, {
+        "a1_builder_sha256": A1_SHA256,
+        "const_pointer_type_sites": {"transmute": 4, "assume_init": 3},
+        "mutable_pointer_type_sites": {"transmute": 4, "assume_init": 3},
+        "runtime_generic_body_preserved_by_reverse_substitution": True,
+        "typed_mir_binding_established": False,
+    }
+
+
 def a1_source_pair(repo: Path) -> tuple[bytes, dict]:
     a1 = load_a1()
     _, verified, record = a1.linkage_fixture_source(repo)
     tx_marker = b"pub unsafe fn " + a1.TRANSMUTE_ADAPTER_NAME.encode()
-    as_marker = b"pub unsafe fn " + a1.ADAPTER_NAME.encode()
-    require(verified.count(tx_marker) == verified.count(as_marker) == 1 and
-            verified.index(tx_marker) < verified.index(as_marker),
-            "A1 local adapter pair missing or reordered")
+    require(verified.count(tx_marker) == 1,
+            "A1 linkage source lacks its unique callee boundary")
     pair = verified[verified.index(tx_marker):].rstrip() + b"\n\n"
     require(pair.count(b"transmute_unchecked(src)") == 1 and
             pair.count(b"transmute_neo(storage)") == 1,
             "A1 exact source body/call inventory changed")
-    return pair, record
+    mutable_pair, adaptation = adapt_a1_pair_mut(pair, a1)
+    return mutable_pair, {"source_certificate_for_generation_only": record,
+                          "mutable_source_adaptation": adaptation}
 
 
 def insert_a1_pair(seven_original: bytes, seven_verified: bytes,
@@ -98,11 +154,20 @@ def insert_a1_pair(seven_original: bytes, seven_verified: bytes,
             seven_verified.count(as_marker) == 0 and
             seven_verified.count(ACTUAL_MARKER) == 1,
             "mutable seven-body A1 insertion boundary changed")
+    mut_sig_tx = (tx_marker +
+        b"<Element>(src: MaybeUninit<*mut Element>) -> *mut Element\n")
+    mut_sig_as = (as_marker +
+        b"<Element>(storage: MaybeUninit<*mut Element>) -> *mut Element\n")
     require(pair.count(tx_marker) == pair.count(as_marker) == 1 and
             pair.index(tx_marker) < pair.index(as_marker) and
+            pair.count(mut_sig_tx) == pair.count(mut_sig_as) == 1 and
+            pair.count(b"<MaybeUninit<*mut Element> as SizedTypeProperties>::SIZE") == 1 and
+            pair.count(b"<*mut Element as SizedTypeProperties>::SIZE") == 1 and
+            pair.count(b"assert_inhabited::<*mut Element>()") == 1 and
             pair.count(b"transmute_unchecked(src)") == 1 and
-            pair.count(b"transmute_neo(storage)") == 1,
-            "A1 generic source pair missing or reordered")
+            pair.count(b"transmute_neo(storage)") == 1 and
+            b"*const Element" not in pair,
+            "A1 mutable source pair missing, const-specialized, or reordered")
     verified = seven_verified.replace(OLD_FEATURE, NEW_FEATURE, 1)
     verified = verified.replace(OLD_IMPORT, OLD_IMPORT + NEW_IMPORT, 1)
     at = verified.index(ACTUAL_MARKER)

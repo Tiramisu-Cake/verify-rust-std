@@ -131,7 +131,21 @@ class MutableOwnerFractionalChain(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "call/forget inventory"):
             TARGET.transform_pair(bad_original, bad, bad_record)
 
-    def test_write_candidate_preserves_capture_only_status(self):
+    def test_alternate_writer_requires_cloud_before_reading_input(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            input_dir = Path(tmp) / "missing-input"
+            output_dir = Path(tmp) / "output"
+            original_gate = TARGET.require_cloud_provider
+            TARGET.require_cloud_provider = lambda: (_ for _ in ()).throw(
+                RuntimeError("synthetic no-Cloud provider refusal"))
+            try:
+                with self.assertRaisesRegex(RuntimeError, "no-Cloud provider"):
+                    TARGET.write_candidate(input_dir, output_dir)
+            finally:
+                TARGET.require_cloud_provider = original_gate
+            self.assertFalse(output_dir.exists())
+
+    def test_write_candidate_preserves_capture_only_status_with_mocked_gate(self):
         original, verified, record = synthetic_pair(mut=True)
         with tempfile.TemporaryDirectory() as tmp:
             input_dir = Path(tmp) / "input"
@@ -141,14 +155,45 @@ class MutableOwnerFractionalChain(unittest.TestCase):
             (input_dir / "original/lib.rs").write_bytes(original)
             (input_dir / "verified/lib.rs").write_bytes(verified)
             (input_dir / "fixture.json").write_text(json.dumps(record))
-            result = TARGET.write_candidate(input_dir, output_dir)
+            original_gate = TARGET.require_cloud_provider
+            TARGET.require_cloud_provider = lambda: {
+                "provider": "cloud-build", "build_id": "synthetic-test-only"}
+            try:
+                result = TARGET.write_candidate(input_dir, output_dir)
+            finally:
+                TARGET.require_cloud_provider = original_gate
             self.assertEqual(result["classification"],
                              "MUTABLE_SOURCE_CANDIDATE; CAPTURE ONLY")
             self.assertEqual(result["helper_proof_status"], "NOT_RUN")
             self.assertEqual(result["translator_admission"], "NOT_IMPLEMENTED")
             self.assertEqual(result["publication_status"], "NOT_PUBLISHED")
+            self.assertEqual(result["provider"]["provider"], "cloud-build")
             self.assertEqual(OWNER.strip_ghost(
                 (output_dir / "verified/lib.rs").read_bytes()), original)
+
+    def test_contract_hash_is_mandatory_and_actual_contract_bytes_are_pinned(self):
+        original, verified, record = synthetic_pair(mut=True)
+        changed_contract = TARGET.ACTUAL_HELPER_CONTRACT.replace(
+            b"on_unwind_ens false;", b"on_unwind_ens true;", 1)
+        changed_source = verified.replace(
+            TARGET.ACTUAL_HELPER_CONTRACT, changed_contract, 1)
+        for changed, mutated_record in (
+            (changed_source, dict(record)),
+            (changed_source, dict(record,
+                                  contract_text_sha256=digest(changed_contract))),
+        ):
+            changed_original = OWNER.strip_ghost(changed)
+            mutated_record = dict(mutated_record,
+                original_sha256=digest(changed_original),
+                verified_sha256=digest(changed))
+            if mutated_record.get("contract_text_sha256") == TARGET.CONTRACT_SHA256:
+                mutated_record.pop("contract_text_sha256")
+            with self.assertRaises(ValueError):
+                TARGET.transform_pair(changed_original, changed, mutated_record)
+        missing_hash = dict(record)
+        missing_hash.pop("contract_text_sha256")
+        with self.assertRaisesRegex(ValueError, "missing or differs"):
+            TARGET.transform_pair(original, verified, missing_hash)
 
 
 if __name__ == "__main__":

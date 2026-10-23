@@ -26,6 +26,13 @@ OWNER_SHA256 = "6680e74fda839501db3c9221f026a3398ce5d903a8134733b6f5375c165afbb8
 FRACTIONAL_SHA256 = "8a23499c9852dfdc9973cca186daa83dcc2f7836642c40627ab1def6dd763772"
 MUT_WRITER_SHA256 = "d205ec1b557b199e1a314bc5664197554309b45ce6825b4f3b51917babc13d61"
 CONTRACT_SHA256 = "dc985de2e2a0e1a95e6c12c4b9cb78c4042d9d45f949d78904a999e82262b870"
+PROVIDER_ADAPTER_SHA256 = "04fd1ca82bdbfb7f837a49ed303199024208c85124cf1a45b7893f6d20ed1871"
+PROVIDER_ADAPTER_PATH = HERE.parent / "overnight-helper" / "mut_source_cloud_provider.py"
+ACTUAL_HELPER_CONTRACT = (
+    b"/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n"
+    b"/*@\nens thread_token(t) &*& (result as pointer) ==\n"
+    b"    (if condition { true_val as pointer } else { false_val as pointer });\n@*/\n"
+    b"/*@\non_unwind_ens false;\n@*/\n")
 MUT_SIGNATURE = (
     b"pub fn select_unpredictable<Element>(\n"
     b"    condition: bool,\n    true_val: *mut Element,\n"
@@ -48,6 +55,20 @@ def sha(data: bytes) -> str:
 def require(ok: bool, why: str) -> None:
     if not ok:
         raise ValueError(why)
+
+
+def require_cloud_provider() -> dict:
+    raw = PROVIDER_ADAPTER_PATH.read_bytes()
+    require(sha(raw) == PROVIDER_ADAPTER_SHA256,
+            "pinned mutable Cloud provider adapter changed")
+    spec = importlib.util.spec_from_file_location(
+        "p2_mut_alternate_cloud_provider", PROVIDER_ADAPTER_PATH)
+    require(spec is not None and spec.loader is not None,
+            "mutable Cloud provider adapter unavailable")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module.require_cloud_provider()
 
 
 def load_pinned(path: Path, expected: str, module_name: str):
@@ -83,14 +104,25 @@ def validate_pair(original: bytes, verified: bytes, record: dict) -> None:
             record.get("helper_proof_status", "NOT_RUN") == "NOT_RUN" and
             record.get("semantic_frontend_enabled", False) is False,
             "input record claims proof or frontend admission")
-    require(record.get("contract_text_sha256", CONTRACT_SHA256) == CONTRACT_SHA256,
-            "input P2 contract hash differs")
-    require(record.get("original_sha256") == sha(original) and
-            record.get("verified_sha256") == sha(verified),
-            "input source pair does not match its recorded hashes")
     require(verified.count(writer.MUT_SIGNATURE) == 1 and
             b"*const Element" not in verified,
             "input is not the exact mutable specialization or mixes pointer kinds")
+    require(sha(ACTUAL_HELPER_CONTRACT) == CONTRACT_SHA256 and
+            record.get("contract_text_sha256") == CONTRACT_SHA256,
+            "input P2 contract hash is missing or differs")
+    require(verified.count(writer.MUT_SIGNATURE) == 1 and
+            verified.count(ACTUAL_HELPER_CONTRACT) == 1 and
+            verified.index(ACTUAL_HELPER_CONTRACT) ==
+                verified.index(writer.MUT_SIGNATURE) + len(writer.MUT_SIGNATURE),
+            "exact P2 helper contract is absent or outside its signature boundary")
+    actual_contract = verified[verified.index(ACTUAL_HELPER_CONTRACT):
+                               verified.index(ACTUAL_HELPER_CONTRACT) +
+                               len(ACTUAL_HELPER_CONTRACT)]
+    require(sha(actual_contract) == record["contract_text_sha256"],
+            "verified P2 contract bytes differ from their mandatory hash")
+    require(record.get("original_sha256") == sha(original) and
+            record.get("verified_sha256") == sha(verified),
+            "input source pair does not match its recorded hashes")
     require(owner.strip_ghost(verified) == original,
             "input ghost strip differs from original runtime source")
     require(verified.count(b"pub unsafe fn checked_forget_owned<T>(t: T)") == 1,
@@ -150,12 +182,13 @@ def transform_pair(original: bytes, verified: bytes, record: dict) -> tuple[byte
         "r20_repair_dependency_sha256": fractional.PINNED_REPAIR_SHA256,
         "r21_fractional_dependency_sha256": FRACTIONAL_SHA256,
         "mutable_fixture_writer_sha256": MUT_WRITER_SHA256,
-        "contract_text_sha256": CONTRACT_SHA256,
+        "contract_text_sha256": sha(ACTUAL_HELPER_CONTRACT),
     }
     return final, stages
 
 
 def write_candidate(input_dir: Path, output_dir: Path) -> dict:
+    provider = require_cloud_provider()
     require(not output_dir.exists(), f"refusing to overwrite {output_dir}")
     original = (input_dir / "original/lib.rs").read_bytes()
     verified = (input_dir / "verified/lib.rs").read_bytes()
@@ -173,6 +206,7 @@ def write_candidate(input_dir: Path, output_dir: Path) -> dict:
         "verified_sha256": sha(final),
         "ghost_strip_identity": True,
         "stages": stages,
+        "provider": provider,
         "required_future_capture": [
             "fresh verified/original source identities",
             "NORMAL and readonly typed MIR complete unit/body hashes",
