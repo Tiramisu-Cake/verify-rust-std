@@ -1,10 +1,11 @@
 {
   "active_dispatch": {
-    "build_id": "efd32c5f-83e5-4cae-8b4a-a83dc7bc072a",
-    "config_sha256": "8ce279094f3220c0a974b12d7a5ffe70e5437d28e88bea22d3dc503a0306323e",
-    "dispatch_token": "dispatch-b692d65c966c42e888ec59ca1157c3e0",
-    "infra_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
-    "proof_sha": "e751cc5997f11e0fef56b8f253e2bd58540f5346",
+    "attempt": 2,
+    "build_id": "3e604123-0d22-415d-b629-5ce2bf05aca7",
+    "config_sha256": "81eda7d83a0a4d61cc1aa4c04ce9661e3eaccef5eef49e791f5a8f6849f9ffa5",
+    "dispatch_token": "dispatch-41da4c5732584c8b9881976ad48402bb",
+    "infra_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
+    "proof_sha": "2df9908134a736965bcea6921cebcd16584b2a08",
     "reservation_seconds": 1800,
     "stage": "cold-image",
     "state_dir": "/root/smallsort-cloud-network-rr-n7",
@@ -24,7 +25,7 @@
   },
   "blocker": {
     "evidence": [],
-    "summary": "Cold EXPIRED before steps; Brief404; repair reviewed."
+    "summary": "Cold setup repair active; image/frontend still unconfirmed."
   },
   "confirmed": [
     {
@@ -75,7 +76,7 @@
     "proof_credit": 0,
     "status": "EXPIRED"
   },
-  "next_step": "Submit single changed cold repair; Brief/accounting push first.",
+  "next_step": "Watcher ack; terminal Brief/accounting push before next step.",
   "open": [
     "RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.",
     "R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources.",
@@ -97,7 +98,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "3e604123-0d22-415d-b629-5ce2bf05aca7"
+    ],
     "budget_seconds": 5400,
     "deadline_utc": "2026-10-26T21:56:24Z",
     "finish_minutes": 60,
@@ -116,9 +119,9 @@
     "reason": "Metadata-only pre-execution EXPIRED; cause UNKNOWN; Brief404 unavailable. Single changed E2_STANDARD_2/jobs2 setup retry, same1740/60/240.",
     "review": "research/challenge-8/network/rr/N7-REPAIR-REVIEW.json"
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "network-refinedrust-g1-2026-10-24-n7",
-  "updated_utc": "2026-10-23T21:15:32Z",
+  "updated_utc": "2026-10-23T21:16:25Z",
   "watch_event": {
     "ack": "CONTINUE_EXISTING_WINDOW",
     "event_id": "ff54c407-7dc3-49de-9e31-7c6973afccc2",
