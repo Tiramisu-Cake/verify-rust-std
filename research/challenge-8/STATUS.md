@@ -1,42 +1,28 @@
-# Agent checkpoint: network-refinedrust-g1-2026-10-24-n6
+# Agent checkpoint: network-refinedrust-g1-2026-10-24-n7
 
-- Owner: network | phase: NETWORK-RR-G1-2026-10-24-N6 | state: CLOSED
-- Updated: 2026-10-23T20:23:55Z
-- Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, profile `31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34`
-- Session dates: T0 `2026-10-23T20:15:53Z`; main deadline `2026-10-26T20:15:53Z`; absolute deadline `2026-10-26T21:15:53Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 5400s total; 0s spent; 5400s retired; 0s remaining including active reservations
+- Owner: network | phase: NETWORK-RR-G1-2026-10-24-N7 | state: NOT_STARTED
+- Updated: 2026-10-23T20:54:55Z
+- Baseline: source `cd371e035c7e573760c43bf934d53e8118ee3e7d`, tool `332d945fafa14bf55c0c8390cb35ec4b0c012cff`, profile `9660cacd8dc1f5f2dc5b3b772a971afc63440bf90251e7753aed5af500cd44cb`
+- Session dates: T0 `NOT_SET`; main deadline `NOT_SET`; absolute deadline `NOT_SET`; window 4320 min main + 60 min closeout (explicit)
+- Budget: 5400s total; 0s spent; 0s retired; 5400s remaining including active reservations
 - Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] N5: exact N13 mathematical matrix complete and R7 transferred to baseline cd371e0 on stock 26.09 (VF/refiner 0); credit0. — [research/challenge-8/network/r7/TRANSFER-CARD.json](network/r7/TRANSFER-CARD.json) SHA `1901b075c15b4c9673b6273fa5b27771b2258df19a88dfa5f23ee789e905b848` Build `7dda802c-ea08-4741-acf3-f9b91821ca45`
-- [SOURCE_REPORTED] N6 G1 classification INCONCLUSIVE before dispatch; zero Builds, frontend/cleanup/specs NOT_RUN or UNKNOWN, proof credit0; all5400s retired/carry0. — [research/challenge-8/network/rr/RR-G1-RESULT.md](network/rr/RR-G1-RESULT.md) SHA `539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a`; [research/challenge-8/network/rr/RESULT-IDENTITIES.json](network/rr/RESULT-IDENTITIES.json) SHA `5d324bbca686aefb74e22e1e5592e614e5b84d1a30a9bbe14d1892a65df9ea1e`
-- [SOURCE_REPORTED] G1 source package relocated from68671873 and rebound to cd371e0; all seven anchors unique; selected CopyOnDrop/insert_tail bytes match frozen source. Four synthetic controls and syntax/prepare/closure checks PASS; independent Luna HIGH approves only static preparation. — [research/challenge-8/network/rr/BASELINE-REBIND.json](network/rr/BASELINE-REBIND.json) SHA `7989c706adc0447bd919b51c36207c9f7723fa6f7cbad71be01b051557272b41`; [research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json](network/rr/N6-INDEPENDENT-REVIEW.json) SHA `2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72`
-- [SOURCE_REPORTED] Published Select head27ad1dbc has no R24 P2 interface; retained R23 P2 is NOT_PUBLISHED, so W7/W8 dependencies remain gated. — [research/challenge-8/network/rr/N6-SELECT-RECHECK.json](network/rr/N6-SELECT-RECHECK.json) SHA `70663d32053b833bb91f3c263a87e157b93c277d718e3080e285df94748783dc`
+- [SOURCE_REPORTED] N6: G1 package transferred and rebound to cd371e0 (seven unique anchors, bodies byte-equal); upstream freshness found no documented slices/union addition; Cloud 0/5400, INCONCLUSIVE at the cold setup boundary, credit0. — [research/challenge-8/network/rr/RR-G1-RESULT.md](network/rr/RR-G1-RESULT.md) SHA `539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a`
 
 ## Open
-- Compatible immutable image existence and builder permissions UNKNOWN; dispatcher discovery denied.
-- Cold context URI/generation/hash, exact deb/vendor/config closure, Docker builder digest and registry destination not frozen; no N6 registration.
-- G1 frontend admission, selected-symbol diagnostic, actual cleanup output and finite missing-spec list NOT_RUN/UNKNOWN; no GO_G2 or STOP_RR frontend conclusion.
-- R4/W7 requires PUBLISHED same-version mutable P2; W8 needs published W3/W5/W7 resources.
+- RR G1 frontend admission, cleanup output and missing-spec list NOT_RUN; no image digest yet; registry smallsort-tools ready.
+- R4/W7 wait for PUBLISHED Select P2; actual W8 needs W3/W5/W7 resources.
 
 ## Rejected approaches
-- RefinedRust migration or frontend patching as a second main path — FEASIBILITY-REPORT 2026-10-11: NO-GO for migration; patching RR would repeat the verifier-building problem on another tool.
-- Submit a diagnostic Build to discover unknown cold identities, or replace frozen offline setup with a new online bootstrap/registry pipeline — Cold pre-submit identity gate would be bypassed; IAM/provisioning and replacement CI integration outside N6. Preserve UNKNOWN and close INCONCLUSIVE.; [research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json](network/rr/N6-INDEPENDENT-REVIEW.json) SHA `2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72`
+- Offline-only cold image with frozen deb/vendor context before any Build (N6 package gates) — Needs context objects and registry provisioning nobody can produce in-window; owner replaced it with the online pinned image route (2026-10-23).; [research/challenge-8/network/rr/RR-G1-RESULT.md](network/rr/RR-G1-RESULT.md) SHA `539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a`
 
 ## Blocker
-INCONCLUSIVE: cold context/image/registry NOT_FROZEN; G1 NOT_RUN, credit0. Account CLOSED, retired5400s.
-- [research/challenge-8/network/rr/ENVIRONMENT-OBSERVATION.json](network/rr/ENVIRONMENT-OBSERVATION.json) SHA `b69b0240f1c6483a95e050cad1ff3409007ef49d7a29218e34e928573f5efaea`
-- [research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json](network/rr/N6-INDEPENDENT-REVIEW.json) SHA `2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72`
+No RefinedRust image yet: cold online image Build to smallsort-tools is the first action.
 
 ## Next
-RR stopped. New task needs frozen image/context+registry; P2 gates W7/W8. N6 carry0.
+Adapt recipes to the online image route, register lane network-rr-g1, cold image Build and push, warm G1 in the image, classify, rewrite RR-G1-RESULT.md.
 
 ## Artifacts
-- [research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md](network/rr/N6-OWNER-DIRECTIONS.md) — `3e37d89c10d8c4212ad09bfdd40a8443e8439eefd58f6ecc1730a32e8ebf0d6b`
-- [research/challenge-8/network/rr/RR-G1-RESULT.md](network/rr/RR-G1-RESULT.md) — `539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a`
-- [research/challenge-8/network/rr/RESULT-IDENTITIES.json](network/rr/RESULT-IDENTITIES.json) — `5d324bbca686aefb74e22e1e5592e614e5b84d1a30a9bbe14d1892a65df9ea1e`
-- [research/challenge-8/network/rr/PACKAGE-PROVENANCE.json](network/rr/PACKAGE-PROVENANCE.json) — `5ba3e353f377b2b277abab171aef446186473bba9e58606480f7e96803797a17`
-- [research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json](network/rr/N6-INDEPENDENT-REVIEW.json) — `2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72`
-- [research/challenge-8/cloud-build/network-rr/SESSION-PREPARE-RECEIPT-20261024-N6.json](cloud-build/network-rr/SESSION-PREPARE-RECEIPT-20261024-N6.json) — `090c4f3b3cdde7f1da10842dd7e02d981f9e0584320b1be7f688ed7aa4ddb969`
-- [research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json](cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json) — `2ac333484b9cfd127214f3d51443072299ffe40b7822a979e8062eed3c331c79`
+- [research/challenge-8/network/rr/N7-OWNER-DIRECTIONS.md](network/rr/N7-OWNER-DIRECTIONS.md) — `bfa8704ef3e1263864bd5cd1f14faeeaf8e426fe2fe18cae0b18b301769a25e3`

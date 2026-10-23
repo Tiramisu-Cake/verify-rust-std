@@ -1,0 +1,179 @@
+{
+  "artifacts": [
+    {
+      "path": "research/challenge-8/network/rr/N6-OWNER-DIRECTIONS.md",
+      "sha256": "3e37d89c10d8c4212ad09bfdd40a8443e8439eefd58f6ecc1730a32e8ebf0d6b"
+    },
+    {
+      "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
+      "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
+    },
+    {
+      "path": "research/challenge-8/network/rr/RESULT-IDENTITIES.json",
+      "sha256": "5d324bbca686aefb74e22e1e5592e614e5b84d1a30a9bbe14d1892a65df9ea1e"
+    },
+    {
+      "path": "research/challenge-8/network/rr/PACKAGE-PROVENANCE.json",
+      "sha256": "5ba3e353f377b2b277abab171aef446186473bba9e58606480f7e96803797a17"
+    },
+    {
+      "path": "research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json",
+      "sha256": "2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-rr/SESSION-PREPARE-RECEIPT-20261024-N6.json",
+      "sha256": "090c4f3b3cdde7f1da10842dd7e02d981f9e0584320b1be7f688ed7aa4ddb969"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/network-rr/BUDGET-RR-G1-20261024-N6.json",
+      "sha256": "2ac333484b9cfd127214f3d51443072299ffe40b7822a979e8062eed3c331c79"
+    }
+  ],
+  "assignment_sha256": "7e6fc26467ead5e540e61882f2f5c2e6e3478235cee754da8ae469b1a8ee2ac0",
+  "baseline": {
+    "profile_sha256": "31df48f177be20cfebab5683eb1d90c837b0b3668603a9555ab3dab607af1e34",
+    "source_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+    "tool_sha": "332d945fafa14bf55c0c8390cb35ec4b0c012cff"
+  },
+  "blocker": {
+    "evidence": [
+      {
+        "path": "research/challenge-8/network/rr/ENVIRONMENT-OBSERVATION.json",
+        "sha256": "b69b0240f1c6483a95e050cad1ff3409007ef49d7a29218e34e928573f5efaea"
+      },
+      {
+        "path": "research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json",
+        "sha256": "2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72"
+      }
+    ],
+    "summary": "INCONCLUSIVE: cold context/image/registry NOT_FROZEN; G1 NOT_RUN, credit0. Account CLOSED, retired5400s."
+  },
+  "closure_reason": "REAL_BOUNDARY: G1 cold admission lacks frozen context URI/generation/hash, exact deb/vendor/config closure, builder digest and known registry destination; compatible image/receipt remains UNKNOWN. Allowed registry listing/direct lookup denied; builder access UNKNOWN, no IAM/provisioning or gate weakening authorized. Independent Luna HIGH confirms no evidenced routine authorized path. Independent tasks checked: package relocation/source rebind and static controls completed; upstream freshness found no documented slices/union addition and pin stays exact; frontend/slices/union repairs prohibited and target NOT_RUN; G2 requires GO_G2 and is unauthorized; Select P2 at published27ad1dbc remains NOT_PUBLISHED (R24 interface absent), so R4/W7 consumption unavailable; W8 requires PUBLISHED P2 and W3/W5/W7 resources, no new candidate; N9/N13/R7 bounded source-reported goals already retained, no unrelated repeat or proof-credit transfer. No Builds submitted, no unresolved IDs; retire all5400s/carry0.",
+  "confirmed": [
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N5: exact N13 mathematical matrix complete and R7 transferred to baseline cd371e0 on stock 26.09 (VF/refiner 0); credit0.",
+      "evidence": [
+        {
+          "build_id": "7dda802c-ea08-4741-acf3-f9b91821ca45",
+          "path": "research/challenge-8/network/r7/TRANSFER-CARD.json",
+          "sha256": "1901b075c15b4c9673b6273fa5b27771b2258df19a88dfa5f23ee789e905b848"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "N6 G1 classification INCONCLUSIVE before dispatch; zero Builds, frontend/cleanup/specs NOT_RUN or UNKNOWN, proof credit0; all5400s retired/carry0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/RR-G1-RESULT.md",
+          "sha256": "539f2df65ae4d81bba1802ce4668816d72e48eef996f64f79b310939d1f4be4a"
+        },
+        {
+          "path": "research/challenge-8/network/rr/RESULT-IDENTITIES.json",
+          "sha256": "5d324bbca686aefb74e22e1e5592e614e5b84d1a30a9bbe14d1892a65df9ea1e"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "G1 source package relocated from68671873 and rebound to cd371e0; all seven anchors unique; selected CopyOnDrop/insert_tail bytes match frozen source. Four synthetic controls and syntax/prepare/closure checks PASS; independent Luna HIGH approves only static preparation.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/BASELINE-REBIND.json",
+          "sha256": "7989c706adc0447bd919b51c36207c9f7723fa6f7cbad71be01b051557272b41"
+        },
+        {
+          "path": "research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json",
+          "sha256": "2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "Published Select head27ad1dbc has no R24 P2 interface; retained R23 P2 is NOT_PUBLISHED, so W7/W8 dependencies remain gated.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N6-SELECT-RECHECK.json",
+          "sha256": "70663d32053b833bb91f3c263a87e157b93c277d718e3080e285df94748783dc"
+        }
+      ]
+    }
+  ],
+  "goal_outcome": "INCONCLUSIVE_PRE_DISPATCH_SETUP_BOUNDARY",
+  "mission_queue": [
+    {
+      "obligation": "G1 source transfer/rebind",
+      "reason": "Exact source closure/anchors and required helpers preserved.",
+      "state": "COMPLETE_STATIC_ONLY"
+    },
+    {
+      "obligation": "G1 cold/warm",
+      "reason": "Immutable context/destination/image prerequisites missing; no authorized routine remedy established.",
+      "state": "SETUP_BOUNDARY_NOT_RUN"
+    },
+    {
+      "obligation": "G2",
+      "reason": "Requires GO_G2; N6 is INCONCLUSIVE.",
+      "state": "NOT_AUTHORIZED"
+    },
+    {
+      "obligation": "R4/W7",
+      "reason": "PUBLISHED mutable P2 absent in published Select head.",
+      "state": "GATED"
+    },
+    {
+      "obligation": "W8",
+      "reason": "PUBLISHED P2 and W3/W5/W7 resources required; no new candidate.",
+      "state": "GATED"
+    },
+    {
+      "obligation": "N9/N13/R7",
+      "reason": "Existing source-reported goals retained; unrelated retries do not resolve G1 setup.",
+      "state": "RETAINED_BOUNDED"
+    }
+  ],
+  "next_step": "RR stopped. New task needs frozen image/context+registry; P2 gates W7/W8. N6 carry0.",
+  "open": [
+    "Compatible immutable image existence and builder permissions UNKNOWN; dispatcher discovery denied.",
+    "Cold context URI/generation/hash, exact deb/vendor/config closure, Docker builder digest and registry destination not frozen; no N6 registration.",
+    "G1 frontend admission, selected-symbol diagnostic, actual cleanup output and finite missing-spec list NOT_RUN/UNKNOWN; no GO_G2 or STOP_RR frontend conclusion.",
+    "R4/W7 requires PUBLISHED same-version mutable P2; W8 needs published W3/W5/W7 resources."
+  ],
+  "owner": "network",
+  "phase": "NETWORK-RR-G1-2026-10-24-N6",
+  "rejected": [
+    {
+      "approach": "RefinedRust migration or frontend patching as a second main path",
+      "evidence": [],
+      "reason": "FEASIBILITY-REPORT 2026-10-11: NO-GO for migration; patching RR would repeat the verifier-building problem on another tool."
+    },
+    {
+      "approach": "Submit a diagnostic Build to discover unknown cold identities, or replace frozen offline setup with a new online bootstrap/registry pipeline",
+      "evidence": [
+        {
+          "path": "research/challenge-8/network/rr/N6-INDEPENDENT-REVIEW.json",
+          "sha256": "2f38ee1531376d8b8c63f094bb2b82674e16317b9f0f486517b18fb6336bbd72"
+        }
+      ],
+      "reason": "Cold pre-submit identity gate would be bypassed; IAM/provisioning and replacement CI integration outside N6. Preserve UNKNOWN and close INCONCLUSIVE."
+    }
+  ],
+  "schema": "smallsort-checkpoint-v1",
+  "session": {
+    "active_build_ids": [],
+    "budget_seconds": 5400,
+    "deadline_utc": "2026-10-26T21:15:53Z",
+    "finish_minutes": 60,
+    "main_deadline_utc": "2026-10-26T20:15:53Z",
+    "main_minutes": 4320,
+    "remaining_seconds": 0,
+    "retired_seconds": 5400,
+    "spent_seconds": 0,
+    "t0": "2026-10-23T20:15:53Z",
+    "unresolved_ids": []
+  },
+  "state": "CLOSED",
+  "task_id": "network-refinedrust-g1-2026-10-24-n6",
+  "updated_utc": "2026-10-23T20:23:55Z"
+}
