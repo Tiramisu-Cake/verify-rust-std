@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
     "evidence": [],
-    "summary": "W4typed8call observation/nativefirstbarrier diagnostic pending; checkedcallerlinkage and C5proof remainopen. P2 PUBLISHED."
+    "summary": "W4 diagnostic terminal platform FAILURE; source results UNKNOWN pending Evidence Brief. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
@@ -1122,8 +1122,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; immediatelypushterminalaccounting; Brief typed8call/nativebarrier results, thencheckedconstlinkage/C5.",
-  "next_step": "ACK; immediatelypushterminalaccounting; Brief typed8call/nativebarrier results, thencheckedconstlinkage/C5.",
+  "next": "After publishing terminal accounting, read Evidence Brief for eight typed calls and native barrier; continue checked linkage/C5.",
+  "next_step": "After publishing terminal accounting, read Evidence Brief for eight typed calls and native barrier; continue checked linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1216,17 +1216,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "a665d68d-a609-447b-a99a-1c959a684aff"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 13279,
+    "remaining_seconds": 12957,
     "retired_seconds": 0,
-    "spent_seconds": 8321,
+    "spent_seconds": 8643,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1238,9 +1236,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:43:01Z",
+  "updated_utc": "2026-10-23T23:48:45Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1345,19 +1343,21 @@
   },
   "w4_linkage_api_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "actual_body_proof_status": "UNKNOWN",
     "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
+    "build_seconds": 322,
     "candidate": "c2f8529fc92efb4da27c8b9dab0bc01e0e78b636",
     "config_sha256": "70123bbe4daaae2c0a1e7d35ae9e913e6cd21546a5f04de0da25b8e985a1cbdd",
     "dispatch_token": "dispatch-7969dd3f958a4b20b92ddac288c8e4ce",
+    "execution_seconds": 321,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_TYPED_CALLS_AND_NATIVE_BARRIER_ONLY",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-linkage-api-submission-v1",
     "source_payload_sha256": "7f7a6ce6a8b441ad9a2562091baa166b2e7bf5db40a6d5535fbcd75216620874",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1382,7 +1382,7 @@
       "sha256": "2f8fd29b9a73ec6f409136d14f06e4f498668c51cd25467447c6c75e773c7d15"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_RAW_NATIVE_BARRIER_NO_ACCEPTANCE_OR_LINKAGE",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "typed_call_linkage": "UNKNOWN"
   },
   "w4_linkage_diagnostic_preparation": {
@@ -1416,7 +1416,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-diagnostic-review.json",
       "sha256": "d9d67460999b87cb21c79106e06509ee2c623c870ffc511396ebba230c2103b8"
     },
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "tests": "10parser+11wrapper+7newBash;20default/captureBash regression pass; actualpinnedrunner signature bind, Bashn/staticpins/diff pass",
     "workers": {
       "pure_mir_calls": "r24_admission",
@@ -1461,7 +1461,11 @@
       "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
       "checkpoint_frozen_after_arm": true,
       "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; typedobservations/nativeexit arenotlinkage/proofacceptance.",
+      "event_id": "14cae6ee-562a-405c-a42a-d65a1783d4fa",
+      "job_id": "e82bfa67-830b-45c9-848f-576fbee16a8b",
+      "mode": "CONTINUE_EXISTING_WINDOW",
       "spec_path": "/tmp/select-r24-w4-linkage-api-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
