@@ -251,34 +251,84 @@ def _precondition_audits(args, services: dict[str, Any], env: dict[str, str],
         audit_args.output = output
         audit_args.runner_exit = runner_exit
         audit_args.failed_stage = failed_stage
-        classified = services["classified"].audit(
-            audit_args, diag=services["diag"], targets=services["targets"], env=env)
+        try:
+            classified = services["classified"].audit(
+                audit_args, diag=services["diag"], targets=services["targets"], env=env)
+        except BaseException as exc:
+            _record_precondition_receipt(
+                evidence, CLASSIFIED_AUDIT_REL,
+                {"schema": "select-r24-mut-classified-audit-exception-v1",
+                 "complete": False, "exception": {"type": type(exc).__name__,
+                 "message": str(exc), "traceback": traceback.format_exc()}},
+                persist=persist, original_error=exc)
+            raise
+        _record_precondition_receipt(
+            evidence, CLASSIFIED_AUDIT_REL, classified, persist=persist)
         _need(isinstance(classified, dict) and classified.get("evidence_complete") is True and
               classified.get("accepted") is False and
               classified.get("publication_allowed") is False and
               classified.get("proof_credit") == 0,
               "same-tool classified all-eight audit is incomplete")
-        consequence = services["entailment"].audit(audit_args, diag=services["diag"])
+        # argparse supplies Path objects, while the frozen consequence audit's
+        # stage-identity guard intentionally requires a nonempty string.
+        entailment_args = SimpleNamespace(**vars(audit_args))
+        entailment_args.compiler_sysroot = str(args.compiler_sysroot)
+        try:
+            consequence = services["entailment"].audit(
+                entailment_args, diag=services["diag"])
+        except BaseException as exc:
+            _record_precondition_receipt(
+                evidence, CONSEQUENCE_AUDIT_REL,
+                {"schema": "select-r24-p2-consequence-audit-exception-v1",
+                 "complete": False, "exception": {"type": type(exc).__name__,
+                 "message": str(exc), "traceback": traceback.format_exc()}},
+                persist=persist, original_error=exc)
+            raise
+        _record_precondition_receipt(
+            evidence, CONSEQUENCE_AUDIT_REL, consequence, persist=persist)
         _need(isinstance(consequence, dict) and
               consequence.get("evidence_complete") is True and
               consequence.get("accepted") is False and
               consequence.get("publication_allowed") is False and
               consequence.get("proof_credit") == 0,
               "same-tool checked P2 consequence audit is incomplete")
-        if persist:
-            _write_json(evidence / CLASSIFIED_AUDIT_REL, classified)
-            _write_json(evidence / CONSEQUENCE_AUDIT_REL, consequence)
-        else:
-            for rel, current in ((CLASSIFIED_AUDIT_REL, classified),
-                                 (CONSEQUENCE_AUDIT_REL, consequence)):
-                path = evidence / rel
-                _need(path.is_file() and not path.is_symlink(),
-                      "persisted precondition audit missing/symlinked: " + rel.name)
-                saved = json.loads(path.read_text(encoding="utf-8"))
-                _need(saved == current,
-                      "freshly recomputed precondition audit differs: " + rel.name)
         return {"classified_audit": classified,
                 "p2_consequence_audit": consequence}
+
+
+def _record_precondition_receipt(evidence: Path, relative: Path,
+                                 current: object, *, persist: bool,
+                                 original_error: BaseException | None = None) -> None:
+    path = evidence / relative
+    if persist:
+        try:
+            _write_json(path, current)
+        except BaseException as write_error:
+            if original_error is not None:
+                if hasattr(original_error, "add_note"):
+                    original_error.add_note(
+                        "precondition exception receipt write failed: " +
+                        type(write_error).__name__ + ": " + str(write_error))
+                return
+            raise
+        return
+    try:
+        _need(path.is_file() and not path.is_symlink(),
+              "persisted precondition audit missing/symlinked: " + relative.name)
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        _need(saved == current,
+              "freshly recomputed precondition audit differs: " + relative.name)
+    except BaseException as receipt_error:
+        if original_error is not None:
+            if hasattr(original_error, "add_note"):
+                original_error.add_note(
+                    "precondition exception receipt comparison failed: " +
+                    type(receipt_error).__name__ + ": " + str(receipt_error))
+            return
+        if isinstance(receipt_error, (OSError, UnicodeDecodeError, ValueError)):
+            raise EntryError("R24-MUT-REFUSAL-ENTRY: persisted precondition audit malformed: " +
+                             relative.name) from receipt_error
+        raise
 
 
 def run(args, *, env=None, services=None) -> dict[str, Any]:

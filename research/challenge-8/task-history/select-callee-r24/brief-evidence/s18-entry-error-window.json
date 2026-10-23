@@ -1,0 +1,63 @@
+{
+  "archive_sha256": "588176710897c506dc2d8231b84c18f9f39d00f2da7547c2b82a853574abdb0f",
+  "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 12,
+    "start": 9,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "74108dd20402d5a2331aa0521a1e15e68d474b0d5341e0aba2e6bf039f7b847b",
+  "file_path": "allprooflogs/r24-mut-refusals.log",
+  "file_sha256": "af0691868eb120bf23f817fd597c0151f69f02d3772fbcdbae66598affe5442d",
+  "index_sha256": "50495dc4c8e6a9666faca0635a136c2afd11a2925112b41c55e7ef2401f301cf",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "af0691868eb120bf23f817fd597c0151f69f02d3772fbcdbae66598affe5442d",
+    "file_id": "74108dd20402d5a2331aa0521a1e15e68d474b0d5341e0aba2e6bf039f7b847b",
+    "start": 9
+  },
+  "request_id": "2ef23d319e3459c2015147e6d47d6e1ce2c7c4024f7021454197df13f12fcdc0",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "    _need(isinstance(consequence, dict) and"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r24-mut-refusal-entry.py\", line 76, in _need"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "    raise EntryError(\"R24-MUT-REFUSAL-ENTRY: \" + message)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "__main__.EntryError: R24-MUT-REFUSAL-ENTRY: same-tool checked P2 consequence audit is incomplete"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

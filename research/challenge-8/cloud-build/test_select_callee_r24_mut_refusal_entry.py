@@ -193,7 +193,7 @@ class RefusalEntryTests(unittest.TestCase):
         class Consequence:
             @staticmethod
             def audit(received, *, diag):
-                self.assertEqual(received.compiler_sysroot, Path("/actual/sysroot"))
+                self.assertEqual(received.compiler_sysroot, "/actual/sysroot")
                 return {"evidence_complete": True, "accepted": False,
                         "publication_allowed": False, "proof_credit": 0}
 
@@ -216,6 +216,67 @@ class RefusalEntryTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as temp:
                 ENTRY._precondition_audits(
                     args, services, {}, 0, "complete", Path(temp), persist=False)
+
+        class Exploding(Classified):
+            @staticmethod
+            def audit(*_args, **_kwargs):
+                raise ValueError("original audit exception")
+        services["classified"] = Exploding
+        with tempfile.TemporaryDirectory() as temp:
+            evidence = Path(temp)
+            with self.assertRaisesRegex(ValueError, "original audit exception"):
+                ENTRY._precondition_audits(
+                    args, services, {}, 0, "complete", evidence, persist=True)
+            exception_receipt = json.loads(
+                (evidence / ENTRY.CLASSIFIED_AUDIT_REL).read_text(encoding="utf-8"))
+            self.assertFalse(exception_receipt["complete"])
+            self.assertEqual(exception_receipt["exception"]["message"],
+                             "original audit exception")
+
+    def test_real_entailment_audit_receives_string_sysroot_and_persists_failure(self):
+        services = ENTRY.load_services(HERE)
+        entailment = services["entailment"]
+        args = SimpleNamespace(
+            compiler_sysroot=Path("/actual/sysroot"),
+            repo=HERE.parents[2], cloud_dir=HERE, evidence=Path("/absent/evidence"),
+            tool_home=Path("/tool"), schema=Path("/schema"),
+            matrix_proof_mode_file=HERE.parents[2] / ENTRY.MATRIX_MODE_REL,
+            candidate="1" * 40,
+        )
+        class Classified:
+            @staticmethod
+            def audit(received, *, diag, targets, env):
+                self.assertIsInstance(received.compiler_sysroot, Path)
+                return {"evidence_complete": True, "accepted": False,
+                        "publication_allowed": False, "proof_credit": 0}
+        class Diagnostic:
+            @staticmethod
+            def load_library(_cloud): return object()
+            @staticmethod
+            def _validate_context(_args, _env, _lib): return BUILD_ID
+            @staticmethod
+            def validate_mode(_repo, _path, _lib): return {}
+            @staticmethod
+            def _regular_under(_root, _path): return False
+            @staticmethod
+            def write_json(path, value):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(value), encoding="utf-8")
+        services["classified"] = Classified
+        services["diag"] = Diagnostic
+        services["targets"] = object()
+        with tempfile.TemporaryDirectory() as temp:
+            evidence = Path(temp)
+            with self.assertRaisesRegex(ENTRY.EntryError, "P2 consequence audit is incomplete"):
+                ENTRY._precondition_audits(
+                    args, services, {}, 0, "complete", evidence, persist=True)
+            receipt_path = evidence / ENTRY.CONSEQUENCE_AUDIT_REL
+            self.assertTrue(receipt_path.is_file())
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            self.assertFalse(receipt["evidence_complete"])
+            self.assertIn("P2-ENTAILMENT:", " ".join(receipt["errors"]))
+            self.assertNotIn("compiler sysroot is required",
+                             " ".join(receipt["errors"]))
 
     def test_entry_run_then_audit_composes_capture_and_collector_contracts(self):
         with tempfile.TemporaryDirectory() as temp:

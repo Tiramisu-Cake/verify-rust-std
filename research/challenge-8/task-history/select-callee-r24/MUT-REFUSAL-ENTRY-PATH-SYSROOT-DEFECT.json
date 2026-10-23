@@ -1,0 +1,25 @@
+{
+  "accepted": false,
+  "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
+  "candidate": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+  "discriminating_tests": [
+    "Use real frozen entailment audit with CLI-style Path argument through entry boundary.",
+    "Require resulting failure to reach the fixture missing-summary condition rather than the old sysroot guard.",
+    "Preserve failed prerequisite audit receipt and original exceptions on snapshot failure."
+  ],
+  "fix": "Normalize the copied entailment audit compiler_sysroot to its exact string path. Keep absolute/nonempty entry validation and strict entailment argv matching. Save each prerequisite receipt immediately before checking it and snapshot API exceptions without masking original errors.",
+  "observed_entry_error": "same-tool checked P2 consequence audit is incomplete",
+  "observed_phase": "_precondition_audits before collect_controls invocation",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "schema": "select-r24-refusal-entry-path-sysroot-defect-v1",
+  "static_cause": "Refusal entry CLI parses compiler_sysroot as Path. Frozen entailment require_compiler_sysroot requires nonempty str. Copying Namespace without converting this boundary makes prerequisite audit incomplete.",
+  "status": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+  "unchanged": [
+    "native translator",
+    "runtime/verified actual callee source",
+    "closed enum/hash/unit certificates",
+    "model and consequence lemma",
+    "full matrices and refusal inventory"
+  ]
+}

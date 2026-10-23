@@ -1,0 +1,86 @@
+{
+  "accepted": false,
+  "archive_sha256": "588176710897c506dc2d8231b84c18f9f39d00f2da7547c2b82a853574abdb0f",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
+  "build_seconds": 356,
+  "candidate": "601531a881ba34aba1306ae7de4a676d0b0fc26d",
+  "catalogues": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-catalogue.json",
+      "sha256": "c00f025f3fb43bfd6f7516e7cbcee501d9125dd5ca284e9a4309620c1bbe3657"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-entry-log-catalogue.json",
+      "sha256": "537829a614ccdc8e3892abfe6104290362c85b63a83abd701e37e8be9cd6d5bc"
+    }
+  ],
+  "causal_status": "UNKNOWN; STATIC_RUNNER_ARGUMENT_TYPE_MISMATCH_SEPARATELY_TESTED",
+  "classified_summary_complete_source_claim": true,
+  "composite_audit_exits_source_claim": [
+    4,
+    4
+  ],
+  "consequence_summary_complete_source_claim": true,
+  "control_stage_qualification": "Entry traceback and reviewed control flow place failure in _precondition_audits before collect_controls; no native refusal evidence qualified. No absence-from-catalogue inference.",
+  "exact_entry_error": "same-tool checked P2 consequence audit is incomplete",
+  "index_sha256": "50495dc4c8e6a9666faca0635a136c2afd11a2925112b41c55e7ef2401f301cf",
+  "known_limitation": "Failed prerequisite audit details existed only in deleted temporary output; new entry snapshots them before checks. Root re-audit observes runner-nonzero consequences.",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-classified_summary--complete.json",
+      "sha256": "57c696f72c103866628fc58f0c0b337df9647e27467831a7abc4c3b2f47187c3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-composite_audit_exits.json",
+      "sha256": "7b58c72d6a681ba0767731709aaf5c6db1e5ec93a3d1abb49985c9b67c916828"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-errors.json",
+      "sha256": "b928e1d1448445cd4f97cac4a223c8a3543c97f8d88435bba37fc98af7dd70a2"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-evidence_complete.json",
+      "sha256": "f5f1e8a3574b71fc4b92bbc5e57c9955313aaaa9a5ea85cde22fdde79c13edc8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-mutable_refusal_audit--errors.json",
+      "sha256": "ef5a0bb1d57f7243eaf782052e5ed961096693b41fe909c6ccc8fdb127ae9ba8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-p2_consequence_audit--consequence_summary--complete.json",
+      "sha256": "3e40bf1650aae12c9e6dde0c812ce539ba341594011142c03ce6b05a5ee83bde"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-p2_consequence_audit--consequence_summary--errors.json",
+      "sha256": "7135c86ab25729fbfe8fef14a1929409dbed1afdadd5a5f66e9bdd53eab2944e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-audit-refusal_composite_audit_exits.json",
+      "sha256": "ae091013ec7696f06992511bcf43921716237aadc9361b268fcfc90567e4f1c3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-entry-error-window.json",
+      "sha256": "f222ea083d09e5803db72041945a1642fbc0d8f57696bc9c7091f3f5ccd95127"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s18-root-consequence-errors.json",
+      "sha256": "1ee1eb64a357d89013872f407193b23ba4f5d5ee4922c0d2517a37adcf0786a2"
+    }
+  ],
+  "refusal_composite_audit_exits_source_claim": [
+    1,
+    4
+  ],
+  "root_audit_complete_source_claim": false,
+  "runner_exit_source_claim": 1,
+  "schema": "select-r24-mut-refusal-first-observations-v1",
+  "static_defect": {
+    "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-ENTRY-PATH-SYSROOT-DEFECT.json",
+    "sha256": "835faf4d6ff3b6d3468a1522b5e925778c358e9206e3b55dad48c3df342a6655"
+  }
+}
