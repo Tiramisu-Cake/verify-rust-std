@@ -220,7 +220,7 @@ class R23CalleeRegistration(unittest.TestCase):
         self.assertEqual(order, sorted(order))
         # The translator pin is re-asserted after the parser patch.
         after = runner[runner.index("stage parser-refresh-apply"):]
-        self.assertIn("cadaa80ab55e6fb3f53ccfcae1ab05dc953a2cb69a17616654d49dad6350478f",
+        self.assertIn("103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44",
                       after[:after.index("deps_archive=")])
 
     def test_fractional_patch_ghost_literals_match_transform_and_pins(self):

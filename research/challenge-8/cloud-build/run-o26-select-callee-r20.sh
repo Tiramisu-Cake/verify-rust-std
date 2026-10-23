@@ -199,6 +199,13 @@ current_stage=fractional-layout-identity
 stage fractional-layout-check git -C "$source_home" apply --check "$layout_patch"
 stage fractional-layout-apply git -C "$source_home" apply "$layout_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == cadaa80ab55e6fb3f53ccfcae1ab05dc953a2cb69a17616654d49dad6350478f ]] || exit 2
+# UNBUILT next-window candidate: align erased ghost-call AST successors.
+ghost_cfg_patch="$proof_root/research/challenge-8/task-history/select-callee-r23/ghost-cleanup-successor-fractional.patch"
+current_stage=ghost-cfg-identity
+[[ "$(sha256sum "$ghost_cfg_patch" | cut -d' ' -f1)" == 03f91fb5fe7cb25deabe5d6d7ab4e224e5559823b0c88b75a3c717dba088567d ]] || exit 2
+stage ghost-cfg-check git -C "$source_home" apply --check "$ghost_cfg_patch"
+stage ghost-cfg-apply git -C "$source_home" apply "$ghost_cfg_patch"
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44 ]] || exit 2
 # R22 parser-only fix: a one-element coefficient before `<T>.pred(..)` in an
 # assertion is parsed as CoefAsn instead of a `<` comparison on a list.
 parser_patch="$proof_root/research/challenge-8/overnight-assume-actual/verifast-r22-coef-typepred-parser-26.10.patch"
@@ -208,7 +215,7 @@ current_stage=parser-patch-identity
 stage parser-refresh-check git -C "$source_home" apply --check "$parser_patch"
 stage parser-refresh-apply git -C "$source_home" apply "$parser_patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/rust_parser.ml" | cut -d' ' -f1)" == 6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246 ]] || exit 2
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == cadaa80ab55e6fb3f53ccfcae1ab05dc953a2cb69a17616654d49dad6350478f ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 103a34afa6b403760454ab42462040805f34f0cf42576b8179bc5ff368505e44 ]] || exit 2
 
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"

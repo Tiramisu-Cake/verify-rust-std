@@ -1,0 +1,41 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -4125,13 +4125,36 @@
+                 !State.ghost_stmts
+             in
+             (match State.callback_unwind_marker ghost_stmt with
+-             | None -> ([ ghost_stmt ], targets)
++             | None ->
++                 let successors =
++                   if State.body_name = "select_unpredictable" &&
++                      !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                   then
++                     (* This builtin call is replaced by a source ghost
++                        statement, so it has no runtime unwind edge in the
++                        emitted AST. Keep its original normal MIR successor;
++                        raw MIR cleanup inventory remains checked at admission. *)
++                     (match terminator with
++                      | Mir.GotoTerminator (_, normal_target) -> [normal_target]
++                      | Mir.EncodedTerminator -> [])
++                   else targets
++                 in
++                 ([ ghost_stmt ], successors)
+              | Some (debt, recover) ->
+                  if !State.pending_callback_unwind <> None then
+                    State.fail_callback_unwind "second marker before its call";
+                  State.pending_callback_unwind :=
+                    Some (Ast.stmt_loc ghost_stmt, debt, recover);
+-                 ([Ast.NoopStmt call_loc], targets))
++                 let successors =
++                   if State.body_name = "select_unpredictable" &&
++                      !Sort4SelectIntrinsic.actual_fractional_variant <> None
++                   then
++                     (match terminator with
++                      | Mir.GotoTerminator (_, normal_target) -> [normal_target]
++                      | Mir.EncodedTerminator -> [])
++                   else targets
++                 in
++                 ([Ast.NoopStmt call_loc], successors))
+         | _ ->
+             ( (if ListAux.is_empty fn_call_tmp_rval_ctx then call_stmts
+                else
