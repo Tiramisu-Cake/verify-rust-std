@@ -1,10 +1,6 @@
 {
   "artifacts": [
     {
-      "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
-      "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e"
-    },
-    {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-SOURCE-STATIC-VALIDATION-20261024.json",
       "sha256": "3a67fc05149a93d79eec361d58e5ce560a7b035e35e8118b05a03a932a147700"
     },
@@ -23,6 +19,14 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
       "sha256": "4256eaa58317dec08c7a8b5c44b4848fd7889f2ee598ba403c29c68aea33c2cc"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-COMPILE-REVIEW-20261024.json",
+      "sha256": "a7261b33fb428d4207e9bfe84639386783b7ed353d09ae336f4e95187c313902"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P5-TRANSPORT-20261024.json",
+      "sha256": "b99ee0dc394d0f00cde794b5bd845d902da3cd14bc7ccc84e29f519b00b66766"
     }
   ],
   "assignment_sha256": "a87bfc1d62d6aaf00a5f05e9f18a5ca4d02a7fb906a7890b1370857b9b1e0087",
@@ -32,7 +36,7 @@
     "tool_sha": "0f4e336b52441e8f341a567250adba2b200c54d1"
   },
   "blocker": {
-    "summary": "P4 compiler fix prepared; review/build pending.",
+    "summary": "P5 running; source proof unverified.",
     "evidence": [
       {
         "path": "research/challenge-8/cloud-build/origin-layout/R23-P4-COMPILE-BRIEF-20261024.json",
@@ -98,7 +102,7 @@
       ]
     }
   ],
-  "next_step": "Review Binder fix; full capture-off P5.",
+  "next_step": "Ack watcher; P5 Brief; continue R23.",
   "open": [
     "Original as_mut_ptr/unsize caller and full normal/unwind lifecycle OPEN; source adapter prepared but Cloud-UNVERIFIED.",
     "Raw caller F5/state/index gate evidence and CURRENT false/true/panic/Drop/Resume matrix OPEN; independent proof credit0."
@@ -119,7 +123,9 @@
   ],
   "schema": "smallsort-checkpoint-v1",
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "790351cf-4fb7-4875-a8ce-98c88688cde6"
+    ],
     "budget_seconds": 14400,
     "deadline_utc": "2026-10-26T11:45:00Z",
     "finish_minutes": 60,
@@ -131,9 +137,9 @@
     "t0": "2026-10-23T10:45:00Z",
     "unresolved_ids": []
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "merge-caller-acceptance-autonomous-2026-10-24-r23",
-  "updated_utc": "2026-10-23T13:18:05.755247Z",
+  "updated_utc": "2026-10-23T13:21:51.933501Z",
   "decisions": [
     {
       "obligation": "R23 admission fixes and early owned-NLL diagnostic Build",
@@ -218,6 +224,16 @@
       "tool_sha": "966c6d23f75da38472a1b1039ee99fe5a88f2632",
       "profile_sha256": "0124f6a0266d92ce9e70054b4410b663883c3e6233242019ae525f6cd146c7b7",
       "proof_credit": 0
+    },
+    {
+      "obligation": "P5 full-envelope compiler/proof validation after exact Binder correction",
+      "reason": "Independent Luna HIGH GO9bad99ee; exact spec3124fd93/packete4344a96. Root/toolremote exact SHAconfirmed. SourcegatePASS, cumulativepatch exact5sourcepins and unchangedkernel; payload558559/571567 SHA78b3fb37; config27448/28000. Capturepolicyfalse and full1200/reserves preserved. No independent useful change remains until actualcompiler/proof results; fresh watcher HANDOFF.",
+      "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6",
+      "source_sha": "9bad99ee1b564a8f929d56402b88bf10b033ed39",
+      "config_sha256": "d54c8959e7fd180b3559aeccb7f1d64a5b3328d01da34fa639eb4b3733f11b62",
+      "dispatch_token": "dispatch-5e8f97e5bd064c4b847afa3944edddb0",
+      "state_dir": "/tmp/smallsort-merge-r23-cloud-state",
+      "proof_credit": 0
     }
   ],
   "mission_queue": [
@@ -228,11 +244,10 @@
     "CURRENT/backedge false/true/panic/Drop/Resume matrix W2/W3/W5"
   ],
   "watcher": {
-    "job_id": "482e4acd-4c2f-4fe9-9331-a12728bfd9d3",
-    "event_id": "3703d7be-916d-4682-a5b2-984ff04e1350",
-    "event_name": "build_terminal",
-    "ack": "CONTINUE_EXISTING_WINDOW",
-    "status_after_event": "FAILURE",
+    "build_id": "790351cf-4fb7-4875-a8ce-98c88688cde6",
+    "status": "PREPARED_HANDOFF",
+    "thread_id": "01a16834-721a-7031-bc5d-73386765cb9d",
+    "expected_authority": "UNCHANGED_EXISTING_TASK_ONLY",
     "auto_rearm_same_build": false
   },
   "owned_nll_stop_loss": {
@@ -270,6 +285,10 @@
     {
       "path": "research/challenge-8/cloud-build/origin-layout/R23-P2-RAW-CONTROL-BRIEF-20261024.json",
       "sha256": "c11bf847edfc1d442fbdd09804c0d1d628f879312a1b481f2cdb4ff854c5950e"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/R23-P3-RAW-CONTROL-BRIEF-20261024.json",
+      "sha256": "ca8b80b4560c36398650dea756a690b4436a216919ee430e72bb7a361faa904e"
     }
   ]
 }

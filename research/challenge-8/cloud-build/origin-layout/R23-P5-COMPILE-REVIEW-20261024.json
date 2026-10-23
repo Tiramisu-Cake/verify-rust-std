@@ -1,0 +1,42 @@
+{
+  "schema": "merge-r23-p5-exporter-compile-review-v1",
+  "reviewer": "Codex",
+  "candidate": "9bad99ee1b564a8f929d56402b88bf10b033ed39",
+  "baseline": "a5a0b90d4d9971cf1ae3d42808747c01dcae94e9",
+  "tool_commit": "966c6d23f75da38472a1b1039ee99fe5a88f2632",
+  "spec_sha256": "3124fd936056a48300ca1770c8e695b8e453a43309e93b83ef4975c8b9260533",
+  "packet_sha256": "e4344a96dc288d38461793535d21bb2f1dd447b3d3d7225f8830e97bf1a25ff7",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED; candidate, spec and packet identities matched",
+  "prior_full_review": "R23-SOURCE-BORROW-DELTA-REVIEW-20261024.json; focused exporter-only P5 delta",
+  "decision": "GO",
+  "review_scope": [
+    "P5 exporter FnDef substitution API correction",
+    "Exact R23 exporter source/profile/tool pins and reverse-profile linkage",
+    "Fail-closed behavior when FnDef substitutions contain bound variables"
+  ],
+  "findings": [],
+  "reviewer_checks_pass": [
+    "Packet check matched the exact candidate, spec SHA-256 and packet SHA-256.",
+    "The exporter delta binds the FnDef substitutions as fn_args, calls fn_args.no_bound_vars(), and uses the returned args only in the existing generic-count, iteration, encoding, and signature-instantiation operations.",
+    "If no_bound_vars() returns None, the exporter records an explicit unsupported_reason and returns before any substitution length check, iteration, encoding, or signature instantiation. This fails closed without inventing an erased or flattened substitution.",
+    "The API matches the existing frozen exporter pattern at src/rust_frontend/vf_mir_exporter/src/lib.rs:2453-2458, which calls no_bound_vars() on FnDef substitutions and rejects the bound-variable case.",
+    "The changed exporter source SHA-256 is bf321171e83a28ddc64f026e203c32f2cb7b0c3353bfe1197131eab287eb1381, matching the exact candidate profile pin; the other four R23 tool source pins remain unchanged from the prior reviewed tool candidate.",
+    "The candidate profile binds tool commit 966c6d23f75da38472a1b1039ee99fe5a88f2632 and source profile 0124f6a0266d92ce9e70054b4410b663883c3e6233242019ae525f6cd146c7b7. Its reverse contract retains baseline profile 3fec93b5237d534b69eb3be59d11ea4abde3588f07c6e9437b1c09bf8533ac88 and the original starting tool pin."
+  ],
+  "reported_checks_not_rerun": [
+    "R23 source profile service suite: 6 tests",
+    "R23 phase service suite: 8 tests"
+  ],
+  "not_run": [
+    "Rust exporter compilation",
+    "Compiler, MIR exporter, translator, verifier, or proof execution",
+    "Cloud source preparation or build"
+  ],
+  "limitations": [
+    "This GO is limited to the P5 exporter API and pin delta; it relies on the prior exact-candidate full semantic review for the connected source-borrow implementation.",
+    "No local compiler execution verified that this toolchain accepts the API call; Cloud compiler acceptance remains unverified.",
+    "No proof attempt, proof acceptance, B1/B2 credit, owned-NLL mapping, or proof credit is established."
+  ],
+  "proof_credit": false,
+  "independent_credit": false
+}
