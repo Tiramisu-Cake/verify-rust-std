@@ -20,5 +20,7 @@
     "Full frozen const8 matrix plus positive consequence and omission negative; final read-only physical composite audit, exact current Build identity, no acceptance inferred from exit0."
   ],
   "proof_credit": 0,
-  "design_correction": "Actual callee post uses casts to VeriFast pointer, not typed *const Element identity casts. Consequence must use actual pointer-view premise; deriving typed equality is a falsifiable ordinary-proof obligation under existing model, never an address-only ownership bridge. No new premise if proof fails."
+  "design_correction": "Actual callee post uses casts to VeriFast pointer, not typed *const Element identity casts. Consequence must use actual pointer-view premise; deriving typed equality is a falsifiable ordinary-proof obligation under existing model, never an address-only ownership bridge. No new premise if proof fails.",
+  "checked_consequence_frame": "The ordinary function additionally frames type_interp<Element>() and t==currentThread, already present in the W4 caller contract, and returns them. They are not inferred from callee post or new Copy/Freeze premises. It opens only empty raw_ptr_own; no pointee chunk is produced. Consequence post may omit that empty pointer-own predicate while preserving thread/type_interp and selected pointer equality.",
+  "future_binding_requirement": "The future call interface must retain the original qualified pointer-view relation and normal/unwind/resource post. A typed Rust equality consequence alone does not authorize provenance/pointee ownership or replace that relation; all ownership must come from existing caller resources."
 }

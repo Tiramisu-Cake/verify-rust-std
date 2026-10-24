@@ -122,6 +122,18 @@ if [[ -e "$r24_w4_linkage_mode_file" ]]; then
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json" | cut -d' ' -f1)" == f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0 ]] || exit 2
   r24_w4_linkage_diagnostic=1
 fi
+# Current-tool const matrix plus a checked post consequence, never a body summary.
+r24_w4_const_qualification=0
+r24_w4_const_mode_file="$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json"
+r24_w4_const_helper="$cloud_dir/select-callee-r24-w4-const-qualification.py"
+if [[ -e "$r24_w4_const_mode_file" ]]; then
+  (( r24_w4_linkage_diagnostic == 1 )) || exit 2
+  [[ "$(sha256sum "$r24_w4_const_mode_file" | cut -d' ' -f1)" == e9236089af34945027ba3a22126436356ddabe2e6908eca8ea99741becb7c39f ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_const_helper" | cut -d' ' -f1)" == 3ac557f7a6d7f99a6665fcd1db893a2a883726c788a9f7e8a00933a20b71b137 ]] || exit 2
+  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-const-consequence.py" | cut -d' ' -f1)" == 65e88f2537b06f6f1466acd63d88a9e5b4ea9f824f7f4882b6e8b7f0f399bb08 ]] || exit 2
+  [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json" | cut -d' ' -f1)" == 03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce ]] || exit 2
+  r24_w4_const_qualification=1
+fi
 positive_ast_args=()
 target_map_args=()
 if [[ -n "${SORT4_R24_SESSION_PHASE_ID:-}" ]]; then
@@ -140,6 +152,35 @@ mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
+  if (( ${r24_w4_const_qualification:-0} == 1 )); then
+    local const_audit_exit=0
+    local const_audit_report="$ev/cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION-AUDIT.json"
+    local const_audit_mirror="$evidence_root/proof-audit.json"
+    python3 "$r24_w4_const_helper" audit \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "${source_home:-/workspace/missing-native-tool}" \
+      --native-tool-home "${w4_native_home:-/workspace/missing-w4-fingerprint-tool}" \
+      --schema "${w4_native_home:-/workspace/missing-w4-fingerprint-tool}/src/rust_frontend/vf_mir/vf_mir.capnp" \
+      --compiler-sysroot "${compiler_sysroot:-/workspace/missing-sysroot}" \
+      --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_const_mode_file" \
+      --output "$const_audit_report" --runner-exit "$1" --failed-stage "$2" || const_audit_exit=$?
+    if [[ ! -f "$const_audit_report" || -L "$const_audit_report" || \
+          -e "$const_audit_mirror" || -L "$const_audit_mirror" ]]; then
+      (( const_audit_exit != 0 )) && return "$const_audit_exit"
+      return 1
+    fi
+    if ! python3 -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); assert type(d) is dict and d.get("schema") == "select-r24-w4-const-qualification-v1-audit" and type(d.get("evidence_complete")) is bool and type(d.get("runner_exit")) is int and d.get("runner_exit") == int(sys.argv[2]) and d.get("failed_stage") == sys.argv[3] and d.get("accepted") is False and d.get("publication_allowed") is False and type(d.get("proof_credit")) is int and d.get("proof_credit") == 0' \
+        "$const_audit_report" "$1" "$2"; then
+      (( const_audit_exit != 0 )) && return "$const_audit_exit"
+      return 1
+    fi
+    if ! cp -- "$const_audit_report" "$const_audit_mirror"; then
+      (( const_audit_exit != 0 )) && return "$const_audit_exit"
+      return 1
+    fi
+    return "$const_audit_exit"
+  fi
   if (( ${r24_w4_linkage_diagnostic:-0} == 1 )); then
     local linkage_audit_exit=0
     local linkage_audit_report="$ev/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC-AUDIT.json"
@@ -664,6 +705,17 @@ if (( r24_w4_linkage_diagnostic == 1 )); then
   [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007 ]] || exit 2
   stage r24-w4-native-console-build make -C "$w4_native_home/src" ../bin/verifast \
     WITHOUT_LABLGTK=yes VERBOSE=yes
+  if (( ${r24_w4_const_qualification:-0} == 1 )); then
+    stage r24-w4-const-qualification python3 "$r24_w4_const_helper" run \
+      --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+      --tool-home "$source_home" --native-tool-home "$w4_native_home" \
+      --schema "$w4_native_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
+      --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" --candidate "$current_sha" \
+      --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_const_mode_file"
+    current_stage=r24-w4-const-qualification-audit
+    audit_result 0 complete
+    exit 0
+  fi
   stage r24-w4-linkage-diagnostic python3 "$r24_w4_linkage_helper" run \
     --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
     --tool-home "$source_home" --native-tool-home "$w4_native_home" \

@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "900f9fd91710bb8c8e269d67060a9ab42b74a885643f435b5970901d0f099bd2"
+      "sha256": "d80e9fa038110dc5f21c99cbb2d433186aa303b68ec311f73f3874327620631c"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
-        "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json",
+        "sha256": "07e94dae46a6a0162067ef49976fa263a016af96c2ba54e9e72a17ea03b34c13"
       }
     ],
-    "summary": "W4 inputs complete; same-version constcallee requalification and checked pointer-post bridge remain."
+    "summary": "Current-tool const8 and checked pointer-post consequence implemented; preflight/review/Cloud pending."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "900f9fd91710bb8c8e269d67060a9ab42b74a885643f435b5970901d0f099bd2"
+    "sha256": "d80e9fa038110dc5f21c99cbb2d433186aa303b68ec311f73f3874327620631c"
   },
   "brief_observation_refs": [
     {
@@ -1190,8 +1190,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Requalify const8 on native5170/33b plus checked pointer-post consequence; then native8site binding/C5.",
-  "next_step": "Requalify const8 on native5170/33b plus checked pointer-post consequence; then native8site binding/C5.",
+  "next": "Commit candidate; preflight/review/publish; full1200 native const8 plus checked consequence controls.",
+  "next_step": "Commit candidate; preflight/review/publish; full1200 native const8 plus checked consequence controls.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1306,7 +1306,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:51:34Z",
+  "updated_utc": "2026-10-24T01:10:12Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1410,17 +1410,31 @@
     "worker": "r24_admission"
   },
   "w4_const_requalification_preparation": {
+    "caller_body_proof_admission": false,
+    "consequence": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py",
+      "sha256": "65e88f2537b06f6f1466acd63d88a9e5b4ea9f824f7f4882b6e8b7f0f399bb08"
+    },
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json",
-      "sha256": "afbed7cc710c3a115f30b86326f709db6edd20ba98227d3c3e2951740da00d8e"
+      "sha256": "07e94dae46a6a0162067ef49976fa263a016af96c2ba54e9e72a17ea03b34c13"
     },
     "main_scope": "mode/recipe/shell/evidence/review andCloud",
+    "mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
+      "sha256": "e9236089af34945027ba3a22126436356ddabe2e6908eca8ea99741becb7c39f"
+    },
     "proof_credit": 0,
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "IMPLEMENTATION_IN_PROGRESS",
+    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "tests": "12 consequence +12 wrapper (unmocked synthetic provider-overlay/pins) +6 new Bash routing +10 old Bash regressions pass; Bash syntax/diff pass. Actual native proofs unbuilt.",
     "workers": {
       "checked_consequence": "r24_admission",
       "const_wrapper": "r24_mut_proof_runner"
+    },
+    "wrapper": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-qualification.py",
+      "sha256": "3ac557f7a6d7f99a6665fcd1db893a2a883726c788a9f7e8a00933a20b71b137"
     }
   },
   "w4_inputs_qualification": {
