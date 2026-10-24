@@ -67,7 +67,7 @@ K1-network использует контракты `insert_tail` и `bidirection
 
 Lane подобран так, чтобы среда была близка к CI организаторов: тот же `scripts/run-kani.sh`, те же флаги и pin. Машина — CircleCI Linux VM large x86: 4 CPU, 15 ГБ. У организаторов `ubuntu-latest`: 4 vCPU, 16 ГБ. Процессоры разные, поэтому 600 с — близкая оценка критерия, а не точный повтор. Окончательную проверку даёт CI организаторов на PR.
 
-GitHub Actions в форке недоступны: GitHub отключил их на этом репозитории, dispatch получает HTTP 422 «Actions has been disabled for this repository». Файлы GitHub-lane (`.github/workflows/smallsort-kani-k1.yml`) оставлены неактивными. Машины нашего Cloud Build (`E2_STANDARD_2`, 2 vCPU, 8 ГБ) без Kani не подходят.
+GitHub Actions в форке недоступны: GitHub отключил их на этом репозитории, dispatch получает HTTP 422 «Actions has been disabled for this repository». Файл GitHub-lane перенесён в `research/challenge-8/kani-k1/github-lane/` и неактивен. Причина: проект CircleCI, подключённый через GitHub App, при запуске через API собирал конфиг из этого GitHub-workflow (`circleci run actions exec`), а не из `.circleci/config.yml`. Вернуть его в `.github/workflows` можно, если GitHub включит Actions. Машины нашего Cloud Build (`E2_STANDARD_2`, 2 vCPU, 8 ГБ) без Kani не подходят.
 
 У проекта CircleCI нет триггеров: push ничего не запускает. Job стартует только через API с параметром `run_k1`. Личный токен CircleCI лежит в `/root/.config/smallsort-ci/circleci-token` с правами 600. `k1.sh` читает его сам, токен не выводить и никуда не копировать.
 
