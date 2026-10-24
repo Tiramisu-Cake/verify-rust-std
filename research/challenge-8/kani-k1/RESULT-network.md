@@ -19,8 +19,10 @@ check-tooling каждого job — против `aca80458`.
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог | check-tooling |
 |---|---|---|---|---|---|---|---|
 | 1 | net-p2-01-f3-sort9 | diagnostic | 18 | 2f75a7e4 | 9 × 4 мин | COMPLETE, gate false (только `sort13_01_u8` TIMEOUT). `swap_if_less_{u8,i32,u64}` 7,1 / 8,0 / 9,5 с; `sort9_01_{u8,i32,u64}` 178,6 / 189,4 / 202,6 с; `sort9_perm_{i32,u64}` 161,0 / 227,1 с; все cover выполнены. Max RSS 10,0 ГиБ, cgroup peak 10,71 ГиБ, OOM 0 | ok |
+| 2 | net-p2-02-sort13-bands-u64 | measurement | 23 | 4db07c98 | 4 × 10 мин | COMPLETE, gate false. `sort13_01_u8` SUCCESS 336,5 с, cover 4/4. `band0_8_u64`, `band9_12_u64`, `band13_17_u64` (реальные insertion и `insert_tail`, сети через `stub_verified`) — TIMEOUT. Max RSS 10,0 ГиБ, cgroup peak 10,83 ГиБ, OOM 0 | ok |
+| 3 | net-p2-03-sort13-perm | measurement | 25 | 6a17bc18 | 3 × 10 мин | COMPLETE, gate false. `sort13_perm_u64` (реальное тело, полная ширина) TIMEOUT. `sort13_01_u64` SUCCESS 387,1 с, cover 4/4. `sort9_perm_u8` SUCCESS 102,4 с, cover 3/3. Max RSS 11,0 ГиБ, cgroup peak 11,41 ГиБ, OOM 0 | ok |
 
-Сумма таймаутов после job 18: 36 / 180 мин, dispatch 1 / 6.
+Сумма таймаутов после job 25: 106 / 180 мин, dispatch 3 / 6.
 
 **Продвижение по `sort9_optimal` в 20:15Z** (job 18): контракт доказан формулировкой 3 на трёх типах (0–1 для сортированности, перестановка на полной ширине для i32/u64; u8 — job 14 `direct_sort9_u8` при длине 9 и `sort9_perm_u8` ещё не запускался). Счётчик минут без продвижения обнулён. Счётчик формулировок `sort9_optimal` остаётся 2 / 3, третья прошла.
 

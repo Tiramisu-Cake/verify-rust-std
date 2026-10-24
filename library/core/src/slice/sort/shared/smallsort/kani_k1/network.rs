@@ -3,7 +3,7 @@
 //! Written from the std source and the Kani documentation only (EXPERIMENT.md, rule R1).
 
 use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
-use super::merge::{lt_i32, lt_u8, lt_u64, set_probe};
+use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
 use crate::kani;
 
 // Comparators: K1-merge's `lt_u8`/`lt_i32`/`lt_u64`, strict orders by the key `x >> 1`, so equal keys
@@ -163,6 +163,37 @@ macro_rules! check_perm_n {
     };
 }
 
+/// Permutation as above, with every compare-exchange through the verified `swap_if_less` contract
+/// (exact swap-or-not of two cells). Job 25: the real-body version for `sort13`/u64 timed out at 10 min.
+macro_rules! check_perm_stub_n {
+    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
+        #[kani::proof]
+        #[kani::stub_verified(super::super::swap_if_less)]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; 17] = kani::any();
+            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
+            kani::cover(len == $n, "exact length reachable");
+            kani::cover(len == 17, "longest slice reachable");
+            let pre = v;
+            let mut cmp = $cmp;
+            super::super::$f(&mut v[..len], &mut cmp);
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
+            );
+            assert!(same_from(&v[..], &pre[..], $n));
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_perm_stub_n!(sort13_perm_stub_u8, sort13_optimal, 13, u8, lt_u8);
+check_perm_stub_n!(sort13_perm_stub_i32, sort13_optimal, 13, i32, lt_i32);
+check_perm_stub_n!(sort13_perm_stub_u64, sort13_optimal, 13, u64, lt_u64);
+check_perm_stub_n!(sort9_perm_stub_u64, sort9_optimal, 9, u64, lt_u64);
+
 check_sort_n_01!(sort9_01_u8, sort9_optimal, 9, u8, lt_u8);
 check_sort_n_01!(sort9_01_i32, sort9_optimal, 9, i32, lt_i32);
 check_sort_n_01!(sort9_01_u64, sort9_optimal, 9, u64, lt_u64);
@@ -278,6 +309,81 @@ macro_rules! check_network_band {
         }
     };
 }
+
+/// K1-merge's `insert_tail` contract on the network regions: `[begin, tail]` of 2..=17 elements
+/// (`insertion_sort_shift_left` on a region of up to 17). Harness body is K1-merge's `insert_tail_len`.
+macro_rules! check_insert_tail_net {
+    ($name:ident, $t:ty, $cmp:ident) => {
+        #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::unwind(18)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| 2 <= l && l <= 17);
+            kani::cover(len == 2, "region of 2 reachable");
+            kani::cover(len == 17, "region of 17 reachable");
+            match len {
+                2 => insert_tail_len::<$t, _, 2>($cmp),
+                3 => insert_tail_len::<$t, _, 3>($cmp),
+                4 => insert_tail_len::<$t, _, 4>($cmp),
+                5 => insert_tail_len::<$t, _, 5>($cmp),
+                6 => insert_tail_len::<$t, _, 6>($cmp),
+                7 => insert_tail_len::<$t, _, 7>($cmp),
+                8 => insert_tail_len::<$t, _, 8>($cmp),
+                9 => insert_tail_len::<$t, _, 9>($cmp),
+                10 => insert_tail_len::<$t, _, 10>($cmp),
+                11 => insert_tail_len::<$t, _, 11>($cmp),
+                12 => insert_tail_len::<$t, _, 12>($cmp),
+                13 => insert_tail_len::<$t, _, 13>($cmp),
+                14 => insert_tail_len::<$t, _, 14>($cmp),
+                15 => insert_tail_len::<$t, _, 15>($cmp),
+                16 => insert_tail_len::<$t, _, 16>($cmp),
+                17 => insert_tail_len::<$t, _, 17>($cmp),
+                _ => {}
+            }
+        }
+    };
+}
+
+check_insert_tail_net!(insert_tail_net_u8, u8, lt_u8);
+check_insert_tail_net!(insert_tail_net_i32, i32, lt_i32);
+check_insert_tail_net!(insert_tail_net_u64, u64, lt_u64);
+
+/// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
+/// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
+macro_rules! check_network_band_tail {
+    ($name:ident, $t:ty, $cmp:ident, $lo:literal, $hi:literal, [$($c:literal),*]) => {
+        #[kani::proof]
+        #[kani::stub_verified(super::super::sort9_optimal)]
+        #[kani::stub_verified(super::super::sort13_optimal)]
+        #[kani::stub_verified(super::super::insert_tail)]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; $hi] = kani::any();
+            let len: usize = kani::any_where(|&l| in_band(l, $lo, $hi));
+            $(kani::cover(len == $c, "boundary length reachable");)*
+            let pre = v;
+            let mut cmp = $cmp;
+            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
+            assert!(sorted_by(&v[..len], &mut cmp));
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
+            );
+            assert!(same_from(&v[..], &pre[..], len));
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_network_band_tail!(bandt0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
+check_network_band_tail!(bandt0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
+check_network_band_tail!(bandt0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
+check_network_band_tail!(bandt9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
+check_network_band_tail!(bandt9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
+check_network_band_tail!(bandt9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
+check_network_band_tail!(bandt13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
+check_network_band_tail!(bandt13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
+check_network_band_tail!(bandt13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
 
 check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
 check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);

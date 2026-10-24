@@ -1,22 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p2-03-sort13-perm",
+  "request_id": "net-p2-04-stub-perm-insert-tail",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Phase 2: sort13 contract formulation 3 cost at full width (permutation u64) and 0-1 keys u64; sort9 permutation u8 (missing from job 18)",
+  "purpose": "Phase 2: sort13 permutation u64 over stub_verified(swap_if_less); insert_tail contract on network regions 2..=17 u64; top-level bands 0..=8 and 13..=17 u64 with insert_tail also through stub_verified",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_stub_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_01_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_net_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::bandt0_8_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::bandt13_17_u64",
       "expect": "SUCCESS"
     }
   ]
