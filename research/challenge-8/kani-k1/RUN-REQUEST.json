@@ -1,12 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p3-toy-011",
+  "request_id": "merge-p3-modifies-012",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Phase 3 tool control: trivial loop_invariant on a toy for-loop over a Range on a [u64; 32] array, plain proof, nothing from smallsort. Does goto-instrument/CBMC run out of memory on any such loop on the Kani pin, or only inside bidirectional_merge (jobs 17-24)?",
+  "purpose": "Phase 3 last check of formulation 2: trivial loop_invariant plus explicit loop_modifies (pointer locals and dst[..len]) on the bidirectional_merge loop, under proof_for_contract, u64 len 32. Does goto-instrument and CBMC get through (jobs 17-24 ran out of memory with inferred modifies)? Failed checks are expected from the trivial invariant; only the absence of the OOM matters",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 8,
+  "harness_timeout_minutes": 10,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::toy_loop_contract", "expect": "SUCCESS"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32", "expect": "SUCCESS"}
   ]
 }

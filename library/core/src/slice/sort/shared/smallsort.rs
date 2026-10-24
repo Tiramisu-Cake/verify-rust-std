@@ -838,6 +838,15 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
+        // K-1 phase 3 (K1-merge): trivial loop invariant with an explicit loop modifies set, the last
+        // check of formulation 2 (RESULT-merge.md, TASK-merge.md «Фаза 3» p. 3). Diagnostic only.
+        // `dst` in the modifies set is evaluated at loop entry, where it is still the start of the
+        // destination.
+        #[cfg_attr(kani, kani::loop_invariant(kani::index <= len_div_2))]
+        #[cfg_attr(kani, kani::loop_modifies(
+            &left, &right, &dst, &left_rev, &right_rev, &dst_rev,
+            ptr::slice_from_raw_parts_mut(dst, len)
+        ))]
         for _ in 0..len_div_2 {
             (left, right, dst) = merge_up(left, right, dst, is_less);
             (left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);

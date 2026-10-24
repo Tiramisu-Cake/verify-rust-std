@@ -14,7 +14,8 @@
 
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
 |---|---|---|---|---|---|---|
-| 11 | merge-p3-toy-011 | diagnostic | | | 1 × 8 мин | ждёт: контроль инструмента, `toy_loop_contract` |
+| 11 | merge-p3-toy-011 | diagnostic | 27 | d83f3144 | 1 × 8 мин | COMPLETE, gate true. `toy_loop_contract` SUCCESS 0,11 с, 0/138, cover 2/2. Пик cgroup 1,70 GiB, OOM-kill 0. Игрушечный `for` по `Range` с тривиальным `loop_invariant` не даёт OOM. Оговорка: при `unwind(34)` и `n ≤ 32` тот же SUCCESS дала бы и обычная развёртка, и вывод goto-instrument Kani печатает только при ошибке. Поэтому применение контракта этим прогоном не доказано |
+| 12 | merge-p3-modifies-012 | diagnostic | | | 1 × 10 мин | ждёт: явный `loop_modifies` + тривиальный инвариант на `bidirectional_merge`, `bm_u64_len32` |
 
 ## Фаза 2
 
