@@ -32,16 +32,16 @@ def _source_info(line, lo=1, hi=2):
 
 
 def _fn(callee=MIR.CALLEE, mutability='not', depth=1, subst_count=1,
-        late_bound=0):
+        late_bound=0, line=372):
     subst = {'kind': {'type': _raw_ptr(mutability, depth)}}
-    return {'constant': {'const': {
+    return {'constant': {'span': _span(line, 9, 31), 'const': {'val': {
         'constValue': {'zeroSized': 'void'},
         'ty': {'kind': {'fnDef': {
             'id': {'name': callee},
             'substs': [subst for _ in range(subst_count)],
             'lateBoundGenericParamCount': late_bound,
         }}},
-    }}}
+    }}}}
 
 
 def _local(name, ty, line, lo=1, hi=2):
@@ -71,7 +71,7 @@ def _body(mode='normal'):
             _local(names[3], _raw_ptr(), line, 7, 8),
         ])
         call = {
-            'func': _fn(),
+            'func': _fn(line=line),
             'args': [_operand(name) for name in names[:3]],
             'destination': {'local': {'name': names[3]}, 'projection': [],
                             'localIsMutable': False, 'kind': {'other': 'void'}},
@@ -133,7 +133,7 @@ class W4MirCallTests(unittest.TestCase):
             'path': 'verified/lib.rs', 'line': 372, 'column_pos': 9})
         self.assertEqual(row['block_index'], 0)
         self.assertEqual(row['fn_def']['lateBoundGenericParamCount'], 0)
-        self.assertEqual(row['raw_callee']['constant']['const']['ty']['kind']
+        self.assertEqual(row['raw_callee']['constant']['const']['val']['ty']['kind']
                          ['fnDef']['lateBoundGenericParamCount'], 0)
         self.assertFalse(report['proof_claim'])
         self.assertFalse(report['accepted'])
@@ -153,6 +153,46 @@ class W4MirCallTests(unittest.TestCase):
         report = _analyze(normal=normal)
         self.assertFalse(report['complete'])
         self.assertIn('count', report['errors'][0])
+
+    def test_mirconst_val_union_is_required_and_count_diagnostics_are_per_mode(self):
+        # The pinned schema stores ConstOperand.const as MirConst.val, whose
+        # group contains constValue and ty. The old direct const.ty shape is
+        # not accepted as equivalent evidence.
+        normal_shape = _fn()['constant']['const']['val']
+        wrong_direct_ty = {'ty': {'kind': {'fnDef':
+                            normal_shape['ty']['kind']['fnDef']}},
+                           'const': {'unit': 'void'}}
+        wrong_unevaluated = {'def': MIR.CALLEE, 'args': [],
+                             'ty': normal_shape['ty']}
+        replacements = [
+            (lambda fn: (fn['constant']['const'].clear(),
+                         fn['constant']['const'].__setitem__('ty', wrong_direct_ty)), 8),
+            (lambda fn: (fn['constant']['const'].clear(),
+                         fn['constant']['const'].__setitem__('unevaluated', wrong_unevaluated)), 9),
+            (lambda fn: fn['constant']['const']['val'].__setitem__(
+                'constValue', {'other': 'void'}), 8),
+        ]
+        for replacement, expected_raw_count in replacements:
+            normal = _body('normal')
+            fn = normal['basicBlocks'][0]['terminator']['kind']['call']['func']
+            replacement(fn)
+            report = _analyze(normal=normal)
+            self.assertFalse(report['complete'], report)
+            self.assertEqual(report['typed_call_linkage'], 'UNKNOWN')
+            self.assertEqual(report['counts']['normal'], {
+                'raw_target_count': expected_raw_count,
+                'structural_selector_call_count': 7})
+
+        normal = _body('normal')
+        normal['basicBlocks'].pop()
+        readonly = _body('readonly')
+        readonly['basicBlocks'].pop(0)
+        report = _analyze(normal=normal, readonly=readonly)
+        self.assertFalse(report['complete'])
+        self.assertEqual(report['counts'], {
+            'normal': {'raw_target_count': 7, 'structural_selector_call_count': 7},
+            'readonly': {'raw_target_count': 7, 'structural_selector_call_count': 7},
+        })
 
     def test_const_pointer_mutability_depth_and_generic_arity_are_closed(self):
         mutations = [

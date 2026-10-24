@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "7e73c141a09e22aab3f08d6f2f1734ec0efe8a2e2527d8f9f1f695fe51c28765",
+  "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 8,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "00967c434151bef7b1c2724de4a46f7008a91a29a57e95758c5d2562942a0c01",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/native/first-barrier-stage.json",
+  "file_sha256": "6d0f8e40cdd89634587f57119980645f7ea19bf03f6c2387feafbac612abebb9",
+  "index_sha256": "90fa7c60f204465afd8ed25e177a828e4d5e1b43fb59ead0de67586bdeab1873",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "6d0f8e40cdd89634587f57119980645f7ea19bf03f6c2387feafbac612abebb9",
+    "file_id": "00967c434151bef7b1c2724de4a46f7008a91a29a57e95758c5d2562942a0c01",
+    "pointer": ""
+  },
+  "request_id": "d284a0dcb8d26715cfc66b8a3352f1fbf62e8e42a5f1987b1b7da21e0dbe9ffc",
+  "results": [
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/argv"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/exit",
+      "value": 2
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/fixture_after"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/fixture_before"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/fixture_integrity",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stderr",
+      "value": "first-barrier-stderr.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/stdout",
+      "value": "w4-first-barrier.log"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/timeout_seconds",
+      "value": 609
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "select-r24-w4-typed-val-repair-v1",
+  "status": "FIX_IMPLEMENTED_UNBUILT",
+  "defect": "FnDef const type is nested in the MirConst.val union arm; old extractor assumed direct const.ty. Schema and bounded first normal/readonly call parents confirm it.",
+  "invariant": "Exact schema-specific Val/zeroSized/FnDef; eight target mentions and structural calls, all types/args/spans/pair checks remain. No linkage/proof/credit.",
+  "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s26-normal-callee-parent.json",
+      "sha256": "a43f1a7bb994c7a6d0e1ed7d59145deefd91e3fcaa045b23ac0ccd75c2fbb660"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s26-readonly-callee-parent.json",
+      "sha256": "9f08f601a4b9ca5e755a4f63d21bf6217a7528d714dafae75073296d809bdfdc"
+    }
+  ],
+  "tests": "13 focused synthetic tests pass; reject direct ty/unevaluated/wrong ConstValue arms; per-mode raw vs structural count errors retained.",
+  "proof_credit": 0
+}

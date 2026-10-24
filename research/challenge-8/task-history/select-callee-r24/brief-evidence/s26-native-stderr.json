@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "7e73c141a09e22aab3f08d6f2f1734ec0efe8a2e2527d8f9f1f695fe51c28765",
+  "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 3,
+    "line_separator": "LF",
+    "source_lines": 13,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "c3d908d8b4021f3edf4b4528a4a91698c463ef5adebe125811da821a2f167408",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/native/first-barrier-stderr.log",
+  "file_sha256": "f3c2698afb2eb3af001dd986509f397b0f5cb79dfe7c176b7aeaabab2c1859b0",
+  "index_sha256": "90fa7c60f204465afd8ed25e177a828e4d5e1b43fb59ead0de67586bdeab1873",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 3,
+    "expected_sha256": "f3c2698afb2eb3af001dd986509f397b0f5cb79dfe7c176b7aeaabab2c1859b0",
+    "file_id": "c3d908d8b4021f3edf4b4528a4a91698c463ef5adebe125811da821a2f167408",
+    "start": 1
+  },
+  "request_id": "9b2ecb9967d0b0a485cd032fabe4e5968f62325205fe21f3260d9bdcb1ad2907",
+  "requested_end": 3,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "Fatal error: exception Failure(\"SORT4-R24-W4-FINGERPRINT: diagnostic refusal: snapshot complete; no proof rule admitted\")"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "Raised at Stdlib.failwith in file \"stdlib.ml\", line 29, characters 17-33"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "Called from Vf_mir_translator.Make.translate_vf_mir.job in file \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 20187, characters 12-53"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

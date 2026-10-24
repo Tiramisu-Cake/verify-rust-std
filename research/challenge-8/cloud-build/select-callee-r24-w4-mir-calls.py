@@ -26,6 +26,15 @@ class MirParseError(ValueError):
     pass
 
 
+class MirCountMismatch(MirParseError):
+    def __init__(self, raw_count: int, structural_count: int):
+        self.raw_count = raw_count
+        self.structural_count = structural_count
+        super().__init__(
+            'selector target/call count mismatch: '
+            f'raw={raw_count}, structural={structural_count}, expected={EXPECTED_CALLS}')
+
+
 def _fail(message: str) -> None:
     raise MirParseError(message)
 
@@ -316,14 +325,29 @@ def _local_type(locals_by_name: dict[str, dict[str, Any]], name: str) -> Any:
     return locals_by_name[name]['ty']
 
 
-def _selector_call(fn: dict[str, Any]) -> bool:
-    # Only a structural FnDef name counts. Other raw mentions are not calls.
+def _selector_fn_def(func: Any) -> dict[str, Any] | None:
+    """Return the FnDef at the schema's Operand.Constant.MirConst.Val path."""
     try:
-        ty = _type_node(fn['constant']['const']['ty'])
+        constant_operand = _variant(func, 'constant')
+        if not isinstance(constant_operand, dict) or set(constant_operand) != {'span', 'const'}:
+            return None
+        mir_const = _variant(constant_operand['const'], 'val')
+        if not isinstance(mir_const, dict) or set(mir_const) != {'constValue', 'ty'}:
+            return None
+        if _variant(mir_const['constValue'], 'zeroSized') != 'void':
+            return None
+        ty = _type_node(mir_const['ty'])
         definition = ty['fnDef']
-        return _string_variant(definition['id'], 'name') == CALLEE
+        if _string_variant(definition['id'], 'name') != CALLEE:
+            return None
+        return definition
     except (KeyError, TypeError, MirParseError):
-        return False
+        return None
+
+
+def _selector_call(func: Any) -> bool:
+    # Only a structural FnDef name counts. Other raw mentions are not calls.
+    return _selector_fn_def(func) is not None
 
 
 def _call_candidates(body: dict[str, Any]) -> list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]]:
@@ -381,14 +405,16 @@ def _extract_one(text: str) -> dict[str, Any]:
     calls = _call_candidates(body)
     target_strings = _target_string_count(body)
     if target_strings != EXPECTED_CALLS or len(calls) != EXPECTED_CALLS:
-        _fail('selector target/call count is not exactly eight')
+        raise MirCountMismatch(target_strings, len(calls))
     rows = []
     for ordinal, (block, terminator, call) in enumerate(calls):
         ghost_generic_arg_list = call.get('ghostGenericArgList', {'nothing': 'void'})
         ghost_generic_args = _variant(ghost_generic_arg_list, 'nothing')
         if ghost_generic_args != 'void':
             _fail('selector call has nonempty/malformed ghost generic arguments')
-        fn = call['func']['constant']['const']['ty']['kind']['fnDef']
+        fn = _selector_fn_def(call['func'])
+        if fn is None:
+            _fail('selector callee is not a zero-sized FnDef constant')
         if set(fn) != {'id', 'substs', 'lateBoundGenericParamCount'}:
             _fail('selector FnDef shape differs')
         callee = _string_variant(fn['id'], 'name', CALLEE)
@@ -461,7 +487,8 @@ def _extract_one(text: str) -> dict[str, Any]:
             'target': call['target'],
             'unwind_action': unwind_action,
         })
-    return {'def_path': body['defPath'], 'calls': rows}
+    return {'def_path': body['defPath'], 'raw_target_count': target_strings,
+            'structural_selector_call_count': len(calls), 'calls': rows}
 
 
 def _typed_signature(row: dict[str, Any]) -> tuple[Any, ...]:
@@ -486,11 +513,30 @@ def analyze_pair(normal_text: str, readonly_text: str) -> dict[str, Any]:
         'source_site_mapping': 'UNKNOWN',
         'normal': None,
         'readonly': None,
+        'counts': {'normal': None, 'readonly': None},
         'errors': [],
     }
+    extracted: dict[str, dict[str, Any]] = {}
+    for mode, text in (('normal', normal_text), ('readonly', readonly_text)):
+        try:
+            extracted[mode] = _extract_one(text)
+            base['counts'][mode] = {
+                'raw_target_count': extracted[mode]['raw_target_count'],
+                'structural_selector_call_count':
+                    extracted[mode]['structural_selector_call_count'],
+            }
+        except (MirParseError, KeyError, TypeError, IndexError, RecursionError) as exc:
+            if isinstance(exc, MirCountMismatch):
+                base['counts'][mode] = {
+                    'raw_target_count': exc.raw_count,
+                    'structural_selector_call_count': exc.structural_count,
+                }
+            base['errors'].append(f'{mode}: {str(exc) or type(exc).__name__}')
+    if base['errors']:
+        return base
     try:
-        normal = _extract_one(normal_text)
-        readonly = _extract_one(readonly_text)
+        normal = extracted['normal']
+        readonly = extracted['readonly']
         if normal['def_path'] != readonly['def_path']:
             _fail('normal/readonly function defPath differs')
         if [_typed_signature(row) for row in normal['calls']] != \

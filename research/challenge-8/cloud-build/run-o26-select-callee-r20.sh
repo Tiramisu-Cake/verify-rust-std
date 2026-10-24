@@ -116,9 +116,9 @@ r24_w4_linkage_mode_file="$proof_root/research/challenge-8/task-history/select-c
 r24_w4_linkage_helper="$cloud_dir/select-callee-r24-w4-linkage-diagnostic.py"
 if [[ -e "$r24_w4_linkage_mode_file" ]]; then
   (( r24_w4_capture_only == 1 )) || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == e7eed6467fceb7bfa39cec58f800960e7ea31a0729736497e6b0a9a338402aa4 ]] || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == 765b45acc4a3f4bdbe86ad7ff1c8f648797f02ab72519ba8df926fae09fc4772 ]] || exit 2
-  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == 6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == c4ef47f1c62f8777452c99a5c09317698e27413538f86d3ef003f8fc5dc494eb ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == d10258f170072392a65773f609bfe8b7de6ca7625eaa5e176e710483cb7f80b0 ]] || exit 2
+  [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == 024004290c45a4fa53e20db0f6f1e0eb7227c7eb0a433dce77b1e81407172928 ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json" | cut -d' ' -f1)" == f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0 ]] || exit 2
   r24_w4_linkage_diagnostic=1
 fi
@@ -141,6 +141,9 @@ mkdir "$ev/cases"
 current_stage=provider
 audit_result() {
   if (( ${r24_w4_linkage_diagnostic:-0} == 1 )); then
+    local linkage_audit_exit=0
+    local linkage_audit_report="$ev/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC-AUDIT.json"
+    local linkage_audit_mirror="$evidence_root/proof-audit.json"
     python3 "$r24_w4_linkage_helper" audit \
       --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
       --tool-home "${source_home:-/workspace/missing-native-tool}" \
@@ -148,8 +151,22 @@ audit_result() {
       --schema "${schema:-/workspace/missing-schema}" --compiler-sysroot "${compiler_sysroot:-/workspace/missing-sysroot}" \
       --deadline-epoch "$deadline" --candidate "$current_sha" \
       --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_linkage_mode_file" \
-      --output "$evidence_root/proof-audit.json" --runner-exit "$1" --failed-stage "$2"
-    return $?
+      --output "$linkage_audit_report" --runner-exit "$1" --failed-stage "$2" || linkage_audit_exit=$?
+    if [[ ! -f "$linkage_audit_report" || -L "$linkage_audit_report" || \
+          -e "$linkage_audit_mirror" || -L "$linkage_audit_mirror" ]]; then
+      (( linkage_audit_exit != 0 )) && return "$linkage_audit_exit"
+      return 1
+    fi
+    if ! python3 -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); assert type(d) is dict and d.get("schema") == "select-r24-w4-linkage-diagnostic-v1-audit" and type(d.get("evidence_complete")) is bool and type(d.get("runner_exit")) is int and d.get("runner_exit") == int(sys.argv[2]) and d.get("failed_stage") == sys.argv[3] and d.get("accepted") is False and d.get("publication_allowed") is False and type(d.get("proof_credit")) is int and d.get("proof_credit") == 0' \
+        "$linkage_audit_report" "$1" "$2"; then
+      (( linkage_audit_exit != 0 )) && return "$linkage_audit_exit"
+      return 1
+    fi
+    if ! cp -- "$linkage_audit_report" "$linkage_audit_mirror"; then
+      (( linkage_audit_exit != 0 )) && return "$linkage_audit_exit"
+      return 1
+    fi
+    return "$linkage_audit_exit"
   fi
   if (( ${r24_w4_capture_only:-0} == 1 )); then
     python3 "$r24_w4_helper" audit \

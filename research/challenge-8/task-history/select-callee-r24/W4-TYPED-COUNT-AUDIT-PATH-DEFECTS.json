@@ -1,0 +1,19 @@
+{
+  "schema": "select-r24-w4-typed-count-and-audit-path-defects-v1",
+  "status": "DEFECTS_RECORDED_BEFORE_FIX",
+  "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+  "candidate": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+  "typed_observation": "Root errors selector target/call count is not exactly eight; typed report normal/readonly null. Native snapshots independently complete.",
+  "typed_hypothesis": "Selector constant operand may wrap MirConst.val, unlike synthetic direct const.ty shape; inspect pinned schema and bounded actual first call parents before changing. Preserve exact eight target/call and all type/operand/pair checks.",
+  "audit_static_defect": "Production shell passes output evidence_root/proof-audit.json while wrapper permits output only under ev=allprooflogs. Guard rejects before writing audit. Keep output containment gate; pass internal AUDIT_REL, then copy audit to root with original helper exit preserved.",
+  "invariants": [
+    "No count/type/ownership/checker/source/proof weakening.",
+    "Native overlay5170 and fresh completed snapshots unaffected; new parser derives structural observations only.",
+    "Audit inside selected evidence subtree, safe explicit root mirror only; preserve original runner/helper errors/exits and partial reports."
+  ],
+  "controls": [
+    "Actual schema-shaped selector fixture and malformed/extra count/variant/type controls; useful raw-vs-structural count diagnostics.",
+    "Production extracted Bash audit args must use internal path; synthetic helper failure still mirrors audit to root and returns exact original failure code."
+  ],
+  "proof_credit": 0
+}

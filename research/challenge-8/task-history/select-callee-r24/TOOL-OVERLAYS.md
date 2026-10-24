@@ -142,3 +142,13 @@ The closed R24 W4 fingerprint mode requires the exact source and single
 refuses before proof admission. No callback gate or proof rule changes.
 Frozen capture and published P2 remain on the qualified row34 tool.
 See [W4-NATIVE-FINGERPRINT-MANIFEST.json](W4-NATIVE-FINGERPRINT-MANIFEST.json).
+
+### Row35 native input observation (not proof qualification)
+
+Build `ddfcd255-0f99-4876-8465-e6ee9af8dced` reports the refusal-only native
+probe complete, console SHA `33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0`,
+unit Marshal SHA `b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83`
+and body SHA `067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e`.
+Overall diagnostic remains incomplete due typed-call extraction and audit
+output integration. These are source-reported input identities, with zero
+proof credit; published P2 remains on row34. See W4-NATIVE-FINGERPRINT-PINS.json.

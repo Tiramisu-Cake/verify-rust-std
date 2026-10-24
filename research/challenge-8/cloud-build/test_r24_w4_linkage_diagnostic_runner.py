@@ -10,6 +10,7 @@ import hashlib
 import contextlib
 import importlib.util
 import io
+import json
 import os
 from pathlib import Path
 import shutil
@@ -215,21 +216,31 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         missing_capture = self.run_gate(absent_capture_mode=True)
         self.assertEqual(missing_capture.returncode, 2)
 
-    def audit_harness(self, audit_exit=0, missing_tools=False):
+    def audit_harness(self, audit_exit=0, missing_tools=False, report_state='valid'):
         calls = self.root / 'audit-call.bin'
         marker = self.root / 'proof-audit.json'
+        ev = self.root / 'allprooflogs'
+        ev.mkdir(parents=True, exist_ok=True)
         tool_setup = ('' if missing_tools else
                       'source_home=/synthetic/tool-home\nw4_native_home=/synthetic/native-tool-home\nschema=/synthetic/schema\n'
                       'compiler_sysroot=/synthetic/sysroot\n')
         script = ('set -u\n'
-                  f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev=/synthetic/evidence\n'
+                  f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev={self.root / "allprooflogs"}\n'
                   f'evidence_root={self.root}\n'
                   + tool_setup +
                   'deadline=9999999999\ncurrent_sha=0123456789abcdef0123456789abcdef01234567\n'
                   'r24_w4_linkage_diagnostic=1\nr24_w4_capture_only=1\n'
                   f'r24_w4_helper={self.capture_helper}\nr24_w4_mode_file={self.capture_mode}\n'
                   f'r24_w4_linkage_helper={self.helper}\nr24_w4_linkage_mode_file={self.link_mode}\n'
-                  f'python3() {{ printf "%s\\0" "$@" > {calls}; touch {marker}; return {audit_exit}; }}\n'
+                  f'python3() {{ if [[ "$1" == -c ]]; then command python3 "$@"; return $?; fi; '
+                  f'printf "%s\\0" "$@" > {calls}; local out= runner= stage=; '
+                  'while (($#)); do case "$1" in --output) out="$2"; shift 2;; '
+                  '--runner-exit) runner="$2"; shift 2;; --failed-stage) stage="$2"; shift 2;; *) shift;; esac; done; '
+                  + ('if [[ "' + report_state + '" == missing ]]; then return ' + str(audit_exit) + '; fi; '
+                     'mkdir -p "$(dirname "$out")"; '
+                     'if [[ "' + report_state + '" == unsafe ]]; then ln -s /dev/null "$out"; '
+                     'else printf \'{"schema":"select-r24-w4-linkage-diagnostic-v1-audit","evidence_complete":false,"runner_exit":%s,"failed_stage":"%s","accepted":false,"publication_allowed":false,"proof_credit":0}\\n\' "$runner" "$stage" > "$out"; fi; '
+                     'return ' + str(audit_exit) + '; }\n')
                   + audit_function() + '\n'
                   'audit_result 9 setup-failure\n')
         return subprocess.run(['bash', '-c', script], env=self.env(), capture_output=True, text=True), calls
@@ -251,6 +262,9 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(values[b'--mode-file'], str(self.link_mode).encode())
         self.assertEqual(values[b'--runner-exit'], b'9')
         self.assertEqual(values[b'--failed-stage'], b'setup-failure')
+        self.assertEqual(values[b'--output'],
+                         str(self.root / 'allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC-AUDIT.json').encode())
+        self.assertEqual(json.loads((self.root / 'proof-audit.json').read_text())['runner_exit'], 9)
         parsed_audit = DIAGNOSTIC.parser().parse_args([arg.decode() for arg in args[1:]])
         self.assertEqual(parsed_audit.command, 'audit')
         self.assertEqual(parsed_audit.deadline_epoch, 9999999999)
@@ -259,6 +273,8 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(args.count(str(self.capture_helper).encode()), 0)
         self.assertNotIn(b'select-callee-r24-mut-classified-proof.py', b'\0'.join(args))
         self.assertNotIn(b'select-callee-r24-p2-entailment.py', b'\0'.join(args))
+        self.temp.cleanup()
+        self.setUp()
         result, calls = self.audit_harness(missing_tools=True)
         self.assertEqual(result.returncode, 0)
         args = calls.read_bytes().split(b'\0')[:-1]
@@ -267,6 +283,27 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         self.assertEqual(values[b'--native-tool-home'], b'/workspace/missing-w4-fingerprint-tool')
         self.assertEqual(values[b'--schema'], b'/workspace/missing-schema')
         self.assertEqual(values[b'--compiler-sysroot'], b'/workspace/missing-sysroot')
+
+    def test_audit_mirrors_partial_helper_report_and_preserves_helper_exit(self):
+        result, calls = self.audit_harness(audit_exit=4)
+        self.assertEqual(result.returncode, 4)
+        args = calls.read_bytes().split(b'\0')[:-1]
+        values = {args[i]: args[i + 1] for i in range(len(args) - 1) if args[i].startswith(b'--')}
+        report = Path(values[b'--output'].decode())
+        mirror = self.root / 'proof-audit.json'
+        self.assertTrue(report.is_file())
+        self.assertTrue(mirror.is_file())
+        self.assertEqual(report.read_bytes(), mirror.read_bytes())
+        self.assertEqual(json.loads(mirror.read_text())['failed_stage'], 'setup-failure')
+
+    def test_missing_or_unsafe_helper_audit_report_refuses_mirror(self):
+        for state in ('missing', 'unsafe'):
+            with self.subTest(state=state):
+                self.temp.cleanup()
+                self.setUp()
+                result, _calls = self.audit_harness(audit_exit=4, report_state=state)
+                self.assertEqual(result.returncode, 4)
+                self.assertFalse((self.root / 'proof-audit.json').exists())
 
     def test_run_cli_still_requires_deadline_and_unknown_arguments_remain_rejected(self):
         run_args = ['run', '--repo', '/synthetic/proof', '--cloud-dir', '/synthetic/cloud',
@@ -293,7 +330,7 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
         script = ('set -euo pipefail\n'
                   f'r24_w4_linkage_helper={self.helper}\nr24_w4_mode_file={self.capture_mode}\n'
                   f'r24_w4_linkage_mode_file={self.link_mode}\n'
-                  f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev=/synthetic/evidence\n'
+                  f'proof_root={self.proof}\ncloud_dir={self.cloud}\nev={self.root / "allprooflogs"}\n'
                   f'evidence_root={self.root}\n'
                   f'work_root={self.root / "work"}\nsource_home={self.root / "source-tool"}\n'
                   'schema=/synthetic/schema\n'
@@ -314,7 +351,13 @@ class W4LinkageShellBoundaryTests(unittest.TestCase):
                   'printf "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942  %s\\n" "$path"; '
                   'else printf "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007  %s\\n" "$path"; fi; '
                   'else command sha256sum "$@"; fi; }\n'
-                  f'python3() {{ printf "%s\\0" "$@" > {python_calls}; touch {marker}; return {audit_exit}; }}\n'
+                  f'python3() {{ if [[ "$1" == -c ]]; then command python3 "$@"; return $?; fi; '
+                  f'printf "%s\\0" "$@" > {python_calls}; local out= runner= failed=; '
+                  'while (($#)); do case "$1" in --output) out="$2"; shift 2;; '
+                  '--runner-exit) runner="$2"; shift 2;; --failed-stage) failed="$2"; shift 2;; *) shift;; esac; done; '
+                  'mkdir -p "$(dirname "$out")"; '
+                  'printf \'{"schema":"select-r24-w4-linkage-diagnostic-v1-audit","evidence_complete":false,"runner_exit":%s,"failed_stage":"%s","accepted":false,"publication_allowed":false,"proof_credit":0}\\n\' "$runner" "$failed" > "$out"; '
+                  f'return {audit_exit}; }}\n'
                   + audit_function() + '\n'
                   f"trap 'status=$?; if [[ ! -f {marker} ]]; then audit_result \"$status\" \"$current_stage\" || true; fi' EXIT\n"
                   + branch + '\nprintf "LINKAGE_FALLTHROUGH\\n"\n')

@@ -1,0 +1,61 @@
+{
+  "accepted": false,
+  "actual_body_proof_status": "UNKNOWN",
+  "archive_sha256": "7e73c141a09e22aab3f08d6f2f1734ec0efe8a2e2527d8f9f1f695fe51c28765",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+  "candidate": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+  "capture_pins": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json",
+    "sha256": "f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0"
+  },
+  "index_sha256": "90fa7c60f204465afd8ed25e177a828e4d5e1b43fb59ead0de67586bdeab1873",
+  "native_body": {
+    "bytes": 262129,
+    "file_id": "3c9315c62dc5241fd789aad3970dc4f9ee2733af3a41031a1b7e7dae780c22b1",
+    "path": "cases/r24-w4-linkage-diagnostic/native/fingerprints/w4-native-body-0.marshal",
+    "regular_nonempty": true,
+    "sha256": "067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "native_body_inventory": [
+    "sort4_stable"
+  ],
+  "native_tool_source_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942"
+  },
+  "native_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+  "native_unit": {
+    "bytes": 271019,
+    "file_id": "7f816fb43334b6423d928ba3f8c0f5780a6a76bf92e2fd5a1f835fcea896d245",
+    "path": "cases/r24-w4-linkage-diagnostic/native/fingerprints/w4-native-unit.marshal",
+    "regular_nonempty": true,
+    "sha256": "b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "native_verifier_binary": {
+    "bytes": 21551400,
+    "sha256": "33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0"
+  },
+  "observation_record": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-SOURCE-OBSERVATIONS.json",
+    "sha256": "cc9841b7bbcf9fa883d7895a03af30859e0832bf7a17bfa101a732a827e3e19a"
+  },
+  "original_source_sha256": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db",
+  "overall_diagnostic_complete": false,
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "physical_root_audit_complete": "UNKNOWN",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "role": "EXPERIMENTAL_NATIVE_INPUT_IDENTITIES_ONLY_NOT_PROOF_OR_CALL_LINKAGE",
+  "schema": "select-r24-w4-native-fingerprint-pins-v1",
+  "typed_call_inventory_complete": false,
+  "typed_call_linkage": "UNKNOWN",
+  "verified_source_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663"
+}

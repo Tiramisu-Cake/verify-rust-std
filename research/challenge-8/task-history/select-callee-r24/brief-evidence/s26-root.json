@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "7e73c141a09e22aab3f08d6f2f1734ec0efe8a2e2527d8f9f1f695fe51c28765",
+  "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 36,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC.json",
+  "file_sha256": "a0c5f175f01270e783fb5a0cd16197f14865ed83f53069395294f6fa6447ddfd",
+  "index_sha256": "90fa7c60f204465afd8ed25e177a828e4d5e1b43fb59ead0de67586bdeab1873",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "a0c5f175f01270e783fb5a0cd16197f14865ed83f53069395294f6fa6447ddfd",
+    "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+    "pointer": ""
+  },
+  "request_id": "f5391fd5e524e9e60768e98f81dd822094cf253acad3d62007b6f3f7d94c5cbe",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/actual_body_proof_status",
+      "value": "UNKNOWN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/analyzer_sha256",
+      "value": "6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/artifact_inventory"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/call_linkage",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/candidate",
+      "value": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/capture"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/capture_complete",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/capture_mode_sha256",
+      "value": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/capture_pins_sha256",
+      "value": "f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "INCOMPLETE_W4_LINKAGE_DIAGNOSTIC"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/complete",
+      "value": false
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/errors"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/failed_stage",
+      "value": "native-fingerprint-probe"
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/independent_proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/mode_sha256",
+      "value": "e7eed6467fceb7bfa39cec58f800960e7ea31a0729736497e6b0a9a338402aa4"
+    },
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/native"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/native_fingerprint_complete",
+      "value": true
+    },
+    {
+      "child_count": 3,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/native_fingerprint_environment"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/native_fingerprints"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
