@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e24c94192baa681ca45eb5755615813fc14f2af348ed87b18c172f683ac5bb0b"
+      "sha256": "495a983bdeaa9f5b1900e98ab6e68ebcd173940f720620b057d3405a6fc89f07"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
-        "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
-      }
-    ],
-    "summary": "Reviewed W4 typed/native fingerprint candidate unbuilt; checked linkage/C5 proof open. P2 PUBLISHED."
+    "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+    "evidence": [],
+    "summary": "W4 typed calls and native fingerprints pending; checked linkage/C5 proof remain open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e24c94192baa681ca45eb5755615813fc14f2af348ed87b18c172f683ac5bb0b"
+    "sha256": "495a983bdeaa9f5b1900e98ab6e68ebcd173940f720620b057d3405a6fc89f07"
   },
   "brief_observation_refs": [
     {
@@ -1158,8 +1154,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
-  "next_step": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
+  "next": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
+  "next_step": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1252,7 +1248,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "ddfcd255-0f99-4876-8465-e6ee9af8dced"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1272,9 +1270,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:14:09Z",
+  "updated_utc": "2026-10-24T00:14:55Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1535,12 +1533,30 @@
       "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "tests": "15 wrapper including unmocked real dependency validation +8 Bash pass; native overlay and parser unchanged.",
     "workers": {
       "diagnostic_wrapper": "r24_mut_proof_runner",
       "native_overlay": "r24_admission"
     }
+  },
+  "w4_native_pin_build": {
+    "accepted": false,
+    "accounted": false,
+    "actual_body_proof_status": "UNKNOWN",
+    "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+    "candidate": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+    "config_sha256": "01976f0d34f4141eff364070b22131a630b4c172a8864c70a9d1a16aa1973a3e",
+    "dispatch_token": "dispatch-7674ba23018a49cf9a7f6b7aa420327b",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_TYPED_CALLS_AND_NATIVE_FINGERPRINTS_ONLY",
+    "schema": "select-r24-w4-native-pin-submission-v1",
+    "source_payload_sha256": "d79c1604c70053dcf9b4634ba7124bce47280ff7b66fc087ddc34866998ceb8d",
+    "status": "QUEUED",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN"
   },
   "w4_native_pin_candidate": {
     "accepted": false,
@@ -1565,7 +1581,7 @@
       "sha256": "a641710e5c1388b892a5e260db467f78ae403ed3a1b26d41652c1c200f46f752"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "typed_call_linkage": "UNKNOWN"
   },
   "watcher_history": [
@@ -1623,6 +1639,14 @@
       "mode": "CONTINUE_EXISTING_WINDOW",
       "spec_path": "/tmp/select-r24-w4-native-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
+      "spec_path": "/tmp/select-r24-w4-native-pin-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
