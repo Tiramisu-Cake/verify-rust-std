@@ -246,9 +246,9 @@ impl<T> CopyOnDrop<T> {
     /// down-merge consumed `s[h - c..h]` and `s[len - d..]`; the output holds `u` elements at each end
     /// of `d0[..len]`. The remaining elements are `s[a..h - c]` and `s[h + b..len - d]`.
     ///
-    /// Phase 2 bisection of the goto-instrument out-of-memory (jobs 17, 19, 20): the invariant is
-    /// selected per element type by `K1BmInv` (specialization), so that one build checks a trivial,
-    /// a count-free and the full invariant on the same loop. Only the full one is a proof.
+    /// Formulation 2 (phase 2), NOT ATTACHED to the loop since b838761a: any loop contract on this
+    /// loop runs out of memory on the Kani pin (jobs 17-24, RESULT-merge.md D13). Kept for a later
+    /// attempt. `K1BmInv` selected the invariant per element type for the phase 2 bisection.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn k1_bm_inv<F: FnMut(&T, &T) -> bool>(
         src: *const T,
@@ -438,7 +438,7 @@ impl<T> CopyOnDrop<T> {
 
 /// Selects the loop invariant of `bidirectional_merge` per element type (see `k1_bm_inv`). Default:
 /// the full invariant. `u16`: a trivial invariant, `i16`: the invariant without the probe count;
-/// those two types occur only in the bisection harnesses `bm_bisect_*`, never in a proof or stub.
+/// those two types occurred only in the phase 2 bisection harnesses (removed), never in a proof or stub.
 pub(crate) trait K1BmInv: Sized {
     #[allow(clippy::too_many_arguments)]
     fn k1_bm_inv_sel<F: FnMut(&Self, &Self) -> bool>(
@@ -623,37 +623,6 @@ fn bm_u64_len12() {
 #[kani::unwind(34)]
 fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
-}
-
-// Bisection of the goto-instrument out-of-memory (diagnostic, not proofs): same loop, trivial and
-// count-free invariants (`K1BmInv`). Names sort before `bm_u64*`, so they run first.
-
-#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-#[kani::unwind(34)]
-fn bm_bisect_a_trivial_u16() {
-    bm_len::<u16, _, 32>(lt_u16);
-}
-
-/// Same trivial loop invariant, but in a plain proof: no function-contract CHECK wrapper around
-/// `bidirectional_merge`. Tells whether the goto-instrument out-of-memory of jobs 17-22 needs the
-/// combination of a function contract check and a loop contract. Failed checks are expected.
-#[kani::proof]
-#[kani::unwind(34)]
-fn bm_bisect_plain_trivial_u16() {
-    set_probe::<u16>();
-    let v: [u16; 32] = kani::any();
-    let mut dst = MaybeUninit::<[u16; 32]>::uninit();
-    let mut is_less = lt_u16;
-    // SAFETY: dst is a separate local of 32 elements (diagnostic; the sortedness requires is not
-    // established, so failures are expected).
-    unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut u16, &mut is_less) };
-    kani::cover(true, "bisect: call returned");
-}
-
-#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-#[kani::unwind(34)]
-fn bm_bisect_b_nocount_i16() {
-    bm_len::<i16, _, 32>(lt_i16);
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
