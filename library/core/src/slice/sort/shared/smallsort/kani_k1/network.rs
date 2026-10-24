@@ -246,6 +246,49 @@ check_network_no_merge!(network_upto17_u8, u8, lt_u8);
 check_network_no_merge!(network_upto17_i32, i32, lt_i32);
 check_network_no_merge!(network_upto17_u64, u64, lt_u64);
 
+/// `lo <= l <= hi` (a function, so that `lo = 0` raises no `unused_comparisons` lint).
+fn in_band(l: usize, lo: usize, hi: usize) -> bool {
+    lo <= l && l <= hi
+}
+
+/// Phase 2: lengths 0..=17 as three bands with one code path each (insertion from offset 1, sort9
+/// then insertion from 9, sort13 then insertion from 13). The networks go through their verified
+/// contracts; `insertion_sort_shift_left` and `insert_tail` are the real bodies.
+macro_rules! check_network_band {
+    ($name:ident, $t:ty, $cmp:ident, $lo:literal, $hi:literal, [$($c:literal),*]) => {
+        #[kani::proof]
+        #[kani::stub_verified(super::super::sort9_optimal)]
+        #[kani::stub_verified(super::super::sort13_optimal)]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; $hi] = kani::any();
+            let len: usize = kani::any_where(|&l| in_band(l, $lo, $hi));
+            $(kani::cover(len == $c, "boundary length reachable");)*
+            let pre = v;
+            let mut cmp = $cmp;
+            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
+            assert!(sorted_by(&v[..len], &mut cmp));
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
+            );
+            assert!(same_from(&v[..], &pre[..], len));
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
+check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
+check_network_band!(band0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
+check_network_band!(band9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
+check_network_band!(band9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
+check_network_band!(band9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
+check_network_band!(band13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
+check_network_band!(band13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
+check_network_band!(band13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
+
 // ---------------------------------------------------------------------------------------------
 // Cost isolation (job 10: every symbolic-length harness above timed out at 5 min for u8). Constant
 // lengths, real bodies, permutation by an arbitrary probe value: for every value `p`, the number of
