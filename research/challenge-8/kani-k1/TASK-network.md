@@ -1,6 +1,6 @@
 # Задание K1-network
 
-Runtime: Claude Code. Владелец задания: K1-network. Ветка `experiment/kani-k1-network-20261024`, worktree `/root/verify-rust-std-kani-k1-network`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: фаза 1, 120 + 20 минут от T0, не больше 6 dispatch (EXPERIMENT.md §9 «Фазы и окно»). Cloud-бюджет 0, lane — CircleCI по §5.
+Runtime: Claude Code. Владелец задания: K1-network. Ветка `experiment/kani-k1-network-20261024`, worktree `/root/verify-rust-std-kani-k1-network`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: фаза 2, 180 + 20 минут от T0, не больше 6 dispatch, сумма таймаутов не больше 180 минут (EXPERIMENT.md §9 «Фазы и окно»). check-tooling — против базы `aca80458d4f60e6bee1697913a916b37b2ced0cb`. Cloud-бюджет 0, lane — CircleCI по §5.
 
 ## Цель
 
@@ -16,3 +16,12 @@ Runtime: Claude Code. Владелец задания: K1-network. Ветка `e
 5. **Замер и вердикт.** Measurement-прогоны на `circleci-linux-large` по §5, не больше четырёх гармоник с таймаутом 10 минут в одном запросе. Review по R9. RESULT-network.md по §8. Push.
 
 Если K1-merge объявил STOP по `bidirectional_merge`, длины 18..=32 закрыть нельзя. Тогда довести длины 0..=17, записать FAIL с этой причиной и закрыть задание.
+
+## Фаза 2
+
+Вход: раздел «Передача» в RESULT-network.md. Счётчики STOP по контракту `sort9_optimal` на начало фазы: 2 формулировки из 3, 89 минут без продвижения или 0, если засчитать `direct_sort9_u8`. Решение записать в начале фазы.
+
+1. **Перепрогон `swap_if_less_*`** с `merge::lt_*` — дешёвый, можно в одном запросе с другими.
+2. **Цена контракта сети.** Выяснить, что дорого в `proof_for_contract(sort9_optimal)`. Затем формулировка 3: доказательство контракта сети на реальном теле без заглушки `swap_if_less`, сортированность по принципу 0–1 со строкой в «Редукциях», перестановка через пробу на полной ширине. Это третья и последняя формулировка до STOP по этому контракту.
+3. **Если сеть 9 проходит:** `sort13_optimal`, insertion на регионах network, верх 0..=17 полосами фиксированных длин.
+4. **Длины 18..=32 не трогать,** пока K1-merge не опубликовал доказанный за 10 минут `bidirectional_merge` на длине 32. Если K1-merge объявил STOP, действовать по последнему абзацу раздела «Шаги».
