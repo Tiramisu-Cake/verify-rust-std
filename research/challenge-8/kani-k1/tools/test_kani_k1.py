@@ -190,6 +190,11 @@ class SummaryTests(unittest.TestCase):
     def test_counts_line_with_extra_suffix(self):
         log = OK_BLOCK.replace("(2 unreachable)", "(2 unreachable, 1 undetermined)") + FAIL_BLOCK + tail(1, 1)
         self.assertEqual(summ(log)["harnesses"][0]["unreachable"], 2)
+        log = OK_BLOCK.replace("(2 unreachable)", "(2 undetermined, 1 unreachable)") + FAIL_BLOCK + tail(1, 1)
+        self.assertEqual(summ(log)["harnesses"][0]["unreachable"], 1)
+        log = OK_BLOCK.replace("(2 unreachable)", "(2 undetermined)") + FAIL_BLOCK + tail(1, 1)
+        self.assertIsNone(summ(log)["harnesses"][0]["unreachable"])
+        self.assertEqual(summ(GOOD_LOG)["harnesses"][1]["unreachable"], 0)
 
     def test_should_panic_success(self):
         req = req_with(harnesses=ONLY_OK)

@@ -65,11 +65,15 @@ case "$cmd" in
     dir=$(fetch "$run" kani-k1-summary)
     paths=(.github/workflows/smallsort-kani-k1.yml research/challenge-8/kani-k1/tools/kani_k1.py
            scripts/run-kani.sh tool_config/kani-version.toml)
+    # Whole workflow and tools directories: a second workflow could otherwise upload a forged summary.
+    lane=(.github/workflows research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
     rc=0
-    if git diff --quiet "$base" "$head" -- "${paths[@]}"; then
-      echo "ok   lane files at run commit $head equal BASE $base"
+    event=$(run_field "$run" event)
+    if [ "$event" != "push" ]; then echo "DIFF run event is '$event', expected push"; rc=1; fi
+    if git diff --quiet "$base" "$head" -- "${lane[@]}"; then
+      echo "ok   workflows, lane tools, run-kani.sh and kani-version.toml at run commit $head equal BASE $base"
     else
-      echo "DIFF lane files changed between BASE and run commit:"; git diff --stat "$base" "$head" -- "${paths[@]}"; rc=1
+      echo "DIFF lane files changed between BASE and run commit:"; git diff --stat "$base" "$head" -- "${lane[@]}"; rc=1
     fi
     python3 -B - "$dir/summary.json" "$head" "$base" "${paths[@]}" <<'PY' || rc=1
 import hashlib, json, subprocess, sys

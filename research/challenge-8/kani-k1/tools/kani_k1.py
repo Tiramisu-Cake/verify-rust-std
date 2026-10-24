@@ -47,7 +47,8 @@ MAX_MD_BYTES = 12000
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
 STATUS_RE = re.compile(r"^VERIFICATION:-\s*(SUCCESSFUL|FAILED|TIMEOUT)\b(.*)$")
 TIME_RE = re.compile(r"^Verification Time:\s*([0-9]+(?:\.[0-9]+)?)s\s*$")
-CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(?:\s*\((\d+) unreachable[^)]*\))?")
+CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(.*)$")
+UNREACHABLE_RE = re.compile(r"(\d+) unreachable")
 COVER_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) cover properties satisfied")
 FAILED_CHECK_RE = re.compile(r"^Failed Checks:\s*(.*)$")
 FILE_RE = re.compile(r'^\s*File: "([^"]+)", line (\d+)')
@@ -189,7 +190,10 @@ def parse_log(text: str) -> dict[str, Any]:
         m = CHECKS_RE.match(line)
         if m:
             current["checks_failed"], current["checks_total"] = int(m.group(1)), int(m.group(2))
-            current["unreachable"] = int(m.group(3)) if m.group(3) is not None else 0
+            rest = m.group(3).strip()
+            found = UNREACHABLE_RE.search(rest)
+            # No suffix: no unreachable checks. A suffix without a readable count stays unknown (None).
+            current["unreachable"] = int(found.group(1)) if found else (0 if not rest else None)
             continue
         m = COVER_RE.match(line)
         if m:
