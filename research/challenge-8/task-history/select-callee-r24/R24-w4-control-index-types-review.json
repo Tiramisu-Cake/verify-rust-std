@@ -1,0 +1,43 @@
+{
+  "schema": "select-r24-w4-control-index-types-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_SOURCE_ONLY_PILOT_ONLY",
+  "baseline_commit": "7002e395d3cde8fdc6f566f03c9c14cd1296bdd5",
+  "candidate_commit": "08aa3caf8832acb4adebb4ec2e391985fd52b5c3",
+  "candidate_tree": "ad583d4561227c488db3676c67dd3241b030ffa6",
+  "spec_sha256": "18221fecb150795482a6e8d223cc2ffba51c8910a915c03677a2d2293bd0c5dc",
+  "packet_sha256": "1d2862ba0d0f28d219107469d31e27309c2603504d67241284708d428a718683",
+  "diff_sha256": "40f2c19001999912cad5312d6dd2f5b892ba3e71cef2480dbf7af1826b672c72",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-capture-review.json",
+      "sha256": "9101c459c70af6ec5df21dac8e3aa08a99afb6a96d428b4034e3d608e042c0a0",
+      "decision": "NO_GO_SUPERSEDED_BY_AUDIT_BINDING_DELTA"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-audit-binding-review.json",
+      "sha256": "58e1313d91c4b52283f668f85e727fc11642f16003a99eaa3d463bb520c68232",
+      "decision": "NO_GO_SUPERSEDED_BY_INDEX_TYPES_DELTA"
+    }
+  ],
+  "findings": [],
+  "verified": [
+    "Reviewed exact candidate 08aa3caf8832acb4adebb4ec2e391985fd52b5c3 against baseline 7002e395d3cde8fdc6f566f03c9c14cd1296bdd5; candidate tree and packet/spec/diff identities match the handoff.",
+    "The prior index typing defect is fixed: row indexes require exact int type; the batch index field requires exact list type with exact-int elements; universe count and inner/outer runner exits are type-checked. The adjacent record comparisons use canonical type-sensitive JSON equality, including artifact inventories, fixture records, MIR facts, constructor metadata, stage records, native snapshots/facts, and source-after identity.",
+    "The read-only audit now checks exact source context, phase/owner/lane/profile/build/mode/route/provider values, exact capture stage inventory, and pinned constructor/source facts. It verifies four physical native build stage records against the exact expected argv, exits, fixture state, and copied-input identity; duplicate stage fields and fixed target are compared against those records and the physical native tool.",
+    "The compare-only MIR graph recheck remains read-only, requires exact output names and existing physical bytes, and compares recomputed MIR facts and metadata canonically. Native diagnostic probing remains data-only and unconditionally refuses before body translation/proof; no C5 rule, call summary, qualification, or proof admission is added. Boundary flags remain false/UNKNOWN/zero and the pilot remains explicitly 8 of 37."
+  ],
+  "tests": [
+    "The packet reports 97 targeted static/synthetic tests passing, including false/float/string/null index mutations, adjacent context/size/stage tampering, physical stage checks, and a read-only pinned graph-parser check. I did not rerun tests or the transport preflight.",
+    "Static review only. No source preparation, compiler/exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "GO applies only to one authorized full-1200-second source-only pilot of the fixed 8/37 input batch. It does not authorize any body-proof or C5 qualification claim, and does not establish actual checked-call consumption, control-target failures, or qualification of the newly built diagnostic binary."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

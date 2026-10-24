@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "06a2dbe0abcc7d1f636fc445152f6a623d0c87741b4a533a68d59af109a3f30a"
+      "sha256": "b4faf6b06e576b4a4a34a4e81bb55bc962474fa4cd1e56792b1ac21d09156b08"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -79,16 +79,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-READINESS.json",
-        "sha256": "1d71c4717ec20aa99c4947ab8b0a2834366aee5bae8fd71428111fbca0867d59"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-index-types-review.json",
+        "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3"
       }
     ],
-    "summary": "C6 inputdiagnostic complete as reported; checked8call consumption/C5 open."
+    "summary": "Reviewed source-only pilot8/37 ready; checked8call/C5 proof remains open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "06a2dbe0abcc7d1f636fc445152f6a623d0c87741b4a533a68d59af109a3f30a"
+    "sha256": "b4faf6b06e576b4a4a34a4e81bb55bc962474fa4cd1e56792b1ac21d09156b08"
   },
   "brief_observation_refs": [
     {
@@ -570,7 +570,7 @@
     }
   ],
   "next": "Implement source-only control fingerprints and closed C5 port; review/Cloud capture exact inputs before proof.",
-  "next_step": "Review exact index/record types; full1200 source-only pilot8/37, then checked8call/C5.",
+  "next_step": "Submit reviewed08aa full1200 pilot8/37; terminal accounting then Brief; checked8call/C5 open.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -685,7 +685,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T04:59:27Z",
+  "updated_utc": "2026-10-24T05:02:17Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -800,7 +800,7 @@
         "sha256": "9101c459c70af6ec5df21dac8e3aa08a99afb6a96d428b4034e3d608e042c0a0"
       },
       "scope": "Recompute exact normal/readonly MIR facts withpinnedhelper through compare-only outputs; canonicalmetadata frompinnedconstructors. Capture-only; alladmission/creditfalse.",
-      "state": "UNREVIEWED_FIX"
+      "state": "STATIC_REVIEWED_FIXED_UNBUILT"
     },
     "audit_index_types_fix": {
       "design": {
@@ -813,7 +813,7 @@
         "sha256": "58e1313d91c4b52283f668f85e727fc11642f16003a99eaa3d463bb520c68232"
       },
       "scope": "Exact index/list/int types; canonicalphysical/reconstructed record comparison; nativeunchanged, capture-only noadmission.",
-      "state": "UNREVIEWED_FIX"
+      "state": "STATIC_REVIEWED_FIXED_UNBUILT"
     },
     "base_source_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
     "c5_static_reference": {
@@ -867,7 +867,11 @@
       "universe": 37,
       "universe_complete": false
     },
-    "state": "INDEX_TYPE_REVIEW_FINDING_FIXED_UNREVIEWED_UNBUILT",
+    "source_only_review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-index-types-review.json",
+      "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3"
+    },
+    "state": "REVIEW_GO_SOURCE_ONLY_PILOT_UNBUILT",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1445,6 +1449,38 @@
     },
     "proof_credit": 0,
     "state": "COMPLETE_SOURCE_REPORTED"
+  },
+  "w4_control_capture_candidate": {
+    "accepted": false,
+    "batch_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "caller_body_proof_admission": false,
+    "candidate": "08aa3caf8832acb4adebb4ec2e391985fd52b5c3",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-INDEX-TYPES-TRANSPORT-PREFLIGHT.json",
+      "sha256": "befe755ca8da6693eca7f1888d96c24778bad34602afb226ab02d609c02c378c"
+    },
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-index-types-review.json",
+      "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3"
+    },
+    "source_payload_sha256": "74dc77152041a767df6b9c5bf85646acaea1399a7753077b63e955bdfffa8a0f",
+    "state": "REVIEWED_UNBUILT_SOURCE_ONLY_PILOT",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN",
+    "universe_complete": false,
+    "universe_count": 37
   },
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
