@@ -2,8 +2,8 @@
 //! `insertion_sort_shift_left` and `small_sort_network`.
 //! Written from the std source and the Kani documentation only (EXPERIMENT.md, rule R1).
 
-use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
-use super::merge::{lt_i32, lt_u8, lt_u64};
+use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
+use super::merge::{lt_i32, lt_u8, lt_u64, set_probe};
 use crate::kani;
 
 // Comparators: K1-merge's `lt_u8`/`lt_i32`/`lt_u64`, strict orders by the key `x >> 1`, so equal keys
@@ -58,33 +58,7 @@ fn r11_control_swap_if_less_requires() {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Harness-level checks: sortedness by `lt` and permutation by full-value equality.
-
-fn count<T: PartialEq>(s: &[T], x: &T) -> usize {
-    let mut n = 0;
-    let mut i = 0;
-    while i < s.len() {
-        if s[i] == *x {
-            n += 1;
-        }
-        i += 1;
-    }
-    n
-}
-
-fn sorted_permutation<T: PartialEq, F: FnMut(&T, &T) -> bool>(
-    pre: &[T],
-    cur: &[T],
-    cmp: &mut F,
-) -> bool {
-    let mut ok = pre.len() == cur.len();
-    let mut i = 0;
-    while ok && i < pre.len() {
-        ok = count(pre, &pre[i]) == count(cur, &pre[i]) && (i == 0 || !cmp(&cur[i], &cur[i - 1]));
-        i += 1;
-    }
-    ok
-}
+// Harness-level checks. Permutation is stated with K1-merge's probe (`set_probe`, `k1_count`).
 
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
 fn same_from<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
@@ -108,6 +82,7 @@ macro_rules! check_sort_n {
         #[kani::stub_verified(super::super::swap_if_less)]
         #[kani::unwind(18)]
         fn $name() {
+            set_probe::<$t>();
             let mut v: [$t; 17] = kani::any();
             let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
             kani::cover(len == $n, "exact length reachable");
@@ -115,8 +90,8 @@ macro_rules! check_sort_n {
             let pre = v;
             let mut cmp = $cmp;
             super::super::$f(&mut v[..len], &mut cmp);
-            assert!(sorted_permutation(&pre[..$n], &v[..$n], &mut cmp));
-            assert!(same_from(&v, &pre, $n));
+            // Sortedness and probe count of `v[..n]` are the contract's `ensures`; the rest is fixed.
+            assert!(same_from(&v[..], &pre[..], $n));
             kani::cover(true, "end reached");
         }
     };
@@ -139,6 +114,7 @@ macro_rules! check_insertion {
         #[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
         #[kani::unwind(18)]
         fn $name() {
+            set_probe::<$t>();
             let mut v: [$t; $hi] = kani::any();
             let len: usize = kani::any_where(|&l| $lo <= l && l <= $hi);
             kani::cover(len == $lo, "shortest region reachable");
@@ -171,6 +147,7 @@ macro_rules! check_network_no_merge {
         #[kani::stub_verified(super::super::insertion_sort_shift_left)]
         #[kani::unwind(18)]
         fn $name() {
+            set_probe::<$t>();
             let mut v: [$t; 17] = kani::any();
             let len: usize = kani::any_where(|&l| l <= 17);
             kani::cover(len == 0, "len 0 reachable");
@@ -182,8 +159,12 @@ macro_rules! check_network_no_merge {
             let pre = v;
             let mut cmp = $cmp;
             <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
-            assert!(sorted_permutation(&pre[..len], &v[..len], &mut cmp));
-            assert!(same_from(&v, &pre, len));
+            assert!(sorted_by(&v[..len], &mut cmp));
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
+            );
+            assert!(same_from(&v[..], &pre[..], len));
             kani::cover(true, "end reached");
         }
     };
@@ -237,6 +218,7 @@ fn direct_sort9_u8() {
 #[kani::proof_for_contract(super::super::sort9_optimal)]
 #[kani::stub_verified(super::super::swap_if_less)]
 fn contract_sort9_u8_len9() {
+    set_probe::<u8>();
     let mut v: [u8; 9] = kani::any();
     super::super::sort9_optimal(&mut v[..], &mut lt_u8);
     kani::cover(true, "end reached");
