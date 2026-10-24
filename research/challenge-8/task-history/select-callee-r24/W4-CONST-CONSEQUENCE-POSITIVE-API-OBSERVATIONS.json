@@ -1,0 +1,130 @@
+{
+  "accepted": false,
+  "archive_sha256": "9e33443d4b1a65ac56eee9416b96981f02dca7b4e7cf8b3acea8aa0c11edf3fc",
+  "assurance": "SOURCE_REPORTED_PLUS_STATIC_INSPECTION",
+  "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+  "build_seconds": 377,
+  "candidate": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
+  "consequence": {
+    "checked_function_header": "Verifying function 'select_w4_const_post_consequence'",
+    "component_failure": "AttributeError: module r24_w4_const_consequence_diag has no attribute _regular_under",
+    "component_physical_audit": "INCOMPLETE",
+    "intended_body_theorem": "SOURCE_REPORTED_CLEAN_POSITIVE_ONLY",
+    "omit_result_relation_control": "NOT_REACHED",
+    "status": "CLEAN_NATIVE_POSITIVE_BEFORE_COMPONENT_PHYSICAL_VALIDATION"
+  },
+  "const_matrix": {
+    "accepted": false,
+    "body_proof_run": true,
+    "capture_archive_records": 16,
+    "checked_pointer_outcomes_requested": true,
+    "classification": "R21_FRACTIONAL_CLASSIFIED_PROOF_COMPLETE",
+    "complete": true,
+    "current_build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+    "diagnostic_target_map_sha256": "2cc631d82852bcbe46370998475b4ea4a399d13695a7d0e4bf48054f6cf366b5",
+    "diagnostic_target_validation": 7,
+    "entry_dependencies": 16,
+    "pins": 6,
+    "proof_credit": false,
+    "r24_session_phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+    "rows": 8,
+    "schema": "r21-fractional-classified-proof-v1",
+    "target_map_unchanged": true,
+    "tool_home": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool",
+    "tool_spec_unchanged": true,
+    "variant_order": 8
+  },
+  "const_matrix_audit": {
+    "accepted": false,
+    "base_audit_schema": "r20-select-callee-audit-v1",
+    "baseline_proof": 3,
+    "baseline_proof_ran": true,
+    "capture_compare": 8,
+    "evidence_complete": true,
+    "failed_stage": "complete",
+    "fractional_proof": 19,
+    "fractional_proof_status": "object",
+    "proof_credit": false,
+    "repair_proof": null,
+    "repair_variants": null,
+    "repaired_fingerprint": null,
+    "runner_exit": 0,
+    "schema": "r21-fractional-proof-audit-v1",
+    "source_preflight": 5,
+    "stage_exits": 0,
+    "verification_accepted": false
+  },
+  "const_matrix_audit_complete_source_claim": true,
+  "const_matrix_complete_source_claim": true,
+  "index_sha256": "3bb71ecb0db23972867f30bb3c95a5231c725ba672e0218bdd1b9757b7d04bd3",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "positive_consequence_stage": {
+    "argv": 8,
+    "exit": 0,
+    "fixture_after": 2,
+    "fixture_before": 2,
+    "fixture_integrity": true,
+    "stderr": "consequence-proof-stderr.log",
+    "stdout": "consequence-proof.log",
+    "timeout_seconds": 600
+  },
+  "positive_source_footer": "0 errors found (51 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "qualification_complete_source_claim": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-consequence-20.json",
+      "sha256": "7ec5b4bed5f3a249a90cdb09c7e7b5bf264e47dc8cc7bc0edfc98d9d12d2c74a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-consequence-matrix.json",
+      "sha256": "8f2ba9c38d50f053cfe13d7e4cf84eb4865f30586f487eaae19e45620d0c709c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-consequence.json",
+      "sha256": "e6aa0d847299a7e22fa44741e3c7119b40744f1624fbfe739ae3647828426fdb"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-errors.json",
+      "sha256": "d3b18dbfb76e297d6d800df5d1b4d07985704f6e29f37115fd4c5ca98f2e74a5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-matrix-audit.json",
+      "sha256": "befd68a5cd5630c28d511305d1ead21cf75f5be90a9842cbf949b204f7c83ea9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-matrix.json",
+      "sha256": "befb4d7ba88b1edb5fa3b10ed44dde1d008950d8a7a25b3f1f6187a284cdea58"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-positive-header-locate.json",
+      "sha256": "9765bd41177594bb489289e09286123d7e48199d442c08015eeca04a1fa268a2"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-positive-proof-footer.json",
+      "sha256": "6f1d92cdf1195df93b927480f5c5d0ab2fa2db160d580d42acff74dce723343a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-positive-stage.json",
+      "sha256": "43c86db3ac29fb66688d0b05e4f4be71bea72598d03af0cdd059a93cabdd9fcd"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-positive-summary-locate.json",
+      "sha256": "4926362b89112160b400b7f74d8ad94893c70699e1948b054fa798822e236dd6"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-root-20.json",
+      "sha256": "549e0db9d3ece5d54d9bde5df8af98c342b9abc9fb3fa26b6563d334111179e0"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s31-root.json",
+      "sha256": "e3c90275ca119fc49952d91aad0652067d09116063b4fd3b51adf09e074bb225"
+    }
+  ],
+  "schema": "select-r24-w4-consequence-positive-file-api-observations-v1",
+  "source_runner_exit": 1,
+  "typed_call_linkage": "UNKNOWN",
+  "w4_caller_body_proof_status": "UNKNOWN"
+}

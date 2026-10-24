@@ -1,0 +1,64 @@
+{
+  "archive_sha256": "9e33443d4b1a65ac56eee9416b96981f02dca7b4e7cf8b3acea8aa0c11edf3fc",
+  "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 25,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "9a5e347a0e605f935af131b1f4ab3c6f2156725168cc3f2ce9a8254c449110b0",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE.json",
+  "file_sha256": "0a398bf7e1e489f728f9306e50d20f321c60f755f1bb1d2b0a599431f5ba674f",
+  "index_sha256": "3bb71ecb0db23972867f30bb3c95a5231c725ba672e0218bdd1b9757b7d04bd3",
+  "next_offset": null,
+  "offset": 20,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "0a398bf7e1e489f728f9306e50d20f321c60f755f1bb1d2b0a599431f5ba674f",
+    "file_id": "9a5e347a0e605f935af131b1f4ab3c6f2156725168cc3f2ce9a8254c449110b0",
+    "offset": 20,
+    "pointer": ""
+  },
+  "request_id": "ad75edb8d4250cad316449797dd75fa827914113a917354de2cc4bf0c8fd59b5",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/schema",
+      "value": "select-r24-w4-const-consequence-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/scope",
+      "value": "SOURCE_REPORTED_CHECKED_POST_CONSEQUENCE_ONLY"
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/source_stage_inventory"
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/sources"
+    },
+    {
+      "child_count": 6,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/tool_identity_after_each_stage"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "051b21c1eeb290925f9662c7cdd970d5e76b717167bfe81d8087b348360c8dd0"
+      "sha256": "3829774d04ba549121b1892017b8fc15e9287fc34d08de5783ee3f3f7f4173c8"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -33,13 +33,18 @@
   },
   "blocker": {
     "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
-    "evidence": [],
-    "summary": "Current-native unsafe consequence Build terminal FAILURE; source results pending Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
+        "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
+      }
+    ],
+    "summary": "Consequence positive clean; missing dependency file API prevents validation/omission control."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "051b21c1eeb290925f9662c7cdd970d5e76b717167bfe81d8087b348360c8dd0"
+    "sha256": "3829774d04ba549121b1892017b8fc15e9287fc34d08de5783ee3f3f7f4173c8"
   },
   "brief_observation_refs": [
     {
@@ -172,6 +177,18 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
+      "claim": "4acf66cd const8/audit complete and isolated unsafe consequence native0errors51statements. Component validator crashes missing privatefileAPI; omission control not reached, compositeacceptance/callerproof UNKNOWN, credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
+          "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
+        }
+      ]
+    }
+  ],
+  "confirmed_history": [
+    {
+      "assurance": "SOURCE_REPORTED",
       "claim": "671815b1 current-native5170/bin33b actual const8 matrix and frozen physical audit complete; positive0errors142statements plus7exactcontrols. Consequence fails safe prototype precondition beforebody; callerlinkage/body UNKNOWN, credit0.",
       "evidence": [
         {
@@ -181,7 +198,6 @@
       ]
     }
   ],
-  "confirmed_history": [],
   "confirmed_history_archive": {
     "path": "research/challenge-8/task-history/select-callee-r24/CHECKPOINT-CONFIRMED-HISTORY-THROUGH-S30.json",
     "sha256": "12f6196bfbbfe198610187d5f9d1f3e6cd15c27855f1818fd99c9d71de4ae1d9"
@@ -360,6 +376,22 @@
       ],
       "obligation": "Check rawpointer consequence under explicit unsafe helper contract",
       "reason": "Safe helper generated safety-template precondition cannot satisfy deliberate actualcallee relation/type_interp frame. Use standard unsafe explicit contract, same checkedbody; actual std unchanged. Native log formatter also differs from synthetic expectations.",
+      "state": "ACTIVE"
+    },
+    {
+      "acceptance": false,
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
+          "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-FILE-API-DESIGN.json",
+          "sha256": "cecc19228bcaf3f6670be2ea99c2ddfae445d92dc6e2545c1f6617f315936ffc"
+        }
+      ],
+      "obligation": "Close actual consequence component API and refusal control",
+      "reason": "Native positive succeeds but synthetic adapter invented diag._regular_under absent in pinnedmodule. Replace with local strictfilepredicate and real dependency composition; all proof/control gates remain.",
       "state": "ACTIVE"
     }
   ],
@@ -981,8 +1013,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Read Brief full const8/consequence/control/audits; resolve remaining defect, then checked W4 linkage/C5.",
-  "next_step": "Read Brief full const8/consequence/control/audits; resolve remaining defect, then checked W4 linkage/C5.",
+  "next": "Implement local contained-file check; real pinned dependency API tests, delta review, full1200.",
+  "next_step": "Implement local contained-file check; real pinned dependency API tests, delta review, full1200.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1097,7 +1129,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:10:31Z",
+  "updated_utc": "2026-10-24T02:14:14Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1433,17 +1465,21 @@
     "accounted": true,
     "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
     "build_seconds": 377,
-    "callee_matrix_status": "PENDING_BRIEF",
+    "callee_matrix_status": "SOURCE_REPORTED_FULL8_AND_PHYSICAL_AUDIT_COMPLETE",
     "caller_body_proof_admission": false,
     "candidate": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
     "config_sha256": "f1db38a8f788987ea222420f2a6590a3a5af444c09fd0b5ddf8a30e45cc9a9aa",
-    "consequence_status": "PENDING_BRIEF",
+    "consequence_status": "POSITIVE_VERIFIER_EXIT0_THEN_MISSING_FILE_API_ATTRIBUTE",
     "dispatch_token": "dispatch-1cf650074ce24f7ea015959c1e87c81d",
     "execution_seconds": 376,
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
+      "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
+    },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_PENDING_BRIEF",
+    "result": "SOURCE_REPORTED_CONST8_AND_CONSEQUENCE_POSITIVE_CLEAN_API_VALIDATION_FAILED",
     "schema": "select-r24-w4-const-unsafe-submission-v1",
     "source_payload_sha256": "e835b7120f724d97251fce8683a1e8dfe0ebbad5d736fa4a44112fa5d4a172e7",
     "status": "FAILURE",
@@ -1480,10 +1516,14 @@
       "sha256": "fd7a31c2ae28a30627f299b19b60a653fca4f0d1257e1b21c2b6ad5a94021220"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_UNSAFE_POINTER_POST_CONSEQUENCE_ONLY",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "BUILT_CLEAN_POSITIVE_COMPONENT_FILE_API_FAILED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
+  },
+  "w4_current_native_consequence_positive_observations": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
+    "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
   },
   "w4_current_native_const8_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",

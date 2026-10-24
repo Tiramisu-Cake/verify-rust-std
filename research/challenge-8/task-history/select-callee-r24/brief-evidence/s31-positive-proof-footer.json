@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "9e33443d4b1a65ac56eee9416b96981f02dca7b4e7cf8b3acea8aa0c11edf3fc",
+  "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 231,
+    "line_separator": "LF",
+    "source_lines": 231,
+    "start": 220,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e85a6571b9c2022387cb46996fbf6e68f6e79f50628eac56d4e91a6e5b36ecea",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof.log",
+  "file_sha256": "a8f49ab614f5a25c78ae180828ca722d55aac6874a0fe653af8533ef53e5a19a",
+  "index_sha256": "3bb71ecb0db23972867f30bb3c95a5231c725ba672e0218bdd1b9757b7d04bd3",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 231,
+    "expected_sha256": "a8f49ab614f5a25c78ae180828ca722d55aac6874a0fe653af8533ef53e5a19a",
+    "file_id": "e85a6571b9c2022387cb46996fbf6e68f6e79f50628eac56d4e91a6e5b36ecea",
+    "start": 220
+  },
+  "request_id": "54422961983f44b57dd45392edb14cbf623e6b30b03323a21cefd5ffff7f914e",
+  "requested_end": 231,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 220,
+      "text": "  0.128093s: verified/lib.rs(3,1-21,2): Verifying function 'select_w4_const_post_consequence'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 221,
+      "text": "  0.128358s: verified/lib.rs(3,1-21,2): Producing function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 222,
+      "text": "  0.129455s: verified/lib.rs(3,1-21,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 223,
+      "text": "  0.129503s: verified/lib.rs(3,1-21,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 224,
+      "text": "  0.129948s: verified/lib.rs(3,1-21,2): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 225,
+      "text": "  0.130364s: verified/lib.rs(20,5-21,1): Executing statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 226,
+      "text": "  0.130617s: verified/lib.rs(21,2): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 227,
+      "text": "  0.130998s: verified/lib.rs(21,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 228,
+      "text": "  0.131020s: verified/lib.rs(3,1-21,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 229,
+      "text": "  0.131443s: verified/lib.rs(21,1-2): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 230,
+      "text": "  0.131457s: verified/lib.rs(21,1-2): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 231,
+      "text": "0 errors found (51 statements verified) (target: x86_64-unknown-linux-gnu (LP64))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
