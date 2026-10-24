@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Agent helper for the Kani K-1 lane. Reads only GitHub run metadata and the run's artifacts.
+#   k1.sh dispatch BRANCH               start the lane on the pushed BRANCH, print the run id
 #   k1.sh find-run SHA                  wait up to 180 s for the run of commit SHA, print its id
 #   k1.sh wait RUN_ID                   block until the run is completed (background task), print conclusion
 #   k1.sh summary RUN_ID                download the kani-k1-summary artifact, print summary.md
@@ -34,6 +35,18 @@ fetch() {  # fetch RUN_ID ARTIFACT -> prints directory; cache is keyed by run id
 
 cmd=${1:-}; shift || true
 case "$cmd" in
+  dispatch)
+    branch=${1:-}; [[ "$branch" =~ ^experiment/kani-k1-[a-z]+-[0-9]{8}$ ]] || die "branch must be experiment/kani-k1-<name>-<date>"
+    git fetch -q origin "$branch" || die "branch $branch is not published"
+    sha=$(git rev-parse "origin/$branch")
+    [ "$(git rev-parse "$branch" 2>/dev/null)" = "$sha" ] || die "local $branch differs from origin; push it first"
+    git show "$sha:research/challenge-8/kani-k1/RUN-REQUEST.json" >/dev/null 2>&1 || die "no RUN-REQUEST.json at $sha"
+    if [ -n "$(gh run list -R "$REPO" --commit "$sha" --limit 20 --json workflowName \
+                 --jq "map(select(.workflowName == \"$WORKFLOW\")) | .[0] // empty")" ]; then
+      die "a run for $sha already exists; change and push RUN-REQUEST.json for a new run"
+    fi
+    gh workflow run "$WORKFLOW" -R "$REPO" --ref "$branch" >/dev/null
+    exec "$0" find-run "$sha" ;;
   find-run)
     sha=${1:-}; [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || die "full 40-hex commit SHA required"
     for _ in $(seq 1 12); do
@@ -44,7 +57,7 @@ case "$cmd" in
       if [ -n "$id" ]; then echo "$id"; exit 0; fi
       sleep 15
     done
-    die "no '$WORKFLOW' run for $sha after 180 s (was RUN-REQUEST.json changed and pushed?)" ;;
+    die "no '$WORKFLOW' run for $sha after 180 s (was it dispatched with k1.sh dispatch?)" ;;
   wait)
     run=${1:-}; is_id "$run"
     deadline=$(( $(date +%s) + 300 * 60 ))   # job timeout 240 min + plan job + queue margin
@@ -72,7 +85,7 @@ case "$cmd" in
     lane=(.github/workflows research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
     rc=0
     event=$(run_field "$run" event)
-    if [ "$event" != "push" ]; then echo "DIFF run event is '$event', expected push"; rc=1; fi
+    if [ "$event" != "workflow_dispatch" ]; then echo "DIFF run event is '$event', expected workflow_dispatch"; rc=1; fi
     if git diff --quiet "$base" "$head" -- "${lane[@]}"; then
       echo "ok   workflows, lane tools, run-kani.sh and kani-version.toml at run commit $head equal BASE $base"
     else

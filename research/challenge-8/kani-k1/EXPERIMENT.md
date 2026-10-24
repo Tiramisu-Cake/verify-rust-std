@@ -29,7 +29,7 @@
    - general: `i32` и `u64` через `StableSmallSortTypeImpl::small_sort`, `[u8; 16]` и `[u8; 85]` через `UnstableSmallSortFreezeTypeImpl::small_sort`. Так покрываются обе ветки presort, на 8 и на 4.
 4. Каждая гармоника пп. 1–2 даёт SUCCESS в run-запросе вида `measurement` на `ubuntu-latest`. Её время по строке Kani `Verification Time` не больше 600 с, у неё есть хотя бы один cover, и все её cover выполнены. Gate сводки равен true.
 5. Те же measurement повторены на `macos-latest`. Время записывается отдельной строкой вердикта: CI организаторов гоняет Kani и на macOS (требование H4).
-6. Каждый засчитанный run проходит check-tooling: весь каталог `.github/workflows`, каталог `research/challenge-8/kani-k1/tools`, `run-kani.sh` и `kani-version.toml` на коммите прогона совпадают с базовым коммитом эксперимента, а run запущен событием push. Commit прогона берётся у GitHub, сравнение делает локальный git. Скрипт запускается из копии на базовом коммите, а не со своей ветки: `bash <(git show <base SHA>:research/challenge-8/kani-k1/tools/k1.sh) check-tooling <run id> <base SHA>`.
+6. Каждый засчитанный run проходит check-tooling: весь каталог `.github/workflows`, каталог `research/challenge-8/kani-k1/tools`, `run-kani.sh` и `kani-version.toml` на коммите прогона совпадают с базовым коммитом эксперимента, а run запущен событием workflow_dispatch. Commit прогона берётся у GitHub, сравнение делает локальный git. Скрипт запускается из копии на базовом коммите, а не со своей ветки: `bash <(git show <base SHA>:research/challenge-8/kani-k1/tools/k1.sh) check-tooling <run id> <base SHA>`.
 7. Контроль предусловий R11 дал ожидаемый FAILED.
 8. Итоговый набор получил GO от независимого reviewer (§6, R9).
 
@@ -69,8 +69,8 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 
 Как отправить прогон:
 1. Записать `research/challenge-8/kani-k1/RUN-REQUEST.json` по схеме `kani-k1-run-request-v1`. Пример — `RUN-REQUEST.smoke.json`. Проверка схемы: `python3 -B research/challenge-8/kani-k1/tools/kani_k1.py validate research/challenge-8/kani-k1/RUN-REQUEST.json --args-out /tmp/k1-args`.
-2. Закоммитить и запушить свою ветку. Workflow `SmallSort Kani K1` срабатывает только при изменении этого файла на ветках `experiment/kani-k1-**`.
-3. Выполнить `tools/k1.sh find-run <полный SHA>`, затем `tools/k1.sh wait <run id>` фоновой Bash-задачей и закончить turn. Событие завершения разбудит сессию.
+2. Закоммитить и запушить свою ветку, затем выполнить `tools/k1.sh dispatch <своя ветка>`. Команда проверяет, что ветка опубликована и в ней есть запрос, запускает workflow `SmallSort Kani K1` на этой ветке и печатает run id. Один коммит — один run: для нового прогона запрос меняется и коммитится заново. Push сам прогон не запускает: в форке push-триггеры с веток, кроме ветки по умолчанию, не срабатывают.
+3. Выполнить `tools/k1.sh wait <run id>` фоновой Bash-задачей и закончить turn. Событие завершения разбудит сессию.
 4. Прочитать `tools/k1.sh summary <run id>`.
 
 Правила запросов:

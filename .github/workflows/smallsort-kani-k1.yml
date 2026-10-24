@@ -1,13 +1,13 @@
-# Kani K-1 experiment lane (Challenge 8 minimal plan). Runs only on experiment/kani-k1-* branches and
-# only when the committed run request changes. The request names exact harnesses under
-# slice::sort::shared::smallsort::kani_k1; nothing else in std is verified here.
+# Kani K-1 experiment lane (Challenge 8 minimal plan). Started by workflow_dispatch on an
+# experiment/kani-k1-* branch (tools/k1.sh dispatch); it verifies the RUN-REQUEST.json committed on
+# that branch. The request names exact harnesses under slice::sort::shared::smallsort::kani_k1;
+# nothing else in std is verified here. Push triggers from non-default branches do not fire in this
+# fork, so the same file is also on the fork's default branch, only to register the workflow name.
 # Kani, flags and runners are the organizers' CI ones: tool_config/kani-version.toml + scripts/run-kani.sh.
 name: SmallSort Kani K1
 
 on:
-  push:
-    branches: ['experiment/kani-k1-**']
-    paths: ['research/challenge-8/kani-k1/RUN-REQUEST.json']
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,6 +23,7 @@ env:
 jobs:
   plan:
     name: Validate run request
+    if: startsWith(github.ref, 'refs/heads/experiment/kani-k1-')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
