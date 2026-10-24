@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "e76648b9dcb68ab34ab7e7a28974bade32251928a45beae165ac0615b0f5f25a",
+  "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 35,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "ddfb2dfc162d6004515b71e167e0221fe1027d995945328f9819476b32f0a891",
+  "file_path": "allprooflogs/cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE.json",
+  "file_sha256": "b28145fee03440b84aec5ca1afdccefbe2aceb6cec63cbc74b0ed37c915585f7",
+  "index_sha256": "e79a99f1f7a947aeacd5ccd6930ead613865347a08c6243d9f60be395ae48747",
+  "next_offset": 20,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "b28145fee03440b84aec5ca1afdccefbe2aceb6cec63cbc74b0ed37c915585f7",
+    "file_id": "ddfb2dfc162d6004515b71e167e0221fe1027d995945328f9819476b32f0a891",
+    "pointer": ""
+  },
+  "request_id": "1ab97219286d875f1204c033ee12426d05235f10aab848330377872400666b8c",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/binary_sha256",
+      "value": null
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/body_proof_run",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/build_id",
+      "value": "7ef645ef-9d1a-42bb-af6a-023e214e9aca"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/callee_qualification",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/caller_body_proof_admission",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/candidate",
+      "value": "fddacfd54bf34b239a3113ed95cc6450708a12f9"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/classification",
+      "value": "INCOMPLETE_DORMANT_TOOL_COMPILE_IDENTITY"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/commands"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/complete",
+      "value": false
+    },
+    {
+      "child_count": 1,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/errors"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/evidence_root",
+      "value": "/workspace/evidence/allprooflogs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/input_identity_path",
+      "value": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-F83-TOOL-IDENTITY.json"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/lane",
+      "value": "o26-select-callee-r20"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/manifest_path",
+      "value": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/mode_path",
+      "value": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/mode_sha256",
+      "value": "a60c8afbdbf7cc5e443ea28e8758117eb7e4fcc40c9fae2ee1e3fc54445eb287"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_stage_path",
+      "value": "research/challenge-8/overnight-sort4/capture.py"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_stage_sha256",
+      "value": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060"
+    },
+    {
+      "exact": true,
+      "kind": "null",
+      "pointer": "/native_tool_hashes_after",
+      "value": null
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

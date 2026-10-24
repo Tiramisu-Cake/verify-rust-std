@@ -47,7 +47,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "9fd710410bad36e077176310d3306ef6230b369eae8a65f7dfc09fefc9043c20"
+      "sha256": "8979a7c55276109901df8b5a5d16cf55bf6b4172ccaa10bc6f98d53e44518e04"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "69022bf054bd6532a7c3a4d75ee10cbb44e16808f2f95561ab45b4005c5cee02"
+      "sha256": "2df5391e67073755fde807ca2fa39a90ff44d17905e23434b80989e2b37dcdee"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -78,13 +78,18 @@
   },
   "blocker": {
     "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
-    "evidence": [],
-    "summary": "S39 terminal FAILURE accounted; dormant compile result needs Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json",
+        "sha256": "ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a"
+      }
+    ],
+    "summary": "S39 stopped before compile: consequence schema field mismatch."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "69022bf054bd6532a7c3a4d75ee10cbb44e16808f2f95561ab45b4005c5cee02"
+    "sha256": "2df5391e67073755fde807ca2fa39a90ff44d17905e23434b80989e2b37dcdee"
   },
   "brief_observation_refs": [
     {
@@ -593,8 +598,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Read S39 Brief compile and identity audit; continue same-tool qualification/W4.",
-  "next_step": "Read S39 Brief compile and identity audit; continue same-tool qualification/W4.",
+  "next": "Fix producer-specific prerequisite schema; real metadata test, review, full1200 retry.",
+  "next_step": "Fix producer-specific prerequisite schema; real metadata test, review, full1200 retry.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -709,7 +714,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:39:31Z",
+  "updated_utc": "2026-10-24T06:44:08Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -893,8 +898,13 @@
       },
       "native_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
       "review_findings": "d6f21439 NO_GO before Cloud: unrelated old diagnostic flags removed; inventory equality canonical and complete errors list exact; float-tamper composition regression passes. Same reviewer delta next.",
+      "s39": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json",
+        "sha256": "ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a"
+      },
+      "schema_fix_tests": "16 controller +8 Bash tests PASS; consequence producer constructor imported by exact bf89 source pin in synthetic test. Complete consequence body_proof_run:true is component-only and call_linkage UNKNOWN; no caller admission field permitted. Native unchanged758acf, stillUNBUILT.",
       "source_only_input_table": "research/challenge-8/task-history/select-callee-r24/w4-caller-input-certificates-r24.py",
-      "state": "REVIEWED_GO_UNBUILT",
+      "state": "PREREQUISITE_SCHEMA_FIXED_UNREVIEWED",
       "static_input_table_tests": "3 PASS including malformed fields with test digest rebound; no native tools",
       "static_tests": "120 targeted checks accounted: 95 unchanged checks passed prior combined run, 8 updated Bash routing tests,14 compile-controller and3 inputtable tests. No actual toolchain locally.",
       "transport_design": {
@@ -952,7 +962,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "S39_TERMINAL_PENDING_BRIEF",
+    "state": "FIXING_DORMANT_PREREQUISITE_SCHEMA",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1705,11 +1715,16 @@
     "config_sha256": "93f4da7702739495d56a8e64754e60db0f025017f4910c7c334f14baf35191bd",
     "dispatch_token": "dispatch-c1f5231ecee74f89bdaa6245817a25a4",
     "execution_seconds": 661,
+    "new_native_tool_status": "NOT_STARTED_AS_REPORTED_PREFLIGHT_FAILURE",
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json",
+      "sha256": "ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a"
+    },
     "proof_credit": 0,
     "proof_qualification": false,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_EVIDENCE_BRIEF",
+    "result": "SOURCE_REPORTED_PREREQUISITE_SCHEMA_FAILURE",
     "schema": "select-r24-w4-dormant-compile-submission-v1",
     "source_only_input_universe_preserved": true,
     "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
@@ -1725,7 +1740,6 @@
     "accepted": false,
     "callee_qualification": false,
     "caller_body_proof_admission": false,
-    "candidate": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
     "manifest": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
       "sha256": "d1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6"
@@ -1736,28 +1750,10 @@
     },
     "native_binary_sha256": "UNKNOWN_UNBUILT",
     "native_result_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
-    "preflight": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-FIX-TRANSPORT-PREFLIGHT.json",
-      "sha256": "2a2d8097412f648841cb6421d20c2328f14e9a76ee74465dde8978041959ca08"
-    },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "review": {
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-dormant-fix-review.json",
-      "sha256": "53b1534795641ada494f5d4de8c08cee67f03913418e7f87a9a97824a7474326"
-    },
-    "runtime_closure": {
-      "bytes": 3673962,
-      "entries": 161,
-      "sha256": "010a4496bb5efcf69407b1331d7b73335fa4af201f7707761dcbdb915f54b7ba"
-    },
-    "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
-    "state": "BUILT_PENDING_EVIDENCE_BRIEF",
-    "submission": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-SUBMISSION.json",
-      "sha256": "d5ac57b4b0fffed1cd44559d9fa9c468901305087ff201a0c210eaaff128f003"
-    },
+    "state": "PREREQUISITE_SCHEMA_FIXED_UNREVIEWED",
     "timeout_seconds": 1200
   },
   "w4_dormant_compile_candidate_history": [
@@ -1796,6 +1792,46 @@
       },
       "source_payload_sha256": "e4d8364f9de17c06dc3611f9a09b7e7fd61f948e4c3ebf162174dfba59786421",
       "state": "NO_GO_BEFORE_CLOUD",
+      "timeout_seconds": 1200
+    },
+    {
+      "accepted": false,
+      "callee_qualification": false,
+      "caller_body_proof_admission": false,
+      "candidate": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
+      "git_commit": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
+      "manifest": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+        "sha256": "d1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6"
+      },
+      "mode": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json",
+        "sha256": "a60c8afbdbf7cc5e443ea28e8758117eb7e4fcc40c9fae2ee1e3fc54445eb287"
+      },
+      "native_binary_sha256": "UNKNOWN_UNBUILT",
+      "native_result_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
+      "preflight": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-FIX-TRANSPORT-PREFLIGHT.json",
+        "sha256": "2a2d8097412f648841cb6421d20c2328f14e9a76ee74465dde8978041959ca08"
+      },
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reserved_seconds": 1260,
+      "review": {
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-dormant-fix-review.json",
+        "sha256": "53b1534795641ada494f5d4de8c08cee67f03913418e7f87a9a97824a7474326"
+      },
+      "runtime_closure": {
+        "bytes": 3673962,
+        "entries": 161,
+        "sha256": "010a4496bb5efcf69407b1331d7b73335fa4af201f7707761dcbdb915f54b7ba"
+      },
+      "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
+      "state": "BUILT_PREREQUISITE_SCHEMA_FAILURE",
+      "submission": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-SUBMISSION.json",
+        "sha256": "d5ac57b4b0fffed1cd44559d9fa9c468901305087ff201a0c210eaaff128f003"
+      },
       "timeout_seconds": 1200
     }
   ],

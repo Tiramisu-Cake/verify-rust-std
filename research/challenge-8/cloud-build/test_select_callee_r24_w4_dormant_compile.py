@@ -25,6 +25,11 @@ HELPER_SPEC = importlib.util.spec_from_file_location('w4_control_capture_real_de
 HELPER = importlib.util.module_from_spec(HELPER_SPEC)
 assert HELPER_SPEC is not None and HELPER_SPEC.loader is not None
 HELPER_SPEC.loader.exec_module(HELPER)
+CONSEQUENCE_PATH = MODULE_PATH.with_name('select-callee-r24-w4-const-consequence.py')
+CONSEQUENCE_SPEC = importlib.util.spec_from_file_location('w4_const_consequence_pinned', CONSEQUENCE_PATH)
+CONSEQUENCE = importlib.util.module_from_spec(CONSEQUENCE_SPEC)
+assert CONSEQUENCE_SPEC is not None and CONSEQUENCE_SPEC.loader is not None
+CONSEQUENCE_SPEC.loader.exec_module(CONSEQUENCE)
 
 
 def sha(data: bytes) -> str:
@@ -88,6 +93,80 @@ class DormantCompileTests(unittest.TestCase):
         names = [arg.arg for arg in stage.args.args + stage.args.kwonlyargs]
         self.assertIn('stdin_name', names)
         self.assertIn('stdout_name', names)
+
+    def test_consequence_initial_record_has_its_actual_fields(self):
+        initial = CONSEQUENCE._initial(types.SimpleNamespace(candidate='a' * 40))
+        self.assertEqual(initial['schema'], 'select-r24-w4-const-consequence-v1')
+        self.assertFalse(initial['body_proof_run'])
+        self.assertEqual(initial['call_linkage'], 'UNKNOWN')
+        self.assertNotIn('caller_body_proof_admission', initial)
+        with self.assertRaisesRegex(RuntimeError, 'producer summary schema/boundary'):
+            MOD._validate_nested_prerequisites({'source_observation': {'complete': True},
+                'consequence': initial}, 'a' * 40, 'b' * 36)
+
+    def _valid_nested_records(self, candidate, build):
+        consequence = CONSEQUENCE._initial(types.SimpleNamespace(candidate=candidate))
+        consequence.update({'complete': True,
+            'classification': 'COMPLETE_W4_CONST_CONSEQUENCE_SOURCE_REPORTED',
+            'native_build_id': build, 'body_proof_run': True, 'failed_stage': 'complete'})
+        consequence_audit = {'schema': CONSEQUENCE.AUDIT_SCHEMA, 'complete': True,
+            'evidence_complete': True,
+            'summary_path': 'cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE.json',
+            'summary': consequence, 'call_linkage': 'UNKNOWN', 'accepted': False,
+            'publication_allowed': False, 'proof_credit': 0}
+        contract = {'schema': 'select-r24-w4-contract-inputs-v1', 'complete': True,
+            'candidate': candidate, 'build_id': build, 'phase_id': MOD.R24_PHASE,
+            'route_phase_id': MOD.R21_PHASE, 'owner': 'select-sort4', 'lane': MOD.LANE,
+            'profile': MOD.PROFILE, 'typed_call_linkage': 'UNKNOWN', 'call_linkage': 'UNKNOWN',
+            'caller_body_proof_admission': False, 'accepted': False,
+            'publication_allowed': False, 'proof_credit': 0}
+        contract_audit = {'schema': 'select-r24-w4-contract-inputs-v1-audit',
+            'complete': True, 'evidence_complete': True, 'candidate': candidate,
+            'build_id': build, 'typed_call_linkage': 'UNKNOWN',
+            'caller_body_proof_admission': False, 'accepted': False,
+            'publication_allowed': False, 'proof_credit': 0}
+        control = {'schema': 'select-r24-w4-control-capture-v1', 'complete': True,
+            'candidate': candidate, 'build_id': build, 'r24_session_phase_id': MOD.R24_PHASE,
+            'route_phase_id': MOD.R21_PHASE, 'owner': 'select-sort4', 'lane': MOD.LANE,
+            'profile': MOD.PROFILE, 'body_proof_run': False, 'universe_complete': False,
+            'typed_call_linkage': 'UNKNOWN', 'caller_body_proof_admission': False,
+            'accepted': False, 'publication_allowed': False, 'proof_credit': 0}
+        control_audit = {'schema': 'select-r24-w4-control-capture-audit-v1',
+            'complete': True, 'evidence_complete': True, 'candidate': candidate,
+            'typed_call_linkage': 'UNKNOWN', 'caller_body_proof_admission': False,
+            'accepted': False, 'publication_allowed': False, 'proof_credit': 0}
+        return {'source_observation': {'complete': True}, 'consequence': consequence,
+            'consequence_audit': consequence_audit, 'postqualification_diagnostic': contract,
+            'postqualification_diagnostic_audit': contract_audit,
+            'source_control_capture': control, 'source_control_capture_audit': control_audit}
+
+    def test_component_specific_prerequisite_schemas_and_boundaries(self):
+        candidate = 'a' * 40
+        build = '11111111-1111-4111-8111-111111111111'
+        records = self._valid_nested_records(candidate, build)
+        MOD._validate_nested_prerequisites(records, candidate, build)
+        bad = json.loads(json.dumps(records))
+        bad['consequence']['body_proof_run'] = False
+        with self.assertRaisesRegex(RuntimeError, 'const-consequence producer'):
+            MOD._validate_nested_prerequisites(bad, candidate, build)
+        bad = json.loads(json.dumps(records))
+        bad['consequence']['call_linkage'] = 'LINKED'
+        with self.assertRaisesRegex(RuntimeError, 'const-consequence producer'):
+            MOD._validate_nested_prerequisites(bad, candidate, build)
+        bad = json.loads(json.dumps(records))
+        bad['consequence']['native_build_id'] = '22222222-2222-4222-8222-222222222222'
+        with self.assertRaisesRegex(RuntimeError, 'const-consequence producer'):
+            MOD._validate_nested_prerequisites(bad, candidate, build)
+        bad = json.loads(json.dumps(records))
+        bad['consequence']['schema'] = 'wrong-schema'
+        with self.assertRaisesRegex(RuntimeError, 'const-consequence producer'):
+            MOD._validate_nested_prerequisites(bad, candidate, build)
+        for injected in (False, True):
+            bad = json.loads(json.dumps(records))
+            bad['consequence']['caller_body_proof_admission'] = injected
+            with self.subTest(injected=injected):
+                with self.assertRaisesRegex(RuntimeError, 'const-consequence producer'):
+                    MOD._validate_nested_prerequisites(bad, candidate, build)
 
     def test_command_inventory_is_closed_and_copy_build_arguments_exact(self):
         commands = MOD._stage_commands(Path('/repo'), Path('/tmp/target'), Path('/repo/patch'))
@@ -265,25 +344,12 @@ class DormantCompileTests(unittest.TestCase):
 
             candidate = 'a' * 40
             build = '11111111-1111-4111-8111-111111111111'
+            nested = self._valid_nested_records(candidate, build)
             qual = {'schema': 'select-r24-w4-const-qualification-v1', 'complete': True,
                 'candidate': candidate, 'build_id': build, 'phase_id': MOD.R24_PHASE,
                 'route_phase_id': MOD.R21_PHASE, 'lane': MOD.LANE, 'profile': MOD.PROFILE,
                 'accepted': False, 'publication_allowed': False, 'proof_credit': 0,
-                'source_observation': {'complete': True},
-                'consequence': {'complete': True, 'accepted': False, 'publication_allowed': False,
-                    'caller_body_proof_admission': False, 'proof_credit': 0},
-                'consequence_audit': {'complete': True, 'evidence_complete': True,
-                    'accepted': False, 'publication_allowed': False, 'proof_credit': 0},
-                'postqualification_diagnostic': {'complete': True, 'accepted': False,
-                    'publication_allowed': False, 'caller_body_proof_admission': False,
-                    'proof_credit': 0},
-                'postqualification_diagnostic_audit': {'complete': True, 'evidence_complete': True,
-                    'accepted': False, 'publication_allowed': False, 'proof_credit': 0},
-                'source_control_capture': {'complete': True, 'accepted': False,
-                    'publication_allowed': False, 'caller_body_proof_admission': False,
-                    'proof_credit': 0},
-                'source_control_capture_audit': {'complete': True, 'evidence_complete': True,
-                    'accepted': False, 'publication_allowed': False, 'proof_credit': 0}}
+                **nested}
             qual_path = evidence / MOD.CONST_SUMMARY_REL
             qual_path.parent.mkdir(parents=True)
             qual_raw = (json.dumps(qual, sort_keys=True, indent=2) + '\n').encode()

@@ -250,36 +250,88 @@ def _validate_prerequisite(helper, repo: Path, evidence: Path, candidate: str,
          audit.get('publication_allowed') is False and type(audit.get('proof_credit')) is int and
          audit.get('proof_credit') == 0,
          'same-Build qualification physical audit is incomplete or misbound')
-    need(summary.get('source_observation', {}).get('complete') is True and
-         summary.get('consequence', {}).get('complete') is True and
-         summary.get('consequence_audit', {}).get('complete') is True and
-         summary.get('consequence_audit', {}).get('evidence_complete') is True and
-         summary.get('postqualification_diagnostic', {}).get('complete') is True and
-         summary.get('postqualification_diagnostic_audit', {}).get('evidence_complete') is True and
-         summary.get('source_control_capture', {}).get('complete') is True and
-         summary.get('source_control_capture_audit', {}).get('evidence_complete') is True,
-         'qualification nested prerequisite components are incomplete')
-    for label, item in (
-        ('consequence', summary.get('consequence')),
-        ('C6 diagnostic', summary.get('postqualification_diagnostic')),
-        ('source control capture', summary.get('source_control_capture')),
-    ):
-        need(type(item) is dict and item.get('accepted') is False and
-             item.get('publication_allowed') is False and item.get('caller_body_proof_admission') is False and
-             type(item.get('proof_credit')) is int and item.get('proof_credit') == 0,
-             label + ' prerequisite boundary differs')
-    for label, item in (
-        ('consequence audit', summary.get('consequence_audit')),
-        ('C6 diagnostic audit', summary.get('postqualification_diagnostic_audit')),
-        ('source control capture audit', summary.get('source_control_capture_audit')),
-    ):
-        need(type(item) is dict and item.get('complete') is True and item.get('evidence_complete') is True and
-             item.get('accepted') is False and item.get('publication_allowed') is False and
-             type(item.get('proof_credit')) is int and item.get('proof_credit') == 0,
-             label + ' boundary/audit differs')
+    _validate_nested_prerequisites(summary, candidate, build_id)
     return {'summary_path': CONST_SUMMARY_REL.as_posix(), 'summary_sha256': summary_sha,
             'audit_path': CONST_AUDIT_REL.as_posix(), 'audit_sha256': digest(_read_regular(audit_path, evidence)),
             'build_id': build_id, 'candidate': candidate}
+
+
+def _validate_nested_prerequisites(summary: dict[str, Any], candidate: str,
+                                   build_id: str) -> None:
+    """Validate nested evidence against each producer's actual record schema."""
+    source = summary.get('source_observation')
+    need(type(source) is dict and source.get('complete') is True,
+         'source observation prerequisite is incomplete')
+
+    consequence = summary.get('consequence')
+    need(type(consequence) is dict and
+         consequence.get('schema') == 'select-r24-w4-const-consequence-v1' and
+         consequence.get('complete') is True and consequence.get('classification') ==
+             'COMPLETE_W4_CONST_CONSEQUENCE_SOURCE_REPORTED' and
+         consequence.get('scope') == 'SOURCE_REPORTED_CHECKED_POST_CONSEQUENCE_ONLY' and
+         consequence.get('candidate') == candidate and consequence.get('native_build_id') == build_id and
+         consequence.get('failed_stage') == 'complete' and consequence.get('body_proof_run') is True and
+         consequence.get('call_linkage') == 'UNKNOWN' and consequence.get('accepted') is False and
+         consequence.get('publication_allowed') is False and
+         type(consequence.get('proof_credit')) is int and consequence.get('proof_credit') == 0 and
+         'caller_body_proof_admission' not in consequence,
+         'const-consequence producer summary schema/boundary differs')
+    consequence_audit = summary.get('consequence_audit')
+    need(type(consequence_audit) is dict and
+         consequence_audit.get('schema') == 'select-r24-w4-const-consequence-audit-v1' and
+         consequence_audit.get('complete') is True and consequence_audit.get('evidence_complete') is True and
+         consequence_audit.get('summary_path') == 'cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE.json' and
+         _json_exact(consequence_audit.get('summary'), consequence) and
+         consequence_audit.get('call_linkage') == 'UNKNOWN' and consequence_audit.get('accepted') is False and
+         consequence_audit.get('publication_allowed') is False and
+         type(consequence_audit.get('proof_credit')) is int and consequence_audit.get('proof_credit') == 0 and
+         'caller_body_proof_admission' not in consequence_audit,
+         'const-consequence producer audit schema/boundary differs')
+
+    contract = summary.get('postqualification_diagnostic')
+    need(type(contract) is dict and contract.get('schema') == 'select-r24-w4-contract-inputs-v1' and
+         contract.get('complete') is True and contract.get('candidate') == candidate and
+         contract.get('build_id') == build_id and contract.get('phase_id') == R24_PHASE and
+         contract.get('route_phase_id') == R21_PHASE and contract.get('owner') == 'select-sort4' and
+         contract.get('lane') == LANE and contract.get('profile') == PROFILE and
+         contract.get('typed_call_linkage') == 'UNKNOWN' and contract.get('call_linkage') == 'UNKNOWN' and
+         contract.get('caller_body_proof_admission') is False and contract.get('accepted') is False and
+         contract.get('publication_allowed') is False and type(contract.get('proof_credit')) is int and
+         contract.get('proof_credit') == 0,
+         'C6 contract-input producer summary schema/boundary differs')
+    contract_audit = summary.get('postqualification_diagnostic_audit')
+    need(type(contract_audit) is dict and
+         contract_audit.get('schema') == 'select-r24-w4-contract-inputs-v1-audit' and
+         contract_audit.get('complete') is True and contract_audit.get('evidence_complete') is True and
+         contract_audit.get('candidate') == candidate and contract_audit.get('build_id') == build_id and
+         contract_audit.get('typed_call_linkage') == 'UNKNOWN' and
+         contract_audit.get('caller_body_proof_admission') is False and
+         contract_audit.get('accepted') is False and contract_audit.get('publication_allowed') is False and
+         type(contract_audit.get('proof_credit')) is int and contract_audit.get('proof_credit') == 0,
+         'C6 contract-input producer audit schema/boundary differs')
+
+    control = summary.get('source_control_capture')
+    need(type(control) is dict and control.get('schema') == 'select-r24-w4-control-capture-v1' and
+         control.get('complete') is True and control.get('candidate') == candidate and
+         control.get('build_id') == build_id and control.get('r24_session_phase_id') == R24_PHASE and
+         control.get('route_phase_id') == R21_PHASE and control.get('owner') == 'select-sort4' and
+         control.get('lane') == LANE and control.get('profile') == PROFILE and
+         control.get('body_proof_run') is False and control.get('universe_complete') is False and
+         control.get('typed_call_linkage') == 'UNKNOWN' and
+         control.get('caller_body_proof_admission') is False and control.get('accepted') is False and
+         control.get('publication_allowed') is False and type(control.get('proof_credit')) is int and
+         control.get('proof_credit') == 0,
+         'source control-capture producer summary schema/boundary differs')
+    control_audit = summary.get('source_control_capture_audit')
+    need(type(control_audit) is dict and
+         control_audit.get('schema') == 'select-r24-w4-control-capture-audit-v1' and
+         control_audit.get('complete') is True and control_audit.get('evidence_complete') is True and
+         control_audit.get('candidate') == candidate and
+         control_audit.get('typed_call_linkage') == 'UNKNOWN' and
+         control_audit.get('caller_body_proof_admission') is False and
+         control_audit.get('accepted') is False and control_audit.get('publication_allowed') is False and
+         type(control_audit.get('proof_credit')) is int and control_audit.get('proof_credit') == 0,
+         'source control-capture producer audit schema/boundary differs')
 
 
 def _validate_context(args, helper, *, fresh: bool = False):

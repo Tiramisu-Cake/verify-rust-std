@@ -715,7 +715,7 @@ if (( r24_w4_linkage_diagnostic == 1 )); then
     current_stage=r24-w4-const-qualification-audit
     audit_result 0 complete
     dormant_helper="$cloud_dir/select-callee-r24-w4-dormant-compile.py"
-    [[ "$(sha256sum "$dormant_helper" | cut -d' ' -f1)" == f1074b2d5c502bee3d835bc6187eb98c532e84fe2dd94572ba7650259991aec4 ]] || exit 2
+    [[ "$(sha256sum "$dormant_helper" | cut -d' ' -f1)" == f1a9f2c2cacf2b4eeb3dce8a9062d49765fe1d07f8147c24abad24811a27de5d ]] || exit 2
     dormant_args=(--repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
       --native-tool-home /workspace/smallsort-work/r24-w4-contract-input-tool
       --deadline-epoch "$deadline" --candidate "$current_sha")

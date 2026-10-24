@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "e76648b9dcb68ab34ab7e7a28974bade32251928a45beae165ac0615b0f5f25a",
+  "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 174,
+      "EMPTY_FILE": 74,
+      "JSON_EXCEEDS_SCAN_LIMIT": 5,
+      "PROJECTED": 582,
+      "SCAN_BUDGET_EXCEEDED": 482,
+      "UNSUPPORTED_FILE_TYPE": 529
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2097094,
+    "content_files": 661,
+    "files": 1846,
+    "source_scan_bytes": 8388608
+  },
+  "index_sha256": "e79a99f1f7a947aeacd5ccd6930ead613865347a08c6243d9f60be395ae48747",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "ddfb2dfc162d6004515b71e167e0221fe1027d995945328f9819476b32f0a891",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE.json",
+      "path_sanitized": false,
+      "scanned_bytes": 1863,
+      "sha256": "b28145fee03440b84aec5ca1afdccefbe2aceb6cec63cbc74b0ed37c915585f7",
+      "size_bytes": 1863,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "ea4a1b76858cccd65bfa61ea62f1dbf850455cd4a84d6251de48332cf4340067",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-dormant-compile-exit-code.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 2,
+      "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "size_bytes": 2,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "ddcb6bc8b1e96192324ef71c2981148c318e61481c682c6bc2d62c0247f0d004",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-dormant-compile-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 1184,
+      "sha256": "a0aa30a78e0e0758a620b14a903064210540ad3bba49b0e5d20ee9113520d73a",
+      "size_bytes": 1184,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "c0c842662a32662f08b4d8ee7841fc2120bbd21cfe856052c6af87654c04d2fc",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-dormant-compile.log",
+      "path_sanitized": false,
+      "scanned_bytes": 104,
+      "sha256": "4c7371654a255215acf5658d3a97ea76e0cfe199ec981c71fefdd9442f6e644d",
+      "size_bytes": 104,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 1846,
+    "files_with_incomplete_content": 1670,
+    "matches_in_retained_data": 4,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
