@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "87d4e82d3364de775bb9377e2d817a711d15729c66227caa03ff8b561f912f29"
+      "sha256": "fb372743667cba600d1d7230812c8834d39e723736b16f16fbc13ef59c8743e8"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,12 +34,12 @@
   "blocker": {
     "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
     "evidence": [],
-    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
+    "summary": "Current-native const setup-fix Build terminal FAILURE; source results pending Brief."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "87d4e82d3364de775bb9377e2d817a711d15729c66227caa03ff8b561f912f29"
+    "sha256": "fb372743667cba600d1d7230812c8834d39e723736b16f16fbc13ef59c8743e8"
   },
   "brief_observation_refs": [
     {
@@ -1198,8 +1198,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
-  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next": "Read Brief const8/consequence and physical audit; resolve next defect, then checked W4 linkage/C5.",
+  "next_step": "Read Brief const8/consequence and physical audit; resolve next defect, then checked W4 linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1292,17 +1292,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "b53d01fc-5ff5-48ab-a642-d0e4e6d03128"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 11572,
+    "remaining_seconds": 11246,
     "retired_seconds": 0,
-    "spent_seconds": 10028,
+    "spent_seconds": 10354,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1314,9 +1312,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:32:04Z",
+  "updated_utc": "2026-10-24T01:38:04Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1515,21 +1513,23 @@
   },
   "w4_const_setup_fix_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+    "build_seconds": 326,
     "callee_matrix_status": "PENDING_BRIEF",
     "caller_body_proof_admission": false,
     "candidate": "7eb8ab48a94057d7cea021fb5536c572d270301a",
     "config_sha256": "97e3f8faa639ef2c62f1627ff9b0592995ee43934a7aabd4871039a24ccf97be",
     "consequence_status": "PENDING_BRIEF",
     "dispatch_token": "dispatch-601d1ef6432d4c709366e2721a8790c8",
+    "execution_seconds": 325,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-const-setup-fix-submission-v1",
     "source_payload_sha256": "15dd37a3f8c0f565c0ec82d0445a5b35efd9c7dd95247e9675d75f27a9c18091",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1555,7 +1555,7 @@
       "sha256": "c0e803467c2d67769bcc331616d264f8504a4fe4d542b3e4dc431a88dfed1d7f"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_SETUP_FIX_ONLY",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "a9cb6daf24e5e0619ae0df9656c4a0b47595b9505cc4dacb22ca8435a63126ea"
