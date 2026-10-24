@@ -1,5 +1,5 @@
 {
-  "active_build": "61e2d5de-8df8-4e44-93fa-75350140de1a",
+  "active_build": null,
   "allowed_lanes": [
     "o26-select-callee-r20"
   ],
@@ -611,11 +611,17 @@
       "submitted_config_sha256": "610c7dcefe38cd1c5b8d90b28eb4eee4d58dbfc1b71e408ae9cf02347ec7c218",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "9076be30825ee7d2430a22b36e94dd36edda3dd08e3f41c1d972307b148fd769",
-      "build_id": "61e2d5de-8df8-4e44-93fa-75350140de1a"
+      "build_id": "61e2d5de-8df8-4e44-93fa-75350140de1a",
+      "start_time": "2026-10-24T01:16:33.068089517Z",
+      "finish_time": "2026-10-24T01:22:37.879672Z",
+      "create_time": "2026-10-24T01:16:32.183821683Z",
+      "build_seconds": 366,
+      "accounted": true,
+      "execution_seconds": 365
     }
   ],
   "carry_seconds": 0,
@@ -636,7 +642,7 @@
     "record_path": "research/challenge-8/task-history/select-callee-r24/R24-admission-review.json",
     "record_sha256": "6e72adbb3280650cdd25a37dd3b3c6acf4a37b5005bc5410c5e70b120b360a0f"
   },
-  "remaining_build_seconds": 11938,
+  "remaining_build_seconds": 11572,
   "report_reserve_seconds": 240,
   "retired_seconds": 0,
   "schema": "smallsort-prepared-session-ledger-v1",
@@ -644,5 +650,5 @@
   "start_utc": "2026-10-23T10:48:18Z",
   "status": "AUTHORIZED",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "used_build_seconds": 9662
+  "used_build_seconds": 10028
 }
