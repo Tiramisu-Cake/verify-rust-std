@@ -1,0 +1,46 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 22,
+  "complete": false,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION.json",
+  "file_sha256": "777a86022417a3da5efbf6dd712814c0ebb1e7b02ad88bba4f8ea29df3625eae",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "next_offset": null,
+  "offset": 20,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "777a86022417a3da5efbf6dd712814c0ebb1e7b02ad88bba4f8ea29df3625eae",
+    "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+    "offset": 20,
+    "pointer": "/target_intent_receipt"
+  },
+  "request_id": "133aa197b8b19f14c0e7ee83ecd3ca5275d2be43a9294d6a72894e795bd5502f",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/target_intent_receipt/schema",
+      "value": "select-r24-w4-const-derived-target-intent-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/target_intent_receipt/semantics",
+      "value": "DERIVED_TARGET_INTENT_NOT_NEW_OBSERVATION"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

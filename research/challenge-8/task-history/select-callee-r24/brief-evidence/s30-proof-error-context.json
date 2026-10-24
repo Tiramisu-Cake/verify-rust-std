@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 227,
+    "line_separator": "LF",
+    "source_lines": 267,
+    "start": 216,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "e85a6571b9c2022387cb46996fbf6e68f6e79f50628eac56d4e91a6e5b36ecea",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof.log",
+  "file_sha256": "f6728deb014f6a1911d9273efcc17bd487e2ef51560fbdc15151991c3cccdc5b",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 227,
+    "expected_sha256": "f6728deb014f6a1911d9273efcc17bd487e2ef51560fbdc15151991c3cccdc5b",
+    "file_id": "e85a6571b9c2022387cb46996fbf6e68f6e79f50628eac56d4e91a6e5b36ecea",
+    "start": 216
+  },
+  "request_id": "3d496ea338253cec7437760826465dea1ce54b1a3c52df9a0931f179ba567fa5",
+  "requested_end": 227,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 216,
+      "text": "  0.136869s: /workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec(609,5-6): Executing return statement"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 217,
+      "text": "  0.136877s: /workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec(605,9-35): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 218,
+      "text": "  0.136897s: /workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec(609,5-6): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 219,
+      "text": "  0.136904s: /workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec(609,5-6): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 220,
+      "text": "  0.142162s: verified/lib.rs(3,1-22,2): Function 'select_w4_const_post_consequence': Function prototype implementation check"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 221,
+      "text": "verified/lib.rs(10,71-72): error: No matching heap chunks: type_interp<Element>()"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 222,
+      "text": "10 | req thread_token(?t) &*& t == currentThread &*& type_interp::<Element>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 223,
+      "text": "   |                                                                       ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 224,
+      "text": "verified/lib.rs(10,71-72): note: Consuming assertion"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 225,
+      "text": "10 | req thread_token(?t) &*& t == currentThread &*& type_interp::<Element>() &*&"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 226,
+      "text": "   |                                                                       ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 227,
+      "text": "verified/lib.rs(3,1-22,2): note: Function 'select_w4_const_post_consequence': Function prototype implementation check"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

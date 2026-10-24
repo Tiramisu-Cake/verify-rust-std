@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 704,
+    "line_separator": "LF",
+    "source_lines": 704,
+    "start": 702,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "af2c7a1ab61106a741ef5602f8b90795c5f1292c77e08de610f3ce1b0cdaa628",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "b41d7de9099233ec94ddb56bdd4cdbf6959e295a4654222f2e49dab8131f66fb",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 705,
+    "expected_sha256": "b41d7de9099233ec94ddb56bdd4cdbf6959e295a4654222f2e49dab8131f66fb",
+    "file_id": "af2c7a1ab61106a741ef5602f8b90795c5f1292c77e08de610f3ce1b0cdaa628",
+    "start": 702
+  },
+  "request_id": "f0ed553d57eb15ee304ef5909ae4803dc4935c98959623d991b3fb52e1db763e",
+  "requested_end": 705,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 702,
+      "text": "  0.238354s: verified/lib.rs(170,9-10): Cleaning up dummy fraction chunks and empty chunks"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 703,
+      "text": "  0.238361s: verified/lib.rs(170,9-10): Leak check."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 704,
+      "text": "0 errors found (142 statements verified) (target: x86_64-unknown-linux-gnu (LP64))"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

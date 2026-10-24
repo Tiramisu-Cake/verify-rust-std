@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e3c4a9fe285fb39c88167cbb597cec6b10162dfc0561e5ceeb02703bbc243cd1"
+      "sha256": "3eb0b9ddbd54c641bef77b52a2b2eafd8efd0f27352e65b88f223e0487450165"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -33,19 +33,20 @@
   },
   "blocker": {
     "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
-    "evidence": [],
-    "summary": "Current-native const target-path Build terminal FAILURE; source results pending Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
+        "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
+      }
+    ],
+    "summary": "Native const8 complete asreported; consequence safe prototype rejects explicit type_interp frame."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e3c4a9fe285fb39c88167cbb597cec6b10162dfc0561e5ceeb02703bbc243cd1"
+    "sha256": "3eb0b9ddbd54c641bef77b52a2b2eafd8efd0f27352e65b88f223e0487450165"
   },
   "brief_observation_refs": [
-    {
-      "path": "research/challenge-8/task-history/select-callee-r24/observations/f7ea241ac9b503a9e73e7ee1719c111289398cc8df9d524bd66f7ea6477ba05e.json",
-      "sha256": "f7ea241ac9b503a9e73e7ee1719c111289398cc8df9d524bd66f7ea6477ba05e"
-    },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/f91b0218d70a30d416258fa2c809debde51585751dc84b94ca51aa21c8e53f28.json",
       "sha256": "f91b0218d70a30d416258fa2c809debde51585751dc84b94ca51aa21c8e53f28"
@@ -101,6 +102,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/fe89e27ff0a954aa8cfba80a4c9f815ee1689bec4a908fcd334c652fe230c38b.json",
       "sha256": "fe89e27ff0a954aa8cfba80a4c9f815ee1689bec4a908fcd334c652fe230c38b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/ff36fdc2f8a0ae2af0048ea84c8c0b1686ea867ead389bbc9d61c8de999a7df8.json",
+      "sha256": "ff36fdc2f8a0ae2af0048ea84c8c0b1686ea867ead389bbc9d61c8de999a7df8"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/ff53b90720ac12572fb1101f221f631d8ab5937364117e082fe53a29d42c706a.json",
@@ -172,11 +177,11 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "5a8dbd82 W4 input diagnostic complete:8typedcalls eachmode, native snapshots reproduced and final physical audit/source intact. Linkage and bodyproof UNKNOWN; credit0.",
+      "claim": "671815b1 current-native5170/bin33b actual const8 matrix and frozen physical audit complete; positive0errors142statements plus7exactcontrols. Consequence fails safe prototype precondition beforebody; callerlinkage/body UNKNOWN, credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-COMPLETE-OBSERVATIONS.json",
-          "sha256": "41336694ca2f0e296415d646f3aa15ffc22378628a69b735f606c2f3afc969f6"
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
+          "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
         }
       ]
     }
@@ -433,6 +438,16 @@
           "sha256": "cc9841b7bbcf9fa883d7895a03af30859e0832bf7a17bfa101a732a827e3e19a"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "5a8dbd82 W4 input diagnostic complete:8typedcalls eachmode, native snapshots reproduced and final physical audit/source intact. Linkage and bodyproof UNKNOWN; credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-COMPLETE-OBSERVATIONS.json",
+          "sha256": "41336694ca2f0e296415d646f3aa15ffc22378628a69b735f606c2f3afc969f6"
+        }
+      ]
     }
   ],
   "control_targets": {
@@ -593,6 +608,22 @@
       ],
       "obligation": "Current-native const diagnostic target path binding",
       "reason": "Buildb53d frozen validator correctly rejects historical absolute spec paths. Derive explicit same-content current target intent, retain all7 controls/historical observations; exact current diagnostic matcher unchanged.",
+      "state": "ACTIVE"
+    },
+    {
+      "acceptance": false,
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
+          "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-UNSAFE-DESIGN.json",
+          "sha256": "6c451a9b71057f5eea5282bb390cc33e88de101809ae0a1117e93bb24723ee7e"
+        }
+      ],
+      "obligation": "Check rawpointer consequence under explicit unsafe helper contract",
+      "reason": "Safe helper generated safety-template precondition cannot satisfy deliberate actualcallee relation/type_interp frame. Use standard unsafe explicit contract, same checkedbody; actual std unchanged. Native log formatter also differs from synthetic expectations.",
       "state": "ACTIVE"
     }
   ],
@@ -1214,8 +1245,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Read Brief const8/consequence and physical audit; resolve next defect, then checked W4 linkage/C5.",
-  "next_step": "Read Brief const8/consequence and physical audit; resolve next defect, then checked W4 linkage/C5.",
+  "next": "Use ordinary unsafe proof helper with same contract; correct native log format, review, full1200.",
+  "next_step": "Use ordinary unsafe proof helper with same contract; correct native log format, review, full1200.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1330,7 +1361,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:53:28Z",
+  "updated_utc": "2026-10-24T01:59:17Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1599,17 +1630,21 @@
     "accounted": true,
     "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
     "build_seconds": 359,
-    "callee_matrix_status": "PENDING_BRIEF",
+    "callee_matrix_status": "SOURCE_REPORTED_FULL8_AND_PHYSICAL_AUDIT_COMPLETE",
     "caller_body_proof_admission": false,
     "candidate": "1eda87b58d5203cb4aee28bac8c9fe7f68dadd31",
     "config_sha256": "f332441551b56892771c2b6250c18067a4518ebab956eb7eae6b1287ae1af1a2",
-    "consequence_status": "PENDING_BRIEF",
+    "consequence_status": "SAFE_PROTOTYPE_COMPATIBILITY_FAILED_BEFORE_BODY",
     "dispatch_token": "dispatch-1cc45ca6e6f5476299bbb5f3118da452",
     "execution_seconds": 358,
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
+      "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
+    },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_PENDING_BRIEF",
+    "result": "SOURCE_REPORTED_CONST8_COMPLETE_CONSEQUENCE_PROTO_FAILED",
     "schema": "select-r24-w4-const-target-path-submission-v1",
     "source_payload_sha256": "c02449cd7da89dc71e204bc2d36bf57ccb5814c957d11ebd9bd74cd664f60842",
     "status": "FAILURE",
@@ -1644,10 +1679,14 @@
       "sha256": "8a67fa7670d9d070e180033faaed841f0b738863bba4bca3b383c836a9eb54bf"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_TARGET_INTENT_PATH_FIX",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "BUILT_CONST8_COMPLETE_CONSEQUENCE_FAILED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "e915b218a7c25a73edef2c33b91a0b8f00931b5c5b509584f47a26ddf0f14695"
+  },
+  "w4_current_native_const8_observations": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
+    "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
   },
   "w4_inputs_qualification": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",

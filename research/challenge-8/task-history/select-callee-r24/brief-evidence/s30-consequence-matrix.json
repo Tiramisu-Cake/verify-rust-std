@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 10,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "9a5e347a0e605f935af131b1f4ab3c6f2156725168cc3f2ce9a8254c449110b0",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE.json",
+  "file_sha256": "1c4feccb3e9042dae16648c050a4b805567d96a63999dbaefc8eccd69e54bd6d",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "1c4feccb3e9042dae16648c050a4b805567d96a63999dbaefc8eccd69e54bd6d",
+    "file_id": "9a5e347a0e605f935af131b1f4ab3c6f2156725168cc3f2ce9a8254c449110b0",
+    "pointer": "/const_matrix"
+  },
+  "request_id": "d5f1582e57346d91408e954a5ecbf9ff3fa79734b4886134df75458a84a0c861",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/const_matrix/all_eight_rows_complete",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/audit_path",
+      "value": "const-regression-audit.json"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/audit_schema",
+      "value": "r21-fractional-proof-audit-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/audit_sha256",
+      "value": "6becbd1907a2300cfa9490801cff52517e877526f6f8bad6eb8e05e69d632d59"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/native_build_id",
+      "value": "671815b1-79b5-4584-976b-7378c592f9b7"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/native_tool_home",
+      "value": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/schema",
+      "value": "r21-fractional-classified-proof-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/summary_path",
+      "value": "cases/r21-fractional-proof/r21-fractional-proof.json"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/const_matrix/summary_sha256",
+      "value": "77ba013de4f0b85da46c0989d72d3cfec3d2487c33acb1537f94864dc2f3e3a5"
+    },
+    {
+      "child_count": 8,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/const_matrix/variant_order"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

@@ -1,0 +1,79 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 86,
+      "JSON_EXCEEDS_SCAN_LIMIT": 3,
+      "PROJECTED": 363,
+      "UNSUPPORTED_FILE_TYPE": 322
+    },
+    "catalogue_complete": true,
+    "content_bytes": 1751527,
+    "content_files": 452,
+    "files": 774,
+    "source_scan_bytes": 3284854
+  },
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "30ccda4032c3ebf4b8827fe05c8793e2d13c7e8333dc87fb3cdec25f2394ce7e",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof-stage.json",
+      "path_sanitized": false,
+      "scanned_bytes": 802,
+      "sha256": "5dd46f5087d18c264718146f8d0caf7c4e35061586ae4444eb4a5ca0b3f509ac",
+      "size_bytes": 802,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "1350447e1277aedb4303a75a484995251015ce60c5d8f8d936944b7d50061624",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 964,
+      "sha256": "09e4bec4acb94719780fd7813999515d14d42f6d0171031fdc2be59a6e532e73",
+      "size_bytes": 964,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "473c08a3fb69b9c87744d828c2ea7576b0cac7e472dff42b48c91790251e6db6",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof-stderr.log",
+      "path_sanitized": false,
+      "scanned_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0,
+      "status": "EMPTY_FILE",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "e85a6571b9c2022387cb46996fbf6e68f6e79f50628eac56d4e91a6e5b36ecea",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-const-consequence/positive/consequence-proof.log",
+      "path_sanitized": false,
+      "scanned_bytes": 31495,
+      "sha256": "f6728deb014f6a1911d9273efcc17bd487e2ef51560fbdc15151991c3cccdc5b",
+      "size_bytes": 31495,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 774,
+    "files_with_incomplete_content": 582,
+    "matches_in_retained_data": 4,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

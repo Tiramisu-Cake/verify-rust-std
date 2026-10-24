@@ -1,0 +1,367 @@
+{
+  "accepted": false,
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "assurance": "SOURCE_REPORTED_PLUS_STATIC_INSPECTION",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "build_seconds": 359,
+  "candidate": "1eda87b58d5203cb4aee28bac8c9fe7f68dadd31",
+  "consequence": {
+    "body_proof_invoked_source_claim": true,
+    "diagnostic": "No matching heap chunks: type_interp<Element>()",
+    "intended_body_theorem": "NOT_ESTABLISHED",
+    "omit_result_relation_control": "NOT_REACHED",
+    "source_line": 10,
+    "source_stage": "Function prototype implementation check",
+    "status": "FAILED_SAFE_FUNCTION_PROTOTYPE_COMPATIBILITY_BEFORE_BODY"
+  },
+  "const_matrix": {
+    "accepted": false,
+    "body_proof_run": true,
+    "capture_archive_records": 16,
+    "checked_pointer_outcomes_requested": true,
+    "classification": "R21_FRACTIONAL_CLASSIFIED_PROOF_COMPLETE",
+    "complete": true,
+    "current_build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+    "diagnostic_target_map_sha256": "2cc631d82852bcbe46370998475b4ea4a399d13695a7d0e4bf48054f6cf366b5",
+    "diagnostic_target_validation": 7,
+    "entry_dependencies": 16,
+    "pins": 6,
+    "proof_credit": false,
+    "r24_session_phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+    "rows": 8,
+    "schema": "r21-fractional-classified-proof-v1",
+    "target_map_unchanged": true,
+    "tool_home": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool",
+    "tool_spec_unchanged": true,
+    "variant_order": 8
+  },
+  "const_matrix_audit": {
+    "accepted": false,
+    "base_audit_schema": "r20-select-callee-audit-v1",
+    "baseline_proof": 3,
+    "baseline_proof_ran": true,
+    "capture_compare": 8,
+    "evidence_complete": true,
+    "failed_stage": "complete",
+    "fractional_proof": 19,
+    "fractional_proof_status": "object",
+    "proof_credit": false,
+    "repair_proof": null,
+    "repair_variants": null,
+    "repaired_fingerprint": null,
+    "runner_exit": 0,
+    "schema": "r21-fractional-proof-audit-v1",
+    "source_preflight": 5,
+    "stage_exits": 0,
+    "verification_accepted": false
+  },
+  "const_matrix_audit_complete_source_claim": true,
+  "const_matrix_complete_source_claim": true,
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "native_source_hashes": {
+    "bin~1refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin~1rust~1std~1lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin~1vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src~1frontend~1ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src~1rust_frontend~1vf_mir_translator~1rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src~1rust_frontend~1vf_mir_translator~1vf_mir_translator.ml": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "src~1rust_frontend~1vf_mir~1vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
+  },
+  "native_tool_identity": {
+    "source_hashes": 7,
+    "verifast_binary_bytes": 21551400,
+    "verifast_binary_sha256": "33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "positive_source_footer": "0 errors found (142 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "qualification_complete_source_claim": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-callee-false-normal.json",
+      "sha256": "f1458e1203f13cba081e6cf973419542d9ac120124a58c2655830e5f045ec3fb"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-callee-owner-duplicate.json",
+      "sha256": "fb7da27ac024c805604efe85151a2dfc93192c8d299fcc7b1940f275d29e29ff"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-callee-owner-loss.json",
+      "sha256": "283bd35ab7e964260dd286d75b6dd2ba556a6f30b08d0725ea1ada2f28930fc8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-callee-thread-duplicate.json",
+      "sha256": "0a0b0f6813cce3a9e1d124d164fd0a8491e9e1f4028f4fe5a390402cf71cce31"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-consequence-errors.json",
+      "sha256": "ff039acbc865ed58d07c959ed84530d98222c63e75f791d640b4adbadc5ff47b"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-consequence-matrix.json",
+      "sha256": "ea486e87f835b9aecdce898703164a71ee6fc488b2daf9772d0a2b65b4a71e01"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-consequence.json",
+      "sha256": "7cbd5b5d28c35f086b2a6c1b094073a40d6c19b7306235081c7a1022e20e47da"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-matrix-audit.json",
+      "sha256": "1d73bb7003dd633d35a587257d4e749e3fb05c8a25f82ae0a4a6b0f81f42ce5c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-matrix.json",
+      "sha256": "63ffddb48e38430d51195ebfdfa885e77a44338265ab18e69595f04ff290c14d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-native-identity.json",
+      "sha256": "0854692b1abc183baf437f5b057cb24bc3ee7d748616e33f2ddc8e27405d7496"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-native-source-hashes.json",
+      "sha256": "b339e450f49443b700b436b4ee38465a98f70e9a0be034c5a0190bfa97de9cd7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-negative-proof-summary.json",
+      "sha256": "22279d7778c305d8529b8cb3f41471d9833875a9d91d8dc4b6107ee259655aa6"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-no-retained-half.json",
+      "sha256": "3e088edda83d8a1c006dcc71a5effde8b062f48a5729f0fb17f6eea398a94544"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-omit-selected-own.json",
+      "sha256": "910f54c21d18b2a1c03758f450c6e32e1343abfe01d4da5d014ca331c02d020f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-omit-unselected-own.json",
+      "sha256": "2bce9103b6ef34d2715b5460fe5912780bca6adaa17602c093b9cbb7b7395198"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-positive-proof-summary.json",
+      "sha256": "0cc5ed1b9ebe58a2032ac54702492175cee78b629342121edd6155e069ef28f3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-positive-summary-locate.json",
+      "sha256": "dbf45480e5ae6d6ff2f54f115d661e95891321dfcdc72f63b6d9e087c6f52454"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-positive.json",
+      "sha256": "38a389713b58ce90296d9b9bbe32590151024ceaf1f97645fc2db34c023d4596"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-proof-error-context.json",
+      "sha256": "12fdfba78ac010bd004c3cf7cc1da964c50b289106e1e28e3162cb2786d1e7c5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-proof-error-locate.json",
+      "sha256": "29eec0789c12f6f4d4b1207ba9eeaaa27b8abaf12667782fae8c12da51c4e88f"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-proof-error-summary.json",
+      "sha256": "df99564e0f6e114e3c2c41cceb7e8629e421e8dadeacb031ae47fc6471dd6c5a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-root-20.json",
+      "sha256": "6be2d33f49be86d7f274c9964a7ca75fd76341ff1138028bb80d7e7de69dc388"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-root-errors.json",
+      "sha256": "0ae32edd53131916961d00c627714ef64ab6d756da57040ff5a9f4762ac3fdf7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-root.json",
+      "sha256": "b61efdca3540d2f3210a8dc9b7aadadca0ab0aad5d993578c1a862be45c5b0bf"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-target-intent-20.json",
+      "sha256": "5f95d80047a103ccdff2011f7921832b7194109ac9bb63e162d6d776639cafb5"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s30-target-intent.json",
+      "sha256": "7ddf3e28dbecfaf2be58bac35ec1b212272ab00c7c2e4b880843576c8d575fff"
+    }
+  ],
+  "rows": {
+    "callee-false-normal": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "2ba958629b7839525d9235f7e01d0398b814caf7dad1a2f353cfadbcfa915644",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-false-normal",
+      "verified_sha256": "064206aa5b9c7c3a2c252ea89fc6dfd242b2418fd750dbddff9f807715358e81"
+    },
+    "callee-owner-duplicate": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "1164c49b73e2bf207aa9a9afb5a5e3fe49bc628991767852b1536d57b02dda34",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-owner-duplicate",
+      "verified_sha256": "c2b73b9c39a1546bcce6799e1b8e8ed9b8db13240291b40c5ef8e5a940bf304c"
+    },
+    "callee-owner-loss": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "adb632730d4f7dbb2320860955b1274ff8aba8adcdd8d5268b8427324d832a85",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-owner-loss",
+      "verified_sha256": "11c757d94fb1764e1b896ba89a2d6aac4cf7c2585f439baf4fe1f8b36def0b46"
+    },
+    "callee-thread-duplicate": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_CALLEE_CONTRACT_REJECTION",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "ecd1b519b0e2846207bd2a69e39449a675084994bf712ba898b5dc9326584093",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "callee-thread-duplicate",
+      "verified_sha256": "c2062ed685fdd3dd7aee4e3352628b3326fc0dfa56d65c9dbc67629244247c81"
+    },
+    "no-retained-half": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 11,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "e8a9f7bac81d5214ea16b7ceeeee3a4fdf37a0a887679ae7873588882b2a474d",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "no-retained-half",
+      "verified_sha256": "2427ad1bc2d04a87357d8cec22fa3bb57eb7cf3c619c3640914eb3fa035c61f1"
+    },
+    "omit-selected-own": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 12,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "fc3cdd541c199d680f3e49199c9c638c5e13eae989aa7bd567b64d452fe63087",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "omit-selected-own",
+      "verified_sha256": "d5ea96a8bcd83ff013bb14454bfac15e1ce3b056a7268f4130c5fc18db52b10d"
+    },
+    "omit-unselected-own": {
+      "bound_verdict": "POSITIVE_FAILED",
+      "classification": "EXPECTED_SAME_SITE_TYPED_FAILURE",
+      "current_stage_observation": 20,
+      "diagnostic_target_observation": 11,
+      "expected_diagnostic_target": 12,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "54acae9a4d44ec2578c23b5313ee47c920f2653ab4e2958f4ad67127bb7af0a2",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 11,
+      "status": "COMPLETE",
+      "variant": "omit-unselected-own",
+      "verified_sha256": "3f5462388b130992cb0b24b2cfae52d950deb10989a5abccb6c24bf92c2f1ec2"
+    },
+    "positive": {
+      "bound_verdict": "POSITIVE_VERIFIED_SOURCE_REPORTED",
+      "classification": "POSITIVE_VERIFIED_SOURCE_REPORTED",
+      "current_stage_observation": 20,
+      "log_file": "r20-merged-optin.log",
+      "log_sha256": "b41d7de9099233ec94ddb56bdd4cdbf6959e295a4654222f2e49dab8131f66fb",
+      "normal_unwind_nested_drop_gates": true,
+      "observed_sources_after_stage": 2,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "postflight_capture": 7,
+      "postflight_capture_check": 5,
+      "preflight_capture": 7,
+      "preflight_capture_check": 5,
+      "source_intact_after_stages": true,
+      "source_intact_before_stage": true,
+      "stage": 12,
+      "status": "COMPLETE",
+      "variant": "positive",
+      "verified_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff"
+    }
+  },
+  "schema": "select-r24-w4-current-native-const8-consequence-observations-v1",
+  "source_runner_exit": 1,
+  "typed_call_linkage": "UNKNOWN",
+  "w4_caller_body_proof_status": "UNKNOWN"
+}

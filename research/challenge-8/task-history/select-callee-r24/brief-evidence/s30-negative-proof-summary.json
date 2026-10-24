@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 461,
+    "line_separator": "LF",
+    "source_lines": 461,
+    "start": 450,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "fc1bfcdac1aa7fa671b3202b3d14be9bb1d128f51c5191b991a6e12e3bcb70b4",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/variants/callee-false-normal/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "2ba958629b7839525d9235f7e01d0398b814caf7dad1a2f353cfadbcfa915644",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 461,
+    "expected_sha256": "2ba958629b7839525d9235f7e01d0398b814caf7dad1a2f353cfadbcfa915644",
+    "file_id": "fc1bfcdac1aa7fa671b3202b3d14be9bb1d128f51c5191b991a6e12e3bcb70b4",
+    "start": 450
+  },
+  "request_id": "a351fabf4a55a6bc8d3b5607c5bb49a42974c152a11d11fa028a1cddb05b389a",
+  "requested_end": 461,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 450,
+      "text": "128 | /*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 451,
+      "text": "    | ^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 452,
+      "text": "129 | on_unwind_ens false;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 453,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 454,
+      "text": "130 | @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 455,
+      "text": "    | ^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 456,
+      "text": "131 | {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 457,
+      "text": "    | ^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 458,
+      "text": "132 |     let _ = ManuallyDrop::new(t);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 459,
+      "text": "    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 460,
+      "text": "133 | }"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 461,
+      "text": "    |  ^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

@@ -1,0 +1,153 @@
+{
+  "archive_sha256": "6dd20567f4d85f1af17996f0c63149034ddcfc1b2b1a07c605e198c0fd811f40",
+  "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 20,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "5b7b55f53e54f9368637cb20faa091b24af84d210201a13fb6561654c17faa94",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/r21-fractional-proof.json",
+  "file_sha256": "77ba013de4f0b85da46c0989d72d3cfec3d2487c33acb1537f94864dc2f3e3a5",
+  "index_sha256": "c1aa5c2efab518da025690800948db9f5420735eacbb7007781fcf1a32be5bfb",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "77ba013de4f0b85da46c0989d72d3cfec3d2487c33acb1537f94864dc2f3e3a5",
+    "file_id": "5b7b55f53e54f9368637cb20faa091b24af84d210201a13fb6561654c17faa94",
+    "pointer": "/rows/callee-owner-duplicate"
+  },
+  "request_id": "0aafaf3a7aae3c66eac112d6356e85cd85279e5e3a3b86ec7fd7855aaaaa280a",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/bound_verdict",
+      "value": "POSITIVE_FAILED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/classification",
+      "value": "EXPECTED_CALLEE_CONTRACT_REJECTION"
+    },
+    {
+      "child_count": 20,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/current_stage_observation"
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/diagnostic_target_observation"
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/expected_diagnostic_target"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/log_file",
+      "value": "r20-merged-optin.log"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/log_sha256",
+      "value": "1164c49b73e2bf207aa9a9afb5a5e3fe49bc628991767852b1536d57b02dda34"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-owner-duplicate/normal_unwind_nested_drop_gates",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/observed_sources_after_stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/original_sha256",
+      "value": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/postflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/postflight_capture_check"
+    },
+    {
+      "child_count": 7,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/preflight_capture"
+    },
+    {
+      "child_count": 5,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/preflight_capture_check"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-owner-duplicate/source_intact_after_stages",
+      "value": true
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/rows/callee-owner-duplicate/source_intact_before_stage",
+      "value": true
+    },
+    {
+      "child_count": 11,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/rows/callee-owner-duplicate/stage"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/status",
+      "value": "COMPLETE"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/variant",
+      "value": "callee-owner-duplicate"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/rows/callee-owner-duplicate/verified_sha256",
+      "value": "c2b73b9c39a1546bcce6799e1b8e8ed9b8db13240291b40c5ef8e5a940bf304c"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}
