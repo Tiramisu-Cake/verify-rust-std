@@ -3,9 +3,6 @@
 use crate::mem::{self, ManuallyDrop, MaybeUninit};
 use crate::slice::sort::shared::FreezeMarker;
 use crate::{hint, intrinsics, ptr, slice};
-// K-1 experiment: contract attributes below expand to `kani::...` paths.
-#[cfg(kani)]
-use crate::kani;
 
 // It's important to differentiate between SMALL_SORT_THRESHOLD performance for
 // small slices and small-sort performance sorting small sub-slices as part of
@@ -469,6 +466,60 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
+// K-1 contract (EXPERIMENT.md): on return `v[..9]` is sorted by `is_less` and is a permutation of
+// its pre-state (elements compared by bytes). The pre-state lives in a bitwise snapshot of at most
+// 32 elements (`old(e)` expands to `e.clone()`); the comparator is reached through a raw pointer
+// taken in the pre-state, since an `ensures` closure must be `Fn`.
+// Preconditions: the body's `len >= 9`, and `len <= 17` as at every network call site.
+#[cfg_attr(kani, kani::requires(v.len() >= 9 && v.len() <= 17))]
+#[cfg_attr(kani, kani::modifies(&v[..9]))]
+#[cfg_attr(kani, kani::ensures(|_| {
+    fn same<U>(x: &U, y: &U) -> bool {
+        // SAFETY: both point to initialized values of `U`; compared as their bytes.
+        unsafe {
+            slice::from_raw_parts(x as *const U as *const u8, size_of::<U>())
+                == slice::from_raw_parts(y as *const U as *const u8, size_of::<U>())
+        }
+    }
+    fn count<U>(s: &[U], x: &U) -> usize {
+        let mut n = 0;
+        let mut i = 0;
+        while i < s.len() {
+            if same(&s[i], x) {
+                n += 1;
+            }
+            i += 1;
+        }
+        n
+    }
+    let pre = &old({
+        struct Pre<U>(MaybeUninit<[U; 32]>, usize);
+        impl<U> Clone for Pre<U> {
+            fn clone(&self) -> Self {
+                // SAFETY: a bitwise snapshot; it is never dropped as `U`.
+                unsafe { ptr::read(self) }
+            }
+        }
+        let n = 9;
+        let mut pre = Pre::<T>(MaybeUninit::uninit(), n);
+        // SAFETY: `n <= 32` and `n <= v.len()` by the preconditions.
+        unsafe { ptr::copy_nonoverlapping(v.as_ptr(), pre.0.as_mut_ptr() as *mut T, n) };
+        pre
+    });
+    // SAFETY: the snapshot holds `pre.1` initialized elements.
+    let pre: &[T] = unsafe { slice::from_raw_parts(pre.0.as_ptr() as *const T, pre.1) };
+    let cmp = old(&raw mut *is_less);
+    let cur = &v[..9];
+    let mut ok = cur.len() == pre.len();
+    let mut i = 0;
+    while ok && i < pre.len() {
+        ok = count(pre, &pre[i]) == count(cur, &pre[i])
+            // SAFETY: `cmp` points to the caller's comparator, alive for the whole call.
+            && (i == 0 || unsafe { !(*cmp)(&cur[i], &cur[i - 1]) });
+        i += 1;
+    }
+    ok
+}))]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -518,6 +569,60 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
+// K-1 contract (EXPERIMENT.md): on return `v[..13]` is sorted by `is_less` and is a permutation of
+// its pre-state (elements compared by bytes). The pre-state lives in a bitwise snapshot of at most
+// 32 elements (`old(e)` expands to `e.clone()`); the comparator is reached through a raw pointer
+// taken in the pre-state, since an `ensures` closure must be `Fn`.
+// Preconditions: the body's `len >= 13`, and `len <= 17` as at every network call site.
+#[cfg_attr(kani, kani::requires(v.len() >= 13 && v.len() <= 17))]
+#[cfg_attr(kani, kani::modifies(&v[..13]))]
+#[cfg_attr(kani, kani::ensures(|_| {
+    fn same<U>(x: &U, y: &U) -> bool {
+        // SAFETY: both point to initialized values of `U`; compared as their bytes.
+        unsafe {
+            slice::from_raw_parts(x as *const U as *const u8, size_of::<U>())
+                == slice::from_raw_parts(y as *const U as *const u8, size_of::<U>())
+        }
+    }
+    fn count<U>(s: &[U], x: &U) -> usize {
+        let mut n = 0;
+        let mut i = 0;
+        while i < s.len() {
+            if same(&s[i], x) {
+                n += 1;
+            }
+            i += 1;
+        }
+        n
+    }
+    let pre = &old({
+        struct Pre<U>(MaybeUninit<[U; 32]>, usize);
+        impl<U> Clone for Pre<U> {
+            fn clone(&self) -> Self {
+                // SAFETY: a bitwise snapshot; it is never dropped as `U`.
+                unsafe { ptr::read(self) }
+            }
+        }
+        let n = 13;
+        let mut pre = Pre::<T>(MaybeUninit::uninit(), n);
+        // SAFETY: `n <= 32` and `n <= v.len()` by the preconditions.
+        unsafe { ptr::copy_nonoverlapping(v.as_ptr(), pre.0.as_mut_ptr() as *mut T, n) };
+        pre
+    });
+    // SAFETY: the snapshot holds `pre.1` initialized elements.
+    let pre: &[T] = unsafe { slice::from_raw_parts(pre.0.as_ptr() as *const T, pre.1) };
+    let cmp = old(&raw mut *is_less);
+    let cur = &v[..13];
+    let mut ok = cur.len() == pre.len();
+    let mut i = 0;
+    while ok && i < pre.len() {
+        ok = count(pre, &pre[i]) == count(cur, &pre[i])
+            // SAFETY: `cmp` points to the caller's comparator, alive for the whole call.
+            && (i == 0 || unsafe { !(*cmp)(&cur[i], &cur[i - 1]) });
+        i += 1;
+    }
+    ok
+}))]
 fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -623,6 +728,62 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 }
 
 /// Sort `v` assuming `v[..offset]` is already sorted.
+// K-1 contract (EXPERIMENT.md): on return `v` is sorted by `is_less` and is a permutation of
+// its pre-state (elements compared by bytes). The pre-state lives in a bitwise snapshot of at most
+// 32 elements (`old(e)` expands to `e.clone()`); the comparator is reached through a raw pointer
+// taken in the pre-state, since an `ensures` closure must be `Fn`.
+// Preconditions: the network call site exactly (`2 <= len <= 17`, `offset` is 13, 9 or 1 by `len`) and
+// the body's `v[..offset]` sorted.
+#[cfg_attr(kani, kani::requires(2 <= v.len() && v.len() <= 17 && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }))]
+#[cfg_attr(kani, kani::requires((1..offset).all(|i| !is_less(&v[i], &v[i - 1]))))]
+#[cfg_attr(kani, kani::modifies(v))]
+#[cfg_attr(kani, kani::ensures(|_| {
+    fn same<U>(x: &U, y: &U) -> bool {
+        // SAFETY: both point to initialized values of `U`; compared as their bytes.
+        unsafe {
+            slice::from_raw_parts(x as *const U as *const u8, size_of::<U>())
+                == slice::from_raw_parts(y as *const U as *const u8, size_of::<U>())
+        }
+    }
+    fn count<U>(s: &[U], x: &U) -> usize {
+        let mut n = 0;
+        let mut i = 0;
+        while i < s.len() {
+            if same(&s[i], x) {
+                n += 1;
+            }
+            i += 1;
+        }
+        n
+    }
+    let pre = &old({
+        struct Pre<U>(MaybeUninit<[U; 32]>, usize);
+        impl<U> Clone for Pre<U> {
+            fn clone(&self) -> Self {
+                // SAFETY: a bitwise snapshot; it is never dropped as `U`.
+                unsafe { ptr::read(self) }
+            }
+        }
+        let n = v.len();
+        let mut pre = Pre::<T>(MaybeUninit::uninit(), n);
+        // SAFETY: `n <= 32` and `n <= v.len()` by the preconditions.
+        unsafe { ptr::copy_nonoverlapping(v.as_ptr(), pre.0.as_mut_ptr() as *mut T, n) };
+        pre
+    });
+    // SAFETY: the snapshot holds `pre.1` initialized elements.
+    let pre: &[T] = unsafe { slice::from_raw_parts(pre.0.as_ptr() as *const T, pre.1) };
+    let cmp = old(&raw mut *is_less);
+    let cur = &v[..];
+    let mut ok = cur.len() == pre.len();
+    let mut i = 0;
+    while ok && i < pre.len() {
+        ok = count(pre, &pre[i]) == count(cur, &pre[i])
+            // SAFETY: `cmp` points to the caller's comparator, alive for the whole call.
+            && (i == 0 || unsafe { !(*cmp)(&cur[i], &cur[i - 1]) });
+        i += 1;
+    }
+    ok
+}))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,
@@ -914,6 +1075,8 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
 
 // Kani K-1 experiment (Challenge 8 minimal plan): verification-only harnesses, compiled only under
 // `cfg(kani)`. See research/challenge-8/kani-k1/EXPERIMENT.md.
+#[cfg(kani)]
+use crate::kani;
 #[cfg(kani)]
 #[unstable(feature = "kani", issue = "none")]
 mod kani_k1;

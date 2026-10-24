@@ -2,7 +2,7 @@
 //! `insertion_sort_shift_left` and `small_sort_network`.
 //! Written from the std source and the Kani documentation only (EXPERIMENT.md, rule R1).
 
-use super::super::swap_if_less;
+use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
 use crate::kani;
 
 /// The comparator of every harness here: a strict order on the full value. A named function, so
@@ -56,3 +56,121 @@ fn r11_control_swap_if_less_requires() {
     unsafe { swap_if_less(v.as_mut_ptr(), 1, 1, &mut lt::<u8>) };
     kani::cover(true, "r11 control: end reached");
 }
+
+// ---------------------------------------------------------------------------------------------
+// Harness-level checks: sortedness by `lt` and permutation by full-value equality.
+
+fn count<T: PartialEq>(s: &[T], x: &T) -> usize {
+    let mut n = 0;
+    let mut i = 0;
+    while i < s.len() {
+        if s[i] == *x {
+            n += 1;
+        }
+        i += 1;
+    }
+    n
+}
+
+fn sorted_permutation<T: Ord>(pre: &[T], cur: &[T]) -> bool {
+    let mut ok = pre.len() == cur.len();
+    let mut i = 0;
+    while ok && i < pre.len() {
+        ok = count(pre, &pre[i]) == count(cur, &pre[i]) && (i == 0 || !(cur[i] < cur[i - 1]));
+        i += 1;
+    }
+    ok
+}
+
+// ---------------------------------------------------------------------------------------------
+// sort9_optimal, sort13_optimal: the real network bodies over `stub_verified(swap_if_less)`.
+
+/// Every slice length the contract admits (`n..=17`), so "only `v[..n]` changes" is exercised.
+macro_rules! check_sort_n {
+    ($name:ident, $f:ident, $n:literal, $t:ty) => {
+        #[kani::proof_for_contract(super::super::$f)]
+        #[kani::stub_verified(super::super::swap_if_less)]
+        #[kani::unwind(18)]
+        fn $name() {
+            let mut v: [$t; 17] = kani::any();
+            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
+            kani::cover(len == $n, "exact length reachable");
+            kani::cover(len == 17, "longest slice reachable");
+            let pre = v;
+            super::super::$f(&mut v[..len], &mut lt::<$t>);
+            assert!(sorted_permutation(&pre[..$n], &v[..$n]));
+            assert!(v[$n..] == pre[$n..]);
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_sort_n!(sort9_u8, sort9_optimal, 9, u8);
+check_sort_n!(sort9_i32, sort9_optimal, 9, i32);
+check_sort_n!(sort9_u64, sort9_optimal, 9, u64);
+check_sort_n!(sort13_u8, sort13_optimal, 13, u8);
+check_sort_n!(sort13_i32, sort13_optimal, 13, i32);
+check_sort_n!(sort13_u64, sort13_optimal, 13, u64);
+
+// ---------------------------------------------------------------------------------------------
+// insertion_sort_shift_left on the network regions: `offset` 1 for `len < 9`, 9 for
+// `9 <= len < 13`, 13 for `13 <= len <= 17` (EXPERIMENT.md TASK-network step 3). Real body,
+// including the real `insert_tail`.
+
+macro_rules! check_insertion {
+    ($name:ident, $t:ty, $offset:literal, $lo:literal, $hi:literal) => {
+        #[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
+        #[kani::unwind(18)]
+        fn $name() {
+            let mut v: [$t; $hi] = kani::any();
+            let len: usize = kani::any_where(|&l| $lo <= l && l <= $hi);
+            kani::cover(len == $lo, "shortest region reachable");
+            kani::cover(len == $hi, "longest region reachable");
+            super::super::insertion_sort_shift_left(&mut v[..len], $offset, &mut lt::<$t>);
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_insertion!(insertion_o1_u8, u8, 1, 2, 8);
+check_insertion!(insertion_o9_u8, u8, 9, 9, 12);
+check_insertion!(insertion_o13_u8, u8, 13, 13, 17);
+check_insertion!(insertion_o1_i32, i32, 1, 2, 8);
+check_insertion!(insertion_o9_i32, i32, 9, 9, 12);
+check_insertion!(insertion_o13_i32, i32, 13, 13, 17);
+check_insertion!(insertion_o1_u64, u64, 1, 2, 8);
+check_insertion!(insertion_o9_u64, u64, 9, 9, 12);
+check_insertion!(insertion_o13_u64, u64, 13, 13, 17);
+
+// ---------------------------------------------------------------------------------------------
+// Top level, lengths 0..=17 (no merge): the real trait entrypoint and `small_sort_network` body
+// over the verified contracts of the networks and of the insertion sort.
+
+macro_rules! check_network_no_merge {
+    ($name:ident, $t:ty) => {
+        #[kani::proof]
+        #[kani::stub_verified(super::super::sort9_optimal)]
+        #[kani::stub_verified(super::super::sort13_optimal)]
+        #[kani::stub_verified(super::super::insertion_sort_shift_left)]
+        #[kani::unwind(18)]
+        fn $name() {
+            let mut v: [$t; 17] = kani::any();
+            let len: usize = kani::any_where(|&l| l <= 17);
+            kani::cover(len == 0, "len 0 reachable");
+            kani::cover(len == 1, "len 1 reachable");
+            kani::cover(len == 2, "len 2 reachable");
+            kani::cover(len == 9, "len 9 (sort9) reachable");
+            kani::cover(len == 13, "len 13 (sort13) reachable");
+            kani::cover(len == 17, "len 17 (last without merge) reachable");
+            let pre = v;
+            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut lt::<$t>);
+            assert!(sorted_permutation(&pre[..len], &v[..len]));
+            assert!(v[len..] == pre[len..]);
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_network_no_merge!(network_upto17_u8, u8);
+check_network_no_merge!(network_upto17_i32, i32);
+check_network_no_merge!(network_upto17_u64, u64);
