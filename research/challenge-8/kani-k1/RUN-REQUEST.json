@@ -1,22 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p1-02-networks-insertion-upto17",
+  "request_id": "net-p1-03-u8-isolate",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "Step 2-4 first pass: sort9/sort13 contracts over stub_verified(swap_if_less); insertion_sort_shift_left contract on network regions (real insert_tail); small_sort_network via the trait for len 0..=17 over stubs; timing probe",
+  "purpose": "Job 7 died (infrastructure_fail, no artifacts) on 18 harnesses; isolate with u8 only: sort9/sort13 over stub swap_if_less, insertion offset 13 (real insert_tail), top len 0..=17 over stubs; K1-merge comparators, no memcmp in harness checks",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 2,
+  "harness_timeout_minutes": 5,
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_u64",
       "expect": "SUCCESS"
     },
     {
@@ -24,59 +16,11 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o1_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o9_u8",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o13_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o1_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o9_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o13_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o1_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o9_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o13_u64",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::kani_k1::network::network_upto17_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::network_upto17_i32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::network_upto17_u64",
       "expect": "SUCCESS"
     }
   ]
