@@ -10,3 +10,16 @@ Reviewer: `claude-subagent:smallsort-reviewer`, модель Claude Opus 5.5, ef
 | `71d19a93adb70717a8fbc39c00eeb724f682ea23` | GO | нет | — |
 
 Synthetic-тесты инструмента: 23, все проходят на `71d19a93`.
+
+## Перенос lane на CircleCI
+
+GitHub отключил Actions на форке (dispatch HTTP 422), lane перенесён на CircleCI. Тот же reviewer, те же условия.
+
+| Кандидат | Решение | Находки | Исправлено в |
+|---|---|---|---|
+| `d79024ea6870563cfe82f14683a801cbb36135f8` | GO_WITH_NITS | 4 should-fix: потеря evidence при упоре в 60 минут, кеширование неполных артефактов, path traversal в путях артефактов, `.github/workflows` вне check-tooling. 1 adversarial: кеш Kani доверяется по коммиту. Мелочи | `a3073c49` |
+| `f430cf132515a826b459e0f9d617198b35b61477` | GO_WITH_NITS | мелочи: файлы, влияющие на сборку, вне check-tooling; подпись пропуска verify; отмена при несовпадении ревизии | `897f19ec` |
+| `77479d23b9d17d14abb39e0321e565843c46ffa2` | GO | Известная косметика: если запрос отмены в `dispatch` падает, вместо сообщения о несовпадении ревизии выводится ошибка отмены. Код выхода всё равно ненулевой | не исправлялось, чтобы не менять базу |
+
+Smoke на CircleCI: job 2, 3, 4 — COMPLETE, gate true. Kani собирался с нуля за 204–208 с, весь job около 5 минут. Synthetic-тесты: 25, все проходят.
+
