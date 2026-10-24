@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
-Updated: 2026-10-24T00:02:49Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 8643s spent, 0s retired, 12957s remaining including reservations.
-Active Build IDs: 97b28dc5-1e14-41c9-95be-7213c5f45a1e; unresolved: none recorded.
-Blocker: W4 typed calls and native fingerprints pending; checked linkage/C5 proof remain open. P2 PUBLISHED. [Build `97b28dc5-1e14-41c9-95be-7213c5f45a1e`]
-Next: ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
+Updated: 2026-10-24T00:09:02Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 8986s spent, 0s retired, 12614s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: W4 fingerprint diagnostic terminal FAILURE; source results pending Brief. P2 PUBLISHED. [Build `97b28dc5-1e14-41c9-95be-7213c5f45a1e`]
+Next: Push terminal accounting; Brief typed calls/native fingerprints; continue checked linkage/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

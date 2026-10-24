@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
     "evidence": [],
-    "summary": "W4 typed calls and native fingerprints pending; checked linkage/C5 proof remain open. P2 PUBLISHED."
+    "summary": "W4 fingerprint diagnostic terminal FAILURE; source results pending Brief. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
@@ -1144,8 +1144,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
-  "next_step": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
+  "next": "Push terminal accounting; Brief typed calls/native fingerprints; continue checked linkage/C5.",
+  "next_step": "Push terminal accounting; Brief typed calls/native fingerprints; continue checked linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1238,17 +1238,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "97b28dc5-1e14-41c9-95be-7213c5f45a1e"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 12957,
+    "remaining_seconds": 12614,
     "retired_seconds": 0,
-    "spent_seconds": 8643,
+    "spent_seconds": 8986,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1260,9 +1258,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:02:49Z",
+  "updated_utc": "2026-10-24T00:09:02Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1449,19 +1447,21 @@
   },
   "w4_native_fingerprint_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "actual_body_proof_status": "UNKNOWN",
     "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+    "build_seconds": 343,
     "candidate": "de7b8196de9d3f9556aad1b3b89d7150f2d0e844",
     "config_sha256": "3ab8fdbdf001434d45b9d218da6383cf7af54f96c0e1b302d6a90ebec993a610",
     "dispatch_token": "dispatch-1dbe9071ed1a452bb10a39b32173d83e",
+    "execution_seconds": 343,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_TYPED_CALLS_AND_NATIVE_FINGERPRINTS_ONLY",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-native-fingerprint-submission-v1",
     "source_payload_sha256": "ca5c7fd26a4f4de94b7bcce711ea7efdf30c05e28dbd4cb3fa3e066cce4abda3",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1488,7 +1488,7 @@
       "sha256": "c30769a17e3282a38c91bfcdcdd173eb41cbbcf4b2e2243df642d399ff06b59b"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "typed_call_linkage": "UNKNOWN"
   },
   "w4_native_fingerprint_preparation": {
@@ -1521,7 +1521,7 @@
       "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "tests": "12 parser, 14 wrapper, 8 Bash tests pass after final mode pins; 23 old capture/mutable runner regressions passed by worker. Bash syntax and diff checks pass; no actual tools.",
     "workers": {
       "diagnostic_wrapper": "r24_mut_proof_runner",
@@ -1578,7 +1578,11 @@
       "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
+      "event_id": "5fc2afe8-d93e-45b7-9a94-8d28e4bb82bd",
+      "job_id": "565e792c-2d14-48ce-9467-3f472ba30deb",
+      "mode": "CONTINUE_EXISTING_WINDOW",
       "spec_path": "/tmp/select-r24-w4-native-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
