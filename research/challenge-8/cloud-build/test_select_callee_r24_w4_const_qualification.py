@@ -41,7 +41,7 @@ class ConsequenceFake:
                 'accepted': False, 'proof_credit': 0}
 
 
-def matrix_record(native_home=None):
+def matrix_record(native_home=None, target_receipt=None):
     variants = {}
     for variant in MOD.VARIANTS:
         same_site = variant in {'omit-selected-own', 'omit-unselected-own', 'no-retained-half'}
@@ -57,12 +57,18 @@ def matrix_record(native_home=None):
                                                     '--edition 2021', '-verbose', '1', 'verified/lib.rs']
                                                    if native_home else [])},
         }
+    receipt = target_receipt or {}
     return {'schema': 'r21-fractional-classified-proof-v1',
             'complete': True, 'variant_order': list(MOD.VARIANTS),
             'body_proof_run': True,
             'rows': variants, 'pins': {'base_original_sha256': MOD.CONST_ORIGINAL_SHA256,
                                        'base_verified_sha256': MOD.CONST_BASE_VERIFIED_SHA256},
             'tool_home': str(native_home) if native_home else None,
+            'entry_dependencies': {
+                'target_map_sha256': receipt.get('derived_map_raw_sha256'),
+                'target_map_canonical_sha256': receipt.get('derived_map_canonical_sha256'),
+                'tool_spec_sha256': receipt.get('new_spec_sha256')},
+            'diagnostic_target_map_sha256': receipt.get('derived_map_canonical_sha256'),
             'current_build_id': 'build-uuid', 'checked_pointer_outcomes_requested': True,
             'accepted': False, 'proof_credit': False}
 
@@ -129,7 +135,8 @@ class FakeCommandRunner:
         elif name == 'r21-fractional-proof':
             path = work / MOD.CONST_MATRIX_REPORT_REL
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(matrix_record(self.native_home)))
+            receipt = json.loads((work / MOD.TARGET_INTENT_RECEIPT_REL).read_text())
+            path.write_text(json.dumps(matrix_record(self.native_home, receipt)))
         elif name == 'const-regression-audit':
             path = work / MOD.CONST_MATRIX_AUDIT_REL
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -167,6 +174,21 @@ class QualificationTests(unittest.TestCase):
         self.args.cloud_dir.mkdir()
         self.args.tool_home.mkdir()
         self.args.native_tool_home.mkdir()
+        self.target_spec = b'synthetic pinned lib.rsspec\n'
+        for home in (self.args.tool_home, self.args.native_tool_home):
+            spec = home / 'bin/rust/std/lib.rsspec'
+            spec.parent.mkdir(parents=True)
+            spec.write_bytes(self.target_spec)
+        source_map = json.loads((HERE.parents[2] / MOD.TARGET_MAP_REL).read_text())
+        old_spec = str((self.args.tool_home / 'bin/rust/std/lib.rsspec').resolve())
+        for row in source_map['targets'].values():
+            if row['file'].endswith('/lib.rsspec'):
+                row['file'] = old_spec
+                row['tool_spec_sha256'] = sha(self.target_spec)
+        self.target_map_raw = (json.dumps(source_map, indent=2, sort_keys=True) + '\n').encode()
+        target_path = self.args.repo / MOD.TARGET_MAP_REL
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_bytes(self.target_map_raw)
         self.env = dict(os.environ)
         self.env.update({MOD.R24_PHASE_ENV: MOD.R24_PHASE, MOD.R21_PHASE_ENV: MOD.R21_PHASE,
                          'SMALLSORT_EXECUTION_PROVIDER': 'cloud-build',
@@ -193,12 +215,129 @@ class QualificationTests(unittest.TestCase):
             mock.patch.object(MOD, '_read_native_files', return_value=self.native_digest),
             mock.patch.object(MOD, 'TOOL_HASHES_8A', {'old-tool': 'old'}),
             mock.patch.object(MOD, 'NATIVE_TOOL_HASHES', {'bin/verifast': 'native'}),
+            mock.patch.object(MOD, 'TARGET_SPEC_SHA256', sha(self.target_spec)),
+            mock.patch.object(MOD, 'TARGET_MAP_SHA256', sha(self.target_map_raw)),
             mock.patch.object(MOD, 'CONST_ORIGINAL_SHA256', sha(self.original)),
             mock.patch.object(MOD, 'CONST_BASE_VERIFIED_SHA256', sha(self.verified)),
         ]
         stack = ExitStack()
         for patcher in patches: stack.enter_context(patcher)
         return stack
+
+    def _synthetic_target_map_for_frozen_validator(self):
+        helper_path = HERE / 'select-callee-r22-control-targets.py'
+        helper = MOD._load(helper_path, 'r24_test_r22_target_helper', sha(helper_path.read_bytes()))
+        sources = {}
+        for variant in helper.VARIANTS:
+            if variant in helper.CALLEE_VARIANTS:
+                sources[variant] = (helper.FORGET_SIGNATURE +
+                                    helper.FORGET_CONTRACTS[variant] + b'\n' +
+                                    helper.FORGET_BODY + b'\n')
+            else:
+                sources[variant] = (helper.SELECT_SIGNATURE + b'{\n' +
+                                    helper.RETAINED_HALF_MERGE + b'\n' +
+                                    helper.FULL_CELL_ASSERT + b'}\n')
+        spec_lines = [b''] * 463
+        spec_lines[461] = helper.SPEC_PRECONDITION_TEXT['omit-selected-own'].encode()
+        spec_lines[462] = helper.SPEC_PRECONDITION_TEXT['omit-unselected-own'].encode()
+        spec = b'\n'.join(spec_lines) + b'\n'
+        spec_hash = sha(spec)
+        for home in (self.args.tool_home, self.args.native_tool_home):
+            path = home / 'bin/rust/std/lib.rsspec'
+            path.write_bytes(spec)
+        raw_map = json.loads((HERE.parents[2] / MOD.TARGET_MAP_REL).read_text())
+        for variant, source in sources.items():
+            row = raw_map['targets'][variant]
+            file, line = helper._source_anchor(variant, source)
+            row.update(source_sha256=sha(source), tool_spec_sha256=spec_hash,
+                       file=(str((self.args.tool_home / helper.TOOL_SPEC_FILE).resolve())
+                             if variant in helper.SPEC_PRECONDITION_LINE else file),
+                       line=line)
+        raw = (json.dumps(raw_map, indent=2, sort_keys=True) + '\n').encode()
+        path = self.args.repo / MOD.TARGET_MAP_REL
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(raw)
+        return helper, raw_map, sources, spec, spec_hash, raw
+
+    def test_derived_intent_relocates_only_spec_paths_and_frozen_validator_accepts(self):
+        helper, original, sources, spec, spec_hash, raw = self._synthetic_target_map_for_frozen_validator()
+        with mock.patch.object(MOD, 'TARGET_MAP_SHA256', sha(raw)), \
+             mock.patch.object(MOD, 'TARGET_SPEC_SHA256', spec_hash):
+            derived, receipt, _, _ = MOD._target_intent_material(self.args)
+            self.assertEqual(receipt['semantics'], 'DERIVED_TARGET_INTENT_NOT_NEW_OBSERVATION')
+            self.assertFalse(receipt['new_path_observed'])
+            changed = []
+            for variant in helper.VARIANTS:
+                before, after = original['targets'][variant], derived['targets'][variant]
+                allowed = {'file'} if variant in helper.SPEC_PRECONDITION_LINE else set()
+                self.assertEqual({k: v for k, v in before.items() if k not in allowed},
+                                 {k: v for k, v in after.items() if k not in allowed})
+                if allowed:
+                    changed.append((variant, before['file'], after['file']))
+            self.assertEqual([row[0] for row in changed],
+                             ['omit-selected-own', 'omit-unselected-own'])
+            result = helper.validate_target_map(
+                derived, sources, spec,
+                tool_spec_file=str(self.args.native_tool_home / helper.TOOL_SPEC_FILE),
+                tool_home=self.args.native_tool_home)
+        self.assertEqual(result['status'], 'TARGET_MAP_VALIDATED_NOT_ACCEPTED')
+        self.assertEqual(result['provenance_status'],
+                         'CALLER_DECLARED_PRIOR_OBSERVATIONS_CONSISTENT_NOT_AUTHENTICATED')
+        self.assertFalse(result['accepted'])
+        self.assertFalse(result['proof_credit'])
+
+    def test_target_intent_audit_recomputes_physical_map_and_receipt(self):
+        with self.patched():
+            work = self.args.evidence / MOD.WORK_REL
+            work.mkdir(parents=True)
+            receipt = MOD._write_target_intent(self.args, work)
+            reserved_matrix_root = work / 'cases/r21-fractional-proof'
+            self.assertFalse(reserved_matrix_root.exists())
+            reserved_matrix_root.mkdir(parents=True, exist_ok=False)
+            self.assertEqual(MOD._validate_target_intent(self.args, work, receipt), [])
+            (work / MOD.TARGET_INTENT_REL).write_bytes(b'{}\n')
+            self.assertTrue(any('artifact changed' in e for e in
+                                MOD._validate_target_intent(self.args, work, receipt)))
+
+    def test_target_intent_audit_rejects_symlinked_parent_escape(self):
+        with self.patched():
+            work = self.args.evidence / MOD.WORK_REL
+            work.mkdir(parents=True)
+            receipt = MOD._write_target_intent(self.args, work)
+            intent_parent = work / MOD.TARGET_INTENT_REL.parent
+            outside = self.root / 'escaped-target-inputs'
+            intent_parent.rename(outside)
+            intent_parent.symlink_to(outside, target_is_directory=True)
+            errors = MOD._validate_target_intent(self.args, work, receipt)
+        self.assertTrue(any('escapes or aliases' in error for error in errors))
+
+    def test_target_intent_refuses_native_spec_drift_and_symlink(self):
+        with self.patched():
+            spec = self.args.native_tool_home / 'bin/rust/std/lib.rsspec'
+            spec.write_bytes(b'changed')
+            with self.assertRaisesRegex(RuntimeError, 'bytes differ'):
+                MOD._target_intent_material(self.args)
+            spec.unlink()
+            external = self.root / 'outside.rsspec'
+            external.write_bytes(self.target_spec)
+            spec.symlink_to(external)
+            with self.assertRaisesRegex(RuntimeError, 'symlinked|outside'):
+                MOD._target_intent_material(self.args)
+
+    def test_target_intent_rejects_missing_null_and_wrong_type_map(self):
+        target_path = self.args.repo / MOD.TARGET_MAP_REL
+        original = target_path.read_bytes()
+        for content in (b'null\n', b'[]\n'):
+            target_path.write_bytes(content)
+            with mock.patch.object(MOD, 'TARGET_MAP_SHA256', sha(content)), \
+                 mock.patch.object(MOD, 'TARGET_SPEC_SHA256', sha(self.target_spec)):
+                with self.assertRaisesRegex(RuntimeError, 'schema or shape'):
+                    MOD._target_intent_material(self.args)
+        target_path.unlink()
+        with self.patched():
+            with self.assertRaisesRegex(RuntimeError, 'missing or unsafe'):
+                MOD._target_intent_material(self.args)
+        target_path.write_bytes(original)
 
     def test_unmocked_canonical_mode_and_pinned_inputs_accept_synthetic_overlay(self):
         repo = self.root / 'pinned-repo'

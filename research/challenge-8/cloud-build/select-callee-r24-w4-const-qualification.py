@@ -41,6 +41,9 @@ FRACTIONAL_PINS_REL = Path('research/challenge-8/task-history/select-callee-r23/
 FRACTIONAL_PINS_SHA256 = '939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5'
 TARGET_MAP_REL = Path('research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json')
 TARGET_MAP_SHA256 = 'a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc'
+TARGET_INTENT_REL = Path('target-inputs/const-control-target-intent.json')
+TARGET_INTENT_RECEIPT_REL = Path('target-inputs/const-control-target-intent-receipt.json')
+TARGET_INTENT_SCHEMA = 'select-r24-w4-const-derived-target-intent-v1'
 CONSEQUENCE_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py')
 CONSEQUENCE_SHA256 = '65e88f2537b06f6f1466acd63d88a9e5b4ea9f824f7f4882b6e8b7f0f399bb08'
 R21_ENTRY_REL = Path('research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py')
@@ -111,6 +114,7 @@ NATIVE_TOOL_HASHES = {
     'src/rust_frontend/vf_mir_translator/rust_parser.ml': '6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246',
     'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml': '5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942',
 }
+TARGET_SPEC_SHA256 = NATIVE_TOOL_HASHES['bin/rust/std/lib.rsspec']
 NATIVE_ORIGINAL_SHA256 = 'b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db'
 NATIVE_VERIFIED_SHA256 = 'e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663'
 SOURCE_SHA256 = '85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1'
@@ -155,6 +159,160 @@ def _load_json(repo: Path, rel: Path, expected_sha: str) -> dict[str, Any]:
     value = json.loads(path.read_text(encoding='utf-8'))
     need(type(value) is dict, 'pinned JSON has wrong type: ' + rel.as_posix())
     return value
+
+
+def _canonical_json(value: object) -> bytes:
+    return (json.dumps(value, sort_keys=True, separators=(',', ':')) + '\n').encode()
+
+
+def _target_spec_identity(home: Path) -> tuple[Path, bytes]:
+    """Read the exact contained lib.rsspec used to name spec diagnostics."""
+    root = home.resolve()
+    path = root / 'bin/rust/std/lib.rsspec'
+    need(path.resolve() == path and path.is_relative_to(root) and
+         not path.is_symlink() and path.is_file(),
+         'target-intent lib.rsspec path is missing, symlinked, or outside tool home')
+    raw = path.read_bytes()
+    need(sha(raw) == TARGET_SPEC_SHA256,
+         'target-intent lib.rsspec bytes differ from the pinned spec')
+    return path, raw
+
+
+def _target_intent_material(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, Any], bytes, bytes]:
+    """Derive only the two absolute spec paths; leave historical input untouched."""
+    source_path = args.repo / TARGET_MAP_REL
+    need(not source_path.is_symlink() and source_path.is_file(),
+         'historical control target map is missing or unsafe')
+    original_raw = source_path.read_bytes()
+    need(sha(original_raw) == TARGET_MAP_SHA256,
+         'historical control target map raw SHA-256 differs')
+    try:
+        original = json.loads(original_raw.decode('utf-8'))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        raise RuntimeError('historical control target map is invalid JSON') from exc
+    need(type(original) is dict and set(original) == {'schema', 'targets'} and
+         original.get('schema') == 'select-r22-control-target-map-v1' and
+         type(original.get('targets')) is dict,
+         'historical control target map schema or shape differs')
+    target_map = json.loads(json.dumps(original))
+    targets = target_map['targets']
+    need(set(targets) == {'callee-false-normal', 'callee-owner-duplicate',
+         'callee-owner-loss', 'callee-thread-duplicate', 'no-retained-half',
+         'omit-selected-own', 'omit-unselected-own'},
+         'historical control target map row inventory differs')
+    need(all(type(row) is dict for row in targets.values()),
+         'historical control target map contains a missing/null/wrong-type row')
+    old_path, old_raw = _target_spec_identity(args.tool_home)
+    new_path, new_raw = _target_spec_identity(args.native_tool_home)
+    need(old_raw == new_raw, 'old and native lib.rsspec bytes differ')
+    old_identity, new_identity = str(old_path), str(new_path)
+    rewrites = []
+    for variant, line in (('omit-selected-own', 462), ('omit-unselected-own', 463)):
+        row = targets.get(variant)
+        need(type(row) is dict and row.get('file') == old_identity and
+             row.get('line') == line and
+             row.get('tool_spec_sha256') == sha(old_raw),
+             'historical spec target path or identity differs: ' + variant)
+        row['file'] = new_identity
+        rewrites.append({'variant': variant, 'line': line,
+                         'from': old_identity, 'to': new_identity})
+    expected = json.loads(json.dumps(original))
+    for item in rewrites:
+        expected['targets'][item['variant']]['file'] = item['to']
+    need(target_map == expected, 'derived target intent changed an unapproved field')
+    derived_raw = _canonical_json(target_map)
+    canonical_map_sha = sha(json.dumps(target_map, sort_keys=True,
+                                       separators=(',', ':')).encode())
+    receipt = {
+        'schema': TARGET_INTENT_SCHEMA,
+        'semantics': 'DERIVED_TARGET_INTENT_NOT_NEW_OBSERVATION',
+        'historical_map_path': TARGET_MAP_REL.as_posix(),
+        'historical_map_raw_sha256': sha(original_raw),
+        'historical_map_bytes': len(original_raw),
+        'derived_map_path': TARGET_INTENT_REL.as_posix(),
+        'derived_map_raw_sha256': sha(derived_raw),
+        'derived_map_canonical_sha256': canonical_map_sha,
+        'derived_map_bytes': len(derived_raw),
+        'frozen_tool_home': str(args.tool_home.resolve()),
+        'native_tool_home': str(args.native_tool_home.resolve()),
+        'old_spec_path': old_identity, 'new_spec_path': new_identity,
+        'old_spec_sha256': sha(old_raw), 'new_spec_sha256': sha(new_raw),
+        'rewrites': rewrites,
+        'all_other_fields_preserved': True,
+        'historical_observed_fields_reused_as_prior_input': True,
+        'new_path_observed': False,
+        'current_acceptance': False, 'publication_allowed': False,
+        'proof_credit': 0,
+    }
+    return target_map, receipt, derived_raw, _canonical_json(receipt)
+
+
+def _target_intent_matrix_errors(matrix: object, receipt: object) -> list[str]:
+    if type(matrix) is not dict or type(receipt) is not dict:
+        return ['matrix/target-intent binding record missing or wrong type']
+    dependencies = matrix.get('entry_dependencies')
+    if type(dependencies) is not dict:
+        return ['matrix entry dependency binding missing or wrong type']
+    errors = []
+    if dependencies.get('target_map_sha256') != receipt.get('derived_map_raw_sha256'):
+        errors.append('R21 entry consumed a different target-intent raw map')
+    if dependencies.get('target_map_canonical_sha256') != receipt.get('derived_map_canonical_sha256'):
+        errors.append('R21 entry canonical target-intent digest differs')
+    if matrix.get('diagnostic_target_map_sha256') != receipt.get('derived_map_canonical_sha256'):
+        errors.append('R21 matrix diagnostic target-map digest differs')
+    if dependencies.get('tool_spec_sha256') != receipt.get('new_spec_sha256'):
+        errors.append('R21 entry target-intent tool-spec digest differs')
+    return errors
+
+
+def _write_target_intent(args: argparse.Namespace, work: Path) -> dict[str, Any]:
+    _, receipt, derived_raw, receipt_raw = _target_intent_material(args)
+    map_path, receipt_path = work / TARGET_INTENT_REL, work / TARGET_INTENT_RECEIPT_REL
+    work_abs = Path(os.path.abspath(work))
+    need(work.resolve() == work_abs and
+         map_path.resolve() == work_abs / TARGET_INTENT_REL and
+         receipt_path.resolve() == work_abs / TARGET_INTENT_RECEIPT_REL,
+         'target-intent output path escapes or aliases the work subtree')
+    for path in (map_path, receipt_path):
+        need(not path.exists() and not path.is_symlink(),
+             'derived target-intent output already exists: ' + str(path))
+        path.parent.mkdir(parents=True, exist_ok=True)
+    map_path.write_bytes(derived_raw)
+    receipt_path.write_bytes(receipt_raw)
+    need(map_path.is_file() and not map_path.is_symlink() and
+         receipt_path.is_file() and not receipt_path.is_symlink() and
+         map_path.read_bytes() == derived_raw and receipt_path.read_bytes() == receipt_raw,
+         'derived target-intent files failed physical write verification')
+    return receipt
+
+
+def _validate_target_intent(args: argparse.Namespace, work: Path,
+                            saved_receipt: object) -> list[str]:
+    try:
+        _, receipt, derived_raw, receipt_raw = _target_intent_material(args)
+    except BaseException as exc:
+        return ['target-intent recomputation failed: ' + type(exc).__name__ + ': ' + str(exc)]
+    errors = []
+    work_abs = Path(os.path.abspath(work))
+    if work.resolve() != work_abs:
+        errors.append('target-intent work root is symlinked or aliased')
+    if saved_receipt != receipt:
+        errors.append('target-intent receipt differs from recomputed derivation')
+    for path, expected in ((work / TARGET_INTENT_REL, derived_raw),
+                           (work / TARGET_INTENT_RECEIPT_REL, receipt_raw)):
+        expected_path = work_abs / path.relative_to(work)
+        if path.resolve() != expected_path or not path.resolve().is_relative_to(work_abs):
+            errors.append('target-intent artifact escapes or aliases work: ' + str(path))
+            continue
+        if path.is_symlink() or not path.is_file():
+            errors.append('target-intent artifact missing/unsafe: ' + str(path))
+        else:
+            try:
+                if path.read_bytes() != expected:
+                    errors.append('target-intent artifact changed: ' + str(path))
+            except OSError:
+                errors.append('target-intent artifact unreadable: ' + str(path))
+    return errors
 
 
 def expected_mode() -> dict[str, Any]:
@@ -406,6 +564,7 @@ def _stage_commands(args: argparse.Namespace, work: Path) -> list[tuple[str, lis
     fractional = args.cloud_dir / R21_ENTRY_REL.name
     audit = args.cloud_dir / R21_AUDIT_REL.name
     case_capture = work / 'cases/candidate/capture'
+    target_intent = work / TARGET_INTENT_REL
     return [
         ('source-preflight', [py, str(recipe), 'preflight', '--repo', str(args.repo),
                               '--cloud-dir', str(args.cloud_dir), '--evidence', str(work)]),
@@ -426,7 +585,7 @@ def _stage_commands(args: argparse.Namespace, work: Path) -> list[tuple[str, lis
                                  '--deadline-epoch', str(args.deadline_epoch),
                                  '--pins-json', str(args.repo / FRACTIONAL_PINS_REL),
                                  '--positive-ast-inventory', '--checked-pointer-outcomes',
-                                 '--target-map', str(args.repo / TARGET_MAP_REL)]),
+                                 '--target-map', str(target_intent)]),
         ('const-regression-audit', [py, str(audit), '--evidence', str(work),
                                     '--output', str(work / CONST_MATRIX_AUDIT_REL),
                                     '--runner-exit', '0', '--failed-stage', 'complete']),
@@ -763,6 +922,9 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
                        'frozen_const_qualification': CONST_QUALIFICATION_SHA256,
                        'published_p2_interface': P2_INTERFACE_SHA256},
         'provider_overlay_receipt_binding': None,
+        'target_intent_receipt': None,
+        'target_intent_map_path': (work / TARGET_INTENT_REL).relative_to(outer_evidence).as_posix(),
+        'target_intent_receipt_path': (work / TARGET_INTENT_RECEIPT_REL).relative_to(outer_evidence).as_posix(),
         'stages': [], 'source_observation': None,
         'matrix_summary_path': (work / CONST_MATRIX_REPORT_REL).relative_to(outer_evidence).as_posix(),
         'matrix_audit_path': (work / CONST_MATRIX_AUDIT_REL).relative_to(outer_evidence).as_posix(),
@@ -775,6 +937,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
     try:
         record['provider_overlay_receipt_binding'] = _copy_provider_overlay_receipt(
             outer_evidence, work, pins.get('cloud_overlay'))
+        record['target_intent_receipt'] = _write_target_intent(args, work)
         _save_summary(record_path, record)
         for name, argv in _stage_commands(args, work):
             result = command_runner(name, argv, cwd=args.repo, env=selected_env,
@@ -806,6 +969,10 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
             matrix_audit = _read_object(work / CONST_MATRIX_AUDIT_REL)
             need(type(matrix) is dict and type(matrix_audit) is dict,
                  'matrix artifacts unavailable after frozen audit')
+            record['errors'].extend(_target_intent_matrix_errors(
+                matrix, record.get('target_intent_receipt')))
+            _save_summary(record_path, record)
+            need(not record['errors'], 'R21 matrix target-intent binding differs')
             if consequence_module is None:
                 consequence_path = args.cloud_dir / CONSEQUENCE_REL.name
                 consequence_module = _load(consequence_path, 'r24_w4_const_consequence',
@@ -853,6 +1020,8 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
         record['native_tool_hashes_before'], record['native_tool_hashes_after'])
     if record['native_identity_errors']:
         record['errors'].extend(record['native_identity_errors'])
+    record['errors'].extend(_validate_target_intent(
+        args, work, record.get('target_intent_receipt')))
     record['tool_hashes_before'] = tool_before
     try:
         tool_after = _tool_identity(args.tool_home, TOOL_HASHES_8A)
@@ -931,14 +1100,22 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
         work = args.evidence / WORK_REL
         if source.get('work_evidence_root') != str(work):
             errors.append('work evidence root differs')
+        if source.get('target_intent_map_path') != (work / TARGET_INTENT_REL).relative_to(
+                args.evidence).as_posix() or source.get('target_intent_receipt_path') != (
+                work / TARGET_INTENT_RECEIPT_REL).relative_to(args.evidence).as_posix():
+            errors.append('target-intent summary paths differ')
         errors.extend(_validate_provider_overlay_copy(
             args.evidence, work, source.get('provider_overlay_receipt_binding')))
+        errors.extend(_validate_target_intent(args, work,
+                                               source.get('target_intent_receipt')))
         actual_source = _source_observation(work)
         if source.get('source_observation') != actual_source or actual_source.get('complete') is not True:
             errors.append('source pair changed or summary observation differs')
         matrix = _read_object(work / CONST_MATRIX_REPORT_REL)
         errors.extend(_validate_matrix_rows(matrix, native_home=args.native_tool_home,
                                             build_id=selected_env.get('CLOUD_BUILD_ID')))
+        errors.extend(_target_intent_matrix_errors(
+            matrix, source.get('target_intent_receipt')))
         matrix_audit = _read_object(work / CONST_MATRIX_AUDIT_REL)
         if type(matrix_audit) is not dict or matrix_audit.get('evidence_complete') is not True:
             errors.append('frozen matrix audit missing/incomplete')
