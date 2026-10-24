@@ -1,0 +1,38 @@
+{
+  "schema": "select-r24-w4-c4-expected-api-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_SOURCE_ONLY_PILOT_ONLY",
+  "baseline_commit": "cec4a3effd0db38d56879466e8cfb3ca83afaf55",
+  "candidate_commit": "c7384a8be909abfffc851ea4ea4113ef11c59ae8",
+  "candidate_tree": "a3c5d6cefd1dea5b1dff8d9ce1c8857f77530d96",
+  "spec_sha256": "caf01203be55f412d871304c106ddcf51a697a862fc99952db86933f3ed3aadc",
+  "packet_sha256": "89c6038e4e0ea345c21d21ac036066d61a8c55985412907ed9bfee499fd9e80c",
+  "diff_sha256": "8ac116d340660b70e3a7b0283cbec3a0b4ab57fb0b65b3334952fab601660392",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-index-types-review.json",
+      "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3",
+      "decision": "PRIOR_CANDIDATE_REVIEW; THIS PACKET HAS A DISTINCT BASELINE/CANDIDATE"
+    }
+  ],
+  "findings": [],
+  "verified": [
+    "Reviewed the exact c7384a8be909abfffc851ea4ea4113ef11c59ae8 candidate against baseline cec4a3effd0db38d56879466e8cfb3ca83afaf55. The candidate tree and packet/spec/diff identities match the handoff.",
+    "The C4 adapter now uses a local fixed eight-label tuple instead of reading the absent `C4_EXPECTED` attribute from the pinned indexed module. The labels and order exactly match the inline final argument to the pinned `resource_controls_c4` return call. The frozen module itself remains unchanged and its existing hash pin is retained.",
+    "The adapter continues to create the same eight C4 control rows and leaves the C3 expected-label attribute in place. The source-only count-five/runtime-preservation guards, control order, pilot indices, and 37-entry universe are unchanged.",
+    "The delta only refreshes the wrapper/mode/Bash pin chain for the updated capture helper and adds source-level API/adapter tests. The prior physical-audit, context/type/stage, native refusal, same-Build C6, and zero-credit boundaries are not weakened by this localized fix."
+  ],
+  "tests": [
+    "The packet reports 100 targeted static/synthetic tests passing, including pinned API-attribute inspection, AST comparison of the C4 tuple to the pinned inline call literal, and C3/C4 adapter checks with real constants over dummy runtime bytes. I did not rerun the tests or transport preflight.",
+    "Static review only; no source preparation, actual constructors on Rust std, compiler/exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "GO applies only to one authorized full-1200-second source-only pilot of the fixed 8/37 input batch. The candidate does not establish actual W4/C5 body proof, checked-call consumption, control-target failure behavior, or qualification of the new diagnostic binary. S36 C6 completion alone is not global acceptance."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}
