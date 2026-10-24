@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "edc32b527ec9e0f9b5c3f4bcae44f61a0e800344b57c701938783411da098b08",
+  "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 430,
+    "line_separator": "LF",
+    "source_lines": 460,
+    "start": 426,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "64a34e27563bfcb491d7bf884bdd327ee0898ea4aee67d99d53fc816fc7bc25b",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/variants/callee-thread-duplicate/nine-body-a1-owned-forget/r20-merged-optin.log",
+  "file_sha256": "51bdbff5a1bc792350f6a0ffe6f5a883c889cf1c1b8f0391b74501782342d609",
+  "index_sha256": "238086481a40930e9067a03b37e654a1ec43de50c92c4cd4a2f6fa2bba6233e2",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 430,
+    "expected_sha256": "51bdbff5a1bc792350f6a0ffe6f5a883c889cf1c1b8f0391b74501782342d609",
+    "file_id": "64a34e27563bfcb491d7bf884bdd327ee0898ea4aee67d99d53fc816fc7bc25b",
+    "start": 426
+  },
+  "request_id": "50db76bc0b2fdb965b3675b4f4f196130fad3b21e769d83b38992a65b77af4b9",
+  "requested_end": 430,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 426,
+      "text": "  0.203144s: verified/lib.rs(133,1-2): Freeing locals."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 427,
+      "text": "  0.203161s: verified/lib.rs(121,1-133,2): Consuming function lifetime token"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 428,
+      "text": "verified/lib.rs(126,27-39): error: No matching heap chunks: thread_token(tid)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 429,
+      "text": "126 | ens thread_token(tid) &*& thread_token(tid) &*& [1/2] <T>.own(tid, t);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 430,
+      "text": "    |                           ^^^^^^^^^^^^"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

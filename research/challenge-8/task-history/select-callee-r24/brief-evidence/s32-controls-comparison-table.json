@@ -1,0 +1,312 @@
+{
+  "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+  "candidate": "8de59d2f231a308f83b6c03e3f848299348a266c",
+  "causal_status": "UNKNOWN",
+  "coverage": {
+    "catalogued_logs": 8,
+    "exact_locates_complete": 8,
+    "one_error_marker_each_negative": 7,
+    "positive_zero_errors_footer": true,
+    "requested_logs": 8
+  },
+  "derived_intent_semantics": "derived native spec paths are intended current locations, not separately observed historical targets",
+  "failures": [],
+  "historical_target_map": "research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json",
+  "historical_target_map_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc",
+  "native_spec_path_from_brief": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "qualification": "SOURCE_OBSERVATION_ONLY_NO_PROOF_CREDIT",
+  "rows": [
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 586,
+      "catalogue_file_id": "26c85e054568b0b6b432084ffdbd8ba0f0997e8ff01a63177d6e17f1a9042f4b",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec",
+      "expected_historical": {
+        "end_column": 48,
+        "file": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec",
+        "line": 462,
+        "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))",
+        "start_column": 47
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 795,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 66316,
+      "log_sha256": "fcd932e1acfff5e9a9a6425c9a5ab0f8bb22e86b432f2bc6eb5d0000e8b76506",
+      "observed": {
+        "end": "48",
+        "file": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec",
+        "line": "462",
+        "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value6))",
+        "start": "47"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "omit-selected-own"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 586,
+      "catalogue_file_id": "f9f597f746ff574051faf498ee3a7f4f34a935fa1aae7ddbc391d3662d42719b",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec",
+      "expected_historical": {
+        "end_column": 48,
+        "file": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec",
+        "line": 463,
+        "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))",
+        "start_column": 47
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 795,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 66324,
+      "log_sha256": "6dde110732ebd3d0e54e3c300984d2a26a7ee07553fe2053b259072729b27e12",
+      "observed": {
+        "end": "48",
+        "file": "/workspace/smallsort-work/r24-w4-native-fingerprint-tool/bin/rust/std/lib.rsspec",
+        "line": "463",
+        "message": "error: No matching heap chunks: std::mem::MaybeUninit_pointer_own(Element_typeid)(t, std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), value2))",
+        "start": "47"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "omit-unselected-own"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 563,
+      "catalogue_file_id": "010bb4fc936380d7036b016df51474c5067dfecc60cd7938209e1f714c2154fd",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "verified/lib.rs",
+      "expected_historical": {
+        "end_column": 42,
+        "file": "verified/lib.rs",
+        "line": 219,
+        "message": "error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)",
+        "start_column": 39
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 773,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 64348,
+      "log_sha256": "ccb22332b7cf20fcfe8904981222f9b7d692cf941a00e40020d6c4fd60abac34",
+      "observed": {
+        "end": "42",
+        "file": "verified/lib.rs",
+        "line": "219",
+        "message": "error: No matching heap chunks: points_to<*Element>(get_select_unpredictable::DropOnPanic_inner(mk_select_unpredictable::DropOnPanic(__result1)), _)",
+        "start": "39"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "no-retained-half"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 429,
+      "catalogue_file_id": "fc1bfcdac1aa7fa671b3202b3d14be9bb1d128f51c5191b991a6e12e3bcb70b4",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "verified/lib.rs",
+      "expected_historical": {
+        "end_column": 58,
+        "file": "verified/lib.rs",
+        "line": 126,
+        "message": "error: Cannot prove condition. (Cannot prove false.)",
+        "start_column": 53
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 461,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 42992,
+      "log_sha256": "53be744fe860c86c4c51334532a4efa8df61da597e765fa23c27acc4b2a457b4",
+      "observed": {
+        "end": "58",
+        "file": "verified/lib.rs",
+        "line": "126",
+        "message": "error: Cannot prove condition. (Cannot prove false.)",
+        "start": "53"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "callee-false-normal"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 428,
+      "catalogue_file_id": "4cfe71462ea4943e0ed33e31f6005f602ac5302fcb183da19c9dc3c917c93070",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "verified/lib.rs",
+      "expected_historical": {
+        "end_column": 54,
+        "file": "verified/lib.rs",
+        "line": 126,
+        "message": "error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+        "start_column": 53
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 460,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 42991,
+      "log_sha256": "d0b21637cb750daceacf826f1889c17f4eef93175f06c01d672464930cddac04",
+      "observed": {
+        "end": "54",
+        "file": "verified/lib.rs",
+        "line": "126",
+        "message": "error: No matching heap chunks: [1/2]own(T_typeid)(tid, t)",
+        "start": "53"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "callee-owner-duplicate"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 430,
+      "catalogue_file_id": "1c1b3b31981d79e52695ce244ef5d529c1d10cd72be89519f92b8613c8e07925",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "verified/lib.rs",
+      "expected_historical": {
+        "end_column": 2,
+        "file": "verified/lib.rs",
+        "line": 133,
+        "message": "error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+        "start_column": 1
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 462,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 42769,
+      "log_sha256": "416959e1264ddd565fbb7969e2c90999f81ec69b27a5365af0801a1354e9b529",
+      "observed": {
+        "end": "2",
+        "file": "verified/lib.rs",
+        "line": "133",
+        "message": "error: Function leaks heap chunks: [1/2]own(T_typeid)(tid, t)",
+        "start": "1"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "callee-owner-loss"
+    },
+    {
+      "all_fields_match": true,
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "brief_log_line": 428,
+      "catalogue_file_id": "64a34e27563bfcb491d7bf884bdd327ee0898ea4aee67d99d53fc816fc7bc25b",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 1,
+      "expected_derived_file": "verified/lib.rs",
+      "expected_historical": {
+        "end_column": 39,
+        "file": "verified/lib.rs",
+        "line": 126,
+        "message": "error: No matching heap chunks: thread_token(tid)",
+        "start_column": 27
+      },
+      "field_matches": {
+        "end_column": true,
+        "file": true,
+        "line": true,
+        "message": true,
+        "start_column": true
+      },
+      "full_source_lines": 460,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_bytes": 42936,
+      "log_sha256": "51bdbff5a1bc792350f6a0ffe6f5a883c889cf1c1b8f0391b74501782342d609",
+      "observed": {
+        "end": "39",
+        "file": "verified/lib.rs",
+        "line": "126",
+        "message": "error: No matching heap chunks: thread_token(tid)",
+        "start": "27"
+      },
+      "result": "TEXTUAL_TARGET_FIELDS_MATCH",
+      "variant": "callee-thread-duplicate"
+    },
+    {
+      "archive_member_verification": "SHA256_VERIFIED_ARCHIVE_MEMBER",
+      "catalogue_file_id": "af2c7a1ab61106a741ef5602f8b90795c5f1292c77e08de610f3ce1b0cdaa628",
+      "catalogue_record_complete": true,
+      "catalogue_status": "PROJECTED",
+      "error_marker_count": 0,
+      "footer": "0 errors found (142 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
+      "footer_line": 704,
+      "full_source_lines": 704,
+      "locate_complete": true,
+      "locate_search_scope": "whole-file",
+      "locate_status": "OK",
+      "log_sha256": "ebeea762e8c6b9a92c18c91850d452a498bf99b1dd68b5efa6558209d4d6009a",
+      "result": "POSITIVE_FOOTER_OBSERVED",
+      "variant": "positive"
+    }
+  ],
+  "schema": "r24-s32-current-control-target-comparison-v1",
+  "spec_rows_prior_path": "/workspace/smallsort-work/o26-refresh/source/bin/rust/std/lib.rsspec"
+}

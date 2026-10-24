@@ -30,4 +30,4 @@ Qualify exact current-native const8/consequence profile; then closed checked W4 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `32d7b6c07413e72e8a2c352b04a853d07429ce87a6e3854bddf79d873bab9dd9`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `6b74eaa2f184b4958bef8519b2866db816d839cf647c06d1f5aba5483f018a66`
