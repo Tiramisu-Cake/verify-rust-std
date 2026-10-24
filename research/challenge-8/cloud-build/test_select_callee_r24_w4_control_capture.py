@@ -121,15 +121,45 @@ class ControlCaptureTests(unittest.TestCase):
                 self.assertTrue(all(ghost.strip_ghost(row[1]) == original for row in rows))
                 self.assertIn(b'__vf_callback_unwind_four(6);', rows[-1][1])
 
-    def test_closed_pilot_universe_is_37_with_explicit_first_eight(self):
+    def test_closed_remaining_batch_covers_29_uncaptured_variants(self):
         self.assertEqual(len(MOD.BODY_NAMES), 37)
-        self.assertEqual(MOD.BATCH_INDICES, tuple(range(8)))
+        self.assertEqual(MOD.BATCH_INDICES, tuple(range(8, 37)))
+        self.assertEqual(set(range(8)) | set(MOD.BATCH_INDICES), set(range(37)))
+        self.assertFalse(set(range(8)) & set(MOD.BATCH_INDICES))
         self.assertEqual(MOD.BODY_NAMES[0], 'positive')
         self.assertTrue(MOD.BODY_NAMES[1].startswith('c1-'))
         self.assertEqual(MOD.BODY_NAMES[3], 'c2-missing-unselected-share-negative')
         self.assertIn('c5-cross-scope-read-negative', MOD.BODY_NAMES)
         self.assertEqual(MOD.expected_mode()['universe_count'], 37)
         self.assertEqual(MOD.expected_mode()['batch_complete_is_universe_complete'], False)
+        self.assertEqual(MOD.expected_mode()['native_output_binary_sha256'],
+                         MOD.NATIVE_OUTPUT_BINARY_SHA256)
+
+    def test_measured_output_identity_stays_data_only_and_has_nine_exact_pins(self):
+        repo = MODULE_PATH.resolve().parents[3]
+        pins = MOD._native_output_identity(repo)
+        self.assertEqual(len(pins), 9)
+        self.assertEqual(pins['bin/verifast'], MOD.NATIVE_OUTPUT_BINARY_SHA256)
+        self.assertEqual(pins['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'],
+                         MOD.NATIVE_TRANSLATOR_SHA256)
+
+    def test_changed_output_binary_is_refused_before_data_capture(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp)
+            source = home / 'src/translator.ml'
+            source.parent.mkdir()
+            source.write_bytes(b'synthetic source')
+            binary = home / 'bin/verifast'
+            binary.parent.mkdir()
+            binary.write_bytes(b'synthetic measured binary')
+            pins = {'src/translator.ml': sha(source.read_bytes())}
+            expected_binary = sha(binary.read_bytes())
+            self.assertEqual(MOD._tool_sources(home, expected_sources=pins,
+                                              expected_binary=expected_binary)['bin/verifast'],
+                             expected_binary)
+            binary.write_bytes(b'changed synthetic binary')
+            with self.assertRaisesRegex(RuntimeError, 'binary pin differs'):
+                MOD._tool_sources(home, expected_sources=pins, expected_binary=expected_binary)
 
     def test_frozen_constructor_api_shapes_are_pinned_without_running_constructors(self):
         files = {
@@ -307,6 +337,7 @@ class ControlCaptureTests(unittest.TestCase):
             env_path = '/pinned/cloud-vfdeps:/usr/bin'
             with patch.object(MOD, 'NATIVE_OUTPUT_HOME', target), \
                  patch.object(MOD, '_tool_sources', side_effect=fake_hashes), \
+                 patch.object(MOD, '_native_output_identity', return_value=built_hashes), \
                  patch.dict(os.environ, {'PATH': env_path, 'CAPNP_INC_DIR': '/pinned/capnp',
                                         'LD_LIBRARY_PATH': '/pinned/lib'}):
                 result = MOD._prepare_native_tool(args, work_root=work,

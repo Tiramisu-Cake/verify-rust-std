@@ -194,3 +194,5 @@ output, not a qualified proof tool. No current const8, consequence, C6,
 P2 metadata, source/runtime, model, or checker gate is removed. See
 [W4-CONTROL-FINGERPRINT-MANIFEST.json](W4-CONTROL-FINGERPRINT-MANIFEST.json)
 and [W4-CHECKED-CALLER-ADMISSION-DESIGN.json](W4-CHECKED-CALLER-ADMISSION-DESIGN.json).
+
+Row37 S37 data update: Build `8cbcdb44-56f3-4464-9d8b-0f49b8ac164d` reports all selected8 source/unit/body captures andphysicalaudit complete, runner0; platformFAILURE preserved. Translator1276 andbinary `ee6758eafcae52664b33c523e34df0376fcb3253f0461713c8559406e8ce4a2a` measured in W4-CONTROL-DATA-TOOL-IDENTITY.json. Positive source/unit/body matchthe previous E3/B711/067c inputs. This isdata-only identity, notcalleequalification orcaller/C5 proof. Nextbatch selectsremainingindices8..36 andpinsall9 outputfiles tothese exactidentities; perBuilduniverse_complete remainsfalse.

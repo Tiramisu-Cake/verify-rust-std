@@ -1,0 +1,38 @@
+{
+  "accepted": false,
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+  "caller_body_proof_admission": false,
+  "candidate": "c7384a8be909abfffc851ea4ea4113ef11c59ae8",
+  "caveat": "Measured data-capture binary only. Const-callee replay remains bootstrap33b; no qualification transfers to ee6758.",
+  "classification": "SOURCE_ONLY_DATA_TOOL_IDENTITY",
+  "evidence": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s37-audit.json",
+      "sha256": "acd92cc5f26ac3f4f1a2c6839fe74c2c85db3a42d5f89d905f3edc3d1bb43461"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s37-audit-page2.json",
+      "sha256": "460682ccfd38b1fc406fb30398075b8b830191a0e29f36272a78caee670886d7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s37-tool-identity.json",
+      "sha256": "d7d93709304f6f1ebd0b9b7482ca877b9f19465ff02cec571d4b54d3659595d1"
+    }
+  ],
+  "proof_credit": 0,
+  "proof_qualification": false,
+  "publication_allowed": false,
+  "schema": "select-r24-w4-control-data-tool-identity-v1",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "ee6758eafcae52664b33c523e34df0376fcb3253f0461713c8559406e8ce4a2a",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "1276f006b5dd757a9dc9fbf87e4d9491758c24f71ba5dc409f0c08720a528a13"
+  }
+}

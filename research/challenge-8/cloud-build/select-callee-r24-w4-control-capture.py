@@ -29,7 +29,7 @@ SCHEMA = 'select-r24-w4-control-capture-v1'
 SUMMARY_REL = Path('cases/r24-w4-control-capture/W4-CONTROL-CAPTURE.json')
 AUDIT_REL = Path('cases/r24-w4-control-capture/W4-CONTROL-CAPTURE-AUDIT.json')
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json')
-MODE_SHA256 = 'f7e7211c18611b22ff5178e595dc11c3a9e7e72e091f977d02d9f3b5f22eaaf8'
+MODE_SHA256 = '8b8dae7eca93e7ebc894e40d103c31ecf11e4888dfb91d84a9413a00708ec606'
 R24_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
 R21_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
 R24_PHASE_ENV = 'SORT4_R24_SESSION_PHASE_ID'
@@ -69,6 +69,9 @@ NATIVE_TRANSLATOR_SHA256 = '1276f006b5dd757a9dc9fbf87e4d9491758c24f71ba5dc409f0c
 NATIVE_BINARY_SHA256 = '9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb'
 NATIVE_INPUT_IDENTITY_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-F83-TOOL-IDENTITY.json')
 NATIVE_INPUT_IDENTITY_SHA256 = '8bee7bcd29354d979e26f96b6e7138662dee38359b8edc54f95d74e8316e962d'
+NATIVE_OUTPUT_IDENTITY_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-TOOL-IDENTITY.json')
+NATIVE_OUTPUT_IDENTITY_SHA256 = '8bd33eb6366468b5d54930b8251b5f5ceb6ea8312e12afe9ebc837332fd2d183'
+NATIVE_OUTPUT_BINARY_SHA256 = 'ee6758eafcae52664b33c523e34df0376fcb3253f0461713c8559406e8ce4a2a'
 NATIVE_STAGE_REL = Path('research/challenge-8/overnight-sort4/capture.py')
 NATIVE_STAGE_SHA256 = '0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060'
 NATIVE_TOOL_SOURCE_HASHES: dict[str, str] = {
@@ -115,7 +118,7 @@ BODY_NAMES = ('positive',
     'c5-displaced-marker-negative', 'c5-index-overflow-marker-negative',
     'c5-scope-escape-negative', 'c5-missing-scope-marker-negative',
     'c5-cross-scope-read-negative')
-BATCH_INDICES = tuple(range(8))
+BATCH_INDICES = tuple(range(8, 37))
 SOURCE_COUNTS = {b'is_less(': 5, b'hint::select_unpredictable(': 8,
                  b'ptr::copy_nonoverlapping(': 4}
 ALLOWED_SORT4_ENV = {R24_PHASE_ENV, R21_PHASE_ENV, 'SORT4_SELECT_PROFILE'}
@@ -188,7 +191,7 @@ def _assert_path_chain(path: Path, *, allow_missing: bool = False) -> Path:
 
 
 def expected_mode(repo: Path | None = None) -> dict[str, Any]:
-    """Closed first-batch mode. The mode hash is pinned separately by its loader."""
+    """Closed remaining-batch mode. The mode hash is pinned separately by its loader."""
     return {
         'schema': 'select-r24-w4-control-capture-mode-v1',
         'enabled': True,
@@ -211,6 +214,9 @@ def expected_mode(repo: Path | None = None) -> dict[str, Any]:
         'native_binary_sha256': NATIVE_BINARY_SHA256,
         'native_input_identity_path': NATIVE_INPUT_IDENTITY_REL.as_posix(),
         'native_input_identity_sha256': NATIVE_INPUT_IDENTITY_SHA256,
+        'native_output_identity_path': NATIVE_OUTPUT_IDENTITY_REL.as_posix(),
+        'native_output_identity_sha256': NATIVE_OUTPUT_IDENTITY_SHA256,
+        'native_output_binary_sha256': NATIVE_OUTPUT_BINARY_SHA256,
         'native_tool_source_hashes': NATIVE_TOOL_SOURCE_HASHES,
         'native_stage_path': NATIVE_STAGE_REL.as_posix(),
         'native_stage_sha256': NATIVE_STAGE_SHA256,
@@ -522,7 +528,8 @@ def _indexed_controls_at_count5(k: int, verified: bytes, original: bytes, ghost,
         marker, typed_call, normal = indexed.MARKER3, indexed.C3_TYPED_CALL, indexed.NORMAL3
         left_pre, right_pre = indexed.C3_LEFT_PRECREATE, indexed.C3_RIGHT_PRECREATE
         operands, drop_slots, token_slot, wrong_left = (b'c', b'a'), (1, 3), 0, b'b'
-        expected = indexed.C3_EXPECTED
+        expected = (*indexed.C3_EXPECTED[:-1],
+                    'index-6 marker has no matching indexed call in the actual count-five body')
     else:
         marker, typed_call, normal = indexed.MARKER4, indexed.C4_TYPED_CALL, indexed.NORMAL4
         left_pre, right_pre = indexed.C4_LEFT_PRECREATE, indexed.C4_RIGHT_PRECREATE
@@ -693,6 +700,27 @@ def _native_input_identity_record(repo: Path) -> dict[str, Any]:
     value = json.loads(raw.decode('utf-8'))
     need(isinstance(value, dict), 'F83 source identity JSON is not an object')
     return value
+
+
+def _native_output_identity(repo: Path) -> dict[str, str]:
+    path = repo / NATIVE_OUTPUT_IDENTITY_REL
+    raw = _read_regular(path)
+    need(digest(raw) == NATIVE_OUTPUT_IDENTITY_SHA256,
+         'source-only data tool identity record differs')
+    record = json.loads(raw.decode('utf-8'))
+    need(type(record) is dict and record.get('schema') ==
+         'select-r24-w4-control-data-tool-identity-v1' and
+         record.get('classification') == 'SOURCE_ONLY_DATA_TOOL_IDENTITY' and
+         record.get('assurance') == 'SOURCE_REPORTED' and
+         record.get('proof_qualification') is False and
+         record.get('caller_body_proof_admission') is False and
+         record.get('accepted') is False and record.get('publication_allowed') is False and
+         type(record.get('proof_credit')) is int and record['proof_credit'] == 0,
+         'output identity must remain data-only, without proof qualification')
+    expected = {**_patched_source_pins(), 'bin/verifast': NATIVE_OUTPUT_BINARY_SHA256}
+    need(_json_exact(record.get('tool_hashes'), expected),
+         'output data tool identity does not match all nine exact pins')
+    return expected
 
 
 def _normalize_c6_tool_inventory(summary: dict[str, Any]) -> dict[str, str]:
@@ -867,6 +895,7 @@ def _prepare_native_tool(args: argparse.Namespace, *, work_root: Path,
          type(manifest.get('proof_credit')) is int and manifest.get('proof_credit') == 0,
          'native control fingerprint manifest fields differ')
     source_before = _tool_sources(native_home)
+    expected_output = _native_output_identity(Path(args.repo))
     need(source_before.get('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml') ==
          NATIVE_BASE_TRANSLATOR_SHA256, 'native base translator source differs')
     need(source_before.get('bin/verifast') is not None, 'native base binary missing')
@@ -915,8 +944,9 @@ def _prepare_native_tool(args: argparse.Namespace, *, work_root: Path,
     if target.is_dir() and not target.is_symlink():
         expected_after = dict(NATIVE_TOOL_SOURCE_HASHES)
         expected_after['src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'] = NATIVE_TRANSLATOR_SHA256
-        after = _tool_sources(target, expected_sources=expected_after, expected_binary=None)
-        if any(after.get(rel) != value for rel, value in expected_after.items()):
+        after = _tool_sources(target, expected_sources=expected_after,
+                              expected_binary=expected_output['bin/verifast'])
+        if not _json_exact(after, expected_output):
             errors.append('patched native tool source identity differs')
     return {'target': str(target), 'source_before': source_before,
             'source_copied': source_copied, 'source_after_build': after,
@@ -1193,7 +1223,7 @@ def _prerequisite_errors(summary: object, audit_record: object,
 def run(args: argparse.Namespace, *, prerequisite_summary=None,
         prerequisite_audit=None, stage_runner=None,
         constructor_modules: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Run the exact pilot source-capture batch with injectable fake services."""
+    """Run the exact selected source-capture batch with injectable fake services."""
     evidence = _assert_path_chain(Path(getattr(args, 'evidence')), allow_missing=False)
     out_path = evidence / SUMMARY_REL
     report: dict[str, Any] = {
@@ -1746,6 +1776,7 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
         if report.get('capture_tool_hashes_before') != frozen_hashes or report.get('capture_tool_hashes_after') != frozen_hashes:
             audit_report['errors'].append('frozen capture tool hashes differ')
         native_input_hashes = _validate_native_input_identity(repo, native_home)
+        expected_output = _native_output_identity(repo)
         native_input_receipt = _native_input_identity_record(repo)
         if isinstance(prerequisite_summary, dict) and \
            _normalize_c6_tool_inventory(prerequisite_summary) != native_input_hashes:
@@ -1849,9 +1880,10 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             try:
                 live_native = _tool_sources(target_tool,
                     expected_sources=_patched_source_pins(),
-                    expected_binary=(tool_build or {}).get('binary_sha256') if isinstance(tool_build, dict) else None)
+                    expected_binary=expected_output['bin/verifast'])
                 expected_live = tool_build.get('source_after_build')
-                if live_native != expected_live or tool_build.get('binary_sha256') != live_native.get('bin/verifast'):
+                if not _json_exact(live_native, expected_output) or live_native != expected_live or \
+                   tool_build.get('binary_sha256') != live_native.get('bin/verifast'):
                     audit_report['errors'].append('native fingerprint tool build identity changed')
             except BaseException as exc:
                 audit_report['errors'].append('native fingerprint tool unavailable: ' + str(exc))

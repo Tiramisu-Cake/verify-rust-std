@@ -174,6 +174,7 @@ class CompositionTests(unittest.TestCase):
                                       graph_inventory=self.graph_inventory)),
             '_validate_native_input_identity': lambda *a: self.input_pins,
             '_native_input_identity_record': lambda *a: {'build_id': OLD_BUILD, 'assurance': 'SOURCE_REPORTED'},
+            '_native_output_identity': lambda *a: self.output_pins,
             '_load_constructor_inputs': lambda *a: (self.profile, {}),
             '_construct_sources': lambda *a: self.rows,
             '_prepare_native_tool': self.build,
