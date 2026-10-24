@@ -609,6 +609,12 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
 
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
+// K-1 contract (K1-merge), from the SAFETY doc above; non-overlap of source and destination holds at
+// every call site (sort8_stable, small_sort_general_with_scratch: `v` and `scratch` are distinct).
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort4_pre(v_base, dst)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 4, &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v_base, 4) == CopyOnDrop::<T>::k1_count(dst, 4)))]
 pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
     v_base: *const T,
     dst: *mut T,
@@ -660,6 +666,13 @@ pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and
 /// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will
 /// be stored in `dst[0..8]`.
+// K-1 contract (K1-merge), from the SAFETY doc above; the three regions are pairwise disjoint at both
+// call sites in small_sort_general_with_scratch.
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort8_pre(v_base, dst, scratch_base)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 8)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(scratch_base, 8)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 8, &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v_base, 8) == CopyOnDrop::<T>::k1_count(dst, 8)))]
 unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v_base: *mut T,
     dst: *mut T,

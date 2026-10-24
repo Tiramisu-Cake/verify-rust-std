@@ -24,8 +24,10 @@
 
 #![allow(dead_code)]
 
-use super::super::{CopyOnDrop, bidirectional_merge, insert_tail};
-use crate::intrinsics::compare_bytes;
+use super::super::{
+    CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl,
+    UnstableSmallSortFreezeTypeImpl, bidirectional_merge, insert_tail, sort4_stable, sort8_stable,
+};
 use crate::kani;
 use crate::mem::{MaybeUninit, size_of};
 use crate::ptr;
@@ -50,12 +52,29 @@ pub(crate) fn set_probe<T>() {
 }
 
 /// `*p` is bytewise equal to the probe. `p` must be valid for reads of one initialized `T`.
+/// Compared in 8-byte words plus a byte tail, so that no loop runs more than 10 times (85 bytes)
+/// and every harness fits one small unwind bound (`compare_bytes` would loop once per byte).
 #[inline(always)]
 unsafe fn is_probe<T>(p: *const T) -> bool {
-    // SAFETY: `p` is readable for `size_of::<T>()` bytes, the probe buffer is larger.
+    let a = p as *const u8;
+    let n = size_of::<T>();
+    let mut eq = true;
+    let mut i = 0;
+    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`.
     unsafe {
-        compare_bytes(p as *const u8, ptr::addr_of!(K1_PROBE) as *const u8, size_of::<T>()) == 0
+        let b = ptr::addr_of!(K1_PROBE) as *const u8;
+        while i + 8 <= n {
+            let x = ptr::read_unaligned(a.add(i) as *const u64);
+            let y = ptr::read_unaligned(b.add(i) as *const u64);
+            eq &= x == y;
+            i += 8;
+        }
+        while i < n {
+            eq &= *a.add(i) == *b.add(i);
+            i += 1;
+        }
     }
+    eq
 }
 
 #[inline(always)]
@@ -135,6 +154,29 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_sorted(begin, Self::k1_tail_len(begin, tail) - 1, is_less)
     }
 
+    /// `p[..n]` is valid for reads and writes. Every caller of the sort primitives passes writable
+    /// memory as the source too (it comes from `&mut [T]`), so writability is required for reads.
+    pub(crate) fn k1_region_ok(p: *const T, n: usize) -> bool {
+        kani::mem::can_write(ptr::slice_from_raw_parts_mut(p as *mut T, n))
+    }
+
+    // sort4_stable / sort8_stable
+
+    pub(crate) fn k1_sort4_pre(v_base: *const T, dst: *mut T) -> bool {
+        Self::k1_region_ok(v_base, 4)
+            && Self::k1_region_ok(dst, 4)
+            && Self::k1_disjoint(v_base, 4, dst, 4)
+    }
+
+    pub(crate) fn k1_sort8_pre(v_base: *mut T, dst: *mut T, scratch_base: *mut T) -> bool {
+        Self::k1_region_ok(v_base, 8)
+            && Self::k1_region_ok(dst, 8)
+            && Self::k1_region_ok(scratch_base, 8)
+            && Self::k1_disjoint(v_base, 8, dst, 8)
+            && Self::k1_disjoint(v_base, 8, scratch_base, 8)
+            && Self::k1_disjoint(dst, 8, scratch_base, 8)
+    }
+
     // bidirectional_merge
 
     /// `dst` is valid for `v.len()` writes and does not overlap `v`.
@@ -158,6 +200,11 @@ impl<T> CopyOnDrop<T> {
 // ---------------------------------------------------------------------------------------------
 // Comparators: strict orders by key, so that elements with equal keys but different full values
 // exist and the permutation property is not implied by sortedness.
+
+/// For K1-network (u8 is a network type, not a general one).
+pub(crate) fn lt_u8(a: &u8, b: &u8) -> bool {
+    (*a >> 1) < (*b >> 1)
+}
 
 pub(crate) fn lt_i32(a: &i32, b: &i32) -> bool {
     (*a >> 1) < (*b >> 1)
@@ -187,7 +234,7 @@ macro_rules! by_len {
     };
 }
 
-fn bm_len<T: kani::Arbitrary + FreezeMarker, F: FnMut(&T, &T) -> bool, const N: usize>(
+pub(crate) fn bm_len<T: kani::Arbitrary + FreezeMarker, F: FnMut(&T, &T) -> bool, const N: usize>(
     mut is_less: F,
 ) {
     set_probe::<T>();
@@ -198,7 +245,7 @@ fn bm_len<T: kani::Arbitrary + FreezeMarker, F: FnMut(&T, &T) -> bool, const N: 
     kani::cover(true, "bidirectional_merge: a length is reachable with requires satisfied");
 }
 
-fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, const N: usize>(mut is_less: F) {
+pub(crate) fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, const N: usize>(mut is_less: F) {
     set_probe::<T>();
     let mut v: [T; N] = kani::any();
     let base = v.as_mut_ptr();
@@ -211,6 +258,7 @@ fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, const N: usize>
 // Phase 1 probe (diagnostic): old() and permutation, small lengths, plus the R11 control.
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
 fn bm_u64_upto8() {
     let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 8);
     kani::cover(len == 2, "len 2");
@@ -219,6 +267,7 @@ fn bm_u64_upto8() {
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
 fn bm_u64_upto32() {
     let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 32);
     kani::cover(len == 2, "len 2");
@@ -228,6 +277,7 @@ fn bm_u64_upto32() {
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
+#[kani::unwind(34)]
 fn insert_tail_u64_upto8() {
     let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 8);
     kani::cover(len == 2, "len 2");
@@ -238,6 +288,7 @@ fn insert_tail_u64_upto8() {
 /// R11 control: the caller violates the "halves sorted" requires of a `stub_verified` callee.
 /// Expected FAILED on the requires check `k1_merge_halves_sorted`.
 #[kani::proof]
+#[kani::unwind(34)]
 #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 fn r11_control_bm_requires() {
     set_probe::<u64>();
@@ -249,3 +300,190 @@ fn r11_control_bm_requires() {
     unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut is_less) };
     kani::cover(true, "r11 control: call site reached");
 }
+
+// ---------------------------------------------------------------------------------------------
+// Contract proofs on the whole domain reachable from small_sort_general (len <= 32, scratch 48),
+// for every (T, F) instantiation that the top harnesses below stub.
+
+fn sort4_body<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool>(mut is_less: F) {
+    set_probe::<T>();
+    let v: [T; 4] = kani::any();
+    let mut dst = MaybeUninit::<[T; 4]>::uninit();
+    // SAFETY: contract checked by the enclosing proof_for_contract harness.
+    unsafe { sort4_stable(v.as_ptr(), dst.as_mut_ptr() as *mut T, &mut is_less) };
+    kani::cover(true, "sort4_stable: reachable with requires satisfied");
+}
+
+fn sort8_body<T: kani::Arbitrary + FreezeMarker, F: FnMut(&T, &T) -> bool>(mut is_less: F) {
+    set_probe::<T>();
+    let mut v: [T; 8] = kani::any();
+    let mut dst = MaybeUninit::<[T; 8]>::uninit();
+    let mut scratch = MaybeUninit::<[T; 8]>::uninit();
+    // SAFETY: contract checked by the enclosing proof_for_contract harness.
+    unsafe {
+        sort8_stable(
+            v.as_mut_ptr(),
+            dst.as_mut_ptr() as *mut T,
+            scratch.as_mut_ptr() as *mut T,
+            &mut is_less,
+        )
+    };
+    kani::cover(true, "sort8_stable: reachable with requires satisfied");
+}
+
+/// sort4_stable for all four general element types (direct, no stubs).
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_all() {
+    let t: u8 = kani::any_where(|t: &u8| *t < 4);
+    kani::cover(t == 3, "type selector: last type reachable");
+    match t {
+        0 => sort4_body::<i32, _>(lt_i32),
+        1 => sort4_body::<u64, _>(lt_u64),
+        2 => sort4_body::<[u8; 16], _>(lt_b16),
+        _ => sort4_body::<[u8; 85], _>(lt_b85),
+    }
+}
+
+/// sort8_stable for the three types with size <= 16 (direct, no stubs).
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort8_stable)]
+#[kani::unwind(34)]
+fn sort8_all() {
+    let t: u8 = kani::any_where(|t: &u8| *t < 3);
+    kani::cover(t == 2, "type selector: last type reachable");
+    match t {
+        0 => sort8_body::<i32, _>(lt_i32),
+        1 => sort8_body::<u64, _>(lt_u64),
+        _ => sort8_body::<[u8; 16], _>(lt_b16),
+    }
+}
+
+/// insert_tail on regions of 2..=16 elements (general inserts up to index 15 of a half).
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_int() {
+    let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 16);
+    kani::cover(len == 2, "len 2");
+    kani::cover(len == 16, "len 16");
+    if kani::any() {
+        by_len!(len, insert_tail_len::<i32>(lt_i32), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+    } else {
+        by_len!(len, insert_tail_len::<u64>(lt_u64), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+    }
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_bytes() {
+    let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 16);
+    kani::cover(len == 2, "len 2");
+    kani::cover(len == 16, "len 16");
+    if kani::any() {
+        by_len!(len, insert_tail_len::<[u8; 16]>(lt_b16), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+    } else {
+        by_len!(len, insert_tail_len::<[u8; 85]>(lt_b85), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+    }
+}
+
+macro_rules! bm_harness {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        /// bidirectional_merge on 2..=32 elements.
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 32);
+            kani::cover(len == 2, "len 2");
+            kani::cover(len == 32, "len 32");
+            by_len!(len, bm_len::<$t>($cmp),
+                [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32]);
+        }
+    };
+}
+
+bm_harness!(bm_u8, u8, lt_u8); // used by K1-network's small_sort_network (len 18..=32)
+bm_harness!(bm_i32, i32, lt_i32);
+bm_harness!(bm_u64, u64, lt_u64);
+bm_harness!(bm_b16, [u8; 16], lt_b16);
+bm_harness!(bm_b85, [u8; 85], lt_b85);
+
+// ---------------------------------------------------------------------------------------------
+// Top harnesses: real trait entrypoints, every length 0..=32, callees replaced by their verified
+// contracts. Checks: no UB (Kani default checks), output sorted, output a permutation of the input.
+
+fn check_sorted_perm<T, F: FnMut(&T, &T) -> bool>(orig: &[T], out: &[T], is_less: &mut F) {
+    let mut i = 1;
+    while i < out.len() {
+        assert!(!is_less(&out[i], &out[i - 1]), "K-1 general: output is sorted");
+        i += 1;
+    }
+    assert!(
+        CopyOnDrop::<T>::k1_count(orig.as_ptr(), orig.len())
+            == CopyOnDrop::<T>::k1_count(out.as_ptr(), out.len()),
+        "K-1 general: output is a permutation of the input"
+    );
+    kani::cover(true, "K-1 general: end of a length reached");
+}
+
+fn general_stable_len<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut is_less: F,
+) {
+    set_probe::<T>();
+    let mut v: [T; N] = kani::any();
+    let orig = v;
+    let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut is_less);
+    check_sorted_perm(&orig, &v, &mut is_less);
+}
+
+fn general_unstable_len<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut is_less: F,
+) {
+    set_probe::<T>();
+    let mut v: [T; N] = kani::any();
+    let orig = v;
+    <T as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut is_less);
+    check_sorted_perm(&orig, &v, &mut is_less);
+}
+
+macro_rules! general_covers {
+    ($len:expr) => {
+        kani::cover($len == 0, "len 0");
+        kani::cover($len == 1, "len 1");
+        kani::cover($len == 2, "len 2");
+        kani::cover($len == 7, "len 7: last length without presort");
+        kani::cover($len == 8, "len 8: presort by 4");
+        kani::cover($len == 15, "len 15: last length with presort by 4");
+        kani::cover($len == 16, "len 16: presort by 8 when size_of::<T>() <= 16");
+        kani::cover($len == 32, "len 32");
+    };
+}
+
+macro_rules! general_harness {
+    ($name:ident, $body:ident, $t:ty, $cmp:expr) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort8_stable)]
+        fn $name() {
+            let len: usize = kani::any_where(|l: &usize| *l <= 32);
+            general_covers!(len);
+            by_len!(len, $body::<$t>($cmp),
+                [0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32]);
+        }
+    };
+}
+
+general_harness!(general_i32, general_stable_len, i32, lt_i32);
+general_harness!(general_u64, general_stable_len, u64, lt_u64);
+general_harness!(general_b16, general_unstable_len, [u8; 16], lt_b16);
+general_harness!(general_b85, general_unstable_len, [u8; 85], lt_b85);
