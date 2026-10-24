@@ -18,7 +18,8 @@
 | 6 | merge-p2-inv-006 | diagnostic | 19 | 330d590f | 3 × 13 мин | RUNNER_ERROR за 2:06: снова OOM `goto-instrument` на `bm_u64`; без циклов `is_probe` остались только одиночные циклы `k1_sorted`/`k1_count`. Гипотеза D10 о размножении вложенных циклов неполна (D11) |
 | 7 | merge-p2-inv-007 | diagnostic | 20 | 873d607d | 2 × 13 мин | RUNNER_ERROR за 2:16: снова OOM `goto-instrument` на `bm_u64`, хотя циклов в спецификации нет: строки «does not have a contract» исчезли, WARNING о loop contracts есть. Размер инварианта не влияет на время падения (D12) |
 | 8 | merge-p2-bisect-008 | diagnostic | 21 | d0e6a7eb | 3 × 10 мин | RUNNER_ERROR за 1:39: Kani первой запустил `bm_u64_len32`, а не по алфавиту, и снова OOM `goto-instrument`. Бисекция данных не дала: порядок гармоник в Kani не управляется ни запросом, ни именами |
-| 9 | merge-p2-bisect-009 | diagnostic | | | 1 × 8 мин | ждёт: только тривиальный инвариант (`u16`) |
+| 9 | merge-p2-bisect-009 | diagnostic | 22 | a77b38f6 | 1 × 8 мин | RUNNER_ERROR за 3:04: тривиальный инвариант `idx <= len / 2` (`bm_bisect_a_trivial_u16`) тоже даёт OOM `goto-instrument`. Содержание инварианта ни при чём: любой loop contract на этом цикле под `proof_for_contract` не проходит инструментацию в 13 GiB |
+| 10 | merge-p2-bisect-010 | diagnostic | | | 3 × 10 мин | ждёт: тривиальный инвариант в обычной `#[kani::proof]` + `sort4_b16`, `sort4_b85` |
 
 ## Фаза 1
 

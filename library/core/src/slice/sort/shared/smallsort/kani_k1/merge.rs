@@ -634,6 +634,22 @@ fn bm_bisect_a_trivial_u16() {
     bm_len::<u16, _, 32>(lt_u16);
 }
 
+/// Same trivial loop invariant, but in a plain proof: no function-contract CHECK wrapper around
+/// `bidirectional_merge`. Tells whether the goto-instrument out-of-memory of jobs 17-22 needs the
+/// combination of a function contract check and a loop contract. Failed checks are expected.
+#[kani::proof]
+#[kani::unwind(34)]
+fn bm_bisect_plain_trivial_u16() {
+    set_probe::<u16>();
+    let v: [u16; 32] = kani::any();
+    let mut dst = MaybeUninit::<[u16; 32]>::uninit();
+    let mut is_less = lt_u16;
+    // SAFETY: dst is a separate local of 32 elements (diagnostic; the sortedness requires is not
+    // established, so failures are expected).
+    unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut u16, &mut is_less) };
+    kani::cover(true, "bisect: call returned");
+}
+
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_bisect_b_nocount_i16() {

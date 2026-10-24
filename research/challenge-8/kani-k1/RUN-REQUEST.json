@@ -1,12 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p2-bisect-009",
+  "request_id": "merge-p2-bisect-010",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Does goto-instrument survive any loop contract on the bidirectional_merge loop: trivial invariant (u16) alone, since Kani does not run harnesses in request or name order (job 21). Failed checks are expected (invariant too weak); only the absence of the OOM matters",
+  "purpose": "Trivial loop invariant on bidirectional_merge in a plain proof (no function-contract CHECK wrapper): does goto-instrument survive (job 22 OOM was under proof_for_contract)? Plus sort4_stable per byte-array type, which does not reach the loop",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 8,
+  "harness_timeout_minutes": 10,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_bisect_a_trivial_u16", "expect": "SUCCESS"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_bisect_plain_trivial_u16", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_b16", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_b85", "expect": "SUCCESS"}
   ]
 }
