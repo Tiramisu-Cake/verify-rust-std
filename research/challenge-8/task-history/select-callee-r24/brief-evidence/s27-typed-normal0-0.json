@@ -1,0 +1,51 @@
+{
+  "archive_sha256": "bbbc723bee8cda2a9cf41b30ae2bc6c6e089d142aec3f1fe796983afa2a6b3b1",
+  "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 3,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC.json",
+  "file_sha256": "8657e4f438bda759bc9a593f6baaa80dc6837637ce2b6e67e3977dee39dbffe4",
+  "index_sha256": "9a80e70a8f2df2674f312a6e285c78c2e9c92a9a0e22b1880689e6f54346fd84",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "8657e4f438bda759bc9a593f6baaa80dc6837637ce2b6e67e3977dee39dbffe4",
+    "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+    "pointer": "/typed_call_inventory/normal/calls/0/operand_local_ids"
+  },
+  "request_id": "d584ccf40c1cb9cdc49a6672b59e642861a80404d43eb23e0ca1b0f3974a094b",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/normal/calls/0/operand_local_ids/0",
+      "value": "_184"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/normal/calls/0/operand_local_ids/1",
+      "value": "_185"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/normal/calls/0/operand_local_ids/2",
+      "value": "_186"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}

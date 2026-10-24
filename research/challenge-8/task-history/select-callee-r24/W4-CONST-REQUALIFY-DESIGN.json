@@ -1,0 +1,24 @@
+{
+  "schema": "select-r24-w4-const-requalification-design-v1",
+  "status": "DESIGN_BEFORE_IMPLEMENTATION",
+  "defect": "Completed W4 inputs show eight exact const-pointer calls but checked call linkage remains UNKNOWN. Existing accepted const matrix is pinned8a/01eaa; current native tool5170/33b has only diagnostic qualification. Need same-version actualcallee full matrix plus checked pointer-result consequence before exposing a caller contract.",
+  "choice": "Replay the entire frozen const eight-row regression on the separate native tool5170/33b with strict before/after hashes and one tool identity for every stage. Add ordinary checked select_w4_const_post_consequence<Element> whose precondition is the actual const callee post and whose post exposes typed result equality. Negative omission of result relation must fail at its own normal post. No external caller summary or body route is enabled by this step.",
+  "alternatives": [
+    "Do not infer current-tool callee proof from frozen8a qualification or fingerprints.",
+    "Do not import a new unchecked stdhint summary, lower calls to assumed pointer equality, or derive pointee ownership from equal addresses.",
+    "An in-unit composite callee/caller reconstruction would change source/unit shapes and require broad certificate rebinding; retain the planned modular actualcallee dependency and first prove the small consequence under the existing model."
+  ],
+  "applicability": "Same R24 owner/lane/T0/ledger, full1200. Existing frozen8a W4 capture and published P2 remain unchanged. Native tool current identity already observed in final diagnostic.",
+  "invariants": [
+    "Actual const callee source pairs and all eight full matrix/control targets and all ten native snapshot pins remain exact; all phases use native tool home5170/33b, no fingerprint-mode env on ordinary proofs.",
+    "Tool binary/source/spec/exporter/parser/schema/refiner/AST serializer hashes before/after must match across the entire matrix and consequence stages. All results SOURCE_REPORTED, accepted/publication/credit false pending qualification.",
+    "Consequence requires the real callee post: thread_token and raw_ptr_own(result) plus (selected as pointer)==conditional pointer-view inputs. Ensures same resources plus selected==conditional inputs. Pointer instantiation only; no genericT value theorem, no pointee ownership/Copy/Freeze/panickingF premise.",
+    "Positive consequence is ordinary VeriFast checked function/lemma body with req/ens (no Kani attribute or Kani proof claim); omission relation control must actually fail. No trusted axiom or assumed lemma. Current8typed source table remains coordinates/structure only until native source-bound call adapter is reviewed."
+  ],
+  "controls": [
+    "Isolated synthetic success/error/timeout/partial/missing/null/wrongtype/source-stage-target/tool identity cases; actual tools Cloud only.",
+    "Full frozen const8 matrix plus positive consequence and omission negative; final read-only physical composite audit, exact current Build identity, no acceptance inferred from exit0."
+  ],
+  "proof_credit": 0,
+  "design_correction": "Actual callee post uses casts to VeriFast pointer, not typed *const Element identity casts. Consequence must use actual pointer-view premise; deriving typed equality is a falsifiable ordinary-proof obligation under existing model, never an address-only ownership bridge. No new premise if proof fails."
+}

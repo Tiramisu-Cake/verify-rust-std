@@ -1,0 +1,129 @@
+{
+  "archive_sha256": "bbbc723bee8cda2a9cf41b30ae2bc6c6e089d142aec3f1fe796983afa2a6b3b1",
+  "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 16,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC.json",
+  "file_sha256": "8657e4f438bda759bc9a593f6baaa80dc6837637ce2b6e67e3977dee39dbffe4",
+  "index_sha256": "9a80e70a8f2df2674f312a6e285c78c2e9c92a9a0e22b1880689e6f54346fd84",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "8657e4f438bda759bc9a593f6baaa80dc6837637ce2b6e67e3977dee39dbffe4",
+    "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+    "pointer": "/typed_call_inventory"
+  },
+  "request_id": "2e655fa8aa1bb33c2ddddcead382db62cf65644fdddae1536ba7c36d2982e84f",
+  "results": [
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/typed_call_inventory/accepted",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/typed_call_inventory/complete",
+      "value": true
+    },
+    {
+      "child_count": 2,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/typed_call_inventory/counts"
+    },
+    {
+      "child_count": 0,
+      "exact": true,
+      "kind": "array",
+      "pointer": "/typed_call_inventory/errors"
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/typed_call_inventory/normal"
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/typed_call_inventory/proof_claim",
+      "value": false
+    },
+    {
+      "exact": true,
+      "kind": "number",
+      "pointer": "/typed_call_inventory/proof_credit",
+      "value": 0
+    },
+    {
+      "exact": true,
+      "kind": "boolean",
+      "pointer": "/typed_call_inventory/publication_allowed",
+      "value": false
+    },
+    {
+      "child_count": 4,
+      "exact": true,
+      "kind": "object",
+      "pointer": "/typed_call_inventory/readonly"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/schema",
+      "value": "select-r24-w4-mir-calls-v1"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/scope",
+      "value": "TYPED_MIR_OBSERVATION_ONLY"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/source_parser_input_binding",
+      "value": "NOT_ESTABLISHED"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/source_site_mapping",
+      "value": "EQUAL_EMITTED_COORDINATES_ONLY"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/status",
+      "value": "COMPLETE_TYPED_MIR_OBSERVATION"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/typed_call_linkage",
+      "value": "UNKNOWN"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/typed_call_inventory/typed_callee_family_observation",
+      "value": "OBSERVED_STRUCTURAL_MIR_CALLS"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

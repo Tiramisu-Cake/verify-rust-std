@@ -1,0 +1,78 @@
+{
+  "accepted": false,
+  "actual_body_proof_status": "UNKNOWN",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
+  "callee_qualification_on_current_native_tool": "NOT_ESTABLISHED; old const qualification belongs to8a/01eaa",
+  "candidate": "f12824a149a175acdf0b7e6b2620e28acca67ca2",
+  "mode_summaries": {
+    "normal": {
+      "brief_summary_receipt": "normal-summary.json",
+      "calls": 8,
+      "def_path": "sort4_stable",
+      "raw_target_count": 8,
+      "structural_selector_call_count": 8
+    },
+    "readonly": {
+      "brief_summary_receipt": "readonly-summary.json",
+      "calls": 8,
+      "def_path": "sort4_stable",
+      "raw_target_count": 8,
+      "structural_selector_call_count": 8
+    }
+  },
+  "native_body": {
+    "bytes": 262129,
+    "file_id": "3c9315c62dc5241fd789aad3970dc4f9ee2733af3a41031a1b7e7dae780c22b1",
+    "path": "allprooflogs/cases/r24-w4-linkage-diagnostic/native/fingerprints/w4-native-body-0.marshal",
+    "sha256": "067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "native_body_inventory": [
+    "sort4_stable"
+  ],
+  "native_tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942"
+  },
+  "native_unit": {
+    "bytes": 271019,
+    "file_id": "7f816fb43334b6423d928ba3f8c0f5780a6a76bf92e2fd5a1f835fcea896d245",
+    "path": "allprooflogs/cases/r24-w4-linkage-diagnostic/native/fingerprints/w4-native-unit.marshal",
+    "sha256": "b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83",
+    "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+  },
+  "next": "Requalify actual const8matrix on native5170/33b; ordinary checked pointer-post consequence; then native exact8site binding/C5.",
+  "observation_record": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-COMPLETE-OBSERVATIONS.json",
+    "sha256": "41336694ca2f0e296415d646f3aa15ffc22378628a69b735f606c2f3afc969f6"
+  },
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "physical_audit_complete_source_claim": true,
+  "previous_native_input_pins": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-PINS.json",
+    "sha256": "dc0e26e5bf6af68ef0a3b28f8c6410d13b1b8d1bd6848976b1ef3efdb106844d"
+  },
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "schema": "select-r24-w4-inputs-qualification-v1",
+  "scope": "Source/MIR/native input identities and structural8call inventory only; not callee/caller proof or linkage.",
+  "source_capture_pins": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json",
+    "sha256": "f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0"
+  },
+  "source_site_mapping": "EQUAL_EMITTED_COORDINATES_ONLY",
+  "status": "SOURCE_REPORTED_INPUTS_READY_FOR_CHECKED_CALLEE_DEPENDENCY",
+  "typed_call_linkage": "UNKNOWN",
+  "typed_navigation": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-CALL-NAVIGATION.json",
+    "sha256": "8d797805c256370660d23b3d725bfefec2ece548a4ca766c2d0ede4b25d9a375"
+  },
+  "typed_receipt_prefix": "brief-evidence/s27-typed-"
+}

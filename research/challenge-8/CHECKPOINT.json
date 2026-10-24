@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "959437ff3dc980001fbad0420f38bd09086b25cc5671e13470595ecf809dbc96"
+      "sha256": "900f9fd91710bb8c8e269d67060a9ab42b74a885643f435b5970901d0f099bd2"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,20 +32,20 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
-    "evidence": [],
-    "summary": "W4 typed Val/audit diagnostic terminal FAILURE; source results pending Brief. P2 PUBLISHED."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
+        "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
+      }
+    ],
+    "summary": "W4 inputs complete; same-version constcallee requalification and checked pointer-post bridge remain."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "959437ff3dc980001fbad0420f38bd09086b25cc5671e13470595ecf809dbc96"
+    "sha256": "900f9fd91710bb8c8e269d67060a9ab42b74a885643f435b5970901d0f099bd2"
   },
   "brief_observation_refs": [
-    {
-      "path": "research/challenge-8/task-history/select-callee-r24/observations/f7d5f5194e81051b01d10020bf5aad813083180b0e3f1990e43a9014890b9e43.json",
-      "sha256": "f7d5f5194e81051b01d10020bf5aad813083180b0e3f1990e43a9014890b9e43"
-    },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/f7ea241ac9b503a9e73e7ee1719c111289398cc8df9d524bd66f7ea6477ba05e.json",
       "sha256": "f7ea241ac9b503a9e73e7ee1719c111289398cc8df9d524bd66f7ea6477ba05e"
@@ -69,6 +69,10 @@
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/fad10e1179222890c29205ed6d7e1a36a4e40244fefe48ed3e2a304314f1b41d.json",
       "sha256": "fad10e1179222890c29205ed6d7e1a36a4e40244fefe48ed3e2a304314f1b41d"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/observations/fc0387af505efd5b9d67ef66af451650ddcd592690715af8418bfe80809e1b7d.json",
+      "sha256": "fc0387af505efd5b9d67ef66af451650ddcd592690715af8418bfe80809e1b7d"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/observations/fc62136e568ddd39ab7238b0093dfec9c0eae1ee35230ae6a4f4afc5614d8bf3.json",
@@ -172,11 +176,11 @@
   "confirmed": [
     {
       "assurance": "SOURCE_REPORTED",
-      "claim": "ddfcd255 native fingerprints complete as reported: unit/body Marshal hashes, exact refusal, same pre/post tool33b693. Overall typed count incomplete; audit output path defect; no linkage/proof/credit.",
+      "claim": "5a8dbd82 W4 input diagnostic complete:8typedcalls eachmode, native snapshots reproduced and final physical audit/source intact. Linkage and bodyproof UNKNOWN; credit0.",
       "evidence": [
         {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-SOURCE-OBSERVATIONS.json",
-          "sha256": "cc9841b7bbcf9fa883d7895a03af30859e0832bf7a17bfa101a732a827e3e19a"
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-COMPLETE-OBSERVATIONS.json",
+          "sha256": "41336694ca2f0e296415d646f3aa15ffc22378628a69b735f606c2f3afc969f6"
         }
       ]
     }
@@ -423,6 +427,16 @@
           "sha256": "90003f036b56547e3ead39d01c61e6d09ca5f2fb1c93bb8e6327d4320d082152"
         }
       ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "ddfcd255 native fingerprints complete as reported: unit/body Marshal hashes, exact refusal, same pre/post tool33b693. Overall typed count incomplete; audit output path defect; no linkage/proof/credit.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-SOURCE-OBSERVATIONS.json",
+          "sha256": "cc9841b7bbcf9fa883d7895a03af30859e0832bf7a17bfa101a732a827e3e19a"
+        }
+      ]
     }
   ],
   "control_targets": {
@@ -543,6 +557,18 @@
       ],
       "obligation": "W4 native decoded-unit/body fingerprints",
       "reason": "a665d68 native callback certificate refuses W4 before translation; exact native fingerprints needed for closed C5 source/call admission.",
+      "state": "ACTIVE"
+    },
+    {
+      "acceptance": false,
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
+          "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
+        }
+      ],
+      "obligation": "Current-tool const8matrix and checked pointer-post consequence",
+      "reason": "Input data complete but old constqualified8a proof cannot silently transfer to native5170; no unchecked caller summary.",
       "state": "ACTIVE"
     }
   ],
@@ -1164,8 +1190,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Push terminal accounting; Brief typed calls/native fingerprints/final audit; continue W4 linkage.",
-  "next_step": "Push terminal accounting; Brief typed calls/native fingerprints/final audit; continue W4 linkage.",
+  "next": "Requalify const8 on native5170/33b plus checked pointer-post consequence; then native8site binding/C5.",
+  "next_step": "Requalify const8 on native5170/33b plus checked pointer-post consequence; then native8site binding/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1280,7 +1306,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:36:31Z",
+  "updated_utc": "2026-10-24T00:51:34Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1382,6 +1408,24 @@
     "state": "COMPLETE_SOURCE_REPORTED_CAPTURE_ONLY",
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
+  },
+  "w4_const_requalification_preparation": {
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json",
+      "sha256": "afbed7cc710c3a115f30b86326f709db6edd20ba98227d3c3e2951740da00d8e"
+    },
+    "main_scope": "mode/recipe/shell/evidence/review andCloud",
+    "proof_credit": 0,
+    "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
+    "state": "IMPLEMENTATION_IN_PROGRESS",
+    "workers": {
+      "checked_consequence": "r24_admission",
+      "const_wrapper": "r24_mut_proof_runner"
+    }
+  },
+  "w4_inputs_qualification": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
+    "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
   },
   "w4_linkage_api_build": {
     "accepted": false,
@@ -1545,7 +1589,7 @@
       "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "SOURCE_REPORTED_COMPLETE_DIAGNOSTIC_ONLY",
     "tests": "13 parser +15 wrapper (real unmocked pin validation) +10 extracted Bash tests pass; Bash syntax/diff pass. Actual full parser and final audit unbuilt.",
     "typed_repair": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-VAL-REPAIR.json",
@@ -1615,7 +1659,7 @@
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_PENDING_BRIEF",
+    "result": "SOURCE_REPORTED_COMPLETE_W4_INPUT_DIAGNOSTIC",
     "schema": "select-r24-w4-typed-val-audit-submission-v1",
     "source_payload_sha256": "388c88dc8cfac7d6cfc539363f01290c05c1954672c5457fb6455abc20617c98",
     "status": "FAILURE",
@@ -1645,7 +1689,7 @@
       "sha256": "4f7b369d4e21b0e7f6967cf550e0ba8b8fd00dd0b89a1810d7c2f466ef38f951"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "SOURCE_REPORTED_COMPLETE_DIAGNOSTIC_ONLY",
     "typed_call_linkage": "UNKNOWN"
   },
   "watcher_history": [
