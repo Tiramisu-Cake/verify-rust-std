@@ -1,0 +1,44 @@
+{
+  "schema": "select-r24-w4-const-unsafe-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_ONE_FULL_1200S_CURRENT_NATIVE_CONST8_MATRIX_AND_CONSEQUENCE_BUILD_ONLY",
+  "baseline_commit": "aa493c7f78a1e366138184a76920d538c628c639",
+  "candidate_commit": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
+  "candidate_tree": "c445c51f3b7885f43601579e47b241d579a2b0bd",
+  "spec_sha256": "7180dd0263001a527ca8fa48386b013fc97b30d4ae9c8c78cb3aacac6b896cab",
+  "packet_sha256": "099909b9aea138facdef957429a898b640132bb4901f3bf33b26b384628ad8f2",
+  "diff_sha256": "f6f9103aa214441401f0ac31a20e8bde950eeaa02a57064288cb413c1144b06a",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE",
+    "files": 29
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-target-path-review.json",
+      "sha256": "5479565d1b0f86f1879c64590505bb4876ccea74f13c868f4c4ddd8b7a90c475"
+    }
+  ],
+  "findings": [],
+  "verified": [
+    "Exact packet identities passed smallsort-session review check; candidate and baseline match the assigned commits.",
+    "The semantic delta changes both isolated proof fixtures to pub unsafe fn while retaining the same explicit precondition, postcondition, and body in positive and omission variants. The change is limited to helper fixtures; native translator, Rust standard-library source, model, checker, caller route, and matrix behavior are unchanged.",
+    "The packet pins the current native formatter target suffix for the positive zero-error success footer and removes the unsupported requirement for a negative error-summary footer. The negative classifier still requires exit 1, one error diagnostic, exact function header, exact normal-post source line, a proof-failure message, no zero-error success footer, and no other error/fatal/timeout diagnostics.",
+    "The postcondition is one unchanged conjunction line in both fixtures. The negative changes only the pointer-view relation precondition. Source bytes, ghost-stripped runtime identity, stage argv/output names, stdout/stderr, AST presence, source snapshots, matrix provenance, tool identity stability, and final physical audit remain checked.",
+    "Mode, helper, consequence component, shell, and recipe dependency pins are synchronized to the candidate hashes. The existing matrix and consequence report continue to state accepted=false, publication_allowed=false, call_linkage UNKNOWN, proof_credit 0.",
+    "The committed bounded observation record reports the prior const8 matrix as source-reported complete with 0 errors/142 statements and reports the actual positive success footer with the pinned x86_64 LP64 target. This observation is not independent proof credit."
+  ],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static diff and dependency review completed; no tests were rerun. The packet reports 13 consequence, 19 wrapper, and 6 Bash tests passing."
+  ],
+  "limitations": [
+    "The negative matcher checks the diagnostic source line, not its column. The whole post conjunction is intentionally on that same line; identical positive/negative bodies and a single changed premise make the omission control useful, but this does not independently establish a semantic parser binding to a particular conjunct.",
+    "This GO permits one full 1200-second current-native const8 matrix, checked consequence, and physical audit under the already authorized R24 route and ledger only. The changed unsafe proof fixtures and the omission control remain unbuilt until that run.",
+    "No caller linkage, caller/body admission, P2 transfer, acceptance, publication, or independent proof credit is established."
+  ],
+  "not_run": [
+    "No Cloud Build, actual source preparation, compiler/exporter/decoder/refinement/verifier, native tools, or raw evidence access was performed by this reviewer."
+  ],
+  "proof_credit": 0
+}

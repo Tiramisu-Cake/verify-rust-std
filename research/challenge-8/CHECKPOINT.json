@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "3eb0b9ddbd54c641bef77b52a2b2eafd8efd0f27352e65b88f223e0487450165"
+      "sha256": "27cb551a357dc50570bb451d8f29e4b9d62904fa01890fd4544b6d32ca19d575"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,19 +32,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
-        "sha256": "c8d26d4b831e21f7de3318257e083b1fe477a71078476c12d53e03ebb33d9400"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-unsafe-review.json",
+        "sha256": "1e45454e59b91a2f07af5a626d91917d2f113a6d2b06d6503ef1c7b5bc2651bf"
       }
     ],
-    "summary": "Native const8 complete asreported; consequence safe prototype rejects explicit type_interp frame."
+    "summary": "Native const8 sourcecomplete; reviewed unsafe consequence/native format fix remains unbuilt."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "3eb0b9ddbd54c641bef77b52a2b2eafd8efd0f27352e65b88f223e0487450165"
+    "sha256": "27cb551a357dc50570bb451d8f29e4b9d62904fa01890fd4544b6d32ca19d575"
   },
   "brief_observation_refs": [
     {
@@ -186,270 +185,11 @@
       ]
     }
   ],
-  "confirmed_history": [
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R23 cf8405cc: CFG admission passes; positive reaches outer return and leak-check, exit1 with dead-code reports; seven negatives observed. No acceptance, credit0.",
-      "evidence": [
-        {
-          "build_id": "cf8405cc-d421-4e7a-a9cb-3fcb8b74b1c9",
-          "path": "research/challenge-8/task-history/select-callee-r23/S3-POSITIVE-TRACE-OBSERVATIONS.json",
-          "sha256": "5dc1604e74e89619fea102fadb2c2fc5181f8cfd8f80863297f41f9878a545db"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "R24 af904556: positive RAN/exit1, normal return/leak-check event, unchanged3dead-code diagnostics. No acceptance; accounted325s, remaining21275s.",
-      "evidence": [
-        {
-          "build_id": "af904556-010f-4159-9e4d-573e06e43d17",
-          "path": "research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json",
-          "sha256": "22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "234e58e3: additive AST stage RAN/exit2, Failure(TODO) in serializer traversal; producer reports no AST. No binding/acceptance. Total674s, remaining20926s.",
-      "evidence": [
-        {
-          "build_id": "234e58e3-dee9-4c45-ba4c-974c8ad102a8",
-          "path": "research/challenge-8/task-history/select-callee-r24/SECOND-PROOF-OBSERVATIONS.json",
-          "sha256": "ba83ffdf322395eec29405668a5c780584974f532055a421a83bec1333531d63"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "bba86d46: console-build exit0; positive RAN/exit2 on new gate after A1Nine admission. No projection/proof acceptance; credit0. Baseline AST hash unchanged.",
-      "evidence": [
-        {
-          "build_id": "bba86d46-3d8f-4275-a7ad-bd36328f4127",
-          "path": "research/challenge-8/task-history/select-callee-r24/FIFTH-PROOF-OBSERVATIONS.json",
-          "sha256": "6905bd5edf3d30909cca0511e182756eb3a2a06236ed542088096bd722a03ac0"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "85c88d85: positive RAN/exit0,0 errors142statements; projection1each, source/gates/prepostcaptures intact. Full matrix unqualified, credit0.",
-      "evidence": [
-        {
-          "build_id": "85c88d85-0bac-4f7f-8186-93a8b079b162",
-          "path": "research/challenge-8/task-history/select-callee-r24/SIXTH-PROOF-OBSERVATIONS.json",
-          "sha256": "6912bb2eb7608bda5ba167948b5b5e616373f54ff89994a5c2d0afe0dfdf2a1a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "db09fcc8: all8matrix rows COMPLETE/expected classes; physicalaudit evidence_complete true, currentBuild/R24/map/source bindings intact. accepted/creditfalse.",
-      "evidence": [
-        {
-          "build_id": "db09fcc8-f33f-42c5-9d40-50c2c3d63658",
-          "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
-          "sha256": "0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "b606: capture/audit complete,9bodies/mode,10snapshots; no proof/admission,credit0.",
-      "evidence": [
-        {
-          "build_id": "b606d510-6832-483e-8168-afe8ef5fe9b4",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-CAPTURE-FOURTH-OBSERVATIONS.json",
-          "sha256": "8d271871cfdf716409100245acedde955ba75a29110cc7421c9dc2e6f86f6d5b"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "25f0: all8 mutable fingerprints and audit complete; location reproduces pins. No proof/admission,credit0.",
-      "evidence": [
-        {
-          "build_id": "25f0b6ae-c038-4886-a742-4c3448f88512",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-FINGERPRINT-OBSERVATIONS.json",
-          "sha256": "4f706555dc3c52847e200f33212c9cc294c102f1224b20d0a6ebb051a8f5023a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "4509: nativecompile0,const audit/freshmutablecapture complete; positive refuses const-only assert_inhabited. Bodyproof unknown,credit0.",
-      "evidence": [
-        {
-          "build_id": "4509d8d7-ee10-485a-b330-cc111c1bb013",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-FIRST-OBSERVATIONS.json",
-          "sha256": "48f06569a52f325c21ab81d48049310b114302d57550b2011a48cdff5bd5b101"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "489c: nativecompile0,const audit/freshmutablecapture complete; A1 counts1/1,positive ends3deadcode lines. Not accepted,credit0.",
-      "evidence": [
-        {
-          "build_id": "489c0456-18a7-4b7e-8056-4210678debf2",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-SECOND-OBSERVATIONS.json",
-          "sha256": "34d27b66fabf7350888234bc69bbcc90cc17267268d575078319a76b3820bbee"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "cb6a: mutable positive exit0/142statements/native1/sourceintact; auditcomplete. Fullmutablematrix/refusals pending,credit0.",
-      "evidence": [
-        {
-          "build_id": "cb6ab304-085f-41e3-9f0a-a5cd3d0a4147",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-POSITIVE-THIRD-OBSERVATIONS.json",
-          "sha256": "e01abe9e61171b73d10d8cc0eef64981cd77e8cc6029ba88a66403117270d8bf"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "ca689: all8 sourceintact/native1; positive0/sevennegative1; collection/auditcomplete. Fresh7targets proposed; classification/refusals pending,credit0.",
-      "evidence": [
-        {
-          "build_id": "ca689298-e7d6-41ed-9127-665422a679bd",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-MATRIX-PROOF-FIRST-OBSERVATIONS.json",
-          "sha256": "97ece803a2bc57584646df152403537d529f8301b4270871a74e8b3c3ca59288"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "4267: classifier7targets and consequence complete; rootauditfalse due argv mismatch. Fix/sysroot+refusals pending;credit0.",
-      "evidence": [
-        {
-          "build_id": "4267f58b-10da-4f3c-bb3f-1cc0f0879125",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-CLASSIFIED-FIRST-OBSERVATIONS.json",
-          "sha256": "1391475d234935f6a8a67adf162373c22511df6d14dcf7a305272ada96c62c0b"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "10662: subproofs complete; entry prerequisite audit fails beforecollector. Path/string fix unbuilt; controls unqualified,credit0.",
-      "evidence": [
-        {
-          "build_id": "10662b5e-bbb3-437b-85d6-e7b5f1f69dc8",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-FIRST-OBSERVATIONS.json",
-          "sha256": "59d33d0f3684b60aa745b4f0cbdec7e28d8414ce4987ef64bfd2c486ee7a285e"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "a9f456: prereqs and8refusals matched; partialpair exit2 expectedtextwrong. All11/root pending,credit0.",
-      "evidence": [
-        {
-          "build_id": "a9f456ed-f96d-49fb-8259-6dcb9dfaee7b",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-SECOND-OBSERVATIONS.json",
-          "sha256": "45c0c438402ee13c70548dd66cab0f67f029261187354e99ade738a917ba0623"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "ed261d: 11records/10refusals matched; legacyexit2 earlierconstroute expectationwrong. Fullqualification pending,credit0.",
-      "evidence": [
-        {
-          "build_id": "ed261d30-9c57-44e0-a9de-d7d8de5dab1f",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-REFUSAL-THIRD-OBSERVATIONS.json",
-          "sha256": "48574a0ab0d66c2f9495112f4283b0b2307d0d7c871ce27565fafaeab8e32c64"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "38c94d both8matrices/consequence/all11refusals/rootaudit complete. PlatformFAILURE retained; finalP2qualification pending,credit0.",
-      "evidence": [
-        {
-          "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
-          "path": "research/challenge-8/task-history/select-callee-r24/MUT-P2-COMPLETE-OBSERVATIONS.json",
-          "sha256": "6dbfb097b0d9838d3ae3960f7d83a4a4221461eae304b7966e7106e327a6943c"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "P2 exactrawmutpointer contract qualified/publishedafterfinalscopedGO; constregression qualified. Noindependentcredit; W4linkage remainsopen.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/P2-INTERFACE.json",
-          "sha256": "656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322"
-        },
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/R24-p2-publication-review.json",
-          "sha256": "0e4569adee40ed4f8e819bc7e13432e509e75a9e37160c9993d79cf35713a057"
-        }
-      ],
-      "qualification": "INDEPENDENT_STATIC_REVIEW_GO_FOR_EXACT_EXPERIMENTAL_PROFILE"
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "aeff12eb W4capture incomplete: refreshAPI4tuple/caller3 causesValueError. P2publishedunchanged; noW4qualification.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-FIRST-OBSERVATIONS.json",
-          "sha256": "a87220c8b96dd9937829371b7fb022a0da37ebf65dbf85bc95021971ac91ae30"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "cf667c W4actualsource/normal+readonlyMIR/refinement/physicalaudit complete; 8rawselectoroccurrences, typedlinkageUNKNOWN. No W4proof/credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-COMPLETE-OBSERVATIONS.json",
-          "sha256": "ed2ca3172dde01dc1d14d50e8108842ce9d6d961707b31d07cb20f5839f88402"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "a665d68 W4 diagnostic incomplete: parser malformed call; native exit2 CALLBACK-UNWIND certificate refusal. Capture complete and source intact as reported; no linkage/proof/credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
-          "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "97b28dc W4 preflight rejects analyzer pin; capture incomplete, native not invoked. Native console exit0 only; no fingerprints/linkage/proof/credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-FIRST-OBSERVATIONS.json",
-          "sha256": "90003f036b56547e3ead39d01c61e6d09ca5f2fb1c93bb8e6327d4320d082152"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "ddfcd255 native fingerprints complete as reported: unit/body Marshal hashes, exact refusal, same pre/post tool33b693. Overall typed count incomplete; audit output path defect; no linkage/proof/credit.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-SOURCE-OBSERVATIONS.json",
-          "sha256": "cc9841b7bbcf9fa883d7895a03af30859e0832bf7a17bfa101a732a827e3e19a"
-        }
-      ]
-    },
-    {
-      "assurance": "SOURCE_REPORTED",
-      "claim": "5a8dbd82 W4 input diagnostic complete:8typedcalls eachmode, native snapshots reproduced and final physical audit/source intact. Linkage and bodyproof UNKNOWN; credit0.",
-      "evidence": [
-        {
-          "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-COMPLETE-OBSERVATIONS.json",
-          "sha256": "41336694ca2f0e296415d646f3aa15ffc22378628a69b735f606c2f3afc969f6"
-        }
-      ]
-    }
-  ],
+  "confirmed_history": [],
+  "confirmed_history_archive": {
+    "path": "research/challenge-8/task-history/select-callee-r24/CHECKPOINT-CONFIRMED-HISTORY-THROUGH-S30.json",
+    "sha256": "12f6196bfbbfe198610187d5f9d1f3e6cd15c27855f1818fd99c9d71de4ae1d9"
+  },
   "control_targets": {
     "assurance": "SOURCE_REPORTED",
     "canonical_sha256": "a5537cf8c5320f8e8741001677216c9cf09874535d240776e782e17c46eeb358",
@@ -1245,8 +985,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Use ordinary unsafe proof helper with same contract; correct native log format, review, full1200.",
-  "next_step": "Use ordinary unsafe proof helper with same contract; correct native log format, review, full1200.",
+  "next": "Publish exact unsafe-helper candidate; full1200 const8/consequence/control/audits; Brief then W4.",
+  "next_step": "Publish exact unsafe-helper candidate; full1200 const8/consequence/control/audits; Brief then W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1361,7 +1101,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:59:17Z",
+  "updated_utc": "2026-10-24T02:03:10Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1547,7 +1287,7 @@
       "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
     },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "SUBMITTED",
+    "state": "UNSAFE_CONSEQUENCE_REVIEWED_UNBUILT",
     "target_path_design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-TARGET-PATH-DESIGN.json",
       "sha256": "f056e4abf8f66a0c8ab82b1cff6874f163af7e5451dc8ee05cfd4915e3178341"
@@ -1557,6 +1297,14 @@
       "sha256": "5479565d1b0f86f1879c64590505bb4876ccea74f13c868f4c4ddd8b7a90c475"
     },
     "tests": "12 consequence +12 wrapper (unmocked synthetic provider-overlay/pins) +6 new Bash routing +10 old Bash regressions pass; Bash syntax/diff pass. Actual native proofs unbuilt.",
+    "unsafe_consequence_design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-UNSAFE-DESIGN.json",
+      "sha256": "38c9ce0f0dced75469fcc6dbd27053cd7af12ece38543380c63cc372093146ee"
+    },
+    "unsafe_consequence_review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-unsafe-review.json",
+      "sha256": "1e45454e59b91a2f07af5a626d91917d2f113a6d2b06d6503ef1c7b5bc2651bf"
+    },
     "workers": {
       "checked_consequence": "r24_admission",
       "const_wrapper": "r24_mut_proof_runner"
@@ -1683,6 +1431,34 @@
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "e915b218a7c25a73edef2c33b91a0b8f00931b5c5b509584f47a26ddf0f14695"
+  },
+  "w4_const_unsafe_candidate": {
+    "accepted": false,
+    "caller_body_proof_admission": false,
+    "candidate": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
+    "consequence_sha256": "6463a3058c2128899ec1911d89423749265012c1cab79df50570ab1476c83d6b",
+    "mode_sha256": "6cef1b0fc3913ca914e2d903d14aa33c27180e90038c47e7d20b5324f54895cf",
+    "omission_target_match_scope": "EXACT_SOURCE_LINE_NOT_COLUMN",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-UNSAFE-TRANSPORT-PREFLIGHT.json",
+      "sha256": "6308268ebb8a6fb0bb7a693a476de17a36ded6bd55c99280225880b060b958e1"
+    },
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-unsafe-review.json",
+      "sha256": "1e45454e59b91a2f07af5a626d91917d2f113a6d2b06d6503ef1c7b5bc2651bf"
+    },
+    "runtime_closure": {
+      "bytes": 3557033,
+      "entries": 158,
+      "sha256": "fd7a31c2ae28a30627f299b19b60a653fca4f0d1257e1b21c2b6ad5a94021220"
+    },
+    "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_UNSAFE_POINTER_POST_CONSEQUENCE_ONLY",
+    "state": "REVIEWED_UNBUILT",
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN",
+    "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
   },
   "w4_current_native_const8_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
@@ -1957,119 +1733,9 @@
     "state": "SOURCE_REPORTED_COMPLETE_DIAGNOSTIC_ONLY",
     "typed_call_linkage": "UNKNOWN"
   },
-  "watcher_history": [
-    {
-      "ack": "SUCCESS_CONTINUE",
-      "ack_utc": "2026-10-23T22:18:32Z",
-      "build_id": "38c94d41-ccd9-49f5-b58c-0efd10b406b6",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "SameR24/T0/account/window; latestownerpolicy926979f3. ACKbeforeCP, immediatelypush terminalaccountingbeforeBrief.",
-      "event_id": "18044316-06cf-48f8-b397-b8fdfb409da1",
-      "spec_path": "/tmp/select-r24-mut-legacy-target-watch.json",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "ack": "SUCCESS_CONTINUE",
-      "ack_utc": "2026-10-23T22:56:01Z",
-      "build_id": "aeff12eb-0836-4b79-86ae-7ef54c2521d4",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
-      "event_id": "22de2de8-1a6f-4446-99f8-5ccf09493105",
-      "spec_path": "/tmp/select-r24-w4-capture-watch.json",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "ack": "SUCCESS_CONTINUE",
-      "ack_utc": "2026-10-23T23:09:47Z",
-      "build_id": "cf667c5d-ce30-4803-b166-18f48b5cde6f",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; captureisnotproof.",
-      "event_id": "9ffc3354-a01c-4eb3-9d60-ae6c4d07428d",
-      "spec_path": "/tmp/select-r24-w4-api-watch.json",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "a665d68d-a609-447b-a99a-1c959a684aff",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "SameR24/T0/ledger/window; P2published95fff. ACKbeforeCP; immediatelypushterminalaccountingbeforeBrief; typedobservations/nativeexit arenotlinkage/proofacceptance.",
-      "event_id": "14cae6ee-562a-405c-a42a-d65a1783d4fa",
-      "job_id": "e82bfa67-830b-45c9-848f-576fbee16a8b",
-      "mode": "CONTINUE_EXISTING_WINDOW",
-      "spec_path": "/tmp/select-r24-w4-linkage-api-watch.json",
-      "state": "ACKED",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
-      "event_id": "5fc2afe8-d93e-45b7-9a94-8d28e4bb82bd",
-      "job_id": "565e792c-2d14-48ce-9467-3f472ba30deb",
-      "mode": "CONTINUE_EXISTING_WINDOW",
-      "spec_path": "/tmp/select-r24-w4-native-watch.json",
-      "state": "ACKED",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "ddfcd255-0f99-4876-8465-e6ee9af8dced",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
-      "event_id": "fd3a32a4-fd57-4484-a736-0438e0f361df",
-      "job_id": "cd56e74a-2a9d-4edd-853b-0e724d0e6963",
-      "mode": "CONTINUE_EXISTING_WINDOW",
-      "spec_path": "/tmp/select-r24-w4-native-pin-watch.json",
-      "state": "ACKED",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
-      "event_id": "397cfb79-1ae3-4a86-8888-8a5a07dbad6c",
-      "job_id": "3d9618ea-9b27-4dd0-abba-d71862707abc",
-      "mode": "CONTINUE_EXISTING_WINDOW",
-      "spec_path": "/tmp/select-r24-w4-typed-val-audit-watch.json",
-      "state": "ACKED",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "61e2d5de-8df8-4e44-93fa-75350140de1a",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
-      "event_id": "777a715b-bece-4116-881a-56dcaf1fd54a",
-      "job_id": "80753662-b62c-413b-8d5e-25e8145e8e8d",
-      "mode": "CONTINUE_EXISTING_WINDOW",
-      "spec_path": "/tmp/select-r24-w4-const-watch.json",
-      "state": "ACKED",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
-      "spec_path": "/tmp/select-r24-w4-const-setup-watch.json",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    },
-    {
-      "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
-      "checkpoint_frozen_after_arm": true,
-      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
-      "spec_path": "/tmp/select-r24-w4-const-target-watch.json",
-      "store": "/root/.local/state/smallsort-watch-select-r24",
-      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
-    }
-  ],
+  "watcher_history": [],
   "watcher_history_archive": {
-    "path": "research/challenge-8/task-history/select-callee-r24/WATCHER-HISTORY-THROUGH-S20.json",
-    "sha256": "c1ff74dd2657c7776c4c2525d7760d1c5fd8ab3e5a1fc20315eca531617a046a"
+    "path": "research/challenge-8/task-history/select-callee-r24/WATCHER-HISTORY-THROUGH-S30.json",
+    "sha256": "4acae2f0e8070f3a18eaab693f5f8d41a79c986d47a28e894b61cb94406ce5f0"
   }
 }
