@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T06:24:05Z
+- Updated: 2026-10-24T06:27:03Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 14221s spent; 0s retired; 7379s remaining including active reservations
@@ -28,9 +28,9 @@ Dormant C5/call overlay unbuilt; review and tool identity required.
 - [research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json](task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json) SHA `4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174`
 
 ## Next
-Review exact dormant compile candidate and preflight; publish, then full 1200s Build.
+Publish reviewed fddacfd5; full 1200s dormant compile/identity Build, then Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `9fd710410bad36e077176310d3306ef6230b369eae8a65f7dfc09fefc9043c20`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `5401497021cf6a2040ea2de3761b048083918af3ab7d39b708b9eda522f0d523`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a3c02133f5011990a31364b1798502b4f848523ece8899f032273590f086fc1c`

@@ -1,0 +1,37 @@
+{
+  "schema": "select-r24-w4-dormant-compile-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_DORMANT_COMPILE_IDENTITY_BUILD_ONLY",
+  "baseline_commit": "d6f21439e1e7c0fd72e806d3cf583a04515ceb92",
+  "candidate_commit": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
+  "candidate_tree": "d7e18a5ac3eb9b434114d3f32c8e6d1a2d0e2c59",
+  "spec_sha256": "41ca56da933a797e9e829c7008d0e85292dd1f0543c84db71890eea30d1c4e16",
+  "packet_sha256": "97c4cf3f9b29128536eeb0d0f0a8836dcfbb4e10ec284b0bd78f212dd0424aa9",
+  "diff_sha256": "904133160637d4e38c905acf6ae935ecb04b5e3e4e0f43d2ff50f03e8cdaadac",
+  "packet_identity_check": {
+    "candidate_tree_matches": true,
+    "spec_hash_matches": true,
+    "diff_hash_matches": true,
+    "declared_dependency_hashes_match_packet": true,
+    "proof_credit": 0
+  },
+  "findings": [],
+  "verified": [
+    "The previous undefined native_c1/native_c4 diagnostic marker branches are removed from both the generated dormant overlay and its C5 source patch. The active marker route retains the strict marker partition; the inactive route returns the original ghost_stmts. The generator rejects newly introduced *_requested names and checks the five required C5 helper definitions and uses.",
+    "The physical audit compares artifact_inventory with _json_exact, preventing int/float and bool/int equivalence from passing. A complete report must carry an actual list-valued empty errors field. The candidate adds a full fake run-to-audit inventory float-tamper control; reported targeted controls also retain invalid/nonempty errors and log-tamper cases.",
+    "The controller is sequenced after the existing same-Build qualification audit and validates the nested consequence, C6, and source-control capture records before its four copy/check/apply/compile stages. It pins current candidate/build context, F83 input identity, native patch/manifest/mode, commands, physical stage records/log inventories, and the nine-file measured output identity. Incomplete or mismatched states fail closed and preserve partial summaries.",
+    "The wrapper runs and audits this dormant compile branch after the retained qualification path, then exits before later mutable stages. The recipe pins the revised controller and native overlay. The five omitted mutable source-writer tools are after that terminal exit in this branch; checked prerequisites and reached current checks remain in the route.",
+    "Static review of the exact candidate patch shows Sort4R24W4Caller.active initialized false, no assignment enabling that ref, and no setter for actual_contract or header_path. The native result is therefore only measured compile/tool identity. The manifest and driver keep accepted, publication_allowed, body_proof_run, caller_body_proof_admission, callee_qualification, and proof_qualification false, typed_call_linkage UNKNOWN, and proof_credit zero."
+  ],
+  "tests_and_preflight": [
+    "The packet reports 14 controller tests and 8 Bash routing tests passing, including prior real-prerequisite fake-run coverage. I did not rerun tests.",
+    "Exact transport preflight reported by the task owner: payload 567006 bytes, SHA256 87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d; encoded config 27852/28000; max argument 2778; runtime closure 161 files / 3673962 bytes, SHA256 010a4496bb5efcf69407b1331d7b73335fa4af201f7707761dcbdb915f54b7ba."
+  ],
+  "scope": "GO only for exactly one authorized full-1200-second dormant native compile and nine-file identity Build after the retained prerequisites. No caller activation, call-rule admission, callee qualification, body proof, proof acceptance, or proof credit is approved or established.",
+  "limitations": [
+    "Static semantic review only. No actual Rust source preparation, compiler/toolchain, exporter, decoder, refiner, verifier, full runner, Cloud Build, or raw CI evidence was run or inspected.",
+    "A future activation or semantic change requires a separate reviewed candidate and fresh same-binary callee qualification before any caller proof path."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}
