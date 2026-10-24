@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "2c4bea8edb58677fce04206380697eaaa214e92d4ada690ac33aa698f0d12f33"
+      "sha256": "71494d0df1c6c9cb82ce923b2371880c265dcb7d56616b15b260b0ea959063ce"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -79,12 +79,12 @@
   "blocker": {
     "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
     "evidence": [],
-    "summary": "Source-only pilot8/37 pending; actual checked8call/C5 proof remains open."
+    "summary": "S37 terminal FAILURE accounted; source-only pilot inputs/audits await Brief."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "2c4bea8edb58677fce04206380697eaaa214e92d4ada690ac33aa698f0d12f33"
+    "sha256": "71494d0df1c6c9cb82ce923b2371880c265dcb7d56616b15b260b0ea959063ce"
   },
   "brief_observation_refs": [
     {
@@ -566,7 +566,7 @@
     }
   ],
   "next": "ACK; push terminal accounting; Brief pilot inputs/audits, then checked8call/C5 port.",
-  "next_step": "ACK; push terminal accounting; Brief pilot inputs/audits, then checked8call/C5 port.",
+  "next_step": "Read Brief S37 pilot/binary/audits; repair exact failure, then checked8call/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -659,17 +659,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 8432,
+    "remaining_seconds": 7971,
     "retired_seconds": 0,
-    "spent_seconds": 13168,
+    "spent_seconds": 13629,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -681,9 +679,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T05:21:18Z",
+  "updated_utc": "2026-10-24T05:29:33Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -881,7 +879,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "WAITING_SOURCE_ONLY_PILOT_INPUTS",
+    "state": "S37_TERMINAL_ACCOUNTED_PENDING_BRIEF",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1462,21 +1460,27 @@
   },
   "w4_control_capture_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
     "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+    "build_seconds": 461,
     "caller_body_proof_admission": false,
     "candidate": "c7384a8be909abfffc851ea4ea4113ef11c59ae8",
     "config_sha256": "c4fab16dd091197ba3fdefe89571ec63052c78378b2afa82634184ed6be095c8",
     "dispatch_token": "dispatch-2ca1ba4eaea2482db16a23b02a7ff463",
+    "execution_seconds": 460,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_SOURCE_ONLY_PILOT8_OF37",
+    "result": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
     "schema": "select-r24-w4-control-capture-submission-v1",
     "source_control_universe_complete": false,
     "source_payload_sha256": "54e6da9d3298293fbf431ca468add66eab3b0ae66d692a9e1e8f5c4602809cb7",
-    "status": "QUEUED",
+    "status": "FAILURE",
+    "terminal_accounting": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-TERMINAL-ACCOUNTING.json",
+      "sha256": "f603ee1b5164f7644ee7b8b3311871081905dad585a8a2bfdbc280ba079550e6"
+    },
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1507,7 +1511,7 @@
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
     "source_payload_sha256": "54e6da9d3298293fbf431ca468add66eab3b0ae66d692a9e1e8f5c4602809cb7",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
     "submission": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-SUBMISSION.json",
       "sha256": "df0f2a1dad74a30418161ce9f1ea3a8a2e7ed7af1b92d8108ad9826179fee4ac"
@@ -1875,9 +1879,12 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "accounted": true,
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
       "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately commit/push terminal ledger+CP/STATUS before Brief. Data capture is not proof/control acceptance or independent credit.",
+      "event_id": "d99c8e96-5e46-470e-a127-4494c5343bdd",
       "spec_path": "/tmp/select-r24-w4-control-capture-s37-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
