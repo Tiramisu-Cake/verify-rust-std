@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T01:27:51Z
+- Updated: 2026-10-24T01:31:06Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 10028s spent; 0s retired; 11572s remaining including active reservations
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Const wrapper subtree misses provider receipt; consequence audit API mismatch. Static fixes in progress. [Build `61e2d5de-8df8-4e44-93fa-75350140de1a`]
-- [research/challenge-8/task-history/select-callee-r24/W4-CONST-SETUP-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-SETUP-OBSERVATIONS.json) SHA `e99289077bfd6e4f48a78ad6ff9901fb0180556b5870fc6bc45295a878d3b626`
+Reviewed const wrapper setup fix unbuilt; W4 callee dependency/linkage/C5 remain open.
+- [research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json](task-history/select-callee-r24/R24-w4-const-setup-fix-review.json) SHA `68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69`
 
 ## Next
-Fix receipt propagation and real audit API; synthetic integration, delta review, full1200 const8.
+Publish exact setup-fix candidate; full1200 const8/consequence; Brief then W4 linkage/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `4d7aaf2027f50ca5bda0d4a0271ea1522b6297f6795cd642c24bb653d8b5aab8`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `125c4ea8ce93945606af171c56ef9f471e529b136a2c84b266e9d8504cfdf256`

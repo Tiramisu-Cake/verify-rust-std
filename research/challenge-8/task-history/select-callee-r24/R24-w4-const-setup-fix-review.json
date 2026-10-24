@@ -1,0 +1,43 @@
+{
+  "baseline_commit": "a96c7296f7c7c7b6f8866b96475231be5351e773",
+  "candidate_commit": "7eb8ab48a94057d7cea021fb5536c572d270301a",
+  "candidate_tree": "91992454951dec356febfd7652e2aea81a470130",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_CURRENT_NATIVE_CONST_MATRIX_AND_CONSEQUENCE_BUILD_ONLY",
+  "diff_sha256": "a5e547426fd77ee9043550f16bd7d59dbe2d232148e2ed5ac5b78eb36c18bc3c",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second current-native const eight-row matrix plus the positive/omitted-relation consequence and physical audits, under existing R24 admission/ledger/deadline/route constraints.",
+    "The setup fix is unbuilt. No callee requalification, call linkage, caller body/admission, acceptance, publication, or independent proof credit is established. Proof credit remains 0."
+  ],
+  "not_run": [
+    "No Cloud Build, source preparation, actual compiler/exporter/decoder/refinement/verifier/native tool, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "eb5240d2376144e142f81e5565f659dda85d5a8018b8eda29321369c321f60dc",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json",
+      "sha256": "d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-const-setup-fix-independent-review-v1",
+  "spec_sha256": "235c5a221f02df67ba1e3e37bfeddabacf0181eebb35d7096aa3ec73a786d287",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static review compared the exact same-boundary diff, receipt copy/verification paths, pinned R21 validator integration, consequence.audit signature, and updated shell helper gate.",
+    "The packet reports 14 wrapper, 12 consequence and 6 Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "The qualification wrapper copies only the already validated outer candidate-provider-overlay.json into the fresh R21 work subtree using exclusive create, fsync and byte/hash equality checks. Its audit rechecks outer/work bytes; the pinned R21 dependency validator continues to validate all provider overlay paths, source hashes and guard-only transforms against committed/current bytes. No second overlay or acceptance logic is introduced.",
+    "The consequence audit call now uses its actual pinned API: outcome context is placed on the Namespace and the helper is called with only const_matrix_summary and const_matrix_audit. Both run-time and read-only audit paths pass runner_exit/failed_stage through the Namespace as the pinned consequence implementation expects.",
+    "On incomplete matrix/setup, the consequence is not claimed complete: the outer audit retains the failed runner context, revalidates physical matrix and consequence inputs, and records incomplete evidence. Receipt-copy failures are captured as incomplete partial records; missing/mismatched copies fail both production validation and frozen R21 validation.",
+    "Production helper pin is synchronized with shell gate (a9cb6daf24e5e0619ae0df9656c4a0b47595b9505cc4dacb22ca8435a63126ea). Consequence, native/tool/model/mode/source/control logic is otherwise unchanged from the previous reviewed boundary."
+  ]
+}

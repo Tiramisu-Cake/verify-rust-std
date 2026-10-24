@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4d7aaf2027f50ca5bda0d4a0271ea1522b6297f6795cd642c24bb653d8b5aab8"
+      "sha256": "125c4ea8ce93945606af171c56ef9f471e529b136a2c84b266e9d8504cfdf256"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,19 +32,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "61e2d5de-8df8-4e44-93fa-75350140de1a",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SETUP-OBSERVATIONS.json",
-        "sha256": "e99289077bfd6e4f48a78ad6ff9901fb0180556b5870fc6bc45295a878d3b626"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json",
+        "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
       }
     ],
-    "summary": "Const wrapper subtree misses provider receipt; consequence audit API mismatch. Static fixes in progress."
+    "summary": "Reviewed const wrapper setup fix unbuilt; W4 callee dependency/linkage/C5 remain open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "4d7aaf2027f50ca5bda0d4a0271ea1522b6297f6795cd642c24bb653d8b5aab8"
+    "sha256": "125c4ea8ce93945606af171c56ef9f471e529b136a2c84b266e9d8504cfdf256"
   },
   "brief_observation_refs": [
     {
@@ -1203,8 +1202,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Fix receipt propagation and real audit API; synthetic integration, delta review, full1200 const8.",
-  "next_step": "Fix receipt propagation and real audit API; synthetic integration, delta review, full1200 const8.",
+  "next": "Publish exact setup-fix candidate; full1200 const8/consequence; Brief then W4 linkage/C5.",
+  "next_step": "Publish exact setup-fix candidate; full1200 const8/consequence; Brief then W4 linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1319,7 +1318,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:27:51Z",
+  "updated_utc": "2026-10-24T01:31:06Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1496,8 +1495,16 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json",
       "sha256": "d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a"
     },
+    "setup_fix_design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SETUP-FIX-DESIGN.json",
+      "sha256": "2bef47982605960c705eac4ee9c28bf727bd38763ba7c6f59d4b800481b6150d"
+    },
+    "setup_fix_review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json",
+      "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
+    },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "SETUP_FIX_REVIEWED_UNBUILT",
     "tests": "12 consequence +12 wrapper (unmocked synthetic provider-overlay/pins) +6 new Bash routing +10 old Bash regressions pass; Bash syntax/diff pass. Actual native proofs unbuilt.",
     "workers": {
       "checked_consequence": "r24_admission",
@@ -1507,6 +1514,32 @@
       "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-qualification.py",
       "sha256": "3ac557f7a6d7f99a6665fcd1db893a2a883726c788a9f7e8a00933a20b71b137"
     }
+  },
+  "w4_const_setup_fix_candidate": {
+    "accepted": false,
+    "caller_body_proof_admission": false,
+    "candidate": "7eb8ab48a94057d7cea021fb5536c572d270301a",
+    "mode_sha256": "e9236089af34945027ba3a22126436356ddabe2e6908eca8ea99741becb7c39f",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SETUP-FIX-TRANSPORT-PREFLIGHT.json",
+      "sha256": "98d9669daa400354f102e046f03f0fcf2480ac06e489d4885f0e96aa80f0f7b8"
+    },
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json",
+      "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
+    },
+    "runtime_closure": {
+      "bytes": 3546691,
+      "entries": 158,
+      "sha256": "c0e803467c2d67769bcc331616d264f8504a4fe4d542b3e4dc431a88dfed1d7f"
+    },
+    "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_SETUP_FIX_ONLY",
+    "state": "REVIEWED_UNBUILT",
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN",
+    "wrapper_sha256": "a9cb6daf24e5e0619ae0df9656c4a0b47595b9505cc4dacb22ca8435a63126ea"
   },
   "w4_inputs_qualification": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
