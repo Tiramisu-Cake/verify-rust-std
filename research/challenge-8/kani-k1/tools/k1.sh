@@ -12,7 +12,7 @@ set -euo pipefail
 
 API=https://circleci.com/api/v2
 SLUG=circleci/PBSy8HxcMvQrUER5EX8Ah2/SwwrwNYuSGo1ny9mvHtPZ2   # project Verify-rust-std
-DEFINITION=f9c6399a-41a5-4d0b-b724-7e3f18046d56              # pipeline definition .circleci/config.yml
+DEFINITION=0bc9e80e-1660-4795-b651-949e3fd4a945              # pipeline definition .circleci/config.yml (no triggers)
 TOKEN_FILE=${K1_CIRCLE_TOKEN_FILE:-/root/.config/smallsort-ci/circleci-token}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-jobs}
 LANE_PATHS=(.circleci research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
@@ -46,6 +46,8 @@ artifact_get() {  # artifact_get URL OUTFILE
     die "HTTP $code for artifact $1"
   fi
 }
+# Pipeline revision: OAuth projects report vcs.revision, GitHub App projects trigger_parameters.
+REV_EXPR="(d.get('vcs') or {}).get('revision') or ((d.get('trigger_parameters') or {}).get('git') or {}).get('checkout_sha') or ((d.get('trigger_parameters') or {}).get('github_app') or {}).get('commit_sha') or ''"
 jqr() { python3 -c "import json,sys; d=json.load(sys.stdin); print(eval(sys.argv[1], {'d': d}))" "$1"; }
 
 fetch() {  # fetch JOB -> directory with summary/ and log/ artifacts (jobs are immutable, keyed by number)
@@ -75,7 +77,7 @@ case "$cmd" in
     sha=$(git rev-parse "origin/$branch")
     [ "$(git rev-parse "$branch" 2>/dev/null)" = "$sha" ] || die "local $branch differs from origin; push it first"
     git show "$sha:research/challenge-8/kani-k1/RUN-REQUEST.json" >/dev/null 2>&1 || die "no RUN-REQUEST.json at $sha"
-    dup=$(cci "$API/project/$SLUG/pipeline?branch=$branch" | jqr "[p['number'] for p in d.get('items', []) if (p.get('vcs') or {}).get('revision') == '$sha']")
+    dup=$(cci "$API/project/$SLUG/pipeline" | jqr "[p['number'] for p in d.get('items', []) if p.get('state') != 'errored' and (lambda d: $REV_EXPR)(p) == '$sha']")
     [ "$dup" = "[]" ] || die "pipeline(s) $dup already ran $sha; change and push RUN-REQUEST.json for a new run"
     body=$(python3 -c 'import json,sys; b=sys.argv[1]; print(json.dumps({"definition_id": sys.argv[2], "config": {"branch": b}, "checkout": {"branch": b}, "parameters": {"run_k1": True}}))' "$branch" "$DEFINITION")
     pid=$(cci -X POST -H 'Content-Type: application/json' -d "$body" "$API/project/$SLUG/pipeline/run" | jqr "d['id']")
@@ -83,7 +85,7 @@ case "$cmd" in
       p=$(cci "$API/pipeline/$pid")
       state=$(jqr "d.get('state')" <<< "$p")
       if [ "$state" = "errored" ]; then die "pipeline errored: $(jqr "d.get('errors')" <<< "$p" | head -c 600)"; fi
-      rev=$(jqr "(d.get('vcs') or {}).get('revision')" <<< "$p")
+      rev=$(jqr "$REV_EXPR" <<< "$p")
       wf=$(cci "$API/pipeline/$pid/workflow" | jqr "d['items'][0]['id'] if d.get('items') else ''")
       if [ -n "$wf" ]; then
         job=$(cci "$API/workflow/$wf/job" | jqr "next((j.get('job_number') or '' for j in d.get('items', []) if j.get('name') == 'k1'), '')")
@@ -118,7 +120,7 @@ case "$cmd" in
     job=${1:-}; is_job "$job"; base=${2:-}; [[ "$base" =~ ^[0-9a-f]{40}$ ]] || die "full 40-hex BASE commit required"
     pid=$(cci "$API/project/$SLUG/job/$job" | jqr "d['pipeline']['id']")
     p=$(cci "$API/pipeline/$pid")
-    head=$(jqr "(d.get('vcs') or {}).get('revision')" <<< "$p")
+    head=$(jqr "$REV_EXPR" <<< "$p")
     trigger=$(jqr "(d.get('trigger') or {}).get('type')" <<< "$p")
     [[ "$head" =~ ^[0-9a-f]{40}$ ]] || die "cannot read the pipeline revision of job $job"
     git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" || die "commit $head not available locally"
