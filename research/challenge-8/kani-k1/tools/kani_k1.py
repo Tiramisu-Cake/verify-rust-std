@@ -47,7 +47,7 @@ MAX_MD_BYTES = 12000
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
 STATUS_RE = re.compile(r"^VERIFICATION:-\s*(SUCCESSFUL|FAILED|TIMEOUT)\b(.*)$")
 TIME_RE = re.compile(r"^Verification Time:\s*([0-9]+(?:\.[0-9]+)?)s\s*$")
-CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(?:\s*\((\d+) unreachable\))?\s*$")
+CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(?:\s*\((\d+) unreachable[^)]*\))?")
 COVER_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) cover properties satisfied")
 FAILED_CHECK_RE = re.compile(r"^Failed Checks:\s*(.*)$")
 FILE_RE = re.compile(r'^\s*File: "([^"]+)", line (\d+)')
@@ -107,15 +107,17 @@ def validate_request(data: Any) -> dict[str, Any]:
     for entry in harnesses:
         if (not isinstance(entry, dict) or not HARNESS_REQUIRED <= set(entry)
                 or set(entry) - HARNESS_REQUIRED - HARNESS_OPTIONAL):
-            raise RequestError("each harness entry must be {name, expect} with optional expect_check")
+            raise RequestError("each harness entry must be {name, expect} plus expect_check for expect FAILED")
         name, expect = entry["name"], entry["expect"]
         if not isinstance(name, str) or not HARNESS_RE.fullmatch(name):
             raise RequestError(f"harness name must be a full path under {HARNESS_PREFIX}: {name!r}")
         if not isinstance(expect, str) or expect not in EXPECT:
             raise RequestError(f"expect must be SUCCESS or FAILED: {name}")
-        if "expect_check" in entry:
-            if expect != "FAILED" or not _one_line(entry["expect_check"], 200):
-                raise RequestError(f"expect_check is a one-line substring and only for expect FAILED: {name}")
+        # A FAILED expectation must name the intended check, else an unrelated failure would count.
+        if expect == "FAILED" and not _one_line(entry.get("expect_check"), 200):
+            raise RequestError(f"expect FAILED requires expect_check, a one-line substring of the intended check: {name}")
+        if expect == "SUCCESS" and "expect_check" in entry:
+            raise RequestError(f"expect_check is only for expect FAILED: {name}")
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
@@ -196,7 +198,7 @@ def parse_log(text: str) -> dict[str, Any]:
         m = FAILED_CHECK_RE.match(line)
         if m:
             if len(current["failed_checks"]) < MAX_FAILED_CHECKS:
-                current["failed_checks"].append(_clip(m.group(1)))
+                current["failed_checks"].append({"description": _clip(m.group(1)), "location": None})
                 current["_last_open"] = True
             else:
                 current["failed_checks_truncated"] = True
@@ -204,7 +206,7 @@ def parse_log(text: str) -> dict[str, Any]:
             continue
         m = FILE_RE.match(line)
         if m and current.get("_last_open"):
-            current["failed_checks"][-1] = _clip(f"{current['failed_checks'][-1]} @ {m.group(1)}:{m.group(2)}")
+            current["failed_checks"][-1]["location"] = _clip(f"{m.group(1)}:{m.group(2)}")
             current["failed_located"] += 1
             current["_last_open"] = False
     for block in blocks:
@@ -227,8 +229,9 @@ def _row_meets(row: dict[str, Any], entry: dict[str, Any]) -> bool:
         return row["status"] == "SUCCESS"
     if row["status"] != "FAILED" or not row.get("failed_located"):
         return False
-    needle = entry.get("expect_check")
-    return needle is None or any(needle in check for check in row.get("failed_checks", []))
+    needle = entry["expect_check"]
+    # Only descriptions of located checks count; the file path is not searched.
+    return any(c["location"] is not None and needle in c["description"] for c in row.get("failed_checks", []))
 
 
 def parse_time_file(text: str | None) -> dict[str, Any]:
@@ -389,7 +392,7 @@ def render_md(summary: dict[str, Any]) -> str:
     for r in summary["harnesses"]:
         if r.get("failed_checks"):
             lines += ["", f"Failed checks of `{r['name']}`" + (" (truncated)" if r["failed_checks_truncated"] else "") + ":"]
-            lines += [f"- {c}" for c in r["failed_checks"]]
+            lines += [f"- {c['description']} @ {c['location'] or 'no location'}" for c in r["failed_checks"]]
     if summary["inconsistencies"]:
         lines += ["", "Inconsistencies:"] + [f"- {i}" for i in summary["inconsistencies"]]
     if summary["errors"]:

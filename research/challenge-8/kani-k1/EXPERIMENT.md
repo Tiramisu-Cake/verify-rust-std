@@ -29,7 +29,7 @@
    - general: `i32` и `u64` через `StableSmallSortTypeImpl::small_sort`, `[u8; 16]` и `[u8; 85]` через `UnstableSmallSortFreezeTypeImpl::small_sort`. Так покрываются обе ветки presort, на 8 и на 4.
 4. Каждая гармоника пп. 1–2 даёт SUCCESS в run-запросе вида `measurement` на `ubuntu-latest`. Её время по строке Kani `Verification Time` не больше 600 с, у неё есть хотя бы один cover, и все её cover выполнены. Gate сводки равен true.
 5. Те же measurement повторены на `macos-latest`. Время записывается отдельной строкой вердикта: CI организаторов гоняет Kani и на macOS (требование H4).
-6. Каждый засчитанный run проходит `tools/k1.sh check-tooling <run id> <base SHA>`: workflow, `kani_k1.py`, `run-kani.sh` и `kani-version.toml` на коммите прогона совпадают с базовым коммитом эксперимента.
+6. Каждый засчитанный run проходит check-tooling: workflow, `kani_k1.py`, `run-kani.sh` и `kani-version.toml` на коммите прогона совпадают с базовым коммитом эксперимента. Commit прогона берётся у GitHub, сравнение делает локальный git. Скрипт запускается из копии на базовом коммите, а не со своей ветки: `bash <(git show <base SHA>:research/challenge-8/kani-k1/tools/k1.sh) check-tooling <run id> <base SHA>`.
 7. Контроль предусловий R11 дал ожидаемый FAILED.
 8. Итоговый набор получил GO от независимого reviewer (§6, R9).
 
@@ -59,7 +59,7 @@ K1-network использует контракты `insert_tail` и `bidirection
 
 | Ветка | Worktree |
 |---|---|
-| `experiment/kani-k1-base-20261024` | инфраструктура, база для двух других |
+| `experiment/kani-k1-base-20261024` | `/root/verify-rust-std-kani-k1-base`, инфраструктура и smoke, только координатор |
 | `experiment/kani-k1-merge-20261024` | `/root/verify-rust-std-kani-k1-merge` |
 | `experiment/kani-k1-network-20261024` | `/root/verify-rust-std-kani-k1-network` |
 
@@ -76,7 +76,7 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 Правила запросов:
 - Гармоники указываются только полными путями под `slice::sort::shared::smallsort::kani_k1::`, от 1 до 20 штук.
 - `measurement` использует таймаут 10 минут и идёт в зачёт. `diagnostic` допускает таймаут до 30 минут и в зачёт не идёт.
-- Для каждой гармоники указывается ожидаемый исход SUCCESS или FAILED. FAILED нужен для контрольных мутантов и контрольных отказов. Ожидание FAILED выполнено, только если Kani сообщил проваленную проверку с файлом и строкой. Поле `expect_check` задаёт подстроку, которая обязана встретиться в описании проваленной проверки. Для контролей оно обязательно, иначе отказ по постороннему поводу засчитается как ожидаемый.
+- Для каждой гармоники указывается ожидаемый исход SUCCESS или FAILED. FAILED нужен для контрольных мутантов и контрольных отказов. Ожидание FAILED выполнено, только если Kani сообщил проваленную проверку с файлом и строкой, и её описание содержит подстроку `expect_check`. Поле `expect_check` обязательно для каждого FAILED, иначе отказ по постороннему поводу засчитался бы как ожидаемый. Путь файла при этом не ищется.
 - Статусы сводки: COMPLETE, PARTIAL, INCONSISTENT, COMPILE_ERROR, TOOL_ERROR, RUNNER_ERROR, REQUEST_INVALID. Засчитывается только run с gate true. INCONSISTENT означает, что статусы гармоник, итоговая строка Kani и код выхода не сходятся. Отсутствие артефакта сводки считать RUNNER_ERROR.
 - У одного агента одновременно не больше двух незавершённых run.
 - Сборка Kani занимает примерно 20–30 минут каждого run и в замер не входит. Kani запускается с `--jobs=1`. Время гармоники берётся из строки Kani `Verification Time`. Пиковая память в сводке относится ко всему прогону, включая компиляцию std. Отнести её к гармонике можно только в запросе из одной гармоники и только как верхнюю оценку.
@@ -100,7 +100,7 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 - **R9. Review.** Перед заявлением PASS или FAIL цепочки итоговый набор файлов и SHA проверяет субагент `smallsort-reviewer`. Ему передаётся явный список закоммиченных файлов и SHA без выводов автора. Конкретные находки по soundness устраняются до вердикта. Промежуточные diagnostic-прогоны review не требуют.
 - **R10. Прогресс.** Примерно раз в час — короткое сообщение в сессии без ожидания ответа.
 - **R11. Контроль предусловий.** CI-скрипт организаторов запускает Kani с `--no-assert-contracts`. Не установлено, проверяет ли Kani при этом флаге `requires` callee в точке `stub_verified`. Поэтому до первого засчитанного использования `stub_verified` агент запускает контрольную гармонику. В ней вызывающий код под `stub_verified` нарушает `requires` callee. Ожидается FAILED с `expect_check` на текст проверки предусловия. Если контроль даёт SUCCESS, предусловия в точках заглушек не проверяются. Тогда композиция не засчитывается, пока выполнение предусловий не показано отдельно. Агент записывает это как blocker в RESULT и сообщает в первой строке вердикта.
-- **R12. В каждой гармонике есть cover.** Минимум — `kani::cover(true, ...)` в конце тела, плюс cover на каждый `assume`.
+- **R12. В каждой гармонике есть cover.** Минимум — `kani::cover(true, ...)` в конце тела, плюс cover на каждый `assume`. У верхних гармоник с символьной длиной дополнительно cover на граничных длинах: 0, 1, 16, 17, 18 и 32 для network и general. Так PASS показывает, что достижимы все ветви по длине.
 
 ## 7. Известные риски
 
@@ -128,7 +128,7 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 1. Разрешить lane GitHub Actions для веток `experiment/kani-k1-**` в форке. Это исключение из правила, что GitHub Actions разрешены только maintainer.
 2. Отключить в форке workflows `Kani`, `VeriFast`, `VeriFast (negative)`, `Run GOTO Transcoder (ESBMC)` и `Rust Tests`. Они срабатывают на push в любую ветку с изменениями в `library/**`. Форк их ни разу не запускал. Без отключения каждый push агента запускает полный upstream Kani, 8 заданий с macOS. Пример: `gh workflow disable Kani -R Tiramisu-Cake/verify-rust-std`.
 3. Опубликовать три ветки.
-4. Smoke на базовой ветке: скопировать `RUN-REQUEST.smoke.json` в `RUN-REQUEST.json`, закоммитить и запушить. Ожидается gate true: COMPLETE, у `ok` cover 2/2 и время в пределах, у `control_must_fail` локализованная проверка с `has_efficient_in_place_swap`. Затем то же с `RUN-REQUEST.smoke-macos.json`. Коммит smoke становится базовым SHA эксперимента для check-tooling.
-5. Влить результат smoke в обе агентские ветки и запустить сессии: `cd /root/verify-rust-std-kani-k1-merge && claude`, `cd /root/verify-rust-std-kani-k1-network && claude`.
+4. Smoke на базовой ветке: скопировать `RUN-REQUEST.smoke.json` в `RUN-REQUEST.json`, закоммитить и запушить. Ожидается gate true: COMPLETE, у `ok` cover 2/2 и время в пределах, у `control_must_fail` локализованная проверка с `has_efficient_in_place_swap`. Затем то же с `RUN-REQUEST.smoke-macos.json`. Базовый SHA эксперимента для check-tooling — коммит macOS smoke, последний коммит базовой ветки. Затем базовая ветка вливается в обе агентские ветки.
+5. Запустить сессии: `cd /root/verify-rust-std-kani-k1-merge && claude`, `cd /root/verify-rust-std-kani-k1-network && claude`.
 
 Окно по умолчанию — 480 минут основной работы плюс 30 минут на отчёт для каждого агента, T0 при фактическом старте. Cloud-бюджет — 0. Изменить окно может владелец.

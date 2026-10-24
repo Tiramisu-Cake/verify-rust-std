@@ -95,6 +95,7 @@ class RequestTests(unittest.TestCase):
         self.bad(lambda r: r["harnesses"][0].update(expect="PASS"), "expect")
         self.bad(lambda r: r["harnesses"][0].update(note="x"), "entry")
         self.bad(lambda r: r["harnesses"][0].update(expect_check="x"), "expect_check")
+        self.bad(lambda r: r["harnesses"][1].pop("expect_check"), "expect_check")
         self.bad(lambda r: r["harnesses"][1].update(expect_check="a\nb"), "expect_check")
 
     def test_non_string_values_are_request_errors(self):
@@ -128,7 +129,8 @@ class SummaryTests(unittest.TestCase):
         ok, control = s["harnesses"]
         self.assertEqual((ok["status"], ok["time_s"], ok["unreachable"]), ("SUCCESS", 1.25, 2))
         self.assertEqual((control["status"], control["failed_located"]), ("FAILED", 1))
-        self.assertIn("smoke.rs:20", control["failed_checks"][0])
+        self.assertEqual(control["failed_checks"][0]["location"], "library/core/src/slice/sort/shared/smallsort/kani_k1/smoke.rs:20")
+        self.assertIn("has_efficient", control["failed_checks"][0]["description"])
         self.assertEqual(s["resources"]["max_rss_kb_whole_run"], 4096000)
         self.assertEqual(s["tooling_sha256"], {"f": "0" * 64})
         self.assertTrue(any("unreachable" in n for n in s["notes"]))
@@ -145,8 +147,15 @@ class SummaryTests(unittest.TestCase):
         req = copy.deepcopy(REQ)
         req["harnesses"][1]["expect_check"] = "precondition"
         self.assertFalse(summ(GOOD_LOG, req)["expectation_met"])
-        req["harnesses"][1].pop("expect_check")
-        self.assertTrue(summ(GOOD_LOG, req)["expectation_met"])
+        req["harnesses"][1]["expect_check"] = "smallsort"  # appears only in the file path
+        self.assertFalse(summ(GOOD_LOG, req)["expectation_met"])
+        # needle in an unlocated check while another check supplies the location
+        mixed = GOOD_LOG.replace("Failed Checks: assertion failed: has_efficient",
+                                 "Failed Checks: precondition violated\nFailed Checks: assertion failed: has_efficient")
+        req["harnesses"][1]["expect_check"] = "precondition"
+        self.assertFalse(summ(mixed, req)["expectation_met"])
+        req["harnesses"][1]["expect_check"] = "has_efficient"
+        self.assertTrue(summ(mixed, req)["expectation_met"])
 
     def test_unexpected_failure_breaks_expectation(self):
         req = copy.deepcopy(REQ)
@@ -177,6 +186,10 @@ class SummaryTests(unittest.TestCase):
         s = summ(no_cover, req, exit_code=0)
         self.assertIsNone(s["measurement_ok"])
         self.assertTrue(k.gate_ok(s))
+
+    def test_counts_line_with_extra_suffix(self):
+        log = OK_BLOCK.replace("(2 unreachable)", "(2 unreachable, 1 undetermined)") + FAIL_BLOCK + tail(1, 1)
+        self.assertEqual(summ(log)["harnesses"][0]["unreachable"], 2)
 
     def test_should_panic_success(self):
         req = req_with(harnesses=ONLY_OK)
@@ -256,7 +269,7 @@ class SummaryTests(unittest.TestCase):
         row = summ(log)["harnesses"][1]
         self.assertEqual(len(row["failed_checks"]), k.MAX_FAILED_CHECKS)
         self.assertTrue(row["failed_checks_truncated"])
-        self.assertTrue(all(len(c) <= k.MAX_LINE_CHARS + 20 for c in row["failed_checks"]))
+        self.assertTrue(all(len(c["description"]) <= k.MAX_LINE_CHARS + 20 for c in row["failed_checks"]))
         s = summ("".join(f"error: e{i}\n" for i in range(200)))
         self.assertEqual(len(s["errors"]), k.MAX_ERROR_LINES)
         self.assertTrue(s["errors_truncated"])

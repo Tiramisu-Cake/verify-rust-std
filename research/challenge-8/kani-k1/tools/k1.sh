@@ -3,7 +3,7 @@
 #   k1.sh find-run SHA                  wait up to 180 s for the run of commit SHA, print its id
 #   k1.sh wait RUN_ID                   block until the run is completed (background task), print conclusion
 #   k1.sh summary RUN_ID                download the kani-k1-summary artifact, print summary.md
-#   k1.sh check-tooling RUN_ID BASE     compare the run's tooling SHA-256 with commit BASE; exit 1 on mismatch
+#   k1.sh check-tooling RUN_ID BASE     lane files of the run's commit equal BASE (git diff + summary hashes); exit 1 otherwise
 #   k1.sh log-grep RUN_ID REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
 #   k1.sh log-lines RUN_ID START [N]    bounded slice of kani.log (N <= 200 lines)
 set -euo pipefail
@@ -44,7 +44,9 @@ case "$cmd" in
     die "no '$WORKFLOW' run for $sha after 180 s (was RUN-REQUEST.json changed and pushed?)" ;;
   wait)
     run=${1:-}; is_id "$run"
-    until [ "$(run_field "$run" status)" = "completed" ]; do
+    deadline=$(( $(date +%s) + 300 * 60 ))   # job timeout 240 min + plan job + queue margin
+    until [ "$(run_field "$run" status 2>/dev/null || echo unknown)" = "completed" ]; do
+      [ "$(date +%s)" -lt "$deadline" ] || die "run $run not completed after 300 min; check it manually"
       gh run watch "$run" -R "$REPO" --interval 60 >/dev/null 2>&1 || sleep 60
     done
     gh run view "$run" -R "$REPO" --json status,conclusion,attempt,url --jq '"run \(.url) attempt \(.attempt) status=\(.status) conclusion=\(.conclusion)"' ;;
@@ -53,28 +55,41 @@ case "$cmd" in
     dir=$(fetch "$run" kani-k1-summary)
     cat "$dir/summary.md" ;;
   check-tooling)
+    # Independent of what the run reports: the run's commit comes from GitHub, the lane files are
+    # compared with BASE by local git, and the summary must bind exactly the same four files.
     run=${1:-}; is_id "$run"; base=${2:-}; [[ "$base" =~ ^[0-9a-f]{40}$ ]] || die "full 40-hex BASE commit required"
+    head=$(run_field "$run" headSha)
+    [[ "$head" =~ ^[0-9a-f]{40}$ ]] || die "cannot read headSha of run $run"
+    git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" || die "commit $head not available locally"
+    git cat-file -e "$base^{commit}" 2>/dev/null || die "BASE $base not available locally"
     dir=$(fetch "$run" kani-k1-summary)
-    root=$(git rev-parse --show-toplevel)
-    python3 -B - "$dir/summary.json" "$base" "$root" <<'PY'
+    paths=(.github/workflows/smallsort-kani-k1.yml research/challenge-8/kani-k1/tools/kani_k1.py
+           scripts/run-kani.sh tool_config/kani-version.toml)
+    rc=0
+    if git diff --quiet "$base" "$head" -- "${paths[@]}"; then
+      echo "ok   lane files at run commit $head equal BASE $base"
+    else
+      echo "DIFF lane files changed between BASE and run commit:"; git diff --stat "$base" "$head" -- "${paths[@]}"; rc=1
+    fi
+    python3 -B - "$dir/summary.json" "$head" "$base" "${paths[@]}" <<'PY' || rc=1
 import hashlib, json, subprocess, sys
-summary, base, root = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3]
-tooling = summary.get("tooling_sha256") or {}
-if not tooling:
-    print("tooling: NO BINDINGS in summary"); sys.exit(1)
+summary, head, base, paths = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3], sys.argv[4:]
 bad = 0
-for path, digest in sorted(tooling.items()):
-    try:
-        blob = subprocess.run(["git", "-C", root, "show", f"{base}:{path}"], capture_output=True, check=True).stdout
-        want = hashlib.sha256(blob).hexdigest()
-    except subprocess.CalledProcessError:
-        want = "MISSING"
-    ok = digest == want
+if summary.get("head_sha") != head:
+    print(f"DIFF summary head_sha {summary.get('head_sha')} != GitHub headSha {head}"); bad += 1
+tooling = summary.get("tooling_sha256") or {}
+if sorted(tooling) != sorted(paths):
+    print(f"DIFF summary binds {sorted(tooling)}, expected exactly {sorted(paths)}"); bad += 1
+for path in paths:
+    blob = subprocess.run(["git", "show", f"{base}:{path}"], capture_output=True).stdout
+    want = hashlib.sha256(blob).hexdigest()
+    got = tooling.get(path, "ABSENT")
+    ok = got == want
     bad += not ok
-    print(f"{'ok  ' if ok else 'DIFF'} {path} run={digest[:16]} base={want[:16]}")
+    print(f"{'ok  ' if ok else 'DIFF'} {path} summary={got[:16]} base={want[:16]}")
 sys.exit(1 if bad else 0)
 PY
-    ;;
+    exit "$rc" ;;
   log-grep)
     run=${1:-}; is_id "$run"; re=${2:-}; [ -n "$re" ] || die "regex required"
     max=${3:-60}; [[ "$max" =~ ^[0-9]+$ ]] && [ "$max" -le 200 ] || die "MAX must be <= 200"
