@@ -1,0 +1,44 @@
+{
+  "archive_sha256": "3ff1fe4cd3fa21aa74d03e5016ef83bbfe4c05ecb006090d233b1e668b9a9a1c",
+  "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 14,
+      "EMPTY_FILE": 95,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 432,
+      "UNSUPPORTED_FILE_TYPE": 355
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2095677,
+    "content_files": 531,
+    "files": 900,
+    "source_scan_bytes": 4573628
+  },
+  "index_sha256": "68e2105bf95161ceb6fcb7014a5c497e31b6493484a059e7ae1d70d02c681f55",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "1ab4ffc81cb284cbe0bc8d75511034643989422401a6f0b93412190e12627679",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS-AUDIT.json",
+      "path_sanitized": false,
+      "scanned_bytes": 711,
+      "sha256": "61020440f099858e0c18da7e71de28ef23d8913e01bd914acc2274c2cd6e4453",
+      "size_bytes": 711,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 900,
+    "files_with_incomplete_content": 693,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
