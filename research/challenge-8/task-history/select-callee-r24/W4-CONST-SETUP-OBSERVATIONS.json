@@ -1,0 +1,80 @@
+{
+  "accepted": false,
+  "archive_sha256": "259b340cef6ce9dce401dd5e84216890c87a0f943904edc39a699889d89464ff",
+  "assurance": "SOURCE_REPORTED_PLUS_STATIC_INSPECTION",
+  "build_id": "61e2d5de-8df8-4e44-93fa-75350140de1a",
+  "build_seconds": 366,
+  "candidate": "15dba47e2ea3c2092cd1607330bda9a2d8afafc4",
+  "causal_status": "UNKNOWN_BY_BRIEF",
+  "consequence_status": "NOT_REACHED_BY_WRAPPER_STAGE_ORDER",
+  "final_audit_status": "INCOMPLETE_API_TYPEERROR",
+  "frozen_matrix_stage": {
+    "classification": "SETUP_FAILURE",
+    "diagnostic": "R21-FRACTIONAL-FINGERPRINT: O26 provider overlay receipt is missing",
+    "existing_receipt_root": "outer evidence root",
+    "exit": 1,
+    "matrix_proof_status": "NOT_ESTABLISHED",
+    "name": "r21-fractional-proof",
+    "receipt_root_expected": "cases/r24-w4-const-qualification/work",
+    "status": "RAN"
+  },
+  "index_sha256": "538d2666efe667a8fd16ed5126ccff0c4e8acf90608987bde1d721e180a76f2d",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "qualification_complete_source_claim": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-errors.json",
+      "sha256": "f9b3d8e4277bf0970b1c7d37b0107fc47d42b5b823494c51700a1f16e17649f9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-matrix-stage.json",
+      "sha256": "13bfc090e89b66939b2486ce3f7d94d895b2aa1307c1ece4fe0ee1911acc92e2"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-matrix-stderr-head.json",
+      "sha256": "287cb57d67116cc9dcf4acee81498477e7468456787ac83d2b299610509e2ce9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-matrix-stderr-tail.json",
+      "sha256": "5f1731dd6c91041d12b708d646162300f6fbb04fa7c0e71a13742ea9b5b8d265"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-native-after.json",
+      "sha256": "d0acedb49ad679b5b8565f8ea14707247c32bb147a028747f0701ea07fa64fec"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-root-20.json",
+      "sha256": "0f27999b39f447dc97b3df5ccf64e076e0b9edc8996e40a9ec9fb74eab5291f3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-root.json",
+      "sha256": "09b3d48b12ede8925b7a89ddb3a146d7d8f6b33d0c82c34c3e0b6518804b96a9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-source.json",
+      "sha256": "d02c3c6bcf2c788b7de981c12b06a60fa5c9da0df2950fe1979c7c1dc7341bbe"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s28-stages.json",
+      "sha256": "61ec76fea5bd25e2c1cf5875bb3335eca50aa06299c067c8b7e12781e3940999"
+    }
+  ],
+  "schema": "select-r24-w4-const-setup-observations-v1",
+  "source_pair_complete_source_claim": true,
+  "source_runner_exit": 4,
+  "static_defects": [
+    {
+      "defect": "Frozen R21 receives fresh work subtree evidence but existing validated candidate-provider-overlay.json was not carried into it. Apply no second overlay; copy exact receipt with source/context identity and safe fresh path checks.",
+      "file": "cloud-build/select-callee-r24-w4-const-qualification.py"
+    },
+    {
+      "defect": "Calls consequence.audit with unsupported runner_exit/failed_stage kwargs in both run and final audit. Real helper signature has only args, diag, const_matrix_summary and const_matrix_audit.",
+      "file": "cloud-build/select-callee-r24-w4-const-qualification.py"
+    }
+  ],
+  "typed_call_linkage": "UNKNOWN",
+  "w4_caller_body_proof_status": "UNKNOWN"
+}

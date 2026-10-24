@@ -1,0 +1,75 @@
+# SmallSort Evidence Brief — 61e2d5de
+
+- Processing: **VERIFIED_ARCHIVE_AND_INVENTORY**
+- Build proof verdict (source claim): **NOT_ACCEPTED_AS_REPORTED**
+- Run exit (source claim): `4`; evidence complete: `False`
+
+## Further bounded evidence
+
+- Complete catalogue: 426 verified members; retained content: 368 files.
+- CLI: `smallsort-brief 61e2d5de-8df8-4e44-93fa-75350140de1a --catalogue`, `--search LITERAL`, `--file ID --pointer /key` (JSON), or `--file ID --start 1` (text). Requires the v0.8 client installed on the caller host.
+- Reader: `/builds/61e2d5de-8df8-4e44-93fa-75350140de1a/catalogue?q=literal`, `/search?q=literal`, `/fragment?file_id=ID&start=1` (text) or `&pointer=/key` (JSON). Use the same /builds/UUID prefix for all routes. Search is over sanitized retained data only; inspect coverage and next_offset. No raw fallback or proof inference.
+
+## Failure diagnostics (verified archived sources)
+
+- Diagnostic status: **OBSERVED**; causality: **UNKNOWN**
+
+## Bounded diagnostic context (untrusted observations)
+
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=FIRST_GENERIC_MARKER
+  - Source: `full-stderr.log` line UNKNOWN; SHA-256 `4ed1409d70ab7f2d520bf315a5b77eeff454a8ad716effa1811cca00819f3deb`
+> L1: debconf: delaying package configuration, since apt-utils is not installed
+> L2: Traceback (most recent call last):
+> L3: File "?REDACTED_LONG_VALUE?.py", line 1010, in ?module?
+> L4: raise SystemExit(main())
+> L5: File "?REDACTED_LONG_VALUE?.py", line 1003, in main
+> L6: record = run(args) if args.action == 'run' else audit(args)
+> L7: File "?REDACTED_LONG_VALUE?.py", line 941, in audit
+> L8: consequence = consequence_module.audit(
+  - Scanned 687/687 bytes; scan limit reached=False; lines shown=8/9.
+- AVAILABLE; parser=NO_SUPPORTED_PARSER_CLASSIFICATION; selection=TAIL_OF_SCANNED_PREFIX_NO_MARKER
+  - Source: `allprooflogs/r24-w4-const-qualification.log` line UNKNOWN; SHA-256 `4af47fdeeaf0eb254e7f3cdcd86619957de293c07e7937ed792bc4a1e7e26748`
+> L1: ?"complete": false, "accepted": false, "publication_allowed": false, "proof_credit": 0?
+  - Scanned 88/88 bytes; scan limit reached=False; lines shown=1/1.
+- Up to 2 short windows shown; complete bounded context and availability counts are in evidence-index.json. Context does not establish causality.
+
+## Tool build milestones (individual observed records)
+
+- `translator-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `console-build`: EXIT_ZERO; exit=`0`; records=1; omitted=0
+  - Source: `allprooflogs/console-build-exit-code.txt` line UNKNOWN; SHA-256 `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa`
+- `exporter-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `decoder-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `refiner-build`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-compile`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+- `tracked-md-preparation`: NOT_PRESENT_IN_VERIFIED_ARCHIVE
+
+## First comparator source results
+
+- Coverage: NO_SUPPORTED_SOURCE_RECORD_OR_NAMED_ARTIFACT; projected=0; omitted=0; scan_truncated=False; showing up to 6 records
+- A joint false/true/panic claim does not provide separate per-branch receipts; absent records do not establish NOT_RUN.
+
+## Stage observations (exit codes are not proof verdicts)
+
+- Record counts: EXIT_NONZERO=1, EXIT_ZERO=86, UNKNOWN=8; order=NOT_ESTABLISHED; last completed stage=UNKNOWN
+- `r24-w4-const-qualification`: exit=`4`; linkage=`PAIRED_FILENAME_ONLY`; diagnostic=`NO_SUPPORTED_DIAGNOSTIC`
+  - Source: `allprooflogs/r24-w4-const-qualification-exit-code.txt` line UNKNOWN; SHA-256 `7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d`
+  - Context availability: {'status': 'AVAILABLE', 'context_id': 1}
+- Expected-control nonzero records (source-classified): 0; details in evidence-index.json.
+- Exit 0 observed: `console-build`, `ast-serializer-apply`, `ast-serializer-check`, `branch-refresh-apply`, `branch-refresh-check`, `checked-outcomes-apply`; references in evidence-index.json.
+- Coverage: {'candidate_records': 95, 'parsed_records': 95, 'not_captured': 0, 'invalid_records': 0, 'omitted_records': 0}; showing up to 4 nonzero and 6 zero records.
+- Missing/ambiguous diagnostics: VERIFIED_FAILED_LOG_WITHOUT_RECOGNIZED_COMPILER_DIAGNOSTIC
+
+## Campaign aggregates (source claims)
+
+- No supported aggregate captured; absence from this section does not prove absence from archive.
+- Aggregate coverage: {'aggregate_candidates': 0, 'aggregates_captured': 0, 'stage_metadata_captured': 95, 'stage_summaries_retained': 95, 'context_logs_streamed': 2, 'diagnostic_logs_captured': 16, 'diagnostic_log_bytes': 387747, 'oversized_logs': 0, 'budget_omitted_logs': 82, 'aggregates_not_captured': 0}; showing up to 4.
+
+## Representative cases (source verdicts)
+
+- `allprooflogs/cases/r24-w4-const-qualification`
+- Cases: 1; showing up to 4. More references and source claims in evidence-index.json.
+
+## Boundaries
+
+Source verdicts are claims; no PASS is inferred from exit 0. Stage order and first/last causal stage remain UNKNOWN without explicit evidence. No verifier is run by this processor. Remote text chunk bytes are not checked.
