@@ -473,8 +473,9 @@ where
 // Preconditions: the body's `len >= 9`, and `len <= 17` as at every network call site.
 #[cfg_attr(kani, kani::requires(v.len() >= 9 && v.len() <= 17))]
 #[cfg_attr(kani, kani::modifies(&v[..9]))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 9, &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)))]
+// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 9, &is_less)
+    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)))]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -531,8 +532,9 @@ where
 // Preconditions: the body's `len >= 13`, and `len <= 17` as at every network call site.
 #[cfg_attr(kani, kani::requires(v.len() >= 13 && v.len() <= 17))]
 #[cfg_attr(kani, kani::modifies(&v[..13]))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 13, &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)))]
+// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 13, &is_less)
+    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)))]
 fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -653,8 +655,9 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 #[cfg_attr(kani, kani::requires(2 <= v.len() && v.len() <= 17 && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sorted(v.as_ptr(), offset, &is_less)))]
 #[cfg_attr(kani, kani::modifies(v))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())) == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())))]
+// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)
+    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())) == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,

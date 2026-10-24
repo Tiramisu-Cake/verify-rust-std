@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p1-05-sort9-light",
+  "request_id": "net-p1-06-sort9-light-retry",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "Jobs 7 and 12 died (infrastructure_fail, likely VM OOM). Only the two lightest harnesses, no insert_tail: sort9 real body without contracts; sort9 contract in formulation 2 (K1-merge probe count, k1_sorted) at constant len 9 over stub swap_if_less",
+  "purpose": "Retry of net-p1-05 after COMPILE_ERROR E0502 (two ensures clauses with old() on v: &mut [T]); clauses merged into one ensures. sort9 real body without contracts; sort9 contract formulation 2 at constant len 9 over stub swap_if_less",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 5,
   "harnesses": [
