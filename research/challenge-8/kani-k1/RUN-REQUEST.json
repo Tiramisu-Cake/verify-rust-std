@@ -1,15 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p3-modifies-013",
+  "request_id": "merge-p4-trivial-014",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Phase 3: trivial loop_invariant + explicit loop_modifies on the bidirectional_merge loop, proof_for_contract, u64 len 32. Only the absence of the OOM of jobs 17-24 matters; failed checks are expected",
+  "purpose": "Phase 4 run A: job 29 setup (trivial loop invariant, explicit loop_modifies) with a trivial bidirectional_merge contract (safety requires only, ensures true); u64 len 32. Does goto-instrument get through?",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
-      "expect": "SUCCESS"
-    }
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32", "expect": "SUCCESS"}
   ]
 }
