@@ -1,0 +1,56 @@
+{
+  "schema": "select-r24-w4-current-native-qualification-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_SEPARATE_SCOPED_SOURCE_REPORTED_CONST_PROFILE_QUALIFICATION_ONLY",
+  "baseline_commit": "72bba90176bfa2c38189d274922a0a55c3a28caf",
+  "candidate_commit": "0b405279932a32300b069f2635a1eccd39550966",
+  "candidate_tree": "909443240d954445188c54b7222a397e5573a8b3",
+  "spec_sha256": "ecab250f56592df721fca4d52acc8e5ebd00641fc06a7dae187e5e780c1a4d80",
+  "packet_sha256": "83722a14ba1200318a24592b347f3511291bfecded91f23b64885794d3c52c10",
+  "diff_sha256": "b0f55ab05bfdc04f2a9a5636b9825ff1b1359a906d206722cb04bc99ea8dc516",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE",
+    "files": 23
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-write-review.json",
+      "sha256": "552997862c90dcf95ed4eb7148cdacd1cb7c7815af015cd7c48590e5cbb00802"
+    }
+  ],
+  "profile": {
+    "scope": "Exact pointer-specialized actual const callee plus ordinary checked pointer-result consequence/control only.",
+    "instantiation": "T = *const Element; Element remains within the current exact experimental profile bounds.",
+    "accepted": "May be set true only on a separate current-native qualified-profile record after this scoped review is integrated.",
+    "proof_credit": 0,
+    "independent_B1_B2_credit": "NOT_ESTABLISHED",
+    "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN",
+    "publication_allowed": false
+  },
+  "findings": [],
+  "verified": [
+    "The exact review packet passed smallsort-session review check. The proposal remains accepted=false and pending this independent static profile review; it does not rewrite the prior historical const qualification or P2 interface.",
+    "All proposal references checked against local committed files: the prerequisite observation, current target observation, exact mode, frozen fingerprint input, historical const qualification, and qualification helper hashes match their declared SHA256 values.",
+    "The prerequisite observations bind Build 9984b5ac-b202-4f3a-995b-5e183e76c3d3 to source-proof candidate 8de59d2f231a308f83b6c03e3f848299348a266c, runner exit 0, complete const8 matrix/component/composite audits, and zero proof credit. The mirror audit reports the same Build/candidate and zero errors.",
+    "The referenced positive consequence reports the pinned x86_64 LP64 footer and 0 errors/51 statements. The omission control reports the exact selected-equality diagnostic at verified/lib.rs line 14, columns 86-88. Both are source-reported observations; no raw logs were fetched.",
+    "The proposal's 37 referenced bounded receipts all exist and match their recorded hashes. The 28 receipt files in the current control manifest also match their manifest hashes and identify the same Build/candidate/archive. The seven current negative target rows are marked matched; the comparison records only the two declared same-content spec-path relocations and leaves the historical target map unchanged.",
+    "The profile retains the actual callee's pointer-view relation, thread token, raw_ptr_own resource, and false-unwind behavior. The ordinary checked consequence establishes only the typed selected-pointer equality from that contract and opens the empty raw_ptr_own predicate; it does not create pointee ownership or a provenance bridge.",
+    "The proposal limits the profile to this const-pointer instantiation and explicit consequence. It does not enable eight-call W4 linkage, an RSSPEC callee summary, C5/caller-body admission, universal-T or panicking-comparator claims, mutable P2 transfer, or publication. Historical accepted/credit flags remain unchanged. The candidate diff contains no code, native source, model, or standard-library edits."
+  ],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Reference and receipt SHA256 consistency checks completed. No source-code tests, Build, or verifier rerun was performed for this metadata-only qualification decision."
+  ],
+  "limitations": [
+    "This GO permits a separate accepted scoped-profile record whose assurance is source-reported CI plus independent static profile qualification only. It does not establish parser-input binding or independent B1/B2 proof credit.",
+    "Brief archive and receipt integrity do not authenticate the verifier's parser inputs. The actual typed call linkage and W4 caller-body proof remain UNKNOWN.",
+    "The mutable P2 interface remains on its historical exact 8a/bin01eaa profile; no transfer follows from this current 5170/bin33b const profile."
+  ],
+  "not_run": [
+    "No Cloud Build, actual tools, source preparation, compiler/exporter/decoder/refinement/verifier, or raw evidence access was performed by this reviewer."
+  ],
+  "proof_credit": 0
+}

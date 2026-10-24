@@ -152,3 +152,5 @@ and body SHA `067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e`.
 Overall diagnostic remains incomplete due typed-call extraction and audit
 output integration. These are source-reported input identities, with zero
 proof credit; published P2 remains on row34. See W4-NATIVE-FINGERPRINT-PINS.json.
+
+Current-native prerequisite update (2026-10-24): row35 translator `5170c563` / binary `33b693fa` has a separate exact experimental const8 + checked pointer consequence/omission qualification from Build `9984b5ac-b202-4f3a-995b-5e183e76c3d3`: [W4-CONST-NATIVE-QUALIFICATION.json](W4-CONST-NATIVE-QUALIFICATION.json). Assurance is source-reported CI plus independent static profile qualification; independent B1/B2 credit remains 0. This does not qualify the eight W4 call sites or C5 body and does not transfer the published mutable P2 profile from8a/01eaa.
