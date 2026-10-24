@@ -533,6 +533,12 @@ where
 ///
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
+// K-1 contract (K1-merge). Caller guarantees from the SAFETY doc above plus the real call sites:
+// `[begin, tail)` is sorted by `is_less` (insertion_sort_shift_left, small_sort_general_with_scratch).
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_tail_pre(begin, tail, &is_less)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| old(CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))) == CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {
@@ -751,6 +757,15 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 ///
 /// Note that T must be Freeze, the comparison function is evaluated on outdated
 /// temporary 'copies' that may not end up in the final array.
+// K-1 contract (K1-merge). Requires = the `# Safety` section above plus the documented input shape
+// "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
+// harness comparators (see kani_k1/merge.rs).
+#[cfg_attr(kani, kani::requires(v.len() >= 2))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count(dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -862,6 +877,8 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
 
 // Kani K-1 experiment (Challenge 8 minimal plan): verification-only harnesses, compiled only under
 // `cfg(kani)`. See research/challenge-8/kani-k1/EXPERIMENT.md.
+#[cfg(kani)]
+use crate::kani;
 #[cfg(kani)]
 #[unstable(feature = "kani", issue = "none")]
 mod kani_k1;

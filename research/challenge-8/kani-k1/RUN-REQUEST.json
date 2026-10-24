@@ -1,13 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-003",
-  "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported",
+  "request_id": "merge-p1-probe-001",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "Step 1: old() on a usize count for insert_tail, permutation without old() for bidirectional_merge (small and full length, u64), R11 requires control under stub_verified",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::r11_control_bm_requires", "expect": "FAILED", "expect_check": "k1_merge_halves_sorted"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::insert_tail_u64_upto8", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_upto8", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_upto32", "expect": "SUCCESS"}
   ]
 }
