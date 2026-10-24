@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# CircleCI stages of the Kani K-1 lane (called from .circleci/config.yml). Each stage records its
+# outcome in k1-out/ so that the summary always names what happened; only `build` and `gate` exit
+# non-zero (build: so that a failed Kani build is never cached; gate: the job verdict).
+#   validate | deps | build | verify | summarize | gate
+set -euo pipefail
+
+K1_TOOLS=research/challenge-8/kani-k1/tools
+K1_REQUEST=research/challenge-8/kani-k1/RUN-REQUEST.json
+K1_OUT=k1-out
+# The free plan stops a job after 60 min; setup and std compilation take part of it.
+MAX_TOTAL_MINUTES=40
+LANE_RUNNER=circleci-linux-large
+mkdir -p "$K1_OUT"
+
+kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
+valid() { [ -f "$K1_OUT/valid" ]; }
+
+case "${1:-}" in
+  validate)
+    if [[ "${CIRCLE_BRANCH:-}" != experiment/kani-k1-* ]]; then
+      echo "lane runs only on experiment/kani-k1-* branches, not '${CIRCLE_BRANCH:-}'" > "$K1_OUT/request-error.txt"
+    elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
+           --max-total-minutes "$MAX_TOTAL_MINUTES" --require-runner "$LANE_RUNNER" 2> "$K1_OUT/request-error.txt"; then
+      touch "$K1_OUT/valid"
+    fi
+    cat "$K1_OUT/request-error.txt" >&2 || true ;;
+
+  deps)
+    valid || exit 0
+    sudo apt-get update -qq
+    sudo apt-get install -y -qq jq time >/dev/null
+    if ! command -v rustup >/dev/null && [ ! -x "$HOME/.cargo/bin/rustup" ]; then
+      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
+    fi
+    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> "$BASH_ENV"
+    df -h / | tail -1 ;;
+
+  build)
+    # Non-zero when skipped too: save_cache runs only after success, and an entry saved without a
+    # Kani build would occupy the cache key for good.
+    valid || { echo "request invalid: Kani build skipped"; exit 1; }
+    commit=$(kani_commit); test -n "$commit"
+    rm -f "$K1_OUT/build.ok"
+    if [ -d kani_build/.git ] && [ "$(git -C kani_build rev-parse HEAD 2>/dev/null)" = "$commit" ] \
+       && [ -x kani_build/scripts/kani ] && [ -d kani_build/target/kani/bin ]; then
+      echo "restored Kani build at $commit"
+      cached=1
+    else
+      rm -rf kani_build && mkdir kani_build
+      git -C kani_build init -q .
+      git -C kani_build remote add origin https://github.com/model-checking/kani.git
+      git -C kani_build fetch --depth 1 origin "$commit" --quiet
+      git -C kani_build checkout "$commit" --quiet
+      (cd kani_build && GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet)
+      cached=0
+    fi
+    # CBMC/kissat live outside the cache, so install them on every run (same script as run-kani.sh).
+    (cd kani_build && source kani-dependencies && ./scripts/setup/ubuntu/install_deps.sh)
+    (cd kani_build && rustup toolchain install)
+    if [ "$cached" = 0 ]; then (cd kani_build && cargo build-dev --release); fi
+    test "$(git -C kani_build rev-parse HEAD)" = "$commit"
+    kani_build/scripts/kani --version
+    touch "$K1_OUT/build.ok" ;;
+
+  verify)
+    valid && [ -f "$K1_OUT/build.ok" ] || exit 0
+    args=()
+    while IFS= read -r line; do [ -n "$line" ] && args+=("$line"); done < "$K1_OUT/kani-args.txt"
+    set +e
+    # GNU time -v reports on stderr (to time.txt); Kani output goes through tee; time exits with the
+    # inner pipeline status (pipefail).
+    /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+    echo $? > "$K1_OUT/rc"
+    set -e ;;
+
+  summarize)
+    req_err=""
+    if ! valid; then
+      req_err=$(head -c 300 "$K1_OUT/request-error.txt" 2>/dev/null || true)
+      [ -n "$req_err" ] || req_err="request rejected before Kani ran"
+    fi
+    build_outcome=skipped
+    if valid; then build_outcome=$([ -f "$K1_OUT/build.ok" ] && echo success || echo failure); fi
+    log_args=()
+    [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
+    os=$(. /etc/os-release && echo "$PRETTY_NAME")
+    hw="$(nproc) CPU $(lscpu | sed -n 's/^Model name: *//p' | head -1), $(free -g | awk '/^Mem:/{print $2}') GiB"
+    python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" \
+      --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
+      --head-sha "${CIRCLE_SHA1:-}" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \
+      --build-outcome "$build_outcome" --run-id "${CIRCLE_BUILD_NUM:-}" --run-attempt "${CIRCLE_WORKFLOW_ID:-}" \
+      --image-os "$os" --image-version "$hw" \
+      --bind .circleci/config.yml --bind "$K1_TOOLS/kani_k1.py" --bind "$K1_TOOLS/circleci-k1.sh" \
+      --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
+      --out-dir "$K1_OUT/summary"
+    cat "$K1_OUT/summary/summary.md" ;;
+
+  gate)
+    python3 -B "$K1_TOOLS/kani_k1.py" gate "$K1_OUT/summary/summary.json" ;;
+
+  *)
+    echo "usage: circleci-k1.sh validate|deps|build|verify|summarize|gate" >&2; exit 2 ;;
+esac

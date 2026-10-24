@@ -314,6 +314,23 @@ class CliTests(unittest.TestCase):
             self.assertEqual(self.run_cli("gate", str(d / "out2" / "summary.json")).returncode, 1)
             self.assertEqual(self.run_cli("gate", str(d / "nope.json")).returncode, 3)
 
+    def test_lane_limits(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / "req.json"
+            p.write_text(json.dumps({**REQ, "runner": "circleci-linux-large"}))
+            ok = self.run_cli("validate", str(p), "--args-out", str(Path(d) / "a"), "--max-total-minutes", "40",
+                              "--require-runner", "circleci-linux-large")
+            self.assertEqual(ok.returncode, 0, ok.stderr)
+            wrong = self.run_cli("validate", str(p), "--args-out", str(Path(d) / "b"), "--require-runner", "ubuntu-latest")
+            self.assertEqual(wrong.returncode, 2)
+            self.assertIn("only runner", wrong.stderr)
+            many = {**REQ, "runner": "circleci-linux-large",
+                    "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(5)]}
+            p.write_text(json.dumps(many))
+            over = self.run_cli("validate", str(p), "--args-out", str(Path(d) / "c"), "--max-total-minutes", "40")
+            self.assertEqual(over.returncode, 2)
+            self.assertIn("40 minutes", over.stderr)
+
     def test_validate_rejects_bad_request(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "req.json"

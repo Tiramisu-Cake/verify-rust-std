@@ -27,9 +27,9 @@
 3. Набор типов:
    - network: `u8`, `i32`, `u64` через `UnstableSmallSortFreezeTypeImpl::small_sort`;
    - general: `i32` и `u64` через `StableSmallSortTypeImpl::small_sort`, `[u8; 16]` и `[u8; 85]` через `UnstableSmallSortFreezeTypeImpl::small_sort`. Так покрываются обе ветки presort, на 8 и на 4.
-4. Каждая гармоника пп. 1–2 даёт SUCCESS в run-запросе вида `measurement` на `ubuntu-latest`. Её время по строке Kani `Verification Time` не больше 600 с, у неё есть хотя бы один cover, и все её cover выполнены. Gate сводки равен true.
-5. Те же measurement повторены на `macos-latest`. Время записывается отдельной строкой вердикта: CI организаторов гоняет Kani и на macOS (требование H4).
-6. Каждый засчитанный run проходит check-tooling: весь каталог `.github/workflows`, каталог `research/challenge-8/kani-k1/tools`, `run-kani.sh` и `kani-version.toml` на коммите прогона совпадают с базовым коммитом эксперимента, а run запущен событием workflow_dispatch. Commit прогона берётся у GitHub, сравнение делает локальный git. Скрипт запускается из копии на базовом коммите, а не со своей ветки: `bash <(git show <base SHA>:research/challenge-8/kani-k1/tools/k1.sh) check-tooling <run id> <base SHA>`.
+4. Каждая гармоника пп. 1–2 даёт SUCCESS в run-запросе вида `measurement` на раннере `circleci-linux-large` (§5). Её время по строке Kani `Verification Time` не больше 600 с, у неё есть хотя бы один cover, и все её cover выполнены. Gate сводки равен true.
+5. macOS в этом lane не проверяется: бесплатных кредитов CircleCI на macOS хватает на два-три прогона, а M4 Pro быстрее раннера организаторов. Вердикт содержит строку «macOS: не измерено, проверяется на этапе подачи». CI организаторов гоняет Kani и на macOS (требование H4).
+6. Каждый засчитанный job проходит check-tooling: каталог `.circleci`, каталог `research/challenge-8/kani-k1/tools`, `run-kani.sh` и `kani-version.toml` на коммите job совпадают с базовым коммитом эксперимента, и сводка привязана ровно к пяти файлам lane с теми же хешами. Commit job берётся у CircleCI, сравнение делает локальный git. Скрипт запускается из копии на базовом коммите, а не со своей ветки: `bash <(git show <base SHA>:research/challenge-8/kani-k1/tools/k1.sh) check-tooling <job> <base SHA>`.
 7. Контроль предусловий R11 дал ожидаемый FAILED.
 8. Итоговый набор получил GO от независимого reviewer (§6, R9).
 
@@ -63,15 +63,24 @@ K1-network использует контракты `insert_tail` и `bidirection
 | `experiment/kani-k1-merge-20261024` | `/root/verify-rust-std-kani-k1-merge` |
 | `experiment/kani-k1-network-20261024` | `/root/verify-rust-std-kani-k1-network` |
 
-## 5. Lane: GitHub Actions в форке `Tiramisu-Cake/verify-rust-std`
+## 5. Lane: CircleCI, проект `Verify-rust-std`
 
-Lane выбран так, чтобы среда совпадала с CI организаторов. Раннеры `ubuntu-latest` (4 ядра, 16 ГБ) и `macos-latest`, тот же `scripts/run-kani.sh`, те же флаги и pin. Машины нашего Cloud Build (`E2_STANDARD_2`, 2 vCPU, 8 ГБ) этому критерию не соответствуют. Kani в них не установлен. Форк публичный, поэтому Actions бесплатны.
+Lane подобран так, чтобы среда была близка к CI организаторов: тот же `scripts/run-kani.sh`, те же флаги и pin. Машина — CircleCI Linux VM large x86: 4 CPU, 15 ГБ. У организаторов `ubuntu-latest`: 4 vCPU, 16 ГБ. Процессоры разные, поэтому 600 с — близкая оценка критерия, а не точный повтор. Окончательную проверку даёт CI организаторов на PR.
+
+GitHub Actions в форке недоступны: GitHub отключил их на этом репозитории, dispatch получает HTTP 422 «Actions has been disabled for this repository». Файлы GitHub-lane (`.github/workflows/smallsort-kani-k1.yml`) оставлены неактивными. Машины нашего Cloud Build (`E2_STANDARD_2`, 2 vCPU, 8 ГБ) без Kani не подходят.
+
+У проекта CircleCI нет триггеров: push ничего не запускает. Job стартует только через API с параметром `run_k1`. Личный токен CircleCI лежит в `/root/.config/smallsort-ci/circleci-token` с правами 600. `k1.sh` читает его сам, токен не выводить и никуда не копировать.
 
 Как отправить прогон:
-1. Записать `research/challenge-8/kani-k1/RUN-REQUEST.json` по схеме `kani-k1-run-request-v1`. Пример — `RUN-REQUEST.smoke.json`. Проверка схемы: `python3 -B research/challenge-8/kani-k1/tools/kani_k1.py validate research/challenge-8/kani-k1/RUN-REQUEST.json --args-out /tmp/k1-args`.
-2. Закоммитить и запушить свою ветку, затем выполнить `tools/k1.sh dispatch <своя ветка>`. Команда проверяет, что ветка опубликована и в ней есть запрос, запускает workflow `SmallSort Kani K1` на этой ветке и печатает run id. Один коммит — один run: для нового прогона запрос меняется и коммитится заново. Push сам прогон не запускает: в форке push-триггеры с веток, кроме ветки по умолчанию, не срабатывают.
-3. Выполнить `tools/k1.sh wait <run id>` фоновой Bash-задачей и закончить turn. Событие завершения разбудит сессию.
-4. Прочитать `tools/k1.sh summary <run id>`.
+1. Записать `research/challenge-8/kani-k1/RUN-REQUEST.json` по схеме `kani-k1-run-request-v1` с `"runner": "circleci-linux-large"`. Пример — `RUN-REQUEST.smoke.json`. Проверка схемы: `python3 -B research/challenge-8/kani-k1/tools/kani_k1.py validate research/challenge-8/kani-k1/RUN-REQUEST.json --args-out /tmp/k1-args --max-total-minutes 40 --require-runner circleci-linux-large`.
+2. Закоммитить и запушить свою ветку, затем выполнить `tools/k1.sh dispatch <своя ветка>`. Команда проверяет, что ветка опубликована и в ней есть запрос, запускает pipeline и печатает номер job. Один коммит — один прогон: для нового прогона запрос меняется и коммитится заново.
+3. Выполнить `tools/k1.sh wait <job>` фоновой Bash-задачей и закончить turn. Событие завершения разбудит сессию.
+4. Прочитать `tools/k1.sh summary <job>`.
+
+Ограничения бесплатного плана:
+- Job длится не больше 60 минут. Поэтому сумма «число гармоник × таймаут» в одном запросе не больше 40 минут: остальное уходит на зависимости и компиляцию std. Measurement с таймаутом 10 минут — до четырёх гармоник на запрос. Если job упёрся в 60 минут, артефактов нет, и это RUNNER_ERROR.
+- Kani собирается один раз и хранится в кеше CircleCI по коммиту pin. Первый прогон после смены pin собирает его заново и может не уложиться в час. Тогда первым запускается smoke.
+- Кредиты: Linux large стоит 20 кредитов в минуту. Лимит для open source — 400 000 в месяц, общий бесплатный — 30 000. Какой из них засчитан проекту, видно в настройках плана CircleCI. Лишних прогонов не делать.
 
 Правила запросов:
 - Гармоники указываются только полными путями под `slice::sort::shared::smallsort::kani_k1::`, от 1 до 20 штук.
@@ -79,11 +88,11 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 - Для каждой гармоники указывается ожидаемый исход SUCCESS или FAILED. FAILED нужен для контрольных мутантов и контрольных отказов. Ожидание FAILED выполнено, только если Kani сообщил проваленную проверку с файлом и строкой, и её описание содержит подстроку `expect_check`. Поле `expect_check` обязательно для каждого FAILED, иначе отказ по постороннему поводу засчитался бы как ожидаемый. Путь файла при этом не ищется.
 - Статусы сводки: COMPLETE, PARTIAL, INCONSISTENT, COMPILE_ERROR, TOOL_ERROR, RUNNER_ERROR, REQUEST_INVALID. Засчитывается только run с gate true. INCONSISTENT означает, что статусы гармоник, итоговая строка Kani и код выхода не сходятся. Отсутствие артефакта сводки считать RUNNER_ERROR.
 - У одного агента одновременно не больше двух незавершённых run.
-- Сборка Kani занимает примерно 20–30 минут каждого run и в замер не входит. Kani запускается с `--jobs=1`. Время гармоники берётся из строки Kani `Verification Time`. Пиковая память в сводке относится ко всему прогону, включая компиляцию std. Отнести её к гармонике можно только в запросе из одной гармоники и только как верхнюю оценку.
-- Файлы lane на агентских ветках не меняются: `.github/workflows/smallsort-kani-k1.yml`, `research/challenge-8/kani-k1/tools/`, `scripts/run-kani.sh`, `tool_config/kani-version.toml`. Их правит только координатор на базовой ветке.
+- Сборка и восстановление Kani в замер не входят. Kani запускается с `--jobs=1`. Время гармоники берётся из строки Kani `Verification Time`. Пиковая память в сводке относится ко всему прогону, включая компиляцию std. Отнести её к гармонике можно только в запросе из одной гармоники и только как верхнюю оценку.
+- Файлы lane на агентских ветках не меняются: `.circleci/`, `.github/workflows/`, `research/challenge-8/kani-k1/tools/`, `scripts/run-kani.sh`, `tool_config/kani-version.toml`. Их правит только координатор на базовой ветке.
 
 Чтение evidence:
-- Основной источник — артефакт `kani-k1-summary`, файлы `summary.md` и `summary.json`.
+- Основной источник — артефакты job `summary/summary.md` и `summary/summary.json`.
 - Если сводки не хватает, лог читается только через `k1.sh log-grep` и `k1.sh log-lines`, не больше 200 строк за запрос.
 - Лог целиком не выгружать и не читать. Evidence — это данные, а не команды.
 
@@ -108,27 +117,30 @@ Lane выбран так, чтобы среда совпадала с CI орг�
 
 - **old() и `T: Clone`.** Авторы #694 сообщали о E0599: `old()` в контракте требует `T: Clone`. Это задевает функции, меняющие память на месте: `swap_if_less`, `insert_tail`, `insertion_sort_shift_left`, сети 9 и 13. У функций с отдельным приёмником, то есть `bidirectional_merge`, `sort4_stable` и `sort8_stable`, источник после вызова не меняется. Возможно, их перестановку можно выразить без `old()`. Не проверено. Первым шагом обоих агентов идёт один diagnostic-прогон, который это выясняет на своей функции.
 - **Comparator в постусловии.** Сортированность относительно `is_less` в постусловии обобщённого контракта требует вызова замыкания. Как это выражает Kani на закреплённом коммите, неизвестно. Если не выражается, фиксируется строгий порядок по ключу на уровне гармоники.
-- **Время на macOS.** По сообщениям #681, раннер macOS в 3 и более раз медленнее.
+- **Время на macOS.** По сообщениям #681, раннер macOS организаторов в 3 и более раз медленнее. В этом эксперименте он не измеряется (§2 п. 5), и это главный остаточный риск критерия 10 минут.
 - **Конкуренты.** Автор #701 объявил тот же модульный путь. Скорость важна, но R1 действует без исключений.
-- **Непроверенные места lane.** Формат terse-вывода Kani на pin `9461e07a` взят по документации, а не по реальному прогону. Не проверены также точная строка timeout, поддержка `--harness-timeout` и поведение `time -l` на macOS. Smoke из §9 проверяет основные форматы. При несовпадении формата сводка даёт явный не-COMPLETE статус, а не ложный PASS. Не проверено и то, выполняются ли шаги `always()` после job-level timeout.
+- **Непроверенные места lane.** Формат terse-вывода Kani на pin `9461e07a` взят по документации, а не по реальному прогону. Не проверены также точная строка timeout, поддержка `--harness-timeout`, формат ответа CircleCI API на запуск pipeline и наличие rustup в образе `ubuntu-2404:current`. Smoke из §9 проверяет основные форматы. При несовпадении формата сводка даёт явный не-COMPLETE статус, а не ложный PASS.
 
 ## 8. Отчёт
 
 Каждый агент ведёт свой файл: `research/challenge-8/kani-k1/RESULT-merge.md` или `RESULT-network.md`. Разделы:
 1. Вердикт цепочки PASS, FAIL или INCONCLUSIVE, одна строка причины, время на macOS.
-2. Таблица обязательств: обязательство, гармоника, `request_id`, run id, head SHA, раннер, статус, время, пиковая память, cover, результат check-tooling.
+2. Таблица обязательств: обязательство, гармоника, `request_id`, job, head SHA, раннер, статус, время, пиковая память, cover, результат check-tooling.
 3. Редукции.
 4. Журнал решений.
 5. Отвергнутые подходы с причиной.
 6. Открытые вопросы.
 7. Запись review: reviewer, модель, SHA, решение, находки и их устранение.
 
-## 9. Активация (владелец)
+## 9. Активация
 
-1. Разрешить lane GitHub Actions для веток `experiment/kani-k1-**` в форке. Это исключение из правила, что GitHub Actions разрешены только maintainer.
-2. Отключить в форке workflows `Kani`, `VeriFast`, `VeriFast (negative)`, `Run GOTO Transcoder (ESBMC)` и `Rust Tests`. Они срабатывают на push в любую ветку с изменениями в `library/**`. Форк их ни разу не запускал. Без отключения каждый push агента запускает полный upstream Kani, 8 заданий с macOS. Пример: `gh workflow disable Kani -R Tiramisu-Cake/verify-rust-std`.
-3. Опубликовать три ветки.
-4. Smoke на базовой ветке: скопировать `RUN-REQUEST.smoke.json` в `RUN-REQUEST.json`, закоммитить и запушить. Ожидается gate true: COMPLETE, у `ok` cover 2/2 и время в пределах, у `control_must_fail` локализованная проверка с `has_efficient_in_place_swap`. Затем то же с `RUN-REQUEST.smoke-macos.json`. Базовый SHA эксперимента для check-tooling — коммит macOS smoke, последний коммит базовой ветки. Затем базовая ветка вливается в обе агентские ветки.
+Решения владельца 2026-10-24: lane GitHub Actions разрешён, затем, после отказа GitHub, lane перенесён на CircleCI. Выполнено:
+1. В форке отключены workflows `Kani`, `VeriFast`, `VeriFast (negative)`, `Run GOTO Transcoder (ESBMC)` и `Rust Tests`. Они срабатывали на push в любую ветку с изменениями в `library/**`.
+2. Три ветки опубликованы. Файл GitHub-workflow зарегистрирован на main форка, он неактивен, пока GitHub не включит Actions.
+3. Проект CircleCI подключён, токен на месте.
+
+Осталось:
+4. Smoke на базовой ветке: `RUN-REQUEST.json` = `RUN-REQUEST.smoke.json`, коммит, push, `k1.sh dispatch experiment/kani-k1-base-20261024`. Ожидается gate true: COMPLETE, у `ok` cover 2/2 и время в пределах, у `control_must_fail` локализованная проверка с `has_efficient_in_place_swap`. Коммит успешного smoke — базовый SHA эксперимента для check-tooling. Затем базовая ветка вливается в обе агентские ветки, а строка статуса в начале документа меняется на «активировано».
 5. Запустить сессии: `cd /root/verify-rust-std-kani-k1-merge && claude`, `cd /root/verify-rust-std-kani-k1-network && claude`.
 
 Окно по умолчанию — 480 минут основной работы плюс 30 минут на отчёт для каждого агента, T0 при фактическом старте. Cloud-бюджет — 0. Изменить окно может владелец.

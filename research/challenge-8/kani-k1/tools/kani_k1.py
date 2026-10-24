@@ -26,7 +26,9 @@ SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
 KINDS = {"measurement", "diagnostic"}
 EXPECT = {"SUCCESS", "FAILED"}
-RUNNERS = {"ubuntu-latest", "macos-latest"}
+# circleci-linux-large: CircleCI Linux VM large, 4 CPU / 15 GB (the active lane); the two GitHub runners
+# are kept for the dormant GitHub Actions lane.
+RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest"}
 HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
 HARNESS_RE = re.compile(r"slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*")
 REQUEST_ID_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,63}")
@@ -79,7 +81,7 @@ def _one_line(value: Any, limit: int) -> bool:
     return isinstance(value, str) and bool(value.strip()) and len(value) <= limit and "\n" not in value and "\r" not in value
 
 
-def validate_request(data: Any) -> dict[str, Any]:
+def validate_request(data: Any, max_total_minutes: int = MAX_TOTAL_MINUTES) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise RequestError("request must be a JSON object")
     extra, missing = set(data) - REQUEST_KEYS, REQUEST_KEYS - set(data)
@@ -122,8 +124,8 @@ def validate_request(data: Any) -> dict[str, Any]:
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
-    if len(names) * timeout > MAX_TOTAL_MINUTES:
-        raise RequestError(f"harness count × timeout exceeds {MAX_TOTAL_MINUTES} minutes")
+    if len(names) * timeout > max_total_minutes:
+        raise RequestError(f"harness count × timeout exceeds {max_total_minutes} minutes for this lane")
     return data
 
 
@@ -428,6 +430,8 @@ def main(argv: list[str]) -> int:
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
+    v.add_argument("--max-total-minutes", type=int, default=MAX_TOTAL_MINUTES)
+    v.add_argument("--require-runner", help="reject any other runner value (lane-specific)")
     s = sub.add_parser("summarize")
     s.add_argument("--request", required=True)
     s.add_argument("--log")
@@ -448,7 +452,9 @@ def main(argv: list[str]) -> int:
     a = ap.parse_args(argv)
     if a.cmd == "validate":
         try:
-            request = validate_request(json.loads(Path(a.request).read_text()))
+            request = validate_request(json.loads(Path(a.request).read_text()), a.max_total_minutes)
+            if a.require_runner and request["runner"] != a.require_runner:
+                raise RequestError(f"this lane runs only runner {a.require_runner}, request asks {request['runner']}")
         except (OSError, json.JSONDecodeError, RequestError) as exc:
             print(f"REQUEST_INVALID: {exc}", file=sys.stderr)
             return 2

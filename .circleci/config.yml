@@ -1,0 +1,73 @@
+# Kani K-1 experiment lane (Challenge 8 minimal plan), CircleCI. The project has no triggers: a
+# pipeline starts only through the API (research/challenge-8/kani-k1/tools/k1.sh dispatch) with
+# run_k1=true, and verifies the RUN-REQUEST.json committed on that experiment/kani-k1-* branch.
+# Kani pin, flags and run-kani.sh are the organizers' CI ones. Stage logic: tools/circleci-k1.sh.
+version: 2.1
+
+parameters:
+  run_k1:
+    type: boolean
+    default: false
+
+jobs:
+  k1:
+    machine:
+      image: ubuntu-2404:current
+    resource_class: large          # Linux VM x86, 4 CPU / 15 GB
+    environment:
+      K1: research/challenge-8/kani-k1/tools/circleci-k1.sh
+    steps:
+      - checkout
+      - run:
+          name: Submodules
+          command: git submodule update --init --recursive --depth 1
+      - run:
+          name: Validate run request
+          command: bash "$K1" validate
+      - restore_cache:
+          keys:
+            - kani-k1-v1-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}
+      - run:
+          name: Dependencies
+          command: bash "$K1" deps
+      - run:
+          name: Build pinned Kani (not timed)
+          command: bash "$K1" build
+          no_output_timeout: 40m
+      - save_cache:
+          key: kani-k1-v1-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}
+          paths:
+            - kani_build
+            - ~/.rustup
+            - ~/.cargo
+      - run:
+          name: Verify requested harnesses (timed)
+          command: bash "$K1" verify
+          no_output_timeout: 45m
+          when: always
+      - run:
+          name: Summarize
+          command: bash "$K1" summarize
+          when: always
+      - store_artifacts:
+          path: k1-out/summary
+          destination: summary
+      - store_artifacts:
+          path: k1-out/kani.log
+          destination: log/kani.log
+      - store_artifacts:
+          path: k1-out/time.txt
+          destination: log/time.txt
+      - store_artifacts:
+          path: k1-out/request-error.txt
+          destination: log/request-error.txt
+      - run:
+          name: Gate on request expectations
+          command: bash "$K1" gate
+          when: always
+
+workflows:
+  k1:
+    when: << pipeline.parameters.run_k1 >>
+    jobs:
+      - k1
