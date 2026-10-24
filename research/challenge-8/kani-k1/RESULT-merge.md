@@ -2,6 +2,18 @@
 
 Агент: K1-merge (Claude Code, Opus 5.5). Ветка `experiment/kani-k1-merge-20261024`. Норматив — [EXPERIMENT.md](EXPERIMENT.md), задание — [TASK-merge.md](TASK-merge.md).
 
+## Фаза 4
+
+- T0: 2026-10-24T21:30:48Z (`date -u`)
+- T0+40 (новые прогоны не запускать): 2026-10-24T22:10:48Z
+- T0+55 (конец отчёта): 2026-10-24T22:25:48Z
+- Лимиты: ≤ 2 dispatch, сумма таймаутов ≤ 20 мин, одна гармоника на запрос, validate && commit && dispatch (TASK-merge.md «Фаза 4»). Lane-база check-tooling: `aca80458`. Вход: вердикт FAIL (STOP) на d7c91adc.
+
+### Журнал прогонов фазы 4
+
+| # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
+|---|---|---|---|---|---|---|
+
 ## Фаза 3
 
 - T0: 2026-10-24T20:58:51Z (`date -u`)
