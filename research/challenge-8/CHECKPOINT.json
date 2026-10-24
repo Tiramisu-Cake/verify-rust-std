@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e84a2e7027defcdc5cabadb97d45dfe730881dc8e482a384fd35b8f9c02ae3fd"
+      "sha256": "69022bf054bd6532a7c3a4d75ee10cbb44e16808f2f95561ab45b4005c5cee02"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -79,12 +79,12 @@
   "blocker": {
     "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
     "evidence": [],
-    "summary": "Dormant native compile pending; new callee/W4/C5 qualification remains open."
+    "summary": "S39 terminal FAILURE accounted; dormant compile result needs Brief."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e84a2e7027defcdc5cabadb97d45dfe730881dc8e482a384fd35b8f9c02ae3fd"
+    "sha256": "69022bf054bd6532a7c3a4d75ee10cbb44e16808f2f95561ab45b4005c5cee02"
   },
   "brief_observation_refs": [
     {
@@ -593,8 +593,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
-  "next_step": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
+  "next": "Read S39 Brief compile and identity audit; continue same-tool qualification/W4.",
+  "next_step": "Read S39 Brief compile and identity audit; continue same-tool qualification/W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -687,17 +687,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "7ef645ef-9d1a-42bb-af6a-023e214e9aca"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 7379,
+    "remaining_seconds": 6717,
     "retired_seconds": 0,
-    "spent_seconds": 14221,
+    "spent_seconds": 14883,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -709,9 +707,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:27:58Z",
+  "updated_utc": "2026-10-24T06:39:31Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -954,7 +952,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "WAITING_DORMANT_COMPILE_IDENTITY",
+    "state": "S39_TERMINAL_PENDING_BRIEF",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1696,24 +1694,30 @@
   },
   "w4_dormant_compile_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "body_proof_run": false,
     "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/7ef645ef-9d1a-42bb-af6a-023e214e9aca",
     "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
+    "build_seconds": 662,
     "callee_qualification": false,
     "caller_body_proof_admission": false,
     "candidate": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
     "config_sha256": "93f4da7702739495d56a8e64754e60db0f025017f4910c7c334f14baf35191bd",
     "dispatch_token": "dispatch-c1f5231ecee74f89bdaa6245817a25a4",
+    "execution_seconds": 661,
     "proof_credit": 0,
     "proof_qualification": false,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_DORMANT_COMPILE_IDENTITY_ONLY",
+    "result": "PENDING_EVIDENCE_BRIEF",
     "schema": "select-r24-w4-dormant-compile-submission-v1",
     "source_only_input_universe_preserved": true,
     "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
-    "status": "QUEUED",
+    "status": "FAILURE",
+    "terminal_accounting": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-TERMINAL-ACCOUNTING.json",
+      "sha256": "c786f9e4d3d447748246f585d39fb05668f58951bcd4d0e65acac9338d25da9a"
+    },
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1749,7 +1753,7 @@
       "sha256": "010a4496bb5efcf69407b1331d7b73335fa4af201f7707761dcbdb915f54b7ba"
     },
     "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
-    "state": "SUBMITTED",
+    "state": "BUILT_PENDING_EVIDENCE_BRIEF",
     "submission": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-SUBMISSION.json",
       "sha256": "d5ac57b4b0fffed1cd44559d9fa9c468901305087ff201a0c210eaaff128f003"
@@ -2152,10 +2156,14 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
       "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately commit/push terminal ledger+CP/STATUS before Brief. Dormant compile identity is not callee/caller proof, admission or independent credit.",
+      "event_id": "3d42ef68-a4e6-4be4-b87d-21a8fc7a4730",
+      "job_id": "e3a9ddf6-4831-48c7-9710-48b729db1829",
       "spec_path": "/tmp/select-r24-w4-dormant-s39-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
