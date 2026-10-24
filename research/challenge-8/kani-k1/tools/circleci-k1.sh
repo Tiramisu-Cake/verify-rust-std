@@ -13,10 +13,46 @@ K1_OUT=k1-out
 MAX_TOTAL_MINUTES=40
 VERIFY_DEADLINE_MINUTES=53
 LANE_RUNNER=circleci-linux-large
+# Verification runs in a cgroup capped below the VM's 15 GB: an OOM then kills CBMC inside the cgroup
+# (Kani reports "CBMC appears to have run out of memory") instead of the whole VM, whose job ends as
+# infrastructure_fail with no artifacts. The organizers' ubuntu-latest runner has 16 GB.
+MEMCAP_BYTES=$((13 * 1024 * 1024 * 1024))
+CG=/sys/fs/cgroup/k1-verify
 mkdir -p "$K1_OUT"
 
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
+
+# Moves this shell (and so everything verify starts) into $CG; records ENFORCED or UNAVAILABLE with a reason.
+memcap_enter() {
+  local why=""
+  if [ ! -f /sys/fs/cgroup/cgroup.controllers ]; then why="cgroup v2 is not mounted at /sys/fs/cgroup"
+  elif ! grep -qw memory /sys/fs/cgroup/cgroup.controllers; then why="the memory controller is not available"
+  elif ! { grep -qw memory /sys/fs/cgroup/cgroup.subtree_control \
+           || echo +memory | sudo tee /sys/fs/cgroup/cgroup.subtree_control >/dev/null; }; then why="cannot enable the memory controller"
+  elif ! { sudo mkdir -p "$CG" && echo "$MEMCAP_BYTES" | sudo tee "$CG/memory.max" >/dev/null; }; then why="cannot create $CG"
+  elif [ -f "$CG/memory.swap.max" ] && ! echo 0 | sudo tee "$CG/memory.swap.max" >/dev/null; then why="cannot disable swap in $CG"
+  elif ! echo $$ | sudo tee "$CG/cgroup.procs" >/dev/null; then why="cannot move the verify shell into $CG"
+  elif ! grep -qx '0::/k1-verify' /proc/$$/cgroup; then why="the verify shell is not in $CG after the move"
+  fi
+  if [ -n "$why" ]; then
+    printf 'state=UNAVAILABLE\nreason=%s\n' "$why" > "$K1_OUT/memcap.txt"
+  else
+    local swap=on
+    if [ "$(cat "$CG/memory.swap.max" 2>/dev/null)" = 0 ] || ! awk '$1 == "SwapTotal:" && $2 > 0 {f = 1} END {exit !f}' /proc/meminfo; then
+      swap=off
+    fi
+    printf 'state=ENFORCED\nmax_bytes=%s\nswap=%s\n' "$(cat "$CG/memory.max")" "$swap" > "$K1_OUT/memcap.txt"
+  fi
+  cat "$K1_OUT/memcap.txt"
+}
+
+memcap_record() {
+  grep -q '^state=ENFORCED' "$K1_OUT/memcap.txt" || return 0
+  { echo "peak_bytes=$(cat "$CG/memory.peak" 2>/dev/null || true)"
+    echo "oom_kill=$(awk '$1 == "oom_kill" {print $2}' "$CG/memory.events" 2>/dev/null || true)"; } >> "$K1_OUT/memcap.txt"
+  cat "$K1_OUT/memcap.txt"
+}
 
 case "${1:-}" in
   validate)
@@ -78,11 +114,13 @@ case "${1:-}" in
       echo "no time left before the 60-minute job cap; verification not started" | tee "$K1_OUT/verify-skipped"
       exit 0
     fi
+    memcap_enter
     set +e
     # GNU time -v reports on stderr (to time.txt); Kani output goes through tee; time exits with the
     # inner pipeline status (pipefail). timeout keeps the job inside its cap; a cut run is PARTIAL.
     timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
     echo $? > "$K1_OUT/rc"
+    memcap_record
     set -e ;;
 
   summarize)
@@ -104,7 +142,7 @@ case "${1:-}" in
     python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" \
       --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
       --head-sha "${CIRCLE_SHA1:-}" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \
-      --build-outcome "$build_outcome" --run-id "${CIRCLE_BUILD_NUM:-}" --run-attempt "" \
+      --build-outcome "$build_outcome" --memcap "$K1_OUT/memcap.txt" --run-id "${CIRCLE_BUILD_NUM:-}" --run-attempt "" \
       --image-os "$os" --image-version "$hw" \
       --bind .circleci/config.yml --bind "$K1_TOOLS/kani_k1.py" --bind "$K1_TOOLS/circleci-k1.sh" \
       --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
