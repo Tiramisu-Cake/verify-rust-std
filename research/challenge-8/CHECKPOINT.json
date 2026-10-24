@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e0241242792c30370393d57369abdc1b2e3913ec4a32a10d7ee0c7713ee55db8"
+      "sha256": "8c0adbeb337c8b4fdc664fe7fe9c69e06de96f06f795854dbfc842af1181bc1b"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,19 +32,19 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
+    "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json",
-        "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-NATIVE-EXIT-OBSERVATIONS.json",
+        "sha256": "c07ca16bda0862a1a8a64c84635b685d59954c33640753d7e96128f9838130ad"
       }
     ],
-    "summary": "C6 positive facts match; driver wrongly expects1, actual refusalexit2. Matrix/linkage/C5 open."
+    "summary": "Sixcase contract-input Build pending; checked8call linkage/C5 open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e0241242792c30370393d57369abdc1b2e3913ec4a32a10d7ee0c7713ee55db8"
+    "sha256": "8c0adbeb337c8b4fdc664fe7fe9c69e06de96f06f795854dbfc842af1181bc1b"
   },
   "brief_observation_refs": [
     {
@@ -1115,8 +1115,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish reviewed0ac30a23; exact remote SHA then full1200 sixcase diagnostic and watcher.",
-  "next_step": "Publish reviewed0ac30a23; exact remote SHA then full1200 sixcase diagnostic and watcher.",
+  "next": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect sixcases/audits, then checked8call linkage/C5.",
+  "next_step": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect sixcases/audits, then checked8call linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1209,7 +1209,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "fffd29e2-c835-4b5b-b7be-d7236451afcb"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1229,9 +1231,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:53:52Z",
+  "updated_utc": "2026-10-24T03:54:59Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1738,22 +1740,21 @@
   },
   "w4_contract_inputs_build": {
     "accepted": false,
-    "accounted": true,
-    "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
+    "accounted": false,
+    "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
     "callee_matrix_status": "PENDING_CURRENT_BUILD_BRIEF",
     "caller_body_proof_admission": false,
-    "candidate": "d0aa8515705ceba930299d5fcade1b320f9745f7",
-    "charged_seconds": 381,
-    "config_sha256": "f7edbedcca4ceba211e8ce23d82ac5af588e15f72be0e79e79d5ac4967b9ad80",
-    "diagnostic_status": "POSITIVE_SOURCE_REPORTED_MATCH_MATRIX_INCOMPLETE",
-    "dispatch_token": "dispatch-c8c9385894ef47feaa0a57e0573e02d1",
+    "candidate": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
+    "config_sha256": "8980c07fe5b40805c7a4a86e486f7d6809874555d1c288d69d298cd4b1609176",
+    "diagnostic_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-8f10ae996f5e4bc1909db883997b4a2c",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "POSITIVE_NATIVE_INPUTS_MATCHED_EXIT2_REJECTED_BY_WRONG_DRIVER_PIN",
+    "result": "PENDING_BRIEF_NATIVE_EXIT2_PROTOCOL_DIAGNOSTIC",
     "schema": "select-r24-w4-contract-inputs-submission-v1",
-    "source_payload_sha256": "2587d9ae98cf3ae0de3ab13b069de1106c17b424350f1ec6ccba06ae8972dd60",
-    "status": "FAILURE",
+    "source_payload_sha256": "e6a6ce362d98c3a65bffa1df59e30b3c0ebcc5739fe8a98d984a243eae71b4af",
+    "status": "QUEUED",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1861,7 +1862,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "NATIVE_EXIT_PROTOCOL_REVIEW_GO_UNBUILT",
+    "state": "NATIVE_EXIT_PROTOCOL_SUBMITTED_PENDING_BRIEF",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "1f510f53f40d160bf9bbb65097040f2f81ad322d0f46616bf205811707d3e911"
@@ -1899,7 +1900,7 @@
       "sha256": "c07ca16bda0862a1a8a64c84635b685d59954c33640753d7e96128f9838130ad"
     },
     "proof_credit": 0,
-    "state": "REVIEW_GO_UNBUILT"
+    "state": "SUBMITTED_PENDING_BRIEF"
   },
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
@@ -2232,6 +2233,14 @@
       "job_id": "a20ab368-76c4-4019-98d2-b45496c1ca3d",
       "spec_path": "/tmp/select-r24-w4-contract-header-syntax-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; terminal accounting push before Brief. Exactint2 protocol correction only, no caller/C5 proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-contract-native-exit-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
