@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T02:32:03Z
+- Updated: 2026-10-24T02:37:35Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 11477s spent; 0s retired; 10123s remaining including active reservations
@@ -9,7 +9,7 @@
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] 4acf66cd const8/audit complete and isolated unsafe consequence native0errors51statements. Component validator crashes missing privatefileAPI; omission control not reached, compositeacceptance/callerproof UNKNOWN, credit0. — [research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json) SHA `0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616`
+- [SOURCE_REPORTED] 9984b5ac runner0; current-native const8, ordinary pointer consequence positive+normalpost omission control, matrix/component/composite physicalaudits complete. Callerlinkage/body UNKNOWN; credit0. — [research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json) SHA `e730679117c1be345be6d560f0410c1a59235db3ab20b161afd5d6a7f1a84c99`
 
 ## Open
 - Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.
@@ -21,12 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Final const/consequence file-safety Build terminal FAILURE; source results pending Brief. [Build `9984b5ac-b202-4f3a-995b-5e183e76c3d3`]
+Current-native const8/consequence complete asreported; scoped qualification and W4 checked8site linkage remain. [Build `9984b5ac-b202-4f3a-995b-5e183e76c3d3`]
+- [research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json) SHA `e730679117c1be345be6d560f0410c1a59235db3ab20b161afd5d6a7f1a84c99`
 
 ## Next
-Read Brief const8/consequence/omission/audits; qualify full result or fix concrete remaining defect.
+Qualify exact current-native const8/consequence profile; then closed checked W4 eightcall binding/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `27b788eb4b62a7c0b8b05c5e17bfc7d7b0595311d5b5dfb09d96c200fe2ce486`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `32d7b6c07413e72e8a2c352b04a853d07429ce87a6e3854bddf79d873bab9dd9`
