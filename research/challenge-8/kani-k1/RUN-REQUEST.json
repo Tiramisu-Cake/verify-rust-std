@@ -1,26 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p2-02-sort13-bands-u64",
+  "request_id": "net-p2-03-sort13-perm",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Phase 2: sort13 contract formulation 3 (0-1 keys) at 10 min; top level 0..=17 in three length bands for u64, real insertion and insert_tail, sort9/sort13 through stub_verified",
+  "purpose": "Phase 2: sort13 contract formulation 3 cost at full width (permutation u64) and 0-1 keys u64; sort9 permutation u8 (missing from job 18)",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_01_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::band0_8_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_01_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::band9_12_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::band13_17_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_u8",
       "expect": "SUCCESS"
     }
   ]
