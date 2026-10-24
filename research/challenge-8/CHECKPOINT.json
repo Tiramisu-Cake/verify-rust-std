@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "8c0adbeb337c8b4fdc664fe7fe9c69e06de96f06f795854dbfc842af1181bc1b"
+      "sha256": "1835db7fd63db477d3e2c6350eba7d7f17b93722dd396967e62e9166cdb0e668"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -39,12 +39,12 @@
         "sha256": "c07ca16bda0862a1a8a64c84635b685d59954c33640753d7e96128f9838130ad"
       }
     ],
-    "summary": "Sixcase contract-input Build pending; checked8call linkage/C5 open."
+    "summary": "Sixcase diagnostic terminal FAILURE; cause pending Brief. Linkage/C5 open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "8c0adbeb337c8b4fdc664fe7fe9c69e06de96f06f795854dbfc842af1181bc1b"
+    "sha256": "1835db7fd63db477d3e2c6350eba7d7f17b93722dd396967e62e9166cdb0e668"
   },
   "brief_observation_refs": [
     {
@@ -1115,8 +1115,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect sixcases/audits, then checked8call linkage/C5.",
-  "next_step": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect sixcases/audits, then checked8call linkage/C5.",
+  "next": "Terminal accounting first pushed; inspect Brief sixcase diagnostic and physical audit results; continue R24.",
+  "next_step": "Terminal accounting first pushed; inspect Brief sixcase diagnostic and physical audit results; continue R24.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1209,17 +1209,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "fffd29e2-c835-4b5b-b7be-d7236451afcb"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 9368,
+    "remaining_seconds": 8934,
     "retired_seconds": 0,
-    "spent_seconds": 12232,
+    "spent_seconds": 12666,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1231,9 +1229,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:54:59Z",
+  "updated_utc": "2026-10-24T04:02:16Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1740,21 +1738,22 @@
   },
   "w4_contract_inputs_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
     "callee_matrix_status": "PENDING_CURRENT_BUILD_BRIEF",
     "caller_body_proof_admission": false,
     "candidate": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
+    "charged_seconds": 434,
     "config_sha256": "8980c07fe5b40805c7a4a86e486f7d6809874555d1c288d69d298cd4b1609176",
     "diagnostic_status": "PENDING_BRIEF",
     "dispatch_token": "dispatch-8f10ae996f5e4bc1909db883997b4a2c",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_NATIVE_EXIT2_PROTOCOL_DIAGNOSTIC",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-contract-inputs-submission-v1",
     "source_payload_sha256": "e6a6ce362d98c3a65bffa1df59e30b3c0ebcc5739fe8a98d984a243eae71b4af",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1862,7 +1861,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "NATIVE_EXIT_PROTOCOL_SUBMITTED_PENDING_BRIEF",
+    "state": "EXIT_PROTOCOL_TERMINAL_PENDING_BRIEF",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "1f510f53f40d160bf9bbb65097040f2f81ad322d0f46616bf205811707d3e911"
@@ -1900,7 +1899,7 @@
       "sha256": "c07ca16bda0862a1a8a64c84635b685d59954c33640753d7e96128f9838130ad"
     },
     "proof_credit": 0,
-    "state": "SUBMITTED_PENDING_BRIEF"
+    "state": "TERMINAL_PENDING_BRIEF"
   },
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
@@ -2237,10 +2236,14 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
       "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; terminal accounting push before Brief. Exactint2 protocol correction only, no caller/C5 proof/independent credit.",
+      "event_id": "436048fb-bb20-4b09-afe3-e5bb3ff4325f",
+      "job_id": "46d78028-31bd-41e8-9104-d38066de074e",
       "spec_path": "/tmp/select-r24-w4-contract-native-exit-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
