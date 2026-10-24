@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254"
+      "sha256": "1b2e9081e71690ccb36bc214289675eccc21795fb90266a1774acc5c794f198f"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -77,19 +77,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json",
-        "sha256": "70a308c94c2028a1fee519e3569983fcacff081705430910f9497c4508df38cc"
-      }
-    ],
-    "summary": "S40 compile type error: local_ty needs explicit D.ty annotation."
+    "build_id": "fa8e06d3-2ead-4572-9ed3-ca35df5c5f59",
+    "evidence": [],
+    "summary": "Dormant native compile pending; new callee/W4/C5 qualification remains open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254"
+    "sha256": "1b2e9081e71690ccb36bc214289675eccc21795fb90266a1774acc5c794f198f"
   },
   "brief_observation_refs": [
     {
@@ -598,8 +593,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.",
-  "next_step": "Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.",
+  "next": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
+  "next_step": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -692,7 +687,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "fa8e06d3-2ead-4572-9ed3-ca35df5c5f59"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -712,9 +709,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T07:04:36Z",
+  "updated_utc": "2026-10-24T07:05:40Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -966,7 +963,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "FIXING_DORMANT_OCAML_LOCAL_TYPE",
+    "state": "WAITING_DORMANT_COMPILE_IDENTITY",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1708,35 +1705,24 @@
   },
   "w4_dormant_compile_build": {
     "accepted": false,
-    "accounted": true,
+    "accounted": false,
     "body_proof_run": false,
-    "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/6f3b2e24-042b-48af-b45e-25919bb7314a",
-    "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
-    "build_seconds": 661,
+    "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/fa8e06d3-2ead-4572-9ed3-ca35df5c5f59",
+    "build_id": "fa8e06d3-2ead-4572-9ed3-ca35df5c5f59",
     "callee_qualification": false,
     "caller_body_proof_admission": false,
-    "candidate": "3d63e644789907883e19ac63b67fb21f1ae64c64",
-    "config_sha256": "d6681c4820ab436e63629e50ff8b9ff03b5fa11590155970cf6c8b1e7674e288",
-    "dispatch_token": "dispatch-f144ca13c74f49efb46c574bfc9208cf",
-    "execution_seconds": 660,
-    "new_native_tool_status": "COMPILE_FAILED_BINARY_STILL_INPUT9176",
-    "observations": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json",
-      "sha256": "70a308c94c2028a1fee519e3569983fcacff081705430910f9497c4508df38cc"
-    },
+    "candidate": "27fbaf2dc7dc8ce34d53c087d487c1b8ba3d6cc8",
+    "config_sha256": "6260cd48f13de7257eeaa3a18f333c3f7b3e2398f215814fd9299dd50c7f923d",
+    "dispatch_token": "dispatch-7eff07144161422890e19d36daae8d54",
     "proof_credit": 0,
     "proof_qualification": false,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "SOURCE_REPORTED_OCAML_LOCAL_TYPE_COMPILE_ERROR",
+    "result": "PENDING_BRIEF_DORMANT_COMPILE_IDENTITY_ONLY",
     "schema": "select-r24-w4-dormant-compile-submission-v1",
     "source_only_input_universe_preserved": true,
-    "source_payload_sha256": "9c8d812cb06a7d12d94a027a1b663c2046e463a26cadbdda4b1a7fe38d03d028",
-    "status": "FAILURE",
-    "terminal_accounting": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-TERMINAL-ACCOUNTING.json",
-      "sha256": "16101fd021130a0f62f8d0aefd483e8113d7588fad93debc29c260f88c67e0b2"
-    },
+    "source_payload_sha256": "f82f40fe2b21f2c26ba2ebfd243b155e5ae2f64dce94d3d986f98435ffcf6adb",
+    "status": "QUEUED",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1772,7 +1758,11 @@
       "sha256": "f3aa8f8c8d6d7a0016e915ee68ba6872f85bb9c808d9e8724e2ddd569520ebeb"
     },
     "source_payload_sha256": "f82f40fe2b21f2c26ba2ebfd243b155e5ae2f64dce94d3d986f98435ffcf6adb",
-    "state": "REVIEWED_GO_UNBUILT_LOCAL_TYPE_FIX",
+    "state": "SUBMITTED",
+    "submission": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S41-SUBMISSION.json",
+      "sha256": "8e9bdd3f04ecb68312dc72a14ad117ca3885ea5f5116041ab87579f57bc27519"
+    },
     "timeout_seconds": 1200
   },
   "w4_dormant_compile_candidate_history": [
@@ -2271,6 +2261,14 @@
       "job_id": "afd8bb6c-97c7-49aa-a604-7b5c56a6bba5",
       "spec_path": "/tmp/select-r24-w4-dormant-s40-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "fa8e06d3-2ead-4572-9ed3-ca35df5c5f59",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately commit/push terminal ledger+CP/STATUS before Brief. Dormant compile identity is not callee/caller proof, admission or independent credit.",
+      "spec_path": "/tmp/select-r24-w4-dormant-s41-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

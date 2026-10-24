@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T07:04:36Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-24T07:05:40Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 15544s spent; 0s retired; 6056s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: fa8e06d3-2ead-4572-9ed3-ca35df5c5f59
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -24,13 +24,12 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-S40 compile type error: local_ty needs explicit D.ty annotation. [Build `6f3b2e24-042b-48af-b45e-25919bb7314a`]
-- [research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json](task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json) SHA `70a308c94c2028a1fee519e3569983fcacff081705430910f9497c4508df38cc`
+Dormant native compile pending; new callee/W4/C5 qualification remains open. [Build `fa8e06d3-2ead-4572-9ed3-ca35df5c5f59`]
 
 ## Next
-Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.
+ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `9b7b86584d36251eec75bc4dc0b57f69c2499d796d1c212318a9942eb59ce25b`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `1b2e9081e71690ccb36bc214289675eccc21795fb90266a1774acc5c794f198f`
