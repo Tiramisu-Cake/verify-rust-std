@@ -1,0 +1,79 @@
+{
+  "accepted": false,
+  "archive_sha256": "ac528775143064079da4cb6fe8f4f3a2a78d2a42da16ac3ff3dd772b6901cd6d",
+  "assurance": "SOURCE_REPORTED_PLUS_STATIC_INSPECTION",
+  "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+  "build_seconds": 326,
+  "candidate": "7eb8ab48a94057d7cea021fb5536c572d270301a",
+  "causal_status": "UNKNOWN_BY_BRIEF",
+  "consequence_status": "NOT_REACHED_BY_WRAPPER_STAGE_ORDER",
+  "final_audit_source_claim": "WRITTEN_INCOMPLETE_NO_API_TYPEERROR",
+  "frozen_matrix_stage": {
+    "classification": "SETUP_TARGET_PATH_MISMATCH",
+    "diagnostic": "R22-CONTROL-TARGETS: omit-selected-own: diagnostic file/line differs from exact source anchor",
+    "exit": 1,
+    "matrix_proof_status": "NOT_ESTABLISHED",
+    "name": "r21-fractional-proof",
+    "status": "RAN"
+  },
+  "index_sha256": "e962d5bc8e9b6fbd5d9e9c4621c9b389c33a66e63c375f2afad4a495b7737496",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "provider_receipt_copy_source_claim": "BYTE_IDENTICAL",
+  "publication_allowed": false,
+  "qualification_complete_source_claim": false,
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-audit-errors.json",
+      "sha256": "cbe19b8a5ea0a09cd1434e74054b9a76738f9e31bf78969c0c5a4453783021b8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-audit.json",
+      "sha256": "82dfb5bf4f1fb5c923ec4aff56dd6ee69bcea20b01f423f2b6e6382be9a99471"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-errors.json",
+      "sha256": "07b7afb5ca747aaf461da07dd44a52dae618b960ebded1a2aaac1969d039e10c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-matrix-stage.json",
+      "sha256": "385850b6858f469ea183ab39ff25d9e1e97520db01529d513db4f433a35eb691"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-receipt-binding.json",
+      "sha256": "7d675603065af69b96b0f0e6a9e09188ac1d9b29e7c9ba4e2bfdebe05d38ee05"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-root-20.json",
+      "sha256": "5f85f138887e46e0594aa088b66cd663a77828fa21f6a8557786a010d58aa4c7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-root.json",
+      "sha256": "3e847e9e4158f0e7a9af36d7232d8c4b47a516ccd2bcfb77d340c52482ce0794"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-source.json",
+      "sha256": "7be11a5d77a345a092e522f08b878a3c62e199e488daadf6441ede0cdfd7dd38"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-stderr-head.json",
+      "sha256": "5889332cd0e900e8c0f1a13429c7aa168d7c61c2fbcf95e764b00fdc110b45ae"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s29-stderr-tail.json",
+      "sha256": "0d96534c88449039b8c941a75b50c781eedc1dfc019319d3dd4b2f8c2dc2a2a3"
+    }
+  ],
+  "schema": "select-r24-w4-const-target-path-observations-v1",
+  "source_pair_complete_source_claim": true,
+  "source_runner_exit": 4,
+  "static_defects": [
+    {
+      "defect": "Two historical lib.rsspec absolute paths refer to frozen8a home while entry requires current native-home path. Both homes contain same pinned d33bytes. Immutable historical targets remain unchanged.",
+      "file": "cloud-build/select-callee-r24-w4-const-qualification.py"
+    }
+  ],
+  "typed_call_linkage": "UNKNOWN",
+  "w4_caller_body_proof_status": "UNKNOWN"
+}

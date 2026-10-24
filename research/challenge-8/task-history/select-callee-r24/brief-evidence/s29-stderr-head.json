@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "ac528775143064079da4cb6fe8f4f3a2a78d2a42da16ac3ff3dd772b6901cd6d",
+  "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 12,
+    "line_separator": "LF",
+    "source_lines": 18,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6f2a8b9885bf996d5fd28f9b862f5f5826c03e0ccd77d8a968bd74f446b886ca",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/stage-records/r21-fractional-proof.stderr.txt",
+  "file_sha256": "5e7ad318767d834e1bbe5f66d8bca23ee05d989c79114c5919f7b802a211433c",
+  "index_sha256": "e962d5bc8e9b6fbd5d9e9c4621c9b389c33a66e63c375f2afad4a495b7737496",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "5e7ad318767d834e1bbe5f66d8bca23ee05d989c79114c5919f7b802a211433c",
+    "file_id": "6f2a8b9885bf996d5fd28f9b862f5f5826c03e0ccd77d8a968bd74f446b886ca",
+    "start": 1
+  },
+  "request_id": "6f3bdbfdf7dc6b993e97392f5514ab4333d6cdf0645bc3cca39f8d9c3bf6fdf2",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "Traceback (most recent call last):"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py\", line 453, in <module>"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "    raise SystemExit(main())"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py\", line 445, in main"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "    record = run(args)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py\", line 374, in run"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "    record = proof.proof_batch(evidence=args.evidence, original=original,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r21-fractional-proof.py\", line 437, in proof_batch"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "    target_validation = target_helper.validate_target_map("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 10,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r22-control-targets.py\", line 358, in validate_target_map"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 11,
+      "text": "    normalized = {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 12,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r22-control-targets.py\", line 359, in <dictcomp>"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

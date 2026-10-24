@@ -1,0 +1,75 @@
+{
+  "archive_sha256": "ac528775143064079da4cb6fe8f4f3a2a78d2a42da16ac3ff3dd772b6901cd6d",
+  "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 18,
+    "line_separator": "LF",
+    "source_lines": 18,
+    "start": 13,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6f2a8b9885bf996d5fd28f9b862f5f5826c03e0ccd77d8a968bd74f446b886ca",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/stage-records/r21-fractional-proof.stderr.txt",
+  "file_sha256": "5e7ad318767d834e1bbe5f66d8bca23ee05d989c79114c5919f7b802a211433c",
+  "index_sha256": "e962d5bc8e9b6fbd5d9e9c4621c9b389c33a66e63c375f2afad4a495b7737496",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 24,
+    "expected_sha256": "5e7ad318767d834e1bbe5f66d8bca23ee05d989c79114c5919f7b802a211433c",
+    "file_id": "6f2a8b9885bf996d5fd28f9b862f5f5826c03e0ccd77d8a968bd74f446b886ca",
+    "start": 13
+  },
+  "request_id": "01d8b4b9ea2d294b398f0ef1acd167cd07c657ca6caab9fe0624967edcc7c180",
+  "requested_end": 24,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 13,
+      "text": "    variant: _validate_target(variant, targets[variant], sources[variant],"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 14,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r22-control-targets.py\", line 294, in _validate_target"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 15,
+      "text": "    _need(record.get(\"file\") == expected_file and"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 16,
+      "text": "  File \"/workspace/infra/research/challenge-8/cloud-build/select-callee-r22-control-targets.py\", line 90, in _need"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 17,
+      "text": "    raise TargetError(\"R22-CONTROL-TARGETS: \" + why)"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 18,
+      "text": "r21_fractional_proof_entry_targets.TargetError: R22-CONTROL-TARGETS: omit-selected-own: diagnostic file/line differs from exact source anchor"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

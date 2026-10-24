@@ -1,0 +1,18 @@
+{
+  "alternatives": [
+    "A no-target-map diagnostic full8 run could collect identical current path observations, but cannot qualify the matrix and would require an extra paid run; same-spec content-addressed relocation plus exact actual current diagnostic matching preserves the relevant guarantee directly.",
+    "Do not edit historical observations/map, rewrite verifier logs, normalize current diagnostics, bypass target checks, or mutate frozen8a toolhome."
+  ],
+  "choice": "Keep historical CONTROL-TARGETS.json unchanged. Construct separate derived current target-intent map under evidence, relocating only file values for the two spec-precondition rows after exact pinned same-content/canonical-path checks. Add physical derivation receipt binding old map bytes, old/new spec identities, every unchanged row field and derived bytes. Pass derived map to frozen R21 entry with unmodified exact validator/current error matcher.",
+  "defect": "Buildb53d passes provider dependency setup but frozen exacttarget validator rejects old absolute lib.rsspec path at omit-selected-own before proof_batch creates its report. Exactly two historical spec targets name old8a toolhome; fresh native home contains same d33bytes.",
+  "invariants": [
+    "Only omit-selected-own and omit-unselected-own file fields may differ; lines462/463, columns, messages, source/spec hashes, log SHA/provenance and precondition text remain exact. All other five targets unchanged.",
+    "Both old frozen and current native lib.rsspec files are regular, contained, pinned d33 content; canonical old target must match frozen toolhome, canonical new target matches native toolhome. Wrong source/tool/path/home/type/partial data fails.",
+    "Read-only final audit recomputes intent map/derivation receipt from immutable original and current tool bytes, compares exact physical bytes/hashes and verifies command points to derived map; current matrix remains all8 and exact7negative match.",
+    "No frozen checker/schema/modelfile or std/generic/CFG/normal/unwind/resource change, no dropped control, no caller route."
+  ],
+  "proof_credit": 0,
+  "schema": "select-r24-w4-const-target-path-design-v1",
+  "semantics": "Historical observed:true/provenance/log identities remain prior observation fields required by legacy input schema; their reuse in the derived intent map is not a new observation of the relocated path. The wrapper/receipt must explicitly label this distinction. Only current native verifier stages with exact source/diagnostic/log bindings can supply current observations. No acceptance/publication/credit from derivation.",
+  "status": "DESIGN_BEFORE_IMPLEMENTATION"
+}
