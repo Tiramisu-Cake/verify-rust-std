@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "27cb551a357dc50570bb451d8f29e4b9d62904fa01890fd4544b6d32ca19d575"
+      "sha256": "e323483d2cbe9979d0be8fb4aedd9665f9441f307dfa6d5b6610f72d93d8805f"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-unsafe-review.json",
-        "sha256": "1e45454e59b91a2f07af5a626d91917d2f113a6d2b06d6503ef1c7b5bc2651bf"
-      }
-    ],
-    "summary": "Native const8 sourcecomplete; reviewed unsafe consequence/native format fix remains unbuilt."
+    "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+    "evidence": [],
+    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "27cb551a357dc50570bb451d8f29e4b9d62904fa01890fd4544b6d32ca19d575"
+    "sha256": "e323483d2cbe9979d0be8fb4aedd9665f9441f307dfa6d5b6610f72d93d8805f"
   },
   "brief_observation_refs": [
     {
@@ -985,8 +981,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish exact unsafe-helper candidate; full1200 const8/consequence/control/audits; Brief then W4.",
-  "next_step": "Publish exact unsafe-helper candidate; full1200 const8/consequence/control/audits; Brief then W4.",
+  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1079,7 +1075,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "4acf66cd-faf4-41fb-9fff-74f65c4b40b2"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1099,9 +1097,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:03:10Z",
+  "updated_utc": "2026-10-24T02:04:02Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1287,7 +1285,7 @@
       "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
     },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "UNSAFE_CONSEQUENCE_REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "target_path_design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-TARGET-PATH-DESIGN.json",
       "sha256": "f056e4abf8f66a0c8ab82b1cff6874f163af7e5451dc8ee05cfd4915e3178341"
@@ -1432,6 +1430,27 @@
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "e915b218a7c25a73edef2c33b91a0b8f00931b5c5b509584f47a26ddf0f14695"
   },
+  "w4_const_unsafe_build": {
+    "accepted": false,
+    "accounted": false,
+    "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+    "callee_matrix_status": "PENDING_BRIEF",
+    "caller_body_proof_admission": false,
+    "candidate": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
+    "config_sha256": "f1db38a8f788987ea222420f2a6590a3a5af444c09fd0b5ddf8a30e45cc9a9aa",
+    "consequence_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-1cf650074ce24f7ea015959c1e87c81d",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "schema": "select-r24-w4-const-unsafe-submission-v1",
+    "source_payload_sha256": "e835b7120f724d97251fce8683a1e8dfe0ebbad5d736fa4a44112fa5d4a172e7",
+    "status": "QUEUED",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN"
+  },
   "w4_const_unsafe_candidate": {
     "accepted": false,
     "caller_body_proof_admission": false,
@@ -1455,7 +1474,7 @@
       "sha256": "fd7a31c2ae28a30627f299b19b60a653fca4f0d1257e1b21c2b6ad5a94021220"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_UNSAFE_POINTER_POST_CONSEQUENCE_ONLY",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
@@ -1733,7 +1752,16 @@
     "state": "SOURCE_REPORTED_COMPLETE_DIAGNOSTIC_ONLY",
     "typed_call_linkage": "UNKNOWN"
   },
-  "watcher_history": [],
+  "watcher_history": [
+    {
+      "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-const-unsafe-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    }
+  ],
   "watcher_history_archive": {
     "path": "research/challenge-8/task-history/select-callee-r24/WATCHER-HISTORY-THROUGH-S30.json",
     "sha256": "4acae2f0e8070f3a18eaab693f5f8d41a79c986d47a28e894b61cb94406ce5f0"
