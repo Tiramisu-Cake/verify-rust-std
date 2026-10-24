@@ -246,9 +246,10 @@ impl<T> CopyOnDrop<T> {
     /// down-merge consumed `s[h - c..h]` and `s[len - d..]`; the output holds `u` elements at each end
     /// of `d0[..len]`. The remaining elements are `s[a..h - c]` and `s[h + b..len - d]`.
     ///
-    /// Formulation 2 (phase 2), NOT ATTACHED to the loop since b838761a: any loop contract on this
-    /// loop runs out of memory on the Kani pin (jobs 17-24, RESULT-merge.md D13). Kept for a later
-    /// attempt. `K1BmInv` selected the invariant per element type for the phase 2 bisection.
+    /// Formulation 2, NOT ATTACHED to the loop: every loop contract tried on this loop ran out of
+    /// memory under the 13 GiB cap on the Kani pin, also a trivial invariant with an explicit
+    /// `loop_modifies` (jobs 17-24 and 29, RESULT-merge.md D13, D15). Kept as a record. `K1BmInv`
+    /// selected the invariant per element type for the phase 2 bisection.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn k1_bm_inv<F: FnMut(&T, &T) -> bool>(
         src: *const T,
