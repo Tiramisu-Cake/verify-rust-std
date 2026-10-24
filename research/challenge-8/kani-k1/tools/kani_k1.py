@@ -59,6 +59,8 @@ SUMMARY_HEADER_RE = re.compile(r"^Summary:\s*$")
 # Kani prints this line when CBMC exceeds --harness-timeout. A mismatch only loses TIMEOUT labelling:
 # such a harness is FAILED without a located check, which never meets SUCCESS or FAILED expectations.
 TIMEOUT_RE = re.compile(r"^CBMC timed out\b")
+# Kani prints this line when CBMC was killed by SIGKILL, which in this lane is the verify cgroup's OOM killer.
+OOM_RE = re.compile(r"^CBMC appears to have run out of memory\b")
 ERROR_RE = re.compile(r"^error(\[E\d{4}\])?:")
 RUSTC_ERROR_RE = re.compile(r"^error\[E\d{4}\]:|could not compile")
 RSS_RE = re.compile(r"Maximum resident set size \(kbytes\):\s*(\d+)")
@@ -141,7 +143,7 @@ def kani_args(request: dict[str, Any]) -> list[str]:
 def _new_block(name: str) -> dict[str, Any]:
     return {"name": name, "status_line": None, "time_s": None, "checks_failed": None, "checks_total": None,
             "unreachable": None, "covers_satisfied": None, "covers_total": None, "failed_checks": [],
-            "failed_located": 0, "failed_checks_truncated": False, "timed_out": False}
+            "failed_located": 0, "failed_checks_truncated": False, "timed_out": False, "out_of_memory": False}
 
 
 def parse_log(text: str) -> dict[str, Any]:
@@ -179,6 +181,9 @@ def parse_log(text: str) -> dict[str, Any]:
             continue
         if TIMEOUT_RE.match(line):
             current["timed_out"] = True
+            continue
+        if OOM_RE.match(line):
+            current["out_of_memory"] = True
             continue
         m = STATUS_RE.match(line)
         if m:
@@ -221,6 +226,8 @@ def parse_log(text: str) -> dict[str, Any]:
 
 
 def _block_status(block: dict[str, Any]) -> str:
+    if block["out_of_memory"]:
+        return "OUT_OF_MEMORY"
     if block["timed_out"] or block["status_line"] == "TIMEOUT":
         return "TIMEOUT"
     if block["status_line"] == "SUCCESSFUL":
@@ -254,6 +261,21 @@ def parse_time_file(text: str | None) -> dict[str, Any]:
     return {"max_rss_kb_whole_run": None, "wall_whole_run": None, "time_file": "UNPARSED"}
 
 
+def parse_memcap(text: str | None) -> dict[str, Any]:
+    """k1-out/memcap.txt of the verify step: key=value lines written by circleci-k1.sh."""
+    if text is None:
+        return {"state": "MISSING", "max_bytes": None, "peak_bytes": None, "oom_kill": None, "reason": None}
+    fields = dict(line.split("=", 1) for line in text.splitlines() if "=" in line)
+
+    def num(key: str) -> int | None:
+        value = fields.get(key, "").strip()
+        return int(value) if value.isdigit() else None
+    state = fields.get("state", "").strip()
+    return {"state": state if state in ("ENFORCED", "UNAVAILABLE") else "UNPARSED", "max_bytes": num("max_bytes"),
+            "peak_bytes": num("peak_bytes"), "oom_kill": num("oom_kill"),
+            "reason": _clip(fields["reason"].strip()) if fields.get("reason") else None}
+
+
 def file_bindings(paths: list[str]) -> dict[str, str]:
     out: dict[str, str] = {}
     for p in paths:
@@ -265,7 +287,8 @@ def file_bindings(paths: list[str]) -> dict[str, str]:
 def summarize(request_text: str | None, log_text: str | None, time_text: str | None, exit_code: int | None,
               head_sha: str | None, kani_commit: str | None, request_error: str | None = None,
               run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
-              build_outcome: str | None = None) -> dict[str, Any]:
+              build_outcome: str | None = None, memcap_text: str | None = None,
+              memcap_tracked: bool = False) -> dict[str, Any]:
     summary: dict[str, Any] = {
         "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit, "run": run or {},
         "tooling_sha256": tooling or {}, "build_outcome": build_outcome,
@@ -275,6 +298,14 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         "errors_truncated": False, "complete_line": None, "inconsistencies": [],
         "resources": parse_time_file(time_text), "notes": [],
     }
+    # The memory cap is tracked only where the lane sets one (CircleCI); it then bounds measurement runs.
+    memcap = parse_memcap(memcap_text) if memcap_tracked else None
+    summary["resources"]["memcap"] = memcap
+    if memcap is not None:
+        if memcap["state"] != "ENFORCED":
+            summary["notes"].append(f"verify memory cap {memcap['state']}: {memcap['reason'] or 'no reason recorded'}")
+        if memcap["oom_kill"]:
+            summary["notes"].append(f"verify cgroup OOM killer fired {memcap['oom_kill']} time(s)")
     request = None
     if request_error is None and request_text is not None:
         try:
@@ -350,6 +381,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         inconsistencies.append("Kani exit code unknown")
     elif (exit_code == 0) != all_success:
         inconsistencies.append(f"Kani exit {exit_code} does not match the parsed statuses")
+    if memcap is not None and memcap["oom_kill"] and "OUT_OF_MEMORY" not in statuses:
+        inconsistencies.append("cgroup OOM kill not attributed to any harness")
     if any(s in ("NOT_RUN", "UNKNOWN") for s in statuses):
         summary["status"] = "PARTIAL"
     elif inconsistencies:
@@ -359,7 +392,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["expectation_met"] = summary["status"] == "COMPLETE" and all(
         _row_meets(r, e) for r, e in zip(rows, request["harnesses"]))
     if request["kind"] == "measurement":
-        summary["measurement_ok"] = summary["expectation_met"] and all(
+        memcap_ok = memcap is None or (memcap["state"] == "ENFORCED" and memcap["oom_kill"] == 0)
+        summary["measurement_ok"] = summary["expectation_met"] and memcap_ok and all(
             r["status"] != "SUCCESS" or (r["time_s"] is not None and r["time_s"] <= MEASUREMENT_LIMIT_SECONDS
                                          and (r["covers_total"] or 0) >= 1
                                          and r["covers_satisfied"] == r["covers_total"])
@@ -378,6 +412,13 @@ def gate_ok(summary: dict[str, Any]) -> bool:
     return True
 
 
+def _memcap_line(memcap: dict[str, Any] | None) -> str:
+    if memcap is None:
+        return "not tracked by this lane"
+    gib = lambda b: "?" if b is None else f"{b / 2**30:.2f} GiB"  # noqa: E731
+    return f"{memcap['state']}, limit {gib(memcap['max_bytes'])}, peak {gib(memcap['peak_bytes'])}, OOM kills {memcap['oom_kill']}"
+
+
 def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
@@ -390,6 +431,7 @@ def render_md(summary: dict[str, Any]) -> str:
         f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
+        f"- verify memory cap: {_memcap_line(res.get('memcap'))}",
         "",
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
@@ -449,6 +491,7 @@ def main(argv: list[str]) -> int:
     s.add_argument("--run-attempt")
     s.add_argument("--image-os")
     s.add_argument("--image-version")
+    s.add_argument("--memcap", help="memcap.txt of the verify step; marks the memory cap as tracked")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
@@ -476,7 +519,7 @@ def main(argv: list[str]) -> int:
                "image_os": a.image_os or None, "image_version": a.image_version or None}
         summary = summarize(_read_optional(a.request), _read_optional(a.log), _read_optional(a.time), exit_code,
                             a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
-                            a.build_outcome or None)
+                            a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None)
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

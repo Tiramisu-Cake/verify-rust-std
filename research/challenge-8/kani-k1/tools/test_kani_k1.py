@@ -187,6 +187,49 @@ class SummaryTests(unittest.TestCase):
         self.assertIsNone(s["measurement_ok"])
         self.assertTrue(k.gate_ok(s))
 
+    def test_out_of_memory_status(self):
+        # Kani's form for a CBMC killed by SIGKILL (seen in job 10): no time line, OOM text after the status.
+        oom = (f"Checking harness {P}smoke::ok...\n\nCBMC failed\nVERIFICATION:- FAILED\n"
+               "CBMC appears to have run out of memory. You may want to rerun your proof in an environment with "
+               "additional memory or use stubbing to reduce the size of the code the verifier reasons about.\n")
+        s = summ(oom + FAIL_BLOCK + tail(0, 2))
+        self.assertEqual(s["status"], "COMPLETE")
+        self.assertEqual(s["harnesses"][0]["status"], "OUT_OF_MEMORY")
+        self.assertFalse(s["expectation_met"])
+        self.assertIn("OUT_OF_MEMORY", k.render_md(s))
+        req = req_with(harnesses=[{"name": P + "smoke::ok", "expect": "FAILED", "expect_check": "memory"}])
+        self.assertFalse(summ(oom + tail(0, 1), req)["expectation_met"])
+
+    def test_memcap(self):
+        req = req_with(harnesses=ONLY_OK)
+        log = OK_BLOCK + tail(1, 0)
+        enforced = "state=ENFORCED\nmax_bytes=13958643712\npeak_bytes=4294967296\noom_kill=0\n"
+
+        def run(text, tracked=True):
+            return k.summarize(json.dumps(req), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success",
+                               text, tracked)
+        s = run(enforced)
+        self.assertTrue(s["measurement_ok"])
+        self.assertEqual(s["resources"]["memcap"]["max_bytes"], 13958643712)
+        self.assertIn("ENFORCED, limit 13.00 GiB, peak 4.00 GiB, OOM kills 0", k.render_md(s))
+        self.assertIsNone(run(None, tracked=False)["resources"]["memcap"])
+        self.assertTrue(run(None, tracked=False)["measurement_ok"])
+        for text, state in ((None, "MISSING"), ("state=UNAVAILABLE\nreason=no cgroup v2\n", "UNAVAILABLE"),
+                            ("garbage", "UNPARSED")):
+            s = run(text)
+            self.assertEqual(s["resources"]["memcap"]["state"], state)
+            self.assertFalse(s["measurement_ok"])
+            self.assertTrue(any("memory cap" in n for n in s["notes"]))
+        self.assertIn("no cgroup v2", " ".join(run("state=UNAVAILABLE\nreason=no cgroup v2\n")["notes"]))
+        killed = run(enforced.replace("oom_kill=0", "oom_kill=1"))
+        self.assertEqual(killed["status"], "INCONSISTENT")
+        self.assertIn("cgroup OOM kill not attributed to any harness", killed["inconsistencies"])
+        self.assertFalse(k.gate_ok(killed))
+        diag = req_with(kind="diagnostic", harnesses=ONLY_OK)
+        s = k.summarize(json.dumps(diag), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success",
+                        "state=UNAVAILABLE\n", True)
+        self.assertTrue(k.gate_ok(s))
+
     def test_counts_line_with_extra_suffix(self):
         log = OK_BLOCK.replace("(2 unreachable)", "(2 unreachable, 1 undetermined)") + FAIL_BLOCK + tail(1, 1)
         self.assertEqual(summ(log)["harnesses"][0]["unreachable"], 2)
@@ -320,6 +363,12 @@ class CliTests(unittest.TestCase):
             self.run_cli("summarize", *common, "--exit-code", "0", "--out-dir", str(d / "out2"))
             self.assertEqual(self.run_cli("gate", str(d / "out2" / "summary.json")).returncode, 1)
             self.assertEqual(self.run_cli("gate", str(d / "nope.json")).returncode, 3)
+            (d / "memcap.txt").write_text("state=ENFORCED\nmax_bytes=1\npeak_bytes=1\noom_kill=0\n")
+            self.run_cli("summarize", *common, "--exit-code", "1", "--memcap", str(d / "memcap.txt"), "--out-dir", str(d / "out3"))
+            self.assertEqual(json.loads((d / "out3" / "summary.json").read_text())["resources"]["memcap"]["state"], "ENFORCED")
+            self.run_cli("summarize", *common, "--exit-code", "1", "--memcap", str(d / "absent"), "--out-dir", str(d / "out4"))
+            self.assertEqual(json.loads((d / "out4" / "summary.json").read_text())["resources"]["memcap"]["state"], "MISSING")
+            self.assertIsNone(summary["resources"]["memcap"])
 
     def test_lane_limits(self):
         with tempfile.TemporaryDirectory() as d:
