@@ -1,0 +1,44 @@
+{
+  "baseline_commit": "91fe421540218c9dc1a9ab90be92c8fa06bd1948",
+  "candidate_commit": "1eda87b58d5203cb4aee28bac8c9fe7f68dadd31",
+  "candidate_tree": "cfcb3a7f874be1c532acb323f094583bc1cc7e64",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_CURRENT_NATIVE_CONST_MATRIX_AND_CONSEQUENCE_BUILD_ONLY",
+  "diff_sha256": "a090d54b88a20fc427395d594d874a2ce98a09a471671a8bc4e1e2562aa4f827",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second current-native const eight-row matrix, checked consequence and physical audits under existing R24 admission/ledger/deadline/route constraints.",
+    "The derived intent is not a new observation. The current matrix must establish all seven exact error outcomes and physical audits before any source-reported qualification is complete.",
+    "No caller linkage, caller/body admission, P2 transfer, acceptance, publication, or independent proof credit is established. Proof credit remains 0."
+  ],
+  "not_run": [
+    "No Cloud Build, actual source preparation, compiler/exporter/decoder/refinement/verifier, native tools, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "44d101274e1826b33241d15079e0319722fbe9029faeb0c58bd09b4e4c3bb151",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json",
+      "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-const-target-path-independent-review-v1",
+  "spec_sha256": "6d6061729a27c911cdc9f5372d9da453b9c0ed25175dad715a1fa6e665733f67",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static review checked the pinned frozen target validator path contract and the map/canonical digest APIs used by the current R21 entry.",
+    "The packet reports 19 wrapper, 12 consequence and 6 Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "Derived intent starts from the exact raw-SHA-pinned immutable CONTROL-TARGETS map and preserves every field except file for omit-selected-own and omit-unselected-own. It requires those rows to name the exact old frozen lib.rsspec path, expected 462/463 lines, and pinned spec digest; it requires contained regular old/new spec files with identical d33 bytes, then rewrites only to the current native path.",
+    "The target-intent receipt labels the result DERIVED_TARGET_INTENT_NOT_NEW_OBSERVATION and explicitly says the relocated path was not observed. Historical observed/provenance/log fields remain prior input only; the current R21 matcher must still observe the exact current target errors during the current matrix run.",
+    "The R21 entry consumes the work-subtree derived raw map; its raw map SHA, canonical map SHA, tool spec SHA and diagnostic map digest are cross-checked against the receipt. Final audit re-derives map and receipt from immutable input/current tool files and checks physical file bytes, safe containment and matrix digest bindings.",
+    "The paths are outside reserved cases/r21-fractional-proof output. Write uses a fresh work subtree, safe path equality, exclusive target checks and physical reread; audit rejects missing, changed, symlinked or aliased artifacts. Shell helper hash is synchronized with the new helper."
+  ]
+}
