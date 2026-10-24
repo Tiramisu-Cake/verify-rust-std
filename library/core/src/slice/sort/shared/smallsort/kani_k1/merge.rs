@@ -245,6 +245,10 @@ impl<T> CopyOnDrop<T> {
     /// Notation: `s = src`, `h = len / 2`; the up-merge consumed `s[..a]` and `s[h..h + b]`, the
     /// down-merge consumed `s[h - c..h]` and `s[len - d..]`; the output holds `u` elements at each end
     /// of `d0[..len]`. The remaining elements are `s[a..h - c]` and `s[h + b..len - d]`.
+    ///
+    /// Phase 2 bisection of the goto-instrument out-of-memory (jobs 17, 19, 20): the invariant is
+    /// selected per element type by `K1BmInv` (specialization), so that one build checks a trivial,
+    /// a count-free and the full invariant on the same loop. Only the full one is a proof.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn k1_bm_inv<F: FnMut(&T, &T) -> bool>(
         src: *const T,
@@ -259,11 +263,79 @@ impl<T> CopyOnDrop<T> {
         dst_rev: *mut T,
         is_less: &&mut F,
     ) -> bool {
+        <T as K1BmInv>::k1_bm_inv_sel(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+    }
+
+    /// The full invariant: `k1_bm_inv_core` plus conservation of the probe count.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_full<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        match Self::k1_bm_inv_core(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        ) {
+            Some((a, b, c, d, u)) => Self::k1_bm_inv_count(src, len, d0, a, b, c, d, u),
+            None => false,
+        }
+    }
+
+    /// Probe count: output so far plus remaining input equals the whole input.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_count(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        a: usize,
+        b: usize,
+        c: usize,
+        d: usize,
+        u: usize,
+    ) -> bool {
+        let h = len / 2;
+        let d0c = d0 as *const T;
+        // SAFETY: indices are in bounds by the arithmetic checked in `k1_bm_inv_core`.
+        unsafe {
+            Self::k1_count_u(d0c, u)
+                + Self::k1_count_u(d0c.add(len - u), u)
+                + Self::k1_count_u(src.add(a), h - c - a)
+                + Self::k1_count_u(src.add(h + b), len - d - h - b)
+                == Self::k1_count_u(src, len)
+        }
+    }
+
+    /// Everything of the invariant except the probe count. Returns the consumed counts
+    /// `(a, b, c, d, u)` when it holds.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_core<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> Option<(usize, usize, usize, usize, usize)> {
         let same = |p: *const T, q: *const T| kani::mem::same_allocation(p, q);
         let d0c = d0 as *const T;
         // The unrolled helpers below cover at most K1_UNROLL elements (K-1 lengths are <= 32).
         if len > K1_UNROLL {
-            return false;
+            return None;
         }
         if !(same(left, src)
             && same(right, src)
@@ -272,7 +344,7 @@ impl<T> CopyOnDrop<T> {
             && same(dst as *const T, d0c)
             && same(dst_rev as *const T, d0c))
         {
-            return false;
+            return None;
         }
         let h = len / 2;
         let (hi, li) = (h as isize, len as isize);
@@ -291,7 +363,7 @@ impl<T> CopyOnDrop<T> {
         );
         if ba % sz != 0 || br % sz != 0 || blr % sz != 0 || brr % sz != 0 || bu % sz != 0 || bur % sz != 0
         {
-            return false;
+            return None;
         }
         let (oa, or, olr, orr, ou, our) = (ba / sz, br / sz, blr / sz, brr / sz, bu / sz, bur / sz);
         let (a, b, c, d, u) = (oa, or - hi, hi - 1 - olr, li - 1 - orr, ou);
@@ -307,7 +379,7 @@ impl<T> CopyOnDrop<T> {
             && b + d <= li - hi
             && u <= hi)
         {
-            return false;
+            return None;
         }
         let (a, b, c, d, u) = (a as usize, b as usize, c as usize, d as usize, u as usize);
         let lrem = a + c < h;
@@ -321,39 +393,34 @@ impl<T> CopyOnDrop<T> {
 
         // Output ends sorted, and the up end below the down end.
         if !Self::k1_sorted_u(d0c, u, is_less) || !Self::k1_sorted_u(out(len - u), u, is_less) {
-            return false;
+            return None;
         }
         if u > 0 {
             let (lo, top) = (out(u - 1), out(len - u));
             if !le(lo, top) {
-                return false;
+                return None;
             }
             if lrem && !(le(lo, at(a)) && le(at(h - c - 1), top)) {
-                return false;
+                return None;
             }
             if rrem && !(le(lo, at(h + b)) && le(at(len - d - 1), top)) {
-                return false;
+                return None;
             }
         }
         // Consumed versus remaining elements across the halves (needed when a head is exhausted).
         if c > 0 && rrem && !lt(at(len - d - 1), at(h - c)) {
-            return false;
+            return None;
         }
         if d > 0 && lrem && !le(at(h - c - 1), at(len - d)) {
-            return false;
+            return None;
         }
         if a > 0 && rrem && !le(at(a - 1), at(h + b)) {
-            return false;
+            return None;
         }
         if b > 0 && lrem && !lt(at(h + b - 1), at(a)) {
-            return false;
+            return None;
         }
-        // Probe count: output so far plus remaining input equals the whole input.
-        Self::k1_count_u(d0c, u)
-            + Self::k1_count_u(out(len - u), u)
-            + Self::k1_count_u(at(a), h - c - a)
-            + Self::k1_count_u(at(h + b), len - d - h - b)
-            == Self::k1_count_u(src, len)
+        Some((a, b, c, d, u))
     }
 
     /// `v[..len / 2]` and `v[len / 2..]` are sorted.
@@ -369,12 +436,99 @@ impl<T> CopyOnDrop<T> {
     }
 }
 
+/// Selects the loop invariant of `bidirectional_merge` per element type (see `k1_bm_inv`). Default:
+/// the full invariant. `u16`: a trivial invariant, `i16`: the invariant without the probe count;
+/// those two types occur only in the bisection harnesses `bm_bisect_*`, never in a proof or stub.
+pub(crate) trait K1BmInv: Sized {
+    #[allow(clippy::too_many_arguments)]
+    fn k1_bm_inv_sel<F: FnMut(&Self, &Self) -> bool>(
+        src: *const Self,
+        len: usize,
+        d0: *mut Self,
+        idx: usize,
+        left: *const Self,
+        right: *const Self,
+        dst: *mut Self,
+        left_rev: *const Self,
+        right_rev: *const Self,
+        dst_rev: *mut Self,
+        is_less: &&mut F,
+    ) -> bool;
+}
+
+impl<T> K1BmInv for T {
+    default fn k1_bm_inv_sel<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        CopyOnDrop::<T>::k1_bm_inv_full(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+    }
+}
+
+impl K1BmInv for u16 {
+    fn k1_bm_inv_sel<F: FnMut(&u16, &u16) -> bool>(
+        _src: *const u16,
+        len: usize,
+        _d0: *mut u16,
+        idx: usize,
+        _left: *const u16,
+        _right: *const u16,
+        _dst: *mut u16,
+        _left_rev: *const u16,
+        _right_rev: *const u16,
+        _dst_rev: *mut u16,
+        _is_less: &&mut F,
+    ) -> bool {
+        idx <= len / 2
+    }
+}
+
+impl K1BmInv for i16 {
+    fn k1_bm_inv_sel<F: FnMut(&i16, &i16) -> bool>(
+        src: *const i16,
+        len: usize,
+        d0: *mut i16,
+        idx: usize,
+        left: *const i16,
+        right: *const i16,
+        dst: *mut i16,
+        left_rev: *const i16,
+        right_rev: *const i16,
+        dst_rev: *mut i16,
+        is_less: &&mut F,
+    ) -> bool {
+        CopyOnDrop::<i16>::k1_bm_inv_core(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+        .is_some()
+    }
+}
+
 // ---------------------------------------------------------------------------------------------
 // Comparators: strict orders by key, so that elements with equal keys but different full values
 // exist and the permutation property is not implied by sortedness.
 
 /// For K1-network (u8 is a network type, not a general one).
 pub(crate) fn lt_u8(a: &u8, b: &u8) -> bool {
+    (*a >> 1) < (*b >> 1)
+}
+
+pub(crate) fn lt_u16(a: &u16, b: &u16) -> bool {
+    (*a >> 1) < (*b >> 1)
+}
+
+pub(crate) fn lt_i16(a: &i16, b: &i16) -> bool {
     (*a >> 1) < (*b >> 1)
 }
 
@@ -469,6 +623,21 @@ fn bm_u64_len12() {
 #[kani::unwind(34)]
 fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
+}
+
+// Bisection of the goto-instrument out-of-memory (diagnostic, not proofs): same loop, trivial and
+// count-free invariants (`K1BmInv`). Names sort before `bm_u64*`, so they run first.
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_bisect_a_trivial_u16() {
+    bm_len::<u16, _, 32>(lt_u16);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_bisect_b_nocount_i16() {
+    bm_len::<i16, _, 32>(lt_i16);
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]

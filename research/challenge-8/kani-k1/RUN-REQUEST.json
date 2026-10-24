@@ -1,19 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p2-inv-007",
+  "request_id": "merge-p2-bisect-008",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Formulation 2 of bidirectional_merge (loop invariant), after goto-instrument OOM in jobs 17 and 19: invariant and bidirectional_merge clauses are now loop-free (unrolled to 32, requires len <= 32). u64 fixed len 32 and the full 2..=32 contract proof",
+  "purpose": "Bisect the goto-instrument OOM of the bidirectional_merge loop contract (jobs 17, 19, 20): same loop with a trivial invariant (u16), the invariant without the probe count (i16), and the full invariant (u64), fixed len 32; run in this order",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 13,
+  "harness_timeout_minutes": 10,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64",
-      "expect": "SUCCESS"
-    }
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_bisect_a_trivial_u16", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_bisect_b_nocount_i16", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32", "expect": "SUCCESS"}
   ]
 }
