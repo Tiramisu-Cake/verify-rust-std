@@ -58,6 +58,7 @@ STAGES = (
 )
 FUNCTION = 'select_w4_const_post_consequence'
 NEGATIVE_FUNCTION = FUNCTION
+SUCCESS_FOOTER = ' (target: x86_64-unknown-linux-gnu (LP64))'
 
 
 def sha(raw: bytes) -> str:
@@ -178,7 +179,12 @@ def _source(name: str, include_relation: bool) -> bytes:
         if include_relation else b''
     )
     return (b'#![allow(dead_code)]\n\n'
-        + f'pub fn {name}<Element>(\n'.encode()
+        # This isolated proof helper needs its exact explicit generic contract.
+        # A safe Rust function receives a generated safety-template contract,
+        # which cannot supply this explicit type_interp frame during prototype
+        # compatibility checking. Unsafe here changes only this proof fixture;
+        # its body is still checked under the written req/ens.
+        + f'pub unsafe fn {name}<Element>(\n'.encode()
         + b'    condition: bool,\n'
         + b'    true_val: *const Element,\n'
         + b'    false_val: *const Element,\n'
@@ -188,8 +194,8 @@ def _source(name: str, include_relation: bool) -> bytes:
         + relation_req
         + b'    raw_ptr_own::<Element>()(t, selected);\n'
         + b'@*/\n/*@\n'
-        + b'ens thread_token(t) &*& t == currentThread &*& type_interp::<Element>() &*&\n'
-        + b'    selected == (if condition { true_val } else { false_val });\n'
+        + b'ens thread_token(t) &*& t == currentThread &*& type_interp::<Element>() &*& '
+        + b'selected == (if condition { true_val } else { false_val });\n'
         + b'@*/\n/*@ on_unwind_ens false; @*/\n'
         + b'{\n    //@ open raw_ptr_own::<Element>()(t, selected);\n}\n')
 
@@ -278,19 +284,21 @@ def _verify_log(case: Path, stage: dict[str, Any], *, negative: bool,
     errors = _error_lines(text)
     if negative:
         expected_line = _normal_post_line(verified)
+        need(len(re.findall(r'(?i)\berror:', text)) == 1,
+             'omit-relation control contains another diagnostic error')
         need(stage.get('exit') == 1 and len(errors) == 1 and errors[0][0] == expected_line and
              re.search(r'(?i)cannot prove|no matching heap chunks', errors[0][1]) is not None,
              'omit-relation control did not fail uniquely at its normal post')
-        need(re.search(r'(?m)^1 errors found \([1-9][0-9]* statements verified\)$', text) is not None,
-             'omit-relation control error summary missing')
         need(re.search(r'(?m)^0 errors found \(', text) is None,
              'omit-relation control unexpectedly verified')
         return {'header_count': 1, 'error_count': 1, 'normal_post_error_line': expected_line,
                 'log_sha256': sha((case / expected_stdout).read_bytes()),
                 'stderr_sha256': sha((case / expected_stderr).read_bytes())}
     need(stage.get('exit') == 0 and not errors, 'positive consequence verifier did not succeed')
-    need(re.search(r'(?m)^0 errors found \([1-9][0-9]* statements verified\)$', text) is not None,
-         'positive checked-body success summary missing')
+    need(re.search(
+        r'(?m)^0 errors found \([1-9][0-9]* statements verified\)' +
+        re.escape(SUCCESS_FOOTER) + r'$', text) is not None,
+         'positive checked-body success summary/target missing')
     need(not re.search(r'(?im)error:', text), 'positive proof log contains an error')
     return {'header_count': 1, 'error_count': 0,
             'log_sha256': sha((case / expected_stdout).read_bytes()),

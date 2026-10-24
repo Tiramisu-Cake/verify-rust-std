@@ -151,11 +151,11 @@ class ConstConsequenceTests(unittest.TestCase):
                     verified = (root/'verified/lib.rs').read_bytes()
                     line = CONSEQ._normal_post_line(verified)
                     text = (header +
-                        f'verified/lib.rs({line},1-2): error: Cannot prove condition.\n'
-                        '1 errors found (20 statements verified)\n')
+                        f'verified/lib.rs({line},1-2): error: Cannot prove condition.\n')
                     (root/'omit-result-relation.ast.ml').write_text('(FunctionDecl ())\n')
                 else:
-                    text = header + '0 errors found (20 statements verified)\n'
+                    text = (header + '0 errors found (20 statements verified)'
+                            + CONSEQ.SUCCESS_FOOTER + '\n')
                     (root/'consequence.ast.ml').write_text('(FunctionDecl ())\n')
                 stdout_path.write_text(text)
             (root / stderr).write_text('')
@@ -194,8 +194,13 @@ class ConstConsequenceTests(unittest.TestCase):
         self.assertTrue(again['evidence_complete'], again['errors'])
 
     def test_source_contract_uses_actual_pointer_view_and_changes_only_control_premise(self):
+        post_source = CONSEQ._source(CONSEQ.FUNCTION, include_relation=True)
+        post_line = CONSEQ._normal_post_line(post_source)
+        self.assertIn(b'selected == (if condition', post_source.splitlines()[post_line - 1])
         positive = CONSEQ._source(CONSEQ.FUNCTION, include_relation=True)
         negative = CONSEQ._source(CONSEQ.NEGATIVE_FUNCTION, include_relation=False)
+        self.assertIn(b'pub unsafe fn ' + CONSEQ.FUNCTION.encode(), positive)
+        self.assertIn(b'pub unsafe fn ' + CONSEQ.NEGATIVE_FUNCTION.encode(), negative)
         self.assertIn(b'(selected as pointer) ==', positive)
         self.assertIn(b'raw_ptr_own::<Element>()(t, selected)', positive)
         self.assertIn(b'selected == (if condition { true_val } else { false_val })', positive)
@@ -300,10 +305,39 @@ class ConstConsequenceTests(unittest.TestCase):
                 expected = CONSEQ._normal_post_line((root/'verified/lib.rs').read_bytes())
                 (root/row['stdout']).write_text(
                     f"1.0s: verified/lib.rs(1,1-2): Verifying function '{CONSEQ.NEGATIVE_FUNCTION}'\n"
-                    f'verified/lib.rs({expected+1},1-2): error: Cannot prove condition.\n'
-                    '1 errors found (20 statements verified)\n')
+                    f'verified/lib.rs({expected+1},1-2): error: Cannot prove condition.\n')
         with self.assertRaisesRegex(RuntimeError, 'stage failed|normal post'):
             CONSEQ.run(args, diag=diag, stage=self.stage_service(args, mutate=wrong_line),
+                       const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+
+    def test_success_footer_requires_exact_pinned_target_and_negative_has_one_error_only(self):
+        args, diag, matrix, matrix_audit = self.fixture()
+        def wrong_target(name, root, row):
+            if name == 'consequence-proof':
+                path = root/row['stdout']
+                path.write_text(path.read_text().replace(
+                    'x86_64-unknown-linux-gnu (LP64)', 'aarch64-unknown-linux-gnu (LP64)'))
+        with self.assertRaisesRegex(RuntimeError, 'summary/target'):
+            CONSEQ.run(args, diag=diag, stage=self.stage_service(args, mutate=wrong_target),
+                       const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+
+        args, diag, matrix, matrix_audit = self.fixture()
+        def bare_footer(name, root, row):
+            if name == 'consequence-proof':
+                path = root/row['stdout']
+                path.write_text(path.read_text().replace(CONSEQ.SUCCESS_FOOTER, ''))
+        with self.assertRaisesRegex(RuntimeError, 'summary/target'):
+            CONSEQ.run(args, diag=diag, stage=self.stage_service(args, mutate=bare_footer),
+                       const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+
+        args, diag, matrix, matrix_audit = self.fixture()
+        def extra_error(name, root, row):
+            if name == 'omit-result-relation-proof':
+                path = root/row['stdout']
+                path.write_text(path.read_text() +
+                    'verified/lib.rs(1,1-2): error: unrelated extra error.\n')
+        with self.assertRaisesRegex(RuntimeError, 'another diagnostic error'):
+            CONSEQ.run(args, diag=diag, stage=self.stage_service(args, mutate=extra_error),
                        const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
 
     def test_wrong_stage_command_and_missing_ast_refuse(self):
