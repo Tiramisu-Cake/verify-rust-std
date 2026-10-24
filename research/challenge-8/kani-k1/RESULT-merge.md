@@ -22,9 +22,9 @@
 
 ### Находка 5: контроль инструмента и явный loop_modifies (job 27, 29)
 
-- **Контроль.** Игрушечный `for i in 0..n` над `[u64; 32]` с тривиальным `loop_invariant`, обычная proof (`toy_loop_contract`, job 27): SUCCESS, 0,11 с, пик 1,70 GiB. OOM на любом таком цикле нет, падение связано с контекстом `bidirectional_merge`. Оговорка: тот же SUCCESS дала бы и обычная развёртка, так что применение контракта этот прогон не доказывает.
+- **Контроль.** Игрушечный `for i in 0..n` над `[u64; 32]` с тривиальным `loop_invariant`, обычная proof (`toy_loop_contract`, job 27): SUCCESS, 0,11 с, пик 1,70 GiB. Контроль не различающий: это обычная proof, а OOM goto-instrument на `bidirectional_merge` был только под `proof_for_contract` (в обычной proof job 24 goto-instrument прошёл). В логе job 27 нет WARNING о loop contracts, который есть в job 29. Тот же SUCCESS дала бы и обычная развёртка. Значит, job 27 не показывает ни того, что контракт применился, ни того, что инструмент исправен на сопоставимом цикле (review F2).
 - **Явный `loop_modifies`** на цикле `bidirectional_merge` с тривиальным инвариантом под `proof_for_contract` (job 29): падает так же, как с выведенным modifies (job 22).
-- **По правилу фазы 3** (TASK-merge.md) формулировка 2 исключена: явный `loop_modifies` падает так же. Диагностический атрибут с цикла снят (D15).
+- **По правилу фазы 3** (TASK-merge.md) формулировка 2 исключена по одной ветви правила: явный `loop_modifies` падает так же (job 29). Ветвь «OOM на игрушечном цикле» не применяется: job 27 её не проверяет. Диагностический атрибут с цикла снят (D15).
 
 ## Фаза 2
 
@@ -51,7 +51,7 @@
 
 - Любой `loop_invariant` на цикле `for _ in 0..len_div_2` в `bidirectional_merge` даёт OOM на Kani `9461e07a`. Так ведут себя полный инвариант формулировки 2 и тривиальный `idx <= len / 2` (job 22).
 - Под `proof_for_contract` (режим CHECK контракта функции) падает `goto-instrument`, примерно через минуту после WARNING «transformed loops will not be unwound after applying loop contracts» (job 17, 19, 20, 21, 22).
-- В обычной `#[kani::proof]` goto-instrument проходит, но падает CBMC, примерно через 2 минуты (job 24).
+- В обычной `#[kani::proof]` goto-instrument проходит, но CBMC кончается по памяти примерно через 2 минуты (job 24). Связь этого OOM с loop contract — гипотеза: контрольного прогона той же гармоники без инварианта не было (review F3).
 - Время падения не зависит от объёма инварианта и от циклов в нём (D10–D12). Причина внутри Kani/CBMC не установлена, полного лога нет. Кандидаты (не проверены): вывод `loop_modifies` alias-анализом по встроенному телу, куда попадают контрактные обёртки std (`kani_register_contract` для `ptr::add`, `ptr::sub`, `offset_from` видны в логе); преобразование `for` по `Range`.
 - Тело цикла и lane менять нельзя (R2, §5), а pin Kani — это pin CI организаторов. Все OOM получены под лимитом 13 GiB. Хватило бы 16 ГБ раннера организаторов, не проверено. По §2 OUT_OF_MEMORY под 13 GiB — не самостоятельный повод STOP, поэтому формулировка 2 не засчитана как провал (D13, исправлено в фазе 3).
 
@@ -71,7 +71,7 @@
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
 |---|---|---|---|---|---|---|
 | 1 | merge-p1-probe-001 | diagnostic | 6 | c9c38465 | 4 × 10 мин | CircleCI `infrastructure_fail` примерно через 11 мин, артефактов нет: RUNNER_ERROR |
-| 2 | merge-p1-probe-002 | diagnostic | 8 | 29da0c3c | 4 × 10 мин | COMPLETE, gate true, check-tooling ok; полное время job 13:16, max RSS 3,9 ГиБ |
+| 2 | merge-p1-probe-002 | diagnostic | 8 | 29da0c3c | 4 × 10 мин | COMPLETE, gate true, check-tooling ok; полное время job 13:16, max RSS 3,8 ГиБ (4 019 032 KiB) |
 | 3 | merge-p1-scale-003 | diagnostic | 9 | 00d8cfd4 | 4 × 6 мин | COMPLETE, gate false (`general_u64` TIMEOUT), check-tooling ok; max RSS 11,5 ГиБ |
 | 4 | merge-p1-inv-004 | diagnostic | 11 | 222f20f6 | 2 × 8 мин | CircleCI `infrastructure_fail` примерно через 9 мин, артефактов нет: RUNNER_ERROR. Формулировка 2 не проверена |
 
@@ -103,10 +103,13 @@
 **Цепочка general: FAIL (STOP).** Причина: контракт `bidirectional_merge` не доказан на длине 32 за 10 минут ни одной формулировкой. macOS: не измерено, проверяется на этапе подачи.
 
 - **Формулировка 1** (прямое доказательство): наибольшая проверенная длина в 10 минут — 16, `bm_u64_len16` за 323,5 с (job 9, SHA 00d8cfd4). Время растёт примерно ×3,2 на +4 длины. Длину 18 не замеряли.
-- **Формулировка 2** (инвариант цикла) исключена инструментом. Любой loop contract на цикле `bidirectional_merge`, включая тривиальный с явным `loop_modifies`, даёт OOM под лимитом 13 GiB: job 17, 19–22, 24, 29. Игрушечный цикл того же вида проходит (job 27).
+- **Формулировка 2** (инвариант цикла) исключена инструментом. Любой loop contract на цикле `bidirectional_merge`, включая тривиальный с явным `loop_modifies`, даёт OOM goto-instrument под `proof_for_contract` при лимите 13 GiB: job 17, 19–22, 29. В обычной proof OOM случился уже в CBMC (job 24), его связь с контрактом цикла — гипотеза. Исключение опирается на job 29: явный `loop_modifies` падает так же. Игрушечный контроль (job 27) не различающий и в основание не входит.
 - **Третьей формулировки** нет: кандидата, который по оценке брал бы длину 32, у меня нет (передача фазы 2, п. 2).
 - **Основание вердикта** — правило итога фазы 3 из TASK-merge.md, а не порог «три формулировки» из §2: по §2 проверена одна формулировка из трёх. Вывод о 16 ГБ раннера организаторов не проверен: все OOM получены под лимитом 13 GiB, и по §2 OUT_OF_MEMORY под 13 GiB сам по себе не повод STOP.
-- Контракты `insert_tail` и `bidirectional_merge` для K1-network опубликованы на ветке: формулировка 1, `bidirectional_merge` с `requires(v.len() <= 32)`. Длины `bidirectional_merge` выше 16 за 10 минут не доказаны.
+- **Для K1-network: на HEAD ни один из двух контрактов не доказан в текущей редакции клауз ни на одной длине** (review F1).
+  - `bidirectional_merge`: текущие клаузы (`k1_sorted_u`/`k1_count_u`, `requires(v.len() >= 2 && v.len() <= 32)`, `is_probe` без циклов) появились после job 19. Ни одного SUCCESS для них нет: job 20–22 и 29 упали в goto-instrument, job 24 — обычная proof. SUCCESS есть только у прежней редакции (`k1_sorted`/`k1_count` с циклами, `is_probe` с циклами): u64, длины 2..=8 и 12, 16 (job 8 на 29da0c3c, job 9 на 00d8cfd4).
+  - `insert_tail`: доказан только u64 с регионом 2..=8 и прежним `is_probe` (job 8 на 29da0c3c). `insert_tail_int`/`insert_tail_bytes` не запускались.
+  - `bm_u8` (для `small_sort_network`) и `bm_{i32,b16,b85}` не запускались. Kani не сверяет инстанциацию заглушки с доказанной (D4), поэтому `stub_verified` на этих контрактах по R4 пока не засчитывается.
 
 Счётчики STOP на конец фазы 3 (21:09 UTC): по §2 проверена 1 формулировка из 3. Минут без продвижения — около 73 из 180: 63 к концу фазы 2 и 10 в фазе 3, с 20:58 до 21:09.
 
@@ -164,22 +167,22 @@ Review R9 — раздел 7.
 
 ## 2. Таблица обязательств
 
-Все прогоны — `diagnostic` на `circleci-linux-large`. Measurement-прогонов нет, в зачёт по §2 п. 4 ничего не идёт. Память — max RSS всего прогона вместе с компиляцией std. check-tooling для фазы 1 — против базы `77479d23`, для фаз 2–3 — против `aca80458`.
+Все прогоны — `diagnostic` на `circleci-linux-large`. Measurement-прогонов нет, в зачёт по §2 п. 4 ничего не идёт. Память — max RSS всего прогона вместе с компиляцией std, KiB / 2²⁰. check-tooling для фазы 1 — против базы `77479d23`, для фаз 2–3 — против `aca80458`.
 
 | Обязательство | Гармоника | request_id | job | head SHA | раннер | статус | время | память | cover | check-tooling |
 |---|---|---|---|---|---|---|---|---|---|---|
-| R11, контроль предусловий в точке `stub_verified` | `r11_control_bm_requires` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | FAILED, как ожидалось (`k1_merge_halves_sorted`) | — | 3,9 GiB | 0/1 (путь обрывается провалом) | ok |
-| `insert_tail`, u64, регион 2..=8 | `insert_tail_u64_upto8` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 39,4 с | 3,9 GiB | 9/9 | ok |
-| `bidirectional_merge` ф. 1, u64, 2..=8 | `bm_u64_upto8` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 110,8 с | 3,9 GiB | 9/9 | ok |
-| `sort4_stable`, четыре типа | `sort4_all` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 586,3 с | 3,9 GiB | — | ok |
-| `sort4_stable`, u64 | `sort4_u64` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 27,5 с | 11,5 GiB | — | ok |
-| `bidirectional_merge` ф. 1, u64, длина 12 | `bm_u64_len12` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 100,0 с | 11,5 GiB | — | ok |
-| `bidirectional_merge` ф. 1, u64, длина 16 | `bm_u64_len16` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 323,5 с | 11,5 GiB | — | ok |
+| R11, контроль предусловий в точке `stub_verified` | `r11_control_bm_requires` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | FAILED, как ожидалось (`k1_merge_halves_sorted`) | 0,18 с | 3,8 GiB | 0/1 (путь обрывается провалом) | ok |
+| `insert_tail`, u64, регион 2..=8 | `insert_tail_u64_upto8` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 39,4 с | 3,8 GiB | 9/9 | ok |
+| `bidirectional_merge` ф. 1, u64, 2..=8 | `bm_u64_upto8` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 110,8 с | 3,8 GiB | 9/9 | ok |
+| `sort4_stable`, четыре типа | `sort4_all` | merge-p1-probe-002 | 8 | 29da0c3c | circleci-linux-large | SUCCESS | 586,3 с | 3,8 GiB | 5/5 | ok |
+| `sort4_stable`, u64 | `sort4_u64` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 27,5 с | 11,5 GiB | 1/1 | ok |
+| `bidirectional_merge` ф. 1, u64, длина 12 | `bm_u64_len12` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 100,0 с | 11,5 GiB | 1/1 | ok |
+| `bidirectional_merge` ф. 1, u64, длина 16 | `bm_u64_len16` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | SUCCESS | 323,5 с | 11,5 GiB | 1/1 | ok |
 | верхняя general, u64, 0..=32 | `general_u64` | merge-p1-scale-003 | 9 | 00d8cfd4 | circleci-linux-large | TIMEOUT (6 мин) | — | 11,5 GiB | — | ok |
-| `bidirectional_merge` ф. 2, u64 (разные кодировки и бисекция) | `bm_u64`, `bm_u64_len32`, `bm_bisect_*` | merge-p2-inv-005…bisect-009 | 17, 19, 20, 21, 22 | 12984437…a77b38f6 | circleci-linux-large | NOT_RUN, OOM goto-instrument | — | 13 GiB (лимит) | — | — |
-| то же, обычная proof | `bm_bisect_plain_trivial_u16` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | OUT_OF_MEMORY (CBMC) | — | 12,3 GiB | — | ok |
-| `sort4_stable`, `[u8; 16]` | `sort4_b16` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | SUCCESS | 46,7 с | 12,3 GiB | 1/1 | ok |
-| `sort4_stable`, `[u8; 85]` | `sort4_b85` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | SUCCESS | 427,3 с | 12,3 GiB | 1/1 | ok |
+| `bidirectional_merge` ф. 2, u64 (разные кодировки и бисекция) | `bm_u64`, `bm_u64_len32`, `bm_bisect_*` | merge-p2-inv-005…bisect-009 | 17, 19, 20, 21, 22 | 12984437…a77b38f6 | circleci-linux-large | NOT_RUN, OOM goto-instrument | — | 13 GiB (лимит) | — | ok |
+| то же, обычная proof | `bm_bisect_plain_trivial_u16` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | OUT_OF_MEMORY (CBMC) | — | 11,7 GiB | — | ok |
+| `sort4_stable`, `[u8; 16]` | `sort4_b16` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | SUCCESS | 46,7 с | 11,7 GiB | 1/1 | ok |
+| `sort4_stable`, `[u8; 85]` | `sort4_b85` | merge-p2-bisect-010 | 24 | b838761a | circleci-linux-large | SUCCESS | 427,3 с | 11,7 GiB | 1/1 | ok |
 | контроль инструмента: игрушечный loop contract | `toy_loop_contract` | merge-p3-toy-011 | 27 | d83f3144 | circleci-linux-large | SUCCESS | 0,11 с | 1,5 GiB | 2/2 | ok |
 | ф. 2, явный `loop_modifies`, тривиальный инвариант | `bm_u64_len32` | merge-p3-modifies-013 | 29 | 26a3f824 | circleci-linux-large | NOT_RUN, OOM goto-instrument | — | 13 GiB (лимит) | — | ok |
 
@@ -221,7 +224,7 @@ Review R9 — раздел 7.
 
 ## 5. Отвергнутые подходы
 
-- **Формулировка 2 на Kani `9461e07a`** (инвариант цикла `bidirectional_merge`): OOM в goto-instrument под `proof_for_contract` и в CBMC в обычной proof, даже с тривиальным инвариантом (job 17–24, D13). Не проверен только явный `loop_modifies`.
+- **Формулировка 2 на Kani `9461e07a`** (инвариант цикла `bidirectional_merge`): OOM в goto-instrument под `proof_for_contract` и в CBMC в обычной proof, даже с тривиальным инвариантом (job 17–24, D13), и с явным `loop_modifies` (job 29, D15). Исключена по правилу фазы 3.
 - **Бисекция в одной сборке по порядку гармоник** (job 21): Kani обходит гармоники не в порядке запроса и не по алфавиту, и первое падение goto-instrument обрывает весь прогон. Нужна одна гармоника на запрос.
 
 - **Формулировка 1 для длины 32** (прямое доказательство постусловия `bidirectional_merge` со счётчиком пробы): время растёт примерно ×3,2 на +4 длины (job 9), длину 32 за 10 минут не возьмёт. Подходит для коротких длин и как запасная запись для FAIL.
@@ -230,13 +233,28 @@ Review R9 — раздел 7.
 
 ## 6. Открытые вопросы
 
-- Что внутри Kani/CBMC даёт OOM у loop contract на цикле `bidirectional_merge`. Вывод `loop_modifies` по встроенным контрактным обёрткам std? Преобразование `for` по `Range`? Без полного лога это не установить. Проверка — явный `loop_modifies` (передача, п. 1).
+- Что внутри Kani/CBMC даёт OOM у loop contract на цикле `bidirectional_merge`. Вывод `loop_modifies` по встроенным контрактным обёрткам std? Преобразование `for` по `Range`? Без полного лога это не установить. Явный `loop_modifies` не помог (job 29), так что вывод alias-анализом — не единственная причина или не причина вовсе.
 
 - Причина `infrastructure_fail` (job 6, job 11; у K1-network job 7 и job 12 — четыре гармоники, среди них настоящий `insert_tail` на длинах 13 и 17). Лога нет, так что гипотеза о памяти не подтверждена. Без ограничения памяти в lane тяжёлые прогоны теряются целиком.
 - Почему `sort4` на типах-массивах в 20 раз дороже, чем на u64.
 - Масштабируется ли композиция `general_*` по длинам; где узкое место — в заглушках или в арифметике счётчиков.
-- Формулировка 2 не проверена: тянет ли инвариант цикла длину 32 за 10 минут.
+- Тянул бы инвариант цикла длину 32 за 10 минут, если бы инструментация проходила. Неизвестно: формулировка 2 исключена инструментом, до проверки времени не дошло.
 
 ## 7. Review
 
-Не проводился ни в фазе 1, ни в фазе 2: это промежуточные итоги фаз, и по §9 review нужен только для PASS или FAIL.
+В фазах 1 и 2 не проводился: это промежуточные итоги, а по §9 review нужен только для PASS или FAIL.
+
+**R9 перед вердиктом FAIL (STOP), фаза 3.** Reviewer — субагент `smallsort-reviewer` (Claude Opus 5.5, отдельный контекст). Ему переданы явный список закоммиченных файлов (`smallsort.rs`, `kani_k1/merge.rs`, `RESULT-merge.md`, `RUN-REQUEST.json`), нормы и номера job, без выводов автора. Кандидат — `def807528752a1095d50badf6178a89dd4a5f352`. Reviewer читал evidence только через `k1.sh summary/log-grep/log-lines` и сам выполнил check-tooling: job 8 и 9 — ok против `77479d23`; 17, 19–22, 24, 27 и 29 — ok против `aca80458`.
+
+**Решение: GO_WITH_NITS.** Вердикт подтверждён evidence и правилом фазы 3. Отдельно отмечено напряжение с §2: при упоре только в память там INCONCLUSIVE. RESULT это раскрывает, а действует правило фазы 3; координатору стоит это учесть.
+
+| Находка | Класс | Суть | Устранение |
+|---|---|---|---|
+| F1 | should-fix | Вердикт подразумевал, что контракты `insert_tail`/`bidirectional_merge` доказаны до длины 16. В текущей редакции клауз SUCCESS нет ни на одной длине, `bm_u8` и `insert_tail_int/bytes` не запускались | раздел 1, абзац «Для K1-network» |
+| F2 | should-fix | Контроль job 27 — обычная proof без признаков применения контракта, не различающий | находка 5 и раздел 1: исключение опирается только на job 29 |
+| F3 | nit | OOM CBMC в job 24 приписан loop contract без контроля | помечен как гипотеза (находка 3, раздел 1) |
+| F4 | nit | Расхождения таблицы со сводками: cover 5/5 и 1/1, память 3,8 и 11,7 GiB, check-tooling job 17–22 | таблица и журнал фазы 1 исправлены, время R11 добавлено |
+| F5 | nit | Устаревшие строки про непроверенный `loop_modifies` в разделах 5, 6, 7 | исправлены |
+| F6 | nit, инфо | Вердикт стоял до записи review. При merge в K1-network возможны конфликты в `RUN-REQUEST.json` и в строках `use crate::kani; mod kani_k1;` (D8) | review записан здесь. Конфликты тривиальные, решает K1-network |
+
+Reviewer считает, что повторный review после этих текстовых правок не нужен.
