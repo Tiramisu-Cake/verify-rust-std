@@ -385,6 +385,35 @@ check_network_band_tail!(bandt13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
 check_network_band_tail!(bandt13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
 check_network_band_tail!(bandt13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
 
+/// One constant length per harness (TASK-network phase 2, step 3: "полосами фиксированных длин").
+/// Job 23 and job 26: every symbolic-length band timed out for u64, with and without the
+/// `insert_tail` stub. Networks through their verified contracts, insertion real.
+macro_rules! check_network_fixed {
+    ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::stub_verified(super::super::sort9_optimal)]
+        #[kani::stub_verified(super::super::sort13_optimal)]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; $n] = kani::any();
+            let pre = v;
+            let mut cmp = $cmp;
+            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
+            assert!(sorted_by(&v[..], &mut cmp));
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
+            );
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_network_fixed!(fixed8_u64, u64, lt_u64, 8);
+check_network_fixed!(fixed12_u64, u64, lt_u64, 12);
+check_network_fixed!(fixed17_u64, u64, lt_u64, 17);
+
 check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
 check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
 check_network_band!(band0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);

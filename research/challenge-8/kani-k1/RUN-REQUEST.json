@@ -1,26 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p2-04-stub-perm-insert-tail",
+  "request_id": "net-p2-05-top-fixed-u64",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Phase 2: sort13 permutation u64 over stub_verified(swap_if_less); insert_tail contract on network regions 2..=17 u64; top-level bands 0..=8 and 13..=17 u64 with insert_tail also through stub_verified",
+  "purpose": "Phase 2: top-level trait entrypoint at constant lengths 8, 12, 17 for u64 (worst case of each no-merge code path); sort9/sort13 through stub_verified, real insertion and insert_tail",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_stub_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed8_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_net_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed12_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::bandt0_8_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::bandt13_17_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed17_u64",
       "expect": "SUCCESS"
     }
   ]
