@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "425843a4792ce21f84e078f3d7f5532d359e7f383aeea1a2405aefe9c803c745"
+      "sha256": "4bedbce3332ac6c8efaf66e4c7fc7f5da54354aa50218e7e5f106a0ee692f742"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -43,7 +43,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "425843a4792ce21f84e078f3d7f5532d359e7f383aeea1a2405aefe9c803c745"
+    "sha256": "4bedbce3332ac6c8efaf66e4c7fc7f5da54354aa50218e7e5f106a0ee692f742"
   },
   "brief_observation_refs": [
     {
@@ -1210,7 +1210,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:23:23Z",
+  "updated_utc": "2026-10-24T03:25:16Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1702,6 +1702,7 @@
       "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
     },
     "caller_body_proof_admission": false,
+    "candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
       "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
@@ -1731,14 +1732,31 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
       "sha256": "6d429030afb060ed6e65588163ace77bdd0c6ebb6ac6be3a01809dcb857b9a11"
     },
+    "review_packet": {
+      "executor": "r24_contract_review",
+      "model": "gpt-6-luna",
+      "packet_sha256": "416ac424dd4920df1ed4d83b0d7da0f5183d5d49408d864a7c2796c6fd724eb6",
+      "path": "/tmp/r24-w4-contract-inputs-review",
+      "reasoning_effort": "high",
+      "spec_sha256": "e7433e00541d78cfa0a027490b9f68b231a80cf5205e35bfaf9269928c673f22"
+    },
+    "runtime_closure": {
+      "bytes": 3737826,
+      "entries": 167,
+      "sha256": "8fe249c38fa97e3171e613355e61e889a60a48ad5959f3a46697c2324de9ae85"
+    },
     "source_contract": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "CANDIDATE_READY_REVIEW_PENDING_UNBUILT",
+    "state": "INDEPENDENT_REVIEW_PENDING_UNBUILT",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
-      "sha256": "03e9d273c5f03ad19c7d76f5881ee66f06f8ae833f96fd3c924dcd6e26f3584d"
+      "sha256": "0d1b1405e345013438d92c5534eaa698dca14eac2cbded45d11c841a272fb432"
+    },
+    "transport_preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-TRANSPORT-PREFLIGHT.json",
+      "sha256": "40e12b79171bbc44dbb28b83f2b50368c47d944fd0616b5fdb74bb3913fbcfbf"
     },
     "typed_call_linkage": "UNKNOWN",
     "workers": {

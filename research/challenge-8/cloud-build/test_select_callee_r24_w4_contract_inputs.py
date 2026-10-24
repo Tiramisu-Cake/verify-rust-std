@@ -44,6 +44,84 @@ class ContractInputsTests(unittest.TestCase):
         self.assertIn('stdout_name', __import__('inspect').signature(stage.run_stage).parameters)
         self.assertEqual(driver._header_variants(manifest), list(driver.CASES))
 
+    def test_prerequisite_loader_with_real_pins_and_frozen_record_shapes(self):
+        from types import SimpleNamespace
+        import uuid
+
+        def fixture():
+            temp=tempfile.TemporaryDirectory(); root=Path(temp.name)
+            repo=root/'proof-root'; work=root/'evidence'/'qualification-work'; native=root/'native-home'
+            repo.mkdir(parents=True); work.mkdir(parents=True); native.mkdir()
+            pinned=(driver.BOOTSTRAP_MODE_REL,driver.QUALIFIED_PROFILE_REL,driver.MANIFEST_REL,
+                    driver.HEADER_VARIANTS_REL,driver.REFERENCE_HEADER_REL,driver.PATCH_REL,
+                    driver.MODE_REL,driver.GENERATOR_REL)
+            for rel in pinned:
+                target=repo/rel; target.parent.mkdir(parents=True,exist_ok=True)
+                target.write_bytes((REPO/rel).read_bytes())
+            build=str(uuid.uuid4()); candidate='b'*40
+            args=SimpleNamespace(repo=repo,evidence=work,native_tool_home=native,candidate=candidate,mode_file=repo/driver.MODE_REL)
+            mode=driver._mode(args)
+            matrix_rows={}
+            for variant in driver.MATRIX_VARIANTS:
+                classification=('POSITIVE_VERIFIED_SOURCE_REPORTED' if variant=='positive' else
+                    'EXPECTED_SAME_SITE_TYPED_FAILURE' if variant in {'omit-selected-own','omit-unselected-own','no-retained-half'}
+                    else 'EXPECTED_CALLEE_CONTRACT_REJECTION')
+                matrix_rows[variant]={'variant':variant,'status':'COMPLETE','classification':classification,
+                    'normal_unwind_nested_drop_gates':True,
+                    'current_stage_observation':{'status':'RAN','argv':[str(native/'bin/verifast'),'-rustc_args',
+                        '--edition 2021','-verbose','1','verified/lib.rs'],
+                        'exit':0 if variant=='positive' else 1,'source_unchanged':True}}
+            matrix={'schema':'r21-fractional-classified-proof-v1','complete':True,
+                'variant_order':list(driver.MATRIX_VARIANTS),'current_build_id':build,
+                'r24_session_phase_id':driver.R24_PHASE,'tool_home':str(native),'body_proof_run':True,
+                'checked_pointer_outcomes_requested':True,'accepted':False,'proof_credit':False,
+                'pins':{'base_original_sha256':driver.CONST_MATRIX_ORIGINAL_SHA256,
+                        'base_verified_sha256':driver.CONST_MATRIX_BASE_VERIFIED_SHA256},'rows':matrix_rows}
+            matrix_audit={'schema':'r21-fractional-proof-audit-v1','evidence_complete':True,
+                'fractional_proof_status':'object','fractional_proof':matrix,'accepted':False,
+                'verification_accepted':False,'proof_credit':False}
+            work.mkdir(parents=True,exist_ok=True)
+            (work/driver.MATRIX_SUMMARY_REL).parent.mkdir(parents=True,exist_ok=True)
+            (work/driver.MATRIX_SUMMARY_REL).write_text(json.dumps(matrix))
+            (work/driver.MATRIX_AUDIT_REL).write_text(json.dumps(matrix_audit))
+            matrix_ref={'summary_path':driver.MATRIX_SUMMARY_REL.as_posix(),
+                'summary_sha256':digest((work/driver.MATRIX_SUMMARY_REL).read_bytes()),
+                'audit_path':driver.MATRIX_AUDIT_REL.as_posix(),
+                'audit_sha256':digest((work/driver.MATRIX_AUDIT_REL).read_bytes()),
+                'schema':matrix['schema'],'audit_schema':matrix_audit['schema'],
+                'native_build_id':build,'native_tool_home':str(native),
+                'variant_order':list(driver.MATRIX_VARIANTS),'all_eight_rows_complete':True}
+            consequence={'schema':'select-r24-w4-const-consequence-v1','complete':True,
+                'candidate':candidate,'native_build_id':build,'body_proof_run':True,
+                'call_linkage':'UNKNOWN','accepted':False,'publication_allowed':False,
+                'proof_credit':0,'const_matrix':matrix_ref}
+            consequence_audit={'schema':'select-r24-w4-const-consequence-audit-v1',
+                'complete':True,'evidence_complete':True,'summary':consequence,
+                'accepted':False,'proof_credit':0}
+            (work/driver.CONSEQUENCE_SUMMARY_REL).parent.mkdir(parents=True,exist_ok=True)
+            (work/driver.CONSEQUENCE_SUMMARY_REL).write_text(json.dumps(consequence))
+            (work/driver.CONSEQUENCE_AUDIT_REL).write_text(json.dumps(consequence_audit))
+            qualification={'candidate':candidate,'build_id':build,'phase_id':driver.R24_PHASE,
+                'route_phase_id':driver.R21_PHASE,'lane':driver.LANE,'profile':driver.PROFILE,
+                'accepted':False,'publication_allowed':False,'proof_credit':0,'errors':[]}
+            (work.parent/driver.QUALIFICATION_SUMMARY_NAME).write_text(json.dumps(qualification))
+            env={'CLOUD_BUILD_ID':build}
+            return temp,args,mode,matrix,matrix_audit,consequence,consequence_audit,env
+
+        temp,args,mode,matrix,matrix_audit,consequence,consequence_audit,env=fixture()
+        with temp:
+            result=driver._load_prerequisites(args,mode,matrix,matrix_audit,consequence,consequence_audit,env)
+            self.assertEqual(result['matrix_summary'],matrix)
+            self.assertEqual(result['consequence_audit'],consequence_audit)
+            with self.assertRaisesRegex(RuntimeError,'same-Build'):
+                driver._load_prerequisites(args,mode,matrix,matrix_audit,consequence,consequence_audit,
+                    {'CLOUD_BUILD_ID':str(uuid.uuid4())})
+            with self.assertRaisesRegex(RuntimeError,'passed matrix summary'):
+                driver._load_prerequisites(args,mode,None,matrix_audit,consequence,consequence_audit,env)
+            (args.evidence/driver.MATRIX_SUMMARY_REL).write_text('null')
+            with self.assertRaisesRegex(RuntimeError,'passed matrix summary'):
+                driver._load_prerequisites(args,mode,matrix,matrix_audit,consequence,consequence_audit,env)
+
     def test_stage_status_preserves_explicit_failure_and_timeout_states(self):
         root = Path('/tmp')
         runner = lambda *a, **kw: {'exit': 0, 'status': 'NOT_RUN', 'skipped': 'not attempted'}
@@ -299,12 +377,11 @@ class ContractInputsTests(unittest.TestCase):
             env={'CLOUD_BUILD_ID':str(uuid.uuid4()),'SMALLSORT_EXECUTION_PROVIDER':'cloud-build',
                  driver.R24_ENV:driver.R24_PHASE,driver.R21_ENV:driver.R21_PHASE,
                  'SORT4_SELECT_PROFILE':driver.PROFILE,'LANE':driver.LANE}
-            driver.NATIVE_HOME=base/'diagnostic-home'; driver.WORKSPACE_ROOT=base
             patches={}
             patches.update(test_constants)
             patches.update({'TOOL_HASHES':base_hashes,'FROZEN_TOOL_HASHES_8A':frozen_hashes,
                             'SOURCE_TOOL_HASHES':source_hashes,'PATCHED_TOOL_HASHES':{**base_hashes,**{'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':digest(patched_translator)}},
-                            'MODE_SHA256':'1'*64})
+                            'MODE_SHA256':'1'*64,'NATIVE_HOME':base/'diagnostic-home','WORKSPACE_ROOT':base})
             with patch.multiple(driver, **patches), \
                  patch.object(driver,'_mode',return_value={}), \
                  patch.object(driver,'_load_prerequisites',return_value=prereq), \
