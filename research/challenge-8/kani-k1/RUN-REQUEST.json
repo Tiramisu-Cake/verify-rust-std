@@ -1,19 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p1-inv-004",
+  "request_id": "merge-p2-inv-005",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Formulation 2 of bidirectional_merge: loop invariant (pointer bookkeeping, ends sorted, consumed/remaining order, probe-count conservation); u64 len 16 alone vs 323 s without it, and the full 2..=32 harness",
+  "purpose": "Phase 2 decisive question: formulation 2 of bidirectional_merge (loop invariant k1_bm_inv) on u64 - len 16 (323 s without it), fixed len 32, and the full 2..=32 contract proof",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 8,
+  "harness_timeout_minutes": 13,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64",
-      "expect": "SUCCESS"
-    }
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64", "expect": "SUCCESS"}
   ]
 }

@@ -410,6 +410,12 @@ fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
 }
 
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len32() {
+    bm_len::<u64, _, 32>(lt_u64);
+}
+
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_u64() {
