@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "7b87cfe7f5ff9723aa66e589f78e34a4f943b24dcba40133e44903751e22fa1b"
+      "sha256": "74d40357cb45b6329936f7d9b0d659d4fee7d68a037d1455e2ce001ff37a654d"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -79,12 +79,12 @@
   "blocker": {
     "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
     "evidence": [],
-    "summary": "Remaining29 source inputs pending; actual checked8call/C5 proof remains open."
+    "summary": "S38 terminal FAILURE accounted; remaining29 input results need Brief."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "7b87cfe7f5ff9723aa66e589f78e34a4f943b24dcba40133e44903751e22fa1b"
+    "sha256": "74d40357cb45b6329936f7d9b0d659d4fee7d68a037d1455e2ce001ff37a654d"
   },
   "brief_observation_refs": [
     {
@@ -579,8 +579,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "ACK; push terminal accounting; Brief remaining29 inputs/audits, then checked8call/C5 port.",
-  "next_step": "ACK; push terminal accounting; Brief remaining29 inputs/audits, then checked8call/C5 port.",
+  "next": "Read S38 Brief inputs and audits; then continue checked W4 calls and C5.",
+  "next_step": "Read S38 Brief inputs and audits; then continue checked W4 calls and C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -673,17 +673,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "3c2e23ad-0afd-452b-ade8-ad2947756979"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 7971,
+    "remaining_seconds": 7379,
     "retired_seconds": 0,
-    "spent_seconds": 13629,
+    "spent_seconds": 14221,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -695,9 +693,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T05:49:08Z",
+  "updated_utc": "2026-10-24T05:59:31Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -907,7 +905,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "WAITING_SOURCE_ONLY_REMAINING29_INPUTS",
+    "state": "S38_TERMINAL_PENDING_BRIEF",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1488,21 +1486,27 @@
   },
   "w4_control_capture_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/3c2e23ad-0afd-452b-ade8-ad2947756979",
     "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+    "build_seconds": 592,
     "caller_body_proof_admission": false,
     "candidate": "2632dada697304311aa2912e03f3479cc18d6fe7",
     "config_sha256": "d99c3c3a31f67f569590541b4407fd33224c596664132ad7bbeae5ceb38ff02f",
     "dispatch_token": "dispatch-3a3aab780ca94b14aa0e3d2b8b6a2d89",
+    "execution_seconds": 591,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_SOURCE_ONLY_REMAINING29_OF37",
+    "result": "PENDING_EVIDENCE_BRIEF",
     "schema": "select-r24-w4-control-capture-submission-v1",
     "source_control_universe_complete": false,
     "source_payload_sha256": "29c22d3f8e6ae33d1168b73098df6124c9efe2ed970a5f12aa1152bc989aca38",
-    "status": "QUEUED",
+    "status": "FAILURE",
+    "terminal_accounting": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-TERMINAL-ACCOUNTING.json",
+      "sha256": "417719c18e24dc98b3e94f993d61bea25c160c7d2fc1b7f8bde146174812a37f"
+    },
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1563,7 +1567,7 @@
       "sha256": "d533a5ffad5da3469855a4a12e5bea8f552c6bad80426692dc94bb0173d67193"
     },
     "source_payload_sha256": "29c22d3f8e6ae33d1168b73098df6124c9efe2ed970a5f12aa1152bc989aca38",
-    "state": "SUBMITTED",
+    "state": "BUILT_PENDING_EVIDENCE_BRIEF",
     "submission": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-SUBMISSION.json",
       "sha256": "1c56de3823186d2de3589a23f7ff2536ed0f4a5e409623ebde669599e61fc042"
@@ -1980,10 +1984,14 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
       "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately commit/push terminal ledger+CP/STATUS before Brief. Data capture is not proof/control acceptance or independent credit.",
+      "event_id": "5fba3a13-41a4-43b6-8c0f-42ffc3185917",
+      "job_id": "10c351fb-628e-41ee-ac5c-7ad900772d39",
       "spec_path": "/tmp/select-r24-w4-control-capture-s38-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
