@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "f92371a59afb790f1118ab1f1769caec6767c297b05d74331bae19c498a7fae4"
+      "sha256": "77be42bb6bd4835af884aa925e855cbda34e7c2290e6fa2e75911466683db7e9"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -77,14 +77,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "a545cc96-c408-48c7-98f3-aac1a0ab23d6",
-    "evidence": [],
-    "summary": "S36 terminal FAILURE accounted; source-only pilot inputs/audits await Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-OBSERVATIONS.json",
+        "sha256": "9b9a5f8e56e31eeca7ca031c16cfaf6a3a1ffd8b65f2b110e3348665729928c0"
+      }
+    ],
+    "summary": "Missing C4 API fixed statically; pilot8/37 and checked8call/C5 remain open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "f92371a59afb790f1118ab1f1769caec6767c297b05d74331bae19c498a7fae4"
+    "sha256": "77be42bb6bd4835af884aa925e855cbda34e7c2290e6fa2e75911466683db7e9"
   },
   "brief_observation_refs": [
     {
@@ -566,7 +570,7 @@
     }
   ],
   "next": "ACK; push terminal accounting; Brief pilot inputs/audits, then checked8call/C5 port.",
-  "next_step": "Read Brief S36 pilot/binary/audits; repair exact failure, then checked8call/C5.",
+  "next_step": "Review C4 API fix, then full1200 pilot8/37; Brief before checked8call/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -681,7 +685,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T05:12:20Z",
+  "updated_utc": "2026-10-24T05:18:10Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -812,6 +816,18 @@
       "state": "STATIC_REVIEWED_FIXED_UNBUILT"
     },
     "base_source_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+    "c4_api_fix": {
+      "design": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-C4-EXPECTED-API-DESIGN.json",
+        "sha256": "39534b5fb0974fbe5f4587450f2c26cafeece8d4cb8c7d5e6728e0026070bbaf"
+      },
+      "invariant": "All8 C4 mutations/labelorder andcount5 retained; no frozenmodule/native/source/model changes. ExactpinnedC4 inlineAPI labels copiedlocally, no missingattributeaccess.",
+      "observations": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-OBSERVATIONS.json",
+        "sha256": "9b9a5f8e56e31eeca7ca031c16cfaf6a3a1ffd8b65f2b110e3348665729928c0"
+      },
+      "state": "UNREVIEWED_FIX"
+    },
     "c5_static_reference": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-C5-PORT-REFERENCE.json",
       "sha256": "d9bd675f127812737ab6948aace5231fef0459054e4eec83928b60c6b38756d1"
@@ -826,7 +842,7 @@
     "runtime_artifacts": [
       {
         "path": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py",
-        "sha256": "d0dd844bd823a715912625f2ffc2b631b626d3c927ff460d44caaa28be3cc1df"
+        "sha256": "3ed8ec6c2b90a1615278b2a626f5749d7ba2fbeb8cdbaabd1181cd26476dcef6"
       },
       {
         "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json",
@@ -867,13 +883,13 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-index-types-review.json",
       "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3"
     },
-    "state": "S36_TERMINAL_ACCOUNTED_PENDING_BRIEF",
+    "state": "C4_API_FIXED_UNREVIEWED_UNBUILT",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
       "runner_worker": "source-only control capture component and synthetic tests"
     },
-    "tests": "97 targeted static/synthetic checks PASS. Report-only false/float/string/null index/batch, adjacent sizes/context/stages/exit tampering refuse; realpinned graphparser compare-only adapter forbidsPath.write_text. No actualtools/sourcepreparation."
+    "tests": "100 targeted static/synthetic checks PASS: added allreferenced indexedattributes, exactC4 inline labeltuple andC3/C4 eightmutation exercise on tinydummy source withpinnedconstants. No actualstd preparation/tools."
   },
   "w4_const_file_api_build": {
     "accepted": false,
@@ -1457,10 +1473,16 @@
     "config_sha256": "0e8916a688273433cfe19e103a5eb073742731609b9bd47b50a20cb5a1bae17e",
     "dispatch_token": "dispatch-d3cf638b5f6f446095328bfea51347e6",
     "execution_seconds": 501,
+    "new_native_tool_status": "NO_NEW_BUILD_RECORD_IN_COLLECTOR",
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-OBSERVATIONS.json",
+      "sha256": "9b9a5f8e56e31eeca7ca031c16cfaf6a3a1ffd8b65f2b110e3348665729928c0"
+    },
+    "pilot_input_collection_complete": false,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
+    "result": "SOURCE_REPORTED_FAILED_SOURCE_CONSTRUCTION_API",
     "schema": "select-r24-w4-control-capture-submission-v1",
     "source_control_universe_complete": false,
     "source_payload_sha256": "74dc77152041a767df6b9c5bf85646acaea1399a7753077b63e955bdfffa8a0f",
@@ -1499,7 +1521,7 @@
       "sha256": "16405784e0bc50dbe4182e119552a04daa638f6bacc3a7011b44990df8d9c1b3"
     },
     "source_payload_sha256": "74dc77152041a767df6b9c5bf85646acaea1399a7753077b63e955bdfffa8a0f",
-    "state": "TERMINAL_ACCOUNTED_PENDING_BRIEF",
+    "state": "BUILT_FAILED_SOURCE_CONSTRUCTION_API",
     "submission": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-SUBMISSION.json",
       "sha256": "e7336c9a691a081a8c32f922788b3d5e1ea7dfe5ca78d15f10a921506be400d0"

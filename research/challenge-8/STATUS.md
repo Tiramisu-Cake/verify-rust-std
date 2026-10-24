@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T05:12:20Z
+- Updated: 2026-10-24T05:18:10Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 13168s spent; 0s retired; 8432s remaining including active reservations
@@ -22,12 +22,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-S36 terminal FAILURE accounted; source-only pilot inputs/audits await Brief. [Build `a545cc96-c408-48c7-98f3-aac1a0ab23d6`]
+Missing C4 API fixed statically; pilot8/37 and checked8call/C5 remain open.
+- [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTROL-CAPTURE-S36-OBSERVATIONS.json) SHA `9b9a5f8e56e31eeca7ca031c16cfaf6a3a1ffd8b65f2b110e3348665729928c0`
 
 ## Next
-Read Brief S36 pilot/binary/audits; repair exact failure, then checked8call/C5.
+Review C4 API fix, then full1200 pilot8/37; Brief before checked8call/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `cd4676ea02fbc8ff096ab969fe5573220e7aa873102dc242b369c031ea3f6431`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `f92371a59afb790f1118ab1f1769caec6767c297b05d74331bae19c498a7fae4`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `77be42bb6bd4835af884aa925e855cbda34e7c2290e6fa2e75911466683db7e9`

@@ -60,6 +60,67 @@ def make_count5_source():
 
 
 class ControlCaptureTests(unittest.TestCase):
+    def test_pinned_indexed_module_exposes_every_attribute_the_adapter_reads(self):
+        repo = MODULE_PATH.resolve().parents[3]
+        relative, expected = MOD.HELPER_PINS['c2_c5']
+        indexed = MOD._load(repo / relative, 'r24_static_indexed_api', expected)
+        tree = ast.parse(MODULE_PATH.read_text())
+        attributes = {node.attr for node in ast.walk(tree) if isinstance(node, ast.Attribute)
+                      and isinstance(node.value, ast.Name) and node.value.id == 'indexed'}
+        self.assertTrue(attributes)
+        self.assertEqual(sorted(name for name in attributes if not hasattr(indexed, name)), [])
+        self.assertFalse(hasattr(indexed, 'C4_EXPECTED'))
+
+    def test_c4_reason_labels_match_the_pinned_inline_api_tuple(self):
+        repo = MODULE_PATH.resolve().parents[3]
+        relative, expected = MOD.HELPER_PINS['c2_c5']
+        path = repo / relative
+        self.assertEqual(sha(path.read_bytes()), expected)
+        tree = ast.parse(path.read_text())
+        function = next(node for node in tree.body if isinstance(node, ast.FunctionDef)
+                        and node.name == 'resource_controls_c4')
+        call = next(node.value for node in ast.walk(function) if isinstance(node, ast.Return))
+        self.assertIsInstance(call, ast.Call)
+        self.assertEqual(MOD.C4_EXPECTED_REASON_LABELS, ast.literal_eval(call.args[-1]))
+        self.assertEqual(len(MOD.C4_EXPECTED_REASON_LABELS), 8)
+
+    def test_indexed_adapters_exercise_real_pinned_constants_on_tiny_fake_source(self):
+        repo = MODULE_PATH.resolve().parents[3]
+        relative, expected = MOD.HELPER_PINS['c2_c5']
+        real = MOD._load(repo / relative, 'r24_tiny_indexed_constants', expected)
+        strip_rel, strip_sha = MOD.HELPER_PINS['ghost_strip']
+        ghost = MOD._load(repo / strip_rel, 'r24_tiny_ghost_parser', strip_sha)
+        # These are dummy runtime calls, not an extracted/constructed std body.
+        # Only the pinned API's marker/share byte forms are real constants.
+        indexed = types.SimpleNamespace(**{
+            name: getattr(real, name) for name in dir(real) if not name.startswith('__')})
+        indexed.ghost_declaration = lambda *a: b'/*@\npred synthetic_missing_token;\n@*/\n'
+        indexed._insert_before_target = lambda source, declaration: declaration + source
+        for k, slots, token in ((3, (1, 3), 0), (4, (0, 2), 3)):
+            with self.subTest(k=k):
+                typed = getattr(real, f'C{k}_TYPED_CALL')
+                marker = getattr(real, f'MARKER{k}')
+                normal = getattr(real, f'NORMAL{k}')
+                pre = getattr(real, f'C{k}_LEFT_PRECREATE') + getattr(real, f'C{k}_RIGHT_PRECREATE')
+                share = lambda slot: (b'        //@ share_full_borrow::<T>(cmp%d_k, t, ' % k +
+                                      real._slot(slot) + b');\n')
+                borrow = (b'        //@ borrow(cmp%d_k, <T>.full_borrow_content(t, ' % k +
+                          real._slot(token) + b'));\n')
+                source = (b'pub unsafe fn sort4_stable<Synthetic>() {\n' +
+                    b'let synthetic = is_less(a, b);\n' * 4 +
+                    b'hint::select_unpredictable(a, b, c);\n' * 7 +
+                    b'ptr::copy_nonoverlapping(a, b, n);\n' * 4 +
+                    borrow + b''.join(share(slot) for slot in (*slots, token)) +
+                    pre + marker + typed + normal + real.LO_SELECT + b'}\n')
+                original = ghost.strip_ghost(source)
+                rows = MOD._indexed_controls_at_count5(
+                    k, source, original, ghost, b'synthetic recovery input',
+                    {'actual_indexed_calls': 5}, indexed, lambda *a: [])
+                self.assertEqual(len(rows), 8)
+                self.assertTrue(all(row[3]['actual_indexed_calls'] == 5 for row in rows))
+                self.assertTrue(all(ghost.strip_ghost(row[1]) == original for row in rows))
+                self.assertIn(b'__vf_callback_unwind_four(6);', rows[-1][1])
+
     def test_closed_pilot_universe_is_37_with_explicit_first_eight(self):
         self.assertEqual(len(MOD.BODY_NAMES), 37)
         self.assertEqual(MOD.BATCH_INDICES, tuple(range(8)))

@@ -122,6 +122,11 @@ ALLOWED_SORT4_ENV = {R24_PHASE_ENV, R21_PHASE_ENV, 'SORT4_SELECT_PROFILE'}
 STAGE_CAPS = {'normal-export': 100, 'normal-decode': 60,
               'readonly-export': 100, 'readonly-decode': 60,
               'refinement': 120, 'native-fingerprint': 180}
+C4_EXPECTED_REASON_LABELS = (
+    'resource: share', 'resource: end token', 'resource: ordered pair',
+    'resource: ref token', 'frontend: marker inventory', 'frontend: marker inventory',
+    'frontend: marker binding', 'frontend: marker inventory',
+)
 
 
 def digest(raw: bytes) -> str:
@@ -522,7 +527,7 @@ def _indexed_controls_at_count5(k: int, verified: bytes, original: bytes, ghost,
         marker, typed_call, normal = indexed.MARKER4, indexed.C4_TYPED_CALL, indexed.NORMAL4
         left_pre, right_pre = indexed.C4_LEFT_PRECREATE, indexed.C4_RIGHT_PRECREATE
         operands, drop_slots, token_slot, wrong_left = (b'd', b'b'), (0, 2), 3, b'a'
-        expected = indexed.C4_EXPECTED
+        expected = C4_EXPECTED_REASON_LABELS
     need(verified.count(marker) == verified.count(typed_call) == verified.count(normal) == 1,
          f'C{k} exact marker/call/recovery unavailable in count-five body')
     lifetime = b'cmp%d_k' % k

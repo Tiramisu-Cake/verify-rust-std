@@ -1,0 +1,56 @@
+{
+  "archive_sha256": "56e35fc0ad441c9ebb2579182f79b90bc2e91b3535fc2fbb3bf7f18c5cfde160",
+  "build_id": "a545cc96-c408-48c7-98f3-aac1a0ab23d6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "CONTENT_BUDGET_EXCEEDED": 19,
+      "EMPTY_FILE": 95,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 429,
+      "UNSUPPORTED_FILE_TYPE": 355
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2083675,
+    "content_files": 528,
+    "files": 902,
+    "source_scan_bytes": 4579466
+  },
+  "index_sha256": "9448d9c29264e486608690b0d65dd680c4076b2bdecef901da760cb74136d667",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": true,
+      "id": "ceb8f66760f77b4e11768fb04d8fdf6b274c9af54d762cdad6f2851b7b3dbbbf",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/W4-CONTROL-CAPTURE-AUDIT.json",
+      "path_sanitized": false,
+      "scanned_bytes": 960,
+      "sha256": "8ae9f173bdd961083464dff5c3629917637da11823bab1f473da23c14aa305dc",
+      "size_bytes": 960,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "a4e9b7112d277940c9b56f3556e89f083672eb7c354a315eafa4a435aa9345a7",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/W4-CONTROL-CAPTURE.json",
+      "path_sanitized": false,
+      "scanned_bytes": 5200,
+      "sha256": "eddc4a1908179d52a485a89b704f5ced24150c687bfbbb7d63fb2ca69c418764",
+      "size_bytes": 5200,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 902,
+    "files_with_incomplete_content": 695,
+    "matches_in_retained_data": 2,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}
