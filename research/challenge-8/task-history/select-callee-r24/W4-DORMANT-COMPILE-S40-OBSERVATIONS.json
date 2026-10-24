@@ -1,0 +1,54 @@
+{
+  "accepted": false,
+  "archive_sha256": "c9dd687f3502a20911caf5d1d2a662b189cccea2a26c324e70bb2f209d2c3a4c",
+  "assurance": "SOURCE_REPORTED",
+  "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
+  "callee_qualification": false,
+  "caller_body_proof_admission": false,
+  "candidate": "3d63e644789907883e19ac63b67fb21f1ae64c64",
+  "classification": "SOURCE_REPORTED_NATIVE_COMPILE_TYPE_ERROR",
+  "compile_exit": 2,
+  "diagnostic": {
+    "binding": "local_ty used before a type annotation exposes D.ty.kind; add exact return/list annotation",
+    "file": "rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+    "line": 3664,
+    "message": "Unbound record field kind",
+    "source": "match (local_ty locals condition).kind with"
+  },
+  "evidence": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-catalogue.json",
+      "sha256": "5682a0b8e3418ffcfcd71447ccad38dea7bb32a374693633b5f333d568374d90"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-compile-log.json",
+      "sha256": "fca0267e80b6c5b1650e754c5fae8bc798b2afdb8103b4a7fe724ecc2ac02691"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-compile-stage.json",
+      "sha256": "b4c34a3573aa46093a5389cdb483449ddd37b2dd4c6a3de7bddd746354e2b7b9"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-errors.json",
+      "sha256": "1c0ac2965ffb92bd928b46bd18fa18ebcfbcf1cb9861da15f44fa6d46f984cac"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-native-after.json",
+      "sha256": "69cb49d2d9947abb25fab16757f9ef18c4eadf17267e43ffb73de0e1428850c8"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s40-brief.md",
+      "sha256": "060fecb5a987b8a3f5373b73f16608f2ec396bd5ddb70b72c38a19e21eb4de1c"
+    }
+  ],
+  "index_sha256": "f6cccb5c4089ae45f89ecf1178959b923d61eb4c5d48163766169f9fa69e64f1",
+  "native_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
+  "new_binary_produced": false,
+  "partial_binary_sha256": "9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb",
+  "platform_status": "FAILURE",
+  "proof_credit": 0,
+  "proof_qualification": false,
+  "publication_allowed": false,
+  "runner_exit": 4,
+  "schema": "select-r24-w4-dormant-compile-observations-v1"
+}

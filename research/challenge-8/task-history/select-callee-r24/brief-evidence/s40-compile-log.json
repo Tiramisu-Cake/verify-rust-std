@@ -1,0 +1,93 @@
+{
+  "archive_sha256": "c9dd687f3502a20911caf5d1d2a662b189cccea2a26c324e70bb2f209d2c3a4c",
+  "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 9,
+    "line_separator": "LF",
+    "source_lines": 9,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "6f12c0fb9f49adff4fa084401c6af8c323ccc5bcc4f5a7f63440240ca242bb5e",
+  "file_path": "allprooflogs/cases/r24-w4-dormant-compile/tool-build/dormant-compile.log",
+  "file_sha256": "5c080ba00ce0905b54e2a520eec8c5c9bc8dc4c767c51cc0506848797e6affbc",
+  "index_sha256": "f6cccb5c4089ae45f89ecf1178959b923d61eb4c5d48163766169f9fa69e64f1",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 12,
+    "expected_sha256": "5c080ba00ce0905b54e2a520eec8c5c9bc8dc4c767c51cc0506848797e6affbc",
+    "file_id": "6f12c0fb9f49adff4fa084401c6af8c323ccc5bcc4f5a7f63440240ca242bb5e",
+    "start": 1
+  },
+  "request_id": "284648ca674d8fbe76b0ca74166827364c09f4f18c689a31c913ba4c74e5b524",
+  "requested_end": 12,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "make: Entering directory '/workspace/smallsort-work/r24-w4-dormant-tool/src'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "  DUNE  _build/default/vfconsole/vfconsole.exe"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "dune build _build/default/vfconsole/vfconsole.exe"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "File \"rust_frontend/vf_mir_translator/vf_mir_translator.ml\", line 3664, characters 46-50:"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "3664 |            (match (local_ty locals condition).kind with"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 6,
+      "text": "                                                     ^^^^"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 7,
+      "text": "Error: Unbound record field kind"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 8,
+      "text": "make: *** [GNUmakefile:506: _build/default/vfconsole/vfconsole.exe] Error 1"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 9,
+      "text": "make: Leaving directory '/workspace/smallsort-work/r24-w4-dormant-tool/src'"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

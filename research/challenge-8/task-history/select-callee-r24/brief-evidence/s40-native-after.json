@@ -1,0 +1,87 @@
+{
+  "archive_sha256": "c9dd687f3502a20911caf5d1d2a662b189cccea2a26c324e70bb2f209d2c3a4c",
+  "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 9,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "ddfb2dfc162d6004515b71e167e0221fe1027d995945328f9819476b32f0a891",
+  "file_path": "allprooflogs/cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE.json",
+  "file_sha256": "a6995502788f86b88638d5e79add5cbe3cb13b65840f1ef52639070c0e9da416",
+  "index_sha256": "f6cccb5c4089ae45f89ecf1178959b923d61eb4c5d48163766169f9fa69e64f1",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "a6995502788f86b88638d5e79add5cbe3cb13b65840f1ef52639070c0e9da416",
+    "file_id": "ddfb2dfc162d6004515b71e167e0221fe1027d995945328f9819476b32f0a891",
+    "pointer": "/native_tool_hashes_after"
+  },
+  "request_id": "8b6c9191d2efa7e5855b6a25047be6ef3b74e0d6cc9b4b9348a4ffe2c41f102d",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/bin~1refinement-checker",
+      "value": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/bin~1rust~1rust_belt~1general.rsspec",
+      "value": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/bin~1rust~1std~1lib.rsspec",
+      "value": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/bin~1verifast",
+      "value": "9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/bin~1vf-rust-mir-exporter",
+      "value": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/src~1frontend~1ocaml_expr_of_ast.ml",
+      "value": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/src~1rust_frontend~1vf_mir~1vf_mir.capnp",
+      "value": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/src~1rust_frontend~1vf_mir_translator~1rust_parser.ml",
+      "value": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/native_tool_hashes_after/src~1rust_frontend~1vf_mir_translator~1vf_mir_translator.ml",
+      "value": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "object",
+  "source_absence_established": false,
+  "status": "OK"
+}

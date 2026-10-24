@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -3573,12 +3573,156 @@
+@@ -3573,12 +3573,157 @@
  
    module TranslatorArgs = Args
  
@@ -86,7 +86,8 @@
 +      if PlaceRd.projection_get_list place <> [] then
 +        reject "projected operand";
 +      LocalDeclIdRd.name_get (PlaceRd.local_get place)
-+    let local_ty locals id = match List.assoc_opt id locals with
++    let local_ty (locals : (string * D.ty) list) id : D.ty =
++      match List.assoc_opt id locals with
 +      | Some ty -> ty | None -> reject "missing typed local"
 +    let check_args locals operands =
 +      let ids = List.map operand_local operands in
@@ -157,7 +158,7 @@
      val local_decl_types : (string * D.ty) list
    end) =
    struct
-@@ -3588,6 +3732,10 @@
+@@ -3588,6 +3733,10 @@
        let body_imp_loc = Args.body_imp_loc
        let body_name = Args.body_name
        let body_tr_defs_ctx = Args.body_tr_defs_ctx
@@ -168,7 +169,7 @@
        (* Exact compiler-origin, higher-ranked FnOnce::Output = bool clauses
           available for single-call instantiation in this body. *)
        let hrtb_fnmut_output_enabled =
-@@ -3618,6 +3766,11 @@
+@@ -3618,6 +3767,11 @@
        let pending_callback_unwind = ref None
        let callback_unwind_recoveries = ref []
        let callback_unwind_count = ref 0
@@ -180,7 +181,7 @@
  
        let fail_callback_unwind why =
          failwith ("CALLBACK-UNWIND: source/MIR certificate mismatch: " ^ why)
-@@ -3652,8 +3805,36 @@
+@@ -3652,8 +3806,36 @@
                      _, _) ],
                _, _ ) ->
              Some
@@ -218,7 +219,7 @@
          | _ -> None
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -4103,7 +4284,23 @@
+@@ -4103,7 +4285,23 @@
                    { kind = Lifetime { id = "'erased" } })
            in
            let fn_name, substs_cpn =
@@ -243,7 +244,7 @@
            in
            let* substs =
              ListAux.try_map
-@@ -5094,6 +5291,30 @@
+@@ -5094,6 +5292,30 @@
          translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
            ghost_generic_arg_list_opt_cpn manuallydrop_new_identity_lowering
        in
@@ -274,7 +275,7 @@
        let checked_g1_no_unwind =
          if State.body_name <> Sort4G1Call.caller_name ||
             not !Sort4G1Call.active then false
-@@ -5370,10 +5591,61 @@
+@@ -5370,10 +5592,61 @@
            | _ -> assert false
          else fn_call_rexpr
        in
@@ -337,7 +338,7 @@
              let fail = State.fail_callback_unwind in
              (match fn_call_rexpr with
               | FnCallOutcome
-@@ -5409,6 +5681,39 @@
+@@ -5409,6 +5682,39 @@
              let (_, call_line, _) = call_start_pos in
              if marker_end_line + 1 <> call_line then
                fail "marker is not immediately before the actual call span";
@@ -377,7 +378,7 @@
              let label =
                Printf.sprintf "__vf_callback_unwind_recover_%d"
                  !State.callback_unwind_count in
-@@ -5534,11 +5839,11 @@
+@@ -5534,11 +5840,11 @@
                     else targets
                   in
                   ([ ghost_stmt ], successors)
@@ -391,7 +392,7 @@
                   let successors =
                     if State.body_name = "select_unpredictable" &&
                        (!Sort4SelectIntrinsic.actual_fractional_variant <> None ||
-@@ -5643,7 +5948,7 @@
+@@ -5643,7 +5949,7 @@
                 (List.length hrtb_projection_equality)
                 (Ast.string_of_loc fn_loc)
           | _ -> ());
@@ -400,7 +401,7 @@
  
      let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
        let open SwitchIntDataRd in
-@@ -6714,6 +7019,7 @@
+@@ -6714,6 +7020,7 @@
      let find_blocks (bblocks : Mir.basic_block list) =
        let open Mir in
        let explicit_block_heads_table = Hashtbl.create 10 in
@@ -408,7 +409,7 @@
        let bblocks_table = Hashtbl.create 100 in
        let explicit_block_ends = ref [] in
        let loop_spec_blocks = ref [] in
-@@ -6765,7 +7071,8 @@
+@@ -6765,7 +7072,8 @@
                   in
                   Hashtbl.add bblocks_table bb.id fixed_bb;
                   Hashtbl.add bblocks_table id bh;
@@ -418,7 +419,7 @@
               | [
                Ast.ExprStmt
                  (CallExpr
-@@ -6932,6 +7239,69 @@
+@@ -6932,6 +7240,69 @@
                                    (bb :: path)))))))
        in
        iter [] 0 entry_id;
@@ -488,7 +489,7 @@
        !toplevel_blocks
  
      let rec translate_to_vf_basic_block
-@@ -6975,15 +7345,32 @@
+@@ -6975,15 +7346,32 @@
                let children_stmts =
                  translate_basic_blocks_to_stmts children []
                in
@@ -523,7 +524,7 @@
                        closeBraceLoc,
                        ref [] );
                  ],
-@@ -7941,6 +8328,509 @@
+@@ -7941,6 +8329,509 @@
                [],
                Static )))
  
@@ -1033,7 +1034,7 @@
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      let open BodyRd in
-@@ -8004,9 +8894,135 @@
+@@ -8004,9 +8895,135 @@
        ListAux.try_map translate_ghost_decl_block
          (ghost_decl_blocks_get_list body_cpn)
      in
@@ -1169,7 +1170,7 @@
           Ast.BlockStmt
             ( l,
               decls,
-@@ -8019,9 +9035,16 @@
+@@ -8019,9 +9036,16 @@
      in
      let ghost_decl_block_end_stmts =
        ghost_decl_blocks
@@ -1189,7 +1190,7 @@
      in
      let* loop_spec_blocks =
        ListAux.try_map translate_loop_spec_block
-@@ -8038,15 +9061,23 @@
+@@ -8038,15 +9062,23 @@
           (LocalDeclIdRd.name_get (LocalDeclRd.id_get decl_cpn),
            D.decode_ty (LocalDeclRd.ty_get decl_cpn))
      in
@@ -1214,7 +1215,7 @@
      let mentions_callback_marker raw =
        let marker_length = String.length callback_marker_name in
        let rec scan i =
-@@ -8067,10 +9098,33 @@
+@@ -8067,10 +9099,33 @@
             ghost_stmts) in
      if declared_callback_markers <> parsed_callback_markers then
        State.fail_callback_unwind "malformed source marker";
@@ -1250,7 +1251,7 @@
         (not callback_fixture && parsed_callback_markers <> 0) then
        State.fail_callback_unwind
          "exact callback fixture requires one marker; other bodies forbid it";
-@@ -8384,8 +9438,208 @@
+@@ -8384,8 +9439,208 @@
                        ],
                        closing_cbrace_loc )))
            else
@@ -1460,7 +1461,7 @@
              in
              let bblocks_cpn = basic_blocks_get_list body_cpn in
              let* bblocks =
-@@ -8400,6 +9654,30 @@
+@@ -8400,6 +9655,30 @@
              let vf_bblocks =
                translate_basic_blocks_to_stmts toplevel_blocks []
              in
@@ -1491,7 +1492,7 @@
              if !State.pending_callback_unwind <> None then
                State.fail_callback_unwind "marker has no matching following call";
              let expected_markers =
-@@ -8422,11 +9700,40 @@
+@@ -8422,11 +9701,40 @@
                             (call_loc, "unwinding", [], [], [], Ast.Static)))])
              in
              Ok
@@ -1537,7 +1538,7 @@
          in
          let body_sig_opt =
            match contract_template_opt with
-@@ -20615,6 +21922,7 @@
+@@ -20615,6 +21923,7 @@
          List.split (List.map header_extract_fn_specialization_decls headers)
        in
        let fn_specialization_decls = List.flatten fn_specialization_decls in
@@ -1545,7 +1546,7 @@
        let fn_specializations = fn_specialization_decls |> List.map @@ fun (l, g_generic, g_specialized, tparams, targs) ->
          let targs = List.map (generic_arg_of_type_expr tparams) targs in
          let specialize substs =
-@@ -20996,6 +22304,7 @@
+@@ -20996,6 +22305,7 @@
          Printf.printf "SORT4-R24-MUTABLE-A1-PRIMITIVES: assert_inhabited=1 transmute=1\n%!";
          Printf.printf "SORT4-R24-MUTABLE-CERTIFICATES: case=%s bodies=9 pointer_drop=1 assume_init=1; raw MIR cleanup retained\n%!"
            (Sort4MutableProfile.case_name ()));

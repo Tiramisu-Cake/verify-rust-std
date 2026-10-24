@@ -28,7 +28,8 @@ MODULE = r'''  (* Dormant R24 call consumption. No code in this candidate activa
       if PlaceRd.projection_get_list place <> [] then
         reject "projected operand";
       LocalDeclIdRd.name_get (PlaceRd.local_get place)
-    let local_ty locals id = match List.assoc_opt id locals with
+    let local_ty (locals : (string * D.ty) list) id : D.ty =
+      match List.assoc_opt id locals with
       | Some ty -> ty | None -> reject "missing typed local"
     let check_args locals operands =
       let ids = List.map operand_local operands in

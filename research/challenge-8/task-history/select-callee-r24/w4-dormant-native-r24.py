@@ -18,7 +18,7 @@ TRANSLATOR_REL = Path('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
 PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch')
 DEPENDENCIES = {
     'w4-c5-dormant-port-r24.patch': 'ea6de460a62fc63ff3b54a10bdb3836ac9855967719bdf300ccfa06d10eb43b4',
-    'w4-dormant-call-binding-r24.py': 'ef1463d41df2151921b90eac641ffc809d70186211263d4f43fd2920b63f59d4',
+    'w4-dormant-call-binding-r24.py': '122faf335c643a03d5d91d071fa65e1dd5b7dd711a049efcd12837a38ba8201c',
     'w4-caller-input-certificates-r24.py': 'c65fbb26c91d98b2f5268e5e72301903d2f450e2f5c79ac17138f99712328ca8',
     'W4-CONTROL-DATA-ALL37-INPUTS.json': '1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea',
 }
