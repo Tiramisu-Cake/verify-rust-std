@@ -1,0 +1,44 @@
+{
+  "baseline_commit": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+  "candidate_commit": "f12824a149a175acdf0b7e6b2620e28acca67ca2",
+  "candidate_tree": "a8cee6cee2a9a7c0f1cdff06b3d11e580a3f0087",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_FINAL_W4_DIAGNOSTIC_ONLY",
+  "diff_sha256": "178271fb5888e1454164a053670a528246a61a8ae0bb745581a761deaff638d9",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second final W4 diagnostic Build under existing R24 admission, ledger, deadline and route requirements.",
+    "The corrected parser and final physical audit remain unbuilt. No proof, typed linkage, body admission, P2 transfer/publication, acceptance, or independent proof credit is established."
+  ],
+  "not_run": [
+    "No Cloud Build, actual MIR parser execution, source preparation, native/compiler/verifier execution, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "df43e049d7cb44dc8376451de2993c51ec820a254c0a918bcdc82d7a56b94de1",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
+      "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-typed-val-audit-independent-review-v1",
+  "spec_sha256": "72add80ca59805dd9785b3d91f3f79f345de6441638b7676462d3c8061ca3fe2",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static diff and pin inspection completed.",
+    "The packet reports 13 parser, 15 wrapper and 10 Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "The analyzer now follows the pinned Capnp schema path Operand.Constant.MirConst.val, requires the zeroSized ConstValue variant, and then reads the FnDef type. It still requires exact eight raw target strings and eight structurally identified calls per mode; exact FnDef, generic substitution, operands, local/destination types, spans, unwind and normal/readonly pair checks are preserved.",
+    "Per-mode count mismatch reports preserve observed raw and structural counts without treating incomplete extraction as complete. Structural call inventory remains an observation only; parser-input binding and typed callee linkage remain UNKNOWN.",
+    "The shell passes the helper audit output to its fixed internal evidence path, validates schema/context/runner exit/failed stage/false acceptance and publication/zero credit, then mirrors it only to a fresh root proof-audit.json while preserving the helper error exit. The helper evidence-containment check remains intact.",
+    "Current helper/mode/analyzer shell hashes match the reviewed committed files: analyzer 024004290c45a4fa53e20db0f6f1e0eb7227c7eb0a433dce77b1e81407172928, helper d10258f170072392a65773f609bfe8b7de6ca7625eaa5e176e710483cb7f80b0, mode c4ef47f1c62f8777452c99a5c09317698e27413538f86d3ef003f8fc5dc494eb.",
+    "Native overlay/source and frozen 8a026 capture are unchanged from the previously reviewed candidate."
+  ]
+}

@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T00:27:48Z
+- Updated: 2026-10-24T00:29:58Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 9342s spent; 0s retired; 12258s remaining including active reservations
@@ -21,14 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Native inputs captured; typed Val/schema and audit path fixes implemented, delta review pending.
-- [research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-PINS.json](task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-PINS.json) SHA `dc0e26e5bf6af68ef0a3b28f8c6410d13b1b8d1bd6848976b1ef3efdb106844d`
-- [research/challenge-8/task-history/select-callee-r24/W4-TYPED-COUNT-AUDIT-PATH-DEFECTS.json](task-history/select-callee-r24/W4-TYPED-COUNT-AUDIT-PATH-DEFECTS.json) SHA `e4ef1f0214d3fcf6ed258265afe52b71a9daa0c678b560ec65be480ecdc1bb60`
+Reviewed W4 typed/native fingerprint candidate unbuilt; checked linkage/C5 proof open. P2 PUBLISHED.
+- [research/challenge-8/task-history/select-callee-r24/R24-w4-typed-val-audit-review.json](task-history/select-callee-r24/R24-w4-typed-val-audit-review.json) SHA `fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800`
 
 ## Next
-Commit fixes, static preflight, delta review and publish; full1200 final diagnostic, then W4 linkage.
+Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `c253b87cfdba3842a1684d8429b98d9c5dc1c6a12e56218bd2aab930f4501fed`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `2ca785891200022d4b8debeee4704e1871da67ccf0eb7a2a7f334ea36a4a1dbb`

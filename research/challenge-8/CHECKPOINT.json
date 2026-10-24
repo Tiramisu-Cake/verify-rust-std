@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "c253b87cfdba3842a1684d8429b98d9c5dc1c6a12e56218bd2aab930f4501fed"
+      "sha256": "2ca785891200022d4b8debeee4704e1871da67ccf0eb7a2a7f334ea36a4a1dbb"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,20 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-PINS.json",
-        "sha256": "dc0e26e5bf6af68ef0a3b28f8c6410d13b1b8d1bd6848976b1ef3efdb106844d"
-      },
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-COUNT-AUDIT-PATH-DEFECTS.json",
-        "sha256": "e4ef1f0214d3fcf6ed258265afe52b71a9daa0c678b560ec65be480ecdc1bb60"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-typed-val-audit-review.json",
+        "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
       }
     ],
-    "summary": "Native inputs captured; typed Val/schema and audit path fixes implemented, delta review pending."
+    "summary": "Reviewed W4 typed/native fingerprint candidate unbuilt; checked linkage/C5 proof open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "c253b87cfdba3842a1684d8429b98d9c5dc1c6a12e56218bd2aab930f4501fed"
+    "sha256": "2ca785891200022d4b8debeee4704e1871da67ccf0eb7a2a7f334ea36a4a1dbb"
   },
   "brief_observation_refs": [
     {
@@ -1172,8 +1168,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Commit fixes, static preflight, delta review and publish; full1200 final diagnostic, then W4 linkage.",
-  "next_step": "Commit fixes, static preflight, delta review and publish; full1200 final diagnostic, then W4 linkage.",
+  "next": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
+  "next_step": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1288,7 +1284,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:27:48Z",
+  "updated_utc": "2026-10-24T00:29:58Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1549,11 +1545,11 @@
     "proof_credit": 0,
     "reason": "Known ordinary callback refusal requires exact current native unit/body Marshal fingerprints before source-bound C5 admission; Capnp hashes are separate.",
     "review": {
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
-      "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-typed-val-audit-review.json",
+      "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "TYPED_VAL_AUDIT_FIX_IMPLEMENTED_UNBUILT",
+    "state": "REVIEWED_UNBUILT",
     "tests": "13 parser +15 wrapper (real unmocked pin validation) +10 extracted Bash tests pass; Bash syntax/diff pass. Actual full parser and final audit unbuilt.",
     "typed_repair": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-VAL-REPAIR.json",
@@ -1608,6 +1604,32 @@
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
     "state": "SOURCE_REPORTED_NATIVE_ONLY_COMPLETE",
+    "typed_call_linkage": "UNKNOWN"
+  },
+  "w4_typed_val_audit_candidate": {
+    "accepted": false,
+    "actual_body_proof_status": "UNKNOWN",
+    "candidate": "f12824a149a175acdf0b7e6b2620e28acca67ca2",
+    "capture_translator_sha256": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007",
+    "helper_sha256": "d10258f170072392a65773f609bfe8b7de6ca7625eaa5e176e710483cb7f80b0",
+    "mode_sha256": "c4ef47f1c62f8777452c99a5c09317698e27413538f86d3ef003f8fc5dc494eb",
+    "native_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-VAL-AUDIT-TRANSPORT-PREFLIGHT.json",
+      "sha256": "d65549b8792b079a860293defbee20405aeeeda93d71c66e793d0e5f7011d015"
+    },
+    "proof_credit": 0,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-typed-val-audit-review.json",
+      "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
+    },
+    "runtime_closure": {
+      "bytes": 3428995,
+      "entries": 153,
+      "sha256": "4f7b369d4e21b0e7f6967cf550e0ba8b8fd00dd0b89a1810d7c2f466ef38f951"
+    },
+    "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
+    "state": "REVIEWED_UNBUILT",
     "typed_call_linkage": "UNKNOWN"
   },
   "watcher_history": [
