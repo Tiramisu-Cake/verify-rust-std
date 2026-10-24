@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T01:15:53Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-24T01:16:40Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 9662s spent, 0s retired, 11938s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Reviewed current-tool const8/consequence candidate unbuilt; W4 checked linkage/C5 still open.
-Next: Publish exact candidate; full1200 native const8/consequence controls; then Brief and W4 binding.
+Active Build IDs: 61e2d5de-8df8-4e44-93fa-75350140de1a; unresolved: none recorded.
+Blocker: Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED. [Build `61e2d5de-8df8-4e44-93fa-75350140de1a`]
+Next: ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
