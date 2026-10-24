@@ -15,7 +15,9 @@ SLUG=circleci/PBSy8HxcMvQrUER5EX8Ah2/SwwrwNYuSGo1ny9mvHtPZ2   # project Verify-r
 DEFINITION=0bc9e80e-1660-4795-b651-949e3fd4a945              # pipeline definition .circleci/config.yml (no triggers)
 TOKEN_FILE=${K1_CIRCLE_TOKEN_FILE:-/root/.config/smallsort-ci/circleci-token}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-jobs}
-LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
+# Everything that shapes the Kani build or the verify-std run besides the proof sources themselves.
+LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml
+            rust-toolchain.toml .gitmodules .cargo library/.cargo library/Cargo.toml library/Cargo.lock)
 BOUND_FILES=(.circleci/config.yml research/challenge-8/kani-k1/tools/kani_k1.py
              research/challenge-8/kani-k1/tools/circleci-k1.sh scripts/run-kani.sh tool_config/kani-version.toml)
 
@@ -101,7 +103,10 @@ case "$cmd" in
       if [ -n "$wf" ]; then
         job=$(cci "$API/workflow/$wf/job" | jqr "next((j.get('job_number') or '' for j in d.get('items', []) if j.get('name') == 'k1'), '')")
         if [ -n "$job" ] && [ "$job" != "None" ]; then
-          [ "$rev" = "$sha" ] || die "pipeline revision $rev differs from $sha (branch moved?); job $job is not this request"
+          if [ "$rev" != "$sha" ]; then
+            cci -X POST "$API/workflow/$wf/cancel" >/dev/null || true
+            die "pipeline revision $rev differs from $sha (branch moved?); its job $job was canceled"
+          fi
           echo "$job"; exit 0
         fi
       fi
@@ -137,7 +142,7 @@ case "$cmd" in
     echo "pipeline trigger: $trigger"
     # Compare the lane before downloading anything the job produced.
     if git diff --quiet "$base" "$head" -- "${LANE_PATHS[@]}"; then
-      echo "ok   .circleci, .github/workflows, lane tools, run-kani.sh and kani-version.toml at job commit $head equal BASE $base"
+      echo "ok   lane files (${LANE_PATHS[*]}) at job commit $head equal BASE $base"
     else
       echo "DIFF lane files changed between BASE and job commit:"; git diff --stat "$base" "$head" -- "${LANE_PATHS[@]}"; exit 1
     fi

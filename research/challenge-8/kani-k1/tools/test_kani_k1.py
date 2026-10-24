@@ -263,7 +263,7 @@ class SummaryTests(unittest.TestCase):
 
     def test_build_outcome_notes(self):
         for outcome, needle in (("deps-failure", "dependencies"), ("not-started", "before request validation"),
-                                ("failure", "Kani build failed")):
+                                ("failure", "Kani build failed"), ("verify-skipped", "60-minute")):
             s = summ(None, build_outcome=outcome)
             self.assertEqual(s["status"], "RUNNER_ERROR")
             self.assertTrue(any(needle in n for n in s["notes"]), (outcome, s["notes"]))

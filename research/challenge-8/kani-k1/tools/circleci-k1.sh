@@ -94,6 +94,7 @@ case "${1:-}" in
     if [ ! -f "$K1_OUT/validated" ]; then build_outcome=not-started          # checkout/submodule failure
     elif ! valid; then build_outcome=skipped
     elif [ ! -f "$K1_OUT/deps.ok" ]; then build_outcome=deps-failure
+    elif [ -f "$K1_OUT/verify-skipped" ]; then build_outcome=verify-skipped
     elif [ -f "$K1_OUT/build.ok" ]; then build_outcome=success
     else build_outcome=failure; fi
     log_args=()

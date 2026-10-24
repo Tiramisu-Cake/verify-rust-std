@@ -294,7 +294,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["harnesses"] = not_run
         reason = {"failure": "the pinned Kani build failed",
                   "deps-failure": "installing dependencies failed",
-                  "not-started": "the job failed before request validation (checkout or submodules)"}.get(
+                  "not-started": "the job failed before request validation (checkout or submodules)",
+                  "verify-skipped": "verification not started: too little time left before the 60-minute job cap"}.get(
                       build_outcome, "setup or runner failed before verification output")
         summary["notes"].append("Kani log missing: " + reason)
         return summary
