@@ -1,13 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-003",
-  "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported",
+  "request_id": "net-p1-01-swap-old-r11",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "Step 1: swap_if_less contract with a bitwise pre-state snapshot (old() needs Clone) and a raw-pointer comparator probe, proved for u8/i32/u64; R11 control: stub_verified call breaking requires(a_pos != b_pos) must fail",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "harness_timeout_minutes": 5,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_u8", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_i32", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_u64", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::network::r11_control_swap_if_less_requires", "expect": "FAILED", "expect_check": "a_pos != b_pos"}
   ]
 }

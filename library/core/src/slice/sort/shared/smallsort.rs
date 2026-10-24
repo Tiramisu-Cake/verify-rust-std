@@ -3,6 +3,9 @@
 use crate::mem::{self, ManuallyDrop, MaybeUninit};
 use crate::slice::sort::shared::FreezeMarker;
 use crate::{hint, intrinsics, ptr, slice};
+// K-1 experiment: contract attributes below expand to `kani::...` paths.
+#[cfg(kani)]
+use crate::kani;
 
 // It's important to differentiate between SMALL_SORT_THRESHOLD performance for
 // small slices and small-sort performance sorting small sub-slices as part of
@@ -377,6 +380,55 @@ where
 /// types. `is_less` could be a huge function and we want to give the compiler an option to
 /// not inline this function. For the same reasons that this function is very perf critical
 /// it should be in the same module as the functions that use it.
+// K-1 contract (EXPERIMENT.md): both positions in-bounds of `v_base`'s allocation, readable and
+// writable, as the SAFETY comment below demands; distinct, as at every call site. `old(e)` expands
+// to `e.clone()`, so the pre-state is kept in a local bitwise-clone snapshot instead of `old(*p)`.
+// The comparator decision is recorded in the pre-state, so no `FnMut` call is needed in `ensures`.
+#[cfg_attr(kani, kani::requires(a_pos != b_pos))]
+#[cfg_attr(kani, kani::requires(
+    crate::ub_checks::same_allocation(v_base as *const T, v_base.wrapping_add(a_pos) as *const T)
+        && crate::ub_checks::same_allocation(v_base as *const T, v_base.wrapping_add(b_pos) as *const T)
+        && crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos) as *const T)
+        && crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos) as *const T)
+        && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
+        && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
+))]
+#[cfg_attr(kani, kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
+#[cfg_attr(kani, kani::ensures(|_| {
+    fn same<U>(x: &U, y: &U) -> bool {
+        // SAFETY: both point to initialized values of `U`; compared as their bytes.
+        unsafe {
+            slice::from_raw_parts(x as *const U as *const u8, size_of::<U>())
+                == slice::from_raw_parts(y as *const U as *const u8, size_of::<U>())
+        }
+    }
+    let pre = &old({
+        struct Pre<U>(ManuallyDrop<U>, ManuallyDrop<U>, bool);
+        impl<U> Clone for Pre<U> {
+            fn clone(&self) -> Self {
+                // SAFETY: a bitwise snapshot; `ManuallyDrop` keeps it from being dropped.
+                unsafe { ptr::read(self) }
+            }
+        }
+        // SAFETY: the preconditions make both positions readable.
+        unsafe {
+            Pre(
+                ManuallyDrop::new(ptr::read(v_base.add(a_pos))),
+                ManuallyDrop::new(ptr::read(v_base.add(b_pos))),
+                is_less(&*v_base.add(b_pos), &*v_base.add(a_pos)),
+            )
+        }
+    });
+    // SAFETY: the preconditions make both positions readable.
+    let (new_a, new_b) = unsafe { (&*v_base.add(a_pos), &*v_base.add(b_pos)) };
+    if pre.2 { same(new_a, &*pre.1) && same(new_b, &*pre.0) } else { same(new_a, &*pre.0) && same(new_b, &*pre.1) }
+}))]
+// Probe: a post-state comparator call through a raw pointer taken in the pre-state.
+#[cfg_attr(kani, kani::ensures(|_| {
+    let f = old(&raw mut *is_less);
+    // SAFETY: `f` points to the caller's comparator, alive for the whole call.
+    unsafe { !(*f)(&*v_base.add(b_pos), &*v_base.add(a_pos)) }
+}))]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
