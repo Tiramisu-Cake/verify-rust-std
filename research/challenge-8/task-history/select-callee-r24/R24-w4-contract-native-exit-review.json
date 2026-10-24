@@ -1,0 +1,43 @@
+{
+  "baseline_commit": "550598f212f157d11c402ea44ed4ce5f7307d1c3",
+  "candidate_commit": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
+  "candidate_tree": "802e06d5d017286261132221b3af1f3791e7fab9",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+  "diff_sha256": "fddc48a58d202174425c4557139de3c765142e7cc89bdd8d78615ca94a5923f6",
+  "findings": [],
+  "limitations": [
+    "The correction aligns the driver with the source-reported native uncaught Failure exit observed in S34. It does not establish that the new driver completes all six cases until the authorized Cloud diagnostic run.",
+    "The native report's matching actual/imported contract hashes and caller-body hash remain source-reported diagnostic facts. They do not prove call consumption, caller body verification, C5 admission, or independent proof credit.",
+    "The main transport preflight was pending in the review packet. GO is conditional on its PASS and all existing R24 phase, ledger, deadline, budget, and admission gates."
+  ],
+  "not_run": [
+    "No Rust/OCaml/compiler/exporter/decoder/refiner/verifier/preparation/full-runner execution, Cloud Build, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_IDENTITIES_REVIEWED"
+  },
+  "packet_sha256": "60304ddfa7dfe8c311fb6eb9da099d88079fe005b79cbf1605f4b5dd416e8b25",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-header-syntax-review.json",
+      "sha256": "e5f29f9fddecc0bf2795a115fcbf3356b794ee967fb358f0bc86d69bee32173a"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-contract-native-exit-independent-review-v1",
+  "spec_sha256": "0170e92ce6e5002c92a7726266a27b36cf879c6acea65b9322b538bd4531badd",
+  "tests": [
+    "Statically reviewed the exact committed delta, driver run and physical-audit exit checks, generator expected-results mode, manifest/mode/helper/Bash pin chain, and changed test diff. Candidate tests were not rerun.",
+    "The packet reports 63 targeted static/synthetic checks passing, including strict rejection of non-integer or incorrect exits with otherwise valid facts and full synthetic six-case/audit coverage. These tests were not independently rerun."
+  ],
+  "verified": [
+    "Reviewed exact candidate 0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7 against baseline 550598f212f157d11c402ea44ed4ce5f7307d1c3; packet and spec identities match the assigned handoff.",
+    "The native generator's expected exit is updated to 2 for all six refusal cases. The driver run validator and final physical audit both require status RAN, exact Python integer type, and exit value 2; boolean, floating-point 2.0, string '2', exit 1/0, timeout 124, and other values do not pass these checks.",
+    "The changed delta leaves the native translator source and patch pins unchanged at the S34-built identities. Refusal markers, stderr matching, physical contract facts, header/source/tool/native-input audits, and the all-false/zero admission boundary are retained.",
+    "Generator, manifest, mode, contract driver, wrapper, and Bash pins are refreshed consistently. The changed test coverage preserves physical input fixtures and adds explicit exact-type/exit rejection coverage; full synthetic run/audit and prerequisite checks are reported by the packet, not rerun here.",
+    "The coordinator's S34 Brief observation is recorded as source-reported: positive AST facts matched and the native process emitted the intended refusal at exit 2, while the earlier driver expected 1. This correction does not upgrade that observation into six-case completion or proof credit."
+  ]
+}

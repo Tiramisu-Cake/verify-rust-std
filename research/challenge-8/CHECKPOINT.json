@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "cce92ae13ff4c7ceb4733904ac718660a129dffcb261186d9fb6cc60483dfa7f"
+      "sha256": "e0241242792c30370393d57369abdc1b2e3913ec4a32a10d7ee0c7713ee55db8"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -44,7 +44,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "cce92ae13ff4c7ceb4733904ac718660a129dffcb261186d9fb6cc60483dfa7f"
+    "sha256": "e0241242792c30370393d57369abdc1b2e3913ec4a32a10d7ee0c7713ee55db8"
   },
   "brief_observation_refs": [
     {
@@ -1115,8 +1115,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review exact integerexit2 protocol correction; publish/preflight then full1200 sixcase diagnostic. Native code/patch unchanged; linkage/C5 open.",
-  "next_step": "Review exact integerexit2 protocol correction; publish/preflight then full1200 sixcase diagnostic. Native code/patch unchanged; linkage/C5 open.",
+  "next": "Publish reviewed0ac30a23; exact remote SHA then full1200 sixcase diagnostic and watcher.",
+  "next_step": "Publish reviewed0ac30a23; exact remote SHA then full1200 sixcase diagnostic and watcher.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1231,7 +1231,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:51:53Z",
+  "updated_utc": "2026-10-24T03:53:52Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1764,6 +1764,7 @@
       "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
     },
     "caller_body_proof_admission": false,
+    "candidate": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
       "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
@@ -1775,6 +1776,11 @@
     "header_variants": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json",
       "sha256": "5d0ef2f5dabee2d1a3056855154327cd2b57d26919cb9cf068be34f2d8764a56"
+    },
+    "independent_review": {
+      "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-native-exit-review.json",
+      "sha256": "9ebf8a2d169fc8bf1f8543022d8438a2546009d8a9e64b97e968c360f9e94586"
     },
     "main_scope": "contract/header design, wrapper/mode/recipe integration, review/evidence/accounting",
     "mode": {
@@ -1838,14 +1844,31 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
       "sha256": "9c752875818b9c94249d28cabae3b071995738a33b35137be856fe3fd1537b91"
     },
+    "review_packet": {
+      "executor": "r24_contract_review",
+      "model": "gpt-6-luna",
+      "packet_sha256": "60304ddfa7dfe8c311fb6eb9da099d88079fe005b79cbf1605f4b5dd416e8b25",
+      "path": "/tmp/r24-w4-contract-native-exit-review",
+      "reasoning_effort": "high",
+      "spec_sha256": "0170e92ce6e5002c92a7726266a27b36cf879c6acea65b9322b538bd4531badd"
+    },
+    "runtime_closure": {
+      "bytes": 3737994,
+      "entries": 167,
+      "sha256": "a768295fa5670bc5bde07d2b21f503fed113f48ec8e0ad41487c1ebd62b5d13d"
+    },
     "source_contract": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "NATIVE_EXIT_PROTOCOL_REVISION_UNREVIEWED",
+    "state": "NATIVE_EXIT_PROTOCOL_REVIEW_GO_UNBUILT",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "1f510f53f40d160bf9bbb65097040f2f81ad322d0f46616bf205811707d3e911"
+    },
+    "transport_preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-NATIVE-EXIT-TRANSPORT-PREFLIGHT.json",
+      "sha256": "e1a337ea9ef78d0271dbd6136bbf6a38546071dc04af3e545b36b53cac84d618"
     },
     "typed_call_linkage": "UNKNOWN",
     "workers": {
@@ -1859,9 +1882,15 @@
   },
   "w4_contract_native_exit_fix": {
     "accepted": false,
+    "candidate": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-NATIVE-EXIT-DESIGN.json",
       "sha256": "d3917dd276c9aaac4a011f0e5bb71190959bce35d13dfc483104dbf6d8c50d9a"
+    },
+    "independent_review": {
+      "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-native-exit-review.json",
+      "sha256": "9ebf8a2d169fc8bf1f8543022d8438a2546009d8a9e64b97e968c360f9e94586"
     },
     "native_patch_unchanged": "6c8cb345ebc11945f5624f6468732d9f0feb38294c7c73d48b0c748d2b4e03dc",
     "native_translator_unchanged": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
@@ -1870,7 +1899,7 @@
       "sha256": "c07ca16bda0862a1a8a64c84635b685d59954c33640753d7e96128f9838130ad"
     },
     "proof_credit": 0,
-    "state": "STATIC_TESTED_UNREVIEWED_UNBUILT"
+    "state": "REVIEW_GO_UNBUILT"
   },
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
