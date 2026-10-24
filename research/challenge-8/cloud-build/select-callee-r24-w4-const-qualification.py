@@ -2,7 +2,9 @@
 """Same-tool R24 requalification of the frozen const-callee matrix.
 
 This wrapper only records source-reported qualification inputs.  It does not
-publish a caller summary or assign independent proof credit.
+publish a caller summary or assign independent proof credit. After fresh
+qualification, a separate refusal-only driver checks contract inputs; it never
+admits a caller body.
 """
 from __future__ import annotations
 
@@ -24,7 +26,7 @@ SUMMARY_REL = Path('cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION.json
 AUDIT_REL = Path('cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION-AUDIT.json')
 WORK_REL = Path('cases/r24-w4-const-qualification/work')
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json')
-MODE_SHA256 = 'b633c38b1d91d3e016b96dee2833d1bd9823f919526635feb67f2ac0ea920b12'
+MODE_SHA256 = '6d429030afb060ed6e65588163ace77bdd0c6ebb6ac6be3a01809dcb857b9a11'
 CAPTURE_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-MODE.json')
 CAPTURE_MODE_SHA256 = '1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3'
 CAPTURE_PINS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json')
@@ -46,6 +48,10 @@ TARGET_INTENT_RECEIPT_REL = Path('target-inputs/const-control-target-intent-rece
 TARGET_INTENT_SCHEMA = 'select-r24-w4-const-derived-target-intent-v1'
 CONSEQUENCE_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py')
 CONSEQUENCE_SHA256 = 'bf89a183e39fddf17ea6247859775b4d0bb72febae635df67b15fccf744de420'
+CONTRACT_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-contract-inputs.py')
+CONTRACT_SHA256 = '9d91e549f41e40899afb4a97de2c1329d2abf188f6c5c37a91543cfb54ba64fa'
+CONTRACT_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json')
+CONTRACT_MODE_SHA256 = '2ffe2da0dc2cd5356a6a83bae7dcae27dad15cac720e5a24c9cf616c39894707'
 R21_ENTRY_REL = Path('research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py')
 R21_ENTRY_SHA256 = '0947e128a10cadd69c615b5da54b5647a31568ecc0f7e0d229681c862c54263d'
 R21_AUDIT_REL = Path('research/challenge-8/cloud-build/select-callee-r21-proof-audit.py')
@@ -361,6 +367,11 @@ def expected_mode() -> dict[str, Any]:
         'consequence_path': CONSEQUENCE_REL.as_posix(),
         'consequence_sha256': CONSEQUENCE_SHA256,
         'consequence_mode': 'ordinary-checked-callee-post-consequence',
+        'postqualification_diagnostic_path': CONTRACT_REL.as_posix(),
+        'postqualification_diagnostic_sha256': CONTRACT_SHA256,
+        'postqualification_diagnostic_mode_path': CONTRACT_MODE_REL.as_posix(),
+        'postqualification_diagnostic_mode_sha256': CONTRACT_MODE_SHA256,
+        'postqualification_diagnostic_only': True,
         'variants': list(VARIANTS),
         'ordinary_callee_proof_stages_enabled': True,
         'caller_body_proof_admission': False,
@@ -419,6 +430,12 @@ def _context(args: argparse.Namespace, env: dict[str, str], *, require_live_dead
 
 
 def _validate_pins(args: argparse.Namespace) -> dict[str, Any]:
+    _load_json(args.repo, CONTRACT_MODE_REL, CONTRACT_MODE_SHA256)
+    contract_driver = args.cloud_dir / CONTRACT_REL.name
+    need(CONTRACT_SHA256 != 'PENDING' and contract_driver.is_file() and
+         not contract_driver.is_symlink() and
+         sha(contract_driver.read_bytes()) == CONTRACT_SHA256,
+         'postqualification diagnostic helper differs')
     capture_mode = args.capture_mode_file
     need(capture_mode.resolve() == (args.repo / CAPTURE_MODE_REL).resolve() and
          capture_mode.is_file() and not capture_mode.is_symlink() and
@@ -883,8 +900,49 @@ def _save_summary(path: Path, record: dict[str, Any]) -> None:
     _write(path, record)
 
 
+def _contract_module(args: argparse.Namespace, module: Any | None):
+    if module is None:
+        module = _load(args.cloud_dir / CONTRACT_REL.name,
+                       'r24_w4_contract_inputs', CONTRACT_SHA256)
+    need(getattr(module, 'SCHEMA', None) == 'select-r24-w4-contract-inputs-v1' and
+         getattr(module, 'SUMMARY_REL', None) ==
+         Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS.json') and
+         getattr(module, 'AUDIT_REL', None) ==
+         Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS-AUDIT.json') and
+         callable(getattr(module, 'run', None)) and callable(getattr(module, 'audit', None)),
+         'postqualification diagnostic API differs')
+    return module
+
+
+def _contract_args(args: argparse.Namespace, work: Path, module: Any,
+                   runner_exit: int, failed_stage: str) -> argparse.Namespace:
+    child = argparse.Namespace(**vars(args))
+    child.evidence = work
+    child.const_mode_file = args.mode_file
+    child.mode_file = args.repo / CONTRACT_MODE_REL
+    child.output = work / module.AUDIT_REL
+    child.runner_exit = runner_exit
+    child.failed_stage = failed_stage
+    return child
+
+
+def _contract_boundary_errors(record: object, *, audited: bool = False) -> list[str]:
+    if type(record) is not dict or record.get('complete') is not True:
+        return ['contract-input diagnostic missing, partial, or wrong type']
+    errors = []
+    if audited and record.get('evidence_complete') is not True:
+        errors.append('contract-input diagnostic physical audit incomplete')
+    if record.get('accepted') is not False or record.get('publication_allowed') is not False or \
+       type(record.get('proof_credit')) is not int or record.get('proof_credit') != 0 or \
+       record.get('caller_body_proof_admission') is not False or \
+       record.get('typed_call_linkage') != 'UNKNOWN':
+        errors.append('contract-input diagnostic exceeded its reporting boundary')
+    return errors
+
+
 def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _run_command,
         consequence_module: Any | None = None,
+        contract_module: Any | None = None,
         env: dict[str, str] | None = None) -> dict[str, Any]:
     live_env = dict(os.environ)
     selected_env = live_env if env is None else dict(env)
@@ -928,7 +986,8 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
         'stages': [], 'source_observation': None,
         'matrix_summary_path': (work / CONST_MATRIX_REPORT_REL).relative_to(outer_evidence).as_posix(),
         'matrix_audit_path': (work / CONST_MATRIX_AUDIT_REL).relative_to(outer_evidence).as_posix(),
-        'consequence_summary_path': None, 'errors': [],
+        'consequence_summary_path': None, 'postqualification_diagnostic': None,
+        'postqualification_diagnostic_audit': None, 'errors': [],
         'accepted': False, 'publication_allowed': False, 'proof_credit': 0,
         'caller_body_proof_admission': False,
         'w4_caller_body_proof_status': 'UNKNOWN',
@@ -1002,6 +1061,19 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
                consequence_audit.get('complete') is not True or \
                consequence_audit.get('evidence_complete') is not True:
                 record['errors'].append('consequence read-only audit incomplete')
+            if not record['errors']:
+                contract_module = _contract_module(args, contract_module)
+                contract_args = _contract_args(args, work, contract_module, 0, 'complete')
+                prerequisites = dict(const_matrix_summary=matrix, const_matrix_audit=matrix_audit,
+                                     consequence_summary=consequence,
+                                     consequence_audit=consequence_audit)
+                diagnostic = contract_module.run(contract_args, **prerequisites)
+                record['postqualification_diagnostic'] = diagnostic
+                record['errors'].extend(_contract_boundary_errors(diagnostic))
+                _save_summary(record_path, record)
+                diagnostic_audit = contract_module.audit(contract_args, **prerequisites)
+                record['postqualification_diagnostic_audit'] = diagnostic_audit
+                record['errors'].extend(_contract_boundary_errors(diagnostic_audit, audited=True))
         record['source_observation'] = _source_observation(work)
     except BaseException as exc:
         record['errors'].append('exception: ' + type(exc).__name__ + ': ' + str(exc))
@@ -1033,8 +1105,10 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
         record['errors'].append('frozen capture tool changed during qualification')
     record['complete'] = not record['errors'] and \
         record.get('source_observation', {}).get('complete') is True and \
-        record.get('consequence', {}).get('complete') is True
-    record['classification'] = ('CONST_CALLEE_REQUALIFIED_WITH_CHECKED_CONSEQUENCE_SOURCE_REPORTED'
+        record.get('consequence', {}).get('complete') is True and \
+        type(record.get('postqualification_diagnostic')) is dict and \
+        record['postqualification_diagnostic'].get('complete') is True
+    record['classification'] = ('CONST_CALLEE_REQUALIFIED_WITH_CONTRACT_INPUT_DIAGNOSTIC_SOURCE_REPORTED'
                                 if record['complete'] else 'INCOMPLETE_CONST_REQUALIFICATION')
     record['accepted'] = False
     record['publication_allowed'] = False
@@ -1044,6 +1118,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
 
 
 def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
+          contract_module: Any | None = None,
           env: dict[str, str] | None = None) -> dict[str, Any]:
     live_env = dict(os.environ)
     selected_env = live_env if env is None else dict(env)
@@ -1082,6 +1157,8 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
     if source is None:
         errors.append('qualification summary missing or wrong type')
     else:
+        if source.get('complete') is not True:
+            errors.append('qualification source summary incomplete')
         if source.get('schema') != SCHEMA or source.get('candidate') != args.candidate:
             errors.append('qualification summary context differs')
         if source.get('build_id') != selected_env.get('CLOUD_BUILD_ID') or \
@@ -1189,6 +1266,21 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
         if type(consequence) is not dict or consequence.get('complete') is not True or \
            consequence.get('evidence_complete') is not True:
             errors.append('consequence physical audit incomplete')
+        try:
+            contract_module = _contract_module(args, contract_module)
+            child = _contract_args(args, work, contract_module, args.runner_exit, args.failed_stage)
+            consequence_summary = _read_object(work / consequence_module.SUMMARY_REL)
+            diagnostic_audit = contract_module.audit(
+                child, const_matrix_summary=matrix, const_matrix_audit=matrix_audit,
+                consequence_summary=consequence_summary, consequence_audit=consequence)
+            errors.extend(_contract_boundary_errors(diagnostic_audit, audited=True))
+            saved_diagnostic = source.get('postqualification_diagnostic')
+            physical_diagnostic = _read_object(work / contract_module.SUMMARY_REL)
+            errors.extend(_contract_boundary_errors(physical_diagnostic))
+            if saved_diagnostic != physical_diagnostic:
+                errors.append('contract-input diagnostic summary changed after run')
+        except BaseException as exc:
+            errors.append('contract-input diagnostic audit failed: ' + type(exc).__name__ + ': ' + str(exc))
         before = source.get('native_tool_hashes_before')
         after = _read_native_files(args)
         errors.extend(_validate_native_identities(before, after))

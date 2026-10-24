@@ -1,0 +1,8 @@
+unsafe fn select_unpredictable_const<Element>(
+    condition: bool,
+    true_val: *const Element,
+    false_val: *const Element,
+) -> *const Element;
+//@ req thread_token(?t) &*& t == currentThread;
+//@ ens thread_token(t) &*& (result as pointer) == (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);
+//@ on_unwind_ens false;

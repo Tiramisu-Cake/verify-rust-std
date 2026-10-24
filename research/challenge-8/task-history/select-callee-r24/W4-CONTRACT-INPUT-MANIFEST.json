@@ -1,0 +1,162 @@
+{
+  "accepted": false,
+  "base_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+  "caller_body_proof_admission": false,
+  "diagnostic": "All configured cases fail closed before body translation/proof; matching inputs do not install or consume a summary.",
+  "generator_sha256": "f1ba56c6695215924c26d755f784c8a8e8f591a6cfb88143524e289f6f41e086",
+  "header_cases": {
+    "duplicate-thread": {
+      "bytes": 405,
+      "sha256": "dda95d03fcdf887717ee6a299edf5fc71016ccba191e52b280754369336a742e"
+    },
+    "extra-declaration": {
+      "bytes": 476,
+      "sha256": "c0cf3695593322b1eb83c3adfc25e08fa1dd1d1dde3c1fa2cbb99379044c74d0"
+    },
+    "false-normal": {
+      "bytes": 395,
+      "sha256": "4f0fcc5f53d5c125080324f14528e95135028226586d762c94417890f4b531c6"
+    },
+    "false-unwind": {
+      "bytes": 395,
+      "sha256": "c460bb95882fab046039af444e3b1322609f6e264a8d49648c842912e9567ba7"
+    },
+    "mut-pointer": {
+      "bytes": 383,
+      "sha256": "f077c50e120a748d7130d8c5a8e5892a8e6e64965e8dd7aa58dd6a20ab39eefd"
+    },
+    "positive": {
+      "bytes": 385,
+      "sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+    }
+  },
+  "mode": {
+    "accepted": false,
+    "caller_body_proof_admission": false,
+    "candidate": {
+      "callee_body_sha256": "d370bf5eeeaf553ba450d3add562b85f46673bbac21c249b439ef126443bbb08",
+      "callee_source_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+      "callee_unit_sha256": "cc6292e0683b62b8457267f2963bfb29901d0a5492fa10933c0be9cb2f674925",
+      "caller_body_sha256": "067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e",
+      "caller_unit_sha256": "b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83",
+      "header_variants_sha256": "c6c0d73db8c263ac0a688b4f18139e98f8c8dbf2581e58fa6558451eaa76630c",
+      "qualified_profile_sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d",
+      "reference_header_sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be",
+      "typed_call_navigation_sha256": "8d797805c256370660d23b3d725bfefec2ece548a4ca766c2d0ede4b25d9a375",
+      "verified_source_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663"
+    },
+    "cases": {
+      "duplicate-thread": {
+        "bytes": 405,
+        "header_sha256": "dda95d03fcdf887717ee6a299edf5fc71016ccba191e52b280754369336a742e"
+      },
+      "extra-declaration": {
+        "bytes": 476,
+        "header_sha256": "c0cf3695593322b1eb83c3adfc25e08fa1dd1d1dde3c1fa2cbb99379044c74d0"
+      },
+      "false-normal": {
+        "bytes": 395,
+        "header_sha256": "4f0fcc5f53d5c125080324f14528e95135028226586d762c94417890f4b531c6"
+      },
+      "false-unwind": {
+        "bytes": 395,
+        "header_sha256": "c460bb95882fab046039af444e3b1322609f6e264a8d49648c842912e9567ba7"
+      },
+      "mut-pointer": {
+        "bytes": 383,
+        "header_sha256": "f077c50e120a748d7130d8c5a8e5892a8e6e64965e8dd7aa58dd6a20ab39eefd"
+      },
+      "positive": {
+        "bytes": 385,
+        "header_sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+      }
+    },
+    "expected_results": {
+      "duplicate-thread": {
+        "classification": "EXPECTED_INPUT_REFUSAL",
+        "exit_code": 1
+      },
+      "extra-declaration": {
+        "classification": "EXPECTED_INPUT_REFUSAL",
+        "exit_code": 1
+      },
+      "false-normal": {
+        "classification": "EXPECTED_INPUT_REFUSAL",
+        "exit_code": 1
+      },
+      "false-unwind": {
+        "classification": "EXPECTED_INPUT_REFUSAL",
+        "exit_code": 1
+      },
+      "mut-pointer": {
+        "classification": "EXPECTED_INPUT_REFUSAL",
+        "exit_code": 1
+      },
+      "positive": {
+        "classification": "INPUTS_MATCH",
+        "exit_code": 1,
+        "stderr": "SORT4-R24-W4-CONTRACT-INPUTS: diagnostic refusal: contract inputs matched; no proof rule admitted"
+      }
+    },
+    "native_environment": {
+      "case_values": [
+        "positive",
+        "false-normal",
+        "false-unwind",
+        "duplicate-thread",
+        "mut-pointer",
+        "extra-declaration"
+      ],
+      "extern_spec": "r24_select=<case-pinned .rsspec path>",
+      "fixed_mode_value": "1",
+      "path_environment_keys": [
+        "SORT4_R24_W4_CONTRACT_EVIDENCE_DIR",
+        "SORT4_R24_W4_CONTRACT_CALLEE_UNIT",
+        "SORT4_R24_W4_CONTRACT_CALLEE_BODY",
+        "SORT4_R24_W4_CONTRACT_CALLEE_SOURCE",
+        "SORT4_R24_W4_CONTRACT_REFERENCE_HEADER",
+        "SORT4_R24_W4_CONTRACT_QUALIFIED_PROFILE"
+      ],
+      "source_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663",
+      "source_sha256_environment_key": "SORT4_R24_W4_CONTRACT_SOURCE_SHA256"
+    },
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "route": {
+      "callee_phase": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+      "lane": "o26-select-callee-r20",
+      "owner": "select-sort4",
+      "phase": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+      "profile": "experimental-s6-26.10-v1"
+    },
+    "schema": "select-r24-w4-contract-inputs-mode-v1",
+    "typed_call_linkage": "UNKNOWN"
+  },
+  "native_inputs": {
+    "callee_body_sha256": "d370bf5eeeaf553ba450d3add562b85f46673bbac21c249b439ef126443bbb08",
+    "callee_source_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+    "callee_unit_sha256": "cc6292e0683b62b8457267f2963bfb29901d0a5492fa10933c0be9cb2f674925",
+    "caller_body_sha256": "067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e",
+    "caller_unit_sha256": "b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83",
+    "header_variants_sha256": "c6c0d73db8c263ac0a688b4f18139e98f8c8dbf2581e58fa6558451eaa76630c",
+    "qualified_profile_sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d",
+    "reference_header_sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be",
+    "source_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663",
+    "typed_call_navigation_sha256": "8d797805c256370660d23b3d725bfefec2ece548a4ca766c2d0ede4b25d9a375"
+  },
+  "outputs": [
+    "contract-inputs.json",
+    "actual-contract.ml",
+    "imported-contract.ml"
+  ],
+  "patch": {
+    "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-contract-input-r24.patch",
+    "sha256": "27278f4a76a035be7125092c76cfb17a7f66658084ebb4a122e45fa1515c7109"
+  },
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "result_translator_sha256": "36272c89e241b4b7a9051b4246cf75ebd77934bda2cbea2a548d81073497195f",
+  "schema": "select-r24-w4-contract-input-manifest-v1",
+  "state": "GENERATED_DIAGNOSTIC_ONLY_REVIEW_PENDING",
+  "typed_call_linkage": "UNKNOWN"
+}

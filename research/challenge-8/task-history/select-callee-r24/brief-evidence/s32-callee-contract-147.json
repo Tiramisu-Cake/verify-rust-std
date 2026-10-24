@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "edc32b527ec9e0f9b5c3f4bcae44f61a0e800344b57c701938783411da098b08",
+  "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 158,
+    "line_separator": "LF",
+    "source_lines": 240,
+    "start": 147,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "642fce66b08c805fcc32c9422cf99d5f1dbeb9d878b32ef48778ff7f06efb64f",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/verified/lib.rs",
+  "file_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+  "index_sha256": "238086481a40930e9067a03b37e654a1ec43de50c92c4cd4a2f6fa2bba6233e2",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 158,
+    "expected_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+    "file_id": "642fce66b08c805fcc32c9422cf99d5f1dbeb9d878b32ef48778ff7f06efb64f",
+    "start": 147
+  },
+  "request_id": "45eeb02d5c37bc45e677f49b0dd85a5188b67c415b5870b1a1104389e3e59ccb",
+  "requested_end": 158,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 147,
+      "text": "safety_proof {"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 148,
+      "text": "    let outcome = call();"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 149,
+      "text": "    open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome));"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 150,
+      "text": "}"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 151,
+      "text": "@*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 152,
+      "text": "{"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 153,
+      "text": "    // FIXME(https://github.com/rust-lang/unsafe-code-guidelines/issues/245):"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 154,
+      "text": "    // Change this to use ManuallyDrop instead."
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 155,
+      "text": "    let mut true_val = MaybeUninit::new(true_val);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 156,
+      "text": "    let mut false_val = MaybeUninit::new(false_val);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 157,
+      "text": ""
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 158,
+      "text": "    struct DropOnPanic<T> {"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

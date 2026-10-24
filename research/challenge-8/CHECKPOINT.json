@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "787e14b7a131e8b8620bdd8e3912ee37a1e0fde936810a8561aea7c4088448fd"
+      "sha256": "db6d98f716013edd9d9b5863ef1ca917ffa35cb65e1e3f9b051a64f478e9a228"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "9c2d80c63ce167b7ab4870419e27e51c2e7e445357c37d5695ca944cf8081c7a"
+      "sha256": "425843a4792ce21f84e078f3d7f5532d359e7f383aeea1a2405aefe9c803c745"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
-        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
+        "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
       }
     ],
-    "summary": "Constcallee current-tool prerequisite qualified; W4 checked8call contract/source/native linkage and C5 open."
+    "summary": "W4 contract/native8call input congruence not yet checked; caller mapping/C5 disabled."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "9c2d80c63ce167b7ab4870419e27e51c2e7e445357c37d5695ca944cf8081c7a"
+    "sha256": "425843a4792ce21f84e078f3d7f5532d359e7f383aeea1a2405aefe9c803c745"
   },
   "brief_observation_refs": [
     {
@@ -335,6 +335,10 @@
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
+        "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
@@ -343,34 +347,48 @@
       ],
       "obligation": "W4 native decoded-unit/body fingerprints",
       "reason": "a665d68 native callback certificate refuses W4 before translation; exact native fingerprints needed for closed C5 source/call admission.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_INPUTS_ONLY"
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
           "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
         }
       ],
+      "independent_proof_credit": 0,
       "obligation": "Current-tool const8matrix and checked pointer-post consequence",
       "reason": "Input data complete but old constqualified8a proof cannot silently transfer to native5170; no unchecked caller summary.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_SCOPED_QUALIFIED"
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SETUP-OBSERVATIONS.json",
           "sha256": "e99289077bfd6e4f48a78ad6ff9901fb0180556b5870fc6bc45295a878d3b626"
         }
       ],
+      "independent_proof_credit": 0,
       "obligation": "Fix current-native const wrapper setup and audit API",
       "reason": "Build61 stops before matrix proof: missing subtree provider receipt and audit kwargs mismatch. Preserve frozen checks; add real dependency/API integration controls.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_SCOPED_QUALIFIED"
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-TARGET-PATH-OBSERVATIONS.json",
@@ -381,12 +399,17 @@
           "sha256": "f056e4abf8f66a0c8ab82b1cff6874f163af7e5451dc8ee05cfd4915e3178341"
         }
       ],
+      "independent_proof_credit": 0,
       "obligation": "Current-native const diagnostic target path binding",
       "reason": "Buildb53d frozen validator correctly rejects historical absolute spec paths. Derive explicit same-content current target intent, retain all7 controls/historical observations; exact current diagnostic matcher unchanged.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_SCOPED_QUALIFIED"
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CURRENT-NATIVE-CONST8-OBSERVATIONS.json",
@@ -397,12 +420,17 @@
           "sha256": "6c451a9b71057f5eea5282bb390cc33e88de101809ae0a1117e93bb24723ee7e"
         }
       ],
+      "independent_proof_credit": 0,
       "obligation": "Check rawpointer consequence under explicit unsafe helper contract",
       "reason": "Safe helper generated safety-template precondition cannot satisfy deliberate actualcallee relation/type_interp frame. Use standard unsafe explicit contract, same checkedbody; actual std unchanged. Native log formatter also differs from synthetic expectations.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_SCOPED_QUALIFIED"
     },
     {
       "acceptance": false,
+      "completion_evidence": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
@@ -413,12 +441,17 @@
           "sha256": "cecc19228bcaf3f6670be2ea99c2ddfae445d92dc6e2545c1f6617f315936ffc"
         }
       ],
+      "independent_proof_credit": 0,
       "obligation": "Close actual consequence component API and refusal control",
       "reason": "Native positive succeeds but synthetic adapter invented diag._regular_under absent in pinnedmodule. Replace with local strictfilepredicate and real dependency composition; all proof/control gates remain.",
-      "state": "ACTIVE"
+      "state": "COMPLETE_SOURCE_REPORTED_SCOPED_QUALIFIED"
     },
     {
       "acceptance": false,
+      "callee_qualification": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+      },
       "evidence": [
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json",
@@ -427,7 +460,20 @@
       ],
       "obligation": "Qualify current-native callee dependency and implement closed W4 eightcall binding",
       "reason": "Full final source-reported const8+ordinary consequence/control+auds now complete on native5170/33b. Exact external specialization requires sameversion checked contract/AST+typed source/native binding; no unproved summary or genericT inference.",
-      "state": "QUALIFICATION_PENDING"
+      "state": "CONST_QUALIFIED_CALL_LINKAGE_OPEN"
+    },
+    {
+      "acceptance": false,
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
+          "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
+        }
+      ],
+      "obligation": "Native actualcallee/header AST congruence and exact W4 unit/body input binding",
+      "reason": "Current-native const prerequisite now qualified; choose closed modular contract input diagnostic before any external summary or C5 call rule. This avoids expanded9callee+caller unit churn and genericparser generalization.",
+      "state": "ACTIVE",
+      "typed_sites_scope": "Fresh Python normal/readonly typed structural8site observation; native pins whole unit/body and navigation digest, not individual call consumption."
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -1048,8 +1094,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Implement closed proof-backed externalcontract/AST and exact8call binding; then C5/c1-c4 controls.",
-  "next_step": "Implement closed proof-backed externalcontract/AST and exact8call binding; then C5/c1-c4 controls.",
+  "next": "Implement diagnostic-only nativecontract AST/header and8call input checks; review then full1200.",
+  "next_step": "Independent review of committed refusal-only contract-input candidate; exact transport closure; full1200 Cloud. Checked8call consumption/C5 remains next.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1164,7 +1210,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:45:12Z",
+  "updated_utc": "2026-10-24T03:23:23Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1649,6 +1695,60 @@
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
+  },
+  "w4_contract_inputs_preparation": {
+    "accepted_prerequisite": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
+      "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+    },
+    "caller_body_proof_admission": false,
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
+      "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
+    },
+    "driver": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-contract-inputs.py",
+      "sha256": "9d91e549f41e40899afb4a97de2c1329d2abf188f6c5c37a91543cfb54ba64fa"
+    },
+    "header_variants": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json",
+      "sha256": "c6c0d73db8c263ac0a688b4f18139e98f8c8dbf2581e58fa6558451eaa76630c"
+    },
+    "main_scope": "contract/header design, wrapper/mode/recipe integration, review/evidence/accounting",
+    "mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json",
+      "sha256": "2ffe2da0dc2cd5356a6a83bae7dcae27dad15cac720e5a24c9cf616c39894707"
+    },
+    "native_base": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "native_manifest": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUT-MANIFEST.json",
+      "sha256": "a50d15ab1856e386b37a0dfcd3745520079bbe00143c1d33a62e063fc546650c"
+    },
+    "native_scope": "SOURCE_PRESERVING_REFUSAL_ONLY; typed8site facts remain navigation/source observation; no call consumption or C5",
+    "native_translator_candidate_sha256": "36272c89e241b4b7a9051b4246cf75ebd77934bda2cbea2a548d81073497195f",
+    "proof_credit": 0,
+    "qualification_mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
+      "sha256": "6d429030afb060ed6e65588163ace77bdd0c6ebb6ac6be3a01809dcb857b9a11"
+    },
+    "source_contract": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
+      "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
+    },
+    "state": "CANDIDATE_READY_REVIEW_PENDING_UNBUILT",
+    "static_validation": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
+      "sha256": "03e9d273c5f03ad19c7d76f5881ee66f06f8ae833f96fd3c924dcd6e26f3584d"
+    },
+    "typed_call_linkage": "UNKNOWN",
+    "workers": {
+      "cloud_driver": "r24_mut_proof_runner",
+      "native_diagnostic": "r24_admission"
+    },
+    "wrapper": {
+      "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-qualification.py",
+      "sha256": "42e43f752194a0782d33620bcbe4c2caab4365e6ab3e74ed6c83a9571542c0ed"
+    }
   },
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",

@@ -1,0 +1,49 @@
+{
+  "assurance": "SOURCE_REPORTED_BOUNDED_SOURCE_TEXT_PLUS_STATIC_QUALIFIED_PROFILE",
+  "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+  "candidate": "8de59d2f231a308f83b6c03e3f848299348a266c",
+  "normal_post": "thread_token(t) &*& (result as pointer) == (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result)",
+  "parser_input_binding": "NOT_ESTABLISHED_BY_BRIEF",
+  "pre": "thread_token(?t) &*& t == currentThread",
+  "proof_credit": 0,
+  "qualified_body_index": 7,
+  "qualified_body_sha256": "d370bf5eeeaf553ba450d3add562b85f46673bbac21c249b439ef126443bbb08",
+  "qualified_unit_sha256": "cc6292e0683b62b8457267f2963bfb29901d0a5492fa10933c0be9cb2f674925",
+  "receipts": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s32-callee-source-cat.json",
+      "sha256": "f5fc2a0abac5072b45ca9210356ed05240dafa9c5c9431ef56f03d93c19b31e0"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s32-callee-contract-locate.json",
+      "sha256": "abf299e953d89e85ebbcfe90d74c15dc11494b44fe5f7d810bac11775f970617"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s32-callee-contract-135.json",
+      "sha256": "70486e787c6ecfc5c2154c21c0e4d36bb90ae743587ceadc7a1fdb3dbeaf855e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s32-callee-contract-147.json",
+      "sha256": "886a6a9bb27b038a2332963ea2572d510fcba118adc0cf303706be52c1d07e10"
+    }
+  ],
+  "safety_proof": "Actual safe callee has ordinary checked safety_proof { let outcome=call(); open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome)); }. It remains verified in the full actualcallee matrix; no such proof is omitted or replaced in actualsource.",
+  "schema": "select-r24-exact-const-callee-source-contract-v1",
+  "source_lines": {
+    "checked_safety_proof": [
+      146,
+      151
+    ],
+    "contract": [
+      140,
+      145
+    ],
+    "signature": [
+      135,
+      139
+    ]
+  },
+  "source_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+  "source_signature": "pub fn select_unpredictable<Element>(condition:bool,true_val:*const Element,false_val:*const Element)->*const Element",
+  "unwind_post": "false"
+}

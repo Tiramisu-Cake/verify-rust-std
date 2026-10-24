@@ -1,0 +1,68 @@
+{
+  "actual_source_contract": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
+    "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
+  },
+  "cases": {
+    "duplicate-thread": {
+      "bytes": 405,
+      "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
+      "replacement": {
+        "from": "raw_ptr_own::<Element>()(t, result);",
+        "to": "raw_ptr_own::<Element>()(t, result) &*& thread_token(t);"
+      },
+      "sha256": "dda95d03fcdf887717ee6a299edf5fc71016ccba191e52b280754369336a742e"
+    },
+    "extra-declaration": {
+      "bytes": 476,
+      "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
+      "replacement": {
+        "from": "//@ on_unwind_ens false;\n",
+        "to": "//@ on_unwind_ens false;\nunsafe fn extra_unchecked_summary();\n//@ req true;\n//@ ens false;\n//@ on_unwind_ens false;\n"
+      },
+      "sha256": "c0cf3695593322b1eb83c3adfc25e08fa1dd1d1dde3c1fa2cbb99379044c74d0"
+    },
+    "false-normal": {
+      "bytes": 395,
+      "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
+      "replacement": {
+        "from": "raw_ptr_own::<Element>()(t, result);",
+        "to": "raw_ptr_own::<Element>()(t, result) &*& false;"
+      },
+      "sha256": "4f0fcc5f53d5c125080324f14528e95135028226586d762c94417890f4b531c6"
+    },
+    "false-unwind": {
+      "bytes": 395,
+      "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
+      "replacement": {
+        "from": "on_unwind_ens false;",
+        "to": "on_unwind_ens thread_token(t);"
+      },
+      "sha256": "c460bb95882fab046039af444e3b1322609f6e264a8d49648c842912e9567ba7"
+    },
+    "mut-pointer": {
+      "bytes": 383,
+      "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
+      "replacement": {
+        "from": "true_val: *const Element,",
+        "to": "true_val: *mut Element,"
+      },
+      "sha256": "f077c50e120a748d7130d8c5a8e5892a8e6e64965e8dd7aa58dd6a20ab39eefd"
+    },
+    "positive": {
+      "bytes": 385,
+      "expected": "CONTRACT_INPUTS_MATCH_THEN_DIAGNOSTIC_REFUSAL",
+      "replacement": null,
+      "sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+    }
+  },
+  "function": "r24_select::select_unpredictable_const",
+  "logical_crate": "r24_select",
+  "positive_header": {
+    "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-select-callee-r24.rsspec",
+    "sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+  },
+  "proof_credit": 0,
+  "schema": "select-r24-w4-contract-header-variants-v1",
+  "semantics": "All fixtures are diagnostic interface inputs only, no installed proof rule. Positive exact weak actualcallee pre/normal/unwind contract; no typedEq/pointeeownership strengthening."
+}

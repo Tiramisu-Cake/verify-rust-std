@@ -41,6 +41,39 @@ class ConsequenceFake:
                 'accepted': False, 'proof_credit': 0}
 
 
+class ContractFake:
+    SCHEMA = 'select-r24-w4-contract-inputs-v1'
+    SUMMARY_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS.json')
+    AUDIT_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS-AUDIT.json')
+
+    def run(self, args, *, const_matrix_summary=None, const_matrix_audit=None,
+            consequence_summary=None, consequence_audit=None):
+        assert args.const_mode_file != args.mode_file
+        assert args.mode_file == args.repo / MOD.CONTRACT_MODE_REL
+        assert const_matrix_summary['complete'] is True
+        assert const_matrix_audit['evidence_complete'] is True
+        assert consequence_summary['complete'] is True
+        assert consequence_audit['complete'] is True
+        record = dict(complete=True, accepted=False, publication_allowed=False,
+                      proof_credit=0, caller_body_proof_admission=False,
+                      typed_call_linkage='UNKNOWN')
+        path = args.evidence / self.SUMMARY_REL
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(record))
+        return record
+
+    def audit(self, args, *, const_matrix_summary=None, const_matrix_audit=None,
+              consequence_summary=None, consequence_audit=None):
+        path = args.evidence / self.SUMMARY_REL
+        complete = path.is_file() and args.runner_exit == 0 and args.failed_stage == 'complete'
+        record = dict(complete=complete, evidence_complete=complete, accepted=False,
+                      publication_allowed=False, proof_credit=0,
+                      caller_body_proof_admission=False, typed_call_linkage='UNKNOWN')
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(record))
+        return record
+
+
 def matrix_record(native_home=None, target_receipt=None):
     variants = {}
     for variant in MOD.VARIANTS:
@@ -349,7 +382,7 @@ class QualificationTests(unittest.TestCase):
                        MOD.NATIVE_FINGERPRINT_PINS_REL, MOD.W4_INPUTS_REL,
                        MOD.CONST_QUALIFICATION_REL, MOD.P2_INTERFACE_REL,
                        MOD.FRACTIONAL_PINS_REL, MOD.TARGET_MAP_REL, MOD.MODE_REL,
-                       MOD.O26_PROVIDER_REL)
+                       MOD.O26_PROVIDER_REL, MOD.CONTRACT_MODE_REL)
         for rel in json_inputs:
             destination = repo / rel
             destination.parent.mkdir(parents=True, exist_ok=True)
@@ -477,7 +510,7 @@ class QualificationTests(unittest.TestCase):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(native_home=self.args.native_tool_home)
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertTrue(record['complete'])
         self.assertEqual(len(runner.calls), 6)
         self.assertEqual(record['accepted'], False)
@@ -492,31 +525,65 @@ class QualificationTests(unittest.TestCase):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(native_home=self.args.native_tool_home)
             MOD.run(self.args, command_runner=runner,
-                    consequence_module=ConsequenceFake())
+                    consequence_module=ConsequenceFake(), contract_module=ContractFake())
             self.args.output = self.args.evidence / MOD.AUDIT_REL
             self.args.runner_exit = 0
             self.args.failed_stage = 'complete'
             with mock.patch.object(MOD, '_load', return_value=FrozenAuditFake()):
-                result = MOD.audit(self.args, consequence_module=ConsequenceFake())
+                result = MOD.audit(self.args, consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertTrue(result['complete'], result['errors'])
         self.assertFalse(result['accepted'])
         self.assertEqual(result['proof_credit'], 0)
+
+    def test_contract_diagnostic_not_run_after_matrix_failure(self):
+        diagnostic = ContractFake()
+        diagnostic.run = mock.Mock(side_effect=AssertionError('must not run'))
+        with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
+            record = MOD.run(self.args, command_runner=FakeCommandRunner(
+                fail='r21-fractional-proof', native_home=self.args.native_tool_home),
+                consequence_module=ConsequenceFake(), contract_module=diagnostic)
+        self.assertFalse(record['complete'])
+        diagnostic.run.assert_not_called()
+
+    def test_contract_partial_or_boundary_escape_stays_incomplete(self):
+        for value in (None, [], {'complete': False},
+                      dict(complete=True, accepted=True, publication_allowed=False,
+                           proof_credit=0, caller_body_proof_admission=False,
+                           typed_call_linkage='UNKNOWN')):
+            self.assertTrue(MOD._contract_boundary_errors(value))
+
+    def test_contract_runner_exception_keeps_partial_and_original_exception(self):
+        diagnostic = ContractFake()
+        diagnostic.run = mock.Mock(side_effect=ValueError('injected diagnostic failure'))
+        with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
+            with self.assertRaisesRegex(ValueError, 'injected diagnostic failure'):
+                MOD.run(self.args, command_runner=FakeCommandRunner(
+                    native_home=self.args.native_tool_home),
+                    consequence_module=ConsequenceFake(), contract_module=diagnostic)
+        partial = json.loads((self.args.evidence / MOD.SUMMARY_REL).read_text())
+        self.assertFalse(partial['complete'])
+        self.assertTrue(partial['consequence']['complete'])
+        self.assertTrue(any('ValueError' in e for e in partial['errors']))
 
     def test_partial_matrix_audit_uses_real_consequence_signature_and_fails_closed(self):
         consequence = MOD._load(HERE / MOD.CONSEQUENCE_REL.name,
                                 'r24_w4_const_consequence_signature_test',
                                 MOD.CONSEQUENCE_SHA256)
+        contract = MOD._load(HERE / MOD.CONTRACT_REL.name,
+                            'r24_w4_contract_inputs_signature_test',
+                            MOD.CONTRACT_SHA256)
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(fail='r21-fractional-proof', native_home=self.args.native_tool_home)
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
             self.assertFalse(record['complete'])
             self.args.cloud_dir = HERE
             self.args.output = self.args.evidence / MOD.AUDIT_REL
             self.args.runner_exit = 1
             self.args.failed_stage = 'r21-fractional-proof'
             with mock.patch.object(MOD, '_load', return_value=FrozenAuditFake()):
-                audit = MOD.audit(self.args, consequence_module=consequence)
+                audit = MOD.audit(self.args, consequence_module=consequence,
+                                  contract_module=contract)
         self.assertFalse(audit['complete'])
         self.assertFalse(audit['evidence_complete'])
         self.assertTrue(any('matrix' in item or 'command identity' in item
@@ -525,12 +592,16 @@ class QualificationTests(unittest.TestCase):
             (self.args.evidence / MOD.WORK_REL /
              'cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE-AUDIT.json').read_text())
         self.assertFalse(consequence_audit['evidence_complete'])
+        contract_audit = json.loads((self.args.evidence / MOD.WORK_REL /
+                                    contract.AUDIT_REL).read_text())
+        self.assertFalse(contract_audit['complete'])
+        self.assertFalse(contract_audit['evidence_complete'])
 
     def test_error_exit_is_preserved_and_stops_following_stages(self):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(fail='candidate-source-compare')
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertFalse(record['complete'])
         self.assertEqual(record['stages'][-1]['exit'], 1)
         self.assertEqual(record['stages'][-1]['name'], 'candidate-source-compare')
@@ -541,7 +612,7 @@ class QualificationTests(unittest.TestCase):
             'status': 'TIMEOUT', 'exit': 124, 'stdout': 'partial', 'stderr': 'timeout'})
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertEqual(record['stages'][0]['status'], 'TIMEOUT')
         self.assertEqual(record['stages'][0]['exit'], 124)
         self.assertFalse(record['complete'])
@@ -550,7 +621,7 @@ class QualificationTests(unittest.TestCase):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(omit_output='candidate-capture')
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertFalse(record['complete'])
         self.assertEqual(record['stages'][-1]['status'], 'RAN')
         self.assertTrue(any('capture' in error for error in record['errors']))
@@ -582,7 +653,7 @@ class QualificationTests(unittest.TestCase):
             runner = FakeCommandRunner(native_home=self.args.native_tool_home,
                                        dirty_after='candidate-proof')
             record = MOD.run(self.args, command_runner=runner,
-                             consequence_module=ConsequenceFake())
+                             consequence_module=ConsequenceFake(), contract_module=ContractFake())
         self.assertFalse(record['complete'])
         self.assertTrue(any('source changed' in error for error in record['errors']))
 
@@ -597,7 +668,7 @@ class QualificationTests(unittest.TestCase):
             runner = FakeCommandRunner(throw='source-preflight')
             with self.assertRaisesRegex(RuntimeError, 'injected stage exception'):
                 MOD.run(self.args, command_runner=runner,
-                        consequence_module=ConsequenceFake())
+                        consequence_module=ConsequenceFake(), contract_module=ContractFake())
         partial = json.loads((self.args.evidence / MOD.SUMMARY_REL).read_text())
         self.assertFalse(partial['complete'])
         self.assertIn('exception: RuntimeError', partial['errors'][0])

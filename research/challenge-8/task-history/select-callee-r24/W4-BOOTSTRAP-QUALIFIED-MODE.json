@@ -1,0 +1,96 @@
+{
+  "accepted": false,
+  "caller_body_proof_admission": false,
+  "capture_mode_path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-MODE.json",
+  "capture_mode_sha256": "1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3",
+  "capture_path": "research/challenge-8/overnight-assume-actual/capture.py",
+  "capture_pins_path": "research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json",
+  "capture_pins_sha256": "f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0",
+  "capture_sha256": "ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f",
+  "cloud_capture_overlay_sha256": "eddf624a7ecc59b9fac4595fc95629e5ab22e26efd12be2ba53e44fbbc40ff66",
+  "cloud_prepare_overlay_sha256": "79de389749b4a40b9a1fa364993931055e5309902bd422d226c405eda8b028b2",
+  "consequence_mode": "ordinary-checked-callee-post-consequence",
+  "consequence_path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py",
+  "consequence_sha256": "bf89a183e39fddf17ea6247859775b4d0bb72febae635df67b15fccf744de420",
+  "enabled": true,
+  "fractional_pins_path": "research/challenge-8/task-history/select-callee-r23/FRACTIONAL-FINGERPRINT-INPUT.json",
+  "fractional_pins_sha256": "939eb916bb8a0b460c698e0a297a8fc12acdadf68fa7e10d297b4b7ce5de67b5",
+  "frozen_const_qualification_path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-QUALIFICATION.json",
+  "frozen_const_qualification_sha256": "1d50cc12011cd8bae26f1a69fee7e43579ab3ef9bacf5708eac33875a4a00794",
+  "independent_proof_credit": 0,
+  "lane": "o26-select-callee-r20",
+  "native_capture_path": "research/challenge-8/overnight-sort4/capture.py",
+  "native_capture_sha256": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060",
+  "native_fingerprint_pins_path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-PINS.json",
+  "native_fingerprint_pins_sha256": "dc0e26e5bf6af68ef0a3b28f8c6410d13b1b8d1bd6848976b1ef3efdb106844d",
+  "native_original_source_sha256": "b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db",
+  "native_tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942"
+  },
+  "native_verified_source_sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663",
+  "o26_base_path": "research/challenge-8/cloud-build/o26-recipe.py",
+  "o26_base_sha256": "464eef45b08b8724eba949289eff9cd745f48d65d0031ffae5675738856d562c",
+  "o26_cloud_guard_overlay_files": {
+    "research/challenge-8/overnight-assume-actual/capture.py": {
+      "cloud_overlay_sha256": "eddf624a7ecc59b9fac4595fc95629e5ab22e26efd12be2ba53e44fbbc40ff66",
+      "original_sha256": "ffc3653263e86c5afa4f82440f10a2207e75ad8083bdad5f784597fe0dbaa84f"
+    },
+    "research/challenge-8/overnight-assume-actual/prepare.py": {
+      "cloud_overlay_sha256": "79de389749b4a40b9a1fa364993931055e5309902bd422d226c405eda8b028b2",
+      "original_sha256": "8edc8d63ce49fb60701dd1eb0005a4af5f3a046234fee9d631345de68fdbae49"
+    },
+    "research/challenge-8/overnight-guard-actual/prepare-actual-nested-drop.py": {
+      "cloud_overlay_sha256": "ca8de412b0fd61f7e403a1d774320f783ae547b8dbe4eff107ae2a2ad9e3219c",
+      "original_sha256": "eb73621ac35f7d3b0259b148f59a5411c4ae07216c352d5a103fc59ea76f9faa"
+    },
+    "research/challenge-8/overnight-helper/prepare-actual-owner-linked.py": {
+      "cloud_overlay_sha256": "2109b951d9421a3d5a22de0897274230983d5b64db9f0a206848c006d267a3f6",
+      "original_sha256": "1c8e52efa2882d39369645f3b1def48ae67532bb11df31a11ec23d0625887169"
+    },
+    "research/challenge-8/overnight-helper/prepare-actual-owner-projection.py": {
+      "cloud_overlay_sha256": "c5bd11c6c3d56f987ef8c8e037ca87a0818e0f5290de4aeb5ded026e1f36ac07",
+      "original_sha256": "6680e74fda839501db3c9221f026a3398ce5d903a8134733b6f5375c165afbb8"
+    }
+  },
+  "o26_recipe_path": "research/challenge-8/cloud-build/o26-refresh-recipe.py",
+  "o26_recipe_sha256": "2cd963cc3d28c69370260cd2154e7284e189fea953928c3fc829f2fd53766af3",
+  "ordinary_callee_proof_stages_enabled": true,
+  "owner": "select-sort4",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "prepare_path": "research/challenge-8/overnight-assume-actual/prepare.py",
+  "prepare_sha256": "8edc8d63ce49fb60701dd1eb0005a4af5f3a046234fee9d631345de68fdbae49",
+  "profile": "experimental-s6-26.10-v1",
+  "provider_path": "research/challenge-8/cloud-build/provider.py",
+  "provider_sha256": "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616",
+  "publication_allowed": false,
+  "published_p2_interface_path": "research/challenge-8/task-history/select-callee-r23/P2-INTERFACE.json",
+  "published_p2_interface_sha256": "656b15c1f295db2f7935f14067cf17067f04186994009715772157eb97fd2322",
+  "r21_audit_path": "research/challenge-8/cloud-build/select-callee-r21-proof-audit.py",
+  "r21_audit_sha256": "336d5c4c2b24917f91bcca70a6c443ae45a66f3cc024eca5580f2684fb08baed",
+  "r21_entry_path": "research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py",
+  "r21_entry_sha256": "0947e128a10cadd69c615b5da54b5647a31568ecc0f7e0d229681c862c54263d",
+  "route_phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "schema": "select-r24-w4-const-qualification-mode-v1",
+  "target_map_path": "research/challenge-8/task-history/select-callee-r24/CONTROL-TARGETS.json",
+  "target_map_sha256": "a6bde55bf08490352cae04fbaa61aa85f33a94890d52e8fe3147f50859e588dc",
+  "variants": [
+    "positive",
+    "omit-selected-own",
+    "omit-unselected-own",
+    "no-retained-half",
+    "callee-false-normal",
+    "callee-owner-duplicate",
+    "callee-owner-loss",
+    "callee-thread-duplicate"
+  ],
+  "w4_inputs_path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
+  "w4_inputs_sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
+}

@@ -1,0 +1,111 @@
+{
+  "archive_sha256": "edc32b527ec9e0f9b5c3f4bcae44f61a0e800344b57c701938783411da098b08",
+  "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": false,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 146,
+    "line_separator": "LF",
+    "source_lines": 240,
+    "start": 135,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "642fce66b08c805fcc32c9422cf99d5f1dbeb9d878b32ef48778ff7f06efb64f",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r21-fractional-proof/variants/positive/nine-body-a1-owned-forget/verified/lib.rs",
+  "file_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+  "index_sha256": "238086481a40930e9067a03b37e654a1ec43de50c92c4cd4a2f6fa2bba6233e2",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": false,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 146,
+    "expected_sha256": "687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff",
+    "file_id": "642fce66b08c805fcc32c9422cf99d5f1dbeb9d878b32ef48778ff7f06efb64f",
+    "start": 135
+  },
+  "request_id": "0c11a11faf02e89ee7c0f8a80bee15b5eff137a782cffc0ef27802e2c2ca4159",
+  "requested_end": 146,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 135,
+      "text": "pub fn select_unpredictable<Element>("
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 136,
+      "text": "    condition: bool,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 137,
+      "text": "    true_val: *const Element,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 138,
+      "text": "    false_val: *const Element,"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 139,
+      "text": ") -> *const Element"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 140,
+      "text": "/*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 141,
+      "text": "req thread_token(?t) &*& t == currentThread;"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 142,
+      "text": "@*//*@"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 143,
+      "text": "ens thread_token(t) &*& (result as pointer) =="
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 144,
+      "text": "        (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 145,
+      "text": "@*//*@ on_unwind_ens false; @*/"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 146,
+      "text": "/*@"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}
