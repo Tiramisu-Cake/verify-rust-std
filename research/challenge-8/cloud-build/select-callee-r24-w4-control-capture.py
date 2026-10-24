@@ -1464,7 +1464,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
     case_root = evidence / SUMMARY_REL.parent / 'variants' / str(variant)
     try:
         actual_inventory = _artifact_inventory(case_root, evidence)
-        if actual_inventory != row.get('artifact_inventory'):
+        if not _json_exact(actual_inventory, row.get('artifact_inventory')):
             errors.append(str(variant) + ' physical artifact inventory differs')
     except BaseException as exc:
         errors.append(str(variant) + ' artifact inventory invalid: ' + str(exc))
@@ -1483,7 +1483,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
                 errors.append(str(variant) + ' ' + mode + ' MIR recheck failed: ' +
                               type(exc).__name__ + ': ' + str(exc))
     fixture_records = row.get('fixture')
-    if not isinstance(fixture_records, dict):
+    if type(fixture_records) is not dict or set(fixture_records) != {'verified', 'original'}:
         errors.append(str(variant) + ' fixture record malformed')
     else:
         for label in ('verified', 'original'):
@@ -1491,10 +1491,12 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
             if not isinstance(record, dict):
                 errors.append(str(variant) + ' ' + label + ' fixture record missing')
                 continue
-            path = evidence / record.get('path', '')
+            path = fixture / label / 'lib.rs'
             try:
                 raw = _read_regular(path, evidence)
-                if len(raw) != record.get('bytes') or digest(raw) != record.get('sha256'):
+                expected_record = {'path': path.relative_to(evidence).as_posix(),
+                                   'bytes': len(raw), 'sha256': digest(raw)}
+                if not _json_exact(record, expected_record):
                     errors.append(str(variant) + ' ' + label + ' source changed')
             except BaseException as exc:
                 errors.append(str(variant) + ' ' + label + ' source invalid: ' + str(exc))
@@ -1525,6 +1527,8 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
         'refinement': [str(capture_tool / 'bin/refinement-checker'), '--rustc-args', '--edition 2021',
                        'original/lib.rs', 'verified/lib.rs'],
     }
+    if set(stages) != set(expected_argv) or row.get('stage_errors') != []:
+        errors.append(str(variant) + ' capture stage inventory/errors differ')
     for name, stage in stages.items():
         if not isinstance(stage, dict):
             errors.append(str(variant) + ' stage ' + name + ' wrong type')
@@ -1533,7 +1537,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
         try:
             raw = _read_regular(stage_path, evidence)
             physical = json.loads(raw.decode('utf-8'))
-            if physical != stage:
+            if not _json_exact(physical, stage):
                 errors.append(str(variant) + ' stage ' + name + ' physical record differs')
         except BaseException as exc:
             errors.append(str(variant) + ' stage ' + name + ' record missing/invalid: ' + str(exc))
@@ -1548,7 +1552,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
             errors.extend(_stage_errors(stage, str(variant) + ' ' + name,
                 expected_argv=expected_argv[name], expected_fixture=fixture_hashes))
     native = row.get('native')
-    if not isinstance(native, dict) or native.get('complete') is not True:
+    if not isinstance(native, dict) or native.get('complete') is not True or native.get('errors') != []:
         errors.append(str(variant) + ' native fingerprint record incomplete')
     else:
         facts = native.get('native_data')
@@ -1558,7 +1562,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
             fpdir = case_root / 'native/fingerprints'
             try:
                 physical = json.loads(_read_regular(fpdir / 'native-data.json', evidence).decode('utf-8'))
-                if physical != facts:
+                if not _json_exact(physical, facts):
                     errors.append(str(variant) + ' physical native-data.json differs')
             except BaseException as exc:
                 errors.append(str(variant) + ' native-data.json invalid: ' + str(exc))
@@ -1572,6 +1576,13 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
             errors.extend(_stage_errors(native_stage, 'native fingerprint', expected_exit=2,
                 expected_argv=[str(native_tool / 'bin/verifast'), *NATIVE_ARGV[1:]],
                 expected_fixture=source_fixture))
+            try:
+                physical_stage = json.loads(_read_regular(
+                    fixture / 'native-fingerprint-stage.json', evidence).decode('utf-8'))
+                if not _json_exact(native_stage, physical_stage):
+                    errors.append(str(variant) + ' native stage differs from physical record')
+            except BaseException as exc:
+                errors.append(str(variant) + ' native stage record invalid: ' + str(exc))
             physical_snapshots = {}
             for key, filename in (('unit', 'caller-native-unit.marshal'),
                                   ('body', 'caller-native-body-0.marshal')):
@@ -1580,7 +1591,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
                     raw = _read_regular(path, evidence)
                     physical_snapshots[key] = {'path': path.relative_to(evidence).as_posix(),
                         'bytes': len(raw), 'sha256': digest(raw)}
-                    if snapshot_records.get(key) != physical_snapshots[key]:
+                    if not _json_exact(snapshot_records.get(key), physical_snapshots[key]):
                         errors.append(str(variant) + ' native physical ' + key + ' record differs')
                 except BaseException as exc:
                     errors.append(str(variant) + ' native physical ' + key + ' invalid: ' + str(exc))
@@ -1591,7 +1602,7 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
                 if digest(source_raw) != native_source:
                     errors.append(str(variant) + ' native source identity changed')
                 physical_facts = json.loads(_read_regular(fpdir / 'native-data.json', evidence).decode('utf-8'))
-                if facts != physical_facts:
+                if not _json_exact(facts, physical_facts):
                     errors.append(str(variant) + ' native facts differ from physical JSON')
                 build_id = report.get('build_id')
                 expected_fields = {
@@ -1612,6 +1623,8 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
                              'bytes': physical_snapshots.get('body', {}).get('bytes'),
                              'sha256': physical_snapshots.get('body', {}).get('sha256')},
                 }
+                if not _json_exact(physical_facts, expected_fields):
+                    errors.append(str(variant) + ' native physical facts have wrong fields/types')
                 for key, value in expected_fields.items():
                     if type(physical_facts.get(key)) is not type(value) or physical_facts.get(key) != value:
                         errors.append(str(variant) + ' native physical fact differs: ' + key)
@@ -1620,6 +1633,8 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
                        type(physical_facts[key].get('bytes')) is not int:
                         errors.append(str(variant) + ' native physical byte count has wrong type: ' + key)
                 stdout_name, stderr_name = native_stage.get('stdout'), native_stage.get('stderr')
+                if native.get('log_paths') != [stdout_name, stderr_name]:
+                    errors.append(str(variant) + ' native log path inventory differs')
                 stdout_text = _read_regular(fixture / stdout_name, evidence).decode('utf-8', 'strict')
                 stderr_text = _read_regular(fixture / stderr_name, evidence).decode('utf-8', 'strict')
                 errors.extend(_parse_native_marker(stdout_text, stderr_text, native_source,
@@ -1669,7 +1684,7 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             if output_path != audit_path or output_path.is_symlink():
                 raise ValueError('audit output must be the exact evidence-relative audit path')
         _mkdir_chain(evidence, audit_path.parent)
-        _route(dict(os.environ))
+        expected_route = _route(dict(os.environ))
         prereq_errors = _prerequisite_errors(prerequisite_summary, prerequisite_audit,
                                              args.candidate)
         audit_report['errors'].extend(prereq_errors)
@@ -1681,15 +1696,30 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
         raw = _read_regular(report_path, evidence)
         report = json.loads(raw.decode('utf-8'))
         need(isinstance(report, dict), 'control capture summary is not an object')
+        expected_context = {
+            'classification': 'COMPLETE_SOURCE_ONLY_CONTROL_CAPTURE',
+            'r24_session_phase_id': R24_PHASE, 'route_phase_id': R21_PHASE,
+            'owner': 'select-sort4', 'lane': LANE, 'profile': PROFILE,
+            'build_id': os.environ.get('CLOUD_BUILD_ID'),
+            'mode_identity': {'path': MODE_REL.as_posix(), 'sha256': MODE_SHA256},
+            'route': expected_route, 'provider_record': _provider_record(cloud_dir),
+            'stages': {}, 'errors': [],
+        }
+        for key, value in expected_context.items():
+            if not _json_exact(report.get(key), value):
+                audit_report['errors'].append('summary context differs: ' + key)
         need(report.get('schema') == SCHEMA and report.get('candidate') == args.candidate and
              report.get('mode_sha256') == MODE_SHA256,
              'control capture summary identity differs')
         if report.get('prerequisite_summary_sha256') != summary_prereq_sha or \
            report.get('prerequisite_audit_sha256') != audit_prereq_sha:
             audit_report['errors'].append('C6 prerequisite records changed since capture')
-        need(report.get('batch_indices') == list(BATCH_INDICES) and
+        need(type(report.get('batch_indices')) is list and
+             all(type(index) is int for index in report['batch_indices']) and
+             report['batch_indices'] == list(BATCH_INDICES) and
              report.get('selected_variants') == [BODY_NAMES[i] for i in BATCH_INDICES] and
-             report.get('universe_count') == len(BODY_NAMES),
+             type(report.get('universe_count')) is int and
+             report['universe_count'] == len(BODY_NAMES),
              'summary batch/universe differs from closed pilot mode')
         summary_boundary = {'complete': True, 'batch_complete': True,
                             'universe_complete': False, 'body_proof_run': False,
@@ -1728,16 +1758,19 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
         rows = report.get('rows')
         tool_build = report.get('tool_build')
         source_raw = _read_regular(repo / SOURCE_REL)
-        if digest(source_raw) != SOURCE_SHA256 or report.get('source_after', {}).get('sha256') != digest(source_raw):
+        expected_source_after = {'path': SOURCE_REL.as_posix(), 'bytes': len(source_raw),
+                                 'sha256': digest(source_raw)}
+        if digest(source_raw) != SOURCE_SHA256 or not _json_exact(
+                report.get('source_after'), expected_source_after):
             audit_report['errors'].append('repository source changed since capture')
         profile, modules = _load_constructor_inputs(repo, cloud_dir)
         reconstructed = _construct_sources(repo, cloud_dir, modules)
-        if report.get('constructor_profile') != {
+        if not _json_exact(report.get('constructor_profile'), {
             'path': CONSTRUCTOR_PROFILE_REL.as_posix(),
             'sha256': CONSTRUCTOR_PROFILE_SHA256,
             'actual_indexed_calls': profile.get('actual_indexed_calls'),
             'body_action': profile.get('body_action'),
-        }:
+        }):
             audit_report['errors'].append('constructor profile facts changed')
         expected_sources = {row['name']: row for row in reconstructed}
         constructor_inventory = report.get('constructor_inventory')
@@ -1758,6 +1791,8 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             if not isinstance(row, dict) or row.get('variant') not in expected_sources:
                 continue
             expected = expected_sources[row['variant']]
+            if row.get('kind') != expected['kind']:
+                audit_report['errors'].append(row['variant'] + ' source kind differs from pinned constructor')
             if not _json_exact(row.get('source_metadata'), _metadata_facts(expected['metadata'])):
                 audit_report['errors'].append(row['variant'] + ' source metadata differs from pinned constructors')
             fixture_facts = row.get('fixture')
@@ -1766,25 +1801,46 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
                fixture_facts.get('original', {}).get('sha256') != digest(expected['original']):
                 audit_report['errors'].append(row['variant'] + ' source fixture does not match pinned constructors')
         expected_build_stages = tool_build.get('stages') if isinstance(tool_build, dict) else None
-        if not isinstance(expected_build_stages, dict):
+        target_tool = Path('/workspace/smallsort-work') / NATIVE_TOOL_HOME_NAME
+        patch_path = repo / NATIVE_PATCH_REL
+        build_argv = {
+            'native-tool-copy': ['/bin/cp', '-a', str(native_home), str(target_tool)],
+            'native-patch-check': ['git', '-C', str(target_tool), 'apply', '--check', str(patch_path)],
+            'native-patch-apply': ['git', '-C', str(target_tool), 'apply', str(patch_path)],
+            'native-tool-build': ['make', '-C', str(target_tool / 'src'),
+                                 '../bin/verifast', 'WITHOUT_LABLGTK=yes', 'VERBOSE=yes'],
+        }
+        if type(expected_build_stages) is not dict or set(expected_build_stages) != set(build_argv):
             audit_report['errors'].append('native tool build stage map malformed')
         else:
             stage_root = evidence / SUMMARY_REL.parent / 'tool-build'
             for name, stage in expected_build_stages.items():
                 try:
                     physical = json.loads(_read_regular(stage_root / (name + '-stage.json'), evidence).decode('utf-8'))
-                    if physical != stage:
+                    if not _json_exact(physical, stage):
                         audit_report['errors'].append('native tool build stage differs: ' + name)
+                    audit_report['errors'].extend(_stage_errors(
+                        physical, name, expected_argv=build_argv[name], expected_fixture={}))
                     for key in ('stdout', 'stderr'):
                         logname = stage.get(key) if isinstance(stage, dict) else None
                         if isinstance(logname, str):
                             _read_regular(stage_root / logname, evidence)
                 except BaseException as exc:
                     audit_report['errors'].append('native tool build stage invalid ' + name + ': ' + str(exc))
-        target_tool = Path('/workspace/smallsort-work') / NATIVE_TOOL_HOME_NAME
-        if not isinstance(tool_build, dict) or tool_build.get('complete') is not True:
+        if not isinstance(tool_build, dict) or tool_build.get('complete') is not True or \
+           tool_build.get('errors') != []:
             audit_report['errors'].append('native fingerprint tool build incomplete')
         else:
+            for field, stage_name in (
+                    ('copy_stage', 'native-tool-copy'), ('patch_check_stage', 'native-patch-check'),
+                    ('patch_apply_stage', 'native-patch-apply'), ('build_stage', 'native-tool-build')):
+                if type(expected_build_stages) is not dict or not _json_exact(
+                        tool_build.get(field), expected_build_stages.get(stage_name)):
+                    audit_report['errors'].append('native tool build duplicated stage differs: ' + field)
+            if tool_build.get('target') != str(target_tool) or not _json_exact(
+                    tool_build.get('source_before'), native_input_hashes) or not _json_exact(
+                    tool_build.get('source_copied'), native_input_hashes):
+                audit_report['errors'].append('native tool build input/copy context differs')
             try:
                 live_native = _tool_sources(target_tool,
                     expected_sources=_patched_source_pins(),
@@ -1798,17 +1854,20 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             audit_report['errors'].append('pilot row inventory incomplete')
             rows = rows if isinstance(rows, list) else []
         for expected_index, row in zip(BATCH_INDICES, rows):
-            if not isinstance(row, dict) or row.get('index') != expected_index or row.get('variant') != BODY_NAMES[expected_index]:
+            if not isinstance(row, dict) or type(row.get('index')) is not int or \
+               row['index'] != expected_index or row.get('variant') != BODY_NAMES[expected_index]:
                 audit_report['errors'].append('pilot row order/type differs at index ' + str(expected_index))
                 continue
             audit_report['errors'].extend(_audit_case(
                 evidence, row, report, tool_home, target_tool, capture_module))
         physical_all = _summary_root_inventory(evidence / SUMMARY_REL.parent, evidence)
-        if report.get('artifact_inventory') != physical_all:
+        if not _json_exact(report.get('artifact_inventory'), physical_all):
             audit_report['errors'].append('summary-root physical inventory differs')
-        if getattr(args, 'runner_exit', 0) != 0 or getattr(args, 'failed_stage', 'complete') != 'complete':
+        if type(getattr(args, 'runner_exit', None)) is not int or args.runner_exit != 0 or \
+           getattr(args, 'failed_stage', None) != 'complete':
             audit_report['errors'].append('outer runner exit/stage does not report complete control capture')
-        if report.get('runner_exit') != 0 or report.get('failed_stage') != 'complete':
+        if type(report.get('runner_exit')) is not int or report['runner_exit'] != 0 or \
+           report.get('failed_stage') != 'complete':
             audit_report['errors'].append('captured runner exit/stage does not report complete batch')
         audit_report['summary_sha256'] = digest(raw)
         audit_report['mode_sha256'] = MODE_SHA256

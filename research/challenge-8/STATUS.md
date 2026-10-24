@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T04:51:48Z
+- Updated: 2026-10-24T04:59:27Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 12666s spent; 0s retired; 8934s remaining including active reservations
@@ -26,9 +26,9 @@ C6 inputdiagnostic complete as reported; checked8call consumption/C5 open.
 - [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-READINESS.json](task-history/select-callee-r24/W4-CONTRACT-INPUTS-READINESS.json) SHA `1d71c4717ec20aa99c4947ab8b0a2834366aee5bae8fd71428111fbca0867d59`
 
 ## Next
-Review corrected MIR/metadata audit; full1200 source-only pilot8/37, then checked8call/C5.
+Review exact index/record types; full1200 source-only pilot8/37, then checked8call/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `cd4676ea02fbc8ff096ab969fe5573220e7aa873102dc242b369c031ea3f6431`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a1c2a0c0b1ac67f47f104db66a794f6fc98bbea74c7a59a0bac76c21ceb66371`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `06a2dbe0abcc7d1f636fc445152f6a623d0c87741b4a533a68d59af109a3f30a`

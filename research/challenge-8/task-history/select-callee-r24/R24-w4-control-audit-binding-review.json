@@ -1,0 +1,44 @@
+{
+  "schema": "select-r24-w4-control-audit-binding-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "NO_GO_FIX_REQUIRED_BEFORE_SOURCE_ONLY_PILOT",
+  "baseline_commit": "cbe1ff08e3b47a8fa874004560e059488840ae6b",
+  "candidate_commit": "7002e395d3cde8fdc6f566f03c9c14cd1296bdd5",
+  "candidate_tree": "26bbf087c96b43a7d60179a822524ebab714ed0e",
+  "spec_sha256": "0f926cbed36278e7f7652571fea91dd490bba23d3329bface8d23c3a2a490d5f",
+  "packet_sha256": "22e03baeda221fb29b08ae529dfaa8c905fcab2ea8a0a3e3d58bb3a89e005808",
+  "diff_sha256": "0803088bc7d7329cf17a2d57f4877560e7d4507aabbfc4a946b9baf693fa1fda",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-capture-review.json",
+      "sha256": "9101c459c70af6ec5df21dac8e3aa08a99afb6a96d428b4034e3d608e042c0a0"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "BLOCKER",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py::audit row-order check near line 1801",
+      "issue": "The audit checks `row.get('index') != expected_index` with Python equality. For the first pilot row, JSON `false` compares equal to integer 0, so changing only that report field from `0` to `false` is accepted; the row still passes variant-order checks and can leave the audit complete. The top-level batch-index list comparison has the same bool/int equality behavior. This violates the report's exact pilot-index typing and permits report-only tampering through the physical audit.",
+      "required_fix": "Require `type(row.get('index')) is int` before comparing each row index. Validate `batch_indices` as a list of exact integers (and exact length/order), or use a canonical type-sensitive comparison. Add report-only controls that replace pilot index 0 with false in the row and in the summary batch list independently and require audit refusal."
+    }
+  ],
+  "verified": [
+    "Reviewed exact candidate 7002e395d3cde8fdc6f566f03c9c14cd1296bdd5 against baseline cbe1ff08e3b47a8fa874004560e059488840ae6b and verified the candidate tree and packet/spec/diff identities.",
+    "The prior MIR-summary/metadata finding is addressed: audit now requires exactly normal/readonly MIR entries; recomputes the complete sort4_stable record and graph inventory with the pinned capture helper; compares expected graph-parser outputs through a narrow compare-only adapter against safe physical files; and compares all persisted MIR facts canonically. It reconstructs source metadata from pinned constructors and canonically checks selected rows and the full 37-case constructor inventory.",
+    "The compare-only adapter restricts output names to the exact two pinned-helper outputs, rejects duplicate/unexpected writes, reads and compares existing safe files, and does not mutate evidence. The stage output path and artifact inventory checks remain in place.",
+    "The refusal-only native probe, source constructors, 8-of-37 pilot boundary, and proof-admission/credit flags are unchanged in this delta. The recipe and pin changes are mode/hash refreshes for the modified collector."
+  ],
+  "tests": [
+    "The packet reports 94 targeted static/synthetic checks passing, including per-field MIR and metadata tampering and real pinned graph-parser use on tiny artificial text. I did not rerun those checks or the transport preflight.",
+    "Static review only; no source preparation, compiler/exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "NO_GO is limited to the source-only pilot until the audit uses type-sensitive validation for row and batch indices. No body admission, C5 admission, qualification, or independent proof credit is established."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

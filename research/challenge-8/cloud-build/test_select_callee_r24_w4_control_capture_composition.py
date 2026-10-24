@@ -133,10 +133,21 @@ class CompositionTests(unittest.TestCase):
     def build(self, args, *, work_root, cloud_dir, native_home, stage_runner):
         target = self.root / 'synthetic-new-tool'
         target.mkdir()
-        for name in ('native-tool-copy', 'native-patch-check', 'native-patch-apply', 'native-tool-build'):
-            M._stage_call(stage_runner, name, ['synthetic-build-service', name],
-                         work_root, self.env, {}, args.deadline_epoch, 1)
-        return dict(target=str(target), errors=[], source_after_build=self.output_pins)
+        patch_path = self.repo / M.NATIVE_PATCH_REL
+        commands = {
+            'native-tool-copy': ['/bin/cp', '-a', str(native_home), str(target)],
+            'native-patch-check': ['git', '-C', str(target), 'apply', '--check', str(patch_path)],
+            'native-patch-apply': ['git', '-C', str(target), 'apply', str(patch_path)],
+            'native-tool-build': ['make', '-C', str(target / 'src'),
+                                 '../bin/verifast', 'WITHOUT_LABLGTK=yes', 'VERBOSE=yes'],
+        }
+        stages = {name: M._stage_call(stage_runner, name, argv, work_root, self.env, {},
+                                     args.deadline_epoch, 1)
+                  for name, argv in commands.items()}
+        return dict(target=str(target), errors=[], source_before=self.input_pins,
+                    source_copied=self.input_pins, source_after_build=self.output_pins,
+                    copy_stage=stages['native-tool-copy'], patch_check_stage=stages['native-patch-check'],
+                    patch_apply_stage=stages['native-patch-apply'], build_stage=stages['native-tool-build'])
 
     def graph_inventory(self, decoded_path, out, mode):
         record = decoded_path.read_text()
@@ -325,10 +336,64 @@ class CompositionTests(unittest.TestCase):
         path.write_text(decoded)
         expected = capture.graph_inventory(path, case, 'normal')
         before = {str(p): p.read_bytes() for p in case.rglob('*') if p.is_file()}
-        result = M._recompute_mir_observation(self.ev, case, 'normal', capture)
+        with mock.patch.object(Path, 'write_text', side_effect=AssertionError('read-only parser attempted write')):
+            result = M._recompute_mir_observation(self.ev, case, 'normal', capture)
         self.assertEqual(result['graph_inventory'], expected)
         self.assertEqual(result['function_name'], 'sort4_stable')
         self.assertEqual({str(p): p.read_bytes() for p in case.rglob('*') if p.is_file()}, before)
+
+    def test_row_and_batch_indices_reject_false_float_string_and_null(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            path = self.ev / M.SUMMARY_REL
+            original = path.read_bytes()
+            for value in (False, 0.0, '0', None):
+                for field in ('row', 'batch'):
+                    with self.subTest(field=field, value=value):
+                        report = json.loads(original)
+                        if field == 'row':
+                            report['rows'][0]['index'] = value
+                        else:
+                            report['batch_indices'] = [value]
+                        path.write_text(json.dumps(report))
+                        self.assertFalse(self.audit_fake()['complete'])
+            for value in (None, '0', {'0': 0}):
+                report = json.loads(original)
+                report['batch_indices'] = value
+                path.write_text(json.dumps(report))
+                self.assertFalse(self.audit_fake()['complete'])
+
+    def test_adjacent_numeric_context_and_size_records_are_exact(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            path = self.ev / M.SUMMARY_REL
+            original = path.read_bytes()
+            mutations = (
+                lambda r: r.update(universe_count=37.0),
+                lambda r: r.update(runner_exit=False),
+                lambda r: r['source_after'].update(bytes=float(r['source_after']['bytes'])),
+                lambda r: r['constructor_profile'].update(actual_indexed_calls=5.0),
+                lambda r: r['artifact_inventory'][0].update(bytes=float(r['artifact_inventory'][0]['bytes'])),
+                lambda r: r['rows'][0]['fixture']['verified'].update(
+                    bytes=float(r['rows'][0]['fixture']['verified']['bytes'])),
+                lambda r: r['rows'][0]['native']['snapshots']['body'].update(
+                    bytes=float(r['rows'][0]['native']['snapshots']['body']['bytes'])),
+                lambda r: r['provider_record'].update(build_id=OLD_BUILD),
+                lambda r: r['tool_build']['stages'].pop('native-tool-build'),
+                lambda r: r['tool_build']['copy_stage'].update(exit=False),
+            )
+            for i, mutate in enumerate(mutations):
+                with self.subTest(mutation=i):
+                    report = json.loads(original)
+                    mutate(report)
+                    path.write_text(json.dumps(report))
+                    self.assertFalse(self.audit_fake()['complete'])
+
+    def test_outer_runner_boolean_is_not_integer_exit_zero(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            self.args.runner_exit = False
+            self.assertFalse(self.audit_fake()['complete'])
 
 
 if __name__ == '__main__':

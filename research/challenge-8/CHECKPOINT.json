@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "a1c2a0c0b1ac67f47f104db66a794f6fc98bbea74c7a59a0bac76c21ceb66371"
+      "sha256": "06a2dbe0abcc7d1f636fc445152f6a623d0c87741b4a533a68d59af109a3f30a"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -88,7 +88,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "a1c2a0c0b1ac67f47f104db66a794f6fc98bbea74c7a59a0bac76c21ceb66371"
+    "sha256": "06a2dbe0abcc7d1f636fc445152f6a623d0c87741b4a533a68d59af109a3f30a"
   },
   "brief_observation_refs": [
     {
@@ -570,7 +570,7 @@
     }
   ],
   "next": "Implement source-only control fingerprints and closed C5 port; review/Cloud capture exact inputs before proof.",
-  "next_step": "Review corrected MIR/metadata audit; full1200 source-only pilot8/37, then checked8call/C5.",
+  "next_step": "Review exact index/record types; full1200 source-only pilot8/37, then checked8call/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -685,7 +685,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T04:51:48Z",
+  "updated_utc": "2026-10-24T04:59:27Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -802,6 +802,19 @@
       "scope": "Recompute exact normal/readonly MIR facts withpinnedhelper through compare-only outputs; canonicalmetadata frompinnedconstructors. Capture-only; alladmission/creditfalse.",
       "state": "UNREVIEWED_FIX"
     },
+    "audit_index_types_fix": {
+      "design": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-INDEX-TYPES-DESIGN.json",
+        "sha256": "2baccaad216381f2574bef02f1d9e0ad38c22b9de1a521f29cfd67ae57401bb7"
+      },
+      "prior_candidate": "7002e395d3cde8fdc6f566f03c9c14cd1296bdd5",
+      "prior_review": {
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-audit-binding-review.json",
+        "sha256": "58e1313d91c4b52283f668f85e727fc11642f16003a99eaa3d463bb520c68232"
+      },
+      "scope": "Exact index/list/int types; canonicalphysical/reconstructed record comparison; nativeunchanged, capture-only noadmission.",
+      "state": "UNREVIEWED_FIX"
+    },
     "base_source_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
     "c5_static_reference": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-C5-PORT-REFERENCE.json",
@@ -817,7 +830,7 @@
     "runtime_artifacts": [
       {
         "path": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py",
-        "sha256": "e4e6cb82364c3685b0a00f4fc0215e7f059d66e7b5ffffacd768bc12ce0fec0f"
+        "sha256": "d0dd844bd823a715912625f2ffc2b631b626d3c927ff460d44caaa28be3cc1df"
       },
       {
         "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json",
@@ -854,13 +867,13 @@
       "universe": 37,
       "universe_complete": false
     },
-    "state": "REVIEW_FINDING_FIXED_UNREVIEWED_UNBUILT",
+    "state": "INDEX_TYPE_REVIEW_FINDING_FIXED_UNREVIEWED_UNBUILT",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
       "runner_worker": "source-only control capture component and synthetic tests"
     },
-    "tests": "94 targeted static/synthetic checks PASS, including report-only MIR/metadata tampering and realpinned graphparser on tiny artificialtext; no actualtoolchain/sourcepreparation."
+    "tests": "97 targeted static/synthetic checks PASS. Report-only false/float/string/null index/batch, adjacent sizes/context/stages/exit tampering refuse; realpinned graphparser compare-only adapter forbidsPath.write_text. No actualtools/sourcepreparation."
   },
   "w4_const_file_api_build": {
     "accepted": false,
