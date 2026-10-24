@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "e323483d2cbe9979d0be8fb4aedd9665f9441f307dfa6d5b6610f72d93d8805f"
+      "sha256": "051b21c1eeb290925f9662c7cdd970d5e76b717167bfe81d8087b348360c8dd0"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,12 +34,12 @@
   "blocker": {
     "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
     "evidence": [],
-    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
+    "summary": "Current-native unsafe consequence Build terminal FAILURE; source results pending Brief."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "e323483d2cbe9979d0be8fb4aedd9665f9441f307dfa6d5b6610f72d93d8805f"
+    "sha256": "051b21c1eeb290925f9662c7cdd970d5e76b717167bfe81d8087b348360c8dd0"
   },
   "brief_observation_refs": [
     {
@@ -981,8 +981,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
-  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next": "Read Brief full const8/consequence/control/audits; resolve remaining defect, then checked W4 linkage/C5.",
+  "next_step": "Read Brief full const8/consequence/control/audits; resolve remaining defect, then checked W4 linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1075,17 +1075,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "4acf66cd-faf4-41fb-9fff-74f65c4b40b2"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 10887,
+    "remaining_seconds": 10510,
     "retired_seconds": 0,
-    "spent_seconds": 10713,
+    "spent_seconds": 11090,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1097,9 +1095,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:04:02Z",
+  "updated_utc": "2026-10-24T02:10:31Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1432,24 +1430,32 @@
   },
   "w4_const_unsafe_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
+    "build_seconds": 377,
     "callee_matrix_status": "PENDING_BRIEF",
     "caller_body_proof_admission": false,
     "candidate": "0618e058339b5ecb1860dbfd30b3ffde0bfc4d18",
     "config_sha256": "f1db38a8f788987ea222420f2a6590a3a5af444c09fd0b5ddf8a30e45cc9a9aa",
     "consequence_status": "PENDING_BRIEF",
     "dispatch_token": "dispatch-1cf650074ce24f7ea015959c1e87c81d",
+    "execution_seconds": 376,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-const-unsafe-submission-v1",
     "source_payload_sha256": "e835b7120f724d97251fce8683a1e8dfe0ebbad5d736fa4a44112fa5d4a172e7",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
-    "w4_caller_body_proof_status": "UNKNOWN"
+    "w4_caller_body_proof_status": "UNKNOWN",
+    "watcher_ack": {
+      "authority": "UNCHANGED_EXISTING_TASK_ONLY",
+      "event_id": "75170040-a660-46d4-9000-a06e00dd7144",
+      "job_id": "2451b4cd-733d-4c69-929a-1514c177653c",
+      "mode": "CONTINUE_EXISTING_WINDOW"
+    }
   },
   "w4_const_unsafe_candidate": {
     "accepted": false,
@@ -1474,7 +1480,7 @@
       "sha256": "fd7a31c2ae28a30627f299b19b60a653fca4f0d1257e1b21c2b6ad5a94021220"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_UNSAFE_POINTER_POST_CONSEQUENCE_ONLY",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
