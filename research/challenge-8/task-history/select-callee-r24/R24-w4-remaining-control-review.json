@@ -1,0 +1,39 @@
+{
+  "schema": "select-r24-w4-remaining-control-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_SOURCE_ONLY_REMAINING_BATCH_ONLY",
+  "baseline_commit": "2b05ca0ad1ce4929ca3b33312e0bae80a265357e",
+  "candidate_commit": "2632dada697304311aa2912e03f3479cc18d6fe7",
+  "candidate_tree": "deb4a7dc16329a19517bb549089f152dd0c26b13",
+  "spec_sha256": "0d13a5fd38f8757774cd8aae6d83f1ee71780d24aa9c6a49286955840583dfaf",
+  "packet_sha256": "43d9067534133f7f3ab1892aae81cab3bff510067fd1887a622ca93a6ff70d98",
+  "diff_sha256": "d1f2a2f95e2bbf3c566592b99ed7f37098905f7cfae8b381e3cc64f98c3c5fd9",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
+      "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52",
+      "decision": "PRIOR_CANDIDATE_REVIEW; THIS PACKET HAS A DISTINCT BASELINE/CANDIDATE"
+    }
+  ],
+  "findings": [],
+  "verified": [
+    "Reviewed the exact 2632dada697304311aa2912e03f3479cc18d6fe7 candidate against baseline 2b05ca0ad1ce4929ca3b33312e0bae80a265357e. The candidate tree, packet/spec/diff identities, and declared dependency hash match the handoff.",
+    "The remaining batch is exactly indices 8 through 36 of the pinned 37-item constructor order, complementary to the recorded S37 batch 0 through 7. Both selected variants and batch indices are checked against the closed mode. Every per-build report and audit continue to set `universe_complete` false.",
+    "The new source-reported output-tool identity is pinned by path and SHA, requires data-only classification and false proof/acceptance/publication/admission flags with integer zero credit, and canonically checks all nine file identities. The native input F83 binary remains separately pinned. Preparation and physical audit check the measured output binary ee6758, rather than accepting the input binary or an arbitrary build result.",
+    "The C3 overflow control's expected-rejection metadata now describes index 6 beyond the count-five body. This changes only the reason label; the source mutation, other C3 labels, C4 tuple, count-five checks, runtime ghost-stripping checks, and full constructor order remain intact.",
+    "The mode, collector, qualification wrapper, Bash pins, and recipe include the output identity coherently. The native diagnostic behavior remains the same refusal-only data capture; no proof rule, caller-body admission, qualification, or credit path is introduced."
+  ],
+  "tests": [
+    "The packet reports 102 targeted static/synthetic tests passing, including exact 8..36 coverage and changed-output-binary refusal. I did not rerun tests or transport preflight. The parent reported the exact candidate transport preflight PASS after commit.",
+    "Static review only; no actual source preparation, compiler/exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "GO applies only to one authorized full-1200-second source-only capture of remaining indices 8..36. It does not merge prior and current batches into a proof result. Actual checked-call consumption, C5 scope-validator proof, full control-target conclusions, and qualification of the future body tool remain open. Source-reported tool identities are not independent proof credit."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

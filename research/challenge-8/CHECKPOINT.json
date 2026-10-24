@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "307ed2fd0c85a266e7822a186d05d48d81bbffc15f49631e2ce8b99b3c5951b2"
+      "sha256": "41ca543ce18023c8f56afbb2f6ddaeeba77331f00f073c5f80f8a91fab6b3711"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -83,12 +83,12 @@
         "sha256": "afb6f42ede246c79a2847d788166381cdd65fdbd06319546214ab2b46396f0ef"
       }
     ],
-    "summary": "Pilot8 source inputs complete;29 remain; checked8call/C5 proof open."
+    "summary": "29 control inputs pending; checked W4 calls and C5 proof remain open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "307ed2fd0c85a266e7822a186d05d48d81bbffc15f49631e2ce8b99b3c5951b2"
+    "sha256": "41ca543ce18023c8f56afbb2f6ddaeeba77331f00f073c5f80f8a91fab6b3711"
   },
   "brief_observation_refs": [
     {
@@ -583,8 +583,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "ACK; push terminal accounting; Brief pilot inputs/audits, then checked8call/C5 port.",
-  "next_step": "Review/publish remaining29 capture pinnedee6758; full1200Build, then checked8call/C5.",
+  "next": "Publish reviewed remaining29 capture; submit full 1200s Build, then checked W4/C5.",
+  "next_step": "Publish reviewed remaining29 capture; submit full 1200s Build, then checked W4/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -699,7 +699,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T05:44:28Z",
+  "updated_utc": "2026-10-24T05:48:12Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1524,39 +1524,103 @@
   "w4_control_capture_candidate": {
     "accepted": false,
     "batch_indices": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
     ],
     "caller_body_proof_admission": false,
-    "candidate": "c7384a8be909abfffc851ea4ea4113ef11c59ae8",
+    "candidate": "2632dada697304311aa2912e03f3479cc18d6fe7",
+    "data_tool_identity": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-TOOL-IDENTITY.json",
+      "sha256": "8bd33eb6366468b5d54930b8251b5f5ceb6ea8312e12afe9ebc837332fd2d183"
+    },
     "preflight": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-C4-EXPECTED-API-TRANSPORT-PREFLIGHT.json",
-      "sha256": "39b049dafc71dfa6c55058912995b4ed13109df0a97d5912f6ec6a8ec9320621"
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-REMAINING-CONTROL-TRANSPORT-PREFLIGHT.json",
+      "sha256": "aadf5e42d2c1bdb23035693b6b5ef56cb13204363531e704b6ee37a99544cafd"
     },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
     "review": {
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
-      "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-remaining-control-review.json",
+      "sha256": "5ecaa0ee9e3457c78d3712849a18aedf11cc9a9bdc694b22780218bfdcae591f"
     },
-    "source_payload_sha256": "54e6da9d3298293fbf431ca468add66eab3b0ae66d692a9e1e8f5c4602809cb7",
-    "state": "BUILT_SOURCE_REPORTED_COMPLETE_SELECTED8_INPUTS",
-    "submission": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-SUBMISSION.json",
-      "sha256": "df0f2a1dad74a30418161ce9f1ea3a8a2e7ed7af1b92d8108ad9826179fee4ac"
+    "runtime_closure": {
+      "bytes": 3583221,
+      "entries": 162,
+      "sha256": "d533a5ffad5da3469855a4a12e5bea8f552c6bad80426692dc94bb0173d67193"
     },
+    "source_payload_sha256": "29c22d3f8e6ae33d1168b73098df6124c9efe2ed970a5f12aa1152bc989aca38",
+    "state": "REVIEWED_GO_UNBUILT",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "universe_complete": false,
     "universe_count": 37
   },
+  "w4_control_capture_candidate_history": [
+    {
+      "accepted": false,
+      "batch_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "caller_body_proof_admission": false,
+      "candidate": "c7384a8be909abfffc851ea4ea4113ef11c59ae8",
+      "preflight": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-C4-EXPECTED-API-TRANSPORT-PREFLIGHT.json",
+        "sha256": "39b049dafc71dfa6c55058912995b4ed13109df0a97d5912f6ec6a8ec9320621"
+      },
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reserved_seconds": 1260,
+      "review": {
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
+        "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
+      },
+      "source_payload_sha256": "54e6da9d3298293fbf431ca468add66eab3b0ae66d692a9e1e8f5c4602809cb7",
+      "state": "BUILT_SOURCE_REPORTED_COMPLETE_SELECTED8_INPUTS",
+      "submission": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-SUBMISSION.json",
+        "sha256": "df0f2a1dad74a30418161ce9f1ea3a8a2e7ed7af1b92d8108ad9826179fee4ac"
+      },
+      "timeout_seconds": 1200,
+      "typed_call_linkage": "UNKNOWN",
+      "universe_complete": false,
+      "universe_count": 37
+    }
+  ],
   "w4_current_native_consequence_positive_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
     "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
