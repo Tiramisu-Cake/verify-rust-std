@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "53b110962263073a851e27499f8e69196169624f7939309459208b084e85f533"
+      "sha256": "3c6e3ab9939b172d442b7872d02ec3f76edabfd02e70cf060ee3a7e0cbe43422"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-target-path-review.json",
-        "sha256": "5479565d1b0f86f1879c64590505bb4876ccea74f13c868f4c4ddd8b7a90c475"
-      }
-    ],
-    "summary": "Reviewed current-native target-intent path fix unbuilt; W4 linkage/C5 remain open."
+    "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+    "evidence": [],
+    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "53b110962263073a851e27499f8e69196169624f7939309459208b084e85f533"
+    "sha256": "3c6e3ab9939b172d442b7872d02ec3f76edabfd02e70cf060ee3a7e0cbe43422"
   },
   "brief_observation_refs": [
     {
@@ -1218,8 +1214,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish exact target-path fix; full1200 const8/consequence and physical audits; Brief then W4.",
-  "next_step": "Publish exact target-path fix; full1200 const8/consequence and physical audits; Brief then W4.",
+  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1312,7 +1308,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "671815b1-79b5-4584-976b-7378c592f9b7"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1332,9 +1330,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:46:29Z",
+  "updated_utc": "2026-10-24T01:47:12Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1520,7 +1518,7 @@
       "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
     },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "TARGET_PATH_FIX_REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "target_path_design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-TARGET-PATH-DESIGN.json",
       "sha256": "f056e4abf8f66a0c8ab82b1cff6874f163af7e5451dc8ee05cfd4915e3178341"
@@ -1598,6 +1596,27 @@
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "a9cb6daf24e5e0619ae0df9656c4a0b47595b9505cc4dacb22ca8435a63126ea"
   },
+  "w4_const_target_path_build": {
+    "accepted": false,
+    "accounted": false,
+    "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+    "callee_matrix_status": "PENDING_BRIEF",
+    "caller_body_proof_admission": false,
+    "candidate": "1eda87b58d5203cb4aee28bac8c9fe7f68dadd31",
+    "config_sha256": "f332441551b56892771c2b6250c18067a4518ebab956eb7eae6b1287ae1af1a2",
+    "consequence_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-1cc45ca6e6f5476299bbb5f3118da452",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "schema": "select-r24-w4-const-target-path-submission-v1",
+    "source_payload_sha256": "c02449cd7da89dc71e204bc2d36bf57ccb5814c957d11ebd9bd74cd664f60842",
+    "status": "QUEUED",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN"
+  },
   "w4_const_target_path_candidate": {
     "accepted": false,
     "caller_body_proof_admission": false,
@@ -1619,7 +1638,7 @@
       "sha256": "8a67fa7670d9d070e180033faaed841f0b738863bba4bca3b383c836a9eb54bf"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_TARGET_INTENT_PATH_FIX",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "e915b218a7c25a73edef2c33b91a0b8f00931b5c5b509584f47a26ddf0f14695"
@@ -1992,6 +2011,14 @@
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
       "spec_path": "/tmp/select-r24-w4-const-setup-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "671815b1-79b5-4584-976b-7378c592f9b7",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-const-target-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

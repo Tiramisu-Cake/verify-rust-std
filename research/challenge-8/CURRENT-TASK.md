@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T01:46:29Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-24T01:47:12Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 10354s spent, 0s retired, 11246s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Reviewed current-native target-intent path fix unbuilt; W4 linkage/C5 remain open.
-Next: Publish exact target-path fix; full1200 const8/consequence and physical audits; Brief then W4.
+Active Build IDs: 671815b1-79b5-4584-976b-7378c592f9b7; unresolved: none recorded.
+Blocker: Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED. [Build `671815b1-79b5-4584-976b-7378c592f9b7`]
+Next: ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
