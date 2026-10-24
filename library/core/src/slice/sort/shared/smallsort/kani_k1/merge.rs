@@ -157,7 +157,8 @@ impl<T> CopyOnDrop<T> {
 
     /// `k1_sorted` as one quantifier over the constant range `1..K1_UNROLL` (the SAT backend of the
     /// Kani pin encodes only quantifiers with constant bounds), guarded by `i < len`. For
-    /// `len <= K1_UNROLL`. Phase 4 run B: does a quantified specification pass the instrumentation?
+    /// `len <= K1_UNROLL`. Not used by the contracts at HEAD; phase 4 run B (job 32) showed that this
+    /// quantified `ensures` passes goto-instrument together with a loop contract.
     pub(crate) fn k1_sorted_q<F: FnMut(&T, &T) -> bool>(
         base: *const T,
         len: usize,
