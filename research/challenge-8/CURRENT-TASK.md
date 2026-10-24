@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T03:26:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
+Updated: 2026-10-24T03:27:32Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 11477s spent, 0s retired, 10123s remaining including reservations.
-Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: W4 contract/native8call input congruence not yet checked; caller mapping/C5 disabled.
-Next: Publish exact reviewed881ed4be candidate and metadata, verify remote fullSHA, submit full1200 sameR24 contract-input diagnostic; then registeredBuild HANDOFF/watcher. No caller/C5 admission.
+Active Build IDs: 1fab9b22-9741-4ec2-90fa-e55f1c5683c6; unresolved: none recorded.
+Blocker: W4 contract-input Build pending. Checked eightcall linkage/C5 open; old P2 stays PUBLISHED. [Build `1fab9b22-9741-4ec2-90fa-e55f1c5683c6`]
+Next: ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
