@@ -1,0 +1,43 @@
+{
+  "archive_sha256": "377bc33f3a2bb77a0c402daad1b27eba6b63949f5978f6610db33f325320adef",
+  "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 95,
+      "JSON_EXCEEDS_SCAN_LIMIT": 4,
+      "PROJECTED": 421,
+      "UNSUPPORTED_FILE_TYPE": 335
+    },
+    "catalogue_complete": true,
+    "content_bytes": 2091096,
+    "content_files": 520,
+    "files": 855,
+    "source_scan_bytes": 4483297
+  },
+  "index_sha256": "760c61758b646eb390b348a3c0b493f9754b190df1005c8f482dcf1b7ff97213",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "7167d9850cdb0b477976bb3548cbe14adcb218a9e06db0a08e892688cb97abc2",
+      "kind": "text",
+      "path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-contract-inputs/variants/positive/contract-input-positive-stderr.log",
+      "path_sanitized": false,
+      "scanned_bytes": 1384,
+      "sha256": "57d503fe738c093c478acc8bace3bd4684de78b2abb4f0bcc520544199693714",
+      "size_bytes": 1384,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 855,
+    "files_with_incomplete_content": 648,
+    "matches_in_retained_data": 1,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

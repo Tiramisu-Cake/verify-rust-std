@@ -48,9 +48,9 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T03:48:00Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Updated: 2026-10-24T03:50:06Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 12232s spent, 0s retired, 9368s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Header-syntax diagnostic terminal FAILURE; cause pending Brief. Checked eightcall linkage/C5 open. [Build `85a86d66-982d-472c-9e18-83fc7f583843`]
-Next: Terminal accounting first pushed; inspect Evidence Brief for header-syntax diagnostic result and current prerequisites; continue R24.
+Blocker: C6 positive facts match; driver wrongly expects1, actual refusalexit2. Matrix/linkage/C5 open. [Build `85a86d66-982d-472c-9e18-83fc7f583843`]
+Next: Pin exact integer native refusalexit2, retaining all markers/facts/audits; review delta, exact transport, full1200Cloud for sixcase completion.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
