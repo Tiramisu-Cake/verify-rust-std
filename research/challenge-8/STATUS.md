@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T02:37:35Z
+- Updated: 2026-10-24T02:45:12Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 11477s spent; 0s retired; 10123s remaining including active reservations
@@ -9,7 +9,7 @@
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
-- [SOURCE_REPORTED] 9984b5ac runner0; current-native const8, ordinary pointer consequence positive+normalpost omission control, matrix/component/composite physicalaudits complete. Callerlinkage/body UNKNOWN; credit0. — [research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json) SHA `e730679117c1be345be6d560f0410c1a59235db3ab20b161afd5d6a7f1a84c99`
+- [SOURCE_REPORTED] Current native5170/bin33b actual const8 plus checked pointer consequence/omission control qualified under exactexperimentalprofile. No W4typedlinkage/body/C5 admission, independentB1B2credit0; oldP2 unchanged. — [research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json](task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json) SHA `a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d`; [research/challenge-8/task-history/select-callee-r24/R24-w4-current-native-qualification-review.json](task-history/select-callee-r24/R24-w4-current-native-qualification-review.json) SHA `2da3d5bfba09faf4231c12b987171902b2910bb05bc3fea88ab4b9a78acb102f`
 
 ## Open
 - Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Current-native const8/consequence complete asreported; scoped qualification and W4 checked8site linkage remain. [Build `9984b5ac-b202-4f3a-995b-5e183e76c3d3`]
-- [research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json) SHA `e730679117c1be345be6d560f0410c1a59235db3ab20b161afd5d6a7f1a84c99`
+Constcallee current-tool prerequisite qualified; W4 checked8call contract/source/native linkage and C5 open.
+- [research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json](task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json) SHA `a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d`
 
 ## Next
-Qualify exact current-native const8/consequence profile; then closed checked W4 eightcall binding/C5.
+Implement closed proof-backed externalcontract/AST and exact8call binding; then C5/c1-c4 controls.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `787e14b7a131e8b8620bdd8e3912ee37a1e0fde936810a8561aea7c4088448fd`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `6b74eaa2f184b4958bef8519b2866db816d839cf647c06d1f5aba5483f018a66`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `9c2d80c63ce167b7ab4870419e27e51c2e7e445357c37d5695ca944cf8081c7a`
