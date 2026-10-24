@@ -1,6 +1,6 @@
 # K-1: композиция Kani на длине 32 — экспериментальный трек
 
-**Статус: АКТИВИРОВАНО 2026-10-24.** Lane — CircleCI (§5). Базовый SHA эксперимента для check-tooling: `77479d23b9d17d14abb39e0321e565843c46ffa2`, на нём финальный smoke, CircleCI job 4: COMPLETE, gate true.
+**Статус: АКТИВИРОВАНО 2026-10-24.** Lane — CircleCI (§5). Базовый SHA эксперимента для check-tooling: `aca80458d4f60e6bee1697913a916b37b2ced0cb` (с 2026-10-24, лимит памяти verify). На нём smoke job 16: OUT_OF_MEMORY пойман внутри cgroup. Прогоны фазы 1 проверяются против прежней базы `77479d23b9d17d14abb39e0321e565843c46ffa2`.
 
 Основание:
 - `CH8-MINIMAL-PLAN-2026-10-24.md` (коммит `a04e1c0`), §5, эксперимент K-1;
@@ -143,6 +143,7 @@ GitHub Actions в форке недоступны: GitHub отключил их 
 3. Проект CircleCI подключён, токен на месте.
 
 4. Smoke на CircleCI: job 2, 3 и 4 дали COMPLETE и gate true. У `ok` cover 2/2, у `control_must_fail` локализованная проверка. Финальный smoke — job 4 на `77479d23`, это базовый SHA. Базовая ветка влита в обе агентские ветки.
+   После фазы 1 в lane добавлен лимит памяти verify, база — `aca80458`. Smoke job 15 на `951263da`: COMPLETE, gate true, ENFORCED, пик 1,68 GiB. Job 16 с ветки `experiment/kani-k1-coord-20261024`: `sort13_u8`, который в job 10 занял 15,5 GB, дал OUT_OF_MEMORY за 2 минуты. Результат: 1 OOM-kill, swap off, сводка и лог сохранены, check-tooling ok против `aca80458`. База влита в обе агентские ветки.
 
 Осталось:
 5. Запустить сессии: `cd /root/verify-rust-std-kani-k1-merge && claude`, `cd /root/verify-rust-std-kani-k1-network && claude`.
