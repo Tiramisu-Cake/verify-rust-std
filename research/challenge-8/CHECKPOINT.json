@@ -47,7 +47,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "7bbed8f64788a4d7a0a8103bca83c04be83f5798f79d91e29a994387e6468b25"
+      "sha256": "e03b45706180dc2a7e17aa8dbba85f57c9abd618f18893829e5c2e4ab9d07c81"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "74d40357cb45b6329936f7d9b0d659d4fee7d68a037d1455e2ce001ff37a654d"
+      "sha256": "71edc037c039bf0d958409821598d2421bba71d9e54cdaa824dced35828e00e4"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -77,14 +77,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
-    "evidence": [],
-    "summary": "S38 terminal FAILURE accounted; remaining29 input results need Brief."
+    "evidence": [
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json",
+        "sha256": "1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea"
+      }
+    ],
+    "summary": "All37 inputs captured; checked W4 calls and full C5 port/proof remain open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "74d40357cb45b6329936f7d9b0d659d4fee7d68a037d1455e2ce001ff37a654d"
+    "sha256": "71edc037c039bf0d958409821598d2421bba71d9e54cdaa824dced35828e00e4"
   },
   "brief_observation_refs": [
     {
@@ -250,6 +254,20 @@
         {
           "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-PILOT-INPUTS.json",
           "sha256": "28de35aa35d54146fa0ea88d5df285e62a0ac7f6050da7ad47bd732be098add3"
+        }
+      ]
+    },
+    {
+      "assurance": "SOURCE_REPORTED",
+      "claim": "S37+S38 cover all37 source/unit/body inputs on identical9file data tool; both physical audits complete. Input coverage only; sameversion future-tool callee qualification, checked8call/C5 body and control-validator outcomes remain open, independent credit0.",
+      "evidence": [
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json",
+          "sha256": "1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea"
+        },
+        {
+          "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-OBSERVATIONS.json",
+          "sha256": "49af48fe194aaaba0686e8221b7f1d8c10a97155e2f569d7feeb7641da17bad2"
         }
       ]
     }
@@ -579,8 +597,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Read S38 Brief inputs and audits; then continue checked W4 calls and C5.",
-  "next_step": "Read S38 Brief inputs and audits; then continue checked W4 calls and C5.",
+  "next": "Port closed C5 and checked-call machinery; review dormant compile/identity candidate.",
+  "next_step": "Port closed C5 and checked-call machinery; review dormant compile/identity candidate.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -695,7 +713,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T05:59:31Z",
+  "updated_utc": "2026-10-24T06:03:51Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -842,10 +860,18 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-C5-PORT-REFERENCE.json",
       "sha256": "d9bd675f127812737ab6948aace5231fef0459054e4eec83928b60c6b38756d1"
     },
+    "call_binding_design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CALL-BINDING-DORMANT-DESIGN.json",
+      "sha256": "a6bb8a92f2dad06e10d937c98d8c9ee4b81ff6637a310a890c4e2b9bb2b7a058"
+    },
     "caller_body_proof_admission": false,
     "captured_pilot_inputs": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-PILOT-INPUTS.json",
       "sha256": "28de35aa35d54146fa0ea88d5df285e62a0ac7f6050da7ad47bd732be098add3"
+    },
+    "complete_input_universe": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json",
+      "sha256": "1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea"
     },
     "data_tool_identity": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-TOOL-IDENTITY.json",
@@ -905,7 +931,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "S38_TERMINAL_PENDING_BRIEF",
+    "state": "ALL37_INPUTS_SOURCE_REPORTED_C5_PORT_OPEN",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1495,10 +1521,16 @@
     "config_sha256": "d99c3c3a31f67f569590541b4407fd33224c596664132ad7bbeae5ceb38ff02f",
     "dispatch_token": "dispatch-3a3aab780ca94b14aa0e3d2b8b6a2d89",
     "execution_seconds": 591,
+    "new_native_tool_status": "COMPILED_DATA_ONLY_NOT_CALLEE_QUALIFIED",
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-OBSERVATIONS.json",
+      "sha256": "49af48fe194aaaba0686e8221b7f1d8c10a97155e2f569d7feeb7641da17bad2"
+    },
     "proof_credit": 0,
     "publication_allowed": false,
+    "remaining_input_collection_complete": true,
     "reserved_seconds": 1260,
-    "result": "PENDING_EVIDENCE_BRIEF",
+    "result": "SOURCE_REPORTED_COMPLETE_SELECTED29_INPUTS",
     "schema": "select-r24-w4-control-capture-submission-v1",
     "source_control_universe_complete": false,
     "source_payload_sha256": "29c22d3f8e6ae33d1168b73098df6124c9efe2ed970a5f12aa1152bc989aca38",
@@ -1567,7 +1599,7 @@
       "sha256": "d533a5ffad5da3469855a4a12e5bea8f552c6bad80426692dc94bb0173d67193"
     },
     "source_payload_sha256": "29c22d3f8e6ae33d1168b73098df6124c9efe2ed970a5f12aa1152bc989aca38",
-    "state": "BUILT_PENDING_EVIDENCE_BRIEF",
+    "state": "BUILT_SOURCE_REPORTED_COMPLETE_SELECTED29_INPUTS",
     "submission": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-SUBMISSION.json",
       "sha256": "1c56de3823186d2de3589a23f7ff2536ed0f4a5e409623ebde669599e61fc042"

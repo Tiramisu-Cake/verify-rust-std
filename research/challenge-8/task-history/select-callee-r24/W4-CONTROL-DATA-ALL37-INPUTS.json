@@ -1,0 +1,1302 @@
+{
+  "accepted": false,
+  "assurance": "SOURCE_REPORTED",
+  "batches": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-PILOT-INPUTS.json",
+      "sha256": "28de35aa35d54146fa0ea88d5df285e62a0ac7f6050da7ad47bd732be098add3"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-REMAINING-INPUTS.json",
+      "sha256": "985f072f53b719664347d2b180bb5b631f88df2352e7f4ca694a8860da0d18dd"
+    }
+  ],
+  "body_proof_run": false,
+  "callee_qualification": false,
+  "caller_body_proof_admission": false,
+  "caveat": "Aggregate input coverage only across two physically audited source-reported batches on identical nine-file data tool. No full proof/control outcome/qualification inferred; per-Build universe_complete flags stay false.",
+  "classification": "COMPLETE_SOURCE_ONLY_INPUT_UNIVERSE",
+  "complete": true,
+  "control_validator_outcomes": "UNKNOWN",
+  "input_universe_complete": true,
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "rows": [
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "067c11f2b290d462d5a203678d069abe53ceffed6362a6ba4cd47035fa81a67e"
+      },
+      "index": 0,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/positive/fixture/verified/lib.rs",
+        "sha256": "e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "b711429f889c6e36393272c29fcc9c4e50fe75beb2ffe2d048ffc424b4325c83"
+      },
+      "variant": "positive"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "607c9c6ab8a3566e8ac177712fa7c50258f8fd3505e1bf6d25fd091de20f8f52"
+      },
+      "index": 1,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 22395,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c1-missing-fourth-end-token-negative/fixture/verified/lib.rs",
+        "sha256": "1a5d7864213ed064aa17e8a8e0d206484c944130d641c96c2497010616f4926d"
+      },
+      "unit": {
+        "bytes": 272807,
+        "path": "caller-native-unit.marshal",
+        "sha256": "9af251b00ea15098ff63af4d4a80e757b93dc74bff3ac5590a47eb79b26c0fd3"
+      },
+      "variant": "c1-missing-fourth-end-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "31587f7e2f7f4d8169ffcf260a598ae60ac6160773e6a0a19d4fe9bae47e06dc"
+      },
+      "index": 2,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21568,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c1-false-old-value-array-post-negative/fixture/verified/lib.rs",
+        "sha256": "8244ceb06e9fe5fd72c22fe817f1a5af25367155e2d86fb880a616ad1483bf95"
+      },
+      "unit": {
+        "bytes": 271763,
+        "path": "caller-native-unit.marshal",
+        "sha256": "53a1ee681075a4d1fb6c435d54e8f29f8b883c52845015473aefd640052670d5"
+      },
+      "variant": "c1-false-old-value-array-post-negative"
+    },
+    {
+      "body": {
+        "bytes": 259829,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "542ead9a446fd1a5f2c1af4d31de8d0d01b4acb48d8457494f7c9d7f9df5fc30"
+      },
+      "index": 3,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20927,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-missing-unselected-share-negative/fixture/verified/lib.rs",
+        "sha256": "d0bd0f369fc78e17e867c66c8483af0a01963b37edc3d9f42c223e1654b9489d"
+      },
+      "unit": {
+        "bytes": 268719,
+        "path": "caller-native-unit.marshal",
+        "sha256": "67afdec488466b5d6cc441445c4393d76992ea6ecfe42ecce30e57239627f95a"
+      },
+      "variant": "c2-missing-unselected-share-negative"
+    },
+    {
+      "body": {
+        "bytes": 259824,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "a8c28de6af543469a6bf7414e6b3b63bd3bed5a1e38e30f75857634245f0f26c"
+      },
+      "index": 4,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20922,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-missing-unrelated-end-token-negative/fixture/verified/lib.rs",
+        "sha256": "f3340aa51f255844c213314356af28c2d0ed0804f22801940151d5f6c0615593"
+      },
+      "unit": {
+        "bytes": 268714,
+        "path": "caller-native-unit.marshal",
+        "sha256": "206e87cd344ad37e59377d9fd5be44d0574ab9a8fa99babb6b3ad933c8f43758"
+      },
+      "variant": "c2-missing-unrelated-end-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "927a104f40e651f037d327d4a814f2acbede73f80513cdd5d514395c2087e59e"
+      },
+      "index": 5,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-wrong-ordered-ref-pair-negative/fixture/verified/lib.rs",
+        "sha256": "e6b10823da4104739f768e23634c7194de23d1cb0733a25d3262b3ce66351fcb"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "2acf9b8b2303ab0b2871f17090fcafd86783ce58c756a2e6497d574e230d163a"
+      },
+      "variant": "c2-wrong-ordered-ref-pair-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "0a7c4599efea645449fbf095d8d94b87fbb92fc1780698d833776a0466c4ff3c"
+      },
+      "index": 6,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-wrong-ref-resource-negative/fixture/verified/lib.rs",
+        "sha256": "353bf070c4d56745f1983e97754faf721ddf1f34a9977db92ae1115ca38bddd5"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "e41dcc542341fe1381198507ad0096f6f18bf471d4e16dd7c1b5df2da51da3f2"
+      },
+      "variant": "c2-wrong-ref-resource-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "b892adfcbec7a02e223ed8dc737a0d79799cb42239fbf052d2adcb579fdfc1be"
+      },
+      "index": 7,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "8cbcdb44-56f3-4464-9d8b-0f49b8ac164d",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-wrong-marker-index-negative/fixture/verified/lib.rs",
+        "sha256": "5f8ec91ed4a6701253f78390c2bbe3b22ac11dc2f4dd8c858bc48c0cf28bc393"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "f5386f8eb5db7d8d599b75e1fa4f09d96185569ede449546ae39264e5045c7ed"
+      },
+      "variant": "c2-wrong-marker-index-negative"
+    },
+    {
+      "body": {
+        "bytes": 262144,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "abf374503054d8e7099f5ef0dd65e9c18c694a48c526a1b404e9dfadaa116df7"
+      },
+      "index": 8,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21731,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-missing-fourth-debt-token-negative/fixture/verified/lib.rs",
+        "sha256": "0070e719879a53cf8768b58a19fcda93559bc0ea20d4a888c7cb98d19ade9fc7"
+      },
+      "unit": {
+        "bytes": 271926,
+        "path": "caller-native-unit.marshal",
+        "sha256": "b9e8f38799c5b0d9735dd844200a6370008d1870f53111f2496098d2ffc4a13a"
+      },
+      "variant": "c2-missing-fourth-debt-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "1cd66498d60754beaaf2b6fed1fa820c565d1a76533ce6767f3482a0300e272d"
+      },
+      "index": 9,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c2-displaced-marker-negative/fixture/verified/lib.rs",
+        "sha256": "655396e257db528ee8cea0b1d0392c03547ea740414d81a1cd9ed67479c6648a"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "c541ca2e4d6dbad9d276c021d95938f023987b1a5ce907f6b3db3fbd4c2e28bf"
+      },
+      "variant": "c2-displaced-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 259827,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "034dfc2032fc3db458a9334db66adce1da6594ac5ebd17582e45952b00a43331"
+      },
+      "index": 10,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20923,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-missing-unselected-share-negative/fixture/verified/lib.rs",
+        "sha256": "8ef2b32539dc322959b93e1cd03c56ad7d7b66c6256640e0680499d7262b6477"
+      },
+      "unit": {
+        "bytes": 268717,
+        "path": "caller-native-unit.marshal",
+        "sha256": "653736333633750134a8d7f58b3be54dfaab7a311b8c1f57b0f3f10ac89d37e0"
+      },
+      "variant": "c3-missing-unselected-share-negative"
+    },
+    {
+      "body": {
+        "bytes": 259826,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "0b7d642bd4544751fba3e76d524a73c1330cbfa16ea1b0b756b308824c14dbaa"
+      },
+      "index": 11,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20922,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-missing-unrelated-end-token-negative/fixture/verified/lib.rs",
+        "sha256": "f049bd5a73e51e0cf933bb3a909c545308373c883b415ebd533cb0a8fbd09ed5"
+      },
+      "unit": {
+        "bytes": 268716,
+        "path": "caller-native-unit.marshal",
+        "sha256": "1dce57ebdc86cf8e2420c2e851d0a81c933ef0dbcabcd667e41ba4e079bbaa19"
+      },
+      "variant": "c3-missing-unrelated-end-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "be70fe8a44865dc84970dff3375d3026e645e9ae0a19c966483880e34abfb20f"
+      },
+      "index": 12,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-wrong-ordered-ref-pair-negative/fixture/verified/lib.rs",
+        "sha256": "59d258984eb0755bf365531358b679e56e82777b6954167457eac796b5bf75c9"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "786811137a39022379c78744165105c721572e0f84e7a143af3966e204b980ef"
+      },
+      "variant": "c3-wrong-ordered-ref-pair-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "f80b4c0fd526f3dc689d658d0528bed2e740fc8d40c75e5679080c9581791bfa"
+      },
+      "index": 13,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-wrong-ref-resource-negative/fixture/verified/lib.rs",
+        "sha256": "1abf53de086cbf13053dbebfbfdd9cf4d24219c60b208a25dccc0b835cae6008"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "6217fae42d16825c558a8406c17863870bcda4c6bc9d959f56deee0ab31652a8"
+      },
+      "variant": "c3-wrong-ref-resource-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "100dc91384aaa9d3fb31b067ccff2d89634e1567424e453ea71d7bb551b35bf8"
+      },
+      "index": 14,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-wrong-marker-index-negative/fixture/verified/lib.rs",
+        "sha256": "20ba462fb8b3a066b0ee8488f04faca9c965da1bf17c9e0da9ecb70ad145b449"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "b0391d5ca9993ccc0d2be2ba12491d3aea7b1a23dd690fc454b9e4d28d720800"
+      },
+      "variant": "c3-wrong-marker-index-negative"
+    },
+    {
+      "body": {
+        "bytes": 262144,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "955879f3706f9f933223d8683227f73aed1ad1c39e59fe761ef32d1e289f0ec2"
+      },
+      "index": 15,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21731,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-missing-fourth-debt-token-negative/fixture/verified/lib.rs",
+        "sha256": "a68ad13c34d379bcedc3fbfa5dec4ac5b154c493d01ad250c0fe8425dfccda55"
+      },
+      "unit": {
+        "bytes": 271926,
+        "path": "caller-native-unit.marshal",
+        "sha256": "02e961b40851ed4147b1ff482e12e74dd5479097afdff2c5564d36648c90d081"
+      },
+      "variant": "c3-missing-fourth-debt-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "8166540690486c1ef6bd54ef67340d2196df7486d079840614b99691091e72ef"
+      },
+      "index": 16,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-displaced-marker-negative/fixture/verified/lib.rs",
+        "sha256": "8edfe8b01cdba8e37b9167d29d402bd8d68a781313634ca8bb4b466f2b7138df"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "c7ab3faa6bfc32321c22a43be4b331d76f986bec082bf7d224d7e0944a1e2d80"
+      },
+      "variant": "c3-displaced-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 263464,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "143949e1b2296ed994450d2575ef6a2d6207cbbaf31930311b7c7b4055334631"
+      },
+      "index": 17,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21276,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c3-index-overflow-marker-negative/fixture/verified/lib.rs",
+        "sha256": "f0d6746afe9c35ec256e52f0ac4a2a061c727ea2f25c74d9d679d772dafe5c0c"
+      },
+      "unit": {
+        "bytes": 272354,
+        "path": "caller-native-unit.marshal",
+        "sha256": "68e0d3c2e20398e838d790ce0a897ddc010f2e591898eed248b956def8481dc1"
+      },
+      "variant": "c3-index-overflow-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 259831,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "4f0c7d572585aaa8cdb446a1a55fbebc0b017a36b0a1ff2577f977598202e0a6"
+      },
+      "index": 18,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20927,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-missing-unselected-share-negative/fixture/verified/lib.rs",
+        "sha256": "8a06de87636780fe69c9ff8807a46807a4635b8f14a86c0286fdb2d71e8c9c8a"
+      },
+      "unit": {
+        "bytes": 268721,
+        "path": "caller-native-unit.marshal",
+        "sha256": "a7439f06ee7180f48c21ee0b81dfa81ed6184a16db3ab37603970a1189fe1dfc"
+      },
+      "variant": "c4-missing-unselected-share-negative"
+    },
+    {
+      "body": {
+        "bytes": 259818,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "b08758a277304a8c3baa0bbfd96eb6fc13e357e48a4808dd438ed4e370df5e8c"
+      },
+      "index": 19,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20914,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-missing-unrelated-end-token-negative/fixture/verified/lib.rs",
+        "sha256": "78c01f441cf849a62f77202247a39c64376bc43b20113c825d882c8f8fd61cfe"
+      },
+      "unit": {
+        "bytes": 268708,
+        "path": "caller-native-unit.marshal",
+        "sha256": "5acd0200fa91592c2e70ae0560ef81c2f748f9f91b5f84f82ea5a9a01222371c"
+      },
+      "variant": "c4-missing-unrelated-end-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "51129609e0b900fd865fa2445a9ac940fad73b154ebe91caf1a4946dd0bf15e8"
+      },
+      "index": 20,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-wrong-ordered-ref-pair-negative/fixture/verified/lib.rs",
+        "sha256": "ab35755bc40e7029387b391832dbff3b6bf5340865f1aa27b7d61cd09ac271fd"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "0dd03b9d099eee72e689e7dac534a28ac9a2d3c6ccd0492029314ba39be44ad5"
+      },
+      "variant": "c4-wrong-ordered-ref-pair-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "2bc22505e5f7e24be27374ecd7a61946e781b09b41262e02554e3053257f5746"
+      },
+      "index": 21,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-wrong-ref-resource-negative/fixture/verified/lib.rs",
+        "sha256": "c0c8e55c44d8d9953c263ff9623d9ae9cecf3781065d4c3982a01876cd8d8d87"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "6c002bf7617dbc6f2a37c1f7d1646b0008b9fa93562dbbc987704766dc9789b2"
+      },
+      "variant": "c4-wrong-ref-resource-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "0f5b4f3cda396c446b771f8ec899f48fcb6d6b32f762823f7f13b37ea1c31885"
+      },
+      "index": 22,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-wrong-marker-index-negative/fixture/verified/lib.rs",
+        "sha256": "de5d9dbe0a469f34d7c946b3ba91bfeb4b3030c075b6a39dd096f26b763922d4"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "4d1b36f711cc560fc5b1186795d6304db57a1d3457c2bd07d94f675efdbd36a2"
+      },
+      "variant": "c4-wrong-marker-index-negative"
+    },
+    {
+      "body": {
+        "bytes": 262144,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "96b36b1aec9ff1988216c05257f9ba745e62231ff13f68ee84be5044d52dc8b7"
+      },
+      "index": 23,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21731,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-missing-fourth-debt-token-negative/fixture/verified/lib.rs",
+        "sha256": "25ca397e2e40136835281709ff0c51c56f514d02a905f873a2d06ff72c0c3469"
+      },
+      "unit": {
+        "bytes": 271926,
+        "path": "caller-native-unit.marshal",
+        "sha256": "e30ae2200f204391f5b4167335d98910f2e50e405a523ed74b4421b112168b87"
+      },
+      "variant": "c4-missing-fourth-debt-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "4d42192652b0b0eab77e484af4b162e2aefb70bd9321e23db086c43f09c4ec39"
+      },
+      "index": 24,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-displaced-marker-negative/fixture/verified/lib.rs",
+        "sha256": "69ce4399fbcf6f9125bb0c30892306dfaefd8c387cb0788dc92867401f1a46d1"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "21fd0fb49d186bf4867bf11d3b3a82fecf0a18477da3ebd462f5c66fa0ac73ee"
+      },
+      "variant": "c4-displaced-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 263464,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "143949e1b2296ed994450d2575ef6a2d6207cbbaf31930311b7c7b4055334631"
+      },
+      "index": 25,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21276,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c4-index-overflow-marker-negative/fixture/verified/lib.rs",
+        "sha256": "f0d6746afe9c35ec256e52f0ac4a2a061c727ea2f25c74d9d679d772dafe5c0c"
+      },
+      "unit": {
+        "bytes": 272354,
+        "path": "caller-native-unit.marshal",
+        "sha256": "68e0d3c2e20398e838d790ce0a897ddc010f2e591898eed248b956def8481dc1"
+      },
+      "variant": "c4-index-overflow-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 257529,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "d25f6e0b27522d47a89e121f91d1246f218a8c0b5b6a79f3c8d75d82329aa69e"
+      },
+      "index": 26,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20809,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-missing-unselected-share-negative/fixture/verified/lib.rs",
+        "sha256": "6ae0a9bcc218d4c5450195deda6130de95f49ff02a9b1b1928ed1a8949a0f1c7"
+      },
+      "unit": {
+        "bytes": 266419,
+        "path": "caller-native-unit.marshal",
+        "sha256": "28c670c39c4b1ff430919df9153e64e3bb313cc2b65aac378ef5211416495312"
+      },
+      "variant": "c5-missing-unselected-share-negative"
+    },
+    {
+      "body": {
+        "bytes": 259826,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "196254a4f8f25b03f7ccab785325dc4d43ac7b8db6d755ed29d0123eb296ee92"
+      },
+      "index": 27,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 20922,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-missing-unrelated-end-token-negative/fixture/verified/lib.rs",
+        "sha256": "a318768bef3ec8775caf564a30fb02bf11ee10960f96bd6d6388243c1af7e2cb"
+      },
+      "unit": {
+        "bytes": 268716,
+        "path": "caller-native-unit.marshal",
+        "sha256": "95f3befe6868e5cd01cf768ca9bf36bed57925857c996c2e67b3d87b8e272bfa"
+      },
+      "variant": "c5-missing-unrelated-end-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "88c60bf03ddfb40e1c84cb023a2bbc3a597d65143ddb176617ddd2814a449587"
+      },
+      "index": 28,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-wrong-ordered-ref-pair-negative/fixture/verified/lib.rs",
+        "sha256": "14b66f9528563c5ef57db5ee48577fbecc523c71e5e330660b1dccf8bdace586"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "ad6155e5e248350ca729ad92bb79f6d2449f220d71c3a0b991de5eed5931d6f3"
+      },
+      "variant": "c5-wrong-ordered-ref-pair-negative"
+    },
+    {
+      "body": {
+        "bytes": 262119,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "dfec38ef9c8e21c3bf49a982ed73e2e57eae5b6ff31832f8d88379a8c4066561"
+      },
+      "index": 29,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21031,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-wrong-ref-resource-negative/fixture/verified/lib.rs",
+        "sha256": "5c808b90b7ff4b61bf2b15596faceab574695e64b920de9044235262e0ab2bcd"
+      },
+      "unit": {
+        "bytes": 271009,
+        "path": "caller-native-unit.marshal",
+        "sha256": "e19c0263da359ff589409e2e2e4cde2bfc91434d5d478bcdb9b41be3fed2a6ed"
+      },
+      "variant": "c5-wrong-ref-resource-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "1fcae152c3bd3dd30aa86668cacbb707ecf6a59f8418192b7859b7541adea2a1"
+      },
+      "index": 30,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-wrong-marker-index-negative/fixture/verified/lib.rs",
+        "sha256": "7afc8efab669c209d6e80c62e4105303ad77c39e18d0879d5f4f5f5417d2becf"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "7e02fd73d30c83279ecfa97c805abb504a29ab6269d8c1e534fd1588f5b500b9"
+      },
+      "variant": "c5-wrong-marker-index-negative"
+    },
+    {
+      "body": {
+        "bytes": 262144,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "1a25da6e53df0e1c879676631fc5431902cda5423df6c478555b43b6a047296b"
+      },
+      "index": 31,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21731,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-missing-fourth-debt-token-negative/fixture/verified/lib.rs",
+        "sha256": "bd60521edb8a160fdd1230a4b80cb4ec517224c5613c33d4c7e22201e16d0075"
+      },
+      "unit": {
+        "bytes": 271926,
+        "path": "caller-native-unit.marshal",
+        "sha256": "88d54f52873998c4513d381430e50fed79f55f8dcfb5b5f58b07261fcecedaf5"
+      },
+      "variant": "c5-missing-fourth-debt-token-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "697dcc34733dbd29cc4dc99c4bcca358ff1fc96ba43fd040b675207df9a7ce9f"
+      },
+      "index": 32,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-displaced-marker-negative/fixture/verified/lib.rs",
+        "sha256": "85ea33f4c6f1a3ad8552decbd6f88e369ca21f06e009c3199df1f410bfda9725"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "cfdaefd7eef136c986dc31d105fb59381150935d6239921c14785a60e436dbd9"
+      },
+      "variant": "c5-displaced-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 263464,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "143949e1b2296ed994450d2575ef6a2d6207cbbaf31930311b7c7b4055334631"
+      },
+      "index": 33,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21276,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-index-overflow-marker-negative/fixture/verified/lib.rs",
+        "sha256": "f0d6746afe9c35ec256e52f0ac4a2a061c727ea2f25c74d9d679d772dafe5c0c"
+      },
+      "unit": {
+        "bytes": 272354,
+        "path": "caller-native-unit.marshal",
+        "sha256": "68e0d3c2e20398e838d790ce0a897ddc010f2e591898eed248b956def8481dc1"
+      },
+      "variant": "c5-index-overflow-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 262129,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "181354776112987120b3ce41807c1857165936d19d101e2af1a210659127c515"
+      },
+      "index": 34,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21041,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-scope-escape-negative/fixture/verified/lib.rs",
+        "sha256": "6bff63d0ca962076b1aee835c053912dba38c8b799f8b462bb4a192ed80732f1"
+      },
+      "unit": {
+        "bytes": 271019,
+        "path": "caller-native-unit.marshal",
+        "sha256": "8aacaa9abe0ca0253c55cde5fb78c446f6486c5ed336680114705c9988bbe0f3"
+      },
+      "variant": "c5-scope-escape-negative"
+    },
+    {
+      "body": {
+        "bytes": 261002,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "da619e5c8f5c7db9917482d02cef95b34d94abe840570e6108af6ef1fa5c0605"
+      },
+      "index": 35,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21005,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-missing-scope-marker-negative/fixture/verified/lib.rs",
+        "sha256": "ee354020e8575c7ca7bccd21cc0158a8839392b32a612a3fe173b693e727e313"
+      },
+      "unit": {
+        "bytes": 269892,
+        "path": "caller-native-unit.marshal",
+        "sha256": "c542bb7dea22078f6a5c50394cf12891da176abb7728aaaef73e806744e2efc2"
+      },
+      "variant": "c5-missing-scope-marker-negative"
+    },
+    {
+      "body": {
+        "bytes": 263264,
+        "path": "caller-native-body-0.marshal",
+        "sha256": "8db8463cfd41a2c29903de67642987949637c1c92e8ef027cfbf1f3988771d6d"
+      },
+      "index": 36,
+      "native_scalar_facts": {
+        "accepted": false,
+        "body_index": 0,
+        "body_name": "sort4_stable",
+        "body_proof_run": false,
+        "build_id": "3c2e23ad-0afd-452b-ade8-ad2947756979",
+        "caller_body_proof_admission": false,
+        "classification": "SOURCE_ONLY_NATIVE_DATA_CAPTURE",
+        "complete": true,
+        "expected_refusal": "snapshot complete; no proof rule admitted",
+        "proof_credit": 0,
+        "publication_allowed": false,
+        "schema": "select-r24-w4-native-data-fingerprint-v1",
+        "typed_call_linkage": "UNKNOWN"
+      },
+      "source": {
+        "bytes": 21084,
+        "path": "/workspace/evidence/allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-control-capture/variants/c5-cross-scope-read-negative/fixture/verified/lib.rs",
+        "sha256": "2acecb8f6a0eae129206bca1064987fa60ade42d2d23fcb69972d864fb715a82"
+      },
+      "unit": {
+        "bytes": 272154,
+        "path": "caller-native-unit.marshal",
+        "sha256": "f0e2201348d21b68fd65d0488b7406f19f6683cacfecf5cd2893a46d543329e2"
+      },
+      "variant": "c5-cross-scope-read-negative"
+    }
+  ],
+  "schema": "select-r24-w4-source-input-universe-v1",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "ee6758eafcae52664b33c523e34df0376fcb3253f0461713c8559406e8ce4a2a",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "1276f006b5dd757a9dc9fbf87e4d9491758c24f71ba5dc409f0c08720a528a13"
+  },
+  "tool_identity": {
+    "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-TOOL-IDENTITY.json",
+    "sha256": "8bd33eb6366468b5d54930b8251b5f5ceb6ea8312e12afe9ebc837332fd2d183"
+  },
+  "typed_call_linkage": "UNKNOWN",
+  "universe_count": 37
+}

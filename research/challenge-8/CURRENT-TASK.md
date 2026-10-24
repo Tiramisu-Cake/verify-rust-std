@@ -48,9 +48,9 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T05:59:31Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Updated: 2026-10-24T06:03:51Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 14221s spent, 0s retired, 7379s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: S38 terminal FAILURE accounted; remaining29 input results need Brief. [Build `3c2e23ad-0afd-452b-ade8-ad2947756979`]
-Next: Read S38 Brief inputs and audits; then continue checked W4 calls and C5.
+Blocker: All37 inputs captured; checked W4 calls and full C5 port/proof remain open.
+Next: Port closed C5 and checked-call machinery; review dormant compile/identity candidate.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

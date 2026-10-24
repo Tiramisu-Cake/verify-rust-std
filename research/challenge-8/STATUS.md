@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T05:59:31Z
+- Updated: 2026-10-24T06:03:51Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 14221s spent; 0s retired; 7379s remaining including active reservations
@@ -12,6 +12,7 @@
 - [SOURCE_REPORTED] Current native5170/bin33b actual const8 plus checked pointer consequence/omission control qualified under exactexperimentalprofile. No W4typedlinkage/body/C5 admission, independentB1B2credit0; oldP2 unchanged. — [research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json](task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json) SHA `a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d`; [research/challenge-8/task-history/select-callee-r24/R24-w4-current-native-qualification-review.json](task-history/select-callee-r24/R24-w4-current-native-qualification-review.json) SHA `2da3d5bfba09faf4231c12b987171902b2910bb05bc3fea88ab4b9a78acb102f`
 - [SOURCE_REPORTED] C6 all6refusal inputcases, exact actual/header AST andwholecaller unit/body inputbinding plusphysicalaudits complete. No actual8call consumption/body/C5 or9176 calleequalification/independentcredit. — [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-READINESS.json](task-history/select-callee-r24/W4-CONTRACT-INPUTS-READINESS.json) SHA `1d71c4717ec20aa99c4947ab8b0a2834366aee5bae8fd71428111fbca0867d59`
 - [SOURCE_REPORTED] S37 selected8/37 source inputs andphysicalaudit complete; native1276/binee6758 measureddata-only. No calleequalification, checked8call/C5 body/control proof orindependentcredit. — [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTROL-CAPTURE-S37-OBSERVATIONS.json) SHA `afb6f42ede246c79a2847d788166381cdd65fdbd06319546214ab2b46396f0ef`; [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-PILOT-INPUTS.json](task-history/select-callee-r24/W4-CONTROL-DATA-PILOT-INPUTS.json) SHA `28de35aa35d54146fa0ea88d5df285e62a0ac7f6050da7ad47bd732be098add3`
+- [SOURCE_REPORTED] S37+S38 cover all37 source/unit/body inputs on identical9file data tool; both physical audits complete. Input coverage only; sameversion future-tool callee qualification, checked8call/C5 body and control-validator outcomes remain open, independent credit0. — [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json](task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json) SHA `1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea`; [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTROL-CAPTURE-S38-OBSERVATIONS.json) SHA `49af48fe194aaaba0686e8221b7f1d8c10a97155e2f569d7feeb7641da17bad2`
 
 ## Open
 - Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.
@@ -23,12 +24,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-S38 terminal FAILURE accounted; remaining29 input results need Brief. [Build `3c2e23ad-0afd-452b-ade8-ad2947756979`]
+All37 inputs captured; checked W4 calls and full C5 port/proof remain open.
+- [research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json](task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json) SHA `1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea`
 
 ## Next
-Read S38 Brief inputs and audits; then continue checked W4 calls and C5.
+Port closed C5 and checked-call machinery; review dormant compile/identity candidate.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `7bbed8f64788a4d7a0a8103bca83c04be83f5798f79d91e29a994387e6468b25`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `e03b45706180dc2a7e17aa8dbba85f57c9abd618f18893829e5c2e4ab9d07c81`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `74d40357cb45b6329936f7d9b0d659d4fee7d68a037d1455e2ce001ff37a654d`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `71edc037c039bf0d958409821598d2421bba71d9e54cdaa824dced35828e00e4`
