@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T07:02:50Z
+- Updated: 2026-10-24T07:04:36Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 15544s spent; 0s retired; 6056s remaining including active reservations
@@ -28,9 +28,9 @@ S40 compile type error: local_ty needs explicit D.ty annotation. [Build `6f3b2e2
 - [research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json](task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-OBSERVATIONS.json) SHA `70a308c94c2028a1fee519e3569983fcacff081705430910f9497c4508df38cc`
 
 ## Next
-Review exact D.ty annotation and pins; full1200 dormant compile retry, then Brief.
+Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `9b7b86584d36251eec75bc4dc0b57f69c2499d796d1c212318a9942eb59ce25b`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `4098114103b1798d037476d13155ea6c21de6712b0096144f8fd2c8c580f4aba`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254`

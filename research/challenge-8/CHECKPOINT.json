@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4098114103b1798d037476d13155ea6c21de6712b0096144f8fd2c8c580f4aba"
+      "sha256": "db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -89,7 +89,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "4098114103b1798d037476d13155ea6c21de6712b0096144f8fd2c8c580f4aba"
+    "sha256": "db454e1f0d87c09f5b0cf979b70a268223d0c86c43b3dc7d8e9afac1b4ceb254"
   },
   "brief_observation_refs": [
     {
@@ -598,8 +598,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Review exact D.ty annotation and pins; full1200 dormant compile retry, then Brief.",
-  "next_step": "Review exact D.ty annotation and pins; full1200 dormant compile retry, then Brief.",
+  "next": "Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.",
+  "next_step": "Publish reviewed 27fbaf2d; full1200 dormant compile/identity Build, then Brief.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -714,7 +714,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T07:02:50Z",
+  "updated_utc": "2026-10-24T07:04:36Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -908,7 +908,7 @@
       },
       "schema_fix_tests": "16 controller +8 Bash tests PASS; consequence producer constructor imported by exact bf89 source pin in synthetic test. Complete consequence body_proof_run:true is component-only and call_linkage UNKNOWN; no caller admission field permitted. Native unchanged758acf, stillUNBUILT.",
       "source_only_input_table": "research/challenge-8/task-history/select-callee-r24/w4-caller-input-certificates-r24.py",
-      "state": "LOCAL_TYPE_ANNOTATION_FIXED_UNREVIEWED",
+      "state": "REVIEWED_GO_UNBUILT_LOCAL_TYPE_FIX",
       "static_input_table_tests": "3 PASS including malformed fields with test digest rebound; no native tools",
       "static_tests": "120 targeted checks accounted: 95 unchanged checks passed prior combined run, 8 updated Bash routing tests,14 compile-controller and3 inputtable tests. No actual toolchain locally.",
       "transport_design": {
@@ -1744,6 +1744,7 @@
     "accepted": false,
     "callee_qualification": false,
     "caller_body_proof_admission": false,
+    "candidate": "27fbaf2dc7dc8ce34d53c087d487c1b8ba3d6cc8",
     "manifest": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
       "sha256": "117a87c69942da9fa0fcb6b3acbffdeca3415afae49172aca2c3bcdd6d83a1fc"
@@ -1754,10 +1755,24 @@
     },
     "native_binary_sha256": "UNKNOWN_UNBUILT",
     "native_result_translator_sha256": "c473820307acd581e46378d02368c79f9ae86e540ae76aab5d1621ed40322092",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-LOCAL-TYPE-TRANSPORT-PREFLIGHT.json",
+      "sha256": "3befaeb720b4fba15b14f22e293abb472a0e709b29c58fc242a54ca70ac85185"
+    },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "state": "LOCAL_TYPE_ANNOTATION_FIXED_UNREVIEWED",
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-dormant-local-type-review.json",
+      "sha256": "7cff1e25846556e5732dd40930626eeef7d23f5d92fdc62ad5d262d0320bc210"
+    },
+    "runtime_closure": {
+      "bytes": 3678030,
+      "entries": 161,
+      "sha256": "f3aa8f8c8d6d7a0016e915ee68ba6872f85bb9c808d9e8724e2ddd569520ebeb"
+    },
+    "source_payload_sha256": "f82f40fe2b21f2c26ba2ebfd243b155e5ae2f64dce94d3d986f98435ffcf6adb",
+    "state": "REVIEWED_GO_UNBUILT_LOCAL_TYPE_FIX",
     "timeout_seconds": 1200
   },
   "w4_dormant_compile_candidate_history": [

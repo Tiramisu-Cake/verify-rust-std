@@ -1,0 +1,36 @@
+{
+  "schema": "select-r24-w4-dormant-compile-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_DORMANT_COMPILE_IDENTITY_BUILD_ONLY",
+  "baseline_commit": "1f6228b0b25cb54de0008cf497d044c3f56fb3c1",
+  "candidate_commit": "27fbaf2dc7dc8ce34d53c087d487c1b8ba3d6cc8",
+  "candidate_tree": "cc3542c355d37807082a4c4e0de5ecc74cb8c0d4",
+  "spec_sha256": "3538902768ddf4ab90faed6d2bdb5455f1c9672900ee8de3b2923c57b5a46911",
+  "packet_sha256": "173684e911b479b38ad937accf0c1bd2c13710b30fc170df4a4cc978bb3a975e",
+  "diff_sha256": "8df59a0450de37460301fc110df32f800124cd788e3741598eed48e55a9cce57",
+  "packet_identity_check": {
+    "candidate_tree_matches": true,
+    "spec_hash_matches": true,
+    "diff_hash_matches": true,
+    "declared_dependency_hashes_match_packet": true,
+    "proof_credit": 0
+  },
+  "findings": [],
+  "verified": [
+    "The exact native semantic delta is limited to annotating local_ty with parameter type (string * D.ty) list and result type D.ty. The argument matches the translator's local_decl_types interface, which is already declared as (string * D.ty) list; returning D.ty establishes the type needed for the subsequent .kind record-field access and const_t checks. The helper body, missing-local rejection, caller, arguments, destination, guards, and CFG behavior are unchanged.",
+    "The native source generator and patch pins consistently identify the revised generated source c473820307acd581e46378d02368c79f9ae86e540ae76aab5d1621ed40322092. I recomputed the live mode, manifest, patch, dormant driver, and call-binding hashes and confirmed the controller/manifest/mode pin values agree; the recipe pins the current driver hash. The C5 and ordinary-call logic otherwise remains the previously reviewed dormant logic.",
+    "The exact candidate preserves the prerequisite schema fix and the same-Build qualification/audit, nine-file input identity, manifest/patch/mode, four physical stage, output identity, and physical audit gates. Caller remains default false with no activation assignment; no certificate setter is supplied. The compile result is explicitly UNBUILT/identity-only until measured, and output qualification/admission/proof fields remain false, UNKNOWN, or zero.",
+    "The S40 source-reported compile diagnostic is consistent with the local polymorphic return type failing to constrain record-label resolution. It is treated as a diagnostic motivating a type annotation, not as an independently verified compilation result."
+  ],
+  "tests_and_preflight": [
+    "The packet reports 16 controller, 8 Bash, and 3 input-table tests passing, plus static exact-base patch generation/reverse/reproduction and delimiter checks. I did not rerun tests.",
+    "Exact transport preflight reported by the task owner: payload 567751 bytes, SHA256 f82f40fe2b21f2c26ba2ebfd243b155e5ae2f64dce94d3d986f98435ffcf6adb; encoded config 27852/28000; max argument 2778; runtime closure 161 files / 3678030 bytes, SHA256 f3aa8f8c8d6d7a0016e915ee68ba6872f85bb9c808d9e8724e2ddd569520ebeb."
+  ],
+  "scope": "GO only for exactly one authorized full-1200-second dormant native compile and nine-file identity Build. No caller activation, C5/call-rule proof, callee qualification, proof admission, proof acceptance, or proof credit is approved or established.",
+  "limitations": [
+    "Static review only. No actual compilation/toolchain, source preparation, exporter, decoder, refiner, verifier, full runner, Cloud Build, or raw CI evidence was run or inspected.",
+    "A future activation or semantic change requires a separately reviewed candidate and fresh same-binary qualification before any caller proof path."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}
