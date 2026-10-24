@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "fa1c97ba39759bb725a84c097be59d1d9708bc34db78d07b19d3b0a56d4592ff"
+      "sha256": "b4881c8b3946718ce260b12ab402944dff98244d16349460e3d421d0dd2d3f21"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -77,19 +77,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json",
-        "sha256": "ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a"
-      }
-    ],
-    "summary": "S39 stopped before compile: consequence schema field mismatch."
+    "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
+    "evidence": [],
+    "summary": "Dormant native compile pending; new callee/W4/C5 qualification remains open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "fa1c97ba39759bb725a84c097be59d1d9708bc34db78d07b19d3b0a56d4592ff"
+    "sha256": "b4881c8b3946718ce260b12ab402944dff98244d16349460e3d421d0dd2d3f21"
   },
   "brief_observation_refs": [
     {
@@ -598,8 +593,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Publish reviewed 3d63e644; full1200 dormant compile/identity retry, then Brief.",
-  "next_step": "Publish reviewed 3d63e644; full1200 dormant compile/identity retry, then Brief.",
+  "next": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
+  "next_step": "ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -692,7 +687,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "6f3b2e24-042b-48af-b45e-25919bb7314a"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -712,9 +709,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:47:22Z",
+  "updated_utc": "2026-10-24T06:48:16Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -962,7 +959,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-c4-expected-api-review.json",
       "sha256": "9f38cd4c81ce7b80bda62664d7e20c3398d897b89a03be0702a1f1b6c0b99d52"
     },
-    "state": "FIXING_DORMANT_PREREQUISITE_SCHEMA",
+    "state": "WAITING_DORMANT_COMPILE_IDENTITY",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
@@ -1704,35 +1701,24 @@
   },
   "w4_dormant_compile_build": {
     "accepted": false,
-    "accounted": true,
+    "accounted": false,
     "body_proof_run": false,
-    "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/7ef645ef-9d1a-42bb-af6a-023e214e9aca",
-    "build_id": "7ef645ef-9d1a-42bb-af6a-023e214e9aca",
-    "build_seconds": 662,
+    "bucket_prefix": "gs://smallsort-ci-evidence-504462351565/cloud-build/6f3b2e24-042b-48af-b45e-25919bb7314a",
+    "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
     "callee_qualification": false,
     "caller_body_proof_admission": false,
-    "candidate": "fddacfd54bf34b239a3113ed95cc6450708a12f9",
-    "config_sha256": "93f4da7702739495d56a8e64754e60db0f025017f4910c7c334f14baf35191bd",
-    "dispatch_token": "dispatch-c1f5231ecee74f89bdaa6245817a25a4",
-    "execution_seconds": 661,
-    "new_native_tool_status": "NOT_STARTED_AS_REPORTED_PREFLIGHT_FAILURE",
-    "observations": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json",
-      "sha256": "ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a"
-    },
+    "candidate": "3d63e644789907883e19ac63b67fb21f1ae64c64",
+    "config_sha256": "d6681c4820ab436e63629e50ff8b9ff03b5fa11590155970cf6c8b1e7674e288",
+    "dispatch_token": "dispatch-f144ca13c74f49efb46c574bfc9208cf",
     "proof_credit": 0,
     "proof_qualification": false,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "SOURCE_REPORTED_PREREQUISITE_SCHEMA_FAILURE",
+    "result": "PENDING_BRIEF_DORMANT_COMPILE_IDENTITY_ONLY",
     "schema": "select-r24-w4-dormant-compile-submission-v1",
     "source_only_input_universe_preserved": true,
-    "source_payload_sha256": "87b9e2ffad4e5dda63f4492b2bced3a407b03a38a4cb052ddd9fda7be146200d",
-    "status": "FAILURE",
-    "terminal_accounting": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-TERMINAL-ACCOUNTING.json",
-      "sha256": "c786f9e4d3d447748246f585d39fb05668f58951bcd4d0e65acac9338d25da9a"
-    },
+    "source_payload_sha256": "9c8d812cb06a7d12d94a027a1b663c2046e463a26cadbdda4b1a7fe38d03d028",
+    "status": "QUEUED",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1768,7 +1754,11 @@
       "sha256": "b986080496c87b3f2e20256906e4962add6e443c2afc1cbf4a8f9496eda2308a"
     },
     "source_payload_sha256": "9c8d812cb06a7d12d94a027a1b663c2046e463a26cadbdda4b1a7fe38d03d028",
-    "state": "REVIEWED_GO_UNBUILT_SCHEMA_FIX",
+    "state": "SUBMITTED",
+    "submission": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S40-SUBMISSION.json",
+      "sha256": "334342d13ab15e388c5571954d3c936503f530a529df7eb47b615dade081394f"
+    },
     "timeout_seconds": 1200
   },
   "w4_dormant_compile_candidate_history": [
@@ -2215,6 +2205,14 @@
       "job_id": "e3a9ddf6-4831-48c7-9710-48b729db1829",
       "spec_path": "/tmp/select-r24-w4-dormant-s39-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "6f3b2e24-042b-48af-b45e-25919bb7314a",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately commit/push terminal ledger+CP/STATUS before Brief. Dormant compile identity is not callee/caller proof, admission or independent credit.",
+      "spec_path": "/tmp/select-r24-w4-dormant-s40-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
