@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "12cab60ca93c18d89fe825f54e7ba5d2831a200542d8fa61b39b91f28b666345"
+      "sha256": "e24c94192baa681ca45eb5755615813fc14f2af348ed87b18c172f683ac5bb0b"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,20 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-ANALYZER-PIN-DEFECT.json",
-        "sha256": "016ccdf61f042aa8ede5fd4c2af922dea2df0beaddf044b622488c4a8ca6f5b5"
-      },
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-FIRST-OBSERVATIONS.json",
-        "sha256": "90003f036b56547e3ead39d01c61e6d09ca5f2fb1c93bb8e6327d4320d082152"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
+        "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
       }
     ],
-    "summary": "W4 analyzer/mode pins fixed locally; unmocked dependency check passes. Delta review pending."
+    "summary": "Reviewed W4 typed/native fingerprint candidate unbuilt; checked linkage/C5 proof open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "12cab60ca93c18d89fe825f54e7ba5d2831a200542d8fa61b39b91f28b666345"
+    "sha256": "e24c94192baa681ca45eb5755615813fc14f2af348ed87b18c172f683ac5bb0b"
   },
   "brief_observation_refs": [
     {
@@ -1162,8 +1158,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Commit exact pin fix; preflight, delta review and publication; full1200 fingerprint diagnostic.",
-  "next_step": "Commit exact pin fix; preflight, delta review and publication; full1200 fingerprint diagnostic.",
+  "next": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
+  "next_step": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1278,7 +1274,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:12:08Z",
+  "updated_utc": "2026-10-24T00:14:09Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1535,16 +1531,42 @@
     "proof_credit": 0,
     "reason": "Known ordinary callback refusal requires exact current native unit/body Marshal fingerprints before source-bound C5 admission; Capnp hashes are separate.",
     "review": {
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-fingerprint-review.json",
-      "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
+      "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "ANALYZER_PIN_FIX_IMPLEMENTED_UNBUILT",
+    "state": "REVIEWED_UNBUILT",
     "tests": "15 wrapper including unmocked real dependency validation +8 Bash pass; native overlay and parser unchanged.",
     "workers": {
       "diagnostic_wrapper": "r24_mut_proof_runner",
       "native_overlay": "r24_admission"
     }
+  },
+  "w4_native_pin_candidate": {
+    "accepted": false,
+    "actual_body_proof_status": "UNKNOWN",
+    "candidate": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+    "capture_translator_sha256": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007",
+    "helper_sha256": "765b45acc4a3f4bdbe86ad7ff1c8f648797f02ab72519ba8df926fae09fc4772",
+    "mode_sha256": "e7eed6467fceb7bfa39cec58f800960e7ea31a0729736497e6b0a9a338402aa4",
+    "native_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-PIN-TRANSPORT-PREFLIGHT.json",
+      "sha256": "e555eb5bf1129f7d225cd540b98729b048161e0a0122720b4845eeedac3a0c76"
+    },
+    "proof_credit": 0,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-pin-review.json",
+      "sha256": "d95a3b9b6105f3618612697893e490521d236f4ec9a50ae6ce6029ba8fd7a4fa"
+    },
+    "runtime_closure": {
+      "bytes": 3425648,
+      "entries": 153,
+      "sha256": "a641710e5c1388b892a5e260db467f78ae403ed3a1b26d41652c1c200f46f752"
+    },
+    "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
+    "state": "REVIEWED_UNBUILT",
+    "typed_call_linkage": "UNKNOWN"
   },
   "watcher_history": [
     {

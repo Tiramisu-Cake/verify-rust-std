@@ -1,0 +1,43 @@
+{
+  "baseline_commit": "de7b8196de9d3f9556aad1b3b89d7150f2d0e844",
+  "candidate_commit": "c40c56987f9f8a59f32d390a2b0ec7e4bbf832c4",
+  "candidate_tree": "ae03051a8eab7e9dc6c54f062074b4b64e3c8f63",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_W4_DIAGNOSTIC_ONLY",
+  "diff_sha256": "b3af7d244e412029a30abfd18df47b053cfbd41b1cd6868064139ded182d63dc",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second diagnostic Build under the current R24 ledger/deadline/route admission.",
+    "The prior build stopped before capture/native execution. Correct pin consistency does not establish parser compatibility, native fingerprint execution, typed call linkage, proof, acceptance, publication, or independent credit.",
+    "Native fingerprint and published P2 remain separate profiles; proof_credit is 0."
+  ],
+  "not_run": [
+    "No Cloud Build, source preparation, MIR parser execution, compiler/native tool execution, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "a38163b9a89aa29e6416a1ba34638b56cdfedf13bdd3cda5fbeed0ef7f063f52",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-fingerprint-review.json",
+      "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-native-pin-independent-review-v1",
+  "spec_sha256": "6363d517117bf0e6ebb5df23625d3395624b0cf84b7691065ae529f9263eff38",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Independent SHA verification of analyzer, mode, helper and shell completed.",
+    "The packet reports 15 wrapper and 8 extracted Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "Independently hashed the actual MIR analyzer source: 6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0. The helper internal constant, closed mode field, and shell analyzer hash gate all use this value.",
+    "Mode and helper hashes are synchronized with the shell gates: mode e7eed6467fceb7bfa39cec58f800960e7ea31a0729736497e6b0a9a338402aa4; helper 765b45acc4a3f4bdbe86ad7ff1c8f648797f02ab72519ba8df926fae09fc4772.",
+    "The only production-code change is the analyzer SHA constant and derived mode/helper/shell pins. Native patch/source, parser behavior, and capture tool remain unchanged from the previously reviewed candidate. Added test evaluates exact helper source bytes and calls the real mode validator against repository files without running actual tools."
+  ]
+}
