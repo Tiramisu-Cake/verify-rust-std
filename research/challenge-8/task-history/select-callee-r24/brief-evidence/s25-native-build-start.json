@@ -1,0 +1,69 @@
+{
+  "archive_sha256": "1d7bee464cd8731eb675ea3ad229645ddbd5a284c478016c748dd418eb8a031a",
+  "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "complete": true,
+  "content_filtered": false,
+  "coordinates": {
+    "base": 1,
+    "end_inclusive": 5,
+    "line_separator": "LF",
+    "source_lines": 5,
+    "start": 1,
+    "unit": "line"
+  },
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "39b27329ca6a1ceb4ec81157f55c0c04f9caae5a969f37471cef95711cdaf43d",
+  "file_path": "allprooflogs/r24-w4-native-console-build.log",
+  "file_sha256": "358a583e5df7b8c6651451e87e951609cab0b9638057f226a27cdfd40680a0af",
+  "index_sha256": "303d8ddf0b796b2561a753a41f6515ac0f0bcdb9495926a0e18fe51c787ea453",
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "range_clamped": true,
+  "representation": "LOSSLESS_UTF8_NUMBERED_LINES_JSON_ESCAPED",
+  "request": {
+    "end": 6,
+    "expected_sha256": "358a583e5df7b8c6651451e87e951609cab0b9638057f226a27cdfd40680a0af",
+    "file_id": "39b27329ca6a1ceb4ec81157f55c0c04f9caae5a969f37471cef95711cdaf43d",
+    "start": 1
+  },
+  "request_id": "8f4e045333cd8668b66c91755972bd37ee2f1b5bec45065c0406fb1ec502d083",
+  "requested_end": 6,
+  "results": [
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 1,
+      "text": "make: Entering directory '/workspace/smallsort-work/r24-w4-native-fingerprint-tool/src'"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 2,
+      "text": "  DUNE  _build/default/vfconsole/vfconsole.exe"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 3,
+      "text": "dune build _build/default/vfconsole/vfconsole.exe"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 4,
+      "text": "if [ ! -e ../bin/verifast -o _build/default/vfconsole/vfconsole.exe -nt ../bin/verifast ]; then cp -f _build/default/vfconsole/vfconsole.exe ../bin/verifast; fi"
+    },
+    {
+      "ending": "\n",
+      "exact": true,
+      "line": 5,
+      "text": "make: Leaving directory '/workspace/smallsort-work/r24-w4-native-fingerprint-tool/src'"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "status": "OK"
+}

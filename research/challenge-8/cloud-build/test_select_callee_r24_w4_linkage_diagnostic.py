@@ -470,5 +470,21 @@ class W4LinkageDiagnosticTests(unittest.TestCase):
         self.assertTrue(any('stage/log inventory changed' in error for error in audit['errors']))
 
 
+class ProductionPinTests(unittest.TestCase):
+    def test_unmocked_repository_dependencies_match_closed_mode(self):
+        # Read/hash only: no capture, parser execution, or native tool is run.
+        # Pin-only edits may have equal sizes within a Python cache timestamp.
+        # Evaluate the exact source bytes rather than a possibly stale .pyc.
+        scope = {'__name__': 'w4_unmocked_pin_validation', '__file__': str(SCRIPT)}
+        exec(compile(SCRIPT.read_bytes(), str(SCRIPT), 'exec'), scope)
+        mode = scope['_validate_mode'](REPO, REPO / scope['MODE_REL'],
+                                       REPO / scope['CAPTURE_MODE_REL'],
+                                       REPO / scope['CAPTURE_PINS_REL'],
+                                       REPO / scope['MIR_CALLS_REL'])
+        self.assertEqual(mode, scope['expected_mode']())
+        self.assertEqual(scope['MIR_CALLS_SHA256'],
+                         sha((REPO / scope['MIR_CALLS_REL']).read_bytes()))
+
+
 if __name__ == '__main__':
     unittest.main()

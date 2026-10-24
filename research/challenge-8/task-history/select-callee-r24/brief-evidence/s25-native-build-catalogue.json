@@ -1,0 +1,66 @@
+{
+  "archive_sha256": "1d7bee464cd8731eb675ea3ad229645ddbd5a284c478016c748dd418eb8a031a",
+  "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 75,
+      "PROJECTED": 222,
+      "UNSUPPORTED_FILE_TYPE": 18
+    },
+    "catalogue_complete": true,
+    "content_bytes": 576733,
+    "content_files": 297,
+    "files": 315,
+    "source_scan_bytes": 674166
+  },
+  "index_sha256": "303d8ddf0b796b2561a753a41f6515ac0f0bcdb9495926a0e18fe51c787ea453",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": true,
+      "id": "b7c4b7ee4acbd047ea5deddbf01d044b0882e0ad40df1d80360a9a2a3313b58c",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-native-console-build-exit-code.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "size_bytes": 2,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "69341eb24e3254937c965c4e8aa8187bcfca212df4785d09de507950a1a72b20",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-native-console-build-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 891,
+      "sha256": "a15f80f8366243da0bc3267c1daf8f81d92d483922178de04fca6a73abb7afbc",
+      "size_bytes": 891,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "39b27329ca6a1ceb4ec81157f55c0c04f9caae5a969f37471cef95711cdaf43d",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-native-console-build.log",
+      "path_sanitized": false,
+      "scanned_bytes": 433,
+      "sha256": "358a583e5df7b8c6651451e87e951609cab0b9638057f226a27cdfd40680a0af",
+      "size_bytes": 433,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 315,
+    "files_with_incomplete_content": 141,
+    "matches_in_retained_data": 3,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

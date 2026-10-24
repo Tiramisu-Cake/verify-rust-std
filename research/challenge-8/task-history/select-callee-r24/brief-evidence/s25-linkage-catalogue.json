@@ -1,0 +1,78 @@
+{
+  "archive_sha256": "1d7bee464cd8731eb675ea3ad229645ddbd5a284c478016c748dd418eb8a031a",
+  "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+  "causal_status": "UNKNOWN",
+  "caveat": "Search covers sanitized retained observations only. Missing matches do not establish absence from raw sources, NOT_RUN, or causality.",
+  "coverage": {
+    "availability_counts": {
+      "EMPTY_FILE": 75,
+      "PROJECTED": 222,
+      "UNSUPPORTED_FILE_TYPE": 18
+    },
+    "catalogue_complete": true,
+    "content_bytes": 576733,
+    "content_files": 297,
+    "files": 315,
+    "source_scan_bytes": 674166
+  },
+  "index_sha256": "303d8ddf0b796b2561a753a41f6515ac0f0bcdb9495926a0e18fe51c787ea453",
+  "next_offset": null,
+  "report_schema": "smallsort-evidence-index-v8",
+  "results": [
+    {
+      "complete": false,
+      "id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+      "kind": "json",
+      "path": "allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC.json",
+      "path_sanitized": false,
+      "scanned_bytes": 1550,
+      "sha256": "9a6324cd7a41d1b7328247597373baec4830bc0172e2cab5d2830490e0f1378e",
+      "size_bytes": 1550,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "1d5cbb0c4c3891b43303130d2c43c07ef7ff575827f533b694d3bbda5642712b",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-linkage-diagnostic-exit-code.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 2,
+      "sha256": "7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+      "size_bytes": 2,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": false,
+      "id": "456cf253a3f921b49ba154c69f443418de54f9d6d4fcf904384cf8e44c2c5ce2",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-linkage-diagnostic-resources.txt",
+      "path_sanitized": false,
+      "scanned_bytes": 1671,
+      "sha256": "cfa4aa3825eba45de4089ee024b053376fa4e284ae5acffd2fcd5232ee413391",
+      "size_bytes": 1671,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    },
+    {
+      "complete": true,
+      "id": "ad146bb9c3bd7c200b670919cc15529a400ff0bdc1880956cb14eb9b81f1115b",
+      "kind": "text",
+      "path": "allprooflogs/r24-w4-linkage-diagnostic.log",
+      "path_sanitized": false,
+      "scanned_bytes": 58,
+      "sha256": "7714b397f89ef258ada450d2aeb1f21dd1155eb672ee5f16408bbdc691ce1f7e",
+      "size_bytes": 58,
+      "status": "PROJECTED",
+      "verification": "SHA256_VERIFIED_ARCHIVE_MEMBER"
+    }
+  ],
+  "scope": {
+    "files_considered": 315,
+    "files_with_incomplete_content": 141,
+    "matches_in_retained_data": 4,
+    "source_absence_established": false
+  },
+  "status": "OK"
+}

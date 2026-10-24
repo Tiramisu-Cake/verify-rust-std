@@ -1,0 +1,11 @@
+{
+  "schema": "select-r24-w4-analyzer-pin-defect-v1",
+  "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+  "candidate": "de7b8196de9d3f9556aad1b3b89d7150f2d0e844",
+  "status": "STATIC_PIN_MISMATCH_CONFIRMED_BEFORE_FIX",
+  "defect": "Helper MIR_CALLS_SHA256 and mode retain ea7a738a while actual updated analyzer and shell guard use6ea03431. Root preflight errors typed MIR call analyzer pin differs; verifier_invoked false, capture_complete false.",
+  "applicability": "Closed W4 diagnostic binding only; same sources, native overlay5170, toolchain, lane, T0 and ledger.",
+  "invariant": "Update all exact pins together; do not bypass/remove hash checks or rewrite past failures.",
+  "controls": "Unmocked _validate_mode against real repository dependency bytes, expected mode JSON and actual analyzer file, without capture/export/compiler/verifier execution. Existing synthetic failure controls retained.",
+  "proof_credit": 0
+}

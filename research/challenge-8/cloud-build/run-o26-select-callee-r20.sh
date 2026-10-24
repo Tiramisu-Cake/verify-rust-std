@@ -116,8 +116,8 @@ r24_w4_linkage_mode_file="$proof_root/research/challenge-8/task-history/select-c
 r24_w4_linkage_helper="$cloud_dir/select-callee-r24-w4-linkage-diagnostic.py"
 if [[ -e "$r24_w4_linkage_mode_file" ]]; then
   (( r24_w4_capture_only == 1 )) || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == cdd28e90712e7eb5bc7ad8da1e54fa0a973cfb90f5b81f08074ee11f81c2483c ]] || exit 2
-  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == f6cb301152c300747f33a4c66b3aa0bc99423e441bf9af898dded9708189f684 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_mode_file" | cut -d' ' -f1)" == e7eed6467fceb7bfa39cec58f800960e7ea31a0729736497e6b0a9a338402aa4 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_linkage_helper" | cut -d' ' -f1)" == 765b45acc4a3f4bdbe86ad7ff1c8f648797f02ab72519ba8df926fae09fc4772 ]] || exit 2
   [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-mir-calls.py" | cut -d' ' -f1)" == 6ea03431ec3be0c2ee19ae70601e899f91a0d22b18f5acab23af31074aeb8dc0 ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json" | cut -d' ' -f1)" == f81b062111436a7ab8a40e9776fdc1d1138a7861b5a6d95e018201ee93d5b6a0 ]] || exit 2
   r24_w4_linkage_diagnostic=1

@@ -1,0 +1,39 @@
+{
+  "archive_sha256": "1d7bee464cd8731eb675ea3ad229645ddbd5a284c478016c748dd418eb8a031a",
+  "build_id": "97b28dc5-1e14-41c9-95be-7213c5f45a1e",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 1,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+  "file_path": "allprooflogs/cases/r24-w4-linkage-diagnostic/W4-LINKAGE-DIAGNOSTIC.json",
+  "file_sha256": "9a6324cd7a41d1b7328247597373baec4830bc0172e2cab5d2830490e0f1378e",
+  "index_sha256": "303d8ddf0b796b2561a753a41f6515ac0f0bcdb9495926a0e18fe51c787ea453",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "9a6324cd7a41d1b7328247597373baec4830bc0172e2cab5d2830490e0f1378e",
+    "file_id": "5667f780d3869331c75f0199741484814cc986cb9552c48a220a085436d249e9",
+    "pointer": "/errors"
+  },
+  "request_id": "c6c2ce74b98e58a05f0588168d51d3ee881277d71cf2976f04d8ade590a95391",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/errors/0",
+      "value": "RuntimeError: R24-W4-LINKAGE-DIAGNOSTIC: typed MIR call analyzer pin differs"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}
