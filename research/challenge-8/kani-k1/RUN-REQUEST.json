@@ -1,27 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p1-probe-002",
+  "request_id": "merge-p1-scale-003",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Retry of step 1 after job 6 infrastructure_fail (no artifacts): unwind(34) on every harness, probe compare without memcmp; old() count for insert_tail, bidirectional_merge permutation, R11 control, sort4 contract",
+  "purpose": "Scaling of the probe-count bidirectional_merge proof (u64, len 12 and 16 alone), sort4 cost without byte-array types, first composed top harness general_u64 (len 0..=32, all callees stub_verified)",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "harness_timeout_minutes": 6,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::r11_control_bm_requires",
-      "expect": "FAILED",
-      "expect_check": "k1_merge_halves_sorted"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::insert_tail_u64_upto8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_upto8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_all",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::general_u64",
       "expect": "SUCCESS"
     }
   ]

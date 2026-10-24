@@ -285,6 +285,26 @@ fn insert_tail_u64_upto8() {
     by_len!(len, insert_tail_len::<u64>(lt_u64), [2 3 4 5 6 7 8]);
 }
 
+// Scaling probes (diagnostic): one fixed length per harness.
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len12() {
+    bm_len::<u64, _, 12>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len16() {
+    bm_len::<u64, _, 16>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_u64() {
+    sort4_body::<u64, _>(lt_u64);
+}
+
 /// R11 control: the caller violates the "halves sorted" requires of a `stub_verified` callee.
 /// Expected FAILED on the requires check `k1_merge_halves_sorted`.
 #[kani::proof]
