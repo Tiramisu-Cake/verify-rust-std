@@ -52,26 +52,43 @@ pub(crate) fn set_probe<T>() {
 }
 
 /// `*p` is bytewise equal to the probe. `p` must be valid for reads of one initialized `T`.
-/// Compared in 8-byte words plus a byte tail, so that no loop runs more than 10 times (85 bytes)
-/// and every harness fits one small unwind bound (`compare_bytes` would loop once per byte).
+/// Loop-free: up to 16 guarded 8-byte words (`size_of::<T>() <= PROBE_BYTES`, checked in
+/// `set_probe`) and a 4/2/1-byte tail. With loop contracts CBMC unwinds the remaining loops in
+/// goto-instrument, before constant propagation, so a loop here nested in the `k1_count` loop
+/// multiplied the program (job 17: goto-instrument out of memory).
 #[inline(always)]
 unsafe fn is_probe<T>(p: *const T) -> bool {
     let a = p as *const u8;
     let n = size_of::<T>();
+    let w = n / 8;
     let mut eq = true;
-    let mut i = 0;
-    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`.
+    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`; every read
+    // below is guarded to lie in `0..n`.
     unsafe {
         let b = ptr::addr_of!(K1_PROBE) as *const u8;
-        while i + 8 <= n {
-            let x = ptr::read_unaligned(a.add(i) as *const u64);
-            let y = ptr::read_unaligned(b.add(i) as *const u64);
-            eq &= x == y;
-            i += 8;
+        macro_rules! words {
+            ($($j:literal)*) => {$(
+                if $j < w {
+                    let x = ptr::read_unaligned(a.add(8 * $j) as *const u64);
+                    let y = ptr::read_unaligned(b.add(8 * $j) as *const u64);
+                    eq &= x == y;
+                }
+            )*};
         }
-        while i < n {
+        words!(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15);
+        let mut i = 8 * w;
+        if n - i >= 4 {
+            eq &= ptr::read_unaligned(a.add(i) as *const u32)
+                == ptr::read_unaligned(b.add(i) as *const u32);
+            i += 4;
+        }
+        if n - i >= 2 {
+            eq &= ptr::read_unaligned(a.add(i) as *const u16)
+                == ptr::read_unaligned(b.add(i) as *const u16);
+            i += 2;
+        }
+        if n - i >= 1 {
             eq &= *a.add(i) == *b.add(i);
-            i += 1;
         }
     }
     eq
@@ -624,3 +641,25 @@ general_harness!(general_i32, general_stable_len, i32, lt_i32);
 general_harness!(general_u64, general_stable_len, u64, lt_u64);
 general_harness!(general_b16, general_unstable_len, [u8; 16], lt_b16);
 general_harness!(general_b85, general_unstable_len, [u8; 85], lt_b85);
+
+/// One band of lengths `[$($n)*]` of a top harness. The family of bands of one type covers every
+/// length 0..=32 (EXPERIMENT.md §2 p. 2). Covers: every boundary length of R12 that lies in the band,
+/// listed explicitly in `[$($c)*]`, so that every cover of the harness is satisfiable.
+macro_rules! general_band {
+    ($name:ident, $body:ident, $t:ty, $cmp:expr, [$($n:literal)*], covers [$($c:literal)*]) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort8_stable)]
+        fn $name() {
+            let len: usize = kani::any_where(|l: &usize| $(*l == $n)||*);
+            $( kani::cover(len == $c, concat!("len ", stringify!($c))); )*
+            by_len!(len, $body::<$t>($cmp), [$($n)*]);
+        }
+    };
+}
+
+// Single-length probe of the composition cost (diagnostic).
+general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [32]);

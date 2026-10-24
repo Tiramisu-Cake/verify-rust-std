@@ -14,6 +14,8 @@
 
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
 |---|---|---|---|---|---|---|
+| 5 | merge-p2-inv-005 | diagnostic | 17 | 12984437 | 3 × 13 мин | RUNNER_ERROR за 2:23: `goto-instrument` убит OOM (13 GiB, 1 OOM-kill) на первой гармонике `bm_u64` сразу после применения loop contract. Причина — кодировка, а не формулировка: при loop contracts CBMC развёртывает остальные циклы в goto-instrument (WARNING «transformed loops will not be unwound»), DFCC встроил хелперы инварианта, и вложенные циклы `is_probe` внутри `k1_count` размножились. Гармоники NOT_RUN, формулировка 2 не проверена |
+| 6 | merge-p2-inv-006 | diagnostic | | | 3 × 13 мин | ждёт: `is_probe` без циклов (D10) |
 
 ## Фаза 1
 
