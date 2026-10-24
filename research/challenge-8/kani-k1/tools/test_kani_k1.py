@@ -203,7 +203,7 @@ class SummaryTests(unittest.TestCase):
     def test_memcap(self):
         req = req_with(harnesses=ONLY_OK)
         log = OK_BLOCK + tail(1, 0)
-        enforced = "state=ENFORCED\nmax_bytes=13958643712\npeak_bytes=4294967296\noom_kill=0\n"
+        enforced = "state=ENFORCED\nmax_bytes=13958643712\nswap=off\npeak_bytes=4294967296\noom_kill=0\n"
 
         def run(text, tracked=True):
             return k.summarize(json.dumps(req), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success",
@@ -211,7 +211,8 @@ class SummaryTests(unittest.TestCase):
         s = run(enforced)
         self.assertTrue(s["measurement_ok"])
         self.assertEqual(s["resources"]["memcap"]["max_bytes"], 13958643712)
-        self.assertIn("ENFORCED, limit 13.00 GiB, peak 4.00 GiB, OOM kills 0", k.render_md(s))
+        self.assertIn("ENFORCED, limit 13.00 GiB, cgroup peak incl. page cache 4.00 GiB, OOM kills 0, swap off",
+                      k.render_md(s))
         self.assertIsNone(run(None, tracked=False)["resources"]["memcap"])
         self.assertTrue(run(None, tracked=False)["measurement_ok"])
         for text, state in ((None, "MISSING"), ("state=UNAVAILABLE\nreason=no cgroup v2\n", "UNAVAILABLE"),
@@ -223,8 +224,25 @@ class SummaryTests(unittest.TestCase):
         self.assertIn("no cgroup v2", " ".join(run("state=UNAVAILABLE\nreason=no cgroup v2\n")["notes"]))
         killed = run(enforced.replace("oom_kill=0", "oom_kill=1"))
         self.assertEqual(killed["status"], "INCONSISTENT")
-        self.assertIn("cgroup OOM kill not attributed to any harness", killed["inconsistencies"])
+        self.assertIn("cgroup OOM kills 1 differ from 0 OUT_OF_MEMORY harness(es)", killed["inconsistencies"])
         self.assertFalse(k.gate_ok(killed))
+        swap_on = run(enforced.replace("swap=off", "swap=on"))
+        self.assertFalse(swap_on["measurement_ok"])
+        self.assertTrue(any("swap not confirmed off" in n for n in swap_on["notes"]))
+        oom = (f"Checking harness {P}smoke::ok...\nVERIFICATION:- FAILED\n"
+               "CBMC appears to have run out of memory. You may want more memory.\n")
+        diag = req_with(kind="diagnostic", harnesses=ONLY_OK)
+
+        def run_diag(text, log_text):
+            return k.summarize(json.dumps(diag), log_text, TIME, 1, "a" * 40, "b" * 40, None, {}, {}, "success",
+                               text, True)
+        self.assertEqual(run_diag(enforced.replace("oom_kill=0", "oom_kill=1"), oom + tail(0, 1))["status"], "COMPLETE")
+        # SIGKILL from outside the cgroup: Kani still says out of memory, the cgroup counted no OOM kill.
+        self.assertEqual(run_diag(enforced, oom + tail(0, 1))["status"], "INCONSISTENT")
+        self.assertEqual(run_diag(enforced.replace("oom_kill=0", "oom_kill=2"), oom + tail(0, 1))["status"], "INCONSISTENT")
+        compile_oom = run_diag(enforced.replace("oom_kill=0", "oom_kill=1"), "error: could not compile `core`\n")
+        self.assertEqual(compile_oom["status"], "RUNNER_ERROR")
+        self.assertTrue(any("during compilation" in n for n in compile_oom["notes"]))
         diag = req_with(kind="diagnostic", harnesses=ONLY_OK)
         s = k.summarize(json.dumps(diag), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success",
                         "state=UNAVAILABLE\n", True)

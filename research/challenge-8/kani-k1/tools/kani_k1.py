@@ -264,7 +264,7 @@ def parse_time_file(text: str | None) -> dict[str, Any]:
 def parse_memcap(text: str | None) -> dict[str, Any]:
     """k1-out/memcap.txt of the verify step: key=value lines written by circleci-k1.sh."""
     if text is None:
-        return {"state": "MISSING", "max_bytes": None, "peak_bytes": None, "oom_kill": None, "reason": None}
+        return {"state": "MISSING", "max_bytes": None, "peak_bytes": None, "oom_kill": None, "swap": None, "reason": None}
     fields = dict(line.split("=", 1) for line in text.splitlines() if "=" in line)
 
     def num(key: str) -> int | None:
@@ -273,6 +273,7 @@ def parse_memcap(text: str | None) -> dict[str, Any]:
     state = fields.get("state", "").strip()
     return {"state": state if state in ("ENFORCED", "UNAVAILABLE") else "UNPARSED", "max_bytes": num("max_bytes"),
             "peak_bytes": num("peak_bytes"), "oom_kill": num("oom_kill"),
+            "swap": fields.get("swap", "").strip() or None,
             "reason": _clip(fields["reason"].strip()) if fields.get("reason") else None}
 
 
@@ -306,6 +307,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
             summary["notes"].append(f"verify memory cap {memcap['state']}: {memcap['reason'] or 'no reason recorded'}")
         if memcap["oom_kill"]:
             summary["notes"].append(f"verify cgroup OOM killer fired {memcap['oom_kill']} time(s)")
+        if memcap["state"] == "ENFORCED" and memcap["swap"] != "off":
+            summary["notes"].append(f"swap not confirmed off in the verify cgroup: {memcap['swap']}")
     request = None
     if request_error is None and request_text is not None:
         try:
@@ -335,7 +338,10 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["complete_line"] = parsed["complete_line"]
     if not parsed["blocks"]:
         summary["harnesses"] = not_run
-        if any(RUSTC_ERROR_RE.search(line) for line in parsed["errors"]):
+        if memcap is not None and memcap["oom_kill"]:
+            summary["status"] = "RUNNER_ERROR"
+            summary["notes"].append("OOM kill before any harness output: out of memory during compilation")
+        elif any(RUSTC_ERROR_RE.search(line) for line in parsed["errors"]):
             summary["status"] = "COMPILE_ERROR"
         elif parsed["errors"]:
             summary["status"] = "TOOL_ERROR"
@@ -381,8 +387,11 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         inconsistencies.append("Kani exit code unknown")
     elif (exit_code == 0) != all_success:
         inconsistencies.append(f"Kani exit {exit_code} does not match the parsed statuses")
-    if memcap is not None and memcap["oom_kill"] and "OUT_OF_MEMORY" not in statuses:
-        inconsistencies.append("cgroup OOM kill not attributed to any harness")
+    if memcap is not None and memcap["state"] == "ENFORCED" and memcap["oom_kill"] is not None \
+            and memcap["oom_kill"] != statuses.count("OUT_OF_MEMORY"):
+        # Kani labels any SIGKILL of CBMC as out of memory; under the cap each such row needs one cgroup OOM kill.
+        inconsistencies.append(f"cgroup OOM kills {memcap['oom_kill']} differ from {statuses.count('OUT_OF_MEMORY')} "
+                               "OUT_OF_MEMORY harness(es)")
     if any(s in ("NOT_RUN", "UNKNOWN") for s in statuses):
         summary["status"] = "PARTIAL"
     elif inconsistencies:
@@ -392,7 +401,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["expectation_met"] = summary["status"] == "COMPLETE" and all(
         _row_meets(r, e) for r, e in zip(rows, request["harnesses"]))
     if request["kind"] == "measurement":
-        memcap_ok = memcap is None or (memcap["state"] == "ENFORCED" and memcap["oom_kill"] == 0)
+        memcap_ok = memcap is None or (memcap["state"] == "ENFORCED" and memcap["oom_kill"] == 0
+                                       and memcap["swap"] == "off")
         summary["measurement_ok"] = summary["expectation_met"] and memcap_ok and all(
             r["status"] != "SUCCESS" or (r["time_s"] is not None and r["time_s"] <= MEASUREMENT_LIMIT_SECONDS
                                          and (r["covers_total"] or 0) >= 1
@@ -416,7 +426,8 @@ def _memcap_line(memcap: dict[str, Any] | None) -> str:
     if memcap is None:
         return "not tracked by this lane"
     gib = lambda b: "?" if b is None else f"{b / 2**30:.2f} GiB"  # noqa: E731
-    return f"{memcap['state']}, limit {gib(memcap['max_bytes'])}, peak {gib(memcap['peak_bytes'])}, OOM kills {memcap['oom_kill']}"
+    return (f"{memcap['state']}, limit {gib(memcap['max_bytes'])}, cgroup peak incl. page cache "
+            f"{gib(memcap['peak_bytes'])}, OOM kills {memcap['oom_kill']}, swap {memcap['swap']}")
 
 
 def render_md(summary: dict[str, Any]) -> str:

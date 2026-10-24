@@ -38,7 +38,11 @@ memcap_enter() {
   if [ -n "$why" ]; then
     printf 'state=UNAVAILABLE\nreason=%s\n' "$why" > "$K1_OUT/memcap.txt"
   else
-    printf 'state=ENFORCED\nmax_bytes=%s\n' "$(cat "$CG/memory.max")" > "$K1_OUT/memcap.txt"
+    local swap=on
+    if [ "$(cat "$CG/memory.swap.max" 2>/dev/null)" = 0 ] || ! awk '$1 == "SwapTotal:" && $2 > 0 {f = 1} END {exit !f}' /proc/meminfo; then
+      swap=off
+    fi
+    printf 'state=ENFORCED\nmax_bytes=%s\nswap=%s\n' "$(cat "$CG/memory.max")" "$swap" > "$K1_OUT/memcap.txt"
   fi
   cat "$K1_OUT/memcap.txt"
 }
