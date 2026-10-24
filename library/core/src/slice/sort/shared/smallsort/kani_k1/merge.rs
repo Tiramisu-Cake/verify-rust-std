@@ -625,6 +625,27 @@ fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
 }
 
+// Phase 3 tool control (TASK-merge.md «Фаза 3» p. 2): are loop contracts on the Kani pin broken
+// for any `for` loop over a `Range` on an array of up to 32 elements, or only inside
+// `bidirectional_merge`? Trivial invariant, plain proof, nothing from smallsort.
+
+fn toy_loop(a: &mut [u64; 32], n: usize) {
+    #[cfg_attr(kani, kani::loop_invariant(kani::index <= n && n <= 32))]
+    for i in 0..n {
+        a[i] = a[i].wrapping_add(1);
+    }
+}
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn toy_loop_contract() {
+    let mut a: [u64; 32] = kani::any();
+    let n: usize = kani::any_where(|n: &usize| *n <= 32);
+    kani::cover(n == 32, "toy: n == 32 reachable under the assume");
+    toy_loop(&mut a, n);
+    kani::cover(true, "toy: end of harness reached");
+}
+
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len32() {

@@ -1,14 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p2-bisect-010",
+  "request_id": "merge-p3-toy-011",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Trivial loop invariant on bidirectional_merge in a plain proof (no function-contract CHECK wrapper): does goto-instrument survive (job 22 OOM was under proof_for_contract)? Plus sort4_stable per byte-array type, which does not reach the loop",
+  "purpose": "Phase 3 tool control: trivial loop_invariant on a toy for-loop over a Range on a [u64; 32] array, plain proof, nothing from smallsort. Does goto-instrument/CBMC run out of memory on any such loop on the Kani pin, or only inside bidirectional_merge (jobs 17-24)?",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "harness_timeout_minutes": 8,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_bisect_plain_trivial_u16", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_b16", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_b85", "expect": "SUCCESS"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::merge::toy_loop_contract", "expect": "SUCCESS"}
   ]
 }
