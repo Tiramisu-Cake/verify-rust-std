@@ -17,7 +17,8 @@
 | 5 | merge-p2-inv-005 | diagnostic | 17 | 12984437 | 3 × 13 мин | RUNNER_ERROR за 2:23: `goto-instrument` убит OOM (13 GiB, 1 OOM-kill) на первой гармонике `bm_u64` сразу после применения loop contract. Причина — кодировка, а не формулировка: при loop contracts CBMC развёртывает остальные циклы в goto-instrument (WARNING «transformed loops will not be unwound»), DFCC встроил хелперы инварианта, и вложенные циклы `is_probe` внутри `k1_count` размножились. Гармоники NOT_RUN, формулировка 2 не проверена |
 | 6 | merge-p2-inv-006 | diagnostic | 19 | 330d590f | 3 × 13 мин | RUNNER_ERROR за 2:06: снова OOM `goto-instrument` на `bm_u64`; без циклов `is_probe` остались только одиночные циклы `k1_sorted`/`k1_count`. Гипотеза D10 о размножении вложенных циклов неполна (D11) |
 | 7 | merge-p2-inv-007 | diagnostic | 20 | 873d607d | 2 × 13 мин | RUNNER_ERROR за 2:16: снова OOM `goto-instrument` на `bm_u64`, хотя циклов в спецификации нет: строки «does not have a contract» исчезли, WARNING о loop contracts есть. Размер инварианта не влияет на время падения (D12) |
-| 8 | merge-p2-bisect-008 | diagnostic | | | 3 × 10 мин | ждёт: бисекция — тривиальный инвариант, инвариант без счётчика, полный (D12) |
+| 8 | merge-p2-bisect-008 | diagnostic | 21 | d0e6a7eb | 3 × 10 мин | RUNNER_ERROR за 1:39: Kani первой запустил `bm_u64_len32`, а не по алфавиту, и снова OOM `goto-instrument`. Бисекция данных не дала: порядок гармоник в Kani не управляется ни запросом, ни именами |
+| 9 | merge-p2-bisect-009 | diagnostic | | | 1 × 8 мин | ждёт: только тривиальный инвариант (`u16`) |
 
 ## Фаза 1
 
