@@ -1,12 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p4-trivial-014",
+  "request_id": "merge-p4-forall-015",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Phase 4 run A: job 29 setup (trivial loop invariant, explicit loop_modifies) with a trivial bidirectional_merge contract (safety requires only, ensures true); u64 len 32. Does goto-instrument get through?",
+  "purpose": "Phase 4 run B: run A setup with one quantified sortedness ensures (kani::forall over the constant range 1..32, guarded by len) instead of true; u64 len 32. Does goto-instrument get through?",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32", "expect": "SUCCESS"}
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
+      "expect": "SUCCESS"
+    }
   ]
 }

@@ -13,7 +13,8 @@
 
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
 |---|---|---|---|---|---|---|
-| 14 | merge-p4-trivial-014 | diagnostic | | | 1 × 10 мин | ждёт: прогон A — тривиальный контракт функции + loop contract job 29 |
+| 14 | merge-p4-trivial-014 | diagnostic | 30 | b94fac35 | 1 × 10 мин | COMPLETE, gate false, check-tooling ok. Прогон A: тривиальный контракт `bidirectional_merge` (только `requires` безопасности, `ensures(true)`) плюс loop contract как в job 29. **`goto-instrument` пройден**, `bm_u64_len32` — OUT_OF_MEMORY уже в CBMC (1 OOM-kill, 13 GiB, swap off, wall 5:43) |
+| 15 | merge-p4-forall-015 | diagnostic | | | 1 × 10 мин | ждёт: прогон B — как A, но `ensures` сортированности одним `forall!` |
 
 ## Фаза 3
 

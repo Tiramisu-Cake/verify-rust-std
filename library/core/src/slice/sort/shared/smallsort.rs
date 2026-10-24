@@ -775,12 +775,12 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 // harness comparators (see kani_k1/merge.rs). `v.len() <= 32` holds at every call site
 // (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
 // and bounds the loop-free specification helpers.
-// K-1 phase 4 run A (diagnostic, temporary): trivial function contract - only what the body needs
-// for memory safety by the `# Safety` section; no sortedness requires, `ensures` is `true`.
+// K-1 phase 4 run B (diagnostic, temporary): run A's trivial contract with one quantified
+// sortedness `ensures` instead of `true`; only that differs from run A.
 #[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
-#[cfg_attr(kani, kani::ensures(|_| true))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_q(dst, v.len(), &is_less)))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -838,8 +838,8 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
-        // K-1 phase 4 run A (diagnostic, temporary): the trivial invariant and explicit modifies set of
-        // job 29; only the function contract differs.
+        // K-1 phase 4 runs A, B (diagnostic, temporary): the trivial invariant and explicit modifies set
+        // of job 29; only the function contract differs.
         #[cfg_attr(kani, kani::loop_invariant(kani::index <= len_div_2))]
         #[cfg_attr(kani, kani::loop_modifies(
             &left, &right, &dst, &left_rev, &right_rev, &dst_rev,

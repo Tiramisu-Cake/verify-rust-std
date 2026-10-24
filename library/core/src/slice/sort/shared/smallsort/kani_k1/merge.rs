@@ -155,6 +155,18 @@ impl<T> CopyOnDrop<T> {
         ok
     }
 
+    /// `k1_sorted` as one quantifier over the constant range `1..K1_UNROLL` (the SAT backend of the
+    /// Kani pin encodes only quantifiers with constant bounds), guarded by `i < len`. For
+    /// `len <= K1_UNROLL`. Phase 4 run B: does a quantified specification pass the instrumentation?
+    pub(crate) fn k1_sorted_q<F: FnMut(&T, &T) -> bool>(
+        base: *const T,
+        len: usize,
+        is_less: &&mut F,
+    ) -> bool {
+        crate::forall!(|i in (1, K1_UNROLL)| i >= len
+            || !call_less(is_less, base.wrapping_add(i), base.wrapping_add(i - 1)))
+    }
+
     /// `base[..len]` is sorted: no element is less than its predecessor.
     pub(crate) fn k1_sorted<F: FnMut(&T, &T) -> bool>(
         base: *const T,
