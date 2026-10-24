@@ -1,18 +1,46 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p1-06-sort9-light-retry",
+  "request_id": "net-p2-01-f3-sort9",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "Retry of net-p1-05 after COMPILE_ERROR E0502 (two ensures clauses with old() on v: &mut [T]); clauses merged into one ensures. sort9 real body without contracts; sort9 contract formulation 2 at constant len 9 over stub swap_if_less",
+  "purpose": "Phase 2: rerun swap_if_less contract with merge::lt_*; formulation 3 for sort9_optimal contract (real body, no stub): sortedness on 0-1 keys via proof_for_contract, permutation at full width; sort13 0-1 scaling probe",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 5,
+  "harness_timeout_minutes": 4,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::direct_sort9_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::contract_sort9_u8_len9",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_i32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::swap_if_less_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_01_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_01_i32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_01_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_i32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_01_u8",
       "expect": "SUCCESS"
     }
   ]

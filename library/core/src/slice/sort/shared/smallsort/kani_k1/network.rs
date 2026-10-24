@@ -105,6 +105,78 @@ check_sort_n!(sort13_i32, sort13_optimal, 13, i32, lt_i32);
 check_sort_n!(sort13_u64, sort13_optimal, 13, u64, lt_u64);
 
 // ---------------------------------------------------------------------------------------------
+// Formulation 3 for the network contracts (phase 2): the real network bodies with the real
+// `swap_if_less`, no stubs. The contract is split over two harness families:
+// - `sortNN_01_*`: `proof_for_contract` on inputs whose `v[..n]` keys (`x >> 1`) are 0 or 1. By the
+//   0-1 principle this gives sortedness for every input: the body is a fixed sequence of
+//   compare-exchanges, each exact by the `swap_if_less` contract (RESULT-network.md, «Редукции»).
+// - `sortNN_perm_*`: permutation of `v[..n]` (probe count) on full-width inputs, plain proof.
+
+/// `v[..n]` gets the values 0..=3 (keys 0 and 1), built rather than assumed; `v[n..]` stays arbitrary.
+macro_rules! check_sort_n_01 {
+    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
+        #[kani::proof_for_contract(super::super::$f)]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; 17] = kani::any();
+            let bits: [u8; $n] = kani::any();
+            let mut i = 0;
+            while i < $n {
+                v[i] = (bits[i] & 3) as $t;
+                i += 1;
+            }
+            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
+            kani::cover(len == $n, "exact length reachable");
+            kani::cover(len == 17, "longest slice reachable");
+            kani::cover(v[0] >= 2 && v[$n - 1] < 2, "unsorted 0-1 input reachable");
+            let pre = v;
+            let mut cmp = $cmp;
+            super::super::$f(&mut v[..len], &mut cmp);
+            assert!(same_from(&v[..], &pre[..], $n));
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+/// Full-width values; the contract's permutation clause, stated with the same probe count.
+macro_rules! check_perm_n {
+    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
+        #[kani::proof]
+        #[kani::unwind(18)]
+        fn $name() {
+            set_probe::<$t>();
+            let mut v: [$t; 17] = kani::any();
+            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
+            kani::cover(len == $n, "exact length reachable");
+            kani::cover(len == 17, "longest slice reachable");
+            let pre = v;
+            let mut cmp = $cmp;
+            super::super::$f(&mut v[..len], &mut cmp);
+            assert!(
+                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
+                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
+            );
+            assert!(same_from(&v[..], &pre[..], $n));
+            kani::cover(true, "end reached");
+        }
+    };
+}
+
+check_sort_n_01!(sort9_01_u8, sort9_optimal, 9, u8, lt_u8);
+check_sort_n_01!(sort9_01_i32, sort9_optimal, 9, i32, lt_i32);
+check_sort_n_01!(sort9_01_u64, sort9_optimal, 9, u64, lt_u64);
+check_sort_n_01!(sort13_01_u8, sort13_optimal, 13, u8, lt_u8);
+check_sort_n_01!(sort13_01_i32, sort13_optimal, 13, i32, lt_i32);
+check_sort_n_01!(sort13_01_u64, sort13_optimal, 13, u64, lt_u64);
+check_perm_n!(sort9_perm_u8, sort9_optimal, 9, u8, lt_u8);
+check_perm_n!(sort9_perm_i32, sort9_optimal, 9, i32, lt_i32);
+check_perm_n!(sort9_perm_u64, sort9_optimal, 9, u64, lt_u64);
+check_perm_n!(sort13_perm_u8, sort13_optimal, 13, u8, lt_u8);
+check_perm_n!(sort13_perm_i32, sort13_optimal, 13, i32, lt_i32);
+check_perm_n!(sort13_perm_u64, sort13_optimal, 13, u64, lt_u64);
+
+// ---------------------------------------------------------------------------------------------
 // insertion_sort_shift_left on the network regions: `offset` 1 for `len < 9`, 9 for
 // `9 <= len < 13`, 13 for `13 <= len <= 17` (EXPERIMENT.md TASK-network step 3). Real body,
 // including the real `insert_tail`.
