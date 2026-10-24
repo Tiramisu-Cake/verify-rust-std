@@ -131,6 +131,61 @@ class ConstConsequenceTests(unittest.TestCase):
             self.assertFalse(CONSEQ._regular(alias/'evidence', alias/'evidence'/'case'/'log.txt'))
             self.assertFalse(CONSEQ._regular(evidence, evidence/'case'/'..'/'case'/'log.txt'))
 
+    def test_run_rejects_symlinked_cases_ancestor_before_any_outside_write(self):
+        args, diag, matrix, matrix_audit = self.fixture()
+        evidence_cases = args.evidence/'cases'
+        outside = args.evidence.parent/'outside-cases'
+        outside.mkdir()
+        evidence_cases.rename(outside/'cases')
+        evidence_cases.symlink_to(outside/'cases', target_is_directory=True)
+        outside_root = outside/'cases'/CONSEQ.SUMMARY_REL.parent.name
+        with self.assertRaisesRegex(RuntimeError, 'symlinked component'):
+            CONSEQ.run(args, diag=diag, stage=self.stage_service(args),
+                       const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+        self.assertFalse((outside_root/CONSEQ.SUMMARY_REL.name).exists())
+        self.assertFalse((outside_root/('.' + CONSEQ.SUMMARY_REL.name + '.tmp')).exists())
+
+    def test_run_rejects_symlinked_component_root_before_any_outside_write(self):
+        args, diag, matrix, matrix_audit = self.fixture()
+        outside_root = args.evidence.parent/'outside-component'
+        outside_root.mkdir()
+        case_root = args.evidence/CONSEQ.SUMMARY_REL.parent
+        case_root.symlink_to(outside_root, target_is_directory=True)
+        with self.assertRaisesRegex(RuntimeError, 'fresh consequence output root'):
+            CONSEQ.run(args, diag=diag, stage=self.stage_service(args),
+                       const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+        self.assertFalse((outside_root/CONSEQ.SUMMARY_REL.name).exists())
+        self.assertFalse((outside_root/('.' + CONSEQ.SUMMARY_REL.name + '.tmp')).exists())
+
+    def test_audit_unsafe_component_parent_returns_unwritten_incomplete_without_escape(self):
+        args, diag, matrix, matrix_audit = self.fixture()
+        CONSEQ.run(args, diag=diag, stage=self.stage_service(args),
+                   const_matrix_summary=matrix, const_matrix_audit=matrix_audit)
+        case_root = args.evidence/CONSEQ.SUMMARY_REL.parent
+        outside_root = args.evidence.parent/'outside-audit-component'
+        case_root.rename(outside_root)
+        case_root.symlink_to(outside_root, target_is_directory=True)
+        result = CONSEQ.audit(args, diag=diag, const_matrix_summary=matrix,
+                              const_matrix_audit=matrix_audit)
+        self.assertFalse(result['evidence_complete'])
+        self.assertFalse(result['audit_written'])
+        self.assertTrue(result['errors'])
+        self.assertFalse((outside_root/CONSEQ.AUDIT_REL.name).exists())
+        self.assertFalse((outside_root/('.' + CONSEQ.AUDIT_REL.name + '.tmp')).exists())
+
+    def test_audit_safely_creates_missing_component_root_for_incomplete_record(self):
+        args, diag, matrix, matrix_audit = self.fixture()
+        case_root = args.evidence/CONSEQ.SUMMARY_REL.parent
+        self.assertFalse(case_root.exists())
+        result = CONSEQ.audit(args, diag=diag, const_matrix_summary=matrix,
+                              const_matrix_audit=matrix_audit)
+        self.assertFalse(result['evidence_complete'])
+        self.assertTrue(result['audit_written'], result['errors'])
+        self.assertTrue(case_root.is_dir())
+        self.assertTrue((args.evidence/CONSEQ.AUDIT_REL).is_file())
+        persisted = json.loads((args.evidence/CONSEQ.AUDIT_REL).read_text())
+        self.assertFalse(persisted['evidence_complete'])
+        self.assertTrue(any('summary missing' in error for error in result['errors']))
     def test_native_bounded_positive_header_and_footer_are_accepted(self):
         with tempfile.TemporaryDirectory() as tmp:
             case = Path(tmp)

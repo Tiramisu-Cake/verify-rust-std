@@ -70,11 +70,109 @@ def need(ok: bool, message: str) -> None:
         raise RuntimeError('R24-W4-CONST-CONSEQUENCE: ' + message)
 
 
-def write_json(path: Path, value: object) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
+def _canonical_directory(root: Path) -> Path:
+    raw = Path(os.path.abspath(root))
+    need(raw.is_dir() and not raw.is_symlink(), 'evidence root missing, non-directory, or symlinked')
+    resolved = raw.resolve(strict=True)
+    need(resolved == raw, 'evidence root has an aliased/symlinked ancestor')
+    return raw
+
+
+def _check_write_path(root: Path, path: Path, *, leaf_may_exist: bool) -> Path:
+    root = _canonical_directory(root)
+    target = Path(os.path.abspath(path))
+    try:
+        relative = target.relative_to(root)
+    except ValueError as exc:
+        raise RuntimeError('write path escapes evidence root') from exc
+    need(bool(relative.parts) and all(part not in ('', '.', '..') for part in relative.parts),
+         'write path is not a canonical descendant')
+    current = root
+    for index, part in enumerate(relative.parts):
+        current = current / part
+        exists = current.exists() or current.is_symlink()
+        if not exists:
+            need(index + 1 == len(relative.parts), 'write path parent is missing')
+            continue
+        need(not current.is_symlink(), 'write path has symlinked component: ' + str(current))
+        resolved = current.resolve(strict=True)
+        need(resolved == current, 'write path has aliased component: ' + str(current))
+        if index + 1 < len(relative.parts):
+            need(current.is_dir(), 'write path parent is not a directory: ' + str(current))
+        else:
+            need(leaf_may_exist and current.is_file(),
+                 'write target exists or is not a regular file: ' + str(current))
+    return target
+
+
+def _ensure_safe_directory_chain(root: Path, directory: Path) -> Path:
+    root = _canonical_directory(root)
+    target = Path(os.path.abspath(directory))
+    try:
+        relative = target.relative_to(root)
+    except ValueError as exc:
+        raise RuntimeError('directory path escapes evidence root') from exc
+    need(all(part not in ('', '.', '..') for part in relative.parts),
+         'directory path is not a canonical descendant')
+    current = root
+    for part in relative.parts:
+        current = current / part
+        if current.exists() or current.is_symlink():
+            need(not current.is_symlink(), 'directory path has symlinked component: ' + str(current))
+            need(current.resolve(strict=True) == current and current.is_dir(),
+                 'directory path has aliased/non-directory component: ' + str(current))
+        else:
+            current.mkdir()
+            need(not current.is_symlink() and current.resolve(strict=True) == current and current.is_dir(),
+                 'created directory component became unsafe: ' + str(current))
+    return current
+
+
+def _prepare_fresh_component_root(evidence: Path, case_root: Path, output: Path,
+                                   audit_output: Path) -> None:
+    evidence = _canonical_directory(evidence)
+    parent = case_root.parent
+    _check_write_path(evidence, parent / '.sentinel', leaf_may_exist=False)
+    need(not case_root.exists() and not case_root.is_symlink(),
+         'fresh consequence output root required')
+    for destination in (output, audit_output):
+        need(destination.parent == case_root,
+             'component output must be an immediate child of fresh case root')
+        temp = destination.with_name('.' + destination.name + '.tmp')
+        need(not destination.exists() and not destination.is_symlink() and
+             not temp.exists() and not temp.is_symlink(),
+             'fresh component output and temporary paths required')
+    case_root.mkdir()
+    need(case_root.is_dir() and not case_root.is_symlink() and
+         case_root.resolve(strict=True) == case_root,
+         'fresh consequence output root became unsafe')
+    _check_write_path(evidence, output, leaf_may_exist=False)
+    _check_write_path(evidence, audit_output, leaf_may_exist=False)
+
+
+def write_json(root: Path, path: Path, value: object) -> None:
+    path = _check_write_path(root, path, leaf_may_exist=True)
     temp = path.with_name('.' + path.name + '.tmp')
-    temp.write_text(json.dumps(value, indent=2, sort_keys=True) + '\n', encoding='utf-8')
-    os.replace(temp, path)
+    _check_write_path(root, temp, leaf_may_exist=False)
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    flags |= getattr(os, 'O_NOFOLLOW', 0)
+    descriptor = os.open(temp, flags, 0o600)
+    try:
+        with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
+            stream.write(json.dumps(value, indent=2, sort_keys=True) + '\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+        _check_write_path(root, temp, leaf_may_exist=True)
+        _check_write_path(root, path, leaf_may_exist=True)
+        os.replace(temp, path)
+    except BaseException:
+        try:
+            _check_write_path(root, temp, leaf_may_exist=True)
+            if temp.is_file() and not temp.is_symlink():
+                temp.unlink()
+        except (OSError, RuntimeError):
+            pass
+        raise
 
 
 def require_compiler_sysroot(args: argparse.Namespace) -> None:
@@ -459,24 +557,27 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
         const_matrix_summary: dict[str, Any] | None = None,
         const_matrix_audit: dict[str, Any] | None = None) -> dict[str, Any]:
     diag = diag or load_diag(Path(args.cloud_dir))
+    evidence = _canonical_directory(Path(args.evidence))
     roots, route, _ids = _context(args, diag)
     repo, cloud, evidence = roots['repo'], roots['cloud'], roots['evidence']
+    need(evidence == Path(os.path.abspath(args.evidence)),
+         'evidence root path is not canonical')
     tool_home, native_tool_home = roots['tool_home'], roots['native_tool_home']
     output = evidence / SUMMARY_REL
-    need(not output.exists() and not output.is_symlink(), 'fresh consequence output required')
+    case_root = evidence / SUMMARY_REL.parent
+    audit_output = evidence / AUDIT_REL
+    _prepare_fresh_component_root(evidence, case_root, output, audit_output)
     report = _initial(args)
     report['route'] = route
-    write_json(output, report)
+    write_json(evidence, output, report)
     try:
         native_id = _build_id()
         matrix = _matrix_inputs(evidence, args, native_id,
                                 const_matrix_summary, const_matrix_audit)
         report.update(native_build_id=native_id, const_matrix=matrix)
         report['failed_stage'] = 'fixture-setup'
-        write_json(output, report)
+        write_json(evidence, output, report)
         model = native_tool_home / MODEL_REL
-        case_root = evidence / SUMMARY_REL.parent
-        case_root.mkdir(parents=True, exist_ok=True)
         cases = {}
         for name, negative in (('positive', False), ('omit-result-relation', True)):
             case = case_root / name
@@ -493,7 +594,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
                    'verified_sha256': sha((item['path'] / 'verified/lib.rs').read_bytes()),
                    'ghost_strip_identity': True}
             for name, item in cases.items()}
-        write_json(output, report)
+        write_json(evidence, output, report)
         if stage is None:
             capture = load_capture(repo)
             stage = capture.run_stage
@@ -521,7 +622,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
                 need(stage_native_before == before_native and stage_frozen_before == before_frozen,
                      'tool identity changed before stage: ' + name + '/' + stage_name)
                 report['failed_stage'] = name + '/' + stage_name
-                write_json(output, report)
+                write_json(evidence, output, report)
                 row = stage(stage_name, argv, case, env, source_hashes,
                             args.deadline_epoch, 1200, stdin_name, stdout_name)
                 stage_native_after = diag._native_tool_identity(native_tool_home)
@@ -539,7 +640,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
                 if stage_name in ('consequence-proof', 'omit-result-relation-proof') and \
                    type(row.get('exit')) is int:
                     report['body_proof_run'] = True
-                write_json(output, report)
+                write_json(evidence, output, report)
                 expected_exit = 1 if stage_name == 'omit-result-relation-proof' else 0
                 need(type(row.get('exit')) is int and row.get('exit') == expected_exit and
                      row.get('fixture_before') == source_hashes and
@@ -550,7 +651,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
             case_report = _validate_case(args, evidence, case, name, negative=negative)
             report.setdefault('cases', {})[name] = case_report
             report['failed_stage'] = 'source-inventory'
-            write_json(output, report)
+            write_json(evidence, output, report)
         after_native = diag._native_tool_identity(native_tool_home)
         after_frozen = diag._tool_hashes(tool_home)
         need(before_native == after_native and before_frozen == after_frozen,
@@ -572,7 +673,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
                       complete=True, classification='COMPLETE_W4_CONST_CONSEQUENCE_SOURCE_REPORTED',
                       failed_stage='complete')
         report['artifact_inventory'] = _artifact_inventory(evidence, case_root, output)
-        write_json(output, report)
+        write_json(evidence, output, report)
         return report
     except BaseException as exc:
         report['complete'] = False
@@ -591,7 +692,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
         except BaseException as snapshot_exc:
             report['tool_snapshot_error'] = type(snapshot_exc).__name__ + ': ' + str(snapshot_exc)
         try:
-            write_json(output, report)
+            write_json(evidence, output, report)
         except BaseException as snapshot_exc:
             if hasattr(exc, 'add_note'):
                 exc.add_note('consequence partial summary write failed: ' + str(snapshot_exc))
@@ -621,14 +722,23 @@ def audit(args: argparse.Namespace, *, diag=None,
           const_matrix_audit: dict[str, Any] | None = None) -> dict[str, Any]:
     diag = diag or load_diag(Path(args.cloud_dir))
     errors = []
-    evidence = Path(args.evidence).resolve()
+    evidence = None
+    output = None
     summary = None
     try:
+        evidence = _canonical_directory(Path(args.evidence))
+        output = evidence / AUDIT_REL
+        summary_path = evidence / SUMMARY_REL
+        _ensure_safe_directory_chain(evidence, evidence / SUMMARY_REL.parent)
+        _check_write_path(evidence, summary_path, leaf_may_exist=True)
+        _check_write_path(evidence, output, leaf_may_exist=True)
+        audit_temp = output.with_name('.' + output.name + '.tmp')
+        _check_write_path(evidence, audit_temp, leaf_may_exist=False)
         roots, route, _ids = _context(args, diag)
         native_id = _build_id()
         need(roots['evidence'] == evidence, 'evidence root differs')
-        need(_regular(evidence, evidence / SUMMARY_REL), 'consequence summary missing/unsafe')
-        summary = json.loads((evidence / SUMMARY_REL).read_text(encoding='utf-8'))
+        need(_regular(evidence, summary_path), 'consequence summary missing/unsafe')
+        summary = json.loads(summary_path.read_text(encoding='utf-8'))
         need(isinstance(summary, dict) and summary.get('schema') == SCHEMA and
              summary.get('complete') is True and summary.get('candidate') == args.candidate and
              summary.get('native_build_id') == native_id and summary.get('route') == route and
@@ -682,9 +792,17 @@ def audit(args: argparse.Namespace, *, diag=None,
               'complete': not errors, 'summary_path': SUMMARY_REL.as_posix(),
               'summary': summary, 'errors': errors,
               'accepted': False, 'publication_allowed': False, 'proof_credit': 0,
-              'call_linkage': 'UNKNOWN'}
-    output = evidence / AUDIT_REL
-    write_json(output, result)
+              'call_linkage': 'UNKNOWN', 'audit_written': False}
+    if evidence is not None and output is not None:
+        try:
+            result['audit_written'] = True
+            write_json(evidence, output, result)
+        except BaseException as exc:
+            result['audit_written'] = False
+            result['evidence_complete'] = False
+            result['complete'] = False
+            result['errors'].append(type(exc).__name__ + ': unsafe/unwritable audit destination: ' + str(exc))
+            result['audit_write_error'] = type(exc).__name__ + ': ' + str(exc)
     return result
 
 
