@@ -261,6 +261,13 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(summ(OK_BLOCK, request_error="validate step failed")["status"], "REQUEST_INVALID")
         self.assertEqual(k.summarize(None, OK_BLOCK, TIME, 0, None, None)["status"], "REQUEST_INVALID")
 
+    def test_build_outcome_notes(self):
+        for outcome, needle in (("deps-failure", "dependencies"), ("not-started", "before request validation"),
+                                ("failure", "Kani build failed")):
+            s = summ(None, build_outcome=outcome)
+            self.assertEqual(s["status"], "RUNNER_ERROR")
+            self.assertTrue(any(needle in n for n in s["notes"]), (outcome, s["notes"]))
+
     def test_time_file_formats(self):
         self.assertEqual(summ(GOOD_LOG, time=None)["resources"]["time_file"], "MISSING")
         self.assertEqual(summ(GOOD_LOG, time="garbage")["resources"]["time_file"], "UNPARSED")

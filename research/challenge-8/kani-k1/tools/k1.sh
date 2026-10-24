@@ -15,7 +15,7 @@ SLUG=circleci/PBSy8HxcMvQrUER5EX8Ah2/SwwrwNYuSGo1ny9mvHtPZ2   # project Verify-r
 DEFINITION=0bc9e80e-1660-4795-b651-949e3fd4a945              # pipeline definition .circleci/config.yml (no triggers)
 TOKEN_FILE=${K1_CIRCLE_TOKEN_FILE:-/root/.config/smallsort-ci/circleci-token}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-jobs}
-LANE_PATHS=(.circleci research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
+LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools scripts/run-kani.sh tool_config/kani-version.toml)
 BOUND_FILES=(.circleci/config.yml research/challenge-8/kani-k1/tools/kani_k1.py
              research/challenge-8/kani-k1/tools/circleci-k1.sh scripts/run-kani.sh tool_config/kani-version.toml)
 
@@ -37,10 +37,12 @@ cci() {
 # Artifact download: the token goes only to CircleCI; a redirect target is fetched without it.
 artifact_get() {  # artifact_get URL OUTFILE
   local meta code location
+  [[ "$1" =~ ^https://([a-z0-9-]+\.)*(circleci\.com|circle-artifacts\.com)/ ]] || die "unexpected artifact host: ${1%%\?*}"
   meta=$(printf 'header = "Circle-Token: %s"\n' "$(tr -d '\n\r ' < "$TOKEN_FILE")" \
          | curl -sS -K - -o "$2" -w '%{http_code} %{redirect_url}' "$1") || die "artifact request failed"
   code=${meta%% *}; location=${meta#* }
-  if [[ "$code" =~ ^30[1278]$ ]] && [ -n "$location" ]; then
+  if [[ "$code" =~ ^30[1278]$ ]]; then
+    [ -n "$location" ] || die "artifact redirect without a location: ${1%%\?*}"
     curl -sS -f -o "$2" "$location" || die "artifact redirect download failed"
   elif [ "$code" -ge 400 ]; then
     die "HTTP $code for artifact $1"
@@ -50,9 +52,14 @@ artifact_get() {  # artifact_get URL OUTFILE
 REV_EXPR="(d.get('vcs') or {}).get('revision') or ((d.get('trigger_parameters') or {}).get('git') or {}).get('checkout_sha') or ((d.get('trigger_parameters') or {}).get('github_app') or {}).get('commit_sha') or ''"
 jqr() { python3 -c "import json,sys; d=json.load(sys.stdin); print(eval(sys.argv[1], {'d': d}))" "$1"; }
 
-fetch() {  # fetch JOB -> directory with summary/ and log/ artifacts (jobs are immutable, keyed by number)
-  local job=$1 dir="$CACHE/$1" tmp
+job_status() { cci "$API/project/$SLUG/job/$1" | jqr "d.get('status')"; }
+TERMINAL=" success failed canceled infrastructure_fail timedout not_run terminated-unknown unauthorized "
+
+fetch() {  # fetch JOB -> directory with summary/ and log/ artifacts; only for finished jobs, which are immutable
+  local job=$1 dir="$CACHE/$1" tmp status
   if [ ! -d "$dir" ]; then
+    status=$(job_status "$job")
+    [[ "$TERMINAL" == *" $status "* ]] || die "job $job is not finished (status $status); wait for it first"
     mkdir -p "$CACHE"
     tmp=$(mktemp -d "$CACHE/.fetch.XXXXXX")
     cci "$API/project/$SLUG/$job/artifacts" | python3 -c '
@@ -60,7 +67,7 @@ import json, sys
 for a in json.load(sys.stdin).get("items", []):
     print(a["path"] + "\t" + a["url"])' > "$tmp/index.tsv"
     while IFS=$'\t' read -r path url; do
-      case "$path" in summary/*|log/*) ;; *) continue ;; esac
+      [[ "$path" =~ ^(summary|log)/[A-Za-z0-9._-]+$ ]] && [[ "$path" != *..* ]] || continue
       mkdir -p "$tmp/$(dirname "$path")"
       artifact_get "$url" "$tmp/$path"
     done < "$tmp/index.tsv"
@@ -77,8 +84,12 @@ case "$cmd" in
     sha=$(git rev-parse "origin/$branch")
     [ "$(git rev-parse "$branch" 2>/dev/null)" = "$sha" ] || die "local $branch differs from origin; push it first"
     git show "$sha:research/challenge-8/kani-k1/RUN-REQUEST.json" >/dev/null 2>&1 || die "no RUN-REQUEST.json at $sha"
-    dup=$(cci "$API/project/$SLUG/pipeline" | jqr "[p['number'] for p in d.get('items', []) if p.get('state') != 'errored' and (lambda d: $REV_EXPR)(p) == '$sha']")
-    [ "$dup" = "[]" ] || die "pipeline(s) $dup already ran $sha; change and push RUN-REQUEST.json for a new run"
+    page=""; for _ in 1 2 3; do   # the three most recent pages (about 60 pipelines)
+      resp=$(cci "$API/project/$SLUG/pipeline${page:+?page-token=$page}")
+      dup=$(jqr "[p['number'] for p in d.get('items', []) if p.get('state') != 'errored' and (lambda d: $REV_EXPR)(p) == '$sha']" <<< "$resp")
+      [ "$dup" = "[]" ] || die "pipeline(s) $dup already ran $sha; change and push RUN-REQUEST.json for a new run"
+      page=$(jqr "d.get('next_page_token') or ''" <<< "$resp"); [ -n "$page" ] || break
+    done
     body=$(python3 -c 'import json,sys; b=sys.argv[1]; print(json.dumps({"definition_id": sys.argv[2], "config": {"branch": b}, "checkout": {"branch": b}, "parameters": {"run_k1": True}}))' "$branch" "$DEFINITION")
     pid=$(cci -X POST -H 'Content-Type: application/json' -d "$body" "$API/project/$SLUG/pipeline/run" | jqr "d['id']")
     for _ in $(seq 1 18); do
@@ -90,7 +101,7 @@ case "$cmd" in
       if [ -n "$wf" ]; then
         job=$(cci "$API/workflow/$wf/job" | jqr "next((j.get('job_number') or '' for j in d.get('items', []) if j.get('name') == 'k1'), '')")
         if [ -n "$job" ] && [ "$job" != "None" ]; then
-          [ "$rev" = "$sha" ] || echo "k1.sh: warning: pipeline revision $rev differs from $sha (branch moved?)" >&2
+          [ "$rev" = "$sha" ] || die "pipeline revision $rev differs from $sha (branch moved?); job $job is not this request"
           echo "$job"; exit 0
         fi
       fi
@@ -101,10 +112,8 @@ case "$cmd" in
     job=${1:-}; is_job "$job"
     deadline=$(( $(date +%s) + 90 * 60 ))   # the job itself is capped at 60 min on the free plan
     while :; do
-      status=$(cci "$API/project/$SLUG/job/$job" 2>/dev/null | jqr "d.get('status')" || echo unknown)
-      case "$status" in
-        success|failed|canceled|infrastructure_fail|timedout|not_run|terminated-unknown|unauthorized) break ;;
-      esac
+      status=$(job_status "$job" 2>/dev/null || echo unknown)
+      [[ "$TERMINAL" == *" $status "* ]] && break
       [ "$(date +%s)" -lt "$deadline" ] || die "job $job not finished after 90 min (status $status)"
       sleep 60
     done
@@ -125,15 +134,16 @@ case "$cmd" in
     [[ "$head" =~ ^[0-9a-f]{40}$ ]] || die "cannot read the pipeline revision of job $job"
     git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" || die "commit $head not available locally"
     git cat-file -e "$base^{commit}" 2>/dev/null || die "BASE $base not available locally"
+    echo "pipeline trigger: $trigger"
+    # Compare the lane before downloading anything the job produced.
+    if git diff --quiet "$base" "$head" -- "${LANE_PATHS[@]}"; then
+      echo "ok   .circleci, .github/workflows, lane tools, run-kani.sh and kani-version.toml at job commit $head equal BASE $base"
+    else
+      echo "DIFF lane files changed between BASE and job commit:"; git diff --stat "$base" "$head" -- "${LANE_PATHS[@]}"; exit 1
+    fi
     dir=$(fetch "$job")
     [ -f "$dir/summary/summary.json" ] || die "job $job has no summary.json"
     rc=0
-    echo "pipeline trigger: $trigger"
-    if git diff --quiet "$base" "$head" -- "${LANE_PATHS[@]}"; then
-      echo "ok   .circleci, lane tools, run-kani.sh and kani-version.toml at job commit $head equal BASE $base"
-    else
-      echo "DIFF lane files changed between BASE and job commit:"; git diff --stat "$base" "$head" -- "${LANE_PATHS[@]}"; rc=1
-    fi
     python3 -B - "$dir/summary/summary.json" "$head" "$base" "${BOUND_FILES[@]}" <<'PY' || rc=1
 import hashlib, json, subprocess, sys
 summary, head, base, paths = json.load(open(sys.argv[1])), sys.argv[2], sys.argv[3], sys.argv[4:]

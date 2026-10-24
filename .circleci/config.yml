@@ -24,9 +24,10 @@ jobs:
       - run:
           name: Validate run request
           command: bash "$K1" validate
+      # The key binds the lane files, so a run with a modified lane never shares an honest run's Kani build.
       - restore_cache:
           keys:
-            - kani-k1-v1-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}
+            - kani-k1-v2-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "research/challenge-8/kani-k1/tools/circleci-k1.sh" }}
       - run:
           name: Dependencies
           command: bash "$K1" deps
@@ -35,7 +36,7 @@ jobs:
           command: bash "$K1" build
           no_output_timeout: 40m
       - save_cache:
-          key: kani-k1-v1-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}
+          key: kani-k1-v2-{{ arch }}-{{ checksum "tool_config/kani-version.toml" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "research/challenge-8/kani-k1/tools/circleci-k1.sh" }}
           paths:
             - kani_build
             - ~/.rustup

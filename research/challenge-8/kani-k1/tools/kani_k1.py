@@ -292,8 +292,11 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
         summary["harnesses"] = not_run
-        summary["notes"].append("Kani log missing: " + ("the pinned Kani build failed" if build_outcome == "failure"
-                                                         else "setup or runner failed before verification output"))
+        reason = {"failure": "the pinned Kani build failed",
+                  "deps-failure": "installing dependencies failed",
+                  "not-started": "the job failed before request validation (checkout or submodules)"}.get(
+                      build_outcome, "setup or runner failed before verification output")
+        summary["notes"].append("Kani log missing: " + reason)
         return summary
     parsed = parse_log(log_text)
     summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]

@@ -8,8 +8,10 @@ set -euo pipefail
 K1_TOOLS=research/challenge-8/kani-k1/tools
 K1_REQUEST=research/challenge-8/kani-k1/RUN-REQUEST.json
 K1_OUT=k1-out
-# The free plan stops a job after 60 min; setup and std compilation take part of it.
+# The free plan stops a job after 60 min and then uploads nothing. Harness budget per request is 40 min;
+# the verify step is additionally cut at 53 min after validation so that summary and artifacts survive.
 MAX_TOTAL_MINUTES=40
+VERIFY_DEADLINE_MINUTES=53
 LANE_RUNNER=circleci-linux-large
 mkdir -p "$K1_OUT"
 
@@ -18,6 +20,8 @@ valid() { [ -f "$K1_OUT/valid" ]; }
 
 case "${1:-}" in
   validate)
+    date +%s > "$K1_OUT/start"
+    touch "$K1_OUT/validated"
     if [[ "${CIRCLE_BRANCH:-}" != experiment/kani-k1-* ]]; then
       echo "lane runs only on experiment/kani-k1-* branches, not '${CIRCLE_BRANCH:-}'" > "$K1_OUT/request-error.txt"
     elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
@@ -28,13 +32,15 @@ case "${1:-}" in
 
   deps)
     valid || exit 0
+    rm -f "$K1_OUT/deps.ok"
     sudo apt-get update -qq
     sudo apt-get install -y -qq jq time >/dev/null
     if ! command -v rustup >/dev/null && [ ! -x "$HOME/.cargo/bin/rustup" ]; then
       curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
     fi
     echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> "$BASH_ENV"
-    df -h / | tail -1 ;;
+    df -h / | tail -1
+    touch "$K1_OUT/deps.ok" ;;
 
   build)
     # Non-zero when skipped too: save_cache runs only after success, and an entry saved without a
@@ -67,21 +73,29 @@ case "${1:-}" in
     valid && [ -f "$K1_OUT/build.ok" ] || exit 0
     args=()
     while IFS= read -r line; do [ -n "$line" ] && args+=("$line"); done < "$K1_OUT/kani-args.txt"
+    remaining=$(( $(cat "$K1_OUT/start") + VERIFY_DEADLINE_MINUTES * 60 - $(date +%s) ))
+    if [ "$remaining" -le 120 ]; then
+      echo "no time left before the 60-minute job cap; verification not started" | tee "$K1_OUT/verify-skipped"
+      exit 0
+    fi
     set +e
     # GNU time -v reports on stderr (to time.txt); Kani output goes through tee; time exits with the
-    # inner pipeline status (pipefail).
-    /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+    # inner pipeline status (pipefail). timeout keeps the job inside its cap; a cut run is PARTIAL.
+    timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
     echo $? > "$K1_OUT/rc"
     set -e ;;
 
   summarize)
     req_err=""
-    if ! valid; then
+    if [ -f "$K1_OUT/validated" ] && ! valid; then
       req_err=$(head -c 300 "$K1_OUT/request-error.txt" 2>/dev/null || true)
       [ -n "$req_err" ] || req_err="request rejected before Kani ran"
     fi
-    build_outcome=skipped
-    if valid; then build_outcome=$([ -f "$K1_OUT/build.ok" ] && echo success || echo failure); fi
+    if [ ! -f "$K1_OUT/validated" ]; then build_outcome=not-started          # checkout/submodule failure
+    elif ! valid; then build_outcome=skipped
+    elif [ ! -f "$K1_OUT/deps.ok" ]; then build_outcome=deps-failure
+    elif [ -f "$K1_OUT/build.ok" ]; then build_outcome=success
+    else build_outcome=failure; fi
     log_args=()
     [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
     os=$(. /etc/os-release && echo "$PRETTY_NAME")
@@ -89,7 +103,7 @@ case "${1:-}" in
     python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" \
       --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
       --head-sha "${CIRCLE_SHA1:-}" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \
-      --build-outcome "$build_outcome" --run-id "${CIRCLE_BUILD_NUM:-}" --run-attempt "${CIRCLE_WORKFLOW_ID:-}" \
+      --build-outcome "$build_outcome" --run-id "${CIRCLE_BUILD_NUM:-}" --run-attempt "" \
       --image-os "$os" --image-version "$hw" \
       --bind .circleci/config.yml --bind "$K1_TOOLS/kani_k1.py" --bind "$K1_TOOLS/circleci-k1.sh" \
       --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
