@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "9bbfc596124ad04b05f5d872c1c0b8037a65c744a081ad7a8803448c9c0ec3d9"
+      "sha256": "4a3c360dcf2464a3cc009a98edbab87a3da5df8272f6b5bd44d05ef86a36adc4"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -39,12 +39,12 @@
         "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
       }
     ],
-    "summary": "W4 contract-input Build pending. Checked eightcall linkage/C5 open; old P2 stays PUBLISHED."
+    "summary": "Contract-input Build terminal FAILURE; cause pending Brief. Checked eightcall linkage/C5 open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "9bbfc596124ad04b05f5d872c1c0b8037a65c744a081ad7a8803448c9c0ec3d9"
+    "sha256": "4a3c360dcf2464a3cc009a98edbab87a3da5df8272f6b5bd44d05ef86a36adc4"
   },
   "brief_observation_refs": [
     {
@@ -1095,8 +1095,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.",
-  "next_step": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.",
+  "next": "Terminal accounting first pushed; inspect Evidence Brief for fresh callee/consequence and contract-input failure; fix statically and continue R24.",
+  "next_step": "Terminal accounting first pushed; inspect Evidence Brief for fresh callee/consequence and contract-input failure; fix statically and continue R24.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1189,17 +1189,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "1fab9b22-9741-4ec2-90fa-e55f1c5683c6"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 10123,
+    "remaining_seconds": 9749,
     "retired_seconds": 0,
-    "spent_seconds": 11477,
+    "spent_seconds": 11851,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1211,9 +1209,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:27:32Z",
+  "updated_utc": "2026-10-24T03:33:32Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1701,21 +1699,22 @@
   },
   "w4_contract_inputs_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
     "callee_matrix_status": "PENDING_CURRENT_BUILD_BRIEF",
     "caller_body_proof_admission": false,
     "candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
+    "charged_seconds": 374,
     "config_sha256": "a9785be0aa1741dd4359e19ee4bb495991285a4ae112a7e720a36cda89aa945c",
     "diagnostic_status": "PENDING_BRIEF",
     "dispatch_token": "dispatch-2cdf240d65944625a8bfb05c91a5f4bd",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_CONST8_CONSEQUENCE_AND_CONTRACT_INPUT_DIAGNOSTIC",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-contract-inputs-submission-v1",
     "source_payload_sha256": "43942996eb053086f4263182f17e2821ef8f85a11c6e64facf0a55296bef8ee4",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1778,7 +1777,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "SUBMITTED_DIAGNOSTIC_ONLY_PENDING_BRIEF",
+    "state": "TERMINAL_PENDING_BRIEF",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "0d1b1405e345013438d92c5534eaa698dca14eac2cbded45d11c841a272fb432"
@@ -2108,10 +2107,14 @@
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     },
     {
+      "ack_mode": "CONTINUE_EXISTING_WINDOW",
       "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; terminal accounting push before Brief. Refusal-only diagnostic gives no caller/C5 admission or independent credit.",
+      "event_id": "7af400d6-ef8a-4f75-b4b6-6b530818f063",
+      "job_id": "2acf72a8-21d9-4851-bfdd-2c2c9b95d50e",
       "spec_path": "/tmp/select-r24-w4-contract-inputs-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
