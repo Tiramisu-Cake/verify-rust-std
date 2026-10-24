@@ -1,0 +1,39 @@
+{
+  "schema": "select-r24-w4-const-file-api-write-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_FOR_ONE_FULL_1200S_CURRENT_NATIVE_CONST8_MATRIX_AND_CONSEQUENCE_BUILD_ONLY",
+  "baseline_commit": "4727d86b76848566909c2dbe5dae1610fab93304",
+  "candidate_commit": "8de59d2f231a308f83b6c03e3f848299348a266c",
+  "candidate_tree": "f02df141950b548f6a49b3aac4d9a66dd484e74f",
+  "spec_sha256": "e9ee707e0f1fce69c070acb61a9d9bc1eec5a26c49a9f0f4eee0c6818a0cb7f6",
+  "packet_sha256": "496810e771cc609bef59fa2006fe4f3df24c4cd0a73323dade0ca74894425845",
+  "diff_sha256": "bbfed541805420f00bb0b1df5e6ba83f003cd680a15bf1592b5878ef7da8cd7a",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE",
+    "files": 30
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-review.json",
+      "sha256": "1df14c1fb49367e3458a3547eb9b4831899b66e37a2a313edae487074893e0ed"
+    }
+  ],
+  "findings": [],
+  "verified": [
+    "The corrective delta closes the prior NO_GO: before the first run summary write, it canonicalizes the evidence root, checks the full existing parent chain, requires a fresh consequence component root, and checks both summary/audit destinations and temp paths. Subsequent JSON writes revalidate root, parent, destination, and temp; temp creation uses O_EXCL and O_NOFOLLOW where supported, flush/fsync, and replace.",
+    "The audit safely creates missing known directories one component at a time under the canonical evidence root, so missing summary/matrix inputs can still produce a physical incomplete audit. Unsafe destination parents fail closed; the returned result records audit_written=false and no write is attempted through the unsafe path.",
+    "The real pinned diagnostic dependency remains unchanged and its actual API is used. The local existing-file predicate and the new write-path checks reject traversal, escape, symlinked components, and canonical aliases. Tests add run-time symlink ancestor refusal before outside writes, unsafe audit-parent refusal, and safe incomplete-audit persistence.",
+    "The proof fixtures/contracts, native/std/model/frozen matrix, consequence classifiers, source/stage/log/AST checks, and accepted/publication/proof-credit boundary are unchanged. The consequence, mode, qualification helper, and shell hashes are synchronized to the exact candidate."
+  ],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static diff and dependency review completed; no tests were rerun. The packet reports 20 component, 19 wrapper, and 6 Bash tests passing, including combined partial-matrix integration."
+  ],
+  "limitations": [
+    "This GO permits one full 1200-second current-native const8 matrix, positive and omission consequence, and physical audits under the existing R24 route/ledger only.",
+    "No caller linkage, caller/body admission, P2 transfer, acceptance, publication, or independent proof credit is established.",
+    "No Cloud Build, actual source preparation, compiler/exporter/decoder/refinement/verifier, native tools, or raw evidence access was performed by this reviewer."
+  ],
+  "proof_credit": 0
+}
