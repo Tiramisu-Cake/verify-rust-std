@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "2df5391e67073755fde807ca2fa39a90ff44d17905e23434b80989e2b37dcdee"
+      "sha256": "fa1c97ba39759bb725a84c097be59d1d9708bc34db78d07b19d3b0a56d4592ff"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -89,7 +89,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "2df5391e67073755fde807ca2fa39a90ff44d17905e23434b80989e2b37dcdee"
+    "sha256": "fa1c97ba39759bb725a84c097be59d1d9708bc34db78d07b19d3b0a56d4592ff"
   },
   "brief_observation_refs": [
     {
@@ -598,8 +598,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Fix producer-specific prerequisite schema; real metadata test, review, full1200 retry.",
-  "next_step": "Fix producer-specific prerequisite schema; real metadata test, review, full1200 retry.",
+  "next": "Publish reviewed 3d63e644; full1200 dormant compile/identity retry, then Brief.",
+  "next_step": "Publish reviewed 3d63e644; full1200 dormant compile/identity retry, then Brief.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -714,7 +714,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:44:08Z",
+  "updated_utc": "2026-10-24T06:47:22Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -904,7 +904,7 @@
       },
       "schema_fix_tests": "16 controller +8 Bash tests PASS; consequence producer constructor imported by exact bf89 source pin in synthetic test. Complete consequence body_proof_run:true is component-only and call_linkage UNKNOWN; no caller admission field permitted. Native unchanged758acf, stillUNBUILT.",
       "source_only_input_table": "research/challenge-8/task-history/select-callee-r24/w4-caller-input-certificates-r24.py",
-      "state": "PREREQUISITE_SCHEMA_FIXED_UNREVIEWED",
+      "state": "REVIEWED_GO_UNBUILT_SCHEMA_FIX",
       "static_input_table_tests": "3 PASS including malformed fields with test digest rebound; no native tools",
       "static_tests": "120 targeted checks accounted: 95 unchanged checks passed prior combined run, 8 updated Bash routing tests,14 compile-controller and3 inputtable tests. No actual toolchain locally.",
       "transport_design": {
@@ -1740,6 +1740,7 @@
     "accepted": false,
     "callee_qualification": false,
     "caller_body_proof_admission": false,
+    "candidate": "3d63e644789907883e19ac63b67fb21f1ae64c64",
     "manifest": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
       "sha256": "d1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6"
@@ -1750,10 +1751,24 @@
     },
     "native_binary_sha256": "UNKNOWN_UNBUILT",
     "native_result_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-SCHEMA-TRANSPORT-PREFLIGHT.json",
+      "sha256": "89ec3478768097eb12c6aecbe6db98d90434cbf8eeea94894c963acb3f0921f6"
+    },
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "state": "PREREQUISITE_SCHEMA_FIXED_UNREVIEWED",
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-dormant-schema-review.json",
+      "sha256": "50b24337fbbff20f2e6ed0e341e416b31b4ea9c2bd957a7ee3373d8a0d3b0b92"
+    },
+    "runtime_closure": {
+      "bytes": 3677991,
+      "entries": 161,
+      "sha256": "b986080496c87b3f2e20256906e4962add6e443c2afc1cbf4a8f9496eda2308a"
+    },
+    "source_payload_sha256": "9c8d812cb06a7d12d94a027a1b663c2046e463a26cadbdda4b1a7fe38d03d028",
+    "state": "REVIEWED_GO_UNBUILT_SCHEMA_FIX",
     "timeout_seconds": 1200
   },
   "w4_dormant_compile_candidate_history": [

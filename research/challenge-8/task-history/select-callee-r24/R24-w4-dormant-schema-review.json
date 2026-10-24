@@ -1,0 +1,38 @@
+{
+  "schema": "select-r24-w4-dormant-compile-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "GO_ONE_DORMANT_COMPILE_IDENTITY_RETRY_ONLY",
+  "baseline_commit": "c06c7fb572ada3974c94ade7e8e68ce34fc7d928",
+  "candidate_commit": "3d63e644789907883e19ac63b67fb21f1ae64c64",
+  "candidate_tree": "22baec2e62f9833687c88fc2cd17853e0fe3b61f",
+  "spec_sha256": "70ded0402f54cca41dd22d2638437a5d14c900166be382991c492191ceca11ba",
+  "packet_sha256": "eb13918e2b572dfdb2c2d262cd970d4648f2da8cdc42ed5f7d62e8229226ff32",
+  "diff_sha256": "407297c22e81fa43206e074d7c34c43bee9d3b9fac46e9cea2ccf1e1a415dd99",
+  "packet_identity_check": {
+    "candidate_tree_matches": true,
+    "spec_hash_matches": true,
+    "diff_hash_matches": true,
+    "declared_dependency_hashes_match_packet": true,
+    "proof_credit": 0
+  },
+  "findings": [],
+  "verified": [
+    "The prior S39 failure is accurately localized: the pinned consequence producer's _initial record has no caller_body_proof_admission field. Its completed report intentionally has scope SOURCE_REPORTED_CHECKED_POST_CONSEQUENCE_ONLY, body_proof_run true for its checked positive and omission proof stages, call_linkage UNKNOWN, accepted/publication false, and integer proof_credit 0. The producer source and its read-only audit confirm these semantics.",
+    "The new validator checks consequence schema, complete classification and scope, candidate and native Build identity, completed stage, body_proof_run true, UNKNOWN linkage, false acceptance/publication, integer zero credit, and explicitly rejects an injected caller_body_proof_admission field. The consequence audit is checked against its actual schema/path and its nested summary is type-sensitively identical to the accepted producer summary. No missing-field default or common-field fiction remains.",
+    "C6 and source-control records retain their own producer schemas and explicit false caller-admission boundaries; the controller checks their actual route/build context, UNKNOWN linkage, false acceptance/publication, and integer zero credit. The existing outer qualification summary/audit candidate, Build, summary SHA, exit, evidence-complete, and nested prerequisite gates remain in force.",
+    "The new dormant build's own report continues to set body_proof_run, caller_body_proof_admission, callee_qualification, proof_qualification, accepted, and publication_allowed false, typed_call_linkage UNKNOWN, and proof_credit zero. Native overlay, patch, mode, manifest, and nine-file output pins are unchanged by this candidate; Caller remains dormant with no enabling path in the reviewed native source. The wrapper still runs the prerequisite chain before dormant compile/audit and exits the branch afterward.",
+    "The S39 observation record reports a prerequisite-schema refusal before new native stages, with empty stage inventory and no new native binary. The added observation is treated as source-reported evidence; it does not establish compilation or proof."
+  ],
+  "tests_and_preflight": [
+    "The packet reports 16 controller tests and 8 Bash routing tests passing, including pure-metadata-constructor coverage from the actual pinned consequence producer and mutations for wrong proof status, linkage, schema, Build, and injected admission field. I did not rerun tests.",
+    "Exact transport preflight reported by the task owner: payload 567530 bytes, SHA256 9c8d812cb06a7d12d94a027a1b663c2046e463a26cadbdda4b1a7fe38d03d028; encoded config 27852/28000; max argument 2778; runtime closure 161 files / 3677991 bytes, SHA256 b986080496c87b3f2e20256906e4962add6e443c2afc1cbf4a8f9496eda2308a."
+  ],
+  "scope": "GO only for exactly one authorized full-1200-second dormant native compile and nine-file identity retry after same-Build prerequisite checks. This does not authorize or establish W4/C5 proof, caller activation, callee qualification, proof admission, proof acceptance, or proof credit.",
+  "limitations": [
+    "Static review only. S39 evidence was considered only through committed Brief-derived observations and source records; no raw CI evidence or Cloud Build was accessed.",
+    "No actual source preparation, Rust or OCaml toolchain/compiler, exporter, decoder, refiner, verifier, or full runner was run. No tests were rerun.",
+    "The component consequence's body_proof_run is specific to that checked-post consequence and is not evidence of caller-body proof or call linkage."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

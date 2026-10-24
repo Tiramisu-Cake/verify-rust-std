@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T06:44:08Z
+- Updated: 2026-10-24T06:47:22Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 14883s spent; 0s retired; 6717s remaining including active reservations
@@ -28,9 +28,9 @@ S39 stopped before compile: consequence schema field mismatch. [Build `7ef645ef-
 - [research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json](task-history/select-callee-r24/W4-DORMANT-COMPILE-S39-OBSERVATIONS.json) SHA `ec1f8fe295f2c35f84df794db5b1df63791f3af1eba24eefd5e7dcd6d9d6d17a`
 
 ## Next
-Fix producer-specific prerequisite schema; real metadata test, review, full1200 retry.
+Publish reviewed 3d63e644; full1200 dormant compile/identity retry, then Brief.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `8979a7c55276109901df8b5a5d16cf55bf6b4172ccaa10bc6f98d53e44518e04`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `2df5391e67073755fde807ca2fa39a90ff44d17905e23434b80989e2b37dcdee`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `fa1c97ba39759bb725a84c097be59d1d9708bc34db78d07b19d3b0a56d4592ff`
