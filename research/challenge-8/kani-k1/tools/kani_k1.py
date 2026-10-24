@@ -2,12 +2,14 @@
 """Run-request validation and bounded result summary for the Kani K-1 experiment lane.
 
 Subcommands
-  validate REQUEST --args-out FILE      check the request, write one Kani argument per line
-  summarize --request R --log L ...      parse terse Kani output into summary.json/summary.md
-  gate SUMMARY                           exit 0 iff the run completed and met every expectation
+  validate REQUEST --args-out FILE [--runner-out FILE]   check the request, write one Kani argument per line
+  summarize --request R --log L ...                      parse terse Kani output into summary.json/summary.md
+  gate SUMMARY                                           exit 0 iff the run is COMPLETE, consistent and met
+                                                         every expectation (and, for measurement, every bound)
 
 Standard library only. No network, no proof tools. The summary is the agent-facing evidence:
-statuses, times, failed checks and compile errors are bounded and every truncation is explicit.
+statuses, times, failed checks and errors are bounded and every truncation is explicit. Anything the
+parser cannot reconcile becomes an explicit non-COMPLETE status, never a silent pass.
 """
 from __future__ import annotations
 
@@ -20,16 +22,17 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA = "kani-k1-run-request-v1"
-SUMMARY_SCHEMA = "kani-k1-run-summary-v1"
+SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
 KINDS = {"measurement", "diagnostic"}
 EXPECT = {"SUCCESS", "FAILED"}
-HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
-HARNESS_RE = re.compile(r"^slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*$")
-REQUEST_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,63}$")
-REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes", "harnesses"}
 RUNNERS = {"ubuntu-latest", "macos-latest"}
-HARNESS_KEYS = {"name", "expect"}
+HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
+HARNESS_RE = re.compile(r"slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*")
+REQUEST_ID_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,63}")
+REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes", "harnesses"}
+HARNESS_REQUIRED = {"name", "expect"}
+HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
 MAX_TIMEOUT_MINUTES = 30
 MEASUREMENT_TIMEOUT_MINUTES = 10
@@ -38,18 +41,23 @@ MEASUREMENT_LIMIT_SECONDS = 600.0
 
 MAX_FAILED_CHECKS = 20
 MAX_LINE_CHARS = 400
-MAX_COMPILE_LINES = 80
+MAX_ERROR_LINES = 80
 MAX_MD_BYTES = 12000
 
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
-STATUS_RE = re.compile(r"^VERIFICATION:-\s*(SUCCESSFUL|FAILED)\b(.*)$")
+STATUS_RE = re.compile(r"^VERIFICATION:-\s*(SUCCESSFUL|FAILED|TIMEOUT)\b(.*)$")
 TIME_RE = re.compile(r"^Verification Time:\s*([0-9]+(?:\.[0-9]+)?)s\s*$")
-CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(?:\s*\((\d+) unreachable\))?")
+CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(?:\s*\((\d+) unreachable\))?\s*$")
 COVER_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) cover properties satisfied")
 FAILED_CHECK_RE = re.compile(r"^Failed Checks:\s*(.*)$")
+FILE_RE = re.compile(r'^\s*File: "([^"]+)", line (\d+)')
 COMPLETE_RE = re.compile(r"^Complete - (\d+) successfully verified harness(?:es)?, (\d+) failures?, (\d+) total\.")
-TIMEOUT_MARK = "timed out"
-COMPILE_ERROR_RE = re.compile(r"^error(\[E\d{4}\])?:")
+SUMMARY_HEADER_RE = re.compile(r"^Summary:\s*$")
+# Kani prints this line when CBMC exceeds --harness-timeout. A mismatch only loses TIMEOUT labelling:
+# such a harness is FAILED without a located check, which never meets SUCCESS or FAILED expectations.
+TIMEOUT_RE = re.compile(r"^CBMC timed out\b")
+ERROR_RE = re.compile(r"^error(\[E\d{4}\])?:")
+RUSTC_ERROR_RE = re.compile(r"^error\[E\d{4}\]:|could not compile")
 RSS_RE = re.compile(r"Maximum resident set size \(kbytes\):\s*(\d+)")
 WALL_RE = re.compile(r"Elapsed \(wall clock\) time \(h:mm:ss or m:ss\):\s*([0-9:.]+)")
 # BSD /usr/bin/time -l on macOS: RSS in bytes, wall as "<seconds> real".
@@ -66,28 +74,27 @@ def _clip(text: str) -> str:
     return text if len(text) <= MAX_LINE_CHARS else text[:MAX_LINE_CHARS] + " …[clipped]"
 
 
+def _one_line(value: Any, limit: int) -> bool:
+    return isinstance(value, str) and bool(value.strip()) and len(value) <= limit and "\n" not in value and "\r" not in value
+
+
 def validate_request(data: Any) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise RequestError("request must be a JSON object")
-    extra = set(data) - REQUEST_KEYS
-    missing = REQUEST_KEYS - set(data)
+    extra, missing = set(data) - REQUEST_KEYS, REQUEST_KEYS - set(data)
     if extra:
         raise RequestError(f"unknown request keys: {sorted(extra)}")
     if missing:
         raise RequestError(f"missing request keys: {sorted(missing)}")
     if data["schema"] != SCHEMA:
         raise RequestError(f"schema must be {SCHEMA}")
-    if not isinstance(data["request_id"], str) or not REQUEST_ID_RE.match(data["request_id"]):
+    if not isinstance(data["request_id"], str) or not REQUEST_ID_RE.fullmatch(data["request_id"]):
         raise RequestError("request_id must match [a-z0-9][a-z0-9._-]{0,63}")
-    if data["agent"] not in AGENTS:
-        raise RequestError(f"agent must be one of {sorted(AGENTS)}")
-    if data["kind"] not in KINDS:
-        raise RequestError(f"kind must be one of {sorted(KINDS)}")
-    purpose = data["purpose"]
-    if not isinstance(purpose, str) or not purpose.strip() or len(purpose) > 300 or "\n" in purpose:
+    for key, allowed in (("agent", AGENTS), ("kind", KINDS), ("runner", RUNNERS)):
+        if not isinstance(data[key], str) or data[key] not in allowed:
+            raise RequestError(f"{key} must be one of {sorted(allowed)}")
+    if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
-    if data["runner"] not in RUNNERS:
-        raise RequestError(f"runner must be one of {sorted(RUNNERS)}")
     timeout = data["harness_timeout_minutes"]
     if type(timeout) is not int or not 1 <= timeout <= MAX_TIMEOUT_MINUTES:
         raise RequestError(f"harness_timeout_minutes must be an integer 1..{MAX_TIMEOUT_MINUTES}")
@@ -98,13 +105,17 @@ def validate_request(data: Any) -> dict[str, Any]:
         raise RequestError(f"harnesses must be a list of 1..{MAX_HARNESSES} entries")
     names: list[str] = []
     for entry in harnesses:
-        if not isinstance(entry, dict) or set(entry) != HARNESS_KEYS:
-            raise RequestError("each harness entry must be exactly {name, expect}")
+        if (not isinstance(entry, dict) or not HARNESS_REQUIRED <= set(entry)
+                or set(entry) - HARNESS_REQUIRED - HARNESS_OPTIONAL):
+            raise RequestError("each harness entry must be {name, expect} with optional expect_check")
         name, expect = entry["name"], entry["expect"]
-        if not isinstance(name, str) or not HARNESS_RE.match(name):
+        if not isinstance(name, str) or not HARNESS_RE.fullmatch(name):
             raise RequestError(f"harness name must be a full path under {HARNESS_PREFIX}: {name!r}")
-        if expect not in EXPECT:
+        if not isinstance(expect, str) or expect not in EXPECT:
             raise RequestError(f"expect must be SUCCESS or FAILED: {name}")
+        if "expect_check" in entry:
+            if expect != "FAILED" or not _one_line(entry["expect_check"], 200):
+                raise RequestError(f"expect_check is a one-line substring and only for expect FAILED: {name}")
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
@@ -125,40 +136,45 @@ def kani_args(request: dict[str, Any]) -> list[str]:
 def _new_block(name: str) -> dict[str, Any]:
     return {"name": name, "status_line": None, "time_s": None, "checks_failed": None, "checks_total": None,
             "unreachable": None, "covers_satisfied": None, "covers_total": None, "failed_checks": [],
-            "failed_checks_truncated": False, "timed_out": False}
+            "failed_located": 0, "failed_checks_truncated": False, "timed_out": False}
 
 
 def parse_log(text: str) -> dict[str, Any]:
     blocks: list[dict[str, Any]] = []
     current: dict[str, Any] | None = None
-    compile_lines: list[str] = []
-    compile_truncated = False
+    errors: list[str] = []
+    errors_truncated = False
     complete = None
-    in_error = 0
+    error_context = 0
     for raw in text.splitlines():
         line = raw.rstrip("\r")
         m = CHECKING_RE.match(line)
         if m:
             current = _new_block(m.group(1))
             blocks.append(current)
-            in_error = 0
+            error_context = 0
             continue
-        if COMPILE_ERROR_RE.match(line):
-            in_error = 8
-        if in_error:
-            if len(compile_lines) < MAX_COMPILE_LINES:
-                compile_lines.append(_clip(line))
+        if ERROR_RE.match(line):
+            error_context = 8
+        if error_context:
+            if len(errors) < MAX_ERROR_LINES:
+                errors.append(_clip(line))
             else:
-                compile_truncated = True
-            in_error -= 1
+                errors_truncated = True
+            error_context -= 1
         m = COMPLETE_RE.match(line)
         if m:
             complete = {"success": int(m.group(1)), "failures": int(m.group(2)), "total": int(m.group(3))}
+            current = None
+            continue
+        if SUMMARY_HEADER_RE.match(line):
+            current = None
             continue
         if current is None:
             continue
-        if TIMEOUT_MARK in line:
+        if TIMEOUT_RE.match(line):
             current["timed_out"] = True
+            continue
         m = STATUS_RE.match(line)
         if m:
             current["status_line"] = m.group(1)
@@ -166,6 +182,7 @@ def parse_log(text: str) -> dict[str, Any]:
         m = TIME_RE.match(line)
         if m:
             current["time_s"] = float(m.group(1))
+            current = None  # a harness block ends with its verification time
             continue
         m = CHECKS_RE.match(line)
         if m:
@@ -180,17 +197,23 @@ def parse_log(text: str) -> dict[str, Any]:
         if m:
             if len(current["failed_checks"]) < MAX_FAILED_CHECKS:
                 current["failed_checks"].append(_clip(m.group(1)))
+                current["_last_open"] = True
             else:
                 current["failed_checks_truncated"] = True
+                current["_last_open"] = False
             continue
-        if line.startswith(" File: ") and current["failed_checks"] and not current["failed_checks_truncated"]:
-            current["failed_checks"][-1] = _clip(current["failed_checks"][-1] + " @" + line[len(" File:"):])
-    return {"blocks": blocks, "compile_errors": compile_lines, "compile_errors_truncated": compile_truncated,
-            "complete_line": complete}
+        m = FILE_RE.match(line)
+        if m and current.get("_last_open"):
+            current["failed_checks"][-1] = _clip(f"{current['failed_checks'][-1]} @ {m.group(1)}:{m.group(2)}")
+            current["failed_located"] += 1
+            current["_last_open"] = False
+    for block in blocks:
+        block.pop("_last_open", None)
+    return {"blocks": blocks, "errors": errors, "errors_truncated": errors_truncated, "complete_line": complete}
 
 
 def _block_status(block: dict[str, Any]) -> str:
-    if block["timed_out"]:
+    if block["timed_out"] or block["status_line"] == "TIMEOUT":
         return "TIMEOUT"
     if block["status_line"] == "SUCCESSFUL":
         return "SUCCESS"
@@ -199,29 +222,49 @@ def _block_status(block: dict[str, Any]) -> str:
     return "UNKNOWN"
 
 
+def _row_meets(row: dict[str, Any], entry: dict[str, Any]) -> bool:
+    if entry["expect"] == "SUCCESS":
+        return row["status"] == "SUCCESS"
+    if row["status"] != "FAILED" or not row.get("failed_located"):
+        return False
+    needle = entry.get("expect_check")
+    return needle is None or any(needle in check for check in row.get("failed_checks", []))
+
+
 def parse_time_file(text: str | None) -> dict[str, Any]:
     if text is None:
-        return {"max_rss_kb": None, "wall": None, "time_file": "MISSING"}
+        return {"max_rss_kb_whole_run": None, "wall_whole_run": None, "time_file": "MISSING"}
     rss, wall = RSS_RE.search(text), WALL_RE.search(text)
     if rss or wall:
-        return {"max_rss_kb": int(rss.group(1)) if rss else None, "wall": wall.group(1) if wall else None,
-                "time_file": "PARSED"}
+        return {"max_rss_kb_whole_run": int(rss.group(1)) if rss else None,
+                "wall_whole_run": wall.group(1) if wall else None, "time_file": "PARSED"}
     rss, real = MAC_RSS_RE.search(text), MAC_REAL_RE.search(text)
     if rss or real:
-        return {"max_rss_kb": int(rss.group(1)) // 1024 if rss else None, "wall": f"{real.group(1)}s" if real else None,
-                "time_file": "PARSED"}
-    return {"max_rss_kb": None, "wall": None, "time_file": "UNPARSED"}
+        return {"max_rss_kb_whole_run": int(rss.group(1)) // 1024 if rss else None,
+                "wall_whole_run": f"{real.group(1)}s" if real else None, "time_file": "PARSED"}
+    return {"max_rss_kb_whole_run": None, "wall_whole_run": None, "time_file": "UNPARSED"}
+
+
+def file_bindings(paths: list[str]) -> dict[str, str]:
+    out: dict[str, str] = {}
+    for p in paths:
+        path = Path(p)
+        out[p] = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else "MISSING"
+    return out
 
 
 def summarize(request_text: str | None, log_text: str | None, time_text: str | None, exit_code: int | None,
-              head_sha: str | None, kani_commit: str | None, request_error: str | None = None) -> dict[str, Any]:
+              head_sha: str | None, kani_commit: str | None, request_error: str | None = None,
+              run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
+              build_outcome: str | None = None) -> dict[str, Any]:
     summary: dict[str, Any] = {
-        "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit,
+        "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit, "run": run or {},
+        "tooling_sha256": tooling or {}, "build_outcome": build_outcome,
         "request_sha256": hashlib.sha256(request_text.encode()).hexdigest() if request_text is not None else None,
         "kani_exit_code": exit_code, "request": None, "status": None, "expectation_met": False,
-        "measurement_ok": None, "harnesses": [], "unrequested_blocks": [], "compile_errors": [],
-        "compile_errors_truncated": False, "complete_line": None, "resources": parse_time_file(time_text),
-        "notes": [],
+        "measurement_ok": None, "harnesses": [], "unrequested_blocks": [], "errors": [],
+        "errors_truncated": False, "complete_line": None, "inconsistencies": [],
+        "resources": parse_time_file(time_text), "notes": [],
     }
     request = None
     if request_error is None and request_text is not None:
@@ -236,66 +279,104 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["notes"].append(f"request rejected before Kani ran: {_clip(request_error or 'unknown')}")
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
+    not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
-        summary["notes"].append("Kani log missing: setup or runner failed before verification output")
-        summary["harnesses"] = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
+        summary["harnesses"] = not_run
+        summary["notes"].append("Kani log missing: " + ("the pinned Kani build failed" if build_outcome == "failure"
+                                                         else "setup or runner failed before verification output"))
         return summary
     parsed = parse_log(log_text)
-    summary["compile_errors"] = parsed["compile_errors"]
-    summary["compile_errors_truncated"] = parsed["compile_errors_truncated"]
+    summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
     summary["complete_line"] = parsed["complete_line"]
+    if not parsed["blocks"]:
+        summary["harnesses"] = not_run
+        if any(RUSTC_ERROR_RE.search(line) for line in parsed["errors"]):
+            summary["status"] = "COMPILE_ERROR"
+        elif parsed["errors"]:
+            summary["status"] = "TOOL_ERROR"
+        else:
+            summary["status"] = "RUNNER_ERROR"
+            summary["notes"].append(f"no harness output and no error lines; Kani exit {exit_code}")
+        return summary
     by_name: dict[str, dict[str, Any]] = {}
+    inconsistencies = summary["inconsistencies"]
     for block in parsed["blocks"]:
         if block["name"] in by_name:
-            summary["notes"].append(f"harness reported more than once, last block kept: {block['name']}")
+            inconsistencies.append(f"harness reported more than once: {block['name']}")
         by_name[block["name"]] = block
     requested = {e["name"] for e in request["harnesses"]}
     summary["unrequested_blocks"] = sorted(n for n in by_name if n not in requested)
+    if summary["unrequested_blocks"]:
+        inconsistencies.append("Kani verified harnesses that were not requested")
     rows = []
     for entry in request["harnesses"]:
         block = by_name.get(entry["name"])
         if block is None:
             rows.append({"name": entry["name"], "expect": entry["expect"], "status": "NOT_RUN"})
             continue
-        status = _block_status(block)
-        row = {"name": entry["name"], "expect": entry["expect"], "status": status, "time_s": block["time_s"],
+        row = {"name": entry["name"], "expect": entry["expect"], "status": _block_status(block),
+               "expect_check": entry.get("expect_check"), "time_s": block["time_s"],
                "checks_failed": block["checks_failed"], "checks_total": block["checks_total"],
                "unreachable": block["unreachable"], "covers_satisfied": block["covers_satisfied"],
                "covers_total": block["covers_total"], "failed_checks": block["failed_checks"],
-               "failed_checks_truncated": block["failed_checks_truncated"]}
-        row["covers_all_satisfied"] = (None if block["covers_total"] is None
-                                       else block["covers_satisfied"] == block["covers_total"])
+               "failed_located": block["failed_located"], "failed_checks_truncated": block["failed_checks_truncated"]}
         rows.append(row)
     summary["harnesses"] = rows
     statuses = [r["status"] for r in rows]
-    if not parsed["blocks"] and parsed["compile_errors"]:
-        summary["status"] = "COMPILE_ERROR"
-    elif any(s in ("NOT_RUN", "UNKNOWN") for s in statuses):
+    complete = parsed["complete_line"]
+    if complete is None:
+        inconsistencies.append("final 'Complete - …' line missing")
+    else:
+        if complete["total"] != len(rows):
+            inconsistencies.append(f"Kani total {complete['total']} differs from {len(rows)} requested")
+        if complete["success"] != statuses.count("SUCCESS"):
+            inconsistencies.append(f"Kani success count {complete['success']} differs from parsed {statuses.count('SUCCESS')}")
+    all_success = all(s == "SUCCESS" for s in statuses)
+    if exit_code is None:
+        inconsistencies.append("Kani exit code unknown")
+    elif (exit_code == 0) != all_success:
+        inconsistencies.append(f"Kani exit {exit_code} does not match the parsed statuses")
+    if any(s in ("NOT_RUN", "UNKNOWN") for s in statuses):
         summary["status"] = "PARTIAL"
+    elif inconsistencies:
+        summary["status"] = "INCONSISTENT"
     else:
         summary["status"] = "COMPLETE"
-    summary["expectation_met"] = summary["status"] == "COMPLETE" and all(r["status"] == r["expect"] for r in rows)
+    summary["expectation_met"] = summary["status"] == "COMPLETE" and all(
+        _row_meets(r, e) for r, e in zip(rows, request["harnesses"]))
     if request["kind"] == "measurement":
         summary["measurement_ok"] = summary["expectation_met"] and all(
             r["status"] != "SUCCESS" or (r["time_s"] is not None and r["time_s"] <= MEASUREMENT_LIMIT_SECONDS
-                                         and r.get("covers_all_satisfied") is not False)
+                                         and (r["covers_total"] or 0) >= 1
+                                         and r["covers_satisfied"] == r["covers_total"])
             for r in rows)
-    if exit_code not in (None, 0) and summary["status"] == "COMPLETE" and all(s == "SUCCESS" for s in statuses):
-        summary["notes"].append(f"Kani exited {exit_code} although every requested harness succeeded")
+    for r in rows:
+        if r.get("unreachable"):
+            summary["notes"].append(f"{r['unreachable']} unreachable check(s) in {r['name']}")
     return summary
+
+
+def gate_ok(summary: dict[str, Any]) -> bool:
+    if summary.get("status") != "COMPLETE" or summary.get("expectation_met") is not True:
+        return False
+    if (summary.get("request") or {}).get("kind") == "measurement":
+        return summary.get("measurement_ok") is True
+    return True
 
 
 def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
+    run = summary.get("run") or {}
     lines = [
         f"# K-1 run `{req.get('request_id', '?')}`: {summary['status']}",
         "",
         f"- head `{summary['head_sha']}`, Kani `{summary['kani_commit']}`, request sha256 `{summary['request_sha256']}`",
+        f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
         f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min",
-        f"- expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
-        f"- max RSS {res['max_rss_kb']} KiB, wall {res['wall']} ({res['time_file']})",
+        f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
+        f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
         "",
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
@@ -309,11 +390,13 @@ def render_md(summary: dict[str, Any]) -> str:
         if r.get("failed_checks"):
             lines += ["", f"Failed checks of `{r['name']}`" + (" (truncated)" if r["failed_checks_truncated"] else "") + ":"]
             lines += [f"- {c}" for c in r["failed_checks"]]
-    if summary["compile_errors"]:
-        lines += ["", "Compile errors" + (" (truncated)" if summary["compile_errors_truncated"] else "") + ":", "```"]
-        lines += summary["compile_errors"] + ["```"]
-    if summary["unrequested_blocks"]:
-        lines += ["", "Unrequested harness blocks: " + ", ".join(summary["unrequested_blocks"])]
+    if summary["inconsistencies"]:
+        lines += ["", "Inconsistencies:"] + [f"- {i}" for i in summary["inconsistencies"]]
+    if summary["errors"]:
+        lines += ["", "Error lines" + (" (truncated)" if summary["errors_truncated"] else "") + ":", "```"]
+        lines += summary["errors"] + ["```"]
+    if summary["tooling_sha256"]:
+        lines += ["", "Tooling SHA-256 at the run commit:"] + [f"- `{p}` {h}" for p, h in sorted(summary["tooling_sha256"].items())]
     if summary["notes"]:
         lines += ["", "Notes:"] + [f"- {n}" for n in summary["notes"]]
     text = "\n".join(lines) + "\n"
@@ -346,6 +429,12 @@ def main(argv: list[str]) -> int:
     s.add_argument("--head-sha")
     s.add_argument("--kani-commit")
     s.add_argument("--request-error")
+    s.add_argument("--build-outcome")
+    s.add_argument("--run-id")
+    s.add_argument("--run-attempt")
+    s.add_argument("--image-os")
+    s.add_argument("--image-version")
+    s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
     g.add_argument("summary")
@@ -362,27 +451,28 @@ def main(argv: list[str]) -> int:
         print(f"request {request['request_id']}: {len(request['harnesses'])} harness(es) accepted")
         return 0
     if a.cmd == "summarize":
-        exit_code = None
-        if a.exit_code not in (None, ""):
-            try:
-                exit_code = int(a.exit_code)
-            except ValueError:
-                exit_code = None
+        try:
+            exit_code = int(a.exit_code) if a.exit_code not in (None, "") else None
+        except ValueError:
+            exit_code = None
+        run = {"id": a.run_id or None, "attempt": a.run_attempt or None,
+               "image_os": a.image_os or None, "image_version": a.image_version or None}
         summary = summarize(_read_optional(a.request), _read_optional(a.log), _read_optional(a.time), exit_code,
-                            a.head_sha, a.kani_commit, a.request_error or None)
+                            a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
+                            a.build_outcome or None)
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
         (out / "summary.md").write_text(render_md(summary))
-        print(render_md(summary))
         return 0
     try:
         summary = json.loads(Path(a.summary).read_text())
     except (OSError, json.JSONDecodeError) as exc:
         print(f"gate: unreadable summary: {exc}", file=sys.stderr)
         return 3
-    ok = summary.get("status") == "COMPLETE" and summary.get("expectation_met") is True
-    print(f"gate: status={summary.get('status')} expectation_met={summary.get('expectation_met')}")
+    ok = gate_ok(summary)
+    print(f"gate: {ok}; status={summary.get('status')} expectation_met={summary.get('expectation_met')} "
+          f"measurement_ok={summary.get('measurement_ok')}")
     return 0 if ok else 1
 
 

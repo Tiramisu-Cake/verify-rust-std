@@ -106,11 +106,12 @@ jobs:
         run: |
           args=()
           while IFS= read -r line; do [ -n "$line" ] && args+=("$line"); done < "$K1_OUT/kani-args.txt"
+          # GNU time -v (Linux) and BSD time -l (macOS) both report on stderr, which goes to time.txt;
+          # Kani output goes through tee. time exits with the inner pipeline status (pipefail).
           if [ "$RUNNER_OS" = "Linux" ]; then timeflag=-v; else timeflag=-l; fi
           set +e
-          /usr/bin/time "$timeflag" -o "$K1_OUT/time.txt" \
-            scripts/run-kani.sh --path "$GITHUB_WORKSPACE" --kani-args "${args[@]}" 2>&1 | tee "$K1_OUT/kani.log"
-          rc=${PIPESTATUS[0]}
+          /usr/bin/time "$timeflag" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$GITHUB_WORKSPACE" --kani-args "$@" 2>&1 | tee "$K1_OUT/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+          rc=$?
           set -e
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
 
@@ -129,7 +130,12 @@ jobs:
           python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" \
             --time "$K1_OUT/time.txt" --exit-code "${{ steps.kani.outputs.rc }}" \
             --head-sha "$GITHUB_SHA" --kani-commit "$commit" --request-error "$req_err" \
-            --out-dir "$K1_OUT/summary" > /dev/null
+            --build-outcome "${{ steps.build.outcome }}" \
+            --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --image-os "${ImageOS:-}" --image-version "${ImageVersion:-}" \
+            --bind .github/workflows/smallsort-kani-k1.yml --bind "$K1_TOOLS/kani_k1.py" \
+            --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
+            --out-dir "$K1_OUT/summary"
           cat "$K1_OUT/summary/summary.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload summary (agent-facing evidence)
