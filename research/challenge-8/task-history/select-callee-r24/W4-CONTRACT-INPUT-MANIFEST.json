@@ -3,7 +3,7 @@
   "base_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
   "caller_body_proof_admission": false,
   "diagnostic": "All configured cases fail closed before body translation/proof; matching inputs do not install or consume a summary.",
-  "generator_sha256": "cc54516f98979a89b3dc922604e810b5c09f9daf40eb371cf2f1f0159cee1339",
+  "generator_sha256": "79a85a9d057a4c27c72be545ab67d38acfd9fb752d60b9092c9aa5715c7d37b2",
   "header_cases": {
     "duplicate-thread": {
       "bytes": 404,
@@ -74,27 +74,27 @@
     "expected_results": {
       "duplicate-thread": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "extra-declaration": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "false-normal": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "false-unwind": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "mut-pointer": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "positive": {
         "classification": "INPUTS_MATCH",
-        "exit_code": 1,
+        "exit_code": 2,
         "stderr": "SORT4-R24-W4-CONTRACT-INPUTS: diagnostic refusal: contract inputs matched; no proof rule admitted"
       }
     },

@@ -28,11 +28,11 @@ SUMMARY_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS.json')
 AUDIT_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS-AUDIT.json')
 ROOT_REL = SUMMARY_REL.parent
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json')
-MODE_SHA256 = '383a53b7f58571a1c439970e654cb08599091af17ae4ed93dd142ff3a9380204'
+MODE_SHA256 = '55e055bc316fa66e538d109e6ee1d1bd15452ba3f64c84fae54f6ef2bb0abe2a'
 MANIFEST_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUT-MANIFEST.json')
-MANIFEST_SHA256 = 'c1bb294644c2befbb9b511266106ba547ab4bfc6a83781d12a511a93e3698498'
+MANIFEST_SHA256 = '445d5972a19f554cefb5c06df0e6d4cadfc185d91fee83e6a1bcf6e3461354fb'
 GENERATOR_REL = Path('research/challenge-8/task-history/select-callee-r24/w4-contract-input-diagnostic.py')
-GENERATOR_SHA256 = 'cc54516f98979a89b3dc922604e810b5c09f9daf40eb371cf2f1f0159cee1339'
+GENERATOR_SHA256 = '79a85a9d057a4c27c72be545ab67d38acfd9fb752d60b9092c9aa5715c7d37b2'
 PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-contract-input-r24.patch')
 PATCH_SHA256 = '6c8cb345ebc11945f5624f6468732d9f0feb38294c7c73d48b0c748d2b4e03dc'
 HEADER_VARIANTS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json')
@@ -79,6 +79,7 @@ CASE_REFUSAL = {
     **{name: 'pinned control contract refused; no proof rule admitted'
        for name in CASES if name != 'positive'},
 }
+NATIVE_REFUSAL_EXIT = 2
 NATIVE_PREFIX = 'SORT4-R24-W4-CONTRACT-INPUTS:'
 NATIVE_REFUSAL_PREFIX = NATIVE_PREFIX + ' diagnostic refusal: '
 NATIVE_ENV_PREFIX = 'SORT4_R24_W4_CONTRACT_'
@@ -655,7 +656,8 @@ def _validate_native_facts(case: str, case_root: Path, header: dict[str,Any],
                            expected_paths: dict[str,Path] | None=None,
                            expected_argv: list[str] | None=None) -> tuple[dict[str,Any],list[str]]:
     errors=[]
-    if type(native_stage) is not dict or native_stage.get('status')!='RAN' or native_stage.get('exit')!=1:
+    if type(native_stage) is not dict or native_stage.get('status')!='RAN' or \
+       type(native_stage.get('exit')) is not int or native_stage.get('exit')!=NATIVE_REFUSAL_EXIT:
         errors.append('native diagnostic stage was not RAN with the expected refusal exit')
     if expected_environment is not None and type(native_stage) is dict and \
        native_stage.get('closed_environment') != expected_environment:
@@ -1150,7 +1152,8 @@ def _audit_core(args: argparse.Namespace, source: object, *, stage_runner=None,
             if type(stage) is not dict: raise RuntimeError('stage record missing')
             expected_argv=[str(NATIVE_HOME/'bin/verifast'),'-rustc_args','--edition 2021','-verbose','1',
                            '-extern_spec','r24_select='+str(header_path.resolve()),'verified/lib.rs']
-            if stage.get('argv')!=expected_argv or stage.get('status')!='RAN' or stage.get('exit')!=1 or \
+            if stage.get('argv')!=expected_argv or stage.get('status')!='RAN' or \
+               type(stage.get('exit')) is not int or stage.get('exit')!=NATIVE_REFUSAL_EXIT or \
                stage.get('fixture_integrity') is not True or stage.get('fixture_before')!={'verified/lib.rs':SOURCE_SHA256} or \
                stage.get('fixture_after')!={'verified/lib.rs':SOURCE_SHA256}:
                 errors.append('case native stage command/result/source binding differs: '+case)

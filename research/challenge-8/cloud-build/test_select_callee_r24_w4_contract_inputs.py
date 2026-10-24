@@ -35,6 +35,8 @@ class ContractInputsTests(unittest.TestCase):
         self.assertEqual(driver.expected_mode(REPO)['native_mode']['schema'], 'select-r24-w4-contract-inputs-mode-v1')
         self.assertFalse(driver.expected_mode(REPO)['accepted'])
         self.assertEqual(driver.expected_mode(REPO)['proof_credit'], 0)
+        self.assertTrue(all(row['exit_code'] == driver.NATIVE_REFUSAL_EXIT == 2
+                            for row in generator.expected_mode()['expected_results'].values()))
 
     def test_production_helper_api_and_sorted_header_manifest_shape(self):
         capture = driver._load(HERE, Path(driver.CAPTURE_REL.name), 'test_real_w4_capture', driver.CAPTURE_SHA256)
@@ -143,7 +145,7 @@ class ContractInputsTests(unittest.TestCase):
                 driver._write_json(link / 'nested' / 'report.json', {'complete': False})
             self.assertFalse((outside / 'nested').exists())
 
-    def _native_case(self, case='positive', *, marker=True, duplicate=False, status='RAN', exit_code=1):
+    def _native_case(self, case='positive', *, marker=True, duplicate=False, status='RAN', exit_code=2):
         temp = tempfile.TemporaryDirectory()
         root = Path(temp.name)
         native = root / 'native'; native.mkdir()
@@ -153,13 +155,13 @@ class ContractInputsTests(unittest.TestCase):
         (native / 'imported-contract.ml').write_bytes(imported)
         values = {
             'caller_source': (b'caller source', str(root / 'verified/lib.rs')),
-            'callee_source': (b'callee source', '/tmp/callee/lib.rs'),
-            'callee_source_in_mir': (b'callee source', '/tmp/callee/lib.rs'),
-            'callee_unit': (b'unit', '/tmp/callee/unit.marshal'),
-            'callee_body': (b'body', '/tmp/callee/body.marshal'),
-            'reference_header': (b'reference header', '/tmp/reference.rsspec'),
+            'callee_source': (b'callee source', str(root / 'callee/lib.rs')),
+            'callee_source_in_mir': (b'callee source', str(root / 'callee/lib.rs')),
+            'callee_unit': (b'unit', str(root / 'callee/unit.marshal')),
+            'callee_body': (b'body', str(root / 'callee/body.marshal')),
+            'reference_header': (b'reference header', str(root / 'reference.rsspec')),
             'variant_header': (b'variant header', str(root / 'variant.rsspec')),
-            'qualified_profile': (b'profile', '/tmp/profile.json'),
+            'qualified_profile': (b'profile', str(root / 'profile.json')),
         }
         expected = {}
         facts_inputs = {}
@@ -222,6 +224,18 @@ class ContractInputsTests(unittest.TestCase):
                                                           require_binary_stable='a'*64)
             self.assertTrue(errors)
 
+    def test_only_integer_refusal_exit2_accepts_otherwise_valid_native_facts(self):
+        temp, root, header, stage, before, after, expected = self._native_case()
+        with temp:
+            for exit_code in (1, 0, 124, 137, None, False, 2.0, '2'):
+                stage['exit'] = exit_code
+                _, errors = driver._validate_native_facts(
+                    'positive', root, header, stage, before, after, expected,
+                    '00000000-0000-4000-8000-000000000001', require_binary_stable='a'*64)
+                self.assertEqual(errors, [
+                    'native diagnostic stage was not RAN with the expected refusal exit'],
+                    repr(exit_code))
+
     def test_wrong_facts_type_and_missing_native_outputs_fail_closed(self):
         temp, root, header, stage, before, after, expected = self._native_case()
         with temp:
@@ -236,7 +250,7 @@ class ContractInputsTests(unittest.TestCase):
         import shutil
         import uuid
 
-        def execute(native_exit=1):
+        def execute(native_exit=2):
             temp = tempfile.TemporaryDirectory()
             base = Path(temp.name)
             repo, cloud, evidence, frozen, bootstrap, sysroot = [base / n for n in
@@ -393,17 +407,17 @@ class ContractInputsTests(unittest.TestCase):
                 result=driver.run(args,const_matrix_summary={},const_matrix_audit={},
                     consequence_summary={},consequence_audit={},stage_runner=fake_runner,
                     capture_module=capture,mir_module=object(),env=env)
-                self.assertEqual(result['complete'],native_exit==1, (result['errors'], result.get('bootstrap_tool_hashes_after',{}).get('bin/verifast')))
+                self.assertEqual(result['complete'],native_exit==2, (result['errors'], result.get('bootstrap_tool_hashes_after',{}).get('bin/verifast')))
                 args.output=result['evidence_root'] and (evidence/driver.AUDIT_REL)
                 audit=driver.audit(args,const_matrix_summary={},const_matrix_audit={},
                     consequence_summary={},consequence_audit={},stage_runner=fake_runner,
                     capture_module=capture,mir_module=object(),env=env)
-                self.assertEqual(audit['evidence_complete'],native_exit==1, audit['errors'])
+                self.assertEqual(audit['evidence_complete'],native_exit==2, audit['errors'])
                 self.assertFalse(audit['accepted'])
                 self.assertEqual(audit['proof_credit'],0)
             temp.cleanup()
 
-        execute(native_exit=1)
+        execute(native_exit=2)
         execute(native_exit=124)
 
 

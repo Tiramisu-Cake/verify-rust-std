@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T03:50:06Z
+- Updated: 2026-10-24T03:51:53Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 12232s spent; 0s retired; 9368s remaining including active reservations
@@ -25,9 +25,9 @@ C6 positive facts match; driver wrongly expects1, actual refusalexit2. Matrix/li
 - [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json) SHA `2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c`
 
 ## Next
-Pin exact integer native refusalexit2, retaining all markers/facts/audits; review delta, exact transport, full1200Cloud for sixcase completion.
+Review exact integerexit2 protocol correction; publish/preflight then full1200 sixcase diagnostic. Native code/patch unchanged; linkage/C5 open.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `ab3cbfda2d8641b22e767b5205ebf38b05d1f6e57ec3a602e51bdec3ea9747bd`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `b01eba814fcb3447c748eb240828d81066342cfe67bfb3f635b9d052e240dc42`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `ce3218090c8fb27d48c1b521098788977720bcbb78bb2ece926173c370b5ce8a`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `cce92ae13ff4c7ceb4733904ac718660a129dffcb261186d9fb6cc60483dfa7f`

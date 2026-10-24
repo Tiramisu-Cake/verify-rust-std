@@ -35,7 +35,7 @@
   "mir_calls_path": "research/challenge-8/cloud-build/select-callee-r24-w4-mir-calls.py",
   "mir_calls_sha256": "024004290c45a4fa53e20db0f6f1e0eb7227c7eb0a433dce77b1e81407172928",
   "native_manifest_path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUT-MANIFEST.json",
-  "native_manifest_sha256": "c1bb294644c2befbb9b511266106ba547ab4bfc6a83781d12a511a93e3698498",
+  "native_manifest_sha256": "445d5972a19f554cefb5c06df0e6d4cadfc185d91fee83e6a1bcf6e3461354fb",
   "native_mode": {
     "accepted": false,
     "caller_body_proof_admission": false,
@@ -80,27 +80,27 @@
     "expected_results": {
       "duplicate-thread": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "extra-declaration": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "false-normal": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "false-unwind": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "mut-pointer": {
         "classification": "EXPECTED_INPUT_REFUSAL",
-        "exit_code": 1
+        "exit_code": 2
       },
       "positive": {
         "classification": "INPUTS_MATCH",
-        "exit_code": 1,
+        "exit_code": 2,
         "stderr": "SORT4-R24-W4-CONTRACT-INPUTS: diagnostic refusal: contract inputs matched; no proof rule admitted"
       }
     },
@@ -139,7 +139,7 @@
     "typed_call_linkage": "UNKNOWN"
   },
   "native_mode_generator_path": "research/challenge-8/task-history/select-callee-r24/w4-contract-input-diagnostic.py",
-  "native_mode_generator_sha256": "cc54516f98979a89b3dc922604e810b5c09f9daf40eb371cf2f1f0159cee1339",
+  "native_mode_generator_sha256": "79a85a9d057a4c27c72be545ab67d38acfd9fb752d60b9092c9aa5715c7d37b2",
   "native_patch_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-contract-input-r24.patch",
   "native_patch_sha256": "6c8cb345ebc11945f5624f6468732d9f0feb38294c7c73d48b0c748d2b4e03dc",
   "native_result_translator_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
