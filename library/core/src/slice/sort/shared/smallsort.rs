@@ -836,6 +836,12 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
+        // K-1 loop invariant (K1-merge): pointer bookkeeping, partial sortedness of both output ends,
+        // order between consumed and remaining elements, and conservation of the probe count.
+        #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_bm_inv(
+            src, len, on_entry(dst), kani::index, left, right, dst, left_rev, right_rev, dst_rev,
+            &is_less
+        )))]
         for _ in 0..len_div_2 {
             (left, right, dst) = merge_up(left, right, dst, is_less);
             (left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);

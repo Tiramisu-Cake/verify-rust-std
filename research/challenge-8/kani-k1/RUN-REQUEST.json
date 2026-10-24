@@ -1,26 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p1-scale-003",
+  "request_id": "merge-p1-inv-004",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Scaling of the probe-count bidirectional_merge proof (u64, len 12 and 16 alone), sort4 cost without byte-array types, first composed top harness general_u64 (len 0..=32, all callees stub_verified)",
+  "purpose": "Formulation 2 of bidirectional_merge: loop invariant (pointer bookkeeping, ends sorted, consumed/remaining order, probe-count conservation); u64 len 16 alone vs 323 s without it, and the full 2..=32 harness",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 6,
+  "harness_timeout_minutes": 8,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::sort4_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len12",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::general_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64",
       "expect": "SUCCESS"
     }
   ]

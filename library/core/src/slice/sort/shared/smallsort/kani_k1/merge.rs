@@ -185,6 +185,117 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_disjoint(v.as_ptr(), v.len(), dst as *const T, v.len())
     }
 
+    /// Loop invariant of the main loop of `bidirectional_merge` (`idx` = iterations done).
+    /// Notation: `s = src`, `h = len / 2`; the up-merge consumed `s[..a]` and `s[h..h + b]`, the
+    /// down-merge consumed `s[h - c..h]` and `s[len - d..]`; the output holds `u` elements at each end
+    /// of `d0[..len]`. The remaining elements are `s[a..h - c]` and `s[h + b..len - d]`.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        let same = |p: *const T, q: *const T| kani::mem::same_allocation(p, q);
+        let d0c = d0 as *const T;
+        if !(same(left, src)
+            && same(right, src)
+            && same(left_rev, src)
+            && same(right_rev, src)
+            && same(dst as *const T, d0c)
+            && same(dst_rev as *const T, d0c))
+        {
+            return false;
+        }
+        let h = len / 2;
+        let (hi, li) = (h as isize, len as isize);
+        // Element offsets from byte addresses: the loop havocs these pointers, so a byte offset
+        // that is not a multiple of the element size must make the invariant false, not trip the
+        // UB check of `offset_from`.
+        let sz = size_of::<T>() as isize;
+        let bytes = |p: *const T, q: *const T| (p.addr() as isize).wrapping_sub(q.addr() as isize);
+        let (ba, br, blr, brr, bu, bur) = (
+            bytes(left, src),
+            bytes(right, src),
+            bytes(left_rev, src),
+            bytes(right_rev, src),
+            bytes(dst as *const T, d0c),
+            bytes(dst_rev as *const T, d0c),
+        );
+        if ba % sz != 0 || br % sz != 0 || blr % sz != 0 || brr % sz != 0 || bu % sz != 0 || bur % sz != 0
+        {
+            return false;
+        }
+        let (oa, or, olr, orr, ou, our) = (ba / sz, br / sz, blr / sz, brr / sz, bu / sz, bur / sz);
+        let (a, b, c, d, u) = (oa, or - hi, hi - 1 - olr, li - 1 - orr, ou);
+        if !(u == idx as isize
+            && li - 1 - our == u
+            && a >= 0
+            && b >= 0
+            && c >= 0
+            && d >= 0
+            && a + b == u
+            && c + d == u
+            && a + c <= hi
+            && b + d <= li - hi
+            && u <= hi)
+        {
+            return false;
+        }
+        let (a, b, c, d, u) = (a as usize, b as usize, c as usize, d as usize, u as usize);
+        let lrem = a + c < h;
+        let rrem = b + d < len - h;
+        // SAFETY (all `add` below): indices are in bounds by the arithmetic checked above.
+        let at = |i: usize| unsafe { src.add(i) };
+        let out = |i: usize| unsafe { d0c.add(i) };
+        // x <= y and x < y in the comparator's order.
+        let le = |x: *const T, y: *const T| !call_less(is_less, y, x);
+        let lt = |x: *const T, y: *const T| call_less(is_less, x, y);
+
+        // Output ends sorted, and the up end below the down end.
+        if !Self::k1_sorted(d0c, u, is_less) || !Self::k1_sorted(out(len - u), u, is_less) {
+            return false;
+        }
+        if u > 0 {
+            let (lo, top) = (out(u - 1), out(len - u));
+            if !le(lo, top) {
+                return false;
+            }
+            if lrem && !(le(lo, at(a)) && le(at(h - c - 1), top)) {
+                return false;
+            }
+            if rrem && !(le(lo, at(h + b)) && le(at(len - d - 1), top)) {
+                return false;
+            }
+        }
+        // Consumed versus remaining elements across the halves (needed when a head is exhausted).
+        if c > 0 && rrem && !lt(at(len - d - 1), at(h - c)) {
+            return false;
+        }
+        if d > 0 && lrem && !le(at(h - c - 1), at(len - d)) {
+            return false;
+        }
+        if a > 0 && rrem && !le(at(a - 1), at(h + b)) {
+            return false;
+        }
+        if b > 0 && lrem && !lt(at(h + b - 1), at(a)) {
+            return false;
+        }
+        // Probe count: output so far plus remaining input equals the whole input.
+        Self::k1_count(d0c, u)
+            + Self::k1_count(out(len - u), u)
+            + Self::k1_count(at(a), h - c - a)
+            + Self::k1_count(at(h + b), len - d - h - b)
+            == Self::k1_count(src, len)
+    }
+
     /// `v[..len / 2]` and `v[len / 2..]` are sorted.
     pub(crate) fn k1_merge_halves_sorted<F: FnMut(&T, &T) -> bool>(
         v: &[T],
