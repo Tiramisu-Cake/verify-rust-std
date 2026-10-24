@@ -265,7 +265,7 @@ class ContractInputsTests(unittest.TestCase):
             source_hashes.pop('bin/verifast')
             frozen_source = dict(frozen_hashes)
             patchfile = repo / driver.PATCH_REL; patchfile.parent.mkdir(parents=True, exist_ok=True); patchfile.write_bytes(b'patch')
-            ref_bytes = b'R' * 385
+            ref_bytes = b'R' * 384
             ref = repo / driver.REFERENCE_HEADER_REL; ref.parent.mkdir(parents=True, exist_ok=True); ref.write_bytes(ref_bytes)
             profile_bytes = b'profile-record'
             profile = repo / driver.QUALIFIED_PROFILE_REL; profile.parent.mkdir(parents=True, exist_ok=True); profile.write_bytes(profile_bytes)

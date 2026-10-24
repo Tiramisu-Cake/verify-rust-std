@@ -75,5 +75,29 @@ class ContractInputGeneratorTests(unittest.TestCase):
         self.assertEqual(len(GEN.expected_mode()["cases"]), 6)
 
 
+class HeaderSyntaxRegressionTests(unittest.TestCase):
+    def test_all_closed_headers_use_the_existing_nontrailing_parameter_grammar(self):
+        import json
+        repo = MODULE_PATH.parents[4]
+        rel = "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-select-callee-r24.rsspec"
+        header = (repo / rel).read_bytes()
+        previous = subprocess.run(
+            ["git", "show", "881ed4be929aaa1c86e9e68bd1519b33127981db:" + rel],
+            cwd=repo, check=True, capture_output=True).stdout
+        self.assertEqual(header, previous.replace(
+            b"    false_val: *const Element,\n", b"    false_val: *const Element\n", 1))
+        self.assertEqual(len(previous) - len(header), 1)
+        manifest = json.loads(MODULE_PATH.with_name("W4-CONTRACT-HEADER-VARIANTS.json").read_text())
+        for case, row in manifest["cases"].items():
+            mutation = row["replacement"]
+            variant = header if mutation is None else header.replace(
+                mutation["from"].encode(), mutation["to"].encode(), 1)
+            params = variant.split(b"(", 1)[1].split(b")", 1)[0].rstrip()
+            self.assertFalse(params.endswith(b","), case)
+            self.assertEqual(hashlib.sha256(variant).hexdigest(), row["sha256"])
+            self.assertEqual(len(variant), row["bytes"])
+            self.assertEqual(GEN.CASE_ROWS[case], (row["sha256"], row["bytes"]))
+
+
 if __name__ == "__main__":
     unittest.main()

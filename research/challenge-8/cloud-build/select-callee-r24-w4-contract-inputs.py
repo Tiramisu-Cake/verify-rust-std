@@ -28,17 +28,17 @@ SUMMARY_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS.json')
 AUDIT_REL = Path('cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS-AUDIT.json')
 ROOT_REL = SUMMARY_REL.parent
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json')
-MODE_SHA256 = '2ffe2da0dc2cd5356a6a83bae7dcae27dad15cac720e5a24c9cf616c39894707'
+MODE_SHA256 = '383a53b7f58571a1c439970e654cb08599091af17ae4ed93dd142ff3a9380204'
 MANIFEST_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUT-MANIFEST.json')
-MANIFEST_SHA256 = 'a50d15ab1856e386b37a0dfcd3745520079bbe00143c1d33a62e063fc546650c'
+MANIFEST_SHA256 = 'c1bb294644c2befbb9b511266106ba547ab4bfc6a83781d12a511a93e3698498'
 GENERATOR_REL = Path('research/challenge-8/task-history/select-callee-r24/w4-contract-input-diagnostic.py')
-GENERATOR_SHA256 = 'f1ba56c6695215924c26d755f784c8a8e8f591a6cfb88143524e289f6f41e086'
+GENERATOR_SHA256 = 'cc54516f98979a89b3dc922604e810b5c09f9daf40eb371cf2f1f0159cee1339'
 PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-contract-input-r24.patch')
-PATCH_SHA256 = '27278f4a76a035be7125092c76cfb17a7f66658084ebb4a122e45fa1515c7109'
+PATCH_SHA256 = '6c8cb345ebc11945f5624f6468732d9f0feb38294c7c73d48b0c748d2b4e03dc'
 HEADER_VARIANTS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json')
-HEADER_VARIANTS_SHA256 = 'c6c0d73db8c263ac0a688b4f18139e98f8c8dbf2581e58fa6558451eaa76630c'
+HEADER_VARIANTS_SHA256 = '5d0ef2f5dabee2d1a3056855154327cd2b57d26919cb9cf068be34f2d8764a56'
 REFERENCE_HEADER_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-select-callee-r24.rsspec')
-REFERENCE_HEADER_SHA256 = '5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be'
+REFERENCE_HEADER_SHA256 = 'a699492f945c544cb525f7ec1cc54b461f6472b25f7b085d2325811179a93c82'
 QUALIFIED_PROFILE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json')
 QUALIFIED_PROFILE_SHA256 = 'a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d'
 BOOTSTRAP_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-BOOTSTRAP-QUALIFIED-MODE.json')
@@ -91,7 +91,7 @@ R21_ENV = 'SORT4_R20_CALLEE_PHASE_ID'
 LANE = 'o26-select-callee-r20'
 PROFILE = 'experimental-s6-26.10-v1'
 BOOTSTRAP_SOURCE_SHA256 = '5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942'
-PATCHED_SOURCE_SHA256 = '36272c89e241b4b7a9051b4246cf75ebd77934bda2cbea2a548d81073497195f'
+PATCHED_SOURCE_SHA256 = 'f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806'
 SOURCE_SHA256 = 'e3fb9d257609d07b8a54afd135d219e6f531fa274364b9671f87e07e93d0d663'
 ORIGINAL_SHA256 = 'b4b0070e224cc60eba58a2116c0009fdda2e3ae599c67344194a709215a374db'
 CALLEE_SOURCE_SHA256 = '687327ca06d076d9bf3528859109ff5fc93b21b9cbbab7834d64edac93fbeaff'
@@ -1034,7 +1034,7 @@ def _expected_input_hashes(case: str, header: dict[str,Any], source: Path,
         'callee_source':(sha(callee_raw),len(callee_raw)),
         'callee_source_in_mir':(sha(callee_raw),len(callee_raw)),
         'callee_unit':(sha(unit_raw),len(unit_raw)), 'callee_body':(sha(body_raw),len(body_raw)),
-        'reference_header':(REFERENCE_HEADER_SHA256,385),
+        'reference_header':(REFERENCE_HEADER_SHA256,384),
         'variant_header':(header['sha256'],header['bytes']),
         'qualified_profile':(QUALIFIED_PROFILE_SHA256,len(profile_raw)),
     }

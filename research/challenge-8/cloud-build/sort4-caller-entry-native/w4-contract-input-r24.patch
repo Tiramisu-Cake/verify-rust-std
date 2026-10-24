@@ -84,7 +84,7 @@
 +    if env "SOURCE_SHA256" <> Some expected_source then
 +      reject "exact W4 verified-source SHA256 required";
 +    let reference_header = read_regular (path_of "REFERENCE_HEADER") in
-+    if hash reference_header <> "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be" then
++    if hash reference_header <> "a699492f945c544cb525f7ec1cc54b461f6472b25f7b085d2325811179a93c82" then
 +      reject "exact positive reference header required";
 +    let profile = read_regular (path_of "QUALIFIED_PROFILE") in
 +    if hash profile <> "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d" then
@@ -140,16 +140,16 @@
 +          | _ -> reject "only the r24_select external header is permitted")
 +      | _ -> reject "exactly one r24_select external header is required" in
 +    let expected_header = match case with
-+      | "positive" -> "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
-+      | "false-normal" -> "4f0fcc5f53d5c125080324f14528e95135028226586d762c94417890f4b531c6"
-+      | "false-unwind" -> "c460bb95882fab046039af444e3b1322609f6e264a8d49648c842912e9567ba7"
-+      | "duplicate-thread" -> "dda95d03fcdf887717ee6a299edf5fc71016ccba191e52b280754369336a742e"
-+      | "mut-pointer" -> "f077c50e120a748d7130d8c5a8e5892a8e6e64965e8dd7aa58dd6a20ab39eefd"
-+      | _ -> "c0cf3695593322b1eb83c3adfc25e08fa1dd1d1dde3c1fa2cbb99379044c74d0" in
++      | "positive" -> "a699492f945c544cb525f7ec1cc54b461f6472b25f7b085d2325811179a93c82"
++      | "false-normal" -> "69a4c495ece578ad5ea3d9a74207f90f71885910e8c0eaa17713b80f4a846fe0"
++      | "false-unwind" -> "a4b68c1ded4acd7946ced527af404b083f319e1d73540a8d6666e62959099f5b"
++      | "duplicate-thread" -> "1ade3c646e9da957899196dfe9e9112a434942ce42654eba66636c5ac6376664"
++      | "mut-pointer" -> "d0ae26c91e5c433603b2698261aaca15f58b5c50448cddad997e4b10d60fcf85"
++      | _ -> "318c51303f3f293c45900de956e83a6544609f558aa70d1bab8b9efb4df19990" in
 +    let expected_header_size = match case with
-+      | "positive" -> 385 | "false-normal" | "false-unwind" -> 395
-+      | "duplicate-thread" -> 405 | "mut-pointer" -> 383
-+      | _ -> 476 in
++      | "positive" -> 384 | "false-normal" | "false-unwind" -> 394
++      | "duplicate-thread" -> 404 | "mut-pointer" -> 382
++      | _ -> 475 in
 +    if String.length header_bytes <> expected_header_size ||
 +       hash header_bytes <> expected_header then
 +      reject "case header bytes do not match the closed variant pin";

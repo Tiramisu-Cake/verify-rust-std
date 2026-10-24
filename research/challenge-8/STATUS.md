@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T03:36:21Z
+- Updated: 2026-10-24T03:38:23Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 11851s spent; 0s retired; 9749s remaining including active reservations
@@ -25,9 +25,9 @@ C6 header trailingcomma rejected by strict RSSPEC grammar. Checked8call linkage/
 - [research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json](task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json) SHA `a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d`
 
 ## Next
-Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.
+Review/publish syntax-only header revision; exact transport and full1200 Cloud. No parser broadening, caller proof or C5 admission.
 
 ## Artifacts
-- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `db6d98f716013edd9d9b5863ef1ca917ffa35cb65e1e3f9b051a64f478e9a228`
+- [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `ab3cbfda2d8641b22e767b5205ebf38b05d1f6e57ec3a602e51bdec3ea9747bd`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `8a6df40640b7a9e0b81a90e2a3541fafc8bcf6cb3d897841070ffc6c21a54e6c`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `811b5e3a0bd2c709f70ee57a796f758a9665f2e765ddfca40ab95ebde55366af`

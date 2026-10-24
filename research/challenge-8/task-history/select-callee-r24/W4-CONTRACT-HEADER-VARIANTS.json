@@ -5,62 +5,62 @@
   },
   "cases": {
     "duplicate-thread": {
-      "bytes": 405,
+      "bytes": 404,
       "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
       "replacement": {
         "from": "raw_ptr_own::<Element>()(t, result);",
         "to": "raw_ptr_own::<Element>()(t, result) &*& thread_token(t);"
       },
-      "sha256": "dda95d03fcdf887717ee6a299edf5fc71016ccba191e52b280754369336a742e"
+      "sha256": "1ade3c646e9da957899196dfe9e9112a434942ce42654eba66636c5ac6376664"
     },
     "extra-declaration": {
-      "bytes": 476,
+      "bytes": 475,
       "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
       "replacement": {
         "from": "//@ on_unwind_ens false;\n",
         "to": "//@ on_unwind_ens false;\nunsafe fn extra_unchecked_summary();\n//@ req true;\n//@ ens false;\n//@ on_unwind_ens false;\n"
       },
-      "sha256": "c0cf3695593322b1eb83c3adfc25e08fa1dd1d1dde3c1fa2cbb99379044c74d0"
+      "sha256": "318c51303f3f293c45900de956e83a6544609f558aa70d1bab8b9efb4df19990"
     },
     "false-normal": {
-      "bytes": 395,
+      "bytes": 394,
       "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
       "replacement": {
         "from": "raw_ptr_own::<Element>()(t, result);",
         "to": "raw_ptr_own::<Element>()(t, result) &*& false;"
       },
-      "sha256": "4f0fcc5f53d5c125080324f14528e95135028226586d762c94417890f4b531c6"
+      "sha256": "69a4c495ece578ad5ea3d9a74207f90f71885910e8c0eaa17713b80f4a846fe0"
     },
     "false-unwind": {
-      "bytes": 395,
+      "bytes": 394,
       "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
       "replacement": {
         "from": "on_unwind_ens false;",
         "to": "on_unwind_ens thread_token(t);"
       },
-      "sha256": "c460bb95882fab046039af444e3b1322609f6e264a8d49648c842912e9567ba7"
+      "sha256": "a4b68c1ded4acd7946ced527af404b083f319e1d73540a8d6666e62959099f5b"
     },
     "mut-pointer": {
-      "bytes": 383,
+      "bytes": 382,
       "expected": "NATIVE_CONTRACT_OR_SIGNATURE_REFUSAL_BEFORE_BODY",
       "replacement": {
         "from": "true_val: *const Element,",
         "to": "true_val: *mut Element,"
       },
-      "sha256": "f077c50e120a748d7130d8c5a8e5892a8e6e64965e8dd7aa58dd6a20ab39eefd"
+      "sha256": "d0ae26c91e5c433603b2698261aaca15f58b5c50448cddad997e4b10d60fcf85"
     },
     "positive": {
-      "bytes": 385,
+      "bytes": 384,
       "expected": "CONTRACT_INPUTS_MATCH_THEN_DIAGNOSTIC_REFUSAL",
       "replacement": null,
-      "sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+      "sha256": "a699492f945c544cb525f7ec1cc54b461f6472b25f7b085d2325811179a93c82"
     }
   },
   "function": "r24_select::select_unpredictable_const",
   "logical_crate": "r24_select",
   "positive_header": {
     "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-select-callee-r24.rsspec",
-    "sha256": "5721c3d6daf63769a52a9d158cd00e810832ae51b8279988651b7fe0745df0be"
+    "sha256": "a699492f945c544cb525f7ec1cc54b461f6472b25f7b085d2325811179a93c82"
   },
   "proof_credit": 0,
   "schema": "select-r24-w4-contract-header-variants-v1",

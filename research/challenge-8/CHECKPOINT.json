@@ -2,7 +2,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "db6d98f716013edd9d9b5863ef1ca917ffa35cb65e1e3f9b051a64f478e9a228"
+      "sha256": "ab3cbfda2d8641b22e767b5205ebf38b05d1f6e57ec3a602e51bdec3ea9747bd"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "8a6df40640b7a9e0b81a90e2a3541fafc8bcf6cb3d897841070ffc6c21a54e6c"
+      "sha256": "811b5e3a0bd2c709f70ee57a796f758a9665f2e765ddfca40ab95ebde55366af"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -44,7 +44,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "8a6df40640b7a9e0b81a90e2a3541fafc8bcf6cb3d897841070ffc6c21a54e6c"
+    "sha256": "811b5e3a0bd2c709f70ee57a796f758a9665f2e765ddfca40ab95ebde55366af"
   },
   "brief_observation_refs": [
     {
@@ -1105,8 +1105,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.",
-  "next_step": "Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.",
+  "next": "Review/publish syntax-only header revision; exact transport and full1200 Cloud. No parser broadening, caller proof or C5 admission.",
+  "next_step": "Review/publish syntax-only header revision; exact transport and full1200 Cloud. No parser broadening, caller proof or C5 admission.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1221,7 +1221,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:36:21Z",
+  "updated_utc": "2026-10-24T03:38:23Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1718,7 +1718,7 @@
       "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
     },
     "proof_credit": 0,
-    "state": "DESIGN_BEFORE_IMPLEMENTATION"
+    "state": "STATIC_TESTED_UNREVIEWED_UNBUILT"
   },
   "w4_contract_inputs_build": {
     "accepted": false,
@@ -1748,42 +1748,37 @@
       "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
     },
     "caller_body_proof_admission": false,
-    "candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
       "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
     },
     "driver": {
       "path": "research/challenge-8/cloud-build/select-callee-r24-w4-contract-inputs.py",
-      "sha256": "9d91e549f41e40899afb4a97de2c1329d2abf188f6c5c37a91543cfb54ba64fa"
+      "sha256": "e301b740898fcb21026e8cdf88615e592f4475577cf696da05809d6787f9e2f1"
     },
     "header_variants": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json",
-      "sha256": "c6c0d73db8c263ac0a688b4f18139e98f8c8dbf2581e58fa6558451eaa76630c"
-    },
-    "independent_review": {
-      "decision": "GO_FOR_ONE_AUTHORIZED_REFUSAL_ONLY_W4_CONTRACT_INPUT_DIAGNOSTIC",
-      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-inputs-review.json",
-      "sha256": "b981780d0819a38d843f037aad33abf39a168984782f4195f343938911f96df4"
+      "sha256": "5d0ef2f5dabee2d1a3056855154327cd2b57d26919cb9cf068be34f2d8764a56"
     },
     "main_scope": "contract/header design, wrapper/mode/recipe integration, review/evidence/accounting",
     "mode": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json",
-      "sha256": "2ffe2da0dc2cd5356a6a83bae7dcae27dad15cac720e5a24c9cf616c39894707"
+      "sha256": "383a53b7f58571a1c439970e654cb08599091af17ae4ed93dd142ff3a9380204"
     },
     "native_base": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
     "native_manifest": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUT-MANIFEST.json",
-      "sha256": "a50d15ab1856e386b37a0dfcd3745520079bbe00143c1d33a62e063fc546650c"
+      "sha256": "c1bb294644c2befbb9b511266106ba547ab4bfc6a83781d12a511a93e3698498"
     },
     "native_scope": "SOURCE_PRESERVING_REFUSAL_ONLY; typed8site facts remain navigation/source observation; no call consumption or C5",
-    "native_translator_candidate_sha256": "36272c89e241b4b7a9051b4246cf75ebd77934bda2cbea2a548d81073497195f",
-    "proof_credit": 0,
-    "qualification_mode": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
-      "sha256": "6d429030afb060ed6e65588163ace77bdd0c6ebb6ac6be3a01809dcb857b9a11"
+    "native_translator_candidate_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+    "prior_build_candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
+    "prior_independent_review": {
+      "decision": "GO_FOR_ONE_AUTHORIZED_REFUSAL_ONLY_W4_CONTRACT_INPUT_DIAGNOSTIC",
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-inputs-review.json",
+      "sha256": "b981780d0819a38d843f037aad33abf39a168984782f4195f343938911f96df4"
     },
-    "review_packet": {
+    "prior_review_packet": {
       "executor": "r24_contract_review",
       "model": "gpt-6-luna",
       "packet_sha256": "416ac424dd4920df1ed4d83b0d7da0f5183d5d49408d864a7c2796c6fd724eb6",
@@ -1791,23 +1786,23 @@
       "reasoning_effort": "high",
       "spec_sha256": "e7433e00541d78cfa0a027490b9f68b231a80cf5205e35bfaf9269928c673f22"
     },
-    "runtime_closure": {
-      "bytes": 3737826,
-      "entries": 167,
-      "sha256": "8fe249c38fa97e3171e613355e61e889a60a48ad5959f3a46697c2324de9ae85"
+    "prior_transport_preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-TRANSPORT-PREFLIGHT.json",
+      "sha256": "40e12b79171bbc44dbb28b83f2b50368c47d944fd0616b5fdb74bb3913fbcfbf"
+    },
+    "proof_credit": 0,
+    "qualification_mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
+      "sha256": "a1f05e9df2979975c33bdf0a6430953b48162e9b71ef0ae9caaced9a0e020df9"
     },
     "source_contract": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "POSITIVE_HEADER_PARSE_FAILURE_SOURCE_REPORTED",
+    "state": "HEADER_SYNTAX_REVISION_UNREVIEWED",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
-      "sha256": "0d1b1405e345013438d92c5534eaa698dca14eac2cbded45d11c841a272fb432"
-    },
-    "transport_preflight": {
-      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-TRANSPORT-PREFLIGHT.json",
-      "sha256": "40e12b79171bbc44dbb28b83f2b50368c47d944fd0616b5fdb74bb3913fbcfbf"
+      "sha256": "db367627c7ee43cf3f51606a48f548dc3d06eeed36a95d9972c1fa2be7c034f4"
     },
     "typed_call_linkage": "UNKNOWN",
     "workers": {
@@ -1816,7 +1811,7 @@
     },
     "wrapper": {
       "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-qualification.py",
-      "sha256": "42e43f752194a0782d33620bcbe4c2caab4365e6ab3e74ed6c83a9571542c0ed"
+      "sha256": "73b6c65a46c672eb04fb6a24d5956f717bb3a972d9ac7dd96fde8f5183167da3"
     }
   },
   "w4_current_native_consequence_positive_observations": {
