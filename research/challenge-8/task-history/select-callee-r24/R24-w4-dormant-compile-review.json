@@ -1,0 +1,51 @@
+{
+  "schema": "select-r24-w4-dormant-compile-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "NO_GO_FIX_REQUIRED_BEFORE_COMPILE_IDENTITY_BUILD",
+  "baseline_commit": "61ad310dc1c59c458e972e3b1d25add355110e42",
+  "candidate_commit": "d6f21439e1e7c0fd72e806d3cf583a04515ceb92",
+  "candidate_tree": "ecff3f86cf03c15e9d7d502854a8b4d237326427",
+  "spec_sha256": "4f7d46ea5b7aaa4c67f356402038848d869e93a7503e9a0df79141d5d6149951",
+  "packet_sha256": "ce6a8ffea70f2620a0275c4ba5648a06f27ac568a3c0cb7e82d84849e6b9e580",
+  "diff_sha256": "797c9beb0e4f7ff91130c8d88907e97b383fa44b772f2f5bb033d5ebd0c71022",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-remaining-control-review.json",
+      "sha256": "5ecaa0ee9e3457c78d3712849a18aedf11cc9a9bdc694b22780218bfdcae591f",
+      "decision": "PRIOR_CANDIDATE_REVIEW; THIS PACKET HAS A DISTINCT BASELINE/CANDIDATE"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "BLOCKER",
+      "location": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch, added translate_body outer marker dispatch near the `native_c1_capture_requested` conditions",
+      "issue": "The added OCaml branch references `native_c1_capture_requested`, `native_c1_bound_requested`, `native_c4_capture_requested`, and `native_c4_bound_requested`, but none of these values are defined in the exact F83 base translator or anywhere else in the composed patch. Their presence in a branch guarded by `Sort4R24W4Caller.active` does not avoid OCaml name resolution at compile time. The requested dormant compile therefore cannot produce the measured output identity.",
+      "required_fix": "Remove the copied, unreachable legacy capture/bound branch that references the undefined native flags, and retain only the exact `end_lft_binding` marker partition needed under the reviewed Caller.active path. Verify the patch references only bindings present in F83 or declared by the patch."
+    },
+    {
+      "severity": "MAJOR",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-dormant-compile.py::audit, artifact inventory comparison",
+      "issue": "The physical audit compares `report.get('artifact_inventory') != physical_inventory` using Python equality rather than the controller's type-sensitive `_json_exact`. Since Python considers an integer equal to the same-valued float, a report-only change such as an inventory `bytes` value from `12` to `12.0` can pass the inventory comparison and leave the audit complete.",
+      "required_fix": "Use `_json_exact(report.get('artifact_inventory'), physical_inventory)` and add a report-only numeric-type tamper control for inventory byte counts."
+    }
+  ],
+  "verified": [
+    "Reviewed candidate d6f21439e1e7c0fd72e806d3cf583a04515ceb92 against baseline 61ad310dc1c59c458e972e3b1d25add355110e42; verified candidate tree and packet/spec/diff identities and all four declared dependency hashes.",
+    "The dormant controller is positioned after the same-Build qualification summary/audit and requires nested consequence, C6, and source-control capture completion before the four copy/check/apply/compile stages. Its audit checks physical stage JSON/log presence, exact commands, route/mode/pins, input tool identity, and live output file identities. The source-only boundary remains false/UNKNOWN/zero.",
+    "The added C5 relocation/call-binding logic is gated by a newly introduced `Sort4R24W4Caller.active` reference initialized false; the composed patch contains no assignment enabling it, and `actual_contract`/`header_path` have no setter. Static checks show no caller activation path in this candidate. This does not make the undefined-name compile blocker safe or removable from the verdict.",
+    "The recipe adds the dormant controller, patch, manifest, and mode and removes only the five source-writer helpers declared unreached after the selected branch's terminal exit. The wrapper runs the dormant compile/audit after the retained qualification audit and exits the selected branch before later mutable stages."
+  ],
+  "tests": [
+    "The packet reports 120 targeted static/synthetic checks and an exact transport preflight passing. I did not rerun candidate tests or transport checks.",
+    "Static review only. No source preparation, actual Rust std construction, native compiler/toolchain, exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "NO_GO is limited to this requested dormant compile/identity candidate. No compiled tool identity, same-version callee qualification, checked-call consumption, C5 proof, caller-body proof, or independent proof credit is established."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

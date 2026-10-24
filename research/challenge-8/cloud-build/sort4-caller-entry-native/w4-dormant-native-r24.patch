@@ -1033,7 +1033,7 @@
    let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
        =
      let open BodyRd in
-@@ -8004,9 +8894,196 @@
+@@ -8004,9 +8894,135 @@
        ListAux.try_map translate_ghost_decl_block
          (ghost_decl_blocks_get_list body_cpn)
      in
@@ -1114,70 +1114,9 @@
 +      end in
 +    let markers, ghost_stmts =
 +      if not !Sort4R24W4Caller.active then [], ghost_stmts
-+      else if (native_c1_capture_requested || native_c1_bound_requested ||
-+          native_c4_capture_requested || native_c4_bound_requested) &&
-+         body_name =
-+           "small_sort_general_with_scratch" then begin
-+        (* Retain the exact source cut through original AST capture.  The
-+           bound branch alone later constructs its checked strict child and
-+           outgoing cleanup wrappers; default-off translation is unchanged. *)
-+        let cuts = List.filter
-+          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
-+          ghost_stmts in
-+        (if native_c4_capture_requested || native_c4_bound_requested then begin
-+           let names = List.map (fun stmt ->
-+             match marker_call stmt with
-+             | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
-+             | _ -> failwith "NATIVE-C4-CAPTURE: cut shape") cuts in
-+           if names <> ["'cmp"; "'cmp2"; "'cmp3"; "'cmp4"] then
-+             failwith "NATIVE-C4-CAPTURE: exact four ordered cuts required"
-+         end else match cuts with
-+         | [stmt] ->
-+             let file, line, _ = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
-+             (match marker_call stmt with
-+              | Some ([Ast.IdentTypeExpr (_, None, "'cmp")], [])
-+                when file = "verified/lib.rs" && line = 212 -> ()
-+              | _ -> failwith
-+                  "NATIVE-OPAQUE-C1-CAPTURE: sole cmp cut differs")
-+         | _ -> failwith "NATIVE-OPAQUE-C1-CAPTURE: exact-one cmp cut required");
-+        ([], ghost_stmts)
-+      end else if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
-+         TrName.translate_def_path (def_path_get body_cpn) = "sort4_stable" then begin
-+        (* Only this separately admitted actual AST test handles the cut.
-+           Leave d557's translator and kernel unchanged for all other bodies. *)
-+        let cuts = List.filter
-+          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
-+          ghost_stmts in
-+        if c4_capture_requested || c4_bound_requested then begin
-+          let cut_sites = List.map (fun stmt ->
-+            match marker_call stmt with
-+            | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
-+            | _ -> failwith "SORT4-C4-CAPTURE: cut shape differs") cuts in
-+          if cut_sites <> ["'cmp"; "'cmp2"; "'cmp3"; "'cmp4"] then
-+            failwith "SORT4-C4-CAPTURE: exact ordered cut names differ"
-+        end else if c3_capture_requested || c3_bound_requested then begin
-+          let cut_sites = List.map (fun stmt ->
-+            match marker_call stmt with
-+            | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
-+            | _ -> failwith "SORT4-C3-CAPTURE: cut shape differs") cuts in
-+          if cut_sites <> ["'cmp"; "'cmp2"; "'cmp3"] then
-+            failwith "SORT4-C3-CAPTURE: exact ordered cut names differ"
-+        end else if c2_discovery_requested || c2_bound_requested then begin
-+          let cut_sites = List.map (fun stmt ->
-+            let (_, line, _) = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
-+            match marker_call stmt with
-+            | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> (line, name)
-+            | _ -> failwith "SORT4-C2-DISCOVERY: cut shape differs") cuts in
-+          if cut_sites <> [(192, "'cmp"); (225, "'cmp2")] then
-+            failwith "SORT4-C2-DISCOVERY: exact ordered cut sites differ"
-+        end else if List.length cuts <> 1 then
-+          Ast.static_error fn_sig_loc
-+            "Actual sort4 AST scope test requires one cut marker" None;
-+        ([], ghost_stmts)
-+      end else
-+        List.partition
-+          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
-+          ghost_stmts
++      else List.partition
++        (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
++        ghost_stmts
 +    in
 +    if List.length markers > 1 then
 +      Ast.static_error (Ast.stmt_loc (List.hd markers))
@@ -1230,7 +1169,7 @@
           Ast.BlockStmt
             ( l,
               decls,
-@@ -8019,9 +9096,16 @@
+@@ -8019,9 +9035,16 @@
      in
      let ghost_decl_block_end_stmts =
        ghost_decl_blocks
@@ -1250,7 +1189,7 @@
      in
      let* loop_spec_blocks =
        ListAux.try_map translate_loop_spec_block
-@@ -8038,15 +9122,23 @@
+@@ -8038,15 +9061,23 @@
           (LocalDeclIdRd.name_get (LocalDeclRd.id_get decl_cpn),
            D.decode_ty (LocalDeclRd.ty_get decl_cpn))
      in
@@ -1275,7 +1214,7 @@
      let mentions_callback_marker raw =
        let marker_length = String.length callback_marker_name in
        let rec scan i =
-@@ -8067,10 +9159,33 @@
+@@ -8067,10 +9098,33 @@
             ghost_stmts) in
      if declared_callback_markers <> parsed_callback_markers then
        State.fail_callback_unwind "malformed source marker";
@@ -1311,7 +1250,7 @@
         (not callback_fixture && parsed_callback_markers <> 0) then
        State.fail_callback_unwind
          "exact callback fixture requires one marker; other bodies forbid it";
-@@ -8384,8 +9499,208 @@
+@@ -8384,8 +9438,208 @@
                        ],
                        closing_cbrace_loc )))
            else
@@ -1521,7 +1460,7 @@
              in
              let bblocks_cpn = basic_blocks_get_list body_cpn in
              let* bblocks =
-@@ -8400,6 +9715,30 @@
+@@ -8400,6 +9654,30 @@
              let vf_bblocks =
                translate_basic_blocks_to_stmts toplevel_blocks []
              in
@@ -1552,7 +1491,7 @@
              if !State.pending_callback_unwind <> None then
                State.fail_callback_unwind "marker has no matching following call";
              let expected_markers =
-@@ -8422,11 +9761,40 @@
+@@ -8422,11 +9700,40 @@
                             (call_loc, "unwinding", [], [], [], Ast.Static)))])
              in
              Ok
@@ -1598,7 +1537,7 @@
          in
          let body_sig_opt =
            match contract_template_opt with
-@@ -20615,6 +21983,7 @@
+@@ -20615,6 +21922,7 @@
          List.split (List.map header_extract_fn_specialization_decls headers)
        in
        let fn_specialization_decls = List.flatten fn_specialization_decls in
@@ -1606,7 +1545,7 @@
        let fn_specializations = fn_specialization_decls |> List.map @@ fun (l, g_generic, g_specialized, tparams, targs) ->
          let targs = List.map (generic_arg_of_type_expr tparams) targs in
          let specialize substs =
-@@ -20996,6 +22365,7 @@
+@@ -20996,6 +22304,7 @@
          Printf.printf "SORT4-R24-MUTABLE-A1-PRIMITIVES: assert_inhabited=1 transmute=1\n%!";
          Printf.printf "SORT4-R24-MUTABLE-CERTIFICATES: case=%s bodies=9 pointer_drop=1 assume_init=1; raw MIR cleanup retained\n%!"
            (Sort4MutableProfile.case_name ()));

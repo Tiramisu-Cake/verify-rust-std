@@ -23,7 +23,7 @@ AUDIT_SCHEMA = 'select-r24-w4-dormant-compile-v1-audit'
 SUMMARY_REL = Path('cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE.json')
 AUDIT_REL = Path('cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE-AUDIT.json')
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json')
-MODE_SHA256 = 'a904b40242d931dc88a76c1e88d7e3870d463a6855df06416ddd96188b910fc9'
+MODE_SHA256 = 'a60c8afbdbf7cc5e443ea28e8758117eb7e4fcc40c9fae2ee1e3fc54445eb287'
 
 R24_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-24-R24'
 R21_PHASE = 'SORT4-ACTUAL-SELECT-2026-10-23-R21'
@@ -39,11 +39,11 @@ TARGET_HOME = Path('/workspace/smallsort-work/r24-w4-dormant-tool')
 INPUT_IDENTITY_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-F83-TOOL-IDENTITY.json')
 INPUT_IDENTITY_SHA256 = '8bee7bcd29354d979e26f96b6e7138662dee38359b8edc54f95d74e8316e962d'
 MANIFEST_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json')
-MANIFEST_SHA256 = '4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174'
+MANIFEST_SHA256 = 'd1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6'
 PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch')
-PATCH_SHA256 = '96ace30b1462c9bd48d7e84f6e921aac9a5d41651dc927d96f561ab216a5256c'
+PATCH_SHA256 = 'bd963870ff5a136040b0f40121a5fabe66db9db6107d7b7de2954d93b1aca344'
 BASE_TRANSLATOR_SHA256 = 'f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806'
-RESULT_TRANSLATOR_SHA256 = '95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d'
+RESULT_TRANSLATOR_SHA256 = '758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b'
 INPUT_BINARY_SHA256 = '9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb'
 STAGE_REL = Path('research/challenge-8/overnight-sort4/capture.py')
 STAGE_SHA256 = '0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060'
@@ -634,7 +634,7 @@ def audit(args: argparse.Namespace, *, helper=None) -> dict[str, Any]:
             audit_record['errors'].append('mode or route binding changed')
         audit_record['errors'].extend(_physical_stages(helper, evidence, report))
         physical_inventory = _artifact_inventory(helper, evidence / SUMMARY_REL.parent, evidence)
-        if report.get('artifact_inventory') != physical_inventory:
+        if not _json_exact(report.get('artifact_inventory'), physical_inventory):
             audit_record['errors'].append('physical tool-build artifact inventory differs')
         input_before = _tool_hashes(helper, native_home,
             {k: v for k, v in identity['tool_hashes'].items() if k != 'bin/verifast'},
@@ -667,6 +667,9 @@ def audit(args: argparse.Namespace, *, helper=None) -> dict[str, Any]:
            report.get('typed_call_linkage') != 'UNKNOWN' or \
            type(report.get('proof_credit')) is not int or report.get('proof_credit') != 0:
             audit_record['errors'].append('summary proof/acceptance boundary differs')
+        if type(report.get('errors')) is not list or \
+           (report.get('complete') is True and report.get('errors') != []):
+            audit_record['errors'].append('summary error inventory differs from completeness')
         if type(getattr(args, 'runner_exit', None)) is not int or args.runner_exit != 0 or \
            getattr(args, 'failed_stage', None) != 'complete' or \
            report.get('complete') is not True:

@@ -356,6 +356,18 @@ class DormantCompileTests(unittest.TestCase):
                 self.assertTrue(audited['audit_written'])
                 saved_audit = json.loads((evidence / MOD.AUDIT_REL).read_text(encoding='utf-8'))
                 self.assertEqual(saved_audit, audited)
+                summary_path = evidence / MOD.SUMMARY_REL
+                summary = json.loads(summary_path.read_text(encoding='utf-8'))
+                summary['artifact_inventory'][0]['bytes'] = float(
+                    summary['artifact_inventory'][0]['bytes'])
+                summary_path.write_text(json.dumps(summary, sort_keys=True, indent=2) + '\n',
+                                        encoding='utf-8')
+                audit_args.runner_exit = 0
+                audit_args.failed_stage = 'complete'
+                fractional = MOD.audit(audit_args, helper=HELPER)
+                self.assertFalse(fractional['complete'])
+                self.assertTrue(any('artifact inventory differs' in error
+                                    for error in fractional['errors']))
                 (evidence / MOD.SUMMARY_REL.parent / 'tool-build' /
                  'dormant-copy.log').write_bytes(b'changed after audit\n')
                 audit_args.runner_exit = 4

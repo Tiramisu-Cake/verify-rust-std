@@ -6,17 +6,18 @@ import difflib
 import hashlib
 import importlib.util
 import json
+import re
 from pathlib import Path
 import subprocess
 import tempfile
 
 BASE_SHA256 = 'f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806'
-C5_SHA256 = '30db8659b5c9ee4024745a42bcba1af800b3e9925f5eeb81769463c168b19a8c'
+C5_SHA256 = 'bac19f063c2fee2bf62961f025ad27c3468c2322e9347d79165b2dae4438da43'
 HISTORY_REL = Path('research/challenge-8/task-history/select-callee-r24')
 TRANSLATOR_REL = Path('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml')
 PATCH_REL = Path('research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch')
 DEPENDENCIES = {
-    'w4-c5-dormant-port-r24.patch': 'c331adf42cc896a357810d390fec46af17c96118c7fe2c112997f58470acf79f',
+    'w4-c5-dormant-port-r24.patch': 'ea6de460a62fc63ff3b54a10bdb3836ac9855967719bdf300ccfa06d10eb43b4',
     'w4-dormant-call-binding-r24.py': 'ef1463d41df2151921b90eac641ffc809d70186211263d4f43fd2920b63f59d4',
     'w4-caller-input-certificates-r24.py': 'c65fbb26c91d98b2f5268e5e72301903d2f450e2f5c79ac17138f99712328ca8',
     'W4-CONTROL-DATA-ALL37-INPUTS.json': '1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea',
@@ -61,6 +62,14 @@ def generate(base: bytes, repo: Path) -> bytes:
         raise ValueError('unique call module required')
     result = result.replace(anchor, inputs.ocaml_module(
         (history / 'W4-CONTROL-DATA-ALL37-INPUTS.json').read_bytes()) + anchor, 1)
+    added_requests = set(re.findall(r'\b\w+_requested\b', result)) - set(re.findall(r'\b\w+_requested\b', base.decode()))
+    if added_requests:
+        raise ValueError('unrelated legacy diagnostic flags in closed port: ' + ', '.join(sorted(added_requests)))
+    for name in ('validate_actual_scope_relocation', 'wrap_actual_deferred_suffix',
+                 'run_actual_cmp_scope_controls', 'run_actual_deferred_scope_controls',
+                 'run_actual_indexed_scope_controls'):
+        if len(re.findall(r'let(?: rec)?\s+' + name + r'\b', result)) != 1 or result.count(name) < 2:
+            raise ValueError('missing C5 helper definition/use: ' + name)
     if 'Sort4R24W4Caller.active := true' in result:
         raise ValueError('dormant candidate cannot activate caller')
     for symbol in ('checked_r24_pointer_outcome', 'Sort4R24CheckedPointerOutcomes',

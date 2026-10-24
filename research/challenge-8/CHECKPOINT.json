@@ -47,7 +47,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "681899bae10a4238225fc738c50d1b328f770441566f8c6011be22484fb87eb0"
+      "sha256": "9fd710410bad36e077176310d3306ef6230b369eae8a65f7dfc09fefc9043c20"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "0e777e9b43fd1b62c66ec13e3006c6efe3eb971327ed5f5e210b67d5e59483b7"
+      "sha256": "5401497021cf6a2040ea2de3761b048083918af3ab7d39b708b9eda522f0d523"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -88,7 +88,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "0e777e9b43fd1b62c66ec13e3006c6efe3eb971327ed5f5e210b67d5e59483b7"
+    "sha256": "5401497021cf6a2040ea2de3761b048083918af3ab7d39b708b9eda522f0d523"
   },
   "brief_observation_refs": [
     {
@@ -713,7 +713,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:19:47Z",
+  "updated_utc": "2026-10-24T06:24:05Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -889,15 +889,16 @@
       "compile_controller": "Final production pins set; 14 synthetic tests PASS including run\u2192audit + physical-log tampering, malformed/status/exit/partial/context/path checks.",
       "native_manifest": {
         "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
-        "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
+        "sha256": "d1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6"
       },
       "native_patch": {
         "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch",
-        "sha256": "96ace30b1462c9bd48d7e84f6e921aac9a5d41651dc927d96f561ab216a5256c"
+        "sha256": "bd963870ff5a136040b0f40121a5fabe66db9db6107d7b7de2954d93b1aca344"
       },
-      "native_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+      "native_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
+      "review_findings": "d6f21439 NO_GO before Cloud: unrelated old diagnostic flags removed; inventory equality canonical and complete errors list exact; float-tamper composition regression passes. Same reviewer delta next.",
       "source_only_input_table": "research/challenge-8/task-history/select-callee-r24/w4-caller-input-certificates-r24.py",
-      "state": "IMPLEMENTED_UNREVIEWED_UNBUILT",
+      "state": "FIXED_UNREVIEWED_UNBUILT",
       "static_input_table_tests": "3 PASS including malformed fields with test digest rebound; no native tools",
       "static_tests": "120 targeted checks accounted: 95 unchanged checks passed prior combined run, 8 updated Bash routing tests,14 compile-controller and3 inputtable tests. No actual toolchain locally.",
       "transport_design": {
@@ -1701,20 +1702,59 @@
     "caller_body_proof_admission": false,
     "manifest": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
-      "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
+      "sha256": "d1fc966dacdcaa8dd47985a5fdbe3ae0a169d05a673467aa6b82d360dd5692d6"
     },
     "mode": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json",
-      "sha256": "a904b40242d931dc88a76c1e88d7e3870d463a6855df06416ddd96188b910fc9"
+      "sha256": "a60c8afbdbf7cc5e443ea28e8758117eb7e4fcc40c9fae2ee1e3fc54445eb287"
     },
     "native_binary_sha256": "UNKNOWN_UNBUILT",
-    "native_result_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+    "native_result_translator_sha256": "758acf141b9913b1f418482b1afbd78e8cf11ecbbcb21ed65df8bbb8d45eef5b",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "state": "IMPLEMENTED_AWAITING_COMMITTED_PREFLIGHT_REVIEW",
+    "state": "FIXED_UNREVIEWED_UNBUILT",
     "timeout_seconds": 1200
   },
+  "w4_dormant_compile_candidate_history": [
+    {
+      "accepted": false,
+      "callee_qualification": false,
+      "caller_body_proof_admission": false,
+      "candidate": "d6f21439e1e7c0fd72e806d3cf583a04515ceb92",
+      "git_commit": "d6f21439e1e7c0fd72e806d3cf583a04515ceb92",
+      "manifest": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+        "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
+      },
+      "mode": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json",
+        "sha256": "a904b40242d931dc88a76c1e88d7e3870d463a6855df06416ddd96188b910fc9"
+      },
+      "native_binary_sha256": "UNKNOWN_UNBUILT",
+      "native_result_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+      "preflight": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-TRANSPORT-PREFLIGHT.json",
+        "sha256": "5bfbb3c33b0f88dc8fe6a8a83bc2e97874aa2e061f133ffb1361b65b9db20640"
+      },
+      "proof_credit": 0,
+      "publication_allowed": false,
+      "reason": "Undefined old diagnostic flags and plain inventory equality accepted floats; no Build submitted.",
+      "reserved_seconds": 1260,
+      "review": {
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-dormant-compile-review.json",
+        "sha256": "23c5b23720774c4a7d15ffe6d42a17bf6076f7a2f5381ef3d37371690e7f0024"
+      },
+      "runtime_closure": {
+        "bytes": 3677386,
+        "entries": 161,
+        "sha256": "a595d16c1aeb036ddf33ea01a3244cacf0c09c62007a079b4dd623553bbf863c"
+      },
+      "source_payload_sha256": "e4d8364f9de17c06dc3611f9a09b7e7fd61f948e4c3ebf162174dfba59786421",
+      "state": "NO_GO_BEFORE_CLOUD",
+      "timeout_seconds": 1200
+    }
+  ],
   "w4_inputs_qualification": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",
     "sha256": "03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce"
