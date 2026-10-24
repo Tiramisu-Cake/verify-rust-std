@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T06:27:03Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-24T06:27:58Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 14221s spent; 0s retired; 7379s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 7ef645ef-9d1a-42bb-af6a-023e214e9aca
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -24,13 +24,12 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Dormant C5/call overlay unbuilt; review and tool identity required.
-- [research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json](task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json) SHA `4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174`
+Dormant native compile pending; new callee/W4/C5 qualification remains open. [Build `7ef645ef-9d1a-42bb-af6a-023e214e9aca`]
 
 ## Next
-Publish reviewed fddacfd5; full 1200s dormant compile/identity Build, then Brief.
+ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `9fd710410bad36e077176310d3306ef6230b369eae8a65f7dfc09fefc9043c20`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `a3c02133f5011990a31364b1798502b4f848523ece8899f032273590f086fc1c`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `e84a2e7027defcdc5cabadb97d45dfe730881dc8e482a384fd35b8f9c02ae3fd`
