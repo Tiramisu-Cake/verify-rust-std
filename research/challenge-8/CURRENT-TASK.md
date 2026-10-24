@@ -47,10 +47,10 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 
 ## Отчёт агента
 
-**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · HANDOFF**
-Updated: 2026-10-24T06:48:16Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
-Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 14883s spent, 0s retired, 6717s remaining including reservations.
-Active Build IDs: 6f3b2e24-042b-48af-b45e-25919bb7314a; unresolved: none recorded.
-Blocker: Dormant native compile pending; new callee/W4/C5 qualification remains open. [Build `6f3b2e24-042b-48af-b45e-25919bb7314a`]
-Next: ACK; push terminal accounting; read Brief compile/identity audit, then same-tool proofs.
+**select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
+Updated: 2026-10-24T06:59:43Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 15544s spent, 0s retired, 6056s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: S40 terminal FAILURE accounted; dormant compile result needs Brief. [Build `6f3b2e24-042b-48af-b45e-25919bb7314a`]
+Next: Read S40 Brief compile/identity audit; continue same-tool qualification and W4.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.
