@@ -1,6 +1,6 @@
 # Задание K1-merge
 
-Runtime: Claude Code. Владелец задания: K1-merge. Ветка `experiment/kani-k1-merge-20261024`, worktree `/root/verify-rust-std-kani-k1-merge`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: 480 + 30 минут от фактического T0. Cloud-бюджет 0, lane — CircleCI по §5.
+Runtime: Claude Code. Владелец задания: K1-merge. Ветка `experiment/kani-k1-merge-20261024`, worktree `/root/verify-rust-std-kani-k1-merge`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: фаза 1, 120 + 20 минут от T0, не больше 6 dispatch (EXPERIMENT.md §9 «Фазы и окно»). Cloud-бюджет 0, lane — CircleCI по §5.
 
 ## Цель
 
