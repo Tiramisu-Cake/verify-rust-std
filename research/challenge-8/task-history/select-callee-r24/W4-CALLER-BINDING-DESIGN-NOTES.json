@@ -1,0 +1,68 @@
+{
+  "claims_boundary": {
+    "accepted": false,
+    "caller_linkage": "UNKNOWN until a closed native certificate and current source/MIR evidence pass",
+    "proof_credit": 0,
+    "publication": false
+  },
+  "feasible_minimal_design": [
+    "Require existing accepted same-tool const callee qualification as an input prerequisite, with exact callee source/body/unit and native-tool pins. Do not synthesize a summary or infer callee acceptance from typed-call shape.",
+    "Add a separate closed, default-off caller-linkage certificate invoked before sort4_stable body translation. Bind exact caller source hash/body hash and unique sort4_stable DefPath in the current complete unit; require fresh normal and readonly MIR agreement.",
+    "At that body, admit exactly the 8 typed caller sites: expected std::hint::select_unpredictable resolved target/alias, exactly one Type generic argument representing const *T with no late-bound generics, bool condition plus two unprojected const-*T operands, and const-*T destination/result. Bind each site to an independently checked source coordinate/anchor; type observation alone is not source/parser identity.",
+    "When applying the checked relation, use the actual verified callee call contract that carries (selected as pointer) == (if condition { true_val as pointer } else { false_val as pointer }), preserving MIR normal and cleanup/unwind successors. Do not replace caller invocations with IfExpr or use a handwritten/spec-only assumption. If the verifier cannot resolve the already-verified body/contract at this call edge, refuse rather than fabricate a callee summary.",
+    "Keep counters for exactly 8 caller links separate from callee-body intrinsic counters (the existing Sort4SelectIntrinsic ptr/mu counts are for its own body). Require exact final counts and report a distinct linkage marker."
+  ],
+  "open_facts_for_parent": [
+    "Confirm from complete current Brief/MIR record whether the caller MIR FnDef is the public core::hint::select_unpredictable item or a lowered/aliased intrinsic item at all eight sites; the Rust source spelling is hint::select_unpredictable, while the wrapper body invokes core::intrinsics::select_unpredictable four times.",
+    "Confirm verifier\u2019s ordinary same-unit/external body call mechanism exposes the exact already-verified public callee contract at the caller edges. If only an intrinsic special case is available, adding an explicit source-defined verified adapter may be needed, but must be reviewed as ordinary checked code and preserve the public wrapper\u2019s drop/unwind semantics.",
+    "Port/rebase the callback recovery portion of R17 to the exact 8a026 base after fresh translator identity review; do not apply historical patch/result hashes blindly. Current W4 five-marker input is known to hit current exact-one-marker refusal."
+  ],
+  "safeguards_and_controls": [
+    "Keep C5 five callbacks, exact c1-c5 source coordinates, full source/runtime ghost-strip equality, 5 comparator / 8 selector / 4 copy counts, normal+unwind outcomes, existing ownership/resource/leak and copy gates.",
+    "Re-run/requalify c1-c4 control families at count five and all c5 positives/negatives (no deferred suffix, escape, missing marker, cross-scope read); historical C5 GO_WITH_NITS was never submitted because S2 stopped at first selector.",
+    "Add caller-linkage negatives: absent/partial/wrong phase or source pins; wrong callee alias/path; 7 or 9 calls; const/mut/depth/type/generic-arity/late-bound drift; arg order/operand move/projection/destination/target/cleanup edge drift; site-coordinate mismatch; duplicate selector at a site; unlinked extra selector. Default-off path must remain byte/behavior identical.",
+    "Keep ordinary verifier checking of all actual callee/body dependencies under the same exact tool. Qualification metadata alone must never become an unchecked assumed summary or a trusted pointer-value axiom.",
+    "Do not conflate caller linkage with the separate typed consequence helper: callee post is pointer-view equality. Deriving typed selected equality is only the separate checked consequence obligation, never a premise fed into caller rewrite.",
+    "No pointee ownership/address-based permission rule, Copy/Freeze/F bound, checker suppression, or new trusted premise."
+  ],
+  "schema": "r24-w4-checked-caller-binding-readonly-v1",
+  "scope": "Source-preserving W4 caller binding to the already-qualified actual const-pointer select callee; no generic-T/ZST/arbitrary-F expansion.",
+  "source_and_translator_refs": [
+    {
+      "observation": "These current arms lower the intrinsic to IfExpr when the intrinsic module is active and count only calls while translating select_unpredictable; they do not certify the eight sort4_stable caller edges.",
+      "path": "/tmp/r24-translator-mut-successors.ml",
+      "symbols": "Sort4SelectIntrinsic (around 704); Sort4MutSelectIntrinsic (around 1507); certify_sort4_select_intrinsic and certify_sort4_select_intrinsic_mut; call-site arms for std::intrinsics::select_unpredictable (around 4718-4755); final exact ptr/mu counter checks (around 20508-20610)."
+    },
+    {
+      "observation": "R24 const/mutable pointer outcome route is constrained to exact session/route, certified nine-body callee profile, required checked local helpers, and !ignore_unwind_paths. It is for two internal callee pointer operations, not W4 caller selector linkage. Current C5 marker gate is still the observed first barrier.",
+      "path": "/tmp/r24-translator-mut-successors.ml",
+      "symbols": "Sort4R24CheckedPointerOutcomes.admit (around 1105); certify_sort4_mutable_bundle (around 20080); callback_unwind_marker / fail_callback_unwind (around 3623)."
+    },
+    {
+      "observation": "C5 generation preserves runtime Rust and adds five indexed ghost recovery markers; it already has a source-coordinate refresh and controls. It does not bind selector calls.",
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/a1-actual-body-r21.py",
+      "symbols": "construct_actual/construct_c5 selection around 580-598; count-five c1_controls and resource_controls_c5 around 620-670."
+    },
+    {
+      "observation": "Relevant precedent for exact c1-c5 marker and callback binding; patch was based on older translator 6c04 and yields b5ea, so it is not directly applicable to current 8a/5170 chain.",
+      "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/actual-sort4-c2-recovery-r17.patch",
+      "symbols": "actual_indexed_calls and indexed marker recognition; callback_binding_assertions; indexed source line validation."
+    },
+    {
+      "observation": "Requires actual callee acceptance first, then explicit checked linkage at all eight call sites, requalifying c1-c4 and c5 controls, 5/8/4, runtime bytes, unwind/resource/copy gates.",
+      "path": "research/challenge-8/task-history/select-callee-r21/BODY-C5-NEXT.md",
+      "symbols": "Required sequence and controls, especially paragraphs 1-4."
+    },
+    {
+      "observation": "Public body has four intrinsic selectors: guard, inverse drop, and final MaybeUninit selection; caller-facing const generic Destruct path has real drop/forget/unwind behavior.",
+      "path": "library/core/src/hint.rs",
+      "symbols": "select_unpredictable at lines 838-885."
+    },
+    {
+      "observation": "Intrinsic returns one of its input values and forgets the other; distinct from public hint wrapper, which manages drop behavior.",
+      "path": "library/core/src/intrinsics/mod.rs",
+      "symbols": "select_unpredictable at lines 560-581."
+    }
+  ],
+  "status": "STATIC_DESIGN_ONLY"
+}

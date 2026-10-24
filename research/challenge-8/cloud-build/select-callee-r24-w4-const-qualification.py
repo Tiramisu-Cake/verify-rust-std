@@ -532,6 +532,64 @@ def _stage_artifacts(name: str, work: Path) -> dict[str, Any]:
     return {'files': result}
 
 
+def _copy_provider_overlay_receipt(outer_evidence: Path, work: Path,
+                                  validated: object) -> dict[str, Any]:
+    """Copy the already-validated outer receipt byte-for-byte into the R21 subtree."""
+    need(type(validated) is dict, 'validated provider overlay record missing')
+    source = outer_evidence / 'candidate-provider-overlay.json'
+    destination = work / 'candidate-provider-overlay.json'
+    need(source.is_file() and not source.is_symlink(),
+         'authoritative provider overlay receipt missing/unsafe')
+    raw_before = source.read_bytes()
+    source_sha = sha(raw_before)
+    need(source_sha == validated.get('sha256'),
+         'authoritative provider overlay receipt changed after validation')
+    need(not destination.exists() and not destination.is_symlink(),
+         'R21-subtree provider overlay receipt target already exists')
+    with destination.open('xb') as output:
+        output.write(raw_before)
+        output.flush()
+        os.fsync(output.fileno())
+    need(destination.is_file() and not destination.is_symlink(),
+         'R21-subtree provider overlay receipt copy missing/unsafe')
+    copied = destination.read_bytes()
+    raw_after = source.read_bytes()
+    need(raw_after == raw_before and copied == raw_before and sha(copied) == source_sha,
+         'provider overlay receipt copy is not byte-identical to authoritative input')
+    return {'authoritative_path': 'candidate-provider-overlay.json',
+            'work_path': 'candidate-provider-overlay.json',
+            'bytes': len(raw_before), 'sha256': source_sha,
+            'byte_identical': True}
+
+
+def _validate_provider_overlay_copy(outer_evidence: Path, work: Path,
+                                    binding: object) -> list[str]:
+    errors = []
+    if type(binding) is not dict:
+        return ['provider overlay receipt copy binding missing/wrong type']
+    if binding.get('authoritative_path') != 'candidate-provider-overlay.json' or \
+       binding.get('work_path') != 'candidate-provider-overlay.json' or \
+       binding.get('byte_identical') is not True:
+        errors.append('provider overlay receipt path or copy boundary differs')
+    paths = (outer_evidence / 'candidate-provider-overlay.json',
+             work / 'candidate-provider-overlay.json')
+    raw = []
+    for path in paths:
+        if path.is_symlink() or not path.is_file():
+            errors.append('provider overlay receipt missing/unsafe: ' + str(path))
+            raw.append(None)
+        else:
+            try: raw.append(path.read_bytes())
+            except OSError:
+                errors.append('provider overlay receipt unreadable: ' + str(path))
+                raw.append(None)
+    if raw[0] is not None and raw[1] is not None:
+        if raw[0] != raw[1]: errors.append('provider overlay receipt copy bytes changed')
+        if sha(raw[0]) != binding.get('sha256') or len(raw[0]) != binding.get('bytes'):
+            errors.append('authoritative provider overlay receipt identity changed')
+    return errors
+
+
 def _physical_stage_log(work: Path, stage: dict[str, Any]) -> dict[str, Any]:
     relroot = Path('stage-records')
     root = work / relroot
@@ -704,6 +762,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
                        'native_fingerprint_pins': NATIVE_FINGERPRINT_PINS_SHA256,
                        'frozen_const_qualification': CONST_QUALIFICATION_SHA256,
                        'published_p2_interface': P2_INTERFACE_SHA256},
+        'provider_overlay_receipt_binding': None,
         'stages': [], 'source_observation': None,
         'matrix_summary_path': (work / CONST_MATRIX_REPORT_REL).relative_to(outer_evidence).as_posix(),
         'matrix_audit_path': (work / CONST_MATRIX_AUDIT_REL).relative_to(outer_evidence).as_posix(),
@@ -714,6 +773,9 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
     }
     _save_summary(record_path, record)
     try:
+        record['provider_overlay_receipt_binding'] = _copy_provider_overlay_receipt(
+            outer_evidence, work, pins.get('cloud_overlay'))
+        _save_summary(record_path, record)
         for name, argv in _stage_commands(args, work):
             result = command_runner(name, argv, cwd=args.repo, env=selected_env,
                                     deadline=args.deadline_epoch)
@@ -751,6 +813,8 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
             consequence_args = argparse.Namespace(**vars(args))
             consequence_args.evidence = work
             consequence_args.native_tool_home = args.native_tool_home
+            consequence_args.runner_exit = 0
+            consequence_args.failed_stage = 'complete'
             consequence = consequence_module.run(
                 consequence_args, const_matrix_audit=matrix_audit,
                 const_matrix_summary=matrix)
@@ -765,7 +829,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
                 record['errors'].append('consequence record incomplete or boundary differs')
             consequence_audit = consequence_module.audit(
                 consequence_args, const_matrix_audit=matrix_audit,
-                const_matrix_summary=matrix, runner_exit=0, failed_stage='complete')
+                const_matrix_summary=matrix)
             record['consequence_audit'] = consequence_audit
             if type(consequence_audit) is not dict or \
                consequence_audit.get('complete') is not True or \
@@ -867,6 +931,8 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
         work = args.evidence / WORK_REL
         if source.get('work_evidence_root') != str(work):
             errors.append('work evidence root differs')
+        errors.extend(_validate_provider_overlay_copy(
+            args.evidence, work, source.get('provider_overlay_receipt_binding')))
         actual_source = _source_observation(work)
         if source.get('source_observation') != actual_source or actual_source.get('complete') is not True:
             errors.append('source pair changed or summary observation differs')
@@ -938,10 +1004,11 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
                                        'r24_w4_const_consequence_audit', CONSEQUENCE_SHA256)
         consequence_args = argparse.Namespace(**vars(args))
         consequence_args.evidence = work
+        consequence_args.runner_exit = args.runner_exit
+        consequence_args.failed_stage = args.failed_stage
         consequence = consequence_module.audit(
             consequence_args, const_matrix_audit=matrix_audit,
-            const_matrix_summary=matrix, runner_exit=args.runner_exit,
-            failed_stage=args.failed_stage)
+            const_matrix_summary=matrix)
         if type(consequence) is not dict or consequence.get('complete') is not True or \
            consequence.get('evidence_complete') is not True:
             errors.append('consequence physical audit incomplete')

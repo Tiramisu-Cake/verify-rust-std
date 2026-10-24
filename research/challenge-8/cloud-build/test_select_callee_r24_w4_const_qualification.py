@@ -1,5 +1,6 @@
 import argparse
 from contextlib import ExitStack
+import difflib
 import hashlib
 import importlib.util
 import json
@@ -9,6 +10,7 @@ import shutil
 import sys
 import tempfile
 import unittest
+import subprocess
 from unittest import mock
 
 
@@ -33,9 +35,9 @@ class ConsequenceFake:
                 'matrix_summary': const_matrix_summary is not None,
                 'matrix_audit': const_matrix_audit is not None}
 
-    def audit(self, args, *, const_matrix_summary=None, const_matrix_audit=None,
-              runner_exit=0, failed_stage='complete', **kwargs):
-        return {'complete': True, 'evidence_complete': True,
+    def audit(self, args, *, diag=None, const_matrix_summary=None, const_matrix_audit=None):
+        return {'complete': args.runner_exit == 0 and args.failed_stage == 'complete',
+                'evidence_complete': args.runner_exit == 0 and args.failed_stage == 'complete',
                 'accepted': False, 'proof_credit': 0}
 
 
@@ -159,6 +161,8 @@ class QualificationTests(unittest.TestCase):
             candidate='a' * 40, capture_mode_file=self.root / 'mode-capture.json',
             mode_file=self.root / 'mode-new.json')
         self.args.evidence.mkdir(parents=True)
+        self.provider_receipt = json.dumps({'synthetic': True}, sort_keys=True).encode()
+        (self.args.evidence / 'candidate-provider-overlay.json').write_bytes(self.provider_receipt)
         self.args.repo.mkdir()
         self.args.cloud_dir.mkdir()
         self.args.tool_home.mkdir()
@@ -182,7 +186,9 @@ class QualificationTests(unittest.TestCase):
         patches = [
             mock.patch.object(MOD, '_context'),
             mock.patch.object(MOD, '_mode', return_value={}),
-            mock.patch.object(MOD, '_validate_pins', return_value={}),
+            mock.patch.object(MOD, '_validate_pins', return_value={
+                'cloud_overlay': {'path': str(self.args.evidence / 'candidate-provider-overlay.json'),
+                                  'sha256': sha(self.provider_receipt)}}),
             mock.patch.object(MOD, '_tool_identity', return_value=self.old_digest),
             mock.patch.object(MOD, '_read_native_files', return_value=self.native_digest),
             mock.patch.object(MOD, 'TOOL_HASHES_8A', {'old-tool': 'old'}),
@@ -244,6 +250,90 @@ class QualificationTests(unittest.TestCase):
         self.assertEqual(pins['w4_inputs']['native_body_inventory'], ['sort4_stable'])
         self.assertEqual(pins['cloud_overlay']['proof_sha'], args.candidate)
 
+    def test_frozen_pinned_dependencies_uses_byte_identical_work_receipt(self):
+        source_repo = HERE.parents[2]
+        repo = self.root / 'synthetic-proof-repo'
+        evidence = self.root / 'outer-evidence'
+        work = evidence / MOD.WORK_REL
+        repo.mkdir()
+        evidence.mkdir()
+        work.mkdir(parents=True)
+        git = lambda *items: subprocess.run(['git', '-C', str(repo), *items],
+                                             check=True, capture_output=True, text=True)
+        git('init', '-q')
+        git('config', 'user.email', 'fixture@example.invalid')
+        git('config', 'user.name', 'synthetic fixture')
+        fractional = MOD._load(HERE / 'select-callee-r21-fractional.py',
+                               'r24_const_qualification_frozen_fractional',
+                               '9cb4dee13b134f1ba328b35c23e667c4ef73961cf980147fdda8f9cb56d16c71')
+        o26_spec = importlib.util.spec_from_file_location('test_real_o26_overlay', HERE / 'o26-recipe.py')
+        o26 = importlib.util.module_from_spec(o26_spec)
+        o26_spec.loader.exec_module(o26)
+        for relative in (*o26.OVERLAYS, fractional.TRANSFORM_REL):
+            source = source_repo / relative
+            target = repo / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+        git('add', '--all')
+        git('commit', '-q', '-m', 'synthetic provider overlay validation inputs')
+        proof_sha = git('rev-parse', 'HEAD').stdout.strip()
+        rows = []
+        for relative in o26.OVERLAYS:
+            path = repo / relative
+            committed = path.read_bytes()
+            before = committed.decode('utf-8')
+            guards = [guard for guard in o26.GUARD_VARIANTS if before.count(guard) == 1]
+            self.assertEqual(len(guards), 1)
+            after = before.replace(guards[0], '_o26_cloud_provider_ok()', 1)
+            after = after.replace('from pathlib import Path\n',
+                                  'from pathlib import Path\n' + o26.HELPER, 1)
+            overlaid = after.encode()
+            path.write_bytes(overlaid)
+            rows.append({'path': relative.as_posix(), 'original_sha256': sha(committed),
+                         'cloud_overlay_sha256': sha(overlaid), 'guard_only': True,
+                         'diff': ''.join(difflib.unified_diff(
+                             before.splitlines(True), after.splitlines(True),
+                             fromfile=relative.as_posix() + '.committed',
+                             tofile=relative.as_posix() + '.cloud-guard'))})
+        original_source, verified_source = b'synthetic original source', b'synthetic verified source'
+        original_path, verified_path = work / 'preflight/original/lib.rs', work / 'preflight/verified/lib.rs'
+        original_path.parent.mkdir(parents=True, exist_ok=True)
+        verified_path.parent.mkdir(parents=True, exist_ok=True)
+        original_path.write_bytes(original_source)
+        verified_path.write_bytes(verified_source)
+        (work / 'source-preflight.json').write_text(json.dumps({
+            'classification': 'O26_REFRESH_SOURCE_ONLY_PREFLIGHT',
+            'source_generation_complete': True, 'compiler_or_verifier_invoked': False,
+            'source': {'original_sha256': sha(original_source),
+                       'verified_sha256': sha(verified_source),
+                       'ghost_strip_identity': True,
+                       'source_order': [f'function-{i}' for i in range(9)]},
+            'files': {'original': 'preflight/original/lib.rs',
+                      'verified': 'preflight/verified/lib.rs'}}))
+        receipt = {'proof_sha': proof_sha, 'provider_sha256': o26.PROVIDER_SHA, 'files': rows}
+        raw_receipt = (json.dumps(receipt, indent=2, sort_keys=True) + '\n').encode()
+        (evidence / 'candidate-provider-overlay.json').write_bytes(raw_receipt)
+        with self.assertRaisesRegex(RuntimeError, 'provider overlay receipt is missing'):
+            fractional.pinned_dependencies(repo, HERE, work)
+        binding = MOD._copy_provider_overlay_receipt(
+            evidence, work, {'sha256': sha(raw_receipt)})
+        self.assertEqual(binding['sha256'], sha(raw_receipt))
+        real_validator = fractional.validate_o26_provider_overlay
+
+        def synthetic_preflight_validator(repo_arg, cloud_arg, evidence_arg, o26_arg,
+                                          *, expected_source_sha256,
+                                          expected_original_sha256, committed_reader=None):
+            return real_validator(repo_arg, cloud_arg, evidence_arg, o26_arg,
+                                  expected_source_sha256=sha(verified_source),
+                                  expected_original_sha256=sha(original_source),
+                                  committed_reader=committed_reader)
+
+        with mock.patch.object(fractional, 'validate_o26_provider_overlay',
+                               side_effect=synthetic_preflight_validator):
+            dependencies = fractional.pinned_dependencies(repo, HERE, work)
+        self.assertEqual(len(dependencies), 4)
+        self.assertEqual(MOD._validate_provider_overlay_copy(evidence, work, binding), [])
+
     def test_service_composition_success_records_all_routes_false(self):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
             runner = FakeCommandRunner(native_home=self.args.native_tool_home)
@@ -272,6 +362,30 @@ class QualificationTests(unittest.TestCase):
         self.assertTrue(result['complete'], result['errors'])
         self.assertFalse(result['accepted'])
         self.assertEqual(result['proof_credit'], 0)
+
+    def test_partial_matrix_audit_uses_real_consequence_signature_and_fails_closed(self):
+        consequence = MOD._load(HERE / MOD.CONSEQUENCE_REL.name,
+                                'r24_w4_const_consequence_signature_test',
+                                MOD.CONSEQUENCE_SHA256)
+        with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
+            runner = FakeCommandRunner(fail='r21-fractional-proof', native_home=self.args.native_tool_home)
+            record = MOD.run(self.args, command_runner=runner,
+                             consequence_module=ConsequenceFake())
+            self.assertFalse(record['complete'])
+            self.args.cloud_dir = HERE
+            self.args.output = self.args.evidence / MOD.AUDIT_REL
+            self.args.runner_exit = 1
+            self.args.failed_stage = 'r21-fractional-proof'
+            with mock.patch.object(MOD, '_load', return_value=FrozenAuditFake()):
+                audit = MOD.audit(self.args, consequence_module=consequence)
+        self.assertFalse(audit['complete'])
+        self.assertFalse(audit['evidence_complete'])
+        self.assertTrue(any('matrix' in item or 'command identity' in item
+                            for item in audit['errors']))
+        consequence_audit = json.loads(
+            (self.args.evidence / MOD.WORK_REL /
+             'cases/r24-w4-const-consequence/W4-CONST-CONSEQUENCE-AUDIT.json').read_text())
+        self.assertFalse(consequence_audit['evidence_complete'])
 
     def test_error_exit_is_preserved_and_stops_following_stages(self):
         with self.patched(), mock.patch.dict(os.environ, self.env, clear=True):
