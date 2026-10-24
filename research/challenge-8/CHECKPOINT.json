@@ -47,7 +47,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "e03b45706180dc2a7e17aa8dbba85f57c9abd618f18893829e5c2e4ab9d07c81"
+      "sha256": "681899bae10a4238225fc738c50d1b328f770441566f8c6011be22484fb87eb0"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "71edc037c039bf0d958409821598d2421bba71d9e54cdaa824dced35828e00e4"
+      "sha256": "0e777e9b43fd1b62c66ec13e3006c6efe3eb971327ed5f5e210b67d5e59483b7"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -79,16 +79,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-DATA-ALL37-INPUTS.json",
-        "sha256": "1bc11197642bc057b6c7558777e56b6f8c04f0108d4115119193d7bb2f5ec8ea"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+        "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
       }
     ],
-    "summary": "All37 inputs captured; checked W4 calls and full C5 port/proof remain open."
+    "summary": "Dormant C5/call overlay unbuilt; review and tool identity required."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "71edc037c039bf0d958409821598d2421bba71d9e54cdaa824dced35828e00e4"
+    "sha256": "0e777e9b43fd1b62c66ec13e3006c6efe3eb971327ed5f5e210b67d5e59483b7"
   },
   "brief_observation_refs": [
     {
@@ -597,8 +597,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Port closed C5 and checked-call machinery; review dormant compile/identity candidate.",
-  "next_step": "Port closed C5 and checked-call machinery; review dormant compile/identity candidate.",
+  "next": "Review exact dormant compile candidate and preflight; publish, then full 1200s Build.",
+  "next_step": "Review exact dormant compile candidate and preflight; publish, then full 1200s Build.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -713,7 +713,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T06:03:51Z",
+  "updated_utc": "2026-10-24T06:19:47Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -880,6 +880,30 @@
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CHECKED-CALLER-ADMISSION-DESIGN.json",
       "sha256": "d0b53255dbe2dec2927bdff5742f2443dc11fe3997682bb94562f65a56286362"
+    },
+    "dormant_implementation": {
+      "activation": "No assignment making Caller.active true; all actual caller/body qualification remains OPEN.",
+      "c5_port": "Final03 complete coupling now present: ref reads, indexed cut binding, five helper/control definitions and full-body containment validation call; no new legacy C1/C2/strict-cut selectors. Static only, compiler result UNKNOWN.",
+      "call_binding_authoring": "research/challenge-8/task-history/select-callee-r24/w4-dormant-call-binding-r24.py",
+      "call_binding_static": "All five anchors unique on exact F83; existing R24 branch counts preserved; OCaml delimiters balanced only, not compiled.",
+      "compile_controller": "Final production pins set; 14 synthetic tests PASS including run\u2192audit + physical-log tampering, malformed/status/exit/partial/context/path checks.",
+      "native_manifest": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+        "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
+      },
+      "native_patch": {
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch",
+        "sha256": "96ace30b1462c9bd48d7e84f6e921aac9a5d41651dc927d96f561ab216a5256c"
+      },
+      "native_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+      "source_only_input_table": "research/challenge-8/task-history/select-callee-r24/w4-caller-input-certificates-r24.py",
+      "state": "IMPLEMENTED_UNREVIEWED_UNBUILT",
+      "static_input_table_tests": "3 PASS including malformed fields with test digest rebound; no native tools",
+      "static_tests": "120 targeted checks accounted: 95 unchanged checks passed prior combined run, 8 updated Bash routing tests,14 compile-controller and3 inputtable tests. No actual toolchain locally.",
+      "transport_design": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-TRANSPORT-DESIGN.json",
+        "sha256": "8b59f3b29a38a84e77fe2d98ee4ffdc93d8a2d4c0bf4bc5cb6c4012281dc272a"
+      }
     },
     "main_integration": "Fixed real service composition: recording API singlecall/exception preservation, currentnested C6 inventory in run/audit, physicalaudit-write failures, exactbool/int fields. Positive source pair pinned to previousW4 capture. No actual tools run locally.",
     "proof_credit": 0,
@@ -1670,6 +1694,26 @@
   "w4_current_native_prerequisite_observations": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-PREREQUISITE-COMPLETE-OBSERVATIONS.json",
     "sha256": "e730679117c1be345be6d560f0410c1a59235db3ab20b161afd5d6a7f1a84c99"
+  },
+  "w4_dormant_compile_candidate": {
+    "accepted": false,
+    "callee_qualification": false,
+    "caller_body_proof_admission": false,
+    "manifest": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+      "sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174"
+    },
+    "mode": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-COMPILE-MODE.json",
+      "sha256": "a904b40242d931dc88a76c1e88d7e3870d463a6855df06416ddd96188b910fc9"
+    },
+    "native_binary_sha256": "UNKNOWN_UNBUILT",
+    "native_result_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "state": "IMPLEMENTED_AWAITING_COMMITTED_PREFLIGHT_REVIEW",
+    "timeout_seconds": 1200
   },
   "w4_inputs_qualification": {
     "path": "research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json",

@@ -1,0 +1,31 @@
+{
+  "base_translator_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+  "cap_seconds": 600,
+  "control_helper_path": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py",
+  "control_helper_sha256": "553f41f96018a67b4bcbfbe2ba94900934a3517726a9e9cc2d2a9fd8d9fe6cf6",
+  "enabled": true,
+  "input_binary_sha256": "9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb",
+  "input_identity_path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-F83-TOOL-IDENTITY.json",
+  "input_identity_sha256": "8bee7bcd29354d979e26f96b6e7138662dee38359b8edc54f95d74e8316e962d",
+  "input_tool_home": "/workspace/smallsort-work/r24-w4-contract-input-tool",
+  "lane": "o26-select-callee-r20",
+  "manifest_path": "research/challenge-8/task-history/select-callee-r24/W4-DORMANT-NATIVE-MANIFEST.json",
+  "manifest_sha256": "4faeb961394edb39a983e9f587758bc0b6697ac2f0b05d51521d30abeef5a174",
+  "owner": "select-sort4",
+  "patch_path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-dormant-native-r24.patch",
+  "patch_sha256": "96ace30b1462c9bd48d7e84f6e921aac9a5d41651dc927d96f561ab216a5256c",
+  "phase_id": "SORT4-ACTUAL-SELECT-2026-10-24-R24",
+  "profile": "experimental-s6-26.10-v1",
+  "result_translator_sha256": "95c825f847bc7f5a843f4d71a8ffd10f58f7005aca1bc90aa996e0fdf7edf65d",
+  "route_phase_id": "SORT4-ACTUAL-SELECT-2026-10-23-R21",
+  "schema": "select-r24-w4-dormant-compile-mode-v1",
+  "stage_path": "research/challenge-8/overnight-sort4/capture.py",
+  "stage_sha256": "0d993e8c36cb7684eb509e8efcfb9553b07e92e87885f4ae430269c4cb2a6060",
+  "stages": [
+    "copy",
+    "patch-check",
+    "patch-apply",
+    "compile"
+  ],
+  "target_tool_home": "/workspace/smallsort-work/r24-w4-dormant-tool"
+}

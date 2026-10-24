@@ -46,7 +46,8 @@ class ConstRoutingTests(unittest.TestCase):
         self.inputs = self.proof / INPUTS_REL
         self.helper = self.cloud / HELPER.name
         self.consequence = self.cloud / 'select-callee-r24-w4-const-consequence.py'
-        for p in (self.mode, self.inputs, self.helper, self.consequence):
+        self.dormant = self.cloud / 'select-callee-r24-w4-dormant-compile.py'
+        for p in (self.mode, self.inputs, self.helper, self.consequence, self.dormant):
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_bytes(('synthetic ' + p.name).encode())
         self.ev = self.root / 'evidence/allprooflogs'
@@ -87,6 +88,10 @@ class ConstRoutingTests(unittest.TestCase):
                     line = left + '== ' + digest(path.read_bytes()) + ' ' + right[right.index(']]'):]
             result.append(line)
         return '\n'.join(result)
+
+    def bound_branch(self):
+        return branch().replace(digest((CLOUD / self.dormant.name).read_bytes()),
+                                digest(self.dormant.read_bytes()))
 
     def test_closed_gate_absent_mode_prerequisite_and_dependency_drift(self):
         bound = self.bound_gate()
@@ -157,20 +162,35 @@ sys.exit(''' + str(helper_exit) + ''')
     def test_branch_uses_new_qualification_before_old_diagnostic(self):
         argsfile = self.root / 'stage.args'
         code = self.setup() + 'r24_w4_const_qualification=1\n'
-        code += f'''stage() {{ printf '%s\\0' "$@" > {argsfile}; }}
+        code += f'''stage() {{ printf '%s\\0' "$@" >> {argsfile}; }}
 audit_result() {{ [[ "$1" == 0 && "$2" == complete ]]; }}
 '''
-        result = self.shell(code + branch())
+        result = self.shell(code + self.bound_branch())
         self.assertEqual(result.returncode, 0, result.stderr)
         args = argsfile.read_bytes().split(b'\0')[:-1]
         self.assertEqual(args[:4], [b'r24-w4-const-qualification', b'python3', str(self.helper).encode(), b'run'])
         self.assertIn(b'--native-tool-home', args)
         self.assertNotIn(b'r24-w4-linkage-diagnostic', args)
+        self.assertLess(args.index(b'r24-w4-const-qualification'), args.index(b'r24-w4-dormant-compile'))
+        self.assertLess(args.index(b'r24-w4-dormant-compile'), args.index(b'r24-w4-dormant-audit'))
 
     def test_original_stage_failure_is_not_replaced_by_later_success(self):
         code = self.setup() + 'r24_w4_const_qualification=1\nstage() { return 4; }\naudit_result() { exit 99; }\n'
-        result = self.shell(code + branch())
+        result = self.shell(code + self.bound_branch())
         self.assertEqual(result.returncode, 4, result.stderr)
+
+    def test_dormant_helper_drift_or_compile_failure_stops_before_later_audit(self):
+        branch_code = self.bound_branch()
+        before = self.dormant.read_bytes()
+        self.dormant.write_bytes(before + b' drift')
+        result = self.shell(self.setup() + 'r24_w4_const_qualification=1\nstage() { return 0; }\naudit_result() { return 0; }\n' + branch_code)
+        self.assertEqual(result.returncode, 2)
+        self.dormant.write_bytes(before)
+        result = self.shell(self.setup() + '''r24_w4_const_qualification=1
+stage() { if [[ "$1" == r24-w4-dormant-compile ]]; then return 8; fi; if [[ "$1" == r24-w4-dormant-audit ]]; then exit 99; fi; }
+audit_result() { return 0; }
+''' + branch_code)
+        self.assertEqual(result.returncode, 8)
 
     def test_w4_transport_keeps_active_route_and_omits_only_mutable_executables(self):
         recipe = json.loads((CLOUD / 'recipes/o26-select-callee-r20.json').read_text())
@@ -181,11 +201,16 @@ audit_result() {{ [[ "$1" == 0 && "$2" == complete ]]; }}
         design = json.loads((REPO / 'research/challenge-8/task-history/select-callee-r24/W4-CHECKED-CALLER-ADMISSION-DESIGN.json').read_text())
         omitted = design['runtime_transport_closure']['omitted_mutable_only_helpers']
         self.assertEqual(len(omitted), 10)
+        transport = json.loads((REPO / 'research/challenge-8/task-history/select-callee-r24/W4-DORMANT-TRANSPORT-DESIGN.json').read_text())
+        omitted += transport['omitted_unreached_mutable_source_writers']
+        self.assertEqual(len(omitted), 15)
+        self.assertIn('research/challenge-8/cloud-build/select-callee-r24-w4-dormant-compile.py', selected)
         reached = [CLOUD / name for name in (
             'select-callee-r24-w4-const-qualification.py',
             'select-callee-r24-w4-const-consequence.py',
             'select-callee-r24-w4-contract-inputs.py',
             'select-callee-r24-w4-control-capture.py',
+            'select-callee-r24-w4-dormant-compile.py',
             'select-callee-r24-w4-linkage-diagnostic.py',
             'select-callee-r24-w4-capture.py',
             'select-callee-r24-w4-mir-calls.py',
@@ -201,7 +226,7 @@ audit_result() {{ [[ "$1" == 0 && "$2" == complete ]]; }}
         # A reached success branch exits before any omitted mutable stage.
         result = self.shell(self.setup() +
             'r24_w4_const_qualification=1\nstage() { return 0; }\n'
-            'audit_result() { return 0; }\n' + branch() + '\nexit 99\n')
+            'audit_result() { return 0; }\n' + self.bound_branch() + '\nexit 99\n')
         self.assertEqual(result.returncode, 0, result.stderr)
 
 

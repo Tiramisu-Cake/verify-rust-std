@@ -714,6 +714,17 @@ if (( r24_w4_linkage_diagnostic == 1 )); then
       --capture-mode-file "$r24_w4_mode_file" --mode-file "$r24_w4_const_mode_file"
     current_stage=r24-w4-const-qualification-audit
     audit_result 0 complete
+    dormant_helper="$cloud_dir/select-callee-r24-w4-dormant-compile.py"
+    [[ "$(sha256sum "$dormant_helper" | cut -d' ' -f1)" == 2c8396e4fab9ff1722ef150ca7a0bdb78c3e4686b7d8e4d94c188a50b736bd04 ]] || exit 2
+    dormant_args=(--repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
+      --native-tool-home /workspace/smallsort-work/r24-w4-contract-input-tool
+      --deadline-epoch "$deadline" --candidate "$current_sha")
+    stage r24-w4-dormant-compile python3 "$dormant_helper" run "${dormant_args[@]}"
+    stage r24-w4-dormant-audit python3 "$dormant_helper" audit "${dormant_args[@]}" \
+      --output "$ev/cases/r24-w4-dormant-compile/W4-DORMANT-COMPILE-AUDIT.json" \
+      --runner-exit 0 --failed-stage complete
+    current_stage=r24-w4-dormant-final-audit
+    audit_result 0 complete
     exit 0
   fi
   stage r24-w4-linkage-diagnostic python3 "$r24_w4_linkage_helper" run \
