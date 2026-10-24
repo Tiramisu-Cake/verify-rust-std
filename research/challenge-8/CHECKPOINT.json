@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "50b0d7d88b6df38389a21206973000bd3692abc100877868b0a94a39885fc68a"
+      "sha256": "036cda55460d849917b6459fdf7054e39bac1ffdf107d25dc6783de0fa0b7b8f"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-write-review.json",
-        "sha256": "552997862c90dcf95ed4eb7148cdacd1cb7c7815af015cd7c48590e5cbb00802"
-      }
-    ],
-    "summary": "Native const8 and consequence positive sourceclean; reviewed file API/write fix unbuilt."
+    "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+    "evidence": [],
+    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "50b0d7d88b6df38389a21206973000bd3692abc100877868b0a94a39885fc68a"
+    "sha256": "036cda55460d849917b6459fdf7054e39bac1ffdf107d25dc6783de0fa0b7b8f"
   },
   "brief_observation_refs": [
     {
@@ -1012,8 +1008,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish exact8de59d2f; full1200 const8/positive/omission/audits; Brief then checked W4 binding/C5.",
-  "next_step": "Publish exact8de59d2f; full1200 const8/positive/omission/audits; Brief then checked W4 binding/C5.",
+  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1106,7 +1102,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "9984b5ac-b202-4f3a-995b-5e183e76c3d3"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1126,9 +1124,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:24:06Z",
+  "updated_utc": "2026-10-24T02:25:00Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1231,6 +1229,27 @@
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
   },
+  "w4_const_file_api_build": {
+    "accepted": false,
+    "accounted": false,
+    "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+    "callee_matrix_status": "PENDING_BRIEF",
+    "caller_body_proof_admission": false,
+    "candidate": "8de59d2f231a308f83b6c03e3f848299348a266c",
+    "config_sha256": "ff654428d11eb3d8f868ed120abddfaa5d47200b59120ffe33f3206614a92365",
+    "consequence_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-31f4ff965e6d417db0015793c1e8a14e",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "schema": "select-r24-w4-const-file-api-submission-v1",
+    "source_payload_sha256": "616339f47f0176b58852cbf569ace169c933dac0d8e415b8082eb972da7d6653",
+    "status": "QUEUED",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN"
+  },
   "w4_const_file_api_candidate": {
     "accepted": false,
     "caller_body_proof_admission": false,
@@ -1253,7 +1272,7 @@
       "sha256": "850ead5035d2a9b7e53b9f1ce574dfbf2e78ae9cf2c2d52bd56875d3dd339462"
     },
     "scope": "CURRENT_NATIVE_CONST8_CHECKED_CONSEQUENCE_PHYSICAL_FILE_API_AND_WRITE_FIX",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "6f23bb54da4454452ea775889ad4a4386781b2857d0efcad662344fffdbb42f8"
@@ -1371,7 +1390,7 @@
       "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
     },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "FILE_API_WRITE_FIX_REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "target_path_design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-TARGET-PATH-DESIGN.json",
       "sha256": "f056e4abf8f66a0c8ab82b1cff6874f163af7e5451dc8ee05cfd4915e3178341"
@@ -1860,6 +1879,14 @@
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
       "spec_path": "/tmp/select-r24-w4-const-unsafe-watch.json",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "9984b5ac-b202-4f3a-995b-5e183e76c3d3",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-const-file-api-write-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
