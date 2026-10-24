@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T03:25:16Z
+- Updated: 2026-10-24T03:26:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 11477s spent; 0s retired; 10123s remaining including active reservations
@@ -25,9 +25,9 @@ W4 contract/native8call input congruence not yet checked; caller mapping/C5 disa
 - [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json](task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json) SHA `d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670`
 
 ## Next
-Independent review of committed refusal-only contract-input candidate; exact transport closure; full1200 Cloud. Checked8call consumption/C5 remains next.
+Publish exact reviewed881ed4be candidate and metadata, verify remote fullSHA, submit full1200 sameR24 contract-input diagnostic; then registeredBuild HANDOFF/watcher. No caller/C5 admission.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `db6d98f716013edd9d9b5863ef1ca917ffa35cb65e1e3f9b051a64f478e9a228`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `4bedbce3332ac6c8efaf66e4c7fc7f5da54354aa50218e7e5f106a0ee692f742`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `5bdda78a630a0bfb61dd85146e6b7c684d353a3b8619a5fbe832aee91e342912`

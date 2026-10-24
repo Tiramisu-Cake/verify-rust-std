@@ -1,0 +1,38 @@
+{
+  "baseline_commit": "5487573d4c6a79a6bd41ed3a21f4e01766effca5",
+  "candidate_commit": "881ed4be929aaa1c86e9e68bd1519b33127981db",
+  "candidate_tree": "151253abee41092cdd3c8574becaab3dbce4ca62",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_AUTHORIZED_REFUSAL_ONLY_W4_CONTRACT_INPUT_DIAGNOSTIC",
+  "diff_sha256": "d277caa73d274af11b23e520f48f1150b6cc95bd52b0f4da2f548e2201309297",
+  "findings": [],
+  "limitations": [
+    "GO is limited to the reviewed diagnostic path and any current R24 client phase, ledger, deadline, budget, and admission checks. It does not approve a caller summary, call rule, W4 body proof, C5 admission, P2 publication, or proof credit.",
+    "The native patch compares the checked callee pre/post contract with pinned external header contracts, but hashes and typed MIR observations do not establish which of the eight calls consumes that contract. Typed call linkage and caller body proof remain UNKNOWN.",
+    "The native patch is unbuilt and unexecuted in this review. Actual OCaml API/type compatibility, parser behavior on the pinned headers, and the expected physical records remain to be established by the authorized Cloud run and Evidence Brief."
+  ],
+  "not_run": [
+    "No Rust/OCaml/compiler/exporter/decoder/refiner/verifier/preparation/full-runner execution, Cloud Build, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_IDENTITIES_REVIEWED"
+  },
+  "packet_sha256": "416ac424dd4920df1ed4d83b0d7da0f5183d5d49408d864a7c2796c6fd724eb6",
+  "prior_reviews": [],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-contract-inputs-independent-review-v1",
+  "spec_sha256": "e7433e00541d78cfa0a027490b9f68b231a80cf5205e35bfaf9269928c673f22",
+  "tests": [
+    "Static review of the committed candidate diff, native patch, driver, wrapper/mode integration, Bash pins, recipe pins, and declared dependency snapshots; no execution of candidate tests.",
+    "The packet reports 60 targeted static/synthetic checks passing, plus a later 9/9 real-prerequisite-shape test-only followup reported by the coordinator. These results were not rerun by this reviewer."
+  ],
+  "verified": [
+    "Reviewed the exact candidate 881ed4be929aaa1c86e9e68bd1519b33127981db against baseline 5487573d4c6a79a6bd41ed3a21f4e01766effca5; packet and spec identities match the assigned review handoff.",
+    "The opt-in native route is closed over R24/R21 phase, profile, lane, provider, build UUID, case, source, callee unit/body, profile receipt, and pinned header inputs. Incomplete or foreign contract-mode environment state fails closed.",
+    "The native patch does not add a callable summary, call rule, or proof admission path. Both matching and control cases unconditionally raise the diagnostic refusal before body translation/proof; all reported acceptance, publication, caller-admission, and credit fields remain false/zero.",
+    "The positive and five control headers are pinned by exact size and SHA. The parser checks the supported declaration shape, includes pre/post contract data in the equality comparison, and explicitly catches the pointer-mutability case that the RSSPEC AST otherwise erases. The actual callee safety proof remains part of the existing checked callee pipeline and is not replaced by this diagnostic.",
+    "The driver binds fresh same-Build prerequisite summaries/audits, caller source/MIR capture and full native input hashes, creates a separate copied diagnostic tool, and re-audits the source/tool/header/log/fact inventory. Failures remain incomplete and preserve partial stage records; the outer wrapper additionally checks the diagnostic boundary and physical audit before reporting a complete qualification."
+  ]
+}
