@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "c17fc3099f7fbea47f4f4dd54008c72221ec01c95b4b90cdb5862019d46302d3"
+      "sha256": "84c9a188060a15fb8ca8a0b5eadddda12e1a90e13caab6381e806283c903a68c"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,19 +32,19 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
+    "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json",
-        "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json",
+        "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
       }
     ],
-    "summary": "C6 header trailingcomma rejected by strict RSSPEC grammar. Checked8call linkage/C5 open."
+    "summary": "W4 header-syntax diagnostic Build pending. Checked eightcall linkage/C5 open; old P2 stays PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "c17fc3099f7fbea47f4f4dd54008c72221ec01c95b4b90cdb5862019d46302d3"
+    "sha256": "84c9a188060a15fb8ca8a0b5eadddda12e1a90e13caab6381e806283c903a68c"
   },
   "brief_observation_refs": [
     {
@@ -1105,8 +1105,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish reviewed d0aa8515; verify remote fullSHA and submit full1200 header-syntax diagnostic; then HANDOFF/watcher. Linkage/C5 open.",
-  "next_step": "Publish reviewed d0aa8515; verify remote fullSHA and submit full1200 header-syntax diagnostic; then HANDOFF/watcher. Linkage/C5 open.",
+  "next": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.",
+  "next_step": "ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1199,7 +1199,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "85a86d66-982d-472c-9e18-83fc7f583843"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1219,9 +1221,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:40:20Z",
+  "updated_utc": "2026-10-24T03:41:46Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1724,26 +1726,25 @@
       "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
     },
     "proof_credit": 0,
-    "state": "REVIEW_GO_UNBUILT"
+    "state": "SUBMITTED_PENDING_BRIEF"
   },
   "w4_contract_inputs_build": {
     "accepted": false,
-    "accounted": true,
-    "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
-    "callee_matrix_status": "SOURCE_REPORTED_AUDIT_COMPLETE",
+    "accounted": false,
+    "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
+    "callee_matrix_status": "PENDING_CURRENT_BUILD_BRIEF",
     "caller_body_proof_admission": false,
-    "candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
-    "charged_seconds": 374,
-    "config_sha256": "a9785be0aa1741dd4359e19ee4bb495991285a4ae112a7e720a36cda89aa945c",
-    "diagnostic_status": "INCOMPLETE",
-    "dispatch_token": "dispatch-2cdf240d65944625a8bfb05c91a5f4bd",
+    "candidate": "d0aa8515705ceba930299d5fcade1b320f9745f7",
+    "config_sha256": "f7edbedcca4ceba211e8ce23d82ac5af588e15f72be0e79e79d5ac4967b9ad80",
+    "diagnostic_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-c8c9385894ef47feaa0a57e0573e02d1",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "POSITIVE_RSSPEC_PARSE_ERROR_BEFORE_NATIVE_INPUT_FACTS",
+    "result": "PENDING_BRIEF_HEADER_SYNTAX_DIAGNOSTIC",
     "schema": "select-r24-w4-contract-inputs-submission-v1",
-    "source_payload_sha256": "43942996eb053086f4263182f17e2821ef8f85a11c6e64facf0a55296bef8ee4",
-    "status": "FAILURE",
+    "source_payload_sha256": "2587d9ae98cf3ae0de3ab13b069de1106c17b424350f1ec6ccba06ae8972dd60",
+    "status": "QUEUED",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN"
@@ -1824,7 +1825,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "HEADER_SYNTAX_REVIEW_GO_UNBUILT",
+    "state": "HEADER_SYNTAX_SUBMITTED_PENDING_BRIEF",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "db367627c7ee43cf3f51606a48f548dc3d06eeed36a95d9972c1fa2be7c034f4"
@@ -2162,6 +2163,14 @@
       "job_id": "2acf72a8-21d9-4851-bfdd-2c2c9b95d50e",
       "spec_path": "/tmp/select-r24-w4-contract-inputs-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "85a86d66-982d-472c-9e18-83fc7f583843",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; terminal accounting push before Brief. Header syntax only, no parser broadening or caller/C5 proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-contract-header-syntax-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T03:40:20Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
+- Updated: 2026-10-24T03:41:46Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 11851s spent; 0s retired; 9749s remaining including active reservations
-- Active Build IDs: none recorded
+- Active Build IDs: 85a86d66-982d-472c-9e18-83fc7f583843
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-C6 header trailingcomma rejected by strict RSSPEC grammar. Checked8call linkage/C5 open. [Build `1fab9b22-9741-4ec2-90fa-e55f1c5683c6`]
-- [research/challenge-8/task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json](task-history/select-callee-r24/W4-CONST-NATIVE-QUALIFICATION.json) SHA `a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d`
+W4 header-syntax diagnostic Build pending. Checked eightcall linkage/C5 open; old P2 stays PUBLISHED. [Build `85a86d66-982d-472c-9e18-83fc7f583843`]
+- [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json) SHA `2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c`
 
 ## Next
-Publish reviewed d0aa8515; verify remote fullSHA and submit full1200 header-syntax diagnostic; then HANDOFF/watcher. Linkage/C5 open.
+ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `ab3cbfda2d8641b22e767b5205ebf38b05d1f6e57ec3a602e51bdec3ea9747bd`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `c17fc3099f7fbea47f4f4dd54008c72221ec01c95b4b90cdb5862019d46302d3`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `84c9a188060a15fb8ca8a0b5eadddda12e1a90e13caab6381e806283c903a68c`
