@@ -37,7 +37,10 @@ case "$cmd" in
   find-run)
     sha=${1:-}; [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || die "full 40-hex commit SHA required"
     for _ in $(seq 1 12); do
-      id=$(gh run list -R "$REPO" --workflow "$WORKFLOW" --commit "$sha" --limit 5 --json databaseId --jq '.[0].databaseId // empty')
+      # Not --workflow: gh resolves workflow names only from the default branch, and this one lives on
+      # the experiment branches.
+      id=$(gh run list -R "$REPO" --commit "$sha" --limit 20 --json databaseId,workflowName \
+             --jq "map(select(.workflowName == \"$WORKFLOW\")) | .[0].databaseId // empty")
       if [ -n "$id" ]; then echo "$id"; exit 0; fi
       sleep 15
     done
