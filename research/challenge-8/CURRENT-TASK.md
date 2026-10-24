@@ -48,9 +48,9 @@ Next: Register R24; Build reviewed unbuilt 103a34 (a4737f9f) on rows 739f982d at
 ## Отчёт агента
 
 **select-callee-acceptance-autonomous-2026-10-24-r24 · select-sort4 · SORT4-ACTUAL-SELECT-2026-10-24-R24 · ACTIVE**
-Updated: 2026-10-24T03:33:32Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
+Updated: 2026-10-24T03:36:21Z. Baseline source/tool/profile: `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db` / `f76012fb518703b1d98e243ac4f487f16877cfcb` / `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`.
 Dates: T0 `2026-10-23T10:48:18Z`; main `2026-10-26T10:48:18Z`; absolute `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit). Budget 21600s: 11851s spent, 0s retired, 9749s remaining including reservations.
 Active Build IDs: none recorded; unresolved: none recorded.
-Blocker: Contract-input Build terminal FAILURE; cause pending Brief. Checked eightcall linkage/C5 open. [Build `1fab9b22-9741-4ec2-90fa-e55f1c5683c6`]
-Next: Terminal accounting first pushed; inspect Evidence Brief for fresh callee/consequence and contract-input failure; fix statically and continue R24.
+Blocker: C6 header trailingcomma rejected by strict RSSPEC grammar. Checked8call linkage/C5 open. [Build `1fab9b22-9741-4ec2-90fa-e55f1c5683c6`]
+Next: Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.
 See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

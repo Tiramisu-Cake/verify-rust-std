@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "4a3c360dcf2464a3cc009a98edbab87a3da5df8272f6b5bd44d05ef86a36adc4"
+      "sha256": "8a6df40640b7a9e0b81a90e2a3541fafc8bcf6cb3d897841070ffc6c21a54e6c"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -39,12 +39,12 @@
         "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
       }
     ],
-    "summary": "Contract-input Build terminal FAILURE; cause pending Brief. Checked eightcall linkage/C5 open."
+    "summary": "C6 header trailingcomma rejected by strict RSSPEC grammar. Checked8call linkage/C5 open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "4a3c360dcf2464a3cc009a98edbab87a3da5df8272f6b5bd44d05ef86a36adc4"
+    "sha256": "8a6df40640b7a9e0b81a90e2a3541fafc8bcf6cb3d897841070ffc6c21a54e6c"
   },
   "brief_observation_refs": [
     {
@@ -475,6 +475,16 @@
       "reason": "Current-native const prerequisite now qualified; choose closed modular contract input diagnostic before any external summary or C5 call rule. This avoids expanded9callee+caller unit churn and genericparser generalization.",
       "state": "ACTIVE",
       "typed_sites_scope": "Fresh Python normal/readonly typed structural8site observation; native pins whole unit/body and navigation digest, not individual call consumption."
+    },
+    {
+      "acceptance": false,
+      "design": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-SYNTAX-DESIGN.json",
+        "sha256": "6db08861b24c11c2cd15c7bbb5b0b1b3b491cab60ba749b4a8c5a84d1eb547e6"
+      },
+      "obligation": "Fix closed RSSPEC parameter separator syntax",
+      "reason": "S33 positive stops at closing parenthesis after trailing comma; use accepted grammar, no parser broadening or proof weakening.",
+      "state": "ACTIVE"
     }
   ],
   "mutable_a1_primitives_candidate": {
@@ -1095,8 +1105,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Terminal accounting first pushed; inspect Evidence Brief for fresh callee/consequence and contract-input failure; fix statically and continue R24.",
-  "next_step": "Terminal accounting first pushed; inspect Evidence Brief for fresh callee/consequence and contract-input failure; fix statically and continue R24.",
+  "next": "Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.",
+  "next_step": "Remove final diagnostic header comma; refresh closed pins/tests; same-reviewer delta, exact transport, full1200. Actual Rust source/contracts unchanged.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1211,7 +1221,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:33:32Z",
+  "updated_utc": "2026-10-24T03:36:21Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1697,21 +1707,34 @@
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "f5d8c1ac96b035b7aad7be4d3910a555480889811a4d5217d23f6d606940416e"
   },
+  "w4_contract_header_syntax_fix": {
+    "accepted": false,
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-SYNTAX-DESIGN.json",
+      "sha256": "6db08861b24c11c2cd15c7bbb5b0b1b3b491cab60ba749b4a8c5a84d1eb547e6"
+    },
+    "observations": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json",
+      "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
+    },
+    "proof_credit": 0,
+    "state": "DESIGN_BEFORE_IMPLEMENTATION"
+  },
   "w4_contract_inputs_build": {
     "accepted": false,
     "accounted": true,
     "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
-    "callee_matrix_status": "PENDING_CURRENT_BUILD_BRIEF",
+    "callee_matrix_status": "SOURCE_REPORTED_AUDIT_COMPLETE",
     "caller_body_proof_admission": false,
     "candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
     "charged_seconds": 374,
     "config_sha256": "a9785be0aa1741dd4359e19ee4bb495991285a4ae112a7e720a36cda89aa945c",
-    "diagnostic_status": "PENDING_BRIEF",
+    "diagnostic_status": "INCOMPLETE",
     "dispatch_token": "dispatch-2cdf240d65944625a8bfb05c91a5f4bd",
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "TERMINAL_PENDING_BRIEF",
+    "result": "POSITIVE_RSSPEC_PARSE_ERROR_BEFORE_NATIVE_INPUT_FACTS",
     "schema": "select-r24-w4-contract-inputs-submission-v1",
     "source_payload_sha256": "43942996eb053086f4263182f17e2821ef8f85a11c6e64facf0a55296bef8ee4",
     "status": "FAILURE",
@@ -1777,7 +1800,7 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "TERMINAL_PENDING_BRIEF",
+    "state": "POSITIVE_HEADER_PARSE_FAILURE_SOURCE_REPORTED",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "0d1b1405e345013438d92c5534eaa698dca14eac2cbded45d11c841a272fb432"

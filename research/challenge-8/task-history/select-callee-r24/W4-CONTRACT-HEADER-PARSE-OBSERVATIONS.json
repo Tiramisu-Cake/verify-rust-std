@@ -1,0 +1,218 @@
+{
+  "accepted": false,
+  "archive_sha256": "d7b0f7114b9ac420f5dec2e46513b48bbd1b6da6a54c77df2ce419b261d08aa4",
+  "assurance": "SOURCE_REPORTED_BOUNDED_BRIEF",
+  "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
+  "charged_seconds": 374,
+  "index_sha256": "216b71cbf188ca74c78780083b0213faaba7d609d30899d1d7e036e9837ba96a",
+  "main_brief": {
+    "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-main-brief.txt",
+    "sha256": "24ffc27102518ddb650a0a46ebb309b8f5d180feed941045f9dab00808d5763e"
+  },
+  "matrix_audit_complete_source_claim": true,
+  "native_diagnostic_binary": {
+    "bytes": 21619576,
+    "scope": "DIAGNOSTIC_ONLY_NO_CALLEE_QUALIFICATION_TRANSFER",
+    "sha256": "c79dfe7eec8218caafe8d33850f96455def65df044d14a3e7d1226553f4c65e1"
+  },
+  "ordinary_consequence_and_run_time_audit_complete_source_claim": true,
+  "platform_status": "FAILURE",
+  "positive_diagnostic": {
+    "caller_body_proof_admission": false,
+    "caller_linkage": "UNKNOWN",
+    "facts": "MISSING_AS_REPORTED_BY_DRIVER",
+    "native_stderr": "CATALOGUED_EMPTY",
+    "native_stdout_marker": "MISSING_AS_REPORTED_BY_DRIVER",
+    "observed": "r24-select.rsspec(5,1-2): error: Parse error: Parse error.",
+    "source_line": ") -> *const Element;",
+    "stdout_file_sha256": "e6f93c87c824370e7fe9e802615fbeb5146728d1f8d3614d65064690b1a12cbb"
+  },
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "receipts": [
+    {
+      "complete": null,
+      "exact": null,
+      "file_id": null,
+      "file_sha256": null,
+      "next_offset": 20,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-contract-cat.json",
+      "request": null,
+      "request_id": null,
+      "sha256": "9e3387b5cd854f0b55e95a190d97a5d473e3ea6d83c83158456d3fd0310ae26a"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+      "file_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-driver-cases.json",
+      "request": {
+        "expected_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+        "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+        "pointer": "/cases/0/errors"
+      },
+      "request_id": "a3ea10b27e45a96f98e6d0263c4e1c803e25aa3739012b0d1aec6d7f46f7fcbc",
+      "sha256": "9fe58c27236548f409b779bc9f61246d6266917f48962e1269f5d8766bb72fa4"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+      "file_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-driver-errors.json",
+      "request": {
+        "expected_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+        "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+        "pointer": "/errors"
+      },
+      "request_id": "d37a9821721f953a7bd4df6c7637a464bd77eb2a3b5721f2a59d9faef00a5851",
+      "sha256": "4e9a54e00d177a2cade34cc5d15a3ec30bddf33bba98e228613679c9adc50924"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "c575c4df74d97e1ca1231a90371f5de842f2546044a18e1b34842a1983347ce6",
+      "file_sha256": "2464f40b9b9ae459d58e2ceaa63f837b659772cb8e4f03fb1f60fdd4485dc0bb",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-matrix-audit.json",
+      "request": {
+        "expected_sha256": "2464f40b9b9ae459d58e2ceaa63f837b659772cb8e4f03fb1f60fdd4485dc0bb",
+        "file_id": "c575c4df74d97e1ca1231a90371f5de842f2546044a18e1b34842a1983347ce6",
+        "pointer": "/evidence_complete"
+      },
+      "request_id": "5e43ae93c0395e2ef83c7bf1dea9d87e3f2524d7195682be0d82195d6c1f2bd2",
+      "sha256": "0e0c8ac5408fc9486575f3bdcef3cfb60df312efcd96d0cd9b0d3eb5bf5bb908"
+    },
+    {
+      "complete": null,
+      "exact": null,
+      "file_id": null,
+      "file_sha256": null,
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-native-stderr-cat.json",
+      "request": null,
+      "request_id": null,
+      "sha256": "3a64ce4b73909ea005ffc00189487156dee952caf41f48dcf2b6bc13906bf46c"
+    },
+    {
+      "complete": null,
+      "exact": null,
+      "file_id": null,
+      "file_sha256": null,
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-native-stdout-cat.json",
+      "request": null,
+      "request_id": null,
+      "sha256": "4a0321dafdd0e5c848ddbcf4752692deb83ae180ce390604b3957fcfa71e4f96"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "77ebe51427d4d93f34f51f53be4445e4d5c620f2bd2f05251dedf330399cd44a",
+      "file_sha256": "e6f93c87c824370e7fe9e802615fbeb5146728d1f8d3614d65064690b1a12cbb",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-native-stdout-lines.json",
+      "request": {
+        "end": 12,
+        "expected_sha256": "e6f93c87c824370e7fe9e802615fbeb5146728d1f8d3614d65064690b1a12cbb",
+        "file_id": "77ebe51427d4d93f34f51f53be4445e4d5c620f2bd2f05251dedf330399cd44a",
+        "start": 1
+      },
+      "request_id": "c91c8b1badc20e726ebbfe16b5e9a6b96fccee11d1b224c2766dea3f61bfef51",
+      "sha256": "8d05216171d5f8993220d2e36429b7aae778ad0e80998b8d6a09cb10d7a8c981"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+      "file_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-native-tool.json",
+      "request": {
+        "expected_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+        "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+        "pointer": "/diagnostic_tool_hashes_after_build/bin~1verifast"
+      },
+      "request_id": "817122f118778d3533feb1ca233343955f376dc7831a56f924c5847144c8bceb",
+      "sha256": "476aff25678c17c0d4ef88a61b41638de994624fb14bca8ee062f63239291369"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "9f01e0f9c2bdaab55c48e7a2b9ac815f0a3866ec22193def9255fa6e094468c3",
+      "file_sha256": "f3749607daf91b6932f6cd2d97c678b9212b2f0a16107d7d29c13b1b1ea3c921",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-outer-audit-errors.json",
+      "request": {
+        "expected_sha256": "f3749607daf91b6932f6cd2d97c678b9212b2f0a16107d7d29c13b1b1ea3c921",
+        "file_id": "9f01e0f9c2bdaab55c48e7a2b9ac815f0a3866ec22193def9255fa6e094468c3",
+        "pointer": "/errors"
+      },
+      "request_id": "9f9055535cd35c73fbaaf5d36e499e60c94a71b6e4e507315be30cf97003c7ae",
+      "sha256": "8637c97f3a1e1975c037c302e1994ae961bce080faa2ebb16ae2e21ca5e4f7d0"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+      "file_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-outer-consequence-audit.json",
+      "request": {
+        "expected_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+        "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+        "pointer": "/consequence_audit/evidence_complete"
+      },
+      "request_id": "181b1f34c12e4c43444d659bc535f641592076f1c201be99df2f1789acd0d033",
+      "sha256": "c00e8ea353ecaae1fc7bc0050e269cca6bdfb28b1b9fc065bed8a4c4a84a26db"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+      "file_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-outer-consequence.json",
+      "request": {
+        "expected_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+        "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+        "pointer": "/consequence/complete"
+      },
+      "request_id": "aeecc52bcb5ddd454c942ff03585c0f1ccb49f41f68642cc1b713e57cef6664d",
+      "sha256": "6e5c6531d9369e99577895618bf5cb60d202981e2ea93417fe0d9dde3170b9c4"
+    },
+    {
+      "complete": true,
+      "exact": true,
+      "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+      "file_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+      "next_offset": null,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-outer-errors.json",
+      "request": {
+        "expected_sha256": "b9ab9876c245adaf9339e50b410d75c2c17931ccbd88b25c21fccd1a0c6fd982",
+        "file_id": "658b51663ba7ec4bfb9faa53e7aeddf8fcf44911c7538f86a6280bd98043cbe6",
+        "pointer": "/errors"
+      },
+      "request_id": "f4ba97c58e0a896ca415a6fbbd854c7cd71cbf5b3621a4f61179b3ec8d861fcb",
+      "sha256": "8488025aa2befd162ebab71a75d5db2607b3a136aae28b4612b895fae2738d6d"
+    },
+    {
+      "complete": null,
+      "exact": null,
+      "file_id": null,
+      "file_sha256": null,
+      "next_offset": 20,
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s33-qualification-cat.json",
+      "request": null,
+      "request_id": null,
+      "sha256": "2ebc7998ea9f2dc924a2da931f5f701ad286947645cde2cf396d392bd04edfd5"
+    }
+  ],
+  "runner_exit_source_claim": 4,
+  "schema": "select-r24-w4-contract-header-parse-observations-v1",
+  "source_candidate": "881ed4be929aaa1c86e9e68bd1519b33127981db",
+  "static_diagnosis": "Pinned Rust_parser.parse_func_header uses strict rep_comma parse_param; frontend Parser.comma_rep requires a parameter after every comma. Header false_val line4 ends with comma; next token line5 closes list. Fix header last separator, not parser/checker or contract semantics. Actual callee Rust signature remains unchanged."
+}

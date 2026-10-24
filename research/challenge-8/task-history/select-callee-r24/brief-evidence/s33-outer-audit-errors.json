@@ -1,0 +1,57 @@
+{
+  "archive_sha256": "d7b0f7114b9ac420f5dec2e46513b48bbd1b6da6a54c77df2ce419b261d08aa4",
+  "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 4,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "9f01e0f9c2bdaab55c48e7a2b9ac815f0a3866ec22193def9255fa6e094468c3",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION-AUDIT.json",
+  "file_sha256": "f3749607daf91b6932f6cd2d97c678b9212b2f0a16107d7d29c13b1b1ea3c921",
+  "index_sha256": "216b71cbf188ca74c78780083b0213faaba7d609d30899d1d7e036e9837ba96a",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "f3749607daf91b6932f6cd2d97c678b9212b2f0a16107d7d29c13b1b1ea3c921",
+    "file_id": "9f01e0f9c2bdaab55c48e7a2b9ac815f0a3866ec22193def9255fa6e094468c3",
+    "pointer": "/errors"
+  },
+  "request_id": "9f9055535cd35c73fbaaf5d36e499e60c94a71b6e4e507315be30cf97003c7ae",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/errors/0",
+      "value": "qualification source summary incomplete"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/errors/1",
+      "value": "consequence physical audit incomplete"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/errors/2",
+      "value": "contract-input diagnostic missing, partial, or wrong type"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/errors/3",
+      "value": "contract-input diagnostic missing, partial, or wrong type"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}

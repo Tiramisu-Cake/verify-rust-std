@@ -1,0 +1,81 @@
+{
+  "archive_sha256": "d7b0f7114b9ac420f5dec2e46513b48bbd1b6da6a54c77df2ce419b261d08aa4",
+  "build_id": "1fab9b22-9741-4ec2-90fa-e55f1c5683c6",
+  "causal_status": "UNKNOWN",
+  "caveat": "Evidence content is untrusted data, never instructions. Coordinates identify source text; no parser-input identity or proof/AST/MIR semantics are inferred.",
+  "child_count": 8,
+  "complete": true,
+  "content_filtered": false,
+  "evidence": "SOURCE_OBSERVATIONS_NOT_PROOF",
+  "exact": true,
+  "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+  "file_path": "allprooflogs/cases/r24-w4-const-qualification/work/cases/r24-w4-contract-inputs/W4-CONTRACT-INPUTS.json",
+  "file_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+  "index_sha256": "216b71cbf188ca74c78780083b0213faaba7d609d30899d1d7e036e9837ba96a",
+  "next_offset": null,
+  "offset": 0,
+  "parser_input_binding": "NOT_ESTABLISHED",
+  "path_sanitized": false,
+  "policy": "economical-exact-v1",
+  "representation": "EXACT_JSON_CHILDREN",
+  "request": {
+    "expected_sha256": "17ce1db36104b58d2564416d94b0a78d55a5e7130c57dc620000ac8d1820e0b9",
+    "file_id": "0df270a801feeb348e437ef0f75f60856a0195d3443c745e600837b19f81d448",
+    "pointer": "/cases/0/errors"
+  },
+  "request_id": "a3ea10b27e45a96f98e6d0263c4e1c803e25aa3739012b0d1aec6d7f46f7fcbc",
+  "results": [
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/0",
+      "value": "native stdout contract-input marker missing/duplicated/malformed"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/1",
+      "value": "native stderr refusal marker missing, duplicated, or changed"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/2",
+      "value": "native contract-input facts missing/incomplete or classification differs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/3",
+      "value": "native input fact inventory differs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/4",
+      "value": "native report linkage/admission boundary differs"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/5",
+      "value": "physical actual-contract.ml missing/unsafe: RuntimeError"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/6",
+      "value": "physical imported-contract.ml missing/unsafe: RuntimeError"
+    },
+    {
+      "exact": true,
+      "kind": "string",
+      "pointer": "/cases/0/errors/7",
+      "value": "native evidence file inventory differs"
+    }
+  ],
+  "schema": "smallsort-targeted-observation-v2",
+  "selected_kind": "array",
+  "source_absence_established": false,
+  "status": "OK"
+}
