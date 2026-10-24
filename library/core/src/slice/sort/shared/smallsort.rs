@@ -859,3 +859,9 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
     // Heuristic that holds true on all tested 64-bit capable architectures.
     size_of::<T>() <= 8 // size_of::<u64>()
 }
+
+// Kani K-1 experiment (Challenge 8 minimal plan): verification-only harnesses, compiled only under
+// `cfg(kani)`. See research/challenge-8/kani-k1/EXPERIMENT.md.
+#[cfg(kani)]
+#[unstable(feature = "kani", issue = "none")]
+mod kani_k1;

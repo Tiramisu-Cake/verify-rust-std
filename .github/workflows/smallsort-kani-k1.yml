@@ -1,0 +1,158 @@
+# Kani K-1 experiment lane (Challenge 8 minimal plan). Runs only on experiment/kani-k1-* branches and
+# only when the committed run request changes. The request names exact harnesses under
+# slice::sort::shared::smallsort::kani_k1; nothing else in std is verified here.
+# Kani, flags and runners are the organizers' CI ones: tool_config/kani-version.toml + scripts/run-kani.sh.
+name: SmallSort Kani K1
+
+on:
+  push:
+    branches: ['experiment/kani-k1-**']
+    paths: ['research/challenge-8/kani-k1/RUN-REQUEST.json']
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  K1_TOOLS: research/challenge-8/kani-k1/tools
+  K1_REQUEST: research/challenge-8/kani-k1/RUN-REQUEST.json
+
+jobs:
+  plan:
+    name: Validate run request
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      runner: ${{ steps.validate.outputs.runner }}
+      valid: ${{ steps.validate.outputs.valid }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - id: validate
+        run: |
+          mkdir -p k1-out
+          if python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out k1-out/kani-args.txt --runner-out k1-out/runner.txt; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+            echo "runner=$(cat k1-out/runner.txt)" >> "$GITHUB_OUTPUT"
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+            echo "runner=ubuntu-latest" >> "$GITHUB_OUTPUT"
+          fi
+
+  k1:
+    name: K-1 Kani run (${{ needs.plan.outputs.runner }})
+    needs: plan
+    runs-on: ${{ needs.plan.outputs.runner }}
+    timeout-minutes: 240
+    env:
+      K1_OUT: k1-out
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - name: Re-validate request on the run host
+        id: validate
+        continue-on-error: true
+        run: |
+          mkdir -p "$K1_OUT"
+          python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" 2> "$K1_OUT/request-error.txt"
+          test "${{ needs.plan.outputs.valid }}" = "true"
+
+      - name: Free disk space
+        if: runner.os == 'Linux' && steps.validate.outcome == 'success'
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup
+          df -h /
+
+      - name: Install jq
+        if: runner.os == 'Linux' && steps.validate.outcome == 'success'
+        run: sudo apt-get install -y jq
+
+      # Same steps as setup_kani_repo/build_kani in scripts/run-kani.sh, done here so that the timed
+      # verification step below excludes the Kani build. run-kani.sh then finds kani_build at the
+      # pinned commit and skips its own build.
+      - name: Build pinned Kani (not timed)
+        id: build
+        if: steps.validate.outcome == 'success'
+        continue-on-error: true
+        run: |
+          commit=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/')
+          test -n "$commit"
+          mkdir -p kani_build && cd kani_build
+          git init -q .
+          git remote add origin https://github.com/model-checking/kani.git
+          git fetch --depth 1 origin "$commit" --quiet
+          git checkout "$commit" --quiet
+          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet
+          source kani-dependencies
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            ./scripts/setup/ubuntu/install_deps.sh
+          else
+            brew trust diffblue/cbmc 2>/dev/null || true
+            ./scripts/setup/macos/install_deps.sh
+          fi
+          cargo build-dev --release
+          test "$(git rev-parse HEAD)" = "$commit"
+
+      - name: Verify requested harnesses (timed)
+        id: kani
+        if: steps.validate.outcome == 'success' && steps.build.outcome == 'success'
+        run: |
+          args=()
+          while IFS= read -r line; do [ -n "$line" ] && args+=("$line"); done < "$K1_OUT/kani-args.txt"
+          if [ "$RUNNER_OS" = "Linux" ]; then timeflag=-v; else timeflag=-l; fi
+          set +e
+          /usr/bin/time "$timeflag" -o "$K1_OUT/time.txt" \
+            scripts/run-kani.sh --path "$GITHUB_WORKSPACE" --kani-args "${args[@]}" 2>&1 | tee "$K1_OUT/kani.log"
+          rc=${PIPESTATUS[0]}
+          set -e
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize
+        if: always()
+        run: |
+          mkdir -p "$K1_OUT"
+          commit=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/' || true)
+          req_err=""
+          if [ "${{ steps.validate.outcome }}" != "success" ]; then
+            req_err=$(head -c 300 "$K1_OUT/request-error.txt" 2>/dev/null || true)
+            [ -n "$req_err" ] || req_err="request rejected by the plan job"
+          fi
+          log_args=()
+          [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
+          python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" \
+            --time "$K1_OUT/time.txt" --exit-code "${{ steps.kani.outputs.rc }}" \
+            --head-sha "$GITHUB_SHA" --kani-commit "$commit" --request-error "$req_err" \
+            --out-dir "$K1_OUT/summary" > /dev/null
+          cat "$K1_OUT/summary/summary.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload summary (agent-facing evidence)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-summary
+          path: k1-out/summary/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload full log (bounded reads only, see EXPERIMENT.md)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-log
+          path: |
+            k1-out/kani.log
+            k1-out/time.txt
+            k1-out/request-error.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Gate on request expectations
+        if: always()
+        run: python3 -B "$K1_TOOLS/kani_k1.py" gate "$K1_OUT/summary/summary.json"

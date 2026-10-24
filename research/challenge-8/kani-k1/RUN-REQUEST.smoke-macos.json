@@ -1,0 +1,13 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "coord-smoke-macos-001",
+  "agent": "coordinator",
+  "kind": "diagnostic",
+  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, SUCCESS and FAILED are both reported",
+  "runner": "macos-latest",
+  "harness_timeout_minutes": 10,
+  "harnesses": [
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED"}
+  ]
+}
