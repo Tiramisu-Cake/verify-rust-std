@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
-- Updated: 2026-10-24T03:41:46Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
+- Updated: 2026-10-24T03:48:00Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 21600s total; 11851s spent; 0s retired; 9749s remaining including active reservations
-- Active Build IDs: 85a86d66-982d-472c-9e18-83fc7f583843
+- Budget: 21600s total; 12232s spent; 0s retired; 9368s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-W4 header-syntax diagnostic Build pending. Checked eightcall linkage/C5 open; old P2 stays PUBLISHED. [Build `85a86d66-982d-472c-9e18-83fc7f583843`]
+Header-syntax diagnostic terminal FAILURE; cause pending Brief. Checked eightcall linkage/C5 open. [Build `85a86d66-982d-472c-9e18-83fc7f583843`]
 - [research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json](task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json) SHA `2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c`
 
 ## Next
-ACK first; push terminal ledger+CP/STATUS before Brief. Inspect const8/consequence and6contract-input cases/audits; then checked8call linkage/C5.
+Terminal accounting first pushed; inspect Evidence Brief for header-syntax diagnostic result and current prerequisites; continue R24.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `ab3cbfda2d8641b22e767b5205ebf38b05d1f6e57ec3a602e51bdec3ea9747bd`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `84c9a188060a15fb8ca8a0b5eadddda12e1a90e13caab6381e806283c903a68c`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `424251eccf86a4a09a83944055e1012f3dae2b522017af72010c0817fff8f49a`
