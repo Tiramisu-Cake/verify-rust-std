@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "125c4ea8ce93945606af171c56ef9f471e529b136a2c84b266e9d8504cfdf256"
+      "sha256": "87d4e82d3364de775bb9377e2d817a711d15729c66227caa03ff8b561f912f29"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,18 +32,14 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "evidence": [
-      {
-        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-setup-fix-review.json",
-        "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
-      }
-    ],
-    "summary": "Reviewed const wrapper setup fix unbuilt; W4 callee dependency/linkage/C5 remain open."
+    "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+    "evidence": [],
+    "summary": "Current-native const8/consequence pending; W4 call binding/C5 still open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "125c4ea8ce93945606af171c56ef9f471e529b136a2c84b266e9d8504cfdf256"
+    "sha256": "87d4e82d3364de775bb9377e2d817a711d15729c66227caa03ff8b561f912f29"
   },
   "brief_observation_refs": [
     {
@@ -1202,8 +1198,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Publish exact setup-fix candidate; full1200 const8/consequence; Brief then W4 linkage/C5.",
-  "next_step": "Publish exact setup-fix candidate; full1200 const8/consequence; Brief then W4 linkage/C5.",
+  "next": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
+  "next_step": "ACK; push terminal accounting; Brief const8/consequence results, then checked W4 binding/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1296,7 +1292,9 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [],
+    "active_build_ids": [
+      "b53d01fc-5ff5-48ab-a642-d0e4e6d03128"
+    ],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
@@ -1316,9 +1314,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "ACTIVE",
+  "state": "HANDOFF",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:31:06Z",
+  "updated_utc": "2026-10-24T01:32:04Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1504,7 +1502,7 @@
       "sha256": "68c5f36dc448d3b573897aaf765308431dc198672520da649c2624eaff761f69"
     },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "SETUP_FIX_REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "tests": "12 consequence +12 wrapper (unmocked synthetic provider-overlay/pins) +6 new Bash routing +10 old Bash regressions pass; Bash syntax/diff pass. Actual native proofs unbuilt.",
     "workers": {
       "checked_consequence": "r24_admission",
@@ -1514,6 +1512,27 @@
       "path": "research/challenge-8/cloud-build/select-callee-r24-w4-const-qualification.py",
       "sha256": "3ac557f7a6d7f99a6665fcd1db893a2a883726c788a9f7e8a00933a20b71b137"
     }
+  },
+  "w4_const_setup_fix_build": {
+    "accepted": false,
+    "accounted": false,
+    "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+    "callee_matrix_status": "PENDING_BRIEF",
+    "caller_body_proof_admission": false,
+    "candidate": "7eb8ab48a94057d7cea021fb5536c572d270301a",
+    "config_sha256": "97e3f8faa639ef2c62f1627ff9b0592995ee43934a7aabd4871039a24ccf97be",
+    "consequence_status": "PENDING_BRIEF",
+    "dispatch_token": "dispatch-601d1ef6432d4c709366e2721a8790c8",
+    "proof_credit": 0,
+    "publication_allowed": false,
+    "reserved_seconds": 1260,
+    "result": "PENDING_BRIEF_CURRENT_TOOL_CONST8_AND_CONSEQUENCE",
+    "schema": "select-r24-w4-const-setup-fix-submission-v1",
+    "source_payload_sha256": "15dd37a3f8c0f565c0ec82d0445a5b35efd9c7dd95247e9675d75f27a9c18091",
+    "status": "QUEUED",
+    "timeout_seconds": 1200,
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN"
   },
   "w4_const_setup_fix_candidate": {
     "accepted": false,
@@ -1536,7 +1555,7 @@
       "sha256": "c0e803467c2d67769bcc331616d264f8504a4fe4d542b3e4dc431a88dfed1d7f"
     },
     "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_SETUP_FIX_ONLY",
-    "state": "REVIEWED_UNBUILT",
+    "state": "SUBMITTED",
     "typed_call_linkage": "UNKNOWN",
     "w4_caller_body_proof_status": "UNKNOWN",
     "wrapper_sha256": "a9cb6daf24e5e0619ae0df9656c4a0b47595b9505cc4dacb22ca8435a63126ea"
@@ -1901,6 +1920,14 @@
       "mode": "CONTINUE_EXISTING_WINDOW",
       "spec_path": "/tmp/select-r24-w4-const-watch.json",
       "state": "ACKED",
+      "store": "/root/.local/state/smallsort-watch-select-r24",
+      "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
+    },
+    {
+      "build_id": "b53d01fc-5ff5-48ab-a642-d0e4e6d03128",
+      "checkpoint_frozen_after_arm": true,
+      "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Callee/consequence proof source reports do not establish W4 caller linkage/proof/independent credit.",
+      "spec_path": "/tmp/select-r24-w4-const-setup-watch.json",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }
