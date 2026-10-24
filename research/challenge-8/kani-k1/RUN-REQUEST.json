@@ -1,22 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p2-05-top-fixed-u64",
+  "request_id": "net-p2-06-stub-cost",
   "agent": "k1-network",
-  "kind": "measurement",
-  "purpose": "Phase 2: top-level trait entrypoint at constant lengths 8, 12, 17 for u64 (worst case of each no-merge code path); sort9/sort13 through stub_verified, real insertion and insert_tail",
+  "kind": "diagnostic",
+  "purpose": "Phase 2: cost of stub_verified(swap_if_less) composition - sort9 permutation u64 over 25 stubs, against 227 s for the real body (job 18)",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "harness_timeout_minutes": 4,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed8_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed12_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::fixed17_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_stub_u64",
       "expect": "SUCCESS"
     }
   ]
