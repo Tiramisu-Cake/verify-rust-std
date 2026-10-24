@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+"""Authoring-only exact-f83 native data probe; never prepares Rust or runs tools."""
+from __future__ import annotations
+import argparse
+import difflib
+import hashlib
+import json
+from pathlib import Path
+
+BASE_SHA256 = 'f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806'
+ENV_PREFIX = 'SORT4_R24_W4_DATA_FINGERPRINT_'
+PROBE = r'''  (* Source-only control data capture. Never translate a body or install a rule. *)
+  let sort4_r24_w4_data_fingerprint (vf_mir : VfMirRd.VfMir.t) =
+    let prefix = "SORT4-R24-W4-DATA: diagnostic refusal: " in
+    let refuse why = failwith (prefix ^ why) in
+    let valid_hex size value =
+      String.length value = size &&
+      let rec loop i = i = size ||
+        (((value.[i] >= '0' && value.[i] <= '9') ||
+          (value.[i] >= 'a' && value.[i] <= 'f')) && loop (i + 1)) in
+      loop 0 in
+    let allowed = [
+      "SORT4_R24_SESSION_PHASE_ID"; "SORT4_R20_CALLEE_PHASE_ID";
+      "SORT4_SELECT_PROFILE"; "SORT4_R24_W4_DATA_FINGERPRINT_MODE";
+      "SORT4_R24_W4_DATA_FINGERPRINT_EVIDENCE_DIR";
+      "SORT4_R24_W4_DATA_FINGERPRINT_SOURCE_SHA256"
+    ] in
+    Array.iter (fun binding ->
+      match String.index_opt binding '=' with
+      | None -> refuse "malformed process environment"
+      | Some equals ->
+          let key = String.sub binding 0 equals in
+          if String.length key >= 6 && String.sub key 0 6 = "SORT4_" &&
+             not (List.mem key allowed) then refuse ("foreign SORT4 key: " ^ key))
+      (Unix.environment ());
+    let build_id = match Sys.getenv_opt "CLOUD_BUILD_ID" with
+      | Some value when String.length value = 36 &&
+          value.[8] = '-' && value.[13] = '-' &&
+          value.[18] = '-' && value.[23] = '-' &&
+          valid_hex 32 (String.concat "" (String.split_on_char '-' value)) -> value
+      | _ -> refuse "exact Cloud Build UUID required" in
+    if Sys.getenv_opt "SMALLSORT_EXECUTION_PROVIDER" <> Some "cloud-build" ||
+       Sys.getenv_opt "SORT4_R24_SESSION_PHASE_ID" <>
+         Some "SORT4-ACTUAL-SELECT-2026-10-24-R24" ||
+       Sys.getenv_opt "SORT4_R20_CALLEE_PHASE_ID" <>
+         Some "SORT4-ACTUAL-SELECT-2026-10-23-R21" ||
+       Sys.getenv_opt "SORT4_SELECT_PROFILE" <> Some "experimental-s6-26.10-v1" ||
+       Sys.getenv_opt "LANE" <> Some "o26-select-callee-r20" ||
+       Sys.getenv_opt "GITHUB_ACTIONS" <> None ||
+       Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_MODE" <> Some "1" then
+      refuse "exact R24/R21/provider/profile/lane route required";
+    let regular_path path kind =
+      let rec inspect current =
+        let st = Unix.lstat current in
+        if st.Unix.st_kind <> (if current = path then kind else Unix.S_DIR)
+        then false else
+        let parent = Filename.dirname current in parent = current || inspect parent in
+      try not (Filename.is_relative path) && Unix.realpath path = path && inspect path
+      with Unix.Unix_error _ -> false in
+    let dir = match Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_EVIDENCE_DIR" with
+      | Some path when regular_path path Unix.S_DIR && Array.length (Sys.readdir path) = 0 -> path
+      | _ -> refuse "fresh canonical nonsymlink evidence directory required" in
+    let expected_source = match Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_SOURCE_SHA256" with
+      | Some value when valid_hex 64 value -> value
+      | _ -> refuse "controller-declared current source SHA256 required" in
+    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
+    let body = match bodies with
+      | [body] when TrName.translate_def_path (BodyRd.def_path_get body) = "sort4_stable" -> body
+      | _ -> refuse "exact single sort4_stable body required" in
+    let* loc = translate_span_data (BodyRd.fn_sig_span_get body) in
+    let source_path = match loc with
+      | Ast.Lexed (((p,_,_), (q,_,_))) when p = q &&
+          (if Filename.is_relative p then p = "verified/lib.rs"
+           else p = Filename.concat (Sys.getcwd ()) "verified/lib.rs") ->
+          if Filename.is_relative p then Filename.concat (Sys.getcwd ()) p else p
+      | _ -> refuse "signature must identify current verified/lib.rs" in
+    if not (regular_path source_path Unix.S_REG) then refuse "source path is unsafe";
+    let ch = open_in_bin source_path in
+    let source = Fun.protect ~finally:(fun () -> close_in ch)
+      (fun () -> really_input_string ch (in_channel_length ch)) in
+    let hash = sort4_actual_owner_sha256 in
+    if hash source <> expected_source then refuse "current source bytes differ";
+    let unit_bytes = Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing] in
+    let body_bytes = Marshal.to_string (D.decode_body body) [Marshal.No_sharing] in
+    let write name bytes =
+      if not (regular_path dir Unix.S_DIR) then refuse "evidence parent changed";
+      let path = Filename.concat dir name in
+      let exists = try ignore (Unix.lstat path); true
+        with Unix.Unix_error (Unix.ENOENT,_,_) -> false in
+      if exists then refuse "output target already exists";
+      let ch = open_out_gen [Open_wronly; Open_creat; Open_excl; Open_binary] 0o600 path in
+      Fun.protect ~finally:(fun () -> close_out ch) (fun () -> output_string ch bytes) in
+    let j s =
+      let b = Buffer.create (String.length s + 8) in
+      Buffer.add_char b '"'; String.iter (function
+        | '"' -> Buffer.add_string b "\\\""
+        | '\\' -> Buffer.add_string b "\\\\"
+        | '\n' -> Buffer.add_string b "\\n"
+        | '\r' -> Buffer.add_string b "\\r"
+        | '\t' -> Buffer.add_string b "\\t"
+        | c when Char.code c < 32 -> Buffer.add_string b (Printf.sprintf "\\u%04x" (Char.code c))
+        | c -> Buffer.add_char b c) s;
+      Buffer.add_char b '"'; Buffer.contents b in
+    let unit_name = "caller-native-unit.marshal" in
+    let body_name = "caller-native-body-0.marshal" in
+    write unit_name unit_bytes;
+    write body_name body_bytes;
+    let meta = Printf.sprintf
+      "{\"schema\":\"select-r24-w4-native-data-fingerprint-v1\",\"classification\":\"SOURCE_ONLY_NATIVE_DATA_CAPTURE\",\"complete\":true,\"build_id\":%s,\"body_name\":\"sort4_stable\",\"body_index\":0,\"body_inventory\":[\"sort4_stable\"],\"source\":{\"path\":%s,\"bytes\":%d,\"sha256\":%s},\"unit\":{\"path\":%s,\"bytes\":%d,\"sha256\":%s},\"body\":{\"path\":%s,\"bytes\":%d,\"sha256\":%s},\"expected_refusal\":\"snapshot complete; no proof rule admitted\",\"body_proof_run\":false,\"accepted\":false,\"publication_allowed\":false,\"caller_body_proof_admission\":false,\"typed_call_linkage\":\"UNKNOWN\",\"proof_credit\":0}\n"
+      (j build_id) (j source_path) (String.length source) (j (hash source))
+      (j unit_name) (String.length unit_bytes) (j (hash unit_bytes))
+      (j body_name) (String.length body_bytes) (j (hash body_bytes)) in
+    write "native-data.json" meta;
+    Printf.printf
+      "SORT4-R24-W4-DATA: source_sha256=%s unit_bytes=%d unit_sha256=%s body_bytes=%d body_sha256=%s body_name=sort4_stable\n%!"
+      expected_source (String.length unit_bytes) (hash unit_bytes)
+      (String.length body_bytes) (hash body_bytes);
+    refuse "snapshot complete; no proof rule admitted"
+
+'''
+DISPATCH = r'''      let data_keys = [
+        "SORT4_R24_W4_DATA_FINGERPRINT_MODE";
+        "SORT4_R24_W4_DATA_FINGERPRINT_EVIDENCE_DIR";
+        "SORT4_R24_W4_DATA_FINGERPRINT_SOURCE_SHA256"
+      ] in
+      Array.iter (fun binding ->
+        match String.index_opt binding '=' with
+        | None -> failwith "SORT4-R24-W4-DATA: diagnostic refusal: malformed process environment"
+        | Some equals ->
+            let key = String.sub binding 0 equals in
+            let prefix = "SORT4_R24_W4_DATA_FINGERPRINT_" in
+            if String.length key >= String.length prefix &&
+               String.sub key 0 (String.length prefix) = prefix &&
+               not (List.mem key data_keys) then
+              failwith "SORT4-R24-W4-DATA: diagnostic refusal: unknown data environment key")
+        (Unix.environment ());
+      let* () = match
+          Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_MODE",
+          Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_EVIDENCE_DIR",
+          Sys.getenv_opt "SORT4_R24_W4_DATA_FINGERPRINT_SOURCE_SHA256" with
+        | None, None, None -> Ok ()
+        | Some _, Some _, Some _ -> sort4_r24_w4_data_fingerprint vf_mir_cpn
+        | _ -> failwith "SORT4-R24-W4-DATA: diagnostic refusal: partial environment"
+      in
+'''
+PROBE_ANCHOR = '  let translate_vf_mir (extern_specs : string list)\n      (vf_mir_cpn : VfMirRd.VfMir.t) =\n'
+DISPATCH_ANCHOR = '    let job _ =\n      let contract_env_keys = [\n'
+def sha(raw): return hashlib.sha256(raw).hexdigest()
+def generate(base: bytes) -> bytes:
+    if sha(base) != BASE_SHA256: raise ValueError('exact f83 base required')
+    s = base.decode('utf-8', 'strict')
+    if s.count(PROBE_ANCHOR) != 1 or s.count(DISPATCH_ANCHOR) != 1:
+        raise ValueError('unique insertions required')
+    s = s.replace(PROBE_ANCHOR, PROBE + PROBE_ANCHOR, 1)
+    s = s.replace(DISPATCH_ANCHOR, '    let job _ =\n' + DISPATCH + '      let contract_env_keys = [\n', 1)
+    return s.encode()
+def main():
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--base',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--patch-output',type=Path,default=Path(__file__).parents[2]/'cloud-build/sort4-caller-entry-native/w4-control-fingerprint-r24.patch')
+    p.add_argument('--manifest-output',type=Path,default=Path(__file__).with_name('W4-CONTROL-FINGERPRINT-MANIFEST.json'))
+    a=p.parse_args();base=a.base.read_bytes();out=generate(base);a.output.write_bytes(out)
+    patch=''.join(difflib.unified_diff(base.decode().splitlines(True),out.decode().splitlines(True),fromfile='a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml',tofile='b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml',n=3));a.patch_output.write_text(patch)
+    m={'schema':'select-r24-w4-control-fingerprint-manifest-v1','base_translator_sha256':BASE_SHA256,'result_translator_sha256':sha(out),'patch':{'path':'research/challenge-8/cloud-build/sort4-caller-entry-native/w4-control-fingerprint-r24.patch','sha256':sha(patch.encode())},'generator_sha256':sha(Path(__file__).read_bytes()),'environment_prefix':ENV_PREFIX,'mode_value':'1','source_hash_semantics':'Controller-declared source-only fixture SHA; never a proof whitelist or summary admission.','outputs':['native-data.json','caller-native-unit.marshal','caller-native-body-0.marshal'],'expected_native_exit':2,'stdout_prefix':'SORT4-R24-W4-DATA:','expected_refusal':'snapshot complete; no proof rule admitted','accepted':False,'publication_allowed':False,'caller_body_proof_admission':False,'typed_call_linkage':'UNKNOWN','proof_credit':0}
+    a.manifest_output.write_text(json.dumps(m,indent=2,sort_keys=True)+chr(10));print(json.dumps(m,indent=2))
+if __name__=='__main__': main()

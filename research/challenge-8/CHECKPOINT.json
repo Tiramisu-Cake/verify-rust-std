@@ -47,7 +47,7 @@
   "artifacts": [
     {
       "path": "research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md",
-      "sha256": "b01eba814fcb3447c748eb240828d81066342cfe67bfb3f635b9d052e240dc42"
+      "sha256": "cd4676ea02fbc8ff096ab969fe5573220e7aa873102dc242b369c031ea3f6431"
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json",
@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "43697507e556a84b8d4628db4a4b728fd610c21472cbe7d814d897dea84ce357"
+      "sha256": "eca33ed3a23b2bf9b103acc5581e4d5621e4c078085a2abc9b4d8beefc4ac8ce"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -88,7 +88,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "43697507e556a84b8d4628db4a4b728fd610c21472cbe7d814d897dea84ce357"
+    "sha256": "eca33ed3a23b2bf9b103acc5581e4d5621e4c078085a2abc9b4d8beefc4ac8ce"
   },
   "brief_observation_refs": [
     {
@@ -569,8 +569,8 @@
       "state": "READONLY_DESIGN_IN_PROGRESS"
     }
   ],
-  "next": "Design checked8call consumption+C5 certificate; capture futuretool identity, then freshsameversion callee/caller proof.",
-  "next_step": "Design checked8call consumption+C5 certificate; capture futuretool identity, then freshsameversion callee/caller proof.",
+  "next": "Implement source-only control fingerprints and closed C5 port; review/Cloud capture exact inputs before proof.",
+  "next_step": "Review source-only8/37 control capture; full1200Cloud before checked8call/C5 port.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -685,7 +685,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T04:06:51Z",
+  "updated_utc": "2026-10-24T04:43:05Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -787,6 +787,63 @@
     "state": "COMPLETE_SOURCE_REPORTED_CAPTURE_ONLY",
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
+  },
+  "w4_checked_caller_preparation": {
+    "base_source_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+    "caller_body_proof_admission": false,
+    "design": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CHECKED-CALLER-ADMISSION-DESIGN.json",
+      "sha256": "d0b53255dbe2dec2927bdff5742f2443dc11fe3997682bb94562f65a56286362"
+    },
+    "main_integration": "Fixed real service composition: recording API singlecall/exception preservation, currentnested C6 inventory in run/audit, physicalaudit-write failures, exactbool/int fields. Positive source pair pinned to previousW4 capture. No actual tools run locally.",
+    "proof_credit": 0,
+    "runtime_artifacts": [
+      {
+        "path": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py",
+        "sha256": "ecd35463f2d0e96fd47b81b5f934d606b317a1660f83694cf97aac7efe226585"
+      },
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json",
+        "sha256": "f7e7211c18611b22ff5178e595dc11c3a9e7e72e091f977d02d9f3b5f22eaaf8"
+      },
+      {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-FINGERPRINT-MANIFEST.json",
+        "sha256": "9e66bea48026b4772dee9efa3c93da2dcb56596545b32c3282ff3ecad9250f23"
+      },
+      {
+        "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-control-fingerprint-r24.patch",
+        "sha256": "22a1275f4b2a0f2b52b1d9febb7ceb9e0a70655b6e1bc24118f9de0e96c12c99"
+      }
+    ],
+    "scope": "Exact existing W4 source/profile; no representative exporter support found, no generic enhancements.",
+    "source_only_pilot": {
+      "accepted": false,
+      "claim": "Capture-only; batch completion is not universe/control/proof completion.",
+      "publication_allowed": false,
+      "selected_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "tool_identity_record": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-F83-TOOL-IDENTITY.json",
+        "sha256": "8bee7bcd29354d979e26f96b6e7138662dee38359b8edc54f95d74e8316e962d"
+      },
+      "universe": 37,
+      "universe_complete": false
+    },
+    "state": "PREPARED_UNREVIEWED_UNBUILT_SOURCE_ONLY_PILOT",
+    "subtasks": {
+      "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
+      "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
+      "runner_worker": "source-only control capture component and synthetic tests"
+    },
+    "tests": "90 targeted static/synthetic checks PASS; real source constructors/tools/fullrunners only Cloud."
   },
   "w4_const_file_api_build": {
     "accepted": false,

@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 HERE = Path(__file__).resolve().parent
 DRIVER_PATH = HERE / 'select-callee-r24-w4-contract-inputs.py'
@@ -37,6 +38,20 @@ class ContractInputsTests(unittest.TestCase):
         self.assertEqual(driver.expected_mode(REPO)['proof_credit'], 0)
         self.assertTrue(all(row['exit_code'] == driver.NATIVE_REFUSAL_EXIT == 2
                             for row in generator.expected_mode()['expected_results'].values()))
+
+    def test_runtime_mode_requires_only_exact_manifest_and_matches_authoring_mode(self):
+        expected = driver.expected_mode(REPO)
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            manifest = repo / driver.MANIFEST_REL
+            manifest.parent.mkdir(parents=True)
+            manifest.write_bytes((REPO / driver.MANIFEST_REL).read_bytes())
+            self.assertFalse((repo / driver.GENERATOR_REL).exists())
+            with mock.patch.object(driver, '_load', side_effect=AssertionError('authoring import forbidden')):
+                self.assertEqual(driver.expected_mode(repo), expected)
+            manifest.write_bytes(manifest.read_bytes() + b'\n')
+            with self.assertRaises(RuntimeError):
+                driver.expected_mode(repo)
 
     def test_production_helper_api_and_sorted_header_manifest_shape(self):
         capture = driver._load(HERE, Path(driver.CAPTURE_REL.name), 'test_real_w4_capture', driver.CAPTURE_SHA256)

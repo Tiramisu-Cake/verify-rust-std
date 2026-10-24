@@ -1,0 +1,62 @@
+{
+  "schema": "select-r24-w4-source-reported-tool-identity-v1",
+  "build_id": "fffd29e2-c835-4b5b-b7be-d7236451afcb",
+  "source_sha": "0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7",
+  "assurance": "SOURCE_REPORTED",
+  "classification": "C6_INPUT_DIAGNOSTIC_TOOL_IDENTITY_ONLY",
+  "tool_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/frontend/ocaml_expr_of_ast.ml": "f32f1a9abd3f31c211b3ac633eca130e3298ab6e8fe39e5b489c69401efc1f94",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "6a866aa5d469a1677ae1ac1bcdd675e4c059dcde449872b9cd1700d4b2e51246",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+    "bin/verifast": "9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb"
+  },
+  "evidence": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-0.json",
+      "sha256": "80c7d66df382ed4303058ade391ac834fa0bd3ce97c314ed7a9ffa0237ce867e"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-1.json",
+      "sha256": "ac385f2f7efc3cb68983a57549448cbf1dafe49e76891d406aaed7309d92cc0a"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-2.json",
+      "sha256": "8c2d9b599dd53d2fedd51a59d8c789c5053013c644434438620ecb9b80f80638"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-3.json",
+      "sha256": "514977c5dc8203b645235796e6de5a9396b1d4da2058de9e59c22dfe2b1f59b7"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-4.json",
+      "sha256": "3263118b52bc6b412dd5e2f24936b08f3b3df98c4f668681aefff00b40f2c14c"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-5.json",
+      "sha256": "505974e3475363207e797eb4d361e22b644f36b66834063ac4eb725e3306c4de"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-6.json",
+      "sha256": "49ab99e5b70c57d2ac3ce239a826c504813b634ca3181c4a2f0ad0ae25eef5ba"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-file-7.json",
+      "sha256": "78557aceb0d3b142feaf7a1fa99a61772f70ca43a1197043356aa08a51c797db"
+    },
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/brief-evidence/s35-native-tool.json",
+      "sha256": "34b595a85bb522379ba355079f47e9b58471a0380bae8e27999d6f17b19e97cd"
+    }
+  ],
+  "proof_qualification": false,
+  "accepted": false,
+  "publication_allowed": false,
+  "caller_body_proof_admission": false,
+  "proof_credit": 0,
+  "caveat": "Nine exact measured records from Evidence Brief. Binary digest is a recorded diagnostic build output. Does not transfer bootstrap callee qualification or establish verifier acceptance."
+}

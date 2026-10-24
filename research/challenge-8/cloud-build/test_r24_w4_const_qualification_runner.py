@@ -172,6 +172,38 @@ audit_result() {{ [[ "$1" == 0 && "$2" == complete ]]; }}
         result = self.shell(code + branch())
         self.assertEqual(result.returncode, 4, result.stderr)
 
+    def test_w4_transport_keeps_active_route_and_omits_only_mutable_executables(self):
+        recipe = json.loads((CLOUD / 'recipes/o26-select-callee-r20.json').read_text())
+        selected = set(recipe['proof_paths']) | set(recipe['infra_paths'])
+        self.assertIn(MODE_REL.as_posix(), selected)
+        self.assertIn(HELPER.relative_to(REPO).as_posix(), selected)
+        self.assertIn('research/challenge-8/task-history/select-callee-r24/P2-MUT-QUALIFIED-PROFILE.json', selected)
+        design = json.loads((REPO / 'research/challenge-8/task-history/select-callee-r24/W4-CHECKED-CALLER-ADMISSION-DESIGN.json').read_text())
+        omitted = design['runtime_transport_closure']['omitted_mutable_only_helpers']
+        self.assertEqual(len(omitted), 10)
+        reached = [CLOUD / name for name in (
+            'select-callee-r24-w4-const-qualification.py',
+            'select-callee-r24-w4-const-consequence.py',
+            'select-callee-r24-w4-contract-inputs.py',
+            'select-callee-r24-w4-control-capture.py',
+            'select-callee-r24-w4-linkage-diagnostic.py',
+            'select-callee-r24-w4-capture.py',
+            'select-callee-r24-w4-mir-calls.py',
+            'select-callee-r21-fractional-proof-entry.py',
+            'select-callee-r21-fractional-proof.py',
+            'select-callee-r21-fractional.py',
+            'select-callee-r21-proof-audit.py',
+        )]
+        for rel in omitted:
+            self.assertNotIn(rel, selected)
+            for path in reached:
+                self.assertNotIn(Path(rel).name, path.read_text(), (rel, path))
+        # A reached success branch exits before any omitted mutable stage.
+        result = self.shell(self.setup() +
+            'r24_w4_const_qualification=1\nstage() { return 0; }\n'
+            'audit_result() { return 0; }\n' + branch() + '\nexit 99\n')
+        self.assertEqual(result.returncode, 0, result.stderr)
+
 
 if __name__ == '__main__':
     unittest.main()

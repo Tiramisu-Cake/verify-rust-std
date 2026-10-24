@@ -26,7 +26,7 @@ SUMMARY_REL = Path('cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION.json
 AUDIT_REL = Path('cases/r24-w4-const-qualification/W4-CONST-QUALIFICATION-AUDIT.json')
 WORK_REL = Path('cases/r24-w4-const-qualification/work')
 MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json')
-MODE_SHA256 = '9c752875818b9c94249d28cabae3b071995738a33b35137be856fe3fd1537b91'
+MODE_SHA256 = '47d412551eb7556716c67d1186042e7fb315bf5d90e9f1cd5ddf65010d78493f'
 CAPTURE_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-MODE.json')
 CAPTURE_MODE_SHA256 = '1d251b0d1a48ec1c3310e9ae179f7a750b8608ec57c31a4da3b46ce6e12fe0a3'
 CAPTURE_PINS_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CAPTURE-PINS.json')
@@ -49,9 +49,13 @@ TARGET_INTENT_SCHEMA = 'select-r24-w4-const-derived-target-intent-v1'
 CONSEQUENCE_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py')
 CONSEQUENCE_SHA256 = 'bf89a183e39fddf17ea6247859775b4d0bb72febae635df67b15fccf744de420'
 CONTRACT_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-contract-inputs.py')
-CONTRACT_SHA256 = '7898b9d34c25188bb428717e1e122458b3cdecb0471046f72807839e647b2e7b'
+CONTRACT_SHA256 = 'feda942eac699b45accf8980742e1e110d9e4b4d28b84420352048f3e5a97c21'
 CONTRACT_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-MODE.json')
 CONTRACT_MODE_SHA256 = '55e055bc316fa66e538d109e6ee1d1bd15452ba3f64c84fae54f6ef2bb0abe2a'
+CONTROL_REL = Path('research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py')
+CONTROL_SHA256 = 'ecd35463f2d0e96fd47b81b5f934d606b317a1660f83694cf97aac7efe226585'
+CONTROL_MODE_REL = Path('research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json')
+CONTROL_MODE_SHA256 = 'f7e7211c18611b22ff5178e595dc11c3a9e7e72e091f977d02d9f3b5f22eaaf8'
 R21_ENTRY_REL = Path('research/challenge-8/cloud-build/select-callee-r21-fractional-proof-entry.py')
 R21_ENTRY_SHA256 = '0947e128a10cadd69c615b5da54b5647a31568ecc0f7e0d229681c862c54263d'
 R21_AUDIT_REL = Path('research/challenge-8/cloud-build/select-callee-r21-proof-audit.py')
@@ -372,6 +376,11 @@ def expected_mode() -> dict[str, Any]:
         'postqualification_diagnostic_mode_path': CONTRACT_MODE_REL.as_posix(),
         'postqualification_diagnostic_mode_sha256': CONTRACT_MODE_SHA256,
         'postqualification_diagnostic_only': True,
+        'source_control_capture_path': CONTROL_REL.as_posix(),
+        'source_control_capture_sha256': CONTROL_SHA256,
+        'source_control_capture_mode_path': CONTROL_MODE_REL.as_posix(),
+        'source_control_capture_mode_sha256': CONTROL_MODE_SHA256,
+        'source_control_capture_only': True,
         'variants': list(VARIANTS),
         'ordinary_callee_proof_stages_enabled': True,
         'caller_body_proof_admission': False,
@@ -431,6 +440,12 @@ def _context(args: argparse.Namespace, env: dict[str, str], *, require_live_dead
 
 def _validate_pins(args: argparse.Namespace) -> dict[str, Any]:
     _load_json(args.repo, CONTRACT_MODE_REL, CONTRACT_MODE_SHA256)
+    _load_json(args.repo, CONTROL_MODE_REL, CONTROL_MODE_SHA256)
+    control_helper = args.cloud_dir / CONTROL_REL.name
+    need(CONTROL_SHA256 != 'PENDING' and control_helper.is_file() and
+         not control_helper.is_symlink() and
+         sha(control_helper.read_bytes()) == CONTROL_SHA256,
+         'source-only control capture helper differs')
     contract_driver = args.cloud_dir / CONTRACT_REL.name
     need(CONTRACT_SHA256 != 'PENDING' and contract_driver.is_file() and
          not contract_driver.is_symlink() and
@@ -940,9 +955,46 @@ def _contract_boundary_errors(record: object, *, audited: bool = False) -> list[
     return errors
 
 
+def _control_module(args: argparse.Namespace, module: Any | None):
+    if module is None:
+        module = _load(args.cloud_dir / CONTROL_REL.name,
+                       'r24_w4_control_capture', CONTROL_SHA256)
+    need(getattr(module, 'SCHEMA', None) == 'select-r24-w4-control-capture-v1' and
+         getattr(module, 'SUMMARY_REL', None) ==
+         Path('cases/r24-w4-control-capture/W4-CONTROL-CAPTURE.json') and
+         getattr(module, 'AUDIT_REL', None) ==
+         Path('cases/r24-w4-control-capture/W4-CONTROL-CAPTURE-AUDIT.json') and
+         callable(getattr(module, 'run', None)) and callable(getattr(module, 'audit', None)),
+         'source-only control capture API differs')
+    return module
+
+
+def _control_args(args: argparse.Namespace, work: Path, module: Any,
+                  runner_exit: int, failed_stage: str) -> argparse.Namespace:
+    child = argparse.Namespace(**vars(args))
+    child.evidence = work
+    child.const_mode_file = args.mode_file
+    child.mode_file = args.repo / CONTROL_MODE_REL
+    child.native_tool_home = Path('/workspace/smallsort-work/r24-w4-contract-input-tool')
+    child.schema = child.native_tool_home / 'src/rust_frontend/vf_mir/vf_mir.capnp'
+    child.output = work / module.AUDIT_REL
+    child.runner_exit = runner_exit
+    child.failed_stage = failed_stage
+    return child
+
+
+def _control_boundary_errors(record: object, *, audited: bool = False) -> list[str]:
+    errors = _contract_boundary_errors(record, audited=audited)
+    if type(record) is dict and (record.get('body_proof_run') is not False or
+                                record.get('universe_complete') is not False):
+        errors.append('source-only pilot capture exceeded its reporting boundary')
+    return errors
+
+
 def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _run_command,
         consequence_module: Any | None = None,
         contract_module: Any | None = None,
+        control_module: Any | None = None,
         env: dict[str, str] | None = None) -> dict[str, Any]:
     live_env = dict(os.environ)
     selected_env = live_env if env is None else dict(env)
@@ -988,6 +1040,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
         'matrix_audit_path': (work / CONST_MATRIX_AUDIT_REL).relative_to(outer_evidence).as_posix(),
         'consequence_summary_path': None, 'postqualification_diagnostic': None,
         'postqualification_diagnostic_audit': None, 'errors': [],
+        'source_control_capture': None, 'source_control_capture_audit': None,
         'accepted': False, 'publication_allowed': False, 'proof_credit': 0,
         'caller_body_proof_admission': False,
         'w4_caller_body_proof_status': 'UNKNOWN',
@@ -1074,6 +1127,18 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
                 diagnostic_audit = contract_module.audit(contract_args, **prerequisites)
                 record['postqualification_diagnostic_audit'] = diagnostic_audit
                 record['errors'].extend(_contract_boundary_errors(diagnostic_audit, audited=True))
+                if not record['errors']:
+                    control_module = _control_module(args, control_module)
+                    child = _control_args(args, work, control_module, 0, 'complete')
+                    prerequisites = dict(prerequisite_summary=diagnostic,
+                                         prerequisite_audit=diagnostic_audit)
+                    captured = control_module.run(child, **prerequisites)
+                    record['source_control_capture'] = captured
+                    record['errors'].extend(_control_boundary_errors(captured))
+                    _save_summary(record_path, record)
+                    captured_audit = control_module.audit(child, **prerequisites)
+                    record['source_control_capture_audit'] = captured_audit
+                    record['errors'].extend(_control_boundary_errors(captured_audit, audited=True))
         record['source_observation'] = _source_observation(work)
     except BaseException as exc:
         record['errors'].append('exception: ' + type(exc).__name__ + ': ' + str(exc))
@@ -1107,8 +1172,10 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
         record.get('source_observation', {}).get('complete') is True and \
         record.get('consequence', {}).get('complete') is True and \
         type(record.get('postqualification_diagnostic')) is dict and \
-        record['postqualification_diagnostic'].get('complete') is True
-    record['classification'] = ('CONST_CALLEE_REQUALIFIED_WITH_CONTRACT_INPUT_DIAGNOSTIC_SOURCE_REPORTED'
+        record['postqualification_diagnostic'].get('complete') is True and \
+        type(record.get('source_control_capture')) is dict and \
+        record['source_control_capture'].get('complete') is True
+    record['classification'] = ('CONST_CALLEE_REQUALIFIED_WITH_SOURCE_CONTROL_CAPTURE_SOURCE_REPORTED'
                                 if record['complete'] else 'INCOMPLETE_CONST_REQUALIFICATION')
     record['accepted'] = False
     record['publication_allowed'] = False
@@ -1119,6 +1186,7 @@ def run(args: argparse.Namespace, *, command_runner: Callable[..., object] = _ru
 
 def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
           contract_module: Any | None = None,
+          control_module: Any | None = None,
           env: dict[str, str] | None = None) -> dict[str, Any]:
     live_env = dict(os.environ)
     selected_env = live_env if env is None else dict(env)
@@ -1279,6 +1347,16 @@ def audit(args: argparse.Namespace, *, consequence_module: Any | None = None,
             errors.extend(_contract_boundary_errors(physical_diagnostic))
             if saved_diagnostic != physical_diagnostic:
                 errors.append('contract-input diagnostic summary changed after run')
+            control_module = _control_module(args, control_module)
+            child = _control_args(args, work, control_module, args.runner_exit, args.failed_stage)
+            control_audit = control_module.audit(
+                child, prerequisite_summary=physical_diagnostic,
+                prerequisite_audit=diagnostic_audit)
+            errors.extend(_control_boundary_errors(control_audit, audited=True))
+            physical_control = _read_object(work / control_module.SUMMARY_REL)
+            errors.extend(_control_boundary_errors(physical_control))
+            if source.get('source_control_capture') != physical_control:
+                errors.append('source-only control capture summary changed after run')
         except BaseException as exc:
             errors.append('contract-input diagnostic audit failed: ' + type(exc).__name__ + ': ' + str(exc))
         before = source.get('native_tool_hashes_before')

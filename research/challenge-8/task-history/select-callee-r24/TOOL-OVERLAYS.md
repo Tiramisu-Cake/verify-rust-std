@@ -162,3 +162,35 @@ Patch `cloud-build/sort4-caller-entry-native/w4-contract-input-r24.patch` SHA-25
 Row36 header-syntax revision: replace S33 row36 directly over row35/5170; do not apply both revisions. S33 candidate881ed4be used patch27278f4a / translator36272c89 and compiled diagnostic binaryc79dfe7e, then rejected the positive RSSPEC at line5 because its final parameter had a trailingcomma. Current revision removes only that comma and refreshes closed header/hash/size literals. No parser, contract body, ABI type, default rule or checker change. S34 compiled this revision (binary9176c224) and reported actual/imported AST hash0671d1da equal and exact callerbody067c inputs matched; collection rejected the native refusalexit2 against wrong expected1. Native sourcef83/patch6c8 remain byte-identical in the next driver/mode exit2 correction; no callee qualification or callerproof credit transfers. Historical source/report remains bound to881ed4be; see W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json and W4-CONTRACT-HEADER-SYNTAX-DESIGN.json.
 
 Native exit protocol metadata revision: all six mode expected_results now require exactly2; driver run/audit require RAN plus integer2 and all existing exact markers/facts/physical checks. Other exits including1 remain refused. This revises generator/manifest metadata and driver/mode hashes only; translatorf83 and patch6c8 are unchanged. See W4-CONTRACT-NATIVE-EXIT-OBSERVATIONS.json and W4-CONTRACT-NATIVE-EXIT-DESIGN.json.
+
+Row36 collection update: Build `fffd29e2-c835-4b5b-b7be-d7236451afcb`
+at `0ac30a23e0ccb4cf0f2e391d859591388b1c6ab7` reports all six input
+cases and physical audits complete; platform FAILURE is preserved. The nine
+measured files are recorded in
+[W4-CONTRACT-F83-TOOL-IDENTITY.json](W4-CONTRACT-F83-TOOL-IDENTITY.json),
+including diagnostic binary
+`9176c2244f90482264d52ab30cfedd61248e6e3b0b0126eaf57e1d8310c868cb`.
+This is source-reported input congruence, with no call consumption, C5 body
+admission, or callee qualification on that binary.
+
+## Row37 control-source data probe — UNBUILT
+
+In another separate Cloud copy, patch
+`cloud-build/sort4-caller-entry-native/w4-control-fingerprint-r24.patch`
+SHA-256 `22a1275f4b2a0f2b52b1d9febb7ceb9e0a70655b6e1bc24118f9de0e96c12c99`
+applies after row36/F83, producing translator
+`1276f006b5dd757a9dc9fbf87e4d9491758c24f71ba5dc409f0c08720a528a13`.
+The exact R24/R21/profile/Cloud/lane opt-in captures a single
+`sort4_stable` decoded unit/body and then unconditionally refuses before body
+translation. A controller-declared current fixture SHA is a data-capture
+check, never a proof whitelist. The default route is inactive; partial or
+unknown data-mode environment keys refuse.
+
+The first selected batch is 8 of 37 count-five source variants. Completion
+means those selected inputs were captured and audited; the full control
+universe, intended scope-validator failures, checked eight-call consumption,
+and C5 body proof remain open. The new binary is a measured diagnostic
+output, not a qualified proof tool. No current const8, consequence, C6,
+P2 metadata, source/runtime, model, or checker gate is removed. See
+[W4-CONTROL-FINGERPRINT-MANIFEST.json](W4-CONTROL-FINGERPRINT-MANIFEST.json)
+and [W4-CHECKED-CALLER-ADMISSION-DESIGN.json](W4-CHECKED-CALLER-ADMISSION-DESIGN.json).

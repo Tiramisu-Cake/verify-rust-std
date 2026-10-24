@@ -1,0 +1,26 @@
+{
+  "accepted": false,
+  "base_translator_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+  "caller_body_proof_admission": false,
+  "environment_prefix": "SORT4_R24_W4_DATA_FINGERPRINT_",
+  "expected_native_exit": 2,
+  "expected_refusal": "snapshot complete; no proof rule admitted",
+  "generator_sha256": "432c567fb582610fa35aed980d57a713bd88106af3a65f4a4224134cc79cd28d",
+  "mode_value": "1",
+  "outputs": [
+    "native-data.json",
+    "caller-native-unit.marshal",
+    "caller-native-body-0.marshal"
+  ],
+  "patch": {
+    "path": "research/challenge-8/cloud-build/sort4-caller-entry-native/w4-control-fingerprint-r24.patch",
+    "sha256": "22a1275f4b2a0f2b52b1d9febb7ceb9e0a70655b6e1bc24118f9de0e96c12c99"
+  },
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "result_translator_sha256": "1276f006b5dd757a9dc9fbf87e4d9491758c24f71ba5dc409f0c08720a528a13",
+  "schema": "select-r24-w4-control-fingerprint-manifest-v1",
+  "source_hash_semantics": "Controller-declared source-only fixture SHA; never a proof whitelist or summary admission.",
+  "stdout_prefix": "SORT4-R24-W4-DATA:",
+  "typed_call_linkage": "UNKNOWN"
+}

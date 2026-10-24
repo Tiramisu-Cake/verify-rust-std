@@ -251,8 +251,14 @@ def _load(repo: Path, rel: Path, module_name: str, expected: str):
 def expected_mode(repository: Path | None = None) -> dict[str, Any]:
     """Return the canonical closed driver mode; its physical SHA is pinned separately."""
     repository=repository or Path(__file__).resolve().parents[3]
-    generator=_load(repository,GENERATOR_REL,'r24_contract_mode_generator',GENERATOR_SHA256)
-    generator_mode=generator.expected_mode()
+    manifest = _load_pinned_json(repository, MANIFEST_REL, MANIFEST_SHA256)
+    need(manifest.get('generator_sha256') == GENERATOR_SHA256 and
+         manifest.get('base_translator_sha256') == BOOTSTRAP_SOURCE_SHA256 and
+         manifest.get('result_translator_sha256') == PATCHED_SOURCE_SHA256 and
+         manifest.get('patch', {}).get('sha256') == PATCH_SHA256 and
+         type(manifest.get('mode')) is dict,
+         'native manifest mode provenance differs')
+    generator_mode = manifest['mode']
     return {
         'schema': 'select-r24-w4-contract-inputs-driver-mode-v1',
         'native_mode': generator_mode,
