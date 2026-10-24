@@ -1,0 +1,44 @@
+{
+  "baseline_commit": "5b36505d150951f769e260c6de1d5d5069e2fcfb",
+  "candidate_commit": "15dba47e2ea3c2092cd1607330bda9a2d8afafc4",
+  "candidate_tree": "59d9b5524f80c7374117748e946e0bf88009634c",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_CURRENT_TOOL_CONST_MATRIX_AND_CONSEQUENCE_BUILD_ONLY",
+  "diff_sha256": "9d4272dfcd321b1c94f82934bd4616e8ebc7b55d13de34dd04a9813fb2c0472f",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second run of the current-tool eight-row const matrix plus the checked positive/omitted-relation consequence and physical audits, subject to existing R24 ledger/deadline/route admission.",
+    "The current-tool matrix and consequence remain unbuilt. The old 8a qualification and existing native input snapshots do not independently qualify the new tool; only a complete current-tool run can establish that source-reported prerequisite.",
+    "No typed call linkage, callsite binding, caller-body proof/admission, P2 transfer, acceptance, publication, or independent proof credit is established. Proof credit remains 0."
+  ],
+  "not_run": [
+    "No Cloud Build, source preparation, compiler/exporter/decoder/refinement/verifier execution, native tools, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "5140af38309479c6fd2136bd74611e13c1a53d786b3103b84c6189d7b59db1e9",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-typed-val-audit-review.json",
+      "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-const-requalification-independent-review-v1",
+  "spec_sha256": "dbc14ae23751eda46a76925b4db3f3d40441f9005616aeddd24668228b37b752",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static review covered qualification/consequence helpers, mode, shell integration, recipe closure, pins and consequence contract source.",
+    "The packet reports 12 consequence, 12 wrapper, 6 new Bash and 10 legacy Bash tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "The qualification wrapper distinguishes the old const qualification on 8a/01eaa from the current 5170/33b tool. It pins the old record as history, then reruns fresh source preflight/capture/compare, baseline source stage, the complete eight-row const matrix and its physical R21 audit on the current native tool identity. It checks exact current Build, source, command, row/control and before/after tool identities.",
+    "The provider overlay is consumed only through its already-produced current-candidate receipt and exact five path/hash checks; no fake GitHub route or overlay reapplication is used. Current source-generation files and pinned source pairs are verified.",
+    "The separate ordinary VeriFast consequence takes the actual pointer-view equality `(selected as pointer) == conditional pointer-view` as an explicit precondition, frames the existing thread token and `type_interp`, opens only empty `raw_ptr_own`, and asks the verifier to establish typed `selected == conditional`. The omission control removes that relation and requires a unique failure at the normal post. This checks a consequence; it does not establish the callee relation or attach a summary to any call site.",
+    "Consequence and outer audits bind fresh source bytes/ghost-strip identity, full stage argv/output/source snapshots/logs/AST artifacts, exact matrix summary/audit, native and frozen-tool identities, and model hash. No caller-body proof route, admission, acceptance, publication, or proof credit is enabled."
+  ]
+}

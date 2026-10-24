@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "d80e9fa038110dc5f21c99cbb2d433186aa303b68ec311f73f3874327620631c"
+      "sha256": "95c2743bdb0b209a86b77ee5a1391484f8be3037ff93d432dfbddd4982ab8cc2"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json",
-        "sha256": "07e94dae46a6a0162067ef49976fa263a016af96c2ba54e9e72a17ea03b34c13"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json",
+        "sha256": "d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a"
       }
     ],
-    "summary": "Current-tool const8 and checked pointer-post consequence implemented; preflight/review/Cloud pending."
+    "summary": "Reviewed current-tool const8/consequence candidate unbuilt; W4 checked linkage/C5 still open."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "d80e9fa038110dc5f21c99cbb2d433186aa303b68ec311f73f3874327620631c"
+    "sha256": "95c2743bdb0b209a86b77ee5a1391484f8be3037ff93d432dfbddd4982ab8cc2"
   },
   "brief_observation_refs": [
     {
@@ -1190,8 +1190,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Commit candidate; preflight/review/publish; full1200 native const8 plus checked consequence controls.",
-  "next_step": "Commit candidate; preflight/review/publish; full1200 native const8 plus checked consequence controls.",
+  "next": "Publish exact candidate; full1200 native const8/consequence controls; then Brief and W4 binding.",
+  "next_step": "Publish exact candidate; full1200 native const8/consequence controls; then Brief and W4 binding.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1306,7 +1306,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T01:10:12Z",
+  "updated_utc": "2026-10-24T01:15:53Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1409,6 +1409,33 @@
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
   },
+  "w4_const_requalification_candidate": {
+    "accepted": false,
+    "caller_body_proof_admission": false,
+    "candidate": "15dba47e2ea3c2092cd1607330bda9a2d8afafc4",
+    "mode_sha256": "e9236089af34945027ba3a22126436356ddabe2e6908eca8ea99741becb7c39f",
+    "native_binary_sha256": "33b693fa92790864db503fa69657e572fd2699350e6c7e1b4b2ffc3998108fe0",
+    "native_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-TRANSPORT-PREFLIGHT.json",
+      "sha256": "fade4b03fad323d98354aad2487a359c4e9881281aea98590150a964c5372e3a"
+    },
+    "proof_credit": 0,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json",
+      "sha256": "d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a"
+    },
+    "runtime_closure": {
+      "bytes": 3543179,
+      "entries": 158,
+      "sha256": "ec7ad49978e6feceaab2fc4e9517f568b8e6ffe1fa895124ee2dcbc3b358675a"
+    },
+    "scope": "CURRENT_NATIVE_CONST8_AND_CHECKED_POINTER_POST_CONSEQUENCE_ONLY",
+    "state": "REVIEWED_UNBUILT",
+    "typed_call_linkage": "UNKNOWN",
+    "w4_caller_body_proof_status": "UNKNOWN",
+    "wrapper_sha256": "3ac557f7a6d7f99a6665fcd1db893a2a883726c788a9f7e8a00933a20b71b137"
+  },
   "w4_const_requalification_preparation": {
     "caller_body_proof_admission": false,
     "consequence": {
@@ -1425,8 +1452,12 @@
       "sha256": "e9236089af34945027ba3a22126436356ddabe2e6908eca8ea99741becb7c39f"
     },
     "proof_credit": 0,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json",
+      "sha256": "d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a"
+    },
     "source_profile": "native5170/bin33b; frozen8a/P2 unchanged",
-    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "state": "REVIEWED_UNBUILT",
     "tests": "12 consequence +12 wrapper (unmocked synthetic provider-overlay/pins) +6 new Bash routing +10 old Bash regressions pass; Bash syntax/diff pass. Actual native proofs unbuilt.",
     "workers": {
       "checked_consequence": "r24_admission",

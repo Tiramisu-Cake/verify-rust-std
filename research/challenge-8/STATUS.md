@@ -1,7 +1,7 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
 - Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
-- Updated: 2026-10-24T01:10:12Z
+- Updated: 2026-10-24T01:15:53Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
 - Budget: 21600s total; 9662s spent; 0s retired; 11938s remaining including active reservations
@@ -21,13 +21,13 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-Current-tool const8 and checked pointer-post consequence implemented; preflight/review/Cloud pending.
-- [research/challenge-8/task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json](task-history/select-callee-r24/W4-CONST-REQUALIFY-DESIGN.json) SHA `07e94dae46a6a0162067ef49976fa263a016af96c2ba54e9e72a17ea03b34c13`
+Reviewed current-tool const8/consequence candidate unbuilt; W4 checked linkage/C5 still open.
+- [research/challenge-8/task-history/select-callee-r24/R24-w4-const-requalification-review.json](task-history/select-callee-r24/R24-w4-const-requalification-review.json) SHA `d2853be07bca146ba82ce576fb3f67562ba95f3a042b49f20148e060d16ef00a`
 
 ## Next
-Commit candidate; preflight/review/publish; full1200 native const8 plus checked consequence controls.
+Publish exact candidate; full1200 native const8/consequence controls; then Brief and W4 binding.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
 - [research/challenge-8/task-history/select-callee-r24/CONST-CALLEE-MATRIX.json](task-history/select-callee-r24/CONST-CALLEE-MATRIX.json) — `0a2d64df19c36b9c19b31e648dd7678be8c7668237df3d7a10a7a76e1ba4b3ee`
-- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `d80e9fa038110dc5f21c99cbb2d433186aa303b68ec311f73f3874327620631c`
+- [research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json](task-history/select-callee-r24/R24-ARTIFACT-INDEX.json) — `95c2743bdb0b209a86b77ee5a1391484f8be3037ff93d432dfbddd4982ab8cc2`
