@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p1-03-u8-isolate",
+  "request_id": "net-p1-04-cost-isolation",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "Job 7 died (infrastructure_fail, no artifacts) on 18 harnesses; isolate with u8 only: sort9/sort13 over stub swap_if_less, insertion offset 13 (real insert_tail), top len 0..=17 over stubs; K1-merge comparators, no memcmp in harness checks",
+  "purpose": "Job 10: symbolic-length contract harnesses time out / OOM for u8. Isolate cost: sort9 real without contracts; sort9 contract at constant len 9; trait entrypoint at constant len 13 and 17 with real callees; probe permutation",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 5,
+  "harness_timeout_minutes": 3,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::direct_sort9_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::contract_sort9_u8_len9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_o13_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::direct_network_len13_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::network_upto17_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::direct_network_len17_u8",
       "expect": "SUCCESS"
     }
   ]

@@ -192,3 +192,76 @@ macro_rules! check_network_no_merge {
 check_network_no_merge!(network_upto17_u8, u8, lt_u8);
 check_network_no_merge!(network_upto17_i32, i32, lt_i32);
 check_network_no_merge!(network_upto17_u64, u64, lt_u64);
+
+// ---------------------------------------------------------------------------------------------
+// Cost isolation (job 10: every symbolic-length harness above timed out at 5 min for u8). Constant
+// lengths, real bodies, permutation by an arbitrary probe value: for every value `p`, the number of
+// elements equal to `p` is preserved, which is multiset equality since `p` is nondeterministic.
+
+fn probe_count<T: PartialEq>(s: &[T], p: &T) -> usize {
+    let mut n = 0;
+    let mut i = 0;
+    while i < s.len() {
+        if s[i] == *p {
+            n += 1;
+        }
+        i += 1;
+    }
+    n
+}
+
+fn sorted_by<T, F: FnMut(&T, &T) -> bool>(s: &[T], cmp: &mut F) -> bool {
+    let mut i = 1;
+    while i < s.len() {
+        if cmp(&s[i], &s[i - 1]) {
+            return false;
+        }
+        i += 1;
+    }
+    true
+}
+
+/// Real `sort9_optimal` and real `swap_if_less`, no contracts involved.
+#[kani::proof]
+fn direct_sort9_u8() {
+    let mut v: [u8; 9] = kani::any();
+    let p: u8 = kani::any();
+    let pre = v;
+    super::super::sort9_optimal(&mut v[..], &mut lt_u8);
+    assert!(sorted_by(&v[..], &mut lt_u8));
+    assert!(probe_count(&pre[..], &p) == probe_count(&v[..], &p));
+    kani::cover(true, "end reached");
+}
+
+/// The `sort9_optimal` contract at one constant length, over `stub_verified(swap_if_less)`.
+#[kani::proof_for_contract(super::super::sort9_optimal)]
+#[kani::stub_verified(super::super::swap_if_less)]
+fn contract_sort9_u8_len9() {
+    let mut v: [u8; 9] = kani::any();
+    super::super::sort9_optimal(&mut v[..], &mut lt_u8);
+    kani::cover(true, "end reached");
+}
+
+/// The trait entrypoint at constant length `N`, every callee real.
+fn direct_network<const N: usize>() {
+    let mut v: [u8; N] = kani::any();
+    let p: u8 = kani::any();
+    let pre = v;
+    let mut cmp = lt_u8;
+    <u8 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
+    assert!(sorted_by(&v[..], &mut cmp));
+    assert!(probe_count(&pre[..], &p) == probe_count(&v[..], &p));
+    kani::cover(true, "end reached");
+}
+
+#[kani::proof]
+#[kani::unwind(18)]
+fn direct_network_len13_u8() {
+    direct_network::<13>();
+}
+
+#[kani::proof]
+#[kani::unwind(18)]
+fn direct_network_len17_u8() {
+    direct_network::<17>();
+}
