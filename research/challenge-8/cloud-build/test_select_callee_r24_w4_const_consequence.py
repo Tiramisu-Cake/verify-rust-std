@@ -3,6 +3,8 @@ from __future__ import annotations
 import importlib.util
 import json
 import copy
+import inspect
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -20,12 +22,17 @@ MODEL_BYTES = (b'pred_ctor raw_ptr_own<T>()(t: thread_id_t, v: *T;) = true;\n'
                b'type_pred_def for <T> <*T>.own = raw_ptr_own::<T>;\n')
 
 
-class FakeDiagnostic:
+class DiagnosticServiceOverrides:
     def __init__(self, schema_sha):
-        self.TOOL_HASHES = {'src/rust_frontend/vf_mir/vf_mir.capnp': schema_sha}
-        self.CAPTURE_PINS_REL = Path('pins.json')
-        self.MIR_CALLS_REL = Path('mir-calls.py')
+        self._real = CONSEQ._load(MODULE_PATH.with_name(CONSEQ.DIAG_REL.name),
+                                  'r24_w4_const_consequence_real_diag_test',
+                                  CONSEQ.DIAG_SHA256)
+        self.TOOL_HASHES = dict(self._real.TOOL_HASHES)
+        self.TOOL_HASHES['src/rust_frontend/vf_mir/vf_mir.capnp'] = schema_sha
         self.generation = 0
+
+    def __getattr__(self, name):
+        return getattr(self._real, name)
 
     def _validate_context(self, args):
         return tuple(Path(getattr(args, name)).resolve() for name in
@@ -36,20 +43,6 @@ class FakeDiagnostic:
         return {'provider': 'cloud-build', 'phase_id': CONSEQ.R24_PHASE,
                 'route_phase_id': CONSEQ.R21_PHASE, 'lane': CONSEQ.LANE,
                 'profile': CONSEQ.PROFILE}
-
-    @staticmethod
-    def _validate_mode(*_args):
-        return {'enabled': True}
-
-    @staticmethod
-    def _regular_under(root, path):
-        root, path = Path(root), Path(path)
-        try:
-            if root.is_symlink() or path.is_symlink() or not path.is_file():
-                return False
-            return path.resolve().is_relative_to(root.resolve())
-        except OSError:
-            return False
 
     def _tool_hashes(self, _tool_home):
         return {'frozen-generation': self.generation}
@@ -91,7 +84,7 @@ class ConstConsequenceTests(unittest.TestCase):
             path = native / 'bin' / tool_name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(b'synthetic tool')
-        diag = FakeDiagnostic(CONSEQ.sha((base / 'VfMir.capnp').read_bytes()))
+        diag = DiagnosticServiceOverrides(CONSEQ.sha((base / 'VfMir.capnp').read_bytes()))
         args = SimpleNamespace(repo=repo, cloud_dir=cloud, evidence=evidence,
             tool_home=tool, native_tool_home=native, schema=base/'VfMir.capnp',
             capture_mode_file=repo/'capture-mode.json', mode_file=repo/'mode.json',
@@ -100,6 +93,59 @@ class ConstConsequenceTests(unittest.TestCase):
             failed_stage='complete')
         summary, audit = self.matrix_fixture(args)
         return args, diag, summary, audit
+
+    def test_pinned_diagnostic_api_boundary_is_real_and_does_not_invent_file_helper(self):
+        actual = CONSEQ._load(MODULE_PATH.with_name(CONSEQ.DIAG_REL.name),
+                              'r24_w4_const_consequence_diag_api_test',
+                              CONSEQ.DIAG_SHA256)
+        self.assertFalse(hasattr(actual, '_regular_under'))
+        self.assertEqual(tuple(inspect.signature(actual._validate_context).parameters),
+                         ('args', 'fresh'))
+        self.assertEqual(tuple(inspect.signature(actual._validate_route).parameters), ())
+        self.assertEqual(tuple(inspect.signature(actual._tool_hashes).parameters), ('tool_home',))
+        self.assertEqual(tuple(inspect.signature(actual._native_tool_identity).parameters),
+                         ('tool_home',))
+        self.assertIn('src/rust_frontend/vf_mir/vf_mir.capnp', actual.TOOL_HASHES)
+
+    def test_local_regular_file_containment_rejects_escape_missing_and_symlink_parents(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            evidence = base/'evidence'
+            evidence.mkdir()
+            regular = evidence/'case'/'log.txt'
+            regular.parent.mkdir()
+            regular.write_text('safe')
+            self.assertTrue(CONSEQ._regular(evidence, regular))
+            self.assertFalse(CONSEQ._regular(evidence, evidence/'missing.txt'))
+            self.assertFalse(CONSEQ._regular(evidence, base/'outside.txt'))
+
+            outside = base/'outside'
+            outside.mkdir()
+            (outside/'secret.txt').write_text('no')
+            (evidence/'linked-dir').symlink_to(outside, target_is_directory=True)
+            self.assertFalse(CONSEQ._regular(evidence, evidence/'linked-dir'/'secret.txt'))
+            (evidence/'linked-file').symlink_to(regular)
+            self.assertFalse(CONSEQ._regular(evidence, evidence/'linked-file'))
+            alias = base/'alias'
+            alias.symlink_to(base, target_is_directory=True)
+            self.assertFalse(CONSEQ._regular(alias/'evidence', alias/'evidence'/'case'/'log.txt'))
+            self.assertFalse(CONSEQ._regular(evidence, evidence/'case'/'..'/'case'/'log.txt'))
+
+    def test_native_bounded_positive_header_and_footer_are_accepted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            case = Path(tmp)
+            stdout, stderr = 'positive.log', 'positive-stderr.log'
+            (case/stdout).write_text(
+                "  0.128093s: verified/lib.rs(3,1-21,2): Verifying function "
+                "'select_w4_const_post_consequence'\n"
+                "0 errors found (51 statements verified) "
+                "(target: x86_64-unknown-linux-gnu (LP64))\n")
+            (case/stderr).write_text('')
+            result = CONSEQ._verify_log(case,
+                {'stdout': stdout, 'stderr': stderr, 'exit': 0}, negative=False,
+                verified=CONSEQ._source(CONSEQ.FUNCTION, include_relation=True),
+                expected_stdout=stdout, expected_stderr=stderr)
+            self.assertEqual(result['error_count'], 0)
 
     def matrix_fixture(self, args):
         rows = {}

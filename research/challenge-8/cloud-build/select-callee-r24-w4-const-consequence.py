@@ -240,8 +240,36 @@ def commands_for(args: argparse.Namespace, *, negative: bool = False) -> dict[st
     }
 
 
-def _regular(diag, root: Path, path: Path) -> bool:
-    return bool(diag._regular_under(root, path))
+def _regular(root: Path, path: Path) -> bool:
+    """Check a regular file contained below root without symlink parents."""
+    try:
+        root, path = Path(root), Path(path)
+        if not root.is_absolute() or not path.is_absolute() or '..' in root.parts or '..' in path.parts:
+            return False
+        root = Path(os.path.abspath(root))
+        path = Path(os.path.abspath(path))
+        relative = path.relative_to(root)
+        if any(part in ('', '.', '..') for part in relative.parts):
+            return False
+        if root.is_symlink() or not root.is_dir():
+            return False
+        current = root
+        for index, part in enumerate(relative.parts):
+            current = current / part
+            if current.is_symlink():
+                return False
+            if index + 1 < len(relative.parts) and not current.is_dir():
+                return False
+        if not current.is_file():
+            return False
+        root_real = root.resolve(strict=True)
+        file_real = current.resolve(strict=True)
+        if root_real != root or file_real != current:
+            return False
+        file_real.relative_to(root_real)
+        return True
+    except (OSError, TypeError, ValueError, RuntimeError):
+        return False
 
 
 def _strict_text(path: Path) -> str:
@@ -305,13 +333,14 @@ def _verify_log(case: Path, stage: dict[str, Any], *, negative: bool,
             'stderr_sha256': sha((case / expected_stderr).read_bytes())}
 
 
-def _case_inventory(diag, evidence: Path, case: Path, report_path: Path) -> list[dict[str, Any]]:
-    need(_regular(diag, evidence, case / 'original/lib.rs') and
-         _regular(diag, evidence, case / 'verified/lib.rs'), 'fixture sources missing or unsafe')
+def _case_inventory(evidence: Path, case: Path, report_path: Path) -> list[dict[str, Any]]:
+    need(_regular(evidence, case / 'original/lib.rs') and
+         _regular(evidence, case / 'verified/lib.rs'), 'fixture sources missing or unsafe')
     rows = []
     for path in sorted(case.rglob('*')):
         need(not path.is_symlink(), 'fixture artifact symlink: ' + str(path))
         if path.is_file():
+            need(_regular(evidence, path), 'fixture artifact is outside root or has symlink parent: ' + str(path))
             raw = path.read_bytes()
             rows.append({'path': path.relative_to(evidence).as_posix(),
                          'bytes': len(raw), 'sha256': sha(raw)})
@@ -320,10 +349,10 @@ def _case_inventory(diag, evidence: Path, case: Path, report_path: Path) -> list
     return rows
 
 
-def _validate_case(diag, args: argparse.Namespace, evidence: Path, case: Path,
+def _validate_case(args: argparse.Namespace, evidence: Path, case: Path,
                    name: str, *, negative: bool) -> dict[str, Any]:
     original_path, verified_path = case / 'original/lib.rs', case / 'verified/lib.rs'
-    need(_regular(diag, evidence, original_path) and _regular(diag, evidence, verified_path),
+    need(_regular(evidence, original_path) and _regular(evidence, verified_path),
          name + ' source pair missing/unsafe')
     original, verified = original_path.read_bytes(), verified_path.read_bytes()
     expected_verified = _source(NEGATIVE_FUNCTION if negative else FUNCTION,
@@ -335,7 +364,7 @@ def _validate_case(diag, args: argparse.Namespace, evidence: Path, case: Path,
     stages: dict[str, Any] = {}
     for stage_name in _expected_stage_names(negative):
         stage_path = case / (stage_name + '-stage.json')
-        need(_regular(diag, evidence, stage_path), name + ' stage missing/unsafe: ' + stage_name)
+        need(_regular(evidence, stage_path), name + ' stage missing/unsafe: ' + stage_name)
         row = json.loads(stage_path.read_text(encoding='utf-8'))
         need(isinstance(row, dict), name + ' stage has wrong type: ' + stage_name)
         command_name = stage_name
@@ -348,8 +377,8 @@ def _validate_case(diag, args: argparse.Namespace, evidence: Path, case: Path,
         need(type(row.get('exit')) is int and type(row.get('timeout_seconds')) is int and
              1 <= row['timeout_seconds'] <= 1200,
              name + ' stage missing/timeout/wrong result: ' + stage_name)
-        need(_regular(diag, evidence, case / stdout_name) and
-             _regular(diag, evidence, case / expected_stderr),
+        need(_regular(evidence, case / stdout_name) and
+             _regular(evidence, case / expected_stderr),
              name + ' stage stdout/stderr missing: ' + stage_name)
         stdout_path, stderr_path = case / stdout_name, case / expected_stderr
         if stage_name in ('normal-decode', 'readonly-decode', 'refinement'):
@@ -363,7 +392,7 @@ def _validate_case(diag, args: argparse.Namespace, evidence: Path, case: Path,
     proof_name = 'omit-result-relation-proof' if negative else 'consequence-proof'
     proof = stages[proof_name]
     proof_stdout = proof['stdout']; proof_stderr = proof['stderr']
-    need(_regular(diag, evidence, case / ('omit-result-relation.ast.ml' if negative
+    need(_regular(evidence, case / ('omit-result-relation.ast.ml' if negative
          else 'consequence.ast.ml')), name + ' verifier AST artifact missing/unsafe')
     ast_path = case / ('omit-result-relation.ast.ml' if negative else 'consequence.ast.ml')
     ast_raw = ast_path.read_bytes()
@@ -377,7 +406,7 @@ def _validate_case(diag, args: argparse.Namespace, evidence: Path, case: Path,
                                'CHECKED_CONSEQUENCE_SOURCE_REPORTED'),
             'proof_log': proof_log,
             'ast': {'path': ast_path.name, 'bytes': len(ast_raw), 'sha256': sha(ast_raw)},
-            'artifact_inventory': _case_inventory(diag, evidence, case, evidence / SUMMARY_REL)}
+            'artifact_inventory': _case_inventory(evidence, case, evidence / SUMMARY_REL)}
 
 
 def _context(args: argparse.Namespace, diag) -> tuple[dict[str, Any], dict[str, str], dict[str, str]]:
@@ -518,7 +547,7 @@ def run(args: argparse.Namespace, *, diag=None, stage=None,
                      row.get('fixture_integrity') is True and
                      type(row.get('timeout_seconds')) is int and 1 <= row['timeout_seconds'] <= 1200,
                      name + ' stage failed, timed out, or source drifted: ' + stage_name)
-            case_report = _validate_case(diag, args, evidence, case, name, negative=negative)
+            case_report = _validate_case(args, evidence, case, name, negative=negative)
             report.setdefault('cases', {})[name] = case_report
             report['failed_stage'] = 'source-inventory'
             write_json(output, report)
@@ -578,6 +607,7 @@ def _artifact_inventory(evidence: Path, case_root: Path, output: Path) -> list[d
     for path in sorted(case_root.rglob('*')):
         need(not path.is_symlink(), 'artifact symlink: ' + str(path))
         if path.is_file() and path.resolve() not in excluded:
+            need(_regular(evidence, path), 'artifact escapes evidence or has symlink parent: ' + str(path))
             raw = path.read_bytes()
             rows.append({'path': path.relative_to(evidence).as_posix(),
                          'bytes': len(raw), 'sha256': sha(raw)})
@@ -597,7 +627,7 @@ def audit(args: argparse.Namespace, *, diag=None,
         roots, route, _ids = _context(args, diag)
         native_id = _build_id()
         need(roots['evidence'] == evidence, 'evidence root differs')
-        need(_regular(diag, evidence, evidence / SUMMARY_REL), 'consequence summary missing/unsafe')
+        need(_regular(evidence, evidence / SUMMARY_REL), 'consequence summary missing/unsafe')
         summary = json.loads((evidence / SUMMARY_REL).read_text(encoding='utf-8'))
         need(isinstance(summary, dict) and summary.get('schema') == SCHEMA and
              summary.get('complete') is True and summary.get('candidate') == args.candidate and
@@ -612,7 +642,7 @@ def audit(args: argparse.Namespace, *, diag=None,
         need(summary.get('const_matrix') == matrix, 'consequence matrix provenance differs')
         for name, negative in (('positive', False), ('omit-result-relation', True)):
             case = evidence / SUMMARY_REL.parent / name
-            observed = _validate_case(diag, args, evidence, case, name, negative=negative)
+            observed = _validate_case(args, evidence, case, name, negative=negative)
             need(summary.get('cases', {}).get(name) == observed,
                  name + ' physical source/stage/log/AST evidence changed')
         before, after = summary.get('native_tool_identity_before'), summary.get('native_tool_identity_after')
