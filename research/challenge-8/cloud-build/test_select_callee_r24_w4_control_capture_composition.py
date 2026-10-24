@@ -138,6 +138,14 @@ class CompositionTests(unittest.TestCase):
                          work_root, self.env, {}, args.deadline_epoch, 1)
         return dict(target=str(target), errors=[], source_after_build=self.output_pins)
 
+    def graph_inventory(self, decoded_path, out, mode):
+        record = decoded_path.read_text()
+        (out / (mode + '-sort4-full-mir.txt')).write_text(record)
+        graph = {'synthetic': True, 'mode': mode}
+        (out / (mode + '-graph-inventory.json')).write_text(
+            json.dumps(graph, indent=2, sort_keys=True) + '\n')
+        return graph
+
     def patches(self):
         stack = ExitStack()
         stack.enter_context(mock.patch.dict(os.environ, self.env, clear=True))
@@ -152,7 +160,7 @@ class CompositionTests(unittest.TestCase):
             '_validate_capture_inputs': lambda *a: (
                 {'frozen-tool': 'pinned'},
                 types.SimpleNamespace(complete_function_record=lambda text, name: (name, text),
-                                      graph_inventory=lambda *a: {'synthetic': True})),
+                                      graph_inventory=self.graph_inventory)),
             '_validate_native_input_identity': lambda *a: self.input_pins,
             '_native_input_identity_record': lambda *a: {'build_id': OLD_BUILD, 'assurance': 'SOURCE_REPORTED'},
             '_load_constructor_inputs': lambda *a: (self.profile, {}),
@@ -243,6 +251,84 @@ class CompositionTests(unittest.TestCase):
         self.assertFalse(audit['evidence_complete'])
         self.assertFalse(audit['audit_written'])
         self.assertFalse((self.ev / M.AUDIT_REL).exists())
+
+    def test_every_persisted_mir_fact_is_bound_to_unchanged_physical_inputs(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            path = self.ev / M.SUMMARY_REL
+            original = path.read_bytes()
+            physical = M._summary_root_inventory(path.parent, self.ev)
+            mutations = {
+                'decoded_sha256': '0' * 64,
+                'full_function_record': 'other/report.txt',
+                'full_function_record_sha256': 'f' * 64,
+                'function_name': 'different_function',
+                'graph_inventory': {'synthetic': False, 'mode': 'normal'},
+            }
+            for mode in ('normal', 'readonly'):
+                for field, value in mutations.items():
+                    with self.subTest(mode=mode, field=field):
+                        report = json.loads(original)
+                        report['rows'][0]['mir'][mode][field] = value
+                        path.write_text(json.dumps(report))
+                        audit = self.audit_fake()
+                        self.assertFalse(audit['complete'])
+                        self.assertTrue(any('MIR' in e for e in audit['errors']))
+                        self.assertEqual(M._summary_root_inventory(path.parent, self.ev), physical)
+            for missing_or_extra in ('missing', 'extra'):
+                report = json.loads(original)
+                if missing_or_extra == 'missing':
+                    del report['rows'][0]['mir']['readonly']
+                else:
+                    report['rows'][0]['mir']['extra'] = {}
+                path.write_text(json.dumps(report))
+                self.assertFalse(self.audit_fake()['complete'])
+
+    def test_row_and_universe_metadata_are_reconstructed_not_trusted(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            path = self.ev / M.SUMMARY_REL
+            original = path.read_bytes()
+            physical = M._summary_root_inventory(path.parent, self.ev)
+            for branch in ('rows', 'constructor_inventory'):
+                with self.subTest(branch=branch):
+                    report = json.loads(original)
+                    report[branch][0]['source_metadata']['actual_indexed_calls'] = 2
+                    path.write_text(json.dumps(report))
+                    audit = self.audit_fake()
+                    self.assertFalse(audit['complete'])
+                    self.assertTrue(any('metadata' in e or 'constructor source inventory' in e
+                                        for e in audit['errors']))
+                    self.assertEqual(M._summary_root_inventory(path.parent, self.ev), physical)
+
+    def test_successful_graph_recheck_does_not_write_captured_artifacts(self):
+        with self.patches():
+            self.assertTrue(self.run_fake()['complete'])
+            root = self.ev / M.SUMMARY_REL.parent
+            before = M._summary_root_inventory(root, self.ev)
+            self.assertTrue(self.audit_fake()['complete'])
+            self.assertEqual(M._summary_root_inventory(root, self.ev), before)
+
+    def test_compare_only_adapter_uses_real_pinned_graph_parser_on_tiny_text(self):
+        repo = PATH.resolve().parents[3]
+        logical, pinned = M.HELPER_PINS['capture']
+        capture = M._load(repo / logical, 'r24_tiny_graph_parser', pinned)
+        case = self.ev / 'tiny-parser-service'
+        fixture = case / 'fixture'
+        fixture.mkdir(parents=True)
+        calls = '\n'.join(
+            '( id = (index = %d), fnDef = (id = (name = "std::ops::FnMut::call_mut")), '
+            'unwindAction = continue )' % i for i in range(5))
+        decoded = ('    ( defKind = function, defPath = "sort4_stable", '
+                   'inputs = [], localDecls = [], basicBlocks = [\n' + calls + '\n])')
+        path = fixture / 'normal-mir.txt'
+        path.write_text(decoded)
+        expected = capture.graph_inventory(path, case, 'normal')
+        before = {str(p): p.read_bytes() for p in case.rglob('*') if p.is_file()}
+        result = M._recompute_mir_observation(self.ev, case, 'normal', capture)
+        self.assertEqual(result['graph_inventory'], expected)
+        self.assertEqual(result['function_name'], 'sort4_stable')
+        self.assertEqual({str(p): p.read_bytes() for p in case.rglob('*') if p.is_file()}, before)
 
 
 if __name__ == '__main__':

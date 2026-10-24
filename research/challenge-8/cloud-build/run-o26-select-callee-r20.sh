@@ -128,8 +128,8 @@ r24_w4_const_mode_file="$proof_root/research/challenge-8/task-history/select-cal
 r24_w4_const_helper="$cloud_dir/select-callee-r24-w4-const-qualification.py"
 if [[ -e "$r24_w4_const_mode_file" ]]; then
   (( r24_w4_linkage_diagnostic == 1 )) || exit 2
-  [[ "$(sha256sum "$r24_w4_const_mode_file" | cut -d' ' -f1)" == 47d412551eb7556716c67d1186042e7fb315bf5d90e9f1cd5ddf65010d78493f ]] || exit 2
-  [[ "$(sha256sum "$r24_w4_const_helper" | cut -d' ' -f1)" == 5b148e32c4e314cb91eef7f8d607170d6c67af3046ff365a011336df3d638b0f ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_const_mode_file" | cut -d' ' -f1)" == feacb88a9599f1ebc095c3ca89aa5bf5186b055897b3b2a8e0ce1a53e6045b97 ]] || exit 2
+  [[ "$(sha256sum "$r24_w4_const_helper" | cut -d' ' -f1)" == b6a5988960cb3f7170cc5a760a2e34d60e7f3b61270df91d76ec293ea8548276 ]] || exit 2
   [[ "$(sha256sum "$cloud_dir/select-callee-r24-w4-const-consequence.py" | cut -d' ' -f1)" == bf89a183e39fddf17ea6247859775b4d0bb72febae635df67b15fccf744de420 ]] || exit 2
   [[ "$(sha256sum "$proof_root/research/challenge-8/task-history/select-callee-r24/W4-INPUTS-QUALIFICATION.json" | cut -d' ' -f1)" == 03a5e3b3afa601592a61e3f7a01c1485e674ac9f03ff8689c52c220361d75dce ]] || exit 2
   r24_w4_const_qualification=1

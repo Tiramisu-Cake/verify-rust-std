@@ -1,0 +1,12 @@
+{
+  "accepted": false,
+  "applicability": "Only source-only W4 pilot collector audit; no native, model, checker, runtime source, callee/consequence/C6 change.",
+  "caller_body_proof_admission": false,
+  "controls": "Fake run/audit with actualphysicaltinyfiles; mutate each MIR summaryfield, modekeys, graph, source_metadata anduniverse metadata without touching capturedartifactfiles; each mustrefuse. Snapshot artifactbytes before/after audit toconfirmreadonly. Existing90 checks retained.",
+  "defect": "Independent review cbe NO_GO: physical audit does not validate persisted MIR fields or row/source-universe metadata; report-only tampering can pass.",
+  "invariant": "Exactly normal+readonly MIR rows; fixed physical decoded/full-record/graph paths and bytes. Recompute complete_function_record and graph_inventory using pinnedhelper, require exactsort4_stable, compare every persisted path/hash/graph fact. Reconstruct metadata frompinnedconstructors and compareperrow/universe using canonicalJSON to distinguishbool/int.",
+  "proof_credit": 0,
+  "publication_allowed": false,
+  "read_only_choice": "Pinned graph_inventory normally writes two files. A narrow output adapter exposes only those exact leafnames and write_text; each write compares expected content to existing safe physicalfile bytes and records seenpaths, nevermutates evidence. Require both outputsseen. No clone/patch/reimplementation of graph parser; no actualtool/preparation onVPS.",
+  "schema": "select-r24-w4-control-audit-binding-design-v1"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "select-r24-w4-control-capture-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "NO_GO_FIX_REQUIRED_BEFORE_SOURCE_ONLY_PILOT",
+  "baseline_commit": "b1637b68085ae27cc49a7a9467f26ebc61590125",
+  "candidate_commit": "cbe1ff08e3b47a8fa874004560e059488840ae6b",
+  "candidate_tree": "ae6842527cea97ec8b777a55b29d36c8ee7b8373",
+  "spec_sha256": "888ac972e835ea186689d1fd6a519d7cf26e2ee44ed0ffb5fc7c1de9e0295e52",
+  "packet_sha256": "d49f556ed0835d834428ab8991cd5d70cdba7bb37bad69ab36f4ef652c8331ba",
+  "diff_sha256": "ad3d671e8e6031c564239c40a2ac58aa6fdbcbe8666b9274526712549d7d1782",
+  "packet_check": {
+    "state": "PACKET_IDENTITIES_REVIEWED",
+    "proof_credit": "NONE"
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-native-exit-review.json",
+      "sha256": "9ebf8a2d169fc8bf1f8543022d8438a2546009d8a9e64b97e968c360f9e94586"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "BLOCKER",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py::_run_capture_case / _audit_case",
+      "issue": "The run records per-mode MIR claims (`function_name`, decoded SHA, full-function-record path/SHA, and graph inventory) and per-row source metadata, but the physical audit does not validate those claims against the captured decoded files or reconstructed constructor metadata. `_audit_case` checks the case artifact inventory and stage records, yet never reads `row['mir']` or `row['source_metadata']`. A changed MIR path/hash/function name/graph summary or control metadata can therefore coexist with an audit marked complete, so the advertised source/MIR capture record is not fully bound to its physical inputs.",
+      "required_fix": "In the read-only audit, require exactly normal/readonly MIR rows; read and hash the physical decoded MIR and full-function files; recompute `complete_function_record` and graph inventory with the exact pinned capture helper; require function_name to be `sort4_stable`, and compare all resulting paths/hashes/graph facts to the report. Also compare each row's source_metadata to `_metadata_facts` of the reconstructed, pinned constructor row. Add tamper controls that alter each summary field while leaving physical files unchanged and require audit refusal."
+    }
+  ],
+  "verified": [
+    "Reviewed exact candidate cbe1ff08e3b47a8fa874004560e059488840ae6b against baseline b1637b68085ae27cc49a7a9467f26ebc61590125 and inspected the declared dependencies and complete changed implementation paths.",
+    "The additive native probe dispatch is opt-in, route-guarded, captures a single `sort4_stable` unit/body plus the exact fixture source identity, emits fixed diagnostic facts, and unconditionally raises before body translation/proof. It installs no summary or C5 rule; linkage remains UNKNOWN and all admission/acceptance/publication/credit flags remain false/zero.",
+    "The source constructors retain count five and assert runtime preservation through ghost stripping; the positive source checks the 5/8/4 call counts. C3/C4 controls are explicitly rebuilt against the count-five body rather than spoofing their prefix-only constructor metadata. C5 scope controls are labeled as unexecuted native scope-validator observations.",
+    "The control driver checks the same-Build C6 summary/audit and physical F83 tool inventory, uses the exact pinned constructor/helper/capture modules, and preserves the full 37-entry universe while selecting only the explicit 0..7 pilot batch. The batch is not reported as universe-complete.",
+    "Reviewed the real pinned capture runner interface: `run_stage` accepts `stdin_name`/`stdout_name`, emits distinct stderr when stdout is named, and writes a stage record. The collector calls that interface by the pinned names, audits stage argv/status/exit/fixture snapshots, and checks the frozen capture tool before/after. Its safe-path helpers reject symlinked/aliased ancestors and partial failures retain a top-level incomplete snapshot.",
+    "The recipe removes only the ten listed mutable-only helpers from the infra closure; the selected linkage/C6 path exits before the mutable branches. Constructor code and active W4 helpers remain in the proof/runtime closure. The exact f83 authoring scratch hash matches the asserted base translator hash."
+  ],
+  "tests": [
+    "The packet reports 90 targeted static/synthetic checks passing, including the composed fake run/physical-audit path and exact committed transport preflight PASS. I did not rerun candidate tests or transport checks.",
+    "Static review only; no actual source preparation, compiler/exporter/decoder/refiner/verifier/full runner, Cloud Build, or raw CI evidence access was performed."
+  ],
+  "limitations": [
+    "NO_GO is limited to this source-only pilot candidate until the audit binds persisted MIR summary and metadata claims to their physical/reconstructed inputs. No caller proof, C5 admission, or independent proof credit is established by this diagnostic design."
+  ],
+  "proof_credit": 0,
+  "cloud_build_submitted": false
+}

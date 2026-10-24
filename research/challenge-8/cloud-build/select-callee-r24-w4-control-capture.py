@@ -128,6 +128,11 @@ def digest(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def _json_exact(left: Any, right: Any) -> bool:
+    return json.dumps(left, sort_keys=True, separators=(',', ':'), allow_nan=False) == \
+           json.dumps(right, sort_keys=True, separators=(',', ':'), allow_nan=False)
+
+
 def _metadata_facts(meta: dict[str, Any]) -> dict[str, Any]:
     keys = ('name', 'mir_target', 'focus_line', 'end_line', 'first_comparator_line',
             'callback_call_lines', 'actual_c1_recovery', 'actual_c2_recovery',
@@ -794,8 +799,8 @@ def _run_capture_case(args: argparse.Namespace, *, row: dict[str, Any],
             continue
         decoded = decoded_path.read_text(encoding='utf-8', errors='strict')
         function_name, function_record = capture_module.complete_function_record(decoded, 'sort4_stable')
-        if not isinstance(function_name, str) or not isinstance(function_record, str):
-            errors.append(mode + ' complete_function_record returned wrong type')
+        if function_name != 'sort4_stable' or not isinstance(function_record, str):
+            errors.append(mode + ' complete_function_record returned wrong target/type')
             continue
         function_path = case_root / f'{mode}-sort4-full-mir.txt'
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
@@ -1293,7 +1298,8 @@ def run(args: argparse.Namespace, *, prerequisite_summary=None,
         report['constructor_inventory'] = [
             {'name': row['name'], 'kind': row['kind'],
              'verified_bytes': len(row['verified']), 'verified_sha256': digest(row['verified']),
-             'original_bytes': len(row['original']), 'original_sha256': digest(row['original'])}
+             'original_bytes': len(row['original']), 'original_sha256': digest(row['original']),
+             'source_metadata': _metadata_facts(row['metadata'])}
             for row in source_rows]
         report['failed_stage'] = 'native-tool-build'
         tool_build_root = out_path.parent / 'tool-build'
@@ -1404,8 +1410,53 @@ def run(args: argparse.Namespace, *, prerequisite_summary=None,
         raise
 
 
+def _recompute_mir_observation(evidence: Path, case_root: Path, mode: str,
+                               capture_module) -> dict[str, Any]:
+    """Run the pinned graph parser with compare-only output paths."""
+    decoded_path = case_root / 'fixture' / (mode + '-mir.txt')
+    decoded_raw = _read_regular(decoded_path, evidence)
+    decoded = decoded_raw.decode('utf-8', 'strict')
+    function_name, record = capture_module.complete_function_record(decoded, 'sort4_stable')
+    need(function_name == 'sort4_stable' and type(record) is str,
+         'physical MIR record has wrong target/type')
+    record_path = case_root / (mode + '-sort4-full-mir.txt')
+    need(_read_regular(record_path, evidence) == record.encode('utf-8'),
+         'physical full-function record differs from decoded MIR')
+    expected_outputs = {mode + '-sort4-full-mir.txt', mode + '-graph-inventory.json'}
+    seen: set[str] = set()
+
+    class CompareFile:
+        def __init__(self, name):
+            self.name = name
+
+        def write_text(self, text):
+            need(type(text) is str and self.name not in seen,
+                 'graph parser attempted duplicate or invalid output')
+            need(_read_regular(case_root / self.name, evidence) == text.encode('utf-8'),
+                 'physical graph output differs from recomputed contents: ' + self.name)
+            seen.add(self.name)
+            return len(text)
+
+    class CompareDirectory:
+        def __truediv__(self, name):
+            need(type(name) is str and name in expected_outputs,
+                 'graph parser attempted an unexpected output path')
+            return CompareFile(name)
+
+    graph = capture_module.graph_inventory(decoded_path, CompareDirectory(), mode)
+    need(seen == expected_outputs and type(graph) is dict,
+         'graph parser did not reproduce both exact physical outputs')
+    return {
+        'decoded_sha256': digest(decoded_raw),
+        'full_function_record': record_path.relative_to(evidence).as_posix(),
+        'full_function_record_sha256': digest(record.encode('utf-8')),
+        'graph_inventory': graph,
+        'function_name': function_name,
+    }
+
+
 def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
-                capture_tool: Path, native_tool: Path) -> list[str]:
+                capture_tool: Path, native_tool: Path, capture_module) -> list[str]:
     errors = []
     variant = row.get('variant')
     if row.get('complete') is not True or row.get('status') != 'SOURCE_ONLY_CAPTURE_COMPLETE' or row.get('errors') != []:
@@ -1419,6 +1470,18 @@ def _audit_case(evidence: Path, row: dict[str, Any], report: dict[str, Any],
         errors.append(str(variant) + ' artifact inventory invalid: ' + str(exc))
         return errors
     fixture = case_root / 'fixture'
+    mir = row.get('mir')
+    if type(mir) is not dict or set(mir) != {'normal', 'readonly'}:
+        errors.append(str(variant) + ' MIR mode inventory differs')
+    else:
+        for mode in ('normal', 'readonly'):
+            try:
+                recomputed = _recompute_mir_observation(evidence, case_root, mode, capture_module)
+                if not _json_exact(mir[mode], recomputed):
+                    errors.append(str(variant) + ' ' + mode + ' MIR facts differ from physical inputs')
+            except BaseException as exc:
+                errors.append(str(variant) + ' ' + mode + ' MIR recheck failed: ' +
+                              type(exc).__name__ + ': ' + str(exc))
     fixture_records = row.get('fixture')
     if not isinstance(fixture_records, dict):
         errors.append(str(variant) + ' fixture record malformed')
@@ -1643,7 +1706,7 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
         native_schema_sha = _validate_native_schema(Path(args.schema).resolve(), native_home)
         if report.get('native_schema_sha256') != native_schema_sha:
             audit_report['errors'].append('native F83 schema changed since capture')
-        frozen_hashes, _ = _validate_capture_inputs(repo, cloud_dir, tool_home,
+        frozen_hashes, capture_module = _validate_capture_inputs(repo, cloud_dir, tool_home,
                                                     _args_schema(args), capture_mode)
         if report.get('capture_tool_hashes_before') != frozen_hashes or report.get('capture_tool_hashes_after') != frozen_hashes:
             audit_report['errors'].append('frozen capture tool hashes differ')
@@ -1680,14 +1743,14 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
         constructor_inventory = report.get('constructor_inventory')
         expected_inventory = [{'name': row['name'], 'kind': row['kind'],
             'verified_bytes': len(row['verified']), 'verified_sha256': digest(row['verified']),
-            'original_bytes': len(row['original']), 'original_sha256': digest(row['original'])}
+            'original_bytes': len(row['original']), 'original_sha256': digest(row['original']),
+            'source_metadata': _metadata_facts(row['metadata'])}
             for row in reconstructed]
         if not isinstance(constructor_inventory, list) or len(constructor_inventory) != len(expected_inventory):
             audit_report['errors'].append('full 37-case constructor inventory is incomplete')
         else:
             for observed, expected_row in zip(constructor_inventory, expected_inventory):
-                if not isinstance(observed, dict) or any(observed.get(key) != value
-                        for key, value in expected_row.items()):
+                if type(observed) is not dict or not _json_exact(observed, expected_row):
                     audit_report['errors'].append('constructor source inventory differs: ' + expected_row['name'])
         if not isinstance(rows, list):
             rows = []
@@ -1695,6 +1758,8 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             if not isinstance(row, dict) or row.get('variant') not in expected_sources:
                 continue
             expected = expected_sources[row['variant']]
+            if not _json_exact(row.get('source_metadata'), _metadata_facts(expected['metadata'])):
+                audit_report['errors'].append(row['variant'] + ' source metadata differs from pinned constructors')
             fixture_facts = row.get('fixture')
             if not isinstance(fixture_facts, dict) or \
                fixture_facts.get('verified', {}).get('sha256') != digest(expected['verified']) or \
@@ -1736,7 +1801,8 @@ def audit(args: argparse.Namespace, *, prerequisite_summary=None,
             if not isinstance(row, dict) or row.get('index') != expected_index or row.get('variant') != BODY_NAMES[expected_index]:
                 audit_report['errors'].append('pilot row order/type differs at index ' + str(expected_index))
                 continue
-            audit_report['errors'].extend(_audit_case(evidence, row, report, tool_home, target_tool))
+            audit_report['errors'].extend(_audit_case(
+                evidence, row, report, tool_home, target_tool, capture_module))
         physical_all = _summary_root_inventory(evidence / SUMMARY_REL.parent, evidence)
         if report.get('artifact_inventory') != physical_all:
             audit_report['errors'].append('summary-root physical inventory differs')

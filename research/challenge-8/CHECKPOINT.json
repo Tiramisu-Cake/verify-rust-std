@@ -55,7 +55,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "eca33ed3a23b2bf9b103acc5581e4d5621e4c078085a2abc9b4d8beefc4ac8ce"
+      "sha256": "a1c2a0c0b1ac67f47f104db66a794f6fc98bbea74c7a59a0bac76c21ceb66371"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -88,7 +88,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "eca33ed3a23b2bf9b103acc5581e4d5621e4c078085a2abc9b4d8beefc4ac8ce"
+    "sha256": "a1c2a0c0b1ac67f47f104db66a794f6fc98bbea74c7a59a0bac76c21ceb66371"
   },
   "brief_observation_refs": [
     {
@@ -570,7 +570,7 @@
     }
   ],
   "next": "Implement source-only control fingerprints and closed C5 port; review/Cloud capture exact inputs before proof.",
-  "next_step": "Review source-only8/37 control capture; full1200Cloud before checked8call/C5 port.",
+  "next_step": "Review corrected MIR/metadata audit; full1200 source-only pilot8/37, then checked8call/C5.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -685,7 +685,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T04:43:05Z",
+  "updated_utc": "2026-10-24T04:51:48Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -789,7 +789,24 @@
     "worker": "r24_admission"
   },
   "w4_checked_caller_preparation": {
+    "audit_binding_fix": {
+      "design": {
+        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-AUDIT-BINDING-DESIGN.json",
+        "sha256": "58406e19ffac730b5b6a64edde28f7774bffcda7deab108f1652b946ad7dce8f"
+      },
+      "prior_candidate": "cbe1ff08e3b47a8fa874004560e059488840ae6b",
+      "prior_review": {
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-control-capture-review.json",
+        "sha256": "9101c459c70af6ec5df21dac8e3aa08a99afb6a96d428b4034e3d608e042c0a0"
+      },
+      "scope": "Recompute exact normal/readonly MIR facts withpinnedhelper through compare-only outputs; canonicalmetadata frompinnedconstructors. Capture-only; alladmission/creditfalse.",
+      "state": "UNREVIEWED_FIX"
+    },
     "base_source_sha256": "f83bd98b5d466314782e47ddc2d80356a0d0736b6cfc03ade59409eb01313806",
+    "c5_static_reference": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-C5-PORT-REFERENCE.json",
+      "sha256": "d9bd675f127812737ab6948aace5231fef0459054e4eec83928b60c6b38756d1"
+    },
     "caller_body_proof_admission": false,
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CHECKED-CALLER-ADMISSION-DESIGN.json",
@@ -800,7 +817,7 @@
     "runtime_artifacts": [
       {
         "path": "research/challenge-8/cloud-build/select-callee-r24-w4-control-capture.py",
-        "sha256": "ecd35463f2d0e96fd47b81b5f934d606b317a1660f83694cf97aac7efe226585"
+        "sha256": "e4e6cb82364c3685b0a00f4fc0215e7f059d66e7b5ffffacd768bc12ce0fec0f"
       },
       {
         "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTROL-CAPTURE-MODE.json",
@@ -837,13 +854,13 @@
       "universe": 37,
       "universe_complete": false
     },
-    "state": "PREPARED_UNREVIEWED_UNBUILT_SOURCE_ONLY_PILOT",
+    "state": "REVIEW_FINDING_FIXED_UNREVIEWED_UNBUILT",
     "subtasks": {
       "main": "fingerprint probe, binding certificate/design, wrapper/transport/review/accounting",
       "native_worker": "No port produced: coupled R16 scope/deferred/R17 hooks cannot apply safely. Main retains full semantic rebase; no partial admission.",
       "runner_worker": "source-only control capture component and synthetic tests"
     },
-    "tests": "90 targeted static/synthetic checks PASS; real source constructors/tools/fullrunners only Cloud."
+    "tests": "94 targeted static/synthetic checks PASS, including report-only MIR/metadata tampering and realpinned graphparser on tiny artificialtext; no actualtoolchain/sourcepreparation."
   },
   "w4_const_file_api_build": {
     "accepted": false,
