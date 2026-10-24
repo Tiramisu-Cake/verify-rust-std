@@ -34,7 +34,7 @@
   "blocker": {
     "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
     "evidence": [],
-    "summary": "W4 typed calls and native fingerprints pending; checked linkage/C5 proof remain open. P2 PUBLISHED."
+    "summary": "W4 typed Val/audit diagnostic terminal FAILURE; source results pending Brief. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
@@ -1164,8 +1164,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
-  "next_step": "ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.",
+  "next": "Push terminal accounting; Brief typed calls/native fingerprints/final audit; continue W4 linkage.",
+  "next_step": "Push terminal accounting; Brief typed calls/native fingerprints/final audit; continue W4 linkage.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1258,17 +1258,15 @@
     "status": "FAILURE"
   },
   "session": {
-    "active_build_ids": [
-      "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9"
-    ],
+    "active_build_ids": [],
     "budget_seconds": 21600,
     "deadline_utc": "2026-10-26T11:48:18Z",
     "finish_minutes": 60,
     "main_deadline_utc": "2026-10-26T10:48:18Z",
     "main_minutes": 4320,
-    "remaining_seconds": 12258,
+    "remaining_seconds": 11938,
     "retired_seconds": 0,
-    "spent_seconds": 9342,
+    "spent_seconds": 9662,
     "t0": "2026-10-23T10:48:18Z",
     "unresolved_ids": []
   },
@@ -1280,9 +1278,9 @@
     "tool_worktree": "Existing dirty lib.rsspec, rust_parser.ml, vf_mir_translator.ml, verifast.ml preserved; base HEAD f76012fb.",
     "worktree_clean": true
   },
-  "state": "HANDOFF",
+  "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T00:30:49Z",
+  "updated_utc": "2026-10-24T00:36:31Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1547,7 +1545,7 @@
       "sha256": "fe94f4f2cbf73b4168a262aa517ea593495000638e26a1101840ec3a1e23e800"
     },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "tests": "13 parser +15 wrapper (real unmocked pin validation) +10 extracted Bash tests pass; Bash syntax/diff pass. Actual full parser and final audit unbuilt.",
     "typed_repair": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-TYPED-VAL-REPAIR.json",
@@ -1606,19 +1604,21 @@
   },
   "w4_typed_val_audit_build": {
     "accepted": false,
-    "accounted": false,
+    "accounted": true,
     "actual_body_proof_status": "UNKNOWN",
     "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
+    "build_seconds": 320,
     "candidate": "f12824a149a175acdf0b7e6b2620e28acca67ca2",
     "config_sha256": "af33e796b81a024dbb09cb187c410d69dac8b065580e982cbf76fcef503b4ece",
     "dispatch_token": "dispatch-c60df3ef885643aa874c2f57d59232e3",
+    "execution_seconds": 319,
     "proof_credit": 0,
     "publication_allowed": false,
     "reserved_seconds": 1260,
-    "result": "PENDING_BRIEF_TYPED_CALLS_AND_NATIVE_FINGERPRINTS_ONLY",
+    "result": "TERMINAL_PENDING_BRIEF",
     "schema": "select-r24-w4-typed-val-audit-submission-v1",
     "source_payload_sha256": "388c88dc8cfac7d6cfc539363f01290c05c1954672c5457fb6455abc20617c98",
-    "status": "QUEUED",
+    "status": "FAILURE",
     "timeout_seconds": 1200,
     "typed_call_linkage": "UNKNOWN"
   },
@@ -1645,7 +1645,7 @@
       "sha256": "4f7b369d4e21b0e7f6967cf550e0ba8b8fd00dd0b89a1810d7c2f466ef38f951"
     },
     "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
-    "state": "SUBMITTED",
+    "state": "TERMINAL_PENDING_BRIEF",
     "typed_call_linkage": "UNKNOWN"
   },
   "watcher_history": [
@@ -1722,7 +1722,11 @@
       "build_id": "5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9",
       "checkpoint_frozen_after_arm": true,
       "continuation": "Same R24/T0/ledger/window. ACK before CP; immediately push terminal accounting before Brief. Typed observations/native snapshots grant no linkage/proof acceptance.",
+      "event_id": "397cfb79-1ae3-4a86-8888-8a5a07dbad6c",
+      "job_id": "3d9618ea-9b27-4dd0-abba-d71862707abc",
+      "mode": "CONTINUE_EXISTING_WINDOW",
       "spec_path": "/tmp/select-r24-w4-typed-val-audit-watch.json",
+      "state": "ACKED",
       "store": "/root/.local/state/smallsort-watch-select-r24",
       "thread_id": "01a16828-df0f-7cf3-8caf-7406673a75a5"
     }

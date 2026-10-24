@@ -1,11 +1,11 @@
 # Agent checkpoint: select-callee-acceptance-autonomous-2026-10-24-r24
 
-- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: HANDOFF
-- Updated: 2026-10-24T00:30:49Z
+- Owner: select-sort4 | phase: SORT4-ACTUAL-SELECT-2026-10-24-R24 | state: ACTIVE
+- Updated: 2026-10-24T00:36:31Z
 - Baseline: source `81226dafedd2e8d1dfb140ab0e4dd88556bfd7db`, tool `f76012fb518703b1d98e243ac4f487f16877cfcb`, profile `d4b1b7350d9a9966bedfd0ef50e4c7f7b4cc071ca1f6c4e08d44ba85c36ed622`
 - Session dates: T0 `2026-10-23T10:48:18Z`; main deadline `2026-10-26T10:48:18Z`; absolute deadline `2026-10-26T11:48:18Z`; window 4320 min main + 60 min closeout (explicit)
-- Budget: 21600s total; 9342s spent; 0s retired; 12258s remaining including active reservations
-- Active Build IDs: 5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9
+- Budget: 21600s total; 9662s spent; 0s retired; 11938s remaining including active reservations
+- Active Build IDs: none recorded
 - Unresolved IDs: none recorded
 
 ## Confirmed claims
@@ -21,10 +21,10 @@
 - Treat ghost-successor consistency fix alone as sufficient remedy for S3 — First R24 Build reproduces the same3dead-code diagnostics. Keep103a34 consistency fix, but sufficiency hypothesis failed; cause remains UNKNOWN.; [research/challenge-8/task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json](task-history/select-callee-r24/FIRST-PROOF-OBSERVATIONS.json) SHA `22dac82fa84e2314a90f6eb82d1a120cb71decc22debd5824f86becc82966f00`
 
 ## Blocker
-W4 typed calls and native fingerprints pending; checked linkage/C5 proof remain open. P2 PUBLISHED. [Build `5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9`]
+W4 typed Val/audit diagnostic terminal FAILURE; source results pending Brief. P2 PUBLISHED. [Build `5a8dbd82-de9c-48bb-8cc3-b3a55110f0c9`]
 
 ## Next
-ACK; push terminal accounting; Brief typed calls/native fingerprints, then checked linkage/C5.
+Push terminal accounting; Brief typed calls/native fingerprints/final audit; continue W4 linkage.
 
 ## Artifacts
 - [research/challenge-8/task-history/select-callee-r24/TOOL-OVERLAYS.md](task-history/select-callee-r24/TOOL-OVERLAYS.md) — `38b19e62c9b9beff0d1fdee69eca0d4e2d6ba6b3bc8b6c4e7628928f7397b40a`
