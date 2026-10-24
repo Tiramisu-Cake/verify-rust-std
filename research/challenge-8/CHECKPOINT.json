@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "cc967ef6c86766c756d89943dc798ebac331eca6adaa6fb5104c406b4fe998b7"
+      "sha256": "7afc876ed5d18b552aa83e39266056a1f26e3fd6397b7e367d4f3ac9798c4465"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -34,16 +34,16 @@
   "blocker": {
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-LINKAGE-FIRST-OBSERVATIONS.json",
-        "sha256": "a67c592e3921a2c54215690c32f0337e1a8c749310088f650f01cc6afadb329b"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-fingerprint-review.json",
+        "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
       }
     ],
-    "summary": "Native fingerprint/typed schema/CLI candidate unbuilt; independent delta review pending. P2 PUBLISHED."
+    "summary": "Reviewed W4 typed/native fingerprint candidate unbuilt; checked linkage/C5 proof open. P2 PUBLISHED."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "cc967ef6c86766c756d89943dc798ebac331eca6adaa6fb5104c406b4fe998b7"
+    "sha256": "7afc876ed5d18b552aa83e39266056a1f26e3fd6397b7e367d4f3ac9798c4465"
   },
   "brief_observation_refs": [
     {
@@ -1148,8 +1148,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Commit candidate; static transport preflight; delta review; publish and full1200 diagnostic.",
-  "next_step": "Commit candidate; static transport preflight; delta review; publish and full1200 diagnostic.",
+  "next": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
+  "next_step": "Publish exact reviewed candidate; full1200 typed/native fingerprint diagnostic, then Brief and W4.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1264,7 +1264,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-23T23:59:12Z",
+  "updated_utc": "2026-10-24T00:01:58Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1449,6 +1449,32 @@
       "wrapper": "r24_mut_proof_runner"
     }
   },
+  "w4_native_fingerprint_candidate": {
+    "accepted": false,
+    "actual_body_proof_status": "UNKNOWN",
+    "candidate": "de7b8196de9d3f9556aad1b3b89d7150f2d0e844",
+    "capture_translator_sha256": "8a0260169bd2345070755e268edb640eaa4f02c261bef3330d7b33698e4ce007",
+    "helper_sha256": "f6cb301152c300747f33a4c66b3aa0bc99423e441bf9af898dded9708189f684",
+    "mode_sha256": "cdd28e90712e7eb5bc7ad8da1e54fa0a973cfb90f5b81f08074ee11f81c2483c",
+    "native_translator_sha256": "5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942",
+    "preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-TRANSPORT-PREFLIGHT.json",
+      "sha256": "b48ecf10fd1a8d93a07a9167f248617eaf9f7bcc5316a19d5d1357805e1dc9aa"
+    },
+    "proof_credit": 0,
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-fingerprint-review.json",
+      "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
+    },
+    "runtime_closure": {
+      "bytes": 3425648,
+      "entries": 153,
+      "sha256": "c30769a17e3282a38c91bfcdcdd173eb41cbbcf4b2e2243df642d399ff06b59b"
+    },
+    "scope": "TYPED_MIR_OBSERVATIONS_AND_REFUSAL_ONLY_NATIVE_MARSHAL_FINGERPRINTS",
+    "state": "REVIEWED_UNBUILT",
+    "typed_call_linkage": "UNKNOWN"
+  },
   "w4_native_fingerprint_preparation": {
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-NATIVE-FINGERPRINT-DESIGN.json",
@@ -1474,8 +1500,12 @@
     "native_binary_identity": "UNBUILT; source pinned, binary hash will be observed pre/post only",
     "proof_credit": 0,
     "reason": "Known ordinary callback refusal requires exact current native unit/body Marshal fingerprints before source-bound C5 admission; Capnp hashes are separate.",
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-native-fingerprint-review.json",
+      "sha256": "ad6654f607add4c2fd71e8440b834a8fb2311d231fa59fc127910fc1d728faf8"
+    },
     "scope": "Closed diagnostic-only overlay, separate copied native tool; old8a capture unchanged. Final refusal before proof admission.",
-    "state": "IMPLEMENTED_UNBUILT_REVIEW_PENDING",
+    "state": "REVIEWED_UNBUILT",
     "tests": "12 parser, 14 wrapper, 8 Bash tests pass after final mode pins; 23 old capture/mutable runner regressions passed by worker. Bash syntax and diff checks pass; no actual tools.",
     "workers": {
       "diagnostic_wrapper": "r24_mut_proof_runner",

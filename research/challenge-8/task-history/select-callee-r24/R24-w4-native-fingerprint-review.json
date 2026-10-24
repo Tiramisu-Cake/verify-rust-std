@@ -1,0 +1,44 @@
+{
+  "baseline_commit": "c2f8529fc92efb4da27c8b9dab0bc01e0e78b636",
+  "candidate_commit": "de7b8196de9d3f9556aad1b3b89d7150f2d0e844",
+  "candidate_tree": "f92a771e0854519a1042515634e0561f460feda7",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_FULL_1200S_RAW_TYPED_CALL_AND_NATIVE_FINGERPRINT_DIAGNOSTIC_ONLY",
+  "diff_sha256": "d5d176941a92bee48180530a88f0b9b454d6a763ee14cdbd0d17daae40971ed8",
+  "findings": [],
+  "limitations": [
+    "GO is limited to one full-1200-second R24 diagnostic Build under existing ledger/deadline/route admission. The candidate native binary is newly compiled and not prequalified; its identity is observed before and after the diagnostic only.",
+    "This build can report source-bound structural MIR calls and current native decoded-unit/body Marshal identities only. It does not establish typed call linkage, proof, body admission, caller acceptance, P2 publication, or independent proof credit.",
+    "The actual full MIR parser behavior and native probe compile/execution remain unverified until that Cloud run. The separate published P2 qualification remains pinned to the prior 8a026 profile."
+  ],
+  "not_run": [
+    "No Cloud Build, native compile/execution, source preparation, exporter/decoder/refinement/verifier execution, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "packet_sha256": "adf176cf4cfeb853213d6afc6470b561d65b48e89cf7cda897de068b2fd1c834",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-linkage-api-review.json",
+      "sha256": "92a9b38fda94cfec742ddf4c027f61f66486d123cb6d62d34d3bda8624b1eda5"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-native-fingerprint-independent-review-v1",
+  "spec_sha256": "e027d9d53ebc3afa857ccc63038be2eb27b51e6b2ad04f3f6d0990f78fce4093",
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static source/diff review included the native patch, generator, wrapper, audit, shell integration, mode and manifest.",
+    "The packet reports 12 parser, 14 wrapper, 8 Bash and 23 legacy runner tests passing; I did not rerun them."
+  ],
+  "verified": [
+    "Exact candidate, baseline, tree, spec and packet identities passed smallsort-session review check.",
+    "The frozen source/MIR capture continues on its original 8a026 tool identity. The shell copies the native tool to a distinct fresh path, verifies source base 8a026, applies the pinned overlay, checks resulting translator SHA 5170c56386f092d55a42251594eb4b080073f58828cbe1dcf44053b5bdc99942, then builds and invokes only that copied verifier.",
+    "The native translator patch adds a separate opt-in dispatch before existing nested/certificate/proof paths. It requires exact provider/R24/R21/profile/lane, Cloud build marker, no GitHub marker or foreign SORT4_* keys, the exact verified source hash, one sort4_stable body, safe fresh evidence directory and absent output files. It emits decoded-unit and body Marshal snapshots, then unconditionally raises the pinned Failure diagnostic before proof admission.",
+    "Wrapper and read-only audit bind native tool source hashes and pre/post binary identity, source fixture hashes, exact argv/exit-2 stage, separate stdout/stderr logs, exact refusal and snapshot markers, physical snapshot file inventory/hashes/bytes, and source/MIR/tool identities. Incomplete parser/capture/snapshot/native states remain incomplete; acceptance/publication/linkage stay false or UNKNOWN with zero credit.",
+    "The parser delta validates the optional ghostGenericArgList Option shape and coordinates, allows that field on ordinary call records, and still requires the selector calls to have the empty option. Other selector function/type/argument/destination/source span checks remain in place."
+  ]
+}
