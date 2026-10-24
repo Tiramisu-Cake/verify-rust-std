@@ -1,0 +1,43 @@
+{
+  "baseline_commit": "946c59918f22696c05719e85057c8a7e4fefc0ec",
+  "candidate_commit": "d0aa8515705ceba930299d5fcade1b320f9745f7",
+  "candidate_tree": "5227bdfeae4edbecb23f6413e018cb60693ffbe3",
+  "cloud_build_submitted": false,
+  "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+  "diff_sha256": "91f42dc6c31c423dab21b7f5f1475b0d0d3c99dadf5d8417d6ec4739b4355e23",
+  "findings": [],
+  "limitations": [
+    "The syntax fix only addresses the observed RSSPEC trailing-comma parse failure. Native AST equality and all six intended refusals remain unverified until the authorized Cloud run.",
+    "The diagnostic remains refusal-only: neither a positive contract-input match nor typed MIR navigation establishes which of the eight calls consumes the contract, caller body proof, C5 admission, publication, or independent proof credit.",
+    "GO applies only after the exact transport preflight and existing R24 phase, ledger, budget, deadline, and admission gates pass. The coordinator reports the new transport preflight PASS; this reviewer did not independently rerun it."
+  ],
+  "not_run": [
+    "No Rust/OCaml/compiler/exporter/decoder/refiner/verifier/preparation/full-runner execution, Cloud Build, or raw evidence access was performed by this reviewer."
+  ],
+  "packet_check": {
+    "proof_credit": "NONE",
+    "state": "PACKET_IDENTITIES_REVIEWED"
+  },
+  "packet_sha256": "119a88e61c77d8d834a776a1b2b62d1fd0097587a3abf94c6fc765a7e2feaf67",
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-inputs-review.json",
+      "sha256": "b981780d0819a38d843f037aad33abf39a168984782f4195f343938911f96df4"
+    }
+  ],
+  "proof_credit": 0,
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "schema": "select-r24-w4-contract-header-syntax-independent-review-v1",
+  "spec_sha256": "667c050c2248f1405b93f5e9f3c8135fe42750602448442c0e3d64604d7b7cb8",
+  "tests": [
+    "Statically reviewed the exact committed baseline-to-candidate delta, refreshed native patch and header pins, generator/manifest/driver/mode/wrapper/Bash pin chain, and regression diff. Candidate tests were not rerun.",
+    "The packet reports 62 targeted static/synthetic checks passing. The coordinator reports exact transport preflight PASS with payload 564769 bytes, encoded config 27848/28000 bytes, and maximum argument 2778 bytes; these checks were not independently rerun."
+  ],
+  "verified": [
+    "Reviewed exact candidate d0aa8515705ceba930299d5fcade1b320f9745f7 against baseline 946c59918f22696c05719e85057c8a7e4fefc0ec; packet and spec identities match the assigned handoff.",
+    "The RSSPEC source change removes exactly the final comma after false_val. The function name, generic and parameter names/types/order, return type, and all pre/normal/unwind contract text are unchanged.",
+    "The generated patch remains a direct insertion into exact translator base 5170. Native logic is unchanged except for corresponding header digests and byte lengths. Caller/callee source and caller/callee Marshal hashes, typed-call navigation, and refusal/admission logic remain pinned as before.",
+    "All six closed header variants have refreshed sizes and SHA values consistently represented in the variant manifest, generated mode, native patch, driver, wrapper, and Bash pins. The documented mutations still target unique text in the corrected positive header; the regression additionally compares that header to the prior source with only the final comma removed.",
+    "The diagnostic still refuses before body translation/proof on every case and retains UNKNOWN call linkage, false caller admission/acceptance/publication, and zero proof credit. The prior S33 parse failure is preserved as historical evidence rather than being reclassified as success."
+  ]
+}

@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "811b5e3a0bd2c709f70ee57a796f758a9665f2e765ddfca40ab95ebde55366af"
+      "sha256": "c17fc3099f7fbea47f4f4dd54008c72221ec01c95b4b90cdb5862019d46302d3"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -44,7 +44,7 @@
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "811b5e3a0bd2c709f70ee57a796f758a9665f2e765ddfca40ab95ebde55366af"
+    "sha256": "c17fc3099f7fbea47f4f4dd54008c72221ec01c95b4b90cdb5862019d46302d3"
   },
   "brief_observation_refs": [
     {
@@ -1105,8 +1105,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Review/publish syntax-only header revision; exact transport and full1200 Cloud. No parser broadening, caller proof or C5 admission.",
-  "next_step": "Review/publish syntax-only header revision; exact transport and full1200 Cloud. No parser broadening, caller proof or C5 admission.",
+  "next": "Publish reviewed d0aa8515; verify remote fullSHA and submit full1200 header-syntax diagnostic; then HANDOFF/watcher. Linkage/C5 open.",
+  "next_step": "Publish reviewed d0aa8515; verify remote fullSHA and submit full1200 header-syntax diagnostic; then HANDOFF/watcher. Linkage/C5 open.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1221,7 +1221,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T03:38:23Z",
+  "updated_utc": "2026-10-24T03:40:20Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1709,16 +1709,22 @@
   },
   "w4_contract_header_syntax_fix": {
     "accepted": false,
+    "candidate": "d0aa8515705ceba930299d5fcade1b320f9745f7",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-SYNTAX-DESIGN.json",
       "sha256": "6db08861b24c11c2cd15c7bbb5b0b1b3b491cab60ba749b4a8c5a84d1eb547e6"
+    },
+    "independent_review": {
+      "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-header-syntax-review.json",
+      "sha256": "e5f29f9fddecc0bf2795a115fcbf3356b794ee967fb358f0bc86d69bee32173a"
     },
     "observations": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-PARSE-OBSERVATIONS.json",
       "sha256": "2f1cad89d9efe86d79506758afc66974d2b978d42d06a9d643d38baa557dff6c"
     },
     "proof_credit": 0,
-    "state": "STATIC_TESTED_UNREVIEWED_UNBUILT"
+    "state": "REVIEW_GO_UNBUILT"
   },
   "w4_contract_inputs_build": {
     "accepted": false,
@@ -1748,6 +1754,7 @@
       "sha256": "a826753d75bbc154d64216e8de6e90ddc10c4b78f8e34b475cca37325d1cf24d"
     },
     "caller_body_proof_admission": false,
+    "candidate": "d0aa8515705ceba930299d5fcade1b320f9745f7",
     "design": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-DESIGN.json",
       "sha256": "d54a76122de37d52e473aabb61a932717527ac1481ea6db70771ddc7099dc670"
@@ -1759,6 +1766,11 @@
     "header_variants": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-VARIANTS.json",
       "sha256": "5d0ef2f5dabee2d1a3056855154327cd2b57d26919cb9cf068be34f2d8764a56"
+    },
+    "independent_review": {
+      "decision": "GO_FOR_ONE_AUTHORIZED_FULL_1200S_REFUSAL_ONLY_DIAGNOSTIC",
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-contract-header-syntax-review.json",
+      "sha256": "e5f29f9fddecc0bf2795a115fcbf3356b794ee967fb358f0bc86d69bee32173a"
     },
     "main_scope": "contract/header design, wrapper/mode/recipe integration, review/evidence/accounting",
     "mode": {
@@ -1795,14 +1807,31 @@
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-QUALIFICATION-MODE.json",
       "sha256": "a1f05e9df2979975c33bdf0a6430953b48162e9b71ef0ae9caaced9a0e020df9"
     },
+    "review_packet": {
+      "executor": "r24_contract_review",
+      "model": "gpt-6-luna",
+      "packet_sha256": "119a88e61c77d8d834a776a1b2b62d1fd0097587a3abf94c6fc765a7e2feaf67",
+      "path": "/tmp/r24-w4-contract-header-syntax-review",
+      "reasoning_effort": "high",
+      "spec_sha256": "667c050c2248f1405b93f5e9f3c8135fe42750602448442c0e3d64604d7b7cb8"
+    },
+    "runtime_closure": {
+      "bytes": 3737825,
+      "entries": 167,
+      "sha256": "191f7eb22e01e4f583a784cc6d025d30bac4483d0de6e49fb13a175caeeb92f8"
+    },
     "source_contract": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-SOURCE-CONTRACT.json",
       "sha256": "55ff0e51fc5d1beac3fcb19db112ae29da1d8e7ade2b371e4fcdf1209204debf"
     },
-    "state": "HEADER_SYNTAX_REVISION_UNREVIEWED",
+    "state": "HEADER_SYNTAX_REVIEW_GO_UNBUILT",
     "static_validation": {
       "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-INPUTS-STATIC-VALIDATION.json",
       "sha256": "db367627c7ee43cf3f51606a48f548dc3d06eeed36a95d9972c1fa2be7c034f4"
+    },
+    "transport_preflight": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONTRACT-HEADER-SYNTAX-TRANSPORT-PREFLIGHT.json",
+      "sha256": "b41e84b230cadd07aa8594e3e98ddabdd50dca5c9ddfbfb95bdb490278a8c649"
     },
     "typed_call_linkage": "UNKNOWN",
     "workers": {
