@@ -1,0 +1,22 @@
+{
+  "candidate": "c787359e22ffac60b771b08390bdd1996ca2412a",
+  "choice": "Validate complete destination parent chain before any report/audit write; require fresh component case root before initial run write. Reject file/ancestor symlink/alias/escape and unsafe temp/output paths. Preserve ordinary safe partial snapshots/audit results; unsafe paths must never cause an outside write, returning incomplete audit with explicit unwritten flag if necessary.",
+  "cloud_build_submitted": false,
+  "controls": [
+    "Symlink evidence/cases and component root separately; assert run refuses before any outside summary/temp is written.",
+    "Audit on unsafe parent returns/reports incomplete without outside write; normal/error/partial synthetic paths retain physical safe audit.",
+    "Real pinned module integration, all existing source/stage/log/AST/target/timeout/missing controls retained; same reviewer delta before full1200."
+  ],
+  "finding": "Initial run summary write precedes physical read validation and can follow symlinked evidence/cases or component-case ancestor. Audit final write has same physical-path boundary and must also be checked.",
+  "invariants": [
+    "No proof/contract/std/model/translator change, original exceptions/exits and all matrix/control gates retained.",
+    "No write before validation; contained existing summaries may be updated only after same checks. Current qualified positive remains sourceobservation, omissioncontrol/composite open."
+  ],
+  "proof_credit": 0,
+  "review": {
+    "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-review.json",
+    "sha256": "1df14c1fb49367e3458a3547eb9b4831899b66e37a2a313edae487074893e0ed"
+  },
+  "schema": "select-r24-w4-file-api-review-response-v1",
+  "status": "FIX_REQUIRED_BEFORE_BUILD"
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "select-r24-w4-const-file-api-independent-review-v1",
+  "reviewer": "independent Codex reviewer (Luna HIGH)",
+  "decision": "NO_GO_DESTINATION_ANCESTORS_NOT_CHECKED_BEFORE_FIRST_WRITE",
+  "baseline_commit": "3172dbcd5d077391fe5ab96c8e7e25d08b27d02b",
+  "candidate_commit": "c787359e22ffac60b771b08390bdd1996ca2412a",
+  "candidate_tree": "bbe07339bcb6a1eb87c67a9cc2242c74e6a94746",
+  "spec_sha256": "a9bf50ed1ba152627dde9cc121042f0ea92d9835afaf07b7c89d3f104fe6ec97",
+  "packet_sha256": "5fbae8afc403c5000e0e9a196de44b7327b980d60a4e1747b482b4e194d933bb",
+  "diff_sha256": "03494d18065e7c3377bc4cb974434fa520481669b6f151b1529f8165e1ab8b19",
+  "packet_check": {
+    "state": "PACKET_VALID_NOT_REVIEWED",
+    "proof_credit": "NONE",
+    "files": 29
+  },
+  "prior_reviews": [
+    {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-unsafe-review.json",
+      "sha256": "1e45454e59b91a2f07af5a626d91917d2f113a6d2b06d6503ef1c7b5bc2651bf"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "blocking_for_this_path-safety_boundary",
+      "location": "research/challenge-8/cloud-build/select-callee-r24-w4-const-consequence.py:run",
+      "detail": "The run checks only that the final summary path does not exist and is not itself a symlink, then calls write_json(output, report) before validating the output's parent chain. If an ancestor such as evidence/cases or the consequence case directory is a symlink, the initial report write follows it outside evidence. The later _regular checks and audit reject the escaped path only after this write has happened.",
+      "requested_fix": "Before the first write_json, validate the full destination-parent chain from the resolved evidence root, rejecting symlinked/aliased ancestors and requiring the consequence output root to be fresh. Keep the existing read-time _regular checks and audit."
+    }
+  ],
+  "verified": [
+    "Exact candidate, baseline, spec, and packet identities passed smallsort-session review check.",
+    "The new _regular predicate rejects relative paths, traversal, paths outside the root, symlinked root/file/parent components, missing files, and canonical path aliases for existing regular files. Its current source/stage/stdout/stderr/AST/summary reads and artifact inventories use the local predicate.",
+    "The frozen pinned diagnostic module remains unchanged. Test changes load that real pinned module and assert its actual callable API, while replacing only context, route, and tool-identity services for isolated fixtures.",
+    "The semantic proof fixture, omission control, classifier, eight-row matrix requirements, tool/source/stage bindings, and proof-boundary fields are unchanged from the prior reviewed candidate. Dependency hashes for the helper, mode, and shell are synchronized."
+  ],
+  "tests": [
+    "Exact smallsort-session review check passed.",
+    "Static diff and dependency review completed; no tests were rerun. The packet reports 16 component, 19 wrapper, and 6 Bash tests passing."
+  ],
+  "limitations": [
+    "No Cloud Build, actual source preparation, compiler/exporter/decoder/refinement/verifier, native tools, or raw evidence access was performed by this reviewer.",
+    "No caller linkage, caller/body admission, P2 transfer, acceptance, publication, or independent proof credit is established."
+  ],
+  "proof_credit": 0
+}

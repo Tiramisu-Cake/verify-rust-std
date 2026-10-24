@@ -10,7 +10,7 @@
     },
     {
       "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-      "sha256": "3829774d04ba549121b1892017b8fc15e9287fc34d08de5783ee3f3f7f4173c8"
+      "sha256": "24b7485c0fa732ea95a5ec097758c2c50ee7c92783fd47333e08de16c7446b94"
     }
   ],
   "assignment_sha256": "82af6d7c867859aa84d7ba076e825ecb42bbb982edabb58c8d6ffbb0d3c3200e",
@@ -32,19 +32,18 @@
     "tool_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
   },
   "blocker": {
-    "build_id": "4acf66cd-faf4-41fb-9fff-74f65c4b40b2",
     "evidence": [
       {
-        "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-CONSEQUENCE-POSITIVE-API-OBSERVATIONS.json",
-        "sha256": "0ec403062dfb8b7200bf4927cd3d955d4aee2606f74066f3952d192e59925616"
+        "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-review.json",
+        "sha256": "1df14c1fb49367e3458a3547eb9b4831899b66e37a2a313edae487074893e0ed"
       }
     ],
-    "summary": "Consequence positive clean; missing dependency file API prevents validation/omission control."
+    "summary": "File API candidate NO_GO: validate destination ancestors before initial summary/audit writes."
   },
   "brief_observation_index": {
     "coverage": "ALL_IMMUTABLE_OBSERVATION_RECORDS; CHECKPOINT_RETAINS_20_NAVIGATION_REFS_ONLY",
     "path": "research/challenge-8/task-history/select-callee-r24/R24-ARTIFACT-INDEX.json",
-    "sha256": "3829774d04ba549121b1892017b8fc15e9287fc34d08de5783ee3f3f7f4173c8"
+    "sha256": "24b7485c0fa732ea95a5ec097758c2c50ee7c92783fd47333e08de16c7446b94"
   },
   "brief_observation_refs": [
     {
@@ -1013,8 +1012,8 @@
     "proof_credit": 0,
     "state": "CLEAN_POSITIVE_SOURCE_REPORTED"
   },
-  "next": "Implement local contained-file check; real pinned dependency API tests, delta review, full1200.",
-  "next_step": "Implement local contained-file check; real pinned dependency API tests, delta review, full1200.",
+  "next": "Fix write-time containment/fresh root; outside-write refusal tests; same reviewer delta before Build.",
+  "next_step": "Fix write-time containment/fresh root; outside-write refusal tests; same reviewer delta before Build.",
   "open": [
     "Const matrix complete asreported; independentB1/B2credit and parser-inputbinding notestablished byBrief.",
     "P2publishedonlyexactexperimentalpointerprofile; W4eightconst-callcheckedlinkage andfullC5body/controlproof open.",
@@ -1129,7 +1128,7 @@
   },
   "state": "ACTIVE",
   "task_id": "select-callee-acceptance-autonomous-2026-10-24-r24",
-  "updated_utc": "2026-10-24T02:14:14Z",
+  "updated_utc": "2026-10-24T02:17:24Z",
   "w4_api_build": {
     "accepted": false,
     "accounted": true,
@@ -1231,6 +1230,20 @@
     "state": "COMPLETE_SOURCE_REPORTED_CAPTURE_ONLY",
     "tests": "10capture+7shelltests andBashn/diffcheck pass; realfrozenR21fourtupleAPI regression included",
     "worker": "r24_admission"
+  },
+  "w4_const_file_api_review_refusal": {
+    "candidate": "c787359e22ffac60b771b08390bdd1996ca2412a",
+    "cloud_build_submitted": false,
+    "proof_credit": 0,
+    "response": {
+      "path": "research/challenge-8/task-history/select-callee-r24/W4-CONST-FILE-API-REVIEW-RESPONSE.json",
+      "sha256": "a52da751360344d6c7d7c22cf147dbc79c9efe4eef8d401ae5d177c23dbb82ba"
+    },
+    "review": {
+      "path": "research/challenge-8/task-history/select-callee-r24/R24-w4-const-file-api-review.json",
+      "sha256": "1df14c1fb49367e3458a3547eb9b4831899b66e37a2a313edae487074893e0ed"
+    },
+    "state": "NO_GO_FIX_IN_PROGRESS"
   },
   "w4_const_requalification_build": {
     "accepted": false,
