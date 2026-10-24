@@ -22,8 +22,20 @@ check-tooling каждого job — против `aca80458`.
 | 2 | net-p2-02-sort13-bands-u64 | measurement | 23 | 4db07c98 | 4 × 10 мин | COMPLETE, gate false. `sort13_01_u8` SUCCESS 336,5 с, cover 4/4. `band0_8_u64`, `band9_12_u64`, `band13_17_u64` (реальные insertion и `insert_tail`, сети через `stub_verified`) — TIMEOUT. Max RSS 10,0 ГиБ, cgroup peak 10,83 ГиБ, OOM 0 | ok |
 | 3 | net-p2-03-sort13-perm | measurement | 25 | 6a17bc18 | 3 × 10 мин | COMPLETE, gate false. `sort13_perm_u64` (реальное тело, полная ширина) TIMEOUT. `sort13_01_u64` SUCCESS 387,1 с, cover 4/4. `sort9_perm_u8` SUCCESS 102,4 с, cover 3/3. Max RSS 11,0 ГиБ, cgroup peak 11,41 ГиБ, OOM 0 | ok |
 | 4 | net-p2-04-stub-perm-insert-tail | measurement | 26 | bd9308c2 | 4 × 10 мин | COMPLETE, gate false. `insert_tail_net_u64` (контракт K1-merge, регионы 2..=17) SUCCESS 432,9 с, cover 18/18. `sort13_perm_stub_u64`, `bandt0_8_u64`, `bandt13_17_u64` (с заглушкой `insert_tail`) — TIMEOUT. Max RSS 9,7 ГиБ, cgroup peak 9,97 ГиБ, OOM 0 | ok |
+| 5 | net-p2-05-top-fixed-u64 | measurement | 31 | 90e9983d | 3 × 10 мин | COMPLETE, gate false. Верх через trait entrypoint при постоянной длине, сети через `stub_verified`, insertion реальная: `fixed12_u64` SUCCESS 165,7 с, 0/571, cover 1/1; `fixed8_u64` и `fixed17_u64` — TIMEOUT. Max RSS 2,0 ГиБ, cgroup peak 2,32 ГиБ, OOM 0 | ok |
+| 6 | net-p2-06-stub-cost | diagnostic | 33 | 28b7db29 | 1 × 4 мин | COMPLETE, gate false. `sort9_perm_stub_u64` (перестановка сети 9 через 25 заглушек `swap_if_less`) — TIMEOUT, хотя реальное тело — 227 с (job 18). Max RSS 1,7 ГиБ, OOM 0 | ok |
 
-Сумма таймаутов после job 26: 146 / 180 мин, dispatch 4 / 6.
+Итого фазы 2: dispatch **6 / 6**, сумма таймаутов **180 / 180 мин**. Последний dispatch в 21:41:39Z, все прогоны завершены к 22:03Z, незавершённых нет.
+
+**ФАЗА 2 ЗАВЕРШЕНА: FAIL (STOP) цепочки network** — см. «1. Вердикт». Review R9 — раздел 7.
+
+### Счётчики STOP на конец фазы 2
+
+- `sort9_optimal`: контракт доказан формулировкой 3 (job 18, 25), счётчики больше не копятся. Нужен measurement-перепрогон с gate true.
+- `sort13_optimal`: сортированность (0–1) доказана за 10 мин на u8 (336 с) и u64 (387 с); i32 не запускался. **Перестановка на u64 не доказана за 10 мин в двух формулировках:** реальное тело (job 25) и композиция через `stub_verified(swap_if_less)` (job 26). Вместе с Ф1 фазы 1 (job 10, OOM) это 3 различные формулировки перестановки нужного callee, каждая со своим прогоном.
+- **Верхняя гармоника и с `stub_verified` не укладывается в 10 минут (второй повод STOP, §2).** На u64 в measurement-прогонах TIMEOUT дали:
+  - путь 13..=17 (заглушка `sort13`, затем insertion): `band13_17_u64` (job 23, реальный `insert_tail`), `bandt13_17_u64` (job 26, заглушка `insert_tail`), `fixed17_u64` (job 31, постоянная длина 17);
+  - путь 2..=8 (только insertion): `band0_8_u64` (job 23), `bandt0_8_u64` (job 26), `fixed8_u64` (job 31).
 
 **Продвижение по `sort9_optimal` в 20:15Z** (job 18): контракт доказан формулировкой 3 на трёх типах (0–1 для сортированности, перестановка на полной ширине для i32/u64; u8 — job 14 `direct_sort9_u8` при длине 9 и `sort9_perm_u8` ещё не запускался). Счётчик минут без продвижения обнулён. Счётчик формулировок `sort9_optimal` остаётся 2 / 3, третья прошла.
 
@@ -42,7 +54,12 @@ check-tooling каждого job — против `aca80458`.
 
 ## 1. Вердикт
 
-Вердикта цепочки нет: фаза 1 закрыта промежуточным итогом (§9). macOS: не измерено, проверяется на этапе подачи.
+**FAIL (STOP), цепочка network, фаза 2.** Причина: верхняя гармоника `UnstableSmallSortFreezeTypeImpl::small_sort` для u64 и с `stub_verified` не укладывается в 10 минут. Длины 17 и 8 дают TIMEOUT в трёх формулировках каждая (jobs 23, 26, 31), хотя все callee, кроме insertion, заменены доказанными контрактами. Вторая причина — перестановка в контракте `sort13_optimal` на u64 не доказывается за 10 мин (jobs 25, 26). Длины 18..=32 не проверялись: K1-merge не доказал `bidirectional_merge` на длине 32.
+
+- **Наибольшая длина, которая укладывается в 10 минут:** 12. Это `fixed12_u64`, 165,7 с, job 31: заглушка `sort9`, затем три реальные вставки. Длины 0 и 1 тривиальны. Длины 8 и 17 — TIMEOUT. Длины 2..=7, 9..=11 и 13..=16 по отдельности не измерялись. Ни одна полоса символьных длин не уложилась.
+- **Ограничение:** все замеры фазы 2 дали gate false (в каждом запросе был хотя бы один TIMEOUT), поэтому ни одна гармоника не засчитана по §2 п. 4. Числа выше — это `Verification Time` из measurement-прогонов на `circleci-linux-large`.
+- macOS: не измерено, проверяется на этапе подачи.
+- R11: предусловия в точках `stub_verified` проверяются (job 5). Блокера нет.
 
 ## 2. Таблица обязательств
 
@@ -65,6 +82,25 @@ check-tooling каждого job — против `aca80458`.
 | sort9 контракт Ф2, u8, длина 9, `stub_verified(swap_if_less)` | `network::contract_sort9_u8_len9` | net-p1-06-sort9-light-retry | 14 | 5500f832 | TIMEOUT (5 мин) | — | 12.7 ГБ | — | ok |
 
 Job 5, 10, 13, 14: статусы сводки COMPLETE / COMPLETE / COMPILE_ERROR / COMPLETE; gate true только у job 5.
+
+**Фаза 2** (check-tooling против `aca80458`, все job ok, все статусы сводки COMPLETE, gate false у всех; память — max RSS всего прогона):
+
+| Обязательство | Гармоника | request_id | job | head SHA | kind | статус | время, с | память | cover |
+|---|---|---|---|---|---|---|---|---|---|
+| `swap_if_less`, u8 / i32 / u64, `merge::lt_*` | `swap_if_less_{u8,i32,u64}` | net-p2-01-f3-sort9 | 18 | 2f75a7e4 | diagnostic | SUCCESS | 7,1 / 8,0 / 9,5 | 10,0 ГиБ | 5/5 |
+| `sort9_optimal`, сортированность (0–1), u8 / i32 / u64 | `sort9_01_{u8,i32,u64}` | net-p2-01-f3-sort9 | 18 | 2f75a7e4 | diagnostic | SUCCESS | 178,6 / 189,4 / 202,6 | 10,0 ГиБ | 4/4 |
+| `sort9_optimal`, перестановка, i32 / u64 | `sort9_perm_{i32,u64}` | net-p2-01-f3-sort9 | 18 | 2f75a7e4 | diagnostic | SUCCESS | 161,0 / 227,1 | 10,0 ГиБ | 3/3 |
+| `sort9_optimal`, перестановка, u8 | `sort9_perm_u8` | net-p2-03-sort13-perm | 25 | 6a17bc18 | measurement | SUCCESS | 102,4 | 11,0 ГиБ | 3/3 |
+| `sort13_optimal`, сортированность (0–1), u8 | `sort13_01_u8` | net-p2-02-sort13-bands-u64 | 23 | 4db07c98 | measurement | SUCCESS (в job 18 при 4 мин — TIMEOUT) | 336,5 | 10,0 ГиБ | 4/4 |
+| `sort13_optimal`, сортированность (0–1), u64 | `sort13_01_u64` | net-p2-03-sort13-perm | 25 | 6a17bc18 | measurement | SUCCESS | 387,1 | 11,0 ГиБ | 4/4 |
+| `sort13_optimal`, перестановка, u64, реальное тело | `sort13_perm_u64` | net-p2-03-sort13-perm | 25 | 6a17bc18 | measurement | TIMEOUT (10 мин) | — | — | — |
+| `sort13_optimal`, перестановка, u64, заглушки `swap_if_less` | `sort13_perm_stub_u64` | net-p2-04-stub-perm-insert-tail | 26 | bd9308c2 | measurement | TIMEOUT (10 мин) | — | — | — |
+| `insert_tail` (контракт K1-merge), регионы 2..=17, u64 | `insert_tail_net_u64` | net-p2-04-stub-perm-insert-tail | 26 | bd9308c2 | measurement | SUCCESS | 432,9 | 9,7 ГиБ | 18/18 |
+| верх 0..=8 / 9..=12 / 13..=17, u64, реальная insertion | `band{0_8,9_12,13_17}_u64` | net-p2-02-sort13-bands-u64 | 23 | 4db07c98 | measurement | TIMEOUT ×3 | — | — | — |
+| верх 0..=8 / 13..=17, u64, заглушка `insert_tail` | `bandt{0_8,13_17}_u64` | net-p2-04-stub-perm-insert-tail | 26 | bd9308c2 | measurement | TIMEOUT ×2 | — | — | — |
+| верх, длина 12, u64 | `fixed12_u64` | net-p2-05-top-fixed-u64 | 31 | 90e9983d | measurement | **SUCCESS** | **165,7** | 2,0 ГиБ | 1/1 |
+| верх, длины 8 и 17, u64 | `fixed8_u64`, `fixed17_u64` | net-p2-05-top-fixed-u64 | 31 | 90e9983d | measurement | TIMEOUT ×2 | — | — | — |
+| цена заглушки: перестановка `sort9`, u64, 25 заглушек | `sort9_perm_stub_u64` | net-p2-06-stub-cost | 33 | 28b7db29 | diagnostic | TIMEOUT (4 мин) | — | 1,7 ГиБ | — |
 
 **Важно для зачёта:** гармоники `swap_if_less_*` доказаны в job 5 с прежним comparator `lt` (полное значение). С 524fbd11 они используют `merge::lt_*` и требуют повторного прогона, прежде чем на них опираться. В job 5 был проверен и контракт `swap_if_less`; он не менялся с 65805cfa.
 
@@ -107,14 +143,27 @@ Job 5, 10, 13, 14: статусы сводки COMPLETE / COMPLETE / COMPILE_ERR
 - Ф1 для `sort9/13`/`insertion`: снимок до 32 элементов и подсчёт всех вхождений O(n²) при символьной длине. TIMEOUT и OOM для u8 (job 10).
 - Ф2 при фиксированной длине 9 над `stub_verified(swap_if_less)`: TIMEOUT за 5 мин (job 14), хотя то же тело без контрактов доказывается за 110 с. Значит, дорога механика контракта: modifies-проверка `&v[..9]` и 25 заглушек со снимком и memcmp. Сама сеть не виновата.
 - Собственный comparator `lt` по полному значению (журнал, п. 4).
+- Фаза 2: перестановка через `stub_verified(swap_if_less)`. Медленнее реального тела: `sort9` u64 — TIMEOUT за 4 мин против 227 с (job 33), `sort13` u64 — TIMEOUT за 10 мин (job 26).
+- Фаза 2: верх полосами символьной длины, с реальным `insert_tail` (job 23) и с его заглушкой (job 26). TIMEOUT на u64 во всех полосах.
+- Фаза 2: заглушка `insert_tail` вместо реального тела в верхней гармонике. Не ускорила: `bandt0_8_u64` TIMEOUT, как и `band0_8_u64`.
 
 ## 6. Открытые вопросы
+
+Фаза 2:
+- Почему заглушки дороже реального тела? `sort9_perm_stub_u64` дал TIMEOUT при max RSS 1,7 ГиБ, так что время уходит не на рост SAT-формулы. Гипотеза: символьное исполнение снимка `Pre`, побайтовый memcmp в `ensures` и havoc `modifies` на каждой из 25 заглушек. Terse-лог стадию не показывает. То же видно у K1-merge (`general_u64`, их job 9).
+- Insertion — главный расход верхней гармоники. Три реальные вставки после `sort9` занимают 166 с (`fixed12_u64`), а 7 вставок (`fixed8_u64`) и 4 вставки в регион до 17 (`fixed17_u64`) не укладываются в 600 с. Память при этом всего 2,0 ГиБ.
+- Не проверено: u8 и i32 на верхних гармониках; `sort13_01_i32`; `sort13` перестановка на u8/i32. Для вердикта они не нужны: u64 входит в обязательный набор §2 п. 3.
+- Укладывается ли вставка, если `insertion_sort_shift_left` заменить его контрактом? Контракт стоит на `smallsort.rs`, но его доказательство — это та же реальная insertion, которая и не уложилась.
+
+Фаза 1:
 
 - Почему реальная сеть 9 на 9 байтах занимает 110 с? Вероятно, `hint::select_unpredictable` выбирает указатель, затем `ptr::read`/`ptr::copy` идут через символьный указатель (разбор случаев на каждом CE). Не проверено.
 - Что именно дорого в `proof_for_contract(sort9_optimal)`: modifies-инструментация, заглушка `swap_if_less` (снимок `Pre`, memcmp) или проба (128 байт `set_probe`)? Нужен прогон по одной гармонике.
 - Длины 18..=32 зависят от `bidirectional_merge` K1-merge. На конец их фазы 1 оно не доказано: len 16 = 323 с, рост ≈ ×3.2 на +4 длины.
 
-## Передача
+## Передача фазы 1 (историческая)
+
+Состояние на конец фазы 1. Следующий шаг выполнен в фазе 2: п. 1–2 — jobs 18, 25, 26, 33; п. 3 — jobs 23, 26, 31.
 
 **Доказано (diagnostic, не measurement):**
 - контракт `swap_if_less` (точный compare-exchange, `requires` границ и `a_pos != b_pos`, `modifies` двух ячеек) для u8/i32/u64: job 5, SHA 65805cfa, 7–10 с; тогда с comparator `lt`, нужен перепрогон с `merge::lt_*`;
