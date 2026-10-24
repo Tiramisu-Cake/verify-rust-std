@@ -1,19 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p1-06-sort9-light-retry",
-  "agent": "k1-network",
+  "request_id": "coord-memcap-oom-001",
+  "agent": "coordinator",
   "kind": "diagnostic",
-  "purpose": "Retry of net-p1-05 after COMPILE_ERROR E0502 (two ensures clauses with old() on v: &mut [T]); clauses merged into one ensures. sort9 real body without contracts; sort9 contract formulation 2 at constant len 9 over stub swap_if_less",
+  "purpose": "Lane check: memcap ENFORCED with swap off; sort13_u8 (job 10: CBMC OOM at 15.5 GB) must end OUT_OF_MEMORY inside the cgroup with artifacts kept",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 5,
+  "harness_timeout_minutes": 10,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::direct_sort9_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::contract_sort9_u8_len9",
-      "expect": "SUCCESS"
-    }
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::network::sort13_u8", "expect": "SUCCESS"}
   ]
 }
