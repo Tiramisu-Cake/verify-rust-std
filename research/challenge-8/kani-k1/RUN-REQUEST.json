@@ -1,16 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p2-inv-006",
+  "request_id": "merge-p2-inv-007",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "Formulation 2 of bidirectional_merge (loop invariant) retried after job 17 (goto-instrument OOM: nested loops is_probe in k1_count unwound by goto-instrument); is_probe is now loop-free. u64 len 16, len 32, 2..=32",
+  "purpose": "Formulation 2 of bidirectional_merge (loop invariant), after goto-instrument OOM in jobs 17 and 19: invariant and bidirectional_merge clauses are now loop-free (unrolled to 32, requires len <= 32). u64 fixed len 32 and the full 2..=32 contract proof",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 13,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
       "expect": "SUCCESS"

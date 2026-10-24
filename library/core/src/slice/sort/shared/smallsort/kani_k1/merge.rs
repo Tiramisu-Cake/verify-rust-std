@@ -38,6 +38,9 @@ use crate::slice::sort::shared::FreezeMarker;
 
 const PROBE_BYTES: usize = 128;
 
+/// Largest region the loop-free helpers `k1_count_u`/`k1_sorted_u` handle.
+const K1_UNROLL: usize = 32;
+
 #[repr(C, align(16))]
 struct Probe([u8; PROBE_BYTES]);
 
@@ -114,6 +117,42 @@ impl<T> CopyOnDrop<T> {
             i += 1;
         }
         c
+    }
+
+    /// `k1_count` without a loop, for `len <= K1_UNROLL` (callers check the bound). Used in the loop
+    /// invariant: DFCC inlines the invariant into the function with the loop contract, and a loop
+    /// there made goto-instrument run out of memory (jobs 17 and 19).
+    pub(crate) fn k1_count_u(base: *const T, len: usize) -> usize {
+        let mut c = 0;
+        macro_rules! step {
+            ($($i:literal)*) => {$(
+                // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
+                if $i < len && unsafe { is_probe(base.add($i)) } {
+                    c += 1;
+                }
+            )*};
+        }
+        step!(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31);
+        c
+    }
+
+    /// `k1_sorted` without a loop, for `len <= K1_UNROLL` (callers check the bound).
+    pub(crate) fn k1_sorted_u<F: FnMut(&T, &T) -> bool>(
+        base: *const T,
+        len: usize,
+        is_less: &&mut F,
+    ) -> bool {
+        let mut ok = true;
+        macro_rules! step {
+            ($($i:literal)*) => {$(
+                // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
+                if $i < len && call_less(is_less, unsafe { base.add($i) }, unsafe { base.add($i - 1) }) {
+                    ok = false;
+                }
+            )*};
+        }
+        step!(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31);
+        ok
     }
 
     /// `base[..len]` is sorted: no element is less than its predecessor.
@@ -222,6 +261,10 @@ impl<T> CopyOnDrop<T> {
     ) -> bool {
         let same = |p: *const T, q: *const T| kani::mem::same_allocation(p, q);
         let d0c = d0 as *const T;
+        // The unrolled helpers below cover at most K1_UNROLL elements (K-1 lengths are <= 32).
+        if len > K1_UNROLL {
+            return false;
+        }
         if !(same(left, src)
             && same(right, src)
             && same(left_rev, src)
@@ -277,7 +320,7 @@ impl<T> CopyOnDrop<T> {
         let lt = |x: *const T, y: *const T| call_less(is_less, x, y);
 
         // Output ends sorted, and the up end below the down end.
-        if !Self::k1_sorted(d0c, u, is_less) || !Self::k1_sorted(out(len - u), u, is_less) {
+        if !Self::k1_sorted_u(d0c, u, is_less) || !Self::k1_sorted_u(out(len - u), u, is_less) {
             return false;
         }
         if u > 0 {
@@ -306,11 +349,11 @@ impl<T> CopyOnDrop<T> {
             return false;
         }
         // Probe count: output so far plus remaining input equals the whole input.
-        Self::k1_count(d0c, u)
-            + Self::k1_count(out(len - u), u)
-            + Self::k1_count(at(a), h - c - a)
-            + Self::k1_count(at(h + b), len - d - h - b)
-            == Self::k1_count(src, len)
+        Self::k1_count_u(d0c, u)
+            + Self::k1_count_u(out(len - u), u)
+            + Self::k1_count_u(at(a), h - c - a)
+            + Self::k1_count_u(at(h + b), len - d - h - b)
+            == Self::k1_count_u(src, len)
     }
 
     /// `v[..len / 2]` and `v[len / 2..]` are sorted.
@@ -320,8 +363,9 @@ impl<T> CopyOnDrop<T> {
     ) -> bool {
         let len = v.len();
         let half = len / 2;
-        Self::k1_sorted(v.as_ptr(), half, is_less)
-            && Self::k1_sorted(v.as_ptr().wrapping_add(half), len - half, is_less)
+        len <= K1_UNROLL
+            && Self::k1_sorted_u(v.as_ptr(), half, is_less)
+            && Self::k1_sorted_u(v.as_ptr().wrapping_add(half), len - half, is_less)
     }
 }
 
@@ -511,6 +555,43 @@ fn sort8_all() {
         _ => sort8_body::<[u8; 16], _>(lt_b16),
     }
 }
+
+// Per-type contract proofs for measurement (one harness per type, EXPERIMENT.md §2 p. 4).
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_i32() {
+    sort4_body::<i32, _>(lt_i32);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_b16() {
+    sort4_body::<[u8; 16], _>(lt_b16);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_b85() {
+    sort4_body::<[u8; 85], _>(lt_b85);
+}
+
+macro_rules! sort8_harness {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        /// sort8_stable with its two callees replaced by their verified contracts.
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort8_stable)]
+        #[kani::unwind(34)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        fn $name() {
+            sort8_body::<$t, _>($cmp);
+        }
+    };
+}
+
+sort8_harness!(sort8_i32, i32, lt_i32);
+sort8_harness!(sort8_u64, u64, lt_u64);
+sort8_harness!(sort8_b16, [u8; 16], lt_b16);
 
 /// insert_tail on regions of 2..=16 elements (general inserts up to index 15 of a half).
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]

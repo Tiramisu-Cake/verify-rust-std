@@ -772,13 +772,15 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 /// temporary 'copies' that may not end up in the final array.
 // K-1 contract (K1-merge). Requires = the `# Safety` section above plus the documented input shape
 // "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
-// harness comparators (see kani_k1/merge.rs).
-#[cfg_attr(kani, kani::requires(v.len() >= 2))]
+// harness comparators (see kani_k1/merge.rs). `v.len() <= 32` holds at every call site
+// (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
+// and bounds the loop-free specification helpers.
+#[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, v.len(), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count(dst, v.len())))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
