@@ -56,19 +56,10 @@ TERMINAL=" SUCCESS FAILURE INTERNAL_ERROR TIMEOUT CANCELLED EXPIRED "
 # up; queued or running ones count their full timeout.
 ledger() {
   local out
-  out=$(G builds list --region="$REGION" --limit=1000 --format=json | python3 -c '
-import json, math, sys
-from datetime import datetime
-def t(s): return datetime.fromisoformat(s.replace("Z", "+00:00"))
-used = reserved = 0; n = 0
-for b in json.load(sys.stdin):
-    n += 1
-    if b.get("finishTime") and b.get("startTime"):
-        used += math.ceil((t(b["finishTime"]) - t(b["startTime"])).total_seconds() / 60)
-    elif not b.get("finishTime"):
-        reserved += math.ceil(int(b.get("timeout", "0s").rstrip("s") or 0) / 60)
-print(n, used, reserved)')
+  out=$(G builds list --region="$REGION" --limit=1000 --format=json | python3 -B "$TOOLS/kani_k1.py" ledger) \
+    || die "cannot compute the pool-minute ledger"
   read -r BUILDS USED RESERVED <<< "$out"
+  [ "$BUILDS" -lt 1000 ] || die "1000 or more builds listed: the ledger may undercount; owner decision needed"
 }
 
 fetch() {  # fetch BUILD -> directory with summary/ and log/; only for finished builds, whose uploads are final
@@ -78,12 +69,16 @@ fetch() {  # fetch BUILD -> directory with summary/ and log/; only for finished 
     [[ "$TERMINAL" == *" $status "* ]] || die "build $id is not finished (status $status); wait for it first"
     mkdir -p "$CACHE"
     tmp=$(mktemp -d "$CACHE/.fetch.XXXXXX")
-    G storage ls "gs://$BUCKET/runs/$id/**" > "$tmp/index.txt" 2>/dev/null || true
+    if ! G storage ls "gs://$BUCKET/runs/$id/**" > "$tmp/index.txt" 2> "$tmp/ls.err"; then
+      grep -q "matched no objects" "$tmp/ls.err" || { rm -rf "$tmp"; die "listing gs://$BUCKET/runs/$id failed: $(head -c 300 "$tmp/ls.err")"; }
+    fi
+    # Nothing uploaded: not cached, since a listing is final only once the upload step has run.
+    [ -s "$tmp/index.txt" ] || { rm -rf "$tmp"; die "build $id uploaded nothing: treat as RUNNER_ERROR (setup failure, timeout or cancel)"; }
     while IFS= read -r url; do
       rel=${url#gs://$BUCKET/runs/$id/}
       [[ "$rel" =~ ^(summary|log)/[A-Za-z0-9._-]+$ ]] && [[ "$rel" != *..* ]] || continue
       mkdir -p "$tmp/$(dirname "$rel")"
-      G storage cp "$url" "$tmp/$rel" >/dev/null 2>&1 || die "download failed: $rel"
+      G storage cp "$url" "$tmp/$rel" >/dev/null 2>&1 || { rm -rf "$tmp"; die "download failed: $rel"; }
     done < "$tmp/index.txt"
     mv -T "$tmp" "$dir" 2>/dev/null || rm -rf "$tmp"
   fi
@@ -106,6 +101,9 @@ case "$cmd" in
     total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     auth
+    # One dispatch at a time on this machine: the duplicate check, the ledger and the submit must not interleave.
+    exec 9> "$GCFG/dispatch.lock"
+    flock -w 300 9 || die "another k1g.sh dispatch holds $GCFG/dispatch.lock"
     dup=$(G builds list --region="$REGION" --limit=1000 --format='value(id)' --filter="substitutions._SHA=$sha")
     [ -z "$dup" ] || die "build(s) $(echo $dup) already ran $sha; change and push RUN-REQUEST.json for a new run"
     ledger
@@ -149,6 +147,8 @@ case "$cmd" in
     [[ "$head" =~ ^[0-9a-f]{40}$ ]] || die "cannot read the commit of build $id"
     git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" || die "commit $head not available locally"
     git cat-file -e "$base^{commit}" 2>/dev/null || die "BASE $base not available locally"
+    pool=$(describe "$id" | jqr "((d.get('options') or {}).get('pool') or {}).get('name', '')")
+    if [ "$pool" = "$POOL" ]; then echo "ok   build ran in pool $pool"; else echo "DIFF build pool '$pool' != $POOL"; exit 1; fi
     if git diff --quiet "$base" "$head" -- "${LANE_PATHS[@]}"; then
       echo "ok   lane files (${LANE_PATHS[*]}) at build commit $head equal BASE $base"
     else

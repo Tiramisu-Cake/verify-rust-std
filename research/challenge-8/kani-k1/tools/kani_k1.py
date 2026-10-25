@@ -7,6 +7,7 @@ Subcommands
   gate SUMMARY                                           exit 0 iff the run is COMPLETE, consistent and met
                                                          every expectation (and, for measurement, every bound)
   sample-mem --out FILE                                  record per-command peak RSS until SIGTERM (resource lane)
+  ledger                                                 Cloud Build list JSON on stdin -> "builds used reserved" minutes
 
 Standard library only. No network, no proof tools. The summary is the agent-facing evidence:
 statuses, times, failed checks and errors are bounded and every truncation is explicit. Anything the
@@ -17,11 +18,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import signal
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -296,7 +299,7 @@ PEAKS_TOP = 12
 def parse_peaks(text: str | None) -> dict[str, Any]:
     """k1-out/peaks.txt of sample-mem: key=value header lines and one `cmd=NAME peak_kb=… first_s=… last_s=…` per command."""
     if text is None:
-        return {"state": "MISSING", "interval_s": None, "samples": None, "total_rss_peak_kb": None, "commands": []}
+        return {"state": "MISSING", "interval_ms": None, "samples": None, "total_rss_peak_kb": None, "commands": []}
     head: dict[str, str] = {}
     commands: list[dict[str, Any]] = []
     for line in text.splitlines():
@@ -313,7 +316,7 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
         return int(head[key]) if head.get(key, "").isdigit() else None
     commands.sort(key=lambda c: -c["peak_kb"])
     samples = num("samples")
-    return {"state": "PARSED" if samples else "UNPARSED", "interval_s": num("interval_s"), "samples": samples,
+    return {"state": "PARSED" if samples else "UNPARSED", "interval_ms": num("interval_ms"), "samples": samples,
             "total_rss_peak_kb": num("total_rss_peak_kb"), "commands": commands[:PEAKS_TOP],
             "commands_truncated": len(commands) > PEAKS_TOP}
 
@@ -361,7 +364,7 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
             entry["peak_kb"] = max(entry["peak_kb"], _kb(st.get("VmHWM")), _kb(st.get("VmRSS")))
             entry["last_s"] = now
         total_peak, samples = max(total_peak, total), samples + 1
-        lines = [f"interval_s={int(interval)}", f"samples={samples}", f"elapsed_s={now}", f"total_rss_peak_kb={total_peak}"]
+        lines = [f"interval_ms={round(interval * 1000)}", f"samples={samples}", f"elapsed_s={now}", f"total_rss_peak_kb={total_peak}"]
         lines += [f"cmd={n} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']}" for n, e in sorted(peaks.items())]
         tmp = out.with_name(out.name + ".tmp")
         tmp.write_text("\n".join(lines) + "\n")
@@ -371,6 +374,27 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
         deadline = time.monotonic() + interval
         while not stop and time.monotonic() < deadline:
             time.sleep(min(0.2, interval))
+
+
+def ledger(builds: Any) -> tuple[int, int, int]:
+    """Pool minutes of a `gcloud builds list --format=json` result: (builds, used, reserved). A finished build
+    counts start..finish rounded up (none if it never started); an unfinished one, queued or running, reserves
+    its full timeout. Anything unreadable raises, so that dispatch fails closed."""
+    def ts(value: str) -> datetime:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if not isinstance(builds, list):
+        raise ValueError("build list must be a JSON array")
+    used = reserved = 0
+    for b in builds:
+        if b.get("finishTime"):
+            if b.get("startTime"):
+                used += math.ceil((ts(b["finishTime"]) - ts(b["startTime"])).total_seconds() / 60)
+            continue
+        timeout = b.get("timeout")
+        if not isinstance(timeout, str) or not re.fullmatch(r"\d+(\.\d+)?s", timeout):
+            raise ValueError(f"unfinished build {b.get('id')} has unreadable timeout {timeout!r}")
+        reserved += math.ceil(float(timeout[:-1]) / 60)
+    return len(builds), used, reserved
 
 
 def file_bindings(paths: list[str]) -> dict[str, str]:
@@ -404,6 +428,12 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["resources"]["peaks"] = peaks
     if peaks is not None and peaks["state"] != "PARSED":
         summary["notes"].append(f"per-command memory peaks {peaks['state']}")
+    if peaks is not None and peaks["commands"] and summary["resources"]["max_rss_kb_whole_run"]:
+        top, exact = peaks["commands"][0]["peak_kb"], summary["resources"]["max_rss_kb_whole_run"]
+        if exact > top:
+            # The sampler misses growth in a process's last interval; time -v sees the largest child exactly.
+            summary["notes"].append(f"time -v max RSS {exact} KiB exceeds the largest sampled command peak {top} KiB: "
+                                    "a process grew between samples; use the time -v value as the true single-process peak")
     if memcap is not None:
         if memcap["state"] != "ENFORCED":
             summary["notes"].append(f"verify memory cap {memcap['state']}: {memcap['reason'] or 'no reason recorded'}")
@@ -538,7 +568,8 @@ def _peaks_lines(peaks: dict[str, Any] | None) -> list[str]:
     if peaks is None:
         return []
     gib = lambda kb: "?" if kb is None else f"{kb / 2**20:.2f} GiB"  # noqa: E731
-    out = [f"- memory peaks {peaks['state']}: sampled every {peaks['interval_s']} s, {peaks['samples']} samples, "
+    every = "?" if peaks["interval_ms"] is None else f"{peaks['interval_ms'] / 1000:g}"
+    out = [f"- memory peaks {peaks['state']}: sampled every {every} s, {peaks['samples']} samples, "
            f"largest sampled sum of RSS {gib(peaks['total_rss_peak_kb'])}; per command (kernel VmHWM; 13 GiB = CircleCI cap, "
            "16 GB = organizers' runner):"]
     for c in peaks["commands"]:
@@ -628,11 +659,19 @@ def main(argv: list[str]) -> int:
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
     g.add_argument("summary")
+    sub.add_parser("ledger")
     m = sub.add_parser("sample-mem")
     m.add_argument("--out", required=True)
     m.add_argument("--interval", type=float, default=2.0)
     m.add_argument("--max-seconds", type=float)
     a = ap.parse_args(argv)
+    if a.cmd == "ledger":
+        try:
+            print(*ledger(json.load(sys.stdin)))
+        except (ValueError, TypeError, AttributeError) as exc:
+            print(f"ledger: {exc}", file=sys.stderr)
+            return 2
+        return 0
     if a.cmd == "sample-mem":
         sample_memory(Path(a.out), a.interval, a.max_seconds)
         return 0

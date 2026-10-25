@@ -29,8 +29,8 @@ stage() {
     validate)
       date +%s > "$K1_OUT/start"
       touch "$K1_OUT/validated"
-      # python3 is not in the base image yet; install the minimum to validate, the rest comes in deps.
-      apt-get update -qq && apt-get install -y -qq --no-install-recommends python3 >/dev/null
+      # ubuntu:24.04 has neither python3 nor git; install the minimum to validate, the rest comes in deps.
+      apt-get update -qq && apt-get install -y -qq --no-install-recommends python3 git >/dev/null
       if [[ "${K1_BRANCH:-}" != experiment/kani-k1-* ]]; then
         echo "lane runs only on experiment/kani-k1-* branches, not '${K1_BRANCH:-}'" > "$K1_OUT/request-error.txt"
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
@@ -79,7 +79,9 @@ stage() {
         echo "no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
         return 0
       fi
-      free -b | awk '/^Mem:/{print "mem_total_bytes=" $2} /^Swap:/{print "swap_total_bytes=" $2}' | tee "$K1_OUT/machine.txt"
+      { free -b | awk '/^Mem:/{print "mem_total_bytes=" $2} /^Swap:/{print "swap_total_bytes=" $2}'
+        echo "verify_start_after_validate_s=$(( $(date +%s) - $(cat "$K1_OUT/start") ))"
+        echo "verify_budget_s=$remaining"; } | tee "$K1_OUT/machine.txt"
       python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
       sampler=$!
       set +e
@@ -107,7 +109,7 @@ stage() {
       [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt")
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
       mem=$(awk -F= '$1 == "mem_total_bytes" {printf "%.1f GiB", $2 / 2^30}' "$K1_OUT/machine.txt" 2>/dev/null || true)
-      hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view), pool e2-highmem-4"
+      hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
       python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" \
         --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
         --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \

@@ -358,7 +358,7 @@ class SummaryTests(unittest.TestCase):
 
 
 RES_REQ = {**REQ, "kind": "resource", "runner": "gcb-e2-highmem-4", "harness_timeout_minutes": 60, "harnesses": ONLY_OK}
-PEAKS = ("interval_s=2\nsamples=300\nelapsed_s=598\ntotal_rss_peak_kb=22020096\n"
+PEAKS = ("interval_ms=2000\nsamples=300\nelapsed_s=598\ntotal_rss_peak_kb=22020096\n"
          "cmd=cbmc peak_kb=1048576 first_s=500 last_s=598\n"
          "cmd=goto-instrument peak_kb=20971520 first_s=120 last_s=480\n"
          "cmd=kani-compiler peak_kb=1572864 first_s=2 last_s=110\n")
@@ -409,6 +409,35 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertEqual(len(peaks["commands"]), k.PEAKS_TOP)
         self.assertTrue(peaks["commands_truncated"])
         self.assertEqual(peaks["commands"][0]["cmd"], "p19")
+
+    def test_time_rss_above_sampled_peak(self):
+        big = "\tMaximum resident set size (kbytes): 25165824\n"
+        s = k.summarize(json.dumps(RES_REQ), OK_BLOCK + tail(1, 0), big, 0, "a" * 40, "b" * 40, None, {}, {},
+                        "success", None, False, PEAKS, True)
+        self.assertTrue(any("grew between samples" in n for n in s["notes"]))
+        self.assertFalse(any("grew between samples" in n for n in self.run_res(OK_BLOCK + tail(1, 0))["notes"]))
+
+    def test_ledger(self):
+        builds = [
+            {"id": "a", "startTime": "2026-10-26T10:00:00Z", "finishTime": "2026-10-26T10:10:01.5Z", "timeout": "2400s"},
+            {"id": "b", "finishTime": "2026-10-26T10:00:00Z", "timeout": "5400s"},          # cancelled while queued
+            {"id": "c", "startTime": "2026-10-26T11:00:00Z", "timeout": "5400s"},           # running
+            {"id": "d", "timeout": "600.5s"},                                               # queued
+        ]
+        self.assertEqual(k.ledger(builds), (4, 11, 90 + 11))
+        self.assertEqual(k.ledger([]), (0, 0, 0))
+        for bad in ({"id": "x"}, {"id": "x", "timeout": "90m"}, {"id": "x", "timeout": 5400}):
+            with self.assertRaises(ValueError):
+                k.ledger([bad])
+        with self.assertRaises(ValueError):
+            k.ledger({"builds": []})
+        cli = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger"], input=json.dumps(builds),
+                             capture_output=True, text=True)
+        self.assertEqual(cli.stdout.split(), ["4", "11", "101"])
+        bad = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger"], input='[{"id": "x"}]',
+                             capture_output=True, text=True)
+        self.assertEqual(bad.returncode, 2)
+        self.assertEqual(bad.stdout, "")
 
     def test_tool_killed_before_harness_output(self):
         s = self.run_res("error: goto-instrument was killed\n", exit_code=1)
