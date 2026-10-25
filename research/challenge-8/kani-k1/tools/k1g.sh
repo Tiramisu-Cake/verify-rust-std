@@ -44,13 +44,14 @@ is_build() { [[ "$1" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f
 G() { CLOUDSDK_CONFIG="$GCFG" gcloud --quiet --account="$DISP_SA" --project="$PROJECT" "$@"; }
 auth() {
   if [ ! -d "$GCFG" ]; then (umask 077; mkdir -p "$GCFG"); fi
-  if ! CLOUDSDK_CONFIG="$GCFG" gcloud auth list --filter="account:$DISP_SA" --format='value(account)' 2>/dev/null | grep -q .; then
-    CLOUDSDK_CONFIG="$GCFG" gcloud auth activate-service-account "$DISP_SA" --key-file="$KEY" --quiet >/dev/null 2>&1 \
+  if ! CLOUDSDK_CONFIG="$GCFG" timeout 120 gcloud auth list --filter="account:$DISP_SA" --format='value(account)' 2>/dev/null | grep -q .; then
+    CLOUDSDK_CONFIG="$GCFG" timeout 120 gcloud auth activate-service-account "$DISP_SA" --key-file="$KEY" --quiet >/dev/null 2>&1 \
       || die "cannot activate $DISP_SA with $KEY"
   fi
 }
 jqr() { python3 -c "import json,sys; d=json.load(sys.stdin); print(eval(sys.argv[1], {'d': d}))" "$1"; }
-describe() { G builds describe "$1" --region="$REGION" --format=json; }
+# Bounded: an unattended `wait` must never hang on one stalled request (it then counts as status unknown).
+describe() { CLOUDSDK_CONFIG="$GCFG" timeout 120 gcloud --quiet --account="$DISP_SA" --project="$PROJECT" builds describe "$1" --region="$REGION" --format=json; }
 TERMINAL=" SUCCESS FAILURE INTERNAL_ERROR TIMEOUT CANCELLED EXPIRED "
 
 # budget: prints the ledger, sets USED and RESERVED (minutes). Finished builds count start..finish rounded
