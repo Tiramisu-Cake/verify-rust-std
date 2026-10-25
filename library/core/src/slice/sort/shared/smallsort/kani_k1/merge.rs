@@ -850,7 +850,8 @@ fn toy_loop_contract() {
 
 /// Phase 6 measurement (not a contract proof, R4): the cost of the formulation 3 loop invariant in
 /// CBMC without `proof_for_contract`. The light requires is assumed and the light ensures asserted
-/// in the harness, so the function with the loop holds no specification code (finding 7).
+/// in the harness. The contract attributes on `bidirectional_merge` stay; whether Kani evaluates
+/// them in a plain proof was not checked (finding 8).
 #[kani::proof]
 #[kani::unwind(34)]
 fn bm_u64_len32_plain() {
