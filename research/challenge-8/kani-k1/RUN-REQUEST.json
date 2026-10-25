@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p5-instr-016",
+  "request_id": "merge-p5-inv3-017",
   "agent": "k1-merge",
-  "kind": "diagnostic",
-  "purpose": "Phase 5 run 1: formulation 3 contract (forall sortedness requires/ensures, light per-type probe count ensures) with trivial invariant and job-29 loop_modifies; u64 len 32. Does goto-instrument get through?",
+  "kind": "measurement",
+  "purpose": "Phase 5 run 2: formulation 3 - real loop invariant (k1_bm_inv_core with forall sortedness, light probe count conservation) and light contract; bidirectional_merge u64 len 32 within 10 minutes?",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 8,
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",

@@ -839,9 +839,13 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
-        // K-1 phase 5 run 1 (diagnostic, temporary): trivial invariant and the explicit modifies set
-        // of job 29 with the formulation 3 function contract; does goto-instrument get through?
-        #[cfg_attr(kani, kani::loop_invariant(kani::index <= len_div_2))]
+        // K-1 loop invariant, formulation 3 (K1-merge, phase 5): pointer bookkeeping, both output ends
+        // sorted (one quantifier each), order between consumed and remaining elements, and
+        // conservation of the light probe count. `loop_modifies` as in job 29.
+        #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_bm_inv3(
+            src, len, on_entry(dst), kani::index, left, right, dst, left_rev, right_rev, dst_rev,
+            &is_less
+        )))]
         #[cfg_attr(kani, kani::loop_modifies(
             &left, &right, &dst, &left_rev, &right_rev, &dst_rev,
             ptr::slice_from_raw_parts_mut(dst, len)
