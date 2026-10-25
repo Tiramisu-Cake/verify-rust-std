@@ -5,6 +5,7 @@
 use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
 use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
 use crate::kani;
+use crate::mem::size_of;
 
 // Comparators: K1-merge's `lt_u8`/`lt_i32`/`lt_u64`, strict orders by the key `x >> 1`, so equal keys
 // with different full values exist and permutation is not implied by sortedness. Function items
@@ -206,6 +207,51 @@ check_perm_n!(sort9_perm_u64, sort9_optimal, 9, u64, lt_u64);
 check_perm_n!(sort13_perm_u8, sort13_optimal, 13, u8, lt_u8);
 check_perm_n!(sort13_perm_i32, sort13_optimal, 13, i32, lt_i32);
 check_perm_n!(sort13_perm_u64, sort13_optimal, 13, u64, lt_u64);
+
+// ---------------------------------------------------------------------------------------------
+// Loop invariant of `insertion_sort_shift_left` (phase 5, run B)
+
+impl<T> CopyOnDrop<T> {
+    /// Invariant of the `while tail != v_end` loop of `insertion_sort_shift_left`: `tail` is
+    /// `v_base + k` with `offset <= k <= len`, `v_base[..k]` is sorted, and the probe count of
+    /// `v_base[..len]` equals `count0`, its value on loop entry (`on_entry`). Loop-free, like the
+    /// contract (`k1_sorted_q`, `k1_count_u`). `k` comes from byte addresses: the loop havocs `tail`,
+    /// so a pointer outside `v`, or not a whole number of elements away, must make the invariant
+    /// false rather than trip the UB check of `offset_from`. Zero-sized `T` is not instantiated.
+    pub(crate) fn k1_ins_inv<F: FnMut(&T, &T) -> bool>(
+        v_base: *const T,
+        len: usize,
+        offset: usize,
+        tail: *const T,
+        count0: usize,
+        is_less: &&mut F,
+    ) -> bool {
+        let sz = size_of::<T>();
+        let b = tail.addr().wrapping_sub(v_base.addr());
+        sz != 0
+            && kani::mem::same_allocation(v_base, tail)
+            && b % sz == 0
+            && offset <= b / sz
+            && b / sz <= len
+            && Self::k1_sorted_q(v_base, b / sz, is_less)
+            && Self::k1_count_u(v_base, len) == count0
+    }
+}
+
+/// Phase 5 run B: the loop-free contract of `insertion_sort_shift_left` through its loop invariant,
+/// with `insert_tail` through its verified contract (`insert_tail_net_u64`, job 26). Length 8,
+/// offset 1: the network call site for `len < 9`.
+#[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
+#[kani::stub_verified(super::super::insert_tail)]
+#[kani::unwind(18)]
+fn insertion_inv_o1_u64() {
+    set_probe::<u64>();
+    let mut v: [u64; 8] = kani::any();
+    let pre = v;
+    super::super::insertion_sort_shift_left(&mut v[..], 1, &mut lt_u64);
+    kani::cover(v != pre, "an element moved");
+    kani::cover(true, "end reached");
+}
 
 // ---------------------------------------------------------------------------------------------
 // insertion_sort_shift_left on the network regions: `offset` 1 for `len < 9`, 9 for
