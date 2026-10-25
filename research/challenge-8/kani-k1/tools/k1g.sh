@@ -5,6 +5,7 @@
 # The account can submit builds to the pool and read the run bucket, nothing else.
 #   k1g.sh dispatch BRANCH              start the lane on the pushed BRANCH, print the build id
 #   k1g.sh wait BUILD                   block until the build ends (background task), print its status
+#   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1g.sh summary BUILD                download the summary, print summary.md
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
@@ -128,6 +129,25 @@ case "$cmd" in
       sleep 60
     done
     echo "build $id status=$status" ;;
+  watch)
+    # A detached waiter without a model: when the build ends it queues one message into the calling Codex
+    # thread (the delivery the SmallSort watcher uses, WAIT-EXPERIMENT.md) and exits. One attempt, no retry;
+    # the outcome is in the watch log. The thread must have no active Codex goal.
+    id=${1:-}; is_build "$id"; auth
+    thread=${CODEX_THREAD_ID:-}
+    [[ "$thread" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || die "CODEX_THREAD_ID is not set: use a foreground wait"
+    sock=$(readlink -f /root/.codex/app-server-control/app-server-control.sock 2>/dev/null || true)
+    [ -n "$sock" ] && [ -S "$sock" ] || die "no Codex app-server control socket: use a foreground wait"
+    command -v codex >/dev/null || die "codex not on PATH: use a foreground wait"
+    mkdir -p "$CACHE"; log="$CACHE/watch-$id.log"
+    [ ! -e "$log" ] || die "build $id is already watched (log $log)"
+    setsid nohup bash -c '
+      "$1" wait "$2" > "$3" 2>&1; rc=$?
+      msg="k1g watch: $(tail -n 1 "$3" | cut -c1-200) (wait exit $rc). Next: k1g.sh summary $2"
+      if timeout 60 codex queue --remote "unix://$4" --thread "$5" --message "$msg" >> "$3" 2>&1; then
+        echo "DELIVERED" >> "$3"; else echo "DELIVERY_FAILED_OR_UNKNOWN (no retry)" >> "$3"; fi
+    ' k1g-watch "$TOOLS/k1g.sh" "$id" "$log" "$sock" "$thread" < /dev/null > /dev/null 2>&1 &
+    echo "watching build $id for thread $thread (log $log). End the turn now; a queued message will wake it." ;;
   summary)
     id=${1:-}; is_build "$id"; auth
     dir=$(fetch "$id")
@@ -201,5 +221,5 @@ PY
     id=${1:-}; is_build "$id"; n=${2:-60}; [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le 120 ] || die "N must be <= 120"
     auth; G storage cat "gs://$BUCKET/logs/log-$id.txt" | tail -n "$n" | cut -c1-300 ;;
   *)
-    sed -n '5,15p' "$0"; exit 2 ;;
+    sed -n '5,16p' "$0"; exit 2 ;;
 esac
