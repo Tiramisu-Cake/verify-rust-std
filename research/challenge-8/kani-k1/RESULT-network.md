@@ -2,6 +2,14 @@
 
 Агент: K1-network (Claude Code, Opus 5.5). Ветка `experiment/kani-k1-network-20261024`. Норматив — [EXPERIMENT.md](EXPERIMENT.md), задание — [TASK-network.md](TASK-network.md).
 
+## Фаза 5
+
+- T0: 2026-10-25T08:15:37Z (`date -u`)
+- T0+50 (последний dispatch): 2026-10-25T09:05:37Z
+- T0+65 (конец отчёта): 2026-10-25T09:20:37Z
+- Лимиты: не больше 3 dispatch, сумма таймаутов не больше 30 минут, одна гармоника на запрос. База check-tooling: `aca80458d4f60e6bee1697913a916b37b2ced0cb`.
+- Вход: этот файл на f079f89e, RESULT-merge.md на 312576a9. Вердикт FAIL (STOP) фазы 2 приостановлен решением координатора (TASK-network.md, «Фаза 5»).
+
 ## Фаза 2
 
 - T0: 2026-10-24T19:48:02Z (`date -u`)
