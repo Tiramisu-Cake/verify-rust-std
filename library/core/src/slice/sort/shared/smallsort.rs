@@ -652,15 +652,12 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 // equality). Only `usize` counts go through `old()`.
 // Preconditions: the network call site exactly (`2 <= len <= 17`, `offset` is 13, 9 or 1 by `len`)
 // and the body's `v[..offset]` sorted.
-// Loop-free specification (phase 5): sortedness as one quantifier over a constant range
-// (`k1_sorted_q`), counts unrolled (`k1_count_u`), because the loop below carries a loop contract
-// and a loop in the specification blew up goto-instrument (K1-merge, jobs 17, 19, 29).
 #[cfg_attr(kani, kani::requires(2 <= v.len() && v.len() <= 17 && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }))]
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sorted_q(v.as_ptr(), offset, &is_less)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sorted(v.as_ptr(), offset, &is_less)))]
 #[cfg_attr(kani, kani::modifies(v))]
 // One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_q(v.as_ptr(), v.len(), &is_less)
-    && old(CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len())) == CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len())))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)
+    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())) == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,
@@ -680,11 +677,6 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
         let v_base = v.as_mut_ptr();
         let v_end = v_base.add(len);
         let mut tail = v_base.add(offset);
-        // K-1 loop contract (K1-network, phase 5): see `k1_ins_inv` in kani_k1/network.rs.
-        #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_ins_inv(
-            v_base, len, offset, tail, on_entry(CopyOnDrop::<T>::k1_count_u(v_base, len)), &is_less
-        )))]
-        #[cfg_attr(kani, kani::loop_modifies(&tail, ptr::slice_from_raw_parts_mut(v_base, len)))]
         while tail != v_end {
             // SAFETY: v_base and tail are both valid pointers to elements, and
             // v_base < tail since we checked offset != 0.

@@ -240,7 +240,9 @@ impl<T> CopyOnDrop<T> {
 
 /// Phase 5 run B: the loop-free contract of `insertion_sort_shift_left` through its loop invariant,
 /// with `insert_tail` through its verified contract (`insert_tail_net_u64`, job 26). Length 8,
-/// offset 1: the network call site for `len < 9`.
+/// offset 1: the network call site for `len < 9`. Job 37 (887d01ca, contract and loop attributes of
+/// that commit): goto-instrument out of memory. Those attributes were then removed from
+/// `smallsort.rs`, so at HEAD this harness checks the phase 1 contract and `k1_ins_inv` is unused.
 #[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
 #[kani::stub_verified(super::super::insert_tail)]
 #[kani::unwind(18)]

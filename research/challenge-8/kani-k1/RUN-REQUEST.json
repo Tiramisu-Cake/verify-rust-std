@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p5-02-insertion-inv",
+  "request_id": "net-p5-03-insert-tail-reproof",
   "agent": "k1-network",
-  "kind": "diagnostic",
-  "purpose": "Phase 5 run B: loop-free insertion_sort_shift_left contract via loop invariant (on_entry probe count, k1_sorted_q), stub_verified(insert_tail), len 8 offset 1, u64",
+  "kind": "measurement",
+  "purpose": "Phase 5: re-prove the insert_tail contract (regions 2..=17, u64) at code identical to run A (job 34) after the K1-merge merge changed is_probe; makes the run A stub R4-proven in the same commit set",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insertion_inv_o1_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_net_u64",
       "expect": "SUCCESS"
     }
   ]
