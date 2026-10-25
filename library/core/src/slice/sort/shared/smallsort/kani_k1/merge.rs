@@ -458,6 +458,25 @@ impl<T> CopyOnDrop<T> {
         }
     }
 
+    /// Phase 6 run 3 (attribution): `k1_bm_inv3` without the probe count.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv3_sorted<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        Self::k1_bm_inv_core(src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less)
+            .is_some()
+    }
+
     /// Light probe count of the invariant in one pass over `0..K1_UNROLL`: the probes in the output
     /// written so far (`d0[..u]`, `d0[len - u..len]`) equal the probes in the consumed input
     /// (`s[..a]`, `s[h - c..h + b]`, `s[len - d..len]`). Same statement as `k1_bm_inv_count` (the
@@ -852,6 +871,28 @@ fn bm_u64_len32_plain() {
     assert!(CopyOnDrop::<u64>::k1_sorted_q(d, 32, &r));
     assert!(CopyOnDrop::<u64>::k1_perm_l(v.as_ptr(), d, 32));
     kani::cover(true, "plain: merge returned");
+}
+
+/// Phase 6 run 3 (attribution): `bm_u64_len32_plain` without the permutation assertion, with the
+/// invariant `k1_bm_inv3_sorted` (no probe count) on the loop.
+#[kani::proof]
+#[kani::unwind(34)]
+fn bm_u64_len32_plain_sorted() {
+    let v: [u64; 32] = kani::any();
+    let mut is_less = lt_u64;
+    let pre = {
+        let r = &mut is_less;
+        CopyOnDrop::<u64>::k1_merge_halves_sorted_q(&v, &r)
+    };
+    kani::assume(pre);
+    kani::cover(true, "plain sorted: halves sorted is satisfiable");
+    let mut dst = MaybeUninit::<[u64; 32]>::uninit();
+    let d = dst.as_mut_ptr() as *mut u64;
+    // SAFETY: `dst` is a separate local of 32 elements, the halves of `v` are sorted.
+    unsafe { bidirectional_merge(&v, d, &mut is_less) };
+    let r = &mut is_less;
+    assert!(CopyOnDrop::<u64>::k1_sorted_q(d, 32, &r));
+    kani::cover(true, "plain sorted: merge returned");
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]

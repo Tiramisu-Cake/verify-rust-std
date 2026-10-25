@@ -14,8 +14,9 @@
 
 | # | request_id | kind | job | head SHA | гармоники × таймаут | итог |
 |---|---|---|---|---|---|---|
-| 19 | merge-p6-attr-019 | diagnostic | 40 | 859391c9 | 1 × 8 мин | Прогон 1, атрибуция находки 7: контракт job 32 плюс `forall` «половины отсортированы» в `requires`, без счётчика; тривиальный инвариант. Ожидается |
-| 20 | merge-p6-plain-020 | measurement | … | … | 1 × 10 мин | Прогон 2: обычная `#[kani::proof]` `bm_u64_len32_plain`, инвариант `k1_bm_inv3` на цикле, лёгкие `requires`/`ensures` в гармонике. Ожидается |
+| 19 | merge-p6-attr-019 | diagnostic | 40 | 859391c9 | 1 × 8 мин | COMPLETE, gate false, check-tooling ok. Прогон 1, атрибуция находки 7: контракт job 32 плюс `forall` «половины отсортированы» в `requires`, без счётчика; тривиальный инвариант. **`goto-instrument` пройден**, OUT_OF_MEMORY в CBMC, как job 30, 32 (1 OOM-kill, 13 GiB, wall 6:14) |
+| 20 | merge-p6-plain-020 | measurement | 41 | 5c0b06c1 | 1 × 10 мин | COMPLETE, gate false, check-tooling ok. Прогон 2: обычная `#[kani::proof]` `bm_u64_len32_plain`, инвариант `k1_bm_inv3` на цикле, лёгкие `requires`/`ensures` в гармонике. `goto-instrument` пройден, **CBMC — TIMEOUT 10 мин**, пик cgroup 1,84 GiB, OOM-kill нет (wall 10:52) |
+| 21 | merge-p6-plainsorted-021 | measurement | … | … | 1 × 10 мин | Прогон 3: как прогон 2, но без счётчика — инвариант `k1_bm_inv3_sorted`, гармоника `bm_u64_len32_plain_sorted` проверяет только сортированность. Ожидается |
 
 ## Фаза 5
 

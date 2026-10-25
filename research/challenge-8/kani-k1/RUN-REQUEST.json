@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p6-plain-020",
+  "request_id": "merge-p6-plainsorted-021",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "Phase 6 run 2: cost of the formulation 3 loop invariant k1_bm_inv3 in CBMC via a plain kani::proof (light requires assumed, light ensures asserted in the harness, no proof_for_contract); u64 len 32.",
+  "purpose": "Phase 6 run 3 (attribution of job 41 timeout): plain kani::proof, formulation 3 invariant without the probe count, harness asserts sortedness only; u64 len 32. Is the probe count the CBMC cost driver?",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32_plain",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32_plain_sorted",
       "expect": "SUCCESS"
     }
   ]
