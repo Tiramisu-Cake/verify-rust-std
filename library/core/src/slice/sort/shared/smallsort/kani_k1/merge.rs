@@ -829,6 +829,31 @@ fn toy_loop_contract() {
     kani::cover(true, "toy: end of harness reached");
 }
 
+/// Phase 6 measurement (not a contract proof, R4): the cost of the formulation 3 loop invariant in
+/// CBMC without `proof_for_contract`. The light requires is assumed and the light ensures asserted
+/// in the harness, so the function with the loop holds no specification code (finding 7).
+#[kani::proof]
+#[kani::unwind(34)]
+fn bm_u64_len32_plain() {
+    set_probe::<u64>();
+    let v: [u64; 32] = kani::any();
+    let mut is_less = lt_u64;
+    let pre = {
+        let r = &mut is_less;
+        CopyOnDrop::<u64>::k1_merge_halves_sorted_q(&v, &r)
+    };
+    kani::assume(pre);
+    kani::cover(true, "plain: halves sorted is satisfiable");
+    let mut dst = MaybeUninit::<[u64; 32]>::uninit();
+    let d = dst.as_mut_ptr() as *mut u64;
+    // SAFETY: `dst` is a separate local of 32 elements, the halves of `v` are sorted.
+    unsafe { bidirectional_merge(&v, d, &mut is_less) };
+    let r = &mut is_less;
+    assert!(CopyOnDrop::<u64>::k1_sorted_q(d, 32, &r));
+    assert!(CopyOnDrop::<u64>::k1_perm_l(v.as_ptr(), d, 32));
+    kani::cover(true, "plain: merge returned");
+}
+
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len32() {
