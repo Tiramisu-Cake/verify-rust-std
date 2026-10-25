@@ -1,6 +1,6 @@
 # Задание K1-merge
 
-Runtime: Codex (фаза 7; фазы 1–6 шли в Claude Code). Владелец задания: K1-merge. Ветка `experiment/kani-k1-merge-20261024`, worktree `/root/verify-rust-std-kani-k1-merge`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: фаза 7, 300 + 30 минут от T0, не больше 3 dispatch, только kind `resource` в 32 GB lane §5a (раздел «Фаза 7» ниже). check-tooling — против базы `33e3030d13fc359046be3bfe6b6b1d0a83b4112c` через `k1g.sh`. Cloud-бюджет — потолок `k1g.sh` (330 минут пула на проект, около $8,6), lane CircleCI в этой фазе не используется.
+Runtime: Codex (фаза 7; фазы 1–6 шли в Claude Code). Владелец задания: K1-merge. Ветка `experiment/kani-k1-merge-20261024`, worktree `/root/verify-rust-std-kani-k1-merge`. Норматив — [EXPERIMENT.md](EXPERIMENT.md). Окно: фаза 7, 300 + 30 минут от T0, не больше 3 dispatch, только kind `resource` в 32 GB lane §5a (раздел «Фаза 7» ниже). check-tooling — против базы `915c5510a629668294084158e7f595d36ed9f75e` через `k1g.sh`. Cloud-бюджет — потолок `k1g.sh`: 370 минут пула на проект, около $9,66, при потолке владельца $10 на все сборки 32 GB; smoke уже занял 12 минут, lane CircleCI в этой фазе не используется.
 
 ## Цель
 
@@ -129,7 +129,7 @@ STOP по §2 действует как обычно. Счётчик минут 
 - `k1g.sh summary <id>`: статус, пики по командам с метками ≤13 GiB / ≤16 GB / >16 GB, заметки;
 - `k1g.sh peaks <id>`: файл пиков и `machine.txt`, где записано, когда началась проверка;
 - `log-grep` и `log-lines`, не больше 200 строк;
-- проверка привязки: `bash <(git show 33e3030d13fc359046be3bfe6b6b1d0a83b4112c:research/challenge-8/kani-k1/tools/k1g.sh) check-tooling <id> 33e3030d13fc359046be3bfe6b6b1d0a83b4112c`.
+- проверка привязки: `bash <(git show 915c5510a629668294084158e7f595d36ed9f75e:research/challenge-8/kani-k1/tools/k1g.sh) check-tooling <id> 915c5510a629668294084158e7f595d36ed9f75e`.
 
 Прогон без сводки — RUNNER_ERROR. Для сбоя до Kani разрешено `k1g.sh build-tail <id> 60`. Если `time -v` max RSS выше пика команд, истинный пик одиночного процесса — из `time -v` (заметка сводки). Время каждой команды — её `first_s`–`last_s` с точностью 2 с.
 
@@ -145,6 +145,7 @@ STOP по §2 действует как обычно. Счётчик минут 
 
   Это не вердикт K-1, решение примет владелец.
 - **Ветка на конец фазы:** восстановить, как в D20/D22, и записать SHA.
+- **Сигнал координатору.** Последний коммит фазы содержит в RESULT-merge.md строку `ФАЗА 7 ЗАВЕРШЕНА` и запушен. По этой строке координатор узнаёт, что фаза кончилась: владельца ночью нет, работу принимает координатор. После push закончить turn строкой `ФАЗА 7 ЗАВЕРШЕНА, <SHA>`. Следующее задание придёт сообщением в этот же thread.
 
 Сеть и gcloud нужны только через `k1g.sh`. Ключ и `/root/.config/smallsort-ci/k1-gcloud` не читать и не выводить. Локально Kani, rustc и cargo не запускать (R6). K1-network на паузе, его ветку не трогать.
 
