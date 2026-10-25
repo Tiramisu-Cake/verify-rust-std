@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p6-attr-019",
+  "request_id": "merge-p6-plain-020",
   "agent": "k1-merge",
-  "kind": "diagnostic",
-  "purpose": "Phase 6 run 1 (attribution of finding 7): job 32 contract plus quantified halves-sorted requires, no permutation ensures, trivial invariant; u64 len 32. Does goto-instrument get through?",
+  "kind": "measurement",
+  "purpose": "Phase 6 run 2: cost of the formulation 3 loop invariant k1_bm_inv3 in CBMC via a plain kani::proof (light requires assumed, light ensures asserted in the harness, no proof_for_contract); u64 len 32.",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 8,
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32_plain",
       "expect": "SUCCESS"
     }
   ]

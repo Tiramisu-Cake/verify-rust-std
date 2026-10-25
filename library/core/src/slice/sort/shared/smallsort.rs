@@ -839,8 +839,12 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
-        // K-1 phase 6 run 1 (diagnostic, temporary): trivial invariant and the modifies set of job 29.
-        #[cfg_attr(kani, kani::loop_invariant(kani::index <= len_div_2))]
+        // K-1 phase 6 run 2 (measurement, temporary): formulation 3 invariant (`k1_bm_inv3`), modifies
+        // set of job 29; checked by the plain proof `bm_u64_len32_plain`.
+        #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_bm_inv3(
+            src, len, on_entry(dst), kani::index, left, right, dst, left_rev, right_rev, dst_rev,
+            &is_less
+        )))]
         #[cfg_attr(kani, kani::loop_modifies(
             &left, &right, &dst, &left_rev, &right_rev, &dst_rev,
             ptr::slice_from_raw_parts_mut(dst, len)
