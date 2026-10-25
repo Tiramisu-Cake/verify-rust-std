@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p7-resource-a-022",
+  "request_id": "merge-p7-resource-b-023",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 7 A: exact library proof state of CircleCI job 36 (5edf162c), proof_for_contract bm_u64_len32, formulation 3 with k1_bm_inv3 and light permutation count. Measure Q1 goto-instrument and Q2 CBMC time and per-command memory on 32 GB; never a PASS or measurement result.",
+  "purpose": "Phase 7 B: exact library proof state of CircleCI job 41 (5c0b06c1), plain kani::proof bm_u64_len32_plain with formulation 3 invariant. Measure Q3 time without 10-minute limit and inspect evidence of loop contract application; never a PASS or measurement result.",
   "runner": "gcb-e2-highmem-4",
   "harness_timeout_minutes": 60,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32_plain",
       "expect": "SUCCESS"
     }
   ]

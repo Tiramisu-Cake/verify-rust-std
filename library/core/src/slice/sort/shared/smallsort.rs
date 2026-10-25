@@ -774,14 +774,14 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 // "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
 // harness comparators (see kani_k1/merge.rs). `v.len() <= 32` holds at every call site
 // (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
-// and bounds the loop-free specification helpers. Formulation 3 (phase 5): sortedness by one
-// quantifier over a constant range, permutation by the light probe count.
+// and bounds the loop-free specification helpers.
 #[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
+// K-1 phase 6 run 1 (diagnostic, temporary): job 32's contract (quantified sortedness ensures)
+// plus the quantified "halves sorted" requires; no permutation ensures. Attribution of finding 7.
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted_q(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_q(dst, v.len(), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_perm_l(v.as_ptr(), dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -839,9 +839,8 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
-        // K-1 loop invariant, formulation 3 (K1-merge, phase 5): pointer bookkeeping, both output ends
-        // sorted (one quantifier each), order between consumed and remaining elements, and
-        // conservation of the light probe count. `loop_modifies` as in job 29.
+        // K-1 phase 6 run 2 (measurement, temporary): formulation 3 invariant (`k1_bm_inv3`), modifies
+        // set of job 29; checked by the plain proof `bm_u64_len32_plain`.
         #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_bm_inv3(
             src, len, on_entry(dst), kani::index, left, right, dst, left_rev, right_rev, dst_rev,
             &is_less
