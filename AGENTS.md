@@ -9,4 +9,4 @@ EXPERIMENT.md governs this experiment where it differs from `/root/AGENTS.md` or
 - the only lane is `research/challenge-8/kani-k1/tools/k1g.sh`;
 - R9 review is not part of phase 7.
 
-The rules for Claude Code in `CLAUDE.md` (the smallsort-reviewer subagent, background waits) do not apply to Codex. Wait for builds with a foreground `k1g.sh wait`, as TASK-merge.md «Фаза 7» says.
+The rules for Claude Code in `CLAUDE.md` (the smallsort-reviewer subagent, background waits) do not apply to Codex. Wait for builds as TASK-merge.md «Фаза 7» says: `k1g.sh watch <id>`, then end the turn and let the queued message wake the thread. The fallback is a foreground `k1g.sh wait`. Start the session with its cwd at this worktree and with no Codex goal.
