@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p7-resource-b-023",
+  "request_id": "merge-p7-resource-c-024",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 7 B: exact library proof state of CircleCI job 41 (5c0b06c1), plain kani::proof bm_u64_len32_plain with formulation 3 invariant. Measure Q3 time without 10-minute limit and inspect evidence of loop contract application; never a PASS or measurement result.",
+  "purpose": "Phase 7 C, option (c): control for B/job 41 with same bm_u64_len32_plain harness and exact job 41 proof state except removed loop_invariant and paired loop_modifies on bidirectional_merge. Compare resource/time behavior without loop contract; never a PASS or measurement result.",
   "runner": "gcb-e2-highmem-4",
   "harness_timeout_minutes": 60,
   "harnesses": [
