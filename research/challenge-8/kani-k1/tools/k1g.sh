@@ -5,6 +5,7 @@
 # The account can submit builds to the pool and read the run bucket, nothing else.
 #   k1g.sh dispatch BRANCH              start the lane on the pushed BRANCH, print the build id
 #   k1g.sh wait BUILD                   block until the build ends (background task), print its status
+#   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1g.sh summary BUILD                download the summary, print summary.md
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
@@ -23,10 +24,10 @@ DISP_SA=k1-dispatcher@$PROJECT.iam.gserviceaccount.com
 KEY=${K1_GCP_KEY:-/root/.config/smallsort-ci/k1-gcp-key.json}
 GCFG=${K1_GCLOUD_CONFIG:-/root/.config/smallsort-ci/k1-gcloud}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
-# Paid pool time. The owner approved about $8 for the 32 GB measurements: smoke + three runs of at most
-# 90 min. dispatch refuses a build whose timeout would take used + reserved minutes over CAP_MINUTES;
-# raising it is the owner's decision.
-CAP_MINUTES=330
+# Paid pool time. The owner capped all 32 GB builds at $10 (2026-10-26); 370 min x $0.02612 = $9.66 leaves
+# a margin for billing rounding. dispatch refuses a build whose timeout would take used + reserved minutes
+# over CAP_MINUTES; raising it is the owner's decision.
+CAP_MINUTES=370
 PRICE_PER_MINUTE=0.02612            # e2-highmem-4 private pool, us-central1, USD
 OVERHEAD_MINUTES=30                 # checkout, deps, Kani build, summary, upload; see gcb-k1.sh
 LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools research/challenge-8/kani-k1/gcb
@@ -128,9 +129,38 @@ case "$cmd" in
       sleep 60
     done
     echo "build $id status=$status" ;;
+  watch)
+    # A detached waiter without a model: when the build ends it queues a message into the calling Codex
+    # thread (the delivery the SmallSort watcher uses, WAIT-EXPERIMENT.md) and exits. Unlike that watcher it
+    # retries: up to 3 attempts 2 min apart until `codex queue` exits 0. A duplicate wakeup only makes the agent
+    # re-read a summary; a lost one idles an unattended agent. Outcome in the watch log. No active Codex goal.
+    id=${1:-}; is_build "$id"; auth
+    thread=${CODEX_THREAD_ID:-}
+    [[ "$thread" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || die "CODEX_THREAD_ID is not set: use a foreground wait"
+    link=/root/.codex/app-server-control/app-server-control.sock   # the daemon republishes it on restart
+    sock=$(readlink -f "$link" 2>/dev/null || true)
+    [ -n "$sock" ] && [ -S "$sock" ] || die "no Codex app-server control socket: use a foreground wait"
+    command -v codex >/dev/null || die "codex not on PATH: use a foreground wait"
+    mkdir -p "$CACHE"; log="$CACHE/watch-$id.log"
+    [ ! -e "$log" ] || die "build $id is already watched (log $log)"
+    setsid nohup bash -c '
+      "$1" wait "$2" > "$3" 2>&1; rc=$?
+      msg="k1g watch: $(tail -n 1 "$3" | cut -c1-200) (wait exit $rc). Next: k1g.sh summary $2"
+      for attempt in 1 2 3; do
+        if timeout 60 codex queue --remote "unix://$(readlink -f "$4")" --thread "$5" --message "$msg (delivery attempt $attempt)" >> "$3" 2>&1; then
+          echo "DELIVERED attempt $attempt" >> "$3"; exit 0
+        fi
+        echo "DELIVERY_FAILED_OR_UNKNOWN attempt $attempt" >> "$3"; [ "$attempt" = 3 ] || sleep 120
+      done
+    ' k1g-watch "$TOOLS/k1g.sh" "$id" "$log" "$link" "$thread" < /dev/null > /dev/null 2>&1 &
+    echo "watching build $id for thread $thread (log $log). End the turn now; a queued message will wake it." ;;
   summary)
     id=${1:-}; is_build "$id"; auth
     dir=$(fetch "$id")
+    if [ -f "$dir/log/stage-error.txt" ]; then
+      echo "--- first failed stage, last lines (setup diagnostics, not Kani output):" >&2
+      head -n 41 "$dir/log/stage-error.txt" | cut -c1-300 >&2
+    fi
     [ -f "$dir/summary/summary.md" ] || die "build $id has no summary: treat as RUNNER_ERROR (timeout, cancel or setup failure)"
     cat "$dir/summary/summary.md" ;;
   peaks)
@@ -197,5 +227,5 @@ PY
     id=${1:-}; is_build "$id"; n=${2:-60}; [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le 120 ] || die "N must be <= 120"
     auth; G storage cat "gs://$BUCKET/logs/log-$id.txt" | tail -n "$n" | cut -c1-300 ;;
   *)
-    sed -n '5,15p' "$0"; exit 2 ;;
+    sed -n '5,16p' "$0"; exit 2 ;;
 esac
