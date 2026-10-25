@@ -48,9 +48,10 @@ stage() {
       valid || return 0
       rm -f "$K1_OUT/deps.ok"
       # The container lacks what GitHub/CircleCI images preinstall. sudo: Kani's install_deps.sh calls it;
-      # lsb-release: install_cbmc.sh picks the CBMC .deb by `lsb_release -rs`; time/procps: measurements.
+      # lsb-release: install_cbmc.sh picks the CBMC .deb by `lsb_release -rs`; bash-completion: a Depends of
+      # that .deb, installed with plain dpkg -i; time/procps: measurements.
       apt-get install -y -qq --no-install-recommends sudo ca-certificates curl git jq time procps unzip \
-        build-essential python3 lsb-release pkg-config libssl-dev xz-utils file >/dev/null
+        build-essential python3 lsb-release bash-completion pkg-config libssl-dev xz-utils file >/dev/null
       if ! command -v rustup >/dev/null; then
         curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
       fi
