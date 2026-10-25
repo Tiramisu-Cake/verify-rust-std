@@ -6,6 +6,8 @@ Subcommands
   summarize --request R --log L ...                      parse terse Kani output into summary.json/summary.md
   gate SUMMARY                                           exit 0 iff the run is COMPLETE, consistent and met
                                                          every expectation (and, for measurement, every bound)
+  sample-mem --out FILE                                  record per-command peak RSS until SIGTERM (resource lane)
+  ledger                                                 Cloud Build list JSON on stdin -> "builds used reserved" minutes
 
 Standard library only. No network, no proof tools. The summary is the agent-facing evidence:
 statuses, times, failed checks and errors are bounded and every truncation is explicit. Anything the
@@ -16,19 +18,26 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
+import os
 import re
+import signal
 import sys
+import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 SCHEMA = "kani-k1-run-request-v1"
 SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
-KINDS = {"measurement", "diagnostic"}
+KINDS = {"measurement", "diagnostic", "resource"}
 EXPECT = {"SUCCESS", "FAILED"}
 # circleci-linux-large: CircleCI Linux VM large, 4 CPU / 15 GB (the active lane); the two GitHub runners
-# are kept for the dormant GitHub Actions lane.
-RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest"}
+# are kept for the dormant GitHub Actions lane. gcb-e2-highmem-4: Cloud Build private pool, 4 vCPU / 32 GB,
+# twice the organizers' runner memory, so it takes only kind "resource", which never counts for PASS.
+RESOURCE_RUNNER = "gcb-e2-highmem-4"
+RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest", RESOURCE_RUNNER}
 HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
 HARNESS_RE = re.compile(r"slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*")
 REQUEST_ID_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,63}")
@@ -37,6 +46,7 @@ HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
 MAX_TIMEOUT_MINUTES = 30
+RESOURCE_MAX_TIMEOUT_MINUTES = 60
 MEASUREMENT_TIMEOUT_MINUTES = 10
 MAX_TOTAL_MINUTES = 150
 MEASUREMENT_LIMIT_SECONDS = 600.0
@@ -100,9 +110,12 @@ def validate_request(data: Any, max_total_minutes: int = MAX_TOTAL_MINUTES) -> d
             raise RequestError(f"{key} must be one of {sorted(allowed)}")
     if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
+    if (data["runner"] == RESOURCE_RUNNER) != (data["kind"] == "resource"):
+        raise RequestError(f"kind resource runs exactly on runner {RESOURCE_RUNNER}, and that runner takes only kind resource")
     timeout = data["harness_timeout_minutes"]
-    if type(timeout) is not int or not 1 <= timeout <= MAX_TIMEOUT_MINUTES:
-        raise RequestError(f"harness_timeout_minutes must be an integer 1..{MAX_TIMEOUT_MINUTES}")
+    limit = RESOURCE_MAX_TIMEOUT_MINUTES if data["kind"] == "resource" else MAX_TIMEOUT_MINUTES
+    if type(timeout) is not int or not 1 <= timeout <= limit:
+        raise RequestError(f"harness_timeout_minutes must be an integer 1..{limit} for kind {data['kind']}")
     if data["kind"] == "measurement" and timeout != MEASUREMENT_TIMEOUT_MINUTES:
         raise RequestError("a measurement run must use harness_timeout_minutes = 10")
     harnesses = data["harnesses"]
@@ -126,6 +139,9 @@ def validate_request(data: Any, max_total_minutes: int = MAX_TOTAL_MINUTES) -> d
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
+    if data["kind"] == "resource":
+        # The dispatcher sizes the paid Cloud Build timeout from this total (k1g.sh), so it is capped here.
+        max_total_minutes = min(max_total_minutes, RESOURCE_MAX_TIMEOUT_MINUTES)
     if len(names) * timeout > max_total_minutes:
         raise RequestError(f"harness count × timeout exceeds {max_total_minutes} minutes for this lane")
     return data
@@ -277,6 +293,110 @@ def parse_memcap(text: str | None) -> dict[str, Any]:
             "reason": _clip(fields["reason"].strip()) if fields.get("reason") else None}
 
 
+PEAKS_TOP = 12
+
+
+def parse_peaks(text: str | None) -> dict[str, Any]:
+    """k1-out/peaks.txt of sample-mem: key=value header lines and one `cmd=NAME peak_kb=… first_s=… last_s=…` per command."""
+    if text is None:
+        return {"state": "MISSING", "interval_ms": None, "samples": None, "total_rss_peak_kb": None, "commands": []}
+    head: dict[str, str] = {}
+    commands: list[dict[str, Any]] = []
+    for line in text.splitlines():
+        if line.startswith("cmd="):
+            f = dict(part.split("=", 1) for part in line.split() if "=" in part)
+            if all(f.get(k, "").isdigit() for k in ("peak_kb", "first_s", "last_s")):
+                commands.append({"cmd": _clip(f["cmd"])[:40], "peak_kb": int(f["peak_kb"]),
+                                 "first_s": int(f["first_s"]), "last_s": int(f["last_s"])})
+        elif "=" in line:
+            key, value = line.split("=", 1)
+            head[key.strip()] = value.strip()
+
+    def num(key: str) -> int | None:
+        return int(head[key]) if head.get(key, "").isdigit() else None
+    commands.sort(key=lambda c: -c["peak_kb"])
+    samples = num("samples")
+    return {"state": "PARSED" if samples else "UNPARSED", "interval_ms": num("interval_ms"), "samples": samples,
+            "total_rss_peak_kb": num("total_rss_peak_kb"), "commands": commands[:PEAKS_TOP],
+            "commands_truncated": len(commands) > PEAKS_TOP}
+
+
+def _proc_status(path: Path) -> dict[str, str] | None:
+    try:
+        text = path.read_text()
+    except OSError:
+        return None
+    return dict(line.split(":", 1) for line in text.splitlines() if ":" in line)
+
+
+def _kb(value: str | None) -> int:
+    parts = (value or "").split()
+    return int(parts[0]) if parts and parts[0].isdigit() else 0
+
+
+def sample_memory(out: Path, interval: float, max_seconds: float | None = None, proc: Path = Path("/proc")) -> None:
+    """Every INTERVAL seconds read VmHWM (the kernel's per-process peak RSS) of every process and keep the
+    maximum per command name, plus the largest sampled sum of VmRSS. The file is rewritten atomically after
+    each sample, so a killed sampler still leaves the last state. Stops on SIGTERM/SIGINT or after MAX_SECONDS."""
+    stop = False
+
+    def on_signal(signum: int, frame: Any) -> None:
+        nonlocal stop
+        stop = True
+    signal.signal(signal.SIGTERM, on_signal)
+    signal.signal(signal.SIGINT, on_signal)
+    t0 = time.monotonic()
+    peaks: dict[str, dict[str, int]] = {}
+    total_peak = samples = 0
+    me = str(os.getpid())
+    while True:
+        now = int(time.monotonic() - t0)
+        total = 0
+        for status_path in proc.glob("[0-9]*/status"):
+            if status_path.parent.name == me:
+                continue
+            st = _proc_status(status_path)
+            if not st or "VmRSS" not in st:
+                continue  # kernel thread or gone
+            total += _kb(st.get("VmRSS"))
+            name = re.sub(r"[^A-Za-z0-9._+-]", "_", st.get("Name", "?").strip())[:40] or "?"
+            entry = peaks.setdefault(name, {"peak_kb": 0, "first_s": now, "last_s": now})
+            entry["peak_kb"] = max(entry["peak_kb"], _kb(st.get("VmHWM")), _kb(st.get("VmRSS")))
+            entry["last_s"] = now
+        total_peak, samples = max(total_peak, total), samples + 1
+        lines = [f"interval_ms={round(interval * 1000)}", f"samples={samples}", f"elapsed_s={now}", f"total_rss_peak_kb={total_peak}"]
+        lines += [f"cmd={n} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']}" for n, e in sorted(peaks.items())]
+        tmp = out.with_name(out.name + ".tmp")
+        tmp.write_text("\n".join(lines) + "\n")
+        tmp.replace(out)
+        if stop or (max_seconds is not None and time.monotonic() - t0 >= max_seconds):
+            return
+        deadline = time.monotonic() + interval
+        while not stop and time.monotonic() < deadline:
+            time.sleep(min(0.2, interval))
+
+
+def ledger(builds: Any) -> tuple[int, int, int]:
+    """Pool minutes of a `gcloud builds list --format=json` result: (builds, used, reserved). A finished build
+    counts start..finish rounded up (none if it never started); an unfinished one, queued or running, reserves
+    its full timeout. Anything unreadable raises, so that dispatch fails closed."""
+    def ts(value: str) -> datetime:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if not isinstance(builds, list):
+        raise ValueError("build list must be a JSON array")
+    used = reserved = 0
+    for b in builds:
+        if b.get("finishTime"):
+            if b.get("startTime"):
+                used += math.ceil((ts(b["finishTime"]) - ts(b["startTime"])).total_seconds() / 60)
+            continue
+        timeout = b.get("timeout")
+        if not isinstance(timeout, str) or not re.fullmatch(r"\d+(\.\d+)?s", timeout):
+            raise ValueError(f"unfinished build {b.get('id')} has unreadable timeout {timeout!r}")
+        reserved += math.ceil(float(timeout[:-1]) / 60)
+    return len(builds), used, reserved
+
+
 def file_bindings(paths: list[str]) -> dict[str, str]:
     out: dict[str, str] = {}
     for p in paths:
@@ -289,7 +409,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
               head_sha: str | None, kani_commit: str | None, request_error: str | None = None,
               run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
               build_outcome: str | None = None, memcap_text: str | None = None,
-              memcap_tracked: bool = False) -> dict[str, Any]:
+              memcap_tracked: bool = False, peaks_text: str | None = None,
+              peaks_tracked: bool = False) -> dict[str, Any]:
     summary: dict[str, Any] = {
         "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit, "run": run or {},
         "tooling_sha256": tooling or {}, "build_outcome": build_outcome,
@@ -302,6 +423,17 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     # The memory cap is tracked only where the lane sets one (CircleCI); it then bounds measurement runs.
     memcap = parse_memcap(memcap_text) if memcap_tracked else None
     summary["resources"]["memcap"] = memcap
+    # Per-command peaks are tracked only where the lane samples them (the 32 GB resource lane).
+    peaks = parse_peaks(peaks_text) if peaks_tracked else None
+    summary["resources"]["peaks"] = peaks
+    if peaks is not None and peaks["state"] != "PARSED":
+        summary["notes"].append(f"per-command memory peaks {peaks['state']}")
+    if peaks is not None and peaks["commands"] and summary["resources"]["max_rss_kb_whole_run"]:
+        top, exact = peaks["commands"][0]["peak_kb"], summary["resources"]["max_rss_kb_whole_run"]
+        if exact > top:
+            # The sampler misses growth in a process's last interval; time -v sees the largest child exactly.
+            summary["notes"].append(f"time -v max RSS {exact} KiB exceeds the largest sampled command peak {top} KiB: "
+                                    "a process grew between samples; use the time -v value as the true single-process peak")
     if memcap is not None:
         if memcap["state"] != "ENFORCED":
             summary["notes"].append(f"verify memory cap {memcap['state']}: {memcap['reason'] or 'no reason recorded'}")
@@ -322,6 +454,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["notes"].append(f"request rejected before Kani ran: {_clip(request_error or 'unknown')}")
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
+    if request["kind"] == "resource":
+        summary["notes"].append("kind resource on 32 GB: memory/time data only, never a PASS or measurement result")
     not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
@@ -329,7 +463,7 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         reason = {"failure": "the pinned Kani build failed",
                   "deps-failure": "installing dependencies failed",
                   "not-started": "the job failed before request validation (checkout or submodules)",
-                  "verify-skipped": "verification not started: too little time left before the 60-minute job cap"}.get(
+                  "verify-skipped": "verification not started: too little time left before the lane's job cap"}.get(
                       build_outcome, "setup or runner failed before verification output")
         summary["notes"].append("Kani log missing: " + reason)
         return summary
@@ -340,7 +474,7 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["harnesses"] = not_run
         if memcap is not None and memcap["oom_kill"]:
             summary["status"] = "RUNNER_ERROR"
-            summary["notes"].append("OOM kill before any harness output: out of memory during compilation")
+            summary["notes"].append("OOM kill before any harness output: out of memory during compilation or goto instrumentation")
         elif any(RUSTC_ERROR_RE.search(line) for line in parsed["errors"]):
             summary["status"] = "COMPILE_ERROR"
         elif parsed["errors"]:
@@ -430,6 +564,22 @@ def _memcap_line(memcap: dict[str, Any] | None) -> str:
             f"{gib(memcap['peak_bytes'])}, OOM kills {memcap['oom_kill']}, swap {memcap['swap']}")
 
 
+def _peaks_lines(peaks: dict[str, Any] | None) -> list[str]:
+    if peaks is None:
+        return []
+    gib = lambda kb: "?" if kb is None else f"{kb / 2**20:.2f} GiB"  # noqa: E731
+    every = "?" if peaks["interval_ms"] is None else f"{peaks['interval_ms'] / 1000:g}"
+    out = [f"- memory peaks {peaks['state']}: sampled every {every} s, {peaks['samples']} samples, "
+           f"largest sampled sum of RSS {gib(peaks['total_rss_peak_kb'])}; per command (kernel VmHWM; 13 GiB = CircleCI cap, "
+           "16 GB = organizers' runner):"]
+    for c in peaks["commands"]:
+        fit = "≤13 GiB" if c["peak_kb"] <= 13 * 2**20 else ("≤16 GB" if c["peak_kb"] * 1024 <= 16 * 10**9 else ">16 GB")
+        out.append(f"  - `{c['cmd']}` {gib(c['peak_kb'])} ({fit}), seen {c['first_s']}–{c['last_s']} s")
+    if peaks.get("commands_truncated"):
+        out.append(f"  - …only the {PEAKS_TOP} largest commands listed")
+    return out
+
+
 def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
@@ -443,6 +593,7 @@ def render_md(summary: dict[str, Any]) -> str:
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
         f"- verify memory cap: {_memcap_line(res.get('memcap'))}",
+        *_peaks_lines(res.get("peaks")),
         "",
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
@@ -503,11 +654,27 @@ def main(argv: list[str]) -> int:
     s.add_argument("--image-os")
     s.add_argument("--image-version")
     s.add_argument("--memcap", help="memcap.txt of the verify step; marks the memory cap as tracked")
+    s.add_argument("--peaks", help="peaks.txt of sample-mem; marks per-command memory peaks as tracked")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
     g.add_argument("summary")
+    sub.add_parser("ledger")
+    m = sub.add_parser("sample-mem")
+    m.add_argument("--out", required=True)
+    m.add_argument("--interval", type=float, default=2.0)
+    m.add_argument("--max-seconds", type=float)
     a = ap.parse_args(argv)
+    if a.cmd == "ledger":
+        try:
+            print(*ledger(json.load(sys.stdin)))
+        except (ValueError, TypeError, AttributeError) as exc:
+            print(f"ledger: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "sample-mem":
+        sample_memory(Path(a.out), a.interval, a.max_seconds)
+        return 0
     if a.cmd == "validate":
         try:
             request = validate_request(json.loads(Path(a.request).read_text()), a.max_total_minutes)
@@ -530,7 +697,8 @@ def main(argv: list[str]) -> int:
                "image_os": a.image_os or None, "image_version": a.image_version or None}
         summary = summarize(_read_optional(a.request), _read_optional(a.log), _read_optional(a.time), exit_code,
                             a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
-                            a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None)
+                            a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None,
+                            _read_optional(a.peaks), a.peaks is not None)
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
