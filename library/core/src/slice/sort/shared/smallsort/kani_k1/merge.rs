@@ -38,6 +38,9 @@ use crate::slice::sort::shared::FreezeMarker;
 
 const PROBE_BYTES: usize = 128;
 
+/// Largest region the loop-free helpers `k1_count_u`/`k1_sorted_u` handle.
+const K1_UNROLL: usize = 32;
+
 #[repr(C, align(16))]
 struct Probe([u8; PROBE_BYTES]);
 
@@ -52,26 +55,43 @@ pub(crate) fn set_probe<T>() {
 }
 
 /// `*p` is bytewise equal to the probe. `p` must be valid for reads of one initialized `T`.
-/// Compared in 8-byte words plus a byte tail, so that no loop runs more than 10 times (85 bytes)
-/// and every harness fits one small unwind bound (`compare_bytes` would loop once per byte).
+/// Loop-free: up to 16 guarded 8-byte words (`size_of::<T>() <= PROBE_BYTES`, checked in
+/// `set_probe`) and a 4/2/1-byte tail. With loop contracts CBMC unwinds the remaining loops in
+/// goto-instrument, before constant propagation, so a loop here nested in the `k1_count` loop
+/// multiplied the program (job 17: goto-instrument out of memory).
 #[inline(always)]
 unsafe fn is_probe<T>(p: *const T) -> bool {
     let a = p as *const u8;
     let n = size_of::<T>();
+    let w = n / 8;
     let mut eq = true;
-    let mut i = 0;
-    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`.
+    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`; every read
+    // below is guarded to lie in `0..n`.
     unsafe {
         let b = ptr::addr_of!(K1_PROBE) as *const u8;
-        while i + 8 <= n {
-            let x = ptr::read_unaligned(a.add(i) as *const u64);
-            let y = ptr::read_unaligned(b.add(i) as *const u64);
-            eq &= x == y;
-            i += 8;
+        macro_rules! words {
+            ($($j:literal)*) => {$(
+                if $j < w {
+                    let x = ptr::read_unaligned(a.add(8 * $j) as *const u64);
+                    let y = ptr::read_unaligned(b.add(8 * $j) as *const u64);
+                    eq &= x == y;
+                }
+            )*};
         }
-        while i < n {
+        words!(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15);
+        let mut i = 8 * w;
+        if n - i >= 4 {
+            eq &= ptr::read_unaligned(a.add(i) as *const u32)
+                == ptr::read_unaligned(b.add(i) as *const u32);
+            i += 4;
+        }
+        if n - i >= 2 {
+            eq &= ptr::read_unaligned(a.add(i) as *const u16)
+                == ptr::read_unaligned(b.add(i) as *const u16);
+            i += 2;
+        }
+        if n - i >= 1 {
             eq &= *a.add(i) == *b.add(i);
-            i += 1;
         }
     }
     eq
@@ -97,6 +117,55 @@ impl<T> CopyOnDrop<T> {
             i += 1;
         }
         c
+    }
+
+    /// `k1_count` without a loop, for `len <= K1_UNROLL` (callers check the bound). Used in the loop
+    /// invariant: DFCC inlines the invariant into the function with the loop contract, and a loop
+    /// there made goto-instrument run out of memory (jobs 17 and 19).
+    pub(crate) fn k1_count_u(base: *const T, len: usize) -> usize {
+        let mut c = 0;
+        macro_rules! step {
+            ($($i:literal)*) => {$(
+                // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
+                if $i < len && unsafe { is_probe(base.add($i)) } {
+                    c += 1;
+                }
+            )*};
+        }
+        step!(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31);
+        c
+    }
+
+    /// `k1_sorted` without a loop, for `len <= K1_UNROLL` (callers check the bound).
+    pub(crate) fn k1_sorted_u<F: FnMut(&T, &T) -> bool>(
+        base: *const T,
+        len: usize,
+        is_less: &&mut F,
+    ) -> bool {
+        let mut ok = true;
+        macro_rules! step {
+            ($($i:literal)*) => {$(
+                // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
+                if $i < len && call_less(is_less, unsafe { base.add($i) }, unsafe { base.add($i - 1) }) {
+                    ok = false;
+                }
+            )*};
+        }
+        step!(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31);
+        ok
+    }
+
+    /// `k1_sorted` as one quantifier over the constant range `1..K1_UNROLL` (the SAT backend of the
+    /// Kani pin encodes only quantifiers with constant bounds), guarded by `i < len`. For
+    /// `len <= K1_UNROLL`. Not used by the contracts at HEAD; phase 4 run B (job 32) showed that this
+    /// quantified `ensures` passes goto-instrument together with a loop contract.
+    pub(crate) fn k1_sorted_q<F: FnMut(&T, &T) -> bool>(
+        base: *const T,
+        len: usize,
+        is_less: &&mut F,
+    ) -> bool {
+        crate::forall!(|i in (1, K1_UNROLL)| i >= len
+            || !call_less(is_less, base.wrapping_add(i), base.wrapping_add(i - 1)))
     }
 
     /// `base[..len]` is sorted: no element is less than its predecessor.
@@ -185,6 +254,189 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_disjoint(v.as_ptr(), v.len(), dst as *const T, v.len())
     }
 
+    /// Loop invariant of the main loop of `bidirectional_merge` (`idx` = iterations done).
+    /// Notation: `s = src`, `h = len / 2`; the up-merge consumed `s[..a]` and `s[h..h + b]`, the
+    /// down-merge consumed `s[h - c..h]` and `s[len - d..]`; the output holds `u` elements at each end
+    /// of `d0[..len]`. The remaining elements are `s[a..h - c]` and `s[h + b..len - d]`.
+    ///
+    /// Formulation 2, NOT ATTACHED to the loop: every loop contract tried on this loop ran out of
+    /// memory under the 13 GiB cap on the Kani pin, also a trivial invariant with an explicit
+    /// `loop_modifies` (jobs 17-24 and 29, RESULT-merge.md D13, D15). Kept as a record. `K1BmInv`
+    /// selected the invariant per element type for the phase 2 bisection.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        <T as K1BmInv>::k1_bm_inv_sel(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+    }
+
+    /// The full invariant: `k1_bm_inv_core` plus conservation of the probe count.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_full<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        match Self::k1_bm_inv_core(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        ) {
+            Some((a, b, c, d, u)) => Self::k1_bm_inv_count(src, len, d0, a, b, c, d, u),
+            None => false,
+        }
+    }
+
+    /// Probe count: output so far plus remaining input equals the whole input.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_count(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        a: usize,
+        b: usize,
+        c: usize,
+        d: usize,
+        u: usize,
+    ) -> bool {
+        let h = len / 2;
+        let d0c = d0 as *const T;
+        // SAFETY: indices are in bounds by the arithmetic checked in `k1_bm_inv_core`.
+        unsafe {
+            Self::k1_count_u(d0c, u)
+                + Self::k1_count_u(d0c.add(len - u), u)
+                + Self::k1_count_u(src.add(a), h - c - a)
+                + Self::k1_count_u(src.add(h + b), len - d - h - b)
+                == Self::k1_count_u(src, len)
+        }
+    }
+
+    /// Everything of the invariant except the probe count. Returns the consumed counts
+    /// `(a, b, c, d, u)` when it holds.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn k1_bm_inv_core<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> Option<(usize, usize, usize, usize, usize)> {
+        let same = |p: *const T, q: *const T| kani::mem::same_allocation(p, q);
+        let d0c = d0 as *const T;
+        // The unrolled helpers below cover at most K1_UNROLL elements (K-1 lengths are <= 32).
+        if len > K1_UNROLL {
+            return None;
+        }
+        if !(same(left, src)
+            && same(right, src)
+            && same(left_rev, src)
+            && same(right_rev, src)
+            && same(dst as *const T, d0c)
+            && same(dst_rev as *const T, d0c))
+        {
+            return None;
+        }
+        let h = len / 2;
+        let (hi, li) = (h as isize, len as isize);
+        // Element offsets from byte addresses: the loop havocs these pointers, so a byte offset
+        // that is not a multiple of the element size must make the invariant false, not trip the
+        // UB check of `offset_from`.
+        let sz = size_of::<T>() as isize;
+        let bytes = |p: *const T, q: *const T| (p.addr() as isize).wrapping_sub(q.addr() as isize);
+        let (ba, br, blr, brr, bu, bur) = (
+            bytes(left, src),
+            bytes(right, src),
+            bytes(left_rev, src),
+            bytes(right_rev, src),
+            bytes(dst as *const T, d0c),
+            bytes(dst_rev as *const T, d0c),
+        );
+        if ba % sz != 0 || br % sz != 0 || blr % sz != 0 || brr % sz != 0 || bu % sz != 0 || bur % sz != 0
+        {
+            return None;
+        }
+        let (oa, or, olr, orr, ou, our) = (ba / sz, br / sz, blr / sz, brr / sz, bu / sz, bur / sz);
+        let (a, b, c, d, u) = (oa, or - hi, hi - 1 - olr, li - 1 - orr, ou);
+        if !(u == idx as isize
+            && li - 1 - our == u
+            && a >= 0
+            && b >= 0
+            && c >= 0
+            && d >= 0
+            && a + b == u
+            && c + d == u
+            && a + c <= hi
+            && b + d <= li - hi
+            && u <= hi)
+        {
+            return None;
+        }
+        let (a, b, c, d, u) = (a as usize, b as usize, c as usize, d as usize, u as usize);
+        let lrem = a + c < h;
+        let rrem = b + d < len - h;
+        // SAFETY (all `add` below): indices are in bounds by the arithmetic checked above.
+        let at = |i: usize| unsafe { src.add(i) };
+        let out = |i: usize| unsafe { d0c.add(i) };
+        // x <= y and x < y in the comparator's order.
+        let le = |x: *const T, y: *const T| !call_less(is_less, y, x);
+        let lt = |x: *const T, y: *const T| call_less(is_less, x, y);
+
+        // Output ends sorted, and the up end below the down end.
+        if !Self::k1_sorted_u(d0c, u, is_less) || !Self::k1_sorted_u(out(len - u), u, is_less) {
+            return None;
+        }
+        if u > 0 {
+            let (lo, top) = (out(u - 1), out(len - u));
+            if !le(lo, top) {
+                return None;
+            }
+            if lrem && !(le(lo, at(a)) && le(at(h - c - 1), top)) {
+                return None;
+            }
+            if rrem && !(le(lo, at(h + b)) && le(at(len - d - 1), top)) {
+                return None;
+            }
+        }
+        // Consumed versus remaining elements across the halves (needed when a head is exhausted).
+        if c > 0 && rrem && !lt(at(len - d - 1), at(h - c)) {
+            return None;
+        }
+        if d > 0 && lrem && !le(at(h - c - 1), at(len - d)) {
+            return None;
+        }
+        if a > 0 && rrem && !le(at(a - 1), at(h + b)) {
+            return None;
+        }
+        if b > 0 && lrem && !lt(at(h + b - 1), at(a)) {
+            return None;
+        }
+        Some((a, b, c, d, u))
+    }
+
     /// `v[..len / 2]` and `v[len / 2..]` are sorted.
     pub(crate) fn k1_merge_halves_sorted<F: FnMut(&T, &T) -> bool>(
         v: &[T],
@@ -192,8 +444,88 @@ impl<T> CopyOnDrop<T> {
     ) -> bool {
         let len = v.len();
         let half = len / 2;
-        Self::k1_sorted(v.as_ptr(), half, is_less)
-            && Self::k1_sorted(v.as_ptr().wrapping_add(half), len - half, is_less)
+        len <= K1_UNROLL
+            && Self::k1_sorted_u(v.as_ptr(), half, is_less)
+            && Self::k1_sorted_u(v.as_ptr().wrapping_add(half), len - half, is_less)
+    }
+}
+
+/// Selects the loop invariant of `bidirectional_merge` per element type (see `k1_bm_inv`). Default:
+/// the full invariant. `u16`: a trivial invariant, `i16`: the invariant without the probe count;
+/// those two types occurred only in the phase 2 bisection harnesses (removed), never in a proof or stub.
+pub(crate) trait K1BmInv: Sized {
+    #[allow(clippy::too_many_arguments)]
+    fn k1_bm_inv_sel<F: FnMut(&Self, &Self) -> bool>(
+        src: *const Self,
+        len: usize,
+        d0: *mut Self,
+        idx: usize,
+        left: *const Self,
+        right: *const Self,
+        dst: *mut Self,
+        left_rev: *const Self,
+        right_rev: *const Self,
+        dst_rev: *mut Self,
+        is_less: &&mut F,
+    ) -> bool;
+}
+
+impl<T> K1BmInv for T {
+    default fn k1_bm_inv_sel<F: FnMut(&T, &T) -> bool>(
+        src: *const T,
+        len: usize,
+        d0: *mut T,
+        idx: usize,
+        left: *const T,
+        right: *const T,
+        dst: *mut T,
+        left_rev: *const T,
+        right_rev: *const T,
+        dst_rev: *mut T,
+        is_less: &&mut F,
+    ) -> bool {
+        CopyOnDrop::<T>::k1_bm_inv_full(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+    }
+}
+
+impl K1BmInv for u16 {
+    fn k1_bm_inv_sel<F: FnMut(&u16, &u16) -> bool>(
+        _src: *const u16,
+        len: usize,
+        _d0: *mut u16,
+        idx: usize,
+        _left: *const u16,
+        _right: *const u16,
+        _dst: *mut u16,
+        _left_rev: *const u16,
+        _right_rev: *const u16,
+        _dst_rev: *mut u16,
+        _is_less: &&mut F,
+    ) -> bool {
+        idx <= len / 2
+    }
+}
+
+impl K1BmInv for i16 {
+    fn k1_bm_inv_sel<F: FnMut(&i16, &i16) -> bool>(
+        src: *const i16,
+        len: usize,
+        d0: *mut i16,
+        idx: usize,
+        left: *const i16,
+        right: *const i16,
+        dst: *mut i16,
+        left_rev: *const i16,
+        right_rev: *const i16,
+        dst_rev: *mut i16,
+        is_less: &&mut F,
+    ) -> bool {
+        CopyOnDrop::<i16>::k1_bm_inv_core(
+            src, len, d0, idx, left, right, dst, left_rev, right_rev, dst_rev, is_less,
+        )
+        .is_some()
     }
 }
 
@@ -203,6 +535,14 @@ impl<T> CopyOnDrop<T> {
 
 /// For K1-network (u8 is a network type, not a general one).
 pub(crate) fn lt_u8(a: &u8, b: &u8) -> bool {
+    (*a >> 1) < (*b >> 1)
+}
+
+pub(crate) fn lt_u16(a: &u16, b: &u16) -> bool {
+    (*a >> 1) < (*b >> 1)
+}
+
+pub(crate) fn lt_i16(a: &i16, b: &i16) -> bool {
     (*a >> 1) < (*b >> 1)
 }
 
@@ -285,6 +625,53 @@ fn insert_tail_u64_upto8() {
     by_len!(len, insert_tail_len::<u64>(lt_u64), [2 3 4 5 6 7 8]);
 }
 
+// Scaling probes (diagnostic): one fixed length per harness.
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len12() {
+    bm_len::<u64, _, 12>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len16() {
+    bm_len::<u64, _, 16>(lt_u64);
+}
+
+// Phase 3 tool control (TASK-merge.md «Фаза 3» p. 2): are loop contracts on the Kani pin broken
+// for any `for` loop over a `Range` on an array of up to 32 elements, or only inside
+// `bidirectional_merge`? Trivial invariant, plain proof, nothing from smallsort.
+
+fn toy_loop(a: &mut [u64; 32], n: usize) {
+    #[cfg_attr(kani, kani::loop_invariant(kani::index <= n && n <= 32))]
+    for i in 0..n {
+        a[i] = a[i].wrapping_add(1);
+    }
+}
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn toy_loop_contract() {
+    let mut a: [u64; 32] = kani::any();
+    let n: usize = kani::any_where(|n: &usize| *n <= 32);
+    kani::cover(n == 32, "toy: n == 32 reachable under the assume");
+    toy_loop(&mut a, n);
+    kani::cover(true, "toy: end of harness reached");
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len32() {
+    bm_len::<u64, _, 32>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_u64() {
+    sort4_body::<u64, _>(lt_u64);
+}
+
 /// R11 control: the caller violates the "halves sorted" requires of a `stub_verified` callee.
 /// Expected FAILED on the requires check `k1_merge_halves_sorted`.
 #[kani::proof]
@@ -357,6 +744,43 @@ fn sort8_all() {
         _ => sort8_body::<[u8; 16], _>(lt_b16),
     }
 }
+
+// Per-type contract proofs for measurement (one harness per type, EXPERIMENT.md §2 p. 4).
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_i32() {
+    sort4_body::<i32, _>(lt_i32);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_b16() {
+    sort4_body::<[u8; 16], _>(lt_b16);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+#[kani::unwind(34)]
+fn sort4_b85() {
+    sort4_body::<[u8; 85], _>(lt_b85);
+}
+
+macro_rules! sort8_harness {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        /// sort8_stable with its two callees replaced by their verified contracts.
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort8_stable)]
+        #[kani::unwind(34)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        fn $name() {
+            sort8_body::<$t, _>($cmp);
+        }
+    };
+}
+
+sort8_harness!(sort8_i32, i32, lt_i32);
+sort8_harness!(sort8_u64, u64, lt_u64);
+sort8_harness!(sort8_b16, [u8; 16], lt_b16);
 
 /// insert_tail on regions of 2..=16 elements (general inserts up to index 15 of a half).
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
@@ -487,3 +911,25 @@ general_harness!(general_i32, general_stable_len, i32, lt_i32);
 general_harness!(general_u64, general_stable_len, u64, lt_u64);
 general_harness!(general_b16, general_unstable_len, [u8; 16], lt_b16);
 general_harness!(general_b85, general_unstable_len, [u8; 85], lt_b85);
+
+/// One band of lengths `[$($n)*]` of a top harness. The family of bands of one type covers every
+/// length 0..=32 (EXPERIMENT.md §2 p. 2). Covers: every boundary length of R12 that lies in the band,
+/// listed explicitly in `[$($c)*]`, so that every cover of the harness is satisfiable.
+macro_rules! general_band {
+    ($name:ident, $body:ident, $t:ty, $cmp:expr, [$($n:literal)*], covers [$($c:literal)*]) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort8_stable)]
+        fn $name() {
+            let len: usize = kani::any_where(|l: &usize| $(*l == $n)||*);
+            $( kani::cover(len == $c, concat!("len ", stringify!($c))); )*
+            by_len!(len, $body::<$t>($cmp), [$($n)*]);
+        }
+    };
+}
+
+// Single-length probe of the composition cost (diagnostic).
+general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [32]);
