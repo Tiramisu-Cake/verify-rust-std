@@ -18,6 +18,9 @@ LANE_RUNNER=gcb-e2-highmem-4
 MAX_TOTAL_MINUTES=60
 VERIFY_SLACK_MINUTES=24
 mkdir -p "$K1_OUT"
+# Cloud Build sets HOME=/builder/home while the step runs as root, and rustup refuses a HOME that differs
+# from root's home directory.
+export HOME=/root
 export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
@@ -44,9 +47,10 @@ stage() {
     deps)
       valid || return 0
       rm -f "$K1_OUT/deps.ok"
-      # sudo: Kani's install_deps.sh calls it (a no-op for root); time/procps for measurements.
+      # The container lacks what GitHub/CircleCI images preinstall. sudo: Kani's install_deps.sh calls it;
+      # lsb-release: install_cbmc.sh picks the CBMC .deb by `lsb_release -rs`; time/procps: measurements.
       apt-get install -y -qq --no-install-recommends sudo ca-certificates curl git jq time procps unzip \
-        build-essential python3 >/dev/null
+        build-essential python3 lsb-release pkg-config libssl-dev xz-utils file >/dev/null
       if ! command -v rustup >/dev/null; then
         curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain none
       fi
@@ -108,7 +112,7 @@ stage() {
       [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
       [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt")
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
-      mem=$(awk -F= '$1 == "mem_total_bytes" {printf "%.1f GiB", $2 / 2^30}' "$K1_OUT/machine.txt" 2>/dev/null || true)
+      mem=$(free -b 2>/dev/null | awk '/^Mem:/{printf "%.1f GiB", $2 / 2^30}' || true)
       hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
       python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" \
         --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
@@ -132,9 +136,13 @@ if [ "${1:-}" != all ]; then stage "${1:-}"; exit; fi
 
 # `all`: each stage runs as its own bash process. A subshell would not do: errexit is ignored in anything
 # on the left of `||`, so a failed command would not stop its stage before the stage's ok marker.
+# A failed stage leaves the last 40 lines of its output in stage-error.txt (uploaded; k1g.sh summary shows it).
 for s in validate deps build verify summarize; do
   echo "== stage $s"
-  bash "$0" "$s" || echo "stage $s failed with exit $?"
+  if ! bash "$0" "$s" 2>&1 | tee "$K1_OUT/stage-$s.log"; then
+    echo "stage $s failed with exit ${PIPESTATUS[0]}"
+    [ -f "$K1_OUT/stage-error.txt" ] || { echo "stage $s:"; tail -n 40 "$K1_OUT/stage-$s.log" | cut -c1-300; } > "$K1_OUT/stage-error.txt"
+  fi
 done
 rc=1
 if [ -f "$K1_OUT/summary/summary.json" ]; then
@@ -144,7 +152,7 @@ echo "$rc" > "$K1_OUT/gate.rc"
 # Upload set: the same paths the CircleCI lane publishes, plus the memory peaks and machine view.
 rm -rf "$K1_OUT/upload" && mkdir -p "$K1_OUT/upload/summary" "$K1_OUT/upload/log"
 cp "$K1_OUT"/summary/summary.{md,json} "$K1_OUT/upload/summary/" 2>/dev/null || true
-for f in kani.log time.txt request-error.txt peaks.txt machine.txt; do
+for f in kani.log time.txt request-error.txt peaks.txt machine.txt stage-error.txt; do
   [ -f "$K1_OUT/$f" ] && cp "$K1_OUT/$f" "$K1_OUT/upload/log/$f"
 done
 touch "$K1_OUT/upload/summary/.staged" "$K1_OUT/upload/log/.staged"   # both directories exist for the upload step
