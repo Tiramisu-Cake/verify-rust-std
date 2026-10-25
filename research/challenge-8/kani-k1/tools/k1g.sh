@@ -131,6 +131,10 @@ case "$cmd" in
   summary)
     id=${1:-}; is_build "$id"; auth
     dir=$(fetch "$id")
+    if [ -f "$dir/log/stage-error.txt" ]; then
+      echo "--- first failed stage, last lines (setup diagnostics, not Kani output):" >&2
+      head -n 41 "$dir/log/stage-error.txt" | cut -c1-300 >&2
+    fi
     [ -f "$dir/summary/summary.md" ] || die "build $id has no summary: treat as RUNNER_ERROR (timeout, cancel or setup failure)"
     cat "$dir/summary/summary.md" ;;
   peaks)
