@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-004",
+  "request_id": "coord-smoke-gcb-001",
   "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported; verify memory cap ENFORCED",
-  "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "kind": "resource",
+  "purpose": "32 GB lane smoke: Kani builds in the pool, two harnesses run, located failed check reported, memory peaks recorded, upload works",
+  "runner": "gcb-e2-highmem-4",
+  "harness_timeout_minutes": 5,
   "harnesses": [
     {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
     {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
