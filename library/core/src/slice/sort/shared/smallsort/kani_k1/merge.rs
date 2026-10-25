@@ -118,9 +118,10 @@ macro_rules! k1_probe_int {
         impl K1Probe for $t {
             #[inline(always)]
             unsafe fn k1_probe(p: *const $t) -> bool {
-                // SAFETY: `p` is readable (caller); the probe buffer is 16-aligned and larger than
-                // the integer.
-                unsafe { ptr::read_unaligned(p) == *(ptr::addr_of!(K1_PROBE) as *const $t) }
+                // SAFETY: `p` is an aligned readable element (caller); the probe buffer is
+                // 16-aligned and larger than the integer. Plain loads, no `read_unaligned`: its
+                // library body and UB checks are inlined with the spec (phase 5, D19).
+                unsafe { *p == *(ptr::addr_of!(K1_PROBE) as *const $t) }
             }
         }
     )*};
@@ -245,7 +246,7 @@ impl<T> CopyOnDrop<T> {
         macro_rules! step {
             ($($i:literal)*) => {$(
                 // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
-                if $i < len && unsafe { <T as K1Probe>::k1_probe(base.add($i)) } {
+                if $i < len && unsafe { <T as K1Probe>::k1_probe(base.wrapping_add($i)) } {
                     c += 1;
                 }
             )*};
@@ -479,12 +480,12 @@ impl<T> CopyOnDrop<T> {
             ($($i:literal)*) => {$(
                 if $i < len {
                     // SAFETY: `$i < len`; the output is read only where it was written.
-                    if ($i < u || $i >= len - u) && unsafe { <T as K1Probe>::k1_probe(d0c.add($i)) } {
+                    if ($i < u || $i >= len - u) && unsafe { <T as K1Probe>::k1_probe(d0c.wrapping_add($i)) } {
                         co += 1;
                     }
                     // SAFETY: `$i < len`, the input is initialized.
                     if ($i < a || ($i >= h - c && $i < h + b) || $i >= len - d)
-                        && unsafe { <T as K1Probe>::k1_probe(src.add($i)) }
+                        && unsafe { <T as K1Probe>::k1_probe(src.wrapping_add($i)) }
                     {
                         cc += 1;
                     }
@@ -564,9 +565,10 @@ impl<T> CopyOnDrop<T> {
         let (a, b, c, d, u) = (a as usize, b as usize, c as usize, d as usize, u as usize);
         let lrem = a + c < h;
         let rrem = b + d < len - h;
-        // SAFETY (all `add` below): indices are in bounds by the arithmetic checked above.
-        let at = |i: usize| unsafe { src.add(i) };
-        let out = |i: usize| unsafe { d0c.add(i) };
+        // Indices below are in bounds by the arithmetic checked above. `wrapping_add`, not `add`:
+        // the spec is inlined into the function with the loop contract (phase 5, D19).
+        let at = |i: usize| src.wrapping_add(i);
+        let out = |i: usize| d0c.wrapping_add(i);
         // x <= y and x < y in the comparator's order.
         let le = |x: *const T, y: *const T| !call_less(is_less, y, x);
         let lt = |x: *const T, y: *const T| call_less(is_less, x, y);
