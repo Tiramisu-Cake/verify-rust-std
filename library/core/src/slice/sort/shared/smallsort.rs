@@ -777,11 +777,10 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 // and bounds the loop-free specification helpers.
 #[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
-// K-1 phase 6 run 1 (diagnostic, temporary): job 32's contract (quantified sortedness ensures)
-// plus the quantified "halves sorted" requires; no permutation ensures. Attribution of finding 7.
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted_q(v, &is_less)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_q(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -839,16 +838,6 @@ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
         let mut right_rev = src.add(len - 1);
         let mut dst_rev = dst.add(len - 1);
 
-        // K-1 phase 6 run 3 (measurement, temporary): formulation 3 invariant without the probe count
-        // (`k1_bm_inv3_sorted`), modifies set of job 29; checked by `bm_u64_len32_plain_sorted`.
-        #[cfg_attr(kani, kani::loop_invariant(CopyOnDrop::<T>::k1_bm_inv3_sorted(
-            src, len, on_entry(dst), kani::index, left, right, dst, left_rev, right_rev, dst_rev,
-            &is_less
-        )))]
-        #[cfg_attr(kani, kani::loop_modifies(
-            &left, &right, &dst, &left_rev, &right_rev, &dst_rev,
-            ptr::slice_from_raw_parts_mut(dst, len)
-        ))]
         for _ in 0..len_div_2 {
             (left, right, dst) = merge_up(left, right, dst, is_less);
             (left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);
