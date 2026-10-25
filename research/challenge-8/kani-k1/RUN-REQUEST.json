@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p2-06-stub-cost",
+  "request_id": "net-p5-01-fixedt8",
   "agent": "k1-network",
-  "kind": "diagnostic",
-  "purpose": "Phase 2: cost of stub_verified(swap_if_less) composition - sort9 permutation u64 over 25 stubs, against 227 s for the real body (job 18)",
+  "kind": "measurement",
+  "purpose": "Phase 5 run A: top level at constant length 8, u64, stub_verified(insert_tail) (contract proven by insert_tail_net_u64, job 26)",
   "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 4,
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort9_perm_stub_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::fixedt8_u64",
       "expect": "SUCCESS"
     }
   ]

@@ -414,6 +414,26 @@ check_network_fixed!(fixed8_u64, u64, lt_u64, 8);
 check_network_fixed!(fixed12_u64, u64, lt_u64, 12);
 check_network_fixed!(fixed17_u64, u64, lt_u64, 17);
 
+/// Phase 5 run A: `check_network_fixed` at length 8 with `insert_tail` through its verified contract
+/// (`insert_tail_net_u64`, job 26), the one combination phase 2 did not run. At length 8 the network
+/// stubs are off the path (`small_sort_network` calls only `insertion_sort_shift_left(v, 1)`); they
+/// are kept so that the harness differs from `fixed8_u64` (job 31) only by the `insert_tail` stub.
+#[kani::proof]
+#[kani::stub_verified(super::super::sort9_optimal)]
+#[kani::stub_verified(super::super::sort13_optimal)]
+#[kani::stub_verified(super::super::insert_tail)]
+#[kani::unwind(18)]
+fn fixedt8_u64() {
+    set_probe::<u64>();
+    let mut v: [u64; 8] = kani::any();
+    let pre = v;
+    let mut cmp = lt_u64;
+    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
+    assert!(sorted_by(&v[..], &mut cmp));
+    assert!(CopyOnDrop::<u64>::k1_count(pre.as_ptr(), 8) == CopyOnDrop::<u64>::k1_count(v.as_ptr(), 8));
+    kani::cover(true, "end reached");
+}
+
 check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
 check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
 check_network_band!(band0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
