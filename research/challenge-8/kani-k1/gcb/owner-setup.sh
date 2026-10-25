@@ -74,6 +74,10 @@ sleep 10   # IAM propagation
 step "roles: build SA writes logs and artifacts to the bucket only"
 gcloud storage buckets add-iam-policy-binding "$BUCKET" \
   --member="serviceAccount:$BUILD_SA" --role=roles/storage.objectAdmin >/dev/null
+# Cloud Build checks storage.buckets.get on the log bucket before it starts a build (FAILED_PRECONDITION
+# "does not have access to the bucket" otherwise); objectAdmin does not include it.
+gcloud storage buckets add-iam-policy-binding "$BUCKET" \
+  --member="serviceAccount:$BUILD_SA" --role=roles/storage.legacyBucketReader >/dev/null
 
 step "roles: dispatcher submits builds to the pool, reads the bucket, runs builds as the build SA"
 for role in roles/cloudbuild.builds.editor roles/cloudbuild.workerPoolUser; do
