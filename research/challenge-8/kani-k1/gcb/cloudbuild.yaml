@@ -1,0 +1,37 @@
+# Kani K-1 resource lane: Cloud Build private pool k1-highmem4 (e2-highmem-4, 4 vCPU / 32 GB) in the
+# owner's project smallsort-k1. There are no triggers: research/challenge-8/kani-k1/tools/k1g.sh dispatch
+# submits this file as committed at the run's commit, with the pool, build service account, log bucket and
+# timeout, and substitutions _SHA, _BRANCH, _BUCKET. Runs are kind "resource" (memory and time data on
+# 32 GB); they never count for PASS. Stage logic: tools/gcb-k1.sh.
+steps:
+  - id: checkout
+    name: gcr.io/cloud-builders/git
+    entrypoint: bash
+    args:
+      - -ceu
+      - |
+        git init -q src && cd src
+        git remote add origin https://github.com/Tiramisu-Cake/verify-rust-std.git
+        git fetch -q --depth 1 origin "${_SHA}"
+        git checkout -q "${_SHA}"
+        git submodule update --init --recursive --depth 1
+  - id: k1
+    name: ubuntu:24.04
+    dir: src
+    entrypoint: bash
+    args: [research/challenge-8/kani-k1/tools/gcb-k1.sh, all]
+    env: ['K1_BRANCH=${_BRANCH}', 'K1_SHA=${_SHA}', 'K1_BUILD_ID=$BUILD_ID']
+    allowFailure: true
+  - id: upload
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    dir: src
+    entrypoint: bash
+    args: [-ceu, 'gcloud storage cp -r k1-out/upload/summary k1-out/upload/log gs://${_BUCKET}/runs/$BUILD_ID/']
+  - id: gate
+    name: ubuntu:24.04
+    dir: src
+    entrypoint: bash
+    args: [-c, 'exit "$$(cat k1-out/gate.rc 2>/dev/null || echo 1)"']   # $$ escapes Cloud Build substitution
+tags: [kani-k1]
+options:
+  logging: GCS_ONLY

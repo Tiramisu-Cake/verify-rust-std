@@ -324,7 +324,7 @@ class SummaryTests(unittest.TestCase):
 
     def test_build_outcome_notes(self):
         for outcome, needle in (("deps-failure", "dependencies"), ("not-started", "before request validation"),
-                                ("failure", "Kani build failed"), ("verify-skipped", "60-minute")):
+                                ("failure", "Kani build failed"), ("verify-skipped", "job cap")):
             s = summ(None, build_outcome=outcome)
             self.assertEqual(s["status"], "RUNNER_ERROR")
             self.assertTrue(any(needle in n for n in s["notes"]), (outcome, s["notes"]))
@@ -355,6 +355,96 @@ class SummaryTests(unittest.TestCase):
             b = k.file_bindings([str(f), str(Path(d) / "missing")])
             self.assertEqual(b[str(f)], "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
             self.assertEqual(b[str(Path(d) / "missing")], "MISSING")
+
+
+RES_REQ = {**REQ, "kind": "resource", "runner": "gcb-e2-highmem-4", "harness_timeout_minutes": 60, "harnesses": ONLY_OK}
+PEAKS = ("interval_s=2\nsamples=300\nelapsed_s=598\ntotal_rss_peak_kb=22020096\n"
+         "cmd=cbmc peak_kb=1048576 first_s=500 last_s=598\n"
+         "cmd=goto-instrument peak_kb=20971520 first_s=120 last_s=480\n"
+         "cmd=kani-compiler peak_kb=1572864 first_s=2 last_s=110\n")
+
+
+class ResourceLaneTests(unittest.TestCase):
+    def bad(self, req, needle):
+        with self.assertRaises(k.RequestError) as cm:
+            k.validate_request(req)
+        self.assertIn(needle, str(cm.exception))
+
+    def test_kind_and_runner_pair(self):
+        k.validate_request(copy.deepcopy(RES_REQ))
+        self.bad({**RES_REQ, "runner": "circleci-linux-large"}, "kind resource")
+        self.bad({**RES_REQ, "kind": "measurement", "harness_timeout_minutes": 10}, "kind resource")
+        self.bad({**RES_REQ, "kind": "diagnostic"}, "kind resource")
+        self.bad({**RES_REQ, "harness_timeout_minutes": 61}, "1..60")
+        self.bad({**REQ, "kind": "diagnostic", "harness_timeout_minutes": 31}, "1..30")
+        self.bad({**RES_REQ, "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(2)]}, "exceeds 60")
+
+    def run_res(self, log, peaks=PEAKS, tracked=True, exit_code=0):
+        return k.summarize(json.dumps(RES_REQ), log, TIME, exit_code, "a" * 40, "b" * 40, None, {}, {}, "success",
+                           None, False, peaks, tracked)
+
+    def test_resource_summary(self):
+        s = self.run_res(OK_BLOCK + tail(1, 0))
+        self.assertEqual(s["status"], "COMPLETE")
+        self.assertIsNone(s["measurement_ok"])
+        self.assertTrue(k.gate_ok(s))
+        self.assertTrue(any("never a PASS" in n for n in s["notes"]))
+        peaks = s["resources"]["peaks"]
+        self.assertEqual(peaks["state"], "PARSED")
+        self.assertEqual([c["cmd"] for c in peaks["commands"]], ["goto-instrument", "kani-compiler", "cbmc"])
+        md = k.render_md(s)
+        self.assertIn("`goto-instrument` 20.00 GiB (>16 GB), seen 120–480 s", md)
+        self.assertIn("`kani-compiler` 1.50 GiB (≤13 GiB)", md)
+        self.assertIn("largest sampled sum of RSS 21.00 GiB", md)
+        self.assertIsNone(summ(OK_BLOCK + tail(1, 0), req_with(harnesses=ONLY_OK))["resources"]["peaks"])
+
+    def test_peaks_missing_or_garbage(self):
+        for text, state in ((None, "MISSING"), ("garbage\n", "UNPARSED")):
+            s = self.run_res(OK_BLOCK + tail(1, 0), text)
+            self.assertEqual(s["resources"]["peaks"]["state"], state)
+            self.assertTrue(any("memory peaks" in n for n in s["notes"]))
+        many = "samples=1\n" + "".join(f"cmd=p{i} peak_kb={i} first_s=0 last_s=0\n" for i in range(20))
+        many += "cmd=bad peak_kb=x first_s=0 last_s=0\n"
+        peaks = k.parse_peaks(many)
+        self.assertEqual(len(peaks["commands"]), k.PEAKS_TOP)
+        self.assertTrue(peaks["commands_truncated"])
+        self.assertEqual(peaks["commands"][0]["cmd"], "p19")
+
+    def test_tool_killed_before_harness_output(self):
+        s = self.run_res("error: goto-instrument was killed\n", exit_code=1)
+        self.assertEqual(s["status"], "TOOL_ERROR")
+        self.assertFalse(k.gate_ok(s))
+
+    def test_sample_memory_fake_proc(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            for pid, name, hwm, rss in (("10", "goto instr", 900, 800), ("11", "cbmc", 300, 300)):
+                (d / "proc" / pid).mkdir(parents=True)
+                (d / "proc" / pid / "status").write_text(f"Name:\t{name}\nVmHWM:\t {hwm} kB\nVmRSS:\t {rss} kB\n")
+            (d / "proc" / "12").mkdir()
+            (d / "proc" / "12" / "status").write_text("Name:\tkthreadd\n")
+            out = d / "peaks.txt"
+            k.sample_memory(out, 0.05, max_seconds=0.12, proc=d / "proc")
+            peaks = k.parse_peaks(out.read_text())
+            self.assertEqual(peaks["state"], "PARSED")
+            self.assertGreaterEqual(peaks["samples"], 2)
+            self.assertEqual(peaks["total_rss_peak_kb"], 1100)
+            self.assertEqual([(c["cmd"], c["peak_kb"]) for c in peaks["commands"]], [("goto_instr", 900), ("cbmc", 300)])
+
+    def test_sample_mem_cli_stops_on_sigterm(self):
+        import signal
+        import time
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / "peaks.txt"
+            proc = subprocess.Popen([sys.executable, "-B", str(Path(k.__file__)), "sample-mem", "--out", str(out),
+                                     "--interval", "0.2"])
+            for _ in range(50):
+                if out.exists():
+                    break
+                time.sleep(0.1)
+            proc.send_signal(signal.SIGTERM)
+            self.assertEqual(proc.wait(timeout=10), 0)
+            self.assertEqual(k.parse_peaks(out.read_text())["state"], "PARSED")
 
 
 class CliTests(unittest.TestCase):
