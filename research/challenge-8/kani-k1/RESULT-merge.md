@@ -500,6 +500,18 @@ fallback N6/7 без соседней неуложившейся гармони�
 После исправленного dispatch: ночных jobs 13, суммарно 18 jobs,
 4 preflight отказа, 22/40 попытки.
 
+### Job 148 — REQUEST_INVALID, Kani не запускался
+
+Head `f7eef50d981212303533141bdbfee5c20342ffb8`.
+Summary: REQUEST_INVALID, build skipped, gate false,
+expectation met false, measurement ok None, Kani exit None.
+Проверок/гармоник, Verification Time и памяти нет; memcap MISSING.
+Точная причина: `purpose must be one non-empty line of at most 300
+characters`, запрос отклонён до запуска Kani. check-tooling ok против
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Исправленный запрос `w2-merge-night-bm9-f67-confirm-retry-013`
+прошёл validate; запускается после прочтения этой сводки.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
