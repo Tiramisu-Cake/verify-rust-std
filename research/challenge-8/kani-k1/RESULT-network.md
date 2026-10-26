@@ -515,3 +515,11 @@ Dispatch 5: `net-w1-05-o1-len32`, job 57, measurement 1 × 10 мин.
 - Оценка wall проверки с компиляцией jobs 45/50/54/55/57 по summary —
   ≈32,73 мин (полные минуты job API считает координатор).
 
+REVIEW REQUEST 13aebabf3c546b14c811266d73b2f29b62547c65
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+(`insert_tail_prefix_u64`, `w1_sort13_perm_fixed_u8`, `probe_count`),
+`library/core/src/slice/sort/shared/smallsort.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-network.md` (волна 1).
+
