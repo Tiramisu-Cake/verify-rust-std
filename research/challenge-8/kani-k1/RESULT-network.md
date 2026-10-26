@@ -2340,3 +2340,13 @@ R7 основан на прямом требовании R6 не повторя�
 самой сети (старые K9 sort13_perm были TIMEOUT), а не на уменьшении
 ширины данных/допущении sortedness. Все input values остаются полными.
 Запрос net-w2p2-11-k10-network-9-10: N9/N10 обоих типов,4x10мин.
+
+REVIEW REQUEST ea7c674dcecba35194a22348124edd08fb8d6df3
+
+network.rs: K10 helper — N9/N13 sortedness плюс структурная перестановка,
+прочие N сохраняют прямой probe-assert; четыре новых N9/N10 u8/u64 proof.
+RUN-REQUEST.json; RESULT-network.md, job123 и R7 довод25/45 CE, только
+первое ensures K9s/u8/u64. Все callees реальные, no verified stubs.
+Контекст: sort9/sort13/insertion/network и swap_if_less в smallsort.rs,
+K9s job121, GO_WITH_NITS e658b246. Проверить достаточность точных N без хвоста
+и не смешивать структурную перестановку с машинно проверенной sortedness.
