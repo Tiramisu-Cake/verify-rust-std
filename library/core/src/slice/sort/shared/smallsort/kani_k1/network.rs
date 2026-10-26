@@ -1358,3 +1358,11 @@ w2_insertion_safety_cases!(w2_k11s_11_12, [11, 12]);
 w2_insertion_safety_cases!(w2_k11s_13_15, [13, 14, 15]);
 w2_o3_insertion_cases!(w2_o3_insertion_11_12, [11, 12]);
 w2_o3_insertion_cases!(w2_o3_insertion_13_15, [13, 14, 15]);
+
+// Prepared after job108 exceeded the 180s Linux target. NOT_RUN in W2 P1: dispatch24/24.
+w2_insertion_safety_cases!(w2_k11s_n13, [13]);
+w2_insertion_safety_cases!(w2_k11s_n14, [14]);
+w2_insertion_safety_cases!(w2_k11s_n15, [15]);
+w2_o3_insertion_cases!(w2_o3_insertion_n13, [13]);
+w2_o3_insertion_cases!(w2_o3_insertion_n14, [14]);
+w2_o3_insertion_cases!(w2_o3_insertion_n15, [15]);
