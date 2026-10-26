@@ -1098,3 +1098,10 @@ u128 stable N17 и unstable-general N17 подготовлены отдельн�
 Тихий и covering cut используют одно тело w2_assume_ord_violation.
 Запрос net-w2-08-cd5-u8-reach-u128-mid — контроль, две u8 reachability,
 u128 mid; measurement 4 x 10 минут.
+
+REVIEW REQUEST d4744378e449a2df7b95de5af3097bbc0ed51846
+
+Файлы: network.rs (w2_control_a_quiet_merge_assertion, w2_type_reachability,
+четыре u8/u128 reachability, разбиение u128 mid/hi), RUN-REQUEST.json,
+RESULT-network.md («Волна 2», job 89/CD-5). Контекст: принятые шаблоны
+3ce9177c/bceedb0b, неизменённые smallsort.rs и scripts/run-kani.sh.
