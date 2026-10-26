@@ -1489,3 +1489,5 @@ direct general и stable-Freeze они измерены с читающим comp
 (в job 53 — `UnstableSmallSortFreezeTypeImpl`), это раскрывается в итоге.
 Оставшиеся 22 длины: пакеты [8,9,10,11], [12,13,14,15], [16,18,19,20],
 [21,22,23,25], [26,27,28,29], [30,31] — 6 dispatch, до 17/22.
+
+Запрос `w1-merge-cd3-len8to11-011`: N8/9/10/11, expect SUCCESS. Dispatch 12/22.

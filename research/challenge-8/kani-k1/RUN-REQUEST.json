@@ -1,28 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd3-len5to7-010",
+  "request_id": "w1-merge-cd3-len8to11-011",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-3 constant lengths 5..7: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. Mandatory CD-2 one-past-object comparator control, FAILED. No stubs or assumes.",
+  "purpose": "CD-3 constant lengths 8,9,10,11: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. No stubs or assumes. merge.rs unchanged since c5720c76; CD-2 control measured in jobs 59 and 66.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len5_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len8_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len6_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len9_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len7_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len10_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_comparator_oob_must_fail",
-      "expect": "FAILED",
-      "expect_check": "dereference failure: pointer outside object bounds"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len11_safety",
+      "expect": "SUCCESS"
     }
   ]
 }
