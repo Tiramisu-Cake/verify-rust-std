@@ -1283,3 +1283,31 @@ Freeze/general и реальное чтение деструктора; оста
 | 13 | net-w2-13-a17-reach-drop | 97 | 11d5cba1 | w2_k16_a17_general_reach; w2_k16_drop_lo; w2_k16_drop_mid; w2_k16_drop_n31 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 97`, затем конец turn. Счёт dispatch 13/24.
+
+#### Job 97 / a17 завершён, Drop короткие и N31
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 3,25 GiB, RSS 2791296 KiB, OOM 0, swap off,
+wall 212,70 с. Сумма summary wall П1: 3349,15 с = 55,8192 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a17_general_reach | 19,183737 | 0/394 | 2/2 |
+| w2_k16_drop_lo | 14,479667 | 0/401 | 11/11 |
+| w2_k16_drop_mid | 72,29334 | 0/391 | 7/7 |
+| w2_k16_drop_n31 | 65,99503 | 0/381 | 3/3 |
+
+a17: все N и обе reachability измерены; все семейства <=180 с.
+Drop: N0,1,2,7,8,15,16,17,31 обоих general trait-маршрутов измерены;
+N32 и reachability отправляются далее.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| Cell<i32> | 4 | нет / нет / да | default → fallback/insertion | default → insertion, scratch игнорируется |
+
+Cell: обе пары на N0,1,2,15,16 в одной гармонике с post-call cover
+каждой пары. Данные полный i32; comparator в K16 читает, не пишет.
+Это не O3-s. Слияния/panic_on_ord_violation на обоих default-путях нет,
+по CD-5 отдельная reachability для этих двух пар не требуется.
+Запрос net-w2-14-drop-rest-cell: Drop N32/две reachability и Cell оба
+маршрута; measurement 4 x 10 минут. Затем последние типы a85/a86.

@@ -1183,3 +1183,10 @@ w2_type_pair_cases!(w2_k16_drop_n31, W2Drop, [31]);
 w2_type_pair_cases!(w2_k16_drop_n32, W2Drop, [32]);
 w2_type_reachability!(w2_k16_drop_stable_reach, W2Drop, true, 17);
 w2_type_reachability!(w2_k16_drop_general_reach, W2Drop, false, 17);
+
+impl W2Value for crate::cell::Cell<i32> {
+    fn w2_value() -> Self { Self::new(kani::any()) }
+}
+
+// Cell is non-Freeze and non-Copy: both outer traits select their default insertion paths.
+w2_type_pair_cases!(w2_k16_cell_nonfreeze, crate::cell::Cell<i32>, [0, 1, 2, 15, 16]);
