@@ -31,7 +31,7 @@ cci() {
   local out code
   out=$(mktemp)
   code=$(printf 'header = "Circle-Token: %s"\n' "$(tr -d '\n\r ' < "$TOKEN_FILE")" \
-         | curl -sS -K - -o "$out" -w '%{http_code}' "$@") || { rm -f "$out"; die "request failed: ${*: -1}"; }
+         | curl -sS --connect-timeout 20 --max-time 120 -K - -o "$out" -w '%{http_code}' "$@") || { rm -f "$out"; die "request failed: ${*: -1}"; }
   if [ "$code" -ge 400 ]; then
     echo "k1.sh: HTTP $code for ${*: -1}: $(head -c 300 "$out")" >&2; rm -f "$out"; exit 2
   fi
@@ -42,11 +42,11 @@ artifact_get() {  # artifact_get URL OUTFILE
   local meta code location
   [[ "$1" =~ ^https://([a-z0-9-]+\.)*(circleci\.com|circle-artifacts\.com)/ ]] || die "unexpected artifact host: ${1%%\?*}"
   meta=$(printf 'header = "Circle-Token: %s"\n' "$(tr -d '\n\r ' < "$TOKEN_FILE")" \
-         | curl -sS -K - -o "$2" -w '%{http_code} %{redirect_url}' "$1") || die "artifact request failed"
+         | curl -sS --connect-timeout 20 --max-time 600 -K - -o "$2" -w '%{http_code} %{redirect_url}' "$1") || die "artifact request failed"
   code=${meta%% *}; location=${meta#* }
   if [[ "$code" =~ ^30[1278]$ ]]; then
     [ -n "$location" ] || die "artifact redirect without a location: ${1%%\?*}"
-    curl -sS -f -o "$2" "$location" || die "artifact redirect download failed"
+    curl -sS -f --connect-timeout 20 --max-time 600 -o "$2" "$location" || die "artifact redirect download failed"
   elif [ "$code" -ge 400 ]; then
     die "HTTP $code for artifact $1"
   fi
@@ -55,7 +55,7 @@ artifact_get() {  # artifact_get URL OUTFILE
 REV_EXPR="(d.get('vcs') or {}).get('revision') or ((d.get('trigger_parameters') or {}).get('git') or {}).get('checkout_sha') or ((d.get('trigger_parameters') or {}).get('github_app') or {}).get('commit_sha') or ''"
 jqr() { python3 -c "import json,sys; d=json.load(sys.stdin); print(eval(sys.argv[1], {'d': d}))" "$1"; }
 
-job_status() { cci "$API/project/$SLUG/job/$1" | jqr "d.get('status')"; }
+job_status() { local r; r=$(cci "$API/project/$SLUG/job/$1") || return 1; jqr "d.get('status')" <<< "$r"; }
 TERMINAL=" success failed canceled infrastructure_fail timedout not_run terminated-unknown unauthorized "
 
 fetch() {  # fetch JOB -> directory with summary/ and log/ artifacts; only for finished jobs, which are immutable
@@ -116,6 +116,7 @@ case "$cmd" in
     die "pipeline $pid has no k1 job after 180 s" ;;
   wait)
     job=${1:-}; is_job "$job"
+    job_status "$job" >/dev/null || die "job $job is not readable (wrong number or token?)"
     deadline=$(( $(date +%s) + 90 * 60 ))   # the job itself is capped at 60 min on the free plan
     while :; do
       status=$(job_status "$job" 2>/dev/null || echo unknown)
@@ -135,10 +136,12 @@ case "$cmd" in
     sock=$(readlink -f "$link" 2>/dev/null || true)
     [ -n "$sock" ] && [ -S "$sock" ] || die "no Codex app-server control socket: use a foreground wait"
     command -v codex >/dev/null || die "codex not on PATH: use a foreground wait"
+    job_status "$job" >/dev/null || die "job $job is not readable (wrong number or token?)"
     mkdir -p "$CACHE"; log="$CACHE/watch-$job.log"
-    [ ! -e "$log" ] || die "job $job is already watched (log $log)"
+    ( set -o noclobber; : > "$log" ) 2>/dev/null \
+      || die "job $job is already watched (log $log); if that waiter is gone, use a foreground k1.sh wait $job"
     setsid nohup bash -c '
-      "$1" wait "$2" > "$3" 2>&1; rc=$?
+      timeout 100m "$1" wait "$2" >> "$3" 2>&1 && rc=0 || rc=$?
       msg="k1 watch: $(tail -n 1 "$3" | cut -c1-200) (wait exit $rc). Next: k1.sh summary $2"
       for attempt in 1 2 3; do
         if timeout 60 codex queue --remote "unix://$(readlink -f "$4")" --thread "$5" --message "$msg (delivery attempt $attempt)" >> "$3" 2>&1; then
