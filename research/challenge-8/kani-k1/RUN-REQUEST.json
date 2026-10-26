@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-23-insertion-small-acceptance",
+  "request_id": "net-w2-24-insertion-split-11-15",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Isolate insertion N1..10 after job106 upper-family status6/OOM: O3 Cell<Tagged> and K11 u64, all offsets1..N via constant calls. Exact arrays, reading comparators, O3 key writes, no tag properties/stubs. Repeat successful O3 small families for gate; K11 const version103 had no evidence.",
+  "purpose": "Final P1 dispatch: split insertion N11..15 into11,12 /13,14,15 for K11 u64 and O3 Cell<Tagged>; all offsets1..N via const calls, exact arrays and real bodies. O3 full key writes, no tag properties. After status6/OOM106, keep gate107 for1..10 independent.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_1_5",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_11_12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_6_10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_13_15",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_1_5",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_11_12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_6_10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_13_15",
       "expect": "SUCCESS"
     }
   ]

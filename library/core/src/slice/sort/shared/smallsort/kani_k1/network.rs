@@ -1352,3 +1352,9 @@ w2_o3_insertion_cases!(w2_o3_insertion_1_5, [1, 2, 3, 4, 5]);
 w2_o3_insertion_cases!(w2_o3_insertion_6_10, [6, 7, 8, 9, 10]);
 w2_o3_insertion_cases!(w2_o3_insertion_11_15, [11, 12, 13, 14, 15]);
 w2_o3_insertion_cases!(w2_o3_insertion_16_20, [16, 17, 18, 19, 20]);
+
+// Final bounded split after the 11..15 O3 family returned unlocalized CBMC status 6.
+w2_insertion_safety_cases!(w2_k11s_11_12, [11, 12]);
+w2_insertion_safety_cases!(w2_k11s_13_15, [13, 14, 15]);
+w2_o3_insertion_cases!(w2_o3_insertion_11_12, [11, 12]);
+w2_o3_insertion_cases!(w2_o3_insertion_13_15, [13, 14, 15]);
