@@ -1656,3 +1656,16 @@ gate, зачёт 1..10 job107 остаётся самостоятельным. �
 запросов нет: лимит24, приоритет2 не выполняется. При >180с отдельного
 нового семейства отметить Linux-цель и передать координатору для M1/деления.
 Запрос net-w2-24-insertion-split-11-15, measurement4x10мин.
+
+REVIEW REQUEST 2d903161bed9aab70d1027630ea96036002bb6d9
+
+Итоговый код П1: network.rs (все w2_* после строки931: контроли А/CD-5,
+K16 W2Value/Drop/Cell и type/reachability macros, K11 const-offset enumeration,
+O3 mutating comparator/exact input/route/insertion macros, финальные11..15 split).
+Дополнительно RUN-REQUEST.json и RESULT-network.md («Волна2»).
+Контекст: неизменённые smallsort.rs/shared/mod.rs и scripts/run-kani.sh;
+CD-5 в R6-WAVE2.md. Включает ранее запрошенные d4744378,3cf6e50d,
+7403c355,a1cd4ec0,f70f24b1,1f711c15,138d462f,548546d5,8a8867bb,
+134e1185,2dc41f0f; принятые контроли/шаблоны995164ac,287e3514,
+3ce9177c,bceedb0b отражены отдельно. Новое относительно предыдущего кода —
+только четыре применения K11/O3 macros на подмножествах11..15.
