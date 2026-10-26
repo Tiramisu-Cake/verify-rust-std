@@ -1407,7 +1407,7 @@ fn w2p2_k10_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
     assert!(sorted_by(&v, &mut cmp));
     assert!(probe_count(&pre, &probe) == probe_count(&v, &probe));
-    kani::cover(N < 2 || v != pre, "W2 P2 K10: trivial input or elements move");
+    kani::cover(N < 2 || !same_from(&v, &pre, 0), "W2 P2 K10: trivial input or elements move");
 }
 
 macro_rules! w2p2_k10_cases {

@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-04-k10-network-0-4",
+  "request_id": "net-w2p2-05-k10-network-0-4-cover",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 network correctness: full-width u8/u64, natural strict order, real outer UnstableSmallSortTypeImpl and all callees. Fixed-length families0,1,2 /3,4, exact arrays. Assert sortedness and arbitrary-probe multiplicity; cover every length and movement. No stubs.",
+  "purpose": "Repeat K10 u8/u64 N0..4 after job116 movement-cover array memcmp exceeded unwind25 for u64. Use elementwise same_from for that cover; retain full-width inputs, natural strict order, real outer trait/callees, sortedness and probe multiplicity assertions.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
