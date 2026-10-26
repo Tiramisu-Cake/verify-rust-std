@@ -1244,3 +1244,31 @@ R9 a1cd4ec0 запрошен; general17 reachability запланирована 
 | 12 | net-w2-12-a17-mid-high-stablereach | 96 | 4142e7a1 | w2_k16_a17_mid; w2_k16_a17_n31; w2_k16_a17_n32; w2_k16_a17_stable_reach | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 96`, затем конец turn. Счёт dispatch 12/24.
+
+#### Job 96 / a17 все длины, stable reachability
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 5,24 GiB, RSS 4419996 KiB, OOM 0, swap off,
+wall 444,46 с. Сумма summary wall П1: 3136,45 с = 52,2742 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a17_mid | 116,230896 | 0/412 | 7/7 |
+| w2_k16_a17_n31 | 133,10645 | 0/402 | 3/3 |
+| w2_k16_a17_n32 | 133,24657 | 0/402 | 3/3 |
+| w2_k16_a17_stable_reach | 17,309317 | 0/394 | 2/2 |
+
+a17 все требуемые N обоих маршрутов измерены <=180 с; остаётся
+unstable-general17 reachability, отправляется с началом non-Copy типа.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| W2Drop(u8) | 1 | нет / да / да | non-Copy Freeze → general, 1*48<=4096 | stable-Freeze/general |
+
+R7: Drop реально читает volatile свой key при нормальном завершении,
+чтобы деструктор не был пустым. Copy/Clone не реализованы. Comparator
+читает через ManuallyDrop, не разрушая временные побитовые копии.
+Полный u8 key, нет счётчика Drop/перестановки/утверждения О2 или unwind.
+Те же пары длин 0,1,2,7,8 / 15,16,17 / 31 / 32; reachability каждой пары
+при N17. Сейчас a17 general reach + Drop lo/mid/N31, measurement 4 x 10 мин;
+Drop N32 и обе reachability подготовлены, ещё не отправлены.

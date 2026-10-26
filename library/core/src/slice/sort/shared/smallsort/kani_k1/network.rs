@@ -1161,3 +1161,25 @@ w2_type_pair_cases!(w2_k16_a17_n31, [u8; 17], [31]);
 w2_type_pair_cases!(w2_k16_a17_n32, [u8; 17], [32]);
 w2_type_reachability!(w2_k16_a17_stable_reach, [u8; 17], true, 17);
 w2_type_reachability!(w2_k16_a17_general_reach, [u8; 17], false, 17);
+
+/// Freeze but non-Copy; the real destructor observes its own initialized key. No drop-count
+/// or permutation property is asserted in the safety matrix.
+struct W2Drop(u8);
+
+impl Drop for W2Drop {
+    fn drop(&mut self) {
+        // SAFETY: a live value must still contain its readable u8 key when dropped.
+        unsafe { let _ = crate::ptr::read_volatile(&self.0); }
+    }
+}
+
+impl W2Value for W2Drop {
+    fn w2_value() -> Self { Self(kani::any()) }
+}
+
+w2_type_pair_cases!(w2_k16_drop_lo, W2Drop, [0, 1, 2, 7, 8]);
+w2_type_pair_cases!(w2_k16_drop_mid, W2Drop, [15, 16, 17]);
+w2_type_pair_cases!(w2_k16_drop_n31, W2Drop, [31]);
+w2_type_pair_cases!(w2_k16_drop_n32, W2Drop, [32]);
+w2_type_reachability!(w2_k16_drop_stable_reach, W2Drop, true, 17);
+w2_type_reachability!(w2_k16_drop_general_reach, W2Drop, false, 17);
