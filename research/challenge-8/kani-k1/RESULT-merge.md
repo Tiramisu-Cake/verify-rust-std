@@ -1436,3 +1436,10 @@ REVIEW REQUEST 3820d796f0424461ca6bc36e313a5eaa6190e294
 Сумма wall verify-команд по summary 9 завершённых собственных jobs: 991.87 с (16.5312 мин), без подготовки CircleCI. Это оценка для RESULT, не API job wall; фактический учёт 250 минут ведёт координатор.
 
 Следующий запрос `w1-merge-cd3-len5to7-010`: длины [5, 6, 7] + обязательный CD-2 FAILED-контроль. После dispatch **10/22**, лимит **250 фактических минут**; один активный job, окно dispatch до16:16:18Z. Lane и код семейства не изменяются.
+
+REVIEW REQUEST c0342b31056b926aec62da9d624beae734ac7528
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. CD-3 N5/6/7 + обязательный
+CD-2 FAILED-контроль; evidence — следующий CircleCI job.
