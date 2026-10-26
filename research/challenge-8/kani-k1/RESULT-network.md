@@ -1414,3 +1414,7 @@ a85 все требуемые N обоих маршрутов и обе reachabi
 a86 stable31/32 также <=180 с. Запрос net-w2-17-a86-rest:
 a86 stable_lo/mid/reach и unstable fallback; measurement 4 x 10 минут.
 Это последние клетки K16; после них K11s и O3-s. Код шаблонов не менялся.
+
+| 17 | net-w2-17-a86-rest | 101 | 0f3b147f | w2_k16_a86_stable_lo; w2_k16_a86_stable_mid; w2_k16_a86_stable_reach; w2_k16_a86_fallback | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 101`, затем конец turn. Счёт dispatch 17/24.
