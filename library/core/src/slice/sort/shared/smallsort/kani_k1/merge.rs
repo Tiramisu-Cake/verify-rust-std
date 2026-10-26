@@ -828,6 +828,28 @@ fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
 }
 
+// Extended layer E-1 (TASK-ext.md, CD-6): formulation 1 at lengths above 16, one harness per
+// request on the 32 GB resource lane, same pattern as bm_u64_len16. Length 32 reuses the existing
+// identical `bm_u64_len32` below.
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len20() {
+    bm_len::<u64, _, 20>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len24() {
+    bm_len::<u64, _, 24>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len28() {
+    bm_len::<u64, _, 28>(lt_u64);
+}
+
 // Phase 3 tool control (TASK-merge.md «Фаза 3» p. 2): are loop contracts on the Kani pin broken
 // for any `for` loop over a `Range` on an array of up to 32 elements, or only inside
 // `bidirectional_merge`? Trivial invariant, plain proof, nothing from smallsort.
