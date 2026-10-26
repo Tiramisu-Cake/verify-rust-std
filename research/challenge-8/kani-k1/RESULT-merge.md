@@ -2321,3 +2321,31 @@ read-only metadata CircleCI и ограниченная выборка ошиб�
 Следующий запрос `w2-merge-p2-gs-len0to1-retry-004`, те же четыре гармоники.
 После него CircleCI dispatch **4**, плюс один preflight отказ;
 консервативно попыток **5/40**. Окно до 2026-10-27T00:58:21Z сохраняется.
+
+#### П2 job 115 — GS u64/u8 N0/1
+
+Head `300a94f6d5479a4a0eb2b2f483e636d42f094116`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 0; check-tooling ok
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1862888 KiB, cgroup peak 1.98 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 42.56 с.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len0` | SUCCESS / SUCCESS | 0.24728438 | 0/642 | 136 | 2/2 |
+| `w2p2_gs_u8_len0` | SUCCESS / SUCCESS | 0.24541076 | 0/635 | 136 | 2/2 |
+| `w2p2_gs_u64_len1` | SUCCESS / SUCCESS | 0.49166006 | 0/642 | 128 | 2/2 |
+| `w2p2_gs_u8_len1` | SUCCESS / SUCCESS | 0.43554628 | 0/635 | 130 | 2/2 |
+
+Полные counts 2/2 D/S сверены по summary отдельно от gate. На N0/1
+слияние не вызывается; proof N2..4/R11 job 110 остаются prerequisites для
+следующих длин. Сортированность и перестановка измерены; R9 П2 ожидается.
+
+REVIEW REQUEST 300a94f6d5479a4a0eb2b2f483e636d42f094116
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код `cd284852`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 110/115 summaries
+и check-tooling ok. Следующий `w2-merge-p2-f01-gs2-005`: fallback N0/1
+(оба типа) и GS N2 u64/u8. После dispatch П2: CircleCI **5**, с preflight
+отказом консервативно **6/40** попыток.
