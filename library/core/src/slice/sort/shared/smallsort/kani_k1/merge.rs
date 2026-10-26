@@ -829,8 +829,8 @@ fn toy_loop_contract() {
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
-fn bm_u64_len32() {
-    bm_len::<u64, _, 32>(lt_u64);
+fn bm_u64_len8() {
+    bm_len::<u64, _, 8>(lt_u64);
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]

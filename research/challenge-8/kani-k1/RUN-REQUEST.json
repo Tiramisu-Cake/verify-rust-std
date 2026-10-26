@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p8-full16-026",
+  "request_id": "merge-p8-full8-027",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 8 Q5: exact library state of phase 7 A/job 36 (5edf162c), select existing proof_for_contract bm_u64_len16 calling bm_len<u64,_,16> with unwind(34). Same full invariant, contract and light count, K1_UNROLL=32 unchanged. Measure goto-instrument scaling and CBMC result at N=16; resource only.",
+  "purpose": "Phase 8 Q6: full invariant state A (5edf162c), fixed N=8 after N=16 instrumentation SIGKILL. Only rename bm_u64_len32 to bm_u64_len8 and call bm_len<u64,_,8>; contract/count, unwind(34), K1_UNROLL=32 unchanged. Resource only.",
   "runner": "gcb-e2-highmem-4",
   "harness_timeout_minutes": 30,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len8",
       "expect": "SUCCESS"
     }
   ]
