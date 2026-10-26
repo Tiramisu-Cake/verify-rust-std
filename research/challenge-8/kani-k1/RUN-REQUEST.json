@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-15-a85-short-reach",
+  "request_id": "net-w2-16-a85-high-a86-stable-high",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K16s last large types: [u8;85] paired stable/general at0,1,2,7,8 and15,16,17; separate per-route17 reachability. Size85*48=4080<=4096, presort4. Full85 bytes, exact arrays, real traits, safety only.",
+  "purpose": "K16s [u8;85] both trait/general routes at31 and32, plus [u8;86] stable/general at31 and32 separately. Size86 unstable dispatch is fallback (not measured here), stable external scratch stays general. Full bytes, exact arrays, safety only.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_lo",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_mid",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_stable_reach",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a86_stable_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a85_general_reach",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a86_stable_n32",
       "expect": "SUCCESS"
     }
   ]

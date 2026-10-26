@@ -1358,3 +1358,31 @@ helpers не менялись. Контекст: smallsort.rs, 85*48=4080/genera
 | 15 | net-w2-15-a85-short-reach | 99 | ac1ae0a7 | w2_k16_a85_lo; w2_k16_a85_mid; w2_k16_a85_stable_reach; w2_k16_a85_general_reach | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 99`, затем конец turn. Счёт dispatch 15/24.
+
+#### Job 99 / a85 короткие, средние и reachability
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 3,87 GiB, RSS 3466668 KiB, OOM 0, swap off,
+wall 170,05 с. Сумма summary wall П1: 3692,55 с = 61,5425 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a85_lo | 21,080875 | 0/422 | 11/11 |
+| w2_k16_a85_mid | 75,75556 | 0/412 | 7/7 |
+| w2_k16_a85_stable_reach | 13,805881 | 0/394 | 2/2 |
+| w2_k16_a85_general_reach | 13,648103 | 0/394 | 2/2 |
+
+a85 N0,1,2,7,8,15,16,17 обоих маршрутов и обе reachability измерены,
+все <=180 с; N31/32 идут отдельно далее.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| [u8;86] | 86 | да / да / нет | fallback, 86*48=4128>4096 | stable-Freeze/general с внешним scratch48 |
+
+У a86 stable нет ограничителя MAX_STACK_ARRAY_SIZE: внешний scratch даёт
+маршрут general на N0,1,2,7,8 / 15,16,17 / 31 / 32, presort4.
+Unstable выбирает fallback, только N0,1,2,15,16, merge/cut недостижим.
+CD-5 отдельная reachability нужна только a86/stable17.
+Шаблоны не менялись, все86 байт произвольны. Запрос
+net-w2-16-a85-high-a86-stable-high: a85 N31/N32 (оба маршрута),
+a86 stable N31/N32; measurement 4 x 10 минут. Остальные a86 подготовлены.

@@ -1197,3 +1197,10 @@ w2_type_pair_cases!(w2_k16_a85_n31, [u8; 85], [31]);
 w2_type_pair_cases!(w2_k16_a85_n32, [u8; 85], [32]);
 w2_type_reachability!(w2_k16_a85_stable_reach, [u8; 85], true, 17);
 w2_type_reachability!(w2_k16_a85_general_reach, [u8; 85], false, 17);
+
+w2_type_cases!(w2_k16_a86_stable_lo, [u8; 86], true, [0, 1, 2, 7, 8]);
+w2_type_cases!(w2_k16_a86_stable_mid, [u8; 86], true, [15, 16, 17]);
+w2_type_cases!(w2_k16_a86_stable_n31, [u8; 86], true, [31]);
+w2_type_cases!(w2_k16_a86_stable_n32, [u8; 86], true, [32]);
+w2_type_cases!(w2_k16_a86_fallback, [u8; 86], false, [0, 1, 2, 15, 16]);
+w2_type_reachability!(w2_k16_a86_stable_reach, [u8; 86], true, 17);
