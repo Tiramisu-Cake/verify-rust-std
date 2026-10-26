@@ -2349,3 +2349,45 @@ REVIEW REQUEST 300a94f6d5479a4a0eb2b2f483e636d42f094116
 и check-tooling ok. Следующий `w2-merge-p2-f01-gs2-005`: fallback N0/1
 (оба типа) и GS N2 u64/u8. После dispatch П2: CircleCI **5**, с preflight
 отказом консервативно **6/40** попыток.
+
+#### П2 job 117 — RUNNER_ERROR без summary
+
+Head `e19c46ce` (запрос `w2-merge-p2-f01-gs2-005`), CircleCI failed.
+`k1.sh summary 117`: `job 117 has no summary artifact: treat as RUNNER_ERROR`.
+Lane-файлы job совпадают с `9de80e0b`; полный check-tooling не завершён:
+нет summary.json. Статусы Kani, Verification Time, память, covers и gate
+отсутствуют. **Нелокализованный отказ раннера**, причина не установлена;
+ни одной из четырёх гармоник результат не приписывается.
+По сообщению координатора job завершился в 19:15:49Z, примерно за 2 с;
+watch-117.log пустой, waiter не работал. Уведомление не ожидается.
+
+#### Передача на ночь
+
+- Новые dispatch остановлены по указанию координатора. Незавершённых jobs
+  нет. П1 принят: О1-А до 32, C-5 и контроль А засчитаны. П2 не завершён.
+- П2 закончено измерениями: job 110 — `proof_for_contract` слияния
+  формулировки 1 u64/u8 N2..4 SUCCESS, cover 6/6; R11 обоих типов FAILED
+  на `k1_merge_halves_sorted` @ `smallsort.rs:780`, cover 1/1.
+  Job 115 — GS u64/u8 N0/1 SUCCESS (сортированность + перестановка по пробе),
+  cover D/S 2/2. Gate true и check-tooling ok у обоих jobs.
+- Следующий шаг K-10 — **GS с длины 2**. Job 117 содержал
+  `w2p2_fallback_len0`, `w2p2_fallback_len1`, `w2p2_gs_u64_len2`,
+  `w2p2_gs_u8_len2`, все expected SUCCESS. Этот пакет не дал измерений.
+  `RUN-REQUEST.json` оставлен точным запросом job 117, а не новым dispatch.
+  При возобновлении повторить пакет с новым request_id (например,
+  `w2-merge-p2-f01-gs2-retry-006`), commit/push и только затем dispatch.
+- Код подготовлен, но не измерен: GS u64/u8 N2..16; fallback u64/u8 N0..16;
+  proof слияния каждого типа на N5..16. После повтора — GS N3/4 и fallback
+  N2..4, затем наращивание. Для GS N2..4 prerequisites есть в job 110;
+  перед зачётом N5+ нужны соответствующие proof длины слияния и всех
+  вложенных вызовов (включая N8 у sort8_stable). Stub только merge,
+  fallback без stubs, comparator `lt_u64`/`lt_u8` по `x >> 1`.
+- Открытые R9: код П2 `cd284852e41de2881bf825b1a960c19ac84803e2`,
+  evidence job 110 — `ceed78d0e80a3dd5dd2bbe36b1799b563be7a574`,
+  evidence GS N0/1 — `300a94f6d5479a4a0eb2b2f483e636d42f094116`.
+  Вердиктов П2 в эту сессию не поступало; независимый зачёт не заявлен.
+- П2: 5 CircleCI dispatch (110/112/114/115/117) и 1 отказ preflight HTTP 429;
+  консервативно 6/40 попыток. T0 18:58:21Z, исходное окно до 00:58:21Z;
+  дальнейшее расписание — по новой ночной очереди владельца. CD-6: минуты
+  не ограничены, 180 с ориентир, measurement по 10 мин. Новую базу не вливать,
+  check-tooling `9de80e0bec13896bb35a5e04e771448d9fe3931b`, lane не менять.
