@@ -939,3 +939,7 @@ w2_type_cases и ZST гармоники); RUN-REQUEST.json; RESULT-network.md,
 «Волна 2». Контекст: неизменённые smallsort.rs (оба outer trait dispatch,
 size/scratch/Freeze/Copy ветки, network и general), scripts/run-kani.sh.
 Проверить границы входных аллокаций, общий cut и отдельный reachability cover.
+
+| 5 | net-w2-05-k16-zst-control | 85 | 8e5ebe1d | w2_control_a_quiet_assertion; w2_control_a_reachability; w2_k16_zst_stable; w2_k16_zst_network_short | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
+
+Ожидание `k1.sh watch 85`, затем конец turn. Счёт dispatch 5/24.
