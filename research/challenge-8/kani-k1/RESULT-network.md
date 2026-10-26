@@ -1496,3 +1496,7 @@ network.rs: w2_insertion_at<T,F,O>, w2_const_offset_call, изменение K11
 RUN-REQUEST.json; RESULT-network.md, job102/R7. Проверить полноту offset1..N
 при перечислении констант, guards N>=O и недостижимость default. Нет заглушек,
 callee/данные/домены те же, что в 8a8867bb; CI no-assert-contracts.
+
+| 19 | net-w2-19-k11s-const-offset | 103 | 823fe414 | w2_k11s_1_5; w2_k11s_6_10; w2_k11s_11_15; w2_k11s_16_20 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 103`, затем конец turn. Счёт dispatch 19/24.
