@@ -752,3 +752,10 @@ REVIEW REQUEST 48d8c2d3cd93e0d244714904ac18623651126684
 research/challenge-8/kani-k1/RUN-REQUEST.json, RESULT-network.md («Волна 2»).
 Контекст: неизменённые smallsort.rs (trait dispatch, panic_on_ord_violation)
 и scripts/run-kani.sh (флаги CI). Ожидаемые статусы заданы в запросе.
+
+| # П1 | request_id | job | head SHA | гармоники | состояние |
+|---|---|---|---|---|---|
+| 1 | net-w2-01-control-a | 75 | 7d225f14 | w2_control_a_assertion; w2_control_a_reachability | отправлен; ожидается FAILED/SUCCESS |
+
+Счёт dispatch: 1/24. Фактические минуты пока не получены.
+Ожидание `k1.sh watch 75`, затем конец turn.
