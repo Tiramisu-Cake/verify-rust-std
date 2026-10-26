@@ -1311,3 +1311,9 @@ Cell: обе пары на N0,1,2,15,16 в одной гармонике с post
 по CD-5 отдельная reachability для этих двух пар не требуется.
 Запрос net-w2-14-drop-rest-cell: Drop N32/две reachability и Cell оба
 маршрута; measurement 4 x 10 минут. Затем последние типы a85/a86.
+
+REVIEW REQUEST 1f711c150ff4d3649aa4aa6447089e846f027ebf
+
+network.rs: W2Value для Cell<i32> и применение pair macro на default-маршрутах;
+RUN-REQUEST.json; RESULT-network.md, job97/dispatch Cell. Helpers неизменны.
+Контекст: smallsort.rs (non-Freeze defaults), FreezeMarker в shared/mod.rs.
