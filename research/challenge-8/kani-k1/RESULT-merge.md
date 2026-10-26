@@ -47,6 +47,32 @@ REVIEW REQUEST 616fe21ec7d6f9ca3be4328efa9c9bf4876e383d
 Открытый R9 П2: proof/R11 job 110 и GS N0/1 job 115;
 job 129 пока без результата. Независимый зачёт не заявлен.
 
+### Job 129 — измерения K-10
+
+Head `616fe21ec7d6f9ca3be4328efa9c9bf4876e383d`, COMPLETE;
+gate true, expectation met true, measurement ok true, Kani exit 0.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1813028 KiB, wall с компиляцией 49.84 с;
+cgroup peak 1.93 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_fallback_len0` | SUCCESS / SUCCESS | 0.2016723 | 0/422 | 156 | 2/2 |
+| `w2p2_fallback_len1` | SUCCESS / SUCCESS | 0.5887717 | 0/422 | 142 | 2/2 |
+| `w2p2_gs_u64_len2` | SUCCESS / SUCCESS | 3.4337528 | 0/642 | 111 | 2/2 |
+| `w2p2_gs_u8_len2` | SUCCESS / SUCCESS | 2.9606674 | 0/635 | 113 | 2/2 |
+
+Полные counts covers сверены отдельно от gate. Fallback: cover каждого
+типа; GS: D/S. Сортированность и перестановка по полной произвольной пробе;
+R9 П2 ожидается, независимый зачёт не заявлен.
+
+### N-D2 (R7): следующая ступень K-10
+
+`w2-merge-night-f23-gs3-002`: fallback N2/3, GS u64/u8 N3;
+4×10 мин, все expected SUCCESS. Код/ledger П2 без изменений.
+Proof слияния N2..4 и R11 — job 110. После dispatch ночных jobs 2,
+preflight отказов 1; суммарно с П2 до ночи: 7 jobs, 2 preflight отказа.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
