@@ -1992,3 +1992,20 @@ measurement4x10мин, запрос net-w2p2-02-b4-offset1-18-19. Код не м
 | 2 | net-w2p2-02-b4-offset1-18-19 | 111 | 950718de | w2p2_b4_u64_n18; w2p2_b4_cell_n18; w2p2_b4_u64_n19; w2p2_b4_cell_n19 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 111`, затем конец turn. Счёт П2:2/40 dispatch.
+
+#### П2 job111 / B4 offset1 N18/N19
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,93GiB,RSS1684424KiB,OOM0,swap off,wall74,90с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_b4_u64_n18 | 6,100139 | 0/87 | 1/1 |
+| w2p2_b4_cell_n18 | 9,950524 | 0/178 | 2/2 |
+| w2p2_b4_u64_n19 | 6,84728 | 0/87 | 1/1 |
+| w2p2_b4_cell_n19 | 11,148075 | 0/178 | 2/2 |
+
+Все4 имеют4 unreachable checks, провалов нет. Далее последние две proof
+N20/offset1, measurement2x10мин, net-w2p2-03-b4-offset1-20.
+Код не менялся; R9 общий f32963dd. Известный summary wall П2:142,49с,
+не API минуты, лимит минут CD-6 снят. После N20 — K10/K9s.
