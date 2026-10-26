@@ -2208,3 +2208,13 @@ checks не выключены. ZST отдельно из-за прежних о
 его строка только primitive/trait-уровень, не публичный sort.
 Первый запрос4дешёвых типов u8/u64/u128/Drop,measurement4x10мин;
 остальные подготовлены, ещё не измерены. Контракты std не редактировались.
+
+REVIEW REQUEST e658b246873d3bc554542042af13017db89aee59
+
+network.rs: W2Value/u64, чистые C3 comparators, w2p2_k9s_fixed/case,
+десять proof_for_contract(swap_if_less). RUN-REQUEST.json; RESULT-network.md,
+K9s R7/ledger и job120. Контекст: неизменённый контракт/тело swap_if_less
+smallsort.rs:383..459, W2Value/W2Drop constructors. Проверить побайтную
+перестановку non-Copy/Cell, область [T;2]/обе ориентации, чистоту comparators,
+предел переноса на абсолютные индексы сети; ZST отдельный primitive случай.
+Верифицированных заглушек нет, R11 нового использования не требуется.
