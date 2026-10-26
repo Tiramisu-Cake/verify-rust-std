@@ -160,8 +160,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132, SUCCESS; 131 без измерений |
 | 5 | 5, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
-| 7 | 7, u64 и u8 | не измерено | не измерено |
-| 8 | 8, u64 и u8 | не измерено | не измерено |
+| 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | не измерено |
+| 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | не измерено |
 | 9 | 9, u64 и u8 | не измерено | не измерено |
 | 10 | 10, u64 и u8 | не измерено | не измерено |
 | 11 | 11, u64 и u8 | не измерено | не измерено |
@@ -169,7 +169,7 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 13 | 13, u64 и u8 | не измерено | не измерено |
 | 14 | 14, u64 и u8 | не измерено | не измерено |
 | 15 | 15, u64 и u8 | не измерено | не измерено |
-| 16 | 8 и 16, каждый u64 и u8 | не измерено | не измерено |
+| 16 | 8 и 16, каждый u64 и u8 | 8: 140, SUCCESS обоих типов; 16: не измерено | не измерено |
 
 **Ограничение R11:** job 110 проверяет только намеренное нарушение
 клаузы `halves_sorted`; это не отрицательный контроль всех остальных
@@ -325,6 +325,34 @@ Push `ebd3ccf4deefc2baa00aa71a6c2d39835d144c2e` прошёл; dispatch
 Набор гармоник и request_id сохраняю: исходный dispatch не создал job.
 Следующая успешная попытка даст ночной job 8; с П2 до ночи —
 13 jobs и 3 preflight отказа, 16/40 попыток.
+
+### Job 140 — w2-merge-night-bm78-008
+
+Head `d276514ab911e4b1e55294fa2761735522218ea0`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1750164 KiB; wall с компиляцией 6:46.01.
+Cgroup peak 2.05 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len7` | SUCCESS / SUCCESS | 80.273415 | 0/442 | 96 | 1/1 |
+| `w2p2_bm_u8_len7` | SUCCESS / SUCCESS | 68.49588 | 0/435 | 98 | 1/1 |
+| `w2p2_bm_u64_len8` | SUCCESS / SUCCESS | 111.31704 | 0/442 | 94 | 1/1 |
+| `w2p2_bm_u8_len8` | SUCCESS / SUCCESS | 89.60976 | 0/435 | 96 | 1/1 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные covers normal-return сверены отдельно от gate: 1/1 у каждой
+гармоники. R4: N7 и N8 обоих типов измерены; таблица обновлена.
+В строке GS N16 учтён proof bm N8 (job 140), bm N16 ещё не измерен.
+
+### N-D11 (R7): GS N7/8
+
+`w2-merge-night-gs78-009`: GS N7/8 отдельно u64/u8,
+4×10 мин, expected SUCCESS; stub только bidirectional_merge.
+Prerequisites обоих типов: bm N7/8 job 140, R11 halves_sorted job 110.
+Код/ledger П2 без изменений. После GS N7/8 следующий пакет fallback N6..9.
+После dispatch ночных jobs 9, preflight отказов 2;
+с П2 до ночи: 14 jobs, 3 preflight отказа, 17/40 консервативных попыток.
 
 ## Фаза 9
 
