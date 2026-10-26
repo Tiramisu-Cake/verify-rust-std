@@ -1,18 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-03-k10-n15",
+  "request_id": "net-night-04-k10-n15-success",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 N15 u8/u64: full-width sortedness through real outer network with natural strict order; separately full-value permutation of real insertion/offset13 with arbitrary read-only comparisons. Exact arrays, no sorted-prefix assumption in permutation, no stubs.",
+  "purpose": "Repeat only successful K10 N15 components from job135 for a true measurement gate: real outer network sortedness u8; real insertion permutation u8/u64 at offset13. Full-width values, exact arrays, no stubs. N15/u64 sortedness TIMEOUT is an extended-layer candidate.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n15",
       "expect": "SUCCESS"
     },
     {

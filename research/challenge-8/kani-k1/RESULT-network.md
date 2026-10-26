@@ -2643,3 +2643,18 @@ network.rs: четыре применения прежних sortedness/permutat
 | 3 (П2 #17) | net-night-03-k10-n15 | 135 | ed5ff6f5 | w2p2_k10_u8_n15; w2p2_k10_u64_n15; w2p2_k10_perm_u8_n15; w2p2_k10_perm_u64_n15 | SUCCESS |
 
 Ожидание `k1.sh watch 135`, затем конец turn. После уведомления — summary/check-tooling135.
+
+### Job135: K-10 N15
+
+COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 2,29 GiB, RSS 1770988 KiB, OOM0, swap off, wall 882,96 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_u8_n15 | SUCCESS / SUCCESS | 90,59355 | 0/377 | 3/3 |
+| w2p2_k10_u64_n15 | SUCCESS / TIMEOUT 600 с | — | — | — |
+| w2p2_k10_perm_u8_n15 | SUCCESS / SUCCESS | 26,219568 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n15 | SUCCESS / SUCCESS | 124,185844 | 0/118 | 2/2 |
+
+Sortedness SUCCESS: 21 unreachable; permutation: 4. TIMEOUT не дал failed check/места и не является контрпримером. Успехи пока не засчитаны из-за gate false. Известный summary wall П2: 5383,02 с; ночь: 2302,19 с, 3 dispatch.
+
+R7: N15/u64 sortedness — кандидат расширенного слоя по ночному заданию; тот же TIMEOUT повторять здесь не будем. Основной слой u64 пока до N14. Сначала отдельный measurement net-night-04-k10-n15-success (3 × 10 минут) для трёх успешных proof135, затем продолжаем N16..17. Нового кода нет, snapshot799659be; R9799659be/a136cf54 ожидается.
