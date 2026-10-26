@@ -1,14 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-p5-03-insert-tail-reproof",
+  "request_id": "net-w1-01-k8-k9",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Phase 5: re-prove the insert_tail contract (regions 2..=17, u64) at code identical to run A (job 34) after the K1-merge merge changed is_probe; makes the run A stub R4-proven in the same commit set",
+  "purpose": "Wave 1 K-8 insert_tail contract on a symbolic prefix of [u64;17], and K-9 sort13 permutation at full u8 width with disclosed reduction; real bodies, no stubs",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_net_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_prefix_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_u8",
       "expect": "SUCCESS"
     }
   ]

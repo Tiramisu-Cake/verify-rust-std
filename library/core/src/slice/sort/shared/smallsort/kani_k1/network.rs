@@ -395,6 +395,27 @@ check_insert_tail_net!(insert_tail_net_u8, u8, lt_u8);
 check_insert_tail_net!(insert_tail_net_i32, i32, lt_i32);
 check_insert_tail_net!(insert_tail_net_u64, u64, lt_u64);
 
+/// Wave 1 K-8: the insertion region is a prefix of a larger allocation, with every tail
+/// position 1..=16 symbolic. The contract proof assumes only `insert_tail`'s own requires
+/// (in particular the sorted prefix); the suffix stays arbitrary and must be unchanged.
+#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::unwind(18)]
+fn insert_tail_prefix_u64() {
+    set_probe::<u64>();
+    let mut v: [u64; 17] = kani::any();
+    let tail: usize = kani::any_where(|&t| 1 <= t && t < 17);
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: both pointers belong to `v`, tail > 0; sortedness is assumed by the
+    // proof_for_contract instrumentation at this call, exactly as in insert_tail_len.
+    unsafe { super::super::insert_tail(base, base.add(tail), &mut lt_u64) };
+    assert!(same_from(&v, &pre, tail + 1));
+    kani::cover(tail == 1, "prefix region of 2 reachable with requires satisfied");
+    kani::cover(tail == 15, "proper prefix region of 16 reachable with requires satisfied");
+    kani::cover(tail == 16, "full region of 17 reachable with requires satisfied");
+    kani::cover(true, "prefix insertion: end reached");
+}
+
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
 /// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
 macro_rules! check_network_band_tail {
