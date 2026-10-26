@@ -1344,3 +1344,10 @@ check-tooling против базы волны. Cover29/29; предыдущий
 751.71+181.46=**933.17с (15.5528мин)** verify-команд с компиляцией,
 без подготовки CircleCI; это не фактический job wall/billing. API-учёт
 проверяет координатор по CD-3. Job53/56 ещё не вошли в присланные14мин.
+
+REVIEW REQUEST eab5af1d1eab030a8c45506dc72974ecc79e8400
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. CD-3 N2/3/4 и
+отрицательный контроль CD-2; evidence — следующий CircleCI job.
