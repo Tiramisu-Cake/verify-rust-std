@@ -1396,3 +1396,21 @@ RUN-REQUEST.json; RESULT-network.md, job99/dispatch a86. Helpers неизмен�
 | 16 | net-w2-16-a85-high-a86-stable-high | 100 | 60f1d860 | w2_k16_a85_n31; w2_k16_a85_n32; w2_k16_a86_stable_n31; w2_k16_a86_stable_n32 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 100`, затем конец turn. Счёт dispatch 16/24.
+
+#### Job 100 / большие длины a85 и a86 stable
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 3,63 GiB, RSS 2927140 KiB, OOM 0, swap off,
+wall 352,43 с. Сумма summary wall П1: 4044,98 с = 67,4163 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a85_n31 | 100,83713 | 0/402 | 3/3 |
+| w2_k16_a85_n32 | 107,85001 | 0/402 | 3/3 |
+| w2_k16_a86_stable_n31 | 42,3792 | 0/400 | 2/2 |
+| w2_k16_a86_stable_n32 | 52,445107 | 0/400 | 2/2 |
+
+a85 все требуемые N обоих маршрутов и обе reachability измерены <=180 с.
+a86 stable31/32 также <=180 с. Запрос net-w2-17-a86-rest:
+a86 stable_lo/mid/reach и unstable fallback; measurement 4 x 10 минут.
+Это последние клетки K16; после них K11s и O3-s. Код шаблонов не менялся.
