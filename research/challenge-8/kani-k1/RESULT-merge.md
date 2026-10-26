@@ -894,3 +894,55 @@ REVIEW REQUEST 227d17179749806b6310ee547f22c3afa91dab2b
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. K-6+ (а), О1 по CD-1,
 реальное слияние u64 длины 32; evidence — следующий CircleCI job.
+
+
+### Job 49 — K-6+ (а), реальное слияние u64 × 32
+
+- Запрос `w1-merge-k6a-32-004`, head `1d230f7577de2cbbd1f0bcb13361de5b7a6459c3`.
+- COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+- `w1_merge_u64_len32_safety`: **SUCCESS**, Verification Time **4.5430408 с**,
+  cover **1/1**. Assertion-класса паника `smallsort.rs:884` достижима (1/102
+  failed checks), допустима согласно CD-1. Провалов безопасности Kani нет.
+- Память всего run: max RSS 1608072 KiB, cgroup peak 1.77 GiB,
+  ENFORCED 13 GiB, OOM kills 0, swap off. Одна гармоника: пик run — только
+  верхняя оценка её памяти, включает компиляцию.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+- Откат к контракту безопасности не требуется: реальное тело прошло 32.
+  Длины 17/24 отдельного слияния не измерялись, вывод о них не делаю.
+- R9 ещё ожидается; независимый proof credit до него не заявлен.
+
+REVIEW REQUEST 1d230f7577de2cbbd1f0bcb13361de5b7a6459c3
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 49 `summary`,
+check-tooling против базы волны. Контроли CD-1 — job 48; А — job 47.
+
+### W1-D8 (R7): u64 на unstable entrypoint выбирает network
+
+Проверен исходный dispatch `smallsort.rs`: `u64: Copy + Freeze`,
+`has_efficient_in_place_swap::<u64>()` true, поэтому
+`<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort` идёт в network.
+Это несовместимо с буквальным заданием «general через unstable trait, u64».
+Runtime и специализации не меняю, чужой network не подменяю.
+
+Выбор: (1) `small_sort_general` напрямую на **u64**, чтобы измерить именно
+заданные тела и тип; (2) дополнительно реальные unstable trait entrypoints
+для `#[repr(transparent)] struct W1GeneralU64(u64)` **без Copy**, размер 8,
+Freeze, без Drop, ключи — все u64 без редукции. Он выбирает general и
+сохраняет размерную ветку sort8. (3) stable-Freeze проверяется через
+`<u64 as StableSmallSortTypeImpl>::small_sort` с scratch 48.
+Альтернативы: только прямой general — не покрывает trait dispatch; только
+оболочка — не является буквально типом u64; массив >8 байт — меняет размер.
+Дополнительные три гармоники оболочки помещаются в бюджет: все 9 верхних
+гармоник вместе с уже потраченными 80 минутами = 170/200 минут.
+
+Верхние гармоники подготовлены для 17/24/32; comparator возвращает
+`kani::any()` на каждом вызове, callee реальные по D0, проверок свойств,
+assumes, заглушек и контрактных проверок нет. Cover нормального возврата
+у каждой постоянной длины. Вывод О1 ограничен CD-1; перестановка и Drop
+в этих гармониках не проверяются. Оболочка non-Copy не даёт вывода О2.
+
+Первый запрос верхних `w1-merge-k6b-general-005`: general u64 17/24/32,
+stable-Freeze u64 17; 4 × 10 минут. После dispatch:
+**5/10 dispatch, 120/200 минут таймаутов**, оценка ≤3200/5000 кредитов.

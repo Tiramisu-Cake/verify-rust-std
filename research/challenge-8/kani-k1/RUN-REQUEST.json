@@ -1,14 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-k6a-32-004",
+  "request_id": "w1-merge-k6b-general-005",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-6+ (a), CD-1 O1: real bidirectional_merge on fixed length 32 u64, arbitrary comparator decision on each call. should_panic, no property assertions, assumptions, manual or verified stubs. Normal return cover. Controls A job47 and B job48.",
+  "purpose": "K-6+ (b) CD-1 O1 real bodies: direct small_sort_general u64 at 17,24,32 and stable-Freeze u64 trait at 17. u64 unstable trait selects network; transparent non-Copy u64 trait-route checks are prepared separately. No stubs, assumes, property or contract checks.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_merge_u64_len32_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_general_u64_len17_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_general_u64_len24_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_general_u64_len32_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_stable_u64_len17_safety",
       "expect": "SUCCESS"
     }
   ]

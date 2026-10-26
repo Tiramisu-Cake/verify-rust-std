@@ -1308,3 +1308,53 @@ fn w1_merge_safety<const N: usize>() {
 fn w1_merge_u64_len32_safety() {
     w1_merge_safety::<32>();
 }
+
+// K-6+ (b): u64 selects network through the unstable trait. Test the general
+// function itself on u64, and separately its trait route with a transparent
+// non-Copy u64 wrapper. Stable-Freeze selects general for u64 directly.
+#[repr(transparent)]
+struct W1GeneralU64(u64);
+
+fn w1_general_u64_safety<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    super::super::small_sort_general(&mut v, &mut w1_arbitrary_less);
+    kani::cover(true, "wave1 general u64 direct: normal return reachable");
+}
+
+fn w1_general_trait_safety<const N: usize>() {
+    let payload: [u64; N] = kani::any();
+    let mut v = payload.map(W1GeneralU64);
+    <W1GeneralU64 as UnstableSmallSortFreezeTypeImpl>::small_sort(
+        &mut v,
+        &mut |_: &W1GeneralU64, _: &W1GeneralU64| kani::any(),
+    );
+    kani::cover(true, "wave1 general non-Copy u64 trait: normal return reachable");
+}
+
+fn w1_stable_u64_safety<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w1_arbitrary_less);
+    kani::cover(true, "wave1 stable-Freeze u64 trait: normal return reachable");
+}
+
+macro_rules! w1_top_safety {
+    ($name:ident, $body:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::should_panic]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body::<$n>();
+        }
+    };
+}
+
+w1_top_safety!(w1_general_u64_len17_safety, w1_general_u64_safety, 17);
+w1_top_safety!(w1_general_u64_len24_safety, w1_general_u64_safety, 24);
+w1_top_safety!(w1_general_u64_len32_safety, w1_general_u64_safety, 32);
+w1_top_safety!(w1_general_trait_len17_safety, w1_general_trait_safety, 17);
+w1_top_safety!(w1_general_trait_len24_safety, w1_general_trait_safety, 24);
+w1_top_safety!(w1_general_trait_len32_safety, w1_general_trait_safety, 32);
+w1_top_safety!(w1_stable_u64_len17_safety, w1_stable_u64_safety, 17);
+w1_top_safety!(w1_stable_u64_len24_safety, w1_stable_u64_safety, 24);
+w1_top_safety!(w1_stable_u64_len32_safety, w1_stable_u64_safety, 32);
