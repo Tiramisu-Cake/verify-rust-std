@@ -790,3 +790,30 @@ RUN-REQUEST.json (expect_check и новый request_id), RESULT-network.md
 
 Ожидание `k1.sh watch 77`, затем конец turn. Счёт dispatch 2/24;
 измеренный summary wall завершённых jobs П1 — 0,9433 мин (не API минуты).
+
+#### Job 77 / переход к O1-A
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b.
+Контроль w2_control_a_assertion: ожидаемый FAILED, 0,27845463 с,
+1/327 failed, `assertion failed: v[0] != v[0]`, network.rs:958;
+normal-return cover перед assert выполнен, cover заглушки на длине 2
+недостижим (1/2). Отдельный w2_control_a_reachability: SUCCESS,
+16,174204 с, 0/322 failed, cover 2/2 (вход в stub и normal return).
+13 GiB ENFORCED, peak 1,83 GiB, RSS 1645388 KiB, OOM 0, swap off.
+Wall с компиляцией 57,13 с. Сумма summary wall П1: 113,73 с = 1,8955 мин,
+не API минуты. Исправленный контроль прошёл gate; R9 на 995164ac ожидается.
+Замечание координатора по исходному R9: остальная структура контроля в порядке.
+
+R7: O1-A использует внешний UnstableSmallSortTypeImpl, а не внутренний
+Freeze-entrypoint волны 1; для u64 это тот же network после специализации.
+Семейства точных аллокаций: 18..21, 22..25, 26..27, 28..29, 30..32.
+Старое семейство 26..30 разделено. При Verification Time >180 с —
+дальнейшее деление по измерению. 0..17 остаётся обычная proof волны 1,
+новое should_panic не используется. Ни сортированность, ни перестановка
+не проверяются. Никаких новых допущений о данных/comparator нет.
+
+Ledger: any_where выбирает только перечисленные N; после вызова cover каждой
+N и конца. Stub тот же, что в контролях; в каждом новом семействе есть merge,
+поэтому cover его достижимости также должен быть выполнен.
+Запрос net-w2-03-o1-a-18-29: первые четыре семейства, measurement 4 x 10 минут.
+Семейство 30..32 подготовлено для следующего dispatch, ещё не измерено.

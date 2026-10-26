@@ -968,3 +968,34 @@ fn w2_control_a_reachability() {
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
     kani::cover(true, "W2 control A: normal return also reachable");
 }
+
+/// Each branch owns an allocation of exactly N elements. Enter through the outer trait,
+/// including Freeze/Copy specialization; the CD-2 comparator and all sort bodies are real.
+fn w2_network_o1_fixed<const N: usize>() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [u64; N] = kani::any();
+    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+}
+
+macro_rules! w2_network_o1_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w2_network_o1_fixed::<$n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("W2 O1-A network normal return at ", stringify!($n)));)+
+            kani::cover(true, "W2 O1-A network family: end reached");
+        }
+    };
+}
+
+w2_network_o1_cases!(w2_network_o1_a_18_21, [18, 19, 20, 21]);
+w2_network_o1_cases!(w2_network_o1_a_22_25, [22, 23, 24, 25]);
+w2_network_o1_cases!(w2_network_o1_a_26_27, [26, 27]);
+w2_network_o1_cases!(w2_network_o1_a_28_29, [28, 29]);
+w2_network_o1_cases!(w2_network_o1_a_30_32, [30, 31, 32]);

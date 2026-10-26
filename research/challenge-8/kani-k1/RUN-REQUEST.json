@@ -1,19 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-02-control-a-text",
+  "request_id": "net-w2-03-o1-a-18-29",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Repeat W2 variant A controls after job 75 placeholder mismatch: message-free normal-return assertion must fail with expression and location; real network length 18 reaches order-violation stub cover. No should_panic, other callees real.",
+  "purpose": "O1-A network u64 lengths 18..29 via actual outer UnstableSmallSortTypeImpl, exact arrays, CD-2 reads, only order-violation panic stubbed. Constant-length families; split old 26..30 family to target <=180s.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_assertion",
-      "expect": "FAILED",
-      "expect_check": "v[0] != v[0]"
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_18_21",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_reachability",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_22_25",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_26_27",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_28_29",
       "expect": "SUCCESS"
     }
   ]
