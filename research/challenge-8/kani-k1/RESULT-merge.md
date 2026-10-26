@@ -739,3 +739,10 @@ REVIEW REQUEST 2dec31e1a0a2c04da592031a67fad42cd503dd29
 Таблица маршрутов general/stable-Freeze × 17/24/32 пока полностью
 **не измерена**. О1 по маршрутам со слиянием не установлена даже на 17;
 это блокировка по контролю, а не измеренный TIMEOUT/FAILED безопасности.
+
+REVIEW REQUEST dcea786d7c04265831382585bcc8d6d6a05a46e2
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Повтор контроля А;
+новый job будет указан после завершения. Review по R9 — координатор.
