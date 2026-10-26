@@ -1240,3 +1240,7 @@ reachability обеих пар выполнена по CD-5. a17 short N0,1,2,7,
 Запрос net-w2-12-a17-mid-high-stablereach: a17 mid / N31 / N32 /
 stable17 reachability, measurement 4 x 10 минут. Шаблоны не меняются,
 R9 a1cd4ec0 запрошен; general17 reachability запланирована следующим запросом.
+
+| 12 | net-w2-12-a17-mid-high-stablereach | 96 | 4142e7a1 | w2_k16_a17_mid; w2_k16_a17_n31; w2_k16_a17_n32; w2_k16_a17_stable_reach | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 96`, затем конец turn. Счёт dispatch 12/24.
