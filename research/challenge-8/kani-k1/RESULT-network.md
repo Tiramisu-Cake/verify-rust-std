@@ -2218,3 +2218,7 @@ smallsort.rs:383..459, W2Value/W2Drop constructors. Проверить поба�
 перестановку non-Copy/Cell, область [T;2]/обе ориентации, чистоту comparators,
 предел переноса на абсолютные индексы сети; ZST отдельный primitive случай.
 Верифицированных заглушек нет, R11 нового использования не требуется.
+
+| 8 | net-w2p2-08-k9s-small-types | 121 | 5cd92f9a | w2p2_k9s_u8; w2p2_k9s_u64; w2p2_k9s_u128; w2p2_k9s_drop | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 121`, затем конец turn. Счёт П2:8/40 dispatch.
