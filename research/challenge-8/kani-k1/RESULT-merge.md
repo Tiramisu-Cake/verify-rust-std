@@ -30,6 +30,23 @@ T0 уточнён по первому фактическому выводу `dat
 Повтор — после паузы не менее 5 минут, без изменения запроса/гармоник.
 Ночных preflight отказов 1; успешных ночных dispatch пока 0.
 
+### Ночной job 129 — K-10 fallback N0/1, GS N2
+
+Request `w2-merge-night-f01-gs2-001`, head `616fe21ec7d6f9ca3be4328efa9c9bf4876e383d`.
+Успешный dispatch после паузы 5+ минут; ночных dispatch 1,
+preflight отказов 1. Все четыре гармоники expected SUCCESS; статусы Kani,
+время, память, covers, gate и check-tooling ожидают завершения.
+Следующий шаг: `k1.sh summary 129` и check-tooling против `9de80e0b`.
+
+REVIEW REQUEST 616fe21ec7d6f9ca3be4328efa9c9bf4876e383d
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код П2 `cd284852`, без изменений),
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Открытый R9 П2: proof/R11 job 110 и GS N0/1 job 115;
+job 129 пока без результата. Независимый зачёт не заявлен.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
