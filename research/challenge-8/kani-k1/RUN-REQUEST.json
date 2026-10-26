@@ -1,26 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-k6b-stable-trait-006",
+  "request_id": "w1-merge-cd2-all-routes-007",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-6+ (b) CD-1 O1: stable-Freeze u64 trait 24/32 and general unstable trait on transparent non-Copy u64 17/24 (W1-D8). All real bodies with arbitrary comparator per call. should_panic, no stubs, assumes, property or contract checks.",
+  "purpose": "CD-2 remeasurement with volatile reads of both comparator arguments: independent route choice at each fixed length 17/24/32 covers direct general u64, unstable general transparent non-Copy u64 and stable-Freeze u64. Length32 also chooses standalone merge32. Real bodies, no stubs.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_stable_u64_len24_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len17_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_stable_u64_len32_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len24_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_general_trait_len17_safety",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_general_trait_len24_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len32_safety",
       "expect": "SUCCESS"
     }
   ]
