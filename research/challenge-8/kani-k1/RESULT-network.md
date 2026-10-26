@@ -2684,3 +2684,16 @@ network.rs: четыре применения прежних sortedness/permutat
 | 5 (П2 #19) | net-night-05-k10-n16-u8 | 139 | 0df1120e | w2p2_k10_u8_n16; w2p2_k10_perm_u8_n16 | SUCCESS |
 
 Ожидание `k1.sh watch 139`, затем конец turn. После уведомления — summary/check-tooling139; далее отдельный N16/u64.
+
+### Job139: K-10 N16/u8
+
+COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 1,86 GiB, RSS 1680516 KiB, OOM0, swap off, wall 830,22 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_u8_n16 | SUCCESS / SUCCESS | 189,30489 | 0/377 | 3/3 |
+| w2p2_k10_perm_u8_n16 | SUCCESS / TIMEOUT 600 с | — | — | — |
+
+Sortedness: 21 unreachable, пока не засчитана из-за gate false. TIMEOUT не дал failed check/места, не контрпример. Известный summary wall П2: 6485,29 с; ночь: 3404,46 с, 5 dispatch. R9 композиции ожидается.
+
+R7: permutation N16/u8 — кандидат расширенного слоя, здесь тот же запрос не повторяем. Корректность u8 целиком пока до N15; sortedness N16 нуждается в отдельном gate true. Теперь N16/u64 (обе подготовленные proof) в net-night-06-k10-n16-u64, measurement 2 × 10 минут, ожидается SUCCESS. Нового кода/допущений нет, snapshot7b0138dd. После него отдельно повторим успешную sortedness u8; новые N17 будут разделены по свойствам.

@@ -1,18 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-05-k10-n16-u8",
+  "request_id": "net-night-06-k10-n16-u64",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 N16 u8: real outer network sortedness under full-width natural strict order; separate real insertion/offset13 full-value permutation under arbitrary read-only comparisons. Exact arrays, no stubs. u64 proofs are deferred to a separate request after job135 timeout.",
+  "purpose": "K10 N16 u64: full-width sortedness through real outer network under natural strict order; separately full-value permutation of real insertion/offset13 under arbitrary read-only comparisons. Exact arrays, no sorted-prefix assumption in permutation, no stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n16",
       "expect": "SUCCESS"
     }
   ]
