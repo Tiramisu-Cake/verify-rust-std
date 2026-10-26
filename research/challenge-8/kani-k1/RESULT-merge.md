@@ -746,3 +746,56 @@ REVIEW REQUEST dcea786d7c04265831382585bcc8d6d6a05a46e2
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. Повтор контроля А;
 новый job будет указан после завершения. Review по R9 — координатор.
+
+### Job 47 — повтор контроля А
+
+- Запрос `w1-merge-control-a-002`, head `c1ff2ca2ed42b39c76f6eb3aff80ed0aaa325fc3`.
+- COMPLETE, gate **true**, expectation met true, measurement ok true;
+  Kani exit 1 ожидаем из-за контрольного мутанта FAILED.
+- Память всего run: max RSS 1622424 KiB; cgroup peak 1.82 GiB,
+  ENFORCED 13 GiB, OOM kills 0, swap off. Пик не относится к одной гармонике.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`:
+  lane diff отсутствует, все пять bound SHA-256 совпадают.
+
+| Гармоника | Ожидание | Статус | Verification Time, с | cover | Failed check |
+|---|---|---|---:|---|---|
+| `w1_control_a_must_fail` | FAILED | FAILED | 5.3462563 | 2/2 | `assertion failed: v[0] != v[0]`, merge.rs:1224 |
+| `w1_control_a_panic_reachable` | SUCCESS | SUCCESS | 4.944808 | 2/2 | нет, 0/321 |
+
+Требование `expect_check` теперь выполнено. Контроль А имеет измерительное
+подтверждение; независимый review R9 ещё не получен, до него зачёта нет.
+Это не доказательство О2 для non-Copy/Drop и не переносится на длины 17..32.
+
+REVIEW REQUEST c1ff2ca2ed42b39c76f6eb3aff80ed0aaa325fc3
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 47 `summary`,
+check-tooling против базы волны. Для исходного контроля Б — job 46 на
+`2dec31e1a0a2c04da592031a67fad42cd503dd29` (предыдущий REVIEW REQUEST).
+
+### Текущее покрытие и следующий шаг (2026-10-26 10:57 UTC)
+
+| Маршрут | Длина | Verification Time | gate | cover | Состояние |
+|---|---:|---|---|---|---|
+| `bidirectional_merge`, О1 | 32 | — | — | — | не запускался: контроль Б |
+| general, О1 | 17 | — | — | — | не запускался: контроль Б |
+| general, О1 | 24 | — | — | — | не запускался: контроль Б |
+| general, О1 | 32 | — | — | — | не запускался: контроль Б |
+| stable-Freeze, О1 | 17 | — | — | — | не запускался: контроль Б |
+| stable-Freeze, О1 | 24 | — | — | — | не запускался: контроль Б |
+| stable-Freeze, О1 | 32 | — | — | — | не запускался: контроль Б |
+
+Для координатора: **О1 по маршрутам со слиянием не закрыта даже на 17** —
+по блокеру обязательного контроля Б, а не по провалу безопасности алгоритма
+или ресурсному пределу. Не установлено, сколько времени заняли бы K-6+.
+Безопасность, перестановка non-Copy и drop, восстановление при unwind,
+контракт безопасности слияния и K-13 не измерены в этой волне.
+
+**W1-D5 (R7):** новые dispatch после job 47 не делаю до разрешения блокера Б.
+Не меняю runtime std, lane, смысл expected FAILED или правила зачёта.
+Review запрошен через RESULT, как предписано; ожидается независимый вердикт
+координатора. Это не завершение волны: обязательные шаги K-6+ не выполнены,
+окно и лимиты не исчерпаны; строку `ВОЛНА 1 ЗАВЕРШЕНА` пока не ставлю.
+Незавершённых job нет. Расход лимитов: **2/10 dispatch, 50/200 минут
+таймаутов**, оценка ≤1320/5000 кредитов; фактические кредиты не измерены.
