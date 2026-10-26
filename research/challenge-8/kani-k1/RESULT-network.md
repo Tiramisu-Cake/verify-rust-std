@@ -1038,3 +1038,24 @@ RUN-REQUEST.json, RESULT-network.md («Волна 2», job 88, R7 парных �
 | 7 | net-w2-07-k16-u8-rest-u128-lo | 89 | 4c1a1c6d | w2_k16_u8_stable_mid; w2_k16_u8_stable_hi; w2_k16_u8_network_merge; w2_k16_u128_lo | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 89`, затем конец turn. Счёт dispatch 7/24.
+
+R9 3ce9177c — GO_WITH_NITS от координатора. Приняты ManuallyDrop-чтения,
+scratch 48, массивы ровно N и unwind 65. По указанию координатора влита
+база 133da80c (CD-5 и уточнение 16:05Z); изменился только R6-WAVE2.md,
+файлы lane не затронуты. Job 89 продолжает ожидаться через watch.
+
+CD-5/R7: тихий cut допускается в семействах со слиянием при отдельной
+reachability на каждую пару тип×маршрут: одна merge-длина, covering stub
+w2_cut_ord_violation и normal-return cover. u8 из job 88 по безопасности
+принимается на этом условии, повтор семейств не нужен. Для network —
+reachability на 18, для stable — на 17; для следующих типов так же.
+Добавить до зачёта quiet-контроль на шаблоне w2_type_fixed::<u8,18,false>()
+с последующим assert!(x != x), ожидается ровно 1 FAILED с местом.
+Контроль quiet на 2 сам по себе не подтверждает этот merge-путь.
+
+ZST: только trait-уровень. Реальные вызывающие stable/mod.rs:31,
+unstable/mod.rs:27/72 и select.rs:32 возвращаются при T::IS_ZST до
+small_sort; строка ZST не входит в покрытие публичной сортировки.
+На ZST cut недостижим, чтение CD-2 пустое. Network 18+ исключён по CD-5:
+его pointer-based цикл на ZST не завершается. Исходы job 85 остаются
+FAILED/OOM только на trait-уровне, без переноса на публичный sort.
