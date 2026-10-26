@@ -588,3 +588,15 @@ T0 K-13: 2026-10-26T12:46:42Z (UTC, `date -u`).
   comparator произвольны без assume. Минимальный end cover у каждой гармоники.
 - Ручных заглушек, assume(false), stub_verified нет. Существующие контракты
   K-1 не используются для изменяемого comparator. Runtime-код не меняется.
+
+REVIEW REQUEST c632f43b202bc22569a5d2794f144e29affe7d0e
+
+Файлы K-13:
+- `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+  (K13Tagged, k13_mutating_less, k13_input/tag_count/route_fixed/insertion_fixed,
+  macros k13_route_cases/k13_insertion_cases, четыре гармоники)
+- `library/core/src/slice/sort/shared/smallsort.rs` (реальные callee и trait dispatch)
+- `library/core/src/slice/sort/shared/mod.rs` (FreezeMarker)
+- `scripts/run-kani.sh` (неизменённые CI flags)
+- `research/challenge-8/kani-k1/RUN-REQUEST.json`
+- `research/challenge-8/kani-k1/RESULT-network.md`, подраздел K-13
