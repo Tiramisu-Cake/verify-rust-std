@@ -1491,3 +1491,22 @@ direct general и stable-Freeze они измерены с читающим comp
 [21,22,23,25], [26,27,28,29], [30,31] — 6 dispatch, до 17/22.
 
 Запрос `w1-merge-cd3-len8to11-011`: N8/9/10/11, expect SUCCESS. Dispatch 12/22.
+
+### Job 68 — CD-3 N8/9/10/11
+
+Запрос `w1-merge-cd3-len8to11-011`, head `38accaf131d6ea3e8d36fb2f4d21d1924e7f8f68`.
+COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+check-tooling **ok** против `9de80e0b…`. Память run: max RSS 2154412 KiB,
+cgroup peak 2.36 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 1:54.84.
+
+| Гармоника | status | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w1_cd3_all_len8_safety` | SUCCESS | 14.61601 | 1/645 | 3/3 |
+| `w1_cd3_all_len9_safety` | SUCCESS | 15.602869 | 1/645 | 3/3 |
+| `w1_cd3_all_len10_safety` | SUCCESS | 18.411224 | 1/645 | 3/3 |
+| `w1_cd3_all_len11_safety` | SUCCESS | 20.330036 | 1/645 | 3/3 |
+
+Единственный failed check каждой строки — assertion-класса `smallsort.rs:884`
+(CD-1). 10 unreachable checks в каждой строке.
+
+Запрос `w1-merge-cd3-len12to15-012`: N12/13/14/15, expect SUCCESS. Dispatch 13/22.
