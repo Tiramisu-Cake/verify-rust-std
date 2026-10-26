@@ -1555,3 +1555,22 @@ cgroup peak 3.29 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 4:40.81.
 callee пересылки. Это чтение исходника, не измерение; раскрывается в итоге.
 
 Запрос `w1-merge-cd3-len21to25-014`: N21/22/23/25, expect SUCCESS. Dispatch 15/22.
+
+### Job 71 — CD-3 N21/22/23/25
+
+Запрос `w1-merge-cd3-len21to25-014`, head `bae2b2063f53fbea9a407c14813cba33d37e96d0`.
+COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+check-tooling **ok** против `9de80e0b…`. Память run: max RSS 3079148 KiB,
+cgroup peak 4.01 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 5:27.81.
+
+| Гармоника | status | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w1_cd3_all_len21_safety` | SUCCESS | 61.972004 | 1/645 | 3/3 |
+| `w1_cd3_all_len22_safety` | SUCCESS | 65.25795 | 1/645 | 3/3 |
+| `w1_cd3_all_len23_safety` | SUCCESS | 71.73119 | 1/645 | 3/3 |
+| `w1_cd3_all_len25_safety` | SUCCESS | 81.748344 | 1/645 | 3/3 |
+
+Единственный failed check каждой строки — assertion-класса `smallsort.rs:884`
+(CD-1). 8 unreachable checks в каждой строке.
+
+Запрос `w1-merge-cd3-len26to29-015`: N26/27/28/29, expect SUCCESS. Dispatch 16/22.
