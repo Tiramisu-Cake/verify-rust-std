@@ -1,22 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-09-k10-n17-rest",
+  "request_id": "net-night-10-k9s-indices17",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Final K10 measurements at N17: real outer network full-width u64 sortedness under natural strict order; separate real insertion/offset13 full-value permutation for u8/u64 with arbitrary read-only comparisons. Exact arrays, no sorted-prefix assumption in permutation, no stubs.",
+  "purpose": "K9s generalization: proof_for_contract swap_if_less for full-width u8/u64 at arbitrary distinct symbolic indices in [T;17], exact K10 pure strict comparator. Check existing ensures and explicit unchanged other cells; covers endpoints, interior, swap/no-swap, and return.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u8_indices17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n17",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u64_indices17",
       "expect": "SUCCESS"
     }
   ]

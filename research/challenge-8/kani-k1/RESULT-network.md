@@ -2746,3 +2746,39 @@ Sortedness u8 измерена на каждой N9..17. Перестановк�
 | 9 (П2 #23) | net-night-09-k10-n17-rest | 146 | eb9fc727 | w2p2_k10_u64_n17; w2p2_k10_perm_u8_n17; w2p2_k10_perm_u64_n17 | SUCCESS |
 
 Ожидание `k1.sh watch 146`, затем конец turn. После уведомления — summary/check-tooling146; затем K9s symbolic indices.
+
+### Job146: оставшиеся K-10 N17
+
+COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 2,20 GiB, RSS 2058848 KiB, OOM0, swap off, wall 1841,83 с.
+
+| Гармоника | ожидается / факт | время / failed check / cover |
+|---|---|---|
+| w2p2_k10_u64_n17 | SUCCESS / TIMEOUT 600 с | отсутствуют |
+| w2p2_k10_perm_u8_n17 | SUCCESS / TIMEOUT 600 с | отсутствуют |
+| w2p2_k10_perm_u64_n17 | SUCCESS / TIMEOUT 600 с | отсутствуют |
+
+Контрпример не получен. Все три — кандидаты расширенного слоя. Известный summary wall П2: 10178,21 с; ночь: 7097,38 с, 9 dispatch.
+
+### Итог ночного шага K-10
+
+Ниже — измеренные компоненты, не окончательный зачёт открытого R9 логической композиции. Все SUCCESS в таблице имеют gate true и check-tooling ok. Сеть — структурная перестановка compare-exchange по первому ensures K9s; на N9/N13 insertion не меняет массив.
+
+| N | sortedness u8 / u64 (job) | insertion permutation u8 / u64 (job) |
+|---|---|---|
+| 9 | SUCCESS / SUCCESS (125) | no-op / no-op |
+| 10 | SUCCESS / SUCCESS (125) | SUCCESS / SUCCESS (126) |
+| 11 | SUCCESS / SUCCESS (126) | SUCCESS / SUCCESS (127) |
+| 12 | SUCCESS / SUCCESS (127) | SUCCESS / SUCCESS (128) |
+| 13 | SUCCESS / SUCCESS (128) | no-op / no-op |
+| 14 | SUCCESS / SUCCESS (133) | SUCCESS / SUCCESS (133) |
+| 15 | SUCCESS (138) / TIMEOUT (135) | SUCCESS / SUCCESS (138) |
+| 16 | SUCCESS (144) / TIMEOUT (141) | TIMEOUT (139) / TIMEOUT (141) |
+| 17 | SUCCESS (145) / TIMEOUT (146) | TIMEOUT / TIMEOUT (146) |
+
+R7: K10 ночной шаг закончен по измеренным исходам. Компоненты полной корректности основного слоя: u8 до N15, u64 до N14, R9 композиции ожидается. Кандидаты расширенного слоя: sortedness u64 N15..17; insertion permutation u8/u64 N16..17. N0..8 из прежних jobs — insertion-only. Ширина данных не снижалась, проверка full-route multiset N10+ не заявляется.
+
+### K-9s: symbolic indices в [T;17]
+
+R7: выбираем аллокацию 17 (>=13), чтобы включить все позиции обоих сетевых доменов и крайние позиции всего массива. Два proof_for_contract(swap_if_less), u8/u64, тот же function item w2p2_strict_less<T>, full-width input. Существующие оба ensures проверяются; структурный довод использует только первое (точный обмен/сохранение полных значений). Дополнительно явный assert неизменности всех остальных ячеек. Контракт/runtime не меняются, stub_verified нет.
+
+Ledger: any_where только 0<=a<17, 0<=b<17 и a!=b; остальные входы не ограничены. Post-call covers обеих крайних ориентаций, внутренней пары, позиции12, swap/no-swap и конца. Unwind25, checks активны. Запрос net-night-10-k9s-indices17: measurement 2 × 10 минут, ожидается SUCCESS. Результат не переносится на произвольный stateful/mutating comparator.

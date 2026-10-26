@@ -1571,3 +1571,43 @@ w2p2_k10_cases!(w2p2_k10_u8_n17, u8, [17]);
 w2p2_k10_cases!(w2p2_k10_u64_n17, u64, [17]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n17, u8, 17);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n17, u64, 17);
+
+// Night K-9s: all distinct symbolic positions in a live 17-element allocation.
+// The comparator is exactly the pure strict order used by K-10, including its function item.
+fn w2night_k9s_indices17<T: kani::Arbitrary + Copy + Ord>() {
+    let mut v: [T; 17] = kani::any();
+    let pre = v;
+    let a: usize = kani::any_where(|&i| i < 17);
+    let b: usize = kani::any_where(|&i| i < 17 && i != a);
+    let mut cmp = w2p2_strict_less::<T>;
+    let taken = cmp(&v[b], &v[a]);
+    // SAFETY: a and b are distinct in-bounds initialized writable elements of v.
+    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp); }
+    // In addition to both existing ensures, explicitly check the untouched frame.
+    let mut i = 0;
+    while i < 17 {
+        if i != a && i != b {
+            assert!(v[i] == pre[i], "K9s symbolic indices: other cells unchanged");
+        }
+        i += 1;
+    }
+    kani::cover(a == 0 && b == 16, "K9s symbolic indices: first to last");
+    kani::cover(a == 16 && b == 0, "K9s symbolic indices: last to first");
+    kani::cover(a > 0 && a < 16 && b > 0 && b < 16, "K9s symbolic indices: interior pair");
+    kani::cover(a == 12 || b == 12, "K9s symbolic indices: sort13 final position");
+    kani::cover(taken, "K9s symbolic indices: swap branch");
+    kani::cover(!taken, "K9s symbolic indices: no-swap branch");
+    kani::cover(true, "K9s symbolic indices: end reached");
+}
+
+#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::unwind(25)]
+fn w2night_k9s_u8_indices17() {
+    w2night_k9s_indices17::<u8>();
+}
+
+#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::unwind(25)]
+fn w2night_k9s_u64_indices17() {
+    w2night_k9s_indices17::<u64>();
+}
