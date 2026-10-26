@@ -1808,3 +1808,10 @@ OOM 0, swap off, wall verify с компиляцией 41.12 с.
 Следующий запрос `w2-merge-control-a-002`: две гармоники по 10 мин.
 После dispatch **2/14**; завершённый job один, wall verify 0.6853 мин
 (без подготовки CircleCI, не API job wall). O1-A пока не измерена.
+
+REVIEW REQUEST 8af80c538e36d9a3395daf5732804b21b4249bba
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(без изменений с `e4e24db8`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence C-5: job 76 summary
+и check-tooling ok. Следующее измерение — контроль А.
