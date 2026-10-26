@@ -1217,3 +1217,7 @@ REVIEW REQUEST a1cd4ec0a6ee35ca22113e2e54e51e4e0f21793f
 network.rs: шесть применений принятых pair/reachability macros для [u8;17];
 RUN-REQUEST.json; RESULT-network.md, job94/dispatch a17. Helpers не менялись.
 Контекст: smallsort.rs, size>16/presort4 и 17*48<=4096/general.
+
+| 11 | net-w2-11-a16-rest-a17-lo | 95 | 5fde65c5 | w2_k16_a16_n32; w2_k16_a16_stable_reach; w2_k16_a16_general_reach; w2_k16_a17_lo | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 95`, затем конец turn. Счёт dispatch 11/24.
