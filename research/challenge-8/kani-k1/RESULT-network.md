@@ -1965,3 +1965,9 @@ N16..20/offset1. RUN-REQUEST.json; RESULT-network.md, П2 T0/CD-6/ledger.
 Контекст: принятые П1 w1_any_less_u64 и w2_o3_input/mutating_less,
 неизменённые insertion_sort_shift_left/insert_tail и CI no-assert-contracts.
 Новая база не вливалась, lane9de80e0b. Все offset16..20 не повторяются.
+
+| # П2 | request_id | job | head SHA | гармоники | состояние |
+|---|---|---|---|---|---|
+| 1 | net-w2p2-01-b4-offset1-16-17 | 109 | 362c67c0 | w2p2_b4_u64_n16; w2p2_b4_cell_n16; w2p2_b4_u64_n17; w2p2_b4_cell_n17 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 109`, затем конец turn. Счёт П2:1/40 dispatch.
