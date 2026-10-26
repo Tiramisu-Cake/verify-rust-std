@@ -617,3 +617,8 @@ Review R9 — раздел 7.
 | F6 | nit, инфо | Вердикт стоял до записи review. При merge в K1-network возможны конфликты в `RUN-REQUEST.json` и в строках `use crate::kani; mod kani_k1;` (D8) | review записан здесь. Конфликты тривиальные, решает K1-network |
 
 Reviewer считает, что повторный review после этих текстовых правок не нужен.
+
+
+## Волна 1
+
+T0: 2026-10-26T10:46:18Z (UTC, `date -u`).
