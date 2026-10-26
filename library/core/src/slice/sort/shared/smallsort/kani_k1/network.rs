@@ -518,6 +518,9 @@ w1_network_o1_cases!(w1_network_o1_odd_u64, [19, 25, 31], [kani::should_panic]);
 w1_network_o1_cases!(w1_network_o1_nomerge_u64, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], []);
 // Remaining merge lengths; together with 19/24/25/31/32, covers every length 18..=32.
 w1_network_o1_cases!(w1_network_o1_othermerge_u64, [18, 20, 21, 22, 23, 26, 27, 28, 29, 30], [kani::should_panic]);
+// Smaller independent partitions after job 62's unlocalized CBMC status 6.
+w1_network_o1_cases!(w1_network_o1_othermerge_lo_u64, [18, 20, 21, 22, 23], [kani::should_panic]);
+w1_network_o1_cases!(w1_network_o1_othermerge_hi_u64, [26, 27, 28, 29, 30], [kani::should_panic]);
 
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
 /// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.

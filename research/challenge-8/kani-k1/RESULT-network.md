@@ -348,7 +348,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | COMPLETE, gate true, SUCCESS 471,6588 с, 0/411, 36 unreachable, cover 4/4; R9 GO_WITH_NITS, только префиксы |
 | 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 GO, засчитан |
 | 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | COMPLETE, gate true, SUCCESS 112,5397 с, 0/328, 18 unreachable, cover 19/19; R9 GO, засчитан |
-| 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | отправлен, summary ожидается |
+| 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, FAILED без локализованной проверки: CBMC status 6; Verification Time/cover отсутствуют |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -503,6 +503,23 @@ Dispatch 8: `net-w1-08-o1-nomerge`, job 61, measurement 1 × 10 мин.
 
 Dispatch 9: `net-w1-09-o1-othermerge`, job 62, measurement 1 × 10 мин.
 Итого 9/14 dispatch. Ожидание `k1.sh watch 62`, затем конец turn.
+
+### Продолжение после job 62
+
+- 2026-10-26T12:10:26Z: общий othermerge не засчитан. Summary: COMPLETE,
+  gate false, harness FAILED, Verification Time/cover отсутствуют.
+  Ограниченное чтение `log-grep` и `log-lines` 2680..2769 дало только
+  `CBMC failed with status 6` (строка 2718), затем VERIFICATION FAILED
+  (2719). Нет текста/места упавшей проверки; это не локализованный
+  контрпример безопасности. Причину status 6 из этих данных не вывожу.
+- ENFORCED 13 GiB, peak cgroup 4,39 GiB, max RSS 4352096 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 2:36,59. Check-tooling против
+  `9de80e0b` ok. Оценка wall по девяти summary ≈48,71 мин, без подготовки.
+- **R7:** разделение независимо от точной причины нелокализованного отказа:
+  lo = 18,20,21,22,23; hi = 26,27,28,29,30. Код того же проверенного macro,
+  подмножества прежнего домена, по cover на каждую длину после вызова.
+  Отдельные запросы сохраняют gate прошедшей половины при отказе другой.
+  Старое семейство сохранено для воспроизводимости job 62. Следующий — lo.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
