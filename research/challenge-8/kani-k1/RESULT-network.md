@@ -824,3 +824,7 @@ REVIEW REQUEST 287e3514e79b6677d5bbc0ec7ad7cf84eeb31d03
 RUN-REQUEST.json, RESULT-network.md («Волна 2»). Контекст: неизменённые
 smallsort.rs (outer trait → Freeze/Copy → network, реальные callee),
 scripts/run-kani.sh; существующий w2_cut_ord_violation и контроль job 77.
+
+| 3 | net-w2-03-o1-a-18-29 | 80 | eaa2110a | w2_network_o1_a_18_21; w2_network_o1_a_22_25; w2_network_o1_a_26_27; w2_network_o1_a_28_29 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 80`, затем конец turn. Счёт dispatch 3/24.
