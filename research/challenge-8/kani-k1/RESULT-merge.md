@@ -1845,3 +1845,33 @@ REVIEW REQUEST e4a09490c1c6ae8b5b3d0b1088a1ba1e0323458d
 (код `e4e24db8`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: контроли job 76/78,
 обе сводки и check-tooling ok; далее O1-A N2..5.
+
+### Job 79 — O1-A N2..5
+
+Head `b622e9378b7fd340f4a6ab50e7bc3ca4d8fb9428`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 0; check-tooling ok
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 2168356 KiB, cgroup peak 2.37 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 63.34 с.
+
+| Гармоника (префикс `w2_a_all_`) | Маршруты | expect / actual | Verification Time, с | gate | cover |
+|---|---|---|---:|---|---|
+| `len2_safety` | D/T/S | SUCCESS / SUCCESS | 2.5793238 | true | 4/4 |
+| `len3_safety` | D/T/S | SUCCESS / SUCCESS | 3.548163 | true | 4/4 |
+| `len4_safety` | D/T/S | SUCCESS / SUCCESS | 4.867044 | true | 4/4 |
+| `len5_safety` | D/T/S | SUCCESS / SUCCESS | 6.181312 | true | 4/4 |
+
+Каждая строка: 0/645 failed checks, 15 unreachable checks; время общее для
+независимого выбора D/T/S, covers — D/T/S и вызов заглушки. Измерены N2..5,
+все ≤180 с; независимый R9 ещё ожидается.
+
+REVIEW REQUEST b622e9378b7fd340f4a6ab50e7bc3ca4d8fb9428
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(без изменений с `e4e24db8`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 79 summary,
+check-tooling ok; контроли job 76/78.
+
+Следующий запрос `w2-merge-o1a-len6to9-004`: N6/7/8/9, 4×10 мин.
+После dispatch **4/14**. Три завершённых job, wall verify суммарно
+145.49 с (2.4248 мин); подготовка CircleCI не включена, API-учёт у координатора.
