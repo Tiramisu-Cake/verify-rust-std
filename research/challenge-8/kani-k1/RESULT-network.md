@@ -342,6 +342,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 |---|---|---|---|---|---|
 | 1 | 45 | e4d8f48b | `insert_tail_prefix_u64`, `sort13_perm_u8` | 20 мин | COMPLETE, gate false: K-8 SUCCESS 488,15848 с, 0/411, 36 unreachable, cover 4/4; K-9 TIMEOUT 600 с, cover/Verification Time отсутствуют |
 | 2 | 50 | 00236297 | `insert_tail_region_u64` | 10 мин | COMPLETE, gate false, TIMEOUT 600 с; cover/Verification Time отсутствуют |
+| 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -442,4 +443,8 @@ REVIEW REQUEST df940c02929a82e7fdd5b22f160cc8acaaa18e4c
 - `scripts/run-kani.sh` (неизменённые флаги CI)
 - `research/challenge-8/kani-k1/RUN-REQUEST.json`
 - `research/challenge-8/kani-k1/RESULT-network.md` (волна 1)
+
+Dispatch 3: `net-w1-03-o1-len17`, job 54, measurement 1 × 10 мин.
+Итого 3/6 dispatch, 40/90 минут таймаутов; верхняя оценка кредитов
+20 × (40 + 3 × 8) = 1280. Ожидание `k1.sh watch 54`, затем конец turn.
 
