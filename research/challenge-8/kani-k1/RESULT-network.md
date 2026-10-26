@@ -346,7 +346,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 GO_WITH_NITS, засчитан |
 | 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | COMPLETE, gate true, SUCCESS 49,115505 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 GO_WITH_NITS, засчитан |
 | 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | COMPLETE, gate true, SUCCESS 471,6588 с, 0/411, 36 unreachable, cover 4/4; R9 GO_WITH_NITS, только префиксы |
-| 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | отправлен, summary ожидается |
+| 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -464,6 +464,20 @@ REVIEW REQUEST a27b174f8eb7886ac2250c01e0459767f4ca085d
 Dispatch 7: `net-w1-07-o1-odd`, job 60, measurement 1 × 10 мин.
 Итого 7/14 dispatch, оценка wall по завершённым summary ≈41,25 мин.
 Ожидание `k1.sh watch 60`, затем конец turn.
+
+### Продолжение после job 60
+
+- 2026-10-26T11:59:18Z: О1 network 19/25/31 — SUCCESS 92,17661 с,
+  gate true, measurement ok, cover 4/4 (нормальный возврат на каждой длине
+  и конец). Check-tooling против `9de80e0b` ok. ENFORCED 13 GiB,
+  cgroup peak 3,77 GiB, max RSS 3065960 KiB, OOM 0, swap off,
+  wall проверки с компиляцией 2:14,52. Ожидается R9 a27b174f.
+- Единственная упавшая assertion — ожидаемый panic_on_ord_violation,
+  `library/core/src/slice/sort/shared/smallsort.rs:965`. Нечётный хвост
+  слияния теперь входит в реальное исполняемое тело на 19/25/31;
+  отдельного cover на каждое значение внутреннего left_nonempty нет.
+- Следующий запрос — все длины 0..=17 без слияния; код равен a27b174f.
+  Оценка wall по семи завершённым summary ≈43,49 мин, без подготовки job.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
