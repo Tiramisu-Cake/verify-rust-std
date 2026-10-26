@@ -1533,3 +1533,8 @@ macro_rules! w2p2_k10_insertion_perm_case {
 
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n10, u8, 10);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n10, u64, 10);
+
+w2p2_k10_cases!(w2p2_k10_u8_n11, u8, [11]);
+w2p2_k10_cases!(w2p2_k10_u64_n11, u64, [11]);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n11, u8, 11);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n11, u64, 11);

@@ -2411,3 +2411,28 @@ K10 complete на N10+ требует обе отдельные proof плюс s
 | 12 | net-w2p2-12-k10-sorted-9-10 | 125 | 512af643 | w2p2_k10_u8_n9; w2p2_k10_u64_n9; w2p2_k10_u8_n10; w2p2_k10_u64_n10 | отправлен; ожидается SUCCESS, sortedness для N>=9 |
 
 Ожидание `k1.sh watch 125`, затем конец turn. Счёт П2:12/40 dispatch.
+
+#### П2 job125 / sortedness N9/N10
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,92GiB,RSS1813420KiB,OOM0,swap off,wall110,82с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k10_u8_n9 | 6,5304947 | 0/377 | 3/3 |
+| w2p2_k10_u64_n9 | 24,243402 | 0/377 | 3/3 |
+| w2p2_k10_u8_n10 | 7,4968076 | 0/377 | 3/3 |
+| w2p2_k10_u64_n10 | 31,775963 | 0/377 | 3/3 |
+
+Все4 имеют21 unreachable checks. N9: sortedness измерена, перестановка
+структурно CE. N10: пока только sortedness, отдельная insertion permutation
+ещё не измерена. Ресурсное отличие от совместной formula124 подтверждено,
+но конкретная стадия времени124 не профилировалась. R9 a136cf54 ожидается.
+Summary wall П2:2729,71с.
+
+Следующий запрос: две подготовленные permutation-proof N10/offset9
+(u8/u64; arbitrary read-only comparator, full probe/input, prefix не
+предполагается sorted), и две sortedness-proof верхнего N11/full natural<.
+На N11 offset9 даёт две вставки; permutation N11 подготовлены, не выбраны
+пока. Все реальные тела, exact [T;N], unwinding checks активны.
+net-w2p2-13-k10-perm10-sorted11,measurement4x10мин.

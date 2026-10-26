@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-12-k10-sorted-9-10",
+  "request_id": "net-w2p2-13-k10-perm10-sorted11",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "After job124 N10 timeouts, separate properties: real full-width network sortedness at N9,N10 for u8/u64. Permutation uses structural CE plus separate real insertion-tail probe proofs (not yet run); no verified stubs or data reduction. Repeat N9 for independent gate.",
+  "purpose": "K10 split properties: direct real insertion permutation at exact N10/offset9 with arbitrary read-only comparator, full u8/u64/probe. Also real outer network sortedness at N11 under natural strict order. No prefix-order assumption in permutation, no stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n9",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n9",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n11",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n11",
       "expect": "SUCCESS"
     }
   ]
