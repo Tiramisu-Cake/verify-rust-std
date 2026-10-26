@@ -217,6 +217,31 @@ cgroup peak 1.92 GiB, ENFORCED 13 GiB, OOM 0, swap off.
 После dispatch ночных jobs 5, preflight отказов 1;
 с П2 до ночи: 10 jobs, 2 preflight отказа, 12/40 консервативных попыток.
 
+### Job 134 — RUNNER_ERROR, checkout HTTP 429
+
+Request `w2-merge-night-bm56-005`,
+head `e4e6c98db789ec2c6a5526169e3159e5dea47ac2`, CircleCI failed.
+`k1.sh summary 134`: нет summary artifact. Lane-файлы совпадают с
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`; полный check-tooling
+не завершён: нет summary.json. Kani status/time, память, covers и gate
+отсутствуют. Proof bm N5/6 обоих типов не измерены.
+
+Read-only metadata CircleCI: 21:11:25.244Z–21:11:27.319Z, 2075 мс;
+`Checkout code` failed за 620 мс. Ограниченная выборка ошибок checkout:
+`remote: This request was rate-limited due to too many requests`,
+`fatal: unable to access ... The requested URL returned error: 429`.
+Это отказ до Kani, не FAILED контракта и не ресурсный предел.
+
+### N-D7 (R7): повтор bm N5/6 после 10 минут
+
+Сохраняю четыре proof_for_contract, код и ожидания SUCCESS.
+Новый request `w2-merge-night-bm56-retry-006`.
+По N-D4 следующий повтор после checkout 429 — с паузой не менее
+10 минут: dispatch не раньше 21:21:28Z; следующий 429 потребует 15 минут.
+Таблица R4 остаётся без proof job для N5/6; GS N5/6 не засчитываются.
+После повтора ночных jobs 6, preflight отказов 1;
+с П2 до ночи: 11 jobs, 2 preflight отказа, 13/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
