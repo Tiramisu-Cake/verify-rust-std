@@ -1462,3 +1462,7 @@ network.rs: w2_insertion_safety_fixed, w2_insertion_safety_cases, четыре K
 RUN-REQUEST.json; RESULT-network.md, K11 R7/ledger. Контекст: неизменённый
 insertion_sort_shift_left/insert_tail в smallsort.rs, CI no-assert-contracts.
 Проверить exact N, весь offset1..N и отсутствие предположения порядка.
+
+| 18 | net-w2-18-k11s | 102 | 3945cb8d | w2_k11s_1_5; w2_k11s_6_10; w2_k11s_11_15; w2_k11s_16_20 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 102`, затем конец turn. Счёт dispatch 18/24.
