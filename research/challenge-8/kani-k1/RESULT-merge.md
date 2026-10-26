@@ -2012,3 +2012,33 @@ REVIEW REQUEST 133f3547f52617d206d64ec6d937c1bb4d0b1edc
 Следующий запрос `w2-merge-o1a-len22to25-008`: N22/23/24/25, 4×10 мин.
 После dispatch **8/14**. Семь завершённых job: wall verify суммарно
 856.82 с (14.2803 мин), без подготовки CircleCI; API-учёт у координатора.
+
+### Job 87 — O1-A N22..25
+
+Head `7f4fccfd06c62e0e37cc17b1ae24d26963c63611`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 0; check-tooling ok
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 3084428 KiB, cgroup peak 4.28 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 364.94 с.
+
+| Гармоника (префикс `w2_a_all_`) | Маршруты | expect / actual | Verification Time, с | gate | cover |
+|---|---|---|---:|---|---|
+| `len22_safety` | D/T/S | SUCCESS / SUCCESS | 73.35616 | true | 4/4 |
+| `len23_safety` | D/T/S | SUCCESS / SUCCESS | 76.80564 | true | 4/4 |
+| `len24_safety` | D/T/S | SUCCESS / SUCCESS | 79.66041 | true | 4/4 |
+| `len25_safety` | D/T/S | SUCCESS / SUCCESS | 85.714836 | true | 4/4 |
+
+Каждая строка: 0/645 failed checks, 9 unreachable checks. Полный счёт 4/4
+(D/T/S + `panic_on_ord_violation is reachable`) сверён по summary отдельно
+от gate. Время общее для D/T/S. Все N2..25 измерены, каждая ≤180 с.
+
+REVIEW REQUEST 7f4fccfd06c62e0e37cc17b1ae24d26963c63611
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код `e4e24db8`, R9 GO_WITH_NITS), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 87 summary
+и check-tooling ok.
+
+Следующий запрос `w2-merge-o1a-len26to29-009`: N26/27/28/29, 4×10 мин.
+После dispatch **9/14**. Восемь завершённых job: wall verify суммарно
+1221.76 с (20.3627 мин), без подготовки CircleCI; API-учёт у координатора.
