@@ -1574,3 +1574,22 @@ cgroup peak 4.01 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 5:27.81.
 (CD-1). 8 unreachable checks в каждой строке.
 
 Запрос `w1-merge-cd3-len26to29-015`: N26/27/28/29, expect SUCCESS. Dispatch 16/22.
+
+### Job 72 — CD-3 N26/27/28/29
+
+Запрос `w1-merge-cd3-len26to29-015`, head `4f1cfaa0e01c242d41e0bd91ec0b70d1b4c566a9`.
+COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+check-tooling **ok** против `9de80e0b…`. Память run: max RSS 3827424 KiB,
+cgroup peak 4.99 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 7:42.57.
+
+| Гармоника | status | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w1_cd3_all_len26_safety` | SUCCESS | 96.47715 | 1/645 | 3/3 |
+| `w1_cd3_all_len27_safety` | SUCCESS | 101.03213 | 1/645 | 3/3 |
+| `w1_cd3_all_len28_safety` | SUCCESS | 102.43274 | 1/645 | 3/3 |
+| `w1_cd3_all_len29_safety` | SUCCESS | 111.75234 | 1/645 | 3/3 |
+
+Единственный failed check каждой строки — assertion-класса `smallsort.rs:884`
+(CD-1). 8 unreachable checks в каждой строке.
+
+Запрос `w1-merge-cd3-len30to31-016`: N30/31, expect SUCCESS. Dispatch 17/22 (последний пакет семейства).

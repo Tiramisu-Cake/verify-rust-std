@@ -1,26 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd3-len26to29-015",
+  "request_id": "w1-merge-cd3-len30to31-016",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-3 constant lengths 26,27,28,29: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. No stubs or assumes. merge.rs unchanged since c5720c76; CD-2 control measured in jobs 59 and 66.",
+  "purpose": "CD-3 constant lengths 30,31: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. No stubs or assumes. merge.rs unchanged since c5720c76; CD-2 control measured in jobs 59 and 66.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len26_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len30_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len27_safety",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len28_safety",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len29_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len31_safety",
       "expect": "SUCCESS"
     }
   ]
