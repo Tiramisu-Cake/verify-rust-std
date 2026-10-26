@@ -1768,7 +1768,7 @@ T0 опубликован в `2f0a6e7b`. Lane diff против `9de80e0b…` п
 | Гармоника (префикс `w2_c5_`) | expect | expect_check | actual / место |
 |---|---|---|---|
 | `intrinsic_assume` | FAILED | `Rust intrinsic assumption failed` | не измерено |
-| `unchecked_add` | FAILED | `attempt to compute `unchecked_add` which would overflow` | не измерено |
+| `unchecked_add` | FAILED | ``attempt to compute `unchecked_add` which would overflow`` | не измерено |
 | `copy_nonoverlapping` | FAILED | `memcpy src/dst overlap` | не измерено |
 | `ptr_add` | FAILED | `Offset result and original pointer must point to the same allocation` | не измерено |
 
@@ -1778,3 +1778,9 @@ T0 опубликован в `2f0a6e7b`. Lane diff против `9de80e0b…` п
 `circleci-linux-large`; request validate и `git diff --check` — ok.
 После dispatch: **1/14**. Фактические минуты job ещё не измерены;
 API-учёт сверяет координатор. O1-A пока не измерена, proof credit нет.
+
+REVIEW REQUEST e4e24db87cf554ba4c0011ee8acae4d33dbe8d2e
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Review R9 через координатора.
