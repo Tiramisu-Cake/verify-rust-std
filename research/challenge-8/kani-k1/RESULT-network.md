@@ -2701,3 +2701,16 @@ R7: permutation N16/u8 — кандидат расширенного слоя, �
 | 6 (П2 #20) | net-night-06-k10-n16-u64 | 141 | ce708922 | w2p2_k10_u64_n16; w2p2_k10_perm_u64_n16 | SUCCESS |
 
 Ожидание `k1.sh watch 141`, затем конец turn. После уведомления — summary/check-tooling141; далее отдельный зачёт успешных proof и N17.
+
+### Job141: K-10 N16/u64
+
+COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 2,08 GiB, RSS 1934424 KiB, OOM0, swap off, wall 1240,64 с.
+
+| Гармоника | ожидается / факт | время / failed check / cover |
+|---|---|---|
+| w2p2_k10_u64_n16 | SUCCESS / TIMEOUT 600 с | отсутствуют |
+| w2p2_k10_perm_u64_n16 | SUCCESS / TIMEOUT 600 с | отсутствуют |
+
+Обе — кандидаты расширенного слоя; контрпример не получен. Известный summary wall П2: 7725,93 с; ночь: 4645,10 с, 6 dispatch. Полная корректность основного слоя остаётся u8 до N15 / u64 до N14, с открытым R9 композиции.
+
+R7: отдельный повтор успешной sortedness N16/u8 (job139), net-night-07-k10-sorted16-u8, measurement 1 × 10 минут. Перестановка N16 обоих типов и sortedness N16/u64 повторно не запускаются. Код не менялся, snapshot7b0138dd; после gate-повтора продолжаем N17.
