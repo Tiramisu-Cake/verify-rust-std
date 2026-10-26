@@ -1572,3 +1572,7 @@ job103 неизвестен, подготовка CircleCI не включена
 Запрос net-w2-21-o3-insertion — четыре подготовленных семейства прямой
 insertion N1..20, весь offset1..N через const-enumeration, measurement4x10мин.
 Новых предположений, stub и проверок свойств нет; input full u8 key/tag.
+
+| 21 | net-w2-21-o3-insertion | 105 | 9bafd1d2 | w2_o3_insertion_1_5; w2_o3_insertion_6_10; w2_o3_insertion_11_15; w2_o3_insertion_16_20 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 105`, затем конец turn. Счёт dispatch21/24.
