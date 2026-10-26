@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-f45-gs4-retry-004",
+  "request_id": "w2-merge-night-bm56-005",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10: general/stable-Freeze u64/u8 N4 with sole verified merge stub; fallback u64/u8 N4,5 with real body. Sortedness and full-value probe permutation. Merge N2..4 proof and R11: job 110.",
+  "purpose": "K-10 R4 prerequisites: real bidirectional_merge formulation-1 proof_for_contract at fixed N5 and N6, separately u64 and u8; strict weak order x >> 1, full symbolic values and arbitrary full-value permutation probe. Establish both types before crediting GS at these lengths.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len4",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u64_len5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len4",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u8_len5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len4",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u64_len6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len5",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u8_len6",
       "expect": "SUCCESS"
     }
   ]

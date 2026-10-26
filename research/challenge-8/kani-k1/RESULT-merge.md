@@ -157,7 +157,7 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 1 | слияние не вызывается | не требуется | 115, SUCCESS |
 | 2 | 2, u64 и u8 | 110, SUCCESS обоих типов | 129, SUCCESS |
 | 3 | 3, u64 и u8 | 110, SUCCESS обоих типов | 130, SUCCESS |
-| 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132 под watch; 131 без измерений |
+| 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132, SUCCESS; 131 без измерений |
 | 5 | 5, u64 и u8 | не измерено | не измерено |
 | 6 | 6, u64 и u8 | не измерено | не измерено |
 | 7 | 7, u64 и u8 | не измерено | не измерено |
@@ -184,6 +184,38 @@ Job 132: request `w2-merge-night-f45-gs4-retry-004`, head `b2346c5c`;
 watch уже зарегистрирован. Новых dispatch и опроса состояния в ответ
 на review не выполнялось. Следующий пакет после чтения job 132 —
 proof bm N5/6 u64/u8, до GS N5+.
+
+### Job 132 — K-10 GS N4, fallback N4/5
+
+Request `w2-merge-night-f45-gs4-retry-004`,
+head `b2346c5ce6a31cf7ffe92aa111bc1d89e5a74efb`, COMPLETE;
+gate true, expectation met true, measurement ok true, Kani exit 0.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1812004 KiB, wall с компиляцией 55.21 с;
+cgroup peak 1.92 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len4` | SUCCESS / SUCCESS | 7.232015 | 0/642 | 107 | 2/2 |
+| `w2p2_gs_u8_len4` | SUCCESS / SUCCESS | 5.079927 | 0/635 | 109 | 2/2 |
+| `w2p2_fallback_len4` | SUCCESS / SUCCESS | 3.3350081 | 0/422 | 126 | 2/2 |
+| `w2p2_fallback_len5` | SUCCESS / SUCCESS | 6.260906 | 0/422 | 124 | 2/2 |
+
+Полные counts covers сверены отдельно от gate. GS N4 имеет proof bm N4
+обоих типов в job 110. R9 GO_WITH_NITS учтён в N-D5 и таблице.
+Текущее измеренное покрытие K-10: GS u64/u8 N0..4, fallback u64/u8 N0..5;
+строгий порядок по `x >> 1`, сортированность и перестановка по пробе.
+
+### N-D6 (R7): prerequisites bm N5/6
+
+`w2-merge-night-bm56-005`: четыре proof_for_contract bm N5/6,
+каждая длина отдельно для u64/u8, expected SUCCESS, 4×10 мин.
+Тела слияния реальные, ручных/verified stubs в этих proofs нет.
+Предусловия предполагает proof_for_contract; normal-return cover
+в `bm_len` обязателен у каждой гармоники. Код и ledger П2 без изменений.
+До измерения обоих типов на длине N GS N5/6 не засчитывается.
+После dispatch ночных jobs 5, preflight отказов 1;
+с П2 до ночи: 10 jobs, 2 preflight отказа, 12/40 консервативных попыток.
 
 ## Фаза 9
 
