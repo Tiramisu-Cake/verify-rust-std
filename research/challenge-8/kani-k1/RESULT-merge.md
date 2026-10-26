@@ -946,3 +946,11 @@ assumes, заглушек и контрактных проверок нет. Cov
 Первый запрос верхних `w1-merge-k6b-general-005`: general u64 17/24/32,
 stable-Freeze u64 17; 4 × 10 минут. После dispatch:
 **5/10 dispatch, 120/200 минут таймаутов**, оценка ≤3200/5000 кредитов.
+
+REVIEW REQUEST 568c0682ed68e3cee695acda00583f46fbd8e803
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Верхние семейства K-6+ (б);
+первый запрос содержит general u64 17/24/32 и stable-Freeze u64 17.
+Прозрачная non-Copy оболочка для trait general раскрыта в W1-D8.
