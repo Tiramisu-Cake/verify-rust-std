@@ -1489,3 +1489,10 @@ raw-pointer цикла. Это гипотеза, не установленная
 сужения offset до1 отвергнута: требуются все допустимые offset.
 Запрос net-w2-19-k11s-const-offset, те же4 семейства x10 минут;
 после него O3-s, без новой попытки широкого символического offset.
+
+REVIEW REQUEST 134e1185b6c6ca37ad8b98e9969864bdd2dcaa21
+
+network.rs: w2_insertion_at<T,F,O>, w2_const_offset_call, изменение K11 helper;
+RUN-REQUEST.json; RESULT-network.md, job102/R7. Проверить полноту offset1..N
+при перечислении констант, guards N>=O и недостижимость default. Нет заглушек,
+callee/данные/домены те же, что в 8a8867bb; CI no-assert-contracts.
