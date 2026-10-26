@@ -2155,3 +2155,7 @@ REVIEW REQUEST 9c9f00c92eaf77af7d5d33dd9ee4e9367d3b16c7
 network.rs: только4применения K10 macro на N7/N8 u8/u64;
 RUN-REQUEST.json; RESULT-network.md, job119. Существующие helpers,
 полная ширина данных, свойства и реальные тела без изменений.
+
+| 7 | net-w2p2-07-k10-network-7-8 | 120 | 13cfd840 | w2p2_k10_u8_n7; w2p2_k10_u64_n7; w2p2_k10_u8_n8; w2p2_k10_u64_n8 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 120`, затем конец turn. Счёт П2:7/40 dispatch.
