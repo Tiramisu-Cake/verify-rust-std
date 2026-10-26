@@ -1109,3 +1109,34 @@ RESULT-network.md («Волна 2», job 89/CD-5). Контекст: приня�
 | 8 | net-w2-08-cd5-u8-reach-u128-mid | 91 | 675db96f | w2_control_a_quiet_merge_assertion; w2_k16_u8_stable_reach; w2_k16_u8_network_reach; w2_k16_u128_mid | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
 
 Ожидание `k1.sh watch 91`, затем конец turn. Счёт dispatch 8/24.
+
+#### Job 91 / CD-5 и u128 mid
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; 13 GiB ENFORCED,
+peak 4,03 GiB, RSS 3415012 KiB, OOM 0, swap off, wall 177,24 с.
+Сумма summary wall П1: 1770,92 с = 29,5153 мин (не API минуты).
+
+| Гармоника | исход | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2_control_a_quiet_merge_assertion | FAILED ожидаемо | 15,568827 | 1/395 | 1/1 |
+| w2_k16_u8_stable_reach | SUCCESS | 10,78084 | 0/394 | 2/2 |
+| w2_k16_u8_network_reach | SUCCESS | 16,79686 | 0/394 | 2/2 |
+| w2_k16_u128_mid | SUCCESS | 89,02851 | 0/412 | 7/7 |
+
+Контроль на точном K16 шаблоне u8/network18 дал ровно один failed check:
+`assertion failed: x != x`, network.rs:1123. Reachability u8 stable17
+и network18 измерены отдельно, обе с cut-cover и normal-return cover.
+Требование CD-5 по u8 выполнено; код d4744378 ожидает R9.
+u128 N15,16,17 закрыты на обоих general-маршрутах, время всего семейства
+89,02851 с; high31/32 и две reachability ещё не измерены.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| [u8;16] | 16 | да / да / нет | general, 16*48=768<=4096 | stable-Freeze/general |
+
+[u8;16]: оба trait-маршрута на N0,1,2,7,8 / 15,16,17 / 31,32;
+size<=16 выбирает presort8 при N>=16. Все 16 байт произвольны;
+новый W2Value для [u8;M] использует kani::any() полной ширины массива.
+Шаблоны семейств/reachability неизменны, две reachability при N17 подготовлены.
+Запрос net-w2-09-u128-rest-a16-lo: u128 hi, две u128 reachability,
+[u8;16] lo; measurement 4 x 10 минут. Остальные a16 ещё не отправлены.

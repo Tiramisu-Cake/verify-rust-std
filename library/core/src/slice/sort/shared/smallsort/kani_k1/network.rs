@@ -1140,3 +1140,13 @@ w2_type_reachability!(w2_k16_u8_stable_reach, u8, true, 17);
 w2_type_reachability!(w2_k16_u8_network_reach, u8, false, 18);
 w2_type_reachability!(w2_k16_u128_stable_reach, u128, true, 17);
 w2_type_reachability!(w2_k16_u128_general_reach, u128, false, 17);
+
+impl<const M: usize> W2Value for [u8; M] {
+    fn w2_value() -> Self { kani::any() }
+}
+
+w2_type_pair_cases!(w2_k16_a16_lo, [u8; 16], [0, 1, 2, 7, 8]);
+w2_type_pair_cases!(w2_k16_a16_mid, [u8; 16], [15, 16, 17]);
+w2_type_pair_cases!(w2_k16_a16_hi, [u8; 16], [31, 32]);
+w2_type_reachability!(w2_k16_a16_stable_reach, [u8; 16], true, 17);
+w2_type_reachability!(w2_k16_a16_general_reach, [u8; 16], false, 17);
