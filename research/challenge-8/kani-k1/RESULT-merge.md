@@ -482,6 +482,24 @@ fallback N6/7 без соседней неуложившейся гармони�
 После dispatch ночных jobs 12, preflight отказов 3;
 с П2 до ночи: 17 jobs, 4 preflight отказа, 21/40 консервативных попыток.
 
+### N-D16 (R7): ошибка validate перед job 148
+
+Локальный validate запроса `w2-merge-night-bm9-f67-confirm-012`
+вернул `REQUEST_INVALID: purpose must be one non-empty line of at most
+300 characters`. Командная последовательность без `set -e` ошибочно
+продолжила commit/push и dispatch; создан job 148 на `f7eef50d`.
+Это ошибка подготовки запроса, не измерение Kani. Результат job 148
+будет прочитан через summary; до него нового dispatch нет.
+
+Исправление: purpose сокращён до допустимой строки, новый request_id
+`w2-merge-night-bm9-f67-confirm-retry-013`; набор гармоник не меняется.
+Все последующие validate/commit/push запускаются с `set -e`.
+Следующий dispatch только после завершения job 148.
+Ночных jobs фактически 12 (включая job 148), preflight отказов 3;
+с П2 до ночи: 17 jobs, 4 preflight отказа, 21/40 попыток.
+После исправленного dispatch: ночных jobs 13, суммарно 18 jobs,
+4 preflight отказа, 22/40 попытки.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

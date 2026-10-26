@@ -1,10 +1,10 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-bm9-f67-confirm-012",
+  "request_id": "w2-merge-night-bm9-f67-confirm-retry-013",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 confirmation packet excluding timed-out neighbors: rerun successful real bm N9 proof_for_contract u64/u8 from job 147 and successful combined fallback N6/N7 from job 143. All four expected SUCCESS; require whole-run gate true for acceptance. Full symbolic values, same comparator and arbitrary full-value probe; no stubs.",
+  "purpose": "K-10 gate confirmation: bm N9 proof_for_contract u64/u8 (SUCCESS in job 147), fallback N6/N7 both types (SUCCESS in job 143). Exclude timed-out neighbors. Real bodies, full symbolic values, strict order x >> 1, arbitrary full-value probe.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
