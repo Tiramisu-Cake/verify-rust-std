@@ -1,12 +1,18 @@
-# Kani K-1 experiment worktree (Codex)
+# Kani wave 1 worktree: W1-merge (Codex)
 
-This worktree runs only the Kani K-1 experiment of the SmallSort Challenge 8 minimal plan. Since phase 7 (2026-10-26) the K1-merge agent runs in Codex; the current phase is 9.
+This worktree runs only wave 1 of the Challenge 8 plan, revision 5 (Kani only). Agent: **W1-merge**, branch `experiment/kani-k1-wavemerge-20261026`.
 
-Read `research/challenge-8/kani-k1/EXPERIMENT.md` first: all of it, with §5a (32 GB resource lane on Cloud Build) in full. Then read `research/challenge-8/kani-k1/TASK-merge.md`: the header and the section «Фаза 9», which builds on «Фаза 8» and «Фаза 7» (read all three). Then read `research/challenge-8/kani-k1/RESULT-merge.md`: «Фаза 8», «Фаза 7», «Фаза 6» and «Фаза 5».
+Read in this order before any action:
+1. `research/challenge-8/kani-k1/R5-WAVE1.md` — all of it. It governs this work; the K-1 criterion and STOP counters of EXPERIMENT.md §2 do not apply.
+2. `research/challenge-8/kani-k1/TASK-w1-merge.md` — your task.
+3. `research/challenge-8/kani-k1/EXPERIMENT.md` §5 (CircleCI lane) and §6 (rules R1–R12, as amended by R5-WAVE1).
+4. The plan: `git show origin/docs/evidence-brief-policy-20261017:research/challenge-8/CH8-MINIMAL-PLAN-R5-2026-10-26.md` §2–§4.1, and `…-R4-2026-10-26.md` §4.
 
-EXPERIMENT.md governs this experiment where it differs from `/root/AGENTS.md` or the SmallSort CORE (lane, owners, evidence reading). Their other rules still apply. In this experiment:
-- no smallsort-session task, no Evidence Brief, no smallsort-ci Cloud Build lanes;
-- the only lane is `research/challenge-8/kani-k1/tools/k1g.sh`;
-- R9 review is not part of phases 7–9.
+Clean room (owner ruling): never open the code, diffs or branches of Ch8 PRs #576, #678, #694, #701.
 
-The rules for Claude Code in `CLAUDE.md` (the smallsort-reviewer subagent, background waits) do not apply to Codex. Wait for builds as TASK-merge.md «Фаза 7» says (the same in phases 8–9): `k1g.sh watch <id>`, then end the turn and let the queued message wake the thread. The fallback is a foreground `k1g.sh wait`. Start the session with its cwd at this worktree and with no Codex goal.
+Rules for this runtime:
+- The only lane is `research/challenge-8/kani-k1/tools/k1.sh` (CircleCI). Do not run Kani, rustc or cargo locally. Python tool tests are allowed.
+- Wait for jobs with `k1.sh watch <job>`, then end the turn. A queued message "k1 watch: job … status=…" wakes the thread. No Codex goal.
+- Ask the owner nothing. Decide disputed points yourself and record them (R7).
+- Lane files never change on this branch. No force-push.
+- The SmallSort Select/Merge session flow (CORE, `smallsort-session`, Evidence Brief, Cloud Build lanes) does not apply here.
