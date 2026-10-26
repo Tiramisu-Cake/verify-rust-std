@@ -349,6 +349,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 GO, засчитан |
 | 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | COMPLETE, gate true, SUCCESS 112,5397 с, 0/328, 18 unreachable, cover 19/19; R9 GO, засчитан |
 | 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, FAILED без локализованной проверки: CBMC status 6; Verification Time/cover отсутствуют |
+| 10 | 63 | 5b01cec3 | `w1_network_o1_othermerge_lo_u64` (18,20,21,22,23) | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -529,6 +530,9 @@ REVIEW REQUEST 65311f6093810bdb0ea3266a07c9f3c378236847
 `library/core/src/slice/sort/shared/smallsort.rs`,
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-network.md` (волна 1).
+
+Dispatch 10: `net-w1-10-o1-othermerge-lo`, job 63, measurement 1 × 10 мин.
+Итого 10/14 dispatch. Ожидание `k1.sh watch 63`, затем конец turn.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
