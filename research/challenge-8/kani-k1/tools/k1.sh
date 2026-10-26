@@ -4,6 +4,7 @@
 # stdin, so it never appears in process arguments or output.
 #   k1.sh dispatch BRANCH               start the lane on the pushed BRANCH, print the job number
 #   k1.sh wait JOB                      block until the job ends (background task), print its status
+#   k1.sh watch JOB                     Codex: detached wait, then `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1.sh summary JOB                   download the summary artifact, print summary.md
 #   k1.sh check-tooling JOB BASE        lane files of the job's commit equal BASE; exit 1 otherwise
 #   k1.sh log-grep JOB REGEX [MAX]      bounded grep of kani.log (MAX <= 200 matching lines)
@@ -123,6 +124,30 @@ case "$cmd" in
       sleep 60
     done
     echo "job $job status=$status" ;;
+  watch)
+    # Same delivery as k1g.sh watch: a detached waiter without a model queues one message into the calling
+    # Codex thread when the job ends, up to 3 attempts 2 min apart, the control socket re-resolved each time
+    # (the daemon republishes it on restart). Outcome in the watch log. No active Codex goal.
+    job=${1:-}; is_job "$job"
+    thread=${CODEX_THREAD_ID:-}
+    [[ "$thread" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]] || die "CODEX_THREAD_ID is not set: use a foreground wait"
+    link=/root/.codex/app-server-control/app-server-control.sock
+    sock=$(readlink -f "$link" 2>/dev/null || true)
+    [ -n "$sock" ] && [ -S "$sock" ] || die "no Codex app-server control socket: use a foreground wait"
+    command -v codex >/dev/null || die "codex not on PATH: use a foreground wait"
+    mkdir -p "$CACHE"; log="$CACHE/watch-$job.log"
+    [ ! -e "$log" ] || die "job $job is already watched (log $log)"
+    setsid nohup bash -c '
+      "$1" wait "$2" > "$3" 2>&1; rc=$?
+      msg="k1 watch: $(tail -n 1 "$3" | cut -c1-200) (wait exit $rc). Next: k1.sh summary $2"
+      for attempt in 1 2 3; do
+        if timeout 60 codex queue --remote "unix://$(readlink -f "$4")" --thread "$5" --message "$msg (delivery attempt $attempt)" >> "$3" 2>&1; then
+          echo "DELIVERED attempt $attempt" >> "$3"; exit 0
+        fi
+        echo "DELIVERY_FAILED_OR_UNKNOWN attempt $attempt" >> "$3"; [ "$attempt" = 3 ] || sleep 120
+      done
+    ' k1-watch "$(readlink -f "$0")" "$job" "$log" "$link" "$thread" < /dev/null > /dev/null 2>&1 &
+    echo "watching job $job for thread $thread (log $log). End the turn now; a queued message will wake it." ;;
   summary)
     job=${1:-}; is_job "$job"
     dir=$(fetch "$job")
@@ -180,5 +205,5 @@ PY
     dir=$(fetch "$job"); [ -f "$dir/log/kani.log" ] || die "job $job has no kani.log"
     sed -n "${start},$((start + count - 1))p" "$dir/log/kani.log" | cut -c1-400 ;;
   *)
-    sed -n '5,10p' "$0"; exit 2 ;;
+    sed -n '5,11p' "$0"; exit 2 ;;
 esac
