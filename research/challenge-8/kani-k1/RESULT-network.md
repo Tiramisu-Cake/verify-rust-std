@@ -2245,3 +2245,20 @@ Summary wall П2:988,43с, минутный лимит CD-6 снят.
 | 9 | net-w2p2-09-k9s-arrays-cell | 122 | 81d39236 | w2p2_k9s_a16; w2p2_k9s_a17; w2p2_k9s_cell | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 122`, затем конец turn. Счёт П2:9/40 dispatch.
+
+#### П2 job122 / K9s a16/a17/Cell
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,93GiB,RSS1684724KiB,OOM0,swap off,wall79,77с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k9s_a16 | 12,441778 | 0/396 | 5/5 |
+| w2p2_k9s_a17 | 13,393904 | 0/396 | 5/5 |
+| w2p2_k9s_cell | 9,343883 | 0/386 | 5/5 |
+
+Все3 имеют5 unreachable checks. На a16/a17 проверяется вся payload,
+не только ключ; Cell comparator чистый без мутаций. К9s9? Пока измерены
+ровно7типов: u8,u64,u128,Drop,a16,a17,Cell. Крупные85/86 иZST остаются.
+Запрос net-w2p2-10-k9s-large-arrays,две proof x10мин,шаблон не меняется.
+Summary wall П2:1068,20с; R9 e658b246 общий для всех10типов ожидается.
