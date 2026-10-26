@@ -719,6 +719,13 @@ struct K13Tagged {
 
 type K13Cell = crate::cell::Cell<K13Tagged>;
 
+static mut K13_INPUT_BASE: *const K13Tagged = crate::ptr::null();
+
+fn k13_track_input<const N: usize>(v: &[K13Cell; N]) {
+    // SAFETY: single-threaded harness; the pointer is only compared while v is alive.
+    unsafe { *crate::ptr::addr_of_mut!(K13_INPUT_BASE) = v.as_ptr().cast() };
+}
+
 /// Observe both complete values before writing either one. Cell permits mutation through the
 /// shared references; tags are preserved even if both references happen to name the same Cell.
 fn k13_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
@@ -732,6 +739,12 @@ fn k13_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
     a.set(K13Tagged { key: left_key, tag: left.tag });
     b.set(K13Tagged { key: right_key, tag: right.tag });
     kani::cover(left.key != left_key && right.key != right_key, "K13 comparator changes both keys");
+    // SAFETY: each harness registers its live array before invoking the comparator.
+    let base = unsafe { *crate::ptr::addr_of!(K13_INPUT_BASE) };
+    kani::cover(
+        !kani::mem::same_allocation(base, a.as_ptr()) || !kani::mem::same_allocation(base, b.as_ptr()),
+        "K13 comparator writes an insert_tail temporary copy",
+    );
     kani::any()
 }
 
@@ -758,11 +771,23 @@ fn k13_tag_count<const N: usize>(v: &[K13Cell; N], probe: u8) -> u8 {
     count
 }
 
-fn k13_route_fixed<const N: usize>(stable: bool) {
+fn k13_tags<const N: usize>(v: &[K13Cell; N]) -> [u8; N] {
+    let mut tags = [0; N];
+    let mut i = 0;
+    while i < N {
+        tags[i] = v[i].get().tag;
+        i += 1;
+    }
+    tags
+}
+
+fn k13_route_fixed<const N: usize>(stable: bool) -> bool {
     use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
     let mut v = k13_input::<N>();
+    k13_track_input(&v);
     let probe: u8 = kani::any();
     let before = k13_tag_count(&v, probe);
+    let tags = k13_tags(&v);
     if stable {
         // The non-Freeze default ignores scratch, so the empty slice is sufficient.
         let mut scratch = [];
@@ -771,12 +796,20 @@ fn k13_route_fixed<const N: usize>(stable: bool) {
         <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut k13_mutating_less);
     }
     assert!(before == k13_tag_count(&v, probe));
+    let moved = tags != k13_tags(&v);
+    kani::cover(N < 2 || moved, "K13 route: trivial length or a tag moved");
+    moved
 }
 
-fn k13_insertion_fixed<const N: usize>() {
+/// Deliberately outside the K-1 correctness contract (len 1/18..20, arbitrary valid offset,
+/// unsorted prefix). This plain proof relies on CI --no-assert-contracts and real function bodies;
+/// it checks memory and tag permutation, not that contract or sortedness.
+fn k13_insertion_fixed<const N: usize>() -> bool {
     let mut v = k13_input::<N>();
+    k13_track_input(&v);
     let probe: u8 = kani::any();
     let before = k13_tag_count(&v, probe);
+    let tags = k13_tags(&v);
     // Sortedness of the prefix is not needed for safety or tag permutation. All valid offsets
     // are checked; a fully presorted slice (offset == N) is a permitted no-op.
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
@@ -784,6 +817,9 @@ fn k13_insertion_fixed<const N: usize>() {
     assert!(before == k13_tag_count(&v, probe));
     kani::cover(offset == 1, "K13 insertion: offset 1 reachable");
     kani::cover(offset == N, "K13 insertion: offset len reachable");
+    let moved = tags != k13_tags(&v);
+    kani::cover(N < 2 || moved, "K13 insertion: trivial length or a tag moved");
+    moved
 }
 
 macro_rules! k13_route_cases {
@@ -794,7 +830,7 @@ macro_rules! k13_route_cases {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
             let stable: bool = kani::any();
             match len {
-                $($n => k13_route_fixed::<$n>(stable),)+
+                $($n => { let _ = k13_route_fixed::<$n>(stable); },)+
                 _ => {}
             }
             $(
@@ -813,7 +849,7 @@ macro_rules! k13_insertion_cases {
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
             match len {
-                $($n => k13_insertion_fixed::<$n>(),)+
+                $($n => { let _ = k13_insertion_fixed::<$n>(); },)+
                 _ => {}
             }
             $(kani::cover(len == $n, concat!("K13 insertion length ", stringify!($n)));)+
@@ -826,3 +862,75 @@ k13_route_cases!(k13_routes_0_8, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
 k13_route_cases!(k13_routes_9_16, [9, 10, 11, 12, 13, 14, 15, 16]);
 k13_insertion_cases!(k13_insertion_1_10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 k13_insertion_cases!(k13_insertion_11_20, [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+
+/// Last-dispatch safety-only fallback: one allocation avoids duplicating the large permutation
+/// formulas for every constant length. Tags/keys remain full-width; no property assertions/stubs.
+#[kani::proof]
+#[kani::unwind(35)]
+fn k13_safety_all() {
+    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+    let mut v = k13_input::<20>();
+    k13_track_input(&v);
+    let mode: u8 = kani::any_where(|&m| m < 3);
+    let len: usize = kani::any_where(|&n| if mode < 2 { n <= 16 } else { 1 <= n && n <= 20 });
+    if mode == 0 {
+        let mut scratch = [];
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v[..len], &mut scratch, &mut k13_mutating_less);
+    } else if mode == 1 {
+        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v[..len], &mut k13_mutating_less);
+    } else {
+        let offset: usize = kani::any_where(|&o| 1 <= o && o <= len);
+        super::super::insertion_sort_shift_left(&mut v[..len], offset, &mut k13_mutating_less);
+        kani::cover(offset == 1, "K13 safety insertion offset 1");
+        kani::cover(offset == len, "K13 safety insertion offset len");
+    }
+    macro_rules! routes {
+        ($($n:literal),+) => {$(
+            kani::cover(mode == 0 && len == $n, concat!("K13 safety stable ", stringify!($n)));
+            kani::cover(mode == 1 && len == $n, concat!("K13 safety unstable ", stringify!($n)));
+        )+};
+    }
+    macro_rules! insertion {
+        ($($n:literal),+) => {$(
+            kani::cover(mode == 2 && len == $n, concat!("K13 safety insertion ", stringify!($n)));
+        )+};
+    }
+    routes!(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    insertion!(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+    kani::cover(true, "K13 full safety: end reached");
+}
+
+fn k13_small_fixed<const N: usize>(mode: u8) -> bool {
+    if mode < 2 { k13_route_fixed::<N>(mode == 0) } else { k13_insertion_fixed::<N>() }
+}
+
+/// Reduced permutation domain after all four broad families timed out in job 67.
+#[kani::proof]
+#[kani::unwind(35)]
+fn k13_small_permutation() {
+    let len: usize = kani::any_where(|&n| n <= 4);
+    let mode: u8 = kani::any_where(|&m| m < 3 && (len > 0 || m < 2));
+    let moved = match len {
+        0 => k13_route_fixed::<0>(mode == 0),
+        1 => k13_small_fixed::<1>(mode),
+        2 => k13_small_fixed::<2>(mode),
+        3 => k13_small_fixed::<3>(mode),
+        4 => k13_small_fixed::<4>(mode),
+        _ => false,
+    };
+    macro_rules! lengths {
+        ($($n:literal),+) => {$(
+            kani::cover(mode == 0 && len == $n, concat!("K13 permutation stable ", stringify!($n)));
+            kani::cover(mode == 1 && len == $n, concat!("K13 permutation unstable ", stringify!($n)));
+            kani::cover(mode == 2 && len == $n, concat!("K13 permutation insertion ", stringify!($n)));
+        )+};
+    }
+    // Length zero has no direct insertion call or offset.
+    kani::cover(mode == 0 && len == 0, "K13 permutation stable 0");
+    kani::cover(mode == 1 && len == 0, "K13 permutation unstable 0");
+    lengths!(1, 2, 3, 4);
+    kani::cover(mode == 0 && moved, "K13 stable actually moves a tag");
+    kani::cover(mode == 1 && moved, "K13 unstable actually moves a tag");
+    kani::cover(mode == 2 && moved, "K13 insertion actually moves a tag");
+    kani::cover(true, "K13 reduced permutation: end reached");
+}
