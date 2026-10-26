@@ -3,7 +3,7 @@
   "request_id": "net-w2-20-o3-routes",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "O3s safety only: exact [Cell<Tagged>;N], actual stable default and unstable fallback, N=0..16 in four constant-length families. Comparator volatile-reads both full values, writes fresh u8 keys preserving read tags, returns arbitrary bool. No tag permutation/global tracking/stubs/should_panic. Both route-length pairs covered.",
+  "purpose": "O3s safety: exact Cell<Tagged> arrays, both real non-Freeze trait routes, N0..16. Comparator reads both values then writes fresh u8 keys; arbitrary bool. No tag permutation/global tracking/stubs/should_panic. Cover every route-length pair and key mutation.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
