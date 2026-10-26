@@ -2061,3 +2061,7 @@ u64/u8, естественный strict order, точные N, sortedness и п�
 multiplicity-пробу. Все реальные callee, никаких verified stubs/редукций.
 Контекст: smallsort.rs outer trait/network/insertion, sorted_by/probe_count,
 CI flags. Начальный домен0..4, рост до17 далее; K9s отдельно.
+
+| 4 | net-w2p2-04-k10-network-0-4 | 116 | 93cefc05 | w2p2_k10_u8_0_2; w2p2_k10_u64_0_2; w2p2_k10_u8_3_4; w2p2_k10_u64_3_4 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 116`, затем конец turn. Счёт П2:4/40 dispatch.
