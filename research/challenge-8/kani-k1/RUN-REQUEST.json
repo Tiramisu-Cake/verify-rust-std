@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-07-k10-sorted16-u8",
+  "request_id": "net-night-08-k10-sorted17-u8",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Repeat successful N16/u8 real outer network sortedness from job139 alone to obtain a true measurement gate. Full-width natural strict order, exact array, all real callees, no stubs. N16 permutation and u64 sortedness timeouts are recorded for the extended layer.",
+  "purpose": "K10 final network width N17 u8: real outer trait sortedness with full-width natural strict order, exact array, all real callees and no stubs. Isolated from separate permutation and u64 measurements to preserve its independent gate.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n17",
       "expect": "SUCCESS"
     }
   ]

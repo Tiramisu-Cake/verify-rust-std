@@ -2718,3 +2718,11 @@ R7: отдельный повтор успешной sortedness N16/u8 (job139),
 | 7 (П2 #21) | net-night-07-k10-sorted16-u8 | 144 | df4c34a5 | w2p2_k10_u8_n16 | SUCCESS |
 
 Ожидание `k1.sh watch 144`, затем конец turn. После уведомления — summary/check-tooling144; далее N17.
+
+### Job144: sortedness N16/u8 отдельно
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2p2_k10_u8_n16`: SUCCESS (ожидался SUCCESS), 184,72778 с, 0/377 failed, 21 unreachable, covers 3/3. 13 GiB ENFORCED, peak 1,87 GiB, RSS 1644312 KiB, OOM0, swap off, wall 224,95 с.
+
+N16/u8: sortedness измерена с gate true; permutation остаётся TIMEOUT139. Известный summary wall П2: 7950,88 с; ночь: 4870,05 с, 7 dispatch. R9 композиции ожидается.
+
+R7: N17 — последняя длина ночного K10. Сначала isolated sortedness u8, net-night-08-k10-sorted17-u8 (measurement 1 × 10 минут, ожидается SUCCESS), затем отдельный запрос sortedness u64 и permutation обоих типов. Непроверенным N17 заранее не присваивается TIMEOUT. Четыре proof подготовлены по прежним macros; exact arrays, full-width значения, реальные тела, no stubs/новых assumptions.
