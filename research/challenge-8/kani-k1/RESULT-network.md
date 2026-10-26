@@ -338,6 +338,14 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 `insert_tail_prefix_u64` и `sort13_perm_u8`, ожидается SUCCESS.
 До summary и review результаты не засчитываются.
 
+| Dispatch | job | head SHA | гармоники | таймауты | статус |
+|---|---|---|---|---|---|
+| 1 | 45 | e4d8f48b | `insert_tail_prefix_u64`, `sort13_perm_u8` | 20 мин | отправлен, summary ожидается |
+
+Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
+кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
+будут записаны по summary job 45. Ожидание — `k1.sh watch 45`, затем конец turn.
+
 ### Review волны 1
 
 REVIEW REQUEST 4872982eda7aa1c68dc0ebb1aed013c10b0ec835
