@@ -1211,3 +1211,9 @@ reachability job93. a16 осталось измерить N32 и обе reachabi
 Reachability отдельно для stable17/general17 по CD-5.
 Запрос net-w2-11-a16-rest-a17-lo: a16 N32 и две reachability, a17 lo,
 measurement 4 x 10 минут. Остальные a17 подготовлены, не измерены.
+
+REVIEW REQUEST a1cd4ec0a6ee35ca22113e2e54e51e4e0f21793f
+
+network.rs: шесть применений принятых pair/reachability macros для [u8;17];
+RUN-REQUEST.json; RESULT-network.md, job94/dispatch a17. Helpers не менялись.
+Контекст: smallsort.rs, size>16/presort4 и 17*48<=4096/general.
