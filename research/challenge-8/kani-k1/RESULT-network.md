@@ -348,8 +348,8 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | COMPLETE, gate true, SUCCESS 471,6588 с, 0/411, 36 unreachable, cover 4/4; R9 GO_WITH_NITS, только префиксы |
 | 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 GO, засчитан |
 | 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | COMPLETE, gate true, SUCCESS 112,5397 с, 0/328, 18 unreachable, cover 19/19; R9 GO, засчитан |
-| 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, FAILED без локализованной проверки: CBMC status 6; Verification Time/cover отсутствуют |
-| 10 | 63 | 5b01cec3 | `w1_network_o1_othermerge_lo_u64` (18,20,21,22,23) | 10 мин | отправлен, summary ожидается |
+| 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, summary FAILED: нелокализованный отказ инструмента CBMC status 6; Verification Time/cover отсутствуют |
+| 10 | 63 | 5b01cec3 | `w1_network_o1_othermerge_lo_u64` (18,20,21,22,23) | 10 мин | COMPLETE, gate true, SUCCESS 106,24547 с, 1/328 (ожидаемая panic), 11 unreachable, cover 6/6; разбиение принято координатором, засчитан |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -533,6 +533,21 @@ REVIEW REQUEST 65311f6093810bdb0ea3266a07c9f3c378236847
 
 Dispatch 10: `net-w1-10-o1-othermerge-lo`, job 63, measurement 1 × 10 мин.
 Итого 10/14 dispatch. Ожидание `k1.sh watch 63`, затем конец turn.
+
+### Продолжение после job 63
+
+- 2026-10-26T12:16:41Z: О1 на 18/20/21/22/23 — SUCCESS 106,24547 с,
+  gate true, measurement ok, cover 6/6. Check-tooling против `9de80e0b` ok.
+  ENFORCED 13 GiB, cgroup peak 4,51 GiB, max RSS 3740080 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 2:26,20. Единственная упавшая
+  assertion — ожидаемая panic_on_ord_violation на `smallsort.rs:965`.
+- Координатор принял разбиение **65311f60 без отдельного review**:
+  тот же macro с GO, подмножества домена. Job 62 классифицирован как
+  нелокализованный отказ инструмента, не контрпример. При повторе status 6
+  в lo/hi — делить до одной-двух длин (правило координатора принято).
+- О1 уже засчитана на **0..=25,31,32**. Следующий запрос hi закроет
+  оставшиеся 26..=30 при успехе. Сумма wall по 10 summary ≈51,14 мин,
+  полные минуты job с подготовкой сверяет координатор.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов

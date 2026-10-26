@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-10-o1-othermerge-lo",
+  "request_id": "net-w1-11-o1-othermerge-hi",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 split after unlocalized CBMC status 6 in job 62: network O1 at constant lengths 18,20,21,22,23, CD-1 should_panic, CD-2 reads, real bodies; normal-return cover at each length",
+  "purpose": "Wave 1 upper split of remaining network O1 merge lengths 26,27,28,29,30, CD-1 should_panic, CD-2 reads, real bodies; normal-return cover at each length",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_othermerge_lo_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_othermerge_hi_u64",
       "expect": "SUCCESS"
     }
   ]
