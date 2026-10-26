@@ -1279,3 +1279,7 @@ network.rs: W2Drop, Drop/W2Value и шесть применений pair/reachab
 RUN-REQUEST.json; RESULT-network.md, job96/dispatch Drop. Проверить non-Copy
 Freeze/general и реальное чтение деструктора; остальной шаблон неизменён.
 Контекст: smallsort.rs, scripts/run-kani.sh, ранее принятые K16 helpers.
+
+| 13 | net-w2-13-a17-reach-drop | 97 | 11d5cba1 | w2_k16_a17_general_reach; w2_k16_drop_lo; w2_k16_drop_mid; w2_k16_drop_n31 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 97`, затем конец turn. Счёт dispatch 13/24.
