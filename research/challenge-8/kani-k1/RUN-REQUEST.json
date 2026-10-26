@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-gs78-009",
+  "request_id": "w2-merge-night-f6to9-010",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 general/stable-Freeze N7 and N8, separately u64/u8, sortedness and arbitrary full-value probe permutation. Sole verified stub bidirectional_merge formulation 1. Both-type proof_for_contract at N7/N8: job 140. R11 halves_sorted: job 110.",
+  "purpose": "K-10 fallback at fixed N6,N7,N8,N9; each harness independently chooses u64/u8, all values symbolic, strict weak order x >> 1. Real insertion/fallback bodies, no stubs. Sortedness and arbitrary full-value probe permutation; cover both type branches.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len7",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len7",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len9",
       "expect": "SUCCESS"
     }
   ]

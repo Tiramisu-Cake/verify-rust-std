@@ -160,8 +160,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132, SUCCESS; 131 без измерений |
 | 5 | 5, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
-| 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | не измерено |
-| 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | не измерено |
+| 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
+| 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
 | 9 | 9, u64 и u8 | не измерено | не измерено |
 | 10 | 10, u64 и u8 | не измерено | не измерено |
 | 11 | 11, u64 и u8 | не измерено | не измерено |
@@ -367,6 +367,36 @@ Request_id и четыре гармоники сохраняются, код н�
 с П2 до ночи: 13 jobs, 4 preflight отказа, 17/40 попыток.
 После успешного повтора: ночных jobs 9, суммарно 14 jobs,
 4 preflight отказа и 18/40 попыток.
+
+### Job 142 — w2-merge-night-gs78-009
+
+Head `f31aca68ad36304e61aaef155bcfcc00b085f5ca`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1864360 KiB; wall с компиляцией 2:39.77.
+Cgroup peak 1.99 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len7` | SUCCESS / SUCCESS | 26.606129 | 0/642 | 101 | 2/2 |
+| `w2p2_gs_u8_len7` | SUCCESS / SUCCESS | 15.950234 | 0/635 | 103 | 2/2 |
+| `w2p2_gs_u64_len8` | SUCCESS / SUCCESS | 50.360867 | 0/642 | 97 | 2/2 |
+| `w2p2_gs_u8_len8` | SUCCESS / SUCCESS | 22.257156 | 0/635 | 99 | 2/2 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные covers D/S сверены отдельно от gate: 2/2 у каждой гармоники.
+R4: bm N7/8 обоих типов — job 140; R11 halves_sorted — job 110.
+Таблица R4 обновлена. Измеренное покрытие K-10: GS u64/u8 N0..8,
+fallback u64/u8 N0..5.
+
+### N-D13 (R7): fallback N6..9
+
+`w2-merge-night-f6to9-010`: четыре фиксированные длины fallback N6..9,
+в каждой независимо выбирается u64/u8, expected SUCCESS, 4×10 мин.
+Сортированность и перестановка по полной произвольной пробе;
+реальные тела, без stubs. Код/ledger П2 без изменений.
+После этого пакета — bm N9/10 обоих типов перед GS N9/10.
+После dispatch ночных jobs 10, preflight отказов 3;
+с П2 до ночи: 15 jobs, 4 preflight отказа, 19/40 консервативных попыток.
 
 ## Фаза 9
 
