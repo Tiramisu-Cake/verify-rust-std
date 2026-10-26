@@ -887,3 +887,10 @@ Cover — нормальный возврат. Вывод по CD-1 ограни
 
 После четвёртого dispatch: **4/10, 80/200 минут таймаутов**;
 верхняя оценка ≤2240/5000 кредитов. K-6+ (б) ещё не измерен.
+
+REVIEW REQUEST 227d17179749806b6310ee547f22c3afa91dab2b
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. K-6+ (а), О1 по CD-1,
+реальное слияние u64 длины 32; evidence — следующий CircleCI job.
