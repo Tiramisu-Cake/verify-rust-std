@@ -1,14 +1,24 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p9-width8-028",
+  "request_id": "w1-merge-control-001",
   "agent": "k1-merge",
-  "kind": "resource",
-  "purpose": "Phase 9 Q7: A (5edf162c) full invariant contract, fixed N=8 and helper width 8: K1_UNROLL=8, four element step lists trimmed to indices <8. Existing sorted-halves requires bounds len<=width. Value comparisons and invariant logic preserved on len<=8. Resource only.",
-  "runner": "gcb-e2-highmem-4",
-  "harness_timeout_minutes": 30,
+  "kind": "measurement",
+  "runner": "circleci-linux-large",
+  "purpose": "R5 section 4.1 first dispatch: B and A normal-return mutants must fail; A positive control checks exact u64 permutation and covers panic boundary. D0 real bodies, no verified stubs.",
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_b_must_fail",
+      "expect": "FAILED",
+      "expect_check": "wave1 B deliberately broken normal-return check"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_must_fail",
+      "expect": "FAILED",
+      "expect_check": "wave1 A deliberately broken normal-return check"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_panic_reachable",
       "expect": "SUCCESS"
     }
   ]

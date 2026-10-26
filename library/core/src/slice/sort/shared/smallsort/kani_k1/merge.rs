@@ -1169,3 +1169,78 @@ macro_rules! general_band {
 
 // Single-length probe of the composition cost (diagnostic).
 general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [32]);
+
+// ---------------------------------------------------------------------------------------------
+// R5 wave 1, section 4.1 controls. Ordinary proofs execute the real merge body;
+// no verified contracts are substituted (D0). The only manual stub is the O2
+// panic boundary below. It models termination at panic under -Cpanic=abort.
+
+fn w1_arbitrary_less(_: &u64, _: &u64) -> bool {
+    kani::any()
+}
+
+fn w1_abort_ord_violation() -> ! {
+    kani::cover(true, "wave1: panic_on_ord_violation is reachable");
+    kani::assume(false);
+    unreachable!()
+}
+
+/// Variant B mutant: a known ordered input and honest comparator cannot panic
+/// in the real merge. The intentionally broken assertion is on its normal
+/// return path. FAILED is required; SUCCESS exposes should_panic masking.
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w1_control_b_must_fail() {
+    let v = [0u64, 1, 2, 3];
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source, separate destination for four writes, len >= 2.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
+    }
+    kani::cover(true, "wave1 B mutant: normal return reached");
+    assert!(false, "wave1 B deliberately broken normal-return check");
+}
+
+/// Variant A mutant: retain the permutation check, then deliberately fail on
+/// every normal return. Panic paths terminate in the sole manual O2 stub.
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+#[kani::unwind(6)]
+fn w1_control_a_must_fail() {
+    let v: [u64; 4] = kani::any();
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source, separate destination for four writes, len >= 2.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
+        let out = dst.assume_init();
+        kani::cover(true, "wave1 A mutant: normal return reached");
+        for value in v {
+            let before = v.iter().filter(|x| **x == value).count();
+            let after = out.iter().filter(|x| **x == value).count();
+            assert!(before == after, "wave1 A permutation");
+        }
+    }
+    assert!(false, "wave1 A deliberately broken normal-return check");
+}
+
+/// Variant A positive control plus independent reachability of the panic
+/// boundary. Exact u64 multiset equality is checked only on normal returns.
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+#[kani::unwind(6)]
+fn w1_control_a_panic_reachable() {
+    let v: [u64; 4] = kani::any();
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source, separate destination for four writes, len >= 2.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
+        let out = dst.assume_init();
+        for value in v {
+            let before = v.iter().filter(|x| **x == value).count();
+            let after = out.iter().filter(|x| **x == value).count();
+            assert!(before == after, "wave1 A permutation");
+        }
+    }
+    kani::cover(true, "wave1 A: normal return and permutation checked");
+}
