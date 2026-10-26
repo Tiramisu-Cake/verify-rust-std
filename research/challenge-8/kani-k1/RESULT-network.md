@@ -1034,3 +1034,7 @@ REVIEW REQUEST bceedb0b6c1c0febcc5faa3d80d94dba24aa3735
 RUN-REQUEST.json, RESULT-network.md («Волна 2», job 88, R7 парных семейств).
 Общий quiet-cut и исходные type-harness helpers из 3ce9177c/5a8c9961.
 Контекст: неизменённые smallsort.rs, scripts/run-kani.sh.
+
+| 7 | net-w2-07-k16-u8-rest-u128-lo | 89 | 4c1a1c6d | w2_k16_u8_stable_mid; w2_k16_u8_stable_hi; w2_k16_u8_network_merge; w2_k16_u128_lo | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 89`, затем конец turn. Счёт dispatch 7/24.
