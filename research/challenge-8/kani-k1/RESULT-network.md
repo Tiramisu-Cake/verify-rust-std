@@ -1348,3 +1348,9 @@ Cell<i32> обе default-ветки на N0,1,2,15,16 измерены, кажд
 Данные все85 байт, без сужения ключей. Отдельные CD-5 reachability N17.
 Запрос net-w2-15-a85-short-reach: lo/mid и две reachability,
 measurement 4 x 10 минут. N31/N32 подготовлены, не отправлены.
+
+REVIEW REQUEST 138d462f4cf579bf256d9abc7aba39f1dfc12bea
+
+network.rs: шесть применений принятых pair/reachability macros для [u8;85];
+RUN-REQUEST.json; RESULT-network.md, job98/dispatch a85. Данные — все байты,
+helpers не менялись. Контекст: smallsort.rs, 85*48=4080/general, presort4.
