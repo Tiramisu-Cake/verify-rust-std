@@ -2782,3 +2782,7 @@ R7: K10 ночной шаг закончен по измеренным исхо�
 R7: выбираем аллокацию 17 (>=13), чтобы включить все позиции обоих сетевых доменов и крайние позиции всего массива. Два proof_for_contract(swap_if_less), u8/u64, тот же function item w2p2_strict_less<T>, full-width input. Существующие оба ensures проверяются; структурный довод использует только первое (точный обмен/сохранение полных значений). Дополнительно явный assert неизменности всех остальных ячеек. Контракт/runtime не меняются, stub_verified нет.
 
 Ledger: any_where только 0<=a<17, 0<=b<17 и a!=b; остальные входы не ограничены. Post-call covers обеих крайних ориентаций, внутренней пары, позиции12, swap/no-swap и конца. Unwind25, checks активны. Запрос net-night-10-k9s-indices17: measurement 2 × 10 минут, ожидается SUCCESS. Результат не переносится на произвольный stateful/mutating comparator.
+
+REVIEW REQUEST d1b9545ff42cffaf3ebde7354610f1bf9f371df6
+
+network.rs: w2night_k9s_indices17 и две proof_for_contract для u8/u64. RUN-REQUEST.json; RESULT-network.md (job146, K10 итог, ledger K9s). Проверить symbolic distinct indices во всём [T;17], exact swap/preserve первого ensures и frame остальных ячеек; comparator точно тот же, что K10. Контекст: неизменённый swap_if_less в smallsort.rs. R9 прежней K10-композиции также остаётся открытым.
