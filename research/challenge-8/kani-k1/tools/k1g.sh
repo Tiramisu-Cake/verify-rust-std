@@ -27,7 +27,7 @@ CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
 # Paid pool time. The owner capped all 32 GB builds at $10 (2026-10-26); 370 min x $0.02612 = $9.66 leaves
 # a margin for billing rounding. dispatch refuses a build whose timeout would take used + reserved minutes
 # over CAP_MINUTES; raising it is the owner's decision.
-CAP_MINUTES=370
+CAP_MINUTES=1300   # owner cap $35 for all smallsort-k1 builds (2026-10-26), ~$33.96 here
 PRICE_PER_MINUTE=0.02612            # e2-highmem-4 private pool, us-central1, USD
 OVERHEAD_MINUTES=30                 # checkout, deps, Kani build, summary, upload; see gcb-k1.sh
 LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools research/challenge-8/kani-k1/gcb

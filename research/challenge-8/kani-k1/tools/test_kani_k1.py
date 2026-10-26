@@ -357,7 +357,7 @@ class SummaryTests(unittest.TestCase):
             self.assertEqual(b[str(Path(d) / "missing")], "MISSING")
 
 
-RES_REQ = {**REQ, "kind": "resource", "runner": "gcb-e2-highmem-4", "harness_timeout_minutes": 60, "harnesses": ONLY_OK}
+RES_REQ = {**REQ, "kind": "resource", "runner": "gcb-e2-highmem-4", "harness_timeout_minutes": 720, "harnesses": ONLY_OK}
 PEAKS = ("interval_ms=2000\nsamples=300\nelapsed_s=598\ntotal_rss_peak_kb=22020096\n"
          "cmd=cbmc peak_kb=1048576 first_s=500 last_s=598\n"
          "cmd=goto-instrument peak_kb=20971520 first_s=120 last_s=480\n"
@@ -375,9 +375,9 @@ class ResourceLaneTests(unittest.TestCase):
         self.bad({**RES_REQ, "runner": "circleci-linux-large"}, "kind resource")
         self.bad({**RES_REQ, "kind": "measurement", "harness_timeout_minutes": 10}, "kind resource")
         self.bad({**RES_REQ, "kind": "diagnostic"}, "kind resource")
-        self.bad({**RES_REQ, "harness_timeout_minutes": 61}, "1..60")
+        self.bad({**RES_REQ, "harness_timeout_minutes": 721}, "1..720")
         self.bad({**REQ, "kind": "diagnostic", "harness_timeout_minutes": 31}, "1..30")
-        self.bad({**RES_REQ, "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(2)]}, "exceeds 60")
+        self.bad({**RES_REQ, "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(2)]}, "exceeds 720")
 
     def run_res(self, log, peaks=PEAKS, tracked=True, exit_code=0):
         return k.summarize(json.dumps(RES_REQ), log, TIME, exit_code, "a" * 40, "b" * 40, None, {}, {}, "success",

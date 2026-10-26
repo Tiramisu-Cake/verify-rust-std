@@ -12,10 +12,10 @@ K1_TOOLS=research/challenge-8/kani-k1/tools
 K1_REQUEST=research/challenge-8/kani-k1/RUN-REQUEST.json
 K1_OUT=k1-out
 LANE_RUNNER=gcb-e2-highmem-4
-# Requests are capped at 60 harness-minutes (kani_k1.py). k1g.sh sets the paid build timeout to the
+# Requests are capped at 720 harness-minutes (kani_k1.py; extended layer, owner decision 2026-10-26). k1g.sh sets the paid build timeout to the
 # request's harness total + 30 min; verify is cut at total + 24 min after validation (compilation and goto
 # instrumentation are outside Kani's per-harness timeout), leaving time for summary and upload.
-MAX_TOTAL_MINUTES=60
+MAX_TOTAL_MINUTES=720
 VERIFY_SLACK_MINUTES=24
 mkdir -p "$K1_OUT"
 # Cloud Build sets HOME=/builder/home while the step runs as root, and rustup refuses a HOME that differs
