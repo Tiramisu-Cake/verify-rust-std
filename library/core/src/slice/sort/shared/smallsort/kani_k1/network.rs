@@ -1366,3 +1366,31 @@ w2_insertion_safety_cases!(w2_k11s_n15, [15]);
 w2_o3_insertion_cases!(w2_o3_insertion_n13, [13]);
 w2_o3_insertion_cases!(w2_o3_insertion_n14, [14]);
 w2_o3_insertion_cases!(w2_o3_insertion_n15, [15]);
+
+// Wave 2 priority 2, CD-6 step 1. Actual caller domain for the remaining B4 lengths:
+// one exact allocation and the constant offset 1 in each independent plain proof.
+macro_rules! w2p2_b4_offset_one {
+    ($plain:ident, $cell:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $plain() {
+            let mut v: [u64; $n] = kani::any();
+            super::super::insertion_sort_shift_left(&mut v, 1, &mut w1_any_less_u64);
+            kani::cover(true, concat!("W2 P2 B4 u64 offset1 normal return N", stringify!($n)));
+        }
+
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $cell() {
+            let mut v = w2_o3_input::<$n>();
+            super::super::insertion_sort_shift_left(&mut v, 1, &mut w2_o3_mutating_less);
+            kani::cover(true, concat!("W2 P2 B4 Cell offset1 normal return N", stringify!($n)));
+        }
+    };
+}
+
+w2p2_b4_offset_one!(w2p2_b4_u64_n16, w2p2_b4_cell_n16, 16);
+w2p2_b4_offset_one!(w2p2_b4_u64_n17, w2p2_b4_cell_n17, 17);
+w2p2_b4_offset_one!(w2p2_b4_u64_n18, w2p2_b4_cell_n18, 18);
+w2p2_b4_offset_one!(w2p2_b4_u64_n19, w2p2_b4_cell_n19, 19);
+w2p2_b4_offset_one!(w2p2_b4_u64_n20, w2p2_b4_cell_n20, 20);

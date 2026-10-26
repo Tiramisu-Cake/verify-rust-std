@@ -1935,3 +1935,25 @@ git show origin/experiment/kani-k1-base-20261024:research/challenge-8/kani-k1/R6
 Лимит минут снят,180с ориентир, measurement/приёмка<=600с на CircleCI.
 Сначала B4/K11+O3 offset1 на каждой N16..20, затем K10 network и K9s.
 Все offset на16..20 переданы расширенному слою, здесь не повторяются.
+
+#### П2 шаг1 / B4 offset1: R7 и ledger
+
+CD-6 применяется без merge базы: это прямая команда координатора после
+принятия П1. Основной слой CircleCI/measurement<=600с, лимита минут нет,
+180с ориентир. Шаг1 в П2 считается в новом лимите40 dispatch.
+
+Десять независимых ordinary proof: u64 и Cell<K13Tagged> на каждой
+N16,17,18,19,20. Вход ровно [T;N], offset литерал1; реальный
+insertion_sort_shift_left/insert_tail, без stub/should_panic/предположения
+порядка. CI no-assert-contracts нужен по прежней причине: старый K1
+контракт корректности уже домена этих проверок. Unwind25, checks активны.
+
+u64 полная ширина, w1_any_less_u64 читает оба аргумента volatile,
+возвращает any bool. Cell comparator и input те же принятые П1 O3 helpers:
+полные u8 key/tag, оба чтения до записей, новые key в оба Cell,
+произвольный bool; key-change и normal-return covers. Нет tag-count/О2.
+Новых assume/ручных cuts нет. На16..20 все offset не перебираются:
+их ведёт отдельный агент расширенного слоя по CD-6.
+
+Запрос net-w2p2-01-b4-offset1-16-17: четыре proof (u64/Cell N16/N17),
+measurement4x10мин. N18/N19 и N20 подготовлены отдельно, ещё не измерены.
