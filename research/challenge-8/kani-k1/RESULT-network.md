@@ -600,3 +600,12 @@ REVIEW REQUEST c632f43b202bc22569a5d2794f144e29affe7d0e
 - `scripts/run-kani.sh` (неизменённые CI flags)
 - `research/challenge-8/kani-k1/RUN-REQUEST.json`
 - `research/challenge-8/kani-k1/RESULT-network.md`, подраздел K-13
+
+#### Прогоны K-13
+
+| общий dispatch | request_id | job | head SHA | гармоники | состояние |
+|---|---|---|---|---|---|
+| 13 | net-w1-13-k13-cell | 67 | 072d27cc | k13_routes_0_8, k13_routes_9_16, k13_insertion_1_10, k13_insertion_11_20 | отправлен, summary ожидается |
+
+K-13: 1 dispatch, резерв 40 минут таймаутов (это не фактический расход).
+Общий счёт 13/14 dispatch. Ожидание `k1.sh watch 67`, затем конец turn.
