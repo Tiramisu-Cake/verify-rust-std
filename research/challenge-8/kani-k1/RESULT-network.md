@@ -2120,3 +2120,9 @@ COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
 R9 7adb2498/b497d6da ожидается; расширение до17 не предполагается.
 Далее отдельные N5 иN6 каждого типа, тот же шаблон и реальные тела;
 net-w2p2-06-k10-network-5-6,measurement4x10мин. Summary wall П2:310,44с.
+
+REVIEW REQUEST 49620d14a02be6f69902e182f97f20ce61d0d68e
+
+network.rs: только4применения K10 macro для u8/u64 N5/N6;
+RUN-REQUEST.json; RESULT-network.md, job118. Helpers/свойства прежние,
+это наращивание фиксированных длин, без новых предположений/заглушек.
