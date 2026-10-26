@@ -1190,3 +1190,10 @@ impl W2Value for crate::cell::Cell<i32> {
 
 // Cell is non-Freeze and non-Copy: both outer traits select their default insertion paths.
 w2_type_pair_cases!(w2_k16_cell_nonfreeze, crate::cell::Cell<i32>, [0, 1, 2, 15, 16]);
+
+w2_type_pair_cases!(w2_k16_a85_lo, [u8; 85], [0, 1, 2, 7, 8]);
+w2_type_pair_cases!(w2_k16_a85_mid, [u8; 85], [15, 16, 17]);
+w2_type_pair_cases!(w2_k16_a85_n31, [u8; 85], [31]);
+w2_type_pair_cases!(w2_k16_a85_n32, [u8; 85], [32]);
+w2_type_reachability!(w2_k16_a85_stable_reach, [u8; 85], true, 17);
+w2_type_reachability!(w2_k16_a85_general_reach, [u8; 85], false, 17);

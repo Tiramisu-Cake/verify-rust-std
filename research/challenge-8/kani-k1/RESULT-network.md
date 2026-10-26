@@ -1321,3 +1321,30 @@ RUN-REQUEST.json; RESULT-network.md, job97/dispatch Cell. Helpers неизмен
 | 14 | net-w2-14-drop-rest-cell | 98 | 0db390bd | w2_k16_drop_n32; w2_k16_drop_stable_reach; w2_k16_drop_general_reach; w2_k16_cell_nonfreeze | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 98`, затем конец turn. Счёт dispatch 14/24.
+
+#### Job 98 / Drop и Cell полные запрошенные длины
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 3,18 GiB, RSS 2368260 KiB, OOM 0, swap off,
+wall 173,35 с. Сумма summary wall П1: 3522,50 с = 58,7083 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_drop_n32 | 73,77012 | 0/381 | 3/3 |
+| w2_k16_drop_stable_reach | 11,544998 | 0/373 | 2/2 |
+| w2_k16_drop_general_reach | 11,508669 | 0/373 | 2/2 |
+| w2_k16_cell_nonfreeze | 33,341496 | 0/192 | 11/11 |
+
+Drop все N обоих маршрутов и обе CD-5 reachability измерены <=180 с.
+Cell<i32> обе default-ветки на N0,1,2,15,16 измерены, каждой паре есть cover.
+Слияния на этих Cell-маршрутах нет. R9 новых типов запрошены ранее.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| [u8;85] | 85 | да / да / нет | general, 85*48=4080<=4096 | stable-Freeze/general |
+
+Последние a85/a86 начаты после дешёвых типов и Cell. Для a85 обе ветки
+на N0,1,2,7,8 / 15,16,17 / 31 / 32, presort4 при N>=8 (size>16).
+Данные все85 байт, без сужения ключей. Отдельные CD-5 reachability N17.
+Запрос net-w2-15-a85-short-reach: lo/mid и две reachability,
+measurement 4 x 10 минут. N31/N32 подготовлены, не отправлены.
