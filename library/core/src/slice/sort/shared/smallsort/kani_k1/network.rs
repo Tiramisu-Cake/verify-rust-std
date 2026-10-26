@@ -1108,4 +1108,35 @@ macro_rules! w2_type_pair_cases {
 }
 
 w2_type_pair_cases!(w2_k16_u128_lo, u128, [0, 1, 2, 7, 8]);
-w2_type_pair_cases!(w2_k16_u128_hi, u128, [15, 16, 17, 31, 32]);
+w2_type_pair_cases!(w2_k16_u128_mid, u128, [15, 16, 17]);
+w2_type_pair_cases!(w2_k16_u128_hi, u128, [31, 32]);
+
+
+/// CD-5: the K16 template itself must expose an assertion after a normal merge return.
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
+#[kani::unwind(65)]
+fn w2_control_a_quiet_merge_assertion() {
+    w2_type_fixed::<u8, 18, false>();
+    kani::cover(true, "W2 quiet merge control: normal return before assertion");
+    let x: u8 = kani::any();
+    assert!(x != x);
+}
+
+/// One separately measured reachability proof per type and outer trait route with merge.
+macro_rules! w2_type_reachability {
+    ($name:ident, $t:ty, $stable:literal, $n:literal) => {
+        #[kani::proof]
+        #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
+        #[kani::unwind(65)]
+        fn $name() {
+            w2_type_fixed::<$t, $n, $stable>();
+            kani::cover(true, "W2 K16s reachability: normal return also reachable");
+        }
+    };
+}
+
+w2_type_reachability!(w2_k16_u8_stable_reach, u8, true, 17);
+w2_type_reachability!(w2_k16_u8_network_reach, u8, false, 18);
+w2_type_reachability!(w2_k16_u128_stable_reach, u128, true, 17);
+w2_type_reachability!(w2_k16_u128_general_reach, u128, false, 17);

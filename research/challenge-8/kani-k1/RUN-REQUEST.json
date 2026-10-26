@@ -1,26 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-07-k16-u8-rest-u128-lo",
+  "request_id": "net-w2-08-cd5-u8-reach-u128-mid",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K16s remaining u8 stable 15,16,17 / 31,32 and network 18,31,32; begin u128 stable and unstable-general 0,1,2,7,8. Exact input arrays, real outer traits, full-width values, CD2 reads, accepted quiet cut measured in job88. Safety only.",
+  "purpose": "CD5 quiet-cut assertion control on exact K16 u8/network18 template, expected one located FAILED; separate covering cut reachability for u8 stable17 and network18. Continue paired u128/general stable+unstable lengths15,16,17; exact arrays and real bodies.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_mid",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_quiet_merge_assertion",
+      "expect": "FAILED",
+      "expect_check": "x != x"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_reach",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_hi",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_network_reach",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_network_merge",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u128_lo",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u128_mid",
       "expect": "SUCCESS"
     }
   ]

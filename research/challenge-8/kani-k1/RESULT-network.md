@@ -1065,3 +1065,36 @@ R9 bceedb0b — принят координатором без отдельно�
 16*48=768<=4096); u128/stable — stable-Freeze/general. Достижимость среза
 для каждой из этих двух пар будет измерена отдельной гармоникой по CD-5.
 Парное семейство не заменяет две отдельные reachability-строки матрицы.
+
+#### Job 89 / u8 полные длины, u128 короткие
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b. Все SUCCESS.
+13 GiB ENFORCED, peak 3,87 GiB, RSS 3087436 KiB, OOM 0, swap off,
+wall 298,78 с. Сумма summary wall П1: 1593,68 с = 26,5613 мин (не API).
+
+| Гармоника | N / маршрут | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2_k16_u8_stable_mid | 15,16,17 / stable-Freeze | 34,880054 | 0/406 | 4/4 |
+| w2_k16_u8_stable_hi | 31,32 / stable-Freeze | 76,77843 | 0/403 | 3/3 |
+| w2_k16_u8_network_merge | 18,31,32 / network | 116,01211 | 0/406 | 4/4 |
+| w2_k16_u128_lo | 0,1,2,7,8 / оба general trait-маршрута | 19,294205 | 0/422 | 11/11 |
+
+Все <=180 с. u8 безопасность измерена на всех запрошенных длинах обоих
+маршрутов; по CD-5 до итогового зачёта нужны две reachability-гармоники.
+u128 low соответствует принятому bceedb0b; его две reachability ещё не измерены.
+
+R7: исходя из u8 stable mid+hi (суммарно 111,66 с на один маршрут),
+парный u128 high из пяти длин заранее делится на mid [15,16,17] и
+hi [31,32], чтобы не объединять ожидаемые >180 с. Это разбиение домена,
+новых ограничений входов нет. Ни одна исходная high-гармоника не измерялась.
+
+CD-5 реализация: w2_control_a_quiet_merge_assertion вызывает ровно
+w2_type_fixed::<u8,18,false>(), отмечает normal-return cover, затем
+assert!(x != x) без сообщения; ожидается ровно один FAILED с местом.
+w2_type_reachability создаёт отдельную proof на конкретную пару тип×маршрут,
+cover в w2_cut_ord_violation и после нормального возврата; исходный helper
+и comparator идентичны безопасности. u8 stable N17, network N18;
+u128 stable N17 и unstable-general N17 подготовлены отдельно.
+Тихий и covering cut используют одно тело w2_assume_ord_violation.
+Запрос net-w2-08-cd5-u8-reach-u128-mid — контроль, две u8 reachability,
+u128 mid; measurement 4 x 10 минут.
