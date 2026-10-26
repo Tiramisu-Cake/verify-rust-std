@@ -158,8 +158,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 2 | 2, u64 и u8 | 110, SUCCESS обоих типов | 129, SUCCESS |
 | 3 | 3, u64 и u8 | 110, SUCCESS обоих типов | 130, SUCCESS |
 | 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132, SUCCESS; 131 без измерений |
-| 5 | 5, u64 и u8 | 136, SUCCESS обоих типов | не измерено |
-| 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | не измерено |
+| 5 | 5, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
+| 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 7 | 7, u64 и u8 | не измерено | не измерено |
 | 8 | 8, u64 и u8 | не измерено | не измерено |
 | 9 | 9, u64 и u8 | не измерено | не измерено |
@@ -278,6 +278,37 @@ proof bm нужных длин обоих типов — job 136, R11 — job 11
 Код и ledger П2 без изменений. После dispatch ночных jobs 7,
 preflight отказов 1; с П2 до ночи: 12 jobs, 2 preflight отказа,
 14/40 консервативных попыток.
+
+### Job 137 — GS N5/6 u64/u8
+
+Request `w2-merge-night-gs56-007`,
+head `e0bea0a3cd6ee6acf4040c923bd8993c63d3c3e3`, COMPLETE;
+gate true, expectation met true, measurement ok true, Kani exit 0.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1871484 KiB, wall с компиляцией 93.97 с;
+cgroup peak 2.03 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len5` | SUCCESS / SUCCESS | 12.706135 | 0/642 | 105 | 2/2 |
+| `w2p2_gs_u8_len5` | SUCCESS / SUCCESS | 10.152405 | 0/635 | 107 | 2/2 |
+| `w2p2_gs_u64_len6` | SUCCESS / SUCCESS | 18.840271 | 0/642 | 103 | 2/2 |
+| `w2p2_gs_u8_len6` | SUCCESS / SUCCESS | 11.272275 | 0/635 | 105 | 2/2 |
+
+Полные covers D/S сверены отдельно от gate. Proof bm N5/6 обоих типов —
+job 136, R11 halves_sorted — job 110. Таблица R4 обновлена.
+Измеренное покрытие K-10: GS u64/u8 N0..6, fallback u64/u8 N0..5.
+
+### N-D9 (R7): prerequisites bm N7/8
+
+`w2-merge-night-bm78-008`: четыре proof_for_contract bm N7/8,
+отдельно u64/u8, expected SUCCESS, 4×10 мин; реальные тела слияния.
+Код/ledger П2 без изменений, cover normal-return у каждой гармоники.
+Proof N8 будет также prerequisite вложенного sort8_stable для GS N16.
+Далее GS N7/8 обоих типов, затем fallback N6..9; длины выше текущего
+покрытия заранее не засчитываются.
+После dispatch ночных jobs 8, preflight отказов 1;
+с П2 до ночи: 13 jobs, 2 preflight отказа, 15/40 консервативных попыток.
 
 ## Фаза 9
 
