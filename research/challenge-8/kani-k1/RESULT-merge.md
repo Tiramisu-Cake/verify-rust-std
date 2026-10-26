@@ -436,6 +436,15 @@ N8/9 — кандидаты расширенного слоя в объедин�
 После dispatch ночных jobs 11, preflight отказов 3;
 с П2 до ночи: 16 jobs, 4 preflight отказа, 20/40 консервативных попыток.
 
+REVIEW REQUEST 92d4edd8291fc18acb8ef87599d4ebce801c5f2f
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Изменение: typed fallback N8 отдельно u64/u8; прежний helper и свойства.
+Evidence исходного пакета: job 143 summary и check-tooling ok;
+измерения новых гармоник ожидаются в следующем job.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
