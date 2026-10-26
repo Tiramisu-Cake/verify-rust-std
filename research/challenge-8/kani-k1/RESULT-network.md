@@ -712,6 +712,11 @@ K-13 ЗАВЕРШЁН
 ## Волна 2
 T0: 2026-10-26T15:19:16Z (UTC, `date -u`).
 
+ВОЛНА 2 П1 ЗАВЕРШЁН
+
+Экспериментальные прогоны и отчёт завершены; окончательное R9 новых частей
+ожидается у координатора. Сводный итог и пределы — в конце раздела.
+
 Новые dispatch до 2026-10-26T20:49:16Z; отчёт до 2026-10-26T21:19:16Z.
 Лимит П1: 24 dispatch / 300 фактических минут job, один незавершённый job.
 Приоритет 2 не выполняется. Lane и runtime не меняются.
@@ -1696,3 +1701,215 @@ w2_k11s_n13/n14/n15 и w2_o3_insertion_n13/n14/n15 с теми же macros.
 передаётся измерение этих разделённых гармоник; macOS здесь не измерен.
 Старые семьи13..15 остаются измеренными<=600с, но цель180с на них не достигнута.
 Новых dispatch не будет, приоритет2 не начат; работа переходит к отчёту.
+
+### Сводный итог П1 для координатора
+
+Отчёт: 2026-10-26T18:39:06Z. Все24 job завершены, новых dispatch нет.
+Ниже «измерено» означает summary/gate/cover/check-tooling, а не новый вердикт R9. Принятые координатором контроли/шаблоны указаны выше; итоговый R9 новых реализаций и K11/O3 ещё ожидается, принятие не предполагается.
+
+| Ось | Измерено с gate true | Предел / открыто |
+|---|---|---|
+| O1-A network/u64 | Каждая N18..32, jobs80/82, все семейства<=180с | 0..17 — прежняя ordinary proof job61; не повторялась W2 |
+| K16s | Все143 non-ZST клетки требуемой матрицы; все семейства<=180с после деления u128 | ZST только trait-уровень FAILED/OOM85; network18+ исключён CD-5 |
+| K11s/B4/u64 | Каждая N1..15, все offset1..N, jobs107/108 | 16..20 не доказаны; 13..15=264,45с>180, отдельные N13/14/15 подготовлены NOT_RUN |
+| O3-s/Cell<Tagged> | Stable default и unstable fallback на каждой N0..16, job104; insertion N1..15/all offsets, jobs107/108 | Insertion16..20 не доказана; 13..15=249,36с>180, отдельные N подготовлены NOT_RUN |
+
+Только проверки Kani при CI-флагах pin9461e07a. Нет утверждений об отсутствии всех видов UB: uninit без -Zuninit-checks, алиасинг и unwind/CopyOnDrop не проверяются. Сортированность, перестановка, баланс Drop и сохранность записанных comparator key на выходе не заявляются.
+
+#### Итог O1-A network
+
+Вход W2 — outer UnstableSmallSortTypeImpl; u64 Freeze+Copy выбирает network. Comparator читает оба аргумента volatile, затем произвольный bool. Только panic_on_ord_violation обрезается; всякая другая panic остаётся FAILED. Контроль77/R9 принят; шаблон287e3514 принят координатором.
+
+| N | Гармоника network:: | время семейства, с | job | cover | gate |
+|---|---|---:|---|---|---|
+| 18..21 | w2_network_o1_a_18_21 | 75.73482 | 80 | 6/6 | true |
+| 22..25 | w2_network_o1_a_22_25 | 104.15877 | 80 | 6/6 | true |
+| 26,27 | w2_network_o1_a_26_27 | 72.23447 | 80 | 4/4 | true |
+| 28,29 | w2_network_o1_a_28_29 | 81.48095 | 80 | 4/4 | true |
+| 30..32 | w2_network_o1_a_30_32 | 145.15054 | 82 | 5/5 | true |
+
+N0..17: w1_network_o1_nomerge_u64, job61,112,5397с,19/19 covers, ordinary proof через внутренний Freeze trait, исход волны1. В W2 не перемерялся. Семейства W2 используют точные [u64;N] и post-call cover каждой N, в измеренных jobs80/82 cover входа в cut тоже выполнен.
+
+#### Итоговая матрица K16s: тип × фактический маршрут × N
+
+Перечисление N в строке означает каждую указанную постоянную длину. Время относится ко всей гармонике, включая оба маршрута у pair-семейства; его нельзя суммировать по строкам/длинам. Все143 клетки ниже имеют exact [T;N], полные значения, post-call covers каждой пары, gate true и tooling ok.
+
+| Тип | Фактический маршрут | N | время семейства, с | job | cover | gate |
+|---|---|---|---:|---|---|---|
+| u8 | unstable/network | 8,9,12,13,17 | 28.332548 | 88 | 6/6 | true |
+| u8 | unstable/network | 18,31,32 | 116.01211 | 89 | 4/4 | true |
+| u8 | stable-Freeze/general | 0,1,2,7,8 | 6.1376963 | 88 | 6/6 | true |
+| u8 | stable-Freeze/general | 15,16,17 | 34.880054 | 89 | 4/4 | true |
+| u8 | stable-Freeze/general | 31,32 | 76.77843 | 89 | 3/3 | true |
+| u128 | unstable/general | 0,1,2,7,8 | 19.294205 | 89 | 11/11 | true |
+| u128 | unstable/general | 15,16,17 | 89.02851 | 91 | 7/7 | true |
+| u128 | unstable/general | 31 | 76.27714 | 94 | 3/3 | true |
+| u128 | unstable/general | 32 | 78.91053 | 94 | 3/3 | true |
+| u128 | stable-Freeze/general | 0,1,2,7,8 | 19.294205 | 89 | 11/11 | true |
+| u128 | stable-Freeze/general | 15,16,17 | 89.02851 | 91 | 7/7 | true |
+| u128 | stable-Freeze/general | 31 | 76.27714 | 94 | 3/3 | true |
+| u128 | stable-Freeze/general | 32 | 78.91053 | 94 | 3/3 | true |
+| [u8;16] | unstable/general | 0,1,2,7,8 | 26.95579 | 93 | 11/11 | true |
+| [u8;16] | unstable/general | 15,16,17 | 104.499054 | 94 | 7/7 | true |
+| [u8;16] | unstable/general | 31 | 108.92627 | 94 | 3/3 | true |
+| [u8;16] | unstable/general | 32 | 112.63611 | 95 | 3/3 | true |
+| [u8;16] | stable-Freeze/general | 0,1,2,7,8 | 26.95579 | 93 | 11/11 | true |
+| [u8;16] | stable-Freeze/general | 15,16,17 | 104.499054 | 94 | 7/7 | true |
+| [u8;16] | stable-Freeze/general | 31 | 108.92627 | 94 | 3/3 | true |
+| [u8;16] | stable-Freeze/general | 32 | 112.63611 | 95 | 3/3 | true |
+| [u8;17] | unstable/general | 0,1,2,7,8 | 27.53613 | 95 | 11/11 | true |
+| [u8;17] | unstable/general | 15,16,17 | 116.230896 | 96 | 7/7 | true |
+| [u8;17] | unstable/general | 31 | 133.10645 | 96 | 3/3 | true |
+| [u8;17] | unstable/general | 32 | 133.24657 | 96 | 3/3 | true |
+| [u8;17] | stable-Freeze/general | 0,1,2,7,8 | 27.53613 | 95 | 11/11 | true |
+| [u8;17] | stable-Freeze/general | 15,16,17 | 116.230896 | 96 | 7/7 | true |
+| [u8;17] | stable-Freeze/general | 31 | 133.10645 | 96 | 3/3 | true |
+| [u8;17] | stable-Freeze/general | 32 | 133.24657 | 96 | 3/3 | true |
+| W2Drop(u8) | unstable/general | 0,1,2,7,8 | 14.479667 | 97 | 11/11 | true |
+| W2Drop(u8) | unstable/general | 15,16,17 | 72.29334 | 97 | 7/7 | true |
+| W2Drop(u8) | unstable/general | 31 | 65.99503 | 97 | 3/3 | true |
+| W2Drop(u8) | unstable/general | 32 | 73.77012 | 98 | 3/3 | true |
+| W2Drop(u8) | stable-Freeze/general | 0,1,2,7,8 | 14.479667 | 97 | 11/11 | true |
+| W2Drop(u8) | stable-Freeze/general | 15,16,17 | 72.29334 | 97 | 7/7 | true |
+| W2Drop(u8) | stable-Freeze/general | 31 | 65.99503 | 97 | 3/3 | true |
+| W2Drop(u8) | stable-Freeze/general | 32 | 73.77012 | 98 | 3/3 | true |
+| Cell<i32> | unstable default/fallback | 0,1,2,15,16 | 33.341496 | 98 | 11/11 | true |
+| Cell<i32> | stable default | 0,1,2,15,16 | 33.341496 | 98 | 11/11 | true |
+| [u8;85] | unstable/general | 0,1,2,7,8 | 21.080875 | 99 | 11/11 | true |
+| [u8;85] | unstable/general | 15,16,17 | 75.75556 | 99 | 7/7 | true |
+| [u8;85] | unstable/general | 31 | 100.83713 | 100 | 3/3 | true |
+| [u8;85] | unstable/general | 32 | 107.85001 | 100 | 3/3 | true |
+| [u8;85] | stable-Freeze/general | 0,1,2,7,8 | 21.080875 | 99 | 11/11 | true |
+| [u8;85] | stable-Freeze/general | 15,16,17 | 75.75556 | 99 | 7/7 | true |
+| [u8;85] | stable-Freeze/general | 31 | 100.83713 | 100 | 3/3 | true |
+| [u8;85] | stable-Freeze/general | 32 | 107.85001 | 100 | 3/3 | true |
+| [u8;86] | unstable/fallback | 0,1,2,15,16 | 13.126991 | 101 | 6/6 | true |
+| [u8;86] | stable-Freeze/general | 0,1,2,7,8 | 7.9099674 | 101 | 6/6 | true |
+| [u8;86] | stable-Freeze/general | 15,16,17 | 37.87678 | 101 | 4/4 | true |
+| [u8;86] | stable-Freeze/general | 31 | 42.3792 | 100 | 2/2 | true |
+| [u8;86] | stable-Freeze/general | 32 | 52.445107 | 100 | 2/2 | true |
+| ZST () | stable-Freeze/general, только trait | 0,1,2,7,8,15,16,17,31,32 | 171.40805 | 85 | 11/11, FAILED4 checks | false |
+| ZST () | unstable/network, только trait | 8,9,12,13,17 | — | 85 | OOM | false |
+| ZST () | unstable/network, только trait | 18,31,32 | — | — | исключены CD-5: цикл не завершается | — |
+
+Dispatch: u8 — Copy+Freeze, size1<=8/efficient swap, network; u128/a16/a17/a85 — Copy+Freeze, size>8, size*48<=4096, general; a86 — Copy+Freeze,size86*48=4128>4096, unstable fallback. Stable Freeze всегда general с внешним scratch48, включая a86. W2Drop size1, Freeze, non-Copy: нестабильная non-Copy Freeze-ветка general; реальный Drop volatile-читает key. Cell<i32> size4, non-Copy/non-Freeze: оба default. Presort8 при size<=16/N>=16, иначе presort4 при N>=8. ZST Copy+Freeze/size0, но публичные вызывающие выходят до trait при T::IS_ZST; CD-2 для него пустое, cut недостижим. Четыре dereference failures ZST stable в job85 без места; их происхождение/конкретная N не установлены.
+
+#### K16s/CD-5: отдельная достижимость среза по каждой merge-паре
+
+Все строки — SUCCESS,gate true,cover2/2 (cut и normal return),tooling ok. Контроль тихого cut на самом K16 u8/network18: job91,15,568827с, ровно1/395 failed, `assertion failed: x != x`, network.rs:1123. Это исход контрольного SHA675db96f, место относится к нему.
+
+| Тип | Маршрут | N | время, с | job |
+|---|---|---|---:|---|
+| u8 | stable-Freeze/general | 17 | 10.78084 | 91 |
+| u8 | unstable/network | 18 | 16.79686 | 91 |
+| u128 | stable-Freeze/general | 17 | 13.167816 | 93 |
+| u128 | unstable/general | 17 | 13.641396 | 93 |
+| [u8;16] | stable-Freeze/general | 17 | 14.394263 | 95 |
+| [u8;16] | unstable/general | 17 | 16.41876 | 95 |
+| [u8;17] | stable-Freeze/general | 17 | 17.309317 | 96 |
+| [u8;17] | unstable/general | 17 | 19.183737 | 97 |
+| W2Drop(u8) | stable-Freeze/general | 17 | 11.544998 | 98 |
+| W2Drop(u8) | unstable/general | 17 | 11.508669 | 98 |
+| [u8;85] | stable-Freeze/general | 17 | 13.805881 | 99 |
+| [u8;85] | unstable/general | 17 | 13.648103 | 99 |
+| [u8;86] | stable-Freeze/general | 17 | 13.90589 | 101 |
+
+Non-Freeze defaults/fallback и insertion не имеют ord-panic/merge, для них отдельная cut-reachability не требуется. Единственный assume(false) в w2_assume_ord_violation, covering wrapper вызывает то же тело; других ручных targets и stub_verified в W2 нет.
+
+#### Итог K11s/B4
+
+Каждая N1..15 и каждый offset1..N, exact массив. Ordinary proof, без предположения порядка префикса и без stub. N13..15<=600с, но >180с; отдельные N13/N14/N15 подготовлены NOT_RUN.
+
+| N | Гармоника network:: | время, с | job | cover | gate |
+|---|---|---:|---|---|---|
+| 1..5 | w2_k11s_1_5 | 5.5636306 | 107 | 16/16 | true |
+| 6..10 | w2_k11s_6_10 | 65.808174 | 107 | 16/16 | true |
+| 11,12 | w2_k11s_11_12 | 81.25607 | 108 | 7/7 | true |
+| 13,14,15 | w2_k11s_13_15 | 264.4463 | 108 | 10/10 | true |
+| 16..20 | исходная символическая форма; const-форма | — | 102 / 103 | OOM / evidence отсутствует | false |
+
+K11 только u64, данные полной ширины, comparator volatile-читает оба аргумента и выбирает bool. Const-форма103 не имеет summary, её исход неизвестен. Измеренное исправление1..15 не переносится на16..20.
+
+#### Итог O3-s insertion
+
+Каждая N1..15 и каждый offset1..N, exact массив. Ordinary proof, без предположения порядка префикса и без stub. N13..15<=600с, но >180с; отдельные N13/N14/N15 подготовлены NOT_RUN.
+
+| N | Гармоника network:: | время, с | job | cover | gate |
+|---|---|---:|---|---|---|
+| 1..5 | w2_o3_insertion_1_5 | 8.244699 | 107 | 17/17 | true |
+| 6..10 | w2_o3_insertion_6_10 | 83.65359 | 107 | 17/17 | true |
+| 11,12 | w2_o3_insertion_11_12 | 77.838295 | 108 | 8/8 | true |
+| 13,14,15 | w2_o3_insertion_13_15 | 249.35915 | 108 | 11/11 | true |
+| 16..20 | w2_o3_insertion_16_20 | — | 105 / 106 | NOT_RUN / OOM | false |
+
+O3 input полный Cell<Tagged{key:u8,tag:u8}>, comparator читает оба Tagged до первой записи и пишет новые key, сохраняя прочитанные tag; возвращает bool. Перестановка тегов не проверяется.
+
+#### Итог O3-s: trait-маршруты
+
+| N | Маршруты | время семейства, с | job | cover | gate |
+|---|---|---:|---|---|---|
+| 0..4 | stable default и unstable fallback | 2.7734878 | 104 | 12/12 | true |
+| 5..8 | stable default и unstable fallback | 13.484979 | 104 | 10/10 | true |
+| 9..12 | stable default и unstable fallback | 35.720062 | 104 | 10/10 | true |
+| 13..16 | stable default и unstable fallback | 79.54504 | 104 | 10/10 | true |
+
+Каждая пара route×N покрыта, плюс key-change cover. Defaults зовут insertion с offset1; результат не расширяет direct-insertion/all-offset домен до16.
+
+#### Сводный журнал24 dispatch и бюджет
+
+Все measurement, circleci-linux-large, pin9461e07a,10мин/гармонику. Полные названия/исходы гармоник и SHA запросов — в журнале выше и summary. Peak относится ко всему job включая компиляцию, не отдельной гармонике. Check-tooling всех jobs с summary ok против9de80e0b; у103 только сравнение lane ok, summary binding недоступен.
+
+| # | job | head | summary | gate | wall с компиляцией | RSS KiB | cgroup peak GiB / OOM |
+|---|---|---|---|---|---|---:|---|
+| 1 | 75 | 7d225f14 | COMPLETE | false | 0:56.60 | 1646552 | 1.83 / 0 |
+| 2 | 77 | 925a33cd | COMPLETE | true | 0:57.13 | 1645388 | 1.83 / 0 |
+| 3 | 80 | eaa2110a | COMPLETE | true | 6:15.95 | 3551312 | 5.05 / 0 |
+| 4 | 82 | c8d64834 | COMPLETE | true | 3:06.52 | 4086796 | 5.44 / 0 |
+| 5 | 85 | 8e5ebe1d | COMPLETE | false | 8:46.39 | 13061100 | 13.00 / 1 |
+| 6 | 88 | 0f2e809b | COMPLETE | true | 1:32.31 | 1804000 | 1.92 / 0 |
+| 7 | 89 | 4c1a1c6d | COMPLETE | true | 4:58.78 | 3087436 | 3.87 / 0 |
+| 8 | 91 | 675db96f | COMPLETE | true | 2:57.24 | 3415012 | 4.03 / 0 |
+| 9 | 93 | e729e7b1 | COMPLETE | true | 4:55.32 | 7095748 | 7.33 / 0 |
+| 10 | 94 | 5bc0f10f | COMPLETE | true | 6:51.70 | 4138580 | 4.81 / 0 |
+| 11 | 95 | 5fde65c5 | COMPLETE | true | 3:34.05 | 4144360 | 4.71 / 0 |
+| 12 | 96 | 4142e7a1 | COMPLETE | true | 7:24.46 | 4419996 | 5.24 / 0 |
+| 13 | 97 | 11d5cba1 | COMPLETE | true | 3:32.70 | 2791296 | 3.25 / 0 |
+| 14 | 98 | 0db390bd | COMPLETE | true | 2:53.35 | 2368260 | 3.18 / 0 |
+| 15 | 99 | ac1ae0a7 | COMPLETE | true | 2:50.05 | 3466668 | 3.87 / 0 |
+| 16 | 100 | 60f1d860 | COMPLETE | true | 5:52.43 | 2927140 | 3.63 / 0 |
+| 17 | 101 | 0f3b147f | COMPLETE | true | 1:57.93 | 1849860 | 2.15 / 0 |
+| 18 | 102 | 3945cb8d | COMPLETE | false | 15:28.62 | 13610576 | 13.00 / 4 |
+| 19 | 103 | 823fe414 | RUNNER_ERROR без summary | false | — | — | — |
+| 20 | 104 | 40a1f1cd | COMPLETE | true | 2:54.98 | 3117252 | 3.26 / 0 |
+| 21 | 105 | 9bafd1d2 | RUNNER_ERROR | false | — | — | — / — |
+| 22 | 106 | a91cec0a | COMPLETE | false | 9:55.80 | 13608280 | 13.00 / 1 |
+| 23 | 107 | 9bdfe928 | COMPLETE | true | 3:25.67 | 3505980 | 3.59 / 0 |
+| 24 | 108 | 51b8d21c | COMPLETE | true | 11:56.12 | 11796100 | 11.76 / 0 |
+
+Dispatch24/24, все завершены. Известный summary wall 6784.10с=113.0683мин; 103/105 и подготовка не входят, это не точные API минуты. Верхняя оценка суммы фактических минут по последовательному окну: <= 199.84мин (T0 до отчёта 18:39:06Z, одновременно у агента был максимум1 незавершённый job). Она включает даже паузы/ожидания и неизвестные103/105, поэтому лимит300мин не превышен; точный CD-3 API учёт остаётся у координатора. Все dispatch до20:49:16Z и отчёт до21:19:16Z. Память/swap результатов с gate true ENFORCED13GiB/OOM0/off. Неизвестные ресурсы103/105 не приписываются измеренным OOM.
+
+#### Передача и открыто
+
+- O1: 18..32/u64 вариант А измерен и шаблон принят; совместно с ordinary0..17 волны1 покрывает порог32. Другие panic не маскируются should_panic.
+- K16:143/143 non-ZST клетки измерены,13/13 отдельные merge-reachability измерены. ZST не даёт зачёта публичной сортировки; trait failures/OOM раскрыты. R9 отдельных новых type-реализаций/общего итогового кода ожидается.
+- K11/B4: измерены1..15/all offsets,16..20 открыты. Для цели180с готовы w2_k11s_n13/n14/n15, все NOT_RUN; нужен новый разрешённый замер координатора.
+- O3: оба non-Freeze trait-маршрута0..16 и direct insertion1..15/all offsets измерены; direct16..20 открыта. Для цели180с готовы w2_o3_insertion_n13/n14/n15, все NOT_RUN.
+- macOS/M1, uninit, aliasing, unwind, correctness/permutation/Drop count не измерены. Приоритет2/K10/K9s не начат. Runtime/lane не менялись; R6 CD-5 только влит с базы. Локально Kani/rustc/cargo не запускались, чистая комната соблюдена.
+
+Итоговый код для R9: bf3e03f794d3abab965a6351fe088f6c0dbd4b1c. Измеренные исходы привязаны к SHA своих jobs, а не к неизмеренным добавленным одиночным split-гармоникам. Итоговое R9 не подменяется этим отчётом.
+
+
+REVIEW REQUEST bf3e03f794d3abab965a6351fe088f6c0dbd4b1c
+
+Итоговый код network.rs: весь П1, включая шесть подготовленных NOT_RUN
+split-гармоник N13/N14/N15 для K11/O3. Это дополнение к сводному запросу
+2d903161; измеренные тела/домены jobs107/108 не менялись.
+Сводные таблицы и журнал всех24 jobs — в текущем RESULT-network.md,
+раздел «Волна2»; RUN-REQUEST.json — последний measurement108.
+Контекст: smallsort.rs/shared/mod.rs, scripts/run-kani.sh, CD-5 в R6-WAVE2.md.
+
+Финальная локальная проверка: runtime smallsort.rs/merge.rs и lane равны
+исходным разрешённым версиям; собственные изменения проходят diff --check.
+У R6-WAVE2.md есть унаследованная от базы133da80c пустая строка в конце
+(diff --check относительно a274c768 её отмечает); файл координатора не правился.
+Локальных запусков Kani/rustc/cargo не было. Новых dispatch нет,24/24.
