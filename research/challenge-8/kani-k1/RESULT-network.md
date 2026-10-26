@@ -2591,3 +2591,9 @@ N12 пока только sortedness. Новых dispatch по команде к
 REVIEW REQUEST 9d107af4c5da158005182fd60e89b0ef3c97aea4
 
 network.rs: два применения прежнего K10 macro для N13 u8/u64. RUN-REQUEST.json; RESULT-network.md (ночь). Проверить вместе с открытыми ea7c674d/a136cf54/6b758cb8/53e28830: sortedness верхнего маршрута отдельно от permutation insertion-хвоста, структурная композиция сетей. Новых helpers/допущений нет.
+
+| Ночной dispatch | request_id | job | head SHA | гармоники | ожидаемый статус |
+|---|---|---|---|---|---|
+| 1 (П2 #15) | net-night-01-k10-perm12-sorted13 | 128 | 46ef1b56 | w2p2_k10_perm_u8_n12; w2p2_k10_perm_u64_n12; w2p2_k10_u8_n13; w2p2_k10_u64_n13 | SUCCESS |
+
+Ожидание `k1.sh watch 128`, затем конец turn. После уведомления: summary128 и check-tooling против 9de80e0b. Ночная очередь не завершена; следующий шаг определяется результатом.
