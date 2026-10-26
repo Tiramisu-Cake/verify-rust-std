@@ -2,6 +2,18 @@
 
 Агент: K1-merge (фазы 1–6: Claude Code, Opus 5.5; фазы 7–9: Codex). Ветка `experiment/kani-k1-merge-20261024`. Норматив — [EXPERIMENT.md](EXPERIMENT.md), задание — [TASK-merge.md](TASK-merge.md).
 
+## Ночь 2026-10-27
+
+T0: 2026-10-26T20:49:28Z (`date -u`, UTC системных часов).
+
+- Очередь: K-10 с GS N2, затем K-12a, затем K-14r.
+- Новые dispatch до 2026-10-27T05:00:00Z; CircleCI, один job за раз,
+  ожидание через `k1.sh watch`. База не вливается, lane не меняется.
+- Передача: jobs 110/115 измерены; job 117 без summary, Kani не измерен.
+  Первым повторяется пакет fallback N0/1 и GS u64/u8 N2 с новым request_id.
+- Норматив NIGHT/TASK-night/R6-WAVE2/R5-WAVE1 прочитан с базовой ветки;
+  check-tooling `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
