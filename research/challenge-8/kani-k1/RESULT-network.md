@@ -2052,3 +2052,12 @@ swap_if_less с константными индексами. Его основа
 мультимножество непосредственно, включая реальные insertion-части;
 при ресурсном отказе дальнейшее решение записывается по R7.
 Запрос net-w2p2-04-k10-network-0-4:4гармоники x10мин, unwind25.
+
+REVIEW REQUEST 7adb2498aa62ec0060b4003fcd5406d98503616b
+
+network.rs: w2p2_strict_less/k10_fixed/k10_cases и4первых K10 proof;
+RUN-REQUEST.json; RESULT-network.md, П2 K10 R7/ledger. Проверить full-width
+u64/u8, естественный strict order, точные N, sortedness и произвольную
+multiplicity-пробу. Все реальные callee, никаких verified stubs/редукций.
+Контекст: smallsort.rs outer trait/network/insertion, sorted_by/probe_count,
+CI flags. Начальный домен0..4, рост до17 далее; K9s отдельно.
