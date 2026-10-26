@@ -1175,7 +1175,13 @@ general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [
 // no verified contracts are substituted (D0). The only manual stub is the O2
 // panic boundary below. It models termination at panic under -Cpanic=abort.
 
-fn w1_arbitrary_less(_: &u64, _: &u64) -> bool {
+fn w1_arbitrary_less(a: &u64, b: &u64) -> bool {
+    // CD-2: creating &*p alone is not a checked memory access in the CI lane.
+    // Volatile reads preserve both accesses even though the result is arbitrary.
+    unsafe {
+        ptr::read_volatile(a);
+        ptr::read_volatile(b);
+    }
     kani::any()
 }
 
@@ -1292,6 +1298,7 @@ fn w1_control_b_oob_arbitrary() {
 // K-6+ (a), O1 as defined by CD-1: only Kani safety checks, allowing all
 // assertion-class panics. Real merge body, no contracts/stubs/assumptions.
 fn w1_merge_safety<const N: usize>() {
+    const { assert!(N >= 2 && N <= 32) };
     let v: [u64; N] = kani::any();
     let mut dst = MaybeUninit::<[u64; N]>::uninit();
     // SAFETY: each harness uses N >= 2; v is initialized, dst is separate and
@@ -1315,6 +1322,15 @@ fn w1_merge_u64_len32_safety() {
 #[repr(transparent)]
 struct W1GeneralU64(u64);
 
+fn w1_general_arbitrary_less(a: &W1GeneralU64, b: &W1GeneralU64) -> bool {
+    // CD-2: read each complete transparent u64 payload before choosing a result.
+    unsafe {
+        ptr::read_volatile(&a.0);
+        ptr::read_volatile(&b.0);
+    }
+    kani::any()
+}
+
 fn w1_general_u64_safety<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     super::super::small_sort_general(&mut v, &mut w1_arbitrary_less);
@@ -1326,7 +1342,7 @@ fn w1_general_trait_safety<const N: usize>() {
     let mut v = payload.map(W1GeneralU64);
     <W1GeneralU64 as UnstableSmallSortFreezeTypeImpl>::small_sort(
         &mut v,
-        &mut |_: &W1GeneralU64, _: &W1GeneralU64| kani::any(),
+        &mut w1_general_arbitrary_less,
     );
     kani::cover(true, "wave1 general non-Copy u64 trait: normal return reachable");
 }
@@ -1358,3 +1374,31 @@ w1_top_safety!(w1_general_trait_len32_safety, w1_general_trait_safety, 32);
 w1_top_safety!(w1_stable_u64_len17_safety, w1_stable_u64_safety, 17);
 w1_top_safety!(w1_stable_u64_len24_safety, w1_stable_u64_safety, 24);
 w1_top_safety!(w1_stable_u64_len32_safety, w1_stable_u64_safety, 32);
+
+
+// CD-2 remeasurements: one independently chosen route per execution avoids
+// spending separate timeout reservations on the three identical-size routes.
+// There are no assumptions: all u8 selectors are handled, with a distinct
+// normal-return cover in each route helper.
+fn w1_upper_routes_safety<const N: usize>() {
+    let route: u8 = kani::any();
+    match route {
+        0 => w1_general_u64_safety::<N>(),
+        1 => w1_general_trait_safety::<N>(),
+        _ => w1_stable_u64_safety::<N>(),
+    }
+}
+
+w1_top_safety!(w1_cd2_routes_len17_safety, w1_upper_routes_safety, 17);
+w1_top_safety!(w1_cd2_routes_len24_safety, w1_upper_routes_safety, 24);
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(34)]
+fn w1_cd2_routes_len32_safety() {
+    if kani::any() {
+        w1_merge_safety::<32>();
+    } else {
+        w1_upper_routes_safety::<32>();
+    }
+}
