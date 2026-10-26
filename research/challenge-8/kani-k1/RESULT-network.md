@@ -989,3 +989,7 @@ REVIEW REQUEST 5a8c9961b68f85adbeb4ade536123abdc301cc33
 Дополнение к 3ce9177c: network.rs (пять применений w2_type_cases для u8),
 RUN-REQUEST.json, RESULT-network.md (job 85, раскрытие ZST, R7 разбиения u8).
 Общий шаблон и quiet/reachability-контроли те же, что в 3ce9177c.
+
+| 6 | net-w2-06-k16-u8-control | 88 | 0f2e809b | w2_control_a_quiet_assertion; w2_control_a_reachability; w2_k16_u8_stable_lo; w2_k16_u8_network_short | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
+
+Ожидание `k1.sh watch 88`, затем конец turn. Счёт dispatch 6/24.
