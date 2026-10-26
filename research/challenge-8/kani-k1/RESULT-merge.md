@@ -2177,3 +2177,12 @@ cgroup peak 5.65 GiB, ENFORCED 13 GiB во всех jobs, OOM 0.
 Окно dispatch до 18:48:47Z и отчёта до 19:18:47Z соблюдено.
 
 ВОЛНА 2 П1 ЗАВЕРШЁН
+
+REVIEW REQUEST 3178f164d0e9ccecb0817e2e84d3b11bc67fe487
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(без изменений с `e4e24db8`, R9 GO_WITH_NITS),
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: summary jobs
+76/78/79/81/83/84/86/87/90/92 и check-tooling ok каждого против
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`; итоговая матрица П1 выше.
