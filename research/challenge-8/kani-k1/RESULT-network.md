@@ -943,3 +943,43 @@ size/scratch/Freeze/Copy ветки, network и general), scripts/run-kani.sh.
 | 5 | net-w2-05-k16-zst-control | 85 | 8e5ebe1d | w2_control_a_quiet_assertion; w2_control_a_reachability; w2_k16_zst_stable; w2_k16_zst_network_short | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
 
 Ожидание `k1.sh watch 85`, затем конец turn. Счёт dispatch 5/24.
+
+#### Job 85 / ZST раскрыт, переход к u8
+
+COMPLETE, gate false, check-tooling ok против 9de80e0b.
+
+| Гармоника | ожидается | исход | Verification Time, с | checks failed/total | cover |
+|---|---|---|---:|---|---|
+| w2_control_a_quiet_assertion | FAILED | FAILED | 0,2769246 | 1/323 | 1/1 |
+| w2_control_a_reachability | SUCCESS | SUCCESS | 16,536684 | 0/322 | 2/2 |
+| w2_k16_zst_stable | SUCCESS | FAILED | 171,40805 | 4/423 | 11/11 |
+| w2_k16_zst_network_short | SUCCESS | OUT_OF_MEMORY | — | — | — |
+
+Quiet assertion — ровно `assertion failed: x != x`, network.rs:1069.
+ZST stable — `dereference failure: pointer NULL`, `pointer invalid`,
+`pointer outside object bounds`, `invalid integer address`; все без места
+в summary. Ограниченные log-grep (24 строки максимум) и log-lines 2717..2749
+также не дают места. Конкретный путь/длина и происхождение этих проверок
+не установлены; ошибкой публичной сортировки это не объявляется.
+Covers каждой N normal return выполнены, но безопасность не доказана.
+
+13 GiB ENFORCED, peak 13,00 GiB, RSS 13061100 KiB, OOM 1, swap off;
+network_short сообщил OUT_OF_MEMORY. Это ресурсный исход, не контрпример.
+Wall с компиляцией 526,39 с. Сумма summary wall П1: 1202,59 с = 20,0432 мин,
+без подготовки CircleCI, не API минуты. Все строки job 85 без зачёта
+из-за gate false/единственного OOM. Контроль quiet логически ожидаем,
+но повторяется для общего gate с памятью без OOM.
+
+R7: правило K16 «неуложившуюся клетку раскрыть и идти дальше» применено
+к ZST. Stable запрошенные N дали FAILED; network 8,9,12,13,17 дал OOM.
+Network 18,31,32 не отправляется после OOM короткого семейства; остаётся
+NOT_RUN с раскрытым исходным риском ZST-цикла. Дополнительная локализация
+провалов/деление ZST отложены в пользу остальных обязательных типов/осей.
+Runtime, lane и тип ZST не заменяются; корректность Kani-модели ZST
+дополнительным контролем не установлена.
+
+R7: u8 stable разбит на 0,1,2,7,8 / 15,16,17 / 31,32;
+network на 8,9,12,13,17 / 18,31,32. Порядок коротких длин сохранён.
+Тот же w2_type_cases с точными массивами, full-width u8 и отдельным
+post-call cover каждой N. Сейчас measurement 4 x 10 мин:
+quiet assertion, reachability, stable_lo, network_short.

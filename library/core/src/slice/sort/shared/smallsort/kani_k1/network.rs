@@ -1071,3 +1071,9 @@ fn w2_control_a_quiet_assertion() {
 
 w2_type_cases!(w2_k16_zst_stable, (), true, [0, 1, 2, 7, 8, 15, 16, 17, 31, 32]);
 w2_type_cases!(w2_k16_zst_network_short, (), false, [8, 9, 12, 13, 17]);
+
+w2_type_cases!(w2_k16_u8_stable_lo, u8, true, [0, 1, 2, 7, 8]);
+w2_type_cases!(w2_k16_u8_stable_mid, u8, true, [15, 16, 17]);
+w2_type_cases!(w2_k16_u8_stable_hi, u8, true, [31, 32]);
+w2_type_cases!(w2_k16_u8_network_short, u8, false, [8, 9, 12, 13, 17]);
+w2_type_cases!(w2_k16_u8_network_merge, u8, false, [18, 31, 32]);

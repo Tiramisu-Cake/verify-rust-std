@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-05-k16-zst-control",
+  "request_id": "net-w2-06-k16-u8-control",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K16s ZST stable lengths 0,1,2,7,8,15,16,17,31,32 and network 8,9,12,13,17 via real outer traits, exact arrays. Shared variant A cut separates dedicated reachability cover from short proofs; repeat assertion control and real reachability.",
+  "purpose": "After ZST FAILED/OOM in job85, disclose ZST cell and proceed to u8: stable 0,1,2,7,8 and network 8,9,12,13,17, exact arrays/actual traits/CD2 reads. Repeat quiet assertion and covering reachability for gate. Safety only.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -17,11 +17,11 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_zst_stable",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_lo",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_zst_network_short",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_network_short",
       "expect": "SUCCESS"
     }
   ]
