@@ -162,7 +162,7 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
 | 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
-| 9 | 9, u64 и u8 | 147: SUCCESS обоих, gate false; нужен повтор | не измерено |
+| 9 | 9, u64 и u8 | 149, SUCCESS обоих типов | не измерено |
 | 10 | 10, u64 и u8 | не измерено | не измерено |
 | 11 | 11, u64 и u8 | не измерено | не измерено |
 | 12 | 12, u64 и u8 | не измерено | не измерено |
@@ -511,6 +511,36 @@ characters`, запрос отклонён до запуска Kani. check-tooli
 `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
 Исправленный запрос `w2-merge-night-bm9-f67-confirm-retry-013`
 прошёл validate; запускается после прочтения этой сводки.
+
+### Job 149 — w2-merge-night-bm9-f67-confirm-retry-013
+
+Head `43f3911ca976de0fb62b72b1e2d9219c893a6042`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1769432 KiB; wall с компиляцией 6:14.99.
+Cgroup peak 2.27 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len9` | SUCCESS / SUCCESS | 110.170074 | 0/442 | 92 | 1/1 |
+| `w2p2_bm_u8_len9` | SUCCESS / SUCCESS | 90.03052 | 0/435 | 94 | 1/1 |
+| `w2p2_fallback_len6` | SUCCESS / SUCCESS | 23.419857 | 0/422 | 122 | 2/2 |
+| `w2p2_fallback_len7` | SUCCESS / SUCCESS | 108.76454 | 0/422 | 120 | 2/2 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные counts сверены отдельно от gate: bm N9 — 1/1 обоих типов;
+fallback N6/7 — 2/2 каждой длины. Подтверждены ранее успешные строки
+jobs 143/147 в отдельном пакете с gate true. Таблица R4 N9 обновлена.
+Текущий зачёт K-10: GS u64/u8 N0..8; fallback u64/u8 N0..7.
+Typed fallback u8 N8 из job 147 пока без gate true и R9 `92d4edd8`.
+
+### N-D17 (R7): GS N9 и prerequisites bm N10
+
+`w2-merge-night-gs9-bm10-014`: GS N9 u64/u8 с verified stub merge,
+proof bm N10 u64/u8 с реальным телом; все expected SUCCESS, 4×10 мин.
+R4 для GS N9: bm N9 обоих типов job 149, R11 halves_sorted job 110.
+До proof N10 обоих типов GS N10 не запускается. Код/ledger без изменений.
+После dispatch ночных jobs 14, preflight отказов 3;
+с П2 до ночи: 19 jobs, 4 preflight отказа, 23/40 консервативных попыток.
 
 ## Фаза 9
 
