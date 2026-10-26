@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p8-full8-027",
+  "request_id": "merge-p9-width8-028",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 8 Q6: full invariant state A (5edf162c), fixed N=8 after N=16 instrumentation SIGKILL. Only rename bm_u64_len32 to bm_u64_len8 and call bm_len<u64,_,8>; contract/count, unwind(34), K1_UNROLL=32 unchanged. Resource only.",
+  "purpose": "Phase 9 Q7: A (5edf162c) full invariant contract, fixed N=8 and helper width 8: K1_UNROLL=8, four element step lists trimmed to indices <8. Existing sorted-halves requires bounds len<=width. Value comparisons and invariant logic preserved on len<=8. Resource only.",
   "runner": "gcb-e2-highmem-4",
   "harness_timeout_minutes": 30,
   "harnesses": [
