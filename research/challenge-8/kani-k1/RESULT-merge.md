@@ -1767,10 +1767,10 @@ T0 опубликован в `2f0a6e7b`. Lane diff против `9de80e0b…` п
 
 | Гармоника (префикс `w2_c5_`) | expect | expect_check | actual / место |
 |---|---|---|---|
-| `intrinsic_assume` | FAILED | `Rust intrinsic assumption failed` | не измерено |
-| `unchecked_add` | FAILED | ``attempt to compute `unchecked_add` which would overflow`` | не измерено |
-| `copy_nonoverlapping` | FAILED | `memcpy src/dst overlap` | не измерено |
-| `ptr_add` | FAILED | `Offset result and original pointer must point to the same allocation` | не измерено |
+| `intrinsic_assume` | FAILED | `Rust intrinsic assumption failed` | FAILED, `merge.rs:1522` |
+| `unchecked_add` | FAILED | ``attempt to compute `unchecked_add` which would overflow`` | FAILED, `core/src/num/uint_macros.rs:1039` |
+| `copy_nonoverlapping` | FAILED | `memcpy src/dst overlap` | FAILED, `core/src/ptr/mod.rs:582` |
+| `ptr_add` | FAILED | `Offset result and original pointer must point to the same allocation` | FAILED, `core/src/lib.rs:357` (offset model) |
 
 ### Журнал прогонов
 
@@ -1784,3 +1784,27 @@ REVIEW REQUEST e4e24db87cf554ba4c0011ee8acae4d33dbe8d2e
 Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. Review R9 через координатора.
+
+### Job 76 — C-5
+
+Head `73d430ecfbf84bb86b3244b2634bdb4b41e3c235`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 1 (четыре ожидаемых FAILED).
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1655396 KiB, cgroup peak 1.89 GiB, ENFORCED 13 GiB,
+OOM 0, swap off, wall verify с компиляцией 41.12 с.
+
+| Гармоника (префикс `w2_c5_`) | expect / actual | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `intrinsic_assume` | FAILED / FAILED | 0.36273086 | 1/139 | 1/1 |
+| `unchecked_add` | FAILED / FAILED | 0.36430338 | 1/153 | 1/1 |
+| `copy_nonoverlapping` | FAILED / FAILED | 0.3752446 | 1/126 | 1/1 |
+| `ptr_add` | FAILED / FAILED | 0.37160674 | 1/137 | 1/1 |
+
+Текст и место единственного failed check каждой строки — в таблице C-5
+выше. В каждой строке 4 unreachable checks. Все четыре нарушения измерены
+как FAILED под `should_panic`, маскировки этих проверок не наблюдалось.
+Это измерение C-5; независимый R9 пока ожидается.
+
+Следующий запрос `w2-merge-control-a-002`: две гармоники по 10 мин.
+После dispatch **2/14**; завершённый job один, wall verify 0.6853 мин
+(без подготовки CircleCI, не API job wall). O1-A пока не измерена.
