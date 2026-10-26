@@ -828,3 +828,14 @@ scripts/run-kani.sh; существующий w2_cut_ord_violation и контр
 | 3 | net-w2-03-o1-a-18-29 | 80 | eaa2110a | w2_network_o1_a_18_21; w2_network_o1_a_22_25; w2_network_o1_a_26_27; w2_network_o1_a_28_29 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 80`, затем конец turn. Счёт dispatch 3/24.
+
+R9 995164ac — GO_WITH_NITS, получен от координатора. Контроль А засчитан:
+job 77 ровно 1 failed check (1/327), `assertion failed: v[0] != v[0]`
+на network.rs:958; reachability SUCCESS, covers 2/2, gate true,
+check-tooling ok. Лишних провалов у assertion-гармоники в summary нет.
+
+Нит раскрыт: [u64;2] не достигает слияния/заглушки; связь с вариантом А
+на merge-пути подтверждается отдельной reachability на [u64;18],
+косвенно, без assertion-контроля после merge. R7: дополнительный контроль
+на 18 необязателен по вердикту, не добавляется; бюджет направлен на П1.
+Job 80 ожидается через уже запущенный watch; нового dispatch сейчас нет.
