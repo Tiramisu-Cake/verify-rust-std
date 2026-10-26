@@ -1495,3 +1495,131 @@ w1_top_safety!(w1_cd3_all_len29_safety, w1_upper_routes_safety, 29);
 w1_top_safety!(w1_cd3_all_len30_safety, w1_upper_routes_safety, 30);
 w1_top_safety!(w1_cd3_all_len31_safety, w1_upper_routes_safety, 31);
 w1_top_safety!(w1_cd3_all_len32_safety, w1_upper_routes_safety, 32);
+
+// Wave 2, R6 priority 1. Historical wave-1 harnesses stay unchanged.
+// C-5 uses an honest comparator and reaches each check after a normal merge.
+fn w2_c5_normal_merge() -> [u64; 4] {
+    let v = [0u64, 1, 2, 3];
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source and separate destination, both exactly four
+    // elements; honest comparison on two ordered halves.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
+        let out = dst.assume_init();
+        kani::cover(true, "wave2 C5: normal merge return before check");
+        out
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w2_c5_intrinsic_assume() {
+    let v = w2_c5_normal_merge();
+    // Deliberate C-5 check violation, not a proof-domain assumption.
+    unsafe {
+        let first = ptr::read_volatile(&v[0]);
+        crate::intrinsics::assume(first != 0);
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w2_c5_unchecked_add() {
+    let _v = w2_c5_normal_merge();
+    // Deliberate C-5 overflow. Volatile input/output retain the operation.
+    unsafe {
+        let max = ptr::read_volatile(&u8::MAX);
+        let mut result = 0u8;
+        ptr::write_volatile(&mut result, max.unchecked_add(1));
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w2_c5_copy_nonoverlapping() {
+    let mut v = w2_c5_normal_merge();
+    // Deliberate C-5 overlap: both regions are within this four-element
+    // allocation and aligned, but share elements 1 and 2.
+    unsafe {
+        let p = v.as_mut_ptr();
+        ptr::copy_nonoverlapping(p, p.add(1), 3);
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w2_c5_ptr_add() {
+    let v = w2_c5_normal_merge();
+    // Deliberate C-5 offset beyond one-past. Only the pointer value is
+    // written into a valid local slot; it is never dereferenced.
+    unsafe {
+        let mut result = ptr::null::<u64>();
+        ptr::write_volatile(&mut result, v.as_ptr().add(5));
+    }
+}
+
+// Variant A cuts only panic_on_ord_violation. Reuse the exact CD-2 helpers:
+// fixed-size arrays, real callees, and volatile reads of both arguments.
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+#[kani::unwind(6)]
+fn w2_control_a_assertion() {
+    w1_merge_safety::<4>();
+    let value: u64 = kani::any();
+    assert!(value != value);
+}
+
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+#[kani::unwind(6)]
+fn w2_control_a_reachable() {
+    w1_merge_safety::<4>();
+}
+
+macro_rules! w2_top_safety_a {
+    ($name:ident, $body:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body::<$n>();
+        }
+    };
+}
+
+w2_top_safety_a!(w2_a_merge_u64_len32_safety, w1_merge_safety, 32);
+w2_top_safety_a!(w2_a_all_len2_safety, w1_upper_routes_safety, 2);
+w2_top_safety_a!(w2_a_all_len3_safety, w1_upper_routes_safety, 3);
+w2_top_safety_a!(w2_a_all_len4_safety, w1_upper_routes_safety, 4);
+w2_top_safety_a!(w2_a_all_len5_safety, w1_upper_routes_safety, 5);
+w2_top_safety_a!(w2_a_all_len6_safety, w1_upper_routes_safety, 6);
+w2_top_safety_a!(w2_a_all_len7_safety, w1_upper_routes_safety, 7);
+w2_top_safety_a!(w2_a_all_len8_safety, w1_upper_routes_safety, 8);
+w2_top_safety_a!(w2_a_all_len9_safety, w1_upper_routes_safety, 9);
+w2_top_safety_a!(w2_a_all_len10_safety, w1_upper_routes_safety, 10);
+w2_top_safety_a!(w2_a_all_len11_safety, w1_upper_routes_safety, 11);
+w2_top_safety_a!(w2_a_all_len12_safety, w1_upper_routes_safety, 12);
+w2_top_safety_a!(w2_a_all_len13_safety, w1_upper_routes_safety, 13);
+w2_top_safety_a!(w2_a_all_len14_safety, w1_upper_routes_safety, 14);
+w2_top_safety_a!(w2_a_all_len15_safety, w1_upper_routes_safety, 15);
+w2_top_safety_a!(w2_a_all_len16_safety, w1_upper_routes_safety, 16);
+w2_top_safety_a!(w2_a_all_len17_safety, w1_upper_routes_safety, 17);
+w2_top_safety_a!(w2_a_all_len18_safety, w1_upper_routes_safety, 18);
+w2_top_safety_a!(w2_a_all_len19_safety, w1_upper_routes_safety, 19);
+w2_top_safety_a!(w2_a_all_len20_safety, w1_upper_routes_safety, 20);
+w2_top_safety_a!(w2_a_all_len21_safety, w1_upper_routes_safety, 21);
+w2_top_safety_a!(w2_a_all_len22_safety, w1_upper_routes_safety, 22);
+w2_top_safety_a!(w2_a_all_len23_safety, w1_upper_routes_safety, 23);
+w2_top_safety_a!(w2_a_all_len24_safety, w1_upper_routes_safety, 24);
+w2_top_safety_a!(w2_a_all_len25_safety, w1_upper_routes_safety, 25);
+w2_top_safety_a!(w2_a_all_len26_safety, w1_upper_routes_safety, 26);
+w2_top_safety_a!(w2_a_all_len27_safety, w1_upper_routes_safety, 27);
+w2_top_safety_a!(w2_a_all_len28_safety, w1_upper_routes_safety, 28);
+w2_top_safety_a!(w2_a_all_len29_safety, w1_upper_routes_safety, 29);
+w2_top_safety_a!(w2_a_all_len30_safety, w1_upper_routes_safety, 30);
+w2_top_safety_a!(w2_a_all_len31_safety, w1_upper_routes_safety, 31);
+w2_top_safety_a!(w2_a_all_len32_safety, w1_upper_routes_safety, 32);

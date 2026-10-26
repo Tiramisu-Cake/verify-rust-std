@@ -1712,3 +1712,69 @@ REVIEW REQUEST e07da161d347a410b2d3af9d47f9d580278ccc2b
 ## Волна 2
 
 T0: 2026-10-26T15:18:47Z (`date -u`).
+
+Новые dispatch до **2026-10-26T18:48:47Z**, отчёт до **2026-10-26T19:18:47Z**.
+П1: ≤14 dispatch, ≤150 фактических минут job, один незавершённый job.
+T0 опубликован в `2f0a6e7b`. Lane diff против `9de80e0b…` пуст.
+
+### Решения R7
+
+- **W2-D1.** П1 выполняется по выданному владельцем заданию; исторический
+  статус «НЕ ВЫДАНО» в документах не блокирует. П2 не выполняется.
+- **W2-D2.** C-5: по одной гармонике под `should_panic`, реальное слияние
+  `[0,1,2,3]` и честный comparator, cover нормального возврата до проверки.
+  Выбран `intrinsics::assume`, разрешённый заданием вместо `assert_unchecked`.
+  Все четыре ожидания FAILED получены из исходников Kani на pin
+  `9461e07af7ec929f050aa4192f29363c9be07779`; фактические исходы фиксируются
+  независимо от gate. Несовпадение — измерение, не причина менять ожидание.
+- **W2-D3.** Контроль А — новые `w2_control_a_assertion` (FAILED,
+  `assertion failed: value != value`) и `w2_control_a_reachable` (SUCCESS)
+  в своём `merge.rs`, с читающим comparator. До их measurement нет зачёта O1-A.
+- **W2-D4.** O1-A повторяет CD-3 N2..32 через те же helpers: D general u64,
+  T реальный `UnstableSmallSortTypeImpl` на transparent non-Copy u64,
+  S stable-Freeze u64. Маршрут выбирается независимо до создания входа.
+  Слияние u64×32 — отдельная гармоника. Время объединённой длины общее для
+  D/T/S; при >180 с длина делится по маршрутам. Альтернатива сразу разделить
+  все маршруты требует лишних dispatch; оставлены четыре резервных dispatch
+  сверх плана 1 C-5 + 1 контроль А + 8 пакетов O1-A.
+
+### Ledger и область
+
+- `stub_verified`: нет; callee реальные, контракты/runtime/lane не меняются.
+- Единственная ручная заглушка — прежняя `w1_abort_ord_violation` для
+  `panic_on_ord_violation`: `cover(true)` затем `kani::assume(false)`;
+  применяется только в новых контролях А и O1-A. Обоснование `-Cpanic=abort`.
+  Достижимость отдельно проверяет `w2_control_a_reachable` и covers сводок.
+- C-5 `intrinsics::assume(first != 0)` — намеренно нарушенное условие
+  измеряемой проверки, не ограничение входов доказательства. Cover перед ним.
+- Новых `any_where` и других `kani::assume` нет. Массивы ровно N, scratch 48;
+  все u64 без редукции значений. N0/1 — прежние ранние возвраты, вне повтора П1.
+- Не проверяются uninit-чтения (нет `-Z uninit-checks`), алиасинг, полная
+  reference validity, перестановка/сортированность/Drop и восстановление
+  CopyOnDrop при unwind. Отдельное слияние N32 покрывает чётный путь;
+  нечётный хвост измеряется верхними маршрутами на нечётных N17..31.
+
+### C-5: ожидания до dispatch
+
+Источник: официальный `model-checking/kani`, pin выше. `intrinsic.rs:299–304`
+порождает класс `assume`; `rvalue.rs:187–231` — `arithmetic_overflow`;
+`intrinsic.rs:1125–1148` передаёт copy в CBMC memcpy (текст подтверждён
+`tests/expected/intrinsics/copy-nonoverlapping/copy-overlapping/expected`);
+`rustc_intrinsics.rs:102–136` подставляет offset model,
+`library/kani_core/src/models.rs:163–166` — `safety_check` границ.
+`call_cbmc.rs:716–759` маскирует только класс `assertion`.
+`operand.rs:60–64` отключает std RuntimeChecks.
+
+| Гармоника (префикс `w2_c5_`) | expect | expect_check | actual / место |
+|---|---|---|---|
+| `intrinsic_assume` | FAILED | `Rust intrinsic assumption failed` | не измерено |
+| `unchecked_add` | FAILED | `attempt to compute `unchecked_add` which would overflow` | не измерено |
+| `copy_nonoverlapping` | FAILED | `memcpy src/dst overlap` | не измерено |
+| `ptr_add` | FAILED | `Offset result and original pointer must point to the same allocation` | не измерено |
+
+### Журнал прогонов
+
+Подготовлен `w2-merge-c5-001`: 4×10 мин, measurement,
+`circleci-linux-large`; request validate и `git diff --check` — ok.
+После dispatch: **1/14**. Фактические минуты job ещё не измерены;
+API-учёт сверяет координатор. O1-A пока не измерена, proof credit нет.

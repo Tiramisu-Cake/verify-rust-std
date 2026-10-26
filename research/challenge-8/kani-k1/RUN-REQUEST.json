@@ -1,19 +1,31 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd3-len30to31-016",
+  "request_id": "w2-merge-c5-001",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-3 constant lengths 30,31: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. No stubs or assumes. merge.rs unchanged since c5720c76; CD-2 control measured in jobs 59 and 66.",
+  "purpose": "R6 C-5: four should_panic checks after honest normal-return merge. Expectations from pinned Kani source; record actual classifications independently of gate.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len30_safety",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_c5_intrinsic_assume",
+      "expect": "FAILED",
+      "expect_check": "Rust intrinsic assumption failed"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len31_safety",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_c5_unchecked_add",
+      "expect": "FAILED",
+      "expect_check": "attempt to compute `unchecked_add` which would overflow"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_c5_copy_nonoverlapping",
+      "expect": "FAILED",
+      "expect_check": "memcpy src/dst overlap"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_c5_ptr_add",
+      "expect": "FAILED",
+      "expect_check": "Offset result and original pointer must point to the same allocation"
     }
   ]
 }
