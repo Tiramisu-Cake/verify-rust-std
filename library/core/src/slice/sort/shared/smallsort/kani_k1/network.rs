@@ -955,7 +955,7 @@ fn w2_control_a_assertion() {
     let mut v: [u64; 2] = kani::any();
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
     kani::cover(true, "W2 control A: normal return before assertion");
-    assert!(v[0] != v[0], "W2 variant A assertion control");
+    assert!(v[0] != v[0]);
 }
 
 /// Reachability is through the real trait dispatch and real merge, not a direct stub call.

@@ -759,3 +759,23 @@ research/challenge-8/kani-k1/RUN-REQUEST.json, RESULT-network.md («Волна 2
 
 Счёт dispatch: 1/24. Фактические минуты пока не получены.
 Ожидание `k1.sh watch 75`, затем конец turn.
+
+#### Job 75 и исправление контроля
+
+COMPLETE, gate false: assertion FAILED, 0,28409958 с, failed 1/327,
+cover 1/2; текст `This is a placeholder message; Kani doesn't support message
+formatted at runtime`, место network.rs:958. Ожидаемая подстрока не совпала,
+контроль не засчитан. Reachability SUCCESS, 16,293974 с, 0/322 failed,
+cover 2/2 (заглушка и normal return). Общий gate false не позволяет зачёт.
+Check-tooling против 9de80e0b ok; 13 GiB ENFORCED, peak 1,83 GiB,
+RSS 1646552 KiB, OOM 0, swap off; wall с компиляцией 56,60 с = 0,9433 мин,
+без подготовки CircleCI. Фактические API минуты сверяет координатор.
+
+R7: по замечанию координатора удалено сообщение assert!: теперь
+`assert!(v[0] != v[0]);`, expect_check `v[0] != v[0]`; место по-прежнему
+network.rs:958. Структура контроля и reachability не меняется.
+Альтернатива — принять placeholder как expect_check — не выбрана:
+выражение точнее локализует ожидаемую проверку. Повторяются обе гармоники
+для общего gate; недостижимый stub cover в FAILED-контроле длины 2
+не является требованием SUCCESS, достижимость отдельно измеряется на 18.
+Запрос net-w2-02-control-a-text, measurement 2 x 10 минут, dispatch 2/24.

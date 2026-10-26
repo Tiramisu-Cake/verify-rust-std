@@ -1,16 +1,16 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-01-control-a",
+  "request_id": "net-w2-02-control-a-text",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "W2 variant A controls in network.rs: normal-return assertion must fail with location; real network length 18 must reach order-violation stub cover. No should_panic, all other callees real.",
+  "purpose": "Repeat W2 variant A controls after job 75 placeholder mismatch: message-free normal-return assertion must fail with expression and location; real network length 18 reaches order-violation stub cover. No should_panic, other callees real.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_assertion",
       "expect": "FAILED",
-      "expect_check": "W2 variant A assertion control"
+      "expect_check": "v[0] != v[0]"
     },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_reachability",
