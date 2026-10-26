@@ -817,3 +817,10 @@ N и конца. Stub тот же, что в контролях; в каждом
 поэтому cover его достижимости также должен быть выполнен.
 Запрос net-w2-03-o1-a-18-29: первые четыре семейства, measurement 4 x 10 минут.
 Семейство 30..32 подготовлено для следующего dispatch, ещё не измерено.
+
+REVIEW REQUEST 287e3514e79b6677d5bbc0ec7ad7cf84eeb31d03
+
+Файлы: network.rs (w2_network_o1_fixed, w2_network_o1_cases, пять семейств),
+RUN-REQUEST.json, RESULT-network.md («Волна 2»). Контекст: неизменённые
+smallsort.rs (outer trait → Freeze/Copy → network, реальные callee),
+scripts/run-kani.sh; существующий w2_cut_ord_violation и контроль job 77.
