@@ -1392,3 +1392,7 @@ REVIEW REQUEST 548546d5e277b52a2faba1094f183a0d92c04054
 network.rs: шесть применений type/reachability macros для [u8;86];
 RUN-REQUEST.json; RESULT-network.md, job99/dispatch a86. Helpers неизменны.
 Контекст: smallsort.rs (unstable fallback при 86*48>4096, stable внешний scratch).
+
+| 16 | net-w2-16-a85-high-a86-stable-high | 100 | 60f1d860 | w2_k16_a85_n31; w2_k16_a85_n32; w2_k16_a86_stable_n31; w2_k16_a86_stable_n32 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 100`, затем конец turn. Счёт dispatch 16/24.
