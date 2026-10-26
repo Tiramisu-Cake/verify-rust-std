@@ -1,18 +1,19 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-14-k13-safety-smallperm",
+  "request_id": "net-w2-01-control-a",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K13 fallback after job 67 timeouts: memory safety on Cell<Tagged> stable/unstable 0..16 and insertion 1..20/all offsets; tag permutation reduced to routes 0..4 and insertion 1..4. Full u8 fields; key-mutation and tag-movement covers; plain proofs, real bodies, no aliasing model.",
+  "purpose": "W2 variant A controls in network.rs: normal-return assertion must fail with location; real network length 18 must reach order-violation stub cover. No should_panic, all other callees real.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_safety_all",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_assertion",
+      "expect": "FAILED",
+      "expect_check": "W2 variant A assertion control"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_small_permutation",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_reachability",
       "expect": "SUCCESS"
     }
   ]

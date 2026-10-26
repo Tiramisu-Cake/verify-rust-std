@@ -936,3 +936,35 @@ fn k13_small_permutation() {
     kani::cover(mode == 2 && moved, "K13 insertion actually moves a tag");
     kani::cover(true, "K13 reduced permutation: end reached");
 }
+
+// ---------------------------------------------------------------------------------------------
+// Wave 2 priority 1. Variant A cuts only the explicit order-violation panic. All other
+// Kani checks remain active; no should_panic or verified-contract stubs are used.
+fn w2_cut_ord_violation() -> ! {
+    kani::cover(true, "W2 variant A: order-violation stub reached");
+    kani::assume(false);
+    unreachable!()
+}
+
+/// Control on a normal-return path, in this same module and with the same variant-A stub.
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
+#[kani::unwind(35)]
+fn w2_control_a_assertion() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [u64; 2] = kani::any();
+    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+    kani::cover(true, "W2 control A: normal return before assertion");
+    assert!(v[0] != v[0], "W2 variant A assertion control");
+}
+
+/// Reachability is through the real trait dispatch and real merge, not a direct stub call.
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
+#[kani::unwind(35)]
+fn w2_control_a_reachability() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [u64; 18] = kani::any();
+    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+    kani::cover(true, "W2 control A: normal return also reachable");
+}
