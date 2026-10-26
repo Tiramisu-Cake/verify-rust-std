@@ -2842,3 +2842,18 @@ network.rs: K8r helper возвращает tail, macro задаёт covers яв
 | 12 (П2 #26) | net-night-12-k8r-start15-12-covers | 154 | ee7d5623 | w2night_k8r_start15_u64; w2night_k8r_start14_u64; w2night_k8r_start13_u64; w2night_k8r_start12_u64 | SUCCESS |
 
 Ожидание `k1.sh watch 154`, затем конец turn. После уведомления — summary/check-tooling154; далее K8r start11..8.
+
+### Job154: K8r start15..12 после исправления covers
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 3,23 GiB, RSS 2799180 KiB, OOM0, swap off, wall 321,12 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2night_k8r_start15_u64 | SUCCESS / SUCCESS | 63,559437 | 0/416 | 3/3 |
+| w2night_k8r_start14_u64 | SUCCESS / SUCCESS | 58,47034 | 0/416 | 4/4 |
+| w2night_k8r_start13_u64 | SUCCESS / SUCCESS | 69,7255 | 0/416 | 5/5 |
+| w2night_k8r_start12_u64 | SUCCESS / SUCCESS | 82,32213 | 0/416 | 6/6 |
+
+Все 36 unreachable, упавших проверок нет. Измерены смещения12..15 и все их tail; R9 a15216a1/4dd2272f ожидается. Известный summary wall П2: 10890,70 с; ночь: 7809,87 с, 12 dispatch.
+
+Далее net-night-13-k8r-start11-8: measurement 4 × 10 минут, ожидается SUCCESS; start11,10,9,8 с теми же helper/контрактом/полными входами, covers7/7,8/8,9/9,10/10. Код не менялся, snapshot4dd2272f.
