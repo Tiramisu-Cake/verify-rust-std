@@ -351,6 +351,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, summary FAILED: нелокализованный отказ инструмента CBMC status 6; Verification Time/cover отсутствуют |
 | 10 | 63 | 5b01cec3 | `w1_network_o1_othermerge_lo_u64` (18,20,21,22,23) | 10 мин | COMPLETE, gate true, SUCCESS 106,24547 с, 1/328 (ожидаемая panic), 11 unreachable, cover 6/6; разбиение принято координатором, засчитан |
 | 11 | 64 | 70821634 | `w1_network_o1_othermerge_hi_u64` (26..=30) | 10 мин | COMPLETE, gate true, SUCCESS 266,1557 с, 1/328 (ожидаемая panic), 11 unreachable, cover 6/6; разбиение принято координатором, засчитан |
+| 12 | 65 | e61f1340 | `w1_sort13_perm_fixed_u8` | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -589,6 +590,9 @@ measurement, ENFORCED 13 GiB, OOM 0, swap off, R9 принят.
 | 32 | 57 | 49,115505 | 1/1 | should_panic, CD-1 |
 
 Отдельная точка 17: job 54, 9,188867 с, gate true, cover 1/1, обычная proof.
+
+Dispatch 12: `net-w1-12-k9-exact13`, job 65, measurement 1 × 10 мин.
+Итого 12/14 dispatch. Ожидание `k1.sh watch 65`, затем конец turn.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
