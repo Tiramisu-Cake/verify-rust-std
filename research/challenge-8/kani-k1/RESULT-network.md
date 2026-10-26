@@ -1027,3 +1027,10 @@ u128: обе ветки N=0,1,2,7,8 сначала; N=15,16,17,31,32 подго�
 Запрос net-w2-07-k16-u8-rest-u128-lo: три оставшихся семейства u8 и
 парное u128_lo, measurement 4 x 10 минут. Отдельных новых assume нет,
 only panic_on_ord_violation cut, данные/comparator без ограничений.
+
+REVIEW REQUEST bceedb0b6c1c0febcc5faa3d80d94dba24aa3735
+
+Файлы: network.rs (W2Value u128, w2_type_pair_cases, u128 lo/hi),
+RUN-REQUEST.json, RESULT-network.md («Волна 2», job 88, R7 парных семейств).
+Общий quiet-cut и исходные type-harness helpers из 3ce9177c/5a8c9961.
+Контекст: неизменённые smallsort.rs, scripts/run-kani.sh.
