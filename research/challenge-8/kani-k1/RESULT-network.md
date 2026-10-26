@@ -343,7 +343,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 1 | 45 | e4d8f48b | `insert_tail_prefix_u64`, `sort13_perm_u8` | 20 мин | COMPLETE, gate false: K-8 SUCCESS 488,15848 с, 0/411, 36 unreachable, cover 4/4; K-9 TIMEOUT 600 с, cover/Verification Time отсутствуют |
 | 2 | 50 | 00236297 | `insert_tail_region_u64` | 10 мин | COMPLETE, gate false, TIMEOUT 600 с; cover/Verification Time отсутствуют |
 | 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | COMPLETE, gate true, SUCCESS 9,188867 с, 0/322, 18 unreachable, cover 1/1; R9 ожидается |
-| 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | отправлен, summary ожидается |
+| 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -469,4 +469,21 @@ Dispatch 3: `net-w1-03-o1-len17`, job 54, measurement 1 × 10 мин.
 Dispatch 4: `net-w1-04-o1-len24`, job 55, measurement 1 × 10 мин.
 Итого 4/10 dispatch (CD-3); 50 минут номинальных таймаутов — справочно.
 Ожидание `k1.sh watch 55`, затем конец turn.
+
+### Продолжение после job 55
+
+- 2026-10-26T11:34:19Z: О1 network на 24 — SUCCESS за 21,674738 с,
+  gate true, measurement ok, cover 1/1. Check-tooling против `9de80e0b` ok.
+  ENFORCED 13 GiB, peak cgroup 1,84 GiB, max RSS 1615956 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 0:59,86. Ожидается R9 на df940c0.
+- Единственная упавшая assertion-проверка job 55 — panic_on_ord_violation,
+  `library/core/src/slice/sort/shared/smallsort.rs:965` (сообщение Kani:
+  `This is a placeholder message; Kani doesn't support message formatted at runtime`).
+  Это ожидаемая паника под should_panic, не провал безопасности. По CD-1
+  общий смысл результата — отсутствие провалов safety-class Kani;
+  он сам по себе не исключает других assertion-class паник.
+- Сумма wall проверки с компиляцией по summary jobs 45/50/54/55 —
+  ≈31,21 мин; подготовка CircleCI в это число не входит. Расход API:
+  последняя внешняя оценка ≈34,2 мин до job 54, новые полные числа
+  уточняет координатор. Следующий отдельный запрос — О1 на 32.
 
