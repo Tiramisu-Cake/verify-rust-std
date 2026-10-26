@@ -601,6 +601,20 @@ fn probe_count<T: PartialEq>(s: &[T], p: &T) -> usize {
     n
 }
 
+/// K-9 retry: full-width u8 values at the exact network width, with a local arbitrary probe.
+/// Removing the symbolic slice length and unchanged suffix leaves only the permutation claim.
+#[kani::proof]
+#[kani::unwind(14)]
+fn w1_sort13_perm_fixed_u8() {
+    let mut v: [u8; 13] = kani::any();
+    let p: u8 = kani::any();
+    let pre = v;
+    super::super::sort13_optimal(&mut v, &mut lt_u8);
+    assert!(probe_count(&pre, &p) == probe_count(&v, &p));
+    kani::cover(pre[0] == p && pre[1] == p, "duplicate probe values reachable");
+    kani::cover(true, "sort13 permutation at exact length: end reached");
+}
+
 fn sorted_by<T, F: FnMut(&T, &T) -> bool>(s: &[T], cmp: &mut F) -> bool {
     let mut i = 1;
     while i < s.len() {

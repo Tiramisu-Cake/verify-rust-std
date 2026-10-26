@@ -344,7 +344,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 2 | 50 | 00236297 | `insert_tail_region_u64` | 10 мин | COMPLETE, gate false, TIMEOUT 600 с; cover/Verification Time отсутствуют |
 | 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | COMPLETE, gate true, SUCCESS 9,188867 с, 0/322, 18 unreachable, cover 1/1; R9 ожидается |
 | 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
-| 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | отправлен, summary ожидается |
+| 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | COMPLETE, gate true, SUCCESS 49,115505 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -491,4 +491,27 @@ Dispatch 4: `net-w1-04-o1-len24`, job 55, measurement 1 × 10 мин.
 Dispatch 5: `net-w1-05-o1-len32`, job 57, measurement 1 × 10 мин.
 Итого 5/10 dispatch (CD-3), 60 минут номинальных таймаутов — справочно.
 Ожидание `k1.sh watch 57`, затем конец turn.
+
+### Продолжение после job 57
+
+- 2026-10-26T11:39:00Z: О1 network на 32 — SUCCESS за 49,115505 с,
+  gate true, measurement ok, cover 1/1. Check-tooling против `9de80e0b` ok.
+  ENFORCED 13 GiB, peak cgroup 2,57 GiB, max RSS 1614964 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 1:31,33. Ожидается R9 на df940c0.
+  Единственная упавшая assertion — `panic_on_ord_violation` на
+  `library/core/src/slice/sort/shared/smallsort.rs:965`, как в job 55.
+- Кандидаты О1: длины **17, 24, 32**. Это три постоянные точки, а не
+  весь интервал 0..=32. Отдельный нечётный путь слияния не измерен.
+- Следующий запрос — повтор **только префиксного K-8** для gate true.
+  Код гармоники равен 4872982e (прошлое review GO_WITH_NITS); область
+  заявления сужена до begin в начале `[u64;17]`, tail 1..=16.
+  Внутреннее смещение: измерен TIMEOUT job 50, не доказано. Это выбранная
+  альтернатива should-fix review; успех префикса его не закрывает.
+- Подготовлена попытка K-9 `w1_sort13_perm_fixed_u8`: полный u8, точная
+  длина 13, локальный произвольный probe, реальные тела, comparator lt_u8.
+  Убраны только символьная длина среза и суффикс; проверяется та же
+  перестановка через счётчик. Пока не запускается; отдельный запрос позже.
+  При успехе это будет домен длины 13, а не контракт на срезах 13..=17.
+- Оценка wall проверки с компиляцией jobs 45/50/54/55/57 по summary —
+  ≈32,73 мин (полные минуты job API считает координатор).
 
