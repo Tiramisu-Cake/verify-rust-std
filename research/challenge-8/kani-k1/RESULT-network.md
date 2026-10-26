@@ -2241,3 +2241,7 @@ COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
 R9 e658b246 ожидается. Далее a16/a17/Cell, тот же шаблон,3x10мин;
 крупные массивы и ZST отдельно. Запрос net-w2p2-09-k9s-arrays-cell.
 Summary wall П2:988,43с, минутный лимит CD-6 снят.
+
+| 9 | net-w2p2-09-k9s-arrays-cell | 122 | 81d39236 | w2p2_k9s_a16; w2p2_k9s_a17; w2p2_k9s_cell | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 122`, затем конец turn. Счёт П2:9/40 dispatch.
