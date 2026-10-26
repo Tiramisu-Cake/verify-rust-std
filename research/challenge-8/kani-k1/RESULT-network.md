@@ -2658,3 +2658,7 @@ COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, p
 Sortedness SUCCESS: 21 unreachable; permutation: 4. TIMEOUT не дал failed check/места и не является контрпримером. Успехи пока не засчитаны из-за gate false. Известный summary wall П2: 5383,02 с; ночь: 2302,19 с, 3 dispatch.
 
 R7: N15/u64 sortedness — кандидат расширенного слоя по ночному заданию; тот же TIMEOUT повторять здесь не будем. Основной слой u64 пока до N14. Сначала отдельный measurement net-night-04-k10-n15-success (3 × 10 минут) для трёх успешных proof135, затем продолжаем N16..17. Нового кода нет, snapshot799659be; R9799659be/a136cf54 ожидается.
+
+| 4 (П2 #18) | net-night-04-k10-n15-success | 138 | 0b298280 | w2p2_k10_u8_n15; w2p2_k10_perm_u8_n15; w2p2_k10_perm_u64_n15 | SUCCESS |
+
+Ожидание `k1.sh watch 138`, затем конец turn. После уведомления — summary/check-tooling138; далее N16.
