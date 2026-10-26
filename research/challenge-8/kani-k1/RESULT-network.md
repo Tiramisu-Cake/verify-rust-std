@@ -432,3 +432,14 @@ Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
   запросами. Это сохраняет gate успешных точек при возможном таймауте другой.
   До R9 и summary О1 не засчитывается.
 
+REVIEW REQUEST df940c02929a82e7fdd5b22f160cc8acaaa18e4c
+
+Файлы для R9 О1 (17/24/32):
+- `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+  (`w1_any_less_u64`, `w1_network_o1_len17_u64`, `w1_network_o1_len24_u64`,
+  `w1_network_o1_len32_u64`)
+- `library/core/src/slice/sort/shared/smallsort.rs` (реальные callee/trait dispatch)
+- `scripts/run-kani.sh` (неизменённые флаги CI)
+- `research/challenge-8/kani-k1/RUN-REQUEST.json`
+- `research/challenge-8/kani-k1/RESULT-network.md` (волна 1)
+
