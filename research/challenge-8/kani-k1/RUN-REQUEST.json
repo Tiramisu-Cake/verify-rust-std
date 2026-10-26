@@ -1,15 +1,28 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd2-boundaries-008",
+  "request_id": "w1-merge-cd3-len2to4-control-009",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-2 O1 missing branches: fixed lengths 0/1/2/3/7/8/9/15/16 for direct general u64 and stable-Freeze u64; length16 also real quicksort UnstableSmallSortTypeImpl via transparent non-Copy u64. Volatile comparator reads, real bodies, no assumes/stubs. Not full 2..32.",
+  "purpose": "CD-3 full constant-length family, first packet: lengths2/3/4 independently cover direct general u64, actual unstable trait transparent non-Copy u64, stable-Freeze u64. CD-2 negative control passes one-past-object argument to reading comparator. No stubs/assumes.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_presort_boundaries_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len2_safety",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len3_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len4_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_comparator_oob_must_fail",
+      "expect": "FAILED",
+      "expect_check": "dereference failure: pointer outside object bounds"
     }
   ]
 }

@@ -1297,3 +1297,50 @@ REVIEW REQUEST c5720c76aa23a30eef17057fe4500db93ddfac98
 `research/challenge-8/kani-k1/RESULT-merge.md`. Подготовленный контроль
 CD-2 и полное семейство2..32 по CD-3; RUN-REQUEST пока относится к
 активному56 и будет обновлён после его summary.
+
+
+### Job56 — границы всех presort-веток
+
+- Запрос `w1-merge-cd2-boundaries-008`, head `d0b1192d5af1468dfa80a99219e9f33374aebedb`.
+- COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit0.
+- `w1_cd2_presort_boundaries_safety`: **SUCCESS**, Verification Time
+  **139.0581 с**, cover **29/29**. Assertion-класса паника `smallsort.rs:884`
+  достижима, провалов включённых safety checks нет.
+- Память run: max RSS3881248 KiB, cgroup peak4.78 GiB; ENFORCED13GiB,
+  OOM kills0, swap off. Одна гармоника, пик включает компиляцию.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+
+| Маршрут/тип | Постоянные длины | Общее Verification Time | gate | cover | Ветки |
+|---|---|---:|---|---|---|
+| direct general u64 и stable-Freeze u64 | 0,1,2,3,7,8,9,15,16 | 139.0581с | true | в общем29/29 | ранний возврат; копия1; sort4; sort8; чётный/нечётный merge |
+| реальный unstable trait, transparent non-Copy u64 | 16 | тот же общий139.0581с | true | в общем29/29 | sort8 |
+
+Время общее для всей гармоники; по отдельным маршрутам/длинам не измерено.
+Вместе с job53, head `38faf5ff0b1d4bd342097f646e26c02ba9fd4266`, измерены
+все размерные ветки general/stable, но пока не все длины2..32.
+Контроль входных чтений CD-2 и независимый R9 для этой таблицы ещё ожидаются.
+Полная reference validity/uninit/unwind/перестановка/Drop не заявлены.
+
+REVIEW REQUEST d0b1192d5af1468dfa80a99219e9f33374aebedb
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job56 `summary`,
+check-tooling против базы волны. Cover29/29; предыдущий кандидат `a6c9bf37`.
+
+### Полное семейство CD-3, пакет1
+
+Запрос `w1-merge-cd3-len2to4-control-009`: N2/3/4 (по три независимых
+маршрута, реальный unstable trait), плюс измеренный отрицательный контроль
+читающего comparator. Для FAILED ожидается точный текст safety failure;
+место будет сохранено из summary. Код подготовлен на `c5720c76`.
+Пакеты дальнейшего полного семейства: 5..8,9..12,13..16,17..20,21..24,
+25..28,29..32. Это8 дополнительных dispatch до16/16 включительно.
+В каждом запросе4 ×10мин, не больше40. Один активный job сохраняется.
+
+После следующего dispatch: **9/16**, лимит фактических минут **250**;
+последний подтверждённый координатором учёт — около14мин за46..49,51,52.
+Оценка по summary всех восьми завершённых job46..49,51..53,56:
+751.71+181.46=**933.17с (15.5528мин)** verify-команд с компиляцией,
+без подготовки CircleCI; это не фактический job wall/billing. API-учёт
+проверяет координатор по CD-3. Job53/56 ещё не вошли в присланные14мин.
