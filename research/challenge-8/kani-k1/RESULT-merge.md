@@ -2186,3 +2186,8 @@ REVIEW REQUEST 3178f164d0e9ccecb0817e2e84d3b11bc67fe487
 `research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: summary jobs
 76/78/79/81/83/84/86/87/90/92 и check-tooling ok каждого против
 `9de80e0bec13896bb35a5e04e771448d9fe3931b`; итоговая матрица П1 выше.
+
+### Приоритет 2
+
+T0 П2: 2026-10-26T18:58:21Z (`date -u`).
+Окно 6 ч: до **2026-10-27T00:58:21Z**; ≤40 dispatch.
