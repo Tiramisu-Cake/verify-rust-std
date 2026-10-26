@@ -1593,3 +1593,7 @@ R7: запрос повторяется без изменения кода/до�
 net-w2-22-o3-insertion-retry, measurement4x10мин, те же четыре гармоники.
 После него до2 dispatch остаются для K11/прицельной локализации;
 нового should_panic/редукции offset/типов нет.
+
+| 22 | net-w2-22-o3-insertion-retry | 106 | a91cec0a | w2_o3_insertion_1_5; w2_o3_insertion_6_10; w2_o3_insertion_11_15; w2_o3_insertion_16_20 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 106`, затем конец turn. Счёт dispatch22/24.
