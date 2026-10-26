@@ -27,7 +27,7 @@
 |---|---|---|---|---|
 | Q4 | merge-p8-trivial32-025 | job 35 `094c3287`, N=32, тривиальный инвариант | `934c133d` / `c99da0b6-a7c2-4bc6-97ef-6548d02d6202` | Cloud Build FAILURE; summary COMPLETE, gate false; TIMEOUT 30 мин; check-tooling ok против `31c890b1`; перед dispatch budget: 164+0+60=224 ≤330 |
 | Q5 | merge-p8-full16-026 | A фазы 7 / job 36 `5edf162c`, существующая bm_u64_len16, полный инвариант | `5c9f0aa8` / `04646686-9c90-457e-9b34-3c605c64033a` | Cloud Build FAILURE; summary TOOL_ERROR, gate false; NOT_RUN; goto-instrument SIGKILL; check-tooling ok; перед dispatch budget: 164+60+60=284 ≤330 |
-| Q6 | merge-p8-full8-027 | A `5edf162c`, полный инвариант, только гармоника N=8 | после dispatch | подготовлен |
+| Q6 | merge-p8-full8-027 | A `5edf162c`, полный инвариант, только гармоника N=8 | `526a062c` / `d3be58f3-4b51-416d-b358-9f8dc06d2022` | отправлен; перед dispatch budget: 224+0+60=284 ≤330 |
 
 ### Ресурсные данные фазы 8 (после Q4/Q5)
 
@@ -53,7 +53,7 @@
 | N=32, полный инвариант, A фазы 7 (`929ef63e-58d2-4838-8a42-c5465d96797a`, `3f68815f`) | 30,55 GiB, SIGKILL; весь процесс time -v 30,69 GiB | не достигнут, NOT_RUN |
 | N=32, тривиальный инвариант, Q4 | 26,18 GiB, прошёл | TIMEOUT 30 мин; пик 30,63 GiB |
 
-Состояние: Q4/Q5 прочитаны (2/3 dispatch); Q6 N=8 подготовлен по P8-D3, ожидает проверки budget и dispatch. Восстановление к `84a2d5f4` ещё не выполнено.
+Состояние ожидания: Q4/Q5 прочитаны; Q6 N=8 отправлен (3/3 dispatch), запущен `watch`, без опроса. Перед dispatch `k1g.sh budget`: used 224, reserved 0; 224+0+60=284 ≤330, после отправки reserved 60. После пробуждения: summary, peaks, bounded log-grep и check-tooling Q6; затем окончательная находка 10, таблица длин, фактические ограничения строки владельцу, восстановление обоих proof-файлов точно к `84a2d5f4`, SHA восстановления и итоговый маркер фазы. Новых dispatch больше нет; вердикт K-1 не меняется.
 
 ## Фаза 7
 
