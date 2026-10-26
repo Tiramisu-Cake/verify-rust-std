@@ -344,6 +344,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 2 | 50 | 00236297 | `insert_tail_region_u64` | 10 мин | COMPLETE, gate false, TIMEOUT 600 с; cover/Verification Time отсутствуют |
 | 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | COMPLETE, gate true, SUCCESS 9,188867 с, 0/322, 18 unreachable, cover 1/1; R9 ожидается |
 | 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
+| 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -486,4 +487,8 @@ Dispatch 4: `net-w1-04-o1-len24`, job 55, measurement 1 × 10 мин.
   ≈31,21 мин; подготовка CircleCI в это число не входит. Расход API:
   последняя внешняя оценка ≈34,2 мин до job 54, новые полные числа
   уточняет координатор. Следующий отдельный запрос — О1 на 32.
+
+Dispatch 5: `net-w1-05-o1-len32`, job 57, measurement 1 × 10 мин.
+Итого 5/10 dispatch (CD-3), 60 минут номинальных таймаутов — справочно.
+Ожидание `k1.sh watch 57`, затем конец turn.
 
