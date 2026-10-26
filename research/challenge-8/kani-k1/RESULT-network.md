@@ -346,7 +346,8 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 GO_WITH_NITS, засчитан |
 | 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | COMPLETE, gate true, SUCCESS 49,115505 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 GO_WITH_NITS, засчитан |
 | 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | COMPLETE, gate true, SUCCESS 471,6588 с, 0/411, 36 unreachable, cover 4/4; R9 GO_WITH_NITS, только префиксы |
-| 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 ожидается |
+| 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 GO, засчитан |
+| 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -478,6 +479,14 @@ Dispatch 7: `net-w1-07-o1-odd`, job 60, measurement 1 × 10 мин.
   отдельного cover на каждое значение внутреннего left_nonempty нет.
 - Следующий запрос — все длины 0..=17 без слияния; код равен a27b174f.
   Оценка wall по семи завершённым summary ≈43,49 мин, без подготовки job.
+
+**R9 a27b174f: GO**, передан координатором. Семейства вместе с 24/32
+покрывают все длины 0..=32 при успешных измерениях. Ниты: othermerge из
+10 длин может упереться в 600 с/13 GiB; при таймауте разделить на две.
+В purpose будущего K-9 явно указать cover `v != pre` (добавлен в код).
+
+Dispatch 8: `net-w1-08-o1-nomerge`, job 61, measurement 1 × 10 мин.
+Итого 8/14 dispatch. Ожидание `k1.sh watch 61`, затем конец turn.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
