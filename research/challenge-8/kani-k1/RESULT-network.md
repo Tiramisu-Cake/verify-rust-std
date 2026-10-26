@@ -2834,3 +2834,7 @@ COMPLETE, gate false, expectation met true; check-tooling ok против 9de80e
 R7: в a15216a1 covers для tail<=START были помещены под constant-false `if`, но pin регистрирует и их: для start15 возможен только tail16, хотя зарегистрировано18 covers. Исправление: helper возвращает tail, а macro proof получает явный список START+1..16 и создаёт только эти covers после вызова. Любой допустимый tail сохраняется в input-domain; требует/обеспечивает контракт и frame не меняются. Movement/end covers остаются. Никаких проверок допустимых входов не удалено; список недостижимых tail исключён на уровне macro-развёртки.
 
 Повтор net-night-12-k8r-start15-12-covers, measurement 4 × 10 минут; ожидаются SUCCESS и covers3/3,4/4,5/5,6/6 соответственно. Исправление распространяется на все15 подготовленных смещений.
+
+REVIEW REQUEST 4dd2272fb282547a9097ddca2380b39b54c05512
+
+network.rs: K8r helper возвращает tail, macro задаёт covers явным полным списком START+1..16; все15 применений исправлены. RUN-REQUEST.json; RESULT-network.md (job152 и причина gate false). Проверить эквивалентность входного домена/проверок a15216a1 и полноту covers без невозможных tail.
