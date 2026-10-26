@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "ext-e1-bm-len20-001",
+  "request_id": "ext-e1-bm-len24-002",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Extended layer E-1 (TASK-ext.md, CD-6): bidirectional_merge contract, formulation 1, u64, length 20, 32 GB lane, base 72153180",
+  "purpose": "Extended layer E-1 (TASK-ext.md, CD-6): bidirectional_merge contract, formulation 1, u64, length 24, 32 GB lane, base 72153180",
   "runner": "gcb-e2-highmem-4",
-  "harness_timeout_minutes": 60,
+  "harness_timeout_minutes": 120,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len20",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len24",
       "expect": "SUCCESS"
     }
   ]
