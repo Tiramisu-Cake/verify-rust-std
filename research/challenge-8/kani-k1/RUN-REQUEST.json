@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-03-o1-len17",
+  "request_id": "net-w1-04-o1-len24",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 K6+ b network safety at constant length 17, u64, comparator reads both arguments (CD-2) then returns kani::any; ordinary proof, all callees real, no stubs or contract checks",
+  "purpose": "Wave 1 K6+ b network safety at constant length 24, u64, CD-1 should_panic, CD-2 volatile reads of both comparator arguments then kani::any; all callees and merge real, no stubs or contract checks",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_len17_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_len24_u64",
       "expect": "SUCCESS"
     }
   ]

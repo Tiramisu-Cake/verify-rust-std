@@ -342,7 +342,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 |---|---|---|---|---|---|
 | 1 | 45 | e4d8f48b | `insert_tail_prefix_u64`, `sort13_perm_u8` | 20 мин | COMPLETE, gate false: K-8 SUCCESS 488,15848 с, 0/411, 36 unreachable, cover 4/4; K-9 TIMEOUT 600 с, cover/Verification Time отсутствуют |
 | 2 | 50 | 00236297 | `insert_tail_region_u64` | 10 мин | COMPLETE, gate false, TIMEOUT 600 с; cover/Verification Time отсутствуют |
-| 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | отправлен, summary ожидается |
+| 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | COMPLETE, gate true, SUCCESS 9,188867 с, 0/322, 18 unreachable, cover 1/1; R9 ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -447,4 +447,21 @@ REVIEW REQUEST df940c02929a82e7fdd5b22f160cc8acaaa18e4c
 Dispatch 3: `net-w1-03-o1-len17`, job 54, measurement 1 × 10 мин.
 Итого 3/6 dispatch, 40/90 минут таймаутов; верхняя оценка кредитов
 20 × (40 + 3 × 8) = 1280. Ожидание `k1.sh watch 54`, затем конец turn.
+
+### Продолжение после job 54
+
+- 2026-10-26T11:30:41Z: О1 network на 17 — SUCCESS за 9,188867 с,
+  gate true, measurement ok, cover 1/1. Check-tooling против `9de80e0b` ok.
+  ENFORCED 13 GiB, peak cgroup 1,84 GiB, max RSS 1614672 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 0:50,51. Читающий comparator CD-2,
+  обычная proof, реальные тела. До ответа R9 на df940c0 результат кандидат.
+- Влита база **73ad9fc2**, принят CD-3: до **10 dispatch**, до **125 фактических
+  минут job** (≈2500 кредитов); лимит суммы таймаутов снят. Прежние оценки
+  таймауты+8 выше — исторический резерв, больше не расход бюджета.
+  Фактические минуты API считает координатор: перед job 54 он сообщил
+  ≈34,2 мин (job 45 — 19,9; job 50 — 14,3). По summary job 54 добавляет
+  ≈0,84 мин проверки с компиляцией, без подготовки job; полный расход
+  уточняет координатор. Свои оценки по summary (45+50+54) — ≈30,21 мин.
+- Следующий отдельный measurement — О1 на 24; исходники гармоник и CD-2
+  comparator равны df940c0, ожидается R9 по опубликованному запросу.
 
