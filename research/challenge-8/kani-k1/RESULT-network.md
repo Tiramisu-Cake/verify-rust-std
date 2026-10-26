@@ -983,3 +983,9 @@ network на 8,9,12,13,17 / 18,31,32. Порядок коротких длин �
 Тот же w2_type_cases с точными массивами, full-width u8 и отдельным
 post-call cover каждой N. Сейчас measurement 4 x 10 мин:
 quiet assertion, reachability, stable_lo, network_short.
+
+REVIEW REQUEST 5a8c9961b68f85adbeb4ade536123abdc301cc33
+
+Дополнение к 3ce9177c: network.rs (пять применений w2_type_cases для u8),
+RUN-REQUEST.json, RESULT-network.md (job 85, раскрытие ZST, R7 разбиения u8).
+Общий шаблон и quiet/reachability-контроли те же, что в 3ce9177c.
