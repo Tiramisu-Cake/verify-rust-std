@@ -2300,3 +2300,24 @@ Verification Time, Kani status, память, cover и gate отсутствую
 сводки как FAILED проверки Kani либо ресурсный предел гармоники.
 П2 после повтора: CircleCI dispatch **3/40**, preflight отказов 1;
 консервативно все попытки **4/40**. Code review `cd284852` ожидается.
+
+#### П2 job 114 — RUNNER_ERROR / checkout HTTP 429
+
+Head `beb5b5a887fb922299b57dca27c6efcffaeadbac`, CircleCI failed;
+`summary 114`: нет summary artifact. Сравнение lane с `9de80e0b` ok,
+полный check-tooling не завершён (нет summary.json). Kani status/time,
+память, covers и gate отсутствуют; GS N0/1 по-прежнему не измерены.
+
+Служебные метаданные CircleCI: job 112 длился 2.064 с, job 114 — 3.710 с.
+В metadata job 114 провален `Checkout code`, 2215 мс; ограниченная выборка
+ошибок только этого шага: `RPC failed; HTTP 429 curl 22`,
+`fatal: expected flush after ref listing`, git clone exit 128.
+Это отказ до checkout исходников, не FAILED Kani и не кандидат ресурсного слоя.
+
+**P2-D7 (R7).** После двух быстрых RUNNER_ERROR повтор откладывается
+на несколько минут для снятия GitHub rate limit. Диагностика — только
+read-only metadata CircleCI и ограниченная выборка ошибок checkout;
+логи verifier отсутствуют и не заменяются догадками. Lane/код не меняются.
+Следующий запрос `w2-merge-p2-gs-len0to1-retry-004`, те же четыре гармоники.
+После него CircleCI dispatch **4**, плюс один preflight отказ;
+консервативно попыток **5/40**. Окно до 2026-10-27T00:58:21Z сохраняется.

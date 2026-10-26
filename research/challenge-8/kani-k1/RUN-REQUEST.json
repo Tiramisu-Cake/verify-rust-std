@@ -1,10 +1,10 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-p2-gs-len0to1-retry-003",
+  "request_id": "w2-merge-p2-gs-len0to1-retry-004",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "Retry RUNNER_ERROR job 112 (no summary artifact), unchanged K-10 GS u64/u8 N0,1. Sortedness and full-value probe permutation; merge stub unreachable at these lengths. Contract/R11 evidence job 110.",
+  "purpose": "Retry after GitHub checkout HTTP 429 in jobs 112/114 (Kani not started). Unchanged K-10 GS u64/u8 N0,1, sortedness and full-value probe permutation. Contract/R11 evidence job 110.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
