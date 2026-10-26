@@ -1559,3 +1559,9 @@ w2p2_k10_cases!(w2p2_k10_u8_n15, u8, [15]);
 w2p2_k10_cases!(w2p2_k10_u64_n15, u64, [15]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n15, u8, 15);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n15, u64, 15);
+
+// Night K-10 N16: exact arrays, real sort13 plus three insertions.
+w2p2_k10_cases!(w2p2_k10_u8_n16, u8, [16]);
+w2p2_k10_cases!(w2p2_k10_u64_n16, u64, [16]);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n16, u8, 16);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n16, u64, 16);

@@ -2662,3 +2662,17 @@ R7: N15/u64 sortedness — кандидат расширенного слоя п
 | 4 (П2 #18) | net-night-04-k10-n15-success | 138 | 0b298280 | w2p2_k10_u8_n15; w2p2_k10_perm_u8_n15; w2p2_k10_perm_u64_n15 | SUCCESS |
 
 Ожидание `k1.sh watch 138`, затем конец turn. После уведомления — summary/check-tooling138; далее N16.
+
+### Job138: отдельный зачёт успешных N15
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 1,88 GiB, RSS 1702048 KiB, OOM0, swap off, wall 272,05 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_u8_n15 | SUCCESS / SUCCESS | 86,09533 | 0/377 | 3/3 |
+| w2p2_k10_perm_u8_n15 | SUCCESS / SUCCESS | 25,761938 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n15 | SUCCESS / SUCCESS | 120,718994 | 0/118 | 2/2 |
+
+Sortedness: 21 unreachable; permutation: 4. Упавших проверок нет. N15/u8 имеет оба компонента, N15/u64 только permutation хвоста. Известный summary wall П2: 5655,07 с; ночь: 2574,24 с, 4 dispatch. R9 композиции ожидается.
+
+R7: после TIMEOUT u64 в135 делим следующие запросы по типам, чтобы не повторять успешные u8 из-за общего gate false. Следующий net-night-05-k10-n16-u8 — две proof N16/u8 (sortedness+insertion permutation offset13), measurement 2 × 10 минут. Две N16/u64 подготовлены для отдельного следующего запроса. Прежние helpers/macros, full-width вход/probe, exact arrays, no stubs; новых assumptions/cuts нет.

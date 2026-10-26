@@ -1,22 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-04-k10-n15-success",
+  "request_id": "net-night-05-k10-n16-u8",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Repeat only successful K10 N15 components from job135 for a true measurement gate: real outer network sortedness u8; real insertion permutation u8/u64 at offset13. Full-width values, exact arrays, no stubs. N15/u64 sortedness TIMEOUT is an extended-layer candidate.",
+  "purpose": "K10 N16 u8: real outer network sortedness under full-width natural strict order; separate real insertion/offset13 full-value permutation under arbitrary read-only comparisons. Exact arrays, no stubs. u64 proofs are deferred to a separate request after job135 timeout.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n16",
       "expect": "SUCCESS"
     }
   ]
