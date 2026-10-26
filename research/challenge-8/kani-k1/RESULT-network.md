@@ -345,6 +345,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 3 | 54 | e119e6bf | `w1_network_o1_len17_u64` | 10 мин | COMPLETE, gate true, SUCCESS 9,188867 с, 0/322, 18 unreachable, cover 1/1; R9 ожидается |
 | 4 | 55 | e0405b1d | `w1_network_o1_len24_u64` | 10 мин | COMPLETE, gate true, SUCCESS 21,674738 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
 | 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | COMPLETE, gate true, SUCCESS 49,115505 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 ожидается |
+| 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | отправлен, summary ожидается |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -405,6 +406,10 @@ REVIEW REQUEST 18f28ed3ba395a4d8f882de6622aa35e87c76269
 `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-network.md` (волна 1).
+
+Dispatch 6: `net-w1-06-k8-prefix`, job 58, measurement 1 × 10 мин.
+Итого 6/10 dispatch; О1 кандидаты 17/24/32 ждут R9 df940c0.
+Ожидание `k1.sh watch 58`, затем конец turn.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
