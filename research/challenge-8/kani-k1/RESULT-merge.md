@@ -1838,3 +1838,10 @@ Cover заглушки и нормального возврата выполне
 Ожидается SUCCESS и 4 cover на строку (D/T/S + заглушка).
 После dispatch **3/14**. Два завершённых job: суммарный wall verify
 82.15 с (1.3692 мин), без подготовки CircleCI; API job wall у координатора.
+
+REVIEW REQUEST e4a09490c1c6ae8b5b3d0b1088a1ba1e0323458d
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код `e4e24db8`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: контроли job 76/78,
+обе сводки и check-tooling ok; далее O1-A N2..5.
