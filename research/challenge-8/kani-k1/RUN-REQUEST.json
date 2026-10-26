@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-07-k10-network-7-8",
+  "request_id": "net-w2p2-08-k9s-small-types",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 network continuation: individual exact N7,N8 for full-width u8/u64, after0..6 pass. Natural strict order, actual outer trait and all real callees. Sortedness and arbitrary-probe multiplicity assertions plus elementwise movement cover. No stubs/reductions.",
+  "purpose": "K9s exact swap_if_less contract incl two-cell permutation: full u8/u64/u128 and Freeze non-Copy Drop, real body/no stubs. Exact two-cell arrays, both index orders, pure strict comparator, swap/no-swap covers. Existing contract unchanged; byte payload preservation checked.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n7",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n7",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u128",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_drop",
       "expect": "SUCCESS"
     }
   ]

@@ -1440,3 +1440,54 @@ w2p2_k10_cases!(w2p2_k10_u8_n7, u8, [7]);
 w2p2_k10_cases!(w2p2_k10_u64_n7, u64, [7]);
 w2p2_k10_cases!(w2p2_k10_u8_n8, u8, [8]);
 w2p2_k10_cases!(w2p2_k10_u64_n8, u64, [8]);
+
+// K-9s: the existing exact two-cell compare-exchange contract, every C3 representation.
+// No verified stubs are used here; each proof checks the real swap_if_less body.
+impl W2Value for u64 {
+    fn w2_value() -> Self { kani::any() }
+}
+
+fn w2p2_zst_less(_: &(), _: &()) -> bool { false }
+fn w2p2_drop_less(a: &W2Drop, b: &W2Drop) -> bool { a.0 < b.0 }
+fn w2p2_cell_less(a: &crate::cell::Cell<i32>, b: &crate::cell::Cell<i32>) -> bool {
+    a.get() < b.get()
+}
+fn w2p2_array_key_less<const M: usize>(a: &[u8; M], b: &[u8; M]) -> bool {
+    // All instantiated C3 arrays have M > 0; the remaining bytes are full-width payload.
+    a[0] < b[0]
+}
+
+fn w2p2_k9s_fixed<T: W2Value, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
+    let mut v: [T; 2] = crate::array::from_fn(|_| T::w2_value());
+    let reverse: bool = kani::any();
+    let (a, b) = if reverse { (1, 0) } else { (0, 1) };
+    let taken = cmp(&v[b], &v[a]);
+    // SAFETY: a and b are distinct initialized writable elements of the live exact array.
+    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp); }
+    kani::cover(reverse, "W2 P2 K9s indices 1,0");
+    kani::cover(!reverse, "W2 P2 K9s indices 0,1");
+    kani::cover(size_of::<T>() == 0 || taken, "W2 P2 K9s swap branch or trivial ZST");
+    kani::cover(!taken, "W2 P2 K9s no-swap branch");
+    kani::cover(true, "W2 P2 K9s end reached");
+}
+
+macro_rules! w2p2_k9s_case {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        #[kani::proof_for_contract(super::super::swap_if_less)]
+        #[kani::unwind(180)]
+        fn $name() {
+            w2p2_k9s_fixed::<$t, _>($cmp);
+        }
+    };
+}
+
+w2p2_k9s_case!(w2p2_k9s_zst, (), w2p2_zst_less);
+w2p2_k9s_case!(w2p2_k9s_u8, u8, w2p2_strict_less::<u8>);
+w2p2_k9s_case!(w2p2_k9s_u64, u64, w2p2_strict_less::<u64>);
+w2p2_k9s_case!(w2p2_k9s_u128, u128, w2p2_strict_less::<u128>);
+w2p2_k9s_case!(w2p2_k9s_a16, [u8; 16], w2p2_array_key_less::<16>);
+w2p2_k9s_case!(w2p2_k9s_a17, [u8; 17], w2p2_array_key_less::<17>);
+w2p2_k9s_case!(w2p2_k9s_a85, [u8; 85], w2p2_array_key_less::<85>);
+w2p2_k9s_case!(w2p2_k9s_a86, [u8; 86], w2p2_array_key_less::<86>);
+w2p2_k9s_case!(w2p2_k9s_drop, W2Drop, w2p2_drop_less);
+w2p2_k9s_case!(w2p2_k9s_cell, crate::cell::Cell<i32>, w2p2_cell_less);
