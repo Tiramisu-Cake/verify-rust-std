@@ -845,3 +845,45 @@ REVIEW REQUEST 926967773a4dfbfe0008f39cf9cccf18a93f1d15
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. Новый контроль Б по CD-1;
 evidence — следующий CircleCI job. Предыдущий контроль А: job 47.
+
+
+### Job 48 — новый контроль Б по CD-1
+
+- Запрос `w1-merge-control-b-cd1-003`, head `22f7c450df04be0a10940e783d0bcadaa730e647`.
+- COMPLETE, gate **true**, expectation met true, measurement ok true,
+  Kani exit 1 ожидаем из-за двух контрольных FAILED.
+- Память всего run: max RSS 1604044 KiB, cgroup peak 1.82 GiB,
+  ENFORCED 13 GiB, OOM kills 0, swap off.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+
+| Гармоника | Статус (ожидался FAILED) | Verification Time, с | cover | Локализация |
+|---|---|---:|---|---|
+| `w1_control_b_oob_honest` | FAILED | 0.37891668 | 1/1 | merge.rs:1268 |
+| `w1_control_b_oob_arbitrary` | FAILED | 0.58665735 | 1/1 | merge.rs:1287 |
+
+Оба failed check содержат точный `dereference failure: pointer outside object
+bounds`. В произвольном случае дополнительно упала assertion-класса паника
+`smallsort.rs:884`, но наличие паники не замаскировало pointer safety failure.
+Контрольные измерения теперь удовлетворяют CD-1; review R9 запрошен, до
+вердикта независимого reviewer зачёта результатов нет. По правилам R9
+продолжаю следующие шаги, не ожидая review.
+
+REVIEW REQUEST 22f7c450df04be0a10940e783d0bcadaa730e647
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 48 `summary`,
+check-tooling против базы волны. Контроли Б по CD-1; контроль А — job 47.
+
+### K-6+ (а), реальное слияние 32
+
+Запрос `w1-merge-k6a-32-004`: фиксированная длина 32, полный u64,
+произвольный `kani::any()` на каждом сравнении, `should_panic`, без
+`stub_verified`, ручных заглушек, assumes или проверок свойств/контрактов.
+Вход произвольный, даже отсортированность половин не предполагается:
+SAFETY функции требует валидные непересекающиеся области и len >= 2.
+Cover — нормальный возврат. Вывод по CD-1 ограничен проверками безопасности.
+Атрибут unwind 34, как и в прежних гармониках, больше постоянных циклов 32.
+
+После четвёртого dispatch: **4/10, 80/200 минут таймаутов**;
+верхняя оценка ≤2240/5000 кредитов. K-6+ (б) ещё не измерен.

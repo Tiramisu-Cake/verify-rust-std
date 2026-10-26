@@ -1288,3 +1288,23 @@ fn w1_control_b_oob_arbitrary() {
         ptr::write(dst.as_mut_ptr() as *mut u64, value);
     }
 }
+
+// K-6+ (a), O1 as defined by CD-1: only Kani safety checks, allowing all
+// assertion-class panics. Real merge body, no contracts/stubs/assumptions.
+fn w1_merge_safety<const N: usize>() {
+    let v: [u64; N] = kani::any();
+    let mut dst = MaybeUninit::<[u64; N]>::uninit();
+    // SAFETY: each harness uses N >= 2; v is initialized, dst is separate and
+    // valid for N writes. Safety does not require ordered halves or comparator.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
+    }
+    kani::cover(true, "wave1 merge O1: normal return reachable");
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(34)]
+fn w1_merge_u64_len32_safety() {
+    w1_merge_safety::<32>();
+}
