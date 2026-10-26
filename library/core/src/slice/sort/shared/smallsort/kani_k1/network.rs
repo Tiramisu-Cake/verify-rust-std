@@ -1269,3 +1269,86 @@ w2_insertion_safety_cases!(w2_k11s_1_5, [1, 2, 3, 4, 5]);
 w2_insertion_safety_cases!(w2_k11s_6_10, [6, 7, 8, 9, 10]);
 w2_insertion_safety_cases!(w2_k11s_11_15, [11, 12, 13, 14, 15]);
 w2_insertion_safety_cases!(w2_k11s_16_20, [16, 17, 18, 19, 20]);
+
+// O3-s: safety only on exact allocations; no tag count, snapshots, input-base globals or
+// permutation assertions. The full Tagged input and both key writes follow K13's comparator.
+fn w2_o3_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
+    // SAFETY: both initialized Cell payloads must be readable before either write.
+    let (left, right) = unsafe {
+        (crate::ptr::read_volatile(a.as_ptr()), crate::ptr::read_volatile(b.as_ptr()))
+    };
+    let left_key: u8 = kani::any();
+    let right_key: u8 = kani::any();
+    a.set(K13Tagged { key: left_key, tag: left.tag });
+    b.set(K13Tagged { key: right_key, tag: right.tag });
+    kani::cover(left_key != left.key && right_key != right.key, "W2 O3 comparator changes both keys");
+    kani::any()
+}
+
+fn w2_o3_input<const N: usize>() -> [K13Cell; N] {
+    crate::array::from_fn(|_| K13Cell::new(K13Tagged { key: kani::any(), tag: kani::any() }))
+}
+
+fn w2_o3_route_fixed<const N: usize>(stable: bool) {
+    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+    let mut v = w2_o3_input::<N>();
+    if stable {
+        let mut scratch = [];
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_o3_mutating_less);
+    } else {
+        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w2_o3_mutating_less);
+    }
+}
+
+macro_rules! w2_o3_route_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            let stable: bool = kani::any();
+            match len {
+                $($n => w2_o3_route_fixed::<$n>(stable),)+
+                _ => {}
+            }
+            $(
+                kani::cover(stable && len == $n, concat!("W2 O3 stable normal return at ", stringify!($n)));
+                kani::cover(!stable && len == $n, concat!("W2 O3 unstable normal return at ", stringify!($n)));
+            )+
+            kani::cover(true, "W2 O3 route family: end reached");
+        }
+    };
+}
+
+fn w2_o3_insertion_fixed<const N: usize>() {
+    let mut v = w2_o3_input::<N>();
+    let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
+    w2_const_offset_call!(&mut v, offset, N, &mut w2_o3_mutating_less);
+    kani::cover(offset == 1, "W2 O3 insertion offset 1 normal return");
+    kani::cover(offset == N, "W2 O3 insertion offset len normal return");
+}
+
+macro_rules! w2_o3_insertion_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w2_o3_insertion_fixed::<$n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("W2 O3 insertion normal return at ", stringify!($n)));)+
+            kani::cover(true, "W2 O3 insertion family: end reached");
+        }
+    };
+}
+
+w2_o3_route_cases!(w2_o3_routes_0_4, [0, 1, 2, 3, 4]);
+w2_o3_route_cases!(w2_o3_routes_5_8, [5, 6, 7, 8]);
+w2_o3_route_cases!(w2_o3_routes_9_12, [9, 10, 11, 12]);
+w2_o3_route_cases!(w2_o3_routes_13_16, [13, 14, 15, 16]);
+w2_o3_insertion_cases!(w2_o3_insertion_1_5, [1, 2, 3, 4, 5]);
+w2_o3_insertion_cases!(w2_o3_insertion_6_10, [6, 7, 8, 9, 10]);
+w2_o3_insertion_cases!(w2_o3_insertion_11_15, [11, 12, 13, 14, 15]);
+w2_o3_insertion_cases!(w2_o3_insertion_16_20, [16, 17, 18, 19, 20]);

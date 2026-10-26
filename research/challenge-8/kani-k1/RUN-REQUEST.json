@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-19-k11s-const-offset",
+  "request_id": "net-w2-20-o3-routes",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K11s after job102 all OOM: preserve exact lengths1..20 and ALL offsets1..N, enumerate offset into const-generic real insertion calls to avoid symbolic initial raw-pointer loop. Four families, full u64/reading arbitrary comparator, ordinary proofs/no stubs/no sorted-prefix assumption.",
+  "purpose": "O3s safety only: exact [Cell<Tagged>;N], actual stable default and unstable fallback, N=0..16 in four constant-length families. Comparator volatile-reads both full values, writes fresh u8 keys preserving read tags, returns arbitrary bool. No tag permutation/global tracking/stubs/should_panic. Both route-length pairs covered.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_1_5",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_0_4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_6_10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_5_8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_11_15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_9_12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_16_20",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_13_16",
       "expect": "SUCCESS"
     }
   ]
