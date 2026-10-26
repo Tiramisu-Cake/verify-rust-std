@@ -1173,3 +1173,9 @@ u128 безопасность соответствует приёмке <=600 с
 N без изменения данных/тела/компаратора. Существующее a16_hi не запускалось.
 Запрос net-w2-10-split-u128-a16-mid31: u128_n31, u128_n32, a16_mid,
 a16_n31; measurement 4 x 10 минут. a16_n32/reachability идут далее.
+
+REVIEW REQUEST 7403c3552f0fdf8d9d1631dbf663a1e6db2779cc
+
+network.rs: только разбиение a16 hi и новые u128 N31/N32 тем же парным macro;
+RUN-REQUEST.json; RESULT-network.md, job93 и R7. Исходный шаблон bceedb0b
+принят координатором; helpers не изменены, новых предположений нет.
