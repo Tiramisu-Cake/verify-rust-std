@@ -2396,3 +2396,14 @@ sortedness полной верхней ветки проверяется отд�
 Это логическая композиция реальных тел без подмены callee, не контрактная
 заглушка. Сначала повтор N9 и sortedness N10,4x10мин; две permutation N10
 подготовлены для следующего запроса. Источник таймаута остаётся гипотезой.
+
+REVIEW REQUEST a136cf543efc4d8ba53cd25faa82c9b1f7f82e1e
+
+network.rs: K10 sortedness на N>=9 без network-wide probe; отдельные
+w2p2_k10_insertion_perm_fixed/case и две N10 u8/u64 proof с arbitrary
+read-only comparator/offset9. RUN-REQUEST.json; RESULT-network.md, job124
+и R7 логической композиции. Все тела реальные, no verified stubs.
+Проверить перенос nondeterministic read-only comparison trace на pure
+strict comparator, больший домен без sorted-prefix assumption, и что
+K10 complete на N10+ требует обе отдельные proof плюс structural network.
+Контекст: K9s первое ensures/R9 e658b246, smallsort.rs/network/insertion.
