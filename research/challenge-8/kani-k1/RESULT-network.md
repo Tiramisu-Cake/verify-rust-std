@@ -393,3 +393,12 @@ start>0, внутреннего региона и крайних регионо�
 и start 0..tail; covers обеих границ и внутреннего региона после вызова.
 Все covers ограничиваются реальными requires контракта. Ручных заглушек нет.
 
+REVIEW REQUEST 18f28ed3ba395a4d8f882de6622aa35e87c76269
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+(`insert_tail_region_u64`, `w1_any_less_u64`, `w1_network_o1_len17_u64`),
+`library/core/src/slice/sort/shared/smallsort.rs`,
+`library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-network.md` (волна 1).
+
