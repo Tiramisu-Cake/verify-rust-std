@@ -1151,3 +1151,25 @@ RUN-REQUEST.json, RESULT-network.md («Волна 2», job 91, dispatch a16).
 | 9 | net-w2-09-u128-rest-a16-lo | 93 | e729e7b1 | w2_k16_u128_hi; w2_k16_u128_stable_reach; w2_k16_u128_general_reach; w2_k16_a16_lo | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 93`, затем конец turn. Счёт dispatch 9/24.
+
+#### Job 93 / u128 все длины и reachability, a16 low
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b. Все SUCCESS.
+13 GiB ENFORCED, peak 7,33 GiB, RSS 7095748 KiB, OOM 0, swap off,
+wall 295,32 с. Сумма summary wall П1: 2066,24 с = 34,4373 мин (не API).
+
+| Гармоника | N / маршрут | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2_k16_u128_hi | 31,32 / stable и unstable-general | 194,41714 | 0/407 | 5/5 |
+| w2_k16_u128_stable_reach | 17 / stable-Freeze | 13,167816 | 0/394 | 2/2 |
+| w2_k16_u128_general_reach | 17 / unstable-general | 13,641396 | 0/394 | 2/2 |
+| w2_k16_a16_lo | 0,1,2,7,8 / оба general trait-маршрута | 26,95579 | 0/422 | 11/11 |
+
+u128 безопасность соответствует приёмке <=600 с на всех N, reachability
+обеих пар измерена. Но hi194,41714 с превышает цель180; R7: немедленно
+делится по N на отдельные парные семейства31 и32. Старое измерение
+сохраняется, новый замер нужен для Linux цели/macOS. По этому измерению
+аналогичный a16 high также заранее делится на31 и32; это сужение списка
+N без изменения данных/тела/компаратора. Существующее a16_hi не запускалось.
+Запрос net-w2-10-split-u128-a16-mid31: u128_n31, u128_n32, a16_mid,
+a16_n31; measurement 4 x 10 минут. a16_n32/reachability идут далее.
