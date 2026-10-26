@@ -164,8 +164,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
 | 9 | 9, u64 и u8 | 149, SUCCESS обоих типов | 151, SUCCESS |
 | 10 | 10, u64 и u8 | 151, SUCCESS обоих типов | 153, SUCCESS |
-| 11 | 11, u64 и u8 | u8: 153 SUCCESS; u64: не измерено | не измерено |
-| 12 | 12, u64 и u8 | не измерено | не измерено |
+| 11 | 11, u64 и u8 | u8: 153; u64: 156; SUCCESS обоих | не измерено |
+| 12 | 12, u64 и u8 | 156, SUCCESS обоих типов | не измерено |
 | 13 | 13, u64 и u8 | не измерено | не измерено |
 | 14 | 14, u64 и u8 | не измерено | не измерено |
 | 15 | 15, u64 и u8 | не измерено | не измерено |
@@ -605,6 +605,35 @@ Bm u8 N11 уже измерен job 153. До успешных proofs обоих
 Код и ledger без изменений; следующий пакет — GS N11/12 обоих типов.
 После dispatch ночных jobs 16, preflight отказов 3;
 с П2 до ночи: 21 jobs, 4 preflight отказа, 25/40 консервативных попыток.
+
+### Job 156 — w2-merge-night-bm11u64-bm12-016
+
+Head `47208500185f7f6266107f6cbcc67cbd2b6307cf`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 2134252 KiB; wall с компиляцией 9:27.36.
+Cgroup peak 3.18 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len11` | SUCCESS / SUCCESS | 161.11435 | 0/442 | 88 | 1/1 |
+| `w2p2_bm_u64_len12` | SUCCESS / SUCCESS | 198.20973 | 0/442 | 86 | 1/1 |
+| `w2p2_bm_u8_len12` | SUCCESS / SUCCESS | 163.2861 | 0/435 | 88 | 1/1 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные covers normal-return сверены отдельно от gate: 1/1 у каждой.
+Таблица R4 обновлена: N11 обоих типов (u8 job 153, u64 job 156),
+N12 обоих типов (job 156). Bm u64 N12: 198.20973 с >180 с,
+но <600 с; по CD-6 цель 180 с — ориентир, measurement основного слоя.
+Гармоника уже фиксирована по длине и типу. macOS здесь не измерен.
+
+### N-D20 (R7): GS N11/12 после обоих proofs
+
+`w2-merge-night-gs11to12-017`: GS N11/12 отдельно u64/u8,
+expected SUCCESS, 4×10 мин. Verified stub только bidirectional_merge;
+R4 N11: proofs jobs 153/156, N12: job 156; R11 halves_sorted job 110.
+Код/ledger без изменений; следующий пакет — proof bm N13/14 обоих типов.
+После dispatch ночных jobs 17, preflight отказов 3;
+с П2 до ночи: 22 jobs, 4 preflight отказа, 26/40 консервативных попыток.
 
 ## Фаза 9
 
