@@ -1379,3 +1379,60 @@ REVIEW REQUEST eab5af1d1eab030a8c45506dc72974ecc79e8400
 
 Активен job59, head `3820d796`, запрос `w1-merge-cd3-len2to4-control-009`.
 Watch59 зарегистрирован; новых прогонов и опроса состояния нет.
+
+
+### R9 полного семейства и обновление CD-3
+
+По сообщению координатора review `c5720c76` (контроль CD-2 + семейство
+2..=32) — **GO_WITH_NITS**. Условие каждого нового dispatch: включать
+`w1_cd2_comparator_oob_must_fail`, expect **FAILED**, expect_check
+`dereference failure: pointer outside object bounds`; все
+`w1_cd3_all_lenN_safety` — expect **SUCCESS**. Место expected check —
+`core/src/ptr/mod.rs` внутри `read_volatile`, сохраняется из summary.
+
+Поправка CD-3 с origin/base влита: лимит dispatch теперь **22**, фактических
+минут по-прежнему **250**. В одном запросе4 гармоники/40мин сохраняется.
+Пакетирование исправлено: три длины + обязательный контроль в каждом job.
+Для31 длины требуется11 запросов полного семейства, всего19/22 dispatch
+(8 ранее +11 семейства), с запасом3 для исправлений/повторов.
+
+**W1-D12 (R7):** N17/24/32 оставляю в новом семействе: job53 на
+`38faf5ff0b1d4bd342097f646e26c02ba9fd4266` использовал FreezeTypeImpl,
+а теперь измеряется реальный UnstableSmallSortTypeImpl. Для general direct
+и stable-Freeze это повтор; для нового trait entrypoint — новое измерение.
+Дополнительные мутанты первого аргумента и comparator оболочки пока не
+включаю: это необязательное усиление, текущий обязательный контроль уже
+измерен в job59. Ограничение контроля (второй аргумент, u64 comparator)
+явно раскрыто; отсутствие новых самостоятельных контролей не скрывается.
+
+
+### Job 59 — полное семейство CD-3
+
+Запрос `w1-merge-cd3-len2to4-control-009`, head `3820d796f0424461ca6bc36e313a5eaa6190e294`.
+COMPLETE, expectation_met=True, measurement_ok=True, Kani exit=1. Gate=true подтверждён командой summary; check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Память run: max RSS 2154244 KiB, cgroup peak 2.35 GiB, ENFORCED 13 GiB, OOM kills 0, swap off. Wall verify-команды с компиляцией 0:58.70; пик общий на run.
+
+| Гармоника | expect | status | Verification Time, с | cover |
+|---|---|---|---:|---|
+| `w1_cd3_all_len2_safety` | SUCCESS | SUCCESS | 2.7584276 | 3/3 |
+| `w1_cd3_all_len3_safety` | SUCCESS | SUCCESS | 3.7802327 | 3/3 |
+| `w1_cd3_all_len4_safety` | SUCCESS | SUCCESS | 5.215171 | 3/3 |
+| `w1_cd2_comparator_oob_must_fail` | FAILED | FAILED | 0.03472342 | 1/1 |
+
+Локализованные failed checks (assertion-паники SUCCESS-строк допустимы по CD-1):
+- `w1_cd3_all_len2_safety`: `This is a placeholder message; Kani doesn't support message formatted at runtime` @ `/home/circleci/project/library/core/src/slice/sort/shared/smallsort.rs:884`.
+- `w1_cd3_all_len3_safety`: `This is a placeholder message; Kani doesn't support message formatted at runtime` @ `/home/circleci/project/library/core/src/slice/sort/shared/smallsort.rs:884`.
+- `w1_cd3_all_len4_safety`: `This is a placeholder message; Kani doesn't support message formatted at runtime` @ `/home/circleci/project/library/core/src/slice/sort/shared/smallsort.rs:884`.
+- `w1_cd2_comparator_oob_must_fail`: `dereference failure: pointer invalid` @ `/home/circleci/project/library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs:1460`.
+- `w1_cd2_comparator_oob_must_fail`: `dereference failure: pointer outside object bounds` @ `/home/circleci/project/library/core/src/ptr/mod.rs:2179`.
+
+У каждой SUCCESS-строки ожидаются три normal-return cover; число в таблице взято из summary. Контроль проверяет второй аргумент u64 comparator; expected text и место приведены выше. Covers FAILED-строки не являются условием gate: достижимость подтверждает локализованный провал.
+Время одной длины общее для independently chosen direct general u64, actual UnstableSmallSortTypeImpl transparent non-Copy u64, stable-Freeze u64. Не отдельные времена маршрутов. Ссылочная валидность/uninit/Drop/перестановка/unwind не заявлены.
+
+REVIEW REQUEST 3820d796f0424461ca6bc36e313a5eaa6190e294
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`, `research/challenge-8/kani-k1/RUN-REQUEST.json`, `research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: summary этого job и check-tooling против базы волны. Код семейства R9 GO_WITH_NITS на c5720c76; зачёт новых измерений — через координатора.
+
+Сумма wall verify-команд по summary 9 завершённых собственных jobs: 991.87 с (16.5312 мин), без подготовки CircleCI. Это оценка для RESULT, не API job wall; фактический учёт 250 минут ведёт координатор.
+
+Следующий запрос `w1-merge-cd3-len5to7-010`: длины [5, 6, 7] + обязательный CD-2 FAILED-контроль. После dispatch **10/22**, лимит **250 фактических минут**; один активный job, окно dispatch до16:16:18Z. Lane и код семейства не изменяются.

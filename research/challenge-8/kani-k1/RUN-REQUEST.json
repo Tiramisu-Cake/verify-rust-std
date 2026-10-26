@@ -1,22 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd3-len2to4-control-009",
+  "request_id": "w1-merge-cd3-len5to7-010",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-3 full constant-length family, first packet: lengths2/3/4 independently cover direct general u64, actual unstable trait transparent non-Copy u64, stable-Freeze u64. CD-2 negative control passes one-past-object argument to reading comparator. No stubs/assumes.",
+  "purpose": "CD-3 constant lengths 5..7: each independently selects direct general u64, actual unstable trait transparent non-Copy u64, or stable-Freeze u64. Both comparator arguments read volatile. Mandatory CD-2 one-past-object comparator control, FAILED. No stubs or assumes.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len2_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len5_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len3_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len6_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len4_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd3_all_len7_safety",
       "expect": "SUCCESS"
     },
     {
