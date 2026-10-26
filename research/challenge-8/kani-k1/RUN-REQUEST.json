@@ -1,19 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-control-a-002",
+  "request_id": "w2-merge-o1a-len2to5-003",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "R6 variant A controls in merge.rs: normal-return assertion must fail; separate stub reachability proof must succeed. Both comparator arguments read volatile; real merge body.",
+  "purpose": "O1-A fixed N2,3,4,5: independent direct general u64, actual unstable trait non-Copy u64, stable-Freeze u64. Real bodies, CD-2 reads. Sole panic_on_ord_violation stub; controls measured in job 78.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_control_a_assertion",
-      "expect": "FAILED",
-      "expect_check": "assertion failed: value != value"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len2_safety",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_control_a_reachable",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len3_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len4_safety",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len5_safety",
       "expect": "SUCCESS"
     }
   ]

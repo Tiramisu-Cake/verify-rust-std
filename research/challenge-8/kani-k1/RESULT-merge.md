@@ -1815,3 +1815,26 @@ REVIEW REQUEST 8af80c538e36d9a3395daf5732804b21b4249bba
 (без изменений с `e4e24db8`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. Evidence C-5: job 76 summary
 и check-tooling ok. Следующее измерение — контроль А.
+
+### Job 78 — контроль (А)
+
+Head `87a0ff6c6514839681df889aebfa12b6c3742c1f`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 1 (ожидаемый FAILED).
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1607440 KiB, cgroup peak 1.84 GiB, ENFORCED 13 GiB,
+OOM 0, swap off, wall verify с компиляцией 41.03 с.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w2_control_a_assertion` | FAILED / FAILED | 0.62573564 | 1/114 | 2/2 |
+| `w2_control_a_reachable` | SUCCESS / SUCCESS | 0.5946428 | 0/113 | 2/2 |
+
+Единственный failed check: `assertion failed: value != value`
+@ `kani_k1/merge.rs:1573`. В обеих гармониках 4 unreachable checks.
+Cover заглушки и нормального возврата выполнены. Контроль А измерен до
+первого O1-A; независимый review R9 ещё ожидается, окончательного зачёта нет.
+
+Следующий запрос `w2-merge-o1a-len2to5-003`: N2/3/4/5, 4×10 мин.
+Ожидается SUCCESS и 4 cover на строку (D/T/S + заглушка).
+После dispatch **3/14**. Два завершённых job: суммарный wall verify
+82.15 с (1.3692 мин), без подготовки CircleCI; API job wall у координатора.
