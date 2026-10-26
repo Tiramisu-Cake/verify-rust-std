@@ -2350,3 +2350,7 @@ RUN-REQUEST.json; RESULT-network.md, job123 и R7 довод25/45 CE, тольк
 Контекст: sort9/sort13/insertion/network и swap_if_less в smallsort.rs,
 K9s job121, GO_WITH_NITS e658b246. Проверить достаточность точных N без хвоста
 и не смешивать структурную перестановку с машинно проверенной sortedness.
+
+| 11 | net-w2p2-11-k10-network-9-10 | 124 | 32696ca6 | w2p2_k10_u8_n9; w2p2_k10_u64_n9; w2p2_k10_u8_n10; w2p2_k10_u64_n10 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 124`, затем конец turn. Счёт П2:11/40 dispatch.
