@@ -1455,3 +1455,10 @@ Comparator w1_any_less_u64 volatile-читает оба аргумента, за
 R7: unwind25 достаточен для отдельных вложенных циклов до20, а не суммарного
 числа сравнений; unwinding assertions остаются активны. При >180 с — деление.
 Запрос net-w2-18-k11s: measurement 4 x 10 минут, только safety.
+
+REVIEW REQUEST 8a8867bb00ebda83a92c78486d9c4b5bad3fd54b
+
+network.rs: w2_insertion_safety_fixed, w2_insertion_safety_cases, четыре K11s;
+RUN-REQUEST.json; RESULT-network.md, K11 R7/ledger. Контекст: неизменённый
+insertion_sort_shift_left/insert_tail в smallsort.rs, CI no-assert-contracts.
+Проверить exact N, весь offset1..N и отсутствие предположения порядка.
