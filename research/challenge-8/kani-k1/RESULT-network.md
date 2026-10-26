@@ -2857,3 +2857,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 Все 36 unreachable, упавших проверок нет. Измерены смещения12..15 и все их tail; R9 a15216a1/4dd2272f ожидается. Известный summary wall П2: 10890,70 с; ночь: 7809,87 с, 12 dispatch.
 
 Далее net-night-13-k8r-start11-8: measurement 4 × 10 минут, ожидается SUCCESS; start11,10,9,8 с теми же helper/контрактом/полными входами, covers7/7,8/8,9/9,10/10. Код не менялся, snapshot4dd2272f.
+
+| 13 (П2 #27) | net-night-13-k8r-start11-8 | 155 | ccaee959 | w2night_k8r_start11_u64; w2night_k8r_start10_u64; w2night_k8r_start9_u64; w2night_k8r_start8_u64 | SUCCESS |
+
+Ожидание `k1.sh watch 155`, затем конец turn. После уведомления — summary/check-tooling155; далее K8r start7..4.
