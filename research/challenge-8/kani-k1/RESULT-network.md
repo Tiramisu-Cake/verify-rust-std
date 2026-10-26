@@ -1988,3 +1988,7 @@ COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
 на реальном offset1 выполнен; R9 f32963dd ожидается. Не переносится на
 все offset16/17. Далее тот же принятый П1 comparator/input, N18/N19,
 measurement4x10мин, запрос net-w2p2-02-b4-offset1-18-19. Код не менялся.
+
+| 2 | net-w2p2-02-b4-offset1-18-19 | 111 | 950718de | w2p2_b4_u64_n18; w2p2_b4_cell_n18; w2p2_b4_u64_n19; w2p2_b4_cell_n19 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 111`, затем конец turn. Счёт П2:2/40 dispatch.
