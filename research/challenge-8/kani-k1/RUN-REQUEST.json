@@ -1,18 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-10-k9s-large-arrays",
+  "request_id": "net-w2p2-11-k10-network-9-10",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K9s exact two-cell swap_if_less contract on full [u8;85] and [u8;86]. Pure first-byte key comparator, every other byte arbitrary payload retained by byte-exact permutation postcondition. Both index orders and swap/no-swap covers; real body/no stubs, unwind180.",
+  "purpose": "K10 real network first stage: exact N9,N10, full u8/u64 and natural strict order. Assert sortedness; at exact network9 use structural permutation from K9s first ensures, at10 assert full probe multiplicity including insertion. All callees real, no verified stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_a85",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_a86",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n10",
       "expect": "SUCCESS"
     }
   ]
