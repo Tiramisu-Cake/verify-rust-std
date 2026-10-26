@@ -1551,3 +1551,24 @@ job103/O3 R7/ledger. Контекст: K13Tagged/Cell, const-offset helper134e11
 | 20 | net-w2-20-o3-routes | 104 | 40a1f1cd | w2_o3_routes_0_4; w2_o3_routes_5_8; w2_o3_routes_9_12; w2_o3_routes_13_16 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 104`, затем конец turn. Счёт dispatch 20/24.
+
+#### Job 104 / O3-s stable default и unstable fallback 0..16
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak3,26 GiB, RSS3117252 KiB, OOM0, swap off,
+wall174,98 с. Сумма известных summary wall П1:5266,51 с =87,7752 мин;
+job103 неизвестен, подготовка CircleCI не включена, это не API минуты.
+
+| Гармоника | N / обе default-ветки | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2_o3_routes_0_4 | 0..4 | 2,7734878 | 0/196 | 12/12 |
+| w2_o3_routes_5_8 | 5..8 | 13,484979 | 0/193 | 10/10 |
+| w2_o3_routes_9_12 | 9..12 | 35,720062 | 0/193 | 10/10 |
+| w2_o3_routes_13_16 | 13..16 | 79,54504 | 0/193 | 10/10 |
+
+Каждая пара stable/unstable×N и key-change comparator покрыта;
+массивы ровно N. Все <=180 с Linux, R9 2dc41f0f запрошен.
+Прямая insertion/all offsets этим не измеряется: defaults зовут offset1.
+Запрос net-w2-21-o3-insertion — четыре подготовленных семейства прямой
+insertion N1..20, весь offset1..N через const-enumeration, measurement4x10мин.
+Новых предположений, stub и проверок свойств нет; input full u8 key/tag.

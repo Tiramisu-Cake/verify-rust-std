@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-20-o3-routes",
+  "request_id": "net-w2-21-o3-insertion",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "O3s safety: exact Cell<Tagged> arrays, both real non-Freeze trait routes, N0..16. Comparator reads both values then writes fresh u8 keys; arbitrary bool. No tag permutation/global tracking/stubs/should_panic. Cover every route-length pair and key mutation.",
+  "purpose": "O3s direct insertion safety, exact Cell<Tagged> arrays N1..20, all offsets1..N enumerated into const calls. Comparator reads both payloads before writing fresh keys, arbitrary bool; no tag permutation. Ordinary proofs, real bodies, CI no-assert-contracts.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_0_4",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_1_5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_5_8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_6_10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_9_12",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_11_15",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_routes_13_16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_16_20",
       "expect": "SUCCESS"
     }
   ]
