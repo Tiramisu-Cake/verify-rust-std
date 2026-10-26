@@ -1154,3 +1154,10 @@ w2_type_reachability!(w2_k16_a16_general_reach, [u8; 16], false, 17);
 
 w2_type_pair_cases!(w2_k16_u128_n31, u128, [31]);
 w2_type_pair_cases!(w2_k16_u128_n32, u128, [32]);
+
+w2_type_pair_cases!(w2_k16_a17_lo, [u8; 17], [0, 1, 2, 7, 8]);
+w2_type_pair_cases!(w2_k16_a17_mid, [u8; 17], [15, 16, 17]);
+w2_type_pair_cases!(w2_k16_a17_n31, [u8; 17], [31]);
+w2_type_pair_cases!(w2_k16_a17_n32, [u8; 17], [32]);
+w2_type_reachability!(w2_k16_a17_stable_reach, [u8; 17], true, 17);
+w2_type_reachability!(w2_k16_a17_general_reach, [u8; 17], false, 17);

@@ -1183,3 +1183,31 @@ RUN-REQUEST.json; RESULT-network.md, job93 и R7. Исходный шаблон 
 | 10 | net-w2-10-split-u128-a16-mid31 | 94 | 5bc0f10f | w2_k16_u128_n31; w2_k16_u128_n32; w2_k16_a16_mid; w2_k16_a16_n31 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 94`, затем конец turn. Счёт dispatch 10/24.
+
+#### Job 94 / разделённые u128 и a16
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b. Все SUCCESS.
+13 GiB ENFORCED, peak 4,81 GiB, RSS 4138580 KiB, OOM 0, swap off,
+wall 411,70 с. Сумма summary wall П1: 2477,94 с = 41,299 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_u128_n31 | 76,27714 | 0/402 | 3/3 |
+| w2_k16_u128_n32 | 78,91053 | 0/402 | 3/3 |
+| w2_k16_a16_mid | 104,499054 | 0/412 | 7/7 |
+| w2_k16_a16_n31 | 108,92627 | 0/402 | 3/3 |
+
+Все семейства <=180 с; N31/N32 u128 заменяют для целевого времени
+старое семейство194,42 с, не меняя домен. u128 имеет все N и отдельные
+reachability job93. a16 осталось измерить N32 и обе reachability.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| [u8;17] | 17 | да / да / нет | general, 17*48=816<=4096 | stable-Freeze/general |
+
+В отличие от a16, a17 при N>=16 использует presort4 (size>16),
+оба trait-маршрута на N0,1,2,7,8 / 15,16,17 / 31 / 32. Данные — все
+17 байт произвольны; R7: большие N сразу отдельные по измерению job93.
+Reachability отдельно для stable17/general17 по CD-5.
+Запрос net-w2-11-a16-rest-a17-lo: a16 N32 и две reachability, a17 lo,
+measurement 4 x 10 минут. Остальные a17 подготовлены, не измерены.
