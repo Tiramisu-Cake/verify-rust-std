@@ -1204,3 +1204,34 @@ w2_type_cases!(w2_k16_a86_stable_n31, [u8; 86], true, [31]);
 w2_type_cases!(w2_k16_a86_stable_n32, [u8; 86], true, [32]);
 w2_type_cases!(w2_k16_a86_fallback, [u8; 86], false, [0, 1, 2, 15, 16]);
 w2_type_reachability!(w2_k16_a86_stable_reach, [u8; 86], true, 17);
+
+// K-11s/B4. Plain proofs deliberately outside the old correctness contract's offset/length
+// domain. CI --no-assert-contracts is required; all insertion bodies are real.
+fn w2_insertion_safety_fixed<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
+    super::super::insertion_sort_shift_left(&mut v, offset, &mut w1_any_less_u64);
+    kani::cover(offset == 1, "W2 K11s offset 1 normal return");
+    kani::cover(offset == N, "W2 K11s offset len normal return");
+}
+
+macro_rules! w2_insertion_safety_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w2_insertion_safety_fixed::<$n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("W2 K11s normal return at ", stringify!($n)));)+
+            kani::cover(true, "W2 K11s family: end reached");
+        }
+    };
+}
+
+w2_insertion_safety_cases!(w2_k11s_1_5, [1, 2, 3, 4, 5]);
+w2_insertion_safety_cases!(w2_k11s_6_10, [6, 7, 8, 9, 10]);
+w2_insertion_safety_cases!(w2_k11s_11_15, [11, 12, 13, 14, 15]);
+w2_insertion_safety_cases!(w2_k11s_16_20, [16, 17, 18, 19, 20]);

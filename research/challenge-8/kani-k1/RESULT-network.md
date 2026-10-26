@@ -1418,3 +1418,40 @@ a86 stable_lo/mid/reach и unstable fallback; measurement 4 x 10 минут.
 | 17 | net-w2-17-a86-rest | 101 | 0f3b147f | w2_k16_a86_stable_lo; w2_k16_a86_stable_mid; w2_k16_a86_stable_reach; w2_k16_a86_fallback | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 101`, затем конец turn. Счёт dispatch 17/24.
+
+#### Job 101 / последние клетки K16
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 2,15 GiB, RSS 1849860 KiB, OOM 0, swap off,
+wall 117,93 с. Сумма summary wall П1: 4162,91 с = 69,3818 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a86_stable_lo | 7,9099674 | 0/412 | 6/6 |
+| w2_k16_a86_stable_mid | 37,87678 | 0/406 | 4/4 |
+| w2_k16_a86_stable_reach | 13,90589 | 0/394 | 2/2 |
+| w2_k16_a86_fallback | 13,126991 | 0/412 | 6/6 |
+
+a86 все требуемые stable/fallback длины измерены <=180 с; stable17
+reachability выполнена. K16 все non-ZST клетки имеют измерительные
+критерии gate true/полные covers/tooling ok. ZST только trait-уровень:
+job85 FAILED/OOM, network18+ исключён CD-5. Итоговая матрица будет сведена
+после K11/O3; новые type-реализации/R9 запросы перечислены выше.
+
+#### K-11s / R7 и ledger
+
+Тип u64 полной ширины. Четыре семейства постоянных N: 1..5, 6..10,
+11..15, 16..20; каждый вызов на массиве ровно [u64;N]. Offset произволен
+во всём 1..=N, включая N (no-op); cover обоих концов после возврата,
+плюс cover каждой N и конца семейства. Все внутренние offset также
+в универсальном домене, но отдельный cover на каждый из них не заявляется.
+
+Обычная proof: нет should_panic/ручной заглушки/stub_verified;
+выход offset из допустимого домена исключён явно с boundary covers.
+Префикс не предполагается отсортированным: это не требуется для safety.
+Старый K1 correctness-контракт не доказывается и не используется,
+нужен CI --no-assert-contracts, поскольку его requires уже нашего домена.
+Comparator w1_any_less_u64 volatile-читает оба аргумента, затем свежий bool.
+R7: unwind25 достаточен для отдельных вложенных циклов до20, а не суммарного
+числа сравнений; unwinding assertions остаются активны. При >180 с — деление.
+Запрос net-w2-18-k11s: measurement 4 x 10 минут, только safety.
