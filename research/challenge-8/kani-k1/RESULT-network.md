@@ -993,3 +993,37 @@ RUN-REQUEST.json, RESULT-network.md (job 85, раскрытие ZST, R7 разб
 | 6 | net-w2-06-k16-u8-control | 88 | 0f2e809b | w2_control_a_quiet_assertion; w2_control_a_reachability; w2_k16_u8_stable_lo; w2_k16_u8_network_short | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
 
 Ожидание `k1.sh watch 88`, затем конец turn. Счёт dispatch 6/24.
+
+#### Job 88 / первые u8 и quiet-контроль
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; 13 GiB ENFORCED,
+peak 1,92 GiB, RSS 1804000 KiB, OOM 0, swap off, wall 92,31 с.
+Сумма summary wall П1: 1294,90 с = 21,5817 мин (не API минуты).
+
+| Гармоника | N / маршрут | исход | время, с | failed/total | cover |
+|---|---|---|---:|---|---|
+| w2_control_a_quiet_assertion | 2 / network | FAILED ожидаемо | 0,24241221 | 1/323 | 1/1 |
+| w2_control_a_reachability | 18 / network | SUCCESS | 16,138859 | 0/322 | 2/2 |
+| w2_k16_u8_stable_lo | 0,1,2,7,8 / stable-Freeze | SUCCESS | 6,1376963 | 0/412 | 6/6 |
+| w2_k16_u8_network_short | 8,9,12,13,17 / network | SUCCESS | 28,332548 | 0/412 | 6/6 |
+
+Quiet assertion: ровно 1 failed check, `assertion failed: x != x`,
+network.rs:1069. Ожидание и reachability покрыты; общий quiet cut измерен
+с gate true, R9 3ce9177c/5a8c9961 ещё ожидается. Клетки u8 удовлетворяют
+измерительным критериям, окончательный зачёт после R9 шаблона.
+
+R7: для следующих Freeze-типов обе outer trait-ветки объединяются в
+семейство с недетерминированным stable bool. В каждом N вызывается
+конкретный w2_type_fixed<T,N,true/false>, вход ровно [T;N]; post-call cover
+каждой пары (stable,N)/(unstable,N), плюс конец. Это не объединение
+безопасности с перестановкой. При >180 с семейство делится по N/маршруту.
+
+| Тип | size | Copy / Freeze / efficient swap | unstable dispatch | stable dispatch |
+|---|---:|---|---|---|
+| u128 | 16 | да / да / нет | general, 16*48=768<=4096 | stable-Freeze/general |
+
+u128: обе ветки N=0,1,2,7,8 сначала; N=15,16,17,31,32 подготовлены,
+но пока не отправлены. Presort при N>=16 — 8 (size<=16).
+Запрос net-w2-07-k16-u8-rest-u128-lo: три оставшихся семейства u8 и
+парное u128_lo, measurement 4 x 10 минут. Отдельных новых assume нет,
+only panic_on_ord_violation cut, данные/comparator без ограничений.

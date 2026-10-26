@@ -1077,3 +1077,35 @@ w2_type_cases!(w2_k16_u8_stable_mid, u8, true, [15, 16, 17]);
 w2_type_cases!(w2_k16_u8_stable_hi, u8, true, [31, 32]);
 w2_type_cases!(w2_k16_u8_network_short, u8, false, [8, 9, 12, 13, 17]);
 w2_type_cases!(w2_k16_u8_network_merge, u8, false, [18, 31, 32]);
+
+impl W2Value for u128 {
+    fn w2_value() -> Self { kani::any() }
+}
+
+/// Both outer traits on one type and the same allowed lengths; cover every (route, N).
+macro_rules! w2_type_pair_cases {
+    ($name:ident, $t:ty, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
+        #[kani::unwind(65)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            let stable: bool = kani::any();
+            match len {
+                $($n => {
+                    if stable { w2_type_fixed::<$t, $n, true>(); }
+                    else { w2_type_fixed::<$t, $n, false>(); }
+                },)+
+                _ => {}
+            }
+            $(
+                kani::cover(stable && len == $n, concat!("W2 K16s stable normal return at ", stringify!($n)));
+                kani::cover(!stable && len == $n, concat!("W2 K16s unstable normal return at ", stringify!($n)));
+            )+
+            kani::cover(true, "W2 K16s paired family: end reached");
+        }
+    };
+}
+
+w2_type_pair_cases!(w2_k16_u128_lo, u128, [0, 1, 2, 7, 8]);
+w2_type_pair_cases!(w2_k16_u128_hi, u128, [15, 16, 17, 31, 32]);

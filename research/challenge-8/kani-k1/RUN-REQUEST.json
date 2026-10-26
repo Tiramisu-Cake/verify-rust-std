@@ -1,27 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-06-k16-u8-control",
+  "request_id": "net-w2-07-k16-u8-rest-u128-lo",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "After ZST FAILED/OOM in job85, disclose ZST cell and proceed to u8: stable 0,1,2,7,8 and network 8,9,12,13,17, exact arrays/actual traits/CD2 reads. Repeat quiet assertion and covering reachability for gate. Safety only.",
+  "purpose": "K16s remaining u8 stable 15,16,17 / 31,32 and network 18,31,32; begin u128 stable and unstable-general 0,1,2,7,8. Exact input arrays, real outer traits, full-width values, CD2 reads, accepted quiet cut measured in job88. Safety only.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_quiet_assertion",
-      "expect": "FAILED",
-      "expect_check": "x != x"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_reachability",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_mid",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_lo",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_stable_hi",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_network_short",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u8_network_merge",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_u128_lo",
       "expect": "SUCCESS"
     }
   ]
