@@ -779,3 +779,9 @@ network.rs:958. Структура контроля и reachability не мен�
 для общего gate; недостижимый stub cover в FAILED-контроле длины 2
 не является требованием SUCCESS, достижимость отдельно измеряется на 18.
 Запрос net-w2-02-control-a-text, measurement 2 x 10 минут, dispatch 2/24.
+
+REVIEW REQUEST 995164ac364257f0b82e13d24d25fa6ea8d025e5
+
+Исправление замечания к 48d8c2d3: network.rs (assert без сообщения),
+RUN-REQUEST.json (expect_check и новый request_id), RESULT-network.md
+(исход job 75 и R7). Контекст и остальные атрибуты контроля неизменны.
