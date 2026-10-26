@@ -2730,3 +2730,7 @@ R7: N17 — последняя длина ночного K10. Сначала iso
 REVIEW REQUEST 9d30c5ce634dff06aae5eeab547f78d6ef8e8388
 
 network.rs: четыре применения прежних sortedness/permutation macros для N17/u8/u64, без новых helpers/допущений. RUN-REQUEST.json выбирает только sortedness u8; RESULT-network.md (job144, порядок запросов). Рассматривать с открытым R9 композиции a136cf54.
+
+| 8 (П2 #22) | net-night-08-k10-sorted17-u8 | 145 | 4f5375be | w2p2_k10_u8_n17 | SUCCESS |
+
+Ожидание `k1.sh watch 145`, затем конец turn. После уведомления — summary/check-tooling145; далее оставшиеся три proof N17.
