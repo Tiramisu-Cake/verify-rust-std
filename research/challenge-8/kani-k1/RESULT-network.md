@@ -1317,3 +1317,7 @@ REVIEW REQUEST 1f711c150ff4d3649aa4aa6447089e846f027ebf
 network.rs: W2Value для Cell<i32> и применение pair macro на default-маршрутах;
 RUN-REQUEST.json; RESULT-network.md, job97/dispatch Cell. Helpers неизменны.
 Контекст: smallsort.rs (non-Freeze defaults), FreezeMarker в shared/mod.rs.
+
+| 14 | net-w2-14-drop-rest-cell | 98 | 0db390bd | w2_k16_drop_n32; w2_k16_drop_stable_reach; w2_k16_drop_general_reach; w2_k16_cell_nonfreeze | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 98`, затем конец turn. Счёт dispatch 14/24.
