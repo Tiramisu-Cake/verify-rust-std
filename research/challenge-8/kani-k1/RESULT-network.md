@@ -450,6 +450,16 @@ Dispatch 6: `net-w1-06-k8-prefix`, job 58, measurement 1 × 10 мин.
 предполагаются. Comparator CD-2, реальные тела, без stub_verified/ручных
 заглушек/контрактных проверок. Набор возможных состояний элементов полный u64.
 
+REVIEW REQUEST a27b174f8eb7886ac2250c01e0459767f4ca085d
+
+Файлы для R9 расширения О1 и исправления cover K-9:
+- `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+  (`w1_network_o1_fixed`, macro `w1_network_o1_cases`, три новых семейства,
+  `w1_any_less_u64`, cover в `w1_sort13_perm_fixed_u8`)
+- `library/core/src/slice/sort/shared/smallsort.rs`
+- `research/challenge-8/kani-k1/RUN-REQUEST.json`
+- `research/challenge-8/kani-k1/RESULT-network.md` (волна 1)
+
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
 20 × (30 + 2 × 8) = 920. Ожидание `k1.sh watch 50`, затем конец turn.
