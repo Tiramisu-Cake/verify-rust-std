@@ -2443,3 +2443,7 @@ REVIEW REQUEST 6b758cb883a33daf6dc8cea6ed25cabaf257431a
 macros для N11 (u8/u64), новые helper не менялись. RUN-REQUEST.json;
 RESULT-network.md, job125 и раздельные критерии. Сейчас измеряются
 permutation N10 и sortedness N11; полная корректность N11 пока не заявлена.
+
+| 13 | net-w2p2-13-k10-perm10-sorted11 | 126 | 07619ef4 | w2p2_k10_perm_u8_n10; w2p2_k10_perm_u64_n10; w2p2_k10_u8_n11; w2p2_k10_u64_n11 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 126`, затем конец turn. Счёт П2:13/40 dispatch.
