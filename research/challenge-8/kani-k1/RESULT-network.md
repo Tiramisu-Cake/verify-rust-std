@@ -1354,3 +1354,7 @@ REVIEW REQUEST 138d462f4cf579bf256d9abc7aba39f1dfc12bea
 network.rs: шесть применений принятых pair/reachability macros для [u8;85];
 RUN-REQUEST.json; RESULT-network.md, job98/dispatch a85. Данные — все байты,
 helpers не менялись. Контекст: smallsort.rs, 85*48=4080/general, presort4.
+
+| 15 | net-w2-15-a85-short-reach | 99 | ac1ae0a7 | w2_k16_a85_lo; w2_k16_a85_mid; w2_k16_a85_stable_reach; w2_k16_a85_general_reach | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 99`, затем конец turn. Счёт dispatch 15/24.
