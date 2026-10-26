@@ -2813,3 +2813,7 @@ Ledger: set_probe<u64> произвольный, input full-width; единст�
 REVIEW REQUEST a15216a1cfe1c0a667aeb0a66d88a7bcb59b422b
 
 network.rs: w2night_k8r_start, macro w2night_k8r_case, 15 proof_for_contract(insert_tail) для start1..15 в [u64;17]. RUN-REQUEST.json выбирает start15..12; RESULT-network.md (job150, ledger K8r). Проверить полноту tail-domain/covers, принятие только requires контракта, frame внешних частей, полный probe и ограничение аллокацией17. Контекст: неизменённый insert_tail/CopyOnDrop в smallsort.rs, k1_tail_pre/k1_count/lt_u64 в merge.rs.
+
+| 11 (П2 #25) | net-night-11-k8r-start15-12 | 152 | 8c584d51 | w2night_k8r_start15_u64; w2night_k8r_start14_u64; w2night_k8r_start13_u64; w2night_k8r_start12_u64 | SUCCESS |
+
+Ожидание `k1.sh watch 152`, затем конец turn. После уведомления — summary/check-tooling152; далее K8r start11..8.
