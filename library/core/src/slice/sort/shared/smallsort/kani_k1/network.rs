@@ -942,6 +942,12 @@ fn k13_small_permutation() {
 // Kani checks remain active; no should_panic or verified-contract stubs are used.
 fn w2_cut_ord_violation() -> ! {
     kani::cover(true, "W2 variant A: order-violation stub reached");
+    w2_assume_ord_violation()
+}
+
+/// The same cut, without a reachability property in every short/no-merge proof.
+/// The covering wrapper above is used by the dedicated reachability control.
+fn w2_assume_ord_violation() -> ! {
     kani::assume(false);
     unreachable!()
 }
@@ -999,3 +1005,69 @@ w2_network_o1_cases!(w2_network_o1_a_22_25, [22, 23, 24, 25]);
 w2_network_o1_cases!(w2_network_o1_a_26_27, [26, 27]);
 w2_network_o1_cases!(w2_network_o1_a_28_29, [28, 29]);
 w2_network_o1_cases!(w2_network_o1_a_30_32, [30, 31, 32]);
+
+
+// K-16s: type matrix through actual trait entrypoints. Safety only; full-width inputs.
+trait W2Value: Sized {
+    fn w2_value() -> Self;
+}
+
+impl W2Value for () {
+    fn w2_value() -> Self { () }
+}
+
+impl W2Value for u8 {
+    fn w2_value() -> Self { kani::any() }
+}
+
+fn w2_reading_less<T>(a: &T, b: &T) -> bool {
+    // SAFETY: real sort bodies must supply readable initialized values. ManuallyDrop avoids
+    // running Drop on the duplicate returned by the volatile read of a non-Copy value.
+    unsafe {
+        let _left = crate::mem::ManuallyDrop::new(crate::ptr::read_volatile(a));
+        let _right = crate::mem::ManuallyDrop::new(crate::ptr::read_volatile(b));
+    }
+    kani::any()
+}
+
+fn w2_type_fixed<T: W2Value, const N: usize, const STABLE: bool>() {
+    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+    let mut v: [T; N] = crate::array::from_fn(|_| T::w2_value());
+    if STABLE {
+        let mut scratch = [const { crate::mem::MaybeUninit::<T>::uninit() }; 48];
+        <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_reading_less::<T>);
+    } else {
+        <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w2_reading_less::<T>);
+    }
+}
+
+macro_rules! w2_type_cases {
+    ($name:ident, $t:ty, $stable:literal, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
+        #[kani::unwind(65)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w2_type_fixed::<$t, $n, $stable>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("W2 K16s normal return at ", stringify!($n)));)+
+            kani::cover(true, "W2 K16s family: end reached");
+        }
+    };
+}
+
+/// Control for the uninstrumented cut used by the short type-matrix proofs.
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
+#[kani::unwind(35)]
+fn w2_control_a_quiet_assertion() {
+    w2_network_o1_fixed::<2>();
+    kani::cover(true, "W2 quiet control A: normal return before assertion");
+    let x: u8 = kani::any();
+    assert!(x != x);
+}
+
+w2_type_cases!(w2_k16_zst_stable, (), true, [0, 1, 2, 7, 8, 15, 16, 17, 31, 32]);
+w2_type_cases!(w2_k16_zst_network_short, (), false, [8, 9, 12, 13, 17]);

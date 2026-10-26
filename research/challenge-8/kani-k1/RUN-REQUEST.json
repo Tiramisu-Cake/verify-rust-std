@@ -1,14 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-04-o1-a-30-32",
+  "request_id": "net-w2-05-k16-zst-control",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Complete O1-A network u64 lengths 30,31,32 via actual outer trait, exact arrays, CD-2 volatile reads, accepted variant A stub/control/template. Other sort bodies real.",
+  "purpose": "K16s ZST stable lengths 0,1,2,7,8,15,16,17,31,32 and network 8,9,12,13,17 via real outer traits, exact arrays. Shared variant A cut separates dedicated reachability cover from short proofs; repeat assertion control and real reachability.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_30_32",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_quiet_assertion",
+      "expect": "FAILED",
+      "expect_check": "x != x"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_control_a_reachability",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_zst_stable",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_zst_network_short",
       "expect": "SUCCESS"
     }
   ]

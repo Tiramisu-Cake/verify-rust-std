@@ -871,3 +871,62 @@ R7: последнее O1-A семейство 30..32 отправляется �
 | 4 | net-w2-04-o1-a-30-32 | 82 | c8d64834 | w2_network_o1_a_30_32 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 82`, затем конец turn. Счёт dispatch 4/24.
+
+#### Job 82 / O1-A network завершён
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b. w2_network_o1_a_30_32:
+SUCCESS, 145,15054 с, 0/328 failed, 12 unreachable, cover 5/5.
+13 GiB ENFORCED, peak 5,44 GiB, RSS 4086796 KiB, OOM 0, swap off;
+wall с компиляцией 186,52 с. Сумма summary wall П1: 676,20 с = 11,27 мин,
+не API минуты. R9 шаблона принят координатором.
+
+| Длины | Гармоника | job | Verification Time, с | cover | gate |
+|---|---|---|---:|---|---|
+| 30..32 | w2_network_o1_a_30_32 | 82 | 145,15054 | 5/5 | true |
+
+Ось O1-A: 18..32/u64 засчитаны, каждая длина имеет normal-return cover,
+все семейства <=180 с Linux. Вместе с обычной proof 0..17/u64 job 61
+получается покрытие 0..32 без should_panic в опоре на О1. Контроль А job 77
+и R9 995164ac приняты. Это проверки Kani при CI-флагах, без uninit/алиасинга/unwind.
+
+#### K-16s / начальная матрица и R7
+
+Входы только outer UnstableSmallSortTypeImpl и StableSmallSortTypeImpl.
+Для stable Freeze — внешний неинициализированный scratch ровно 48 элементов,
+для unstable scratch создаёт реальное тело. Входная аллокация ровно [T;N].
+Инициализация каждого элемента через array::from_fn; без редукции значений.
+Comparator volatile-читает оба T, оборачивая копии в ManuallyDrop, чтобы
+не вызвать лишний Drop у non-Copy; затем свежий kani::any::<bool>().
+
+| Тип | size | Copy / Freeze / efficient swap | unstable фактический маршрут / длины | stable фактический маршрут / длины |
+|---|---:|---|---|---|
+| ZST () | 0 | да / да / да | network; сначала 8,9,12,13,17; 18,31,32 отдельно | stable-Freeze/general; 0,1,2,7,8,15,16,17,31,32 |
+| u8 | 1 | да / да / да | network; 8,9,12,13,17,18,31,32 | stable-Freeze/general; 0,1,2,7,8,15,16,17,31,32 |
+
+У ZST/u8 unstable-general через trait недостижим: первая ветка Copy,
+size<=8 и size*32<=4096 выбирает network. Прямой вызов general вместо
+реального dispatch не делается. Матрица остальных типов будет дополнена.
+
+R7: cover внутри общей заглушки делал бы короткие SUCCESS-гармоники с
+недостижимой panic-веткой неприемлемыми по gate. Выделено единое тело
+w2_assume_ord_violation (единственный assume(false)); прежний
+w2_cut_ord_violation теперь только отмечает cover и вызывает это тело.
+K16 использует тело без наблюдательного cover, reachability — обёртку.
+Обрезаемая функция по-прежнему единственная: panic_on_ord_violation.
+Перед зачётом этого варианта повторяется assertion-контроль quiet и
+reachability через реальный network 18, с общим телом assume(false).
+Альтернатива — требовать stub cover в каждой короткой клетке — отвергнута:
+при недостижимой ветке это не проверка безопасности и создаёт ложный gate false.
+Измеренные O1-A ссылаются на прежние SHA jobs 80/82; нового утверждения
+о повторном измерении после рефакторинга обёртки нет.
+
+R7: ZST network 18/31/32 отдельно от коротких длин: region.as_ptr()!=v_base
+на ZST не различает половины, поэтому есть риск unwinding assertion в
+реальном network-цикле. Пока это исходный анализ, не измеренный FAILED;
+не переносится на публичную сортировку с её собственным ZST short-circuit.
+
+Ledger K16: any_where по перечисленным N, post-call cover каждой N и конца;
+ручная заглушка только указанная выше. Без proof_for_contract/stub_verified.
+Ни сортированность, ни перестановка, ни баланс Drop не проверяются.
+Запрос net-w2-05-k16-zst-control: quiet assertion FAILED, reachability SUCCESS,
+ZST stable и короткий network SUCCESS; measurement 4 x 10 минут.
