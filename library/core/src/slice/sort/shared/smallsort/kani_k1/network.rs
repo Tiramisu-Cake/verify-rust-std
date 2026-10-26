@@ -487,6 +487,38 @@ fn w1_network_o1_len32_u64() {
     kani::cover(true, "network O1 length 32: normal return reachable");
 }
 
+/// A constant-sized trait call in each branch keeps each network/merge shape concrete.
+fn w1_network_o1_fixed<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+}
+
+/// Nondeterministic selection among constant lengths. Every allowed choice must also have a
+/// normal-return path (cover after the sort); no order constraints or contract stubs are used.
+macro_rules! w1_network_o1_cases {
+    ($name:ident, [$($n:literal),+], [$($attr:meta),*]) => {
+        #[kani::proof]
+        $(#[$attr])*
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w1_network_o1_fixed::<$n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("network O1 normal return at ", stringify!($n)));)+
+            kani::cover(true, "network O1 family: end reached");
+        }
+    };
+}
+
+// Priority odd merge paths: homogeneous sort9 halves, mixed sort9/sort13, sort13 halves.
+w1_network_o1_cases!(w1_network_o1_odd_u64, [19, 25, 31], [kani::should_panic]);
+// No merge: includes 0/1 returns, insertion-only, sort9 and sort13, and their insertion tails.
+w1_network_o1_cases!(w1_network_o1_nomerge_u64, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], []);
+// Remaining merge lengths; together with 19/24/25/31/32, covers every length 18..=32.
+w1_network_o1_cases!(w1_network_o1_othermerge_u64, [18, 20, 21, 22, 23, 26, 27, 28, 29, 30], [kani::should_panic]);
+
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
 /// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
 macro_rules! check_network_band_tail {
@@ -611,6 +643,7 @@ fn w1_sort13_perm_fixed_u8() {
     let pre = v;
     super::super::sort13_optimal(&mut v, &mut lt_u8);
     assert!(probe_count(&pre, &p) == probe_count(&v, &p));
+    kani::cover(v != pre, "sort13 moves elements");
     kani::cover(pre[0] == p && pre[1] == p, "duplicate probe values reachable");
     kani::cover(true, "sort13 permutation at exact length: end reached");
 }

@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-06-k8-prefix",
+  "request_id": "net-w1-07-o1-odd",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 K8 standalone remeasurement: insert_tail contract on symbolic prefixes of [u64;17], tail 1..=16; interior-start extension timed out and is not claimed; no stubs",
+  "purpose": "Wave 1 R9 extension: network O1 at nondeterministically chosen constant lengths 19,25,31; CD-1 should_panic, CD-2 reads, all callee bodies real; cover normal return at every length",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_prefix_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_odd_u64",
       "expect": "SUCCESS"
     }
   ]
