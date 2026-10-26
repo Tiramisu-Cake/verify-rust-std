@@ -26,7 +26,11 @@
 
 1. **CD-1…CD-4 приняты.** Текст ред. 5 §4.1 «контроль (Б): `assert!(false)` → FAILED» отменён: при семантике `should_panic` на pin он невыполним. Контроль (Б) — мутант класса безопасности, как решил координатор.
 
-2. **Усиление О1 через вариант (А) обязательно.** Под `should_panic` маскируется весь класс `assertion`, включая проверки переполнения и проверки контрактов. Std проверяет предусловия unsafe-функций (`assert_unsafe_precondition!`, `assert_unchecked`) через панику без раскрутки. Значит, часть настоящего UB, например нарушение предусловия `copy_nonoverlapping` или `ptr::add`, в гармониках (Б) потенциально маскируется. Поэтому:
+2. **Усиление О1 через вариант (А) обязательно.** Под `should_panic` маскируется весь класс `assertion`: `assert!`/`panic!`, выход индекса, проверки переполнения, `kani::assert`, проверки контрактов (CD-1). Значит, любая паника, кроме нарушения порядка, в гармониках (Б) не отличается от ожидаемой. Это касается неожиданной паники из-за переполнения или выхода индекса, а также сработавших проверок контрактов callee.
+
+   *Поправка 2026-10-26.* Первая версия текста утверждала, что так маскируются и проверки предусловий std (`assert_unsafe_precondition!`) для `copy_nonoverlapping` и `ptr::add`. Это неверно. На pin `9461e07a` Kani вычисляет все `Operand::RuntimeChecks` (`ub_checks()`, `contract_checks()`, `overflow_checks()`) в `false` (`kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs:60–64`). Проверки std не исполняются вообще; вместо них работают собственные проверки Kani, которые по разбору ревьюеров к классу `assertion` не относятся и не маскируются. Окончательно это фиксирует C-5.
+
+   Поэтому:
    - **каждая гармоника О1 с `should_panic` дублируется в варианте (А)**: `panic_on_ord_violation` → `kani::assume(false)`, без `should_panic`. Тогда любая паника, кроме нарушения порядка, даёт FAILED. Стоимость невелика: самая долгая гармоника О1 — 266 с;
    - **в PR О1 опирается только на (А).** Гармоники (Б) остаются в ветке как дополнительная проверка, на них не ссылаемся;
    - **контроль маскировки C-5** (§3, первый шаг волны 2) выясняет, какие классы UB (Б) действительно маскирует. Ответ идёт в ledger, но решение п. 2 от него не зависит.
@@ -49,7 +53,14 @@
 - приёмка — ≤600 с, gate true, все `cover`, check-tooling ok;
 - чистая комната.
 
-Бюджет на волну — до 4 000 кредитов. Остаток после волны 1 — более 23 000 из 30 000.
+**Бюджет (поправка 2026-10-26, владелец согласен поднять).** Приоритет 1 — до **10 000 кредитов**, около 500 мин CircleCI. Оценка координатора:
+- O1-A — около 90 мин;
+- K-16s — 300–500 мин при всех длинах; урезается правилом длин ниже;
+- K-11s, O3-s, C-5, M-1 — остаток.
+
+Приоритеты 2 и 3 получают бюджет по остатку после приоритета 1 (в месяце около 19 000), решение — после итога приоритета 1. Первая оценка «4 000 на волну» была занижена и отменена.
+
+**Время на macOS.** Kani у организаторов идёт на ubuntu и macOS, и macOS, по наблюдению в #681, медленнее более чем в 3 раза. Гармоника, которая на CircleCI Linux идёт дольше ~180 с, может на macOS выйти за 600 с. Цель для новых гармоник — **≤180 с на Linux**. Более долгие делятся по длинам или проверяются в M-1.
 
 ### Приоритет 1 — отрыв по О1 доводится до PR
 
@@ -57,8 +68,9 @@
 |---|---|---|---|
 | **C-5** (контроль маскировки) | Под `should_panic`, с честным comparator на нормальном пути, четыре мутанта: (а) нарушение `assert_unchecked`/`intrinsics::assume`; (б) переполнение `unchecked_add`; (в) перекрытие в `copy_nonoverlapping`; (г) `ptr.add` за пределы аллокации без разыменования. Записать, какие дают FAILED | Таблица классов в ledger | Не STOP: решение §2 п. 2 от исхода не зависит |
 | **O1-A** | Все гармоники О1 с `should_panic` — general, stable-Freeze, network 18..32 — продублировать в варианте (А). Перед этим контроль (А): мутант класса `assertion` (например, `unchecked_add` с переполнением) на нормальном пути → FAILED | Все SUCCESS ≤600 с, контроль FAILED | Таймаут на длине → О1 по (А) раскрывается от наибольшей прошедшей длины |
-| **K-16s** (О5, C3) | Матрица типов **только для безопасности**, вариант (А), по всем трём trait-entrypoint на тех длинах, где маршрут меняется: 0..=16 и 17, 24, 32. Типы: ZST; u8; u64; u128; `[u8;16]` и `[u8;17]` (граница presort 8/4 при len ≥ 16); `[u8;85]` и `[u8;86]` (граница general/fallback); Freeze non-Copy с `Drop`; `Cell<i32>` на non-Freeze маршрутах. Начать с типов и длин, которые меняют ветку | ≤600 с на гармонику | Тип или длина не укладываются → раскрыть по клетке |
+| **K-16s** (О5, C3) | Матрица типов **только для безопасности**, вариант (А), по всем трём trait-entrypoint. Типы: ZST; u8; u128; `[u8;16]` и `[u8;17]` (граница presort 8/4 при len ≥ 16); `[u8;85]` и `[u8;86]` (граница general/fallback); Freeze non-Copy с `Drop`; `Cell<i32>` на non-Freeze маршрутах. u64 закрыт в волне 1. **Правило длин** (поправка 2026-10-26): для типов, кроме u64, — только длины, на которых меняется ветка, по обе стороны и на пороге. General и stable-Freeze: 0, 1, 2, 7, 8, 15, 16, 17, 31, 32 (len<2; presort 1→4 при 8; presort 4→8 при 16 для size ≤16; нечётный хвост слияния; порог). Network (только Copy ≤8 байт: ZST, u8): 8, 9, 12, 13, 17, 18, 31, 32 (`sort9`, `sort13`, начало слияния, порог). Fallback и non-Freeze: 0, 1, 2, 15, 16. Порядок: дешёвые типы и короткие длины сначала, `[u8;85]`/`[u8;86]` последними | ≤600 с, цель ≤180 с | Тип или длина не укладываются → раскрыть по клетке |
 | **K-11s** (О5, B4) | `insertion_sort_shift_left`: безопасность, произвольный comparator, семейство постоянных длин 1..=20, произвольный `offset` | ≤600 с на длину | B4 раскрывается от наибольшей прошедшей длины |
+| **M-1** (H2, macOS) | Пять самых долгих гармоник О1-A (включая 266-секундную network) прогнать на macOS: CircleCI `macos`-executor либо GitHub-hosted `macos-latest` в любом разрешённом lane. Записать множитель к Linux | Все ≤600 с на macOS | Превышение → разбить гармонику по длинам до ≤180 с на Linux и перемерить |
 | **O3-s** (О3) | Non-Freeze: stable default и unstable fallback, 0..=16, плюс insertion до 20. Comparator читает и пишет новый `key` в оба `Cell`; только безопасность, постоянные длины | ≤600 с | Раскрыть от наибольшей прошедшей длины |
 
 ### Приоритет 2 — корректность (минимум М) и паритет
@@ -85,7 +97,7 @@
 - **О3:** безопасность при comparator, мутирующем `Cell`;
 - **C3:** матрица типов по всем ветвям;
 - **B4:** insertion до 20;
-- все гармоники ≤600 с.
+- все гармоники ≤600 с на Linux (CircleCI) и, после M-1, на macOS.
 
 Корректность — минимум М: до 16 (network до 17). Перестановка сети 13 доказывается структурным аргументом. Всё остальное идёт в раскрытие и tracking-issue по образцу #656. #701, по нашему аудиту, не проверяет ни ветку нарушения порядка, ни Cell-comparator, ни insertion 18..20 и выходит за бюджет.
 
@@ -96,8 +108,21 @@
 - П. 6 (ledger): ручная заглушка `panic_on_ord_violation` → `assume(false)` теперь используется и в гармониках О1 (вариант (А)), а не только в О2.
 - Формулировка О1 — дословно §2 п. 3.
 
-## 6. Вопрос организаторам — теперь с цифрами
+## 6. Вопрос организаторам
 
-Отправка — по отдельному поручению владельца. Черновик для #56:
+Отправка — по отдельному поручению владельца. **Отправлять после O1-A, K-16s, K-10 и M-1.** До этого черновик завысил бы то, что у нас есть:
+- доказано только для u64;
+- корректность до 16 ещё не доказана;
+- время измерено только на CircleCI Linux.
 
-> Challenge 8 status question. We have Kani proofs (CI flags, pin 9461e07a) of absence of UB for all three `small_sort` impls on every length up to each route's threshold (16/32), with an arbitrary, possibly inconsistent comparator that reads both arguments, including the `panic_on_ord_violation` path of `bidirectional_merge`; every harness runs under 10 minutes. Sortedness and permutation are proven up to length 16 on merge-based routes (17 on the network route); for 17..32 the merge correctness proof exceeds Kani's resources (goto-instrument OOM at 32 GB with loop contracts; >60 min without). Would a submission with this gap documented and tracked in an issue, as was done for Challenge 12 in #656, be eligible to resolve #56, or should it be filed as "Towards #56"?
+Первая версия черновика (`c690687`) отменена. Ниже — черновик в форме «текущий статус и план». Квадратные скобки заполняются по итогам опытов; пока они не заполнены, ничего не отправлять.
+
+> **Challenge 8 — status and a scoping question.** We are working on a Kani-only solution (CI flags, pin 9461e07a). Current status: absence of UB is proven for all three `small_sort` entry points on every length up to each route's threshold (16/32) **for u64 elements**, with an arbitrary, possibly inconsistent comparator that reads both arguments, including the `panic_on_ord_violation` path of `bidirectional_merge`; every harness runs in under 10 minutes on a 4-core Linux runner (macOS: [status]). In progress: the same for a type matrix covering every `size_of`/`Freeze`/`Copy` branch [status], and sortedness + permutation up to length 16 on merge-based routes (17 on the network route) [status]. For lengths 17..32 the merge correctness proof exceeded Kani's resources in our measurements (goto-instrument OOM at 32 GB with loop contracts; >60 min without). If the remaining work lands as planned, would a submission with the 17..32 correctness gap documented and tracked in an issue, as was done for Challenge 12 in #656, be eligible to resolve #56, or should it be filed as "Towards #56"?
+
+## 7. Журнал поправок
+
+| Дата | Замечание | Решение |
+|---|---|---|
+| 2026-10-26 | Неточное обоснование в §2 п. 2 (`ub_checks()` под Kani = `false`) | Принято, подтверждено по `operand.rs:60–64`. Текст исправлен. Решение «О1 только через (А)» остаётся: маскируются паники от переполнения, выхода индекса и проверок контрактов |
+| 2026-10-26 | Бюджет 4 000 занижен | Принято. Приоритет 1 — до 10 000; K-16s по правилу длин в точках смены ветки; приоритеты 2 и 3 — по остатку |
+| 2026-10-26 | Черновик вопроса завышает статус; macOS не измерен | Принято. Черновик переписан как «статус и план», отправка после O1-A, K-16s, K-10 и M-1. Добавлен опыт M-1 и целевое время ≤180 с на Linux |
