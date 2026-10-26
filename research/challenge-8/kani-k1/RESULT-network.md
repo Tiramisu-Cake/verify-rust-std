@@ -606,6 +606,7 @@ REVIEW REQUEST c632f43b202bc22569a5d2794f144e29affe7d0e
 | общий dispatch | request_id | job | head SHA | гармоники | состояние |
 |---|---|---|---|---|---|
 | 13 | net-w1-13-k13-cell | 67 | 072d27cc | k13_routes_0_8, k13_routes_9_16, k13_insertion_1_10, k13_insertion_11_20 | COMPLETE, gate false; все четыре TIMEOUT 600 с, Verification Time/cover отсутствуют |
+| 14 | net-w1-14-k13-safety-smallperm | 74 | e96a260c | k13_safety_all, k13_small_permutation | отправлен, summary ожидается |
 
 K-13: 1 dispatch, резерв 40 минут таймаутов (это не фактический расход).
 Общий счёт 13/14 dispatch. Ожидание `k1.sh watch 67`, затем конец turn.
@@ -652,3 +653,7 @@ k13_safety_all, k13_small_fixed/small_permutation),
 `library/core/src/slice/sort/shared/smallsort.rs`, `scripts/run-kani.sh`,
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-network.md` (K-13).
+
+Job 74: measurement, две гармоники × 10 минут. K-13 использует 2 dispatch,
+общий счёт **14/14**, новых dispatch не будет. Ожидание `k1.sh watch 74`,
+затем конец turn. Все изменения в network.rs/RESULT/RUN-REQUEST, lane неизменён.
