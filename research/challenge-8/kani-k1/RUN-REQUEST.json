@@ -1,21 +1,16 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-control-001",
+  "request_id": "w1-merge-control-a-002",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "R5 section 4.1 first dispatch: B and A normal-return mutants must fail; A positive control checks exact u64 permutation and covers panic boundary. D0 real bodies, no verified stubs.",
+  "purpose": "Section 4.1 A control repair: default assertion text must localize the deliberate mutant. Repeat A positive permutation and panic reachability. B masking in job 46 remains a blocker; no K-6+ result is claimed.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_b_must_fail",
-      "expect": "FAILED",
-      "expect_check": "wave1 B deliberately broken normal-return check"
-    },
-    {
       "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_must_fail",
       "expect": "FAILED",
-      "expect_check": "wave1 A deliberately broken normal-return check"
+      "expect_check": "v[0] != v[0]"
     },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_panic_reachable",

@@ -1221,7 +1221,7 @@ fn w1_control_a_must_fail() {
             assert!(before == after, "wave1 A permutation");
         }
     }
-    assert!(false, "wave1 A deliberately broken normal-return check");
+    assert!(v[0] != v[0]);
 }
 
 /// Variant A positive control plus independent reachability of the panic

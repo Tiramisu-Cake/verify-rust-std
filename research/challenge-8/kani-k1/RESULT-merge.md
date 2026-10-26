@@ -681,3 +681,61 @@ REVIEW REQUEST 2b308ad664c44d6e276eaf4a3bd7c00cc3626a06
 `research/challenge-8/kani-k1/RESULT-merge.md`. Контроль §4.1; evidence — первый
 CircleCI job волны, id будет добавлен после dispatch. Независимый review R9
 проводит координатор; собственного reviewer-субагента не запускаю.
+
+
+### Job 46 — обязательный контроль, блокер Б
+
+- Запрос `w1-merge-control-001`, head `2dec31e1a0a2c04da592031a67fad42cd503dd29`.
+- COMPLETE, gate **false**, expectation met false, measurement ok false;
+  Kani exit 1. Никакого зачёта О1/О2 по этому run нет.
+- Память всего run: max RSS 1664148 KiB; cgroup peak 1.82 GiB,
+  ENFORCED 13 GiB, OOM kills 0, swap off. Это общий пик, не пик гармоники.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`:
+  lane diff отсутствует, пять bound SHA-256 совпадают.
+
+| Гармоника | Ожидание | Статус | Verification Time, с | cover | Локализованный дефект |
+|---|---|---|---:|---|---|
+| `w1_control_b_must_fail` | FAILED | SUCCESS | 0.37774193 | 1/1 | merge.rs:1202, намеренный assert |
+| `w1_control_a_must_fail` | FAILED | FAILED | 4.63229 | 2/2 | merge.rs:1224, намеренный assert |
+| `w1_control_a_panic_reachable` | SUCCESS | SUCCESS | 4.711949 | 2/2 | 0 failed checks |
+
+В обоих мутантах текст failed check — `This is a placeholder message; Kani
+ doesn't support message formatted at runtime` (перенос только в этом отчёте).
+Поэтому заданные `expect_check` не совпали и контроль А формально не принят,
+несмотря на локализованный FAILED. У Б есть самостоятельный блокер, который
+исправление текста не устранит: Kani считает Rust `assert!(false)` ожидаемой
+паникой. Лог прочитан только через `k1.sh log-grep` (7 строк) и `log-lines`
+(2705..2756, 52 строки). Финальная строка Б:
+`VERIFICATION:- SUCCESSFUL (encountered one or more panics as expected)`.
+
+**W1-D3 (R7): контроль Б не пройден; K-6+ (а)/(б) не запускать.**
+Измеренные результаты подтверждают опасность маскировки, описанную в R5 §4.1.
+Не меняю требование FAILED на SUCCESS и не объявляю зелёным контроль,
+предназначенный обнаружить эту маскировку. Альтернативы: (а) использовать
+`kani::assert` или UB-мутант вместо Rust `assert!` — это другой контроль,
+не доказывающий отсутствие маскировки Rust assertions; (б) вариант А для О1 —
+противоречит прямому правилу без ручных заглушек в О1; (в) продолжить K-6+ и
+не засчитывать — противоречит «без зелёного контроля дальше не идти».
+Оставляю блокер для независимого review координатора, без вопроса владельцу.
+
+**W1-D4:** отдельный повтор обязательного контроля А допустим до закрытия Б:
+он исправляет ошибку самого контроля и не является переходом к K-6+.
+Пользовательский форматированный текст заменён на `assert!(v[0] != v[0])`
+с обычным текстом выражения; `expect_check` = `v[0] != v[0]`. Положительная
+А повторяется в том же наборе коммитов. Б не повторяю: его причина уже
+измерена, повтор без изменения механизма не несёт нового результата.
+
+REVIEW REQUEST 2dec31e1a0a2c04da592031a67fad42cd503dd29
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: CircleCI job 46,
+`summary`, ограниченный `log-lines 46 2705 52`, check-tooling против базы волны.
+Координатору: требуется review обязательного контроля §4.1.
+
+Повтор А `w1-merge-control-a-002`: 2 × 10 = 20 минут таймаутов.
+После второго dispatch: 2/10, 50/200 минут, верхняя бюджетная оценка
+≤1320/5000 кредитов; фактические кредиты не измерены.
+Таблица маршрутов general/stable-Freeze × 17/24/32 пока полностью
+**не измерена**. О1 по маршрутам со слиянием не установлена даже на 17;
+это блокировка по контролю, а не измеренный TIMEOUT/FAILED безопасности.
