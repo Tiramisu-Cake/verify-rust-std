@@ -379,6 +379,16 @@ class ResourceLaneTests(unittest.TestCase):
         self.bad({**REQ, "kind": "diagnostic", "harness_timeout_minutes": 31}, "1..30")
         self.bad({**RES_REQ, "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(2)]}, "exceeds 720")
 
+    def test_resource_caps_agree(self):
+        # k1g.sh dispatch, gcb-k1.sh and kani_k1.py must allow the same resource total, or dispatch rejects
+        # requests the lane would run (or the reverse).
+        here = Path(__file__).resolve().parent
+        k1g = (here / "k1g.sh").read_text()
+        gcb = (here / "gcb-k1.sh").read_text()
+        self.assertIn(f"RESOURCE_MAX_TOTAL_MINUTES={k.RESOURCE_MAX_TIMEOUT_MINUTES}", k1g)
+        self.assertIn('--max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES"', k1g)
+        self.assertIn(f"MAX_TOTAL_MINUTES={k.RESOURCE_MAX_TIMEOUT_MINUTES}", gcb)
+
     def run_res(self, log, peaks=PEAKS, tracked=True, exit_code=0):
         return k.summarize(json.dumps(RES_REQ), log, TIME, exit_code, "a" * 40, "b" * 40, None, {}, {}, "success",
                            None, False, peaks, tracked)

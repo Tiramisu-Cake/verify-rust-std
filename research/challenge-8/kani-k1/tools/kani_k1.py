@@ -642,7 +642,7 @@ def main(argv: list[str]) -> int:
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
-    v.add_argument("--max-total-minutes", type=int, default=MAX_TOTAL_MINUTES)
+    v.add_argument("--max-total-minutes", type=int, default=None)
     v.add_argument("--require-runner", help="reject any other runner value (lane-specific)")
     s = sub.add_parser("summarize")
     s.add_argument("--request", required=True)
