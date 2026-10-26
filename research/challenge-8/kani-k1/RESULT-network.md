@@ -1597,3 +1597,31 @@ net-w2-22-o3-insertion-retry, measurement4x10мин, те же четыре га
 | 22 | net-w2-22-o3-insertion-retry | 106 | a91cec0a | w2_o3_insertion_1_5; w2_o3_insertion_6_10; w2_o3_insertion_11_15; w2_o3_insertion_16_20 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 106`, затем конец turn. Счёт dispatch22/24.
+
+#### Job 106 / O3 insertion, короткие SUCCESS без общего gate
+
+COMPLETE, gate false, check-tooling ok против9de80e0b. 13GiB ENFORCED,
+peak13,00GiB, RSS13608280KiB, OOM1, swap off, wall595,80с.
+Сумма известных summary wall П1:5862,31с =97,7052мин;
+103/105 и подготовка не включены, это не API расход.
+
+| Гармоника | исход | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2_o3_insertion_1_5 | SUCCESS | 8,162611 | 0/226 | 17/17 |
+| w2_o3_insertion_6_10 | SUCCESS | 84,8902 | 0/226 | 17/17 |
+| w2_o3_insertion_11_15 | FAILED без локализованной проверки | — | — | — |
+| w2_o3_insertion_16_20 | OUT_OF_MEMORY | — | — | — |
+
+Ограниченный log-grep (до24строк): 11..15 `CBMC failed with status 6`
+на строке2746, без Failed Checks/места; не контрпример. 16..20 сообщил
+OOM, согласуется с одним cgroup OOM. Короткие SUCCESS пока не засчитываются
+из-за общего gate false/OOM; домен всех offset1..N при const-enumeration
+впервые реально измерен на1..10, но нужен изолированный gate.
+
+R7: предпоследний запрос отделяет O3 insertion1..10 от тяжёлых исходов и
+измеряет K11 const-enumeration1..10 (job103 не дал evidence). Четыре
+гармоники: O3 1..5/6..10 и K11 1..5/6..10, measurement4x10мин.
+Последний dispatch резервируется под дальнейшее разбиение11..15 по обоим
+осям; 16..20 после измеренного OOM раскрываются, повтор той же формы не нужен.
+Нет сокращения списка offset в любой выбранной N, нет замены exact массива
+префиксом большей аллокации. После24 dispatch новых запросов не будет.

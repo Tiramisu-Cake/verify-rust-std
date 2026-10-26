@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-22-o3-insertion-retry",
+  "request_id": "net-w2-23-insertion-small-acceptance",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Retry job105 pinned-Kani-build RUNNER_ERROR: same O3s direct insertion safety on exact Cell<Tagged> arrays N1..20 and all offsets1..N via const calls. Both payload reads before fresh-key writes, arbitrary bool; no tag properties/stubs. No proof ran in105.",
+  "purpose": "Isolate insertion N1..10 after job106 upper-family status6/OOM: O3 Cell<Tagged> and K11 u64, all offsets1..N via constant calls. Exact arrays, reading comparators, O3 key writes, no tag properties/stubs. Repeat successful O3 small families for gate; K11 const version103 had no evidence.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -16,11 +16,11 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_11_15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_1_5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_16_20",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_6_10",
       "expect": "SUCCESS"
     }
   ]
