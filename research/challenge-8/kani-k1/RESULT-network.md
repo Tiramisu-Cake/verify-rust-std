@@ -2579,3 +2579,11 @@ N12 пока только sortedness. Новых dispatch по команде к
 - Очередь: K-10 network 9..17; K-9s symbolic indices; K-8r; O3 tags 2..4.
 - Новые dispatch до 2026-10-27T05:00:00Z. CircleCI k1.sh, один job за раз; check-tooling 9de80e0bec13896bb35a5e04e771448d9fe3931b.
 - R7: ночное задание заменяет прежнее ожидание координатора; начинаем с permutation N12 и sortedness N13 по передаче.
+
+### K-10: permutation N12 / sortedness N13
+
+- Запрос net-night-01-k10-perm12-sorted13: measurement, 4 × 10 минут, ожидается SUCCESS.
+- Новые proof N13 u8/u64 — прежний macro w2p2_k10_cases, полные значения, natural strict `<`, все callee реальные.
+- N12: отдельная permutation реального insertion/offset9 на произвольном входе и read-only bool-trace. N13: insertion(offset13) не меняет массив; перестановка сети структурно по 45 compare-exchange.
+- Ledger прежний: any_where выбирает только постоянную длину, post-call covers длины/движения/конца; probe/input полные. Нет новых assume, cuts или stub_verified.
+- Полная корректность N12 требует sortedness127 и новой permutation; N13 — новой sortedness и структурного довода. R9 раздельной композиции a136cf54 и дополнений пока ожидается.
