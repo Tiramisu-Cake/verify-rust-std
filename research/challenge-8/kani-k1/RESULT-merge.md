@@ -976,3 +976,39 @@ REVIEW REQUEST 568c0682ed68e3cee695acda00583f46fbd8e803
 `w1-merge-k6b-general-005`: general u64 direct 17/24/32 и stable-Freeze
 u64 trait 17. `k1.sh watch 51` уже зарегистрирован; повторно не регистрирую,
 состояние job не опрашиваю и новых прогонов во время ожидания не запускаю.
+
+
+### Job 51 — K-6+ (б), general direct и stable-Freeze 17
+
+- Запрос `w1-merge-k6b-general-005`, head `8d6d53878753af2c3f6c226b30da9a1035fd993d`.
+- COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+- Память всего run: max RSS 1708212 KiB, cgroup peak 1.83 GiB,
+  ENFORCED 13 GiB, OOM kills 0, swap off. Это пик четырёх гармоник плюс
+  компиляция, не индивидуальная память гармоники.
+- check-tooling **ok** против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+
+| Маршрут | Тип | Длина | Статус | Verification Time, с | gate | cover |
+|---|---|---:|---|---:|---|---|
+| general, прямой `small_sort_general` | u64 | 17 | SUCCESS | 9.844458 | true | 1/1 |
+| general, прямой `small_sort_general` | u64 | 24 | SUCCESS | 16.768135 | true | 1/1 |
+| general, прямой `small_sort_general` | u64 | 32 | SUCCESS | 27.183834 | true | 1/1 |
+| stable-Freeze, trait entrypoint | u64 | 17 | SUCCESS | 9.501499 | true | 1/1 |
+
+У каждой гармоники одна достижимая assertion-класса паника `smallsort.rs:884`,
+допустимая по CD-1. Отсутствие провалов безопасности, а не отсутствие любых
+паник. Это не результат перестановки/Drop или отсортированности. Отдельные
+длины не доказывают все промежуточные длины. R9 по верхним ещё ожидается.
+
+REVIEW REQUEST 8d6d53878753af2c3f6c226b30da9a1035fd993d
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 51 `summary`,
+check-tooling против базы волны. Область типов/dispatch раскрыта в W1-D8.
+Контроль §4.1 засчитан (сообщение координатора выше).
+
+Следующий запрос `w1-merge-k6b-stable-trait-006`: stable-Freeze u64 24/32,
+general через unstable trait для прозрачного non-Copy u64 17/24;
+4 × 10 минут. Исходники гармоник не изменяются после job 51.
+После dispatch: **6/10, 160/200 минут таймаутов**, оценка ≤4160/5000 кредитов.
+General через trait на 32 остаётся отдельным следующим запросом.
