@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-21-o3-insertion",
+  "request_id": "net-w2-22-o3-insertion-retry",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "O3s direct insertion safety, exact Cell<Tagged> arrays N1..20, all offsets1..N enumerated into const calls. Comparator reads both payloads before writing fresh keys, arbitrary bool; no tag permutation. Ordinary proofs, real bodies, CI no-assert-contracts.",
+  "purpose": "Retry job105 pinned-Kani-build RUNNER_ERROR: same O3s direct insertion safety on exact Cell<Tagged> arrays N1..20 and all offsets1..N via const calls. Both payload reads before fresh-key writes, arbitrary bool; no tag properties/stubs. No proof ran in105.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [

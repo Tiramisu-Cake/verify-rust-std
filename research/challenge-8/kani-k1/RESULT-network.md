@@ -1576,3 +1576,20 @@ insertion N1..20, весь offset1..N через const-enumeration, measurement4
 | 21 | net-w2-21-o3-insertion | 105 | 9bafd1d2 | w2_o3_insertion_1_5; w2_o3_insertion_6_10; w2_o3_insertion_11_15; w2_o3_insertion_16_20 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 105`, затем конец turn. Счёт dispatch21/24.
+
+#### Job 105 / pinned Kani build failure, O3 insertion NOT_RUN
+
+RUNNER_ERROR, gate false, build failure, Kani exit отсутствует.
+Все четыре O3 insertion-семейства NOT_RUN; времени/checks/cover/RSS/wall
+нет, memory cap MISSING. Summary: `Kani log missing: the pinned Kani build
+failed`. Check-tooling против9de80e0b ok, все привязки совпали.
+Это отказ сборки закреплённого Kani, не провал проверки O3 и не измеренный
+OOM нашего proof. Причина сборки через разрешённый summary не установлена.
+Фактические минуты105 неизвестны, известный summary wall остаётся87,7752мин
+(также неизвестны103, подготовка не включена); API сверяет координатор.
+
+R7: запрос повторяется без изменения кода/доменов, потому что ни одна
+гармоника105 не запускалась и scope O3 insertion обязателен. Новый
+net-w2-22-o3-insertion-retry, measurement4x10мин, те же четыре гармоники.
+После него до2 dispatch остаются для K11/прицельной локализации;
+нового should_panic/редукции offset/типов нет.
