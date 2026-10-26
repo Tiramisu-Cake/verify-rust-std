@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-02-k8-interior",
+  "request_id": "net-w1-03-o1-len17",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 K-8 review extension: insert_tail contract on [u64;17] with symbolic start < tail, unchanged prefix and suffix, no stubs",
+  "purpose": "Wave 1 K6+ b network safety at constant length 17, u64, comparator reads both arguments (CD-2) then returns kani::any; ordinary proof, all callees real, no stubs or contract checks",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_region_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_len17_u64",
       "expect": "SUCCESS"
     }
   ]

@@ -444,8 +444,15 @@ fn insert_tail_region_u64() {
     kani::cover(true, "interior insertion: end reached");
 }
 
-/// Wave 1 D0: fresh nondeterministic result at every comparison, all callee bodies real.
-fn w1_any_less_u64(_a: &u64, _b: &u64) -> bool {
+/// Wave 1 D0/CD-2: read both arguments, then choose a fresh nondeterministic result.
+/// Volatile reads keep these accesses observable even though the result ignores the values.
+fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
+    // SAFETY: comparator callers must supply readable u64 references. Kani checks both
+    // actual accesses, including references formed from raw pointers inside the sort.
+    unsafe {
+        let _ = crate::ptr::read_volatile(a);
+        let _ = crate::ptr::read_volatile(b);
+    }
     kani::any()
 }
 
@@ -457,6 +464,27 @@ fn w1_network_o1_len17_u64() {
     let mut v: [u64; 17] = kani::any();
     <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
     kani::cover(true, "network O1 length 17: normal return reachable");
+}
+
+/// CD-1 variant B: safety-class checks only; all assertion-class panics are allowed.
+/// Every callee, including bidirectional_merge, is real; no contract checks or stubs.
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(35)]
+fn w1_network_o1_len24_u64() {
+    let mut v: [u64; 24] = kani::any();
+    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+    kani::cover(true, "network O1 length 24: normal return reachable");
+}
+
+/// As at length 24, with two length-16 regions (sort13 + insertion), then even merge.
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(35)]
+fn w1_network_o1_len32_u64() {
+    let mut v: [u64; 32] = kani::any();
+    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+    kani::cover(true, "network O1 length 32: normal return reachable");
 }
 
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
