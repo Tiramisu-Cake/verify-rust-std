@@ -162,7 +162,7 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
 | 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
-| 9 | 9, u64 и u8 | не измерено | не измерено |
+| 9 | 9, u64 и u8 | 147: SUCCESS обоих, gate false; нужен повтор | не измерено |
 | 10 | 10, u64 и u8 | не измерено | не измерено |
 | 11 | 11, u64 и u8 | не измерено | не измерено |
 | 12 | 12, u64 и u8 | не измерено | не измерено |
@@ -444,6 +444,43 @@ REVIEW REQUEST 92d4edd8291fc18acb8ef87599d4ebce801c5f2f
 Изменение: typed fallback N8 отдельно u64/u8; прежний helper и свойства.
 Evidence исходного пакета: job 143 summary и check-tooling ok;
 измерения новых гармоник ожидаются в следующем job.
+
+### Job 147 — bm N9 и fallback N8 по типам
+
+Request `w2-merge-night-bm9-f8typed-011`,
+head `6a4408ee9da5d3d5610ff0cdd847349821bd108f`, COMPLETE;
+gate false, expectation met false, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1727672 KiB, wall с компиляцией 1025.10 с;
+cgroup peak 2.25 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len9` | SUCCESS / SUCCESS | 115.29242 | 0/442 | 92 | 1/1 |
+| `w2p2_bm_u8_len9` | SUCCESS / SUCCESS | 94.85038 | 0/435 | 94 | 1/1 |
+| `w2night_fallback_u64_len8` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2night_fallback_u8_len8` | SUCCESS / SUCCESS | 170.4768 | 0/244 | 62 | 1/1 |
+
+Полные covers SUCCESS-строк сверены отдельно от gate: 1/1 у каждой.
+Из-за общего gate false эти строки пока только измеренные SUCCESS,
+без зачёта пакета. Таблица R4 N9 отмечает необходимость повторного gate.
+R9 новых typed гармоник `92d4edd8` ожидается.
+
+### N-D15 (R7): граница fallback u64 и подтверждающий пакет
+
+Отдельная fallback u64 N8 остаётся TIMEOUT 600 с: кандидат расширенного
+слоя (job 147), без нового прогона u64 N8+ в основном слое.
+Это ресурсная граница измерения, не утверждение о невозможности
+доказать большие длины. Fallback u8 N8 измерен SUCCESS 170.4768 с;
+он повторится для gate true, затем u8 N9 — отдельной ступенью.
+
+Сначала `w2-merge-night-bm9-f67-confirm-012`: bm N9 обоих типов
+и fallback N6/7 (оба типа), четыре ранее успешные проверки,
+expected SUCCESS, 4×10 мин. Цель — gate true для proof R4 N9 и
+fallback N6/7 без соседней неуложившейся гармоники. Код не меняется,
+новых assume/stub или редукций нет; все тела реальные.
+После dispatch ночных jobs 12, preflight отказов 3;
+с П2 до ночи: 17 jobs, 4 preflight отказа, 21/40 консервативных попыток.
 
 ## Фаза 9
 

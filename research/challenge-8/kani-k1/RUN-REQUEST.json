@@ -1,10 +1,10 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-bm9-f8typed-011",
+  "request_id": "w2-merge-night-bm9-f67-confirm-012",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10: real bidirectional_merge proof_for_contract N9 separately u64/u8 as R4 prerequisites; split combined fallback N8 timeout from job 143 into one real-body harness per type. Same strict weak order x >> 1, full symbolic values and arbitrary full-value permutation probe. No fallback stubs.",
+  "purpose": "K-10 confirmation packet excluding timed-out neighbors: rerun successful real bm N9 proof_for_contract u64/u8 from job 147 and successful combined fallback N6/N7 from job 143. All four expected SUCCESS; require whole-run gate true for acceptance. Full symbolic values, same comparator and arbitrary full-value probe; no stubs.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
@@ -16,11 +16,11 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_fallback_u64_len8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_fallback_u8_len8",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len7",
       "expect": "SUCCESS"
     }
   ]
