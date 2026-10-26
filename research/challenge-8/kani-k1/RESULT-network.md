@@ -2480,3 +2480,93 @@ u8/u64; RUN-REQUEST.json; RESULT-network.md, job126/компонентные к�
 | 14 | net-w2p2-14-k10-perm11-sorted12 | 127 | 9a25848a | w2p2_k10_perm_u8_n11; w2p2_k10_perm_u64_n11; w2p2_k10_u8_n12; w2p2_k10_u64_n12 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 127`, затем конец turn. Счёт П2:14/40 dispatch.
+
+#### П2 job127 / permutation N11 и sortedness N12
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 1,89 GiB, RSS 1770772 KiB, OOM 0, swap off,
+wall 213,55 с. Известный summary wall П2: 3080,83 с = 51,3472 мин
+без подготовки CircleCI; лимит минут снят CD-6.
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k10_perm_u8_n11 | 5,607795 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n11 | 20,646133 | 0/118 | 2/2 |
+| w2p2_k10_u8_n12 | 19,502682 | 0/377 | 3/3 |
+| w2p2_k10_u64_n12 | 128,99823 | 0/377 | 3/3 |
+
+Permutation имеет 4 unreachable checks, sortedness — 21. Для N11 теперь
+измерены оба компонента (sortedness126, insertion permutation127),
+сеть сохраняет multiset структурно. Новая композиция ожидает R9;
+N12 пока только sortedness. Новых dispatch по команде координатора нет.
+Счёт П2: 14/40, все jobs завершены, watch127 отработал и результат прочитан.
+
+### Передача на ночь
+
+- Ветка experiment/kani-k1-wavenetwork-20261026. П1 принят координатором.
+  П2 не завершён: T0 2026-10-26T18:58:53Z, прежнее окно до
+  2026-10-27T00:58:53Z, использовано 14/40 dispatch. Новая ночная очередь
+  задаётся владельцем в свежей сессии; эта сессия после push не продолжает.
+  Незавершённых jobs нет. Последний job127/head9a25848a: COMPLETE/gate true,
+  summary и check-tooling прочитаны. RUN-REQUEST.json всё ещё запрос127,
+  повторять dispatch того же SHA нельзя.
+- CD-6 прочитан с базы eb331360, но база НЕ вливалась. Остаёмся на
+  check-tooling 9de80e0bec13896bb35a5e04e771448d9fe3931b и CircleCI k1.sh.
+  Лимит минут снят, 180 с — ориентир, measurement <=600 с/гармонику.
+  Runtime/lane не менялись. Локальные Kani/rustc/cargo запрещены;
+  чистая комната #576/#678/#694/#701 сохраняется.
+- Закончено: B4/K11 и O3 на каждой N16..20 с offset=1 — jobs109/111/113,
+  все десять proof SUCCESS/gate true, R9 GO_WITH_NITS e658b246. Это ordinary
+  proof вне старого insertion-контракта, нужен --no-assert-contracts.
+  Все offset16..20 не повторять: их ведёт отдельный расширенный агент.
+- K9s: u8/u64/u128/Drop (121), a16/a17/Cell (122), a85/a86 (123) —
+  gate true, covers5/5. Для структурной перестановки реальных сетей
+  используются только u8/u64 и первое ensures точного обмена/сохранения;
+  прочие типы — устойчивость контракта. ZST подготовлен как
+  w2p2_k9s_zst, NOT_RUN по разрешению координатора, только trait/primitive.
+  Все K9s на [T;2]/{0,1}; перед возможным stub_verified(swap_if_less)
+  потребуется новое доказательство на массиве >=13 с символическими
+  различными индексами. Сейчас в П2 verified stubs нет.
+- K10 полный u8/u64, естественный strict <, все реальные callee:
+  N0..8 sortedness+multiset напрямую (118/119/120; это insertion-only);
+  N9 sortedness125 + структурная перестановка sort9;
+  N10 sortedness125 + отдельная insertion permutation126;
+  N11 sortedness126 + отдельная insertion permutation127.
+  N12 sortedness127 уже SUCCESS, но permutation N12 ещё не измерена.
+  Для новой логической композиции N9+ финальный R9 ожидается, а не
+  считается автоматически принятым по прежнему вердикту0..8.
+- Точный следующий шаг: dispatch П2 #15 — подготовленные
+  w2p2_k10_perm_u8_n12 и w2p2_k10_perm_u64_n12 (реальный insertion,
+  offset9, exact [T;12], full probe, arbitrary read-only comparator,
+  без sorted-prefix assumption). Обе объявлены в конце network.rs,
+  ещё НЕ запускались. Чтобы заполнить оставшиеся две позиции запроса,
+  сначала добавить по принятому шаблону w2p2_k10_cases две новые
+  w2p2_k10_u8_n13 / w2p2_k10_u64_n13 на [13]: они ещё НЕ объявлены
+  и НЕ запускались. N13 — exact sort13, insertion(offset13) no-op,
+  permutation сети структурно по 45 CE/первому ensures K9s; отдельная
+  permutation insertion N13 не нужна (movement cover был бы недостижим).
+  Затем наращивать N14..17: full-route sortedness отдельно от insertion
+  permutation на exact N/offset13, всё на реальных телах.
+- Почему свойства разделены: совместная full-route probe formula на
+  N10/u8/u64 дала TIMEOUT600 в124, тогда как sortedness отдельно125
+  заняла7,50/31,78с, insertion permutation отдельно126 —0,83/3,13с.
+  Не повторять совместный вариант. Helper w2p2_k10_fixed на N>=9
+  проверяет только sortedness; helper w2p2_k10_insertion_perm_fixed
+  проверяет реальный хвост для любого read-only bool-trace, что включает
+  pure strict comparator. Для complete K10 нужны обе proof плюс
+  structural CE; на N9/N13 insertion no-op. Новых предположений порядка
+  или 0/1-редукций нет. Все claims ограничены CI checks, без uninit,
+  aliasing и unwind; не переносить safety Cell на перестановку тегов.
+- Открытые review: ea7c674dcecba35194a22348124edd08fb8d6df3 (exact network
+  widths/structural argument), главное a136cf543efc4d8ba53cd25faa82c9b1f7f82e1e
+  (раздельная sortedness/insertion permutation, универсальный read-only
+  trace и логическая композиция), дополнения
+  6b758cb883a33daf6dc8cea6ed25cabaf257431a (N11) и
+  53e2883019f7a80fb2e977a1e49ac2771de64732 (N12). Ответов на них пока нет.
+  e658b246 по B4/K9s/K10<=8 — GO_WITH_NITS; раскрытия записаны выше.
+  Полный источник последнего кода — snapshot53e28830, после него source
+  не менялся. Запросы review идут строкой REVIEW REQUEST <SHA> в RESULT.
+
+По команде координатора новых dispatch нет; после commit/push этой
+передачи текущая сессия больше не действует. Маркер «ВОЛНА 2 П2 ЗАВЕРШЁН»
+не выставлен, поскольку K10 N12 permutation и N13..17 ещё не завершены.
