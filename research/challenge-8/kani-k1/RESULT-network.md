@@ -2436,3 +2436,10 @@ Summary wall П2:2729,71с.
 На N11 offset9 даёт две вставки; permutation N11 подготовлены, не выбраны
 пока. Все реальные тела, exact [T;N], unwinding checks активны.
 net-w2p2-13-k10-perm10-sorted11,measurement4x10мин.
+
+REVIEW REQUEST 6b758cb883a33daf6dc8cea6ed25cabaf257431a
+
+Дополнение к a136cf54: network.rs, четыре применения sortedness/permutation
+macros для N11 (u8/u64), новые helper не менялись. RUN-REQUEST.json;
+RESULT-network.md, job125 и раздельные критерии. Сейчас измеряются
+permutation N10 и sortedness N11; полная корректность N11 пока не заявлена.
