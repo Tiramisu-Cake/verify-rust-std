@@ -2587,3 +2587,7 @@ N12 пока только sortedness. Новых dispatch по команде к
 - N12: отдельная permutation реального insertion/offset9 на произвольном входе и read-only bool-trace. N13: insertion(offset13) не меняет массив; перестановка сети структурно по 45 compare-exchange.
 - Ledger прежний: any_where выбирает только постоянную длину, post-call covers длины/движения/конца; probe/input полные. Нет новых assume, cuts или stub_verified.
 - Полная корректность N12 требует sortedness127 и новой permutation; N13 — новой sortedness и структурного довода. R9 раздельной композиции a136cf54 и дополнений пока ожидается.
+
+REVIEW REQUEST 9d107af4c5da158005182fd60e89b0ef3c97aea4
+
+network.rs: два применения прежнего K10 macro для N13 u8/u64. RUN-REQUEST.json; RESULT-network.md (ночь). Проверить вместе с открытыми ea7c674d/a136cf54/6b758cb8/53e28830: sortedness верхнего маршрута отдельно от permutation insertion-хвоста, структурная композиция сетей. Новых helpers/допущений нет.
