@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-13-k8r-start11-8",
+  "request_id": "net-night-14-k8r-start7-4",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K8r proof_for_contract insert_tail in [u64;17] at constant begin offsets11,10,9,8; every tail from start+1 to16. Full-width input/probe, original strict key comparator, exact requires, explicit unchanged outside region, post-call cover each valid tail and movement. No stubs.",
+  "purpose": "K8r proof_for_contract insert_tail in [u64;17] at constant begin offsets7,6,5,4; every tail from start+1 to16. Full-width input/probe, original strict key comparator, exact requires, explicit unchanged outside region, post-call cover each valid tail and movement. No stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start11_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start7_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start10_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start6_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start9_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start5_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start8_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start4_u64",
       "expect": "SUCCESS"
     }
   ]
