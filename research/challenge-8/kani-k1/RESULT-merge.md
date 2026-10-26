@@ -162,8 +162,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | 137, SUCCESS |
 | 7 | 7, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
 | 8 | 8, u64 и u8 | 140, SUCCESS обоих типов | 142, SUCCESS |
-| 9 | 9, u64 и u8 | 149, SUCCESS обоих типов | не измерено |
-| 10 | 10, u64 и u8 | не измерено | не измерено |
+| 9 | 9, u64 и u8 | 149, SUCCESS обоих типов | 151, SUCCESS |
+| 10 | 10, u64 и u8 | 151, SUCCESS обоих типов | не измерено |
 | 11 | 11, u64 и u8 | не измерено | не измерено |
 | 12 | 12, u64 и u8 | не измерено | не измерено |
 | 13 | 13, u64 и u8 | не измерено | не измерено |
@@ -541,6 +541,37 @@ R4 для GS N9: bm N9 обоих типов job 149, R11 halves_sorted job 110.
 До proof N10 обоих типов GS N10 не запускается. Код/ledger без изменений.
 После dispatch ночных jobs 14, preflight отказов 3;
 с П2 до ночи: 19 jobs, 4 preflight отказа, 23/40 консервативных попыток.
+
+### Job 151 — w2-merge-night-gs9-bm10-014
+
+Head `513c611a43a58dddd9eaf4448efd73c75a665e8d`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1798332 KiB; wall с компиляцией 6:40.41.
+Cgroup peak 2.95 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len9` | SUCCESS / SUCCESS | 57.384148 | 0/642 | 95 | 2/2 |
+| `w2p2_gs_u8_len9` | SUCCESS / SUCCESS | 27.243406 | 0/635 | 97 | 2/2 |
+| `w2p2_bm_u64_len10` | SUCCESS / SUCCESS | 148.02586 | 0/442 | 90 | 1/1 |
+| `w2p2_bm_u8_len10` | SUCCESS / SUCCESS | 120.920876 | 0/435 | 92 | 1/1 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные counts сверены отдельно от gate: GS N9 — 2/2 обоих типов;
+bm N10 — 1/1 обоих типов. Таблица R4 обновлена; GS N9 опирается на
+proof bm N9 job 149. Текущий зачёт K-10: GS u64/u8 N0..9,
+fallback u64/u8 N0..7. Typed fallback u8 N8 ждёт gate true и R9.
+
+### N-D18 (R7): GS N10 и подтверждение fallback u8 N8
+
+`w2-merge-night-gs10-f8u8-bm11u8-015`: GS N10 u64/u8;
+повтор успешной typed fallback u8 N8 из job 147 для gate true;
+proof bm u8 N11 как следующая R4 prerequisite. Все expected SUCCESS,
+4×10 мин. R4 GS N10: proof bm N10 обоих типов job 151;
+R11 halves_sorted job 110. До proof bm N11 обоих типов GS N11 нет.
+Код и ledger без изменений; R9 typed fallback `92d4edd8` ожидается.
+После dispatch ночных jobs 15, preflight отказов 3;
+с П2 до ночи: 20 jobs, 4 preflight отказа, 24/40 консервативных попытки.
 
 ## Фаза 9
 
