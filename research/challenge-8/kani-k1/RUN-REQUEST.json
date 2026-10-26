@@ -1,29 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-p2-contract-small-r11-001",
+  "request_id": "w2-merge-p2-gs-len0to1-002",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 prerequisite: formulation-1 merge proof_for_contract u64/u8 N2..4 and R11 controls on matching comparators. No runtime/lane edits; no other stubs. Full symbolic values, strict key order x>>1.",
+  "purpose": "K-10 u64/u8 direct general and stable-Freeze N0,1. Sortedness plus full-value probe permutation. Sole verified merge stub, unreachable at these lengths; no safety-only claims. Contract/R11 controls measured in job 110.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u64_len2to4",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len0",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u8_len2to4",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len0",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_r11_u64",
-      "expect": "FAILED",
-      "expect_check": "k1_merge_halves_sorted"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len1",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_r11_u8",
-      "expect": "FAILED",
-      "expect_check": "k1_merge_halves_sorted"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len1",
+      "expect": "SUCCESS"
     }
   ]
 }

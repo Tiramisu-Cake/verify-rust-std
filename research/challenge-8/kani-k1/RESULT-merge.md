@@ -2249,3 +2249,39 @@ REVIEW REQUEST cd284852e41de2881bf825b1a960c19ac84803e2
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. K-10 П2; первый measurement
 проверяет contract prerequisites N2..4 и R11 на обоих типах. Review у координатора.
+
+#### П2 job 110 — proof N2..4 и R11
+
+Head `ceed78d0e80a3dd5dd2bbe36b1799b563be7a574`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 1 (ожидаемые R11 FAILED).
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1764512 KiB, cgroup peak 1.88 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 152.13 с.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w2p2_bm_u64_len2to4` | SUCCESS / SUCCESS | 54.87392 | 0/448 | 6/6 |
+| `w2p2_bm_u8_len2to4` | SUCCESS / SUCCESS | 49.882053 | 0/441 | 6/6 |
+| `w2p2_r11_u64` | FAILED / FAILED | 0.2530806 | 1/465 | 1/1 |
+| `w2p2_r11_u8` | FAILED / FAILED | 0.24487017 | 1/458 | 1/1 |
+
+Оба R11: `CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)`
+@ `smallsort.rs:780`. Unreachable по строкам: 102/104/121/121.
+Proof cover: все три длины и три возврата `bm_len` — 6/6;
+R11 cover перед вызовом — 1/1. Полные counts сверены по summary.
+Проверка requires в stub для обоих comparator измерена; proof credit
+композиции пока не заявлен, R9 П2 ожидается.
+
+Перед job 110 первый вызов dispatch остановился на `git fetch` HTTP 429,
+до обращения к CircleCI; job не создан. Повтор после паузы создал job 110.
+Учёт П2: CircleCI dispatch **1**, отказ preflight **1**; для потолка 40
+считаю консервативно обе попытки. Следующий запрос — попытка **3/40**,
+успешный dispatch **2**.
+
+REVIEW REQUEST ceed78d0e80a3dd5dd2bbe36b1799b563be7a574
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код `cd284852`), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 110 summary
+и check-tooling ok. Далее `w2-merge-p2-gs-len0to1-002`: четыре GS-гармоники
+u64/u8 N0/1, expected SUCCESS, по два cover D/S.
