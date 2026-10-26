@@ -865,6 +865,8 @@ k13_insertion_cases!(k13_insertion_11_20, [11, 12, 13, 14, 15, 16, 17, 18, 19, 2
 
 /// Last-dispatch safety-only fallback: one allocation avoids duplicating the large permutation
 /// formulas for every constant length. Tags/keys remain full-width; no property assertions/stubs.
+/// Object-bound checks cover the full allocation of 20 Cells, not each shorter slice boundary.
+/// In particular, an access to v[len..20] would not be detected as an allocation overrun.
 #[kani::proof]
 #[kani::unwind(35)]
 fn k13_safety_all() {
