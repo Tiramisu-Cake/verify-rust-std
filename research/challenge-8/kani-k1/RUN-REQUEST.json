@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-11-k10-network-9-10",
+  "request_id": "net-w2p2-12-k10-sorted-9-10",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 real network first stage: exact N9,N10, full u8/u64 and natural strict order. Assert sortedness; at exact network9 use structural permutation from K9s first ensures, at10 assert full probe multiplicity including insertion. All callees real, no verified stubs.",
+  "purpose": "After job124 N10 timeouts, separate properties: real full-width network sortedness at N9,N10 for u8/u64. Permutation uses structural CE plus separate real insertion-tail probe proofs (not yet run); no verified stubs or data reduction. Repeat N9 for independent gate.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [

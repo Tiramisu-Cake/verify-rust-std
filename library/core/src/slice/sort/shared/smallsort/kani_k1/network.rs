@@ -1406,10 +1406,10 @@ fn w2p2_k10_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     let mut cmp = w2p2_strict_less::<T>;
     <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
     assert!(sorted_by(&v, &mut cmp));
-    // Exact network widths have no insertion tail: permutation is the R6 structural
-    // composition of exact two-cell swaps (K9s, first ensures), not another expensive
-    // network-wide probe proof. All other lengths still check the complete route directly.
-    if N != 9 && N != 13 {
+    // Below the network width, keep the direct full-route permutation proof.
+    // At N >= 9, compose the structural network permutation with the separately checked
+    // real insertion-tail permutation. This keeps its probe formula out of the network.
+    if N < 9 {
         assert!(probe_count(&pre, &probe) == probe_count(&v, &probe));
     }
     kani::cover(N < 2 || !same_from(&v, &pre, 0), "W2 P2 K10: trivial input or elements move");
@@ -1502,3 +1502,34 @@ w2p2_k10_cases!(w2p2_k10_u8_n9, u8, [9]);
 w2p2_k10_cases!(w2p2_k10_u64_n9, u64, [9]);
 w2p2_k10_cases!(w2p2_k10_u8_n10, u8, [10]);
 w2p2_k10_cases!(w2p2_k10_u64_n10, u64, [10]);
+
+
+/// Full-value permutation of the real insertion suffix, independent of ordering. An arbitrary
+/// read-only comparison result includes every sequence produced by K10's pure strict comparator.
+/// No sorted-prefix assumption: all possible network outputs are included in this larger domain.
+fn w2p2_k10_insertion_perm_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>() {
+    let mut v: [T; N] = kani::any();
+    let pre = v;
+    let probe: T = kani::any();
+    if N >= 13 {
+        super::super::insertion_sort_shift_left(&mut v, 13, &mut w2_reading_less::<T>);
+    } else {
+        super::super::insertion_sort_shift_left(&mut v, 9, &mut w2_reading_less::<T>);
+    }
+    assert!(probe_count(&pre, &probe) == probe_count(&v, &probe));
+    kani::cover(!same_from(&v, &pre, 0), "W2 P2 K10 insertion permutation moves elements");
+}
+
+macro_rules! w2p2_k10_insertion_perm_case {
+    ($name:ident, $t:ty, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $name() {
+            w2p2_k10_insertion_perm_fixed::<$t, $n>();
+            kani::cover(true, "W2 P2 K10 insertion permutation end reached");
+        }
+    };
+}
+
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n10, u8, 10);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n10, u64, 10);

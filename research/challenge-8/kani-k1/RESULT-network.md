@@ -2354,3 +2354,45 @@ K9s job121, GO_WITH_NITS e658b246. Проверить достаточность
 | 11 | net-w2p2-11-k10-network-9-10 | 124 | 32696ca6 | w2p2_k10_u8_n9; w2p2_k10_u64_n9; w2p2_k10_u8_n10; w2p2_k10_u64_n10 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 124`, затем конец turn. Счёт П2:11/40 dispatch.
+
+#### П2 job124 / N9 sortedness, N10 TIMEOUT
+
+COMPLETE,gate false,check-tooling ok против9de80e0b.
+13GiB ENFORCED,peak1,94GiB,RSS1827008KiB,OOM0,swap off,wall1275,11с.
+
+| Гармоника | исход | время,с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_u8_n9 | SUCCESS | 7,0676537 | 0/377 | 3/3 |
+| w2p2_k10_u64_n9 | SUCCESS | 25,959974 | 0/377 | 3/3 |
+| w2p2_k10_u8_n10 | TIMEOUT600с | — | — | — |
+| w2p2_k10_u64_n10 | TIMEOUT600с | — | — | — |
+
+N9 имеет21 unreachable checks. N10 не дал failed checks/места;
+не контрпример. Из-за gate false успехи9 не засчитаны, повтор отдельно.
+Summary wall П2:2618,89с. N10 пока не установлен ни по одному свойству;
+какое из них доминирует по времени, этим прогоном не разделено.
+
+R7: отделить sortedness верхнего network от permutation insertion-хвоста.
+Для N>=9 helper теперь проверяет только sortedness полной ширины на
+реальном outer trait/всех реальных callee. Для N<9 прежняя прямая
+multiset-проверка сохраняется. Нет stub_verified, assumptions порядка,
+новых cuts или редукции данных. Точный N9/N13 — структурная перестановка
+CE и no-op insertion(offset=N). Для10..12 и14..17 нужны дополнительные
+обычные permutation-proof реального insertion с offset9/13 соответственно.
+
+Дополнительный helper начинает с произвольного [T;N], а не результата
+сети, сравнивает multiplicity произвольной full-width T-пробы до/после
+реального insertion. Comparator читает оба T и возвращает any bool,
+не пишет в T; это включает любую последовательность ответов pure strict
+comparator K10. Prefix не предполагается отсортированным: safety/permutation
+этого не требуют. Actual network output — подмножество проверяемых входов.
+Exact N, constant offset9/13, движение/end covers. Контракт correctness
+не используется, CI no-assert-contracts, ordinary proof, unwind25.
+
+Композиция для K10: сеть сохраняет multiset по первому ensures K9s и
+структуре CE; реальная insertion сохраняет его по отдельной proof;
+sortedness полной верхней ветки проверяется отдельно на pure strict order.
+Пока insertion-proof не прошла gate, полная корректность N10+ не заявляется.
+Это логическая композиция реальных тел без подмены callee, не контрактная
+заглушка. Сначала повтор N9 и sortedness N10,4x10мин; две permutation N10
+подготовлены для следующего запроса. Источник таймаута остаётся гипотезой.
