@@ -1394,3 +1394,39 @@ w2p2_b4_offset_one!(w2p2_b4_u64_n17, w2p2_b4_cell_n17, 17);
 w2p2_b4_offset_one!(w2p2_b4_u64_n18, w2p2_b4_cell_n18, 18);
 w2p2_b4_offset_one!(w2p2_b4_u64_n19, w2p2_b4_cell_n19, 19);
 w2p2_b4_offset_one!(w2p2_b4_u64_n20, w2p2_b4_cell_n20, 20);
+
+// K-10 network correctness: full-width values, a pure strict total order, actual outer trait.
+fn w2p2_strict_less<T: Ord>(a: &T, b: &T) -> bool { a < b }
+
+fn w2p2_k10_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [T; N] = kani::any();
+    let pre = v;
+    let probe: T = kani::any();
+    let mut cmp = w2p2_strict_less::<T>;
+    <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    assert!(sorted_by(&v, &mut cmp));
+    assert!(probe_count(&pre, &probe) == probe_count(&v, &probe));
+    kani::cover(N < 2 || v != pre, "W2 P2 K10: trivial input or elements move");
+}
+
+macro_rules! w2p2_k10_cases {
+    ($name:ident, $t:ty, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => w2p2_k10_fixed::<$t, $n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("W2 P2 K10 normal return at ", stringify!($n)));)+
+            kani::cover(true, "W2 P2 K10 family: end reached");
+        }
+    };
+}
+
+w2p2_k10_cases!(w2p2_k10_u8_0_2, u8, [0, 1, 2]);
+w2p2_k10_cases!(w2p2_k10_u64_0_2, u64, [0, 1, 2]);
+w2p2_k10_cases!(w2p2_k10_u8_3_4, u8, [3, 4]);
+w2p2_k10_cases!(w2p2_k10_u64_3_4, u64, [3, 4]);
