@@ -1290,3 +1290,10 @@ harmonics относительно полного покрытия двух гл
 пересмотрю пакетирование оставшихся длин и честно раскрою пропуски вместо
 выхода за16 dispatch/250 минут/окно. Окончательное решение о dispatch —
 после окончания активного56. Сейчас новых job нет, watch56 уже действует.
+
+REVIEW REQUEST c5720c76aa23a30eef17057fe4500db93ddfac98
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Подготовленный контроль
+CD-2 и полное семейство2..32 по CD-3; RUN-REQUEST пока относится к
+активному56 и будет обновлён после его summary.
