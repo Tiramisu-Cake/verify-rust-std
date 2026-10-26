@@ -1272,3 +1272,10 @@ R7: Drop реально читает volatile свой key при нормаль
 Те же пары длин 0,1,2,7,8 / 15,16,17 / 31 / 32; reachability каждой пары
 при N17. Сейчас a17 general reach + Drop lo/mid/N31, measurement 4 x 10 мин;
 Drop N32 и обе reachability подготовлены, ещё не отправлены.
+
+REVIEW REQUEST f70f24b1f41a71838f7f8e13abe699457bf02023
+
+network.rs: W2Drop, Drop/W2Value и шесть применений pair/reachability macros;
+RUN-REQUEST.json; RESULT-network.md, job96/dispatch Drop. Проверить non-Copy
+Freeze/general и реальное чтение деструктора; остальной шаблон неизменён.
+Контекст: smallsort.rs, scripts/run-kani.sh, ранее принятые K16 helpers.
