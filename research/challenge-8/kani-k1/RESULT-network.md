@@ -2126,3 +2126,7 @@ REVIEW REQUEST 49620d14a02be6f69902e182f97f20ce61d0d68e
 network.rs: только4применения K10 macro для u8/u64 N5/N6;
 RUN-REQUEST.json; RESULT-network.md, job118. Helpers/свойства прежние,
 это наращивание фиксированных длин, без новых предположений/заглушек.
+
+| 6 | net-w2p2-06-k10-network-5-6 | 119 | 3752db90 | w2p2_k10_u8_n5; w2p2_k10_u64_n5; w2p2_k10_u8_n6; w2p2_k10_u64_n6 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 119`, затем конец turn. Счёт П2:6/40 dispatch.
