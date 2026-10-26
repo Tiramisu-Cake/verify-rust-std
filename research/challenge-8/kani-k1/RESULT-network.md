@@ -2734,3 +2734,11 @@ network.rs: четыре применения прежних sortedness/permutat
 | 8 (П2 #22) | net-night-08-k10-sorted17-u8 | 145 | 4f5375be | w2p2_k10_u8_n17 | SUCCESS |
 
 Ожидание `k1.sh watch 145`, затем конец turn. После уведомления — summary/check-tooling145; далее оставшиеся три proof N17.
+
+### Job145: sortedness N17/u8
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2p2_k10_u8_n17`: SUCCESS (ожидался SUCCESS), 346,99094 с, 0/377 failed, 21 unreachable, covers 3/3. 13 GiB ENFORCED, peak 1,87 GiB, RSS 1644144 KiB, OOM0, swap off, wall 385,50 с.
+
+Sortedness u8 измерена на каждой N9..17. Перестановка хвоста N16 — TIMEOUT139, N17 ещё не измерена; полная корректность u8 остаётся до N15 с открытым R9 композиции. Известный summary wall П2: 8336,38 с; ночь: 5255,55 с, 8 dispatch.
+
+Последний запрос K10 net-night-09-k10-n17-rest: measurement 3 × 10 минут, ожидается SUCCESS для sortedness N17/u64 и insertion permutation N17/u8/u64. Код не менялся (snapshot9d30c5ce), все реальные тела/полные значения; новых assumptions/stubs нет. По завершении — сводка K10 и переход к K9s symbolic indices по ночной очереди.
