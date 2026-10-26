@@ -1699,3 +1699,12 @@ T и D/S — тоже в job 56. Job 49 (`1d230f75`, слияние u64×32, 4.5
 114.84 + 144.89 + 280.81 + 327.81 + 462.57 + 313.01 = 1643.93 с (27.4 мин);
 с подготовкой CircleCI оценка ≈36 мин, итого ≈65 из 250 мин. Это оценка по
 summary, не API; сверка — у координатора. Незавершённых job нет.
+
+REVIEW REQUEST e07da161d347a410b2d3af9d47f9d580278ccc2b
+
+Файлы: `research/challenge-8/kani-k1/RESULT-merge.md`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`. `merge.rs` не менялся с
+`c5720c76` (R9 GO_WITH_NITS). Evidence: summary job 66, 68–73 и check-tooling
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+
+ВОЛНА 1 ЗАВЕРШЕНА
