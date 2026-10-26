@@ -2470,3 +2470,9 @@ N11 пока только sortedness, permutation не измерена. Summary
 (три вставки после sort9),4x10мин. N12 permutation подготовлены отдельно,
 не выбранные в этом запросе. Никаких новых assumptions/сужений/stubs,
 те же full-width данные и helpers. net-w2p2-14-k10-perm11-sorted12.
+
+REVIEW REQUEST 53e2883019f7a80fb2e977a1e49ac2771de64732
+
+network.rs: четыре применения прежних sortedness/permutation macros для N12
+u8/u64; RUN-REQUEST.json; RESULT-network.md, job126/компонентные критерии.
+Новые helper/assumptions не добавлены, композиция та же a136cf54.
