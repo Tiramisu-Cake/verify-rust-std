@@ -777,11 +777,10 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 // and bounds the loop-free specification helpers.
 #[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
-// K-1 phase 6 run 1 (diagnostic, temporary): job 32's contract (quantified sortedness ensures)
-// plus the quantified "halves sorted" requires; no permutation ensures. Attribution of finding 7.
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted_q(v, &is_less)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_q(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
