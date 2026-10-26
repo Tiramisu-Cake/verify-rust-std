@@ -2639,3 +2639,7 @@ Sortedness: 21 unreachable; permutation: 4. Упавших проверок не
 REVIEW REQUEST 799659be3ab92beecbb22117914a77a3e2627583
 
 network.rs: четыре применения прежних sortedness/permutation macros для N15/u8/u64. RUN-REQUEST.json; RESULT-network.md (job133). Новых helpers/допущений нет; рассматривать с открытым R9 композиции a136cf54.
+
+| 3 (П2 #17) | net-night-03-k10-n15 | 135 | ed5ff6f5 | w2p2_k10_u8_n15; w2p2_k10_u64_n15; w2p2_k10_perm_u8_n15; w2p2_k10_perm_u64_n15 | SUCCESS |
+
+Ожидание `k1.sh watch 135`, затем конец turn. После уведомления — summary/check-tooling135.
