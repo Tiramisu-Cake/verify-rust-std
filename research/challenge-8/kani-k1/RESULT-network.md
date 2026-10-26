@@ -2009,3 +2009,7 @@ COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
 N20/offset1, measurement2x10мин, net-w2p2-03-b4-offset1-20.
 Код не менялся; R9 общий f32963dd. Известный summary wall П2:142,49с,
 не API минуты, лимит минут CD-6 снят. После N20 — K10/K9s.
+
+| 3 | net-w2p2-03-b4-offset1-20 | 113 | 8e9476d9 | w2p2_b4_u64_n20; w2p2_b4_cell_n20 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 113`, затем конец turn. Счёт П2:3/40 dispatch.
