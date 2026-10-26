@@ -1,18 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-01-k8-k9",
+  "request_id": "net-w1-02-k8-interior",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 K-8 insert_tail contract on a symbolic prefix of [u64;17], and K-9 sort13 permutation at full u8 width with disclosed reduction; real bodies, no stubs",
+  "purpose": "Wave 1 K-8 review extension: insert_tail contract on [u64;17] with symbolic start < tail, unchanged prefix and suffix, no stubs",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_prefix_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::sort13_perm_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_region_u64",
       "expect": "SUCCESS"
     }
   ]

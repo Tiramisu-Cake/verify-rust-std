@@ -416,6 +416,49 @@ fn insert_tail_prefix_u64() {
     kani::cover(true, "prefix insertion: end reached");
 }
 
+/// K-8 review extension: both ends of the insertion region are symbolic within one allocation.
+/// This includes the interior regions used by scratch-based call sites, not just prefixes.
+#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::unwind(18)]
+fn insert_tail_region_u64() {
+    set_probe::<u64>();
+    let mut v: [u64; 17] = kani::any();
+    let tail: usize = kani::any_where(|&t| 1 <= t && t < 17);
+    let start: usize = kani::any_where(|&s| s < tail);
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: 0 <= start < tail < 17, and the enclosing proof_for_contract assumes
+    // precisely the callee's sorted-region precondition at this call.
+    unsafe { super::super::insert_tail(base.add(start), base.add(tail), &mut lt_u64) };
+    let mut i = 0;
+    while i < start {
+        assert!(v[i] == pre[i]);
+        i += 1;
+    }
+    assert!(same_from(&v, &pre, tail + 1));
+    kani::cover(start == 0, "region begins at allocation start");
+    kani::cover(start > 0, "region begins inside allocation");
+    kani::cover(start > 0 && tail < 16, "region has both prefix and suffix outside it");
+    kani::cover(start == 15 && tail == 16, "last two elements form region");
+    kani::cover(start == 0 && tail == 16, "whole allocation forms region");
+    kani::cover(true, "interior insertion: end reached");
+}
+
+/// Wave 1 D0: fresh nondeterministic result at every comparison, all callee bodies real.
+fn w1_any_less_u64(_a: &u64, _b: &u64) -> bool {
+    kani::any()
+}
+
+/// K-6+ (b), length 17: network + insertion, no merge and no order-violation panic path.
+/// Ordinary proof checks Kani safety and assertion classes; no sorting/permutation assertions.
+#[kani::proof]
+#[kani::unwind(35)]
+fn w1_network_o1_len17_u64() {
+    let mut v: [u64; 17] = kani::any();
+    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
+    kani::cover(true, "network O1 length 17: normal return reachable");
+}
+
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
 /// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
 macro_rules! check_network_band_tail {
