@@ -785,3 +785,8 @@ REVIEW REQUEST 995164ac364257f0b82e13d24d25fa6ea8d025e5
 Исправление замечания к 48d8c2d3: network.rs (assert без сообщения),
 RUN-REQUEST.json (expect_check и новый request_id), RESULT-network.md
 (исход job 75 и R7). Контекст и остальные атрибуты контроля неизменны.
+
+| 2 | net-w2-02-control-a-text | 77 | 925a33cd | w2_control_a_assertion; w2_control_a_reachability | отправлен; ожидается FAILED/SUCCESS |
+
+Ожидание `k1.sh watch 77`, затем конец turn. Счёт dispatch 2/24;
+измеренный summary wall завершённых jobs П1 — 0,9433 мин (не API минуты).
