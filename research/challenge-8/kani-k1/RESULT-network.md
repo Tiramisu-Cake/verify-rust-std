@@ -1147,3 +1147,7 @@ REVIEW REQUEST 3cf6e50dfd737052781cf1942ea4cf2f716b0b14
 RUN-REQUEST.json, RESULT-network.md («Волна 2», job 91, dispatch a16).
 Те же helpers/шаблоны 3ce9177c, bceedb0b, d4744378;
 контекст: неизменённые smallsort.rs, scripts/run-kani.sh.
+
+| 9 | net-w2-09-u128-rest-a16-lo | 93 | e729e7b1 | w2_k16_u128_hi; w2_k16_u128_stable_reach; w2_k16_u128_general_reach; w2_k16_a16_lo | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 93`, затем конец turn. Счёт dispatch 9/24.
