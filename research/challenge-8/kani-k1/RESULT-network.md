@@ -1547,3 +1547,7 @@ insertion_cases и восемь O3-s гармоник; RUN-REQUEST.json; RESULT-
 job103/O3 R7/ledger. Контекст: K13Tagged/Cell, const-offset helper134e1185,
 неизменённые smallsort.rs (non-Freeze defaults, insertion), CI flags.
 Проверить полные поля, два чтения до записей, exact N и отсутствие tag properties.
+
+| 20 | net-w2-20-o3-routes | 104 | 40a1f1cd | w2_o3_routes_0_4; w2_o3_routes_5_8; w2_o3_routes_9_12; w2_o3_routes_13_16 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 104`, затем конец turn. Счёт dispatch 20/24.
