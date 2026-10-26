@@ -1012,3 +1012,11 @@ general через unstable trait для прозрачного non-Copy u64 17/
 4 × 10 минут. Исходники гармоник не изменяются после job 51.
 После dispatch: **6/10, 160/200 минут таймаутов**, оценка ≤4160/5000 кредитов.
 General через trait на 32 остаётся отдельным следующим запросом.
+
+REVIEW REQUEST bc94cf45013f787d07607708c5c7a2a1fbb63212
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. K-6+ (б): stable-Freeze
+u64 24/32, general trait non-Copy transparent u64 17/24; evidence —
+следующий CircleCI job. Код гармоник тот же, что в job 51.
