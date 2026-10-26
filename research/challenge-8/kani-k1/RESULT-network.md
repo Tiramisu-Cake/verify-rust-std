@@ -2130,3 +2130,22 @@ RUN-REQUEST.json; RESULT-network.md, job118. Helpers/свойства прежн
 | 6 | net-w2p2-06-k10-network-5-6 | 119 | 3752db90 | w2p2_k10_u8_n5; w2p2_k10_u64_n5; w2p2_k10_u8_n6; w2p2_k10_u64_n6 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 119`, затем конец turn. Счёт П2:6/40 dispatch.
+
+#### П2 job119 / K10 N5/N6
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,94GiB,RSS1823680KiB,OOM0,swap off,wall61,32с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k10_u8_n5 | 1,3493357 | 0/377 | 3/3 |
+| w2p2_k10_u64_n5 | 4,293186 | 0/377 | 3/3 |
+| w2p2_k10_u8_n6 | 2,6515102 | 0/377 | 3/3 |
+| w2p2_k10_u64_n6 | 11,130175 | 0/377 | 3/3 |
+
+Все4 имеют18 unreachable checks. Полная ширина/естественный порядок,
+sortedness/multiplicity; K10 измерен0..6 обоих типов, R9 ожидается.
+Далее отдельные N7/N8 каждого типа, тот же macro и тела,4x10мин.
+Запрос net-w2p2-07-k10-network-7-8. Известный summary wall П2:371,76с.
+После insertion-only длин до8 — основание структурной перестановки K9s
+перед ростом в sort9/sort13; это не повтор прежнего дорогого K9 sort13_perm.

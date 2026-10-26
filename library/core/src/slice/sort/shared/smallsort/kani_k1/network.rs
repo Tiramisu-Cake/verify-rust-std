@@ -1435,3 +1435,8 @@ w2p2_k10_cases!(w2p2_k10_u8_n5, u8, [5]);
 w2p2_k10_cases!(w2p2_k10_u64_n5, u64, [5]);
 w2p2_k10_cases!(w2p2_k10_u8_n6, u8, [6]);
 w2p2_k10_cases!(w2p2_k10_u64_n6, u64, [6]);
+
+w2p2_k10_cases!(w2p2_k10_u8_n7, u8, [7]);
+w2p2_k10_cases!(w2p2_k10_u64_n7, u64, [7]);
+w2p2_k10_cases!(w2p2_k10_u8_n8, u8, [8]);
+w2p2_k10_cases!(w2p2_k10_u64_n8, u64, [8]);

@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-06-k10-network-5-6",
+  "request_id": "net-w2p2-07-k10-network-7-8",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 network grow from accepted measurement0..4 to separate constant N5,N6 for full-width u8/u64. Natural strict order, real outer trait/all callees, exact arrays, sortedness and arbitrary-probe multiplicity, elementwise movement cover. No stubs/reductions.",
+  "purpose": "K10 network continuation: individual exact N7,N8 for full-width u8/u64, after0..6 pass. Natural strict order, actual outer trait and all real callees. Sortedness and arbitrary-probe multiplicity assertions plus elementwise movement cover. No stubs/reductions.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n5",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n5",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n6",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n6",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n8",
       "expect": "SUCCESS"
     }
   ]
