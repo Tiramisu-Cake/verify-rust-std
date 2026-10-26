@@ -2476,3 +2476,7 @@ REVIEW REQUEST 53e2883019f7a80fb2e977a1e49ac2771de64732
 network.rs: четыре применения прежних sortedness/permutation macros для N12
 u8/u64; RUN-REQUEST.json; RESULT-network.md, job126/компонентные критерии.
 Новые helper/assumptions не добавлены, композиция та же a136cf54.
+
+| 14 | net-w2p2-14-k10-perm11-sorted12 | 127 | 9a25848a | w2p2_k10_perm_u8_n11; w2p2_k10_perm_u64_n11; w2p2_k10_u8_n12; w2p2_k10_u64_n12 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 127`, затем конец turn. Счёт П2:14/40 dispatch.
