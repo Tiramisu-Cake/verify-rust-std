@@ -838,3 +838,10 @@ CD-1 разрешает исключение assume(false) и для контр�
 **3/10 dispatch, 70/200 минут таймаутов**, верхняя оценка ≤1880/5000 кредитов.
 W1-D5 отменён в части ожидания разъяснения: CD-1 получено; K-6+ разрешён
 после зелёного нового контроля Б. Review запрашивается независимо.
+
+REVIEW REQUEST 926967773a4dfbfe0008f39cf9cccf18a93f1d15
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Новый контроль Б по CD-1;
+evidence — следующий CircleCI job. Предыдущий контроль А: job 47.
