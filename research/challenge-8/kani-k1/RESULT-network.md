@@ -744,3 +744,11 @@ T0: 2026-10-26T15:19:16Z (UTC, `date -u`).
 Ожидается FAILED с текстом `W2 variant A assertion control` и местом,
 а для reachability — SUCCESS с cover заглушки и нормального возврата.
 До summary/review контроль и результаты П1 не засчитаны.
+
+REVIEW REQUEST 48d8c2d3cd93e0d244714904ac18623651126684
+
+Файлы: library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs
+(w2_cut_ord_violation и два w2_control_a_*),
+research/challenge-8/kani-k1/RUN-REQUEST.json, RESULT-network.md («Волна 2»).
+Контекст: неизменённые smallsort.rs (trait dispatch, panic_on_ord_violation)
+и scripts/run-kani.sh (флаги CI). Ожидаемые статусы заданы в запросе.
