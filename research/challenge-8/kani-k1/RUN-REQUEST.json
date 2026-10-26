@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p7-resource-c-024",
+  "request_id": "merge-p8-trivial32-025",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 7 C, option (c): control for B/job 41 with same bm_u64_len32_plain harness and exact job 41 proof state except removed loop_invariant and paired loop_modifies on bidirectional_merge. Compare resource/time behavior without loop contract; never a PASS or measurement result.",
+  "purpose": "Phase 8 Q4: exact library proof state of job 35 (094c3287), formulation 3 proof_for_contract bm_u64_len32 with trivial invariant. Attribute goto-instrument memory versus full invariant phase 7 A; resource only, never PASS or measurement.",
   "runner": "gcb-e2-highmem-4",
-  "harness_timeout_minutes": 60,
+  "harness_timeout_minutes": 30,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32_plain",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
       "expect": "SUCCESS"
     }
   ]
