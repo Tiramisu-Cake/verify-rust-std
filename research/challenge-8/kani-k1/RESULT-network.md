@@ -2091,3 +2091,9 @@ R7: заменить только сравнение массивов в movemen
 наблюдательного байтового сравнения, не проверка логики сортировки.
 Свойства, comparator, домены N/данных, реальные callee неизменны.
 Повтор всех4гармоник0..4 для общего gate, net-w2p2-05-k10-network-0-4-cover.
+
+REVIEW REQUEST b497d6daae6bc002e9e0ac186b6a63c36389e612
+
+Поправка к7adb2498: network.rs, одна строка movement-cover через
+!same_from, без memcmp массива; RUN-REQUEST.json; RESULT-network.md,
+job116/R7. Проверяемые sortedness/multiplicity и домены без изменений.
