@@ -2817,3 +2817,20 @@ network.rs: w2night_k8r_start, macro w2night_k8r_case, 15 proof_for_contract(ins
 | 11 (П2 #25) | net-night-11-k8r-start15-12 | 152 | 8c584d51 | w2night_k8r_start15_u64; w2night_k8r_start14_u64; w2night_k8r_start13_u64; w2night_k8r_start12_u64 | SUCCESS |
 
 Ожидание `k1.sh watch 152`, затем конец turn. После уведомления — summary/check-tooling152; далее K8r start11..8.
+
+### Job152: K8r start15..12, covers требуют исправления
+
+COMPLETE, gate false, expectation met true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 3,17 GiB, RSS 2800152 KiB, OOM0, swap off, wall 287,57 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2night_k8r_start15_u64 | SUCCESS / SUCCESS | 51,780476 | 0/416 | 3/18 |
+| w2night_k8r_start14_u64 | SUCCESS / SUCCESS | 51,169445 | 0/416 | 4/18 |
+| w2night_k8r_start13_u64 | SUCCESS / SUCCESS | 68,83111 | 0/416 | 5/18 |
+| w2night_k8r_start12_u64 | SUCCESS / SUCCESS | 71,60658 | 0/416 | 6/18 |
+
+Все 36 unreachable, упавших проверок нет; к зачёту не идут из-за невыполненных covers. Известный summary wall П2: 10569,58 с; ночь: 7488,75 с, 11 dispatch.
+
+R7: в a15216a1 covers для tail<=START были помещены под constant-false `if`, но pin регистрирует и их: для start15 возможен только tail16, хотя зарегистрировано18 covers. Исправление: helper возвращает tail, а macro proof получает явный список START+1..16 и создаёт только эти covers после вызова. Любой допустимый tail сохраняется в input-domain; требует/обеспечивает контракт и frame не меняются. Movement/end covers остаются. Никаких проверок допустимых входов не удалено; список недостижимых tail исключён на уровне macro-развёртки.
+
+Повтор net-night-12-k8r-start15-12-covers, measurement 4 × 10 минут; ожидаются SUCCESS и covers3/3,4/4,5/5,6/6 соответственно. Исправление распространяется на все15 подготовленных смещений.

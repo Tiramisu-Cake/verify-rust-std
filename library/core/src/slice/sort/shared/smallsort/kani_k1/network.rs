@@ -1614,7 +1614,7 @@ fn w2night_k9s_u64_indices17() {
 
 // Night K-8r: fixed nonzero begin offsets inside [u64;17], all valid tail positions.
 // Contract preconditions (including sorted [begin, tail)) are supplied by proof_for_contract.
-fn w2night_k8r_start<const START: usize>() {
+fn w2night_k8r_start<const START: usize>() -> usize {
     set_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
     let tail: usize = kani::any_where(|&t| START < t && t < 17);
@@ -1629,40 +1629,35 @@ fn w2night_k8r_start<const START: usize>() {
         i += 1;
     }
     assert!(same_from(&v, &pre, tail + 1), "K8r: suffix after tail unchanged");
-    macro_rules! cover_tail {
-        ($($end:literal),+) => {$(
-            if START < $end {
-                kani::cover(tail == $end, concat!("K8r: tail ", stringify!($end), " with requires satisfied"));
-            }
-        )+};
-    }
-    cover_tail!(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     kani::cover(!same_from(&v, &pre, 0), "K8r: insertion moves elements");
     kani::cover(true, "K8r: end reached");
+    tail
 }
 
+// List only possible tails: Kani registers even covers in a constant-false branch.
 macro_rules! w2night_k8r_case {
-    ($name:ident, $start:literal) => {
+    ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
         #[kani::unwind(25)]
         fn $name() {
-            w2night_k8r_start::<$start>();
+            let tail = w2night_k8r_start::<$start>();
+            $(kani::cover(tail == $end, concat!("K8r: tail ", stringify!($end), " with requires satisfied"));)+
         }
     };
 }
 
-w2night_k8r_case!(w2night_k8r_start15_u64, 15);
-w2night_k8r_case!(w2night_k8r_start14_u64, 14);
-w2night_k8r_case!(w2night_k8r_start13_u64, 13);
-w2night_k8r_case!(w2night_k8r_start12_u64, 12);
-w2night_k8r_case!(w2night_k8r_start11_u64, 11);
-w2night_k8r_case!(w2night_k8r_start10_u64, 10);
-w2night_k8r_case!(w2night_k8r_start9_u64, 9);
-w2night_k8r_case!(w2night_k8r_start8_u64, 8);
-w2night_k8r_case!(w2night_k8r_start7_u64, 7);
-w2night_k8r_case!(w2night_k8r_start6_u64, 6);
-w2night_k8r_case!(w2night_k8r_start5_u64, 5);
-w2night_k8r_case!(w2night_k8r_start4_u64, 4);
-w2night_k8r_case!(w2night_k8r_start3_u64, 3);
-w2night_k8r_case!(w2night_k8r_start2_u64, 2);
-w2night_k8r_case!(w2night_k8r_start1_u64, 1);
+w2night_k8r_case!(w2night_k8r_start15_u64, 15, [16]);
+w2night_k8r_case!(w2night_k8r_start14_u64, 14, [15, 16]);
+w2night_k8r_case!(w2night_k8r_start13_u64, 13, [14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start12_u64, 12, [13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start11_u64, 11, [12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start10_u64, 10, [11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start9_u64, 9, [10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start8_u64, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start7_u64, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start6_u64, 6, [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start5_u64, 5, [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start4_u64, 4, [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start3_u64, 3, [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start2_u64, 2, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+w2night_k8r_case!(w2night_k8r_start1_u64, 1, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
