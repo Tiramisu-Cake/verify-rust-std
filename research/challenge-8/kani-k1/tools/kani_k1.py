@@ -46,7 +46,7 @@ HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
 MAX_TIMEOUT_MINUTES = 30
-RESOURCE_MAX_TIMEOUT_MINUTES = 60
+RESOURCE_MAX_TIMEOUT_MINUTES = 720
 MEASUREMENT_TIMEOUT_MINUTES = 10
 MAX_TOTAL_MINUTES = 150
 MEASUREMENT_LIMIT_SECONDS = 600.0
@@ -93,7 +93,7 @@ def _one_line(value: Any, limit: int) -> bool:
     return isinstance(value, str) and bool(value.strip()) and len(value) <= limit and "\n" not in value and "\r" not in value
 
 
-def validate_request(data: Any, max_total_minutes: int = MAX_TOTAL_MINUTES) -> dict[str, Any]:
+def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise RequestError("request must be a JSON object")
     extra, missing = set(data) - REQUEST_KEYS, REQUEST_KEYS - set(data)
@@ -139,9 +139,13 @@ def validate_request(data: Any, max_total_minutes: int = MAX_TOTAL_MINUTES) -> d
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
+    # The lane's own cap applies when the caller gives none (e.g. summarize). For resource runs the dispatcher
+    # sizes the paid Cloud Build timeout from this total (k1g.sh), so it is capped here in any case.
     if data["kind"] == "resource":
-        # The dispatcher sizes the paid Cloud Build timeout from this total (k1g.sh), so it is capped here.
-        max_total_minutes = min(max_total_minutes, RESOURCE_MAX_TIMEOUT_MINUTES)
+        cap = RESOURCE_MAX_TIMEOUT_MINUTES
+        max_total_minutes = cap if max_total_minutes is None else min(max_total_minutes, cap)
+    elif max_total_minutes is None:
+        max_total_minutes = MAX_TOTAL_MINUTES
     if len(names) * timeout > max_total_minutes:
         raise RequestError(f"harness count × timeout exceeds {max_total_minutes} minutes for this lane")
     return data
@@ -638,7 +642,7 @@ def main(argv: list[str]) -> int:
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
-    v.add_argument("--max-total-minutes", type=int, default=MAX_TOTAL_MINUTES)
+    v.add_argument("--max-total-minutes", type=int, default=None)
     v.add_argument("--require-runner", help="reject any other runner value (lane-specific)")
     s = sub.add_parser("summarize")
     s.add_argument("--request", required=True)

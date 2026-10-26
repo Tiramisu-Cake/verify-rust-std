@@ -24,10 +24,11 @@ DISP_SA=k1-dispatcher@$PROJECT.iam.gserviceaccount.com
 KEY=${K1_GCP_KEY:-/root/.config/smallsort-ci/k1-gcp-key.json}
 GCFG=${K1_GCLOUD_CONFIG:-/root/.config/smallsort-ci/k1-gcloud}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
-# Paid pool time. The owner capped all 32 GB builds at $10 (2026-10-26); 370 min x $0.02612 = $9.66 leaves
-# a margin for billing rounding. dispatch refuses a build whose timeout would take used + reserved minutes
-# over CAP_MINUTES; raising it is the owner's decision.
-CAP_MINUTES=370
+# Paid pool time. The owner capped all 32 GB builds at $35 (raised from $10 on 2026-10-26 for the extended
+# layer); 1300 min x $0.02612 = $33.96 leaves a margin for billing rounding. dispatch refuses a build whose
+# timeout would take used + reserved minutes over CAP_MINUTES; raising it is the owner's decision.
+CAP_MINUTES=1300
+RESOURCE_MAX_TOTAL_MINUTES=720      # = kani_k1.py RESOURCE_MAX_TIMEOUT_MINUTES = gcb-k1.sh MAX_TOTAL_MINUTES
 PRICE_PER_MINUTE=0.02612            # e2-highmem-4 private pool, us-central1, USD
 OVERHEAD_MINUTES=30                 # checkout, deps, Kani build, summary, upload; see gcb-k1.sh
 LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools research/challenge-8/kani-k1/gcb
@@ -99,7 +100,7 @@ case "$cmd" in
     git show "$sha:research/challenge-8/kani-k1/gcb/cloudbuild.yaml" > "$work/cloudbuild.yaml" 2>/dev/null || die "no gcb/cloudbuild.yaml at $sha"
     # Validate here with this checkout's kani_k1.py: a request the lane would reject must not cost pool time.
     python3 -B "$TOOLS/kani_k1.py" validate "$work/request.json" --args-out "$work/args" \
-      --require-runner gcb-e2-highmem-4 --max-total-minutes 60 >/dev/null || die "request rejected (see above)"
+      --require-runner gcb-e2-highmem-4 --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     auth
