@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-o1a-len6to9-004",
+  "request_id": "w2-merge-o1a-len10to13-005",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "O1-A fixed N6,7,8,9: independent direct general u64, actual unstable trait non-Copy u64, stable-Freeze u64. Real bodies, CD-2 reads. Sole panic_on_ord_violation stub; controls job 78.",
+  "purpose": "O1-A fixed N10,11,12,13: direct general u64, actual unstable trait non-Copy u64, stable-Freeze u64. Real bodies and CD-2 reads; sole panic_on_ord_violation stub. Full cover counts checked; controls job 78, R9 GO_WITH_NITS.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len6_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len10_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len7_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len11_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len8_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len12_safety",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len9_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2_a_all_len13_safety",
       "expect": "SUCCESS"
     }
   ]

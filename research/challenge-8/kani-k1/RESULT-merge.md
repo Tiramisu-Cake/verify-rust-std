@@ -1875,3 +1875,49 @@ check-tooling ok; контроли job 76/78.
 Следующий запрос `w2-merge-o1a-len6to9-004`: N6/7/8/9, 4×10 мин.
 После dispatch **4/14**. Три завершённых job, wall verify суммарно
 145.49 с (2.4248 мин); подготовка CircleCI не включена, API-учёт у координатора.
+
+### R9 — GO_WITH_NITS (сообщение координатора)
+
+Review `e4e24db87cf554ba4c0011ee8acae4d33dbe8d2e` — **GO_WITH_NITS**.
+Классы C-5 подтверждены на pin: `assume`, `arithmetic_overflow`,
+`precondition_instance` (memcpy), `safety_check`; все не `assertion`.
+Измеренные FAILED job 76 совпали с ожиданиями и точными текстами.
+
+Ниты учтены:
+- В summary явно сверены полные counts: job 78 **2/2** в каждой гармонике
+  (нормальный возврат + `wave1: panic_on_ord_violation is reachable`),
+  job 79 и 81 **4/4** в каждой строке (D/T/S + тот же cover заглушки).
+  Это отдельная проверка counts, не вывод только из gate.
+- C-5 status/text записываются независимо от gate. Отсутствие Rust-location
+  у модели memcpy допускается как результат измерения; в job 76 место
+  фактически есть (`core/src/ptr/mod.rs:582`) и gate true.
+
+### Job 81 — O1-A N6..9
+
+Head `b27d4ea791ef4c08b7190ed53b6f04dbb8587a3a`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 0; check-tooling ok
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 2162488 KiB, cgroup peak 2.37 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 102.90 с.
+
+| Гармоника (префикс `w2_a_all_`) | Маршруты | expect / actual | Verification Time, с | gate | cover |
+|---|---|---|---:|---|---|
+| `len6_safety` | D/T/S | SUCCESS / SUCCESS | 8.689595 | true | 4/4 |
+| `len7_safety` | D/T/S | SUCCESS / SUCCESS | 10.21102 | true | 4/4 |
+| `len8_safety` | D/T/S | SUCCESS / SUCCESS | 16.11851 | true | 4/4 |
+| `len9_safety` | D/T/S | SUCCESS / SUCCESS | 17.801754 | true | 4/4 |
+
+Каждая строка: 0/645 failed checks. Unreachable: N6/7 — 15, N8/9 — 11.
+Cover заглушки выполнен: полный счёт 4/4 сверён по summary каждой строки.
+Время общее для независимо выбранных D/T/S. Измерены все N2..9, ≤180 с.
+
+REVIEW REQUEST b27d4ea791ef4c08b7190ed53b6f04dbb8587a3a
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код `e4e24db8`, R9 GO_WITH_NITS), `research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 81 summary,
+check-tooling ok, полный count cover сверён.
+
+Следующий запрос `w2-merge-o1a-len10to13-005`: N10/11/12/13, 4×10 мин.
+После dispatch **5/14**. Четыре завершённых job: wall verify суммарно
+248.39 с (4.1398 мин), без подготовки CircleCI; API-учёт у координатора.
