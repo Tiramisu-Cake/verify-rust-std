@@ -1971,3 +1971,20 @@ N16..20/offset1. RUN-REQUEST.json; RESULT-network.md, П2 T0/CD-6/ledger.
 | 1 | net-w2p2-01-b4-offset1-16-17 | 109 | 362c67c0 | w2p2_b4_u64_n16; w2p2_b4_cell_n16; w2p2_b4_u64_n17; w2p2_b4_cell_n17 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 109`, затем конец turn. Счёт П2:1/40 dispatch.
+
+#### П2 job109 / B4 offset1 N16/N17
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,93GiB,RSS1685996KiB,OOM0,swap off,wall67,59с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_b4_u64_n16 | 4,596303 | 0/87 | 1/1 |
+| w2p2_b4_cell_n16 | 7,505536 | 0/178 | 2/2 |
+| w2p2_b4_u64_n17 | 5,1795015 | 0/87 | 1/1 |
+| w2p2_b4_cell_n17 | 8,803715 | 0/178 | 2/2 |
+
+Все4 proof имеют4 unreachable checks, провалов нет. Измерительный критерий
+на реальном offset1 выполнен; R9 f32963dd ожидается. Не переносится на
+все offset16/17. Далее тот же принятый П1 comparator/input, N18/N19,
+measurement4x10мин, запрос net-w2p2-02-b4-offset1-18-19. Код не менялся.

@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-01-b4-offset1-16-17",
+  "request_id": "net-w2p2-02-b4-offset1-18-19",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "CD6 B4 actual caller domain: offset1 only, exact u64 and Cell<Tagged> arrays at N16,N17, one plain proof per type/length. Arbitrary comparator reads both args; Cell comparator writes fresh keys. Real insertion, no stubs/should_panic; no all-offset rerun.",
+  "purpose": "CD6 B4 continuation: constant offset1 only, exact u64 and Cell<Tagged> arrays N18,N19, one ordinary proof per type/length. Real insertion, reading arbitrary comparator and O3 key writes, no stubs/should_panic. All-offset extended layer not repeated.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_u64_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_u64_n18",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_cell_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_cell_n18",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_u64_n17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_u64_n19",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_cell_n17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_b4_cell_n19",
       "expect": "SUCCESS"
     }
   ]
