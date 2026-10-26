@@ -2714,3 +2714,7 @@ COMPLETE, gate false; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, p
 Обе — кандидаты расширенного слоя; контрпример не получен. Известный summary wall П2: 7725,93 с; ночь: 4645,10 с, 6 dispatch. Полная корректность основного слоя остаётся u8 до N15 / u64 до N14, с открытым R9 композиции.
 
 R7: отдельный повтор успешной sortedness N16/u8 (job139), net-night-07-k10-sorted16-u8, measurement 1 × 10 минут. Перестановка N16 обоих типов и sortedness N16/u64 повторно не запускаются. Код не менялся, snapshot7b0138dd; после gate-повтора продолжаем N17.
+
+| 7 (П2 #21) | net-night-07-k10-sorted16-u8 | 144 | df4c34a5 | w2p2_k10_u8_n16 | SUCCESS |
+
+Ожидание `k1.sh watch 144`, затем конец turn. После уведомления — summary/check-tooling144; далее N17.
