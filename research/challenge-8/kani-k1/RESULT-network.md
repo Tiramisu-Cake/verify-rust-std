@@ -2258,7 +2258,12 @@ COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
 | w2p2_k9s_cell | 9,343883 | 0/386 | 5/5 |
 
 Все3 имеют5 unreachable checks. На a16/a17 проверяется вся payload,
-не только ключ; Cell comparator чистый без мутаций. К9s9? Пока измерены
+не только ключ; Cell comparator чистый без мутаций. Пока измерены
 ровно7типов: u8,u64,u128,Drop,a16,a17,Cell. Крупные85/86 иZST остаются.
 Запрос net-w2p2-10-k9s-large-arrays,две proof x10мин,шаблон не меняется.
 Summary wall П2:1068,20с; R9 e658b246 общий для всех10типов ожидается.
+
+
+| 10 | net-w2p2-10-k9s-large-arrays | 123 | 90585672 | w2p2_k9s_a85; w2p2_k9s_a86 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 123`, затем конец turn. Счёт П2:10/40 dispatch.
