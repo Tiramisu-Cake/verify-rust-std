@@ -1466,3 +1466,26 @@ insertion_sort_shift_left/insert_tail в smallsort.rs, CI no-assert-contracts.
 | 18 | net-w2-18-k11s | 102 | 3945cb8d | w2_k11s_1_5; w2_k11s_6_10; w2_k11s_11_15; w2_k11s_16_20 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 102`, затем конец turn. Счёт dispatch 18/24.
+
+#### Job 102 / K11 ресурсный исход и R7
+
+COMPLETE, gate false, check-tooling ok против 9de80e0b. Все четыре
+w2_k11s_1_5/6_10/11_15/16_20 — OUT_OF_MEMORY, Verification Time,
+failed checks и covers отсутствуют. 13 GiB ENFORCED, peak13,00 GiB,
+RSS13610576 KiB, OOM4, swap off, wall928,62 с. Сумма summary wall П1:
+5091,53 с = 84,8588 мин (без подготовки, не API минуты).
+Это ресурсные исходы, не провалы проверок insertion; зачёта K11 нет.
+
+R7: следующий вариант сохраняет N1..20, каждый offset1..N, данные u64
+полной ширины, обычные proof и реальные callee. Символический offset
+выбирается как прежде, но match из20 ветвей передаёт O через const-generic
+w2_insertion_at<T,F,O>. Ветви O>N удаляются константными guard N>=O;
+при допустимом offset default недостижим. Точка вызова реального insertion
+получает O константой. Covers границ offset и каждого N остаются.
+
+Основание: все семейства, включая короткое1..5, дали OOM при символическом
+начальном tail; проверяется гипотеза о росте формулы от символического
+raw-pointer цикла. Это гипотеза, не установленная причина OOM. Альтернатива
+сужения offset до1 отвергнута: требуются все допустимые offset.
+Запрос net-w2-19-k11s-const-offset, те же4 семейства x10 минут;
+после него O3-s, без новой попытки широкого символического offset.

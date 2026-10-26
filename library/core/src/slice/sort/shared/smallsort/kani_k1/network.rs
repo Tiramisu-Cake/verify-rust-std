@@ -1207,10 +1207,44 @@ w2_type_reachability!(w2_k16_a86_stable_reach, [u8; 86], true, 17);
 
 // K-11s/B4. Plain proofs deliberately outside the old correctness contract's offset/length
 // domain. CI --no-assert-contracts is required; all insertion bodies are real.
+// A const offset at each real call avoids a symbolic initial raw pointer in the loop.
+// All valid offsets are still selected nondeterministically; guards discard only O > N.
+fn w2_insertion_at<T, F: FnMut(&T, &T) -> bool, const O: usize>(v: &mut [T], cmp: &mut F) {
+    super::super::insertion_sort_shift_left(v, O, cmp);
+}
+
+macro_rules! w2_const_offset_call {
+    ($v:expr, $offset:expr, $n:expr, $cmp:expr) => {
+        match $offset {
+            1 if $n >= 1 => w2_insertion_at::<_, _, 1>($v, $cmp),
+            2 if $n >= 2 => w2_insertion_at::<_, _, 2>($v, $cmp),
+            3 if $n >= 3 => w2_insertion_at::<_, _, 3>($v, $cmp),
+            4 if $n >= 4 => w2_insertion_at::<_, _, 4>($v, $cmp),
+            5 if $n >= 5 => w2_insertion_at::<_, _, 5>($v, $cmp),
+            6 if $n >= 6 => w2_insertion_at::<_, _, 6>($v, $cmp),
+            7 if $n >= 7 => w2_insertion_at::<_, _, 7>($v, $cmp),
+            8 if $n >= 8 => w2_insertion_at::<_, _, 8>($v, $cmp),
+            9 if $n >= 9 => w2_insertion_at::<_, _, 9>($v, $cmp),
+            10 if $n >= 10 => w2_insertion_at::<_, _, 10>($v, $cmp),
+            11 if $n >= 11 => w2_insertion_at::<_, _, 11>($v, $cmp),
+            12 if $n >= 12 => w2_insertion_at::<_, _, 12>($v, $cmp),
+            13 if $n >= 13 => w2_insertion_at::<_, _, 13>($v, $cmp),
+            14 if $n >= 14 => w2_insertion_at::<_, _, 14>($v, $cmp),
+            15 if $n >= 15 => w2_insertion_at::<_, _, 15>($v, $cmp),
+            16 if $n >= 16 => w2_insertion_at::<_, _, 16>($v, $cmp),
+            17 if $n >= 17 => w2_insertion_at::<_, _, 17>($v, $cmp),
+            18 if $n >= 18 => w2_insertion_at::<_, _, 18>($v, $cmp),
+            19 if $n >= 19 => w2_insertion_at::<_, _, 19>($v, $cmp),
+            20 if $n >= 20 => w2_insertion_at::<_, _, 20>($v, $cmp),
+            _ => {}
+        }
+    };
+}
+
 fn w2_insertion_safety_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
-    super::super::insertion_sort_shift_left(&mut v, offset, &mut w1_any_less_u64);
+    w2_const_offset_call!(&mut v, offset, N, &mut w1_any_less_u64);
     kani::cover(offset == 1, "W2 K11s offset 1 normal return");
     kani::cover(offset == N, "W2 K11s offset len normal return");
 }

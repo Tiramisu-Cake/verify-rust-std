@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-18-k11s",
+  "request_id": "net-w2-19-k11s-const-offset",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K11s/B4 insertion_sort_shift_left safety on exact [u64;N], N=1..20 in four fixed-length families; every offset1..=N symbolic, no sorted-prefix assumption. Comparator volatile-reads both args then arbitrary bool. Plain proofs, real bodies, no stub/should_panic, requires CI no-assert-contracts.",
+  "purpose": "K11s after job102 all OOM: preserve exact lengths1..20 and ALL offsets1..N, enumerate offset into const-generic real insertion calls to avoid symbolic initial raw-pointer loop. Four families, full u64/reading arbitrary comparator, ordinary proofs/no stubs/no sorted-prefix assumption.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
