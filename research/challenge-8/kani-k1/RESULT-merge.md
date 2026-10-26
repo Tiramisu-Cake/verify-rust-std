@@ -310,6 +310,22 @@ Proof N8 будет также prerequisite вложенного sort8_stable д
 После dispatch ночных jobs 8, preflight отказов 1;
 с П2 до ночи: 13 jobs, 2 preflight отказа, 15/40 консервативных попыток.
 
+### N-D10 (R7): preflight HTTP 429 перед bm N7/8
+
+Push `ebd3ccf4deefc2baa00aa71a6c2d39835d144c2e` прошёл; dispatch
+`w2-merge-night-bm78-008` остановился на `git fetch`:
+`RPC failed; HTTP 429`, `fatal: expected flush after ref listing`.
+Обращения к CircleCI не было, job не создан, новых измерений нет.
+Успешных ночных dispatch остаётся 7; ночных preflight отказов 2.
+С П2 до ночи: 12 jobs, 3 preflight отказа, 15/40 попыток.
+
+По N-D7 следующий повтор — через 15 минут. Отсчёт после фиксации
+отказа: 2026-10-26T21:32:33Z;
+новый dispatch не раньше 2026-10-26T21:47:33Z.
+Набор гармоник и request_id сохраняю: исходный dispatch не создал job.
+Следующая успешная попытка даст ночной job 8; с П2 до ночи —
+13 jobs и 3 preflight отказа, 16/40 попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
