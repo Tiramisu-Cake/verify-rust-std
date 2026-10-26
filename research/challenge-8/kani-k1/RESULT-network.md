@@ -1539,3 +1539,11 @@ boundary covers и cover каждой N. Зачёта/измерения inserti
 пригодность этого приёма для O3 пока неизвестна. Только safety, unwind35.
 Запрос net-w2-20-o3-routes: четыре маршрутных семейства x10 минут;
 прямая insertion в следующем запросе, отдельно от безопасности trait-путей.
+
+REVIEW REQUEST 2dc41f0f05d3ea260673decbc3038ba31b6244d3
+
+network.rs: w2_o3_mutating_less/input/route_fixed/route_cases/insertion_fixed/
+insertion_cases и восемь O3-s гармоник; RUN-REQUEST.json; RESULT-network.md,
+job103/O3 R7/ledger. Контекст: K13Tagged/Cell, const-offset helper134e1185,
+неизменённые smallsort.rs (non-Freeze defaults, insertion), CI flags.
+Проверить полные поля, два чтения до записей, exact N и отсутствие tag properties.
