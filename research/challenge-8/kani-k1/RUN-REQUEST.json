@@ -1,26 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-03-o1-a-18-29",
+  "request_id": "net-w2-04-o1-a-30-32",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "O1-A network u64 lengths 18..29 via actual outer UnstableSmallSortTypeImpl, exact arrays, CD-2 reads, only order-violation panic stubbed. Constant-length families; split old 26..30 family to target <=180s.",
+  "purpose": "Complete O1-A network u64 lengths 30,31,32 via actual outer trait, exact arrays, CD-2 volatile reads, accepted variant A stub/control/template. Other sort bodies real.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_18_21",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_22_25",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_26_27",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_28_29",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_network_o1_a_30_32",
       "expect": "SUCCESS"
     }
   ]
