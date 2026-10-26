@@ -2838,3 +2838,7 @@ R7: в a15216a1 covers для tail<=START были помещены под const
 REVIEW REQUEST 4dd2272fb282547a9097ddca2380b39b54c05512
 
 network.rs: K8r helper возвращает tail, macro задаёт covers явным полным списком START+1..16; все15 применений исправлены. RUN-REQUEST.json; RESULT-network.md (job152 и причина gate false). Проверить эквивалентность входного домена/проверок a15216a1 и полноту covers без невозможных tail.
+
+| 12 (П2 #26) | net-night-12-k8r-start15-12-covers | 154 | ee7d5623 | w2night_k8r_start15_u64; w2night_k8r_start14_u64; w2night_k8r_start13_u64; w2night_k8r_start12_u64 | SUCCESS |
+
+Ожидание `k1.sh watch 154`, затем конец turn. После уведомления — summary/check-tooling154; далее K8r start11..8.
