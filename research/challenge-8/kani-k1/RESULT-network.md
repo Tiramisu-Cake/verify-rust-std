@@ -2612,3 +2612,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 Permutation: 4 unreachable, sortedness: 21. Упавших проверок нет. N12 имеет оба компонента (sortedness127/permutation128), N13 — sortedness128 и структурную перестановку. R9 композиции остаётся открытым. Известный summary wall П2: 3944,80 с; ночью 1 dispatch.
 
 R7: времена >180 с допустимы по CD-6, все <600 с. Следующая ступень N14/u8/u64: sortedness реального верхнего маршрута и отдельная permutation реального insertion/offset13 на exact [T;14]. Прежние helpers, полный вход/probe, arbitrary read-only comparator в permutation; новых assumptions/cuts/stubs нет.
+
+REVIEW REQUEST 04e4192a7c22f2018b8305a984f307170018b8e2
+
+network.rs: четыре применения прежних sortedness/permutation macros для N14/u8/u64. RUN-REQUEST.json; RESULT-network.md (job128, R7). Helpers не менялись; всё ещё нужна проверка композиции a136cf54. План запроса net-night-02-k10-n14: 4 × 10 минут, ожидается SUCCESS.
