@@ -2676,3 +2676,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 Sortedness: 21 unreachable; permutation: 4. Упавших проверок нет. N15/u8 имеет оба компонента, N15/u64 только permutation хвоста. Известный summary wall П2: 5655,07 с; ночь: 2574,24 с, 4 dispatch. R9 композиции ожидается.
 
 R7: после TIMEOUT u64 в135 делим следующие запросы по типам, чтобы не повторять успешные u8 из-за общего gate false. Следующий net-night-05-k10-n16-u8 — две proof N16/u8 (sortedness+insertion permutation offset13), measurement 2 × 10 минут. Две N16/u64 подготовлены для отдельного следующего запроса. Прежние helpers/macros, full-width вход/probe, exact arrays, no stubs; новых assumptions/cuts нет.
+
+REVIEW REQUEST 7b0138dd03a110c6845994a9f7512787bc261661
+
+network.rs: четыре применения прежних sortedness/permutation macros для N16/u8/u64, без новых helpers/допущений. RUN-REQUEST.json выбирает только u8; RESULT-network.md (job138, разделение запросов по типам). Рассматривать с открытым R9 композиции a136cf54.
