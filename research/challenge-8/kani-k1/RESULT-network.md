@@ -2726,3 +2726,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2p2_k10_u8_n16`: 
 N16/u8: sortedness измерена с gate true; permutation остаётся TIMEOUT139. Известный summary wall П2: 7950,88 с; ночь: 4870,05 с, 7 dispatch. R9 композиции ожидается.
 
 R7: N17 — последняя длина ночного K10. Сначала isolated sortedness u8, net-night-08-k10-sorted17-u8 (measurement 1 × 10 минут, ожидается SUCCESS), затем отдельный запрос sortedness u64 и permutation обоих типов. Непроверенным N17 заранее не присваивается TIMEOUT. Четыре proof подготовлены по прежним macros; exact arrays, full-width значения, реальные тела, no stubs/новых assumptions.
+
+REVIEW REQUEST 9d30c5ce634dff06aae5eeab547f78d6ef8e8388
+
+network.rs: четыре применения прежних sortedness/permutation macros для N17/u8/u64, без новых helpers/допущений. RUN-REQUEST.json выбирает только sortedness u8; RESULT-network.md (job144, порядок запросов). Рассматривать с открытым R9 композиции a136cf54.
