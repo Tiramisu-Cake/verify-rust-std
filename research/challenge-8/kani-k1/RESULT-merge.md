@@ -73,6 +73,42 @@ R9 П2 ожидается, независимый зачёт не заявлен
 Proof слияния N2..4 и R11 — job 110. После dispatch ночных jobs 2,
 preflight отказов 1; суммарно с П2 до ночи: 7 jobs, 2 preflight отказа.
 
+### Job 130 — K-10 fallback N2/3, GS N3
+
+Request `w2-merge-night-f23-gs3-002`,
+head `925dc59647aed14053f35cc327ee100d911763db`, COMPLETE;
+gate true, expectation met true, measurement ok true, Kani exit 0.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1814572 KiB, wall с компиляцией 54.97 с;
+cgroup peak 1.93 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_fallback_len2` | SUCCESS / SUCCESS | 1.510673 | 0/422 | 130 | 2/2 |
+| `w2p2_fallback_len3` | SUCCESS / SUCCESS | 2.5104809 | 0/422 | 128 | 2/2 |
+| `w2p2_gs_u64_len3` | SUCCESS / SUCCESS | 5.438099 | 0/642 | 109 | 2/2 |
+| `w2p2_gs_u8_len3` | SUCCESS / SUCCESS | 4.3603926 | 0/635 | 111 | 2/2 |
+
+Полные counts covers сверены отдельно от gate (fallback: оба типа;
+GS: D/S). R9 П2 ожидается; независимый зачёт не заявлен.
+
+REVIEW REQUEST 925dc59647aed14053f35cc327ee100d911763db
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код П2 `cd284852`, без изменений),
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: jobs 110/115/129/130,
+summary и check-tooling ok каждого измеренного job.
+
+### N-D3 (R7): K-10 GS N4 и fallback N4/5
+
+`w2-merge-night-f45-gs4-003`: GS N4 u64/u8 и fallback N4/5,
+4×10 мин, все expected SUCCESS. Fallback не использует заглушки;
+GS N4 опирается на proof/R11 job 110. Код и ledger П2 без изменений.
+После этого пакета — proof слияния N5/6 обоих типов до GS N5+.
+После dispatch ночных jobs 3, preflight отказов 1;
+с П2 до ночи: 8 jobs, 2 preflight отказа, 10/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

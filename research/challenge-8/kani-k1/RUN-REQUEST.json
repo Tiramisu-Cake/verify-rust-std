@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-f23-gs3-002",
+  "request_id": "w2-merge-night-f45-gs4-003",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 next lengths: fallback u64/u8 N2,3 with real body; general/stable-Freeze u64/u8 N3 with sole verified merge stub. Sortedness and full-value probe permutation. Merge N2..4 proof and R11: job 110.",
+  "purpose": "K-10: general/stable-Freeze u64/u8 N4 with sole verified merge stub; fallback u64/u8 N4,5 with real body. Sortedness and full-value probe permutation. Merge N2..4 proof and R11: job 110.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len2",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len3",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len3",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len3",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_fallback_len5",
       "expect": "SUCCESS"
     }
   ]
