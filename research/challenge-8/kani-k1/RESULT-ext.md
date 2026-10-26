@@ -24,3 +24,8 @@
 | N | request_id | Таймаут, мин | SHA | build id | Статус | Verification Time, с | Пик kani-compiler / goto-instrument / cbmc | Множитель | check-tooling |
 |---:|---|---:|---|---|---|---:|---|---:|---|
 | 20 | ext-e1-bm-len20-001 | 60 | | | | | | | |
+
+REVIEW REQUEST e55e9f3c6adfd6dd55e8422bd9f2e1490119eb23
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs` (гармоники E-1),
+`research/challenge-8/kani-k1/RUN-REQUEST.json`, `research/challenge-8/kani-k1/RESULT-ext.md`. Ревью R9 — координатор.
