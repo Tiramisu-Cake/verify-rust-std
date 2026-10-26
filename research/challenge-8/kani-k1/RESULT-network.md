@@ -338,3 +338,16 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 `insert_tail_prefix_u64` и `sort13_perm_u8`, ожидается SUCCESS.
 До summary и review результаты не засчитываются.
 
+### Review волны 1
+
+REVIEW REQUEST 4872982eda7aa1c68dc0ebb1aed013c10b0ec835
+
+Файлы для независимого review K-8/K-9:
+- `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+- `library/core/src/slice/sort/shared/smallsort.rs` (контракт insert_tail и тела callee)
+- `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs` (зависимости спецификации)
+- `research/challenge-8/kani-k1/RUN-REQUEST.json`
+- `research/challenge-8/kani-k1/RESULT-network.md` (раздел «Волна 1»)
+
+Координатору: D0 выбран (а), контракты не менялись. K-13 не взят.
+
