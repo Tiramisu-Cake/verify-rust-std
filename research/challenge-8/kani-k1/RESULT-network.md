@@ -2616,3 +2616,7 @@ R7: времена >180 с допустимы по CD-6, все <600 с. Сле�
 REVIEW REQUEST 04e4192a7c22f2018b8305a984f307170018b8e2
 
 network.rs: четыре применения прежних sortedness/permutation macros для N14/u8/u64. RUN-REQUEST.json; RESULT-network.md (job128, R7). Helpers не менялись; всё ещё нужна проверка композиции a136cf54. План запроса net-night-02-k10-n14: 4 × 10 минут, ожидается SUCCESS.
+
+| 2 (П2 #16) | net-night-02-k10-n14 | 133 | 77231b58 | w2p2_k10_u8_n14; w2p2_k10_u64_n14; w2p2_k10_perm_u8_n14; w2p2_k10_perm_u64_n14 | SUCCESS |
+
+Ожидание `k1.sh watch 133`, затем конец turn. После уведомления — summary/check-tooling133.
