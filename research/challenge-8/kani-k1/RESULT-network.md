@@ -1140,3 +1140,10 @@ size<=16 выбирает presort8 при N>=16. Все 16 байт произв
 Шаблоны семейств/reachability неизменны, две reachability при N17 подготовлены.
 Запрос net-w2-09-u128-rest-a16-lo: u128 hi, две u128 reachability,
 [u8;16] lo; measurement 4 x 10 минут. Остальные a16 ещё не отправлены.
+
+REVIEW REQUEST 3cf6e50dfd737052781cf1942ea4cf2f716b0b14
+
+Файлы: network.rs (W2Value для [u8;M], пять применений шаблонов для [u8;16]),
+RUN-REQUEST.json, RESULT-network.md («Волна 2», job 91, dispatch a16).
+Те же helpers/шаблоны 3ce9177c, bceedb0b, d4744378;
+контекст: неизменённые smallsort.rs, scripts/run-kani.sh.
