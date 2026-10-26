@@ -350,7 +350,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | COMPLETE, gate true, SUCCESS 112,5397 с, 0/328, 18 unreachable, cover 19/19; R9 GO, засчитан |
 | 9 | 62 | 501fcee3 | `w1_network_o1_othermerge_u64` (10 оставшихся длин) | 10 мин | COMPLETE, gate false, summary FAILED: нелокализованный отказ инструмента CBMC status 6; Verification Time/cover отсутствуют |
 | 10 | 63 | 5b01cec3 | `w1_network_o1_othermerge_lo_u64` (18,20,21,22,23) | 10 мин | COMPLETE, gate true, SUCCESS 106,24547 с, 1/328 (ожидаемая panic), 11 unreachable, cover 6/6; разбиение принято координатором, засчитан |
-| 11 | 64 | 70821634 | `w1_network_o1_othermerge_hi_u64` (26..=30) | 10 мин | отправлен, summary ожидается |
+| 11 | 64 | 70821634 | `w1_network_o1_othermerge_hi_u64` (26..=30) | 10 мин | COMPLETE, gate true, SUCCESS 266,1557 с, 1/328 (ожидаемая panic), 11 unreachable, cover 6/6; разбиение принято координатором, засчитан |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -552,6 +552,43 @@ Dispatch 10: `net-w1-10-o1-othermerge-lo`, job 63, measurement 1 × 10 мин.
 
 Dispatch 11: `net-w1-11-o1-othermerge-hi`, job 64, measurement 1 × 10 мин.
 Итого 11/14 dispatch. Ожидание `k1.sh watch 64`, затем конец turn.
+
+### Продолжение после job 64
+
+- 2026-10-26T12:24:56Z: О1 на 26..=30 — SUCCESS 266,1557 с,
+  gate true, measurement ok, cover 6/6. Check-tooling против `9de80e0b` ok.
+  ENFORCED 13 GiB, cgroup peak 7,32 GiB, max RSS 6389228 KiB, OOM 0,
+  swap off, wall проверки с компиляцией 5:10,71. Единственная упавшая
+  assertion — ожидаемая panic_on_ord_violation на `smallsort.rs:965`.
+- **Координатору: О1 network закрыта на каждой длине 0..=32, u64**,
+  через настоящий trait-вход UnstableSmallSortFreezeTypeImpl::small_sort,
+  читающий comparator CD-2 и реальные тела. На 0..17 — ordinary proof,
+  на 18..32 — вариант Б/CD-1: нет провалов safety-class Kani, паники
+  assertion-класса допускаются. Зачёт использует внешние контроли §4.1/CD-2
+  W1-merge, принятые координатором; unwind не проверяется (-Cpanic=abort).
+- Измерения покрывают все значения длины, в том числе нечётные merge,
+  но не имеют отдельных covers обоих значений внутреннего left_nonempty.
+  Только u64; сортированность и перестановка О1 не проверяются.
+- K-9 следующая попытка — точная длина 13, u8, lt_u8, локальный probe,
+  cover `v != pre` указан в purpose. Изменений кода после R9 a27b174f GO нет.
+- Оценка wall по 11 summary ≈56,32 мин, без подготовки CircleCI.
+
+### Таблица О1 network (засчитанные измерения)
+
+Время семейства относится ко всей гармонике с выбором постоянной длины,
+а не к отдельному измерению каждой длины. Все gate true, check-tooling ok,
+measurement, ENFORCED 13 GiB, OOM 0, swap off, R9 принят.
+
+| Длины | job | Verification Time, с | cover | режим |
+|---|---|---:|---|---|
+| 0..=17 | 61 | 112,5397 | 19/19 | обычная proof |
+| 18,20,21,22,23 | 63 | 106,24547 | 6/6 | should_panic, CD-1 |
+| 19,25,31 | 60 | 92,17661 | 4/4 | should_panic, CD-1 |
+| 24 | 55 | 21,674738 | 1/1 | should_panic, CD-1 |
+| 26..=30 | 64 | 266,1557 | 6/6 | should_panic, CD-1 |
+| 32 | 57 | 49,115505 | 1/1 | should_panic, CD-1 |
+
+Отдельная точка 17: job 54, 9,188867 с, gate true, cover 1/1, обычная proof.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов

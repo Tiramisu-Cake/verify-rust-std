@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-11-o1-othermerge-hi",
+  "request_id": "net-w1-12-k9-exact13",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 upper split of remaining network O1 merge lengths 26,27,28,29,30, CD-1 should_panic, CD-2 reads, real bodies; normal-return cover at each length",
+  "purpose": "Wave 1 K9 retry: permutation only of sort13_optimal at exact length 13, full-width u8, lt_u8, local arbitrary probe, real bodies, no stubs; includes cover(v != pre) showing element movement and duplicate-probe cover; not a proof of the contract on lengths 13..=17",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_othermerge_hi_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_sort13_perm_fixed_u8",
       "expect": "SUCCESS"
     }
   ]
