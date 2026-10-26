@@ -2809,3 +2809,7 @@ R7: отдельный proof_for_contract(insert_tail) на каждое start1.
 Ledger: set_probe<u64> произвольный, input full-width; единственный any_where ограничивает tail валидным регионом. Sorted prefix/валидность региона — ровно requires существующего контракта, через proof_for_contract. Comparator прежний lt_u64 (строгий порядок ключа x>>1); оба ensures контракта проверяются, внешние prefix/suffix явно неизменны. Post-call cover каждого tail, движения и конца. Unwind25, checks активны, новых assume/cuts/stubs нет. Контракт и чужой код не меняются.
 
 Домен — смещённые регионы именно аллокации17; на scratch48 и другие размеры аллокации результат без отдельного основания не переносится. Если смещение не уложится в 600 с, исход раскрывается; невыполненные covers не засчитываются.
+
+REVIEW REQUEST a15216a1cfe1c0a667aeb0a66d88a7bcb59b422b
+
+network.rs: w2night_k8r_start, macro w2night_k8r_case, 15 proof_for_contract(insert_tail) для start1..15 в [u64;17]. RUN-REQUEST.json выбирает start15..12; RESULT-network.md (job150, ledger K8r). Проверить полноту tail-domain/covers, принятие только requires контракта, frame внешних частей, полный probe и ограничение аллокацией17. Контекст: неизменённый insert_tail/CopyOnDrop в smallsort.rs, k1_tail_pre/k1_count/lt_u64 в merge.rs.
