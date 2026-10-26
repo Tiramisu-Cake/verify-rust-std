@@ -2447,3 +2447,26 @@ permutation N10 и sortedness N11; полная корректность N11 п�
 | 13 | net-w2p2-13-k10-perm10-sorted11 | 126 | 07619ef4 | w2p2_k10_perm_u8_n10; w2p2_k10_perm_u64_n10; w2p2_k10_u8_n11; w2p2_k10_u64_n11 | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 126`, затем конец turn. Счёт П2:13/40 dispatch.
+
+#### П2 job126 / permutation N10 и sortedness N11
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,89GiB,RSS1770356KiB,OOM0,swap off,wall137,57с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k10_perm_u8_n10 | 0,82781273 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n10 | 3,1258266 | 0/118 | 2/2 |
+| w2p2_k10_u8_n11 | 11,770319 | 0/377 | 3/3 |
+| w2p2_k10_u64_n11 | 75,47378 | 0/377 | 3/3 |
+
+Permutation имеет4 unreachable checks, sortedness21. N10 имеет оба
+измерительных компонента (sortedness125, insertion permutation126),
+сеть сохраняет multiset структурно. Логическая композиция ожидает R9
+ a136cf54/6b758cb8; нет заявления о проверке network-wide probe в одном job.
+N11 пока только sortedness, permutation не измерена. Summary wall П2:2867,28с.
+
+Далее две permutation N11 (две вставки после sort9) и две sortedness N12
+(три вставки после sort9),4x10мин. N12 permutation подготовлены отдельно,
+не выбранные в этом запросе. Никаких новых assumptions/сужений/stubs,
+те же full-width данные и helpers. net-w2p2-14-k10-perm11-sorted12.
