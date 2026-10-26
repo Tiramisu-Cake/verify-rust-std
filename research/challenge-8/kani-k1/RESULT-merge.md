@@ -2285,3 +2285,18 @@ REVIEW REQUEST ceed78d0e80a3dd5dd2bbe36b1799b563be7a574
 `research/challenge-8/kani-k1/RESULT-merge.md`. Evidence: job 110 summary
 и check-tooling ok. Далее `w2-merge-p2-gs-len0to1-002`: четыре GS-гармоники
 u64/u8 N0/1, expected SUCCESS, по два cover D/S.
+
+#### П2 job 112 — RUNNER_ERROR, сводки нет
+
+Head `756252a3` (запрос `w2-merge-p2-gs-len0to1-002`), CircleCI failed.
+`k1.sh summary 112`: `job 112 has no summary artifact: treat as RUNNER_ERROR`.
+Verification Time, Kani status, память, cover и gate отсутствуют;
+результатам GS N0/1 зачёт не даётся. Причина внутри runner не установлена.
+Независимое сравнение lane-файлов с `9de80e0b` прошло, полный check-tooling
+не завершён: нет summary.json и связанных хешей.
+
+**P2-D6 (R7).** Повторяю те же четыре GS-гармоники без изменения кода,
+новый request `w2-merge-p2-gs-len0to1-retry-003`. Не трактую отсутствие
+сводки как FAILED проверки Kani либо ресурсный предел гармоники.
+П2 после повтора: CircleCI dispatch **3/40**, preflight отказов 1;
+консервативно все попытки **4/40**. Code review `cd284852` ожидается.
