@@ -930,3 +930,12 @@ Ledger K16: any_where по перечисленным N, post-call cover каж�
 Ни сортированность, ни перестановка, ни баланс Drop не проверяются.
 Запрос net-w2-05-k16-zst-control: quiet assertion FAILED, reachability SUCCESS,
 ZST stable и короткий network SUCCESS; measurement 4 x 10 минут.
+
+REVIEW REQUEST 3ce9177c0dbcfe25f5b535e75d9c3cf96fc58640
+
+Файлы: network.rs (общий w2_assume_ord_violation, обёртка с cover,
+quiet assertion-контроль, W2Value, w2_reading_less, w2_type_fixed,
+w2_type_cases и ZST гармоники); RUN-REQUEST.json; RESULT-network.md,
+«Волна 2». Контекст: неизменённые smallsort.rs (оба outer trait dispatch,
+size/scratch/Freeze/Copy ветки, network и general), scripts/run-kani.sh.
+Проверить границы входных аллокаций, общий cut и отдельный reachability cover.
