@@ -2242,3 +2242,10 @@ CD-6 прочитан через `git show origin/experiment/kani-k1-base-202610
 и R11 u64/u8, 4×10 мин. Expect SUCCESS/SUCCESS/FAILED/FAILED.
 Request validate и `git diff --check` — ok; lane diff с `9de80e0b` пуст.
 После dispatch П2 **1/40**. Нового proof credit П2 пока нет.
+
+REVIEW REQUEST cd284852e41de2881bf825b1a960c19ac84803e2
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. K-10 П2; первый measurement
+проверяет contract prerequisites N2..4 и R11 на обоих типах. Review у координатора.
