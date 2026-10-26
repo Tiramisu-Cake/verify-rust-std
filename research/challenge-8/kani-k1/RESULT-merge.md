@@ -398,6 +398,44 @@ fallback u64/u8 N0..5.
 После dispatch ночных jobs 10, preflight отказов 3;
 с П2 до ночи: 15 jobs, 4 preflight отказа, 19/40 консервативных попыток.
 
+### Job 143 — fallback N6/7 SUCCESS, N8/9 TIMEOUT
+
+Request `w2-merge-night-f6to9-010`,
+head `7f726aaf1a2d4a80f944ae207eb0100f48ef9aaa`, COMPLETE;
+gate false, expectation met false, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1776192 KiB, wall с компиляцией 1374.91 с;
+cgroup peak 1.89 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_fallback_len6` | SUCCESS / SUCCESS | 23.930975 | 0/422 | 122 | 2/2 |
+| `w2p2_fallback_len7` | SUCCESS / SUCCESS | 109.05798 | 0/422 | 120 | 2/2 |
+| `w2p2_fallback_len8` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2p2_fallback_len9` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+
+Полные covers N6/7 сверены отдельно: 2/2 (оба типа) у каждой гармоники.
+Из-за общего gate false N6/7 пока только измеренные SUCCESS, без зачёта
+пакета; повторятся в запросе без ожидаемых ресурсных отказов.
+N8/9 — кандидаты расширенного слоя в объединённом виде u64/u8;
+это не FAILED свойства. Индивидуальные память и Verification Time
+таймаутов не измерены; приведён пик всего run с компиляцией.
+
+### N-D14 (R7): разделить fallback N8 по типам
+
+По П2-D5 делю combined N8 на две отдельные гармоники u64/u8,
+с прежним helper, реальным телом, полной пробой и без редукции значений.
+В каждой ожидается один normal-return cover. Добавлены только macro
+`w2night_fallback_typed` и две инстанциации в своём merge.rs;
+контракты/runtime/lane не меняются. Объединённая N9 пока не повторяется;
+следующая длина по каждому типу выбирается после N8.
+
+Следующий `w2-merge-night-bm9-f8typed-011`: proof bm N9 обоих типов
+и две fallback N8, expected SUCCESS, 4×10 мин. GS N9 ждёт proof обоих
+типов; fallback N6/7 ждут gate true в отдельном успешном пакете.
+После dispatch ночных jobs 11, preflight отказов 3;
+с П2 до ночи: 16 jobs, 4 preflight отказа, 20/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

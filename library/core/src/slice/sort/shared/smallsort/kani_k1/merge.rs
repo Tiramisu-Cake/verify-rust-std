@@ -1841,3 +1841,18 @@ w2p2_fallback_fixed!(w2p2_fallback_len15, 15);
 w2p2_general_fixed!(w2p2_gs_u64_len16, u64, lt_u64, 16);
 w2p2_general_fixed!(w2p2_gs_u8_len16, u8, lt_u8, 16);
 w2p2_fallback_fixed!(w2p2_fallback_len16, 16);
+
+// Night K-10: split a timed-out combined fallback harness by element type.
+// The real body, full symbolic values and probe property are unchanged.
+macro_rules! w2night_fallback_typed {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            w2p2_fallback_len::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+w2night_fallback_typed!(w2night_fallback_u64_len8, u64, lt_u64, 8);
+w2night_fallback_typed!(w2night_fallback_u8_len8, u8, lt_u8, 8);
