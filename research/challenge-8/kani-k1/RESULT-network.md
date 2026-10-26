@@ -2635,3 +2635,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 Sortedness: 21 unreachable; permutation: 4. Упавших проверок нет. N14 имеет оба измеренных компонента; структурная перестановка сети/R9 композиции остаются отдельными основаниями. Известный summary wall П2: 4500,06 с; ночь: 1419,23 с, 2 dispatch.
 
 Следующая ступень N15/u8/u64, net-night-03-k10-n15, 4 × 10 минут, ожидается SUCCESS. Четыре применения прежних macros; insertion offset13, все тела реальные, assumptions/stubs не добавлены. R7: продолжаем наращивание по ночному заданию; 180 с — ориентир CD-6, приёмка до 600 с.
+
+REVIEW REQUEST 799659be3ab92beecbb22117914a77a3e2627583
+
+network.rs: четыре применения прежних sortedness/permutation macros для N15/u8/u64. RUN-REQUEST.json; RESULT-network.md (job133). Новых helpers/допущений нет; рассматривать с открытым R9 композиции a136cf54.
