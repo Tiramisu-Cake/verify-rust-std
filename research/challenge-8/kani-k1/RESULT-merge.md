@@ -109,6 +109,32 @@ GS N4 опирается на proof/R11 job 110. Код и ledger П2 без и�
 После dispatch ночных jobs 3, preflight отказов 1;
 с П2 до ночи: 8 jobs, 2 preflight отказа, 10/40 консервативных попыток.
 
+### Job 131 — RUNNER_ERROR, checkout HTTP 429
+
+Request `w2-merge-night-f45-gs4-003`,
+head `1e3e89d0bfcf38dea76fecef7174dd57bc4e1c28`, CircleCI failed.
+`k1.sh summary 131`: нет summary artifact. Lane-файлы совпадают с
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`; полный check-tooling
+не завершён: нет summary.json. Kani status/time, память, covers и gate
+отсутствуют, результатов четырём гармоникам не приписываю.
+
+Read-only metadata CircleCI: 21:02:02.034Z–21:02:04.326Z, 2292 мс;
+`Checkout code` failed за 835 мс. Ограниченная выборка ошибок checkout:
+`remote: This request was rate-limited due to too many requests`,
+`fatal: unable to access ... The requested URL returned error: 429`.
+Это отказ checkout до Kani, не FAILED свойства и не ресурсный предел.
+Первый metadata URL вернул 404; корректный project slug прочитан без
+изменения lane, verifier-логи не использовались.
+
+### N-D4 (R7): повтор после checkout 429
+
+Код и набор четырёх гармоник сохраняются. Новый request
+`w2-merge-night-f45-gs4-retry-004`, ожидания SUCCESS,
+повтор dispatch не раньше 21:07:05Z (5 минут после отказа checkout).
+Следующий 429 — пауза 10 минут, затем 15 минут по NIGHT.
+После повтора ночных jobs 4, preflight отказов 1;
+с П2 до ночи: 9 jobs, 2 preflight отказа, 11/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
