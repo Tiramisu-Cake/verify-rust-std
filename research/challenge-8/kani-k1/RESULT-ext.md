@@ -24,7 +24,8 @@
 | N | request_id | Таймаут, мин | SHA | build id | Статус | Verification Time, с | Пик kani-compiler / goto-instrument / cbmc | Множитель | check-tooling |
 |---:|---|---:|---|---|---|---:|---|---:|---|
 | 20 | ext-e1-bm-len20-001 | 60 | `db63c116` | `a06eb982-3175-4375-8bd3-b16c75c4e54e` | SUCCESS, gate true, 0/442 failed, cover 1/1, 70 unreachable | 3460,9 | 1,54 / 0,04 / 3,70 GiB | ×10,7 к job 9 (ориентир, EXT-D2) | ok |
-| 24 | ext-e1-bm-len24-002 | 120 | `a66da0de` | `d36c7e8d-3be9-4280-b7a0-98082ce7017c` | идёт (dispatch 20:44Z после 429 на fetch и паузы 5 мин) | | | | |
+| 24 | ext-e1-bm-len24-002 | 120 | `a66da0de` | `d36c7e8d-3be9-4280-b7a0-98082ce7017c` | TIMEOUT 120 мин, gate false, Kani exit 1 | >7200 (CBMC шёл 76–7274 с) | 1,54 / 0,04 / 4,51 GiB | >×2,1 к N=20 | ok |
+| 24 | ext-e1-bm-len24-003 (EXT-D6) | 720 | | | | | | | |
 
 REVIEW REQUEST e55e9f3c6adfd6dd55e8422bd9f2e1490119eb23
 
@@ -59,3 +60,12 @@ REVIEW REQUEST 51e17cbe8d0f50674c2a28e3204a682a9d1e81dd
 E-2: гармоники `ext_b4_u64_n16`…`ext_b4_u64_n20` в `merge.rs` (обычные proof, все смещения 1..=N через
 `match` на константы, comparator `w1_arbitrary_less` с `read_volatile`, `unwind(25)`, без `should_panic`).
 Пока не запускались.
+
+### N=24 / 120 мин (build d36c7e8d, 130 пул-минут)
+
+- TIMEOUT: CBMC работал 76–7274 с и не закончил. Весь прогон 2:01:16, подготовка до проверки 419 с.
+- Память по-прежнему не ограничение: `cbmc` 4,51 GiB (против 3,70 на N=20), `kani-compiler` 1,54 GiB,
+  `goto-instrument` 0,04 GiB. check-tooling ok.
+- Множитель известен только снизу: >×2,1 к N=20.
+- По EXT-D6 повторяю `bm_u64_len24` с таймаутом 720 мин (`ext-e1-bm-len24-003`). Перед dispatch
+  budget: 456 + 0 + 750 = 1206 ≤ 1300.
