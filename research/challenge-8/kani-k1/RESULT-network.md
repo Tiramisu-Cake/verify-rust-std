@@ -2407,3 +2407,7 @@ read-only comparator/offset9. RUN-REQUEST.json; RESULT-network.md, job124
 strict comparator, больший домен без sorted-prefix assumption, и что
 K10 complete на N10+ требует обе отдельные proof плюс structural network.
 Контекст: K9s первое ensures/R9 e658b246, smallsort.rs/network/insertion.
+
+| 12 | net-w2p2-12-k10-sorted-9-10 | 125 | 512af643 | w2p2_k10_u8_n9; w2p2_k10_u64_n9; w2p2_k10_u8_n10; w2p2_k10_u64_n10 | отправлен; ожидается SUCCESS, sortedness для N>=9 |
+
+Ожидание `k1.sh watch 125`, затем конец turn. Счёт П2:12/40 dispatch.
