@@ -1,18 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-10-k9s-indices17",
+  "request_id": "net-night-11-k8r-start15-12",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K9s generalization: proof_for_contract swap_if_less for full-width u8/u64 at arbitrary distinct symbolic indices in [T;17], exact K10 pure strict comparator. Check existing ensures and explicit unchanged other cells; covers endpoints, interior, swap/no-swap, and return.",
+  "purpose": "K8r proof_for_contract insert_tail in [u64;17] at constant begin offsets15,14,13,12; every tail from start+1 to16. Full-width input/probe, original strict key comparator, exact requires, explicit unchanged outside region, post-call cover each tail and movement. No stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u8_indices17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start15_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u64_indices17",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start14_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start13_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start12_u64",
       "expect": "SUCCESS"
     }
   ]

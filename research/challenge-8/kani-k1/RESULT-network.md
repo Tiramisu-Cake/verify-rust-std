@@ -2790,3 +2790,22 @@ network.rs: w2night_k9s_indices17 и две proof_for_contract для u8/u64. RU
 | 10 (П2 #24) | net-night-10-k9s-indices17 | 150 | e08c92ca | w2night_k9s_u8_indices17; w2night_k9s_u64_indices17 | SUCCESS |
 
 Ожидание `k1.sh watch 150`, затем конец turn. После уведомления — summary/check-tooling150; далее K8r constant starts.
+
+### Job150: K-9s symbolic indices
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 1,88 GiB, RSS 1644556 KiB, OOM0, swap off, wall 103,80 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2night_k9s_u8_indices17 | SUCCESS / SUCCESS | 17,007486 | 0/371 | 7/7 |
+| w2night_k9s_u64_indices17 | SUCCESS / SUCCESS | 45,58825 | 0/371 | 7/7 |
+
+Обе имеют 5 unreachable, упавших проверок нет. Контракт swap_if_less и frame измерены для всех различных позиций в [T;17] с тем же pure strict comparator K10. Разрыв [T;2]/{0,1} для u8/u64 машинно измерен; окончательный R9 d1b9545f ожидается. Это не доказательство произвольного comparator и не использование stub_verified. Известный summary wall П2: 10282,01 с; ночь: 7201,18 с, 10 dispatch.
+
+### K-8r: постоянные start внутри [u64;17]
+
+R7: отдельный proof_for_contract(insert_tail) на каждое start1..15, tail символический start+1..16; start0 уже измерен prefix job58 и не повторяется. Порядок — от коротких регионов к длинным: 15..12, 11..8, 7..4, 3..1. В каждом запросе до четырёх proof × 10 минут. Первый — net-night-11-k8r-start15-12, ожидается SUCCESS.
+
+Ledger: set_probe<u64> произвольный, input full-width; единственный any_where ограничивает tail валидным регионом. Sorted prefix/валидность региона — ровно requires существующего контракта, через proof_for_contract. Comparator прежний lt_u64 (строгий порядок ключа x>>1); оба ensures контракта проверяются, внешние prefix/suffix явно неизменны. Post-call cover каждого tail, движения и конца. Unwind25, checks активны, новых assume/cuts/stubs нет. Контракт и чужой код не меняются.
+
+Домен — смещённые регионы именно аллокации17; на scratch48 и другие размеры аллокации результат без отдельного основания не переносится. Если смещение не уложится в 600 с, исход раскрывается; невыполненные covers не засчитываются.
