@@ -1179,3 +1179,7 @@ REVIEW REQUEST 7403c3552f0fdf8d9d1631dbf663a1e6db2779cc
 network.rs: только разбиение a16 hi и новые u128 N31/N32 тем же парным macro;
 RUN-REQUEST.json; RESULT-network.md, job93 и R7. Исходный шаблон bceedb0b
 принят координатором; helpers не изменены, новых предположений нет.
+
+| 10 | net-w2-10-split-u128-a16-mid31 | 94 | 5bc0f10f | w2_k16_u128_n31; w2_k16_u128_n32; w2_k16_a16_mid; w2_k16_a16_n31 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 94`, затем конец turn. Счёт dispatch 10/24.
