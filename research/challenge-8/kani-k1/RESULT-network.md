@@ -1386,3 +1386,9 @@ CD-5 отдельная reachability нужна только a86/stable17.
 Шаблоны не менялись, все86 байт произвольны. Запрос
 net-w2-16-a85-high-a86-stable-high: a85 N31/N32 (оба маршрута),
 a86 stable N31/N32; measurement 4 x 10 минут. Остальные a86 подготовлены.
+
+REVIEW REQUEST 548546d5e277b52a2faba1094f183a0d92c04054
+
+network.rs: шесть применений type/reachability macros для [u8;86];
+RUN-REQUEST.json; RESULT-network.md, job99/dispatch a86. Helpers неизменны.
+Контекст: smallsort.rs (unstable fallback при 86*48>4096, stable внешний scratch).
