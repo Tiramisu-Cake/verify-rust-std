@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2-11-a16-rest-a17-lo",
+  "request_id": "net-w2-12-a17-mid-high-stablereach",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K16s finish [u8;16] at32 and separate stable/general17 reachability; start [u8;17] both traits at0,1,2,7,8. Array17 crosses presort8 size boundary, unstable remains general (17*48<=4096). Safety only, full bytes, exact arrays.",
+  "purpose": "K16s [u8;17] paired real stable/general traits at15,16,17 and separately31,32, plus CD5 stable17 reachability. Size17 uses presort4 at large lengths. Exact arrays, full bytes, reading comparator, safety only.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a16_n32",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a17_mid",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a16_stable_reach",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a17_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a16_general_reach",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a17_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a17_lo",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_a17_stable_reach",
       "expect": "SUCCESS"
     }
   ]

@@ -1221,3 +1221,22 @@ RUN-REQUEST.json; RESULT-network.md, job94/dispatch a17. Helpers не менял
 | 11 | net-w2-11-a16-rest-a17-lo | 95 | 5fde65c5 | w2_k16_a16_n32; w2_k16_a16_stable_reach; w2_k16_a16_general_reach; w2_k16_a17_lo | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 95`, затем конец turn. Счёт dispatch 11/24.
+
+#### Job 95 / a16 все длины и reachability, a17 low
+
+COMPLETE, gate true, check-tooling ok против 9de80e0b; все SUCCESS.
+13 GiB ENFORCED, peak 4,71 GiB, RSS 4144360 KiB, OOM 0, swap off,
+wall 214,05 с. Сумма summary wall П1: 2691,99 с = 44,8665 мин (не API).
+
+| Гармоника | время, с | failed/total | cover |
+|---|---:|---|---|
+| w2_k16_a16_n32 | 112,63611 | 0/402 | 3/3 |
+| w2_k16_a16_stable_reach | 14,394263 | 0/394 | 2/2 |
+| w2_k16_a16_general_reach | 16,41876 | 0/394 | 2/2 |
+| w2_k16_a17_lo | 27,53613 | 0/422 | 11/11 |
+
+a16: все требуемые N обоих trait-маршрутов измерены <=180 с,
+reachability обеих пар выполнена по CD-5. a17 short N0,1,2,7,8 SUCCESS.
+Запрос net-w2-12-a17-mid-high-stablereach: a17 mid / N31 / N32 /
+stable17 reachability, measurement 4 x 10 минут. Шаблоны не меняются,
+R9 a1cd4ec0 запрошен; general17 reachability запланирована следующим запросом.
