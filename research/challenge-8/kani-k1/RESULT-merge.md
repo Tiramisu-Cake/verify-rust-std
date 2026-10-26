@@ -2074,3 +2074,106 @@ REVIEW REQUEST 752f55eeba02ffc8add43038f38ab3ad78c642e0
 при превышении цели 180 с — разделение по маршрутам согласно W2-D4.
 После dispatch **10/14**. Девять завершённых job: wall verify суммарно
 1754.99 с (29.2498 мин), без подготовки CircleCI; API-учёт у координатора.
+
+### Job 92 — O1-A N30..32 и отдельное слияние
+
+Head `05905ca464f7a4ab658fe693fa392c5b6adc91a5`, COMPLETE; gate true,
+expectation met true, measurement ok true, Kani exit 0; check-tooling ok
+против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 4513024 KiB, cgroup peak 5.65 GiB, ENFORCED 13 GiB,
+OOM 0, swap off; wall verify с компиляцией 443.51 с.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2_a_all_len30_safety` | SUCCESS / SUCCESS | 121.42389 | 0/645 | 9 | 4/4 |
+| `w2_a_all_len31_safety` | SUCCESS / SUCCESS | 126.13239 | 0/645 | 9 | 4/4 |
+| `w2_a_all_len32_safety` | SUCCESS / SUCCESS | 142.42654 | 0/645 | 9 | 4/4 |
+| `w2_a_merge_u64_len32_safety` | SUCCESS / SUCCESS | 9.213874 | 0/113 | 4 | 2/2 |
+
+Полные counts cover сверены по summary отдельно от gate: D/T/S +
+`panic_on_ord_violation is reachable` — 4/4; отдельное слияние + заглушка —
+2/2. Все ≤180 с, разделение по маршрутам не требуется.
+
+### Итог П1: O1-A
+
+**О1 по (А) закрыта до 32** для маршрутов W2-merge: N2..32 D/T/S,
+отдельное слияние u64×32. N0/1 D/S остаются прежними ранними возвратами
+волны 1 (job 56); T N0/1 отдельно не измерен и в повтор П1 не входил.
+
+D — прямой `small_sort_general` на u64; T — реальный
+`UnstableSmallSortTypeImpl` на transparent non-Copy `W1GeneralU64(u64)`
+(Freeze, без Drop); S — `StableSmallSortTypeImpl` на u64, scratch 48.
+Время D/T/S в каждой строке **общее** для независимого выбора маршрута,
+отдельные времена маршрутов не измерены. Имя гармоники —
+`w2_a_all_lenN_safety`; отдельное слияние указано последней строкой.
+
+Во всех строках: SUCCESS, 0 failed checks, gate true, check-tooling ok;
+полный cover заглушки проверен по counts summary, а не только по gate.
+Comparator читает оба аргумента `read_volatile`, затем возвращает
+`kani::any()`. Единственная обрезанная ветка — `panic_on_ord_violation`
+через `w1_abort_ord_violation` с cover и `kani::assume(false)`.
+
+| Длина | Маршруты | Verification Time, с | gate | cover | job | head |
+|---:|---|---:|---|---|---:|---|
+| 2 | D/T/S | 2.5793238 | true | 4/4 | 79 | `b622e937` |
+| 3 | D/T/S | 3.548163 | true | 4/4 | 79 | `b622e937` |
+| 4 | D/T/S | 4.867044 | true | 4/4 | 79 | `b622e937` |
+| 5 | D/T/S | 6.181312 | true | 4/4 | 79 | `b622e937` |
+| 6 | D/T/S | 8.689595 | true | 4/4 | 81 | `b27d4ea7` |
+| 7 | D/T/S | 10.21102 | true | 4/4 | 81 | `b27d4ea7` |
+| 8 | D/T/S | 16.11851 | true | 4/4 | 81 | `b27d4ea7` |
+| 9 | D/T/S | 17.801754 | true | 4/4 | 81 | `b27d4ea7` |
+| 10 | D/T/S | 17.432873 | true | 4/4 | 83 | `d57f69c8` |
+| 11 | D/T/S | 20.485754 | true | 4/4 | 83 | `d57f69c8` |
+| 12 | D/T/S | 21.9637 | true | 4/4 | 83 | `d57f69c8` |
+| 13 | D/T/S | 24.926888 | true | 4/4 | 83 | `d57f69c8` |
+| 14 | D/T/S | 29.337519 | true | 4/4 | 84 | `09fa4c8d` |
+| 15 | D/T/S | 31.130058 | true | 4/4 | 84 | `09fa4c8d` |
+| 16 | D/T/S | 43.146065 | true | 4/4 | 84 | `09fa4c8d` |
+| 17 | D/T/S | 46.642475 | true | 4/4 | 84 | `09fa4c8d` |
+| 18 | D/T/S | 48.65015 | true | 4/4 | 86 | `133f3547` |
+| 19 | D/T/S | 59.94247 | true | 4/4 | 86 | `133f3547` |
+| 20 | D/T/S | 59.3483 | true | 4/4 | 86 | `133f3547` |
+| 21 | D/T/S | 65.65012 | true | 4/4 | 86 | `133f3547` |
+| 22 | D/T/S | 73.35616 | true | 4/4 | 87 | `7f4fccfd` |
+| 23 | D/T/S | 76.80564 | true | 4/4 | 87 | `7f4fccfd` |
+| 24 | D/T/S | 79.66041 | true | 4/4 | 87 | `7f4fccfd` |
+| 25 | D/T/S | 85.714836 | true | 4/4 | 87 | `7f4fccfd` |
+| 26 | D/T/S | 103.82107 | true | 4/4 | 90 | `752f55ee` |
+| 27 | D/T/S | 111.82898 | true | 4/4 | 90 | `752f55ee` |
+| 28 | D/T/S | 128.04454 | true | 4/4 | 90 | `752f55ee` |
+| 29 | D/T/S | 133.3675 | true | 4/4 | 90 | `752f55ee` |
+| 30 | D/T/S | 121.42389 | true | 4/4 | 92 | `05905ca4` |
+| 31 | D/T/S | 126.13239 | true | 4/4 | 92 | `05905ca4` |
+| 32 | D/T/S | 142.42654 | true | 4/4 | 92 | `05905ca4` |
+| 32 | отдельное слияние u64 | 9.213874 | true | 2/2 | 92 | `05905ca4` |
+
+C-5: четыре ожидаемых FAILED измерены в job 76, точные тексты и места
+сохранены в таблице C-5. Маскировки `assume`, `arithmetic_overflow`,
+`precondition_instance` memcpy и `safety_check` под `should_panic`
+не наблюдалось. Контроль А job 78: assertion FAILED `merge.rs:1573`,
+reachability SUCCESS; полный счёт 2/2 у обеих гармоник.
+
+R9 кода `e4e24db8` — GO_WITH_NITS (координатор); оба нита учтены в журнале.
+Код `merge.rs` после этого SHA не менялся. Итоговая сводка передаётся
+координатору отдельной строкой REVIEW REQUEST.
+
+Не измерено в П1: macOS (M-1 у координатора), другие типы и network
+(отдельный агент), uninit-чтения, алиасинг, полная reference validity,
+перестановка/сортированность/Drop, unwind/CopyOnDrop. Реальные callee,
+без `stub_verified`; массивы ровно N, без редукций значений u64.
+Отдельное слияние N32 — чётный путь; нечётный хвост покрыт верхними
+маршрутами N17/19/21/23/25/27/29/31. П2 не начинался.
+
+**Расход и завершение.**
+Dispatch **10/14**, завершённых jobs 10, незавершённых нет.
+Сумма wall verify с компиляцией по summary **2198.50 с (36.6417 мин)**,
+подготовка CircleCI не включена; фактический API-учёт сверяет координатор.
+На 2026-10-26T16:32:43Z от T0 прошло 73.94 мин;
+при одном последовательном job это верхняя граница суммы фактических минут
+job (<150), включающая также паузы между job и работу с отчётами;
+это не точный биллинг. Максимальный RSS run 4513024 KiB,
+cgroup peak 5.65 GiB, ENFORCED 13 GiB во всех jobs, OOM 0.
+Окно dispatch до 18:48:47Z и отчёта до 19:18:47Z соблюдено.
+
+ВОЛНА 2 П1 ЗАВЕРШЁН
