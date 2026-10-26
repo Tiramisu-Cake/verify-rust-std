@@ -1444,3 +1444,54 @@ fn w1_cd2_presort_boundaries_safety() {
     }
     kani::cover(true, "wave1 boundary selector: end reachable");
 }
+
+
+// CD-2 measured negative control: invalid comparator argument must be caught
+// by the volatile memory read, even though constructing &*p is not checked.
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w1_cd2_comparator_oob_must_fail() {
+    let v: [u64; 4] = kani::any();
+    kani::cover(true, "wave1 CD-2: comparator safety mutant call reached");
+    // INTENTIONAL UB MUTANT: b is one past the allocation. The comparator
+    // reads a valid a, then must fail while reading b.
+    unsafe {
+        w1_arbitrary_less(&v[0], &*v.as_ptr().wrapping_add(4));
+    }
+}
+
+// CD-3: a separate fixed-length harness for every N=2..=32. Each independently
+// selects direct general u64, the actual unstable trait on transparent
+// non-Copy u64, or stable-Freeze u64, with a normal-return cover per route.
+w1_top_safety!(w1_cd3_all_len2_safety, w1_upper_routes_safety, 2);
+w1_top_safety!(w1_cd3_all_len3_safety, w1_upper_routes_safety, 3);
+w1_top_safety!(w1_cd3_all_len4_safety, w1_upper_routes_safety, 4);
+w1_top_safety!(w1_cd3_all_len5_safety, w1_upper_routes_safety, 5);
+w1_top_safety!(w1_cd3_all_len6_safety, w1_upper_routes_safety, 6);
+w1_top_safety!(w1_cd3_all_len7_safety, w1_upper_routes_safety, 7);
+w1_top_safety!(w1_cd3_all_len8_safety, w1_upper_routes_safety, 8);
+w1_top_safety!(w1_cd3_all_len9_safety, w1_upper_routes_safety, 9);
+w1_top_safety!(w1_cd3_all_len10_safety, w1_upper_routes_safety, 10);
+w1_top_safety!(w1_cd3_all_len11_safety, w1_upper_routes_safety, 11);
+w1_top_safety!(w1_cd3_all_len12_safety, w1_upper_routes_safety, 12);
+w1_top_safety!(w1_cd3_all_len13_safety, w1_upper_routes_safety, 13);
+w1_top_safety!(w1_cd3_all_len14_safety, w1_upper_routes_safety, 14);
+w1_top_safety!(w1_cd3_all_len15_safety, w1_upper_routes_safety, 15);
+w1_top_safety!(w1_cd3_all_len16_safety, w1_upper_routes_safety, 16);
+w1_top_safety!(w1_cd3_all_len17_safety, w1_upper_routes_safety, 17);
+w1_top_safety!(w1_cd3_all_len18_safety, w1_upper_routes_safety, 18);
+w1_top_safety!(w1_cd3_all_len19_safety, w1_upper_routes_safety, 19);
+w1_top_safety!(w1_cd3_all_len20_safety, w1_upper_routes_safety, 20);
+w1_top_safety!(w1_cd3_all_len21_safety, w1_upper_routes_safety, 21);
+w1_top_safety!(w1_cd3_all_len22_safety, w1_upper_routes_safety, 22);
+w1_top_safety!(w1_cd3_all_len23_safety, w1_upper_routes_safety, 23);
+w1_top_safety!(w1_cd3_all_len24_safety, w1_upper_routes_safety, 24);
+w1_top_safety!(w1_cd3_all_len25_safety, w1_upper_routes_safety, 25);
+w1_top_safety!(w1_cd3_all_len26_safety, w1_upper_routes_safety, 26);
+w1_top_safety!(w1_cd3_all_len27_safety, w1_upper_routes_safety, 27);
+w1_top_safety!(w1_cd3_all_len28_safety, w1_upper_routes_safety, 28);
+w1_top_safety!(w1_cd3_all_len29_safety, w1_upper_routes_safety, 29);
+w1_top_safety!(w1_cd3_all_len30_safety, w1_upper_routes_safety, 30);
+w1_top_safety!(w1_cd3_all_len31_safety, w1_upper_routes_safety, 31);
+w1_top_safety!(w1_cd3_all_len32_safety, w1_upper_routes_safety, 32);
