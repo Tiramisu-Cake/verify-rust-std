@@ -1553,3 +1553,9 @@ w2p2_k10_cases!(w2p2_k10_u8_n14, u8, [14]);
 w2p2_k10_cases!(w2p2_k10_u64_n14, u64, [14]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n14, u8, 14);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n14, u64, 14);
+
+// Night K-10: two insertions after sort13; full-width real bodies, split properties.
+w2p2_k10_cases!(w2p2_k10_u8_n15, u8, [15]);
+w2p2_k10_cases!(w2p2_k10_u64_n15, u64, [15]);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n15, u8, 15);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n15, u64, 15);

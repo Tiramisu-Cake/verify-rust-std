@@ -2620,3 +2620,18 @@ network.rs: четыре применения прежних sortedness/permutat
 | 2 (П2 #16) | net-night-02-k10-n14 | 133 | 77231b58 | w2p2_k10_u8_n14; w2p2_k10_u64_n14; w2p2_k10_perm_u8_n14; w2p2_k10_perm_u64_n14 | SUCCESS |
 
 Ожидание `k1.sh watch 133`, затем конец turn. После уведомления — summary/check-tooling133.
+
+### Job133: K-10 N14
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 2,30 GiB, RSS 1770256 KiB, OOM0, swap off, wall 555,26 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_u8_n14 | SUCCESS / SUCCESS | 50,1091 | 0/377 | 3/3 |
+| w2p2_k10_u64_n14 | SUCCESS / SUCCESS | 463,96005 | 0/377 | 3/3 |
+| w2p2_k10_perm_u8_n14 | SUCCESS / SUCCESS | 1,1701672 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n14 | SUCCESS / SUCCESS | 5,656677 | 0/118 | 2/2 |
+
+Sortedness: 21 unreachable; permutation: 4. Упавших проверок нет. N14 имеет оба измеренных компонента; структурная перестановка сети/R9 композиции остаются отдельными основаниями. Известный summary wall П2: 4500,06 с; ночь: 1419,23 с, 2 dispatch.
+
+Следующая ступень N15/u8/u64, net-night-03-k10-n15, 4 × 10 минут, ожидается SUCCESS. Четыре применения прежних macros; insertion offset13, все тела реальные, assumptions/stubs не добавлены. R7: продолжаем наращивание по ночному заданию; 180 с — ориентир CD-6, приёмка до 600 с.
