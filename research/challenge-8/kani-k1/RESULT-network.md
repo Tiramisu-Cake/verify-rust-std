@@ -521,6 +521,15 @@ Dispatch 9: `net-w1-09-o1-othermerge`, job 62, measurement 1 × 10 мин.
   Отдельные запросы сохраняют gate прошедшей половины при отказе другой.
   Старое семейство сохранено для воспроизводимости job 62. Следующий — lo.
 
+REVIEW REQUEST 65311f6093810bdb0ea3266a07c9f3c378236847
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+(`w1_network_o1_othermerge_lo_u64`, `w1_network_o1_othermerge_hi_u64`,
+неизменённый macro `w1_network_o1_cases` и `w1_any_less_u64`),
+`library/core/src/slice/sort/shared/smallsort.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-network.md` (волна 1).
+
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов
 20 × (30 + 2 × 8) = 920. Ожидание `k1.sh watch 50`, затем конец turn.
