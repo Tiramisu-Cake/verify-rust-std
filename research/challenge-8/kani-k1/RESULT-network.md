@@ -2742,3 +2742,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2p2_k10_u8_n17`: 
 Sortedness u8 измерена на каждой N9..17. Перестановка хвоста N16 — TIMEOUT139, N17 ещё не измерена; полная корректность u8 остаётся до N15 с открытым R9 композиции. Известный summary wall П2: 8336,38 с; ночь: 5255,55 с, 8 dispatch.
 
 Последний запрос K10 net-night-09-k10-n17-rest: measurement 3 × 10 минут, ожидается SUCCESS для sortedness N17/u64 и insertion permutation N17/u8/u64. Код не менялся (snapshot9d30c5ce), все реальные тела/полные значения; новых assumptions/stubs нет. По завершении — сводка K10 и переход к K9s symbolic indices по ночной очереди.
+
+| 9 (П2 #23) | net-night-09-k10-n17-rest | 146 | eb9fc727 | w2p2_k10_u64_n17; w2p2_k10_perm_u8_n17; w2p2_k10_perm_u64_n17 | SUCCESS |
+
+Ожидание `k1.sh watch 146`, затем конец turn. После уведомления — summary/check-tooling146; затем K9s symbolic indices.
