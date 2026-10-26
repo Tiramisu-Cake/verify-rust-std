@@ -1623,3 +1623,221 @@ w2_top_safety_a!(w2_a_all_len29_safety, w1_upper_routes_safety, 29);
 w2_top_safety_a!(w2_a_all_len30_safety, w1_upper_routes_safety, 30);
 w2_top_safety_a!(w2_a_all_len31_safety, w1_upper_routes_safety, 31);
 w2_top_safety_a!(w2_a_all_len32_safety, w1_upper_routes_safety, 32);
+
+// Wave 2 priority 2, K-10. Strict weak order by x >> 1; the complete u64/u8
+// values remain symbolic, including the low payload bit used by the probe.
+// Contract attributes and runtime bodies are unchanged (formulation 1).
+macro_rules! w2p2_bm_small {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            let len: u8 = kani::any_where(|n: &u8| *n >= 2 && *n <= 4);
+            match len {
+                2 => {
+                    bm_len::<$t, _, 2>($cmp);
+                    kani::cover(true, "wave2 P2 merge contract: len 2");
+                }
+                3 => {
+                    bm_len::<$t, _, 3>($cmp);
+                    kani::cover(true, "wave2 P2 merge contract: len 3");
+                }
+                4 => {
+                    bm_len::<$t, _, 4>($cmp);
+                    kani::cover(true, "wave2 P2 merge contract: len 4");
+                }
+                _ => {}
+            }
+        }
+    };
+}
+
+w2p2_bm_small!(w2p2_bm_u64_len2to4, u64, lt_u64);
+w2p2_bm_small!(w2p2_bm_u8_len2to4, u8, lt_u8);
+
+macro_rules! w2p2_bm_fixed {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            bm_len::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+macro_rules! w2p2_r11 {
+    ($name:ident, $t:ty, $cmp:expr) => {
+        #[kani::proof]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            set_probe::<$t>();
+            let v: [$t; 4] = [6, 0, 2, 4];
+            let mut dst = MaybeUninit::<[$t; 4]>::uninit();
+            let mut cmp = $cmp;
+            kani::cover(true, "wave2 P2 R11: call before violated sorted-half requires");
+            // Deliberate R11 precondition control: all memory conditions hold,
+            // but the first two keys [3, 0] are not sorted.
+            unsafe {
+                bidirectional_merge(&v, dst.as_mut_ptr() as *mut $t, &mut cmp);
+            }
+        }
+    };
+}
+
+w2p2_r11!(w2p2_r11_u64, u64, lt_u64);
+w2p2_r11!(w2p2_r11_u8, u8, lt_u8);
+
+fn w2p2_check_sorted_perm<T, F: FnMut(&T, &T) -> bool, const N: usize>(
+    orig: &[T; N],
+    out: &[T; N],
+    cmp: &mut F,
+) {
+    for i in 1..N {
+        assert!(!cmp(&out[i], &out[i - 1]), "wave2 P2: output sorted");
+    }
+    assert!(
+        CopyOnDrop::<T>::k1_count_u(orig.as_ptr(), N)
+            == CopyOnDrop::<T>::k1_count_u(out.as_ptr(), N),
+        "wave2 P2: full-value probe multiplicity preserved"
+    );
+}
+
+fn w2p2_general_stable_len<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut cmp: F,
+) {
+    const { assert!(N <= 16) };
+    set_probe::<T>();
+    let mut v: [T; N] = kani::any();
+    let orig = v;
+    let stable: bool = kani::any();
+    if stable {
+        let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    } else {
+        super::super::small_sort_general(&mut v, &mut cmp);
+    }
+    w2p2_check_sorted_perm::<T, _, N>(&orig, &v, &mut cmp);
+    kani::cover(!stable, "wave2 P2: direct general properties checked");
+    kani::cover(stable, "wave2 P2: stable-Freeze properties checked");
+}
+
+fn w2p2_fallback_len<
+    T: kani::Arbitrary + Copy,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut cmp: F,
+) {
+    const { assert!(N <= 16) };
+    set_probe::<T>();
+    let mut v: [T; N] = kani::any();
+    let orig = v;
+    super::super::small_sort_fallback(&mut v, &mut cmp);
+    w2p2_check_sorted_perm::<T, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "wave2 P2: fallback properties checked");
+}
+
+macro_rules! w2p2_general_fixed {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+        #[kani::proof]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            w2p2_general_stable_len::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+macro_rules! w2p2_fallback_fixed {
+    ($name:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            if kani::any() {
+                w2p2_fallback_len::<u64, _, $n>(lt_u64);
+            } else {
+                w2p2_fallback_len::<u8, _, $n>(lt_u8);
+            }
+        }
+    };
+}
+w2p2_bm_fixed!(w2p2_bm_u64_len5, u64, lt_u64, 5);
+w2p2_bm_fixed!(w2p2_bm_u8_len5, u8, lt_u8, 5);
+w2p2_bm_fixed!(w2p2_bm_u64_len6, u64, lt_u64, 6);
+w2p2_bm_fixed!(w2p2_bm_u8_len6, u8, lt_u8, 6);
+w2p2_bm_fixed!(w2p2_bm_u64_len7, u64, lt_u64, 7);
+w2p2_bm_fixed!(w2p2_bm_u8_len7, u8, lt_u8, 7);
+w2p2_bm_fixed!(w2p2_bm_u64_len8, u64, lt_u64, 8);
+w2p2_bm_fixed!(w2p2_bm_u8_len8, u8, lt_u8, 8);
+w2p2_bm_fixed!(w2p2_bm_u64_len9, u64, lt_u64, 9);
+w2p2_bm_fixed!(w2p2_bm_u8_len9, u8, lt_u8, 9);
+w2p2_bm_fixed!(w2p2_bm_u64_len10, u64, lt_u64, 10);
+w2p2_bm_fixed!(w2p2_bm_u8_len10, u8, lt_u8, 10);
+w2p2_bm_fixed!(w2p2_bm_u64_len11, u64, lt_u64, 11);
+w2p2_bm_fixed!(w2p2_bm_u8_len11, u8, lt_u8, 11);
+w2p2_bm_fixed!(w2p2_bm_u64_len12, u64, lt_u64, 12);
+w2p2_bm_fixed!(w2p2_bm_u8_len12, u8, lt_u8, 12);
+w2p2_bm_fixed!(w2p2_bm_u64_len13, u64, lt_u64, 13);
+w2p2_bm_fixed!(w2p2_bm_u8_len13, u8, lt_u8, 13);
+w2p2_bm_fixed!(w2p2_bm_u64_len14, u64, lt_u64, 14);
+w2p2_bm_fixed!(w2p2_bm_u8_len14, u8, lt_u8, 14);
+w2p2_bm_fixed!(w2p2_bm_u64_len15, u64, lt_u64, 15);
+w2p2_bm_fixed!(w2p2_bm_u8_len15, u8, lt_u8, 15);
+w2p2_bm_fixed!(w2p2_bm_u64_len16, u64, lt_u64, 16);
+w2p2_bm_fixed!(w2p2_bm_u8_len16, u8, lt_u8, 16);
+w2p2_general_fixed!(w2p2_gs_u64_len0, u64, lt_u64, 0);
+w2p2_general_fixed!(w2p2_gs_u8_len0, u8, lt_u8, 0);
+w2p2_fallback_fixed!(w2p2_fallback_len0, 0);
+w2p2_general_fixed!(w2p2_gs_u64_len1, u64, lt_u64, 1);
+w2p2_general_fixed!(w2p2_gs_u8_len1, u8, lt_u8, 1);
+w2p2_fallback_fixed!(w2p2_fallback_len1, 1);
+w2p2_general_fixed!(w2p2_gs_u64_len2, u64, lt_u64, 2);
+w2p2_general_fixed!(w2p2_gs_u8_len2, u8, lt_u8, 2);
+w2p2_fallback_fixed!(w2p2_fallback_len2, 2);
+w2p2_general_fixed!(w2p2_gs_u64_len3, u64, lt_u64, 3);
+w2p2_general_fixed!(w2p2_gs_u8_len3, u8, lt_u8, 3);
+w2p2_fallback_fixed!(w2p2_fallback_len3, 3);
+w2p2_general_fixed!(w2p2_gs_u64_len4, u64, lt_u64, 4);
+w2p2_general_fixed!(w2p2_gs_u8_len4, u8, lt_u8, 4);
+w2p2_fallback_fixed!(w2p2_fallback_len4, 4);
+w2p2_general_fixed!(w2p2_gs_u64_len5, u64, lt_u64, 5);
+w2p2_general_fixed!(w2p2_gs_u8_len5, u8, lt_u8, 5);
+w2p2_fallback_fixed!(w2p2_fallback_len5, 5);
+w2p2_general_fixed!(w2p2_gs_u64_len6, u64, lt_u64, 6);
+w2p2_general_fixed!(w2p2_gs_u8_len6, u8, lt_u8, 6);
+w2p2_fallback_fixed!(w2p2_fallback_len6, 6);
+w2p2_general_fixed!(w2p2_gs_u64_len7, u64, lt_u64, 7);
+w2p2_general_fixed!(w2p2_gs_u8_len7, u8, lt_u8, 7);
+w2p2_fallback_fixed!(w2p2_fallback_len7, 7);
+w2p2_general_fixed!(w2p2_gs_u64_len8, u64, lt_u64, 8);
+w2p2_general_fixed!(w2p2_gs_u8_len8, u8, lt_u8, 8);
+w2p2_fallback_fixed!(w2p2_fallback_len8, 8);
+w2p2_general_fixed!(w2p2_gs_u64_len9, u64, lt_u64, 9);
+w2p2_general_fixed!(w2p2_gs_u8_len9, u8, lt_u8, 9);
+w2p2_fallback_fixed!(w2p2_fallback_len9, 9);
+w2p2_general_fixed!(w2p2_gs_u64_len10, u64, lt_u64, 10);
+w2p2_general_fixed!(w2p2_gs_u8_len10, u8, lt_u8, 10);
+w2p2_fallback_fixed!(w2p2_fallback_len10, 10);
+w2p2_general_fixed!(w2p2_gs_u64_len11, u64, lt_u64, 11);
+w2p2_general_fixed!(w2p2_gs_u8_len11, u8, lt_u8, 11);
+w2p2_fallback_fixed!(w2p2_fallback_len11, 11);
+w2p2_general_fixed!(w2p2_gs_u64_len12, u64, lt_u64, 12);
+w2p2_general_fixed!(w2p2_gs_u8_len12, u8, lt_u8, 12);
+w2p2_fallback_fixed!(w2p2_fallback_len12, 12);
+w2p2_general_fixed!(w2p2_gs_u64_len13, u64, lt_u64, 13);
+w2p2_general_fixed!(w2p2_gs_u8_len13, u8, lt_u8, 13);
+w2p2_fallback_fixed!(w2p2_fallback_len13, 13);
+w2p2_general_fixed!(w2p2_gs_u64_len14, u64, lt_u64, 14);
+w2p2_general_fixed!(w2p2_gs_u8_len14, u8, lt_u8, 14);
+w2p2_fallback_fixed!(w2p2_fallback_len14, 14);
+w2p2_general_fixed!(w2p2_gs_u64_len15, u64, lt_u64, 15);
+w2p2_general_fixed!(w2p2_gs_u8_len15, u8, lt_u8, 15);
+w2p2_fallback_fixed!(w2p2_fallback_len15, 15);
+w2p2_general_fixed!(w2p2_gs_u64_len16, u64, lt_u64, 16);
+w2p2_general_fixed!(w2p2_gs_u8_len16, u8, lt_u8, 16);
+w2p2_fallback_fixed!(w2p2_fallback_len16, 16);
