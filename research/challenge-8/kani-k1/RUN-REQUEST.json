@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "merge-p8-trivial32-025",
+  "request_id": "merge-p8-full16-026",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Phase 8 Q4: exact library proof state of job 35 (094c3287), formulation 3 proof_for_contract bm_u64_len32 with trivial invariant. Attribute goto-instrument memory versus full invariant phase 7 A; resource only, never PASS or measurement.",
+  "purpose": "Phase 8 Q5: exact library state of phase 7 A/job 36 (5edf162c), select existing proof_for_contract bm_u64_len16 calling bm_len<u64,_,16> with unwind(34). Same full invariant, contract and light count, K1_UNROLL=32 unchanged. Measure goto-instrument scaling and CBMC result at N=16; resource only.",
   "runner": "gcb-e2-highmem-4",
   "harness_timeout_minutes": 30,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len32",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len16",
       "expect": "SUCCESS"
     }
   ]
