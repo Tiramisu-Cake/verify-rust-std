@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-05-k10-network-0-4-cover",
+  "request_id": "net-w2p2-06-k10-network-5-6",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Repeat K10 u8/u64 N0..4 after job116 movement-cover array memcmp exceeded unwind25 for u64. Use elementwise same_from for that cover; retain full-width inputs, natural strict order, real outer trait/callees, sortedness and probe multiplicity assertions.",
+  "purpose": "K10 network grow from accepted measurement0..4 to separate constant N5,N6 for full-width u8/u64. Natural strict order, real outer trait/all callees, exact arrays, sortedness and arbitrary-probe multiplicity, elementwise movement cover. No stubs/reductions.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_0_2",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_0_2",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_3_4",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_3_4",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n6",
       "expect": "SUCCESS"
     }
   ]
