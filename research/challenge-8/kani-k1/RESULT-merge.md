@@ -354,6 +354,20 @@ Prerequisites обоих типов: bm N7/8 job 140, R11 halves_sorted job 110.
 После dispatch ночных jobs 9, preflight отказов 2;
 с П2 до ночи: 14 jobs, 3 preflight отказа, 17/40 консервативных попыток.
 
+### N-D12 (R7): preflight HTTP 429 перед GS N7/8
+
+Push `14fc03b8` прошёл, dispatch `w2-merge-night-gs78-009`
+остановился на `git fetch`: `RPC failed; HTTP 429`,
+`fatal: expected flush after ref listing`. CircleCI job не создан.
+Следующий dispatch после паузы 15 минут; отсчёт
+2026-10-26T21:58:31Z, не раньше
+2026-10-26T22:13:31Z.
+Request_id и четыре гармоники сохраняются, код не меняется.
+Ночных jobs остаётся 8, preflight отказов 3;
+с П2 до ночи: 13 jobs, 4 preflight отказа, 17/40 попыток.
+После успешного повтора: ночных jobs 9, суммарно 14 jobs,
+4 preflight отказа и 18/40 попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
