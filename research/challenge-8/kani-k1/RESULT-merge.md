@@ -158,8 +158,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 2 | 2, u64 и u8 | 110, SUCCESS обоих типов | 129, SUCCESS |
 | 3 | 3, u64 и u8 | 110, SUCCESS обоих типов | 130, SUCCESS |
 | 4 | 4, u64 и u8 | 110, SUCCESS обоих типов | 132, SUCCESS; 131 без измерений |
-| 5 | 5, u64 и u8 | не измерено | не измерено |
-| 6 | 6, u64 и u8 | не измерено | не измерено |
+| 5 | 5, u64 и u8 | 136, SUCCESS обоих типов | не измерено |
+| 6 | 6, u64 и u8 | 136, SUCCESS обоих типов | не измерено |
 | 7 | 7, u64 и u8 | не измерено | не измерено |
 | 8 | 8, u64 и u8 | не измерено | не измерено |
 | 9 | 9, u64 и u8 | не измерено | не измерено |
@@ -241,6 +241,43 @@ Read-only metadata CircleCI: 21:11:25.244Z–21:11:27.319Z, 2075 мс;
 Таблица R4 остаётся без proof job для N5/6; GS N5/6 не засчитываются.
 После повтора ночных jobs 6, preflight отказов 1;
 с П2 до ночи: 11 jobs, 2 preflight отказа, 13/40 консервативных попыток.
+
+### Job 136 — proof bm N5/6 u64/u8
+
+Request `w2-merge-night-bm56-retry-006`,
+head `829960b8379c08d8c10ec94281e7158238a3cadf`, COMPLETE;
+gate true, expectation met true, measurement ok true, Kani exit 0.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1752248 KiB, wall с компиляцией 282.22 с;
+cgroup peak 1.86 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len5` | SUCCESS / SUCCESS | 49.41238 | 0/442 | 100 | 1/1 |
+| `w2p2_bm_u8_len5` | SUCCESS / SUCCESS | 45.19346 | 0/435 | 102 | 1/1 |
+| `w2p2_bm_u64_len6` | SUCCESS / SUCCESS | 76.06198 | 0/442 | 98 | 1/1 |
+| `w2p2_bm_u8_len6` | SUCCESS / SUCCESS | 59.05908 | 0/435 | 100 | 1/1 |
+
+Полные covers normal-return сверены отдельно от gate, 1/1 у каждой
+гармоники. Для N5 и N6 измерен контракт формулировки 1 обоих типов;
+таблица R4 обновлена. GS на этих длинах ещё не измерен.
+
+REVIEW REQUEST 829960b8379c08d8c10ec94281e7158238a3cadf
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`
+(код П2 без изменений, R9 GO_WITH_NITS),
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Evidence: job 136 summary и check-tooling ok; prerequisites N5/6.
+
+### N-D8 (R7): GS N5/6 после proof обоих типов
+
+`w2-merge-night-gs56-007`: GS N5/6 отдельно u64/u8,
+4×10 мин, expected SUCCESS. Stub только bidirectional_merge;
+proof bm нужных длин обоих типов — job 136, R11 — job 110.
+Код и ledger П2 без изменений. После dispatch ночных jobs 7,
+preflight отказов 1; с П2 до ночи: 12 jobs, 2 preflight отказа,
+14/40 консервативных попыток.
 
 ## Фаза 9
 
