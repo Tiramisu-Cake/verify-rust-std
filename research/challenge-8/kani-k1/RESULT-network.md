@@ -2597,3 +2597,18 @@ network.rs: два применения прежнего K10 macro для N13 u8
 | 1 (П2 #15) | net-night-01-k10-perm12-sorted13 | 128 | 46ef1b56 | w2p2_k10_perm_u8_n12; w2p2_k10_perm_u64_n12; w2p2_k10_u8_n13; w2p2_k10_u64_n13 | SUCCESS |
 
 Ожидание `k1.sh watch 128`, затем конец turn. После уведомления: summary128 и check-tooling против 9de80e0b. Ночная очередь не завершена; следующий шаг определяется результатом.
+
+### Job128: permutation N12 / sortedness N13
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 1,89 GiB, RSS 1773420 KiB, OOM0, swap off, wall 863,97 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2p2_k10_perm_u8_n12 | SUCCESS / SUCCESS | 91,339836 | 0/118 | 2/2 |
+| w2p2_k10_perm_u64_n12 | SUCCESS / SUCCESS | 418,41003 | 0/118 | 2/2 |
+| w2p2_k10_u8_n13 | SUCCESS / SUCCESS | 27,339565 | 0/377 | 3/3 |
+| w2p2_k10_u64_n13 | SUCCESS / SUCCESS | 286,1121 | 0/377 | 3/3 |
+
+Permutation: 4 unreachable, sortedness: 21. Упавших проверок нет. N12 имеет оба компонента (sortedness127/permutation128), N13 — sortedness128 и структурную перестановку. R9 композиции остаётся открытым. Известный summary wall П2: 3944,80 с; ночью 1 dispatch.
+
+R7: времена >180 с допустимы по CD-6, все <600 с. Следующая ступень N14/u8/u64: sortedness реального верхнего маршрута и отдельная permutation реального insertion/offset13 на exact [T;14]. Прежние helpers, полный вход/probe, arbitrary read-only comparator в permutation; новых assumptions/cuts/stubs нет.

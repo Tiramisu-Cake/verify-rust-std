@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-01-k10-perm12-sorted13",
+  "request_id": "net-night-02-k10-n14",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K10 night: real insertion permutation N12/offset9 for u8/u64 with arbitrary read-only comparisons; real outer network sortedness N13 with full-width natural strict order. Exact arrays, no stubs. N13 permutation is structural compare-exchange composition.",
+  "purpose": "K10 N14 u8/u64: full-width sortedness through real outer network with natural strict order; separately full-value permutation of real insertion/offset13 with arbitrary read-only comparisons. Exact arrays, no sorted-prefix assumption in permutation, no stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n12",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n14",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n12",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n14",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u8_n13",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u8_n14",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_u64_n13",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k10_perm_u64_n14",
       "expect": "SUCCESS"
     }
   ]

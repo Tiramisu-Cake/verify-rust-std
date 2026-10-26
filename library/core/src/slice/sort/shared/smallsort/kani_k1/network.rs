@@ -1547,3 +1547,9 @@ w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n12, u64, 12);
 // Night K-10 continuation: exact sort13 width; insertion at offset 13 is a no-op.
 w2p2_k10_cases!(w2p2_k10_u8_n13, u8, [13]);
 w2p2_k10_cases!(w2p2_k10_u64_n13, u64, [13]);
+
+// Night K-10: one real insertion after sort13, with separate sortedness/permutation proofs.
+w2p2_k10_cases!(w2p2_k10_u8_n14, u8, [14]);
+w2p2_k10_cases!(w2p2_k10_u64_n14, u64, [14]);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n14, u8, 14);
+w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n14, u64, 14);
