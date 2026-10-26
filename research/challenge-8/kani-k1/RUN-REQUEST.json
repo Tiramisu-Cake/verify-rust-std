@@ -1,26 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w2p2-08-k9s-small-types",
+  "request_id": "net-w2p2-09-k9s-arrays-cell",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K9s exact swap_if_less contract incl two-cell permutation: full u8/u64/u128 and Freeze non-Copy Drop, real body/no stubs. Exact two-cell arrays, both index orders, pure strict comparator, swap/no-swap covers. Existing contract unchanged; byte payload preservation checked.",
+  "purpose": "K9s existing exact two-cell swap_if_less contract on full [u8;16], [u8;17], Cell<i32>. Both index orders, pure key comparator, swap/no-swap covers. Array key is first byte; every payload byte is covered by byte-exact permutation postcondition. Real body, no stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_a16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_a17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_u128",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_drop",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_cell",
       "expect": "SUCCESS"
     }
   ]

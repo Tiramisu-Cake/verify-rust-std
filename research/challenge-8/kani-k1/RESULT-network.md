@@ -2222,3 +2222,22 @@ smallsort.rs:383..459, W2Value/W2Drop constructors. Проверить поба�
 | 8 | net-w2p2-08-k9s-small-types | 121 | 5cd92f9a | w2p2_k9s_u8; w2p2_k9s_u64; w2p2_k9s_u128; w2p2_k9s_drop | отправлен; ожидается SUCCESS |
 
 Ожидание `k1.sh watch 121`, затем конец turn. Счёт П2:8/40 dispatch.
+
+#### П2 job121 / K9s u8/u64/u128/Drop
+
+COMPLETE,gate true,check-tooling ok против9de80e0b; все SUCCESS.
+13GiB ENFORCED,peak1,96GiB,RSS1715060KiB,OOM0,swap off,wall89,81с.
+
+| Гармоника | время,с | failed/total | cover |
+|---|---:|---|---|
+| w2p2_k9s_u8 | 9,892819 | 0/404 | 5/5 |
+| w2p2_k9s_u64 | 10,856423 | 0/404 | 5/5 |
+| w2p2_k9s_u128 | 15,700616 | 0/404 | 5/5 |
+| w2p2_k9s_drop | 8,661013 | 0/403 | 5/5 |
+
+Все4 имеют5 unreachable checks. Существующий точный контракт, включая
+перестановку двух полных значений, имеет измерительный gate true на4типах.
+Реальные тела и destructor Drop, оба порядка индексов/swap/no-swap covers;
+R9 e658b246 ожидается. Далее a16/a17/Cell, тот же шаблон,3x10мин;
+крупные массивы и ZST отдельно. Запрос net-w2p2-09-k9s-arrays-cell.
+Summary wall П2:988,43с, минутный лимит CD-6 снят.
