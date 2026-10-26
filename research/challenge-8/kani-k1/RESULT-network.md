@@ -1105,3 +1105,7 @@ REVIEW REQUEST d4744378e449a2df7b95de5af3097bbc0ed51846
 четыре u8/u128 reachability, разбиение u128 mid/hi), RUN-REQUEST.json,
 RESULT-network.md («Волна 2», job 89/CD-5). Контекст: принятые шаблоны
 3ce9177c/bceedb0b, неизменённые smallsort.rs и scripts/run-kani.sh.
+
+| 8 | net-w2-08-cd5-u8-reach-u128-mid | 91 | 675db96f | w2_control_a_quiet_merge_assertion; w2_k16_u8_stable_reach; w2_k16_u8_network_reach; w2_k16_u128_mid | отправлен; ожидается FAILED/SUCCESS/SUCCESS/SUCCESS |
+
+Ожидание `k1.sh watch 91`, затем конец turn. Счёт dispatch 8/24.
