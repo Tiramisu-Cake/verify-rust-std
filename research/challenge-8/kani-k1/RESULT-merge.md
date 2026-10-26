@@ -1120,3 +1120,11 @@ unstable general trait на 32. Comparator обоих типов читает о
 повторов нет, если новые ошибки или review не потребуют исправлений.
 Измерительные результаты и окончательный зачёт ожидаются после этого job
 и независимого R9. Таблица О1 будет заменена на результаты читающего comparator.
+
+REVIEW REQUEST 30174dc68c2353a0615b263873fb1e9c3e16b15b
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Перепрогон K-6+ (а)/(б)
+после CD-2; три гармоники покрывают десять инстанциаций без assumes.
+Evidence — следующий CircleCI job; прежние job 49/51/52 раскрыты выше.
