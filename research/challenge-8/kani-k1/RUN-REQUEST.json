@@ -1,20 +1,21 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-control-a-002",
+  "request_id": "w1-merge-control-b-cd1-003",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "Section 4.1 A control repair: default assertion text must localize the deliberate mutant. Repeat A positive permutation and panic reachability. B masking in job 46 remains a blocker; no K-6+ result is claimed.",
+  "purpose": "CD-1 B safety controls: after real merge normal return, read one past source allocation. Honest comparator and arbitrary comparator with reachable panic must both expose the pointer safety failure under should_panic. No stubs or contract checks.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_must_fail",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_b_oob_honest",
       "expect": "FAILED",
-      "expect_check": "v[0] != v[0]"
+      "expect_check": "dereference failure: pointer outside object bounds"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_a_panic_reachable",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_control_b_oob_arbitrary",
+      "expect": "FAILED",
+      "expect_check": "dereference failure: pointer outside object bounds"
     }
   ]
 }

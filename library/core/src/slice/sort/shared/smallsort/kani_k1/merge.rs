@@ -1185,9 +1185,9 @@ fn w1_abort_ord_violation() -> ! {
     unreachable!()
 }
 
-/// Variant B mutant: a known ordered input and honest comparator cannot panic
-/// in the real merge. The intentionally broken assertion is on its normal
-/// return path. FAILED is required; SUCCESS exposes should_panic masking.
+/// Historical assertion-masking demonstration (CD-1), not a B safety control.
+/// A known ordered input and honest comparator cannot panic in the real merge.
+/// The broken assertion on normal return is masked by should_panic: SUCCESS.
 #[kani::proof]
 #[kani::should_panic]
 #[kani::unwind(6)]
@@ -1243,4 +1243,48 @@ fn w1_control_a_panic_reachable() {
         }
     }
     kani::cover(true, "wave1 A: normal return and permutation checked");
+}
+
+
+// CD-1: should_panic masks assertion-class checks, but must not mask a failed
+// pointer-dereference check. No contract proofs/stubs or manual stubs are used.
+// Each mutant reads one past the source allocation only after normal return.
+// The value is stored in valid dst memory so the invalid read is consumed.
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w1_control_b_oob_honest() {
+    let v = [0u64, 1, 2, 3];
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source, separate destination for four writes, len >= 2.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
+    }
+    kani::cover(true, "wave1 B honest: normal return before safety mutant");
+    // INTENTIONAL UB MUTANT: the pointer is one past the four-element object.
+    // This must fail a safety-class check even under should_panic.
+    unsafe {
+        let value = *v.as_ptr().wrapping_add(4);
+        ptr::write(dst.as_mut_ptr() as *mut u64, value);
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(6)]
+fn w1_control_b_oob_arbitrary() {
+    let v: [u64; 4] = kani::any();
+    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: initialized source, separate destination for four writes, len >= 2.
+    unsafe {
+        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
+    }
+    kani::cover(true, "wave1 B arbitrary: normal return before safety mutant");
+    // INTENTIONAL UB MUTANT: some comparator paths panic before this read;
+    // normal-return paths must still reveal the out-of-object dereference.
+    unsafe {
+        let value = *v.as_ptr().wrapping_add(4);
+        ptr::write(dst.as_mut_ptr() as *mut u64, value);
+    }
 }
