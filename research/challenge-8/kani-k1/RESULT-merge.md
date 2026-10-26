@@ -673,3 +673,11 @@ T0: 2026-10-26T10:46:18Z (UTC, `date -u`).
 лимит после dispatch: 1/10, 30/200 минут, оценка ≤760/5000 кредитов.
 Статус, SHA, Verification Time, память, cover, gate и check-tooling будут
 записаны после завершения job. Review запрашивается на опубликованный SHA.
+
+REVIEW REQUEST 2b308ad664c44d6e276eaf4a3bd7c00cc3626a06
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Контроль §4.1; evidence — первый
+CircleCI job волны, id будет добавлен после dispatch. Независимый review R9
+проводит координатор; собственного reviewer-субагента не запускаю.
