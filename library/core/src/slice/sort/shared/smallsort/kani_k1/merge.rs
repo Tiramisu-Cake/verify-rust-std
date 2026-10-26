@@ -26,7 +26,8 @@
 
 use super::super::{
     CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl,
-    UnstableSmallSortFreezeTypeImpl, bidirectional_merge, insert_tail, sort4_stable, sort8_stable,
+    UnstableSmallSortFreezeTypeImpl, UnstableSmallSortTypeImpl, bidirectional_merge, insert_tail,
+    sort4_stable, sort8_stable,
 };
 use crate::kani;
 use crate::mem::{MaybeUninit, size_of};
@@ -1340,7 +1341,7 @@ fn w1_general_u64_safety<const N: usize>() {
 fn w1_general_trait_safety<const N: usize>() {
     let payload: [u64; N] = kani::any();
     let mut v = payload.map(W1GeneralU64);
-    <W1GeneralU64 as UnstableSmallSortFreezeTypeImpl>::small_sort(
+    <W1GeneralU64 as UnstableSmallSortTypeImpl>::small_sort(
         &mut v,
         &mut w1_general_arbitrary_less,
     );
@@ -1401,4 +1402,45 @@ fn w1_cd2_routes_len32_safety() {
     } else {
         w1_upper_routes_safety::<32>();
     }
+}
+
+
+// Final wave-1 reservation: cover the missing presort branches with fixed
+// lengths, reading comparators, and real bodies. Full 2..=32 is not claimed.
+fn w1_boundary_routes<const N: usize>() {
+    if kani::any() {
+        w1_general_u64_safety::<N>();
+    } else {
+        w1_stable_u64_safety::<N>();
+    }
+}
+
+#[kani::proof]
+#[kani::should_panic]
+#[kani::unwind(34)]
+fn w1_cd2_presort_boundaries_safety() {
+    let len: u8 = kani::any();
+    if len == 16 {
+        if kani::any() {
+            // Exercise the actual quicksort trait entrypoint on a general type.
+            w1_general_trait_safety::<16>();
+        } else {
+            w1_boundary_routes::<16>();
+        }
+        kani::cover(true, "wave1 boundary len 16");
+    } else {
+        macro_rules! lengths {
+            ($($n:literal)*) => {
+                match len {
+                    $( $n => {
+                        w1_boundary_routes::<$n>();
+                        kani::cover(true, concat!("wave1 boundary len ", stringify!($n)));
+                    }, )*
+                    _ => {}
+                }
+            };
+        }
+        lengths!(0 1 2 3 7 8 9 15);
+    }
+    kani::cover(true, "wave1 boundary selector: end reachable");
 }

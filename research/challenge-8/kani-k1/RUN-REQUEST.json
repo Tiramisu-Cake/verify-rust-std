@@ -1,22 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w1-merge-cd2-all-routes-007",
+  "request_id": "w1-merge-cd2-boundaries-008",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "CD-2 remeasurement with volatile reads of both comparator arguments: independent route choice at each fixed length 17/24/32 covers direct general u64, unstable general transparent non-Copy u64 and stable-Freeze u64. Length32 also chooses standalone merge32. Real bodies, no stubs.",
+  "purpose": "CD-2 O1 missing branches: fixed lengths 0/1/2/3/7/8/9/15/16 for direct general u64 and stable-Freeze u64; length16 also real quicksort UnstableSmallSortTypeImpl via transparent non-Copy u64. Volatile comparator reads, real bodies, no assumes/stubs. Not full 2..32.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len17_safety",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len24_safety",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_routes_len32_safety",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w1_cd2_presort_boundaries_safety",
       "expect": "SUCCESS"
     }
   ]
