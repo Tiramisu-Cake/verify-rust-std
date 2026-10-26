@@ -2149,3 +2149,9 @@ sortedness/multiplicity; K10 измерен0..6 обоих типов, R9 ожи
 Запрос net-w2p2-07-k10-network-7-8. Известный summary wall П2:371,76с.
 После insertion-only длин до8 — основание структурной перестановки K9s
 перед ростом в sort9/sort13; это не повтор прежнего дорогого K9 sort13_perm.
+
+REVIEW REQUEST 9c9f00c92eaf77af7d5d33dd9ee4e9367d3b16c7
+
+network.rs: только4применения K10 macro на N7/N8 u8/u64;
+RUN-REQUEST.json; RESULT-network.md, job119. Существующие helpers,
+полная ширина данных, свойства и реальные тела без изменений.
