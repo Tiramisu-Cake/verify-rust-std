@@ -347,7 +347,7 @@ T0: 2026-10-26T10:46:19Z (UTC, `date -u`).
 | 5 | 57 | 15c16d3f | `w1_network_o1_len32_u64` | 10 мин | COMPLETE, gate true, SUCCESS 49,115505 с, 1/322 (ожидаемая panic), 11 unreachable, cover 1/1; R9 GO_WITH_NITS, засчитан |
 | 6 | 58 | 432813d9 | `insert_tail_prefix_u64` | 10 мин | COMPLETE, gate true, SUCCESS 471,6588 с, 0/411, 36 unreachable, cover 4/4; R9 GO_WITH_NITS, только префиксы |
 | 7 | 60 | 3c77aa65 | `w1_network_o1_odd_u64` (19,25,31) | 10 мин | COMPLETE, gate true, SUCCESS 92,17661 с, 1/328 (ожидаемая panic), 11 unreachable, cover 4/4; R9 GO, засчитан |
-| 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | отправлен, summary ожидается |
+| 8 | 61 | 9387ec67 | `w1_network_o1_nomerge_u64` (0..=17) | 10 мин | COMPLETE, gate true, SUCCESS 112,5397 с, 0/328, 18 unreachable, cover 19/19; R9 GO, засчитан |
 
 Бюджет после dispatch 1: 1/6 dispatch, 20/90 минут таймаутов; верхняя оценка
 кредитов запроса 20 × (20 + 8) = 560. Время, память, gate, cover и check-tooling
@@ -487,6 +487,18 @@ Dispatch 7: `net-w1-07-o1-odd`, job 60, measurement 1 × 10 мин.
 
 Dispatch 8: `net-w1-08-o1-nomerge`, job 61, measurement 1 × 10 мин.
 Итого 8/14 dispatch. Ожидание `k1.sh watch 61`, затем конец turn.
+
+### Продолжение после job 61
+
+- 2026-10-26T12:04:53Z: О1 network на **каждой длине 0..=17** — SUCCESS
+  112,5397 с, gate true, measurement ok, cover 19/19 (18 длин и конец).
+  Check-tooling против `9de80e0b` ok; R9 a27b174f GO. ENFORCED 13 GiB,
+  cgroup peak 3,92 GiB, max RSS 3858580 KiB, OOM 0, swap off,
+  wall проверки с компиляцией 2:36,33. Обычная proof, без маскировки panic.
+- Уже засчитаны 0..=17,19,24,25,31,32. Остались
+  18,20,21,22,23,26,27,28,29,30 — следующий запрос othermerge.
+  При TIMEOUT/ресурсном отказе разобью на два семейства.
+- Оценка wall по восьми summary ≈46,10 мин, без подготовки CircleCI.
 
 Dispatch 2: `net-w1-02-k8-interior`, job 50, measurement 1 × 10 мин.
 Итого 2/6 dispatch, 30/90 минут таймаутов; оценка резерва кредитов

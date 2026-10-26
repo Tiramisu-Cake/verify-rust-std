@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-08-o1-nomerge",
+  "request_id": "net-w1-09-o1-othermerge",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 network O1, nondeterministic selection of every constant length 0..=17, ordinary proof with real bodies and CD-2 reading comparator; cover normal return at each length",
+  "purpose": "Wave 1 network O1 at constant lengths 18,20,21,22,23,26,27,28,29,30 selected nondeterministically; CD-1 should_panic, CD-2 reads, real bodies and merge; normal-return cover at each length",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_nomerge_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_network_o1_othermerge_u64",
       "expect": "SUCCESS"
     }
   ]
