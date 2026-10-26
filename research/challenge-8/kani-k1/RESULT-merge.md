@@ -1232,3 +1232,11 @@ wall_whole_run из summary завершённых job 46/47/48/49/51/52/53 в �
 Это **не фактический счёт CircleCI** и не подтверждённый ledger расходов;
 верхняя резервная оценка 5280 без освобождения прошлых таймаутов завышает
 оставшуюся потребность. Фактические кредиты не измерялись.
+
+REVIEW REQUEST a6c9bf377fa1b2d9e8d66b364eca3c5dff072aff
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`. Дополнение CD-2: границы
+0/1/2/3/7/8/9/15/16, general direct и stable-Freeze, плюс реальный
+UnstableSmallSortTypeImpl на 16. Evidence — следующий CircleCI job.
