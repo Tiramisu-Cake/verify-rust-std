@@ -643,3 +643,12 @@ K-13: 1 dispatch, резерв 40 минут таймаутов (это не ф�
   (modifications via interior mutability are observed). Проверка памяти
   Kani не включает модель алиасинга; формулировка «нет UB» этим не обоснована.
   Проверяются только доступные при флагах CI проверки памяти/обычные assertions.
+
+REVIEW REQUEST bde68320ecec175c7370f1b0d47c2bc8feaffbdb
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/network.rs`
+(k13_track_input/mutating_less/tags, изменения route_fixed/insertion_fixed,
+k13_safety_all, k13_small_fixed/small_permutation),
+`library/core/src/slice/sort/shared/smallsort.rs`, `scripts/run-kani.sh`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-network.md` (K-13).
