@@ -2097,3 +2097,7 @@ REVIEW REQUEST b497d6daae6bc002e9e0ac186b6a63c36389e612
 Поправка к7adb2498: network.rs, одна строка movement-cover через
 !same_from, без memcmp массива; RUN-REQUEST.json; RESULT-network.md,
 job116/R7. Проверяемые sortedness/multiplicity и домены без изменений.
+
+| 5 | net-w2p2-05-k10-network-0-4-cover | 118 | 0d91424b | w2p2_k10_u8_0_2; w2p2_k10_u64_0_2; w2p2_k10_u8_3_4; w2p2_k10_u64_3_4 | отправлен; ожидается SUCCESS |
+
+Ожидание `k1.sh watch 118`, затем конец turn. Счёт П2:5/40 dispatch.
