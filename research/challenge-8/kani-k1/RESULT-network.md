@@ -2680,3 +2680,7 @@ R7: после TIMEOUT u64 в135 делим следующие запросы п
 REVIEW REQUEST 7b0138dd03a110c6845994a9f7512787bc261661
 
 network.rs: четыре применения прежних sortedness/permutation macros для N16/u8/u64, без новых helpers/допущений. RUN-REQUEST.json выбирает только u8; RESULT-network.md (job138, разделение запросов по типам). Рассматривать с открытым R9 композиции a136cf54.
+
+| 5 (П2 #19) | net-night-05-k10-n16-u8 | 139 | 0df1120e | w2p2_k10_u8_n16; w2p2_k10_perm_u8_n16 | SUCCESS |
+
+Ожидание `k1.sh watch 139`, затем конец turn. После уведомления — summary/check-tooling139; далее отдельный N16/u64.
