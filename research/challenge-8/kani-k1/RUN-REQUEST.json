@@ -1,14 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-w1-12-k9-exact13",
+  "request_id": "net-w1-13-k13-cell",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Wave 1 K9 retry: permutation only of sort13_optimal at exact length 13, full-width u8, lt_u8, local arbitrary probe, real bodies, no stubs; includes cover(v != pre) showing element movement and duplicate-probe cover; not a proof of the contract on lengths 13..=17",
+  "purpose": "K13: Cell<Tagged>, full u8 keys/tags; stable default + unstable fallback 0..16, insertion 1..20/all valid offsets. Comparator reads both values, changes keys, preserves tags, returns any. Real bodies; ordinary safety + tag-count proofs; covers route/length and key changes.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w1_sort13_perm_fixed_u8",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_routes_0_8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_routes_9_16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_insertion_1_10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::k13_insertion_11_20",
       "expect": "SUCCESS"
     }
   ]

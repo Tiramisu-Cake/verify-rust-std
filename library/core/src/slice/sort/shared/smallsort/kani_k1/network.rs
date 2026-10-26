@@ -707,3 +707,122 @@ fn direct_network_len13_u8() {
 fn direct_network_len17_u8() {
     direct_network::<17>();
 }
+
+// ---------------------------------------------------------------------------------------------
+// K-13: interior-mutable comparator on the actual non-Freeze routes and direct insertion.
+
+#[derive(Clone, Copy)]
+struct K13Tagged {
+    key: u8,
+    tag: u8,
+}
+
+type K13Cell = crate::cell::Cell<K13Tagged>;
+
+/// Observe both complete values before writing either one. Cell permits mutation through the
+/// shared references; tags are preserved even if both references happen to name the same Cell.
+fn k13_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
+    // SAFETY: Cell::as_ptr points to its initialized Tagged. Volatile reads preserve both key
+    // accesses for CD-2, even though the comparison result is independent of their values.
+    let (left, right) = unsafe {
+        (crate::ptr::read_volatile(a.as_ptr()), crate::ptr::read_volatile(b.as_ptr()))
+    };
+    let left_key: u8 = kani::any();
+    let right_key: u8 = kani::any();
+    a.set(K13Tagged { key: left_key, tag: left.tag });
+    b.set(K13Tagged { key: right_key, tag: right.tag });
+    kani::cover(left.key != left_key && right.key != right_key, "K13 comparator changes both keys");
+    kani::any()
+}
+
+fn k13_input<const N: usize>() -> [K13Cell; N] {
+    let v = [const { crate::cell::Cell::new(K13Tagged { key: 0, tag: 0 }) }; N];
+    let mut i = 0;
+    while i < N {
+        // Both fields span all u8 values, including duplicate tags.
+        v[i].set(K13Tagged { key: kani::any(), tag: kani::any() });
+        i += 1;
+    }
+    v
+}
+
+/// An arbitrary probe proves full multiset equality, including tag multiplicities. N <= 20 in
+/// every call below, so a u8 count suffices without overflow or modular-count ambiguity.
+fn k13_tag_count<const N: usize>(v: &[K13Cell; N], probe: u8) -> u8 {
+    let mut count = 0;
+    let mut i = 0;
+    while i < N {
+        count += (v[i].get().tag == probe) as u8;
+        i += 1;
+    }
+    count
+}
+
+fn k13_route_fixed<const N: usize>(stable: bool) {
+    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+    let mut v = k13_input::<N>();
+    let probe: u8 = kani::any();
+    let before = k13_tag_count(&v, probe);
+    if stable {
+        // The non-Freeze default ignores scratch, so the empty slice is sufficient.
+        let mut scratch = [];
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut k13_mutating_less);
+    } else {
+        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut k13_mutating_less);
+    }
+    assert!(before == k13_tag_count(&v, probe));
+}
+
+fn k13_insertion_fixed<const N: usize>() {
+    let mut v = k13_input::<N>();
+    let probe: u8 = kani::any();
+    let before = k13_tag_count(&v, probe);
+    // Sortedness of the prefix is not needed for safety or tag permutation. All valid offsets
+    // are checked; a fully presorted slice (offset == N) is a permitted no-op.
+    let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
+    super::super::insertion_sort_shift_left(&mut v, offset, &mut k13_mutating_less);
+    assert!(before == k13_tag_count(&v, probe));
+    kani::cover(offset == 1, "K13 insertion: offset 1 reachable");
+    kani::cover(offset == N, "K13 insertion: offset len reachable");
+}
+
+macro_rules! k13_route_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            let stable: bool = kani::any();
+            match len {
+                $($n => k13_route_fixed::<$n>(stable),)+
+                _ => {}
+            }
+            $(
+                kani::cover(stable && len == $n, concat!("K13 stable default length ", stringify!($n)));
+                kani::cover(!stable && len == $n, concat!("K13 unstable fallback length ", stringify!($n)));
+            )+
+            kani::cover(true, "K13 route family: end reached");
+        }
+    };
+}
+
+macro_rules! k13_insertion_cases {
+    ($name:ident, [$($n:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(35)]
+        fn $name() {
+            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
+            match len {
+                $($n => k13_insertion_fixed::<$n>(),)+
+                _ => {}
+            }
+            $(kani::cover(len == $n, concat!("K13 insertion length ", stringify!($n)));)+
+            kani::cover(true, "K13 insertion family: end reached");
+        }
+    };
+}
+
+k13_route_cases!(k13_routes_0_8, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+k13_route_cases!(k13_routes_9_16, [9, 10, 11, 12, 13, 14, 15, 16]);
+k13_insertion_cases!(k13_insertion_1_10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+k13_insertion_cases!(k13_insertion_11_20, [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
