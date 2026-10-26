@@ -1443,3 +1443,49 @@ REVIEW REQUEST c0342b31056b926aec62da9d624beae734ac7528
 `research/challenge-8/kani-k1/RUN-REQUEST.json`,
 `research/challenge-8/kani-k1/RESULT-merge.md`. CD-3 N5/6/7 + обязательный
 CD-2 FAILED-контроль; evidence — следующий CircleCI job.
+
+
+### Продолжение W1-merge (Claude), T0 2026-10-26T12:51:49Z
+
+CD-4: исполнитель W1-merge сменён (Codex → Claude, субагент координатора),
+ветка и worktree прежние, старт с чистого `c15284bc`. База `36e5b6f6`
+влита обычным merge; lane diff против `9de80e0b` пуст. Окно прежнее:
+dispatch до **16:16:18Z**, отчёт до **16:46:18Z**. Лимиты CD-3: 22 dispatch,
+250 фактических минут; использовано 11 dispatch (включая job 66), ≈29 мин
+по данным координатора.
+
+### Job 66 — полное семейство CD-3, N5/6/7 + контроль CD-2
+
+Запрос `w1-merge-cd3-len5to7-010`, head `c15284bc9c0569a43257a5575e380a3575889dbe`.
+COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 1
+(ожидаем из-за контроля FAILED). check-tooling **ok** против
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`. Память run: max RSS 2153672 KiB,
+cgroup peak 2.34 GiB, ENFORCED 13 GiB, OOM kills 0, swap off; wall verify
+с компиляцией 1:10.87.
+
+| Гармоника | expect | status | Verification Time, с | failed/total | cover |
+|---|---|---|---:|---|---|
+| `w1_cd3_all_len5_safety` | SUCCESS | SUCCESS | 6.248865 | 1/645 | 3/3 |
+| `w1_cd3_all_len6_safety` | SUCCESS | SUCCESS | 8.316657 | 1/645 | 3/3 |
+| `w1_cd3_all_len7_safety` | SUCCESS | SUCCESS | 9.941335 | 1/645 | 3/3 |
+| `w1_cd2_comparator_oob_must_fail` | FAILED | FAILED | 0.033569846 | 2/19 | 1/1 |
+
+- SUCCESS-строки: единственный failed check — assertion-класса паника
+  `smallsort.rs:884` (placeholder message), допустима по CD-1. 14 unreachable
+  checks в каждой (summary notes).
+- Контроль: `dereference failure: pointer invalid` @ `kani_k1/merge.rs:1460` и
+  `dereference failure: pointer outside object bounds` @ `core/src/ptr/mod.rs:2179`
+  — те же места, что в job 59.
+- Время строки общее для трёх независимо выбираемых маршрутов (direct
+  general u64, реальный `UnstableSmallSortTypeImpl` на transparent non-Copy
+  u64, stable-Freeze u64).
+
+**W1-D13 (R7, CD-4):** по заданию продолжения контроль CD-2 больше не
+включается в каждый запрос, пока код `merge.rs` не меняется (он неизменен с
+`c5720c76`; контроль измерен в job 59 и 66). Это заменяет условие из R9
+`c5720c76` «контроль в каждом dispatch». N17/24/32 не перепрогоняются: для
+direct general и stable-Freeze они измерены с читающим comparator в job 53;
+реальный `UnstableSmallSortTypeImpl` на 17/24/32 остаётся неизмеренным
+(в job 53 — `UnstableSmallSortFreezeTypeImpl`), это раскрывается в итоге.
+Оставшиеся 22 длины: пакеты [8,9,10,11], [12,13,14,15], [16,18,19,20],
+[21,22,23,25], [26,27,28,29], [30,31] — 6 dispatch, до 17/22.
