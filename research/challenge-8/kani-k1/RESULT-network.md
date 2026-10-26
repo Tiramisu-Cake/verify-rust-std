@@ -1957,3 +1957,11 @@ u64 полная ширина, w1_any_less_u64 читает оба аргуме�
 
 Запрос net-w2p2-01-b4-offset1-16-17: четыре proof (u64/Cell N16/N17),
 measurement4x10мин. N18/N19 и N20 подготовлены отдельно, ещё не измерены.
+
+REVIEW REQUEST f32963dd4819d02616a2c1d1ea6f6fd7c8821bae
+
+network.rs: w2p2_b4_offset_one и десять независимых B4/K11/O3 proof,
+N16..20/offset1. RUN-REQUEST.json; RESULT-network.md, П2 T0/CD-6/ledger.
+Контекст: принятые П1 w1_any_less_u64 и w2_o3_input/mutating_less,
+неизменённые insertion_sort_shift_left/insert_tail и CI no-assert-contracts.
+Новая база не вливалась, lane9de80e0b. Все offset16..20 не повторяются.
