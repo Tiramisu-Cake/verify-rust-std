@@ -1529,3 +1529,29 @@ cgroup peak 2.36 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 2:24.89.
 (CD-1). 10 unreachable checks в каждой строке.
 
 Запрос `w1-merge-cd3-len16to20-013`: N16/18/19/20, expect SUCCESS. Dispatch 14/22.
+
+### Job 70 — CD-3 N16/18/19/20
+
+Запрос `w1-merge-cd3-len16to20-013`, head `c916a578a8841ce5d20b216381d430bbf195eaff`.
+COMPLETE, gate **true**, expectation met true, measurement ok true, Kani exit 0.
+check-tooling **ok** против `9de80e0b…`. Память run: max RSS 2347504 KiB,
+cgroup peak 3.29 GiB, ENFORCED 13 GiB, OOM 0, swap off; wall verify 4:40.81.
+
+| Гармоника | status | Verification Time, с | failed/total | cover |
+|---|---|---:|---|---|
+| `w1_cd3_all_len16_safety` | SUCCESS | 50.011974 | 1/645 | 3/3 |
+| `w1_cd3_all_len18_safety` | SUCCESS | 54.93522 | 1/645 | 3/3 |
+| `w1_cd3_all_len19_safety` | SUCCESS | 60.83016 | 1/645 | 3/3 |
+| `w1_cd3_all_len20_safety` | SUCCESS | 62.214634 | 1/645 | 3/3 |
+
+Единственный failed check каждой строки — assertion-класса `smallsort.rs:884`
+(CD-1). 8 unreachable checks в каждой строке.
+
+**W1-D14 (R7):** trait-маршрут на 17/24/32 не перепрогоняю (указание
+координатора). Основание, что пробел узкий: в `smallsort.rs:90-103`
+`impl<T: FreezeMarker> UnstableSmallSortTypeImpl` для Freeze-типа лишь
+пересылает в `<T as UnstableSmallSortFreezeTypeImpl>::small_sort`
+(`#[inline(always)]`); `W1GeneralU64` — Freeze. Job 53 измерил именно
+callee пересылки. Это чтение исходника, не измерение; раскрывается в итоге.
+
+Запрос `w1-merge-cd3-len21to25-014`: N21/22/23/25, expect SUCCESS. Dispatch 15/22.
