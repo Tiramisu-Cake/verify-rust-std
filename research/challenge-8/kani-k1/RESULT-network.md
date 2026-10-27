@@ -2943,3 +2943,11 @@ Tag multiplicity N2 измерена для stable default, unstable fallback и
 | 17 (П2 #31) | net-night-17-o3-tags-n3 | 163 | adcee797 | w2night_o3_tags_n3 | SUCCESS |
 
 Ожидание `k1.sh watch 163`, затем конец turn. После уведомления — summary/check-tooling163; при SUCCESS/gate true далее O3 N4.
+
+### Job163: O3 tags N3
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2night_o3_tags_n3`: SUCCESS (ожидался SUCCESS), 2,7053878 с, 0/218 failed, 4 unreachable, covers8/8. 13 GiB ENFORCED, peak1,86 GiB, RSS1646656 KiB, OOM0, swap off, wall48,50 с.
+
+Tag multiplicity N3 измерена для всех трёх маршрутов/всех insertion offset; все covers выполнены. R9 be1aa9b8 ожидается. Известный summary wall П2:13552,56 с; ночь:10471,73 с,17 dispatch.
+
+Последний запрос ночной очереди net-night-18-o3-tags-n4: measurement1 ×10 минут, ожидается SUCCESS/covers9/9. Тот же helper/comparator/ledger, snapshotbe1aa9b8; код не менялся. После summary/check-tooling — итог и маркер ночи, новых опытов вне очереди нет.
