@@ -1021,3 +1021,48 @@ Source`c6382721`, запрос010, measurement4×10, controls=false.
 Следующий шаг после watch: summary/peaks/check-tooling, учёт остаткаB;
 затем ограниченный solver screening для u64 scratch/GS и network gaps.
 Личный лимит не поднимался, H2 только если реально останется бюджет.
+
+### B build be2555c0 — COMPLETE, gate=true
+
+Sourcec6382721, measurement4×10, controls=false, swap off;
+check-tooling/peaks запрошены по новомуBASE8350fb1b.
+
+| Гармоника | Статус | Время, с | Checks | Cover |
+|---|---|---:|---:|---:|
+| fallback u8 N15 | SUCCESS | 201,80028 | 0/478 | 1/1 |
+| insert_tail scratch u8 | SUCCESS | 319,14010 | 0/440 | 6/6 |
+| GS u8 N14 | SUCCESS | 215,59592 | 0/727 | 2/2 |
+| GS u8 N15 | SUCCESS | 246,82290 | 0/727 | 2/2 |
+
+Пик sampled sum RSS8,83GiB; driver6,20GiB (6499792KiB),
+cbmc4,34GiB. Это общие пики, не измерение памяти каждой гармоники.
+Whole run1062,04с; (1062,04/60+8)×0,0135=$0,346959.
+B=$2,02398525/$3,2, остаток$1,17601475; консервативно$2,0240/$1,1760.
+A+B=$4,7247. Fallback u64N8..16 и u8N9..16 теперь закрыт весь.
+GS u8N14/N15 закрыт в области объектов/входов по D-B4; R9 GO_WITH_NITS96cbf2d3.
+Ориентир180с эти четыре гармоники не достигли, gate600с достигнут.
+
+D-B6 (R7): использовать остаток на ограниченный solver screening.
+Запрос011 diagnostic13×2мин, controls=true, jobs1:
+- scratchu64: kissat/minisat;
+- GS u64N13 kissat, N14 minisat;
+- network u64N15 kissat,N16 minisat,N17 kissat;
+- network u8N16 kissat,N17 minisat;
+- fallback N16 обоих типов: kissat/minisat (cadical измерен ранее).
+Это бюджетная выборка, не полная парная матрица всех решателей/гармоник.
+TIMEOUT120 не означает TIMEOUT600; успех screening сам по себе не зачёт CI.
+При победителях и достаточном остатке — отдельный measurement; иначе раскрыть.
+Резерв(26+30)×0,0135=$0,756<$1,1760. Максимум фактических таймаутов
+26мин сохраняет шанс на последний measurement с учётом compilation overhead.
+
+Изменения proof-логики отсутствуют: экземпляры шаблонов8e499dcd/96cbf2d3;
+макросы fallback/scratch принимают solver, прежние вызовы получают cadical.
+Новые диагностические экземпляры и прежние незачтённые u64 GS/scratch,
+network17 закрыты cfg(kani_smallsort_controls), вне подаваемого набора.
+Контрактные предпосылки/проверки/домен/границы/компараторы не менялись.
+Синтаксис solver сверён с первичной документацией Kani:
+https://model-checking.github.io/kani/reference/attributes.html#kanisolver
+(сам pin/исполнение подтверждаются только lane, не этим справочником).
+Локально только diff --check; никакого Kani/rustc/cargo.
+H2 сейчас не вводится: отдельное доказательство полноты разбиения
+не помещается в подтверждённый остаток после обязательных измерений.

@@ -23,9 +23,12 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
 
 macro_rules! fallback_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
+        fallback_stub_harness!($name, $t, $cmp, $n, cadical);
+    };
+    ($name:ident, $t:ty, $cmp:ident, $n:literal, $solver:ident) => {
         #[kani::proof]
         #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
-        #[kani::solver(cadical)]
+        #[kani::solver($solver)]
         #[kani::unwind(34)]
         fn $name() { fallback_stub::<$t, _, $n>($cmp); }
     };
@@ -112,12 +115,16 @@ fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq,
 
 macro_rules! scratch_contract_harness {
     ($name:ident, $t:ty, $cmp:ident) => {
+        scratch_contract_harness!($name, $t, $cmp, cadical);
+    };
+    ($name:ident, $t:ty, $cmp:ident, $solver:ident) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
-        #[kani::solver(cadical)]
+        #[kani::solver($solver)]
         #[kani::unwind(50)]
         fn $name() { scratch_insert_contract::<$t, _>($cmp); }
     };
 }
+#[cfg(kani_smallsort_controls)]
 scratch_contract_harness!(l2_insert_tail_scratch_u64, u64, lt_u64);
 scratch_contract_harness!(l2_insert_tail_scratch_u8, u8, lt_u8);
 
@@ -155,6 +162,7 @@ macro_rules! general_stub_harness {
         fn $name() { general_stable_stub::<$t, _, $n>($cmp); }
     };
 }
+#[cfg(kani_smallsort_controls)]
 general_stub_harness!(l2_gs_u64_n15, u64, lt_u64, 15, cadical);
 general_stub_harness!(l2_gs_u8_n15, u8, lt_u8, 15, cadical);
 // Instance of reviewed template 96cbf2d3, exact N14 merge proof job160.
@@ -185,5 +193,35 @@ macro_rules! network_stub_harness {
         fn $name() { network_stub::<$t, _, $n>($cmp); }
     };
 }
+#[cfg(kani_smallsort_controls)]
 network_stub_harness!(l2_network_u64_n17, u64, lt_u64, 17, cadical);
+#[cfg(kani_smallsort_controls)]
 network_stub_harness!(l2_network_u8_n17, u8, lt_u8, 17, cadical);
+
+// Solver screening only. Same reviewed bodies, outside the submission set.
+#[cfg(kani_smallsort_controls)]
+scratch_contract_harness!(l2_sweep_scratch_u64_kissat, u64, lt_u64, kissat);
+#[cfg(kani_smallsort_controls)]
+scratch_contract_harness!(l2_sweep_scratch_u64_minisat, u64, lt_u64, minisat);
+#[cfg(kani_smallsort_controls)]
+general_stub_harness!(l2_sweep_gs_u64_n13_kissat, u64, lt_u64, 13, kissat);
+#[cfg(kani_smallsort_controls)]
+general_stub_harness!(l2_sweep_gs_u64_n14_minisat, u64, lt_u64, 14, minisat);
+#[cfg(kani_smallsort_controls)]
+network_stub_harness!(l2_sweep_network_u64_n15_kissat, u64, lt_u64, 15, kissat);
+#[cfg(kani_smallsort_controls)]
+network_stub_harness!(l2_sweep_network_u64_n16_minisat, u64, lt_u64, 16, minisat);
+#[cfg(kani_smallsort_controls)]
+network_stub_harness!(l2_sweep_network_u64_n17_kissat, u64, lt_u64, 17, kissat);
+#[cfg(kani_smallsort_controls)]
+network_stub_harness!(l2_sweep_network_u8_n16_kissat, u8, lt_u8, 16, kissat);
+#[cfg(kani_smallsort_controls)]
+network_stub_harness!(l2_sweep_network_u8_n17_minisat, u8, lt_u8, 17, minisat);
+#[cfg(kani_smallsort_controls)]
+fallback_stub_harness!(l2_sweep_fallback_u64_n16_kissat, u64, lt_u64, 16, kissat);
+#[cfg(kani_smallsort_controls)]
+fallback_stub_harness!(l2_sweep_fallback_u64_n16_minisat, u64, lt_u64, 16, minisat);
+#[cfg(kani_smallsort_controls)]
+fallback_stub_harness!(l2_sweep_fallback_u8_n16_kissat, u8, lt_u8, 16, kissat);
+#[cfg(kani_smallsort_controls)]
+fallback_stub_harness!(l2_sweep_fallback_u8_n16_minisat, u8, lt_u8, 16, minisat);
