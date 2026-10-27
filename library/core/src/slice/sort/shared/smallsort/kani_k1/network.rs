@@ -48,6 +48,7 @@ fn swap_if_less_u64() {
 /// R11 control: under `stub_verified`, a call that breaks `requires(a_pos != b_pos)` must be
 /// reported as a failed precondition. Nothing else in this call can fail: the positions are
 /// in-bounds and the postcondition is satisfiable.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(super::super::swap_if_less)]
 fn r11_control_swap_if_less_requires() {
@@ -98,11 +99,17 @@ macro_rules! check_sort_n {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort9_u8, sort9_optimal, 9, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort9_i32, sort9_optimal, 9, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort9_u64, sort9_optimal, 9, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort13_u8, sort13_optimal, 13, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort13_i32, sort13_optimal, 13, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_sort_n!(sort13_u64, sort13_optimal, 13, u64, lt_u64);
 
 // ---------------------------------------------------------------------------------------------
@@ -190,22 +197,38 @@ macro_rules! check_perm_stub_n {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_perm_stub_n!(sort13_perm_stub_u8, sort13_optimal, 13, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_perm_stub_n!(sort13_perm_stub_i32, sort13_optimal, 13, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_perm_stub_n!(sort13_perm_stub_u64, sort13_optimal, 13, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 check_perm_stub_n!(sort9_perm_stub_u64, sort9_optimal, 9, u64, lt_u64);
 
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort9_01_u8, sort9_optimal, 9, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort9_01_i32, sort9_optimal, 9, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort9_01_u64, sort9_optimal, 9, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort13_01_u8, sort13_optimal, 13, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort13_01_i32, sort13_optimal, 13, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_sort_n_01!(sort13_01_u64, sort13_optimal, 13, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort9_perm_u8, sort9_optimal, 9, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort9_perm_i32, sort9_optimal, 9, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort9_perm_u64, sort9_optimal, 9, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort13_perm_u8, sort13_optimal, 13, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort13_perm_i32, sort13_optimal, 13, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_perm_n!(sort13_perm_u64, sort13_optimal, 13, u64, lt_u64);
 
 // ---------------------------------------------------------------------------------------------
@@ -243,6 +266,7 @@ impl<T> CopyOnDrop<T> {
 /// offset 1: the network call site for `len < 9`. Job 37 (887d01ca, contract and loop attributes of
 /// that commit): goto-instrument out of memory. Those attributes were then removed from
 /// `smallsort.rs`, so at HEAD this harness checks the phase 1 contract and `k1_ins_inv` is unused.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
 #[kani::stub_verified(super::super::insert_tail)]
 #[kani::unwind(18)]
@@ -276,14 +300,23 @@ macro_rules! check_insertion {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o1_u8, u8, lt_u8, 1, 2, 8);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o9_u8, u8, lt_u8, 9, 9, 12);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o13_u8, u8, lt_u8, 13, 13, 17);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o1_i32, i32, lt_i32, 1, 2, 8);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o9_i32, i32, lt_i32, 9, 9, 12);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o13_i32, i32, lt_i32, 13, 13, 17);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o1_u64, u64, lt_u64, 1, 2, 8);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o9_u64, u64, lt_u64, 9, 9, 12);
+#[cfg(kani_smallsort_controls)]
 check_insertion!(insertion_o13_u64, u64, lt_u64, 13, 13, 17);
 
 // ---------------------------------------------------------------------------------------------
@@ -321,8 +354,11 @@ macro_rules! check_network_no_merge {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_network_no_merge!(network_upto17_u8, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_network_no_merge!(network_upto17_i32, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_network_no_merge!(network_upto17_u64, u64, lt_u64);
 
 /// `lo <= l <= hi` (a function, so that `lo = 0` raises no `unused_comparisons` lint).
@@ -391,13 +427,17 @@ macro_rules! check_insert_tail_net {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_insert_tail_net!(insert_tail_net_u8, u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
 check_insert_tail_net!(insert_tail_net_i32, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 check_insert_tail_net!(insert_tail_net_u64, u64, lt_u64);
 
 /// Wave 1 K-8: the insertion region is a prefix of a larger allocation, with every tail
 /// position 1..=16 symbolic. The contract proof assumes only `insert_tail`'s own requires
 /// (in particular the sorted prefix); the suffix stays arbitrary and must be unchanged.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(super::super::insert_tail)]
 #[kani::unwind(18)]
 fn insert_tail_prefix_u64() {
@@ -418,6 +458,7 @@ fn insert_tail_prefix_u64() {
 
 /// K-8 review extension: both ends of the insertion region are symbolic within one allocation.
 /// This includes the interior regions used by scratch-based call sites, not just prefixes.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(super::super::insert_tail)]
 #[kani::unwind(18)]
 fn insert_tail_region_u64() {
@@ -458,6 +499,7 @@ fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
 
 /// K-6+ (b), length 17: network + insertion, no merge and no order-violation panic path.
 /// Ordinary proof checks Kani safety and assertion classes; no sorting/permutation assertions.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(35)]
 fn w1_network_o1_len17_u64() {
@@ -468,24 +510,8 @@ fn w1_network_o1_len17_u64() {
 
 /// CD-1 variant B: safety-class checks only; all assertion-class panics are allowed.
 /// Every callee, including bidirectional_merge, is real; no contract checks or stubs.
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(35)]
-fn w1_network_o1_len24_u64() {
-    let mut v: [u64; 24] = kani::any();
-    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
-    kani::cover(true, "network O1 length 24: normal return reachable");
-}
 
 /// As at length 24, with two length-16 regions (sort13 + insertion), then even merge.
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(35)]
-fn w1_network_o1_len32_u64() {
-    let mut v: [u64; 32] = kani::any();
-    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
-    kani::cover(true, "network O1 length 32: normal return reachable");
-}
 
 /// A constant-sized trait call in each branch keeps each network/merge shape concrete.
 fn w1_network_o1_fixed<const N: usize>() {
@@ -513,14 +539,10 @@ macro_rules! w1_network_o1_cases {
 }
 
 // Priority odd merge paths: homogeneous sort9 halves, mixed sort9/sort13, sort13 halves.
-w1_network_o1_cases!(w1_network_o1_odd_u64, [19, 25, 31], [kani::should_panic]);
 // No merge: includes 0/1 returns, insertion-only, sort9 and sort13, and their insertion tails.
 w1_network_o1_cases!(w1_network_o1_nomerge_u64, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], []);
 // Remaining merge lengths; together with 19/24/25/31/32, covers every length 18..=32.
-w1_network_o1_cases!(w1_network_o1_othermerge_u64, [18, 20, 21, 22, 23, 26, 27, 28, 29, 30], [kani::should_panic]);
 // Smaller independent partitions after job 62's unlocalized CBMC status 6.
-w1_network_o1_cases!(w1_network_o1_othermerge_lo_u64, [18, 20, 21, 22, 23], [kani::should_panic]);
-w1_network_o1_cases!(w1_network_o1_othermerge_hi_u64, [26, 27, 28, 29, 30], [kani::should_panic]);
 
 /// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
 /// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
@@ -550,14 +572,23 @@ macro_rules! check_network_band_tail {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
+#[cfg(kani_smallsort_controls)]
 check_network_band_tail!(bandt13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
 
 /// One constant length per harness (TASK-network phase 2, step 3: "полосами фиксированных длин").
@@ -585,14 +616,18 @@ macro_rules! check_network_fixed {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 check_network_fixed!(fixed8_u64, u64, lt_u64, 8);
+#[cfg(kani_smallsort_controls)]
 check_network_fixed!(fixed12_u64, u64, lt_u64, 12);
+#[cfg(kani_smallsort_controls)]
 check_network_fixed!(fixed17_u64, u64, lt_u64, 17);
 
 /// Phase 5 run A: `check_network_fixed` at length 8 with `insert_tail` through its verified contract
 /// (`insert_tail_net_u64`, job 26), the one combination phase 2 did not run. At length 8 the network
 /// stubs are off the path (`small_sort_network` calls only `insertion_sort_shift_left(v, 1)`); they
 /// are kept so that the harness differs from `fixed8_u64` (job 31) only by the `insert_tail` stub.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(super::super::sort9_optimal)]
 #[kani::stub_verified(super::super::sort13_optimal)]
@@ -609,14 +644,23 @@ fn fixedt8_u64() {
     kani::cover(true, "end reached");
 }
 
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
+#[cfg(kani_smallsort_controls)]
 check_network_band!(band13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
 
 // ---------------------------------------------------------------------------------------------
@@ -638,6 +682,7 @@ fn probe_count<T: PartialEq>(s: &[T], p: &T) -> usize {
 
 /// K-9 retry: full-width u8 values at the exact network width, with a local arbitrary probe.
 /// Removing the symbolic slice length and unchanged suffix leaves only the permutation claim.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(14)]
 fn w1_sort13_perm_fixed_u8() {
@@ -663,6 +708,7 @@ fn sorted_by<T, F: FnMut(&T, &T) -> bool>(s: &[T], cmp: &mut F) -> bool {
 }
 
 /// Real `sort9_optimal` and real `swap_if_less`, no contracts involved.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn direct_sort9_u8() {
     let mut v: [u8; 9] = kani::any();
@@ -675,6 +721,7 @@ fn direct_sort9_u8() {
 }
 
 /// The `sort9_optimal` contract at one constant length, over `stub_verified(swap_if_less)`.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(super::super::sort9_optimal)]
 #[kani::stub_verified(super::super::swap_if_less)]
 fn contract_sort9_u8_len9() {
@@ -696,12 +743,14 @@ fn direct_network<const N: usize>() {
     kani::cover(true, "end reached");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(18)]
 fn direct_network_len13_u8() {
     direct_network::<13>();
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(18)]
 fn direct_network_len17_u8() {
@@ -858,15 +907,20 @@ macro_rules! k13_insertion_cases {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 k13_route_cases!(k13_routes_0_8, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+#[cfg(kani_smallsort_controls)]
 k13_route_cases!(k13_routes_9_16, [9, 10, 11, 12, 13, 14, 15, 16]);
+#[cfg(kani_smallsort_controls)]
 k13_insertion_cases!(k13_insertion_1_10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+#[cfg(kani_smallsort_controls)]
 k13_insertion_cases!(k13_insertion_11_20, [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
 
 /// Last-dispatch safety-only fallback: one allocation avoids duplicating the large permutation
 /// formulas for every constant length. Tags/keys remain full-width; no property assertions/stubs.
 /// Object-bound checks cover the full allocation of 20 Cells, not each shorter slice boundary.
 /// In particular, an access to v[len..20] would not be detected as an allocation overrun.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(35)]
 fn k13_safety_all() {
@@ -907,6 +961,7 @@ fn k13_small_fixed<const N: usize>(mode: u8) -> bool {
 }
 
 /// Reduced permutation domain after all four broad families timed out in job 67.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(35)]
 fn k13_small_permutation() {
@@ -953,6 +1008,7 @@ fn w2_assume_ord_violation() -> ! {
 }
 
 /// Control on a normal-return path, in this same module and with the same variant-A stub.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
 #[kani::unwind(35)]
@@ -965,6 +1021,7 @@ fn w2_control_a_assertion() {
 }
 
 /// Reachability is through the real trait dispatch and real merge, not a direct stub call.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
 #[kani::unwind(35)]
@@ -1059,6 +1116,7 @@ macro_rules! w2_type_cases {
 }
 
 /// Control for the uninstrumented cut used by the short type-matrix proofs.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
 #[kani::unwind(35)]
@@ -1069,7 +1127,9 @@ fn w2_control_a_quiet_assertion() {
     assert!(x != x);
 }
 
+#[cfg(kani_smallsort_controls)]
 w2_type_cases!(w2_k16_zst_stable, (), true, [0, 1, 2, 7, 8, 15, 16, 17, 31, 32]);
+#[cfg(kani_smallsort_controls)]
 w2_type_cases!(w2_k16_zst_network_short, (), false, [8, 9, 12, 13, 17]);
 
 w2_type_cases!(w2_k16_u8_stable_lo, u8, true, [0, 1, 2, 7, 8]);
@@ -1109,10 +1169,12 @@ macro_rules! w2_type_pair_cases {
 
 w2_type_pair_cases!(w2_k16_u128_lo, u128, [0, 1, 2, 7, 8]);
 w2_type_pair_cases!(w2_k16_u128_mid, u128, [15, 16, 17]);
+#[cfg(kani_smallsort_controls)]
 w2_type_pair_cases!(w2_k16_u128_hi, u128, [31, 32]);
 
 
 /// CD-5: the K16 template itself must expose an assertion after a normal merge return.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
 #[kani::unwind(65)]
@@ -1267,7 +1329,9 @@ macro_rules! w2_insertion_safety_cases {
 
 w2_insertion_safety_cases!(w2_k11s_1_5, [1, 2, 3, 4, 5]);
 w2_insertion_safety_cases!(w2_k11s_6_10, [6, 7, 8, 9, 10]);
+#[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_11_15, [11, 12, 13, 14, 15]);
+#[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_16_20, [16, 17, 18, 19, 20]);
 
 // O3-s: safety only on exact allocations; no tag count, snapshots, input-base globals or
@@ -1350,21 +1414,27 @@ w2_o3_route_cases!(w2_o3_routes_9_12, [9, 10, 11, 12]);
 w2_o3_route_cases!(w2_o3_routes_13_16, [13, 14, 15, 16]);
 w2_o3_insertion_cases!(w2_o3_insertion_1_5, [1, 2, 3, 4, 5]);
 w2_o3_insertion_cases!(w2_o3_insertion_6_10, [6, 7, 8, 9, 10]);
+#[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_11_15, [11, 12, 13, 14, 15]);
+#[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_16_20, [16, 17, 18, 19, 20]);
 
 // Final bounded split after the 11..15 O3 family returned unlocalized CBMC status 6.
 w2_insertion_safety_cases!(w2_k11s_11_12, [11, 12]);
+#[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_13_15, [13, 14, 15]);
 w2_o3_insertion_cases!(w2_o3_insertion_11_12, [11, 12]);
+#[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_13_15, [13, 14, 15]);
 
 // Prepared after job108 exceeded the 180s Linux target. NOT_RUN in W2 P1: dispatch24/24.
 w2_insertion_safety_cases!(w2_k11s_n13, [13]);
 w2_insertion_safety_cases!(w2_k11s_n14, [14]);
+#[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_n15, [15]);
 w2_o3_insertion_cases!(w2_o3_insertion_n13, [13]);
 w2_o3_insertion_cases!(w2_o3_insertion_n14, [14]);
+#[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_n15, [15]);
 
 // Wave 2 priority 2, CD-6 step 1. Actual caller domain for the remaining B4 lengths:
@@ -1389,10 +1459,15 @@ macro_rules! w2p2_b4_offset_one {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n16, w2p2_b4_cell_n16, 16);
+#[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n17, w2p2_b4_cell_n17, 17);
+#[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n18, w2p2_b4_cell_n18, 18);
+#[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n19, w2p2_b4_cell_n19, 19);
+#[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n20, w2p2_b4_cell_n20, 20);
 
 // W3 L1-5: split the entire insertion-offset domain into small disjoint groups.
@@ -1516,7 +1591,11 @@ impl W2Value for u64 {
     fn w2_value() -> Self { kani::any() }
 }
 
-fn w2p2_zst_less(_: &(), _: &()) -> bool { false }
+fn w2p2_zst_less(a: &(), b: &()) -> bool {
+    // Read both ZST arguments through ptr::read, then retain the strict unit order.
+    let _ = super::uninit::zst_aware_less(a, b);
+    false
+}
 fn w2p2_drop_less(a: &W2Drop, b: &W2Drop) -> bool { a.0 < b.0 }
 fn w2p2_cell_less(a: &crate::cell::Cell<i32>, b: &crate::cell::Cell<i32>) -> bool {
     a.get() < b.get()
@@ -1620,20 +1699,27 @@ w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n14, u64, 14);
 
 // Night K-10: two insertions after sort13; full-width real bodies, split properties.
 w2p2_k10_cases!(w2p2_k10_u8_n15, u8, [15]);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n15, u64, [15]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n15, u8, 15);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n15, u64, 15);
 
 // Night K-10 N16: exact arrays, real sort13 plus three insertions.
 w2p2_k10_cases!(w2p2_k10_u8_n16, u8, [16]);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n16, u64, [16]);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n16, u8, 16);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n16, u64, 16);
 
 // Night K-10 final width: real sort13 plus four insertions, split properties.
 w2p2_k10_cases!(w2p2_k10_u8_n17, u8, [17]);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n17, u64, [17]);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n17, u8, 17);
+#[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n17, u64, 17);
 
 // W3 L1-4 K-9s: all distinct symbolic positions in an exact N-element allocation.

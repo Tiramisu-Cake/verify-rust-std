@@ -702,3 +702,110 @@ N13/14 имеют общий измеренный sampled пик4,37 GiB; Linux-
 - Этап B/C самостоятельно не начинать. Нужна новая чистая сессия и команда координатора.
 
 W3-L1 ЭТАП A ЗАВЕРШЁН
+
+## Этап B — старт и интеграция
+
+T0 2026-10-27T15:03:16Z, новая чистая сессия, команда координатора L1-6/L1-9.
+Прочитаны AGENTS, W3-RULES (включая этапы), TASK этап B, R8,
+R9-W2-NETWORK-P1 и передача A. Доля B $3,435662 (округлённо $3,44),
+исторический расход A $2,764338/$6,20; старые ставки не пересчитываются.
+Влита база `33c3bbce452cd03b8fd339950fca6712f98b018a` (tooling BASE новых сборок),
+затем uninit/W3-DOC `2b7426016332e10a973c7522021374c2c8adaa8c`.
+Конфликты AGENTS и RUN-REQUEST разрешены сохранением инструкций W3-L1 и своего
+запроса; запрос B заменён отдельно. Ветка correct не влита. Lane/runtime не правились.
+
+### L1-6 — удалённые варианты Б
+
+Удалены entrypoints, а не общие helpers:
+- merge: `w1_control_b_{must_fail,oob_honest,oob_arbitrary}`;
+  `w1_merge_u64_len32_safety`, `w1_cd2_routes_len32_safety`,
+  `w1_cd2_presort_boundaries_safety`, `w1_cd2_comparator_oob_must_fail`;
+  `w1_general_u64_len{17,24,32}_safety`, `w1_general_trait_len{17,24,32}_safety`,
+  `w1_stable_u64_len{17,24,32}_safety`, `w1_cd2_routes_len{17,24}_safety`,
+  `w1_cd3_all_len{2..32}_safety`;
+  `w2_c5_{intrinsic_assume,unchecked_add,copy_nonoverlapping,ptr_add}`.
+- network: `w1_network_o1_len{24,32}_u64`, `w1_network_o1_odd_u64`,
+  `w1_network_o1_othermerge{,_lo,_hi}_u64`.
+Причина: все используют вариант Б/should_panic, заменённый вариантом А W2.
+В атрибутах кода `kani::should_panic` больше нет. Исторические результаты не менялись.
+
+### L1-6 — controls-only и выбранный CI
+
+Изоляция — `#[cfg(kani_smallsort_controls)]` на entrypoint или вызове макроса;
+общие helpers и определения используемых макросов доступны обеим конфигурациям.
+Воспроизведение: запрос k1g.sh с `controls:true`, полным именем entrypoint,
+FAILED + expect_check; у uninit дополнительно diagnostic/uninit_checks:true.
+Без uninit_checks отрицательные u1 не свидетельствуют об uninit; текущий pin
+unsupported, по RESULT-w3-l1u E1 не закрыт. Все `z1*`/`u1*` — controls-only.
+
+Контроли под cfg: smoke::control_must_fail; R11 swap/bm/w2p2_r11;
+W1/W2 A assertion/reachability; K14r control_a/duplicate_tag/extra_drop;
+все новые K15_mutant. K16 reachability (13 успешных) сохранены в CI — это
+не отрицательные контроли, они нужны CD-5. W2 O1-A all_len2..32 и отдельный
+merge32 сохранены целиком (jobs79..92); обычный W1 network nomerge0..17 тоже.
+
+Старые диагностические/вытесненные entrypoints под cfg:
+- merge, все старые entrypoints до W1: `bm_u64_upto{8,32}`,
+  `bm_u64_len{12,16,20,24,28,32}`, `bm_u64_len32_plain{,_sorted}`,
+  `toy_loop_contract`, `bm_{u8,i32,u64,b16,b85}` на2..32;
+  `sort4_{all,u64,i32,b16,b85}`, `sort8_{all,i32,u64,b16}`,
+  `insert_tail_{u64_upto8,int,bytes}`, `general_{i32,u64,b16,b85,u64_len32}`.
+  Причины: широкие/неизмеренные/ресурсные прежние формулировки и дубли.
+  Сохраняются новые W3 sort4 u64/b16 и W2 bm u8/u64 каждой длины2..16;
+  контракты и helpers не удалены. Старый key-only sort4_b85 не подменяет CD-2.
+- network, старые до W2, кроме swap_if_less3 и ordinary nomerge:
+  `sort{9,13}_{u8,i32,u64}`, `sort{9,13}_01_*`, `sort{9,13}_perm_*`,
+  `sort{9,13}_perm_stub_*`, `insertion_o{1,9,13}_*`, `insertion_inv_o1_u64`,
+  `network_upto17_*`, `insert_tail_net_*`, `insert_tail_{prefix,region}_u64`,
+  `band{,t}{0_8,9_12,13_17}_*`, `fixed{8,12,17}_u64`, `fixedt8_u64`,
+  `w1_network_o1_len17_u64`, `w1_sort13_perm_fixed_u8`, `direct_sort9_u8`,
+  `contract_sort9_u8_len9`, `direct_network_len{13,17}_u8`, все k13_* proofs.
+  Причины: старые недоказанные/упавшие/неизмеренные формулировки, K13 диагностика
+  и дубли успешных W2 K10/K8r/O3. Общие helpers сохранены.
+- все обязательные R9 исключения: `w2_k16_zst_{stable,network_short}`
+  (FAILED/OOM), `w2_k16_u128_hi` (дубли n31/n32),
+  `w2_k11s_{11_15,13_15,16_20}`, `w2_o3_insertion_{11_15,13_15,16_20}`,
+  `w2_{k11s,o3_insertion}_n15`, `w2p2_b4_{u64,cell}_n16..n20`,
+  `ext_b4_u64_n16..n20` (OOM/CBMC6/дубли, заменены L1-5).
+  N13/N14 B4/O3 остались: уже измерены buildd989b725 этапа A, прежний NOT_RUN
+  R9 относится к W2. Все W3 N15..20 группы сохранены.
+- W2 correctness, ресурсные/неизмеренные: `w2p2_gs_u64_len13..15`,
+  `w2p2_gs_u8_len14..15`, `w2p2_fallback_len8..16`,
+  `w2night_fallback_u64_len8`, `w2night_fallback_u8_len9`.
+  Сохраняются GS u64 0..12+16, u8 0..13+16; fallback0..7 и typed u8N8.
+- network `w2p2_k10_u64_n15..17`, `w2p2_k10_perm_{u8,u64}_n16..17`
+  (TIMEOUT600). Сохранены успешные sortedness u8N16/17 и perm u64N15;
+  полная корректность остаётся u8<=15/u64<=14; отдельная sortedness не перестановка.
+- `w2night_k12a_bm_u8_len{20,24}` (diagnostic); K14r `reachable` (дубль),
+  `upper24_{count,perm}` (gate false/perm TIMEOUT), `upper32_{count,perm}`
+  (NOT_RUN). Зачтённые пары lower2/4/8 и upper2/4/8/16 сохранены.
+- W3 `w3_sort4_{contract,arbitrary}_b85`: TIMEOUT600, раскрыт в A.
+
+ZST в CI: assembly::ci_zst_stable_{1,2,7,8,16,17,31,32},
+comparator только uninit::zst_aware_less (ptr::read для ZST; CD-2 volatile для non-ZST).
+В network::w2p2_zst_less выполняется тот же read и затем strict false: произвольный
+результат нарушил бы sortedness proof_for_contract. Этот прежде NOT_RUN K9s ZST
+включён в выборку B, до измерения proof credit не заявляется. Новые stable ZST
+entrypoints — повтор диагностического шаблона W3-L1u, теперь для measurement.
+
+### L1-9 — K15, ledger и R7
+
+`assembly.rs`: пять CI ordinary proofs + пять controls-only wrappers. В каждой паре
+один check helper, неизменные входы/свойство; wrapper меняет ровно одно тело
+через kani::stub на копию из controls-only mutations.rs. Это отрицательные
+эксперименты, не stub_verified и не доказательство подменённого runtime.
+- swap: инверсия should_swap; проверка `v[0] <= v[1]` + перестановка2;
+- insert_tail: sift=tail вместо tail.sub(1), off-by-one; та же sorted/permutation2;
+- merge_up: перепутано продвижение left/right; `advancement_ok` и выбранное значение;
+- bidirectional_merge: удалён только финальный guard; на реальном теле с произвольным
+  comparator после normal return проверяется равенство полного u8 probe/count4;
+- presorted_len: после sort9 возвращается10 вместо9 в копии small_sort_network;
+  вход [1;9]+[0] обязан дать `v[0] == 0 && v[9] == 1`.
+
+Все произвольные comparator читают оба аргумента до результата. В новых K15 нет
+ограничений any/assume/any_where; единственный cut — вариант А panic_on_ord_violation,
+normal-return covers обязательны. Предусловия memory соблюдены, массивы точных размеров.
+Merge arbitrary не заявляет sortedness, relies на штатный --no-assert-contracts,
+как принятые W2 O1-A. Presorted — детерминированная регрессия, не полный домен;
+K15 использует u8/короткие входы как свидетели чувствительности, без переноса
+полноты на другие типы. Runtime std, contract attrs и lane собственными правками не менялись.

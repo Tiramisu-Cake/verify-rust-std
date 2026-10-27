@@ -8,3 +8,7 @@ mod merge;
 mod network;
 mod smoke;
 mod uninit;
+
+mod assembly;
+#[cfg(kani_smallsort_controls)]
+mod mutations;

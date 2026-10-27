@@ -786,6 +786,7 @@ pub(crate) fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, cons
 // ---------------------------------------------------------------------------------------------
 // Phase 1 probe (diagnostic): old() and permutation, small lengths, plus the R11 control.
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_upto8() {
@@ -795,6 +796,7 @@ fn bm_u64_upto8() {
     by_len!(len, bm_len::<u64>(lt_u64), [2 3 4 5 6 7 8]);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_upto32() {
@@ -805,6 +807,7 @@ fn bm_u64_upto32() {
         [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32]);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(34)]
 fn insert_tail_u64_upto8() {
@@ -816,12 +819,14 @@ fn insert_tail_u64_upto8() {
 
 // Scaling probes (diagnostic): one fixed length per harness.
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len12() {
     bm_len::<u64, _, 12>(lt_u64);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len16() {
@@ -832,18 +837,21 @@ fn bm_u64_len16() {
 // request on the 32 GB resource lane, same pattern as bm_u64_len16. Length 32 reuses the existing
 // identical `bm_u64_len32` below.
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len20() {
     bm_len::<u64, _, 20>(lt_u64);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len24() {
     bm_len::<u64, _, 24>(lt_u64);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len28() {
@@ -861,6 +869,7 @@ fn toy_loop(a: &mut [u64; 32], n: usize) {
     }
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(34)]
 fn toy_loop_contract() {
@@ -875,6 +884,7 @@ fn toy_loop_contract() {
 /// CBMC without `proof_for_contract`. The light requires is assumed and the light ensures asserted
 /// in the harness. The contract attributes on `bidirectional_merge` stay; whether Kani evaluates
 /// them in a plain proof was not checked (finding 8).
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(34)]
 fn bm_u64_len32_plain() {
@@ -899,6 +909,7 @@ fn bm_u64_len32_plain() {
 
 /// Phase 6 run 3 (attribution): `bm_u64_len32_plain` without the permutation assertion, with the
 /// invariant `k1_bm_inv3_sorted` (no probe count) on the loop.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(34)]
 fn bm_u64_len32_plain_sorted() {
@@ -919,12 +930,14 @@ fn bm_u64_len32_plain_sorted() {
     kani::cover(true, "plain sorted: merge returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(34)]
 fn bm_u64_len32() {
     bm_len::<u64, _, 32>(lt_u64);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_u64() {
@@ -933,6 +946,7 @@ fn sort4_u64() {
 
 /// R11 control: the caller violates the "halves sorted" requires of a `stub_verified` callee.
 /// Expected FAILED on the requires check `k1_merge_halves_sorted`.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(34)]
 #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
@@ -978,6 +992,7 @@ fn sort8_body<T: kani::Arbitrary + FreezeMarker, F: FnMut(&T, &T) -> bool>(mut i
 }
 
 /// sort4_stable for all four general element types (direct, no stubs).
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_all() {
@@ -992,6 +1007,7 @@ fn sort4_all() {
 }
 
 /// sort8_stable for the three types with size <= 16 (direct, no stubs).
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort8_stable)]
 #[kani::unwind(34)]
 fn sort8_all() {
@@ -1006,18 +1022,21 @@ fn sort8_all() {
 
 // Per-type contract proofs for measurement (one harness per type, EXPERIMENT.md §2 p. 4).
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_i32() {
     sort4_body::<i32, _>(lt_i32);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_b16() {
     sort4_body::<[u8; 16], _>(lt_b16);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
 fn sort4_b85() {
@@ -1075,6 +1094,7 @@ macro_rules! w3_sort4_cases {
 
 w3_sort4_cases!(w3_sort4_contract_u64, w3_sort4_arbitrary_u64, u64, lt_u64);
 w3_sort4_cases!(w3_sort4_contract_b16, w3_sort4_arbitrary_b16, [u8; 16], lt_b16);
+#[cfg(kani_smallsort_controls)]
 w3_sort4_cases!(w3_sort4_contract_b85, w3_sort4_arbitrary_b85, [u8; 85], lt_b85);
 
 macro_rules! sort8_harness {
@@ -1090,11 +1110,15 @@ macro_rules! sort8_harness {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 sort8_harness!(sort8_i32, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 sort8_harness!(sort8_u64, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 sort8_harness!(sort8_b16, [u8; 16], lt_b16);
 
 /// insert_tail on regions of 2..=16 elements (general inserts up to index 15 of a half).
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(34)]
 fn insert_tail_int() {
@@ -1108,6 +1132,7 @@ fn insert_tail_int() {
     }
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(34)]
 fn insert_tail_bytes() {
@@ -1136,10 +1161,15 @@ macro_rules! bm_harness {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 bm_harness!(bm_u8, u8, lt_u8); // used by K1-network's small_sort_network (len 18..=32)
+#[cfg(kani_smallsort_controls)]
 bm_harness!(bm_i32, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 bm_harness!(bm_u64, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 bm_harness!(bm_b16, [u8; 16], lt_b16);
+#[cfg(kani_smallsort_controls)]
 bm_harness!(bm_b85, [u8; 85], lt_b85);
 
 // ---------------------------------------------------------------------------------------------
@@ -1219,9 +1249,13 @@ macro_rules! general_harness {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 general_harness!(general_i32, general_stable_len, i32, lt_i32);
+#[cfg(kani_smallsort_controls)]
 general_harness!(general_u64, general_stable_len, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 general_harness!(general_b16, general_unstable_len, [u8; 16], lt_b16);
+#[cfg(kani_smallsort_controls)]
 general_harness!(general_b85, general_unstable_len, [u8; 85], lt_b85);
 
 /// One band of lengths `[$($n)*]` of a top harness. The family of bands of one type covers every
@@ -1244,6 +1278,7 @@ macro_rules! general_band {
 }
 
 // Single-length probe of the composition cost (diagnostic).
+#[cfg(kani_smallsort_controls)]
 general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [32]);
 
 // ---------------------------------------------------------------------------------------------
@@ -1270,22 +1305,10 @@ fn w1_abort_ord_violation() -> ! {
 /// Historical assertion-masking demonstration (CD-1), not a B safety control.
 /// A known ordered input and honest comparator cannot panic in the real merge.
 /// The broken assertion on normal return is masked by should_panic: SUCCESS.
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w1_control_b_must_fail() {
-    let v = [0u64, 1, 2, 3];
-    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
-    // SAFETY: initialized source, separate destination for four writes, len >= 2.
-    unsafe {
-        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
-    }
-    kani::cover(true, "wave1 B mutant: normal return reached");
-    assert!(false, "wave1 B deliberately broken normal-return check");
-}
 
 /// Variant A mutant: retain the permutation check, then deliberately fail on
 /// every normal return. Panic paths terminate in the sole manual O2 stub.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(6)]
@@ -1308,6 +1331,7 @@ fn w1_control_a_must_fail() {
 
 /// Variant A positive control plus independent reachability of the panic
 /// boundary. Exact u64 multiset equality is checked only on normal returns.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(6)]
@@ -1333,44 +1357,6 @@ fn w1_control_a_panic_reachable() {
 // Each mutant reads one past the source allocation only after normal return.
 // The value is stored in valid dst memory so the invalid read is consumed.
 
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w1_control_b_oob_honest() {
-    let v = [0u64, 1, 2, 3];
-    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
-    // SAFETY: initialized source, separate destination for four writes, len >= 2.
-    unsafe {
-        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
-    }
-    kani::cover(true, "wave1 B honest: normal return before safety mutant");
-    // INTENTIONAL UB MUTANT: the pointer is one past the four-element object.
-    // This must fail a safety-class check even under should_panic.
-    unsafe {
-        let value = *v.as_ptr().wrapping_add(4);
-        ptr::write(dst.as_mut_ptr() as *mut u64, value);
-    }
-}
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w1_control_b_oob_arbitrary() {
-    let v: [u64; 4] = kani::any();
-    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
-    // SAFETY: initialized source, separate destination for four writes, len >= 2.
-    unsafe {
-        bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
-    }
-    kani::cover(true, "wave1 B arbitrary: normal return before safety mutant");
-    // INTENTIONAL UB MUTANT: some comparator paths panic before this read;
-    // normal-return paths must still reveal the out-of-object dereference.
-    unsafe {
-        let value = *v.as_ptr().wrapping_add(4);
-        ptr::write(dst.as_mut_ptr() as *mut u64, value);
-    }
-}
-
 // K-6+ (a), O1 as defined by CD-1: only Kani safety checks, allowing all
 // assertion-class panics. Real merge body, no contracts/stubs/assumptions.
 fn w1_merge_safety<const N: usize>() {
@@ -1383,13 +1369,6 @@ fn w1_merge_safety<const N: usize>() {
         bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut w1_arbitrary_less);
     }
     kani::cover(true, "wave1 merge O1: normal return reachable");
-}
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(34)]
-fn w1_merge_u64_len32_safety() {
-    w1_merge_safety::<32>();
 }
 
 // K-6+ (b): u64 selects network through the unstable trait. Test the general
@@ -1433,7 +1412,6 @@ fn w1_stable_u64_safety<const N: usize>() {
 macro_rules! w1_top_safety {
     ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
-        #[kani::should_panic]
         #[kani::unwind(34)]
         fn $name() {
             $body::<$n>();
@@ -1441,15 +1419,6 @@ macro_rules! w1_top_safety {
     };
 }
 
-w1_top_safety!(w1_general_u64_len17_safety, w1_general_u64_safety, 17);
-w1_top_safety!(w1_general_u64_len24_safety, w1_general_u64_safety, 24);
-w1_top_safety!(w1_general_u64_len32_safety, w1_general_u64_safety, 32);
-w1_top_safety!(w1_general_trait_len17_safety, w1_general_trait_safety, 17);
-w1_top_safety!(w1_general_trait_len24_safety, w1_general_trait_safety, 24);
-w1_top_safety!(w1_general_trait_len32_safety, w1_general_trait_safety, 32);
-w1_top_safety!(w1_stable_u64_len17_safety, w1_stable_u64_safety, 17);
-w1_top_safety!(w1_stable_u64_len24_safety, w1_stable_u64_safety, 24);
-w1_top_safety!(w1_stable_u64_len32_safety, w1_stable_u64_safety, 32);
 
 
 // CD-2 remeasurements: one independently chosen route per execution avoids
@@ -1465,20 +1434,6 @@ fn w1_upper_routes_safety<const N: usize>() {
     }
 }
 
-w1_top_safety!(w1_cd2_routes_len17_safety, w1_upper_routes_safety, 17);
-w1_top_safety!(w1_cd2_routes_len24_safety, w1_upper_routes_safety, 24);
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(34)]
-fn w1_cd2_routes_len32_safety() {
-    if kani::any() {
-        w1_merge_safety::<32>();
-    } else {
-        w1_upper_routes_safety::<32>();
-    }
-}
-
 
 // Final wave-1 reservation: cover the missing presort branches with fixed
 // lengths, reading comparators, and real bodies. Full 2..=32 is not claimed.
@@ -1490,86 +1445,13 @@ fn w1_boundary_routes<const N: usize>() {
     }
 }
 
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(34)]
-fn w1_cd2_presort_boundaries_safety() {
-    let len: u8 = kani::any();
-    if len == 16 {
-        if kani::any() {
-            // Exercise the actual quicksort trait entrypoint on a general type.
-            w1_general_trait_safety::<16>();
-        } else {
-            w1_boundary_routes::<16>();
-        }
-        kani::cover(true, "wave1 boundary len 16");
-    } else {
-        macro_rules! lengths {
-            ($($n:literal)*) => {
-                match len {
-                    $( $n => {
-                        w1_boundary_routes::<$n>();
-                        kani::cover(true, concat!("wave1 boundary len ", stringify!($n)));
-                    }, )*
-                    _ => {}
-                }
-            };
-        }
-        lengths!(0 1 2 3 7 8 9 15);
-    }
-    kani::cover(true, "wave1 boundary selector: end reachable");
-}
-
 
 // CD-2 measured negative control: invalid comparator argument must be caught
 // by the volatile memory read, even though constructing &*p is not checked.
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w1_cd2_comparator_oob_must_fail() {
-    let v: [u64; 4] = kani::any();
-    kani::cover(true, "wave1 CD-2: comparator safety mutant call reached");
-    // INTENTIONAL UB MUTANT: b is one past the allocation. The comparator
-    // reads a valid a, then must fail while reading b.
-    unsafe {
-        w1_arbitrary_less(&v[0], &*v.as_ptr().wrapping_add(4));
-    }
-}
 
 // CD-3: a separate fixed-length harness for every N=2..=32. Each independently
 // selects direct general u64, the actual unstable trait on transparent
 // non-Copy u64, or stable-Freeze u64, with a normal-return cover per route.
-w1_top_safety!(w1_cd3_all_len2_safety, w1_upper_routes_safety, 2);
-w1_top_safety!(w1_cd3_all_len3_safety, w1_upper_routes_safety, 3);
-w1_top_safety!(w1_cd3_all_len4_safety, w1_upper_routes_safety, 4);
-w1_top_safety!(w1_cd3_all_len5_safety, w1_upper_routes_safety, 5);
-w1_top_safety!(w1_cd3_all_len6_safety, w1_upper_routes_safety, 6);
-w1_top_safety!(w1_cd3_all_len7_safety, w1_upper_routes_safety, 7);
-w1_top_safety!(w1_cd3_all_len8_safety, w1_upper_routes_safety, 8);
-w1_top_safety!(w1_cd3_all_len9_safety, w1_upper_routes_safety, 9);
-w1_top_safety!(w1_cd3_all_len10_safety, w1_upper_routes_safety, 10);
-w1_top_safety!(w1_cd3_all_len11_safety, w1_upper_routes_safety, 11);
-w1_top_safety!(w1_cd3_all_len12_safety, w1_upper_routes_safety, 12);
-w1_top_safety!(w1_cd3_all_len13_safety, w1_upper_routes_safety, 13);
-w1_top_safety!(w1_cd3_all_len14_safety, w1_upper_routes_safety, 14);
-w1_top_safety!(w1_cd3_all_len15_safety, w1_upper_routes_safety, 15);
-w1_top_safety!(w1_cd3_all_len16_safety, w1_upper_routes_safety, 16);
-w1_top_safety!(w1_cd3_all_len17_safety, w1_upper_routes_safety, 17);
-w1_top_safety!(w1_cd3_all_len18_safety, w1_upper_routes_safety, 18);
-w1_top_safety!(w1_cd3_all_len19_safety, w1_upper_routes_safety, 19);
-w1_top_safety!(w1_cd3_all_len20_safety, w1_upper_routes_safety, 20);
-w1_top_safety!(w1_cd3_all_len21_safety, w1_upper_routes_safety, 21);
-w1_top_safety!(w1_cd3_all_len22_safety, w1_upper_routes_safety, 22);
-w1_top_safety!(w1_cd3_all_len23_safety, w1_upper_routes_safety, 23);
-w1_top_safety!(w1_cd3_all_len24_safety, w1_upper_routes_safety, 24);
-w1_top_safety!(w1_cd3_all_len25_safety, w1_upper_routes_safety, 25);
-w1_top_safety!(w1_cd3_all_len26_safety, w1_upper_routes_safety, 26);
-w1_top_safety!(w1_cd3_all_len27_safety, w1_upper_routes_safety, 27);
-w1_top_safety!(w1_cd3_all_len28_safety, w1_upper_routes_safety, 28);
-w1_top_safety!(w1_cd3_all_len29_safety, w1_upper_routes_safety, 29);
-w1_top_safety!(w1_cd3_all_len30_safety, w1_upper_routes_safety, 30);
-w1_top_safety!(w1_cd3_all_len31_safety, w1_upper_routes_safety, 31);
-w1_top_safety!(w1_cd3_all_len32_safety, w1_upper_routes_safety, 32);
 
 // Wave 2, R6 priority 1. Historical wave-1 harnesses stay unchanged.
 // C-5 uses an honest comparator and reaches each check after a normal merge.
@@ -1586,59 +1468,9 @@ fn w2_c5_normal_merge() -> [u64; 4] {
     }
 }
 
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w2_c5_intrinsic_assume() {
-    let v = w2_c5_normal_merge();
-    // Deliberate C-5 check violation, not a proof-domain assumption.
-    unsafe {
-        let first = ptr::read_volatile(&v[0]);
-        crate::intrinsics::assume(first != 0);
-    }
-}
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w2_c5_unchecked_add() {
-    let _v = w2_c5_normal_merge();
-    // Deliberate C-5 overflow. Volatile input/output retain the operation.
-    unsafe {
-        let max = ptr::read_volatile(&u8::MAX);
-        let mut result = 0u8;
-        ptr::write_volatile(&mut result, max.unchecked_add(1));
-    }
-}
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w2_c5_copy_nonoverlapping() {
-    let mut v = w2_c5_normal_merge();
-    // Deliberate C-5 overlap: both regions are within this four-element
-    // allocation and aligned, but share elements 1 and 2.
-    unsafe {
-        let p = v.as_mut_ptr();
-        ptr::copy_nonoverlapping(p, p.add(1), 3);
-    }
-}
-
-#[kani::proof]
-#[kani::should_panic]
-#[kani::unwind(6)]
-fn w2_c5_ptr_add() {
-    let v = w2_c5_normal_merge();
-    // Deliberate C-5 offset beyond one-past. Only the pointer value is
-    // written into a valid local slot; it is never dereferenced.
-    unsafe {
-        let mut result = ptr::null::<u64>();
-        ptr::write_volatile(&mut result, v.as_ptr().add(5));
-    }
-}
-
 // Variant A cuts only panic_on_ord_violation. Reuse the exact CD-2 helpers:
 // fixed-size arrays, real callees, and volatile reads of both arguments.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(6)]
@@ -1648,6 +1480,7 @@ fn w2_control_a_assertion() {
     assert!(value != value);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(6)]
@@ -1760,7 +1593,9 @@ macro_rules! w2p2_r11 {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 w2p2_r11!(w2p2_r11_u64, u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
 w2p2_r11!(w2p2_r11_u8, u8, lt_u8);
 
 fn w2p2_check_sorted_perm<T, F: FnMut(&T, &T) -> bool, const N: usize>(
@@ -1891,30 +1726,44 @@ w2p2_general_fixed!(w2p2_gs_u8_len7, u8, lt_u8, 7);
 w2p2_fallback_fixed!(w2p2_fallback_len7, 7);
 w2p2_general_fixed!(w2p2_gs_u64_len8, u64, lt_u64, 8);
 w2p2_general_fixed!(w2p2_gs_u8_len8, u8, lt_u8, 8);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len8, 8);
 w2p2_general_fixed!(w2p2_gs_u64_len9, u64, lt_u64, 9);
 w2p2_general_fixed!(w2p2_gs_u8_len9, u8, lt_u8, 9);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len9, 9);
 w2p2_general_fixed!(w2p2_gs_u64_len10, u64, lt_u64, 10);
 w2p2_general_fixed!(w2p2_gs_u8_len10, u8, lt_u8, 10);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len10, 10);
 w2p2_general_fixed!(w2p2_gs_u64_len11, u64, lt_u64, 11);
 w2p2_general_fixed!(w2p2_gs_u8_len11, u8, lt_u8, 11);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len11, 11);
 w2p2_general_fixed!(w2p2_gs_u64_len12, u64, lt_u64, 12);
 w2p2_general_fixed!(w2p2_gs_u8_len12, u8, lt_u8, 12);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len12, 12);
+#[cfg(kani_smallsort_controls)]
 w2p2_general_fixed!(w2p2_gs_u64_len13, u64, lt_u64, 13);
 w2p2_general_fixed!(w2p2_gs_u8_len13, u8, lt_u8, 13);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len13, 13);
+#[cfg(kani_smallsort_controls)]
 w2p2_general_fixed!(w2p2_gs_u64_len14, u64, lt_u64, 14);
+#[cfg(kani_smallsort_controls)]
 w2p2_general_fixed!(w2p2_gs_u8_len14, u8, lt_u8, 14);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len14, 14);
+#[cfg(kani_smallsort_controls)]
 w2p2_general_fixed!(w2p2_gs_u64_len15, u64, lt_u64, 15);
+#[cfg(kani_smallsort_controls)]
 w2p2_general_fixed!(w2p2_gs_u8_len15, u8, lt_u8, 15);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len15, 15);
 w2p2_general_fixed!(w2p2_gs_u64_len16, u64, lt_u64, 16);
 w2p2_general_fixed!(w2p2_gs_u8_len16, u8, lt_u8, 16);
+#[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len16, 16);
 
 // Night K-10: split a timed-out combined fallback harness by element type.
@@ -1929,13 +1778,17 @@ macro_rules! w2night_fallback_typed {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 w2night_fallback_typed!(w2night_fallback_u64_len8, u64, lt_u64, 8);
 w2night_fallback_typed!(w2night_fallback_u8_len8, u8, lt_u8, 8);
+#[cfg(kani_smallsort_controls)]
 w2night_fallback_typed!(w2night_fallback_u8_len9, u8, lt_u8, 9);
 
 // K-12a diagnostic: real merge body and formulation-1 contract properties.
 // These harnesses are dispatched separately, with diagnostic timeouts only.
+#[cfg(kani_smallsort_controls)]
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len20, u8, lt_u8, 20);
+#[cfg(kani_smallsort_controls)]
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len24, u8, lt_u8, 24);
 
 // K-14r: non-Copy, Freeze values with unique identities and observable Drop.
@@ -2061,6 +1914,7 @@ macro_rules! w2night_drop_fixed {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(34)]
@@ -2072,6 +1926,7 @@ fn w2night_drop_control_a() {
     assert!(drop_control_value != drop_control_value);
 }
 
+#[cfg(kani_smallsort_controls)]
 w2night_drop_fixed!(w2night_drop_reachable, 2, true, false, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_low2_count, 2, false, false, w2night_drop_abort_quiet);
 w2night_drop_fixed!(w2night_drop_low2_perm, 2, false, true, w2night_drop_abort_quiet);
@@ -2087,11 +1942,16 @@ w2night_drop_fixed!(w2night_drop_upper8_count, 8, true, false, w1_abort_ord_viol
 w2night_drop_fixed!(w2night_drop_upper8_perm, 8, true, true, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_upper16_count, 16, true, false, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_upper16_perm, 16, true, true, w1_abort_ord_violation);
+#[cfg(kani_smallsort_controls)]
 w2night_drop_fixed!(w2night_drop_upper24_count, 24, true, false, w1_abort_ord_violation);
+#[cfg(kani_smallsort_controls)]
 w2night_drop_fixed!(w2night_drop_upper24_perm, 24, true, true, w1_abort_ord_violation);
+#[cfg(kani_smallsort_controls)]
 w2night_drop_fixed!(w2night_drop_upper32_count, 32, true, false, w1_abort_ord_violation);
+#[cfg(kani_smallsort_controls)]
 w2night_drop_fixed!(w2night_drop_upper32_perm, 32, true, true, w1_abort_ord_violation);
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w2night_drop_abort_quiet)]
 #[kani::unwind(34)]
@@ -2100,6 +1960,7 @@ fn w2night_drop_duplicate_tag_control() {
     w2night_drop_run::<2, false, true, 1>();
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w2night_drop_abort_quiet)]
 #[kani::unwind(34)]
@@ -2160,8 +2021,13 @@ macro_rules! ext_insertion_safety {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 ext_insertion_safety!(ext_b4_u64_n16, 16);
+#[cfg(kani_smallsort_controls)]
 ext_insertion_safety!(ext_b4_u64_n17, 17);
+#[cfg(kani_smallsort_controls)]
 ext_insertion_safety!(ext_b4_u64_n18, 18);
+#[cfg(kani_smallsort_controls)]
 ext_insertion_safety!(ext_b4_u64_n19, 19);
+#[cfg(kani_smallsort_controls)]
 ext_insertion_safety!(ext_b4_u64_n20, 20);

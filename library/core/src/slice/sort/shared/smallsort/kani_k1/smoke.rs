@@ -42,6 +42,7 @@ fn ok() {
     kani::cover(x == 255, "smoke: x == 255 is reachable");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn control_must_fail() {
     // Deliberately false for a 9-byte element.

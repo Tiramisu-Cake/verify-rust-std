@@ -1,70 +1,66 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1-008-insertion-n19-n20-final",
+  "request_id": "w3-l1-009-stage-b-suite",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "Stage A R8 L1-5 final groups: O3 N19g1, both axes N19g2..g5 and N20g2..g4; unchanged reviewed d5464a48 template",
+  "purpose": "Stage B candidate suite compilation: five paired K15 positives, eight ZST-aware stable boundaries, strict ZST swap contract",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n19_g1",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::k15_swap",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n19_g2",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::k15_insert",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n19_g2",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::k15_merge_up",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n19_g3",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::k15_merge_consumption",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n19_g3",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::k15_presorted_len",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n19_g4",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n19_g4",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n19_g5",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n19_g5",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n20_g2",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n20_g2",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n20_g3",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n20_g3",
+      "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n20_g4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n20_g4",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_zst",
       "expect": "SUCCESS"
     }
   ]

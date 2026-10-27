@@ -59,7 +59,7 @@ fn zst_stable_w2<const N: usize>() {
 // in `z1_from_fn_unit` at ptr/mod.rs:2179 (`intrinsics::volatile_load` in `read_volatile`), while
 // `z1_copy_unit` succeeded. This comparator keeps CD-2's volatile reads for every sized-nonzero `T`
 // and for a ZST reads through `ptr::read`, so the sort bodies run without the volatile ZST load.
-fn zst_aware_less<T>(a: &T, b: &T) -> bool {
+pub(super) fn zst_aware_less<T>(a: &T, b: &T) -> bool {
     // SAFETY: as `w2_like_less`; for a ZST any non-null aligned pointer is valid for reads.
     unsafe {
         if crate::mem::size_of::<T>() != 0 {
@@ -92,7 +92,8 @@ fn zst_from_fn<const N: usize>() {
 
 macro_rules! zst_case {
     ($name:ident, $route:ident, $n:literal) => {
-        #[kani::proof]
+        #[cfg(kani_smallsort_controls)]
+#[kani::proof]
         #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -139,6 +140,7 @@ zst_case!(z1n_stable_32, zst_stable_nv, 32);
 zst_case!(z1n_network_8, zst_network_nv, 8);
 zst_case!(z1n_network_9, zst_network_nv, 9);
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1_read_unit() {
     let value = ();
@@ -147,6 +149,7 @@ fn z1_read_unit() {
     kani::cover(true, "Z1 non-volatile unit read returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(5)]
 fn z1n_merge2_unit() {
@@ -157,6 +160,7 @@ fn z1n_merge2_unit() {
     kani::cover(true, "Z1 merge2 unit (ZST-aware comparator) returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(5)]
 fn z1n_insert_tail_unit() {
@@ -167,6 +171,7 @@ fn z1n_insert_tail_unit() {
     kani::cover(true, "Z1 insert_tail unit (ZST-aware comparator) returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1n_sort4_unit() {
     let v = [(); 4];
@@ -176,6 +181,7 @@ fn z1n_sort4_unit() {
     kani::cover(true, "Z1 sort4 unit (ZST-aware comparator) returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1n_swap_unit() {
     let mut v = [(); 2];
@@ -184,6 +190,7 @@ fn z1n_swap_unit() {
     kani::cover(true, "Z1 swap unit (ZST-aware comparator) returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1_volatile_unit() {
     let value = ();
@@ -192,6 +199,7 @@ fn z1_volatile_unit() {
     kani::cover(true, "Z1 volatile unit read returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1_sort4_unit() {
     let v = [(); 4];
@@ -201,6 +209,7 @@ fn z1_sort4_unit() {
     kani::cover(true, "Z1 sort4 unit returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1_swap_unit() {
     let mut v = [(); 2];
@@ -210,6 +219,7 @@ fn z1_swap_unit() {
 }
 
 // R9 F5: the remaining primitives of the stable path for N = 2..7.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn z1_copy_unit() {
     let v = [(); 2];
@@ -219,6 +229,7 @@ fn z1_copy_unit() {
     kani::cover(true, "Z1 copy unit returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(5)]
 fn z1_merge2_unit() {
@@ -231,6 +242,7 @@ fn z1_merge2_unit() {
 }
 
 // R9 Z-a: odd length, the last_src copy of bidirectional_merge (smallsort.rs:931).
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(5)]
 fn z1_merge3_unit() {
@@ -241,6 +253,7 @@ fn z1_merge3_unit() {
     kani::cover(true, "Z1 merge3 unit (ZST-aware comparator) returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(5)]
 fn z1_insert_tail_unit() {
@@ -296,7 +309,8 @@ fn uninit_network<const N: usize>() {
 
 macro_rules! uninit_case {
     ($name:ident, $route:ident, $n:literal) => {
-        #[kani::proof]
+        #[cfg(kani_smallsort_controls)]
+#[kani::proof]
         #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -312,6 +326,7 @@ uninit_case!(u1_general_32, uninit_general_only, 32);
 uninit_case!(u1_network_18, uninit_network, 18);
 uninit_case!(u1_network_32, uninit_network, 32);
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn u1_initialized_control() {
     let cell = MaybeUninit::new(kani::any::<u64>());
@@ -322,6 +337,7 @@ fn u1_initialized_control() {
 
 // Deliberate negative control. Select only in the separate U1 diagnostic run;
 // it must not be included in the final normal CI proof set.
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn u1_uninitialized_control() {
     let cell = MaybeUninit::<u64>::uninit();
@@ -350,6 +366,7 @@ fn uninit_general_tail<const WRITE: u8>() {
     kani::cover(true, "U1 general tail: read returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
 #[kani::unwind(65)]
@@ -357,6 +374,7 @@ fn u1_general_8_tail_uninit() {
     uninit_general_tail::<0>();
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
 #[kani::unwind(65)]
@@ -364,6 +382,7 @@ fn u1_general_8_tail_written() {
     uninit_general_tail::<1>();
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
 #[kani::unwind(65)]
@@ -392,12 +411,14 @@ fn uninit_network_tail<const WRITE: bool>() {
     kani::cover(true, "U1 network tail: read returned");
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(20)]
 fn u1_network_layout_tail_uninit() {
     uninit_network_tail::<false>();
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(20)]
 fn u1_network_layout_tail_written() {
