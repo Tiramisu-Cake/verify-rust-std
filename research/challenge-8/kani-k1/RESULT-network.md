@@ -2923,3 +2923,7 @@ R7: по одному ordinary proof на постоянную N2,3,4, в каж
 Используем принятые w2_o3_input/w2_o3_mutating_less: полные u8 key/tag, duplicate tags разрешены, оба volatile-чтения до записи новых произвольных key, затем произвольный bool. Tag multiplicity произвольного u8 probe сравнивается до/после (точный u8 count при N<=4). Covers движения тегов каждого маршрута, каждого insertion offset и изменения обоих key. Сохранение записанных key на выходе не утверждается. Нет global-наблюдателя/cover временной копии из старого K13, который недостижим на N2.
 
 Ledger: any_where только mode0..2 и offset1..N; данные/probe/key/bool не ограничены. Exact arrays, unwind25, checks активны; без should_panic, ручных cuts, assume или stub_verified. Слияния/order-violation на этих маршрутах нет. Запрос net-night-16-o3-tags-n2, measurement 1 × 10 минут, ожидается SUCCESS и covers7/7.
+
+REVIEW REQUEST be1aa9b8c7df6f94f7edc791c45c10a9d9e5f4fa
+
+network.rs: w2night_o3_tags/helper macro, три ordinary proof N2/N3/N4 на трёх non-Freeze/insertion маршрутах. RUN-REQUEST.json выбирает N2; RESULT-network.md (job159, K8r итог, O3 ledger). Проверить универсальный probe/count для duplicate tags, реальные маршруты, все offsets/covers движения, полные Cell-записи comparator и отсутствие зависимости от старого K13 global/tmp cover. Контекст: принятые w2_o3_input/mutating_less, k13_tag_count/tags, w2_const_offset_call и неизменённый runtime.
