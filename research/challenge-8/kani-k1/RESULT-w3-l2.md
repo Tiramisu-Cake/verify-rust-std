@@ -893,3 +893,14 @@ probe+sortedness в каждом caller, real sort13 в network, cfg R11.
 BM N15 обоих типов: job165/source de7f36c2a58dbe15fe04e781ff8b99babf13218e;
 N13/14: job160/source b73d031114d08780734ca233f98416f58e7dc220.
 Перенос в L1 только после GO и нужных measurement gate=true.
+
+### B build 4dcf377c-ebc9-4062-8556-3e4b66a5a420 — отправлен
+
+Source`e8e361eb`, код96cbf2d3, запрос009, measurement8×10,
+controls=true. Budget перед dispatch used$23,4870,reserved$8,9100;
+после submit максимум$33,8820/$33,96, свой резерв$1,485.
+Фактическая стоимость/статусы неизвестны, новые proof claims не заявлены.
+Следующий шаг после watch: summary, peaks, check-tooling BASE85ceaa0d;
+учётB; оценить scratch proofs/R11 и boundary callers. Затем остальные
+GS u64N13/14,u8N14 и network u64N15/16,u8N16; solver cadical/kissat/minisat
+на границе по бюджету. R9 на96cbf2d3 открыт, ожидать ответа координатора.
