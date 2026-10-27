@@ -969,3 +969,44 @@ no_merge=(17<18)=true, initial_region_len17>=13 -> real sort13,
 не добавлены: domain содержит это сочетание, обязательные covers/контрактные
 проверки присутствуют; новых ограничений входа или ослаблений свойства нет.
 Идущая4dcf377c не менялась; watch уже установлен, ждём его уведомления.
+
+### B build 4dcf377c — COMPLETE, gate=false, три TIMEOUT
+
+Sourcee8e361eb, measurement8×10, controls=true, swap off.
+check-tooling/peaks запрошены через старый BASE85ceaa0d.
+
+| Гармоника | Ожидание / факт | Время, с | Checks | Cover |
+|---|---|---:|---:|---:|
+| fallback u8 N15 | SUCCESS / SUCCESS | 238,82188 | 0/478 | 1/1 |
+| insert_tail scratch u64 | SUCCESS / TIMEOUT | лимит600 | нет | нет |
+| insert_tail scratch u8 | SUCCESS / SUCCESS | 380,715 | 0/440 | 6/6 |
+| GS u64 N15 | SUCCESS / SUCCESS | 510,01297 | 0/734 | 2/2 |
+| GS u8 N15 | SUCCESS / SUCCESS | 306,82110 | 0/727 | 2/2 |
+| network u64 N17 | SUCCESS / TIMEOUT | лимит600 | нет | нет |
+| network u8 N17 | SUCCESS / TIMEOUT | лимит600 | нет | нет |
+| R11 insert_tail | FAILED / FAILED | 0,856558 | 1/402 | 1/1 |
+
+Упавшая проверка R11: `CopyOnDrop::<T>::k1_tail_pre(begin, tail, &is_less)`
+в smallsort.rs:607. Это ожидаемый контроль, не ошибка runtime.
+Никакого FAILED свойства в положительных гармониках не получено.
+Пик sampled sum RSS14,96GiB; true single-process maxRSS10587904KiB
+(выше sampled cbmc10502112KiB), driver6,96GiB. Пик нельзя приписать
+отдельной гармонике; ориентир5GiB на весь процесс не подтверждён.
+Whole run3329,24с; (3329,24/60+8)×0,0135=$0,857079.
+B=$1,67702625/$3,2, остаток$1,52297375; округлённо$1,6771/$1,5229.
+A+B=$4,3778. Gate=false: новые частные SUCCESS пока не засчитываются.
+GS u64 дополнительно не имеет успешного scratch48 основания.
+
+D-B5 (R7). Сначала отдельный measurement успешных u8-инстанциаций,
+без независимых TIMEOUT: fallbackN15, scratch48, GS15; добавить GS14
+тем же шаблоном96cbf2d3 (экземпляр, R4 bm14 job160). Это делает результат
+готовым к переносу при gate=true, не меняя ни домен, ни проверки.
+Затем оставшийся бюджет направить на solver screening/неизмеренные
+границы (GS u64N13/14, scratchu64, network15/16) и раскрытие.
+Запрос010 measurement4×10, без controls, резерв$0,945<остаткаB$1,5229.
+Новые сборки проверять по BASE8350fb1b5fd1f6133fcadab564ac2b0848e30b97.
+
+4dcf377c: check-tooling полностью ok (pool/lane/пять хешей) против
+старогоBASE85ceaa0d. peaks подтверждает sum15685968KiB и swap0.
+log-grep локализует все три TIMEOUT как `CBMC timed out` (строки2721,
+2728,2771); это не Kani FAILED конкретного свойства. R11 отдельный FAILED.

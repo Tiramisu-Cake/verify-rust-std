@@ -157,6 +157,8 @@ macro_rules! general_stub_harness {
 }
 general_stub_harness!(l2_gs_u64_n15, u64, lt_u64, 15, cadical);
 general_stub_harness!(l2_gs_u8_n15, u8, lt_u8, 15, cadical);
+// Instance of reviewed template 96cbf2d3, exact N14 merge proof job160.
+general_stub_harness!(l2_gs_u8_n14, u8, lt_u8, 14, cadical);
 
 // Actual unstable trait -> real sort13 -> insertion offset 13. Only insert_tail
 // is stubbed. The caller checks full-value multiplicity over the whole route.
