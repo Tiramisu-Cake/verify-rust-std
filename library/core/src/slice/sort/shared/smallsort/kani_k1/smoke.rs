@@ -19,3 +19,22 @@ fn control_must_fail() {
     // Deliberately false for a 9-byte element.
     assert!(has_efficient_in_place_swap::<[u8; 9]>());
 }
+
+// Coordinator diagnostic (2026-10-27): for a zero-sized T, `small_sort_network` at len >= 18 never
+// leaves its region loop (`v_base.add(len_div_2) == v_base`). Public sorts return before the trait
+// for ZSTs, so this is latent. len 17 (no merge) is the terminating control.
+#[kani::proof]
+#[kani::unwind(40)]
+fn zst_network_len18_loops() {
+    let mut v = [(); 18];
+    <() as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut |_: &(), _: &()| false);
+    kani::cover(true, "zst network len 18 returned");
+}
+
+#[kani::proof]
+#[kani::unwind(40)]
+fn zst_network_len17_returns() {
+    let mut v = [(); 17];
+    <() as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut |_: &(), _: &()| false);
+    kani::cover(true, "zst network len 17 returned");
+}

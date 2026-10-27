@@ -1,13 +1,13 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-004",
+  "request_id": "coord-zst-network-loop-001",
   "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported; verify memory cap ENFORCED",
-  "runner": "circleci-linux-large",
-  "harness_timeout_minutes": 10,
+  "kind": "diagnostic",
+  "purpose": "Latent ZST non-termination in small_sort_network at len >= 18 (Rust upstream issue evidence); len 17 control",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len18_loops", "expect": "FAILED", "expect_check": "unwinding assertion"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len17_returns", "expect": "SUCCESS"}
   ]
 }
