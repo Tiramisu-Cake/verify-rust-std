@@ -1066,3 +1066,20 @@ https://model-checking.github.io/kani/reference/attributes.html#kanisolver
 Локально только diff --check; никакого Kani/rustc/cargo.
 H2 сейчас не вводится: отдельное доказательство полноты разбиения
 не помещается в подтверждённый остаток после обязательных измерений.
+
+be2555c0: check-tooling полностью ok против BASE8350fb1b;
+peaks: sampled sum9261144KiB, driver6499792KiB, cbmc4550372KiB,
+swap0. R9 и measurement-основания u8 набора выполнены.
+
+### B build 4b745aa4-9a38-4582-aa61-2973168b3355 — отправлен
+
+Source`b4c1ec04`, запрос011, diagnostic13×2, controls=true,
+solver kissat/minisat. Budget перед dispatch used$25,8765,
+reserved$8,9100,cap$43,96; после максимум$35,5425,
+свой резерв$0,756. Стоимость/статусы пока неизвестны.
+BASE8350fb1b5fd1f6133fcadab564ac2b0848e30b97.
+Следующий шаг после watch: summary/peaks/check-tooling и учётB;
+выбрать максимум доступных положительных кандидатов для последнего
+measurement при условии личного бюджета. Screening не выдавать за CI.
+После этого — итоговая таблица пробелов, список переносаL1,
+W3-L2 ЗАВЕРШЁН, push и остановка. Новых этапов дляL2 нет.
