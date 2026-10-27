@@ -1206,6 +1206,45 @@ assert без сообщений, ordinary MUTANT=0; ledger требует count
 RUN-REQUEST пока точно соответствует ожидаемому job 173; пакет мутантов
 и upper2 будет опубликован после его завершения. Измерений мутантов нет.
 
+### Job 173 — w2-merge-night-k14-low4to8-028
+
+Head `fd7edc5ba1e59ed1e89f989ee8e4f504018c962a`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1794008 KiB; wall с компиляцией 0:56.46.
+Cgroup peak 1.92 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_low4_count` | SUCCESS / SUCCESS | 1.0600575 | 0/461 | 17 | 2/2 |
+| `w2night_drop_low4_perm` | SUCCESS / SUCCESS | 1.5201339 | 0/461 | 16 | 2/2 |
+| `w2night_drop_low8_count` | SUCCESS / SUCCESS | 3.3387284 | 0/461 | 17 | 2/2 |
+| `w2night_drop_low8_perm` | SUCCESS / SUCCESS | 6.4478445 | 0/461 | 16 | 2/2 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные normal-return covers сверены отдельно от gate: 2/2 каждой
+гармоники (два входа одного fallback/insertion(offset=1) алгоритма).
+Пара count+perm зелёная на N4 и N8; N2 — job 172. По R9 GO_WITH_NITS
+и исправленному ledger заявление (a) ограничено этими парными чётными N
+на нижнем маршруте, только о тегах и путях без паники.
+
+| K-14r маршрут | N | Count job | Perm job | Пара count+perm / gate / covers |
+|---|---:|---:|---:|---|
+| fallback/insertion offset 1 | 2 | 172 | 172 | SUCCESS / true / 2/2 каждый |
+| fallback/insertion offset 1 | 4 | 173 | 173 | SUCCESS / true / 2/2 каждый |
+| fallback/insertion offset 1 | 8 | 173 | 173 | SUCCESS / true / 2/2 каждый |
+
+### N-D33 (R7): мутанты и верхние N2
+
+`w2-merge-night-k14-mutants-upper2-029`: два мутанта expected FAILED
+по точному условию (duplicate-tag count==expected, extra-drop count==N),
+и upper2 count/perm expected SUCCESS, 4×10 мин. Ожидаемые covers:
+1/1 entry у каждого мутанта; 3/3 у каждого upper2 (D/S и panic stub).
+Мутанты действуют только при const MUTANT=1/2; ordinary proofs =0.
+R9 базовой модели GO_WITH_NITS, дополнение `3af0912c` на review.
+После измерения будут сверены все failed checks и места, не только gate.
+После dispatch ночных jobs 29, preflight отказов 3;
+с П2 до ночи: 34 jobs, 4 preflight отказа, 38/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

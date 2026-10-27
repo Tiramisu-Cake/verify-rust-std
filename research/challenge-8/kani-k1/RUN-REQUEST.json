@@ -1,26 +1,28 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k14-low4to8-028",
+  "request_id": "w2-merge-night-k14-mutants-upper2-029",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-14r fallback/insertion at fixed N4 and N8: separate explicit Drop-count and arbitrary-tag probe permutation proofs. Comparator reads both arguments then kani::any(). Real bodies, full u64 keys, unique tags, only panic_on_ord_violation quiet stub per CD-5.",
+  "purpose": "K-14r N2 discriminating controls: duplicate output tag must fail count==expected, extra destructor must fail count==N. Ordinary general/stable N2 count and tag-permutation proofs use MUTANT=0. Variant A, real bodies, full keys, paired count+perm acceptance.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low4_count",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_duplicate_tag_control",
+      "expect": "FAILED",
+      "expect_check": "assertion failed: count == expected"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_extra_drop_control",
+      "expect": "FAILED",
+      "expect_check": "assertion failed: count == N"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper2_count",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low4_perm",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low8_count",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low8_perm",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper2_perm",
       "expect": "SUCCESS"
     }
   ]
