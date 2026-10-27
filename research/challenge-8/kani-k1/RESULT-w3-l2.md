@@ -879,3 +879,17 @@ scratch proof u64/u8, GS15 u64/u8, network17 u64/u8, R11 FAILED/k1_tail_pre.
 Budget перед подготовкой: used$23,4870,reserved$8,9100,
 свободно$1,5630. Перед dispatch повторить budget.
 Локальная проверка diff --check пройдена; без локальных Rust/Kani запусков.
+
+REVIEW REQUEST 96cbf2d3bd6b8d2a0bbfb418468af76717c8a477
+
+Новый код только `library/core/src/slice/sort/shared/smallsort/kani_k1/correct.rs`:
+`scratch_insert_contract`/scratch_contract_harness, `general_stable_stub`/
+general_stub_harness, `network_stub`/network_stub_harness. Запрос009/RESULT.
+Контекст: неизменённые insert_tail attrs и помощники в smallsort.rs/merge.rs;
+старый bm (L2-1 полностью исключён). Требуется проверить R4 по точным T/F,
+объектам/геометрии, frame scratch48 и обе ветви stable/direct; full-value
+probe+sortedness в каждом caller, real sort13 в network, cfg R11.
+Доказательство scratch48 и новые GS/network ещё НЕ получены, зачёта нет.
+BM N15 обоих типов: job165/source de7f36c2a58dbe15fe04e781ff8b99babf13218e;
+N13/14: job160/source b73d031114d08780734ca233f98416f58e7dc220.
+Перенос в L1 только после GO и нужных measurement gate=true.
