@@ -948,6 +948,37 @@ Review `b8849eef` — **GO**. K-12a N20/24 — экземпляры провер
 Job 169 (u8 N20) под watch; новых dispatch и опроса состояния
 в ответ на review не выполнялось. После него — u8 N24 тем же lane.
 
+### Job 169 — w2-merge-night-k12a-u8n20-024
+
+Head `eae6349f8763743b8314aa6690b4ed7e5a85abfc`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: None; Kani exit 0
+Run: max RSS 2990232 KiB; wall с компиляцией 9:33.29.
+Cgroup peak 4.72 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_k12a_bm_u8_len20` | SUCCESS / SUCCESS | 528.8255 | 0/435 | 72 | 1/1 |
+
+Условия: **u8, CircleCI circleci-linux-large, cgroup 13 GiB,
+kind diagnostic, таймаут 30 минут**. Реальное тело слияния, без stubs.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полный normal-return cover сверён отдельно от gate: 1/1.
+Сортированность и перестановка контракта: 0/435 failed checks.
+528.8255 с <600 с, но kind diagnostic / measurement ok None:
+это диагностические данные, proof credit основного слоя не заявляется.
+Одна гармоника: max RSS run 2990232 KiB (2.85 GiB), cgroup peak 4.72 GiB;
+обе оценки включают компиляцию, не отдельный пик verifier.
+
+### N-D28 (R7): K-12a u8 N24
+
+`w2-merge-night-k12a-u8n24-025`: одна гармоника N24,
+expected SUCCESS, diagnostic 30 минут. Тот же проверенный шаблон,
+реальное тело bm, формулировка 1, полные u8, без новых assume/stub.
+R9 `b8849eef` — GO. Условия u8/CircleCI/13 GiB сохранены;
+следом K-14r по ночной очереди. Никакого переноса u8 на u64/GCB нет.
+После dispatch ночных jobs 25, preflight отказов 3;
+с П2 до ночи: 30 jobs, 4 preflight отказа, 34/40 консервативных попытки.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

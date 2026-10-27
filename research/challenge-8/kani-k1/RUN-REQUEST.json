@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k12a-u8n20-024",
+  "request_id": "w2-merge-night-k12a-u8n24-025",
   "agent": "k1-merge",
   "kind": "diagnostic",
   "runner": "circleci-linux-large",
-  "purpose": "K-12a diagnostic: real bm u8 N20, no stubs, formulation-1 proof_for_contract for sortedness and arbitrary full-value probe permutation. Strict order x >> 1 and full symbolic values. 30-minute exploration only; no main-layer proof credit.",
+  "purpose": "K-12a diagnostic: real bm u8 N24 on CircleCI 13 GiB, no stubs. Formulation-1 proof_for_contract for sortedness and arbitrary full-value probe permutation; full symbolic values, strict order x >> 1. 30-minute data only, no main-layer proof credit.",
   "harness_timeout_minutes": 30,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_k12a_bm_u8_len20",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_k12a_bm_u8_len24",
       "expect": "SUCCESS"
     }
   ]
