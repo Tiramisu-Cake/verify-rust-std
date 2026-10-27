@@ -147,8 +147,9 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         if data.get("uninit_checks") or data.get("controls"):
             raise RequestError("kind partition replicates the organizers' CI: no uninit_checks, no controls")
         t = data["harness_timeout_minutes"]
-        if type(t) is not int or not 1 <= t <= PARTITION_MAX_MINUTES:
-            raise RequestError(f"harness_timeout_minutes (partition wall budget) must be an integer 1..{PARTITION_MAX_MINUTES}")
+        cap = PARTITION_MAX_MINUTES if max_total_minutes is None else min(max_total_minutes, PARTITION_MAX_MINUTES)
+        if type(t) is not int or not 1 <= t <= cap:
+            raise RequestError(f"harness_timeout_minutes (partition wall budget) must be an integer 1..{cap}")
         if "kani_jobs" in data and (type(data["kani_jobs"]) is not int or data["kani_jobs"] not in KANI_JOBS):
             raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
         return data
@@ -221,11 +222,33 @@ PARTITION_TOP = 15
 PARTITION_FAILURES = 20
 
 
+def worker_list(log_text: str) -> list[str] | None:
+    """Harness names run-kani.sh hands to this worker: the lines after "Running verification for harnesses:"
+    (one name per line, no whitespace), up to the first other line. None if the header is missing."""
+    lines = log_text.splitlines()
+    for i, line in enumerate(lines):
+        if line.strip() == "Running verification for harnesses:":
+            names = []
+            for nxt in lines[i + 1:]:
+                if not nxt or any(c.isspace() for c in nxt) or "::" not in nxt:
+                    break
+                names.append(nxt)
+            return names
+    return None
+
+
 def summarize_partition(summary: dict[str, Any], request: dict[str, Any], parsed: dict[str, Any],
-                        exit_code: int | None) -> dict[str, Any]:
+                        exit_code: int | None, log_text: str = "") -> dict[str, Any]:
     """Kind partition: no expectations per harness; every harness of the worker must verify."""
     blocks = parsed["blocks"]
     inconsistencies = summary["inconsistencies"]
+    assigned = worker_list(log_text)
+    if assigned is None:
+        inconsistencies.append("run-kani.sh worker harness list missing: completeness cannot be checked")
+    elif sorted(assigned) != sorted(b["name"] for b in blocks):
+        missing = sorted(set(assigned) - {b["name"] for b in blocks})
+        inconsistencies.append(f"worker was assigned {len(assigned)} harnesses but {len(blocks)} were reported"
+                               + (f"; first missing: {missing[0]}" if missing else ""))
     if "kani_jobs" not in request or request["kani_jobs"] > 1:
         if parsed["overlaps"]:
             inconsistencies.append(f"{parsed['overlaps']} harness block(s) started on a worker before its previous block ended")
@@ -627,7 +650,7 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         parsed = parse_log(log_text)
         summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
         summary["complete_line"] = parsed["complete_line"]
-        return summarize_partition(summary, request, parsed, exit_code)
+        return summarize_partition(summary, request, parsed, exit_code, log_text)
     not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"

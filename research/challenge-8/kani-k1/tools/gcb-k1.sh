@@ -119,8 +119,11 @@ stage() {
         # Kind partition: the organizers' worker invocation (kani.yml), no --kani-args.
         mapfile -t penv < "$K1_OUT/partition.env"; echo "partition env: ${penv[*]}" | tee -a "$K1_OUT/machine.txt"
         timeout --kill-after=30 "$remaining" /usr/bin/time -v env "${penv[@]}" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" 2>&1 | tee "k1-out/kani.log"' 2> "$K1_OUT/time.txt"
-      else
+      elif python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") == "partition")' "$K1_REQUEST"; then
         timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+      else
+        # A partition must never take the --exact path (it would verify every harness of std).
+        echo "kind partition without a worker environment; verification not started" | tee "$K1_OUT/verify-skipped"
       fi
       echo $? > "$K1_OUT/rc"
       kill -TERM "$sampler" 2>/dev/null; wait "$sampler"

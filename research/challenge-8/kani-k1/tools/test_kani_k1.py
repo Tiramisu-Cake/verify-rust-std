@@ -625,22 +625,33 @@ class ResourceLaneTests(unittest.TestCase):
             n = total if total is not None else len(blocks)
             return body + tail(ok if ok is not None else n, n - (ok if ok is not None else n))
         ok_other = OK_BLOCK.replace(f"{P}smoke::ok", other)
-        s = k.summarize(json.dumps(part), "Thread 0: " + OK_BLOCK.replace("\n", "\nThread 0: ").rstrip("Thread 0: ")
+
+        def hdr(*names):
+            return "Running verification for harnesses:\n" + "".join(n + "\n" for n in names) + "Compiling core\n"
+        s = k.summarize(json.dumps(part), hdr(P + "smoke::ok", other) + "Thread 0: " + OK_BLOCK.replace("\n", "\nThread 0: ").rstrip("Thread 0: ")
                         + "\n" + ok_other + tail(2, 0), TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
         self.assertEqual(s["status"], "COMPLETE", s["inconsistencies"])
         self.assertTrue(k.gate_ok(s))
         self.assertEqual(s["partition"]["harness_count"], 2)
         self.assertEqual(s["partition"]["smallsort_kani_k1_count"], 1)
         self.assertIn("Partition 2/4", k.render_md(s))
-        f = k.summarize(json.dumps(part), ok_other + FAIL_BLOCK + tail(1, 1), TIME, 1, "a" * 40, "b" * 40, None, {},
+        f = k.summarize(json.dumps(part), hdr(other, P + "smoke::control") + ok_other + FAIL_BLOCK + tail(1, 1), TIME, 1, "a" * 40, "b" * 40, None, {},
                         {}, "success")
         self.assertEqual(f["status"], "COMPLETE")
         self.assertFalse(k.gate_ok(f))
         self.assertEqual(f["partition"]["failures"][0]["name"], P + "smoke::control")
         self.assertIn("Not SUCCESS", k.render_md(f))
-        cut = k.summarize(json.dumps(part), ok_other, TIME, 124, "a" * 40, "b" * 40, None, {}, {}, "success")
+        cut = k.summarize(json.dumps(part), hdr(other) + ok_other, TIME, 124, "a" * 40, "b" * 40, None, {}, {}, "success")
         self.assertEqual(cut["status"], "PARTIAL")
         self.assertFalse(k.gate_ok(cut))
+        short = k.summarize(json.dumps(part), hdr(other, P + "smoke::ok") + ok_other + tail(1, 0), TIME, 0,
+                            "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertTrue(any("assigned 2 harnesses but 1" in i for i in short["inconsistencies"]))
+        self.assertFalse(k.gate_ok(short))
+        nolist = k.summarize(json.dumps(part), ok_other + tail(1, 0), TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertTrue(any("worker harness list missing" in i for i in nolist["inconsistencies"]))
+        with self.assertRaises(k.RequestError):
+            k.validate_request(copy.deepcopy(part), 120)
         self.assertEqual(k.summarize(json.dumps(part), None, TIME, None, "a" * 40, "b" * 40, None, {}, {},
                                      "failure")["status"], "RUNNER_ERROR")
         with tempfile.TemporaryDirectory() as d:
