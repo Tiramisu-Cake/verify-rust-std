@@ -1056,6 +1056,16 @@ Control/reachability вызывают upper N2 только для контро�
 После dispatch ночных jobs 26, preflight отказов 3;
 с П2 до ночи: 31 jobs, 4 preflight отказа, 35/40 консервативных попыток.
 
+REVIEW REQUEST 9402a0e28400c42ce9f1b133dd1fa2b3cbb57f63
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+K-14r: Drop-тип, читающий произвольный comparator, отдельные count/perm,
+ручной stub только panic_on_ord_violation, контролирующие гармоники.
+Первое измерение ожидается; локальные rustc/cargo/Kani не запускались.
+K-12a job 170: summary и check-tooling ok, только diagnostic-данные.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
