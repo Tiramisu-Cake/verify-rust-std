@@ -1,13 +1,60 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-assembly-compile-001",
-  "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "Integration of wavemerge + wavenetwork + extended on base 67a4b452: the merged tree compiles; smoke harnesses only",
+  "request_id": "w3-l2-specialization-001",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "W3-L2 L2-0: Tagged snapshot specialization in proof_for_contract and stub_verified, old probe, key/label mutants and R11 duplicate labels",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 10,
+  "harness_timeout_minutes": 2,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_contract4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_contract8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_probe_contract4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_stub4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_stub8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_probe_stub4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_contract_mutant_key",
+      "expect": "FAILED",
+      "expect_check": "k1_merge_matches"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_contract_mutant_label",
+      "expect": "FAILED",
+      "expect_check": "k1_merge_matches"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_stub_mutant_key",
+      "expect": "FAILED",
+      "expect_check": "tagged_oracle"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_stub_mutant_label",
+      "expect": "FAILED",
+      "expect_check": "tagged_oracle"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_bad_labels",
+      "expect": "FAILED",
+      "expect_check": "k1_merge_input_ok"
+    }
   ]
 }
