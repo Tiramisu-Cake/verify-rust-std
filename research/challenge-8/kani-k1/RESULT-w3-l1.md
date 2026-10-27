@@ -180,3 +180,14 @@ cover позиции8/12 и отсутствие unreachable cover при N<13.
 Build2 check-tooling: exit0, pool/lane и все5 SHA-256 совпали с базой67a4b452.
 log-grep: CBMC timed out на строках2720/2748 (arbitrary_b85/contract_b85),
 без FAILED check и без времени Verification Time для этих двух гармоник.
+
+## Build 3 — L1-3 gate и L1-4 u8
+
+- `w3-l1-003-sort4-gate-k9s-u8`, commit `b3db35dc87c1bcf98f0a3dc05b4cff727523b0c1`.
+- build `d065eab6-9c2e-4cf5-9022-67b2589d18f7`.
+- Четыре sort4 u64/b16; K9s u8N9..16; обе K9s N17. Ожидается SUCCESS14/14.
+- measurement14×10 мин, jobs1, gcb-e2-standard-4; Python validate accepted14.
+- Budget перед dispatch: used $21,6680, reserved $3,8218; после: reserved $7,1198.
+  Резерв build3 $3,2980; расход W3-L1 $0,831468 плюс этот резерв — в пределах $6,20.
+- После watch: summary, peaks, check-tooling, расход. Далее K9s u64N9..16,
+  затем подготовленные L1-5 N13/14/15. L1-7 не запускать без отдельной команды.
