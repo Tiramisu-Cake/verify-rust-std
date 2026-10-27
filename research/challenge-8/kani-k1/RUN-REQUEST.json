@@ -1,14 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-16-o3-tags-n2",
+  "request_id": "net-night-17-o3-tags-n3",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "O3 tag permutation N2: Cell comparator reads both payloads, writes arbitrary keys preserving tags, returns arbitrary bool. Full-width arbitrary duplicate tags and probe. Real stable default, unstable fallback and insertion/all offsets; tag movement and key-write covers. No stubs.",
+  "purpose": "O3 tag permutation N3: Cell comparator reads both payloads, writes arbitrary keys preserving tags, returns arbitrary bool. Full-width arbitrary duplicate tags and probe. Real stable default, unstable fallback and insertion/all offsets; tag movement and key-write covers. No stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_o3_tags_n2",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_o3_tags_n3",
       "expect": "SUCCESS"
     }
   ]

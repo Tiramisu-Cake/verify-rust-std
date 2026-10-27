@@ -2931,3 +2931,11 @@ network.rs: w2night_o3_tags/helper macro, три ordinary proof N2/N3/N4 на т
 | 16 (П2 #30) | net-night-16-o3-tags-n2 | 162 | bb1578a6 | w2night_o3_tags_n2 | SUCCESS |
 
 Ожидание `k1.sh watch 162`, затем конец turn. После уведомления — summary/check-tooling162; при SUCCESS/gate true далее O3 N3.
+
+### Job162: O3 tags N2
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2night_o3_tags_n2`: SUCCESS (ожидался SUCCESS), 1,1977663 с, 0/218 failed, 4 unreachable, covers7/7. 13 GiB ENFORCED, peak1,85 GiB, RSS1646688 KiB, OOM0, swap off, wall42,62 с.
+
+Tag multiplicity N2 измерена для stable default, unstable fallback и insertion/all offsets; covers движения каждого маршрута, key-write и всех offset выполнены. R9 be1aa9b8 ожидается. Известный summary wall П2:13504,06 с; ночь:10423,23 с,16 dispatch.
+
+Следующий net-night-17-o3-tags-n3: measurement1 ×10 минут, ожидается SUCCESS/covers8/8. Тот же helper/comparator/ledger, snapshotbe1aa9b8; код не менялся.
