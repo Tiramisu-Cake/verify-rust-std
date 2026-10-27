@@ -1,0 +1,82 @@
+# One-off coordinator check (2026-10-27): standalone `cargo kani` reproduction of a spurious
+# dereference failure for ptr::read_volatile on a zero-sized type, on the pinned Kani commit and on
+# the latest Kani release. Dispatched once on this branch only.
+name: SmallSort Kani K1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repro:
+    if: github.ref == 'refs/heads/experiment/kani-k1-zstrepro-20261027'
+    strategy:
+      fail-fast: false
+      matrix:
+        kani: [pinned, latest]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Write the standalone crate
+        run: |
+          mkdir -p repro/src && cd repro
+          cat > Cargo.toml <<'TOML'
+          [package]
+          name = "zst_volatile"
+          version = "0.1.0"
+          edition = "2021"
+
+          [lints.rust]
+          unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+          TOML
+          cat > src/lib.rs <<'RS'
+          #[cfg(kani)]
+          mod proofs {
+              #[kani::proof]
+              fn read_volatile_zst() {
+                  let x = ();
+                  unsafe { core::ptr::read_volatile(&x) };
+              }
+
+              #[kani::proof]
+              fn read_zst() {
+                  let x = ();
+                  unsafe { core::ptr::read(&x) };
+              }
+          }
+          RS
+      - name: Install pinned Kani 9461e07a from source
+        if: matrix.kani == 'pinned'
+        run: |
+          git init -q kani && cd kani
+          git remote add origin https://github.com/model-checking/kani.git
+          git fetch --depth 1 origin 9461e07af7ec929f050aa4192f29363c9be07779 --quiet
+          git checkout -q 9461e07af7ec929f050aa4192f29363c9be07779
+          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet
+          ./scripts/setup/ubuntu/install_deps.sh
+          cargo build-dev --release
+          echo "$PWD/scripts" >> "$GITHUB_PATH"
+      - name: Install latest Kani release
+        if: matrix.kani == 'latest'
+        run: |
+          cargo install --locked kani-verifier
+          cargo kani setup
+      - name: Run both harnesses
+        run: |
+          cd repro
+          set +e
+          cargo kani --version > ../version.txt 2>&1
+          cargo kani --output-format=terse > ../kani.log 2>&1
+          echo "exit=$?" > ../exit.txt
+          set -e
+          cd ..
+          { echo "kani: ${{ matrix.kani }}"; cat version.txt; cat exit.txt
+            grep -E '^(Checking harness|VERIFICATION:-|Failed Checks:|Complete -)' kani.log | head -40; } > results.txt
+          cat results.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zst-repro-${{ matrix.kani }}
+          path: results.txt
+          retention-days: 14
