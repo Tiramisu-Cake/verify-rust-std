@@ -1014,3 +1014,22 @@ Controls request011: validate accepted13, diff --check OK, source f699b895 R9 GO
 последняя дельта194967bb — smoke opt-in/шаблоны по прямому указанию координатора.
 Ожидаемые12 FAILED должны иметь местоположение и точный expect_check,
 положительный smoke::ok — SUCCESS с2cover. Новых свойств runtime не добавлено.
+
+## Build 11 — K15/C5/smoke controls
+
+- request `w3-l1-011-stage-b-controls`, commit `27aff63d`.
+- build `ee1f96a2-babb-4c89-82de-f6a0a2d71e26`, measurement13×10мин,
+  controls:true, jobs1, gcb-e2-standard-4. Ожидания:12 FAILED по указанным
+  условиям/классам и1 SUCCESS smoke::ok с2/2cover. Фактически пока не получено.
+- До dispatch budget used$21,0705, reserve0; после максимум$23,2305/$33,96,
+  свой резерв$2,1600. ОстатокB перед11=$3,123511; фактически B9+10=$0,312152.
+- После watch: summary, peaks, check-tooling33c3bbce; сверить каждый expected failed
+  по месту/тексту и выделить любые посторонние отказы. При ошибке stub функции
+  с контрактом — классифицировать как предел инструмента, не принятую мутацию.
+- Gate true011 вместе с010 и R9 GO позволяет закрыть B. Тогда: стоимость11,
+  финальная таблица контролей, краткая передачаB<=40строк, итоговая строка
+  W3-L1 ЭТАП B ЗАВЕРШЁН, commit/push, остановка. ЭтапC — новая сессия.
+- Передача должна явно сохранять: «K-15 показывает чувствительность выделенных
+  свидетелей», отдельно два новых опыта на прежних K10; пробелы ZST stable N0,
+  unstable/network и K9s-ZST unsupported; E1 unsupported внеCI; партиции/macOS
+  не измерены. Открытых официальных REVIEW REQUEST сейчас нет.
