@@ -33,3 +33,15 @@ REVIEW REQUEST 163cc95543b8dcc0f41a69188b70fe01e2a58360
 
 Проверить smoke.rs: матрица типов, ожидаемые значения, десять cover.
 Проверка запроса Python validate и git diff --check перед dispatch.
+
+## Build 1 — L1-2
+
+- request: `w3-l1-001-efficient-swap-c3`; commit `7bb4408c`.
+- build: `70902589-d488-498d-9595-278e48013138`.
+- `w3_efficient_swap_c3`: ожидается SUCCESS, 10/10 cover; фактический статус ещё не получен.
+- measurement, timeout 10 мин; runner gcb-e2-standard-4.
+- Перед dispatch budget: used $19,7668, reserved $0; после: резерв этого build $0,7760.
+- Нарастающий фактический расход W3-L1: пока неизвестен; лимит $6,20.
+- После уведомления: summary, peaks, check-tooling против 67a4b452;
+  стоимость `(wall whole run / 60 + 8) × 0,0194`.
+- Проверка запроса Python validate: accepted; git diff --check: без замечаний.
