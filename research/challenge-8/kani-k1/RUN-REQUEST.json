@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-zst-network-loop-002",
+  "request_id": "coord-zst-network-loop-003",
   "agent": "coordinator",
   "kind": "diagnostic",
-  "purpose": "ZST small_sort_network len 18 loop isolated with no-op network/insertion stubs; u8 control on the same route",
+  "purpose": "ZST small_sort_network len 18 loop isolated (no-op network/insertion stubs, unwind 12 > merge 9); u8 control same route",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 5,
   "harnesses": [

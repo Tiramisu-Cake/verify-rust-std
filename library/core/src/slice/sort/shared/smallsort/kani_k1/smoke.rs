@@ -45,7 +45,7 @@ fn zst_noop_network<T, F: FnMut(&T, &T) -> bool>(_v: &mut [T], _is_less: &mut F)
 fn zst_noop_insertion<T, F: FnMut(&T, &T) -> bool>(_v: &mut [T], _offset: usize, _is_less: &mut F) {}
 
 #[kani::proof]
-#[kani::unwind(5)]
+#[kani::unwind(12)]
 #[kani::stub(crate::slice::sort::shared::smallsort::sort9_optimal, zst_noop_network)]
 #[kani::stub(crate::slice::sort::shared::smallsort::sort13_optimal, zst_noop_network)]
 #[kani::stub(crate::slice::sort::shared::smallsort::insertion_sort_shift_left, zst_noop_insertion)]
@@ -56,7 +56,7 @@ fn zst_network_len18_loop_isolated() {
 }
 
 #[kani::proof]
-#[kani::unwind(5)]
+#[kani::unwind(12)]
 #[kani::stub(crate::slice::sort::shared::smallsort::sort9_optimal, zst_noop_network)]
 #[kani::stub(crate::slice::sort::shared::smallsort::sort13_optimal, zst_noop_network)]
 #[kani::stub(crate::slice::sort::shared::smallsort::insertion_sort_shift_left, zst_noop_insertion)]
