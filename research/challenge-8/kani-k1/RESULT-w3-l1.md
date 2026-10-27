@@ -950,3 +950,29 @@ network.rs (два cfg wrapper, вызывающих прежние K10 N9/N10 �
 allow для сохранённых diagnostics), uninit.rs (format/allow). Положительный набор
 по сравнению с010 не меняет тела; K9s ZST исключён в748b1be3 после unsupported009.
 Нужен R9 этих исправлений; controls12 до окончания build10 остаются NOT_RUN.
+
+### R9 f699b895 — GO координатора; smoke и раскрытие ZST
+
+Официальный независимый R9 по f699b895: **GO**. Приняты C5 без should_panic,
+оба wrapper на ранее принятых K10 без изменения тела/домена, allow/format и
+удаление мёртвого macro. Риск stub функции с contract attrs проверяется прогоном;
+при отказе инструмента он раскрывается, необязательно сохранять wrapper swap.
+Условие окончанияB уточнено координатором: **gate true010 и controls-прогона**.
+Открытый REVIEW REQUEST f699b895 закрыт этим сообщением. ec01899e — GO_WITH_NITS
+с перечисленными исправлениями, результаты будут зачтены после обоих gate.
+
+Пункт6: smoke::ok также controls-only, заголовок smoke.rs теперь явно opt-in.
+По прямому указанию координатора обновлены оба шаблона запросов вне lane-путей:
+RUN-REQUEST.smoke.json и RUN-REQUEST.gcb-smoke.json, controls:true, measurement,
+gcb-e2-standard-4/10мин. Старые CircleCI/32GB шаблоны не могли принять controls
+(схема разрешает cfg только standard4); перенесены на активный lane, старые
+исторические сборки и записи не изменены. tools/gcb/scripts/Cargo не правились.
+В общий controls-запрос добавлен smoke::ok SUCCESS с2cover, итог13 гармоник:
+12 ожидаемых FAILED и1 SUCCESS. Оба шаблона и запрос проверяются validate.
+
+Для передачиC (пункт7, без заявления полноты): в наборе ZST только stable,
+N∈{1,2,7,8,16,17,31,32}; **N=0 отсутствует**, unstable/network ZST отсутствует
+(старый OOM, с ZST-aware comparator network9/17 TIMEOUT по RESULT-w3-l1u).
+Отдельный пробел **K9s ZST proof_for_contract** — unsupported pointer в009;
+под cfg, не зачтён. Все эти ограничения войдут в раскрытие этапаC. L1-2 size-heuristic
+для() — отдельное свойство, не покрытие отсутствующих сортировочных маршрутов.

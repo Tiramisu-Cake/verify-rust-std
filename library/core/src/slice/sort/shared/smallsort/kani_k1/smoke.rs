@@ -1,6 +1,6 @@
-//! Lane smoke tests and the L1-2 size-heuristic proof. `ok` must succeed with every cover
-//! satisfied, `control_must_fail` must fail with a located check. Together they show that the lane
-//! builds the pinned Kani, runs exactly the requested harnesses and reports both outcomes.
+//! Lane smoke tests are opt-in via `controls: true` (kani_smallsort_controls).
+//! `ok` checks covers and `control_must_fail` checks a located expected failure.
+//! The L1-2 C3 size-heuristic proof remains part of the ordinary std CI set.
 
 use super::super::has_efficient_in_place_swap;
 use crate::kani;
@@ -33,6 +33,7 @@ fn w3_efficient_swap_c3() {
     check!((), true);
 }
 
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 fn ok() {
     assert!(has_efficient_in_place_swap::<u64>());
