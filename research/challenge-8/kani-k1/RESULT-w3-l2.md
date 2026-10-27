@@ -189,3 +189,10 @@ REVIEW REQUEST 8e499dcda307b2a9db6d56ecb46434f25cb68737
 (mod correct), `kani_k1/correct.rs` (L2-0 плюс новый fallback/template u8
 insert_tail prefix/R11), `RUN-REQUEST.json`, `RESULT-w3-l2.md`.
 Изменения L2-2 только в correct.rs; runtime/lane неизменны.
+
+### Build 69670407-4dc0-4717-a063-94488aef5bd9 — отправлен
+
+Request `w3-l2-controls-fallback-003`, head `1824a5ee` (код `8e499dcd`).
+Перед dispatch общий used $21,0278, reserved других сборок $3,4338;
+после — максимум $26,5956/$33,96. Свой фактический итог $0,4462,
+свой резерв $2,1340. Статусы ещё неизвестны; ожидается watch.
