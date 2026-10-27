@@ -3,10 +3,9 @@
   "request_id": "w3-l2-b-fallback-fill-008",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "W3-L2 B remaining fallback lengths: instances of reviewed 8e499dcd after first gate true; R11 insert_tail under controls cfg; original merge contract restored and H1 experiments removed",
+  "purpose": "W3-L2 B remaining fallback instances of reviewed 8e499dcd; first gate true; 12 callers fit current global reservations, u8 N15 and cfg R11 deferred to next request",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
-  "controls": true,
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n9",
@@ -55,15 +54,6 @@
     {
       "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n14",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_insert_tail",
-      "expect": "FAILED",
-      "expect_check": "k1_tail_pre"
     }
   ]
 }
