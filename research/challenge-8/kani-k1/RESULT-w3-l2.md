@@ -1,15 +1,17 @@
 # W3-L2 — корректность, план R8
 
-Текущее состояние: L2-0 подтверждён gate build6e32e784 и R9 GO;
-обе S2 и R11 insert_tail подтверждены тем же build. L2-1: old20/24 дали
-TIMEOUT30мин (65a99021); парный new20/24 отправлен (9838655b).
-В HEAD одобренный новый ensures. До исхода H1 новый контракт не передаётся L1.
+Итог этапа A: **L2-1 STOP по протоколу — new24 TIMEOUT1800с >600с**.
+Old/new20/24 все TIMEOUT30мин; отношение времён не определяется.
+L2-0, обе S2 и R11 insert_tail подтверждены gate6e32e784 и R9 GO.
+Собственных незавершённых builds нет; учтено $2,7007/$5,4, остаток $2,6993.
+В HEAD новый экспериментальный ensures; условие выигрыша H1 для переноса
+в L1 не выполнено. L2-2 — только в чистой сессии этапа B, передача в конце.
 
 Начало: 2026-10-27T10:18:21Z. Ветка `experiment/kani-k1-correct-20261027`.
 Доля $5,4; потрачено $0, незавершённых собственных сборок на входе нет.
 Состояние на входе: L2-0 начат; L2-1 не начат; L2-2 — маршрутная таблица.
 
-## L2-0 — опыт специализации
+## L2-0 — начальная редакция опыта (история; итог выше и в передаче)
 
 `correct.rs`: `K1MergePerm`, blanket/default = прежний подсчёт произвольной
 пробы; специализация `Tagged { key: u64, tag: u64 }` = Copy-снимок входа
@@ -614,3 +616,101 @@ Diagnostic2×30мин, jobs1; проверок/времён ещё нет.
 $28,4580/$33,96. Свой итог$1,7557, резерв006$1,2150 по новой ставке.
 Следующее действие после watch — summary, peaks/check-tooling, стоимость
 и вердикт протокола по new24 (STOP при >600с). Этап B не начинать.
+
+## Build 9838655b — new COMPLETE, оба TIMEOUT30мин; STOP L2-1
+
+Request006; source SHA **c70a7e6fb7f11aa07b88419306a96d39671fe80a**;
+build **9838655b-b07e-49b5-b50e-f89fbc751aea**.
+Фактический permutation-ensures:
+`CopyOnDrop::<T>::k1_merge_matches(dst, v.len(), v.as_ptr())`.
+Для Tagged — исходная связь key↔tag и равенство u64-масок региона;
+источник не меняется, old() не используется. Для default — прежние
+два count_u после вызова. Те же Tagged/lt_tagged, любые key/tag с requires,
+генератор, probe, cadical, unwind66, proof_for_contract реального bm и jobs1,
+что в baseline fffa5ae1. Review контролируемого сравнения GO45525ab1/d7777f1a.
+
+| N / гармоника | expected/actual | Порог | Verification Time / checks / covers |
+|---|---|---|---|
+|20 `l2_new_tagged20`|SUCCESS/TIMEOUT|1800 с|не получены|
+|24 `l2_new_tagged24`|SUCCESS/TIMEOUT|1800 с|не получены|
+
+Summary COMPLETE, gate=false, expectation=false, diagnostic (measurement
+ok=None), exit1. Failed check/контрпример свойства не получен.
+Whole run1:01:38, maxRSS7661184KiB; CBMC7,31GiB, compiler1,73GiB,
+instrument0,05GiB, sampled sum7,22GiB, swapoff; verify после validate349с.
+Пики относятся ко всему run, не отдельным N. check-tooling полностью ok
+против67a4b452: нужный пул, неизменность lane, sourceSHA/runID и hashes.
+
+### Итог контролируемого сравнения
+
+| N | old: fffa5ae1 / build65a99021 | new: c70a7e6f / build9838655b | old/new |
+|---|---|---|---|
+|20|TIMEOUT1800с, probe-count ensures|TIMEOUT1800с, k1_merge_matches ensures|не определяется|
+|24|TIMEOUT1800с, probe-count ensures|TIMEOUT1800с, k1_merge_matches ensures|не определяется|
+
+Полные SHA, буквальные ensures и UUID каждого замера приведены в его
+разделе выше. Все четыре времени цензурированы: отношение и нижняя
+граница ускорения не установлены. Это не свидетельство отсутствия выигрыша.
+
+**STOP по TASK-w3-l2 / R8 §5:** новая формулировка N24 не завершилась
+за1800с, то есть целевой предел600с не достигнут. N32 и символьный диапазон
+не запускались. Диапазон17..32 для H1 в основном CI-слое раскрывается
+как не закрытый в целевом бюджете; N17..19/25..32 отдельно не измерены.
+Прежние proof/evidence других типов и расширенного слоя этим не отзываются.
+Ожидавшийся выигрыш H1 не установлен; сильный Tagged-контракт остаётся
+экспериментом этой ветки и по решению координатора не переносится в L1.
+
+### Финальный бюджет этапа A
+
+Стоимость006: (61+38/60+8)×$0,0135=$0,94005; вверх до70пул-минут,
+для доли **$0,9450**. Нарастающий консервативный итог **$2,7007/$5,4**,
+остаток **$2,6993**. Собственных резервов и незавершённых сборок нет.
+
+| Build | Статус / назначение | Учтено в доле, $ |
+|---|---|---:|
+|86f791b7|COMPILE_ERROR, initial L2-0|0,1746 (старая ставка)|
+|d3c8bdd8|COMPLETE, ожидаемые статусы; gatefalse из-за expect_check|0,2716 (старая ставка)|
+|69670407|EXPIRED до старта, подтверждение координатора|≈0|
+|6e32e784|COMPLETE gate true, L2-0/S2/R11|0,3645|
+|65a99021|old20/24 TIMEOUT30мин|0,9450|
+|9838655b|new20/24 TIMEOUT30мин|0,9450|
+|Всего|консервативное округление вверх по каждому run|2,7007|
+
+Глобальный старый более строгий ledger: builds43, used$28,8848,
+reserved0, cap$33,96. Новых dispatch после STOP нет. Итоговые кодовые
+изменения имеют R9 GO; открытых REVIEW REQUEST/LANE REQUEST нет.
+Runtime std/lane не изменены; smallsort.rs совпадает с одобренным edda4bbe.
+
+## Передача этапа A
+
+Этап A завершён: L2-0 подтверждён; L2-1 STOP (new24 TIMEOUT1800с >600с).
+Old/new20/24 — все TIMEOUT30мин; отношение времён не определяется, H1-выигрыш не установлен.
+Old SHA fffa5ae131748fd14649ea46f719c79e4aea5886, build65a99021-7199-40e5-859d-4d0d5bc0c599.
+Old ensures: k1_count_u(v.as_ptr(),v.len()) == k1_count_u(dst,v.len()).
+New SHA c70a7e6fb7f11aa07b88419306a96d39671fe80a, build9838655b-b07e-49b5-b50e-f89fbc751aea.
+New ensures: k1_merge_matches(dst,v.len(),v.as_ptr()); default — прежняя проба после вызова.
+Оба diagnostic2×30, один Tagged/генератор/lt_tagged, cadical/unwind66, proof_for_contract реального bm.
+Оба check-tooling ok; failed checks/covers у TIMEOUT не получены. N32/диапазон не запускались.
+H1 для17..32 в целевом CI-бюджете не закрыта; прежний расширенный слой сохраняется отдельно.
+L2-0 gate=true: build6e32e784-7096-4dfb-ba0c-743181d525b3, sourcefb10f6bf.
+Там contract4/8 — любые различные tag<64, полные key; covers бит63 и нетождественный порядок.
+Stub/мутанты/default/R11 дали ожидаемые статусы; R9 GO edda4bbe/ff751801.
+S2 закрыт тем же build: network::insert_tail_net_u8 SUCCESS312,899с, prefix_u8 SUCCESS165,787с.
+R11 insert_tail FAILED на k1_tail_pre, smallsort.rs:607; остальные locations в таблице004 выше.
+Fallback-код R9 GO_WITH_NITS8e499dcd; условие S2 выполнено, callers ещё НЕ измерены.
+L2-2 начат до разделения этапов: маршрутная таблица и correct::l2_fallback_u64_n8/n16, u8_n9/n16.
+Запрос003 с fallback EXPIRED до старта; по новым callers нет evidence и нет зачёта пробелов.
+Первый шаг B в новой сессии: прочитать актуальные W3-RULES/TASK, budget; запустить эти4 fixed-N callers.
+Используется реальный fallback со stub_verified(insert_tail), полные u8/u64, cadical, массивы ровно N.
+Для u64 прежние insert_tail_int/prefix_u64 сохраняются; u8 full/prefix уже измерены в004.
+Далее B — прочие N/решатели/сети по TASK; здесь их не начинать. Tagged16 не заменяет u8/u64-маршруты.
+Ветка experiment/kani-k1-correct-20261027, файл correct.rs; новый bm-ensures только эксперимент этой ветки.
+Baseline отменён отдельным cab3ed7b, smallsort.rs совпадает с edda4bbe. В L1 новый контракт не переносить без решения.
+R9 GO сравнения45525ab1/d7777f1a; открытых REVIEW REQUEST/LANE REQUEST нет.
+Учтено A $2,7007 из$5,4, осталось$2,6993; прежние ставки не пересчитывались, далее$0,0135/мин.
+Lane k1g.sh/standard4; на ветке старый более строгий бюджет$0,0194, base67a4b452 для check-tooling.
+Raw logs не открывать; результаты только summary/peaks/log-grep/log-lines. Чистая комната сохраняется.
+Все6 собственных builds терминальные, незавершённых нет; последний global reserved0.
+Следующий этап B — только с новой чистой сессии владельца. Эта сессия останавливается.
+
+W3-L2 ЭТАП A ЗАВЕРШЁН
