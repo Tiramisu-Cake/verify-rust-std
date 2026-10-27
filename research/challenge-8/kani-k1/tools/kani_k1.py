@@ -189,6 +189,8 @@ def parse_log(text: str) -> dict[str, Any]:
     complete = None
     error_context = 0
     overlaps = 0  # a harness started on a worker whose previous block had not ended
+    orphans = 0   # an unprefixed result line while only prefixed (worker) blocks were open
+    result_res = (STATUS_RE, TIME_RE, CHECKS_RE, COVER_RE, FAILED_CHECK_RE, FILE_RE, TIMEOUT_RE, OOM_RE)
     open_blocks: dict[str | None, dict[str, Any] | None] = {}   # worker -> its open block; None = unprefixed
     for raw in text.splitlines():
         line = raw.rstrip("\r")
@@ -221,6 +223,8 @@ def parse_log(text: str) -> dict[str, Any]:
             open_blocks.clear()
             continue
         if current is None:
+            if worker is None and any(open_blocks.values()) and any(r.match(line) for r in result_res):
+                orphans += 1
             continue
         if TIMEOUT_RE.match(line):
             current["timed_out"] = True
@@ -266,7 +270,7 @@ def parse_log(text: str) -> dict[str, Any]:
     for block in blocks:
         block.pop("_last_open", None)
     return {"blocks": blocks, "errors": errors, "errors_truncated": errors_truncated, "complete_line": complete,
-            "overlaps": overlaps}
+            "overlaps": overlaps, "orphans": orphans}
 
 
 def _block_status(block: dict[str, Any]) -> str:
@@ -531,6 +535,9 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         # the attribution failed.
         inconsistencies.append(f"{parsed['overlaps']} harness block(s) started on a worker before its previous "
                                "block ended under kani_jobs > 1: output may be interleaved")
+    if request.get("kani_jobs", 1) > 1 and parsed["orphans"]:
+        inconsistencies.append(f"{parsed['orphans']} result line(s) without a worker prefix under kani_jobs > 1: "
+                               "they cannot be attributed to a harness")
     for block in parsed["blocks"]:
         if block["name"] in by_name:
             inconsistencies.append(f"harness reported more than once: {block['name']}")

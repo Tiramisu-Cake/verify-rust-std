@@ -547,6 +547,12 @@ class ResourceLaneTests(unittest.TestCase):
         b = run(broken)
         self.assertTrue(any("interleaved" in i for i in b["inconsistencies"]))
         self.assertFalse(k.gate_ok(b))
+        # An unprefixed result line while a worker block is open cannot be attributed: fail closed.
+        orphan = real.replace("Thread 1: VERIFICATION:- SUCCESSFUL\n", "CBMC timed out. You may want to rerun\n"
+                              "Thread 1: VERIFICATION:- SUCCESSFUL\n")
+        o = run(orphan)
+        self.assertTrue(any("without a worker prefix" in i for i in o["inconsistencies"]))
+        self.assertFalse(k.gate_ok(o))
         # Sequential (unprefixed) output is unchanged.
         self.assertEqual(run(GOOD_LOG)["status"], "COMPLETE")
 
