@@ -1,18 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l2-h1-new-006",
+  "request_id": "w3-l2-b-fallback-007",
   "agent": "k1-merge",
-  "kind": "diagnostic",
-  "purpose": "W3-L2 L2-1 paired new formulation: key-label map and u64 region mask, real bidirectional_merge on same arbitrary Tagged20/24, same requires/input/cadical/unwind as baseline005",
+  "kind": "measurement",
+  "purpose": "W3-L2 stage B first measurement: four reviewed fixed-N fallback callers, real u8/u64 with verified insert_tail only; no merge contract dependency",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 30,
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_new_tagged20",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_new_tagged24",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n16",
       "expect": "SUCCESS"
     }
   ]
