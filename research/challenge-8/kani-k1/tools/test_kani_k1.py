@@ -562,6 +562,21 @@ class ResourceLaneTests(unittest.TestCase):
                                  input="[]", capture_output=True, text=True)
             self.assertEqual(bad.returncode, 2, price)
 
+    def test_uninit_checks(self):
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": ONLY_OK}
+        args = k.kani_args(k.validate_request({**diag, "uninit_checks": True}))
+        self.assertEqual(args[args.index("-Z") + 1], "uninit-checks")
+        self.assertNotIn("uninit-checks", k.kani_args(k.validate_request(copy.deepcopy(diag))))
+        self.assertNotIn("uninit-checks", k.kani_args(k.validate_request({**REQ, "uninit_checks": False})))
+        self.bad({**diag, "uninit_checks": 1}, "true or false")
+        self.bad({**diag, "kind": "measurement", "uninit_checks": True}, "only for kind diagnostic")
+        self.bad({**diag, "runner": "circleci-linux-large", "uninit_checks": True}, "only for kind diagnostic")
+        s = k.summarize(json.dumps({**diag, "uninit_checks": True}), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40,
+                        "b" * 40, None, {}, {}, "success")
+        self.assertTrue(s["request"]["uninit_checks"])
+        self.assertTrue(any("outside CI" in n for n in s["notes"]))
+        self.assertIn("uninit checks on", k.render_md(s))
+
     def test_require_runner_repeatable(self):
         with tempfile.TemporaryDirectory() as d:
             req, args = Path(d) / "r.json", Path(d) / "a.txt"
