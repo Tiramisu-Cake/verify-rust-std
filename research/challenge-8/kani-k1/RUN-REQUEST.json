@@ -1,14 +1,30 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "ext-e1-bm-len24-003",
+  "request_id": "ext-e2-b4-n16-20-004",
   "agent": "k1-merge",
   "kind": "resource",
-  "purpose": "Extended layer E-1 (TASK-ext.md, CD-6): bidirectional_merge contract, formulation 1, u64, length 24, retry with 720 min (owner exception EXT-D6), 32 GB lane, base 72153180",
+  "purpose": "Extended layer E-2 (TASK-ext.md, CD-6): insertion_sort_shift_left safety, u64, lengths 16..=20, all offsets 1..=len, reading arbitrary comparator, one harness per length, 32 GB lane, base 72153180",
   "runner": "gcb-e2-highmem-4",
-  "harness_timeout_minutes": 720,
+  "harness_timeout_minutes": 60,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::bm_u64_len24",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::ext_b4_u64_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::ext_b4_u64_n17",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::ext_b4_u64_n18",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::ext_b4_u64_n19",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::ext_b4_u64_n20",
       "expect": "SUCCESS"
     }
   ]
