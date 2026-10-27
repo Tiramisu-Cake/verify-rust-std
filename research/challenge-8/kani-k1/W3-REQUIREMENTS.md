@@ -147,3 +147,5 @@ CircleCI 13 GiB — лимит verify на VM 15 GB; Cloud Build 16 GB — пр�
 [L1]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/63ce8afcf01e7ecc129b1afa627703633802e165/research/challenge-8/kani-k1/RESULT-w3-l1.md
 [L2]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/27a2d280dc007d6d81bd5be361d98cd2fe5afd73/research/challenge-8/kani-k1/RESULT-w3-l2.md
 [W2R9]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/33c3bbce452cd03b8fd339950fca6712f98b018a/research/challenge-8/kani-k1/R9-W2-NETWORK-P1-2026-10-27.md
+
+REVIEW REQUEST 207d4931a1567b31505dd8304a93fb0dceb25d85
