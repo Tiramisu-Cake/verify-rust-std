@@ -1,13 +1,20 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-004",
+  "request_id": "coord-gcb-std-smoke-001",
   "agent": "coordinator",
   "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported; verify memory cap ENFORCED",
-  "runner": "circleci-linux-large",
+  "purpose": "16 GB pool k1-standard4 smoke: pool selection, MACHINE memcap/swap gate, USD ledger; base 2758c214",
+  "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::smoke::ok",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail",
+      "expect": "FAILED",
+      "expect_check": "has_efficient_in_place_swap"
+    }
   ]
 }
