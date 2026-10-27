@@ -56,9 +56,9 @@ fn zst_stable_w2<const N: usize>() {
 }
 
 fn zst_from_fn<const N: usize>() {
+    // R9 N2: no read of the result, so this isolates `from_fn` from `z1_volatile_unit`.
     let v: [(); N] = crate::array::from_fn(|_| ());
-    // SAFETY: a reference to an initialized ZST array.
-    let _ = unsafe { ptr::read_volatile(&v) };
+    kani::cover(v.len() == N, "Z1 from_fn unit: array of length N built");
 }
 
 macro_rules! zst_case {
@@ -94,6 +94,11 @@ zst_case!(z1f_stable_16, zst_stable_w2, 16);
 zst_case!(z1f_stable_32, zst_stable_w2, 32);
 zst_case!(z1_from_fn_unit_2, zst_from_fn, 2);
 zst_case!(z1_from_fn_unit_32, zst_from_fn, 32);
+// R9 Z-a: odd lengths and the len < 2 early return with the job 85 inputs.
+zst_case!(z1f_stable_1, zst_stable_w2, 1);
+zst_case!(z1f_stable_7, zst_stable_w2, 7);
+zst_case!(z1f_stable_17, zst_stable_w2, 17);
+zst_case!(z1f_stable_31, zst_stable_w2, 31);
 
 #[kani::proof]
 fn z1_volatile_unit() {
@@ -139,6 +144,17 @@ fn z1_merge2_unit() {
     // is not stubbed here: if it were reachable, the harness would fail on it.
     unsafe { super::super::bidirectional_merge(&v, dst.as_mut_ptr().cast::<()>(), &mut reading_less) };
     kani::cover(true, "Z1 merge2 unit returned");
+}
+
+// R9 Z-a: odd length, the last_src copy of bidirectional_merge (smallsort.rs:931).
+#[kani::proof]
+#[kani::unwind(5)]
+fn z1_merge3_unit() {
+    let v = [(); 3];
+    let mut dst = [MaybeUninit::<()>::uninit(); 3];
+    // SAFETY: len 3 >= 2, `dst` is separate and valid for three writes.
+    unsafe { super::super::bidirectional_merge(&v, dst.as_mut_ptr().cast::<()>(), &mut reading_less) };
+    kani::cover(true, "Z1 merge3 unit returned");
 }
 
 #[kani::proof]
@@ -233,14 +249,19 @@ fn u1_uninitialized_control() {
 // R9 F3, general layout: after the real sort at N = 8, scratch cells 8..47 are never written
 // (sort4_stable fills 0..8, the merge reads them back). The negative reads cell 47 untouched;
 // the paired positive writes that same cell first.
-fn uninit_general_tail<const WRITE: bool>() {
+// WRITE: 0 leaves the cell alone, 1 writes it through `MaybeUninit::write`, 2 through a raw
+// `*mut u64` as the sort's own copies do (R9 N1).
+fn uninit_general_tail<const WRITE: u8>() {
     let mut scratch = [MaybeUninit::<u64>::uninit(); 48];
     uninit_general::<8>(&mut scratch);
-    if WRITE {
+    if WRITE == 1 {
         let _ = scratch[47].write(kani::any());
+    } else if WRITE == 2 {
+        // SAFETY: cell 47 is in bounds of `scratch`.
+        unsafe { scratch.as_mut_ptr().add(47).cast::<u64>().write(kani::any()) };
     }
     kani::cover(true, "U1 general tail: before reading scratch[47]");
-    // SAFETY: in bounds; initialized only when WRITE (the negative control's deliberate UB).
+    // SAFETY: in bounds; initialized unless WRITE == 0 (the negative control's deliberate UB).
     let _ = unsafe { ptr::read_volatile(scratch.as_ptr().add(47).cast::<u64>()) };
     kani::cover(true, "U1 general tail: read returned");
 }
@@ -249,14 +270,21 @@ fn uninit_general_tail<const WRITE: bool>() {
 #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
 #[kani::unwind(65)]
 fn u1_general_8_tail_uninit() {
-    uninit_general_tail::<false>();
+    uninit_general_tail::<0>();
 }
 
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
 #[kani::unwind(65)]
 fn u1_general_8_tail_written() {
-    uninit_general_tail::<true>();
+    uninit_general_tail::<1>();
+}
+
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
+#[kani::unwind(65)]
+fn u1_general_8_tail_written_raw() {
+    uninit_general_tail::<2>();
 }
 
 // R9 F3, network layout: `MaybeUninit<[u64; 32]>` reached through a cast pointer, as

@@ -188,3 +188,49 @@ REVIEW REQUEST f373880ccd6344e2460caa18566eeb99f6befcf5
 `u1_general_8_tail_{uninit,written}`, `u1_network_layout_tail_{uninit,written}`;
 Z-1: `z1f_stable_*`, `z1_from_fn_unit_*`, `z1_copy_unit`, `z1_merge2_unit`,
 `z1_insert_tail_unit`. Компиляция этого SHA проверяется сборкой `5aee04a2`.
+
+## R9 f373880c — вердикт координатора
+
+F1–F6 решены. Z-1 №2: GO_WITH_NITS. U-1: GO на прогон с `uninit_checks: true`
+как проверку осуществимости, при условии правила U-a в RESULT до запуска.
+
+- Z-a (should-fix): в №2 только чётные длины 2/8/16/32; 0, 1, 7, 15, 17, 31
+  не исполнялись (№1 — COMPILE_ERROR). Нечётная ветка `bidirectional_merge`
+  (smallsort.rs:931, копия `last_src`) и ранний возврат при len<2 не покрыты.
+  Вывод «причина в символьной длине» по одному №2 делать нельзя.
+- N1: положительный general-контроль писал через `MaybeUninit::write` — другой механизм,
+  чем копии сортировки; нужен вариант через `*mut u64`.
+- N2: `z1_from_fn_unit` смешивал `from_fn` с volatile-чтением массива ZST.
+- N3: network N=8 не исполнялся.
+- `z1_merge2_unit` без stub — без риска (для ZST указатели не двигаются).
+- Бюджет: доля $1,60; при нехватке U-1 сокращается до N=8, 16 и контролей.
+
+Исправлено (следующий коммит): `z1f_stable_{1,7,17,31}`, `z1_merge3_unit`
+(длина 3, нечётная ветка merge); `z1_from_fn_unit` без чтения, cover `v.len() == N`;
+`u1_general_8_tail_written_raw` (запись `scratch.as_mut_ptr().add(47).cast::<u64>().write`).
+`z1_stable_{1,7,17}` и `z1_network_8` уже были. Z-1 №3 — после итога №2.
+
+## Правило интерпретации U-a (действует до первого U-1 прогона)
+
+Основание (координатор, по исходникам pin 9461e07a): поле union даёт
+`UnionAsField` (ty_layout.rs:403), pointee `[MaybeUninit<u64>;48]` не получает
+раскладку (ty_layout.rs:139–145), присваивание такого места — Unsupported
+(uninit_visitor.rs:116–128), `&raw` на union — «Interaction between raw pointers
+and unions is not yet supported.» (check_uninit/mod.rs:465–480). Вероятный исход
+U-1 — unsupported. Unsupported-проверка путь не отсекает, поэтому отрицательный
+контроль может формально совпасть с expect_check, а подстрока
+`Reading from an uninitialized pointer` одинакова для чтений в сортировке и в
+контроле (тип `*const u64`).
+
+1. Любая проверка с текстом «not yet supported», «doesn't support» или
+   «is not supported» — классификация **unsupported** с точным текстом и местом.
+   Отрицательные контроли в этом прогоне тогда не засчитываются, даже если
+   «expectation met» = true.
+2. Отрицательный контроль засчитывается, только если
+   «Reading from an uninitialized pointer» — **единственный** провал гармоники,
+   он стоит на строке контрольного чтения в `uninit.rs`, и парный
+   положительный контроль дал SUCCESS.
+3. Любой FAILED в `u1_*` сначала классифицируется (проверка, текст, место,
+   путь), а не объявляется ложным срабатыванием или находкой.
+
+Флаг lane «expectation met» для U-1 решающим не считается; решает это правило.
