@@ -61,3 +61,15 @@ REVIEW REQUEST ffd4250d2978a7f492113f8e67bacd0967ba5336
 Файлы нового кода: `library/core/src/slice/sort/shared/smallsort/kani_k1/uninit.rs`,
 подключение модуля в `kani_k1.rs`. Новые шаблоны Z-1 и U-1;
 вердикта GO пока нет, результаты в зачёт не заявляются.
+
+## Прогон Z-1 №1
+
+Отправлен build `9d1cb848-61a4-4702-a1cd-beb96eb71b58`,
+head `522e4750`, request `w3-l1u-z1-split-01`.
+Перед отправкой budget: used $19,7668, reserved $0,7760 (проект).
+После отправки новый резерв этой сборки $0,9312, в пределах доли $1,60.
+Фактическая стоимость и нарастающий итог будут записаны по summary:
+`(wall whole run / 60 + 8) × $0,0194`.
+Следующий шаг: summary, peaks, check-tooling относительно `67a4b452`,
+затем локализация FAILED только разрешёнными bounded log-командами.
+Ожидание: `k1g.sh watch 9d1cb848-61a4-4702-a1cd-beb96eb71b58`.
