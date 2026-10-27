@@ -18,6 +18,14 @@ pub(crate) struct Tagged {
     tag: u64,
 }
 
+// Contract stubs havoc the destination's pointees with Arbitrary::any.
+// Keep both fields unrestricted: valid labels come from explicit requires.
+impl kani::Arbitrary for Tagged {
+    fn any() -> Self {
+        Self { key: kani::any(), tag: kani::any() }
+    }
+}
+
 #[derive(Clone, Copy)]
 pub(crate) struct K1MergeSnapshot {
     keys: [u64; 64],
