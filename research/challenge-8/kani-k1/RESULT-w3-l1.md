@@ -252,3 +252,29 @@ R7-6: peaks сообщает пики команд на весь build, а не 
 
 Build3 check-tooling exit0: pool, lane tree и все5 summary SHA-256 совпали
 с базой67a4b452. Соответствующие результаты L1-3/L1-4 зачтены.
+
+## Build 4 — K9s u64 и L1-5 N13/14/15
+
+- request `w3-l1-004-k9s-u64-insertion-split`, commit `fed49721278cc6914e94bf24497eb3b8cd099043`.
+- build `d989b725-5f5a-46b6-ae1f-c31c8152541e`, ожидается SUCCESS14/14.
+- measurement14×10 мин, jobs1, gcb-e2-standard-4; запрос Python validate accepted14.
+- Budget перед dispatch: used $22,3858, reserved $4,4038; после reserved $7,7018.
+  Резерв build4 $3,2980; расход W3-L1 $1,223390 плюс резерв — в пределах $6,20.
+- После watch: summary, peaks, check-tooling; далее L1-5 B4/O3 N16..20,
+  дробление по группам offset с полным покрытием1..N. L1-7 по отдельной команде.
+
+## L1-6 — подготовительный инвентарь (read-only)
+
+Luna High explorer l16_inventory выполнил ограниченный read-only поиск;
+файлов/прогонов не менял. Найдены B-harnesses (should_panic) merge/network,
+R11/A/CD-2/C5/Drop контроли; исходные W1 B-families заменяются измеренными W2 A.
+Ordinary w1_network_o1_nomerge_u64 N0..17 сохраняется. K15 пяти мутантов ещё нет.
+Предпочтение — исключить только контрольные entrypoints, сохраняя общие helpers
+на месте: перенос целиком ломает приватные имена, macros и super-пути.
+Изменения набора пока не применяются, приоритет L1-5 сохраняется.
+
+LANE REQUEST: для L1-6/L1-9 нужен opt-in cfg kani_smallsort_controls,
+передаваемый Kani только в отдельном diagnostic-прогоне контролей; обычный
+measurement/CI его не задаёт. Это позволит держать FAILED-контроли вне набора
+и воспроизводить их отдельно без изменения runtime std. Нужны документированные
+способ передачи cfg и request-поле/режим lane; файлы lane на этой ветке не меняются.
