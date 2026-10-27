@@ -6,6 +6,13 @@
 
 T0: 2026-10-26T20:49:12Z (`date -u`, UTC системных часов).
 
+Финиш: 2026-10-27T03:37:10Z. Ночная очередь завершена, активных jobs нет.
+
+- K-10: GS u64 N0..12+16, u8 N0..13+16; fallback u64 N0..7, u8 N0..8.
+- K-12a: u8 N20/N24 SUCCESS 528.8255/1040.0021 с, diagnostic без proof credit.
+- K-14r: count+perm lower N2/4/8, general/stable N2/4/8/16; perm N24 TIMEOUT.
+- R9 получены, ledger и ресурсные пробелы раскрыты; итог и маркер конца внизу раздела.
+
 - Очередь: K-10 с GS N2, затем K-12a, затем K-14r.
 - Новые dispatch до 2026-10-27T05:00:00Z; CircleCI, один job за раз,
   ожидание через `k1.sh watch`. База не вливается, lane не меняется.
@@ -1236,6 +1243,7 @@ check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
 | general / stable-Freeze | 4 | 175 | 175 | SUCCESS / true / 3/3 каждый |
 | general / stable-Freeze | 8 | 175 | 175 | SUCCESS / true / 3/3 каждый |
 | general / stable-Freeze | 16 | 176 | 176 | SUCCESS / true / 3/3 каждый |
+| general / stable-Freeze | 24 | 177 | 177 | count SUCCESS, perm TIMEOUT; gate false, пары нет |
 
 ### N-D33 (R7): мутанты и верхние N2
 
@@ -1372,6 +1380,87 @@ N32 запускается только после зелёной пары N24; 
 После dispatch ночных jobs 32, preflight отказов 3;
 с П2 до ночи: 37 jobs, 4 preflight отказа, 41 попытка в общем
 историческом счётчике; это не новый денежный лимит.
+
+### Job 177 — count N24 SUCCESS, perm N24 TIMEOUT
+
+Request `w2-merge-night-k14-upper24-032`,
+head `b19ff4b34f8c9103eba6379c1e5ecff2b3fa116e`, COMPLETE;
+gate false, expectation met false, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 9125016 KiB (8.70 GiB), wall с компиляцией 705.11 с;
+cgroup peak 9.48 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_upper24_count` | SUCCESS / SUCCESS | 62.42545 | 0/461 | 6 | 3/3 |
+| `w2night_drop_upper24_perm` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+
+Count cover сверён отдельно от gate: 3/3. Одиночный count при отсутствии
+зелёной perm и общем gate false не даёт заявления (a) на N24.
+Perm N24 — кандидат расширенного слоя. Пики относятся ко всему run
+с компиляцией, не отдельной гармонике.
+
+### N-D37 (R7): остановка K-14r на первой неуложившейся ступени
+
+N24 — первая неуложившаяся верхняя парная ступень после N2/4/8/16.
+По плану рост остановлен; N32 подготовлена в коде, но не запускалась.
+Это не утверждение о невозможности N32. Новых dispatch нет: ночная
+очередь выполнена до своей ресурсной границы, раньше срока 05:00Z.
+
+### Итог K-14r
+
+| Маршрут | Чётные N с зелёной парой count+perm | Jobs | Первое ограничение |
+|---|---|---|---|
+| fallback / insertion offset 1 (один алгоритм) | 2, 4, 8 | 172, 173 | выше 8 не запрашивалось этой очередью |
+| general и stable-Freeze | 2, 4, 8, 16 | 174, 175, 176 | N24 perm TIMEOUT, job 177 |
+
+Все засчитанные пары: gate true, полные covers, check-tooling ok,
+R9 GO/GO_WITH_NITS с исправленным ledger. Не заявляются промежуточные
+длины, перестановка ключей, пути после паники, unwind, uninit и полная
+reference validity. Comparator читает key/tag обоих аргументов и даёт
+kani::any(); единственная обрезаемая ветка — panic_on_ord_violation.
+Заявление «нет double drop и нет leak» только по парным строкам таблицы.
+Контроль А job 172 и два дискриминирующих мутанта job 174 дали точные
+ожидаемые FAILED; других failed checks в этих контролях нет.
+
+### Завершение ночи и передача
+
+- K-10: GS u64 N0..12 и N16; GS u8 N0..13 и N16; fallback u64 N0..7,
+  u8 N0..8. Полная таблица GS → bm → job выше, все bm N2..16 обоих типов
+  измерены, для GS N16 учтён bm N8. Ресурсные пробелы раскрыты.
+- K-12a: u8/CircleCI 13 GiB, diagnostic. N20 SUCCESS 528.8255 с,
+  N24 SUCCESS 1040.0021 с; только данные, без proof credit основного слоя.
+- K-14r: парные чётные длины в таблице выше; count N24 не засчитан как (a),
+  perm N24 TIMEOUT. N32 не измерена из-за правила первой неуложившейся ступени.
+- R9: K-10 GO_WITH_NITS с R4-таблицей, typed fallback GO, K-12a GO,
+  K-14r модель GO_WITH_NITS, исправления covers/мутанты GO. Нитов,
+  требующих исправления, и незакрытых review-запросов нет.
+
+**Учёт ночи:** 32 CircleCI job (129..177 по журналу), 3 preflight HTTP 429;
+всего 35 ночных попыток. Из jobs: 20 measurement с measurement_ok true,
+2 diagnostic SUCCESS, 6 пакетов с TIMEOUT, 1 пакет с unreachable covers,
+1 REQUEST_INVALID, 2 RUNNER_ERROR без summary (checkout 429).
+Всего 10 TIMEOUT-гармоник в 6 пакетах; неожиданных FAILED свойств нет.
+Ошибки подготовки запроса и covers исправлены и сохранены в журнале.
+С П2 до ночи: 37 jobs и 4 preflight отказа, 41 историческая попытка.
+
+Сумма wall verify с компиляцией по доступным summary: **16048.49 с
+(267.4748 мин)**. Это не CircleCI API job wall и не биллинг; checkout,
+подготовка раннера и jobs без сводки сюда не входят. Максимальный пик run
+за ночь: RSS 9125016 KiB, cgroup 9.48 GiB (job 177). Во всех сводках
+с выполненной проверкой cap ENFORCED 13 GiB, OOM 0, swap off.
+
+Незавершённых собственных jobs и непрочитанных результатов нет.
+RUN-REQUEST сохранён точным запросом job 177, а не новым dispatch.
+Изменены только свой merge.rs, RESULT-merge.md и RUN-REQUEST.json.
+Runtime std, контракты, lane и чужие гармоники ночью не менялись;
+база не вливалась, force-push и локальные Kani/rustc/cargo не применялись.
+Код/диффы/ветки запрещённых PR не открывались. Внешних публикаций,
+новых агентов и Cloud Build dispatch не было.
+
+Финиш: 2026-10-27T03:37:10Z (`date -u`). Очередь завершена, агент останавливается.
+
+НОЧЬ ЗАВЕРШЕНА
 
 ## Фаза 9
 
