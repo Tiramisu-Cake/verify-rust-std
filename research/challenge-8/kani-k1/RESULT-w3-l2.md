@@ -1010,3 +1010,14 @@ D-B5 (R7). Сначала отдельный measurement успешных u8-и�
 старогоBASE85ceaa0d. peaks подтверждает sum15685968KiB и swap0.
 log-grep локализует все три TIMEOUT как `CBMC timed out` (строки2721,
 2728,2771); это не Kani FAILED конкретного свойства. R11 отдельный FAILED.
+
+### B build be2555c0-d29b-412c-aa42-046c7233bc07 — отправлен
+
+Source`c6382721`, запрос010, measurement4×10, controls=false.
+Перед dispatch budget used$25,5390,reserved$8,9100,cap$43,96;
+после submit максимум$35,3940; свой резерв$0,945.
+Статусы/стоимость пока неизвестны. Новый BASE check-tooling:
+`8350fb1b5fd1f6133fcadab564ac2b0848e30b97`.
+Следующий шаг после watch: summary/peaks/check-tooling, учёт остаткаB;
+затем ограниченный solver screening для u64 scratch/GS и network gaps.
+Личный лимит не поднимался, H2 только если реально останется бюджет.
