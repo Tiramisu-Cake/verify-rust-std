@@ -2927,3 +2927,7 @@ Ledger: any_where только mode0..2 и offset1..N; данные/probe/key/bo
 REVIEW REQUEST be1aa9b8c7df6f94f7edc791c45c10a9d9e5f4fa
 
 network.rs: w2night_o3_tags/helper macro, три ordinary proof N2/N3/N4 на трёх non-Freeze/insertion маршрутах. RUN-REQUEST.json выбирает N2; RESULT-network.md (job159, K8r итог, O3 ledger). Проверить универсальный probe/count для duplicate tags, реальные маршруты, все offsets/covers движения, полные Cell-записи comparator и отсутствие зависимости от старого K13 global/tmp cover. Контекст: принятые w2_o3_input/mutating_less, k13_tag_count/tags, w2_const_offset_call и неизменённый runtime.
+
+| 16 (П2 #30) | net-night-16-o3-tags-n2 | 162 | bb1578a6 | w2night_o3_tags_n2 | SUCCESS |
+
+Ожидание `k1.sh watch 162`, затем конец turn. После уведомления — summary/check-tooling162; при SUCCESS/gate true далее O3 N3.
