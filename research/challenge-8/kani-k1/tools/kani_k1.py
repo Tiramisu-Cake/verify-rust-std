@@ -185,10 +185,12 @@ def parse_log(text: str) -> dict[str, Any]:
     errors_truncated = False
     complete = None
     error_context = 0
+    overlaps = 0  # a harness started while the previous block had not ended (possible under --jobs > 1)
     for raw in text.splitlines():
         line = raw.rstrip("\r")
         m = CHECKING_RE.match(line)
         if m:
+            overlaps += current is not None
             current = _new_block(m.group(1))
             blocks.append(current)
             error_context = 0
@@ -254,7 +256,8 @@ def parse_log(text: str) -> dict[str, Any]:
             current["_last_open"] = False
     for block in blocks:
         block.pop("_last_open", None)
-    return {"blocks": blocks, "errors": errors, "errors_truncated": errors_truncated, "complete_line": complete}
+    return {"blocks": blocks, "errors": errors, "errors_truncated": errors_truncated, "complete_line": complete,
+            "overlaps": overlaps}
 
 
 def _block_status(block: dict[str, Any]) -> str:
@@ -294,7 +297,8 @@ def parse_time_file(text: str | None) -> dict[str, Any]:
 
 
 def parse_memcap(text: str | None) -> dict[str, Any]:
-    """k1-out/memcap.txt of the verify step: key=value lines written by circleci-k1.sh."""
+    """k1-out/memcap.txt of the verify step: key=value lines written by circleci-k1.sh (state ENFORCED or
+    UNAVAILABLE: a cgroup cap) or gcb-k1.sh (state MACHINE: no cgroup cap, the machine's memory is the limit)."""
     if text is None:
         return {"state": "MISSING", "max_bytes": None, "peak_bytes": None, "oom_kill": None, "swap": None, "reason": None}
     fields = dict(line.split("=", 1) for line in text.splitlines() if "=" in line)
@@ -303,7 +307,7 @@ def parse_memcap(text: str | None) -> dict[str, Any]:
         value = fields.get(key, "").strip()
         return int(value) if value.isdigit() else None
     state = fields.get("state", "").strip()
-    return {"state": state if state in ("ENFORCED", "UNAVAILABLE") else "UNPARSED", "max_bytes": num("max_bytes"),
+    return {"state": state if state in ("ENFORCED", "UNAVAILABLE", "MACHINE") else "UNPARSED", "max_bytes": num("max_bytes"),
             "peak_bytes": num("peak_bytes"), "oom_kill": num("oom_kill"),
             "swap": fields.get("swap", "").strip() or None,
             "reason": _clip(fields["reason"].strip()) if fields.get("reason") else None}
@@ -459,11 +463,11 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
             summary["notes"].append(f"time -v max RSS {exact} KiB exceeds the largest sampled command peak {top} KiB: "
                                     "a process grew between samples; use the time -v value as the true single-process peak")
     if memcap is not None:
-        if memcap["state"] != "ENFORCED":
+        if memcap["state"] not in ("ENFORCED", "MACHINE"):
             summary["notes"].append(f"verify memory cap {memcap['state']}: {memcap['reason'] or 'no reason recorded'}")
         if memcap["oom_kill"]:
             summary["notes"].append(f"verify cgroup OOM killer fired {memcap['oom_kill']} time(s)")
-        if memcap["state"] == "ENFORCED" and memcap["swap"] != "off":
+        if memcap["state"] in ("ENFORCED", "MACHINE") and memcap["swap"] != "off":
             summary["notes"].append(f"swap not confirmed off in the verify cgroup: {memcap['swap']}")
     request = None
     if request_error is None and request_text is not None:
@@ -513,6 +517,10 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         return summary
     by_name: dict[str, dict[str, Any]] = {}
     inconsistencies = summary["inconsistencies"]
+    if request.get("kani_jobs", 1) > 1 and parsed["overlaps"]:
+        # Concurrent harnesses may interleave their output; then lines cannot be attributed to harnesses.
+        inconsistencies.append(f"{parsed['overlaps']} harness block(s) started before the previous one ended "
+                               "under kani_jobs > 1: output may be interleaved")
     for block in parsed["blocks"]:
         if block["name"] in by_name:
             inconsistencies.append(f"harness reported more than once: {block['name']}")
@@ -563,8 +571,11 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["expectation_met"] = summary["status"] == "COMPLETE" and all(
         _row_meets(r, e) for r, e in zip(rows, request["harnesses"]))
     if request["kind"] == "measurement":
+        # MACHINE (Cloud Build 16 GB): no cgroup to count OOM kills; an OOM-killed CBMC is an OUT_OF_MEMORY row
+        # and any other killed tool leaves no COMPLETE status, so swap is what remains to check.
         memcap_ok = memcap is None or (memcap["state"] == "ENFORCED" and memcap["oom_kill"] == 0
-                                       and memcap["swap"] == "off")
+                                       and memcap["swap"] == "off") or (memcap["state"] == "MACHINE"
+                                                                       and memcap["swap"] == "off")
         summary["measurement_ok"] = summary["expectation_met"] and memcap_ok and all(
             r["status"] != "SUCCESS" or (r["time_s"] is not None and r["time_s"] <= MEASUREMENT_LIMIT_SECONDS
                                          and (r["covers_total"] or 0) >= 1
@@ -587,6 +598,9 @@ def gate_ok(summary: dict[str, Any]) -> bool:
 def _memcap_line(memcap: dict[str, Any] | None) -> str:
     if memcap is None:
         return "not tracked by this lane"
+    if memcap["state"] == "MACHINE":
+        return (f"MACHINE (no cgroup cap; the machine's memory {memcap['max_bytes'] / 2**30 if memcap['max_bytes'] else 0:.2f} GiB "
+                f"is the limit), swap {memcap['swap']}")
     gib = lambda b: "?" if b is None else f"{b / 2**30:.2f} GiB"  # noqa: E731
     return (f"{memcap['state']}, limit {gib(memcap['max_bytes'])}, cgroup peak incl. page cache "
             f"{gib(memcap['peak_bytes'])}, OOM kills {memcap['oom_kill']}, swap {memcap['swap']}")
@@ -704,7 +718,7 @@ def main(argv: list[str]) -> int:
                 prices = {}
                 for item in a.price:
                     pool, _, usd = item.rpartition("=")
-                    if not pool or float(usd) <= 0:
+                    if not pool or not math.isfinite(float(usd)) or float(usd) <= 0:
                         raise ValueError(f"bad --price {item!r}")
                     prices[pool] = float(usd)
             count, used, reserved = ledger(json.load(sys.stdin), prices)

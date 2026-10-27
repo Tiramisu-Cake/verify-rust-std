@@ -68,7 +68,8 @@ pool_of() {  # runner -> pool resource name; anything else is not a Cloud Build 
   esac
 }
 price_of() { case "$1" in "$POOL_STANDARD") echo "$PRICE_STANDARD" ;; "$POOL_HIGHMEM") echo "$PRICE_HIGHMEM" ;; *) die "no price for pool $1" ;; esac; }
-over_cap() { python3 -c 'import sys; sys.exit(0 if float(sys.argv[1]) > float(sys.argv[2]) else 1)' "$1" "$2"; }
+# Exit 0 only for a readable amount within the cap; any error counts as over the cap.
+within_cap() { python3 -c 'import math, sys; v = float(sys.argv[1]); sys.exit(0 if math.isfinite(v) and v <= float(sys.argv[2]) else 1)' "$1" "$2"; }
 
 # budget: prints the ledger, sets USED and RESERVED (USD). Finished builds count start..finish rounded up;
 # queued or running ones count their full timeout; each at its own pool's price, a build in an unknown pool
@@ -131,7 +132,7 @@ case "$cmd" in
     [ -z "$dup" ] || die "build(s) $(echo $dup) already ran $sha; change and push RUN-REQUEST.json for a new run"
     ledger
     total_usd=$(python3 -c "print(f'{$USED + $RESERVED + $cost:.4f}')")
-    if over_cap "$total_usd" "$CAP_USD"; then
+    if ! within_cap "$total_usd" "$CAP_USD"; then
       die "budget: used \$$USED + reserved \$$RESERVED + this build's \$$cost ($timeout min in $pool) > cap \$$CAP_USD; owner decision needed"
     fi
     id=$(G builds submit --no-source --async --config="$work/cloudbuild.yaml" --region="$REGION" --worker-pool="$pool" \

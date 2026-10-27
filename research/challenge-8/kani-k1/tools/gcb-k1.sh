@@ -92,6 +92,12 @@ stage() {
       { free -b | awk '/^Mem:/{print "mem_total_bytes=" $2} /^Swap:/{print "swap_total_bytes=" $2}'
         echo "verify_start_after_validate_s=$(( $(date +%s) - $(cat "$K1_OUT/start") ))"
         echo "verify_budget_s=$remaining"; } | tee "$K1_OUT/machine.txt"
+      # No cgroup cap here: the machine's memory is the limit. A measurement still requires swap off (gate).
+      swap=$(awk '/^SwapTotal:/{print $2}' /proc/meminfo)
+      { echo "state=MACHINE"
+        echo "max_bytes=$(awk '/^MemTotal:/{print $2 * 1024}' /proc/meminfo)"
+        if [ "${swap:-x}" = 0 ]; then echo "swap=off"; else echo "swap=on (SwapTotal ${swap:-unknown} kB)"; fi
+        echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
       python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
       sampler=$!
       set +e
@@ -116,7 +122,7 @@ stage() {
       else build_outcome=failure; fi
       log_args=(); peaks_args=()
       [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
-      [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt")
+      [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt" --memcap "$K1_OUT/memcap.txt")
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
       mem=$(free -b 2>/dev/null | awk '/^Mem:/{printf "%.1f GiB", $2 / 2^30}' || true)
       hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
@@ -158,7 +164,7 @@ echo "$rc" > "$K1_OUT/gate.rc"
 # Upload set: the same paths the CircleCI lane publishes, plus the memory peaks and machine view.
 rm -rf "$K1_OUT/upload" && mkdir -p "$K1_OUT/upload/summary" "$K1_OUT/upload/log"
 cp "$K1_OUT"/summary/summary.{md,json} "$K1_OUT/upload/summary/" 2>/dev/null || true
-for f in kani.log time.txt request-error.txt peaks.txt machine.txt stage-error.txt; do
+for f in kani.log time.txt request-error.txt peaks.txt machine.txt memcap.txt stage-error.txt; do
   [ -f "$K1_OUT/$f" ] && cp "$K1_OUT/$f" "$K1_OUT/upload/log/$f"
 done
 touch "$K1_OUT/upload/summary/.staged" "$K1_OUT/upload/log/.staged"   # both directories exist for the upload step

@@ -501,6 +501,52 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertTrue(any("concurrently" in n for n in s["notes"]))
         self.assertIn("harnesses in parallel 2", k.render_md(s))
 
+    def test_machine_memcap_gates_measurement_on_swap(self):
+        std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}
+
+        def run(memcap):
+            return k.summarize(json.dumps(std), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40, "b" * 40, None, {}, {},
+                               "success", memcap, True)
+        ok = run("state=MACHINE\nmax_bytes=17179869184\nswap=off\nreason=Cloud Build pool, no cgroup cap\n")
+        self.assertTrue(ok["measurement_ok"])
+        self.assertTrue(k.gate_ok(ok))
+        self.assertIn("MACHINE (no cgroup cap; the machine's memory 16.00 GiB is the limit), swap off", k.render_md(ok))
+        self.assertFalse(any("verify memory cap" in n for n in ok["notes"]))
+        swap = run("state=MACHINE\nmax_bytes=17179869184\nswap=on (SwapTotal 2097148 kB)\n")
+        self.assertFalse(swap["measurement_ok"])
+        self.assertFalse(k.gate_ok(swap))
+        self.assertTrue(any("swap not confirmed off" in n for n in swap["notes"]))
+        self.assertFalse(run(None)["measurement_ok"])          # tracked but missing
+
+    def test_interleaved_output_under_kani_jobs(self):
+        ok2 = OK_BLOCK.replace("smoke::ok", "smoke::ok2")
+        interleaved = (OK_BLOCK.splitlines(keepends=True)[0] + "Thread 1: " + ok2.splitlines(keepends=True)[0]
+                       + "".join(OK_BLOCK.splitlines(keepends=True)[1:]) + "".join(ok2.splitlines(keepends=True)[1:])
+                       + tail(2, 0))
+        two = [{"name": P + "smoke::ok", "expect": "SUCCESS"}, {"name": P + "smoke::ok2", "expect": "SUCCESS"}]
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": two}
+
+        def run(req, log):
+            return k.summarize(json.dumps(req), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
+        s = run({**diag, "kani_jobs": 2}, interleaved)
+        self.assertIn(s["status"], ("PARTIAL", "INCONSISTENT"))   # the cut-off first block makes it PARTIAL
+        self.assertFalse(k.gate_ok(s))
+        self.assertTrue(any("interleaved" in i for i in s["inconsistencies"]))
+        # The overlap alone, every row parsed, is an inconsistency too.
+        both = run({**diag, "kani_jobs": 2}, OK_BLOCK.splitlines(keepends=True)[0] + "Thread 1: " + ok2
+                   + OK_BLOCK + tail(2, 0))
+        self.assertTrue(any("interleaved" in i for i in both["inconsistencies"]))
+        self.assertFalse(k.gate_ok(both))
+        clean = run({**diag, "kani_jobs": 2}, OK_BLOCK + "Thread 1: " + ok2 + tail(2, 0))
+        self.assertEqual(clean["status"], "COMPLETE")
+        self.assertTrue(k.gate_ok(clean))
+
+    def test_ledger_price_must_be_finite(self):
+        for price in ("p=nan", "p=inf", "p=-1"):
+            bad = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger", "--price", price],
+                                 input="[]", capture_output=True, text=True)
+            self.assertEqual(bad.returncode, 2, price)
+
     def test_require_runner_repeatable(self):
         with tempfile.TemporaryDirectory() as d:
             req, args = Path(d) / "r.json", Path(d) / "a.txt"
