@@ -32,7 +32,12 @@ from typing import Any
 SCHEMA = "kani-k1-run-request-v1"
 SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
-KINDS = {"measurement", "diagnostic", "resource"}
+KINDS = {"measurement", "diagnostic", "resource", "partition"}
+# kind partition: one worker of the organizers' CI layout (kani.yml): scripts/run-kani.sh with WORKER_INDEX /
+# WORKER_TOTAL over the whole std harness list (kani list order, ceiling-sized contiguous chunks), no harness
+# list and no per-harness timeout, exactly as their CI. harness_timeout_minutes is the wall budget of the
+# whole partition. kani_jobs: 2 = their ubuntu (KANI_JOBS=2); absent = run-kani.sh default -j (their macOS).
+PARTITION_MAX_MINUTES = 300
 EXPECT = {"SUCCESS", "FAILED"}
 # circleci-linux-large: CircleCI Linux VM large, 4 CPU / 15 GB; the two GitHub runners are kept for the
 # dormant GitHub Actions lane. gcb-e2-highmem-4: Cloud Build private pool, 4 vCPU / 32 GB, twice the
@@ -43,6 +48,7 @@ RESOURCE_RUNNER = "gcb-e2-highmem-4"
 STANDARD_RUNNER = "gcb-e2-standard-4"
 GCB_RUNNERS = {RESOURCE_RUNNER, STANDARD_RUNNER}
 RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest", RESOURCE_RUNNER, STANDARD_RUNNER}
+PARTITION_RUNNERS = {STANDARD_RUNNER, "ubuntu-latest", "macos-latest"}
 HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
 HARNESS_RE = re.compile(r"slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*")
 REQUEST_ID_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,63}")
@@ -50,7 +56,13 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # kani_jobs: harnesses verified concurrently (Kani --jobs), as the organizers' ubuntu partitions do with
 # KANI_JOBS=2. Only kind diagnostic on the 16 GB pool: concurrent runs share memory and CPU, so their times
 # are not single-harness measurements.
-OPTIONAL_REQUEST_KEYS = {"kani_jobs"}
+# uninit_checks: adds Kani's `-Z uninit-checks` (not in the organizers' CI flags, run-kani.sh:87), so its
+# results are evidence outside CI; diagnostic on the 16 GB pool only (plan R8 §4, U-1).
+# controls: compiles the opt-in control/mutant harnesses (`#[cfg(kani_smallsort_controls)]`) by passing
+# RUSTFLAGS="--cfg kani_smallsort_controls" to Kani; the organizers' CI never sets it, so controls stay out of
+# the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
+CONTROLS_CFG = "kani_smallsort_controls"
+OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls", "worker_index", "worker_total"}
 KANI_JOBS = {1, 2}
 HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
@@ -123,6 +135,26 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError(f"{key} must be one of {sorted(allowed)}")
     if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
+    partition = data["kind"] == "partition"
+    if partition:
+        if data["runner"] not in PARTITION_RUNNERS:
+            raise RequestError(f"kind partition runs only on {sorted(PARTITION_RUNNERS)}")
+        wi, wt = data.get("worker_index"), data.get("worker_total")
+        if type(wi) is not int or type(wt) is not int or not 1 <= wi <= wt <= 16:
+            raise RequestError("kind partition needs integers 1 <= worker_index <= worker_total <= 16")
+        if data["harnesses"] != []:
+            raise RequestError("kind partition takes harnesses: [] (the whole std harness list is partitioned)")
+        if data.get("uninit_checks") or data.get("controls"):
+            raise RequestError("kind partition replicates the organizers' CI: no uninit_checks, no controls")
+        t = data["harness_timeout_minutes"]
+        cap = PARTITION_MAX_MINUTES if max_total_minutes is None else min(max_total_minutes, PARTITION_MAX_MINUTES)
+        if type(t) is not int or not 1 <= t <= cap:
+            raise RequestError(f"harness_timeout_minutes (partition wall budget) must be an integer 1..{cap}")
+        if "kani_jobs" in data and (type(data["kani_jobs"]) is not int or data["kani_jobs"] not in KANI_JOBS):
+            raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
+        return data
+    if "worker_index" in data or "worker_total" in data:
+        raise RequestError("worker_index/worker_total are only for kind partition")
     if (data["runner"] == RESOURCE_RUNNER) != (data["kind"] == "resource"):
         raise RequestError(f"kind resource runs exactly on runner {RESOURCE_RUNNER}, and that runner takes only kind resource")
     if "kani_jobs" in data:
@@ -130,6 +162,16 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
         if data["kani_jobs"] != 1 and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
             raise RequestError(f"kani_jobs > 1 is only for kind diagnostic on runner {STANDARD_RUNNER}")
+    if "uninit_checks" in data:
+        if type(data["uninit_checks"]) is not bool:
+            raise RequestError("uninit_checks must be true or false")
+        if data["uninit_checks"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
+            raise RequestError(f"uninit_checks is only for kind diagnostic on runner {STANDARD_RUNNER}")
+    if "controls" in data:
+        if type(data["controls"]) is not bool:
+            raise RequestError("controls must be true or false")
+        if data["controls"] and data["runner"] != STANDARD_RUNNER:
+            raise RequestError(f"controls is only for runner {STANDARD_RUNNER}")
     timeout = data["harness_timeout_minutes"]
     limit = RESOURCE_MAX_TIMEOUT_MINUTES if data["kind"] == "resource" else MAX_TIMEOUT_MINUTES
     if type(timeout) is not int or not 1 <= timeout <= limit:
@@ -166,10 +208,100 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     return data
 
 
+def partition_env(request: dict[str, Any]) -> list[str]:
+    """Environment of one organizers'-CI worker (kind partition), one VAR=value per line; [] otherwise."""
+    if request["kind"] != "partition":
+        return []
+    env = [f"WORKER_INDEX={request['worker_index']}", f"WORKER_TOTAL={request['worker_total']}"]
+    if "kani_jobs" in request:
+        env.append(f"KANI_JOBS={request['kani_jobs']}")
+    return env
+
+
+PARTITION_TOP = 15
+PARTITION_FAILURES = 20
+
+
+def worker_list(log_text: str) -> list[str] | None:
+    """Harness names run-kani.sh hands to this worker: the lines after "Running verification for harnesses:"
+    (one name per line, no whitespace), up to the first other line. None if the header is missing."""
+    lines = log_text.splitlines()
+    for i, line in enumerate(lines):
+        if line.strip() == "Running verification for harnesses:":
+            names = []
+            for nxt in lines[i + 1:]:
+                if not nxt or any(c.isspace() for c in nxt) or "::" not in nxt:
+                    break
+                names.append(nxt)
+            return names
+    return None
+
+
+def summarize_partition(summary: dict[str, Any], request: dict[str, Any], parsed: dict[str, Any],
+                        exit_code: int | None, log_text: str = "") -> dict[str, Any]:
+    """Kind partition: no expectations per harness; every harness of the worker must verify."""
+    blocks = parsed["blocks"]
+    inconsistencies = summary["inconsistencies"]
+    assigned = worker_list(log_text)
+    if assigned is None:
+        inconsistencies.append("run-kani.sh worker harness list missing: completeness cannot be checked")
+    elif sorted(assigned) != sorted(b["name"] for b in blocks):
+        missing = sorted(set(assigned) - {b["name"] for b in blocks})
+        inconsistencies.append(f"worker was assigned {len(assigned)} harnesses but {len(blocks)} were reported"
+                               + (f"; first missing: {missing[0]}" if missing else ""))
+    if "kani_jobs" not in request or request["kani_jobs"] > 1:
+        if parsed["overlaps"]:
+            inconsistencies.append(f"{parsed['overlaps']} harness block(s) started on a worker before its previous block ended")
+        if parsed["orphans"]:
+            inconsistencies.append(f"{parsed['orphans']} result line(s) without a worker prefix under concurrent verification")
+    names = [b["name"] for b in blocks]
+    if len(set(names)) != len(names):
+        inconsistencies.append("harness reported more than once")
+    statuses = [_block_status(b) for b in blocks]
+    counts: dict[str, int] = {}
+    for st in statuses:
+        counts[st] = counts.get(st, 0) + 1
+    complete = parsed["complete_line"]
+    if complete is None:
+        inconsistencies.append("final 'Complete - …' line missing")
+    else:
+        if complete["total"] != len(blocks):
+            inconsistencies.append(f"Kani total {complete['total']} differs from {len(blocks)} parsed harness blocks")
+        if complete["success"] != counts.get("SUCCESS", 0):
+            inconsistencies.append(f"Kani success count {complete['success']} differs from parsed {counts.get('SUCCESS', 0)}")
+    all_success = bool(blocks) and all(st == "SUCCESS" for st in statuses)
+    if exit_code is not None and (exit_code == 0) != all_success:
+        inconsistencies.append(f"Kani exit {exit_code} does not match the parsed statuses")
+    if not blocks:
+        summary["status"] = "RUNNER_ERROR" if not parsed["errors"] else "TOOL_ERROR"
+    elif any(st == "UNKNOWN" for st in statuses) or complete is None:
+        summary["status"] = "PARTIAL"
+    elif inconsistencies:
+        summary["status"] = "INCONSISTENT"
+    else:
+        summary["status"] = "COMPLETE"
+    summary["expectation_met"] = summary["status"] == "COMPLETE" and all_success
+    timed = sorted(((b["time_s"] or 0.0, b["name"], st) for b, st in zip(blocks, statuses)), reverse=True)
+    failures = [{"name": b["name"], "status": st,
+                 "first_failed_check": (b["failed_checks"][0]["description"] if b["failed_checks"] else None)}
+                for b, st in zip(blocks, statuses) if st != "SUCCESS"]
+    summary["partition"] = {
+        "worker_index": request["worker_index"], "worker_total": request["worker_total"],
+        "kani_jobs": request.get("kani_jobs"), "harness_count": len(blocks), "counts": counts,
+        "smallsort_kani_k1_count": sum(n.startswith(HARNESS_PREFIX) for n in names),
+        "sum_verification_time_s": round(sum(t for t, _, _ in timed), 3),
+        "slowest": [{"name": n, "time_s": t, "status": st} for t, n, st in timed[:PARTITION_TOP]],
+        "failures": failures[:PARTITION_FAILURES], "failures_truncated": len(failures) > PARTITION_FAILURES,
+    }
+    return summary
+
+
 def kani_args(request: dict[str, Any]) -> list[str]:
     args: list[str] = []
     for entry in request["harnesses"]:
         args += ["--harness", entry["name"]]
+    if request.get("uninit_checks"):
+        args += ["-Z", "uninit-checks"]
     args += ["--exact", "--harness-timeout", f"{request['harness_timeout_minutes']}m",
              f"--jobs={request.get('kani_jobs', 1)}", "--output-format=terse"]
     return args
@@ -496,11 +628,29 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
     summary["request"]["kani_jobs"] = request.get("kani_jobs", 1)
+    summary["request"]["uninit_checks"] = request.get("uninit_checks", False)
+    summary["request"]["controls"] = request.get("controls", False)
+    if request.get("controls"):
+        summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
+    if request.get("uninit_checks"):
+        summary["notes"].append("-Z uninit-checks on: not in the organizers' CI flags, evidence outside CI")
     if request["kind"] == "resource":
         summary["notes"].append("kind resource on 32 GB: memory/time data only, never a PASS or measurement result")
-    if request.get("kani_jobs", 1) > 1:
+    if request["kind"] != "partition" and request.get("kani_jobs", 1) > 1:
         summary["notes"].append(f"{request['kani_jobs']} harnesses verified concurrently: times and memory are of the "
                                 "shared run, not single-harness measurements")
+    if request["kind"] == "partition":
+        summary["request"]["worker_index"] = request["worker_index"]
+        summary["request"]["worker_total"] = request["worker_total"]
+        summary["request"]["kani_jobs"] = request.get("kani_jobs")
+        if log_text is None:
+            summary["status"] = "RUNNER_ERROR"
+            summary["notes"].append(f"Kani log missing (build {build_outcome})")
+            return summary
+        parsed = parse_log(log_text)
+        summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
+        summary["complete_line"] = parsed["complete_line"]
+        return summarize_partition(summary, request, parsed, exit_code, log_text)
     not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
@@ -649,7 +799,8 @@ def render_md(summary: dict[str, Any]) -> str:
         f"- head `{summary['head_sha']}`, Kani `{summary['kani_commit']}`, request sha256 `{summary['request_sha256']}`",
         f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
         f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min, "
-        f"harnesses in parallel {req.get('kani_jobs', 1)}",
+        f"harnesses in parallel {req.get('kani_jobs', 1)}, uninit checks {'on' if req.get('uninit_checks') else 'off'}, "
+        f"controls cfg {'on' if req.get('controls') else 'off'}",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
         f"- verify memory cap: {_memcap_line(res.get('memcap'))}",
@@ -658,6 +809,19 @@ def render_md(summary: dict[str, Any]) -> str:
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
     ]
+    part = summary.get("partition")
+    if part is not None:
+        lines[-2:] = [
+            f"Partition {part['worker_index']}/{part['worker_total']} (organizers' layout), KANI_JOBS "
+            f"{part['kani_jobs'] if part['kani_jobs'] is not None else 'unset (-j)'}: {part['harness_count']} harnesses, "
+            f"{part['smallsort_kani_k1_count']} of them smallsort kani_k1; statuses {part['counts']}; "
+            f"sum of Verification Time {part['sum_verification_time_s']} s (concurrent runs overlap; wall is above)",
+            "", f"Slowest {len(part['slowest'])}:", "", "| harness | status | time s |", "|---|---|---|",
+            *[f"| {r['name']} | {r['status']} | {r['time_s']} |" for r in part["slowest"]],
+        ]
+        if part["failures"]:
+            lines += ["", "Not SUCCESS" + (" (truncated)" if part["failures_truncated"] else "") + ":"]
+            lines += [f"- {f['name']}: {f['status']}; {f['first_failed_check'] or 'no failed check'}" for f in part["failures"]]
     for r in summary["harnesses"]:
         short = r["name"][len(HARNESS_PREFIX):] if r["name"].startswith(HARNESS_PREFIX) else r["name"]
         covers = "" if r.get("covers_total") is None else f"{r['covers_satisfied']}/{r['covers_total']}"
@@ -698,6 +862,8 @@ def main(argv: list[str]) -> int:
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
+    v.add_argument("--rustflags-out", help="write the RUSTFLAGS value the request needs (empty line if none)")
+    v.add_argument("--partition-out", help="write the worker environment of kind partition (empty if none)")
     v.add_argument("--max-total-minutes", type=int, default=None)
     v.add_argument("--require-runner", action="append", default=[],
                    help="accepted runner value of this lane (repeatable); any other is rejected")
@@ -758,6 +924,10 @@ def main(argv: list[str]) -> int:
         Path(a.args_out).write_text("\n".join(kani_args(request)) + "\n")
         if a.runner_out:
             Path(a.runner_out).write_text(request["runner"] + "\n")
+        if a.partition_out:
+            Path(a.partition_out).write_text("".join(line + "\n" for line in partition_env(request)))
+        if a.rustflags_out:
+            Path(a.rustflags_out).write_text((f"--cfg {CONTROLS_CFG}" if request.get("controls") else "") + "\n")
         print(f"request {request['request_id']}: {len(request['harnesses'])} harness(es) accepted")
         return 0
     if a.cmd == "summarize":

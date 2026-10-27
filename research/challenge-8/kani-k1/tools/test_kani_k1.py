@@ -562,6 +562,107 @@ class ResourceLaneTests(unittest.TestCase):
                                  input="[]", capture_output=True, text=True)
             self.assertEqual(bad.returncode, 2, price)
 
+    def test_uninit_checks(self):
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": ONLY_OK}
+        args = k.kani_args(k.validate_request({**diag, "uninit_checks": True}))
+        self.assertEqual(args[args.index("-Z") + 1], "uninit-checks")
+        self.assertNotIn("uninit-checks", k.kani_args(k.validate_request(copy.deepcopy(diag))))
+        self.assertNotIn("uninit-checks", k.kani_args(k.validate_request({**REQ, "uninit_checks": False})))
+        self.bad({**diag, "uninit_checks": 1}, "true or false")
+        self.bad({**diag, "kind": "measurement", "uninit_checks": True}, "only for kind diagnostic")
+        self.bad({**diag, "runner": "circleci-linux-large", "uninit_checks": True}, "only for kind diagnostic")
+        s = k.summarize(json.dumps({**diag, "uninit_checks": True}), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40,
+                        "b" * 40, None, {}, {}, "success")
+        self.assertTrue(s["request"]["uninit_checks"])
+        self.assertTrue(any("outside CI" in n for n in s["notes"]))
+        self.assertIn("uninit checks on", k.render_md(s))
+
+    def test_controls_cfg(self):
+        std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}
+        k.validate_request({**std, "controls": True})
+        k.validate_request({**std, "kind": "diagnostic", "controls": True})
+        self.bad({**std, "controls": "yes"}, "true or false")
+        self.bad({**REQ, "controls": True}, "only for runner")
+        self.assertNotIn("kani_smallsort_controls", " ".join(k.kani_args(k.validate_request({**std, "controls": True}))))
+        with tempfile.TemporaryDirectory() as d:
+            req, args, rf = Path(d) / "r.json", Path(d) / "a.txt", Path(d) / "rf.txt"
+            for controls, want in ((True, "--cfg kani_smallsort_controls"), (False, ""), (None, "")):
+                body = dict(std) if controls is None else {**std, "controls": controls}
+                req.write_text(json.dumps(body))
+                cli = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "validate", str(req), "--args-out",
+                                      str(args), "--rustflags-out", str(rf)], capture_output=True, text=True)
+                self.assertEqual(cli.returncode, 0, cli.stderr)
+                self.assertEqual(rf.read_text(), want + "\n")
+        s = k.summarize(json.dumps({**std, "controls": True}), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40, "b" * 40,
+                        None, {}, {}, "success")
+        self.assertTrue(s["request"]["controls"])
+        self.assertTrue(any("outside the CI set" in n for n in s["notes"]))
+        self.assertIn("controls cfg on", k.render_md(s))
+        core = (Path(__file__).resolve().parents[4] / "library/core/Cargo.toml").read_text()
+        self.assertIn(f"'cfg({k.CONTROLS_CFG})'", core)
+
+    def test_partition_kind(self):
+        part = {**REQ, "kind": "partition", "runner": k.STANDARD_RUNNER, "harnesses": [], "harness_timeout_minutes": 180,
+                "worker_index": 2, "worker_total": 4, "kani_jobs": 2}
+        k.validate_request(copy.deepcopy(part))
+        self.assertEqual(k.partition_env(part), ["WORKER_INDEX=2", "WORKER_TOTAL=4", "KANI_JOBS=2"])
+        mac = {**part, "runner": "macos-latest"}
+        del mac["kani_jobs"]
+        k.validate_request(copy.deepcopy(mac))
+        self.assertEqual(k.partition_env(mac), ["WORKER_INDEX=2", "WORKER_TOTAL=4"])
+        self.assertEqual(k.partition_env({**REQ}), [])
+        self.bad({**part, "runner": "circleci-linux-large"}, "kind partition runs only")
+        self.bad({**part, "worker_index": 5}, "worker_index")
+        self.bad({k2: v for k2, v in part.items() if k2 != "worker_total"}, "worker_index")
+        self.bad({**part, "harnesses": ONLY_OK}, "harnesses: []")
+        self.bad({**part, "controls": True}, "no uninit_checks, no controls")
+        self.bad({**part, "harness_timeout_minutes": 301}, "1..300")
+        self.bad({**REQ, "worker_index": 1, "worker_total": 4}, "only for kind partition")
+        other = "core::num::verify::checked_add_u8"
+
+        def log(blocks, total=None, ok=None):
+            body = "".join(blocks)
+            n = total if total is not None else len(blocks)
+            return body + tail(ok if ok is not None else n, n - (ok if ok is not None else n))
+        ok_other = OK_BLOCK.replace(f"{P}smoke::ok", other)
+
+        def hdr(*names):
+            return "Running verification for harnesses:\n" + "".join(n + "\n" for n in names) + "Compiling core\n"
+        s = k.summarize(json.dumps(part), hdr(P + "smoke::ok", other) + "Thread 0: " + OK_BLOCK.replace("\n", "\nThread 0: ").rstrip("Thread 0: ")
+                        + "\n" + ok_other + tail(2, 0), TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertEqual(s["status"], "COMPLETE", s["inconsistencies"])
+        self.assertTrue(k.gate_ok(s))
+        self.assertEqual(s["partition"]["harness_count"], 2)
+        self.assertEqual(s["partition"]["smallsort_kani_k1_count"], 1)
+        self.assertIn("Partition 2/4", k.render_md(s))
+        f = k.summarize(json.dumps(part), hdr(other, P + "smoke::control") + ok_other + FAIL_BLOCK + tail(1, 1), TIME, 1, "a" * 40, "b" * 40, None, {},
+                        {}, "success")
+        self.assertEqual(f["status"], "COMPLETE")
+        self.assertFalse(k.gate_ok(f))
+        self.assertEqual(f["partition"]["failures"][0]["name"], P + "smoke::control")
+        self.assertIn("Not SUCCESS", k.render_md(f))
+        cut = k.summarize(json.dumps(part), hdr(other) + ok_other, TIME, 124, "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertEqual(cut["status"], "PARTIAL")
+        self.assertFalse(k.gate_ok(cut))
+        short = k.summarize(json.dumps(part), hdr(other, P + "smoke::ok") + ok_other + tail(1, 0), TIME, 0,
+                            "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertTrue(any("assigned 2 harnesses but 1" in i for i in short["inconsistencies"]))
+        self.assertFalse(k.gate_ok(short))
+        nolist = k.summarize(json.dumps(part), ok_other + tail(1, 0), TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
+        self.assertTrue(any("worker harness list missing" in i for i in nolist["inconsistencies"]))
+        with self.assertRaises(k.RequestError):
+            k.validate_request(copy.deepcopy(part), 120)
+        self.assertEqual(k.summarize(json.dumps(part), None, TIME, None, "a" * 40, "b" * 40, None, {}, {},
+                                     "failure")["status"], "RUNNER_ERROR")
+        with tempfile.TemporaryDirectory() as d:
+            req, args, pe = Path(d) / "r.json", Path(d) / "a.txt", Path(d) / "p.env"
+            req.write_text(json.dumps(part))
+            cli = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "validate", str(req), "--args-out",
+                                  str(args), "--partition-out", str(pe), "--max-total-minutes", "720"],
+                                 capture_output=True, text=True)
+            self.assertEqual(cli.returncode, 0, cli.stderr)
+            self.assertEqual(pe.read_text(), "WORKER_INDEX=2\nWORKER_TOTAL=4\nKANI_JOBS=2\n")
+
     def test_require_runner_repeatable(self):
         with tempfile.TemporaryDirectory() as d:
             req, args = Path(d) / "r.json", Path(d) / "a.txt"

@@ -30,7 +30,8 @@ export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
-total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+# Kind partition: harness_timeout_minutes is the whole worker's wall budget (no per-harness timeout, as in CI).
+total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") == "partition" else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
 
 stage() {
   case "$1" in
@@ -43,9 +44,17 @@ stage() {
         echo "lane runs only on experiment/kani-k1-* branches, not '${K1_BRANCH:-}'" > "$K1_OUT/request-error.txt"
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
         echo "checkout $(git rev-parse HEAD) differs from requested ${K1_SHA:-}" > "$K1_OUT/request-error.txt"
-      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
+      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --rustflags-out "$K1_OUT/rustflags.txt" --partition-out "$K1_OUT/partition.env" \
              --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
+      fi
+      # The controls cfg may gate only the proof modules: anywhere else it could change the code under test.
+      if valid && [ -n "$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null)" ]; then
+        stray=$(git grep -l kani_smallsort_controls -- library ':!library/core/src/slice/sort/shared/smallsort/kani_k1' \
+                ':!library/core/src/slice/sort/shared/smallsort/kani_k1.rs' ':!library/core/Cargo.toml' || true)
+        if [ -n "$stray" ]; then
+          echo "controls cfg used outside the proof modules: $(echo $stray)" > "$K1_OUT/request-error.txt"; rm -f "$K1_OUT/valid"
+        fi
       fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;
 
@@ -100,10 +109,22 @@ stage() {
         echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
       python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
       sampler=$!
+      # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
+      rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
+      if [ -n "$rustflags" ]; then export RUSTFLAGS="$rustflags"; echo "RUSTFLAGS=$rustflags" | tee -a "$K1_OUT/machine.txt"; fi
       set +e
       # Same shape as the CircleCI lane: GNU time -v on stderr (time.txt), Kani output through tee; a run cut
       # by timeout is PARTIAL.
-      timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+      if [ -s "$K1_OUT/partition.env" ]; then
+        # Kind partition: the organizers' worker invocation (kani.yml), no --kani-args.
+        mapfile -t penv < "$K1_OUT/partition.env"; echo "partition env: ${penv[*]}" | tee -a "$K1_OUT/machine.txt"
+        timeout --kill-after=30 "$remaining" /usr/bin/time -v env "${penv[@]}" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" 2>&1 | tee "k1-out/kani.log"' 2> "$K1_OUT/time.txt"
+      elif python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") == "partition")' "$K1_REQUEST"; then
+        timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+      else
+        # A partition must never take the --exact path (it would verify every harness of std).
+        echo "kind partition without a worker environment; verification not started" | tee "$K1_OUT/verify-skipped"
+      fi
       echo $? > "$K1_OUT/rc"
       kill -TERM "$sampler" 2>/dev/null; wait "$sampler"
       set -e ;;
