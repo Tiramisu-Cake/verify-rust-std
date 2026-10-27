@@ -4,6 +4,8 @@
 //! The U1 negative controls go only into requests with `"uninit_checks": true`:
 //! without the flag they return SUCCESS and say nothing (R9 ffd4250d, F6).
 
+#![allow(dead_code, unused_macros)]
+
 use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
 use crate::kani;
 use crate::mem::{ManuallyDrop, MaybeUninit};
@@ -93,7 +95,7 @@ fn zst_from_fn<const N: usize>() {
 macro_rules! zst_case {
     ($name:ident, $route:ident, $n:literal) => {
         #[cfg(kani_smallsort_controls)]
-#[kani::proof]
+        #[kani::proof]
         #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -310,7 +312,7 @@ fn uninit_network<const N: usize>() {
 macro_rules! uninit_case {
     ($name:ident, $route:ident, $n:literal) => {
         #[cfg(kani_smallsort_controls)]
-#[kani::proof]
+        #[kani::proof]
         #[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
         #[kani::unwind(65)]
         fn $name() {

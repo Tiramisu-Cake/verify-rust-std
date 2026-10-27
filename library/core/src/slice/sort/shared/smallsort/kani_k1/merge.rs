@@ -1409,15 +1409,6 @@ fn w1_stable_u64_safety<const N: usize>() {
     kani::cover(true, "wave1 stable-Freeze u64 trait: normal return reachable");
 }
 
-macro_rules! w1_top_safety {
-    ($name:ident, $body:ident, $n:literal) => {
-        #[kani::proof]
-        #[kani::unwind(34)]
-        fn $name() {
-            $body::<$n>();
-        }
-    };
-}
 
 
 
@@ -1455,6 +1446,7 @@ fn w1_boundary_routes<const N: usize>() {
 
 // Wave 2, R6 priority 1. Historical wave-1 harnesses stay unchanged.
 // C-5 uses an honest comparator and reaches each check after a normal merge.
+#[cfg(kani_smallsort_controls)]
 fn w2_c5_normal_merge() -> [u64; 4] {
     let v = [0u64, 1, 2, 3];
     let mut dst = MaybeUninit::<[u64; 4]>::uninit();
@@ -1465,6 +1457,58 @@ fn w2_c5_normal_merge() -> [u64; 4] {
         let out = dst.assume_init();
         kani::cover(true, "wave2 C5: normal merge return before check");
         out
+    }
+}
+
+// C-5 controls without assertion masking; expect the precise UB-class failure.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(6)]
+fn w2_c5_intrinsic_assume() {
+    let v = w2_c5_normal_merge();
+    // Deliberate C-5 check violation, not a proof-domain assumption.
+    unsafe {
+        let first = ptr::read_volatile(&v[0]);
+        crate::intrinsics::assume(first != 0);
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(6)]
+fn w2_c5_unchecked_add() {
+    let _v = w2_c5_normal_merge();
+    // Deliberate C-5 overflow. Volatile input/output retain the operation.
+    unsafe {
+        let max = ptr::read_volatile(&u8::MAX);
+        let mut result = 0u8;
+        ptr::write_volatile(&mut result, max.unchecked_add(1));
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(6)]
+fn w2_c5_copy_nonoverlapping() {
+    let mut v = w2_c5_normal_merge();
+    // Deliberate C-5 overlap: both regions are within this four-element
+    // allocation and aligned, but share elements 1 and 2.
+    unsafe {
+        let p = v.as_mut_ptr();
+        ptr::copy_nonoverlapping(p, p.add(1), 3);
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(6)]
+fn w2_c5_ptr_add() {
+    let v = w2_c5_normal_merge();
+    // Deliberate C-5 offset beyond one-past. Only the pointer value is
+    // written into a valid local slot; it is never dereferenced.
+    unsafe {
+        let mut result = ptr::null::<u64>();
+        ptr::write_volatile(&mut result, v.as_ptr().add(5));
     }
 }
 

@@ -905,3 +905,40 @@ log-grep до12 строк подтвердил unsupported pointer в K9s ZST (
   w3-l1-011-stage-b-controls), новый коммит/push/budget/dispatch/watch.
 - Завершение этапаB только после обоих gate true, пяти локализованных FAILED,
   официального GO и передачи. ЭтапC не начинать.
+
+### R9 ec01899e — GO_WITH_NITS координатора и исправления
+
+Координатор сообщил GO_WITH_NITS независимого ревьюера: условие — measurement gate
+true и отдельный controls:true с K15. Проверен состав ~305 без cfg, нет should_panic,
+cfg только в разрешённых модулях, runtime не изменён, пять faithful single mutations.
+Уточнение условия measurement: исходный009 gate false по unsupported K9s ZST;
+010 повторяет13 остальных, не выдаём009 за gate true. Официальное подтверждение
+результата010 и ограниченного состава нужно учитывать вместе с этим review.
+
+Обязательные правки/ниты:
+1. **K-15 показывает чувствительность выделенных свидетелей**. Пять новых k15_*
+   не являются подтверждением, что каждый мутант ловится ранее принятым набором;
+   особенно удаление final guard не ловят safety-only O1-A. Это ограничение
+   сохраняется в передаче и раскрытии. Дополнительно добавлены два controls-only
+   wrapper на *ранее принятой* гармонике без изменения её тела/домена:
+   network::k15_mutant_existing_k10_swap вызывает w2p2_k10_u8_n9 при stub swap;
+   k15_mutant_existing_k10_presorted_len вызывает w2p2_k10_u8_n10 при stub network.
+   Ожидаются FAILED на `sorted_by(&v, &mut cmp)`. До прогона — NOT_RUN.
+2. expect_check пяти K15 совпадают с предложенными условиями (подготовлены ранее).
+3. Мёртвый w1_top_safety macro удалён. w2_c5_normal_merge теперь controls-only.
+   network/uninit помечены allow(dead_code,unused_macros), поскольку исторические
+   diagnostic helpers и macros сохранены для opt-in воспроизведения.
+4. C5 восстановлены из своего этапаA, **без should_panic**, все под cfg controls:
+   w2_c5_intrinsic_assume (Rust intrinsic assumption failed), w2_c5_unchecked_add
+   (attempt to compute `unchecked_add` which would overflow),
+   w2_c5_copy_nonoverlapping (memcpy src/dst overlap), w2_c5_ptr_add
+   (Offset result and original pointer must point to the same allocation).
+   Это проверяет наличие четырёх UB-классов в штатной конфигурации CI;
+   предыдущая запись об удалении C5 вариантБ описывает промежуточный состав,
+   итоговый состав сохраняет их как FAILED-контроли под cfg.
+5. Исправлены отступы proof в двух macro_rules uninit.
+
+Расширенный controls-запрос: 12 FAILED, measurement120мин, cfg true,
+5 выделенных K15 +2 прежних K10 +4C5 +smoke. Пока только /tmp/w3-l1-b-controls.json,
+после терминального результата10 будет записан/закоммичен как RUN-REQUEST.
+Новые контроли требуют дополнительного R9; прочие положительные13 не менялись.

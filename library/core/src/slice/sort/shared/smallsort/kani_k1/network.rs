@@ -2,6 +2,8 @@
 //! `insertion_sort_shift_left` and `small_sort_network`.
 //! Written from the std source and the Kani documentation only (EXPERIMENT.md, rule R1).
 
+#![allow(dead_code, unused_macros)]
+
 use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
 use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
 use crate::kani;
@@ -1884,3 +1886,21 @@ macro_rules! w2night_o3_tags_case {
 w2night_o3_tags_case!(w2night_o3_tags_n2, 2, [1, 2]);
 w2night_o3_tags_case!(w2night_o3_tags_n3, 3, [1, 2, 3]);
 w2night_o3_tags_case!(w2night_o3_tags_n4, 4, [1, 2, 3, 4]);
+
+
+// K-15 controls on previously accepted K10 harnesses, preserving their exact inputs/checks.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+#[kani::stub(super::super::swap_if_less, super::mutations::mutant_swap_if_less)]
+fn k15_mutant_existing_k10_swap() {
+    w2p2_k10_u8_n9();
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+#[kani::stub(super::super::small_sort_network, super::mutations::mutant_small_sort_network)]
+fn k15_mutant_existing_k10_presorted_len() {
+    w2p2_k10_u8_n10();
+}
