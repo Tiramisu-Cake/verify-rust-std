@@ -38,3 +38,31 @@ fn zst_network_len17_returns() {
     <() as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut |_: &(), _: &()| false);
     kani::cover(true, "zst network len 17 returned");
 }
+
+// Same, with the sorting networks and the insertion step stubbed out: for a ZST they cannot change
+// anything, and the region loop's pointer logic does not depend on them. Isolates the loop.
+fn zst_noop_network<T, F: FnMut(&T, &T) -> bool>(_v: &mut [T], _is_less: &mut F) {}
+fn zst_noop_insertion<T, F: FnMut(&T, &T) -> bool>(_v: &mut [T], _offset: usize, _is_less: &mut F) {}
+
+#[kani::proof]
+#[kani::unwind(5)]
+#[kani::stub(crate::slice::sort::shared::smallsort::sort9_optimal, zst_noop_network)]
+#[kani::stub(crate::slice::sort::shared::smallsort::sort13_optimal, zst_noop_network)]
+#[kani::stub(crate::slice::sort::shared::smallsort::insertion_sort_shift_left, zst_noop_insertion)]
+fn zst_network_len18_loop_isolated() {
+    let mut v = [(); 18];
+    <() as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut |_: &(), _: &()| false);
+    kani::cover(true, "zst network len 18 returned (isolated)");
+}
+
+#[kani::proof]
+#[kani::unwind(5)]
+#[kani::stub(crate::slice::sort::shared::smallsort::sort9_optimal, zst_noop_network)]
+#[kani::stub(crate::slice::sort::shared::smallsort::sort13_optimal, zst_noop_network)]
+#[kani::stub(crate::slice::sort::shared::smallsort::insertion_sort_shift_left, zst_noop_insertion)]
+fn zst_network_len18_u8_control_isolated() {
+    // Control: a non-ZST of the same route leaves the loop after two iterations.
+    let mut v = [0u8; 18];
+    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut |a: &u8, b: &u8| a < b);
+    kani::cover(true, "u8 network len 18 returned (isolated)");
+}

@@ -1,13 +1,20 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-zst-network-loop-001",
+  "request_id": "coord-zst-network-loop-002",
   "agent": "coordinator",
   "kind": "diagnostic",
-  "purpose": "Latent ZST non-termination in small_sort_network at len >= 18 (Rust upstream issue evidence); len 17 control",
+  "purpose": "ZST small_sort_network len 18 loop isolated with no-op network/insertion stubs; u8 control on the same route",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 5,
   "harnesses": [
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len18_loops", "expect": "FAILED", "expect_check": "unwinding assertion"},
-    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len17_returns", "expect": "SUCCESS"}
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len18_loop_isolated",
+      "expect": "FAILED",
+      "expect_check": "unwinding assertion"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::smoke::zst_network_len18_u8_control_isolated",
+      "expect": "SUCCESS"
+    }
   ]
 }
