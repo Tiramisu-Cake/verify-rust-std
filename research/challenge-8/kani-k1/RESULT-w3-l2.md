@@ -1,8 +1,13 @@
 # W3-L2 — корректность, план R8
 
+Текущее состояние: L2-0 подтверждён gate build6e32e784 и R9 GO;
+обе S2 и R11 insert_tail подтверждены тем же build. L2-1: baseline20/24.
+**На текущем baseline-коммите временно прежний probe-ensures bm; новая
+Tagged-формулировка восстанавливается перед парным замером.** L1 его не интегрирует.
+
 Начало: 2026-10-27T10:18:21Z. Ветка `experiment/kani-k1-correct-20261027`.
 Доля $5,4; потрачено $0, незавершённых собственных сборок на входе нет.
-L2-0 начат; L2-1 не начат; L2-2 — маршрутная таблица, без нового proof credit.
+Состояние на входе: L2-0 начат; L2-1 не начат; L2-2 — маршрутная таблица.
 
 ## L2-0 — опыт специализации
 
@@ -410,3 +415,73 @@ $26,7896/$33,96. Свой расход $0,4462, резерв004 $3,2980.
 Дубль SHA не отправлялся; повторный build поверх004 не создаётся.
 Watch004 установлен; ожидается его уведомление. Свой итог остаётся $0,4462,
 резерв004 $3,2980, статус проверок пока неизвестен.
+
+## Build 6e32e784 — COMPLETE, gate true: L2-0 и S2
+
+Request004, head `fb10f6bf7f029da4c4ae7e988e48fc1f4c0fd602`,
+Kani9461e07a, measurement, gcb-e2-standard-4, jobs1. Expectation met=true,
+measurement ok=true, exit1 из-за предусмотренных FAILED контролей.
+Все положительные строки выполнили все covers. check-tooling ok против
+67a4b452 (тот lane, который реально на ветке/коммите; новую ценовую базу
+15bfaeed не вливаю по указанию координатора).
+
+| Гармоника | expected/actual | Время с | failed/total | cover |
+|---|---|---:|---|---|
+| `l2_tagged_contract4` | SUCCESS/SUCCESS | 98,211 | 0/515 | 3/3 |
+| `l2_tagged_contract8` | SUCCESS/SUCCESS | 250,544 | 0/515 | 3/3 |
+| `l2_probe_contract4` | SUCCESS/SUCCESS | 69,681 | 0/431 | 1/1 |
+| `l2_tagged_stub4` | SUCCESS/SUCCESS | 8,200 | 0/443 | 3/3 |
+| `l2_tagged_stub8` | SUCCESS/SUCCESS | 27,040 | 0/443 | 3/3 |
+| `l2_probe_stub4` | SUCCESS/SUCCESS | 5,288 | 0/456 | 2/2 |
+| `l2_contract_mutant_key` | FAILED/FAILED | 3,518 | 1/269 | 1/1 |
+| `l2_contract_mutant_label` | FAILED/FAILED | 7,005 | 1/269 | 1/1 |
+| `l2_stub_mutant_key` | FAILED/FAILED | 6,234 | 1/443 | 2/3 |
+| `l2_stub_mutant_label` | FAILED/FAILED | 7,505 | 1/443 | 2/3 |
+| `l2_r11_bad_labels` | FAILED/FAILED | 0,982 | 1/354 | 1/1 |
+| `network::insert_tail_net_u8` | SUCCESS/SUCCESS | 312,899 | 0/400 | 18/18 |
+| `l2_insert_tail_prefix_u8` | SUCCESS/SUCCESS | 165,787 | 0/428 | 4/4 |
+| `l2_r11_insert_tail` | FAILED/FAILED | 0,546 | 1/402 | 1/1 |
+
+Failed checks: surrogate k1_merge_matches, correct.rs:260/261 (первая
+строка description `| _ | CopyOnDrop :: < Tagged > ::`, причины различает
+конструкция, N1); caller tagged_oracle correct.rs:206; R11 labels
+k1_merge_input_ok smallsort.rs:862; R11 insertion k1_tail_pre smallsort.rs:607.
+Ожидаемые отрицательные caller-контроли не доходят до последнего cover,
+что допущено lane и R9 N-b; доassertion covers выполнены.
+
+L2-0 закрыт в проверенном N4/8-домене (любые различные tag<64, полные keys),
+код R9 GO edda4bbe, gate подтверждён. N20/24/32 этим не доказываются.
+S2 закрыт: обе u8-гармоники SUCCESS; R11 insert_tail обнаружил нарушенную
+предпосылку. Это допускает проверку новых fallback callers, но ещё не их зачёт.
+
+Whole run 18:10,33, max RSS7874000KiB; per-command CBMC7,51GiB,
+compiler1,92GiB, instrument0,06GiB, sampled sum8,15GiB, swap off.
+Пики относятся ко всему последовательному run, не к отдельной гармонике.
+Цель около5GiB не подтверждена для набора; измерений macOS/партиций нет.
+
+### Изменение ставки (сообщение координатора)
+
+По биллингу владельца 16GB около$0,0121/мин, с запасом учётная ставка
+**$0,0135/мин** (база15bfaeed). С этой записи применяется новая ставка,
+прежние $0,4462 не пересчитываются. Lane этой ветки остаётся старым:
+его dispatch/budget считают $0,0194, что строже, базу ради цены не вливаю.
+
+Стоимость004 по новой формуле (18+10,33/60+8)×$0,0135=$0,35332425;
+для своей доли вверх до27 пул-минут: **$0,3645**.
+Нарастающий консервативный итог **$0,8107/$5,4**, осталось $4,5893.
+
+## L2-1 — baseline старой формулировки, N20/N24
+
+D8 реализуется: изменён только permutation-ensures bm на прежнее
+`k1_count_u(v.as_ptr(),v.len()) == k1_count_u(dst,v.len())`.
+Новый requires k1_merge_input_ok оставлен, чтобы область входа обеих
+формулировок совпадала. Tagged, lt_tagged, генератор key/tag any,
+set_probe<Tagged>, cadical, unwind66 и proof_for_contract реального bm
+не менялись. Тела std/помощники/lane не менялись.
+
+Request005: только `l2_old_tagged20`/`l2_old_tagged24`, diagnostic30мин
+каждая, jobs1. Временный baseline-коммит НЕ используется для Tagged-stubs
+с сильным matcher и не передаётся L1. После baseline восстановить
+k1_merge_matches-ensures из edda4bbe и сделать парный new20/24 замер.
+Резерв своего бюджета: (60+30)×$0,0135=$1,2150; с потраченным $2,0257<$5,4.
+Старый dispatch резервирует строже $1,7460 в глобальном ledger.
