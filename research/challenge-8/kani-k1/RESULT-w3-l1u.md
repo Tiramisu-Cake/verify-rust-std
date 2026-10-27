@@ -500,3 +500,43 @@ W3-L1U ЗАВЕРШЁН
 Новых сборок после `d044a528` не было и не планируется: Z-1 закрыт, U-1 на pin
 9461e07a упирается в `MaybeUninit` в самом коде сортировки, так что более дешёвая
 минута повода для нового прогона не даёт. Итог W3-L1u не меняется: $1,2384 по прежней ставке.
+
+## Передача этапа A (единственный и последний этап W3-L1u)
+
+- **Незавершённых сборок нет.** Последняя — `d044a528` (COMPLETE). Все 4 сборки
+  W3-L1u завершены, check-tooling ok (`9d1cb848` против `67a4b452`,
+  остальные против `f5db92cc`).
+- **Засчитано:** ничего в gate — все прогоны `diagnostic`, gate не предусмотрен.
+  Результаты — диагностика вне CI-набора.
+- **Раскрыто:**
+  - Z-1 (`5aee04a2`, `3e8d706e`): четыре dereference-отказа job 85 — ложное
+    срабатывание Kani на `ptr::read_volatile::<()>` (`volatile_load`, ptr/mod.rs:2179)
+    в comparator гармоники; минимальная пара `z1_volatile_unit` FAILED /
+    `z1_read_unit` SUCCESS. С `zst_aware_less` stable ZST N=1,2,7,8,16,17,31,32,
+    merge2/merge3/insert_tail/sort4/swap и network N=8 — SUCCESS. Network ZST
+    N=9/17 — TIMEOUT, OOM job 85 — ресурсный. UB в сортировке не найдено.
+  - U-1 (`d044a528`, `uninit_checks: true`): unsupported на pin 9461e07a — проверка
+    падает на создании `MaybeUninit` (массив: «…is not supported. Cannot determine
+    layout…union…as a field.»; одиночный и `MaybeUninit<[u64;32]>`: «Interaction
+    between raw pointers and unions is not yet supported.»), cover после неё не
+    выполняются. Контроли по U-a не засчитаны. E1 не закрыт.
+- **Открытые REVIEW REQUEST:** нет (ffd4250d и f373880c получили вердикты).
+  `6a521579` (`zst_aware_less`, `z1n_*`) — экземпляр шаблона Z-1, отступление от
+  CD-2 только для ZST. **LANE REQUEST:** нет.
+- **Бюджет:** $1,2384 из $1,60 (ставка $0,0194/мин); остаток $0,3616 не расходуется.
+  Новая ставка $0,0135/мин к этим сборкам не применялась.
+- **Первый шаг следующего этапа:** следующего этапа у W3-L1u нет. Если координатор
+  вернёт U-1: сначала найти pin Kani с поддержкой union в uninit-checks
+  (иначе тот же unsupported на `smallsort.rs:206/327`), только потом прогон.
+- **R7, которые нужно знать дальше:**
+  - ZST-гармоники под Kani не должны читать аргументы comparator через
+    `read_volatile`; использовать `zst_aware_less` (volatile для ненулевого размера, CD-2).
+  - Отрицательные uninit-контроли — только в запросах с `uninit_checks: true`
+    и не в обычном CI-наборе (F6, R8 L1-6).
+  - `expect_check` lane засчитывается только по проверке с местоположением;
+    ZST-отказы без места дают «expectation met: false» и при FAILED.
+  - Поле lane `agent` для W3-L1u — `k1-network` (допустимое значение).
+  - Вопросы владельцу об upstream (Kani: ZST `read_volatile`; Rust: ZST-цикл
+    network при N ≥ 18, только по исходнику) — в «Z-1: классификация».
+
+W3-L1U ЗАВЕРШЁН
