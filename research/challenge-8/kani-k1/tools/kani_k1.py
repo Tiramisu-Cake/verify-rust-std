@@ -50,7 +50,13 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # kani_jobs: harnesses verified concurrently (Kani --jobs), as the organizers' ubuntu partitions do with
 # KANI_JOBS=2. Only kind diagnostic on the 16 GB pool: concurrent runs share memory and CPU, so their times
 # are not single-harness measurements.
-OPTIONAL_REQUEST_KEYS = {"kani_jobs"}
+# uninit_checks: adds Kani's `-Z uninit-checks` (not in the organizers' CI flags, run-kani.sh:87), so its
+# results are evidence outside CI; diagnostic on the 16 GB pool only (plan R8 §4, U-1).
+# controls: compiles the opt-in control/mutant harnesses (`#[cfg(kani_smallsort_controls)]`) by passing
+# RUSTFLAGS="--cfg kani_smallsort_controls" to Kani; the organizers' CI never sets it, so controls stay out of
+# the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
+CONTROLS_CFG = "kani_smallsort_controls"
+OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls"}
 KANI_JOBS = {1, 2}
 HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
@@ -130,6 +136,16 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
         if data["kani_jobs"] != 1 and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
             raise RequestError(f"kani_jobs > 1 is only for kind diagnostic on runner {STANDARD_RUNNER}")
+    if "uninit_checks" in data:
+        if type(data["uninit_checks"]) is not bool:
+            raise RequestError("uninit_checks must be true or false")
+        if data["uninit_checks"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
+            raise RequestError(f"uninit_checks is only for kind diagnostic on runner {STANDARD_RUNNER}")
+    if "controls" in data:
+        if type(data["controls"]) is not bool:
+            raise RequestError("controls must be true or false")
+        if data["controls"] and data["runner"] != STANDARD_RUNNER:
+            raise RequestError(f"controls is only for runner {STANDARD_RUNNER}")
     timeout = data["harness_timeout_minutes"]
     limit = RESOURCE_MAX_TIMEOUT_MINUTES if data["kind"] == "resource" else MAX_TIMEOUT_MINUTES
     if type(timeout) is not int or not 1 <= timeout <= limit:
@@ -170,6 +186,8 @@ def kani_args(request: dict[str, Any]) -> list[str]:
     args: list[str] = []
     for entry in request["harnesses"]:
         args += ["--harness", entry["name"]]
+    if request.get("uninit_checks"):
+        args += ["-Z", "uninit-checks"]
     args += ["--exact", "--harness-timeout", f"{request['harness_timeout_minutes']}m",
              f"--jobs={request.get('kani_jobs', 1)}", "--output-format=terse"]
     return args
@@ -496,6 +514,12 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
     summary["request"]["kani_jobs"] = request.get("kani_jobs", 1)
+    summary["request"]["uninit_checks"] = request.get("uninit_checks", False)
+    summary["request"]["controls"] = request.get("controls", False)
+    if request.get("controls"):
+        summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
+    if request.get("uninit_checks"):
+        summary["notes"].append("-Z uninit-checks on: not in the organizers' CI flags, evidence outside CI")
     if request["kind"] == "resource":
         summary["notes"].append("kind resource on 32 GB: memory/time data only, never a PASS or measurement result")
     if request.get("kani_jobs", 1) > 1:
@@ -649,7 +673,8 @@ def render_md(summary: dict[str, Any]) -> str:
         f"- head `{summary['head_sha']}`, Kani `{summary['kani_commit']}`, request sha256 `{summary['request_sha256']}`",
         f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
         f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min, "
-        f"harnesses in parallel {req.get('kani_jobs', 1)}",
+        f"harnesses in parallel {req.get('kani_jobs', 1)}, uninit checks {'on' if req.get('uninit_checks') else 'off'}, "
+        f"controls cfg {'on' if req.get('controls') else 'off'}",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
         f"- verify memory cap: {_memcap_line(res.get('memcap'))}",
@@ -698,6 +723,7 @@ def main(argv: list[str]) -> int:
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
+    v.add_argument("--rustflags-out", help="write the RUSTFLAGS value the request needs (empty line if none)")
     v.add_argument("--max-total-minutes", type=int, default=None)
     v.add_argument("--require-runner", action="append", default=[],
                    help="accepted runner value of this lane (repeatable); any other is rejected")
@@ -758,6 +784,8 @@ def main(argv: list[str]) -> int:
         Path(a.args_out).write_text("\n".join(kani_args(request)) + "\n")
         if a.runner_out:
             Path(a.runner_out).write_text(request["runner"] + "\n")
+        if a.rustflags_out:
+            Path(a.rustflags_out).write_text((f"--cfg {CONTROLS_CFG}" if request.get("controls") else "") + "\n")
         print(f"request {request['request_id']}: {len(request['harnesses'])} harness(es) accepted")
         return 0
     if a.cmd == "summarize":

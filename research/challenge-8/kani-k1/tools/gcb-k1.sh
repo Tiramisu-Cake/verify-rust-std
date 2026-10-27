@@ -43,9 +43,17 @@ stage() {
         echo "lane runs only on experiment/kani-k1-* branches, not '${K1_BRANCH:-}'" > "$K1_OUT/request-error.txt"
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
         echo "checkout $(git rev-parse HEAD) differs from requested ${K1_SHA:-}" > "$K1_OUT/request-error.txt"
-      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
+      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --rustflags-out "$K1_OUT/rustflags.txt" \
              --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
+      fi
+      # The controls cfg may gate only the proof modules: anywhere else it could change the code under test.
+      if valid && [ -n "$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null)" ]; then
+        stray=$(git grep -l kani_smallsort_controls -- library ':!library/core/src/slice/sort/shared/smallsort/kani_k1' \
+                ':!library/core/src/slice/sort/shared/smallsort/kani_k1.rs' ':!library/core/Cargo.toml' || true)
+        if [ -n "$stray" ]; then
+          echo "controls cfg used outside the proof modules: $(echo $stray)" > "$K1_OUT/request-error.txt"; rm -f "$K1_OUT/valid"
+        fi
       fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;
 
@@ -100,6 +108,9 @@ stage() {
         echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
       python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
       sampler=$!
+      # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
+      rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
+      if [ -n "$rustflags" ]; then export RUSTFLAGS="$rustflags"; echo "RUSTFLAGS=$rustflags" | tee -a "$K1_OUT/machine.txt"; fi
       set +e
       # Same shape as the CircleCI lane: GNU time -v on stderr (time.txt), Kani output through tee; a run cut
       # by timeout is PARTIAL.
