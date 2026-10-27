@@ -518,28 +518,37 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertTrue(any("swap not confirmed off" in n for n in swap["notes"]))
         self.assertFalse(run(None)["measurement_ok"])          # tracked but missing
 
-    def test_interleaved_output_under_kani_jobs(self):
-        ok2 = OK_BLOCK.replace("smoke::ok", "smoke::ok2")
-        interleaved = (OK_BLOCK.splitlines(keepends=True)[0] + "Thread 1: " + ok2.splitlines(keepends=True)[0]
-                       + "".join(OK_BLOCK.splitlines(keepends=True)[1:]) + "".join(ok2.splitlines(keepends=True)[1:])
-                       + tail(2, 0))
-        two = [{"name": P + "smoke::ok", "expect": "SUCCESS"}, {"name": P + "smoke::ok2", "expect": "SUCCESS"}]
-        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": two}
+    def test_worker_prefixed_output_under_kani_jobs(self):
+        # Shape of Cloud Build run 22e18888 (kani_jobs=2): every line carries its worker prefix.
+        real = (f"Thread 0: Checking harness {P}smoke::control...\n"
+                f"Thread 1: Checking harness {P}smoke::ok...\n"
+                "Thread 0: \nThread 0: VERIFICATION RESULT:\nThread 0:  ** 1 of 3 failed\n"
+                "Thread 0: Failed Checks: assertion failed: has_efficient_in_place_swap::<[u8; 9]>()\n"
+                'Thread 0:  File: "library/core/src/slice/sort/shared/smallsort/kani_k1/smoke.rs", line 20, in control\n'
+                "Thread 0: \nThread 0: VERIFICATION:- FAILED\nThread 0: Verification Time: 0.03475437s\n\n"
+                "Thread 1: \nThread 1: VERIFICATION RESULT:\nThread 1:  ** 0 of 12 failed (2 unreachable)\nThread 1: \n"
+                "Thread 1:  ** 2 of 2 cover properties satisfied\nThread 1: \nThread 1: VERIFICATION:- SUCCESSFUL\n"
+                "Thread 1: Verification Time: 0.04272855s\n\nManual Harness Summary:\n"
+                f"Verification failed for - {P}smoke::control\n"
+                "Complete - 1 successfully verified harnesses, 1 failures, 2 total.\n")
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "kani_jobs": 2}
 
-        def run(req, log):
-            return k.summarize(json.dumps(req), log, TIME, 0, "a" * 40, "b" * 40, None, {}, {}, "success")
-        s = run({**diag, "kani_jobs": 2}, interleaved)
-        self.assertIn(s["status"], ("PARTIAL", "INCONSISTENT"))   # the cut-off first block makes it PARTIAL
-        self.assertFalse(k.gate_ok(s))
-        self.assertTrue(any("interleaved" in i for i in s["inconsistencies"]))
-        # The overlap alone, every row parsed, is an inconsistency too.
-        both = run({**diag, "kani_jobs": 2}, OK_BLOCK.splitlines(keepends=True)[0] + "Thread 1: " + ok2
-                   + OK_BLOCK + tail(2, 0))
-        self.assertTrue(any("interleaved" in i for i in both["inconsistencies"]))
-        self.assertFalse(k.gate_ok(both))
-        clean = run({**diag, "kani_jobs": 2}, OK_BLOCK + "Thread 1: " + ok2 + tail(2, 0))
-        self.assertEqual(clean["status"], "COMPLETE")
-        self.assertTrue(k.gate_ok(clean))
+        def run(log):
+            return k.summarize(json.dumps(diag), log, TIME, 1, "a" * 40, "b" * 40, None, {}, {}, "success")
+        s = run(real)
+        self.assertEqual(s["status"], "COMPLETE", s["inconsistencies"])
+        self.assertTrue(k.gate_ok(s))
+        ok, control = s["harnesses"]
+        self.assertEqual((ok["status"], ok["time_s"], ok["covers_satisfied"], ok["unreachable"]), ("SUCCESS", 0.04272855, 2, 2))
+        self.assertEqual((control["status"], control["failed_located"]), ("FAILED", 1))
+        self.assertTrue(control["failed_checks"][0]["location"].endswith("smoke.rs:20"))
+        # A worker that starts a second harness inside its open block breaks attribution.
+        broken = real.replace("Thread 0: Verification Time: 0.03475437s\n", f"Thread 0: Checking harness {P}smoke::x...\n")
+        b = run(broken)
+        self.assertTrue(any("interleaved" in i for i in b["inconsistencies"]))
+        self.assertFalse(k.gate_ok(b))
+        # Sequential (unprefixed) output is unchanged.
+        self.assertEqual(run(GOOD_LOG)["status"], "COMPLETE")
 
     def test_ledger_price_must_be_finite(self):
         for price in ("p=nan", "p=inf", "p=-1"):
