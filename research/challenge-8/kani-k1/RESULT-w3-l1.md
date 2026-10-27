@@ -1065,3 +1065,11 @@ ZST восемь неизменных entrypoints по-прежнему имею
 Затем controls013:12 гармоник (11FAILED+smoke::ok SUCCESS), в том числе C5 и
 единственный прежний K10 presorted wrapper. validate accepted5/12, diff --check OK.
 Новых dispatch пока нет; бюджет перед11 терминален, used$21,1785/reserve0.
+
+REVIEW REQUEST 5567fc18c97d2183d47705d8fb194a4a8d7613eb
+
+Файлы кода: assembly.rs (общие checks с оригиналом/копией через FnOnce вместо
+ordinary stub контрактной функции), network.rs (удаление прежнего K10 swap-wrapper).
+mutations.rs не менялся с ec01899e; прошлые check predicates/domains сохранены.
+Нужен R9 шаблона прямого вызова, независимо от ещё не выполненных012/013.
+GO f699b895 для C5/оставшегося wrapper/прочего состава сохраняется.
