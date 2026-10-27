@@ -1118,6 +1118,43 @@ REVIEW REQUEST 806adda80ebbac90c749f54f04fa880d78ac67ec
 summary/check-tooling ok, gate false по двум unreachable covers на строку.
 Новый measurement повторяет тот же набор контролей и low2.
 
+### Job 172 — w2-merge-night-k14-controls-low2-retry-027
+
+Head `85a3fa4c5123e6532003df17c2bd701443d781b9`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 1
+Run: max RSS 1776080 KiB; wall с компиляцией 0:44.10.
+Cgroup peak 1.89 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_control_a` | FAILED / FAILED | 1.4766333 | 1/462 | 9 | 3/3 |
+| `w2night_drop_reachable` | SUCCESS / SUCCESS | 1.3669391 | 0/461 | 9 | 3/3 |
+| `w2night_drop_low2_count` | SUCCESS / SUCCESS | 0.41879132 | 0/461 | 17 | 2/2 |
+| `w2night_drop_low2_perm` | SUCCESS / SUCCESS | 0.54550034 | 0/461 | 16 | 2/2 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Kani exit 1 ожидаем из-за намеренного FAILED-контроля.
+Единственный failed check: `assertion failed: drop_control_value !=
+drop_control_value` @ `kani_k1/merge.rs:1979`. Других failed checks нет.
+Полные counts covers сверены отдельно от gate: control/reachable 3/3
+(два верхних маршрута и покрывающий panic stub); low2 count/perm 2/2
+(fallback и insertion offset 1). Исправление размещения covers измерено.
+Контроль А, достижимость и обе lower N2 свойства имеют gate true;
+независимый зачёт K-14r ждёт R9 `806adda8`.
+
+### N-D31 (R7): fallback/insertion N4/8
+
+`w2-merge-night-k14-low4to8-028`: low4 count, low4 perm,
+low8 count, low8 perm, все expected SUCCESS, 4×10 мин.
+Каждая гармоника выбирает fallback/insertion независимо; ожидаются
+2/2 normal-return covers каждой. Count: явный drop массива, count==N;
+perm: отдельная tag-probe multiplicity. Comparator читает оба аргумента,
+затем kani::any(); реальные тела, quiet stub только panic_on_ord_violation,
+который на нижних маршрутах недостижим (CD-5). Код/ledger без изменений.
+После нижних N2/4/8 — верхние general/stable N2/4 и далее.
+После dispatch ночных jobs 28, preflight отказов 3;
+с П2 до ночи: 33 jobs, 4 preflight отказа, 37/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
