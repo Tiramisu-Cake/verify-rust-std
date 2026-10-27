@@ -1572,29 +1572,31 @@ w2p2_k10_cases!(w2p2_k10_u64_n17, u64, [17]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n17, u8, 17);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n17, u64, 17);
 
-// Night K-9s: all distinct symbolic positions in a live 17-element allocation.
+// W3 L1-4 K-9s: all distinct symbolic positions in an exact N-element allocation.
 // The comparator is exactly the pure strict order used by K-10, including its function item.
-fn w2night_k9s_indices17<T: kani::Arbitrary + Copy + Ord>() {
-    let mut v: [T; 17] = kani::any();
+fn w3_k9s_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
+    const { assert!(N >= 9 && N <= 17) };
+    let mut v: [T; N] = kani::any();
     let pre = v;
-    let a: usize = kani::any_where(|&i| i < 17);
-    let b: usize = kani::any_where(|&i| i < 17 && i != a);
+    let a: usize = kani::any_where(|&i| i < N);
+    let b: usize = kani::any_where(|&i| i < N && i != a);
     let mut cmp = w2p2_strict_less::<T>;
     let taken = cmp(&v[b], &v[a]);
     // SAFETY: a and b are distinct in-bounds initialized writable elements of v.
     unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp); }
     // In addition to both existing ensures, explicitly check the untouched frame.
     let mut i = 0;
-    while i < 17 {
+    while i < N {
         if i != a && i != b {
             assert!(v[i] == pre[i], "K9s symbolic indices: other cells unchanged");
         }
         i += 1;
     }
-    kani::cover(a == 0 && b == 16, "K9s symbolic indices: first to last");
-    kani::cover(a == 16 && b == 0, "K9s symbolic indices: last to first");
-    kani::cover(a > 0 && a < 16 && b > 0 && b < 16, "K9s symbolic indices: interior pair");
-    kani::cover(a == 12 || b == 12, "K9s symbolic indices: sort13 final position");
+    kani::cover(a == 0 && b == N - 1, "K9s symbolic indices: first to last");
+    kani::cover(a == N - 1 && b == 0, "K9s symbolic indices: last to first");
+    kani::cover(a > 0 && a < N - 1 && b > 0 && b < N - 1, "K9s symbolic indices: interior pair");
+    let network_last = if N >= 13 { 12 } else { 8 };
+    kani::cover(a == network_last || b == network_last, "K9s symbolic indices: network final position");
     kani::cover(taken, "K9s symbolic indices: swap branch");
     kani::cover(!taken, "K9s symbolic indices: no-swap branch");
     kani::cover(true, "K9s symbolic indices: end reached");
@@ -1603,14 +1605,41 @@ fn w2night_k9s_indices17<T: kani::Arbitrary + Copy + Ord>() {
 #[kani::proof_for_contract(super::super::swap_if_less)]
 #[kani::unwind(25)]
 fn w2night_k9s_u8_indices17() {
-    w2night_k9s_indices17::<u8>();
+    w3_k9s_indices::<u8, 17>();
 }
 
 #[kani::proof_for_contract(super::super::swap_if_less)]
 #[kani::unwind(25)]
 fn w2night_k9s_u64_indices17() {
-    w2night_k9s_indices17::<u64>();
+    w3_k9s_indices::<u64, 17>();
 }
+
+macro_rules! w3_k9s_case {
+    ($name:ident, $t:ty, $n:literal) => {
+        #[kani::proof_for_contract(super::super::swap_if_less)]
+        #[kani::unwind(25)]
+        fn $name() {
+            w3_k9s_indices::<$t, $n>();
+        }
+    };
+}
+
+w3_k9s_case!(w3_k9s_u8_n9, u8, 9);
+w3_k9s_case!(w3_k9s_u8_n10, u8, 10);
+w3_k9s_case!(w3_k9s_u8_n11, u8, 11);
+w3_k9s_case!(w3_k9s_u8_n12, u8, 12);
+w3_k9s_case!(w3_k9s_u8_n13, u8, 13);
+w3_k9s_case!(w3_k9s_u8_n14, u8, 14);
+w3_k9s_case!(w3_k9s_u8_n15, u8, 15);
+w3_k9s_case!(w3_k9s_u8_n16, u8, 16);
+w3_k9s_case!(w3_k9s_u64_n9, u64, 9);
+w3_k9s_case!(w3_k9s_u64_n10, u64, 10);
+w3_k9s_case!(w3_k9s_u64_n11, u64, 11);
+w3_k9s_case!(w3_k9s_u64_n12, u64, 12);
+w3_k9s_case!(w3_k9s_u64_n13, u64, 13);
+w3_k9s_case!(w3_k9s_u64_n14, u64, 14);
+w3_k9s_case!(w3_k9s_u64_n15, u64, 15);
+w3_k9s_case!(w3_k9s_u64_n16, u64, 16);
 
 // Night K-8r: fixed nonzero begin offsets inside [u64;17], all valid tail positions.
 // Contract preconditions (including sorted [begin, tail)) are supplied by proof_for_contract.
