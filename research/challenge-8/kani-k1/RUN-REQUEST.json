@@ -1,47 +1,66 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1u-z1-split-02",
+  "request_id": "w3-l1u-z1-split-03",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "W3-L1u Z1 #2 (R9 F1/F4/F5): job 85 harness reproduced on GCB, literal vs job-85 inputs at fixed lengths, ZST primitives; no uninit-checks",
+  "purpose": "W3-L1u Z1 #3 (R9 Z-a/N2/N3): ZST sort bodies with a comparator without the volatile ZST load, odd lengths, merge3, from_fn without read; no uninit-checks",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 5,
+  "harness_timeout_minutes": 3,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k16_zst_stable",
-      "expect": "FAILED",
-      "expect_check": "dereference failure"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_stable_2",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_read_unit",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_stable_8",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_stable_16",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_stable_32",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_2",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_8",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_16",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_32",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_31",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_merge3_unit",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_merge2_unit",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_insert_tail_unit",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_sort4_unit",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_swap_unit",
       "expect": "SUCCESS"
     },
     {
@@ -49,40 +68,22 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_from_fn_unit_32",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_network_8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_copy_unit",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_network_9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_merge2_unit",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_7",
+      "expect": "FAILED",
+      "expect_check": "dereference failure"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_insert_tail_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_sort4_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_swap_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_volatile_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_network_9",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_network_17",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_17",
+      "expect": "FAILED",
+      "expect_check": "dereference failure"
     }
   ]
 }

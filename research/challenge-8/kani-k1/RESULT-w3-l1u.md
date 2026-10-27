@@ -234,3 +234,74 @@ U-1 — unsupported. Unsupported-проверка путь не отсекает
    путь), а не объявляется ложным срабатыванием или находкой.
 
 Флаг lane «expectation met» для U-1 решающим не считается; решает это правило.
+
+## Прогон Z-1 №2 — итог
+
+Build `5aee04a2-8039-4cae-8160-e76a19ab9608`, head `f373880c`, request
+`w3-l1u-z1-split-02`, gcb-e2-standard-4, jobs=1, таймаут 5 мин, uninit off.
+COMPLETE, Kani exit 1. Wall whole run 19:16,44; пик cbmc 7,20 GiB, swap off.
+check-tooling против `f5db92cc`: все строки ok.
+Стоимость (1156,44/60 + 8) × $0,0194 = **$0,5291**. Итог W3-L1u: **$0,7016 из $1,60**.
+
+| гармоника | ожид. | статус | время, с | провалы/всего | cover |
+|---|---|---|---|---|---|
+| network::w2_k16_zst_stable | FAILED | TIMEOUT (5 мин) | — | — | — |
+| z1_stable_2 / 8 / 16 / 32 | SUCCESS | FAILED | 0,8 / 3,2 / 7,2 / 86,6 | 4/276–277 | 1/1 |
+| z1f_stable_2 / 8 / 16 / 32 | SUCCESS | FAILED | 1,1 / 3,1 / 7,6 / 65,3 | 4/342–343 | 1/1 |
+| z1_from_fn_unit_2 / 32 | SUCCESS | FAILED | 0,17 / 0,87 | 4/91 | 1/1 |
+| z1_copy_unit | SUCCESS | **SUCCESS** | 0,07 | 0/16 | 1/1 |
+| z1_merge2_unit | SUCCESS | FAILED | 0,44 | 4/113 | 1/1 |
+| z1_insert_tail_unit | SUCCESS | FAILED | 0,29 | 4/77 | 1/1 |
+| z1_sort4_unit | SUCCESS | FAILED | 0,57 | 4/75 | 1/1 |
+| z1_swap_unit | SUCCESS | FAILED | 0,22 | 4/54 | 1/1 |
+| z1_volatile_unit | SUCCESS | FAILED | 0,06 | 4/16 | 1/1 |
+| z1_network_9 | SUCCESS | FAILED | 288,0 | 4/318 | 1/1 |
+| z1_network_17 | SUCCESS | TIMEOUT (5 мин) | — | — | — |
+
+Во всех FAILED ровно те же четыре проверки, что в job 85:
+`dereference failure: pointer NULL`, `pointer invalid`,
+`pointer outside object bounds`, `invalid integer address`. Без местоположения
+везде, кроме `z1_from_fn_unit_*`: там все четыре стоят на
+`library/core/src/ptr/mod.rs:2179` — это строка `intrinsics::volatile_load(src)`
+в теле `ptr::read_volatile`. В `z1_from_fn_unit` на этом SHA единственный
+`read_volatile` — чтение массива `[(); N]` в самой гармонике (N2 его убирает).
+
+Вывод (предварительный, до №3): отказ воспроизводится на минимальной гармонике
+`z1_volatile_unit` — `ptr::read_volatile(&())` на локальной `()`, без кода сортировки.
+`z1_copy_unit` (`copy_nonoverlapping::<()>`) — SUCCESS. Все гармоники сортировки и
+примитивов читают аргументы comparator через `read_volatile::<()>` (CD-2), в том
+числе `w2_reading_less` в job 85. Значит, четыре проверки job 85 дают
+volatile-чтение ZST в comparator гармоники, а не путь сортировки.
+Для ZST по правилам Rust любой ненулевой выровненный указатель годится для
+чтения, и `read_volatile` нулевого размера не обращается к памяти; поэтому
+кандидат — ограничение модели Kani (CBMC разыменовывает указатель на объект
+нулевого размера в `volatile_load`). Но что на ZST чисты тела сортировки,
+этот прогон не показывает: их провалы замаскированы тем же comparator.
+Z-a учтён: нечётные длины здесь не исполнялись, вывод по длинам не делается.
+
+Время: `w2_k16_zst_stable` в job 85 на CircleCI заняла 171 с, здесь не уложилась в
+5 мин (на GCB `z1_stable_32` одна — 87 с). Network на ZST дорог: N=9 — 288 с,
+N=17 — больше 5 мин; OOM job 85 — ресурсный исход этой дорогой
+символьной гармоники (5 длин), не проверка.
+
+## Запрос Z-1 №3
+
+Новый comparator `zst_aware_less`: для `size_of::<T>() != 0` — как
+`w2_reading_less` (`ManuallyDrop` + `read_volatile`, CD-2), для ZST —
+`ptr::read`. R7: отступление от CD-2 только для ZST, где volatile-чтение и есть
+изолируемый артефакт; для ZST чтение не несёт данных, а любой ненулевой
+выровненный указатель валиден. Входы как в job 85 (from_fn, const-scratch).
+
+`w3-l1u-z1-split-03`, таймаут 3 мин, 19 гармоник, без uninit_checks:
+- `z1_read_unit` (`ptr::read(&())`, SUCCESS) — контроль, что невolatile-чтение ZST чисто;
+- `z1n_stable_{1,2,7,8,16,17,31,32}` (SUCCESS) — Z-a: len<2, нечётные 7/17/31;
+- `z1_merge3_unit` (длина 3, ветка `last_src`, smallsort.rs:931) и
+  `z1n_{merge2,insert_tail,sort4,swap}_unit` (SUCCESS);
+- `z1_from_fn_unit_2` без чтения (N2, SUCCESS);
+- `z1n_network_8` (N3, только вставка) и `z1n_network_9` (SUCCESS);
+- `z1f_stable_7`, `z1f_stable_17` (volatile, FAILED `dereference failure`) — чтобы
+  на нечётных длинах с comparator job 85 были только те же четыре проверки.
+
+Таймаут 3 мин (а не 5): бюджет. Ожидаю wall ≈ 10–12 мин, ≈ $0,35–0,40.
+TIMEOUT `z1n_network_9` будет записан как ресурсный, не как классификация.
+После №3 на U-1 останется ≈ $0,5 — U-1 сокращается до N=8 и 16 с контролями (решение координатора).

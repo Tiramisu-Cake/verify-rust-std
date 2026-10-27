@@ -55,6 +55,35 @@ fn zst_stable_w2<const N: usize>() {
     <() as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_like_less::<()>);
 }
 
+// Z1 #3: build 5aee04a2 showed the four dereference failures in `z1_volatile_unit` alone, located
+// in `z1_from_fn_unit` at ptr/mod.rs:2179 (`intrinsics::volatile_load` in `read_volatile`), while
+// `z1_copy_unit` succeeded. This comparator keeps CD-2's volatile reads for every sized-nonzero `T`
+// and for a ZST reads through `ptr::read`, so the sort bodies run without the volatile ZST load.
+fn zst_aware_less<T>(a: &T, b: &T) -> bool {
+    // SAFETY: as `w2_like_less`; for a ZST any non-null aligned pointer is valid for reads.
+    unsafe {
+        if crate::mem::size_of::<T>() != 0 {
+            let _left = ManuallyDrop::new(ptr::read_volatile(a));
+            let _right = ManuallyDrop::new(ptr::read_volatile(b));
+        } else {
+            let _left = ManuallyDrop::new(ptr::read(a));
+            let _right = ManuallyDrop::new(ptr::read(b));
+        }
+    }
+    kani::any()
+}
+
+fn zst_stable_nv<const N: usize>() {
+    let mut v: [(); N] = crate::array::from_fn(|_| ());
+    let mut scratch = [const { MaybeUninit::<()>::uninit() }; 48];
+    <() as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut zst_aware_less::<()>);
+}
+
+fn zst_network_nv<const N: usize>() {
+    let mut v: [(); N] = crate::array::from_fn(|_| ());
+    <() as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut zst_aware_less::<()>);
+}
+
 fn zst_from_fn<const N: usize>() {
     // R9 N2: no read of the result, so this isolates `from_fn` from `z1_volatile_unit`.
     let v: [(); N] = crate::array::from_fn(|_| ());
@@ -99,6 +128,61 @@ zst_case!(z1f_stable_1, zst_stable_w2, 1);
 zst_case!(z1f_stable_7, zst_stable_w2, 7);
 zst_case!(z1f_stable_17, zst_stable_w2, 17);
 zst_case!(z1f_stable_31, zst_stable_w2, 31);
+zst_case!(z1n_stable_1, zst_stable_nv, 1);
+zst_case!(z1n_stable_2, zst_stable_nv, 2);
+zst_case!(z1n_stable_7, zst_stable_nv, 7);
+zst_case!(z1n_stable_8, zst_stable_nv, 8);
+zst_case!(z1n_stable_16, zst_stable_nv, 16);
+zst_case!(z1n_stable_17, zst_stable_nv, 17);
+zst_case!(z1n_stable_31, zst_stable_nv, 31);
+zst_case!(z1n_stable_32, zst_stable_nv, 32);
+zst_case!(z1n_network_8, zst_network_nv, 8);
+zst_case!(z1n_network_9, zst_network_nv, 9);
+
+#[kani::proof]
+fn z1_read_unit() {
+    let value = ();
+    // SAFETY: a reference to an initialized, aligned ZST.
+    let _ = unsafe { ptr::read(&value) };
+    kani::cover(true, "Z1 non-volatile unit read returned");
+}
+
+#[kani::proof]
+#[kani::unwind(5)]
+fn z1n_merge2_unit() {
+    let v = [(); 2];
+    let mut dst = [MaybeUninit::<()>::uninit(); 2];
+    // SAFETY: as z1_merge2_unit.
+    unsafe { super::super::bidirectional_merge(&v, dst.as_mut_ptr().cast::<()>(), &mut zst_aware_less::<()>) };
+    kani::cover(true, "Z1 merge2 unit (ZST-aware comparator) returned");
+}
+
+#[kani::proof]
+#[kani::unwind(5)]
+fn z1n_insert_tail_unit() {
+    let mut v = [(); 2];
+    let base = v.as_mut_ptr();
+    // SAFETY: as z1_insert_tail_unit.
+    unsafe { super::super::insert_tail(base, base.add(1), &mut zst_aware_less::<()>) };
+    kani::cover(true, "Z1 insert_tail unit (ZST-aware comparator) returned");
+}
+
+#[kani::proof]
+fn z1n_sort4_unit() {
+    let v = [(); 4];
+    let mut dst = [MaybeUninit::<()>::uninit(); 4];
+    // SAFETY: as z1_sort4_unit.
+    unsafe { super::super::sort4_stable(v.as_ptr(), dst.as_mut_ptr().cast(), &mut zst_aware_less::<()>) };
+    kani::cover(true, "Z1 sort4 unit (ZST-aware comparator) returned");
+}
+
+#[kani::proof]
+fn z1n_swap_unit() {
+    let mut v = [(); 2];
+    // SAFETY: as z1_swap_unit.
+    unsafe { super::super::swap_if_less(v.as_mut_ptr(), 0, 1, &mut zst_aware_less::<()>) };
+    kani::cover(true, "Z1 swap unit (ZST-aware comparator) returned");
+}
 
 #[kani::proof]
 fn z1_volatile_unit() {
@@ -153,8 +237,8 @@ fn z1_merge3_unit() {
     let v = [(); 3];
     let mut dst = [MaybeUninit::<()>::uninit(); 3];
     // SAFETY: len 3 >= 2, `dst` is separate and valid for three writes.
-    unsafe { super::super::bidirectional_merge(&v, dst.as_mut_ptr().cast::<()>(), &mut reading_less) };
-    kani::cover(true, "Z1 merge3 unit returned");
+    unsafe { super::super::bidirectional_merge(&v, dst.as_mut_ptr().cast::<()>(), &mut zst_aware_less::<()>) };
+    kani::cover(true, "Z1 merge3 unit (ZST-aware comparator) returned");
 }
 
 #[kani::proof]
