@@ -278,3 +278,23 @@ LANE REQUEST: для L1-6/L1-9 нужен opt-in cfg kani_smallsort_controls,
 measurement/CI его не задаёт. Это позволит держать FAILED-контроли вне набора
 и воспроизводить их отдельно без изменения runtime std. Нужны документированные
 способ передачи cfg и request-поле/режим lane; файлы lane на этой ветке не меняются.
+
+## Разрешённое обновление lane — controls cfg
+
+Координатор разрешил merge базы; выполнен git merge origin/experiment/kani-k1-base-20261024
+без конфликтов. Новая база check-tooling для последующих build:
+`1c2059f219ef34b5ebbf839cb03be13f4afb5605`. Файлы lane и Cargo.toml получены
+только из этой разрешённой базы, собственных изменений в них нет.
+R9 lane пройден, по сообщению координатора smoke941ce951 подтвердил ожидаемый FAILED.
+
+LANE REQUEST controls закрыт: запрос с `"controls": true` на gcb-e2-standard-4
+(measurement/diagnostic) выставляет RUSTFLAGS="--cfg kani_smallsort_controls".
+Контрольные entrypoints будут под #[cfg(kani_smallsort_controls)] только внутри
+kani_k1; обычный набор этот cfg не задаёт. Объявление check-cfg Cargo.toml —
+служебное изменение базы, подлежит явному раскрытию при подаче.
+Защита lane запрещает упоминание cfg в остальных файлах library/.
+
+Build4 `d989b725-5f5a-46b6-ae1f-c31c8152541e` уже отправлен с прежнего дерева:
+для него check-tooling по-прежнему против `67a4b452a932d070cf77853a3682c7998de93870`.
+Для новых dispatch применяется 1c2059f2. Действующий watch build4 сохраняется,
+новых прогонов по этому обновлению нет. git diff --check без замечаний.
