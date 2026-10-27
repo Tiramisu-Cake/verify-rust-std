@@ -1,5 +1,6 @@
 //! W3-L2: specialization experiment. Runtime sorting bodies are unchanged.
-//! The input snapshot is Copy; `old()` never clones a generic element.
+//! The input region is immutable and disjoint from the destination. A Copy
+//! pointer/length snapshot names that region; `old()` never clones an element.
 
 #![allow(dead_code)]
 
@@ -27,57 +28,42 @@ impl kani::Arbitrary for Tagged {
 }
 
 #[derive(Clone, Copy)]
-pub(crate) struct K1MergeSnapshot {
+struct K1TaggedSnapshot {
     keys: [u64; 64],
     mask: u64,
-    count: usize,
     valid: bool,
 }
 
 /// No bounds are added to generic runtime functions: a blanket implementation
 /// retains the previous arbitrary-probe count, with a Tagged specialization.
 pub(crate) trait K1MergePerm: Sized {
-    fn k1_snapshot(src: *const Self, len: usize) -> K1MergeSnapshot;
-    fn k1_matches(dst: *const Self, len: usize, input: K1MergeSnapshot) -> bool;
+    fn k1_input_ok(src: *const Self, len: usize) -> bool;
+    fn k1_matches(dst: *const Self, len: usize, input: (*const Self, usize)) -> bool;
     fn k1_uses_tags() -> bool;
 }
 
 impl<T> K1MergePerm for T {
-    default fn k1_snapshot(src: *const T, len: usize) -> K1MergeSnapshot {
-        K1MergeSnapshot {
-            keys: [0; 64], mask: 0,
-            count: CopyOnDrop::<T>::k1_count_u(src, len), valid: true,
-        }
-    }
+    default fn k1_input_ok(_src: *const T, _len: usize) -> bool { true }
 
-    default fn k1_matches(dst: *const T, len: usize, input: K1MergeSnapshot) -> bool {
-        input.count == CopyOnDrop::<T>::k1_count_u(dst, len)
+    default fn k1_matches(dst: *const T, len: usize, input: (*const T, usize)) -> bool {
+        // The original formulation: both counts are evaluated AFTER the call.
+        // The generic snapshot contains only pointer + length, no key array.
+        CopyOnDrop::<T>::k1_count_u(input.0, input.1)
+            == CopyOnDrop::<T>::k1_count_u(dst, len)
     }
 
     default fn k1_uses_tags() -> bool { false }
 }
 
 impl K1MergePerm for Tagged {
-    fn k1_snapshot(src: *const Tagged, len: usize) -> K1MergeSnapshot {
-        let mut input = K1MergeSnapshot {
-            keys: [0; 64], mask: 0, count: 0, valid: len <= 32,
-        };
-        for i in 0..len {
-            // SAFETY: the caller provides len initialized elements.
-            let value = unsafe { *src.add(i) };
-            if value.tag >= 64 {
-                input.valid = false;
-            } else {
-                let bit = 1u64 << value.tag;
-                input.valid &= input.mask & bit == 0;
-                input.mask |= bit;
-                input.keys[value.tag as usize] = value.key;
-            }
-        }
-        input
+    fn k1_input_ok(src: *const Tagged, len: usize) -> bool {
+        k1_tagged_snapshot(src, len).valid
     }
 
-    fn k1_matches(dst: *const Tagged, len: usize, input: K1MergeSnapshot) -> bool {
+    fn k1_matches(dst: *const Tagged, len: usize, region: (*const Tagged, usize)) -> bool {
+        // The source is &[T], disjoint from dst and outside modifies. Reading
+        // the saved input region here recovers its unchanged pre-call pairs.
+        let input = k1_tagged_snapshot(region.0, region.1);
         if !input.valid { return false; }
         let mut mask = 0u64;
         for i in 0..len {
@@ -98,18 +84,37 @@ impl K1MergePerm for Tagged {
     fn k1_uses_tags() -> bool { true }
 }
 
+/// Value snapshot used only by the Tagged specialization. The default path
+/// never constructs or carries this [u64;64].
+fn k1_tagged_snapshot(src: *const Tagged, len: usize) -> K1TaggedSnapshot {
+    let mut input = K1TaggedSnapshot {
+        keys: [0; 64], mask: 0, valid: len <= 32,
+    };
+    for i in 0..len {
+        // SAFETY: the caller provides len initialized elements.
+        let value = unsafe { *src.add(i) };
+        if value.tag >= 64 {
+            input.valid = false;
+        } else {
+            let bit = 1u64 << value.tag;
+            input.valid &= input.mask & bit == 0;
+            input.mask |= bit;
+            input.keys[value.tag as usize] = value.key;
+        }
+    }
+    input
+}
+
 impl<T> CopyOnDrop<T> {
-    pub(crate) fn k1_merge_snapshot(src: *const T, len: usize) -> K1MergeSnapshot {
-        <T as K1MergePerm>::k1_snapshot(src, len)
+    pub(crate) fn k1_merge_snapshot(src: *const T, len: usize) -> (*const T, usize) {
+        (src, len)
     }
 
     pub(crate) fn k1_merge_input_ok(src: *const T, len: usize) -> bool {
-        // For ordinary types this is true without reading the probe or input.
-        !<T as K1MergePerm>::k1_uses_tags()
-            || Self::k1_merge_snapshot(src, len).valid
+        <T as K1MergePerm>::k1_input_ok(src, len)
     }
 
-    pub(crate) fn k1_merge_matches(dst: *const T, len: usize, input: K1MergeSnapshot) -> bool {
+    pub(crate) fn k1_merge_matches(dst: *const T, len: usize, input: (*const T, usize)) -> bool {
         <T as K1MergePerm>::k1_matches(dst, len, input)
     }
 }
@@ -123,8 +128,10 @@ fn tagged_input<const N: usize>(base: u64) -> [Tagged; N] {
     input
 }
 
-fn tagged_contract<const N: usize>(base: u64) {
-    let input = tagged_input::<N>(base);
+fn tagged_contract<const N: usize>() {
+    // All key/tag fields are arbitrary. Only the callee's requires establishes
+    // distinct labels <64: this includes presort permutations in scratch.
+    let input: [Tagged; N] = kani::any();
     let mut dst = MaybeUninit::<[Tagged; N]>::uninit();
     assert!(<Tagged as K1MergePerm>::k1_uses_tags());
     let mut cmp = lt_tagged;
@@ -132,15 +139,17 @@ fn tagged_contract<const N: usize>(base: u64) {
     // assumes the sorted-half and valid-label requirements of this call.
     unsafe { bidirectional_merge(&input, dst.as_mut_ptr() as *mut Tagged, &mut cmp); }
     kani::cover(true, "Tagged contract: normal return under requires");
+    kani::cover(input[0].tag == 63, "Tagged contract: highest mask bit reachable");
+    kani::cover(input[0].tag > input[1].tag, "Tagged contract: nonidentity label order reachable");
 }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(66)]
-fn l2_tagged_contract4() { tagged_contract::<4>(8); }
+fn l2_tagged_contract4() { tagged_contract::<4>(); }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(66)]
-fn l2_tagged_contract8() { tagged_contract::<8>(56); }
+fn l2_tagged_contract8() { tagged_contract::<8>(); }
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(66)]
