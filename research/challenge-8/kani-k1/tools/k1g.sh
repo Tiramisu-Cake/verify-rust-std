@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Agent helper for the Kani K-1 Cloud Build lanes, project smallsort-k1. The request's runner picks the pool:
 # gcb-e2-standard-4 -> k1-standard4 (4 vCPU / 16 GB, the organizers' ubuntu runner resources; measurement and
-# diagnostic), gcb-e2-highmem-4 -> k1-highmem4 (4 vCPU / 32 GB; kind resource only). Same verbs as k1.sh
+# diagnostic). gcb-e2-highmem-4 -> k1-highmem4 (4 vCPU / 32 GB; kind resource only) is closed for new runs
+# (owner, 2026-10-27: nothing needed more than 16 GB); its past builds stay in the ledger. Same verbs as k1.sh
 # (CircleCI); runs are identified by Cloud Build build ids. gcloud runs with its own configuration
 # directory and the dispatcher service account, so the machine's default gcloud setup is never touched.
 # The account can submit builds to the pools and read the run bucket, nothing else.
@@ -118,7 +119,7 @@ case "$cmd" in
     git show "$sha:research/challenge-8/kani-k1/gcb/cloudbuild.yaml" > "$work/cloudbuild.yaml" 2>/dev/null || die "no gcb/cloudbuild.yaml at $sha"
     # Validate here with this checkout's kani_k1.py: a request the lane would reject must not cost pool time.
     python3 -B "$TOOLS/kani_k1.py" validate "$work/request.json" --args-out "$work/args" --runner-out "$work/runner" \
-      --require-runner gcb-e2-highmem-4 --require-runner gcb-e2-standard-4 \
+      --require-runner gcb-e2-standard-4 \
       --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
     total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
