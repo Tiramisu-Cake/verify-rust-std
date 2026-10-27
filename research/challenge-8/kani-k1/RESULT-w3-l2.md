@@ -74,3 +74,11 @@ L2-0 начат; L2-1 не начат; L2-2 — маршрутная табли�
 запроса: (11×2 + 30)×$0,0194 = $1,0088, меньше доли $5,4.
 Фактическая стоимость после summary: (wall whole run, мин +8)×$0,0194.
 Ни `VERIFIED_ARCHIVE`, ни diagnostic gate не объявляются формальным зачётом.
+
+REVIEW REQUEST 7401b1a74e2ff3a5ce90b44aebfed68d756377fa
+
+Файлы: `library/core/src/slice/sort/shared/smallsort.rs` (только attrs),
+`library/core/src/slice/sort/shared/smallsort/kani_k1.rs` (mod correct),
+`library/core/src/slice/sort/shared/smallsort/kani_k1/correct.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`, данный RESULT.
+Результатов Kani ещё нет; новый контракт и шаблон ждут review координатора.
