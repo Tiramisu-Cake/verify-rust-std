@@ -3,7 +3,7 @@
   "request_id": "w3-l2-review-fixes-004",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "W3-L2 R9 fixes: S1 arbitrary Tagged labels, default pointer-length snapshot with original post-call probe counts, all L2-0 controls; S2 full-allocation insert_tail u8 2..17",
+  "purpose": "W3-L2 R9 final: arbitrary Tagged labels, original default post-call counts without old(); 11 L2-0 controls, both S2 u8 insertion contracts and R11 insert_tail after queued build expired",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -59,6 +59,15 @@
     {
       "name": "slice::sort::shared::smallsort::kani_k1::network::insert_tail_net_u8",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_insert_tail_prefix_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_insert_tail",
+      "expect": "FAILED",
+      "expect_check": "k1_tail_pre"
     }
   ]
 }
