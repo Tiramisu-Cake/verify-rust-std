@@ -1,6 +1,6 @@
 //! W3-L2: specialization experiment. Runtime sorting bodies are unchanged.
-//! The input region is immutable and disjoint from the destination. A Copy
-//! pointer/length snapshot names that region; `old()` never clones an element.
+//! The input region is immutable and disjoint from the destination. Both
+//! permutation formulations read it after the call; no `old()` is needed.
 
 #![allow(dead_code)]
 
@@ -38,17 +38,16 @@ struct K1TaggedSnapshot {
 /// retains the previous arbitrary-probe count, with a Tagged specialization.
 pub(crate) trait K1MergePerm: Sized {
     fn k1_input_ok(src: *const Self, len: usize) -> bool;
-    fn k1_matches(dst: *const Self, len: usize, input: (*const Self, usize)) -> bool;
+    fn k1_matches(dst: *const Self, len: usize, src: *const Self) -> bool;
     fn k1_uses_tags() -> bool;
 }
 
 impl<T> K1MergePerm for T {
     default fn k1_input_ok(_src: *const T, _len: usize) -> bool { true }
 
-    default fn k1_matches(dst: *const T, len: usize, input: (*const T, usize)) -> bool {
+    default fn k1_matches(dst: *const T, len: usize, src: *const T) -> bool {
         // The original formulation: both counts are evaluated AFTER the call.
-        // The generic snapshot contains only pointer + length, no key array.
-        CopyOnDrop::<T>::k1_count_u(input.0, input.1)
+        CopyOnDrop::<T>::k1_count_u(src, len)
             == CopyOnDrop::<T>::k1_count_u(dst, len)
     }
 
@@ -60,10 +59,10 @@ impl K1MergePerm for Tagged {
         k1_tagged_snapshot(src, len).valid
     }
 
-    fn k1_matches(dst: *const Tagged, len: usize, region: (*const Tagged, usize)) -> bool {
+    fn k1_matches(dst: *const Tagged, len: usize, src: *const Tagged) -> bool {
         // The source is &[T], disjoint from dst and outside modifies. Reading
-        // the saved input region here recovers its unchanged pre-call pairs.
-        let input = k1_tagged_snapshot(region.0, region.1);
+        // the input region here recovers its unchanged pre-call pairs.
+        let input = k1_tagged_snapshot(src, len);
         if !input.valid { return false; }
         let mut mask = 0u64;
         for i in 0..len {
@@ -106,16 +105,12 @@ fn k1_tagged_snapshot(src: *const Tagged, len: usize) -> K1TaggedSnapshot {
 }
 
 impl<T> CopyOnDrop<T> {
-    pub(crate) fn k1_merge_snapshot(src: *const T, len: usize) -> (*const T, usize) {
-        (src, len)
-    }
-
     pub(crate) fn k1_merge_input_ok(src: *const T, len: usize) -> bool {
         <T as K1MergePerm>::k1_input_ok(src, len)
     }
 
-    pub(crate) fn k1_merge_matches(dst: *const T, len: usize, input: (*const T, usize)) -> bool {
-        <T as K1MergePerm>::k1_matches(dst, len, input)
+    pub(crate) fn k1_merge_matches(dst: *const T, len: usize, src: *const T) -> bool {
+        <T as K1MergePerm>::k1_matches(dst, len, src)
     }
 }
 
@@ -232,7 +227,7 @@ macro_rules! identity_mutant {
         #[kani::requires(CopyOnDrop::<Tagged>::k1_merge_dst_ok(input, dst))]
         #[kani::requires(CopyOnDrop::<Tagged>::k1_merge_input_ok(input.as_ptr(), input.len()))]
         #[kani::modifies(ptr::slice_from_raw_parts_mut(dst, input.len()))]
-        #[kani::ensures(|_| CopyOnDrop::<Tagged>::k1_merge_matches(dst, input.len(), old(CopyOnDrop::<Tagged>::k1_merge_snapshot(input.as_ptr(), input.len()))))]
+        #[kani::ensures(|_| CopyOnDrop::<Tagged>::k1_merge_matches(dst, input.len(), input.as_ptr()))]
         unsafe fn $name(input: &[Tagged], dst: *mut Tagged) {
             unsafe {
                 ptr::copy_nonoverlapping(input.as_ptr(), dst, input.len());

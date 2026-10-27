@@ -862,7 +862,7 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_input_ok(v.as_ptr(), v.len())))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_merge_matches(dst, v.len(), old(CopyOnDrop::<T>::k1_merge_snapshot(v.as_ptr(), v.len())))))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_merge_matches(dst, v.len(), v.as_ptr())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
