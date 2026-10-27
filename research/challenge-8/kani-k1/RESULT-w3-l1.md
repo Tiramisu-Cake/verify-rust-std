@@ -367,3 +367,9 @@ unreachable! с обычной проверкой, не assume(false). Данн�
 CD-2; O3 читает оба значения до записи свежих ключей. Утверждается только safety.
 Unwind25/35 прежний. Python проверил полное непересекающееся покрытие1..N для
 N15..20, in-bounds и наличие O<N в каждой группе; git diff --check без замечаний.
+
+REVIEW REQUEST d5464a488eb9eea70006f3338cac2982219dc286
+
+network.rs: w3_insertion_group и28 пар экземпляров N15..20. Проверить
+полноту групп, exact allocations, constant-offset dispatch, covers каждого offset,
+достижимость O3 key-change cover и прежние comparator/unwind/реальные тела.
