@@ -401,3 +401,93 @@ scratch покрыта только контролями `u1_network_layout_*`, 
 
 Отправлен build `d044a528-b330-4754-96af-6a4ea38b5fda`, head `216e1d6b`, request
 `w3-l1u-u1-feas-01`. Budget: used $22,0172 до отправки; резерв с ней $6,5378.
+
+## Прогон U-1 — итог
+
+Build `d044a528-b330-4754-96af-6a4ea38b5fda`, head `216e1d6b`, request
+`w3-l1u-u1-feas-01`, gcb-e2-standard-4, jobs=1, таймаут 3 мин,
+**`-Z uninit-checks` включён** (свидетельство вне CI). COMPLETE, Kani exit 1.
+Wall whole run 1:39,05; пик kani-compiler 1,80 GiB, cbmc 0,01 GiB; swap off.
+check-tooling против `f5db92cc`: все строки ok.
+Стоимость (99,05/60 + 8) × $0,0194 = **$0,1872**. Итог W3-L1u: **$1,2384 из $1,60**.
+
+| гармоника | ожид. | статус | время, с | провалы/всего | cover | проваленная проверка @ uninit.rs (на `216e1d6b`) |
+|---|---|---|---|---|---|---|
+| u1_general_8 | SUCCESS | FAILED | 0,41 | 1/623 | 0/2 | A @ 283 |
+| u1_general_16 | SUCCESS | FAILED | 0,39 | 1/581 | 0/2 | A @ 283 |
+| u1_initialized_control | SUCCESS | FAILED | 0,12 | 1/47 | 0/1 | B @ 317 |
+| u1_uninitialized_control | FAILED | FAILED | 0,10 | 1/47 | 0/1 | B @ 327 |
+| u1_general_8_tail_uninit | FAILED | FAILED | 0,41 | 1/599 | 0/4 | A @ 339 |
+| u1_general_8_tail_written | SUCCESS | FAILED | 0,42 | 1/626 | 0/4 | A @ 339 |
+| u1_general_8_tail_written_raw | SUCCESS | FAILED | 0,40 | 1/572 | 0/4 | A @ 339 |
+| u1_network_layout_tail_uninit | FAILED | FAILED | 0,15 | 1/108 | 0/2 | B @ 378 |
+| u1_network_layout_tail_written | SUCCESS | FAILED | 0,16 | 1/110 | 0/2 | B @ 378 |
+
+Точные тексты:
+- A: `Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<u64>; 48] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<u64> as a field.`
+- B: `Interaction between raw pointers and unions is not yet supported.`
+
+Места: 283 и 339 — `let mut scratch = [MaybeUninit::<u64>::uninit(); 48];`
+(в `uninit_general_only` и `uninit_general_tail`); 317 —
+`let cell = MaybeUninit::new(kani::any::<u64>());`; 327 —
+`let cell = MaybeUninit::<u64>::uninit();`; 378 —
+`let mut stack_array = MaybeUninit::<[u64; 32]>::uninit();`.
+Текст A — это `uninit_visitor.rs:116–128` (присваивание места с union-полем), B —
+`check_uninit/mod.rs:465–480` (`&raw` на union), как в основании правила U-a.
+
+## U-1: классификация по правилу U-a
+
+**Unsupported (U-a п. 1). На pin 9461e07a `-Z uninit-checks` для этих путей неосуществим.**
+
+- В каждой из 9 гармоник ровно одна проваленная проверка, и это unsupported-проверка
+  в момент **создания** `MaybeUninit`-локала, до сортировки и до контрольного чтения.
+  Текста `Reading from an uninitialized pointer` нет ни в одной гармонике.
+- Отрицательные контроли не засчитываются (п. 1); по п. 2 они и не прошли бы:
+  провал не на строке контрольного чтения. Положительные контроли — тоже FAILED
+  (unsupported), значит пар «отрицательный FAILED / положительный SUCCESS» нет.
+- Наблюдение к основанию U-a: здесь unsupported-проверка путь отсекла —
+  все cover после неё не выполнены, включая `cover(true)` в
+  `u1_uninitialized_control` сразу за строкой 327 (0/1). То есть ни один
+  `u1_*` не дошёл до сортировки; время 0,1–0,4 с — время до этой точки.
+  Почему путь отсекается (unsupported-проверка как assert+assume?) не выяснялось,
+  это наблюдение по cover, а не по исходнику.
+- Почему это переносится на реальный код, а не только на гармоники: unsupported
+  срабатывает на самой конструкции `MaybeUninit`, которую использует сортировка:
+  - `small_sort_network` создаёт
+    `MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit()` (smallsort.rs:329) —
+    та же форма, что строка 378 (текст B);
+  - `small_sort_general` — `MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit()`
+    (smallsort.rs:206), та же форма;
+  - stable-trait получает `&mut [MaybeUninit<T>]` — срез union-элементов, тип
+    раскладки как в тексте A.
+  Это вывод по совпадению форм; реальная `small_sort_network` под uninit-checks
+  не исполнялась (`u1_network_*` не запускались из-за бюджета).
+- Стоимость на длинах 8, 16, 32 не измерена и не имеет смысла: проверка инициализации
+  на этих путях не исполняется. Подготовка сборки (~6–8 мин) — основная статья.
+- Поддержка инструментом: **нет** для scratch на `MaybeUninit` (union-pointee и
+  union-поле в массиве), что и было риском из задания. E1 этим не закрывается.
+  Возможный выход — другой pin Kani с поддержкой union в uninit-checks; это вне
+  моего задания и бюджета.
+
+## Итог W3-L1u
+
+- **Z-1:** ограничение модели Kani для ZST — ложный dereference-отказ
+  `intrinsics::volatile_load` нулевого размера (`ptr::read_volatile::<()>`) в
+  comparator гармоники; тела сортировки на ZST чисты на stable N=1,2,7,8,16,17,31,32
+  и network N=8. Build `5aee04a2`, `3e8d706e`. UB в коде сортировки не найдено.
+  Network ZST N=9/17 — TIMEOUT/OOM, ресурсный исход. Вопрос владельцу об
+  upstream-обращении — в разделе «Z-1: классификация».
+- **U-1:** unsupported на pin 9461e07a для `MaybeUninit`-scratch обоих путей
+  (тексты A/B выше), build `d044a528`. Контроли не засчитаны (U-a).
+- Сборки: `9d1cb848` $0,1725 (COMPILE_ERROR, моя ошибка импорта),
+  `5aee04a2` $0,5291, `3e8d706e` $0,3496, `d044a528` $0,1872.
+  **Итого $1,2384 из $1,60**, остаток $0,3616 не расходуется: на этом pin нет
+  U-1 варианта без `MaybeUninit` в реальном коде, а Z-1 закрыт.
+- Код: `kani_k1/uninit.rs`, строка `mod uninit;` в `kani_k1.rs`. Runtime и lane не менялись.
+  Отрицательные uninit-контроли — только для запросов с `uninit_checks: true`,
+  в обычный CI-набор не входят (R8 L1-6, F6).
+- Review: Z-1 — GO_WITH_NITS (ffd4250d, f373880c); U-1 — GO на прогон (f373880c)
+  при правиле U-a; `zst_aware_less`/`z1n_*` (6a521579) — экземпляр шаблона Z-1
+  с отступлением от CD-2 только для ZST, записанным в R7.
+
+W3-L1U ЗАВЕРШЁН
