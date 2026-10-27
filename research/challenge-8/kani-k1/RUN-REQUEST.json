@@ -1,60 +1,46 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l2-specialization-002",
+  "request_id": "w3-l2-controls-fallback-003",
   "agent": "k1-merge",
-  "kind": "diagnostic",
-  "purpose": "W3-L2 L2-0 repeat: unrestricted Arbitrary for Tagged enables stub havoc; same specialization, key/label mutants, old probe, R11 controls",
+  "kind": "measurement",
+  "purpose": "W3-L2: repeat only L2-0 surrogate mutants with observed check prefix; L2-2 fallback u64 8/16 and u8 9/16 with verified insert_tail plus u8 prefix contract and R11",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 2,
+  "harness_timeout_minutes": 10,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_contract4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_contract8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_probe_contract4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_stub4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_tagged_stub8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_probe_stub4",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_contract_mutant_key",
       "expect": "FAILED",
-      "expect_check": "k1_merge_matches"
+      "expect_check": "| _ | CopyOnDrop :: < Tagged > ::"
     },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_contract_mutant_label",
       "expect": "FAILED",
-      "expect_check": "k1_merge_matches"
+      "expect_check": "| _ | CopyOnDrop :: < Tagged > ::"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_stub_mutant_key",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_insert_tail",
       "expect": "FAILED",
-      "expect_check": "tagged_oracle"
+      "expect_check": "k1_tail_pre"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_stub_mutant_label",
-      "expect": "FAILED",
-      "expect_check": "tagged_oracle"
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_insert_tail_prefix_u8",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_bad_labels",
-      "expect": "FAILED",
-      "expect_check": "k1_merge_input_ok"
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n16",
+      "expect": "SUCCESS"
     }
   ]
 }

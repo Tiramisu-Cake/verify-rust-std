@@ -122,3 +122,63 @@ Request `w3-l2-specialization-002`, head `4165f2f4` (код `3a9a5893`).
 после — максимум $25,4122/$33,96. Собственный резерв $1,0088,
 нарастающие фактические расходы $0,1746. Статусы ещё не получены.
 Следующее действие после watch — summary, затем peaks/check-tooling.
+
+### Build d3c8bdd8 — COMPLETE, gate false (ожидаемый текст мутантов)
+
+Head `4165f2f46ed5825686850afb41f58df7becad23d`, Kani `9461e07a`,
+whole run 5:59,78, max RSS 1808732 KiB. Peaks: compiler 1,72 GiB,
+cbmc 1,37 GiB, max sampled sum RSS 2,01 GiB; swap off, check-tooling ok.
+
+| Гармоника | expected/actual | Время с | failed/total | cover |
+|---|---|---:|---|---|
+| `l2_tagged_contract4` | SUCCESS/SUCCESS | 42,610 | 0/354 | 1/1 |
+| `l2_tagged_contract8` | SUCCESS/SUCCESS | 108,360 | 0/354 | 1/1 |
+| `l2_probe_contract4` | SUCCESS/SUCCESS | 51,159 | 0/449 | 1/1 |
+| `l2_tagged_stub4` | SUCCESS/SUCCESS | 8,094 | 0/461 | 3/3 |
+| `l2_tagged_stub8` | SUCCESS/SUCCESS | 30,004 | 0/461 | 3/3 |
+| `l2_probe_stub4` | SUCCESS/SUCCESS | 5,640 | 0/474 | 2/2 |
+| `l2_contract_mutant_key` | FAILED/FAILED | 3,097 | 1/287 | 1/1 |
+| `l2_contract_mutant_label` | FAILED/FAILED | 3,078 | 1/287 | 1/1 |
+| `l2_stub_mutant_key` | FAILED/FAILED | 6,510 | 1/461 | 2/3 |
+| `l2_stub_mutant_label` | FAILED/FAILED | 6,830 | 1/461 | 2/3 |
+| `l2_r11_bad_labels` | FAILED/FAILED | 0,521 | 1/372 | 1/1 |
+
+Отрицательные caller-контроли не доходят до последнего cover после
+преднамеренно падающего assertion; оба cover до него выполнены.
+Положительные гармоники выполнили все свои covers.
+
+Два surrogate-мутанта: фактически упало ровно постусловие
+`k1_merge_matches` (correct.rs:236,237). Kani печатает его в несколько строк;
+summary сохраняет description первой строки `| _ | CopyOnDrop :: < Tagged > ::`.
+Поэтому заданный `expect_check=k1_merge_matches` не совпал, expectation met=false.
+Ограниченный `log-lines 2730 32` подтвердил полный текст matcher и location;
+raw logs не открывались. Caller-мутанты падают на `tagged_oracle`, correct.rs:182;
+R11 — `k1_merge_input_ok`, smallsort.rs:862.
+
+D7 (R7). Только два surrogate-контроля повторяются с expect_check,
+совпадающим с первой строкой. Код L2-0 не меняется (кроме импорта lt_u8).
+Остальные девять гармоник уже дали ожидаемые статусы, новых причин их
+повторять нет. L2-0 пока не объявлен закрытым; GO review ещё не получен.
+
+Стоимость (359,78/60+8)×$0,0194 = $0,271529; консервативно 14 минут,
+$0,2716. Нарастающий итог **$0,4462/$5,4**.
+
+## L2-2 — первый измерительный шаг
+
+Добавлены fixed-N fallback с `stub_verified(insert_tail)`, cadical,
+массивы ровно N, те же lt_u8/lt_u64 и полная произвольная проба, без редукции
+значений. N8(u64)/N9(u8) — прежние первые TIMEOUT; N16 — верхняя граница.
+Новый proof_for_contract u8: префиксы размера2..17 массива17, сохранение
+суффикса, covers2/16/17; по образцу `network::insert_tail_prefix_u64`.
+Для u64 этот шаблон уже SUCCESS в job58 (`432813d9`, 471,659 с, cover4/4).
+`insert_tail` и его спецификация с того доказательства не менялись;
+для применения к массивам N8/9/16 сохраняется раскрытая общая посылка
+переноса той же функции на другую аллокацию. Требование R4 включает
+u8 proof в следующую сборку; пока SUCCESS не получен, зачёта caller нет.
+R11 insert_tail отдельно нарушает только sorted-prefix requires, expect FAILED
+`k1_tail_pre`. Новые fallback-гармоники не используют bm и не зависят от L2-0.
+Первый решатель cadical; варианты kissat/minisat — при оставшемся пробеле.
+
+Следующий запрос: measurement, восемь гармоник ×10 мин. Собственный резерв
+(80+30)×$0,0194=$2,1340; с уже потраченным максимум $2,5802 < $5,4.
+Длинные N20/24/32 по L2-1 ещё не запускаются.
