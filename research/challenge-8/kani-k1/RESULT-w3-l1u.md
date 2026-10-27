@@ -174,3 +174,17 @@ U-1 сокращаю до длин 8 и 16 + контролей и записы�
 
 U-1 код (F2/F3) входит в этот же коммит, чтобы его компиляцию проверила
 сборка Z-1 №2; U-1 гармоники в запрос не включены (нет GO, нет uninit_checks).
+
+Отправлен build `5aee04a2-8039-4cae-8160-e76a19ab9608`, head `f373880c`,
+request `w3-l1u-z1-split-02`. Budget перед отправкой: used $20,0772,
+reserved $2,7548 (проект); после — резерв с этой сборкой $5,1798.
+Ожидание: `k1g.sh wait` фоном. check-tooling — против `f5db92cc`.
+
+## Review R9 — U-1 после F2/F3
+
+REVIEW REQUEST f373880ccd6344e2460caa18566eeb99f6befcf5
+
+Новый код U-1: `uninit.rs` — `read_all`, `uninit_general(&mut scratch)`,
+`u1_general_8_tail_{uninit,written}`, `u1_network_layout_tail_{uninit,written}`;
+Z-1: `z1f_stable_*`, `z1_from_fn_unit_*`, `z1_copy_unit`, `z1_merge2_unit`,
+`z1_insert_tail_unit`. Компиляция этого SHA проверяется сборкой `5aee04a2`.
