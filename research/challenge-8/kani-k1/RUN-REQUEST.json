@@ -1,27 +1,69 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l2-b-fallback-007",
+  "request_id": "w3-l2-b-fallback-fill-008",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "W3-L2 stage B first measurement: four reviewed fixed-N fallback callers, real u8/u64 with verified insert_tail only; no merge contract dependency",
+  "purpose": "W3-L2 B remaining fallback lengths: instances of reviewed 8e499dcd after first gate true; R11 insert_tail under controls cfg; original merge contract restored and H1 experiments removed",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
+  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n8",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n9",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n11",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n12",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u64_n15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n11",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_fallback_u8_n15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_r11_insert_tail",
+      "expect": "FAILED",
+      "expect_check": "k1_tail_pre"
     }
   ]
 }

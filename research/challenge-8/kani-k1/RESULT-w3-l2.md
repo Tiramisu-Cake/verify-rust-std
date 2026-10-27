@@ -751,3 +751,38 @@ Source `7be57a40`, запрос007, четыре fallback caller, measurement4×
 Статусы и фактическая стоимость пока неизвестны; зачёт не заявлен.
 Следующее действие после watch — summary/peaks/check-tooling относительно
 `85ceaa0ddb610d43bf24495d3aab676f6be25360`, затем продолжить B по разделу выше.
+
+### B build 1e932304 — COMPLETE, gate=true
+
+Source7be57a40, measurement, swap off, все cover1/1, failed0.
+check-tooling полностью ok против BASE85ceaa0d (пул, lane и пять хешей).
+
+| Гармоника | Статус | Время, с | Checks |
+|---|---|---:|---:|
+| l2_fallback_u64_n8 | SUCCESS | 53,360844 | 0/485 |
+| l2_fallback_u64_n16 | SUCCESS | 300,74036 | 0/485 |
+| l2_fallback_u8_n9 | SUCCESS | 57,606330 | 0/478 |
+| l2_fallback_u8_n16 | SUCCESS | 243,741180 | 0/478 |
+
+Пик build: sampled sum RSS8,78GiB (9209208KiB); driver7,56GiB,
+cbmc2,62GiB (2746636KiB). Это общие пики build, не замер каждой гармоники.
+N16 достигли gate≤600с, но ориентир≤180с не достигнут.
+Whole run735,34с. Стоимость (735,34/60+8)×0,0135=$0,2734515.
+B потрачено$0,2735/$3,2, остаток$2,9265; A+B=$2,9742.
+R9: условный GO шаблона8e499dcd + первый gate=true выполнен.
+
+D-B1 (R7). Для подаваемого набора удалить исторические L2-0/L2-1
+гармоники, Tagged и K1MergePerm из текущего correct.rs: они сохранены
+на4dc9995c. В smallsort.rs вернуть прежнее count_u(src)==count_u(dst)
+ensures и удалить Tagged requires. Только kani attrs, runtime не меняется.
+Default K1MergePerm до удаления текстуально имел прежнее выражение
+count_u(src,len)==count_u(dst,len); специализация больше не нужна набору.
+Это устраняет зависимость всех будущих L2-2 от нового H1-контракта.
+R11 insert_tail теперь cfg(kani_smallsort_controls); прочие текущие
+гармоники correct.rs положительные, без should_panic/ZST/плохого comparator.
+
+Запрос008: оставшиеся fallback u64 N9..15, u8 N10..15 — экземпляр шаблона
+8e499dcd. Плюс повтор R11 FAILED/k1_tail_pre с controls=true.
+Measurement14×10, максимальный резерв(140+30)×0,0135=$2,295,
+помещается в остатокB$2,9265. Локальный diff --check пройден;
+Kani/rustc/cargo локально не запускались.
