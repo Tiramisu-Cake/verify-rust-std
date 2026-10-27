@@ -1,0 +1,155 @@
+# Kani K-1 experiment, L1-8: the organizers' macOS partitions (kani.yml, macos-latest × partition 1..4,
+# WORKER_TOTAL=4, no KANI_JOBS so run-kani.sh uses its default -j) on a fixed candidate commit. Started by
+# workflow_dispatch on an experiment/kani-k1-* branch by the coordinator only, one run at a time.
+# Differences from kani.yml, all outside the timed step: the pinned Kani is built first (not timed), each
+# job writes its own kind-partition request (worker_index from the matrix), and a ps/sysctl sampler records
+# per-command RSS peaks and the peak swap use, since the macOS runner has 7 GB.
+name: SmallSort Kani K1 macOS partitions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  K1_TOOLS: research/challenge-8/kani-k1/tools
+  K1_REQUEST: k1-out/RUN-REQUEST.json
+  K1_OUT: k1-out
+
+jobs:
+  partition:
+    name: macOS partition ${{ matrix.partition }}/4
+    if: startsWith(github.ref, 'refs/heads/experiment/kani-k1-')
+    runs-on: macos-latest
+    timeout-minutes: 360
+    strategy:
+      matrix:
+        partition: [1, 2, 3, 4]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - name: Write and validate the partition request
+        run: |
+          mkdir -p "$K1_OUT"
+          cat > "$K1_REQUEST" <<EOF
+          {"schema": "kani-k1-run-request-v1", "request_id": "coord-l1-8-macos-p${{ matrix.partition }}of4",
+           "agent": "coordinator", "kind": "partition",
+           "purpose": "L1-8: organizers' macOS partition ${{ matrix.partition }}/4 on the fixed candidate",
+           "runner": "macos-latest", "harness_timeout_minutes": 300,
+           "worker_index": ${{ matrix.partition }}, "worker_total": 4, "harnesses": []}
+          EOF
+          python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
+            --partition-out "$K1_OUT/partition.env"
+          test -s "$K1_OUT/partition.env"
+          cat "$K1_OUT/partition.env"
+          { sysctl -n hw.ncpu; sysctl -n hw.memsize; sysctl -n vm.swapusage; sw_vers; } | tee "$K1_OUT/machine.txt"
+
+      # Same steps as setup_kani_repo/build_kani in scripts/run-kani.sh; run-kani.sh then finds kani_build
+      # at the pinned commit and skips its own build.
+      - name: Build pinned Kani (not timed)
+        run: |
+          commit=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/')
+          test -n "$commit"
+          mkdir -p kani_build && cd kani_build
+          git init -q .
+          git remote add origin https://github.com/model-checking/kani.git
+          git fetch --depth 1 origin "$commit" --quiet
+          git checkout "$commit" --quiet
+          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet
+          source kani-dependencies
+          brew trust diffblue/cbmc 2>/dev/null || true
+          ./scripts/setup/macos/install_deps.sh
+          cargo build-dev --release
+          test "$(git rev-parse HEAD)" = "$commit"
+
+      - name: Verify the partition (timed, organizers' worker invocation)
+        id: kani
+        run: |
+          penv=(); while IFS= read -r l; do [ -n "$l" ] && penv+=("$l"); done < "$K1_OUT/partition.env"
+          # Sampler (the runner's bash may be 3.2, so Python): every 5 s, RSS per command from ps (KiB), the
+          # sum of RSS and the swap in use; maxima in the sample-mem format kani_k1.py reads, plus swap_used_peak_mb.
+          cat > "$K1_OUT/macsampler.py" <<'PY'
+          import os, re, subprocess, sys, time
+          out = sys.argv[1]; t0 = time.monotonic(); peaks = {}; tot_peak = swap_peak = n = 0
+          while True:
+              now = int(time.monotonic() - t0); tot = 0
+              ps = subprocess.run(["ps", "-A", "-o", "rss=,comm="], capture_output=True, text=True).stdout
+              for line in ps.splitlines():
+                  parts = line.split(None, 1)
+                  if len(parts) != 2 or not parts[0].isdigit():
+                      continue
+                  rss = int(parts[0]); tot += rss
+                  name = re.sub(r"[^A-Za-z0-9._+-]", "_", os.path.basename(parts[1].strip()))[:40] or "?"
+                  e = peaks.setdefault(name, [0, now, now]); e[0] = max(e[0], rss); e[2] = now
+              tot_peak = max(tot_peak, tot)
+              sw = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True, text=True).stdout
+              m = re.search(r"used = ([0-9.]+)M", sw)
+              swap_peak = max(swap_peak, int(float(m.group(1))) if m else 0); n += 1
+              lines = ["interval_ms=5000", f"samples={n}", f"elapsed_s={now}", f"total_rss_peak_kb={tot_peak}",
+                       f"swap_used_peak_mb={swap_peak}"]
+              lines += [f"cmd={k} peak_kb={v[0]} first_s={v[1]} last_s={v[2]}" for k, v in sorted(peaks.items()) if v[0] >= 102400]
+              with open(out + ".tmp", "w") as f:
+                  f.write("\n".join(lines) + "\n")
+              os.replace(out + ".tmp", out)
+              time.sleep(5)
+          PY
+          python3 -B "$K1_OUT/macsampler.py" "$K1_OUT/peaks.txt" &
+          sampler=$!
+          set +e
+          /usr/bin/time -l env "${penv[@]}" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$GITHUB_WORKSPACE" 2>&1 | tee "$K1_OUT/kani.log"' 2> "$K1_OUT/time.txt"
+          rc=$?
+          set -e
+          kill "$sampler" 2>/dev/null || true
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize
+        if: always()
+        run: |
+          commit=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/' || true)
+          log_args=(); [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
+          peak_args=(); [ -f "$K1_OUT/peaks.txt" ] && peak_args=(--peaks "$K1_OUT/peaks.txt")
+          python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peak_args[@]}" \
+            --time "$K1_OUT/time.txt" --exit-code "${{ steps.kani.outputs.rc }}" \
+            --head-sha "$GITHUB_SHA" --kani-commit "$commit" --request-error "" \
+            --build-outcome success \
+            --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --image-os "${ImageOS:-}" --image-version "${ImageVersion:-}" \
+            --bind .github/workflows/smallsort-kani-k1.yml --bind "$K1_TOOLS/kani_k1.py" \
+            --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
+            --out-dir "$K1_OUT/summary"
+          cp "$K1_OUT/peaks.txt" "$K1_OUT/machine.txt" "$K1_OUT/summary/" 2>/dev/null || true
+          cat "$K1_OUT/summary/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          grep -E '^(total_rss_peak_kb|swap_used_peak_mb)=' "$K1_OUT/peaks.txt" >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-macos-summary-p${{ matrix.partition }}
+          path: k1-out/summary/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload full log (bounded reads only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-macos-log-p${{ matrix.partition }}
+          path: |
+            k1-out/kani.log
+            k1-out/time.txt
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Gate
+        if: always()
+        run: python3 -B "$K1_TOOLS/kani_k1.py" gate "$K1_OUT/summary/summary.json"
