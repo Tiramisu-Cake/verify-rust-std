@@ -1197,6 +1197,15 @@ General и stable-Freeze остаются отдельно покрытыми в
 count/perm. R9 базовой модели принят, дополнительный SHA передаётся
 координатору. Job 173 под прежним watch, новых dispatch/опросов нет.
 
+REVIEW REQUEST 3af0912c586972a82b23c53f397ffb669c43bf97
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Дополнение R9 K-14r по рекомендациям: два дискриминирующих мутанта N2,
+assert без сообщений, ordinary MUTANT=0; ledger требует count+perm.
+RUN-REQUEST пока точно соответствует ожидаемому job 173; пакет мутантов
+и upper2 будет опубликован после его завершения. Измерений мутантов нет.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
