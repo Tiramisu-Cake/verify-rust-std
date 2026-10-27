@@ -166,10 +166,10 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 10 | 10, u64 и u8 | 151, SUCCESS обоих типов | 153, SUCCESS |
 | 11 | 11, u64 и u8 | u8: 153; u64: 156; SUCCESS обоих | 158, SUCCESS |
 | 12 | 12, u64 и u8 | 156, SUCCESS обоих типов | 158, SUCCESS |
-| 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | 161: u64 TIMEOUT; u8 SUCCESS, gate false |
+| 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | u8: 167 SUCCESS; u64: 161 TIMEOUT |
 | 14 | 14, u64 и u8 | 160, SUCCESS обоих типов | 161: TIMEOUT обоих типов |
 | 15 | 15, u64 и u8 | 165, SUCCESS обоих типов | 166: TIMEOUT обоих типов |
-| 16 | 8 и 16, каждый u64 и u8 | 8: 140; 16: 165; SUCCESS обоих типов | 166: SUCCESS обоих, gate false; нужен повтор |
+| 16 | 8 и 16, каждый u64 и u8 | 8: 140; 16: 165; SUCCESS обоих типов | 167, SUCCESS обоих типов |
 
 **Ограничение R11:** job 110 проверяет только намеренное нарушение
 клаузы `halves_sorted`; это не отрицательный контроль всех остальных
@@ -800,6 +800,40 @@ R4 N13: bm N13 обоих типов job 160; N16: bm N16 job 165 и bm N8 job 1
 следующая задача очереди — K-12a.
 После dispatch ночных jobs 22, preflight отказов 3;
 с П2 до ночи: 27 jobs, 4 preflight отказа, 31/40 консервативных попытка.
+
+### Job 167 — w2-merge-night-gs13u8-gs16-confirm-022
+
+Head `e9a75bf034dc27271a19f81181ac90f6f00ce1e7`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 3452460 KiB; wall с компиляцией 9:09.84.
+Cgroup peak 5.27 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u8_len13` | SUCCESS / SUCCESS | 182.7535 | 0/635 | 89 | 2/2 |
+| `w2p2_gs_u64_len16` | SUCCESS / SUCCESS | 228.04008 | 0/642 | 74 | 2/2 |
+| `w2p2_gs_u8_len16` | SUCCESS / SUCCESS | 92.90118 | 0/635 | 76 | 2/2 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные covers D/S сверены отдельно от gate: 2/2 каждой гармоники.
+Успешные строки jobs 161/166 подтверждены с gate true; таблица R4
+обновлена. GS u64: N0..12 и N16; GS u8: N0..13 и N16.
+Промежуточные TIMEOUT не закрываются успешной точкой N16.
+R4 N13: bm обоих типов job 160; N16: bm N16 job 165 и bm N8 job 140.
+Времена >180 с принимаются по CD-6 как основной слой <600 с;
+macOS здесь не измерен.
+
+### N-D26 (R7): fallback u8 N9 отдельной гармоникой
+
+`w2-merge-night-f9u8-023`: одна typed fallback u8 N9,
+expected SUCCESS, 10 мин. Добавлена одна инстанциация прежнего macro
+в merge.rs; helper, реальное тело, полные значения и проба сохранены.
+Новых assume/stub и редукций нет, ожидается один normal-return cover.
+N8 u8 имеет SUCCESS с gate true в job 153; R9 typed-кода ещё ожидается.
+При TIMEOUT N9 — кандидат расширенного слоя, рост fallback u8 прекращается
+и K-10 закрывается по измеренным границам; при SUCCESS следующая длина.
+После dispatch ночных jobs 23, preflight отказов 3;
+с П2 до ночи: 28 jobs, 4 preflight отказа, 32/40 консервативных попытки.
 
 ## Фаза 9
 

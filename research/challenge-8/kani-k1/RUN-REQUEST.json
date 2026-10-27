@@ -1,22 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-gs13u8-gs16-confirm-022",
+  "request_id": "w2-merge-night-f9u8-023",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 gate confirmation without timeout neighbors: GS u8 N13 (SUCCESS job 161), GS N16 u64/u8 (SUCCESS job 166). R4: bm N13 both types job 160; bm N16 both types job 165 plus bm N8 both types job 140. R11 halves_sorted job 110.",
+  "purpose": "K-10 next typed fallback length: u8 N9, real insertion/fallback body, no stubs. Full symbolic u8 values, strict weak order x >> 1, arbitrary full-value permutation probe and sortedness. N8 u8 passed with gate true in job 153.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len16",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_fallback_u8_len9",
       "expect": "SUCCESS"
     }
   ]

@@ -1856,3 +1856,4 @@ macro_rules! w2night_fallback_typed {
 
 w2night_fallback_typed!(w2night_fallback_u64_len8, u64, lt_u64, 8);
 w2night_fallback_typed!(w2night_fallback_u8_len8, u8, lt_u8, 8);
+w2night_fallback_typed!(w2night_fallback_u8_len9, u8, lt_u8, 9);
