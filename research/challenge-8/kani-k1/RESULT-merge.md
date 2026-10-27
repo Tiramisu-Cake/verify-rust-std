@@ -1232,6 +1232,9 @@ check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
 | fallback/insertion offset 1 | 2 | 172 | 172 | SUCCESS / true / 2/2 каждый |
 | fallback/insertion offset 1 | 4 | 173 | 173 | SUCCESS / true / 2/2 каждый |
 | fallback/insertion offset 1 | 8 | 173 | 173 | SUCCESS / true / 2/2 каждый |
+| general / stable-Freeze | 2 | 174 | 174 | SUCCESS / true / 3/3 каждый |
+| general / stable-Freeze | 4 | 175 | 175 | SUCCESS / true / 3/3 каждый |
+| general / stable-Freeze | 8 | 175 | 175 | SUCCESS / true / 3/3 каждый |
 
 ### N-D33 (R7): мутанты и верхние N2
 
@@ -1282,6 +1285,39 @@ panic stub. Все тела реальные; comparator читает key/tag о
 на одной чётной длине и одном маршруте. Код/ledger без изменений.
 После dispatch ночных jobs 30, preflight отказов 3;
 с П2 до ночи: 35 jobs, 4 preflight отказа, 39/40 консервативных попыток.
+
+### Job 175 — w2-merge-night-k14-upper4to8-030
+
+Head `4f65f53f6b289bc49fab5b3d1713bce6b4b0fe01`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 1793824 KiB; wall с компиляцией 1:26.80.
+Cgroup peak 1.91 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_upper4_count` | SUCCESS / SUCCESS | 3.2720695 | 0/461 | 9 | 3/3 |
+| `w2night_drop_upper4_perm` | SUCCESS / SUCCESS | 4.2886043 | 0/461 | 8 | 3/3 |
+| `w2night_drop_upper8_count` | SUCCESS / SUCCESS | 9.307476 | 0/461 | 7 | 3/3 |
+| `w2night_drop_upper8_perm` | SUCCESS / SUCCESS | 25.11136 | 0/461 | 6 | 3/3 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные counts covers сверены отдельно от gate: 3/3 каждой гармоники
+(general, stable-Freeze и covering panic stub). Пара count+perm зелёная
+на N4 и N8; upper N2 — job 174. Парная матрица K-14r выше обновлена.
+Заявление только о перечисленных чётных длинах, тегах и путях без паники.
+Дополнение с дискриминирующими мутантами `3af0912c` ещё ждёт R9.
+
+### N-D35 (R7): верхние N16 отдельно
+
+`w2-merge-night-k14-upper16-031`: upper16 count и upper16 perm,
+expected SUCCESS, 2×10 мин. 3/3 covers ожидаются у каждой гармоники;
+сортировка реальная, ordinary MUTANT=0, те же ключи/теги/comparator/stub.
+Следующую N24 не пакетирую с N16: она запускается только после зелёной
+пары N16. При первой неуложившейся ступени рост останавливается,
+одиночная count не даёт заявления (a). Код и ledger без изменений.
+После dispatch ночных jobs 31, preflight отказов 3;
+с П2 до ночи: 36 jobs, 4 preflight отказа, 40/40 исторических
+консервативных попыток П2+ночь.
 
 ## Фаза 9
 

@@ -1,26 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k14-upper4to8-030",
+  "request_id": "w2-merge-night-k14-upper16-031",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-14r general/stable-Freeze N4/N8: separate explicit Drop-count and arbitrary-tag multiplicity proofs, paired acceptance per route/length. MUTANT=0, real bodies, comparator reads both arguments then kani::any(); only panic_on_ord_violation covering stub.",
+  "purpose": "K-14r next upper step N16: separate Drop-count and tag-probe permutation proofs for general/stable-Freeze. Pair required for claim (a). Real bodies, MUTANT=0, full keys, arbitrary comparator reads both arguments, only panic_on_ord_violation covering stub.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper4_count",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper16_count",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper4_perm",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper8_count",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper8_perm",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper16_perm",
       "expect": "SUCCESS"
     }
   ]
