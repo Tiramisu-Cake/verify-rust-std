@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
-# Cloud Build stages of the Kani K-1 resource lane (32 GB, called from gcb/cloudbuild.yaml). Cloud Build
+# Cloud Build stages of the Kani K-1 Cloud Build lanes (called from gcb/cloudbuild.yaml): the 32 GB resource
+# pool and the 16 GB pool with the organizers' ubuntu runner resources; the request's runner picks the pool
+# (k1g.sh). Cloud Build
 # steps share only /workspace, so deps, Kani build and verification run in one container: `all` runs every
 # stage, records each outcome in k1-out/, always summarizes, stages the upload and writes the gate verdict
 # to k1-out/gate.rc. It exits 0 itself, so that the upload step always runs; the gate step exits with gate.rc.
-# No memory cap: the point of this lane is how much memory each tool needs. kani_k1.py sample-mem records
-# per-command peaks instead.
+# No cgroup memory cap: on 32 GB the point is how much memory each tool needs; on 16 GB the machine's own
+# memory is the limit, as on the organizers' runner. kani_k1.py sample-mem records per-command peaks.
 #   all | validate | deps | build | verify | summarize | gate
 set -euo pipefail
 
 K1_TOOLS=research/challenge-8/kani-k1/tools
 K1_REQUEST=research/challenge-8/kani-k1/RUN-REQUEST.json
 K1_OUT=k1-out
-LANE_RUNNER=gcb-e2-highmem-4
-# Requests are capped at 720 harness-minutes (kani_k1.py; extended layer, owner decision 2026-10-26).
+LANE_RUNNERS=(gcb-e2-highmem-4 gcb-e2-standard-4)
+# Resource requests are capped at 720 harness-minutes (kani_k1.py; extended layer, owner decision 2026-10-26),
+# the others at kani_k1.py's 150; kani_k1.py applies the lower of the kind's cap and this one.
 # The verify cut below counts from validate, so deps and the Kani build (about 6-8 min) come out of the
 # 24-min slack; a single harness still gets its full Kani timeout plus a margin for compile/instrument. k1g.sh sets the paid build timeout to the
 # request's harness total + 30 min; verify is cut at total + 24 min after validation (compilation and goto
@@ -41,7 +44,7 @@ stage() {
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
         echo "checkout $(git rev-parse HEAD) differs from requested ${K1_SHA:-}" > "$K1_OUT/request-error.txt"
       elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" \
-             --max-total-minutes "$MAX_TOTAL_MINUTES" --require-runner "$LANE_RUNNER" 2> "$K1_OUT/request-error.txt"; then
+             --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
       fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;

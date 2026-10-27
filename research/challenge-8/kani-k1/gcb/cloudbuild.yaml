@@ -1,8 +1,9 @@
-# Kani K-1 resource lane: Cloud Build private pool k1-highmem4 (e2-highmem-4, 4 vCPU / 32 GB) in the
-# owner's project smallsort-k1. There are no triggers: research/challenge-8/kani-k1/tools/k1g.sh dispatch
-# submits this file as committed at the run's commit, with the pool, build service account, log bucket and
-# timeout, and substitutions _SHA, _BRANCH, _BUCKET. Runs are kind "resource" (memory and time data on
-# 32 GB); they never count for PASS. Stage logic: tools/gcb-k1.sh.
+# Kani K-1 Cloud Build lanes in the owner's project smallsort-k1, two private pools: k1-standard4
+# (e2-standard-4, 4 vCPU / 16 GB, the organizers' ubuntu runner resources; kinds measurement and diagnostic)
+# and k1-highmem4 (e2-highmem-4, 4 vCPU / 32 GB; kind resource, never PASS). There are no triggers:
+# research/challenge-8/kani-k1/tools/k1g.sh dispatch submits this file as committed at the run's commit, with
+# the pool picked by the request's runner, build service account, log bucket and timeout, and substitutions
+# _SHA, _BRANCH, _BUCKET. Stage logic: tools/gcb-k1.sh.
 steps:
   - id: checkout
     name: gcr.io/cloud-builders/git

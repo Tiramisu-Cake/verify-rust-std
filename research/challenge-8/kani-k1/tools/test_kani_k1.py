@@ -449,6 +449,68 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertEqual(bad.returncode, 2)
         self.assertEqual(bad.stdout, "")
 
+    def test_ledger_priced_by_pool(self):
+        hi, std = "projects/p/locations/r/workerPools/k1-highmem4", "projects/p/locations/r/workerPools/k1-standard4"
+        builds = [
+            {"id": "a", "startTime": "2026-10-26T10:00:00Z", "finishTime": "2026-10-26T10:10:00Z", "options": {"pool": {"name": hi}}},
+            {"id": "b", "startTime": "2026-10-27T10:00:00Z", "finishTime": "2026-10-27T10:20:00Z", "options": {"pool": {"name": std}}},
+            {"id": "c", "timeout": "1800s", "options": {"pool": {"name": std}}},
+        ]
+        n, used, reserved = k.ledger(builds, {hi: 0.03, std: 0.02})
+        self.assertEqual(n, 3)
+        self.assertAlmostEqual(used, 10 * 0.03 + 20 * 0.02)
+        self.assertAlmostEqual(reserved, 30 * 0.02)
+        for bad in ({"id": "x", "timeout": "60s"}, {"id": "x", "timeout": "60s", "options": {"pool": {"name": "other"}}}):
+            with self.assertRaises(ValueError):
+                k.ledger([bad], {hi: 0.03})
+        cli = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger", "--price", f"{hi}=0.03",
+                              "--price", f"{std}=0.02"], input=json.dumps(builds), capture_output=True, text=True)
+        self.assertEqual(cli.stdout.split(), ["3", "0.7000", "0.6000"])
+        for price in ("x=0", "=0.1", f"{hi}=abc"):
+            bad = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger", "--price", price],
+                                 input="[]", capture_output=True, text=True)
+            self.assertEqual(bad.returncode, 2, price)
+
+    def test_standard_pool_runner(self):
+        std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}
+        k.validate_request(copy.deepcopy(std))
+        k.validate_request({**std, "kind": "diagnostic", "harness_timeout_minutes": 30})
+        self.bad({**std, "kind": "resource", "harness_timeout_minutes": 60}, "kind resource")
+        # A lane cap above the kind's own never raises it.
+        many = {**std, "kind": "diagnostic", "harness_timeout_minutes": 30,
+                "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(6)]}
+        with self.assertRaises(k.RequestError) as cm:
+            k.validate_request(many, 720)
+        self.assertIn("exceeds 150", str(cm.exception))
+        with self.assertRaises(k.RequestError):
+            k.validate_request({**REQ, "harnesses": [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(5)]}, 40)
+
+    def test_kani_jobs(self):
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": ONLY_OK}
+        self.assertIn("--jobs=1", k.kani_args(k.validate_request(copy.deepcopy(diag))))
+        self.assertIn("--jobs=2", k.kani_args(k.validate_request({**diag, "kani_jobs": 2})))
+        self.assertIn("--jobs=1", k.kani_args(k.validate_request({**REQ, "kani_jobs": 1})))
+        self.bad({**diag, "kani_jobs": 3}, "kani_jobs must be")
+        self.bad({**diag, "kani_jobs": True}, "kani_jobs must be")
+        self.bad({**diag, "kind": "measurement", "kani_jobs": 2}, "only for kind diagnostic")
+        self.bad({**diag, "runner": "circleci-linux-large", "kani_jobs": 2}, "only for kind diagnostic")
+        self.bad({**diag, "jobs": 2}, "unknown request keys")
+        s = k.summarize(json.dumps({**diag, "kani_jobs": 2}), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40, "b" * 40,
+                        None, {}, {}, "success")
+        self.assertEqual(s["request"]["kani_jobs"], 2)
+        self.assertTrue(any("concurrently" in n for n in s["notes"]))
+        self.assertIn("harnesses in parallel 2", k.render_md(s))
+
+    def test_require_runner_repeatable(self):
+        with tempfile.TemporaryDirectory() as d:
+            req, args = Path(d) / "r.json", Path(d) / "a.txt"
+            for runner, rc in ((k.STANDARD_RUNNER, 0), ("circleci-linux-large", 2)):
+                req.write_text(json.dumps({**REQ, "runner": runner, "harnesses": ONLY_OK}))
+                cli = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "validate", str(req), "--args-out",
+                                      str(args), "--require-runner", k.RESOURCE_RUNNER, "--require-runner",
+                                      k.STANDARD_RUNNER], capture_output=True, text=True)
+                self.assertEqual(cli.returncode, rc, cli.stderr)
+
     def test_tool_killed_before_harness_output(self):
         s = self.run_res("error: goto-instrument was killed\n", exit_code=1)
         self.assertEqual(s["status"], "TOOL_ERROR")

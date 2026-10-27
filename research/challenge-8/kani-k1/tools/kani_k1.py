@@ -7,7 +7,8 @@ Subcommands
   gate SUMMARY                                           exit 0 iff the run is COMPLETE, consistent and met
                                                          every expectation (and, for measurement, every bound)
   sample-mem --out FILE                                  record per-command peak RSS until SIGTERM (resource lane)
-  ledger                                                 Cloud Build list JSON on stdin -> "builds used reserved" minutes
+  ledger [--price POOL=USD ...]                          Cloud Build list JSON on stdin -> "builds used reserved"
+                                                         minutes, or USD at the given per-minute pool prices
 
 Standard library only. No network, no proof tools. The summary is the agent-facing evidence:
 statuses, times, failed checks and errors are bounded and every truncation is explicit. Anything the
@@ -33,15 +34,24 @@ SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
 KINDS = {"measurement", "diagnostic", "resource"}
 EXPECT = {"SUCCESS", "FAILED"}
-# circleci-linux-large: CircleCI Linux VM large, 4 CPU / 15 GB (the active lane); the two GitHub runners
-# are kept for the dormant GitHub Actions lane. gcb-e2-highmem-4: Cloud Build private pool, 4 vCPU / 32 GB,
-# twice the organizers' runner memory, so it takes only kind "resource", which never counts for PASS.
+# circleci-linux-large: CircleCI Linux VM large, 4 CPU / 15 GB; the two GitHub runners are kept for the
+# dormant GitHub Actions lane. gcb-e2-highmem-4: Cloud Build private pool, 4 vCPU / 32 GB, twice the
+# organizers' runner memory, so it takes only kind "resource", which never counts for PASS.
+# gcb-e2-standard-4: Cloud Build private pool, 4 vCPU / 16 GB, the resources of the organizers' ubuntu
+# runner (R7 review 2026-10-27); measurement and diagnostic, no memory cap below the machine's own.
 RESOURCE_RUNNER = "gcb-e2-highmem-4"
-RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest", RESOURCE_RUNNER}
+STANDARD_RUNNER = "gcb-e2-standard-4"
+GCB_RUNNERS = {RESOURCE_RUNNER, STANDARD_RUNNER}
+RUNNERS = {"circleci-linux-large", "ubuntu-latest", "macos-latest", RESOURCE_RUNNER, STANDARD_RUNNER}
 HARNESS_PREFIX = "slice::sort::shared::smallsort::kani_k1::"
 HARNESS_RE = re.compile(r"slice::sort::shared::smallsort::kani_k1::[A-Za-z0-9_]+(::[A-Za-z0-9_]+)*")
 REQUEST_ID_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,63}")
 REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes", "harnesses"}
+# kani_jobs: harnesses verified concurrently (Kani --jobs), as the organizers' ubuntu partitions do with
+# KANI_JOBS=2. Only kind diagnostic on the 16 GB pool: concurrent runs share memory and CPU, so their times
+# are not single-harness measurements.
+OPTIONAL_REQUEST_KEYS = {"kani_jobs"}
+KANI_JOBS = {1, 2}
 HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
@@ -96,7 +106,7 @@ def _one_line(value: Any, limit: int) -> bool:
 def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise RequestError("request must be a JSON object")
-    extra, missing = set(data) - REQUEST_KEYS, REQUEST_KEYS - set(data)
+    extra, missing = set(data) - REQUEST_KEYS - OPTIONAL_REQUEST_KEYS, REQUEST_KEYS - set(data)
     if extra:
         raise RequestError(f"unknown request keys: {sorted(extra)}")
     if missing:
@@ -112,6 +122,11 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
     if (data["runner"] == RESOURCE_RUNNER) != (data["kind"] == "resource"):
         raise RequestError(f"kind resource runs exactly on runner {RESOURCE_RUNNER}, and that runner takes only kind resource")
+    if "kani_jobs" in data:
+        if type(data["kani_jobs"]) is not int or data["kani_jobs"] not in KANI_JOBS:
+            raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
+        if data["kani_jobs"] != 1 and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
+            raise RequestError(f"kani_jobs > 1 is only for kind diagnostic on runner {STANDARD_RUNNER}")
     timeout = data["harness_timeout_minutes"]
     limit = RESOURCE_MAX_TIMEOUT_MINUTES if data["kind"] == "resource" else MAX_TIMEOUT_MINUTES
     if type(timeout) is not int or not 1 <= timeout <= limit:
@@ -139,13 +154,10 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         names.append(name)
     if len(set(names)) != len(names):
         raise RequestError("duplicate harness names")
-    # The lane's own cap applies when the caller gives none (e.g. summarize). For resource runs the dispatcher
-    # sizes the paid Cloud Build timeout from this total (k1g.sh), so it is capped here in any case.
-    if data["kind"] == "resource":
-        cap = RESOURCE_MAX_TIMEOUT_MINUTES
-        max_total_minutes = cap if max_total_minutes is None else min(max_total_minutes, cap)
-    elif max_total_minutes is None:
-        max_total_minutes = MAX_TOTAL_MINUTES
+    # The kind's own cap always applies; a lane may only lower it (CircleCI 40). The Cloud Build dispatcher
+    # sizes the paid build timeout from this total (k1g.sh), so it must never exceed the cap.
+    cap = RESOURCE_MAX_TIMEOUT_MINUTES if data["kind"] == "resource" else MAX_TOTAL_MINUTES
+    max_total_minutes = cap if max_total_minutes is None else min(max_total_minutes, cap)
     if len(names) * timeout > max_total_minutes:
         raise RequestError(f"harness count × timeout exceeds {max_total_minutes} minutes for this lane")
     return data
@@ -156,7 +168,7 @@ def kani_args(request: dict[str, Any]) -> list[str]:
     for entry in request["harnesses"]:
         args += ["--harness", entry["name"]]
     args += ["--exact", "--harness-timeout", f"{request['harness_timeout_minutes']}m",
-             "--jobs=1", "--output-format=terse"]
+             f"--jobs={request.get('kani_jobs', 1)}", "--output-format=terse"]
     return args
 
 
@@ -380,24 +392,32 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
             time.sleep(min(0.2, interval))
 
 
-def ledger(builds: Any) -> tuple[int, int, int]:
+def ledger(builds: Any, prices: dict[str, float] | None = None) -> tuple[int, float, float]:
     """Pool minutes of a `gcloud builds list --format=json` result: (builds, used, reserved). A finished build
     counts start..finish rounded up (none if it never started); an unfinished one, queued or running, reserves
-    its full timeout. Anything unreadable raises, so that dispatch fails closed."""
+    its full timeout. With `prices` (pool resource name -> USD per minute) each build's minutes are priced by
+    the pool it ran in, and a build in any other pool raises. Anything unreadable raises, so that dispatch
+    fails closed."""
     def ts(value: str) -> datetime:
         return datetime.fromisoformat(value.replace("Z", "+00:00"))
     if not isinstance(builds, list):
         raise ValueError("build list must be a JSON array")
     used = reserved = 0
     for b in builds:
+        rate = 1
+        if prices is not None:
+            pool = ((b.get("options") or {}).get("pool") or {}).get("name")
+            if pool not in prices:
+                raise ValueError(f"build {b.get('id')} ran in pool {pool!r}, which has no price")
+            rate = prices[pool]
         if b.get("finishTime"):
             if b.get("startTime"):
-                used += math.ceil((ts(b["finishTime"]) - ts(b["startTime"])).total_seconds() / 60)
+                used += math.ceil((ts(b["finishTime"]) - ts(b["startTime"])).total_seconds() / 60) * rate
             continue
         timeout = b.get("timeout")
         if not isinstance(timeout, str) or not re.fullmatch(r"\d+(\.\d+)?s", timeout):
             raise ValueError(f"unfinished build {b.get('id')} has unreadable timeout {timeout!r}")
-        reserved += math.ceil(float(timeout[:-1]) / 60)
+        reserved += math.ceil(float(timeout[:-1]) / 60) * rate
     return len(builds), used, reserved
 
 
@@ -458,8 +478,12 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["notes"].append(f"request rejected before Kani ran: {_clip(request_error or 'unknown')}")
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
+    summary["request"]["kani_jobs"] = request.get("kani_jobs", 1)
     if request["kind"] == "resource":
         summary["notes"].append("kind resource on 32 GB: memory/time data only, never a PASS or measurement result")
+    if request.get("kani_jobs", 1) > 1:
+        summary["notes"].append(f"{request['kani_jobs']} harnesses verified concurrently: times and memory are of the "
+                                "shared run, not single-harness measurements")
     not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
@@ -593,7 +617,8 @@ def render_md(summary: dict[str, Any]) -> str:
         "",
         f"- head `{summary['head_sha']}`, Kani `{summary['kani_commit']}`, request sha256 `{summary['request_sha256']}`",
         f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
-        f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min",
+        f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min, "
+        f"harnesses in parallel {req.get('kani_jobs', 1)}",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
         f"- verify memory cap: {_memcap_line(res.get('memcap'))}",
@@ -643,7 +668,8 @@ def main(argv: list[str]) -> int:
     v.add_argument("--args-out", required=True)
     v.add_argument("--runner-out")
     v.add_argument("--max-total-minutes", type=int, default=None)
-    v.add_argument("--require-runner", help="reject any other runner value (lane-specific)")
+    v.add_argument("--require-runner", action="append", default=[],
+                   help="accepted runner value of this lane (repeatable); any other is rejected")
     s = sub.add_parser("summarize")
     s.add_argument("--request", required=True)
     s.add_argument("--log")
@@ -663,7 +689,9 @@ def main(argv: list[str]) -> int:
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
     g.add_argument("summary")
-    sub.add_parser("ledger")
+    led = sub.add_parser("ledger")
+    led.add_argument("--price", action="append", default=[], metavar="POOL=USD",
+                     help="per-minute price of a worker pool (repeatable); prices the ledger in USD")
     m = sub.add_parser("sample-mem")
     m.add_argument("--out", required=True)
     m.add_argument("--interval", type=float, default=2.0)
@@ -671,7 +699,16 @@ def main(argv: list[str]) -> int:
     a = ap.parse_args(argv)
     if a.cmd == "ledger":
         try:
-            print(*ledger(json.load(sys.stdin)))
+            prices = None
+            if a.price:
+                prices = {}
+                for item in a.price:
+                    pool, _, usd = item.rpartition("=")
+                    if not pool or float(usd) <= 0:
+                        raise ValueError(f"bad --price {item!r}")
+                    prices[pool] = float(usd)
+            count, used, reserved = ledger(json.load(sys.stdin), prices)
+            print(count, *((f"{used:.4f}", f"{reserved:.4f}") if prices else (used, reserved)))
         except (ValueError, TypeError, AttributeError) as exc:
             print(f"ledger: {exc}", file=sys.stderr)
             return 2
@@ -682,8 +719,8 @@ def main(argv: list[str]) -> int:
     if a.cmd == "validate":
         try:
             request = validate_request(json.loads(Path(a.request).read_text()), a.max_total_minutes)
-            if a.require_runner and request["runner"] != a.require_runner:
-                raise RequestError(f"this lane runs only runner {a.require_runner}, request asks {request['runner']}")
+            if a.require_runner and request["runner"] not in a.require_runner:
+                raise RequestError(f"this lane runs only runner(s) {sorted(a.require_runner)}, request asks {request['runner']}")
         except (OSError, json.JSONDecodeError, RequestError) as exc:
             print(f"REQUEST_INVALID: {exc}", file=sys.stderr)
             return 2

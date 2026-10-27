@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-# Agent helper for the Kani K-1 resource lane (32 GB) on Cloud Build, project smallsort-k1. Same verbs as
-# k1.sh (CircleCI); runs are identified by Cloud Build build ids. gcloud runs with its own configuration
+# Agent helper for the Kani K-1 Cloud Build lanes, project smallsort-k1. The request's runner picks the pool:
+# gcb-e2-standard-4 -> k1-standard4 (4 vCPU / 16 GB, the organizers' ubuntu runner resources; measurement and
+# diagnostic), gcb-e2-highmem-4 -> k1-highmem4 (4 vCPU / 32 GB; kind resource only). Same verbs as k1.sh
+# (CircleCI); runs are identified by Cloud Build build ids. gcloud runs with its own configuration
 # directory and the dispatcher service account, so the machine's default gcloud setup is never touched.
-# The account can submit builds to the pool and read the run bucket, nothing else.
+# The account can submit builds to the pools and read the run bucket, nothing else.
 #   k1g.sh dispatch BRANCH              start the lane on the pushed BRANCH, print the build id
 #   k1g.sh wait BUILD                   block until the build ends (background task), print its status
 #   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
@@ -11,25 +13,28 @@
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
 #   k1g.sh log-lines BUILD START [N]    bounded slice of kani.log (N <= 200 lines)
 #   k1g.sh peaks BUILD                  per-command memory peaks file of the run (small)
-#   k1g.sh budget                       pool minutes used and reserved in the project, against the cap
+#   k1g.sh budget                       USD used and reserved in the project (both pools), against the cap
 #   k1g.sh build-tail BUILD [N]         coordinator only: last N <= 120 lines of the Cloud Build log, for setup failures
 set -euo pipefail
 
 PROJECT=${K1_GCP_PROJECT:-smallsort-k1}
 REGION=us-central1
-POOL=projects/$PROJECT/locations/$REGION/workerPools/k1-highmem4
+POOL_HIGHMEM=projects/$PROJECT/locations/$REGION/workerPools/k1-highmem4
+POOL_STANDARD=projects/$PROJECT/locations/$REGION/workerPools/k1-standard4
 BUCKET=$PROJECT-k1-runs
 BUILD_SA=k1-build@$PROJECT.iam.gserviceaccount.com
 DISP_SA=k1-dispatcher@$PROJECT.iam.gserviceaccount.com
 KEY=${K1_GCP_KEY:-/root/.config/smallsort-ci/k1-gcp-key.json}
 GCFG=${K1_GCLOUD_CONFIG:-/root/.config/smallsort-ci/k1-gcloud}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
-# Paid pool time. The owner capped all 32 GB builds at $35 (raised from $10 on 2026-10-26 for the extended
-# layer); 1300 min x $0.02612 = $33.96 leaves a margin for billing rounding. dispatch refuses a build whose
-# timeout would take used + reserved minutes over CAP_MINUTES; raising it is the owner's decision.
-CAP_MINUTES=1300
+# Paid pool time. The owner capped all Cloud Build runs, both pools together, at $35 (raised from $10 on
+# 2026-10-26; one cap for both pools, R7 review 2026-10-27); $33.96 leaves a margin for billing rounding.
+# Every build is priced by the pool it ran in; dispatch refuses a build whose timeout at its pool's price
+# would take used + reserved USD over CAP_USD. Raising the cap is the owner's decision.
+CAP_USD=33.96
 RESOURCE_MAX_TOTAL_MINUTES=720      # = kani_k1.py RESOURCE_MAX_TIMEOUT_MINUTES = gcb-k1.sh MAX_TOTAL_MINUTES
-PRICE_PER_MINUTE=0.02612            # e2-highmem-4 private pool, us-central1, USD
+PRICE_HIGHMEM=0.02612               # e2-highmem-4 private pool, us-central1, USD per minute
+PRICE_STANDARD=0.0194               # e2-standard-4 private pool, us-central1: conservative until the owner checks billing
 OVERHEAD_MINUTES=30                 # checkout, deps, Kani build, summary, upload; see gcb-k1.sh
 LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools research/challenge-8/kani-k1/gcb
             scripts/run-kani.sh tool_config/kani-version.toml rust-toolchain.toml .gitmodules .cargo library/.cargo
@@ -55,12 +60,24 @@ jqr() { python3 -c "import json,sys; d=json.load(sys.stdin); print(eval(sys.argv
 describe() { CLOUDSDK_CONFIG="$GCFG" timeout 120 gcloud --quiet --account="$DISP_SA" --project="$PROJECT" builds describe "$1" --region="$REGION" --format=json; }
 TERMINAL=" SUCCESS FAILURE INTERNAL_ERROR TIMEOUT CANCELLED EXPIRED "
 
-# budget: prints the ledger, sets USED and RESERVED (minutes). Finished builds count start..finish rounded
-# up; queued or running ones count their full timeout.
+pool_of() {  # runner -> pool resource name; anything else is not a Cloud Build runner
+  case "$1" in
+    gcb-e2-standard-4) echo "$POOL_STANDARD" ;;
+    gcb-e2-highmem-4) echo "$POOL_HIGHMEM" ;;
+    *) die "runner '$1' has no Cloud Build pool" ;;
+  esac
+}
+price_of() { case "$1" in "$POOL_STANDARD") echo "$PRICE_STANDARD" ;; "$POOL_HIGHMEM") echo "$PRICE_HIGHMEM" ;; *) die "no price for pool $1" ;; esac; }
+over_cap() { python3 -c 'import sys; sys.exit(0 if float(sys.argv[1]) > float(sys.argv[2]) else 1)' "$1" "$2"; }
+
+# budget: prints the ledger, sets USED and RESERVED (USD). Finished builds count start..finish rounded up;
+# queued or running ones count their full timeout; each at its own pool's price, a build in an unknown pool
+# fails the ledger.
 ledger() {
   local out
-  out=$(G builds list --region="$REGION" --limit=1000 --format=json | python3 -B "$TOOLS/kani_k1.py" ledger) \
-    || die "cannot compute the pool-minute ledger"
+  out=$(G builds list --region="$REGION" --limit=1000 --format=json \
+        | python3 -B "$TOOLS/kani_k1.py" ledger --price "$POOL_HIGHMEM=$PRICE_HIGHMEM" --price "$POOL_STANDARD=$PRICE_STANDARD") \
+    || die "cannot compute the pool ledger"
   read -r BUILDS USED RESERVED <<< "$out"
   [ "$BUILDS" -lt 1000 ] || die "1000 or more builds listed: the ledger may undercount; owner decision needed"
 }
@@ -99,10 +116,13 @@ case "$cmd" in
     git show "$sha:research/challenge-8/kani-k1/RUN-REQUEST.json" > "$work/request.json" 2>/dev/null || die "no RUN-REQUEST.json at $sha"
     git show "$sha:research/challenge-8/kani-k1/gcb/cloudbuild.yaml" > "$work/cloudbuild.yaml" 2>/dev/null || die "no gcb/cloudbuild.yaml at $sha"
     # Validate here with this checkout's kani_k1.py: a request the lane would reject must not cost pool time.
-    python3 -B "$TOOLS/kani_k1.py" validate "$work/request.json" --args-out "$work/args" \
-      --require-runner gcb-e2-highmem-4 --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
+    python3 -B "$TOOLS/kani_k1.py" validate "$work/request.json" --args-out "$work/args" --runner-out "$work/runner" \
+      --require-runner gcb-e2-highmem-4 --require-runner gcb-e2-standard-4 \
+      --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
+    pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
     total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
+    cost=$(python3 -c "print(f'{$timeout * $price:.4f}')")
     auth
     # One dispatch at a time on this machine: the duplicate check, the ledger and the submit must not interleave.
     exec 9> "$GCFG/dispatch.lock"
@@ -110,15 +130,16 @@ case "$cmd" in
     dup=$(G builds list --region="$REGION" --limit=1000 --format='value(id)' --filter="substitutions._SHA=$sha")
     [ -z "$dup" ] || die "build(s) $(echo $dup) already ran $sha; change and push RUN-REQUEST.json for a new run"
     ledger
-    if [ $(( USED + RESERVED + timeout )) -gt "$CAP_MINUTES" ]; then
-      die "budget: used $USED + reserved $RESERVED + this build's timeout $timeout min > cap $CAP_MINUTES min; owner decision needed"
+    total_usd=$(python3 -c "print(f'{$USED + $RESERVED + $cost:.4f}')")
+    if over_cap "$total_usd" "$CAP_USD"; then
+      die "budget: used \$$USED + reserved \$$RESERVED + this build's \$$cost ($timeout min in $pool) > cap \$$CAP_USD; owner decision needed"
     fi
-    id=$(G builds submit --no-source --async --config="$work/cloudbuild.yaml" --region="$REGION" --worker-pool="$POOL" \
+    id=$(G builds submit --no-source --async --config="$work/cloudbuild.yaml" --region="$REGION" --worker-pool="$pool" \
            --service-account="projects/$PROJECT/serviceAccounts/$BUILD_SA" --gcs-log-dir="gs://$BUCKET/logs" \
            --timeout="${timeout}m" --substitutions="_SHA=$sha,_BRANCH=$branch,_BUCKET=$BUCKET" \
            --format='value(id)') || die "submit failed"
     is_build "$id"
-    echo "budget after submit: used $USED + reserved $((RESERVED + timeout)) of $CAP_MINUTES min (~\$$(python3 -c "print(f'{($USED + $RESERVED + $timeout) * $PRICE_PER_MINUTE:.2f}')") at most)" >&2
+    echo "budget after submit: at most \$$total_usd of \$$CAP_USD (used \$$USED, reserved incl. this build \$$(python3 -c "print(f'{$RESERVED + $cost:.4f}')"); pool ${pool##*/})" >&2
     echo "$id" ;;
   wait)
     id=${1:-}; is_build "$id"; auth
@@ -179,8 +200,12 @@ case "$cmd" in
     [[ "$head" =~ ^[0-9a-f]{40}$ ]] || die "cannot read the commit of build $id"
     git cat-file -e "$head^{commit}" 2>/dev/null || git fetch -q origin "$head" || die "commit $head not available locally"
     git cat-file -e "$base^{commit}" 2>/dev/null || die "BASE $base not available locally"
+    # The pool must be the one the request's runner names, read from the build's own commit.
+    runner=$(git show "$head:research/challenge-8/kani-k1/RUN-REQUEST.json" 2>/dev/null \
+             | python3 -c 'import json,sys; print(json.load(sys.stdin)["runner"])' 2>/dev/null) || die "cannot read the runner of $head"
+    want=$(pool_of "$runner")
     pool=$(describe "$id" | jqr "((d.get('options') or {}).get('pool') or {}).get('name', '')")
-    if [ "$pool" = "$POOL" ]; then echo "ok   build ran in pool $pool"; else echo "DIFF build pool '$pool' != $POOL"; exit 1; fi
+    if [ "$pool" = "$want" ]; then echo "ok   build ran in pool $pool (runner $runner)"; else echo "DIFF build pool '$pool' != $want (runner $runner)"; exit 1; fi
     if git diff --quiet "$base" "$head" -- "${LANE_PATHS[@]}"; then
       echo "ok   lane files (${LANE_PATHS[*]}) at build commit $head equal BASE $base"
     else
@@ -223,11 +248,11 @@ PY
     sed -n "${start},$((start + count - 1))p" "$dir/log/kani.log" | cut -c1-400 ;;
   budget)
     auth; ledger
-    echo "builds $BUILDS; pool minutes used $USED, reserved by unfinished builds $RESERVED, cap $CAP_MINUTES"
-    python3 -c "print(f'at most ~\${($USED + $RESERVED) * $PRICE_PER_MINUTE:.2f} of ~\${$CAP_MINUTES * $PRICE_PER_MINUTE:.2f}')" ;;
+    echo "builds $BUILDS; used \$$USED, reserved by unfinished builds \$$RESERVED, cap \$$CAP_USD (both pools;"
+    echo "  prices per minute: k1-highmem4 \$$PRICE_HIGHMEM, k1-standard4 \$$PRICE_STANDARD)" ;;
   build-tail)
     id=${1:-}; is_build "$id"; n=${2:-60}; [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le 120 ] || die "N must be <= 120"
     auth; G storage cat "gs://$BUCKET/logs/log-$id.txt" | tail -n "$n" | cut -c1-300 ;;
   *)
-    sed -n '5,16p' "$0"; exit 2 ;;
+    sed -n '8,17p' "$0"; exit 2 ;;
 esac
