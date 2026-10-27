@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-gcb-std-smoke-001",
+  "request_id": "coord-gcb-std-smoke-jobs2-002",
   "agent": "coordinator",
-  "kind": "measurement",
-  "purpose": "16 GB pool k1-standard4 smoke: pool selection, MACHINE memcap/swap gate, USD ledger; base 2758c214",
+  "kind": "diagnostic",
+  "purpose": "16 GB pool smoke: kani_jobs=2 log format (Thread prefixes, block interleaving); base 2758c214",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -16,5 +16,6 @@
       "expect": "FAILED",
       "expect_check": "has_efficient_in_place_swap"
     }
-  ]
+  ],
+  "kani_jobs": 2
 }
