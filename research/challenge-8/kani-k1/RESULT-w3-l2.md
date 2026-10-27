@@ -182,3 +182,10 @@ R11 insert_tail отдельно нарушает только sorted-prefix req
 Следующий запрос: measurement, восемь гармоник ×10 мин. Собственный резерв
 (80+30)×$0,0194=$2,1340; с уже потраченным максимум $2,5802 < $5,4.
 Длинные N20/24/32 по L2-1 ещё не запускаются.
+
+REVIEW REQUEST 8e499dcda307b2a9db6d56ecb46434f25cb68737
+
+Итоговые файлы: `smallsort.rs` (контрактные attrs L2-0), `kani_k1.rs`
+(mod correct), `kani_k1/correct.rs` (L2-0 плюс новый fallback/template u8
+insert_tail prefix/R11), `RUN-REQUEST.json`, `RESULT-w3-l2.md`.
+Изменения L2-2 только в correct.rs; runtime/lane неизменны.
