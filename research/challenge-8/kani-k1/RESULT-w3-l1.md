@@ -76,3 +76,9 @@ ordinary proof не заявляет sortedness при произвольном 
 первый байт массива), сохраняя произвольные остальные байты.
 Граница времени 180 с — ориентир, measurement timeout 600 с. Фактические время,
 пик и статус ещё не измерены.
+
+REVIEW REQUEST ca32e652a138c649097de1ef4a6312f4080cf180
+
+merge.rs: w3_sort4_read_args, w3_sort4_arbitrary и w3_sort4_cases.
+Проверить разделение контракта/произвольного comparator, полные volatile-чтения,
+универсальный probe/count и отсутствие предположения sortedness в ordinary proof.
