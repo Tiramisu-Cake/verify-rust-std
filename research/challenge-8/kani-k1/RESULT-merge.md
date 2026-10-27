@@ -168,8 +168,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 12 | 12, u64 и u8 | 156, SUCCESS обоих типов | 158, SUCCESS |
 | 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | 161: u64 TIMEOUT; u8 SUCCESS, gate false |
 | 14 | 14, u64 и u8 | 160, SUCCESS обоих типов | 161: TIMEOUT обоих типов |
-| 15 | 15, u64 и u8 | 165, SUCCESS обоих типов | не измерено |
-| 16 | 8 и 16, каждый u64 и u8 | 8: 140; 16: 165; SUCCESS обоих типов | не измерено |
+| 15 | 15, u64 и u8 | 165, SUCCESS обоих типов | 166: TIMEOUT обоих типов |
+| 16 | 8 и 16, каждый u64 и u8 | 8: 140; 16: 165; SUCCESS обоих типов | 166: SUCCESS обоих, gate false; нужен повтор |
 
 **Ограничение R11:** job 110 проверяет только намеренное нарушение
 клаузы `halves_sorted`; это не отрицательный контроль всех остальных
@@ -764,6 +764,42 @@ R4 N15: bm N15 обоих типов job 165; N16: bm N16 job 165 и bm N8 job 1
 из пакетов с gate false, последняя ступень fallback u8, затем K-12a.
 После dispatch ночных jobs 21, preflight отказов 3;
 с П2 до ночи: 26 jobs, 4 preflight отказа, 30/40 консервативных попыток.
+
+### Job 166 — GS N15 TIMEOUT, GS N16 SUCCESS
+
+Request `w2-merge-night-gs15to16-021`,
+head `e94ce24e75ae4fe6c932f672f743b4721d52122b`, COMPLETE;
+gate false, expectation met false, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 3516064 KiB, wall с компиляцией 1552.72 с;
+cgroup peak 5.89 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len15` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2p2_gs_u8_len15` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2p2_gs_u64_len16` | SUCCESS / SUCCESS | 218.22272 | 0/642 | 74 | 2/2 |
+| `w2p2_gs_u8_len16` | SUCCESS / SUCCESS | 91.0657 | 0/635 | 76 | 2/2 |
+
+Полные covers GS N16 сверены отдельно от gate: 2/2 D/S каждого типа.
+Общий gate false; N16 пока измеренный SUCCESS без зачёта пакета.
+GS N15 обоих типов — кандидаты расширенного слоя, не FAILED свойств.
+Пик приведён для всего run с компиляцией, индивидуальных пиков нет.
+Таблица R4 обновлена. Отличие результата N16 от N13..15 подтверждает,
+что ресурсные выводы нельзя переносить через порог presort.
+
+### N-D25 (R7): подтвердить успешные GS перед закрытием K-10
+
+`w2-merge-night-gs13u8-gs16-confirm-022`: GS u8 N13 (job 161 SUCCESS)
+и GS N16 u64/u8 (job 166 SUCCESS), expected SUCCESS, 3×10 мин.
+R4 N13: bm N13 обоих типов job 160; N16: bm N16 job 165 и bm N8 job 140,
+обе длины обоих типов. R11 halves_sorted job 110; код/ledger без изменений.
+Ресурсные отказы в этот пакет не включаются. После него fallback u8 N9
+проверяется отдельным job, чтобы её возможный таймаут не отменил gate GS.
+Затем K-10 закрывается по измеренным длинам и кандидатам расширенного слоя,
+следующая задача очереди — K-12a.
+После dispatch ночных jobs 22, preflight отказов 3;
+с П2 до ночи: 27 jobs, 4 preflight отказа, 31/40 консервативных попытка.
 
 ## Фаза 9
 
