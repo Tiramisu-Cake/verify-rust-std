@@ -1324,3 +1324,217 @@ macOS выполняет координатор; результата не жд�
 компиляция≈44мин, пик4,57GiB,438 гармоник. Cloud Build/ubuntu≈1,8 — только
 калибровочная оценка, не измерение организаторов. Общий лимитC$6,00,
 полные резервы300+30мин служат защите lane, фактический расход считаем по wall.
+
+## L1-7 — dispatch партиции 1/4
+
+Build15 `b796ca7b-fa1c-4dd2-ba06-8b3fb22e18e7`, request015,
+source `1ba746138fb7b17b355166dc091f7b0bdd70ae7b`.
+Budget перед: builds49 used$22,6770 reserve$0,9450 (чужой build);
+после резерв всего$5,4000, предел$28,0770/$33,96; резерв15$4,4550.
+validate partition1/4 accepted; RUN-only commit, controls off, jobs2,300мин.
+Код гармоник совпадает с кандидатом5c713131. Результат пока неизвестен.
+
+## L1-7 — dispatch партиции 2/4
+
+Build16 `dbfe8043-e99e-49e0-a794-5e103e73f025`, request016,
+source `9d204ebfc497dd05d18290857151b4a537b3e724`.
+Перед dispatch budget: builds50 used$22,6770 reserved$5,4000;
+после reserve$9,8550, максимум$32,5320/$33,96; резерв16$4,4550.
+Незавершённых своих builds2/2;3–4 пока не отправлены.
+`git diff --stat 1ba74613 9d204ebf`: только RUN-REQUEST.json,
+1 file changed,3 insertions(+),3 deletions(-). Код гармоник одинаков.
+Полный резерв двух300мин больше долиC, это штатный таймаут задания;
+фактический расход покаC14$0,146043. Перед следующим dispatch учесть
+реальные wall/стоимость завершённых партиций и остановиться при долеC$6,00.
+Watch обоих builds, затем конец turn; результаты только через summary/peaks/
+log-grep/log-lines и check-tooling85ceaa0d. Скачанные логи целиком не читать.
+Заметки dispatch оставлены незакоммиченными до завершения request-only серии.
+
+### Уточнение владельца к L1-10
+
+В двух итоговых документах ограничение ZST network N≥18 описано без внешней
+ссылки: маршрут не проверяется и недостижим через std вызывающие stable sort,
+unstable sort и partition_at_index, поскольку они выходят раньше для ZST.
+Прежняя внешняя ссылка удалена из обоих документов; раздел kani#5072 сохранён.
+Исторический TASK-w3-doc.md не менялся. Партиции не прерывались;
+документы пока незакоммичены до окончания четырёх request-only коммитов.
+
+### Обновление потолка по указанию координатора
+
+Получена и влита база `8350fb1b5fd1f6133fcadab564ac2b0848e30b97`;
+merge `f9c7425933c3f03bdada5346bb33ecceaeb6dee3`.
+Владелец поднял потолок Cloud Build до$45, защитный CAP_USD=43.96.
+**ДоляC остаётся$6,00**; повышение общего cap её не увеличивает.
+Идущие1/4 и2/4 не изменены и не отменены. До их окончания/освобождения
+слота новые сборки не отправлять: собственный максимум2 остаётся.
+
+`git diff --stat 9d204ebfc497dd05d18290857151b4a537b3e724 f9c7425933c3f03bdada5346bb33ecceaeb6dee3`:
+
+```text
+ research/challenge-8/kani-k1/EXPERIMENT.md | 2 +-
+ research/challenge-8/kani-k1/W3-RULES.md   | 2 +-
+ research/challenge-8/kani-k1/tools/k1g.sh  | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+```
+
+Это разрешённое координатором исключение из request-only серии:
+код гармоник и smallsort.rs/kani_k1.rs **совпадает с5c713131** (git diff exit0).
+Между request-only коммитами3/4 код также сохраняется.
+BASE check-tooling отдельно по сборкам:
+-15 `b796ca7b-fa1c-4dd2-ba06-8b3fb22e18e7`: прежний85ceaa0ddb610d43bf24495d3aab676f6be25360;
+-16 `dbfe8043-e99e-49e0-a794-5e103e73f025`: прежний85ceaa0ddb610d43bf24495d3aab676f6be25360;
+-новые3/4 после merge: **8350fb1b5fd1f6133fcadab564ac2b0848e30b97**.
+Старые tooling checks запускать скриптом из их BASE, а не текущей изменённой копией.
+Перед каждым новым dispatch — k1g.sh budget с новым cap и расчёт своего остаткаC.
+
+## L1-7 — результат 1/4, build15
+
+`b796ca7b-fa1c-4dd2-ba06-8b3fb22e18e7`: COMPLETE, **gate true**, Kani exit0,
+521/521 SUCCESS, inconsistency нет. Список worker1/4 совпал с проверенными;
+controls/uninit off, KANI_JOBS2. SmallSort kani_k1:0 гармоник, сумма0с.
+Сумма Verification Time всей партиции1085,811с (параллельные времена перекрываются).
+Wall whole run **1:20:28=4828с**, из которых начальная компиляция/подготовка
+до Checking harness ≈3331с (≈55,5мин) по первому goto-instrument в sampler;
+первая строка Checking harness —log8026. У строки нет временной метки:
+точное время компиляции этим интерфейсом не установлено, оценку не выдаём за замер.
+Первый cbmc sampled3335с; kani-compiler виден0..3040с. Подготовка до verify409с
+отдельно, в whole run не включена. RSS: time-v max4411500KiB (выше sampled
+одиночного4411420); sampled суммарный5356360KiB/5,11GiB,2с/2409samples.
+MACHINE15,63GiB, swap0; OOM/отказов нет. check-tooling BASE85ceaa0d exit0,
+pool/lane/all5 SHA-256 совпали.
+
+Slowest15 (всеSUCCESS), с:
+
+| Гармоника | с |
+|---|---:|
+| num::imp::dec2flt::decimal_seq::decimal_seq_verify::check_left_shift | 180,39307 |
+| ffi::c_str::verify::check_to_str | 107,08374 |
+| num::imp::dec2flt::decimal_seq::decimal_seq_verify::check_number_of_digits_decimal_left_shift | 84,86188 |
+| ffi::c_str::verify::check_bytes | 57,627968 |
+| ffi::c_str::verify::check_as_ptr | 49,342255 |
+| ffi::c_str::verify::check_to_bytes_with_nul | 36,36591 |
+| ffi::c_str::verify::check_to_bytes | 34,486435 |
+| num::imp::dec2flt::decimal_seq::decimal_seq_verify::check_right_shift | 22,533182 |
+| ffi::c_str::verify::check_is_empty | 13,668552 |
+| collections::vec_deque::verify::check_vecdeque_swap | 12,437022 |
+| ffi::c_str::verify::check_count_bytes | 11,03789 |
+| num::verify::widening_mul_u64_mid_edge | 10,468014 |
+| num::verify::carrying_mul_u64_mid_edge | 8,264211 |
+| ffi::c_str::verify::check_from_bytes_until_nul | 6,4108734 |
+| intrinsics::verify::check_transmute_unchecked_slice_metadata | 6,2741632 |
+
+Стоимость15=(4828/60+8)×$0,0135=**$1,194300**.
+ФактC14+15=**$1,340343/$6,00**, остаток$4,659657 без ещё идущей16;
+исторический A+B+C=$4,79214825. Контроль риска:80,47мин<240, отказов нет.
+Сравнение с пробой без SmallSort:521 против438 гармоник вследствие иной общей
+раскладки, SmallSort в1/4=0;80,47 против68мин, ориентировочно55,5 против44мин
+до проверок;5,11 против4,57GiB. Оценка ubuntu80,47/1,8≈44,70мин,
+не результат на ubuntu. Следующая3/4 на BASE8350fb1b,2/4 не прерывается.
+
+## L1-7 — dispatch партиции 3/4
+
+Build17 `ef4345ad-8ebd-45cc-93ef-a33dbdc6b505`, request017,
+source `3796a1ac751be151931971d25a1281d85058f642`, BASE8350fb1b.
+Перед dispatch budget: builds53 used$24,6885 reserved$5,9400;
+после максимум$35,0835/$43,96, reserved$10,3950. Резерв17$4,4550.
+validate partition3/4 accepted; код гармоник совпадает с5c713131,
+новый коммит после merge меняет только RUN-REQUEST.json.
+`git diff --stat 9d204ebf 3796a1ac`:
+
+```text
+ research/challenge-8/kani-k1/EXPERIMENT.md    | 2 +-
+ research/challenge-8/kani-k1/RUN-REQUEST.json | 6 +++---
+ research/challenge-8/kani-k1/W3-RULES.md      | 2 +-
+ research/challenge-8/kani-k1/tools/k1g.sh     | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+```
+
+Три дополнительных файла — только разрешённое слияние cap8350fb1b.
+Работают2/4 и3/4, своих незавершённых2/2;4/4 пока не отправлена.
+ФактC$1,340343; перед4/4 учесть стоимость2/4 и3/4 по доступным результатам.
+Watch17, затем конец turn. Watch16 уже установлен, повторно не запускать.
+Сводки1/4 и tooling завершены; незакоммиченные RESULT/doc правки сохраняются
+до окончания request-only серии и итогового L1-10. Окончание задачи не заявляется.
+
+## L1-7 — результат 3/4, build17
+
+`ef4345ad-8ebd-45cc-93ef-a33dbdc6b505`: COMPLETE, **gate true**, Kani exit0,
+521/521 SUCCESS, inconsistency нет; worker3/4 list совпал с проверенным.
+KANI_JOBS2, controls/uninit off. SmallSort kani_k1:0 гармоник, сумма0с.
+Сумма Verification Time всей партиции1631,208с (не wall, времена перекрываются).
+Wall **1:05:19=3919с**. Первая Checking harness —log8026, без timestamp;
+до неё ≈2624с/43,73мин по первому sampled goto-instrument/cbmc,
+точное время компиляции не установлено. kani-compiler виден0..2574с.
+Подготовка до verify368с отдельно. RSS: max4331924KiB, sampled sum4357056KiB
+(4,16GiB),2с/1956samples; это общий конкурентный/compile пик, не пик гармоники.
+MACHINE15,63GiB, swap0; OOM/отказов нет. check-tooling BASE8350fb1b exit0,
+pool/lane/all5 SHA-256 совпали.
+
+Slowest15, всеSUCCESS, с:
+
+| Гармоника | с |
+|---|---:|
+| num::nonzero::verify::nonzero_check_isqrt_u32 | 628,47455 |
+| num::nonzero::verify::nonzero_check_isqrt_u128_small | 68,085205 |
+| num::nonzero::verify::nonzero_check_isqrt_u128_mid | 59,115387 |
+| num::nonzero::verify::nonzero_check_checked_mul_i128_small | 43,685703 |
+| num::nonzero::verify::nonzero_check_saturating_pow_for_i128 | 35,92311 |
+| num::nonzero::verify::check_mul_i128_edge_pos | 31,457525 |
+| num::nonzero::verify::nonzero_check_checked_pow_for_i128 | 28,76768 |
+| num::nonzero::verify::check_mul_i128_small | 26,631998 |
+| num::nonzero::verify::check_mul_i128_edge_neg | 25,172672 |
+| num::nonzero::verify::nonzero_check_isqrt_u128_large | 21,627365 |
+| num::nonzero::verify::nonzero_check_isqrt_usize_small | 20,028809 |
+| num::nonzero::verify::nonzero_check_isqrt_u64_small | 19,414137 |
+| num::nonzero::verify::nonzero_check_saturating_mul_i128_small | 18,568151 |
+| num::nonzero::verify::check_mul_i128_large_pos | 17,25089 |
+| num::nonzero::verify::check_mul_i128_large_neg | 16,255003 |
+
+Базовая num::nonzero::verify::nonzero_check_isqrt_u32=628,47455с>600;
+это не SmallSort, partition gate не вводит per-harness timeout600.
+Не выдавать результат за measurement-приёмку этой базовой гармоники.
+Wall65,32мин<240, ни одной FAILED. Стоимость17=(3919/60+8)×0,0135=$0,989775.
+ФактC14+15+17=**$2,330118/$6,00**, остаток$3,669882 без идущей16;
+исторический A+B+C=$5,78192325. Оценка ubuntu65,32/1,8≈36,29мин,
+не фактический замер ubuntu. Перед новым dispatch старый k1g summary16
+сообщил WORKING;16 не отменялся. Результата/финальной стоимости16 ещё нет.
+
+## L1-7 — dispatch 4/4 и завершение серии request-only коммитов
+
+Build18 `aea9fcc6-b301-4f9c-a49a-a6858b34b0dc`, request018,
+source `7281d216696e94182aeb9dedef91f407f30136f9`, BASE8350fb1b.
+Перед dispatch budget: builds56 used$26,8620 reserved$5,2110;
+после максимум$36,5280/$43,96, reserved$9,6660; резерв18$4,4550.
+validate accepted partition4/4, diff --check OK. ФактC пока$2,330118,
+остаток$3,669882 без ещё работающих16/18. Новых builds после18 не планируется.
+
+| Partition | source SHA | build | BASE | Сейчас |
+|---|---|---|---|---|
+| 1/4 | 1ba746138fb7b17b355166dc091f7b0bdd70ae7b | b796ca7b-fa1c-4dd2-ba06-8b3fb22e18e7 | 85ceaa0d | gate true521/521 |
+| 2/4 | 9d204ebfc497dd05d18290857151b4a537b3e724 | dbfe8043-e99e-49e0-a794-5e103e73f025 | 85ceaa0d | WORKING по последнему query |
+| 3/4 | 3796a1ac751be151931971d25a1281d85058f642 | ef4345ad-8ebd-45cc-93ef-a33dbdc6b505 | 8350fb1b | gate true521/521 |
+| 4/4 | 7281d216696e94182aeb9dedef91f407f30136f9 | aea9fcc6-b301-4f9c-a49a-a6858b34b0dc | 8350fb1b | отправлена |
+
+`git diff --stat 3796a1ac 7281d216`: только RUN-REQUEST.json,
+1 file changed,3 insertions(+),3 deletions(-).
+Полный `git diff --stat 1ba74613 7281d216`:
+
+```text
+ research/challenge-8/kani-k1/EXPERIMENT.md    | 2 +-
+ research/challenge-8/kani-k1/RUN-REQUEST.json | 6 +++---
+ research/challenge-8/kani-k1/W3-RULES.md      | 2 +-
+ research/challenge-8/kani-k1/tools/k1g.sh     | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+```
+
+В остальном дерево одинаково; код smallsort.rs/kani_k1.rs/kani_k1 совпадает
+с кандидатом5c713131. Различие lane только в cap, согласовано координатором;
+runtime std не менялся. Все четыре собственных request-коммита меняют только
+RUN-REQUEST.json, merge8350fb1b стоит между2/4 и3/4 отдельно.
+Теперь накопленные незакоммиченные заметки RESULT можно сохранить commit/push;
+это не меняет уже отправленный source18. Два документа L1-10 подготовлены,
+но остаются незакоммиченными до результатов2/4 и4/4 и финального обновления.
+Первый следующий шаг — summary/peaks/tooling по уведомлению16 либо18;
+при отказе или wall>240мин записать ограничение, новых прогонов не делать.
+Новых request/review по коду нет; официальный итоговый REVIEW REQUEST документов
+будет после их окончательной правки. W3-L1 ещё не завершён.
