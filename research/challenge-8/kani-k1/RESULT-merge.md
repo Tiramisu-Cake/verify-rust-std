@@ -922,6 +922,15 @@ requires предполагает proof_for_contract, normal-return cover в bm_
 После dispatch ночных jobs 24, preflight отказов 3;
 с П2 до ночи: 29 jobs, 4 preflight отказа, 33/40 консервативных попытки.
 
+REVIEW REQUEST b8849eefd9be4a9169ad904edd2c15e9244c2501
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+K-12a: две инстанциации прежнего proof_for_contract template, N20/24 u8;
+только diagnostic, новых утверждений proof credit нет. Итог K-10 выше
+опирается на уже проверенный код и указанные jobs/gates/covers.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
