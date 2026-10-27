@@ -818,3 +818,26 @@ ZST-aware reads и strict comparator K9s. Результатов B пока не
 measurement подготовлен на14 гармоник, Python validate accepted14, diff --check OK.
 Независимый Luna High smallsort_reviewer читает тот же закоммиченный набор;
 официальный вердикт координатора ожидается, во время review работа продолжается.
+
+## Build 9 — этап B, кандидат CI
+
+- request `w3-l1-009-stage-b-suite`, commit `b9c2bb79` (код ec01899e).
+- build `b3b2a4c7-8266-4b4b-9cb2-be127adcffbe`, measurement14×10мин, jobs1,
+  gcb-e2-standard-4. Ожидается SUCCESS14/14; фактического результата пока нет.
+- Выборка: assembly::k15_{swap,insert,merge_up,merge_consumption,presorted_len};
+  ci_zst_stable_{1,2,7,8,16,17,31,32}; network::w2p2_k9s_zst.
+- Budget до dispatch: builds41, used$19,8420, reserved$1,2150; после максимум
+  $23,3520/$33,96, общий reserve$3,5100. Свой резерв9=$2,2950, помещается
+  в остатокB$3,435662. ФактB пока$0; итогA$2,764338 не менялся.
+- Python validate accepted14; diff --check OK; lane совпадает BASE33c3bbce;
+  smallsort.rs побайтово совпадает с головой этапаA63ce8afc. Сравнение smallsort.rs
+  с базой не должно быть пустым: унаследованные K1-атрибуты были до этапаB.
+- После watch: summary, peaks, check-tooling против33c3bbce (только штатный k1g),
+  стоимость=(wall/60+8)×$0,0135, записать время/checks/cover. Не заявлять PASS до R9.
+- Следующий запрос controls подготовлен только в /tmp/w3-l1-b-controls.json
+  (6 negative proofs, measurement, cfg true, validate accepted6). После результата9
+  сверить бюджет, записать его в RUN-REQUEST, новый коммит/push, dispatch, watch/конец turn.
+  Проверить expect_check по фактическому условию, без зачёта постороннего отказа.
+- Если9 compile error — bounded log-grep/log-lines, исправление и новый SHA/request_id;
+  локальные компиляторы запрещены. Официальный R9 ec01899e ожидается.
+- ОкончаниеB пока НЕ объявлено: нужны оба gate true, результаты мутантов и передача.
