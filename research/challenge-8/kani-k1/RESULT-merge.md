@@ -846,6 +846,24 @@ Evidence: job 147 (u64 N8 TIMEOUT, u8 N8 SUCCESS при gate false),
 job 153 (u8 N8 SUCCESS, gate true), summaries и check-tooling ok.
 Новая N9 u8 ещё не измерена; код helper/контрактов/runtime не менялся.
 
+### R9 typed fallback — GO (сообщение координатора)
+
+Review `92d4edd8` и `88aba447` — **GO**, замечаний нет.
+`w2night_fallback_typed` — одна ветка проверенного шаблона
+`w2p2_fallback_fixed`: тот же helper `w2p2_fallback_len`, unwind(34),
+свойства и реальное тело без изменений. Принят как экземпляр шаблона.
+
+Fallback u8 N8 засчитан: job 153 SUCCESS, cover 1/1, gate true,
+check-tooling ok. Fallback u8 N9 будет засчитан только после gate true
+и остальных критериев завершённого job 168. Fallback u64 N8 TIMEOUT
+job 147 остаётся кандидатом расширенного слоя.
+Исторические записи ожидания R9 закрыты этим вердиктом.
+Текущий зачёт fallback: u64 N0..7, u8 N0..8.
+GS: u64 N0..12 и N16; u8 N0..13 и N16.
+Job 168 под ранее зарегистрированным watch; новых dispatch и опроса
+состояния в ответ на review не выполнялось. Очередь продолжается
+после его уведомления: оставшийся K-10, затем K-12a и K-14r.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
