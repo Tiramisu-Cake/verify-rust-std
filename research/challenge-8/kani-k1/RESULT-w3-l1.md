@@ -1085,3 +1085,16 @@ GO f699b895 для C5/оставшегося wrapper/прочего состав
   затем controls013 из /tmp/w3-l1-b-controls.json (12proof), новый SHA/budget/dispatch.
 - Открыт REVIEW REQUEST5567fc18, новый шаблон без ordinary stub контрактных функций.
   До GO и controls gate true не закрыватьB. Оба старых failure009/011 сохранены.
+
+### R9 5567fc18 — GO координатора
+
+Официальный независимый R9: **GO** по5567fc18. Один FnOnce check-helper получает
+оригинал или однострочно изменённую копию; свойства/домены прежние. Положительные
+на реальном теле входят в CI, отрицательные — под cfg. REVIEW REQUEST5567fc18 закрыт.
+Заявление: «K-15 показывает чувствительность выделенных свидетелей», дополнительно
+один мутант presorted на ранее принятой K10. Прежний swap wrapper снят после
+предела ordinary stub. В раскрытиеC обязательно точный compile error:
+`Failed to find contract closure __kani_recursion_check_insert_tail in function
+core::slice::sort::shared::smallsort::insert_tail`, build
+`ee1f96a2-babb-4c89-82de-f6a0a2d71e26` (COMPILE_ERROR, все NOT_RUN).
+Прогоны012/013 разрешено продолжить. Открытых REVIEW REQUEST/новых LANE REQUEST нет.
