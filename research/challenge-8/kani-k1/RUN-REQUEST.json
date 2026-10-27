@@ -1,10 +1,10 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k14-controls-low2-026",
+  "request_id": "w2-merge-night-k14-controls-low2-retry-027",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-14r Drop/tag controls and fallback/insertion N2. Variant A only cuts panic_on_ord_violation. Arbitrary comparator reads both arguments. Separate explicit Drop-count and tag-probe permutation proofs; real bodies, full u64 keys and unique tags.",
+  "purpose": "K-14r repeat controls and low2 after moving route covers out of const branches into concrete wrappers. Sorting, Drop-count and tag-probe properties unchanged. Expected covers: 3/3 upper control/reachability, 2/2 lower count/permutation. No new assumptions.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {

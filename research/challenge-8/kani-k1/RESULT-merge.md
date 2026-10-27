@@ -1066,6 +1066,47 @@ K-14r: Drop-тип, читающий произвольный comparator, отд
 Первое измерение ожидается; локальные rustc/cargo/Kani не запускались.
 K-12a job 170: summary и check-tooling ok, только diagnostic-данные.
 
+### Job 171 — K-14r, статусы совпали, gate false по covers
+
+Request `w2-merge-night-k14-controls-low2-026`,
+head `65b73c5ba56668ced90ca3f9b364adb94c1bb3a2`, COMPLETE;
+gate false, expectation met true, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1780984 KiB, wall с компиляцией 45.86 с;
+cgroup peak 1.90 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable checks | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_control_a` | FAILED / FAILED | 1.6734229 | 1/462 | 9 | 3/5 |
+| `w2night_drop_reachable` | SUCCESS / SUCCESS | 1.4613928 | 0/461 | 9 | 3/5 |
+| `w2night_drop_low2_count` | SUCCESS / SUCCESS | 0.44831762 | 0/461 | 17 | 2/4 |
+| `w2night_drop_low2_perm` | SUCCESS / SUCCESS | 0.570156 | 0/461 | 16 | 2/4 |
+
+Единственный failed check контроля: `assertion failed:
+drop_control_value != drop_control_value` @ `kani_k1/merge.rs:1970`.
+Контроль FAILED намеренный, других failed checks нет. Covers normal-return
+и среза достигнуты, но Kani также учёл два covers противоположного
+семейства под const UPPER. Ограниченный log-grep: строки 2722/2736/2748/2760
+подтверждают по два unreachable cover в каждой гармонике. Gate false,
+ни одна строка пакета пока не засчитана; независимый R9 ожидается.
+
+### N-D30 (R7): covers в конкретных обёртках
+
+Helper возвращает уже выбранный alternate bool; covers перенесены в
+макрос-обёртку. Две ветки macro для literal false/true выпускают только
+два covers своего семейства. В контрольной гармонике те же два верхних
+covers стоят явно. Тела сортировки, входы, comparator, свойства и stubs
+не меняются; новых assume/редукций нет.
+
+Повтор `w2-merge-night-k14-controls-low2-retry-027`: те же четыре
+гармоники, FAILED/SUCCESS/SUCCESS/SUCCESS, 4×10 мин. Ожидаются полные
+covers: 3/3 у control/reachable (включая covering stub), 2/2 у low2.
+По сообщению координатора R9 `9402a0e2` принят независимым reviewer;
+следующая правка covers передаётся как актуальный SHA того же review.
+Измерения продолжаются до вердикта, зачёт только после GO.
+После dispatch ночных jobs 27, preflight отказов 3;
+с П2 до ночи: 32 jobs, 4 preflight отказа, 36/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

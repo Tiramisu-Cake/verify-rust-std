@@ -1901,7 +1901,7 @@ fn w2night_drop_abort_quiet() -> ! {
     unreachable!()
 }
 
-fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() {
+fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() -> bool {
     const { assert!(N >= 2 && N <= 32) };
     // SAFETY: no prior array or counter reference survives into this harness.
     unsafe { ptr::write(ptr::addr_of_mut!(W2NIGHT_DROP_COUNT), 0) };
@@ -1941,22 +1941,29 @@ fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() {
         let count = unsafe { ptr::read(ptr::addr_of!(W2NIGHT_DROP_COUNT)) };
         assert!(count == N, "K14r: exactly N drops after explicit array destruction");
     }
-    if UPPER {
-        kani::cover(!alternate, "K14r: general normal return and property checked");
-        kani::cover(alternate, "K14r: stable-Freeze normal return and property checked");
-    } else {
-        kani::cover(!alternate, "K14r: fallback normal return and property checked");
-        kani::cover(alternate, "K14r: insertion offset 1 normal return and property checked");
-    }
+    alternate
 }
 
 macro_rules! w2night_drop_fixed {
-    ($name:ident, $n:literal, $upper:literal, $perm:literal, $abort:ident) => {
+    ($name:ident, $n:literal, false, $perm:literal, $abort:ident) => {
+        w2night_drop_fixed!(@routes $name, $n, false, $perm, $abort,
+            "K14r: fallback normal return and property checked",
+            "K14r: insertion offset 1 normal return and property checked");
+    };
+    ($name:ident, $n:literal, true, $perm:literal, $abort:ident) => {
+        w2night_drop_fixed!(@routes $name, $n, true, $perm, $abort,
+            "K14r: general normal return and property checked",
+            "K14r: stable-Freeze normal return and property checked");
+    };
+    (@routes $name:ident, $n:literal, $upper:literal, $perm:literal,
+        $abort:ident, $first:literal, $second:literal) => {
         #[kani::proof]
         #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
         #[kani::unwind(34)]
         fn $name() {
-            w2night_drop_run::<$n, $upper, $perm>();
+            let alternate = w2night_drop_run::<$n, $upper, $perm>();
+            kani::cover(!alternate, $first);
+            kani::cover(alternate, $second);
         }
     };
 }
@@ -1965,7 +1972,9 @@ macro_rules! w2night_drop_fixed {
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(34)]
 fn w2night_drop_control_a() {
-    w2night_drop_run::<2, true, false>();
+    let alternate = w2night_drop_run::<2, true, false>();
+    kani::cover(!alternate, "K14r: general normal return and property checked");
+    kani::cover(alternate, "K14r: stable-Freeze normal return and property checked");
     let drop_control_value: u64 = kani::any();
     assert!(drop_control_value != drop_control_value);
 }
