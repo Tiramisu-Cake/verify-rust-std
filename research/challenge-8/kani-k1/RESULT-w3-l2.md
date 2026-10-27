@@ -553,3 +553,50 @@ proof_for_contract настоящего bm совпадают; разница т
 Теперь review45525ab1/d7777f1a закрыты GO. Открытых R9 по реализованному
 коду L2-0/L2-1 нет. Свой build65a99021 остаётся единственным ожидаемым;
 продолжение по установленному watch, L2-2 не возобновляется в этапе A.
+
+## Build 65a99021 — baseline COMPLETE, оба TIMEOUT30мин
+
+Request005; source SHA **fffa5ae131748fd14649ea46f719c79e4aea5886**;
+build **65a99021-7199-40e5-859d-4d0d5bc0c599**.
+Фактический permutation-ensures:
+`k1_count_u(v.as_ptr(),v.len()) == k1_count_u(dst,v.len())`.
+Генератор tagged_contract<N>, полные key/tag (различные tag<64 по requires),
+lt_tagged, cadical, unwind66, proof_for_contract настоящего bm, jobs1.
+
+| N / гармоника | expected/actual | Порог | Verification Time / checks / covers |
+|---|---|---|---|
+|20 `l2_old_tagged20`|SUCCESS/TIMEOUT|1800 с|не получены|
+|24 `l2_old_tagged24`|SUCCESS/TIMEOUT|1800 с|не получены|
+
+Summary COMPLETE, gate=false, expectation=false, diagnostic (measurement
+ok=None), exit1. Не FAILED свойства, доказательства/контрпримера нет.
+Whole run1:01:30, maxRSS6355584KiB; CBMC6,06GiB, compiler1,74GiB,
+instrument0,06GiB, sampled sum5,94GiB, swapoff; verify после validate328с.
+Пики всего run, не раздельно N20/N24. check-tooling ok против67a4b452.
+
+Стоимость (61,5+8)×$0,0135=$0,93825; для доли вверх до70мин,
+**$0,9450**. Нарастающий консервативный итог **$1,7557/$5,4**,
+остаток **$3,6443**. Старые записи по $0,0194 не пересчитывались.
+
+Для успешной новой формулировки ускорение относительно old может быть
+только нижней границей, так как точное время old не измерено. Если новая
+тоже TIMEOUT, оба времени цензурированы и отношение вообще не определяется;
+нельзя выдавать это ни за отсутствие выигрыша, ни за установленный выигрыш.
+STOP бюджета L2-1 зависит от new24>600с, а не от результата baseline.
+
+## L2-1 — парный замер новой формулировки
+
+Request006, подготовленный ранее, код не меняется. Проверено:
+correct.rs одинаков с baseline fffa5ae1; diff smallsort.rs — только одна
+строка permutation-ensures: теперь
+`k1_merge_matches(dst, v.len(), v.as_ptr())` из edda4bbe.
+Остальные параметры/область входов совпадают с005. N20/N24,
+diagnostic2×30мин, jobs1. Review метода и кода — GO45525ab1/d7777f1a.
+
+экземпляр шаблона 45525ab12046fcd7fb1aff93d288cdf78e076bf2
+
+Резерв006 по новой ставке$1,2150; с потраченным максимум$2,9707<$5,4.
+Глобальный budget перед подготовкой: builds39 used$26,3628,
+reserved$3,4920 (старый более строгий учёт), cap$33,96.
+Следующий шаг при new24>600с — STOP, без N32. До вердикта работа L2-2
+не возобновляется. По завершении этапа A — передача≤40строк и остановка.
