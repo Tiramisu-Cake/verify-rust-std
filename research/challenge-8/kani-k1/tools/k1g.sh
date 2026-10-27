@@ -28,11 +28,11 @@ DISP_SA=k1-dispatcher@$PROJECT.iam.gserviceaccount.com
 KEY=${K1_GCP_KEY:-/root/.config/smallsort-ci/k1-gcp-key.json}
 GCFG=${K1_GCLOUD_CONFIG:-/root/.config/smallsort-ci/k1-gcloud}
 CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
-# Paid pool time. The owner capped all Cloud Build runs, both pools together, at $35 (raised from $10 on
-# 2026-10-26; one cap for both pools, R7 review 2026-10-27); $33.96 leaves a margin for billing rounding.
+# Paid pool time. The owner capped all Cloud Build runs, both pools together, at $45 (raised from $10 on
+# 2026-10-26, to $35 on 2026-10-27, to $45 on 2026-10-28); $43.96 leaves a margin for billing rounding.
 # Every build is priced by the pool it ran in; dispatch refuses a build whose timeout at its pool's price
 # would take used + reserved USD over CAP_USD. Raising the cap is the owner's decision.
-CAP_USD=33.96
+CAP_USD=43.96
 RESOURCE_MAX_TOTAL_MINUTES=720      # = kani_k1.py RESOURCE_MAX_TIMEOUT_MINUTES = gcb-k1.sh MAX_TOTAL_MINUTES
 # Prices from the owner's billing, 2026-10-27: private pools are billed per vCPU-minute and GB-minute;
 # Oct 1-27 Cloud Build cost $13.03 = E2 cpu $4.74 + E2 ram $8.29, almost all from 733 min of e2-highmem-4,
