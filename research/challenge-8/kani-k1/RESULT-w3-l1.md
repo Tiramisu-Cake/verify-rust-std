@@ -1139,3 +1139,123 @@ Peaks sampled sum1931588KiB, подготовка362с, swap0. Положите�
   тексты/места FAILED, cover, cost. При gate true и отсутствии посторонних отказов
   завершить этапB: итоговый состав/ограничения, бюджет, передача<=40строк,
   W3-L1 ЭТАП B ЗАВЕРШЁН, commit/push и остановка. СамостоятельноC не начинать.
+
+## Build 13 — итог контролей
+
+`b9c1952b-8e00-4488-b5f8-6904cd700fdc`: COMPLETE, **gate true**, measurement ok,
+expectation met, Kani exit1 (ожидаемые FAILED). Получено11/11 ожидаемых FAILED,
+в каждой отрицательной гармонике **ровно один** failed check с нужным текстом и
+местом; посторонних failed checks нет. Smoke::ok SUCCESS, 0/2 failed, cover2/2.
+
+Пути в таблице относительно `library/core/src/`; префиксы имён указаны явно.
+
+| Гармоника | время, с | failed/total | covers | единственный failed check и место |
+|---|---:|---|---|---|
+| assembly::k15_mutant_swap | 0,36880887 | 1/80 | 1/1 | assertion `v[0] <= v[1]`, slice/sort/shared/smallsort/kani_k1/assembly.rs:28 |
+| assembly::k15_mutant_insert | 0,29714888 | 1/102 | 1/1 | assertion `v[0] <= v[1]`, assembly.rs:38 |
+| assembly::k15_mutant_merge_up | 0,43010747 | 1/61 | 0/2 | assertion `advancement_ok`, assembly.rs:61 |
+| assembly::k15_mutant_merge_consumption | 1,4134645 | 1/144 | 1/1 | assertion `count(&src, probe) == count(&result, probe)`, assembly.rs:93 |
+| assembly::k15_mutant_presorted_len | 4,203212 | 1/191 | 0/1 | assertion `v[0] == 0 && v[9] == 1`, assembly.rs:102 |
+| network::k15_mutant_existing_k10_presorted_len | 12,420773 | 1/377 | 3/3 | assertion `sorted_by(&v, &mut cmp)`, slice/sort/shared/smallsort/kani_k1/network.rs:1549 |
+| merge::w2_c5_intrinsic_assume | 0,72289693 | 1/139 | 1/1 | Rust intrinsic assumption failed, slice/sort/shared/smallsort/kani_k1/merge.rs:1472 |
+| merge::w2_c5_unchecked_add | 0,75843847 | 1/153 | 1/1 | attempt to compute `unchecked_add` which would overflow, num/uint_macros.rs:1039 |
+| merge::w2_c5_copy_nonoverlapping | 0,76879215 | 1/126 | 1/1 | memcpy src/dst overlap, ptr/mod.rs:582 |
+| merge::w2_c5_ptr_add | 0,8053119 | 1/137 | 1/1 | Offset result and original pointer must point to the same allocation, lib.rs:357 |
+| smoke::control_must_fail | 0,030479187 | 1/1 | — | assertion `has_efficient_in_place_swap::<[u8; 9]>()`, slice/sort/shared/smallsort/kani_k1/smoke.rs:50 |
+| smoke::ok | 0,040945973 | 0/2 | 2/2 | SUCCESS, нет failed checks |
+
+Unreachable:6 у первых трёх K15,4 у merge_consumption,12 у presorted;
+21 у прежней K10;4 у каждого C5;0 у smoke. У отрицательных merge_up/presorted
+cover после падающих assertions не выполнены (0/2 и0/1). Это ожидаемые FAILED
+контроли, не positive proofs; положительные пары имеют все6/6cover в012.
+
+Wall whole run100,56с, max RSS1767228KiB (выше крупнейшего sampled процесса),
+sampled sum1,89GiB, MACHINE15,63GiB, swap off. Пики всего build при jobs1,
+не индивидуальные пики гармоник. Стоимость13=(100,56/60+8)×$0,0135=$0,13062600.
+R9 GO5567fc18 (direct-call), GO f699b895 (C5/прежняя K10/cleanup),
+GO_WITH_NITS ec01899e с выполненными правками; measurement010 и controls013
+имеют gate true. Дополнительный012 подтвердил изменённые positive helpers.
+
+### Итог L1-6/L1-9
+
+L1-6: база и uninit/W3-DOC сведены; correct не влит. ВариантБ удалён,
+контроли/diagnostics/ресурсные и вытесненные гармоники исключены из CI cfg-ом;
+C5 восстановлены как controls-only без should_panic. Выборка набора собирается
+и проходит в010; изменённые K15 positive — в012. Полный набор/партиции этим
+не подтверждаются. Lane и runtime std собственными правками не менялись;
+smoke-шаблоны обновлены по прямому указанию координатора, вне lane-путей.
+
+L1-9: **K-15 показывает чувствительность выделенных свидетелей**: пять реальных
+positive в012 и пять соответствующих direct-copy mutants в013. Дополнительно
+presorted-мутант роняет ранее принятую w2p2_k10_u8_n10. Ordinary stub swap-wrapper
+снят после compile limit, чувствительность прежнего набора ко всем пяти мутациям
+не заявляется. Все отрицательные гармоники и mutation bodies — под controls cfg.
+Штатное воспроизведение итогового controls — RUN-REQUEST.json на9ab85b24,
+`k1g.sh dispatch experiment/kani-k1-assembly-20261027` после нового request_id/коммита;
+один SHA повторно не отправлять. Pin9461e07a, runner gcb-e2-standard-4, controls:true.
+
+### Бюджет этапа B
+
+Все цены $0,0135/мин; формула `(wall whole run/60+8)×0,0135`.
+
+| Build | wall, с | фактический расход, $ | gate |
+|---|---:|---:|---|
+| 9 b3b2a4c7 | 200,71 | 0,15315975 | false: K9s ZST unsupported |
+| 10 1e761350 | 226,63 | 0,15899175 | true |
+| 11 ee1f96a2 | 49,53 | 0,11914425 | false: contracted ordinary stub COMPILE_ERROR |
+| 12 5864ad2e | 77,98 | 0,12554550 | true |
+| 13 b9c1952b | 100,56 | 0,13062600 | true |
+
+B: **$0,68746725** из остаткаA$3,435662; A+B=$3,45180525 из$6,20;
+неизрасходованный остаток **$2,74819475**. Исторический расходA$2,764338
+и старые ставки сохранены. Общий бюджет k1g: builds46, used$21,4215,
+reserved0, cap$33,96; он не заменяет отдельный накопительный отчёт агента.
+Новых dispatch не требуется; все свои13 builds терминальные.
+
+Build13 check-tooling exit0 против33c3bbce: pool/lane/all5 SHA-256 совпали.
+Peaks sampled sum1977984KiB, подготовка360с; RUSTFLAGS содержит только controls cfg,
+swap0. Финальные diff --check и статические проверки прошли: should_panic attrs нет,
+последний запрос11 точных FAILED+1 SUCCESS; runtime относительно63ce8afc не менялся,
+lane-пути совпадают с BASE. Оба условия координатора (010 и controls gate true)
+и повтор изменённых positive012 выполнены. Новых правок/опытов не требуется.
+
+## Передача этапа B
+
+ЭтапB L1-6/L1-9 завершён, ветка experiment/kani-k1-assembly-20261027.
+- Влиты база33c3bbce452cd03b8fd339950fca6712f98b018a и uninit/W3-DOC2b742601.
+  Tooling BASE33c3bbce; correct не влит. Своих правок lane/runtime std нет.
+- L1-6: should_panic удалены; C5 восстановлены под cfg без should_panic;
+  контроли/мутанты/diagnostics/32GB/непройденные/вытесненные proof под cfg.
+  Полные списки и причины выше; успешные W2 O1 sweeps/K16 reachability сохранены.
+- Candidate compile/measurement010: build1e761350-b663-4ab9-9f8e-361b17bacd8e,
+  gate true, SUCCESS13/13, covers14/14; ZST8 неизменны после этого build.
+- Новые positive K15 после FnOnce:012, build5864ad2e-bebf-46e7-91ec-687ecf238215,
+  gate true, SUCCESS5/5, covers6/6. Это реальные тела std, без verified stubs.
+- Controls013: buildb9c1952b-8e00-4488-b5f8-6904cd700fdc, gate true,
+  11 ожидаемых FAILED (по1 точному check/месту, посторонних нет), smoke SUCCESS2/2cover.
+  C5 четыре UB-класса подтверждены; два smoke только opt-in, шаблоны обновлены.
+- «K-15 показывает чувствительность выделенных свидетелей»: пять прямых mutant copies
+  на общих FnOnce checks; плюс presorted на ранее принятой w2p2_k10_u8_n10.
+  Чувствительность прежнего полного safety-набора ко всем пяти мутациям не заявляется.
+- Official R9: ec01899e GO_WITH_NITS, f699b895 GO, direct-call5567fc18 GO;
+  условия gate выполнены. Открытых REVIEW REQUEST и LANE REQUEST нет.
+- Все13 своих builds терминальные; глобальный reserve0; новых dispatch нет.
+- РасходB$0,68746725, A+B$3,45180525/$6,20, остаток$2,74819475.
+  Исторический A$2,764338/ставки сохранены; новые (wall/60+8)×$0,0135.
+- Раскрыть:009 b3b2a4c7 gate false из-за K9s-ZST unsupported pointer (lib.rs:357).
+  Контрактный K9s-ZST под cfg, без proof credit. Stable ZST в CI только
+  N∈{1,2,7,8,16,17,31,32}; N=0 отсутствует; unstable/network ZST отсутствует.
+- Раскрыть предел ordinary stub контрактной функции:011 ee1f96a2 COMPILE_ERROR,
+  `Failed to find contract closure __kani_recursion_check_insert_tail in function
+  core::slice::sort::shared::smallsort::insert_tail`; все NOT_RUN, не property FAILED.
+  Замена — прямой original/copy callback. K10 swap-wrapper удалён по разрешению.
+- Sort4 b85 contract/arbitrary всё ещё TIMEOUT600 (A); K14r только зачтённые пары
+  lower2/4/8 и upper2/4/8/16; E1 unsupported union в uninit вне CI (RESULT-w3-l1u).
+- Пики — общие sampled RSS при jobs1, не индивидуальные/между samples.
+  Полный набор, партицииjobs2 и macOS этим не измерены; не считать это H2.
+- Последний RUN-REQUEST controls:true (013). Перед CI-партициями controls убрать.
+  Воспроизведение копий: controls:true, exact harness+FAILED+expect_check; без uninit flag.
+- Первый шагC — новая чистая сессия по команде координатора, актуальные правила/задание;
+  L1-7/L1-8 вместе с координатором и L1-10 таблица/раскрытие. C сейчас не начинался.
+
+W3-L1 ЭТАП B ЗАВЕРШЁН
