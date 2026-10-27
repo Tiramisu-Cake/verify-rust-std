@@ -450,3 +450,21 @@ Build5 check-tooling exit0 против1c2059f2: pool, lane tree и все5 SHA-
   это ниже доли $6,20. Учёт результата — по новой ставке $0,0135/мин.
 - После watch: summary/peaks/check-tooling BASE1c2059f219ef34b5ebbf839cb03be13f4afb5605.
 - Затем два запроса по15 оставшихся групп. Только этап A, далее передача и стоп.
+
+## R9 L1-5 — GO
+
+Координатор в сессии: GO на d5464a488eb9eea70006f3338cac2982219dc286.
+Все28 пар групп N15..20 полны и непересекаются; exact N, постоянные offset,
+проверенные comparator/input, unwind25/35, covers каждого offset подтверждены.
+Default unreachable! недостижим при any_where и принят.
+
+Cover «W2 O3 comparator changes both keys» находится внутри
+w2_o3_mutating_less: left_key != left.key && right_key != right.key.
+Макрос групп вызывает именно этот comparator; cover сохранён без копирования.
+Пилот build5 на всех шести O3-группах дал все covers (включая этот) с gate true.
+Следовательно build5 теперь зачтён с R9 GO; build6 ждёт действующего watch.
+
+В итог этапа A добавить таблицу «N → группы → время, пик», включая N13/14
+и разделённый N15. Пики указывать как общие измеренные границы build с источником,
+не как отдельные instantaneous пики гармоник. До завершения оставшихся build
+таблица не финализируется; этап B не начинается.
