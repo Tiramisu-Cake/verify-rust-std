@@ -976,3 +976,41 @@ N∈{1,2,7,8,16,17,31,32}; **N=0 отсутствует**, unstable/network ZST 
 Отдельный пробел **K9s ZST proof_for_contract** — unsupported pointer в009;
 под cfg, не зачтён. Все эти ограничения войдут в раскрытие этапаC. L1-2 size-heuristic
 для() — отдельное свойство, не покрытие отсутствующих сортировочных маршрутов.
+
+## Build 10 — результат кандидата CI
+
+`1e761350-b663-4ab9-9f8e-361b17bacd8e`: COMPLETE, **gate true**,
+measurement ok, Kani exit0. Ожидалось/получено SUCCESS13/13, все cover14/14.
+Код положительных гармоник ec01899e; последний официальный R9 — GO f699b895,
+исключение unsupported K9s ZST согласовано координатором. Это выборочный прогон
+сборки набора, не измерение всех гармоник или партиций.
+
+| Гармоника assembly | время, с | failed/total | unreachable | covers |
+|---|---:|---|---:|---|
+| k15_swap | 0,45390943 | 0/84 | 4 | 1/1 |
+| k15_insert | 0,5749408 | 0/106 | 4 | 1/1 |
+| k15_merge_up | 1,4789684 | 0/61 | 4 | 2/2 |
+| k15_merge_consumption | 3,34001 | 0/149 | 4 | 1/1 |
+| k15_presorted_len | 8,347951 | 0/191 | 11 | 1/1 |
+| ci_zst_stable_1 | 0,6283582 | 0/276 | 16 | 1/1 |
+| ci_zst_stable_2 | 0,7132329 | 0/276 | 8 | 1/1 |
+| ci_zst_stable_7 | 12,2533455 | 0/284 | 4 | 1/1 |
+| ci_zst_stable_8 | 1,9731939 | 0/276 | 6 | 1/1 |
+| ci_zst_stable_16 | 4,9024134 | 0/276 | 5 | 1/1 |
+| ci_zst_stable_17 | 11,770279 | 0/284 | 1 | 1/1 |
+| ci_zst_stable_31 | 54,03307 | 0/284 | 1 | 1/1 |
+| ci_zst_stable_32 | 37,271713 | 0/277 | 5 | 1/1 |
+
+Wall whole run226,63с, max RSS1766620KiB; sampled sum1,97GiB,
+swap off, MACHINE15,63GiB. Пики всего build при jobs1, не индивидуальные пики.
+Стоимость10=(226,63/60+8)×$0,0135=$0,158992.
+РасходB9+10=$0,312152, A+B=$3,076490/$6,20, остаток$3,123511.
+После завершения check-tooling — dispatch13 контролей, резерв$2,1600
+помещается в остаток; предварительный budget used$21,0705, reserve0, cap$33,96.
+
+Build10 check-tooling exit0: pool/lane/all5 SHA-256 совпали с BASE33c3bbce.
+Peaks sampled sum2069200KiB, подготовка362с; swap0. Условие measurement010 выполнено.
+Controls request011: validate accepted13, diff --check OK, source f699b895 R9 GO;
+последняя дельта194967bb — smoke opt-in/шаблоны по прямому указанию координатора.
+Ожидаемые12 FAILED должны иметь местоположение и точный expect_check,
+положительный smoke::ok — SUCCESS с2cover. Новых свойств runtime не добавлено.
