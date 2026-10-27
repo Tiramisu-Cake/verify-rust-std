@@ -67,6 +67,9 @@ MAX_ERROR_LINES = 80
 MAX_MD_BYTES = 12000
 
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
+# Under --jobs > 1 Kani prefixes every line of a harness's output with its worker, `Thread N: ` (seen in
+# Cloud Build run 22e18888, 2026-10-27); blocks of different workers interleave, a worker's own do not.
+THREAD_RE = re.compile(r"^Thread (\d+): ?(.*)$")
 STATUS_RE = re.compile(r"^VERIFICATION:-\s*(SUCCESSFUL|FAILED|TIMEOUT)\b(.*)$")
 TIME_RE = re.compile(r"^Verification Time:\s*([0-9]+(?:\.[0-9]+)?)s\s*$")
 CHECKS_RE = re.compile(r"^\s*\*\*\s*(\d+) of (\d+) failed(.*)$")
@@ -185,13 +188,19 @@ def parse_log(text: str) -> dict[str, Any]:
     errors_truncated = False
     complete = None
     error_context = 0
-    overlaps = 0  # a harness started while the previous block had not ended (possible under --jobs > 1)
+    overlaps = 0  # a harness started on a worker whose previous block had not ended
+    open_blocks: dict[str | None, dict[str, Any] | None] = {}   # worker -> its open block; None = unprefixed
     for raw in text.splitlines():
         line = raw.rstrip("\r")
+        worker = None
+        m = THREAD_RE.match(line)
+        if m:
+            worker, line = m.group(1), m.group(2)
+        current = open_blocks.get(worker)
         m = CHECKING_RE.match(line)
         if m:
             overlaps += current is not None
-            current = _new_block(m.group(1))
+            current = open_blocks[worker] = _new_block(m.group(1))
             blocks.append(current)
             error_context = 0
             continue
@@ -206,10 +215,10 @@ def parse_log(text: str) -> dict[str, Any]:
         m = COMPLETE_RE.match(line)
         if m:
             complete = {"success": int(m.group(1)), "failures": int(m.group(2)), "total": int(m.group(3))}
-            current = None
+            open_blocks.clear()
             continue
         if SUMMARY_HEADER_RE.match(line):
-            current = None
+            open_blocks.clear()
             continue
         if current is None:
             continue
@@ -226,7 +235,7 @@ def parse_log(text: str) -> dict[str, Any]:
         m = TIME_RE.match(line)
         if m:
             current["time_s"] = float(m.group(1))
-            current = None  # a harness block ends with its verification time
+            open_blocks[worker] = None  # a harness block ends with its verification time
             continue
         m = CHECKS_RE.match(line)
         if m:
@@ -518,9 +527,10 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     by_name: dict[str, dict[str, Any]] = {}
     inconsistencies = summary["inconsistencies"]
     if request.get("kani_jobs", 1) > 1 and parsed["overlaps"]:
-        # Concurrent harnesses may interleave their output; then lines cannot be attributed to harnesses.
-        inconsistencies.append(f"{parsed['overlaps']} harness block(s) started before the previous one ended "
-                               "under kani_jobs > 1: output may be interleaved")
+        # Lines are attributed per worker prefix; a worker starting a harness inside its open block would mean
+        # the attribution failed.
+        inconsistencies.append(f"{parsed['overlaps']} harness block(s) started on a worker before its previous "
+                               "block ended under kani_jobs > 1: output may be interleaved")
     for block in parsed["blocks"]:
         if block["name"] in by_name:
             inconsistencies.append(f"harness reported more than once: {block['name']}")
