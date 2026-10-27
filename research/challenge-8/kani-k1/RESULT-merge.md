@@ -168,8 +168,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 12 | 12, u64 и u8 | 156, SUCCESS обоих типов | 158, SUCCESS |
 | 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | 161: u64 TIMEOUT; u8 SUCCESS, gate false |
 | 14 | 14, u64 и u8 | 160, SUCCESS обоих типов | 161: TIMEOUT обоих типов |
-| 15 | 15, u64 и u8 | не измерено | не измерено |
-| 16 | 8 и 16, каждый u64 и u8 | 8: 140, SUCCESS обоих типов; 16: не измерено | не измерено |
+| 15 | 15, u64 и u8 | 165, SUCCESS обоих типов | не измерено |
+| 16 | 8 и 16, каждый u64 и u8 | 8: 140; 16: 165; SUCCESS обоих типов | не измерено |
 
 **Ограничение R11:** job 110 проверяет только намеренное нарушение
 клаузы `halves_sorted`; это не отрицательный контроль всех остальных
@@ -731,6 +731,39 @@ expected SUCCESS, 4×10 мин, реальные тела; код/ledger без 
 Длины без измерений не объявляются ресурсно непроходимыми.
 После dispatch ночных jobs 20, preflight отказов 3;
 с П2 до ночи: 25 jobs, 4 preflight отказа, 29/40 консервативных попыток.
+
+### Job 165 — w2-merge-night-bm15to16-020
+
+Head `de7f36c2a58dbe15fe04e781ff8b99babf13218e`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 2895656 KiB; wall с компиляцией 24:20.67.
+Cgroup peak 4.09 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_bm_u64_len15` | SUCCESS / SUCCESS | 365.36026 | 0/442 | 80 | 1/1 |
+| `w2p2_bm_u8_len15` | SUCCESS / SUCCESS | 229.3018 | 0/435 | 82 | 1/1 |
+| `w2p2_bm_u64_len16` | SUCCESS / SUCCESS | 549.5681 | 0/442 | 78 | 1/1 |
+| `w2p2_bm_u8_len16` | SUCCESS / SUCCESS | 268.76114 | 0/435 | 80 | 1/1 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные normal-return covers сверены отдельно от gate: 1/1 каждой.
+Все времена <600 с, основной слой по CD-6; максимум u64 N16 549.5681 с.
+MacOS не измерен. Таблица R4 обновлена: bm N15/16 обоих типов job 165,
+дополнительный bm N8 для GS N16 job 140.
+Итого prerequisites bm N2..16 обоих типов измерены в текущем наборе
+коммитов; это не переносит зачёт на ещё не прошедшие GS длины.
+
+### N-D24 (R7): GS N15/16
+
+`w2-merge-night-gs15to16-021`: GS N15/16 отдельно u64/u8,
+expected SUCCESS, 4×10 мин. Verified stub только bidirectional_merge.
+R4 N15: bm N15 обоих типов job 165; N16: bm N16 job 165 и bm N8 job 140,
+каждая длина обоих типов. R11 halves_sorted job 110.
+Код/ledger без изменений. После этого — подтверждение успешных строк
+из пакетов с gate false, последняя ступень fallback u8, затем K-12a.
+После dispatch ночных jobs 21, preflight отказов 3;
+с П2 до ночи: 26 jobs, 4 preflight отказа, 30/40 консервативных попыток.
 
 ## Фаза 9
 
