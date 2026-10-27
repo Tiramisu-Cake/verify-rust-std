@@ -47,6 +47,14 @@ stage() {
              --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
       fi
+      # The controls cfg may gate only the proof modules: anywhere else it could change the code under test.
+      if valid && [ -n "$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null)" ]; then
+        stray=$(git grep -l kani_smallsort_controls -- library ':!library/core/src/slice/sort/shared/smallsort/kani_k1' \
+                ':!library/core/src/slice/sort/shared/smallsort/kani_k1.rs' ':!library/core/Cargo.toml' || true)
+        if [ -n "$stray" ]; then
+          echo "controls cfg used outside the proof modules: $(echo $stray)" > "$K1_OUT/request-error.txt"; rm -f "$K1_OUT/valid"
+        fi
+      fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;
 
     deps)
