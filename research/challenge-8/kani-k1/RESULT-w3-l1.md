@@ -82,3 +82,16 @@ REVIEW REQUEST ca32e652a138c649097de1ef4a6312f4080cf180
 merge.rs: w3_sort4_read_args, w3_sort4_arbitrary и w3_sort4_cases.
 Проверить разделение контракта/произвольного comparator, полные volatile-чтения,
 универсальный probe/count и отсутствие предположения sortedness в ordinary proof.
+
+## Build 1 — результат L1-2
+
+`70902589-d488-498d-9595-278e48013138`: COMPLETE, gate true, measurement ok.
+`smoke::w3_efficient_swap_c3`: ожидался SUCCESS, фактически SUCCESS,
+0,08173547 с, failed 0/10, unreachable 0, covers 10/10.
+Wall whole run 63,10 с; max RSS 1666764 KiB (kani-compiler),
+суммарный sampled RSS peak 1893480 KiB (1,81 GiB), swap off, MACHINE 15,63 GiB.
+Подготовка до verify 338 с. Стоимость по правилу волны:
+(63,10 / 60 + 8) × $0,0194 = $0.175602.
+Нарастающий расход W3-L1: $0.175602 / $6,20.
+R9 GO получен. check-tooling подтвердил pool и равенство дерева lane базе;
+ожидается окончание проверки привязанных SHA-256.
