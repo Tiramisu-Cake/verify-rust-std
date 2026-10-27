@@ -1283,3 +1283,16 @@ cover каждой из10 пар и общий конец (11); новых assum
 Ожидается SUCCESS, measurement gate true. Контроли выключены, uninit flag отсутствует.
 Запрос014; до результата i32 не засчитан. Далее кандидат после п.1–2,
 четыре partition jobs2, до двух одновременно, отдельные request-only commits.
+
+## Build 14 — C3 i32
+
+- request `w3-l1-014-stage-c-i32`, commit `5c713131f8b92c629f0c16b68605ec2bf2547007`.
+- build `8da0f05f-c30c-4f50-ba8b-27a5239b3d5a`, measurement1×10мин,
+  controls off, jobs1, gcb-e2-standard-4. Ожидается SUCCESS1/1, covers11/11.
+- validate accepted1, diff --check OK; код — экземпляр шаблона K16s, без нового review.
+- budget перед dispatch: used$22,5285, reserved0; после резерв014$0,5400,
+  максимум$23,0685/$33,96. ДоляC$6,00, фактический расход пока неизвестен.
+- После watch: summary/peaks/check-tooling BASE85ceaa0d, результат/стоимость.
+  Только при gate true переходить к4 partition; controls в запросах отсутствует.
+- Кандидат кода п.1–2:5c713131f8b92c629f0c16b68605ec2bf2547007.
+  Полные партиции и macOS пока не измерены; завершениеW3-L1 не заявляется.
