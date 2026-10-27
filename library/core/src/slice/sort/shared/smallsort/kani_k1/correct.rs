@@ -124,6 +124,9 @@ fn tagged_input<const N: usize>(base: u64) -> [Tagged; N] {
 }
 
 fn tagged_contract<const N: usize>() {
+    // The identical input generator is also used by the old/new H1 comparison.
+    // Only the legacy formulation reads the arbitrary full-value probe.
+    set_probe::<Tagged>();
     // All key/tag fields are arbitrary. Only the callee's requires establishes
     // distinct labels <64: this includes presort permutations in scratch.
     let input: [Tagged; N] = kani::any();
@@ -145,6 +148,23 @@ fn l2_tagged_contract4() { tagged_contract::<4>(); }
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(66)]
 fn l2_tagged_contract8() { tagged_contract::<8>(); }
+
+// L2-1 controlled comparison. BOTH sets call the same real merge target and
+// generator. The name does not select the contract: baseline requests must run
+// at a commit with the original count_u(src)==count_u(dst) ensures; new requests
+// run after restoring k1_merge_matches. All other attributes remain identical.
+macro_rules! tagged_comparison_harness {
+    ($name:ident, $n:literal) => {
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::solver(cadical)]
+        #[kani::unwind(66)]
+        fn $name() { tagged_contract::<$n>(); }
+    };
+}
+tagged_comparison_harness!(l2_old_tagged20, 20);
+tagged_comparison_harness!(l2_old_tagged24, 24);
+tagged_comparison_harness!(l2_new_tagged20, 20);
+tagged_comparison_harness!(l2_new_tagged24, 24);
 
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(66)]
