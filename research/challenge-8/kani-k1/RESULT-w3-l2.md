@@ -303,3 +303,10 @@ Runtime std и lane не менялись.
 Запрос `w3-l2-review-fixes-004` по-прежнему проверяет11 L2-0 плюс S2,
 с новой кодировкой N-a. Перед его dispatch дождаться build69670407 и
 пересчитать свою долю. Новые длины L2-1 в этот запрос не добавлены.
+
+REVIEW REQUEST edda4bbece9ac4832f86c3eddc3453a59dac16f7
+
+Только реализация N-a по указанию координатора: `smallsort.rs` (ensures),
+`kani_k1/correct.rs` (src-pointer вместо tuple, удаление snapshot helper,
+ensures двух контролей), этот RESULT. Остальной набор как ff751801.
+S1/S2 имеют GO из предыдущего сообщения; новые длины пока не добавлены.
