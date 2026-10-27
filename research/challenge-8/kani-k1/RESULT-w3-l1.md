@@ -1073,3 +1073,15 @@ ordinary stub контрактной функции), network.rs (удалени
 mutations.rs не менялся с ec01899e; прошлые check predicates/domains сохранены.
 Нужен R9 шаблона прямого вызова, независимо от ещё не выполненных012/013.
 GO f699b895 для C5/оставшегося wrapper/прочего состава сохраняется.
+
+## Build 12 — positive K15 после direct-call исправления
+
+- request `w3-l1-012-stage-b-direct-positives`, commit `cc01707e` (код5567fc18).
+- build `5864ad2e-bebf-46e7-91ec-687ecf238215`, measurement5×10мин,
+  controls off, jobs1, gcb-e2-standard-4. Ожидается SUCCESS5/5 и covers6/6.
+- validate accepted5; до dispatch used$21,1785, reserve0; после резерв$1,0800,
+  максимум$22,2585/$33,96. Свой остатокB$3,004366, фактB$0,431296.
+- После watch: summary/peaks/check-tooling33c3bbce, результат/стоимость;
+  затем controls013 из /tmp/w3-l1-b-controls.json (12proof), новый SHA/budget/dispatch.
+- Открыт REVIEW REQUEST5567fc18, новый шаблон без ordinary stub контрактных функций.
+  До GO и controls gate true не закрыватьB. Оба старых failure009/011 сохранены.
