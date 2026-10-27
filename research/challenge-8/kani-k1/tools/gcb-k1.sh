@@ -95,7 +95,7 @@ stage() {
       # No cgroup cap here: the machine's memory is the limit. A measurement still requires swap off (gate).
       swap=$(awk '/^SwapTotal:/{print $2}' /proc/meminfo)
       { echo "state=MACHINE"
-        echo "max_bytes=$(awk '/^MemTotal:/{print $2 * 1024}' /proc/meminfo)"
+        echo "max_bytes=$(( $(awk '/^MemTotal:/{print $2}' /proc/meminfo) * 1024 ))"   # shell math: mawk prints big numbers as 1.6e+10
         if [ "${swap:-x}" = 0 ]; then echo "swap=off"; else echo "swap=on (SwapTotal ${swap:-unknown} kB)"; fi
         echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
       python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
