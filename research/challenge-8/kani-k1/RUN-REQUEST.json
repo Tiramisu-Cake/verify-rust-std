@@ -1,10 +1,10 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "coord-smoke-circleci-004",
+  "request_id": "coord-gha-macos-smoke-001",
   "agent": "coordinator",
   "kind": "measurement",
-  "purpose": "Lane smoke: pinned Kani builds, exactly two harnesses run, covers 2/2 parsed, a located failed check is reported; verify memory cap ENFORCED",
-  "runner": "circleci-linux-large",
+  "purpose": "M-1 first step: GitHub Actions unblocked (owner re-login); macos-latest runs the pinned Kani on smoke harnesses",
+  "runner": "macos-latest",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
