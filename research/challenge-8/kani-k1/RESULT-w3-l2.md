@@ -82,3 +82,11 @@ REVIEW REQUEST 7401b1a74e2ff3a5ce90b44aebfed68d756377fa
 `library/core/src/slice/sort/shared/smallsort/kani_k1/correct.rs`,
 `research/challenge-8/kani-k1/RUN-REQUEST.json`, данный RESULT.
 Результатов Kani ещё нет; новый контракт и шаблон ждут review координатора.
+
+### Build 86f791b7-729b-42e3-bd6c-e22a476e377c — отправлен
+
+Request `w3-l2-specialization-001`, head `0287b2d8` (код `7401b1a7`).
+Перед dispatch: used $19,7668, reserved других сборок $1,7072.
+После dispatch: общий максимум $22,4828/$33,96; собственный резерв $1,0088.
+Фактические статусы/стоимость пока неизвестны. Следующее действие после
+пробуждения — summary, peaks, check-tooling против `67a4b452a932d070cf77853a3682c7998de93870`.
