@@ -886,3 +886,22 @@ Wall whole run200,71с, max RSS1768268KiB, sampled sum2,06GiB, swap off, MACHINE
 Это пики всего build, не индивидуальные пики гармоник. Стоимость9:
 (200,71/60+8)×$0,0135=$0,153160; итогA+B=$2,917498/$6,20,
 остатокB=$3,282502. Gate false не даёт proof credit по этим13 до повторного gate true.
+
+Build9 check-tooling exit0 против33c3bbce: pool/lane/all5 SHA-256 совпали.
+Peaks: sampled sum2163664KiB (2,06GiB), подготовка346с до verify; swap0.
+log-grep до12 строк подтвердил unsupported pointer в K9s ZST (строки2872..2886).
+
+## Build 10 — повтор CI без unsupported K9s ZST
+
+- request `w3-l1-010-stage-b-suite-zst-cut`, commit `748b1be3`.
+- build `1e761350-b663-4ab9-9f8e-361b17bacd8e`, measurement13×10мин, jobs1,
+  gcb-e2-standard-4; ожидается SUCCESS13/13 со всеми cover.
+- Код13 неизменен с ec01899e, единственная дельта набора — cfg K9s ZST.
+- До dispatch budget used$19,9905, reserve$1,2150; после reserve$3,3750,
+  максимум$23,3655/$33,96. Свой резерв10=$2,1600 при остаткеB$3,282502.
+- validate accepted13, diff --check OK; официального R9 пока нет.
+- После watch: summary/peaks/check-tooling BASE33c3bbce, время/стоимость,
+  затем controls запрос6 (сменить request_id в /tmp/w3-l1-b-controls.json на
+  w3-l1-011-stage-b-controls), новый коммит/push/budget/dispatch/watch.
+- Завершение этапаB только после обоих gate true, пяти локализованных FAILED,
+  официального GO и передачи. ЭтапC не начинать.
