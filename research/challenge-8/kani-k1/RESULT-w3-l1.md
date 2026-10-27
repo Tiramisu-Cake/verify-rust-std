@@ -1098,3 +1098,28 @@ GO f699b895 для C5/оставшегося wrapper/прочего состав
 core::slice::sort::shared::smallsort::insert_tail`, build
 `ee1f96a2-babb-4c89-82de-f6a0a2d71e26` (COMPILE_ERROR, все NOT_RUN).
 Прогоны012/013 разрешено продолжить. Открытых REVIEW REQUEST/новых LANE REQUEST нет.
+
+## Build 12 — результат direct-call positive
+
+`5864ad2e-bebf-46e7-91ec-687ecf238215`: COMPLETE, **gate true**, measurement ok,
+Kani exit0. Ожидалось/получено SUCCESS5/5, все6/6cover. R9 GO5567fc18.
+
+| assembly | время, с | failed/total | unreachable | covers |
+|---|---:|---|---:|---|
+| k15_swap | 0,412221 | 0/84 | 4 | 1/1 |
+| k15_insert | 0,2987702 | 0/106 | 4 | 1/1 |
+| k15_merge_up | 0,6332228 | 0/61 | 4 | 2/2 |
+| k15_merge_consumption | 1,789464 | 0/149 | 4 | 1/1 |
+| k15_presorted_len | 5,474274 | 0/191 | 11 | 1/1 |
+
+Wall77,98с, max RSS1714144KiB, sampled sum1,84GiB, MACHINE15,63GiB, swap off.
+Пики всего build, не отдельной гармоники. Стоимость12=$0,125546;
+B9..12=$0,556841; A+B=$3,321179/$6,20; остаток$2,878821.
+Перепроверка положительных пар вызвана изменением шаблона после compile error011;
+восемь ZST entrypoints не менялись и имеют gate true010. Полный набор/партиции
+на текущем дереве не измерялись — этапC. Controls013 подготовлен, validate accepted12;
+lane/runtime unchanged, diff --check OK. Предварительный общий budget$21,3000/reserve0.
+
+Build12 check-tooling exit0 против33c3bbce: pool/lane/all5 SHA-256 совпали.
+Peaks sampled sum1931588KiB, подготовка362с, swap0. Положительный путь direct-call
+зачтён с R9 GO. Для controls013 резерв$2,0250 помещается в остаток$2,878821.
