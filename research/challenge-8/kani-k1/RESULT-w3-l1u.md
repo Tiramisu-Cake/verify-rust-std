@@ -310,3 +310,91 @@ TIMEOUT `z1n_network_9` будет записан как ресурсный, н�
 request `w3-l1u-z1-split-03`. Budget: used $20,7562 до отправки; резерв с ней $4,4426.
 Новый код Z-1 (`zst_aware_less`, `z1n_*`, `z1_read_unit`) — экземпляр шаблона Z-1
 `f373880c` с другим comparator; отступление от CD-2 для ZST вынесено выше (R7).
+
+## Прогон Z-1 №3 — итог
+
+Build `3e8d706e-87e8-4931-8322-be51a69e10a4`, head `6a521579`, request
+`w3-l1u-z1-split-03`, gcb-e2-standard-4, jobs=1, таймаут 3 мин, uninit off.
+COMPLETE, Kani exit 1 (ожидаемые FAILED). Wall whole run 10:01,27; пик cbmc 3,47 GiB
+(time -v 3,57 GiB), swap off. check-tooling против `f5db92cc`: все строки ok.
+Стоимость (601,27/60 + 8) × $0,0194 = **$0,3496**. Итог W3-L1u: **$1,0512 из $1,60**.
+
+| гармоника | ожид. | статус | время, с | провалы/всего | cover |
+|---|---|---|---|---|---|
+| z1_read_unit (`ptr::read(&())`) | SUCCESS | SUCCESS | 0,04 | 0/5 | 1/1 |
+| z1n_stable_1 / 2 / 7 / 8 | SUCCESS | SUCCESS | 0,31 / 0,85 / 13,3 / 2,9 | 0/342–350 | 1/1 |
+| z1n_stable_16 / 17 / 31 / 32 | SUCCESS | SUCCESS | 5,9 / 13,6 / 54,8 / 41,4 | 0/342–350 | 1/1 |
+| z1_merge3_unit (нечётная ветка) | SUCCESS | SUCCESS | 0,49 | 0/120 | 1/1 |
+| z1n_merge2 / insert_tail / sort4 / swap | SUCCESS | SUCCESS | 0,30 / 0,21 / 0,43 / 0,18 | 0/54–113 | 1/1 |
+| z1_from_fn_unit_2 (без чтения) | SUCCESS | SUCCESS | 0,12 | 0/78 | 2/2 |
+| z1n_network_8 | SUCCESS | SUCCESS | 156,3 | 0/384 | 1/1 |
+| z1n_network_9 | SUCCESS | TIMEOUT (3 мин) | — | — | — |
+| z1f_stable_7 (comparator job 85) | FAILED | FAILED | 19,2 | 4/350 | 1/1 |
+| z1f_stable_17 (comparator job 85) | FAILED | FAILED | 18,4 | 4/350 | 1/1 |
+
+`z1f_stable_7/17`: те же четыре проверки без местоположения
+(`dereference failure: pointer NULL`, `pointer invalid`,
+`pointer outside object bounds`, `invalid integer address`). Флаг lane
+«expectation met» для них false только потому, что проверка без местоположения
+(см. оговорку к F1); статус и тексты совпали с ожиданием.
+
+## Z-1: классификация
+
+**Ограничение модели Kani для ZST, не UB в коде сортировки.**
+
+- Причина четырёх dereference-отказов job 85 (`w2_k16_zst_stable`) — volatile-чтение
+  ZST в comparator гармоники: `ptr::read_volatile::<()>` →
+  `intrinsics::volatile_load` (`library/core/src/ptr/mod.rs:2179`, место указано
+  в `z1_from_fn_unit_*`, build `5aee04a2`). Минимальное воспроизведение —
+  `z1_volatile_unit`: `ptr::read_volatile(&())` на локальной `()`, без кода
+  сортировки, FAILED 4/16 (build `5aee04a2`). Пара: `z1_read_unit`, то же через
+  `ptr::read`, — SUCCESS 0/5 (build `3e8d706e`).
+- Тела сортировки на ZST чисты в пределах этих гармоник: с comparator
+  `zst_aware_less` (для ZST — `ptr::read`) stable-путь через trait SUCCESS на
+  N = 1, 2, 7, 8, 16, 17, 31, 32 со входами job 85 (from_fn, const-scratch),
+  включая ранний возврат len<2, presort 4 и 8, нечётную ветку `bidirectional_merge`
+  (`z1_merge3_unit`); примитивы merge2, insert_tail, sort4, swap — SUCCESS.
+  Со старым comparator на тех же нечётных длинах 7 и 17 — FAILED ровно с теми же
+  четырьмя проверками. Различие только в comparator, длина не влияет
+  (Z-a закрыт: проверены 1, 7, 17, 31).
+- Почему это ограничение модели, а не UB: по документации `ptr::read_volatile`
+  указатель должен быть валидным для чтения и выровненным; для типа нулевого
+  размера любой ненулевой выровненный указатель валиден, а `&()` на локальную
+  переменную ненулевой и выровнен. Значит, вызов в `z1_volatile_unit` корректен,
+  и FAILED — ложное срабатывание Kani на `volatile_load` нулевого размера.
+  Из какой модели берётся `invalid integer address` (вероятно, адрес ZST-локала
+  Kani представляет целым числом без объекта), не выяснялось — это гипотеза, не вывод.
+  Прецедент того же класса — issue #603 (`swap_unchecked` на ZST).
+- Network на ZST: N=8 SUCCESS (156 с, 0/384); N=9 — 288 с в №2 (только те же 4
+  comparator-проверки) и TIMEOUT 3 мин в №3; N=17 — TIMEOUT 5 мин в №2.
+  Проваленных проверок самого network-пути не наблюдалось. OOM job 85
+  (`w2_k16_zst_network_short`, 5 длин символьно) — ресурсный исход
+  дорогой на ZST сети (sort9/sort13 через `swap_if_less`), не проверка.
+  Почему сеть на ZST так дорога для CBMC, не выяснялось.
+- Не проверено и не заявляется: network на ZST при N ≥ 18. По коду
+  (`smallsort.rs`, цикл с `region.as_ptr() != v_base`) для ZST
+  `v_base.add(len_div_2) == v_base`, и цикл не выходит; публичные sort
+  возвращаются при `T::IS_ZST` раньше trait (RESULT-network.md, K-16s, R7),
+  поэтому это недостижимо из публичного API. Это наблюдение по исходнику,
+  прогоном не подтверждено.
+- **Вопрос владельцу (не задаётся, R7):** сообщать ли в Kani upstream о
+  ложном dereference-отказе `read_volatile` на ZST (минимальный пример —
+  `z1_volatile_unit`) и нужно ли что-то в Rust upstream о недостижимом
+  ZST-цикле `small_sort_network` при N ≥ 18. UB в коде сортировки Z-1 не нашёл.
+- Следствие для CD-2: comparator с `read_volatile` неприменим к ZST под Kani;
+  ZST-гармоники требуют `zst_aware_less` или аналог (решение R7 выше).
+
+## U-1: запрос
+
+`w3-l1u-u1-feas-01`, diagnostic, 16 GB, jobs=1, **`uninit_checks: true`**,
+таймаут 3 мин, 9 гармоник:
+`u1_general_8`, `u1_general_16` (SUCCESS); `u1_initialized_control` (SUCCESS);
+`u1_uninitialized_control`, `u1_general_8_tail_uninit`,
+`u1_network_layout_tail_uninit` (FAILED, `Reading from an uninitialized pointer`);
+`u1_general_8_tail_written`, `u1_general_8_tail_written_raw`,
+`u1_network_layout_tail_written` (SUCCESS).
+Сокращение по решению координатора: общая длина только 8 и 16; `u1_general_32`
+и `u1_network_18/32` не запускаются (бюджет: остаток $0,549, худший случай
+этого запроса ≈ 1 + 5×3 + мелкие ≈ 17 мин wall ≈ $0,49). Сетевая раскладка
+scratch покрыта только контролями `u1_network_layout_*`, не реальной сортировкой.
+Интерпретация — строго по правилу U-a; флаг «expectation met» не решающий.

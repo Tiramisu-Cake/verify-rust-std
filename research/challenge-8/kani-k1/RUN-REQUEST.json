@@ -1,89 +1,51 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1u-z1-split-03",
+  "request_id": "w3-l1u-u1-feas-01",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "W3-L1u Z1 #3 (R9 Z-a/N2/N3): ZST sort bodies with a comparator without the volatile ZST load, odd lengths, merge3, from_fn without read; no uninit-checks",
+  "purpose": "W3-L1u U1 feasibility of -Z uninit-checks (R8 s4): general N=8/16 with v read back, paired layout controls; evidence outside CI, E1 not closed",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 3,
+  "uninit_checks": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_read_unit",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_general_8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_1",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_general_16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_2",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_initialized_control",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_7",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_17",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_31",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_stable_32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_merge3_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_merge2_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_insert_tail_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_sort4_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_swap_unit",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1_from_fn_unit_2",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_network_8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1n_network_9",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_7",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_uninitialized_control",
       "expect": "FAILED",
-      "expect_check": "dereference failure"
+      "expect_check": "Reading from an uninitialized pointer"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::uninit::z1f_stable_17",
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_general_8_tail_uninit",
       "expect": "FAILED",
-      "expect_check": "dereference failure"
+      "expect_check": "Reading from an uninitialized pointer"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_general_8_tail_written",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_general_8_tail_written_raw",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_network_layout_tail_uninit",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized pointer"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::uninit::u1_network_layout_tail_written",
+      "expect": "SUCCESS"
     }
   ]
 }
