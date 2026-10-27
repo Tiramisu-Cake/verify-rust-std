@@ -2899,3 +2899,27 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 | 15 (П2 #29) | net-night-15-k8r-start3-1 | 159 | bcce78ee | w2night_k8r_start3_u64; w2night_k8r_start2_u64; w2night_k8r_start1_u64 | SUCCESS |
 
 Ожидание `k1.sh watch 159`, затем конец turn. После уведомления — summary/check-tooling159; далее O3 tags N2..4.
+
+### Job159: K8r start3..1
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 4,10 GiB, RSS 2995724 KiB, OOM0, swap off, wall 1158,33 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2night_k8r_start3_u64 | SUCCESS / SUCCESS | 314,45078 | 0/416 | 15/15 |
+| w2night_k8r_start2_u64 | SUCCESS / SUCCESS | 381,72247 | 0/416 | 16/16 |
+| w2night_k8r_start1_u64 | SUCCESS / SUCCESS | 417,0246 | 0/416 | 17/17 |
+
+Все 36 unreachable, упавших проверок нет. Известный summary wall П2: 13461,44 с; ночь: 10380,61 с, 15 dispatch. Push eedfcfd0 (запись job159) ранее получил server remote rejected; повтор 00:22Z успешен, без force.
+
+### Итог K-8r
+
+Измерены все start1..15 и tail=start+1..16 в [u64;17]: 120 смещённых регионов. Jobs154/155/157/159 — SUCCESS, gate true, все covers, check-tooling ok. Максимум417,0246 с на start1. Префикс start0 — прежний job58, ночью не повторялся. Внутреннее начало в аллокации17 теперь проверено через proof_for_contract с frame внешних частей; довод инвариантности сдвига для этих120 регионов не требуется. Размеры иных аллокаций, включая scratch48, этим не проверены. R9 a15216a1/4dd2272f ожидается.
+
+### O3: перестановка тегов N2..4
+
+R7: по одному ordinary proof на постоянную N2,3,4, в каждом три маршрута: stable default, unstable fallback и insertion со всеми offset1..N через const-offset dispatch. Начинаем N2; после первого непрошедшего результата фиксируем исход и останавливаемся по ночному заданию. Отдельных safety-only прогонов нет. Все тела реальные; --no-assert-contracts нужен, поскольку изменяемый comparator и произвольный prefix вне старого контракта корректности.
+
+Используем принятые w2_o3_input/w2_o3_mutating_less: полные u8 key/tag, duplicate tags разрешены, оба volatile-чтения до записи новых произвольных key, затем произвольный bool. Tag multiplicity произвольного u8 probe сравнивается до/после (точный u8 count при N<=4). Covers движения тегов каждого маршрута, каждого insertion offset и изменения обоих key. Сохранение записанных key на выходе не утверждается. Нет global-наблюдателя/cover временной копии из старого K13, который недостижим на N2.
+
+Ledger: any_where только mode0..2 и offset1..N; данные/probe/key/bool не ограничены. Exact arrays, unwind25, checks активны; без should_panic, ручных cuts, assume или stub_verified. Слияния/order-violation на этих маршрутах нет. Запрос net-night-16-o3-tags-n2, measurement 1 × 10 минут, ожидается SUCCESS и covers7/7.

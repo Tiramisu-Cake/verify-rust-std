@@ -1661,3 +1661,45 @@ w2night_k8r_case!(w2night_k8r_start4_u64, 4, [5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 w2night_k8r_case!(w2night_k8r_start3_u64, 3, [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 w2night_k8r_case!(w2night_k8r_start2_u64, 2, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 w2night_k8r_case!(w2night_k8r_start1_u64, 1, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+// Night O3: tag permutation under key-writing Cell comparisons, one constant length per proof.
+// Ordinary proofs use real bodies and CI --no-assert-contracts; no sorted-prefix assumption.
+fn w2night_o3_tags<const N: usize>() -> (u8, usize) {
+    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+    let mut v = w2_o3_input::<N>();
+    let probe: u8 = kani::any();
+    let before = k13_tag_count(&v, probe);
+    let tags = k13_tags(&v);
+    let mode: u8 = kani::any_where(|&m| m < 3);
+    let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
+    if mode == 0 {
+        let mut scratch = [];
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_o3_mutating_less);
+    } else if mode == 1 {
+        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w2_o3_mutating_less);
+    } else {
+        w2_const_offset_call!(&mut v, offset, N, &mut w2_o3_mutating_less);
+    }
+    assert!(before == k13_tag_count(&v, probe), "O3: tag multiplicity preserved");
+    let moved = tags != k13_tags(&v);
+    kani::cover(mode == 0 && moved, "O3: stable default moves a tag");
+    kani::cover(mode == 1 && moved, "O3: unstable fallback moves a tag");
+    kani::cover(mode == 2 && moved, "O3: insertion moves a tag");
+    kani::cover(true, "O3: tag permutation end reached");
+    (mode, offset)
+}
+
+macro_rules! w2night_o3_tags_case {
+    ($name:ident, $n:literal, [$($offset:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $name() {
+            let (mode, offset) = w2night_o3_tags::<$n>();
+            $(kani::cover(mode == 2 && offset == $offset, concat!("O3: insertion normal return offset ", stringify!($offset)));)+
+        }
+    };
+}
+
+w2night_o3_tags_case!(w2night_o3_tags_n2, 2, [1, 2]);
+w2night_o3_tags_case!(w2night_o3_tags_n3, 3, [1, 2, 3]);
+w2night_o3_tags_case!(w2night_o3_tags_n4, 4, [1, 2, 3, 4]);

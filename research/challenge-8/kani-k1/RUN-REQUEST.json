@@ -1,22 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "net-night-15-k8r-start3-1",
+  "request_id": "net-night-16-o3-tags-n2",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Final K8r proof_for_contract insert_tail in [u64;17] at constant begin offsets3,2,1; every tail from start+1 to16. Full-width input/probe, original strict key comparator, exact requires, explicit unchanged outside region, post-call cover each valid tail and movement. No stubs.",
+  "purpose": "O3 tag permutation N2: Cell comparator reads both payloads, writes arbitrary keys preserving tags, returns arbitrary bool. Full-width arbitrary duplicate tags and probe. Real stable default, unstable fallback and insertion/all offsets; tag movement and key-write covers. No stubs.",
   "runner": "circleci-linux-large",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start3_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start2_u64",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k8r_start1_u64",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_o3_tags_n2",
       "expect": "SUCCESS"
     }
   ]
