@@ -1,26 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-bm13to14-018",
+  "request_id": "w2-merge-night-gs13to14-019",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-10 R4 prerequisites: real bm N13/N14 proof_for_contract, separately u64/u8. Formulation 1, full symbolic values, strict weak order x >> 1, arbitrary full-value probe. Establish both types at each length before crediting GS N13/N14.",
+  "purpose": "K-10 GS N13/N14 separately u64/u8: sortedness and arbitrary full-value probe permutation, sole verified merge stub. R4: bm N13/N14 both types job 160; R11 halves_sorted job 110. Full symbolic values, strict order x >> 1.",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u64_len13",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len13",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u8_len13",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len13",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u64_len14",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u64_len14",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_bm_u8_len14",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2p2_gs_u8_len14",
       "expect": "SUCCESS"
     }
   ]
