@@ -2880,3 +2880,18 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, pe
 | 14 (П2 #28) | net-night-14-k8r-start7-4 | 157 | 31392815 | w2night_k8r_start7_u64; w2night_k8r_start6_u64; w2night_k8r_start5_u64; w2night_k8r_start4_u64 | SUCCESS |
 
 Ожидание `k1.sh watch 157`, затем конец turn. После уведомления — summary/check-tooling157; далее K8r start3..1.
+
+### Job157: K8r start7..4
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. 13 GiB ENFORCED, peak 3,71 GiB, RSS 2942184 KiB, OOM0, swap off, wall 912,87 с.
+
+| Гармоника | ожидается / факт | время, с | failed/total | cover |
+|---|---|---:|---|---|
+| w2night_k8r_start7_u64 | SUCCESS / SUCCESS | 190,7683 | 0/416 | 11/11 |
+| w2night_k8r_start6_u64 | SUCCESS / SUCCESS | 174,31549 | 0/416 | 12/12 |
+| w2night_k8r_start5_u64 | SUCCESS / SUCCESS | 190,90933 | 0/416 | 13/13 |
+| w2night_k8r_start4_u64 | SUCCESS / SUCCESS | 309,37695 | 0/416 | 14/14 |
+
+Все 36 unreachable, упавших проверок нет. K8r измерен для start4..15 и всех допустимых tail; R9 ожидается. Известный summary wall П2: 12303,11 с; ночь: 9222,28 с, 14 dispatch.
+
+Последний K8r запрос net-night-15-k8r-start3-1: measurement 3 × 10 минут, ожидается SUCCESS; start3,2,1, covers15/15,16/16,17/17. Код/контракт/ledger неизменны, snapshot4dd2272f. После него — O3 tags N2..4 по ночной очереди.
