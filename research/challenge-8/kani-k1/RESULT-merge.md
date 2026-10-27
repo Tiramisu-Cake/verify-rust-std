@@ -1235,6 +1235,7 @@ check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
 | general / stable-Freeze | 2 | 174 | 174 | SUCCESS / true / 3/3 каждый |
 | general / stable-Freeze | 4 | 175 | 175 | SUCCESS / true / 3/3 каждый |
 | general / stable-Freeze | 8 | 175 | 175 | SUCCESS / true / 3/3 каждый |
+| general / stable-Freeze | 16 | 176 | 176 | SUCCESS / true / 3/3 каждый |
 
 ### N-D33 (R7): мутанты и верхние N2
 
@@ -1337,6 +1338,40 @@ Job 174: по одному failed check на нужном условии у ка
 Job 176 (request `w2-merge-night-k14-upper16-031`, head `2c882877`)
 создан, после этой записи регистрируется watch. Новых jobs в ответ
 на review не создавалось; следующий N24 только после зелёной пары N16.
+
+### Job 176 — w2-merge-night-k14-upper16-031
+
+Head `2c882877e28b46b0d150bade3a5fded54ce1338c`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 0
+Run: max RSS 7032932 KiB; wall с компиляцией 3:26.76.
+Cgroup peak 7.44 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_upper16_count` | SUCCESS / SUCCESS | 32.131153 | 0/461 | 6 | 3/3 |
+| `w2night_drop_upper16_perm` | SUCCESS / SUCCESS | 135.04813 | 0/461 | 5 | 3/3 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полные counts covers сверены отдельно от gate: 3/3 count и perm
+(general, stable-Freeze, covering panic stub). Парная матрица обновлена:
+верхние N2/4/8/16 имеют обе зелёные проверки; нижние N2/4/8 тоже.
+R9 `806adda8`/`3af0912c` GO получен. Заявление (a) только по этим
+парным чётным N, тегам и путям без паники. Ключи не включены в perm.
+Пик run 7032932 KiB (6.71 GiB), cgroup 7.44 GiB — общий для двух
+гармоник с компиляцией; индивидуальные пики count/perm не измерены.
+
+### N-D36 (R7): следующая ступень upper N24
+
+`w2-merge-night-k14-upper24-032`: upper24 count и upper24 perm,
+expected SUCCESS, 2×10 мин, ожидаемые covers 3/3 каждой.
+Тот же проверенный шаблон ordinary MUTANT=0, тела реальные.
+N32 запускается только после зелёной пары N24; при первом TIMEOUT/OOM
+рост останавливается по плану, одиночный count не даёт заявления (a).
+Код/ledger без изменений. По последнему подтверждению координатора
+наращивание продолжается в ночном окне до 05:00Z.
+После dispatch ночных jobs 32, preflight отказов 3;
+с П2 до ночи: 37 jobs, 4 preflight отказа, 41 попытка в общем
+историческом счётчике; это не новый денежный лимит.
 
 ## Фаза 9
 
