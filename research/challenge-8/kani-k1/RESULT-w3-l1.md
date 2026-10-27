@@ -373,3 +373,17 @@ REVIEW REQUEST d5464a488eb9eea70006f3338cac2982219dc286
 network.rs: w3_insertion_group и28 пар экземпляров N15..20. Проверить
 полноту групп, exact allocations, constant-offset dispatch, covers каждого offset,
 достижимость O3 key-change cover и прежние comparator/unwind/реальные тела.
+
+## Build 5 — L1-5 offset pilot
+
+- request `w3-l1-005-insertion-offset-pilot`, commit `01af3cea401fdbf205f7dab0c7b81d07200b63a0`.
+- build `ae249f1f-6908-4602-94dd-ab7d1849e259`.
+- N15 g1..g4 и N20 g1/g5, B4+O3:12 гармоник, ожидается SUCCESS всех.
+- measurement12×10 мин, jobs1, gcb-e2-standard-4; Python validate accepted12.
+- Общий budget до: used $23,8602, reserved $1,7460; после reserved $4,6560
+  по старой ставке lane. Резерв build5 $2,9100; вместе с расходом W3-L1
+  $1,666797 помещается в долю $6,20 даже по этой более строгой оценке.
+- Фактическую стоимость считать по $0,0135/мин; прежние записи не пересчитывать.
+- После watch: summary, peaks и check-tooling из базы
+  `1c2059f219ef34b5ebbf839cb03be13f4afb5605` против той же базы.
+- Далее оставшиеся группы N16..20; затем L1-6/L1-9/L1-10. L1-7 ждёт команды.
