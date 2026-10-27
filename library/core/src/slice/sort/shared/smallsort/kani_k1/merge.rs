@@ -1024,6 +1024,59 @@ fn sort4_b85() {
     sort4_body::<[u8; 85], _>(lt_b85);
 }
 
+// W3 L1-3: the current sort4 contract promises sortedness unconditionally, so its
+// proof uses a strict comparator. The separate ordinary proof permits arbitrary
+// comparison results and checks safety and full-value permutation of the real body.
+fn w3_sort4_read_args<T: Copy>(a: &T, b: &T) {
+    // SAFETY: both references must point to initialized readable elements.
+    // Volatile accesses retain every byte read even when the result is arbitrary.
+    unsafe {
+        ptr::read_volatile(a);
+        ptr::read_volatile(b);
+    }
+}
+
+fn w3_sort4_arbitrary<T: kani::Arbitrary + Copy>() {
+    set_probe::<T>();
+    let v: [T; 4] = kani::any();
+    let mut dst = MaybeUninit::<[T; 4]>::uninit();
+    let mut cmp = |a: &T, b: &T| {
+        w3_sort4_read_args(a, b);
+        kani::any()
+    };
+    // SAFETY: two disjoint exact four-element allocations, initialized source;
+    // sort4_stable's SAFETY precondition does not require an ordered comparator.
+    unsafe { sort4_stable(v.as_ptr(), dst.as_mut_ptr() as *mut T, &mut cmp) };
+    assert!(
+        CopyOnDrop::<T>::k1_count(v.as_ptr(), 4)
+            == CopyOnDrop::<T>::k1_count(dst.as_ptr() as *const T, 4)
+    );
+    kani::cover(true, "W3 L1-3: arbitrary comparator normal return and permutation");
+}
+
+macro_rules! w3_sort4_cases {
+    ($contract:ident, $arbitrary:ident, $t:ty, $ordered:ident) => {
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
+        #[kani::unwind(34)]
+        fn $contract() {
+            sort4_body::<$t, _>(|a, b| {
+                w3_sort4_read_args(a, b);
+                $ordered(a, b)
+            });
+        }
+
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $arbitrary() {
+            w3_sort4_arbitrary::<$t>();
+        }
+    };
+}
+
+w3_sort4_cases!(w3_sort4_contract_u64, w3_sort4_arbitrary_u64, u64, lt_u64);
+w3_sort4_cases!(w3_sort4_contract_b16, w3_sort4_arbitrary_b16, [u8; 16], lt_b16);
+w3_sort4_cases!(w3_sort4_contract_b85, w3_sort4_arbitrary_b85, [u8; 85], lt_b85);
+
 macro_rules! sort8_harness {
     ($name:ident, $t:ty, $cmp:expr) => {
         /// sort8_stable with its two callees replaced by their verified contracts.
