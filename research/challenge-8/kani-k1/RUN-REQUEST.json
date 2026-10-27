@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1-009-stage-b-suite",
+  "request_id": "w3-l1-010-stage-b-suite-zst-cut",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "Stage B candidate suite compilation: five paired K15 positives, eight ZST-aware stable boundaries, strict ZST swap contract",
+  "purpose": "Stage B CI remeasurement: five K15 positive checks and eight ZST-aware stable sizes; unsupported ZST swap contract isolated as diagnostic",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -57,10 +57,6 @@
     },
     {
       "name": "slice::sort::shared::smallsort::kani_k1::assembly::ci_zst_stable_32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2p2_k9s_zst",
       "expect": "SUCCESS"
     }
   ]

@@ -851,3 +851,38 @@ GO кода, actionable defects нет; Kani/cargo/rustc не запускал, 
 Этот вспомогательный результат не заменяет вердикт координатора.
 Build9 при проверке summary ещё WORKING; незавершённая своя сборка одна,
 существующий watch активен. Новых dispatch нет, фактический расходB ещё неизвестен.
+
+## Build 9 — результат и R7-B1
+
+COMPLETE, gate false, Kani exit1. Набор собирается; 13 SUCCESS и один FAILED:
+network::w2p2_k9s_zst, 1,4935336 с, 1/375 failed, unreachable5, covers5/5.
+Текст: `Kani does not support reasoning about pointer to unallocated memory`,
+место `/workspace/src/library/core/src/lib.rs:357`. Это unsupported инструмента,
+не свидетельство найденного UB в runtime. Не классифицируется как новый read_volatile
+ZST отказ: comparator здесь уже ptr::read/strict false, а режим proof_for_contract.
+R7-B1: гармоника исключается из CI под controls cfg. Контракт std не ослабляем;
+положительные stable ZST с ptr::read оставляем. K9s ZST как контракт не закрыт.
+Все13 успешных гармоник повторяются без неё, чтобы получить measurement gate true.
+Код этих13 не меняется. Официальный R9 ec01899e ещё ожидается; дельта к нему —
+только cfg исключения неподдержанного K9s ZST, без нового тела/свойства/шаблона.
+
+| Гармоника assembly | статус | время, с | failed/total | unreachable | covers |
+|---|---|---:|---|---:|---|
+| k15_swap | SUCCESS | 0,380725 | 0/84 | 4 | 1/1 |
+| k15_insert | SUCCESS | 0,28391507 | 0/106 | 4 | 1/1 |
+| k15_merge_up | SUCCESS | 0,6432961 | 0/61 | 4 | 2/2 |
+| k15_merge_consumption | SUCCESS | 1,5650578 | 0/149 | 4 | 1/1 |
+| k15_presorted_len | SUCCESS | 5,1464787 | 0/191 | 11 | 1/1 |
+| ci_zst_stable_1 | SUCCESS | 0,22937478 | 0/276 | 16 | 1/1 |
+| ci_zst_stable_2 | SUCCESS | 0,62647694 | 0/276 | 8 | 1/1 |
+| ci_zst_stable_7 | SUCCESS | 11,023461 | 0/284 | 4 | 1/1 |
+| ci_zst_stable_8 | SUCCESS | 1,9225674 | 0/276 | 6 | 1/1 |
+| ci_zst_stable_16 | SUCCESS | 4,1653337 | 0/276 | 5 | 1/1 |
+| ci_zst_stable_17 | SUCCESS | 10,61609 | 0/284 | 1 | 1/1 |
+| ci_zst_stable_31 | SUCCESS | 44,865734 | 0/284 | 1 | 1/1 |
+| ci_zst_stable_32 | SUCCESS | 36,294365 | 0/277 | 5 | 1/1 |
+
+Wall whole run200,71с, max RSS1768268KiB, sampled sum2,06GiB, swap off, MACHINE15,63GiB.
+Это пики всего build, не индивидуальные пики гармоник. Стоимость9:
+(200,71/60+8)×$0,0135=$0,153160; итогA+B=$2,917498/$6,20,
+остатокB=$3,282502. Gate false не даёт proof credit по этим13 до повторного gate true.
