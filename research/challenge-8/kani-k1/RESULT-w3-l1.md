@@ -1123,3 +1123,19 @@ lane/runtime unchanged, diff --check OK. Предварительный общи
 Build12 check-tooling exit0 против33c3bbce: pool/lane/all5 SHA-256 совпали.
 Peaks sampled sum1931588KiB, подготовка362с, swap0. Положительный путь direct-call
 зачтён с R9 GO. Для controls013 резерв$2,0250 помещается в остаток$2,878821.
+
+## Build 13 — финальные controls с direct-call парами
+
+- request `w3-l1-013-stage-b-controls-direct`, commit `9ab85b24`.
+- build `b9c1952b-8e00-4488-b5f8-6904cd700fdc`, measurement12×10мин,
+  controls:true, jobs1, gcb-e2-standard-4. Ожидаются11 FAILED с точным
+  expect_check/местом +smoke::ok SUCCESS covers2/2.
+- Состав: пять dedicated K15; ранее принятая K10N10 с mutant presorted;
+  четыре восстановленных C5; отрицательный и положительный smoke.
+- Budget до used$21,3000/reserve0; после максимум$23,3250/$33,96,
+  резерв13=$2,0250. ФактB9..12=$0,556841, остаток$2,878821.
+- Source template5567fc18 R9 GO; прочие исправления f699b895 GO; validate12/diffOK.
+- После watch: summary/peaks/check-tooling33c3bbce; записать все статусы,
+  тексты/места FAILED, cover, cost. При gate true и отсутствии посторонних отказов
+  завершить этапB: итоговый состав/ограничения, бюджет, передача<=40строк,
+  W3-L1 ЭТАП B ЗАВЕРШЁН, commit/push и остановка. СамостоятельноC не начинать.
