@@ -819,3 +819,63 @@ Read-only Luna High (l2_routes, без вложенной делегации) п
   prefix job58. Проверить source/attrs и T/F перед использованием; не
   выдавать whole-region proof за отдельное доказательство interior-региона.
 Новые GS/network шаблоны потребуют REVIEW REQUEST и GO координатора.
+
+### B build b436b6d6 — COMPLETE, gate=true
+
+Sourceb7420ada, measurement, все SUCCESS, failed0, cover1/1,
+swap off. check-tooling полностью ok против BASE85ceaa0d.
+
+| Гармоника fallback | Время, с | Checks |
+|---|---:|---:|
+| u64 N9 | 71,09797 | 0/485 |
+| u64 N10 | 93,80669 | 0/485 |
+| u64 N11 | 120,10284 | 0/485 |
+| u64 N12 | 154,27940 | 0/485 |
+| u64 N13 | 176,82280 | 0/485 |
+| u64 N14 | 241,70813 | 0/485 |
+| u64 N15 | 309,29346 | 0/485 |
+| u8 N10 | 116,65899 | 0/478 |
+| u8 N11 | 109,74795 | 0/478 |
+| u8 N12 | 112,62542 | 0/478 |
+| u8 N13 | 145,59343 | 0/478 |
+| u8 N14 | 199,46681 | 0/478 |
+
+Whole run1948,87с; (1948,87/60+8)×0,0135=$0,54649575.
+B=$0,81994725, округлённо$0,8200/$3,2, остаток$2,3800;
+A+B=$3,5207. Пик sampled sum RSS8,20GiB (8599300KiB),
+driver6,68GiB (7006296KiB), cbmc2,44GiB (2561560KiB).
+Пики относятся ко всему build; по гармоникам память не локализована.
+Fallback u64 N8..16 закрыт; u8 N9..14 и N16 закрыты, N15 ещё не измерен.
+
+D-B3 / новые шаблоны для R9. GS N15 обоих типов: exact arrayN,
+выбор direct general/stable Freeze, cover каждого маршрута;
+real sort4, stub insert_tail + старый bidirectional_merge.
+Перед зачётом GS нужно измерить новые proof_for_contract(insert_tail)
+в scratch48: starts0/6/7, длины5..8 (надмножество всех вызовов GS13..15),
+полные u64/u8, lt_u64/lt_u8; frame всех элементов вне региона.
+Scratch полностью инициализирован в proof; реальный caller инициализирует
+ровно активные регионы. Редукция за границы регионов не заявляется;
+E1/uninit — отдельное обязательство, scratch proof доказывает текущий контракт.
+Ни одного нового атрибута/помощника runtime-функции не добавлено.
+Network N17 обоих типов: actual unstable trait, real sort13,
+stub только insert_tail; caller проверяет sortedness + multiplicity
+полного значения за весь маршрут. Домен значений не сужен, ключ — x>>1,
+равные ключи с разными полными значениями остаются возможны.
+Это попытка полного proof, не зачёт по одной sortedness и не H2-разбиение.
+
+Проверка идентичности извлечённых функций (с attrs): относительно
+432813d9 (u64 prefix job58) insert_tail, старый bm, k1_tail_len,
+k1_tail_region_ok/pre, k1_sorted, k1_count/u, set_probe, lt_u64/u8
+IDENTICAL. Относительно fb10f6bf (u8 build6e32e784) всё это,
+кроме ожидаемо восстановленного старого bm, IDENTICAL.
+insert_tail SHA256 prefix39d019c48465, k1_tail_pre72602bc439f9,
+lt_u6444055df8dbc2, lt_u8b7ca7a0f1c3a (хеши извлечённых функций).
+Таким образом унаследованные prefix/full proofs используют тот же контракт,
+реальное тело и T/F; новые scratch-инстанциации включены в текущий запрос.
+
+Запрос009 measurement8×10, controls=true: u8 fallbackN15,
+scratch proof u64/u8, GS15 u64/u8, network17 u64/u8, R11 FAILED/k1_tail_pre.
+Резерв(80+30)×0,0135=$1,485<остаткаB$2,38.
+Budget перед подготовкой: used$23,4870,reserved$8,9100,
+свободно$1,5630. Перед dispatch повторить budget.
+Локальная проверка diff --check пройдена; без локальных Rust/Kani запусков.
