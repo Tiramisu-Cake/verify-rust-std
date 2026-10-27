@@ -34,8 +34,12 @@ CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
 # would take used + reserved USD over CAP_USD. Raising the cap is the owner's decision.
 CAP_USD=33.96
 RESOURCE_MAX_TOTAL_MINUTES=720      # = kani_k1.py RESOURCE_MAX_TIMEOUT_MINUTES = gcb-k1.sh MAX_TOTAL_MINUTES
-PRICE_HIGHMEM=0.02612               # e2-highmem-4 private pool, us-central1, USD per minute
-PRICE_STANDARD=0.0194               # e2-standard-4 private pool, us-central1: conservative until the owner checks billing
+# Prices from the owner's billing, 2026-10-27: private pools are billed per vCPU-minute and GB-minute;
+# Oct 1-27 Cloud Build cost $13.03 = E2 cpu $4.74 + E2 ram $8.29, almost all from 733 min of e2-highmem-4,
+# so ~$0.00162 per vCPU-min and ~$0.00035 per GB-min: e2-highmem-4 ~$0.0178/min, e2-standard-4 ~$0.0121/min
+# (the public price). The ledger uses these plus ~10% margin.
+PRICE_HIGHMEM=0.0195                # e2-highmem-4 private pool, us-central1, USD per minute (billing + margin)
+PRICE_STANDARD=0.0135               # e2-standard-4 private pool, us-central1, USD per minute (billing + margin)
 OVERHEAD_MINUTES=30                 # checkout, deps, Kani build, summary, upload; see gcb-k1.sh
 LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools research/challenge-8/kani-k1/gcb
             scripts/run-kani.sh tool_config/kani-version.toml rust-toolchain.toml .gitmodules .cargo library/.cargo
