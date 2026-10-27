@@ -1259,3 +1259,27 @@ lane-пути совпадают с BASE. Оба условия координа
   L1-7/L1-8 вместе с координатором и L1-10 таблица/раскрытие. C сейчас не начинался.
 
 W3-L1 ЭТАП B ЗАВЕРШЁН
+
+## Этап C — старт, база и C3 i32
+
+История: только «Передача этапа B» на018bd1a0; все13 builds терминальные.
+ДоляC **$6,00 включая остатокB**, не $6,00 плюс остаток. РасходC пока0;
+исторический A+B=$3,45180525 сохраняется отдельно.
+После git fetch origin влита актуальная база85ceaa0ddb610d43bf24495d3aab676f6be25360
+(минимум владельца85ceaa0d выполнен). **BASE check-tooling =
+85ceaa0ddb610d43bf24495d3aab676f6be25360**. Чужие ветки не влиты.
+Свои lane/runtime правки отсутствуют; изменения lane пришли только с базой.
+
+C3: network::w3_k16_i32_freeze — экземпляр шаблона
+bceedb0b6c1c0febcc5faa3d80d94dba24aa3735 (K-16s paired cases),
+helpers3ce9177c0dbcfe25f5b535e75d9c3cf96fc58640. Отдельный R9 не нужен по заданиюC.
+Полный произвольный i32, точные массивы [i32;N], N∈{0,1,2,15,16},
+обе реальные trait-точки stable/unstable. i32: Copy/Freeze/efficient swap,
+stable — stable small sort, unstable — network; при этих N нет merge-пути.
+Comparator read_volatile читает оба полных значения, результат произвольный;
+свойство safety, sortedness не заявляется. Прежний вариантА panic cut сохранён;
+на N≤16 panic_on_ord_violation не достигается. any_where только по пяти N,
+cover каждой из10 пар и общий конец (11); новых assume/stub нет.
+Ожидается SUCCESS, measurement gate true. Контроли выключены, uninit flag отсутствует.
+Запрос014; до результата i32 не засчитан. Далее кандидат после п.1–2,
+четыре partition jobs2, до двух одновременно, отдельные request-only commits.
