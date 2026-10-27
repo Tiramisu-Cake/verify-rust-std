@@ -1245,6 +1245,44 @@ R9 базовой модели GO_WITH_NITS, дополнение `3af0912c` н�
 После dispatch ночных jobs 29, preflight отказов 3;
 с П2 до ночи: 34 jobs, 4 preflight отказа, 38/40 консервативных попыток.
 
+### Job 174 — w2-merge-night-k14-mutants-upper2-029
+
+Head `e2ea304e15acc96c72688c8206dcbd2e6cf587f4`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: True; Kani exit 1
+Run: max RSS 1776996 KiB; wall с компиляцией 0:46.23.
+Cgroup peak 1.89 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_drop_duplicate_tag_control` | FAILED / FAILED | 0.5535739 | 1/461 | 16 | 1/1 |
+| `w2night_drop_extra_drop_control` | FAILED / FAILED | 0.40100855 | 1/461 | 17 | 1/1 |
+| `w2night_drop_upper2_count` | SUCCESS / SUCCESS | 1.5053635 | 0/461 | 9 | 3/3 |
+| `w2night_drop_upper2_perm` | SUCCESS / SUCCESS | 1.9489383 | 0/461 | 8 | 3/3 |
+
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Kani exit 1 ожидаем из-за двух намеренных FAILED-контролей.
+Каждый мутант имеет ровно один failed check:
+- duplicate_tag_control: `assertion failed: count == expected`
+  @ `kani_k1/merge.rs:1954`;
+- extra_drop_control: `assertion failed: count == N`
+  @ `kani_k1/merge.rs:1960`.
+Других failed checks нет. Полные covers сверены отдельно: 1/1 entry
+у каждого мутанта, 3/3 у каждого upper2 (D/S и covering stub).
+Дискриминирующие контроли измерены, пара upper N2 count+perm зелёная.
+Дополнение R9 `3af0912c` ещё без полученного вердикта; базовая модель
+GO_WITH_NITS с правилом парного зачёта, ledger исправлен.
+
+### N-D34 (R7): general/stable N4/8
+
+`w2-merge-night-k14-upper4to8-030`: четыре ordinary MUTANT=0
+гармоники upper4 count/perm и upper8 count/perm, expected SUCCESS,
+4×10 мин. Ожидается 3/3 cover каждой: два нормальных входа и covering
+panic stub. Все тела реальные; comparator читает key/tag обоих аргументов,
+затем kani::any(). Count и perm раздельно, заявление (a) только по паре
+на одной чётной длине и одном маршруте. Код/ledger без изменений.
+После dispatch ночных jobs 30, preflight отказов 3;
+с П2 до ночи: 35 jobs, 4 preflight отказа, 39/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
