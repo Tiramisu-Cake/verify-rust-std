@@ -166,8 +166,8 @@ Review набора `cd284852..1e3e89d0` — **GO_WITH_NITS**.
 | 10 | 10, u64 и u8 | 151, SUCCESS обоих типов | 153, SUCCESS |
 | 11 | 11, u64 и u8 | u8: 153; u64: 156; SUCCESS обоих | 158, SUCCESS |
 | 12 | 12, u64 и u8 | 156, SUCCESS обоих типов | 158, SUCCESS |
-| 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | не измерено |
-| 14 | 14, u64 и u8 | 160, SUCCESS обоих типов | не измерено |
+| 13 | 13, u64 и u8 | 160, SUCCESS обоих типов | 161: u64 TIMEOUT; u8 SUCCESS, gate false |
+| 14 | 14, u64 и u8 | 160, SUCCESS обоих типов | 161: TIMEOUT обоих типов |
 | 15 | 15, u64 и u8 | не измерено | не измерено |
 | 16 | 8 и 16, каждый u64 и u8 | 8: 140, SUCCESS обоих типов; 16: не измерено | не измерено |
 
@@ -694,6 +694,43 @@ R4 — bm N13/14 обоих типов job 160, R11 halves_sorted job 110.
 Код/ledger без изменений. Следующий пакет — proof bm N15/16 обоих типов.
 После dispatch ночных jobs 19, preflight отказов 3;
 с П2 до ночи: 24 jobs, 4 preflight отказа, 28/40 консервативных попыток.
+
+### Job 161 — GS N13/14, ресурсные границы
+
+Request `w2-merge-night-gs13to14-019`,
+head `a5ac8e5a6c15e95756ec202f902ff6655c8c87bb`, COMPLETE;
+gate false, expectation met false, measurement ok false, Kani exit 1.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1999524 KiB, wall с компиляцией 2012.24 с;
+cgroup peak 3.25 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2p2_gs_u64_len13` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2p2_gs_u8_len13` | SUCCESS / SUCCESS | 170.73291 | 0/635 | 89 | 2/2 |
+| `w2p2_gs_u64_len14` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+| `w2p2_gs_u8_len14` | SUCCESS / TIMEOUT | нет, лимит 600 с | нет | нет | нет |
+
+Полные covers u8 N13 сверены отдельно от gate: 2/2 D/S. Общий gate false,
+поэтому u8 N13 пока измеренный SUCCESS без зачёта пакета; повторится
+отдельно от ресурсных отказов. Остальные три — кандидаты расширенного
+слоя, не FAILED свойств. Память таймаутов индивидуально не измерена;
+приведён пик всего run с компиляцией. Таблица R4 обновлена.
+
+### N-D23 (R7): продолжить к порогу 16
+
+`w2-merge-night-bm15to16-020`: proof bm N15/16 обоих типов,
+expected SUCCESS, 4×10 мин, реальные тела; код/ledger без изменений.
+После proofs — GS N15/16. N16 имеет другую ветку presort (sort8),
+поэтому TIMEOUT на N13/14 не переношу на неё. Для GS N16 дополнительно
+нужен bm N8 обоих типов: job 140 уже есть.
+
+По NIGHT таймауты N13/14 передаются кандидатами расширенного слоя.
+Разделение GS по D/S — допустимая альтернатива; в этой очереди отложено
+ради измерения порога N16, оставшейся fallback u8 и задач K-12a/K-14r.
+Длины без измерений не объявляются ресурсно непроходимыми.
+После dispatch ночных jobs 20, preflight отказов 3;
+с П2 до ночи: 25 jobs, 4 preflight отказа, 29/40 консервативных попыток.
 
 ## Фаза 9
 
