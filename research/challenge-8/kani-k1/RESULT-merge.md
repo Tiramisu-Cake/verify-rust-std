@@ -835,6 +835,17 @@ N8 u8 имеет SUCCESS с gate true в job 153; R9 typed-кода ещё ож�
 После dispatch ночных jobs 23, preflight отказов 3;
 с П2 до ночи: 28 jobs, 4 preflight отказа, 32/40 консервативных попытки.
 
+REVIEW REQUEST 88aba4470ce8565f4d6f3a4e1e4c0e45da21fd42
+
+Файлы: `library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Typed fallback macro и инстанциации N8 u64/u8, N9 u8.
+Предыдущий запрос кода `92d4edd8` остаётся без полученного вердикта.
+Evidence: job 147 (u64 N8 TIMEOUT, u8 N8 SUCCESS при gate false),
+job 153 (u8 N8 SUCCESS, gate true), summaries и check-tooling ok.
+Новая N9 u8 ещё не измерена; код helper/контрактов/runtime не менялся.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
