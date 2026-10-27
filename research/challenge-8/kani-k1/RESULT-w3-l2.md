@@ -266,3 +266,14 @@ GO_WITH_NITS, без зачёта u8 до S2.** Вердикт передан к
   measurement12×10 мин, резерв $2,91. Перед dispatch снова budget и расчёт
   собственной доли, после завершения текущего build69670407. Сейчас второго
   незавершённого build нет, новый запрос НЕ отправлен.
+
+REVIEW REQUEST ff751801c91187caebe279bc2675076ce7130571
+
+Итоговые файлы: `library/core/src/slice/sort/shared/smallsort.rs`
+(атрибуты из прежнего review, runtime неизменён), `smallsort/kani_k1.rs`
+(mod correct), `smallsort/kani_k1/correct.rs` (S1 и default-pointer/length),
+`research/challenge-8/kani-k1/RUN-REQUEST.json` (S2 + повторы L2-0), данный RESULT.
+С предыдущего review исправления только correct.rs/request/RESULT.
+Новый список обязанностей и вердикт координатора записаны выше.
+S1/default требуют проверки на lane, S2 пока только добавлен в запрос.
+L2-1 не начат; build69670407 по старому коммиту ещё ожидается через watch.
