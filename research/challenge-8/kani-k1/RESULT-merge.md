@@ -1107,6 +1107,17 @@ covers: 3/3 у control/reachable (включая covering stub), 2/2 у low2.
 После dispatch ночных jobs 27, preflight отказов 3;
 с П2 до ночи: 32 jobs, 4 preflight отказа, 36/40 консервативных попыток.
 
+REVIEW REQUEST 806adda80ebbac90c749f54f04fa880d78ac67ec
+
+Актуализация K-14r review `9402a0e2`. Файлы:
+`library/core/src/slice/sort/shared/smallsort/kani_k1/merge.rs`,
+`research/challenge-8/kani-k1/RUN-REQUEST.json`,
+`research/challenge-8/kani-k1/RESULT-merge.md`.
+Правка только размещения route covers и возврата route selector из helper;
+сортировка, свойства, входы и manual stubs прежние. Evidence job 171:
+summary/check-tooling ok, gate false по двум unreachable covers на строку.
+Новый measurement повторяет тот же набор контролей и low2.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.
