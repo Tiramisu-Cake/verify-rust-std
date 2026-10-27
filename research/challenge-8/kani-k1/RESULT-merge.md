@@ -979,6 +979,83 @@ R9 `b8849eef` — GO. Условия u8/CircleCI/13 GiB сохранены;
 После dispatch ночных jobs 25, preflight отказов 3;
 с П2 до ночи: 30 jobs, 4 preflight отказа, 34/40 консервативных попытки.
 
+### Job 170 — w2-merge-night-k12a-u8n24-025
+
+Head `f5b0403b846800ddda5a1816c01de2509a4e1b94`, COMPLETE.
+- gate: True; expectation met: True; measurement ok: None; Kani exit 0
+Run: max RSS 3607404 KiB; wall с компиляцией 18:00.38.
+Cgroup peak 5.62 GiB; ENFORCED, limit 13.00 GiB; OOM 0, swap off.
+
+| Гармоника | expect / actual | Verification Time, с | failed/total | unreachable | cover |
+|---|---|---:|---|---:|---|
+| `w2night_k12a_bm_u8_len24` | SUCCESS / SUCCESS | 1040.0021 | 0/435 | 64 | 1/1 |
+
+Условия: **u8, CircleCI circleci-linux-large, cgroup 13 GiB,
+kind diagnostic, таймаут 30 минут**. check-tooling ok против
+`9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Полный normal-return cover сверён: 1/1; 0/435 failed checks.
+1040.0021 с >600 с, но <1800 с; diagnostic, measurement ok None,
+proof credit основного слоя не заявляется.
+Одна гармоника: max RSS 3607404 KiB (3.44 GiB), cgroup peak 5.62 GiB;
+оба пика включают компиляцию, не отдельный пик verifier.
+
+### Итог K-12a — диагностические данные
+
+| u8 / CircleCI 13 GiB | Job | actual | Verification Time, с | max RSS run, KiB | cgroup peak run | cover |
+|---|---:|---|---:|---:|---|---|
+| реальное bm N20 | 169 | SUCCESS | 528.8255 | 2990232 | 4.72 GiB | 1/1 |
+| реальное bm N24 | 170 | SUCCESS | 1040.0021 | 3607404 | 5.62 GiB | 1/1 |
+
+Оба gate true, check-tooling ok; R9 шаблонов GO. Kind diagnostic,
+данные без proof credit. Сортированность и перестановка формулировки 1,
+полные символические u8, порядок x >> 1, без stubs. Это не переносится
+на u64; сообщение о WX-ext u64/GCB 32 GB приведено отдельно выше.
+K-12a завершён, следующая задача очереди — K-14r.
+
+### N-D29 (R7): K-14r, модель и порядок
+
+Тип `W2NightDrop`: full u64 key, уникальный u8 tag, non-Copy, Freeze.
+Массив ровно N создаётся from_fn: теги 0..N по одному, ключи kani::any().
+N фиксирована в гармонике, 2..32; unwind(34). Счётчик Drop — отдельный
+static usize, сброс перед созданием массива, увеличение в каждом Drop.
+Comparator читает volatile key/tag обоих аргументов, затем kani::any();
+копий Drop-значения comparator не создаёт. Все тела сортировки реальные.
+
+Гармоники count: сортировка, явный mem::drop массива, assert count==N.
+Отдельные гармоники perm: одна независимая произвольная u8-проба тега
+до сортировки; после неё кратность равна 1 для пробы в 0..N, иначе 0.
+Проба без assume охватывает все теги, в том числе вне входа. В perm нет
+assert счётчика Drop. Padding типа не читается спецификацией.
+
+Нижние маршруты: независимый bool до сортировки выбирает fallback или
+insertion(offset=1). Префикс длины 1 не требует ограничения comparator.
+Верхние: такой же bool выбирает прямой general или stable-Freeze trait,
+scratch 48. Два normal-return cover на каждую длину/свойство.
+Сначала fallback/insertion N2, N4, N8; потом general/stable N2, N4, N8,
+и N16/24/32 по результатам. Непрошедшая ступень раскрывается.
+
+**Ledger K-14r:** no stub_verified. Ручные stubs заменяют только
+panic_on_ord_violation: верхние используют прежний w1_abort_ord_violation
+(cover + assume(false)), нижние — w2night_drop_abort_quiet (assume(false),
+без cover), допустимый CD-5 на маршрутах без слияния. Отдельная reachability
+на том же Drop-типе и N2 верхних использует покрывающий stub.
+Других assume/any_where нет. Обоснование среза — -Cpanic=abort.
+Заявление только о путях без паники; unwind/CopyOnDrop на раскрутке,
+uninit и полная reference validity не проверяются.
+
+**Редукции K-14r:** ключи u64 не ограничены. Identity tags — именно
+уникальные 0..N, представимые в u8 при N<=32; это модель уникальных тегов,
+не уменьшение области ключей. Произвольная u8-проба без ограничения.
+
+Первый пакет `w2-merge-night-k14-controls-low2-026`, 4×10 мин:
+assertion-контроль варианта A (expected FAILED, точный текст),
+reachability на Drop-типе (SUCCESS), нижние N2 count/perm (SUCCESS).
+Control/reachability вызывают upper N2 только для контроля механизма;
+наращивание верхних результатов начнётся после нижних N2/4/8.
+До зелёного контроля и R9 новые результаты K-14r не засчитываются.
+После dispatch ночных jobs 26, preflight отказов 3;
+с П2 до ночи: 31 jobs, 4 preflight отказа, 35/40 консервативных попыток.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

@@ -1,14 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k12a-u8n24-025",
+  "request_id": "w2-merge-night-k14-controls-low2-026",
   "agent": "k1-merge",
-  "kind": "diagnostic",
+  "kind": "measurement",
   "runner": "circleci-linux-large",
-  "purpose": "K-12a diagnostic: real bm u8 N24 on CircleCI 13 GiB, no stubs. Formulation-1 proof_for_contract for sortedness and arbitrary full-value probe permutation; full symbolic values, strict order x >> 1. 30-minute data only, no main-layer proof credit.",
-  "harness_timeout_minutes": 30,
+  "purpose": "K-14r Drop/tag controls and fallback/insertion N2. Variant A only cuts panic_on_ord_violation. Arbitrary comparator reads both arguments. Separate explicit Drop-count and tag-probe permutation proofs; real bodies, full u64 keys and unique tags.",
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_k12a_bm_u8_len24",
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_control_a",
+      "expect": "FAILED",
+      "expect_check": "assertion failed: drop_control_value != drop_control_value"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_reachable",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low2_count",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_low2_perm",
       "expect": "SUCCESS"
     }
   ]

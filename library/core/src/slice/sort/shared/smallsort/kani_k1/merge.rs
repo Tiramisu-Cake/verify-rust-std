@@ -1862,3 +1862,130 @@ w2night_fallback_typed!(w2night_fallback_u8_len9, u8, lt_u8, 9);
 // These harnesses are dispatched separately, with diagnostic timeouts only.
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len20, u8, lt_u8, 20);
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len24, u8, lt_u8, 24);
+
+// K-14r: non-Copy, Freeze values with unique identities and observable Drop.
+// Tags are tested by a separate arbitrary-tag multiplicity proof, never by
+// bytewise equality (this type can have padding). Keys retain all u64 values.
+struct W2NightDrop {
+    key: u64,
+    tag: u8,
+}
+
+static mut W2NIGHT_DROP_COUNT: usize = 0;
+
+impl crate::ops::Drop for W2NightDrop {
+    fn drop(&mut self) {
+        // SAFETY: single-threaded harness, no live references to the counter.
+        unsafe {
+            let count = ptr::read(ptr::addr_of!(W2NIGHT_DROP_COUNT));
+            ptr::write(ptr::addr_of_mut!(W2NIGHT_DROP_COUNT), count + 1);
+        }
+    }
+}
+
+fn w2night_drop_less(a: &W2NightDrop, b: &W2NightDrop) -> bool {
+    // CD-2: read both fields of both arguments, without copying a Drop value.
+    unsafe {
+        ptr::read_volatile(&a.key);
+        ptr::read_volatile(&a.tag);
+        ptr::read_volatile(&b.key);
+        ptr::read_volatile(&b.tag);
+    }
+    kani::any()
+}
+
+// CD-5 permits a quiet cut on the fallback/insertion routes: neither merges.
+// The upper-route reachability/control harnesses use the covering stub above.
+fn w2night_drop_abort_quiet() -> ! {
+    kani::assume(false);
+    unreachable!()
+}
+
+fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() {
+    const { assert!(N >= 2 && N <= 32) };
+    // SAFETY: no prior array or counter reference survives into this harness.
+    unsafe { ptr::write(ptr::addr_of_mut!(W2NIGHT_DROP_COUNT), 0) };
+    let mut v: [W2NightDrop; N] = crate::array::from_fn(|tag| W2NightDrop {
+        key: kani::any(),
+        tag: tag as u8,
+    });
+    let probe: u8 = kani::any();
+    let alternate: bool = kani::any();
+    let mut cmp = w2night_drop_less;
+    if UPPER {
+        if alternate {
+            let mut scratch = [const { MaybeUninit::<W2NightDrop>::uninit() };
+                SMALL_SORT_GENERAL_SCRATCH_LEN];
+            <W2NightDrop as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+        } else {
+            super::super::small_sort_general(&mut v, &mut cmp);
+        }
+    } else if alternate {
+        super::super::insertion_sort_shift_left(&mut v, 1, &mut cmp);
+    } else {
+        super::super::small_sort_fallback(&mut v, &mut cmp);
+    }
+    if PERM {
+        let mut count = 0usize;
+        for value in &v {
+            count += (value.tag == probe) as usize;
+        }
+        // Input tags are precisely 0..N, each once. Probe covers all u8 tags,
+        // including identities outside the input; no assumption on the probe.
+        let expected = if (probe as usize) < N { 1 } else { 0 };
+        assert!(count == expected, "K14r: tag probe multiplicity preserved");
+    }
+    crate::mem::drop(v);
+    if !PERM {
+        // SAFETY: single-threaded harness; the array was explicitly destroyed.
+        let count = unsafe { ptr::read(ptr::addr_of!(W2NIGHT_DROP_COUNT)) };
+        assert!(count == N, "K14r: exactly N drops after explicit array destruction");
+    }
+    if UPPER {
+        kani::cover(!alternate, "K14r: general normal return and property checked");
+        kani::cover(alternate, "K14r: stable-Freeze normal return and property checked");
+    } else {
+        kani::cover(!alternate, "K14r: fallback normal return and property checked");
+        kani::cover(alternate, "K14r: insertion offset 1 normal return and property checked");
+    }
+}
+
+macro_rules! w2night_drop_fixed {
+    ($name:ident, $n:literal, $upper:literal, $perm:literal, $abort:ident) => {
+        #[kani::proof]
+        #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
+        #[kani::unwind(34)]
+        fn $name() {
+            w2night_drop_run::<$n, $upper, $perm>();
+        }
+    };
+}
+
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
+#[kani::unwind(34)]
+fn w2night_drop_control_a() {
+    w2night_drop_run::<2, true, false>();
+    let drop_control_value: u64 = kani::any();
+    assert!(drop_control_value != drop_control_value);
+}
+
+w2night_drop_fixed!(w2night_drop_reachable, 2, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_low2_count, 2, false, false, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_low2_perm, 2, false, true, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_low4_count, 4, false, false, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_low4_perm, 4, false, true, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_low8_count, 8, false, false, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_low8_perm, 8, false, true, w2night_drop_abort_quiet);
+w2night_drop_fixed!(w2night_drop_upper2_count, 2, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper2_perm, 2, true, true, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper4_count, 4, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper4_perm, 4, true, true, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper8_count, 8, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper8_perm, 8, true, true, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper16_count, 16, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper16_perm, 16, true, true, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper24_count, 24, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper24_perm, 24, true, true, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper32_count, 32, true, false, w1_abort_ord_violation);
+w2night_drop_fixed!(w2night_drop_upper32_perm, 32, true, true, w1_abort_ord_violation);
