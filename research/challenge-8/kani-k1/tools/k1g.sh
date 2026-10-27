@@ -126,7 +126,7 @@ case "$cmd" in
       --require-runner gcb-e2-standard-4 \
       --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
-    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
+    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") == "partition" else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     cost=$(python3 -c "print(f'{$timeout * $price:.4f}')")
     auth

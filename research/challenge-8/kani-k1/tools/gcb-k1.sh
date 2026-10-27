@@ -30,7 +30,8 @@ export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
-total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+# Kind partition: harness_timeout_minutes is the whole worker's wall budget (no per-harness timeout, as in CI).
+total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") == "partition" else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
 
 stage() {
   case "$1" in
@@ -43,7 +44,7 @@ stage() {
         echo "lane runs only on experiment/kani-k1-* branches, not '${K1_BRANCH:-}'" > "$K1_OUT/request-error.txt"
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
         echo "checkout $(git rev-parse HEAD) differs from requested ${K1_SHA:-}" > "$K1_OUT/request-error.txt"
-      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --rustflags-out "$K1_OUT/rustflags.txt" \
+      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --rustflags-out "$K1_OUT/rustflags.txt" --partition-out "$K1_OUT/partition.env" \
              --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
       fi
@@ -114,7 +115,13 @@ stage() {
       set +e
       # Same shape as the CircleCI lane: GNU time -v on stderr (time.txt), Kani output through tee; a run cut
       # by timeout is PARTIAL.
-      timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+      if [ -s "$K1_OUT/partition.env" ]; then
+        # Kind partition: the organizers' worker invocation (kani.yml), no --kani-args.
+        mapfile -t penv < "$K1_OUT/partition.env"; echo "partition env: ${penv[*]}" | tee -a "$K1_OUT/machine.txt"
+        timeout --kill-after=30 "$remaining" /usr/bin/time -v env "${penv[@]}" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" 2>&1 | tee "k1-out/kani.log"' 2> "$K1_OUT/time.txt"
+      else
+        timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
+      fi
       echo $? > "$K1_OUT/rc"
       kill -TERM "$sampler" 2>/dev/null; wait "$sampler"
       set -e ;;
