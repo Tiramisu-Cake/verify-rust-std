@@ -864,6 +864,64 @@ Job 168 под ранее зарегистрированным watch; новых
 состояния в ответ на review не выполнялось. Очередь продолжается
 после его уведомления: оставшийся K-10, затем K-12a и K-14r.
 
+### Job 168 — fallback u8 N9 TIMEOUT
+
+Request `w2-merge-night-f9u8-023`,
+head `6cbb74043f5cdb3a77deaa6056cf3d44f2ad9521`, COMPLETE;
+expected SUCCESS / actual TIMEOUT, лимит 600 с.
+Gate false, expectation met false, measurement ok false, Kani exit 1.
+Verification Time, checks и covers не получены.
+check-tooling ok против `9de80e0bec13896bb35a5e04e771448d9fe3931b`.
+Run: max RSS 1608012 KiB, wall с компиляцией 639.77 с;
+cgroup peak 1.81 GiB, ENFORCED 13 GiB, OOM 0, swap off.
+Одна гармоника: пик run — верхняя оценка, включает компиляцию.
+Typed fallback u8 N9 — кандидат расширенного слоя; рост прекращён.
+
+### Итог ночного K-10
+
+| Маршрут | Тип | SUCCESS с gate true, covers и check-tooling ok | TIMEOUT 600 с | Не измерено отдельно |
+|---|---|---|---|---|
+| general D / stable-Freeze S | u64 | N0..12 и N16 | N13/14 job 161, N15 job 166 | — |
+| general D / stable-Freeze S | u8 | N0..13 и N16 | N14 job 161, N15 job 166 | — |
+| fallback | u64 | N0..7 | typed N8 job 147 | typed N9..16 |
+| fallback | u8 | N0..8 | typed N9 job 168 | typed N10..16 |
+
+Combined fallback N8/9 (оба типа в одной гармонике) TIMEOUT job 143
+также остаются кандидатами расширенного слоя. Новых FAILED свойств
+не было. Пропуски и таймауты не закрываются успешной точкой N16.
+Bm proof_for_contract формулировки 1: все N2..16 обоих типов измерены
+в том же наборе коммитов; таблица GS → bm → job выше сохраняет R4,
+включая bm N8 для GS N16. R11 job 110 проверяет только halves_sorted.
+R9 GS-кода — GO_WITH_NITS, typed fallback — GO (оба вердикта записаны).
+
+Свойства: сортированность по строгому слабому порядку `x >> 1` и
+перестановка полных значений по одной произвольной пробе. Значения
+u64/u8 не редуцированы; u8 не заменяет более широкие типы. General
+вызывается напрямую, stable-Freeze через trait со scratch 48.
+Публичный unstable entrypoint u64/u8 выбирает network (другой агент).
+Кредит ограничен фиксированными длинами и инстанциациями; macOS,
+uninit/aliasing/reference-validity/unwind здесь не проверялись.
+
+K-10 ночной очереди завершён по измеренным границам; Cloud Build
+агент не запускал. Следующая задача по NIGHT — K-12a.
+
+### N-D27 (R7): K-12a, реальные bm u8 N20/24
+
+Добавлены две инстанциации прежнего `w2p2_bm_fixed` с N20 и N24:
+proof_for_contract с реальным телом bidirectional_merge, без stubs.
+Контракт формулировки 1 проверяет сортированность и перестановку по пробе;
+requires предполагает proof_for_contract, normal-return cover в bm_len.
+Полные символические u8 и прежний lt_u8, unwind(34), helpers шириной 32.
+Контракты/runtime/lane не меняются, новых assume или редукций нет.
+
+Прогоны отдельно: один diagnostic ×30 минут на job, чтобы соблюдать
+потолок 40 минут таймаутов на запрос. Первый
+`w2-merge-night-k12a-u8n20-024`, expected SUCCESS. Затем N24 независимо
+от исхода N20. Время/память записываются как диагностические данные,
+формальный зачёт основного слоя по этим jobs не заявляется.
+После dispatch ночных jobs 24, preflight отказов 3;
+с П2 до ночи: 29 jobs, 4 preflight отказа, 33/40 консервативных попытки.
+
 ## Фаза 9
 
 - Агент: K1-merge, Codex. Вход: `63c4b9af`, находка 10 фазы 8.

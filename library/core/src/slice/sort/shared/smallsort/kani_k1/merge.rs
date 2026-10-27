@@ -1857,3 +1857,8 @@ macro_rules! w2night_fallback_typed {
 w2night_fallback_typed!(w2night_fallback_u64_len8, u64, lt_u64, 8);
 w2night_fallback_typed!(w2night_fallback_u8_len8, u8, lt_u8, 8);
 w2night_fallback_typed!(w2night_fallback_u8_len9, u8, lt_u8, 9);
+
+// K-12a diagnostic: real merge body and formulation-1 contract properties.
+// These harnesses are dispatched separately, with diagnostic timeouts only.
+w2p2_bm_fixed!(w2night_k12a_bm_u8_len20, u8, lt_u8, 20);
+w2p2_bm_fixed!(w2night_k12a_bm_u8_len24, u8, lt_u8, 24);
