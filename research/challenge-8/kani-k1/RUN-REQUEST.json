@@ -1,66 +1,58 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1-004-k9s-u64-insertion-split",
+  "request_id": "w3-l1-005-insertion-offset-pilot",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "R8 L1-4 K9s u64 N9..16; L1-5 prepared per-length K11s and O3 insertion N13/14/15, all offsets, sequential peak upper bound",
+  "purpose": "R8 L1-5: pilot offset groups for all N15 and low/high N20, B4 u64 and O3 mutating Cell, exact arrays",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n9",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n15_g1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n10",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n15_g1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n11",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n15_g2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n12",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n15_g2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n13",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n15_g3",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n14",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n15_g3",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n15_g4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u64_n16",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n15_g4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_n13",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n20_g1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_n14",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n20_g1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_k11s_n15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_b4_n20_g5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_n13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_n14",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::network::w2_o3_insertion_n15",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_o3_n20_g5",
       "expect": "SUCCESS"
     }
   ]

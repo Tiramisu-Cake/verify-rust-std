@@ -1395,6 +1395,70 @@ w2p2_b4_offset_one!(w2p2_b4_u64_n18, w2p2_b4_cell_n18, 18);
 w2p2_b4_offset_one!(w2p2_b4_u64_n19, w2p2_b4_cell_n19, 19);
 w2p2_b4_offset_one!(w2p2_b4_u64_n20, w2p2_b4_cell_n20, 20);
 
+// W3 L1-5: split the entire insertion-offset domain into small disjoint groups.
+// Each harness owns one exact allocation; only the listed constant-offset calls
+// are instantiated. No sorted-prefix assumption and no verified or manual stubs.
+macro_rules! w3_insertion_group {
+    ($plain:ident, $cell:ident, $n:literal, [$($o:literal),+]) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $plain() {
+            const { $(assert!($o >= 1 && $o <= $n);)+ };
+            let mut v: [u64; $n] = kani::any();
+            let offset: usize = kani::any_where(|&o| matches!(o, $($o)|+));
+            match offset {
+                $($o => w2_insertion_at::<_, _, $o>(&mut v, &mut w1_any_less_u64),)+
+                _ => unreachable!(),
+            }
+            $(kani::cover(offset == $o, concat!("W3 B4 offset ", stringify!($o)));)+
+            kani::cover(true, "W3 B4 group: normal return");
+        }
+
+        #[kani::proof]
+        #[kani::unwind(35)]
+        fn $cell() {
+            const { $(assert!($o >= 1 && $o <= $n);)+ };
+            let mut v = w2_o3_input::<$n>();
+            let offset: usize = kani::any_where(|&o| matches!(o, $($o)|+));
+            match offset {
+                $($o => w2_insertion_at::<_, _, $o>(&mut v, &mut w2_o3_mutating_less),)+
+                _ => unreachable!(),
+            }
+            $(kani::cover(offset == $o, concat!("W3 O3 offset ", stringify!($o)));)+
+            kani::cover(true, "W3 O3 group: normal return");
+        }
+    };
+}
+
+w3_insertion_group!(w3_b4_n15_g1, w3_o3_n15_g1, 15, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n15_g2, w3_o3_n15_g2, 15, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n15_g3, w3_o3_n15_g3, 15, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n15_g4, w3_o3_n15_g4, 15, [13, 14, 15]);
+w3_insertion_group!(w3_b4_n16_g1, w3_o3_n16_g1, 16, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n16_g2, w3_o3_n16_g2, 16, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n16_g3, w3_o3_n16_g3, 16, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n16_g4, w3_o3_n16_g4, 16, [13, 14, 15, 16]);
+w3_insertion_group!(w3_b4_n17_g1, w3_o3_n17_g1, 17, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n17_g2, w3_o3_n17_g2, 17, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n17_g3, w3_o3_n17_g3, 17, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n17_g4, w3_o3_n17_g4, 17, [13, 14, 15]);
+w3_insertion_group!(w3_b4_n17_g5, w3_o3_n17_g5, 17, [16, 17]);
+w3_insertion_group!(w3_b4_n18_g1, w3_o3_n18_g1, 18, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n18_g2, w3_o3_n18_g2, 18, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n18_g3, w3_o3_n18_g3, 18, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n18_g4, w3_o3_n18_g4, 18, [13, 14, 15, 16]);
+w3_insertion_group!(w3_b4_n18_g5, w3_o3_n18_g5, 18, [17, 18]);
+w3_insertion_group!(w3_b4_n19_g1, w3_o3_n19_g1, 19, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n19_g2, w3_o3_n19_g2, 19, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n19_g3, w3_o3_n19_g3, 19, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n19_g4, w3_o3_n19_g4, 19, [13, 14, 15, 16]);
+w3_insertion_group!(w3_b4_n19_g5, w3_o3_n19_g5, 19, [17, 18, 19]);
+w3_insertion_group!(w3_b4_n20_g1, w3_o3_n20_g1, 20, [1, 2, 3, 4]);
+w3_insertion_group!(w3_b4_n20_g2, w3_o3_n20_g2, 20, [5, 6, 7, 8]);
+w3_insertion_group!(w3_b4_n20_g3, w3_o3_n20_g3, 20, [9, 10, 11, 12]);
+w3_insertion_group!(w3_b4_n20_g4, w3_o3_n20_g4, 20, [13, 14, 15, 16]);
+w3_insertion_group!(w3_b4_n20_g5, w3_o3_n20_g5, 20, [17, 18, 19, 20]);
+
 // K-10 network correctness: full-width values, a pure strict total order, actual outer trait.
 fn w2p2_strict_less<T: Ord>(a: &T, b: &T) -> bool { a < b }
 
