@@ -95,3 +95,21 @@ Wall whole run 63,10 с; max RSS 1666764 KiB (kani-compiler),
 Нарастающий расход W3-L1: $0.175602 / $6,20.
 R9 GO получен. check-tooling подтвердил pool и равенство дерева lane базе;
 ожидается окончание проверки привязанных SHA-256.
+
+L1-2 check-tooling завершился с exit 0: все пять summary SHA-256 совпали
+с базой 67a4b452. При R9 GO, gate true и covers10/10 L1-2 зачтён.
+
+## Build 2 — L1-3
+
+- request `w3-l1-002-sort4-cd2`; commit `3b4cfda2d084b66ccfb1756042440f653828c285`.
+- build `9a62b6cf-b26c-41c7-a6a3-3f333f4fb402`.
+- Шесть гармоник contract/arbitrary × u64/b16/b85, ожидается SUCCESS всех.
+- measurement 6 × 10 мин, jobs1, gcb-e2-standard-4.
+- Перед dispatch общий budget: used $19,9220, reserved $1,9400;
+  после: used $19,9220, reserved $3,6860; резерв этого build $1,7460.
+- Нарастающий фактический расход W3-L1 $0,175602 / $6,20;
+  даже полный резерв build2 оставляет сумму в пределах доли.
+- Python validate: accepted6; git diff --check без замечаний.
+- После уведомления: последовательно summary, peaks, check-tooling
+  (чтобы не скачивать одни артефакты одновременно), затем время/память/стоимость.
+- Следующий пункт — L1-4 K9s N9..16, результат N17 сохранить.
