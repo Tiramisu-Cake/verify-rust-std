@@ -793,3 +793,29 @@ reserved других$8,9100, свободно$2,1030 от cap$33,96.
 положительных fallback (u64 N9..15, u8 N10..14), резерв$2,025.
 u8N15 и cfg-повтор R11 отложены в следующий запрос; код готов.
 Личный остатокB$2,9265 достаточен, ограничение сейчас общее.
+
+### B build b436b6d6-7982-4230-839a-ec1c582d0103 — отправлен
+
+Source`b7420ada`, запрос008, measurement12×10, controls=false.
+Budget перед dispatch: used$22,9470,reserved$8,9100,cap$33,96.
+После submit максимум$33,8820; свой резерв$2,025.
+Фактические статусы/стоимость неизвестны. Следующий шаг после watch:
+summary, peaks, check-tooling через BASE85ceaa0d, учётB; затем u8N15,
+R11 controls=true и GS/network по порядку задания. Незавершённый свой build один.
+
+Read-only Luna High (l2_routes, без вложенной делегации) проверил маршруты
+для следующего шага; основные выводы, не новые proof claims:
+- GS N13..15: реальные sort4 и вставки в scratch-half, merge ровно N.
+  Попытка нового wrapper: stub insert_tail + старый bm, exact array N,
+  lt_u8/lt_u64, probe+sortedness, выбор direct general/stable с cover каждого.
+  BM N13/14 обоих типов доказаны job160, N15 job165 (RESULT-merge).
+  Вставки — регионы5..8 внутри scratch; до зачёта проверить геометрию
+  и неизменность контракта относительно имеющихся proofs.
+- Network N15..17: real sort13 + insertion offset13; stub только insert_tail,
+  prefix-регионы14..N. Sort13 не стубить: его full permutation contract
+  не имеет полного основания для этих инстанциаций. Новый caller может
+  проверить sortedness+полный probe за весь маршрут без раздельной композиции.
+- insert_tail: u8 full2..17 и prefix в build6e32e784; u64 full job39,
+  prefix job58. Проверить source/attrs и T/F перед использованием; не
+  выдавать whole-region proof за отдельное доказательство interior-региона.
+Новые GS/network шаблоны потребуют REVIEW REQUEST и GO координатора.
