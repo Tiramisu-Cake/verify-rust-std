@@ -19,3 +19,11 @@ fn control_must_fail() {
     // Deliberately false for a 9-byte element.
     assert!(has_efficient_in_place_swap::<[u8; 9]>());
 }
+
+/// Lane smoke for the request field `controls`: compiled only under `--cfg kani_smallsort_controls`.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+fn control_cfg_only() {
+    let x: u8 = kani::any();
+    assert!(x != x);
+}
