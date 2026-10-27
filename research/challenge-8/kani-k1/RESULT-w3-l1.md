@@ -25,3 +25,11 @@ Ledger: нет assume, any_where, заглушек или should_panic; runtime 
 согласования формулировки контракта; W3-L1 не владеет атрибутами smallsort.rs.
 Первый build ограничен L1-2. Это ограничение не считается PASS L1-3;
 следующим шагом будет проверка допустимой формулировки в пределах задания.
+
+R7-2: схема lane принимает только coordinator/k1-merge/k1-network; для W3-L1
+используется agent=k1-merge, как идентификатор lane. Файлы lane не меняются.
+
+REVIEW REQUEST 163cc95543b8dcc0f41a69188b70fe01e2a58360
+
+Проверить smoke.rs: матрица типов, ожидаемые значения, десять cover.
+Проверка запроса Python validate и git diff --check перед dispatch.
