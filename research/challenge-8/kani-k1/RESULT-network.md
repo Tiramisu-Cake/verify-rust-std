@@ -2955,3 +2955,30 @@ Tag multiplicity N3 измерена для всех трёх маршрутов
 | 18 (П2 #32) | net-night-18-o3-tags-n4 | 164 | 507c3998 | w2night_o3_tags_n4 | SUCCESS |
 
 Ожидание `k1.sh watch 164`, затем конец turn. После уведомления — summary/check-tooling164, итог ночи и маркер завершения.
+
+### Job164: O3 tags N4
+
+COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2night_o3_tags_n4`: SUCCESS (ожидался SUCCESS), 3,834888 с, 0/218 failed, 4 unreachable, covers9/9. 13 GiB ENFORCED, peak1,86 GiB, RSS1647256 KiB, OOM0, swap off, wall42,89 с.
+
+O3 tag multiplicity N2..4 измерена на каждом из трёх маршрутов — stable default, unstable fallback, insertion/all offsets. Jobs162/163/164: gate true, все covers движения/offset/key-write, check-tooling ok. R9 be1aa9b8 ожидается.
+
+### Итог ночи / передача координатору
+
+Завершение: 2026-10-27T00:33:20Z (`date -u`). Ночная очередь исчерпана по порядку, новых dispatch нет. Все18 jobs COMPLETE, незавершённых нет. Последний job164/head507c39984104cf4f9419681ec9000510a9fb4115; source snapshotbe1aa9b8c7df6f94f7edc791c45c10a9d9e5f4fa, после него только RESULT/RUN-REQUEST. Повторно отправлять тот же SHA/запрос164 не требуется.
+
+| Шаг | Измерено с gate true / check-tooling ok | Открыто |
+|---|---|---|
+| K10 network | N9..14 u8/u64 и N15/u8: sortedness + отдельная insertion permutation (на N9/N13 insertion no-op); сеть — структурная перестановка. Отдельно sortedness u8 N16/N17 и insertion permutation u64 N15 | R9 композиции; TIMEOUT u64 sortedness N15..17, insertion permutation обоих типов N16..17 — кандидаты расширенного слоя |
+| K9s | Контракт swap_if_less u8/u64 на любых различных индексах [T;17], comparator K10; frame остальных ячеек, covers7/7 (150) | R9 d1b9545f; не произвольный comparator |
+| K8r | Все120 регионов start1..15, tail=start+1..16 в [u64;17]; proof_for_contract, внешние frame, covers каждого tail (154/155/157/159) | R9 a15216a1/4dd2272f; иные аллокации, включая48, не измерены |
+| O3 tags | N2,3,4: Cell key-writing comparator, все три маршрута, все insertion offsets, произвольные duplicate tags/probe (162/163/164) | R9 be1aa9b8; сохранение записанных keys не проверяется |
+
+Результаты таблицы — CI-измерения, окончательный зачёт открытых R9 не предполагается. Review запрошен всеми строками REVIEW REQUEST выше. Главный открытый прежний R9 — a136cf543efc4d8ba53cd25faa82c9b1f7f82e1e и ea7c674dcecba35194a22348124edd08fb8d6df3 с дополнениями N11..17; ночные K9s/K8r/O3 не получили вердиктов в этой сессии.
+
+Учёт по18 summary.json сверён: wall10514,62 с =175,2437 мин ночью (без подготовки CircleCI/API); известный summary wall П2 —13595,45 с. Ночных dispatch18, общий счёт П2 32/40. 48 исполнений гармоник:41 SUCCESS,7 TIMEOUT,40 уникальных имён; SUCCESS с gate false не подменяет отдельный зачёт. Gate true у128,133,138,144,145,150,154,155,157,159,162,163,164. Пик cgroup4,0961 GiB; все memory caps ENFORCED13 GiB, OOM0, swap off. Полные фактические минуты CircleCI/API здесь не вычислялись.
+
+R7: работа завершается до05:00Z, поскольку очередь исчерпана. Ресурсные исходы K10 не трактуются как контрпримеры; расширенный lane здесь не использовался. Единственная исправленная ошибка ночных гармоник — невозможные covers K8r в152, повтор154 прошёл gate; историческая запись152 сохранена. Один server-rejected push записи159 повторён успешно.
+
+Финальная локальная проверка: Python validate для каждого RUN-REQUEST, git diff --check; изменены только network.rs, RUN-REQUEST.json и этот RESULT. База не вливалась, lane/runtime/чужие файлы не менялись; Kani/rustc/cargo локально не запускались, новых агентов/внешних сообщений/PR не было, чистая комната сохранена. Измерения ограничены проверками Kani с CI-флагами pin9461e07a: uninit, aliasing и unwind не заявляются.
+
+НОЧЬ ЗАВЕРШЕНА
