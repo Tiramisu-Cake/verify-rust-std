@@ -1033,3 +1033,35 @@ Controls request011: validate accepted13, diff --check OK, source f699b895 R9 GO
   свидетелей», отдельно два новых опыта на прежних K10; пробелы ZST stable N0,
   unstable/network и K9s-ZST unsupported; E1 unsupported внеCI; партиции/macOS
   не измерены. Открытых официальных REVIEW REQUEST сейчас нет.
+
+## Build 11 — COMPILE_ERROR и R7-B2
+
+`ee1f96a2-babb-4c89-82de-f6a0a2d71e26`: COMPILE_ERROR, gate false, Kani exit1;
+все13 NOT_RUN, ни один FAILED-контроль не засчитан. Фактическая причина:
+`Failed to find contract closure __kani_recursion_check_insert_tail in function
+core::slice::sort::shared::smallsort::insert_tail` (ограниченный log-grep, строка581).
+Это отказ ordinary kani::stub функции с contract attrs на pin9461e07a,
+не counterexample к свойству и не ожидаемый FAILED. Нельзя заключить, что только
+swap-wrapper не поддержан: первый отказ случился на новом insert_tail-контроле.
+Wall49,53с, max RSS1713108KiB (выше sampled отдельного процесса),
+sampled sum1902104KiB/1,81GiB, swap off, подготовка349с. Tooling BASE33c3bbce exit0,
+pool/lane/all5 SHA-256 совпали. Стоимость11=(49,53/60+8)×$0,0135=$0,119144;
+расходB9..11=$0,431296; A+B=$3,195634/$6,20; остаток$3,004366.
+
+R7-B2: требуемый результат получаем прямыми копиями функций, как разрешено TASK L1-9.
+В assembly пять общих check helpers принимают FnOnce callback; positive вызывает
+оригинал std, negative — соответствующую неизменённую копию mutations.rs.
+Входы, asserts, cover и reading comparator одни и те же. Нет ordinary kani::stub
+на функциях с контрактами, нет stub_verified. Остаётся только прежний вариантA
+panic_on_ord_violation. Копии/мутации runtime не менялись.
+Из прежних K10 wrapper swap удалён по разрешению координатора (предел ordinary stub);
+wrapper small_sort_network→mutant сохраняется. Его фактический исход ещё NOT_RUN.
+Фраза раскрытия прежняя: **K-15 показывает чувствительность выделенных свидетелей**;
+свойства старого полного safety-набора все пять мутаций этим не подтверждаются.
+
+Изменение check callback — новый шаблон, нужен R9. Для проверки новой компиляции
+и положительного пути подготовлен measurement012 на5 positive без controls.
+ZST восемь неизменных entrypoints по-прежнему имеют measurement010 gate true.
+Затем controls013:12 гармоник (11FAILED+smoke::ok SUCCESS), в том числе C5 и
+единственный прежний K10 presorted wrapper. validate accepted5/12, diff --check OK.
+Новых dispatch пока нет; бюджет перед11 терминален, used$21,1785/reserve0.

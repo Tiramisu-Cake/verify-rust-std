@@ -1892,14 +1892,6 @@ w2night_o3_tags_case!(w2night_o3_tags_n4, 4, [1, 2, 3, 4]);
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(25)]
-#[kani::stub(super::super::swap_if_less, super::mutations::mutant_swap_if_less)]
-fn k15_mutant_existing_k10_swap() {
-    w2p2_k10_u8_n9();
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(25)]
 #[kani::stub(super::super::small_sort_network, super::mutations::mutant_small_sort_network)]
 fn k15_mutant_existing_k10_presorted_len() {
     w2p2_k10_u8_n10();
