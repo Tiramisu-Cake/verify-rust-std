@@ -809,3 +809,12 @@ Merge arbitrary не заявляет sortedness, relies на штатный --n
 как принятые W2 O1-A. Presorted — детерминированная регрессия, не полный домен;
 K15 использует u8/короткие входы как свидетели чувствительности, без переноса
 полноты на другие типы. Runtime std, contract attrs и lane собственными правками не менялись.
+
+REVIEW REQUEST ec01899e7a4ff91040f589ed4c90d53eafa9f63d
+
+Файлы: kani_k1.rs; kani_k1/{assembly,mutations,merge,network,smoke,uninit}.rs.
+Нужен R9 кода L1-6/L1-9: изоляция cfg/состав, пять пар свойство+мутант,
+ZST-aware reads и strict comparator K9s. Результатов B пока нет;
+measurement подготовлен на14 гармоник, Python validate accepted14, diff --check OK.
+Независимый Luna High smallsort_reviewer читает тот же закоммиченный набор;
+официальный вердикт координатора ожидается, во время review работа продолжается.
