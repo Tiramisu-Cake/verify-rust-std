@@ -454,7 +454,7 @@ check-tooling против `f5db92cc`: все строки ok.
 - Почему это переносится на реальный код, а не только на гармоники: unsupported
   срабатывает на самой конструкции `MaybeUninit`, которую использует сортировка:
   - `small_sort_network` создаёт
-    `MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit()` (smallsort.rs:329) —
+    `MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit()` (smallsort.rs:327) —
     та же форма, что строка 378 (текст B);
   - `small_sort_general` — `MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit()`
     (smallsort.rs:206), та же форма;
