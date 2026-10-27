@@ -2951,3 +2951,7 @@ COMPLETE, gate true; check-tooling ok против 9de80e0b. `w2night_o3_tags_n3
 Tag multiplicity N3 измерена для всех трёх маршрутов/всех insertion offset; все covers выполнены. R9 be1aa9b8 ожидается. Известный summary wall П2:13552,56 с; ночь:10471,73 с,17 dispatch.
 
 Последний запрос ночной очереди net-night-18-o3-tags-n4: measurement1 ×10 минут, ожидается SUCCESS/covers9/9. Тот же helper/comparator/ledger, snapshotbe1aa9b8; код не менялся. После summary/check-tooling — итог и маркер ночи, новых опытов вне очереди нет.
+
+| 18 (П2 #32) | net-night-18-o3-tags-n4 | 164 | 507c3998 | w2night_o3_tags_n4 | SUCCESS |
+
+Ожидание `k1.sh watch 164`, затем конец turn. После уведомления — summary/check-tooling164, итог ночи и маркер завершения.
