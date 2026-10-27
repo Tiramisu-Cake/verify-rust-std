@@ -1901,8 +1901,14 @@ fn w2night_drop_abort_quiet() -> ! {
     unreachable!()
 }
 
-fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() -> bool {
+fn w2night_drop_run<
+    const N: usize,
+    const UPPER: bool,
+    const PERM: bool,
+    const MUTANT: u8,
+>() -> bool {
     const { assert!(N >= 2 && N <= 32) };
+    const { assert!(MUTANT <= 2) };
     // SAFETY: no prior array or counter reference survives into this harness.
     unsafe { ptr::write(ptr::addr_of_mut!(W2NIGHT_DROP_COUNT), 0) };
     let mut v: [W2NightDrop; N] = crate::array::from_fn(|tag| W2NightDrop {
@@ -1925,6 +1931,18 @@ fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() -> bo
     } else {
         super::super::small_sort_fallback(&mut v, &mut cmp);
     }
+    // Review controls only; ordinary harnesses instantiate MUTANT = 0.
+    if MUTANT == 1 {
+        // Deliberately duplicate the first output tag and lose the second.
+        // Addresses are valid and disjoint; the tag property must fail.
+        unsafe {
+            let base = v.as_mut_ptr();
+            ptr::copy_nonoverlapping(base, base.add(1), 1);
+        }
+    } else if MUTANT == 2 {
+        // Deliberately observe one extra destructor before array destruction.
+        unsafe { crate::mem::drop(ptr::read(v.as_ptr())) };
+    }
     if PERM {
         let mut count = 0usize;
         for value in &v {
@@ -1933,13 +1951,13 @@ fn w2night_drop_run<const N: usize, const UPPER: bool, const PERM: bool>() -> bo
         // Input tags are precisely 0..N, each once. Probe covers all u8 tags,
         // including identities outside the input; no assumption on the probe.
         let expected = if (probe as usize) < N { 1 } else { 0 };
-        assert!(count == expected, "K14r: tag probe multiplicity preserved");
+        assert!(count == expected);
     }
     crate::mem::drop(v);
     if !PERM {
         // SAFETY: single-threaded harness; the array was explicitly destroyed.
         let count = unsafe { ptr::read(ptr::addr_of!(W2NIGHT_DROP_COUNT)) };
-        assert!(count == N, "K14r: exactly N drops after explicit array destruction");
+        assert!(count == N);
     }
     alternate
 }
@@ -1961,7 +1979,7 @@ macro_rules! w2night_drop_fixed {
         #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
         #[kani::unwind(34)]
         fn $name() {
-            let alternate = w2night_drop_run::<$n, $upper, $perm>();
+            let alternate = w2night_drop_run::<$n, $upper, $perm, 0>();
             kani::cover(!alternate, $first);
             kani::cover(alternate, $second);
         }
@@ -1972,7 +1990,7 @@ macro_rules! w2night_drop_fixed {
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
 #[kani::unwind(34)]
 fn w2night_drop_control_a() {
-    let alternate = w2night_drop_run::<2, true, false>();
+    let alternate = w2night_drop_run::<2, true, false, 0>();
     kani::cover(!alternate, "K14r: general normal return and property checked");
     kani::cover(alternate, "K14r: stable-Freeze normal return and property checked");
     let drop_control_value: u64 = kani::any();
@@ -1998,3 +2016,19 @@ w2night_drop_fixed!(w2night_drop_upper24_count, 24, true, false, w1_abort_ord_vi
 w2night_drop_fixed!(w2night_drop_upper24_perm, 24, true, true, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_upper32_count, 32, true, false, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_upper32_perm, 32, true, true, w1_abort_ord_violation);
+
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w2night_drop_abort_quiet)]
+#[kani::unwind(34)]
+fn w2night_drop_duplicate_tag_control() {
+    kani::cover(true, "K14r: duplicate-tag control entered");
+    w2night_drop_run::<2, false, true, 1>();
+}
+
+#[kani::proof]
+#[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w2night_drop_abort_quiet)]
+#[kani::unwind(34)]
+fn w2night_drop_extra_drop_control() {
+    kani::cover(true, "K14r: extra-drop control entered");
+    w2night_drop_run::<2, false, false, 2>();
+}
