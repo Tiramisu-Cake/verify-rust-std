@@ -828,6 +828,28 @@ fn bm_u64_len16() {
     bm_len::<u64, _, 16>(lt_u64);
 }
 
+// Extended layer E-1 (TASK-ext.md, CD-6): formulation 1 at lengths above 16, one harness per
+// request on the 32 GB resource lane, same pattern as bm_u64_len16. Length 32 reuses the existing
+// identical `bm_u64_len32` below.
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len20() {
+    bm_len::<u64, _, 20>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len24() {
+    bm_len::<u64, _, 24>(lt_u64);
+}
+
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn bm_u64_len28() {
+    bm_len::<u64, _, 28>(lt_u64);
+}
+
 // Phase 3 tool control (TASK-merge.md «Фаза 3» p. 2): are loop contracts on the Kani pin broken
 // for any `for` loop over a `Range` on an array of up to 32 elements, or only inside
 // `bidirectional_merge`? Trivial invariant, plain proof, nothing from smallsort.
@@ -2032,3 +2054,61 @@ fn w2night_drop_extra_drop_control() {
     kani::cover(true, "K14r: extra-drop control entered");
     w2night_drop_run::<2, false, false, 2>();
 }
+
+// ---------------------------------------------------------------------------------------------
+// Extended layer E-2 (TASK-ext.md, CD-6): safety of `insertion_sort_shift_left` at lengths
+// 16..=20 with every offset 1..=len (B4 extension). Plain proofs, no `should_panic`, real bodies,
+// no stubs. The comparator reads both arguments (CD-2) and returns `kani::any()`. One exact
+// array of N u64 per harness. The offset is chosen nondeterministically in 1..=N and dispatched
+// to a constant through `match`, as in W2-network, so the initial tail pointer is not symbolic.
+
+fn ext_insertion_at<const O: usize>(v: &mut [u64]) {
+    super::super::insertion_sort_shift_left(v, O, &mut w1_arbitrary_less);
+}
+
+fn ext_insertion_all_offsets<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let offset: usize = kani::any_where(|&o: &usize| 1 <= o && o <= N);
+    match offset {
+        1 => ext_insertion_at::<1>(&mut v),
+        2 => ext_insertion_at::<2>(&mut v),
+        3 => ext_insertion_at::<3>(&mut v),
+        4 => ext_insertion_at::<4>(&mut v),
+        5 => ext_insertion_at::<5>(&mut v),
+        6 => ext_insertion_at::<6>(&mut v),
+        7 => ext_insertion_at::<7>(&mut v),
+        8 => ext_insertion_at::<8>(&mut v),
+        9 => ext_insertion_at::<9>(&mut v),
+        10 => ext_insertion_at::<10>(&mut v),
+        11 => ext_insertion_at::<11>(&mut v),
+        12 => ext_insertion_at::<12>(&mut v),
+        13 => ext_insertion_at::<13>(&mut v),
+        14 => ext_insertion_at::<14>(&mut v),
+        15 => ext_insertion_at::<15>(&mut v),
+        16 => ext_insertion_at::<16>(&mut v),
+        17 if N >= 17 => ext_insertion_at::<17>(&mut v),
+        18 if N >= 18 => ext_insertion_at::<18>(&mut v),
+        19 if N >= 19 => ext_insertion_at::<19>(&mut v),
+        20 if N >= 20 => ext_insertion_at::<20>(&mut v),
+        _ => {}
+    }
+    kani::cover(offset == 1, "E-2 insertion: offset 1 normal return");
+    kani::cover(offset == N, "E-2 insertion: offset len normal return");
+    kani::cover(true, "E-2 insertion: end reached");
+}
+
+macro_rules! ext_insertion_safety {
+    ($name:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(25)]
+        fn $name() {
+            ext_insertion_all_offsets::<$n>();
+        }
+    };
+}
+
+ext_insertion_safety!(ext_b4_u64_n16, 16);
+ext_insertion_safety!(ext_b4_u64_n17, 17);
+ext_insertion_safety!(ext_b4_u64_n18, 18);
+ext_insertion_safety!(ext_b4_u64_n19, 19);
+ext_insertion_safety!(ext_b4_u64_n20, 20);

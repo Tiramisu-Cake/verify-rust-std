@@ -1,19 +1,13 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w2-merge-night-k14-upper24-032",
-  "agent": "k1-merge",
+  "request_id": "coord-assembly-compile-001",
+  "agent": "coordinator",
   "kind": "measurement",
-  "runner": "circleci-linux-large",
-  "purpose": "K-14r next upper step N24 after green N16 pair: separate Drop-count and tag-probe permutation for general/stable-Freeze. Pair required for claim (a), listed even lengths only. Real bodies, MUTANT=0, arbitrary reading comparator, only order-violation stub.",
+  "purpose": "Integration of wavemerge + wavenetwork + extended on base 67a4b452: the merged tree compiles; smoke harnesses only",
+  "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper24_count",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w2night_drop_upper24_perm",
-      "expect": "SUCCESS"
-    }
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::ok", "expect": "SUCCESS"},
+    {"name": "slice::sort::shared::smallsort::kani_k1::smoke::control_must_fail", "expect": "FAILED", "expect_check": "has_efficient_in_place_swap"}
   ]
 }
