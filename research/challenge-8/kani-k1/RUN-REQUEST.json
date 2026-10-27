@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1-002-sort4-cd2",
+  "request_id": "w3-l1-003-sort4-gate-k9s-u8",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "R8 L1-3: strict-comparator contract proofs plus arbitrary-comparator safety and permutation, both volatile-reading, u64/b16/b85",
+  "purpose": "R8 L1-3 gate for four completed sort4 proofs; L1-4 K9s u8 N9..16 and preserved u8/u64 N17 regressions",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -24,11 +24,43 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w3_sort4_contract_b85",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::merge::w3_sort4_arbitrary_b85",
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n11",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w3_k9s_u8_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u8_indices17",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::kani_k1::network::w2night_k9s_u64_indices17",
       "expect": "SUCCESS"
     }
   ]

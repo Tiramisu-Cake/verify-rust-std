@@ -143,3 +143,40 @@ R7-4: cover конечной позиции сети выбирает 8 при N
 Ожидается SUCCESS всех. Не измерено; dispatch после разбора build2.
 Максимум measurement 150 минут означает не больше 15 гармоник в одном запросе:
 новые16 будут проверяться более чем одним build, без превышения доли агента.
+
+## Build 2 — результаты L1-3
+
+`9a62b6cf-b26c-41c7-a6a3-3f333f4fb402`: COMPLETE, gate false,
+Kani exit1, measurement не принят. Причина — два TIMEOUT, не найденные FAILED checks.
+
+| Гармоника | ожидался / факт | время, с | failed/total | unreachable | covers |
+|---|---|---:|---|---:|---|
+| w3_sort4_contract_u64 | SUCCESS / SUCCESS | 102,3778 | 0/354 | 44 | 1/1 |
+| w3_sort4_arbitrary_u64 | SUCCESS / SUCCESS | 5,507581 | 0/164 | 36 | 1/1 |
+| w3_sort4_contract_b16 | SUCCESS / SUCCESS | 106,54522 | 0/532 | 47 | 1/1 |
+| w3_sort4_arbitrary_b16 | SUCCESS / SUCCESS | 21,07747 | 0/408 | 39 | 1/1 |
+| w3_sort4_contract_b85 | SUCCESS / TIMEOUT | лимит600 | — | — | — |
+| w3_sort4_arbitrary_b85 | SUCCESS / TIMEOUT | лимит600 | — | — | — |
+
+Wall whole run1548,45 с, max RSS2621380 KiB (cbmc); суммарный sampled RSS peak
+2859116 KiB (2,73 GiB), swap off. Это пики всего build, не отдельной гармоники.
+Подготовка до verify342 с. Стоимость ($1548.45/60+8)×$0,0194 = $0.655866.
+Нарастающий расход W3-L1: $0.831468 / $6,20.
+R9 GO на исходный код остаётся; результаты при gate false не выдаются за общий PASS.
+
+R7-5: [u8;85] зафиксирован как TIMEOUT при600 с, превышение ориентира180 с
+раскрыто. Повтор с большим timeout не назначается: не закрывает CI-критерий,
+а на очередь остаётся ограниченная доля. Четыре успешные гармоники повторяются
+в следующем measurement для gate true без двух b85. Их код неизменен.
+В тот же запрос войдут K9s u8N9..16 и обе N17 для регрессии общего helper.
+Вторая половина K9s u64N9..16 пойдёт в следующий запрос. L1-5 ещё не запускался.
+
+REVIEW REQUEST 924e2266932032ef5d9c3b7998510de25877a3e4
+
+network.rs: w3_k9s_indices и16 новых proof_for_contract, сохранённые N17.
+Проверить точный размер, различные символьные позиции, frame, прежний comparator,
+cover позиции8/12 и отсутствие unreachable cover при N<13.
+
+Build2 check-tooling: exit0, pool/lane и все5 SHA-256 совпали с базой67a4b452.
+log-grep: CBMC timed out на строках2720/2748 (arbitrary_b85/contract_b85),
+без FAILED check и без времени Verification Time для этих двух гармоник.
