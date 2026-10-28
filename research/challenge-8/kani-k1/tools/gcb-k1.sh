@@ -99,11 +99,13 @@ stage() {
         return 0
       fi
       if python3 -B -c 'import json,sys; sys.exit(not json.load(open(sys.argv[1])).get("inventory", False))' "$K1_REQUEST"; then
-        # Match scripts/run-kani.sh get_harnesses exactly: list with the same unstable flags, std selection
-        # and JSON format. Its current call has no --no-assert-contracts option (that belongs to verify).
+        # Use the same list/std/JSON path as get_harnesses, but codegen only our prefix.
+        # Unfiltered std inventory consumed ~49 min; substring selection retains all our proofs.
+        # list has no --no-assert-contracts option here (that belongs to verification).
         unstable_args="-Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing"
         python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
-        "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json
+        "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json \
+          --harness 'slice::sort::shared::smallsort::verify::'
         test -s kani-list.json
         python3 -B "$K1_TOOLS/kani_k1.py" write-inventory --listing kani-list.json \
           --request "$K1_REQUEST" --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit)" \

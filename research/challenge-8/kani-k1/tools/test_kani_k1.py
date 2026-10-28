@@ -62,6 +62,12 @@ def summ(log, req=None, time=TIME, exit_code=1, request_error=None, build_outcom
 ONLY_OK = [{"name": P + "smoke::ok", "expect": "SUCCESS"}]
 
 
+class InventoryPrefixScopeTests(unittest.TestCase):
+    def test_inventory_filters_codegen_to_all_smallsort_proofs(self):
+        script = (Path(__file__).parent / "gcb-k1.sh").read_text()
+        self.assertIn("--harness 'slice::sort::shared::smallsort::verify::'", script)
+
+
 class RequestTests(unittest.TestCase):
     def bad(self, mutate, needle):
         req = copy.deepcopy(REQ)
