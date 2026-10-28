@@ -1,0 +1,80 @@
+interval_ms=2000
+samples=682
+elapsed_s=1366
+total_rss_peak_kb=7745248
+total_peak_s=761
+cmd=bash peak_kb=3872 first_s=0 last_s=1366 peak_s=0
+cmd=cargo peak_kb=34308 first_s=0 last_s=64 peak_s=4
+cmd=cbmc peak_kb=3480244 first_s=68 last_s=1364 peak_s=773
+cmd=cc1 peak_kb=9760 first_s=66 last_s=66 peak_s=66
+cmd=gcc peak_kb=1180 first_s=66 last_s=66 peak_s=66
+cmd=goto-cc peak_kb=31488 first_s=66 last_s=66 peak_s=66
+cmd=goto-instrument peak_kb=51380 first_s=66 last_s=915 peak_s=68
+cmd=kani-compiler peak_kb=1842020 first_s=2 last_s=64 peak_s=50
+cmd=kani-driver peak_kb=5282304 first_s=0 last_s=1364 peak_s=309
+cmd=run-kani.sh peak_kb=3532 first_s=0 last_s=1364 peak_s=0
+cmd=tee peak_kb=1180 first_s=0 last_s=1366 peak_s=0
+cmd=time peak_kb=1172 first_s=0 last_s=1364 peak_s=0
+cmd=timeout peak_kb=1092 first_s=0 last_s=1364 peak_s=0
+cbmc_pid=9342 peak_kb=3480244 first_s=668 last_s=785 peak_s=773 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9288 peak_kb=2237496 first_s=70 last_s=295 peak_s=116 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9380 peak_kb=2229580 first_s=917 last_s=1364 peak_s=1222 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9278 peak_kb=1550136 first_s=68 last_s=666 peak_s=182 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9315 peak_kb=1442044 first_s=313 last_s=911 peak_s=333 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9261 peak_kb=142028 first_s=68 last_s=666 peak_s=72 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+driver_s=0 rss_kb=6080
+harness_s=68 name=network::insertion_permutation_u64_n12
+driver_s=30 rss_kb=6080
+harness_s=68 name=network::network_correctness_u64_n14
+driver_s=60 rss_kb=6332
+harness_s=70 name=correct::sorted_permutation_general_stable_u8_n14
+driver_s=90 rss_kb=6672
+harness_s=313 name=merge::general_stable_sorted_permutation_u64_n12
+driver_s=120 rss_kb=6672
+harness_s=668 name=network::mutating_insertion_safety_cell_n11_to12
+driver_s=150 rss_kb=6672
+harness_s=917 name=merge::merge_contract_u64_n13
+driver_s=180 rss_kb=6672
+driver_s=211 rss_kb=273236
+driver_s=241 rss_kb=615268
+driver_s=271 rss_kb=1157968
+driver_s=301 rss_kb=3679672
+driver_s=331 rss_kb=3242124
+driver_s=361 rss_kb=3242124
+driver_s=392 rss_kb=3242124
+driver_s=422 rss_kb=3242124
+driver_s=452 rss_kb=3242124
+driver_s=482 rss_kb=3242124
+driver_s=512 rss_kb=3242124
+driver_s=542 rss_kb=3242124
+driver_s=572 rss_kb=3242124
+driver_s=602 rss_kb=3242124
+driver_s=632 rss_kb=3242124
+driver_s=662 rss_kb=3242124
+driver_s=692 rss_kb=3242172
+driver_s=723 rss_kb=3242432
+driver_s=753 rss_kb=3242696
+driver_s=783 rss_kb=3374976
+driver_s=813 rss_kb=3333180
+driver_s=843 rss_kb=3333180
+driver_s=873 rss_kb=3333180
+driver_s=903 rss_kb=3333180
+driver_s=933 rss_kb=3333180
+driver_s=963 rss_kb=3333180
+driver_s=993 rss_kb=3333180
+driver_s=1023 rss_kb=3333180
+driver_s=1053 rss_kb=3333180
+driver_s=1084 rss_kb=3333180
+driver_s=1114 rss_kb=3333180
+driver_s=1144 rss_kb=3333180
+driver_s=1174 rss_kb=3333180
+driver_s=1204 rss_kb=3333180
+driver_s=1234 rss_kb=3333180
+driver_s=1264 rss_kb=3333180
+driver_s=1294 rss_kb=3333180
+driver_s=1324 rss_kb=3333180
+driver_s=1354 rss_kb=3486784
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=357
+verify_budget_s=4683
