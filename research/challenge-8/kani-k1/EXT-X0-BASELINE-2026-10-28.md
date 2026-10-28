@@ -2,7 +2,8 @@
 
 Дата: 2026-10-28. Интегратор X0, бумажный этап, Cloud **$0**.
 Основание: `TASK-ext-x0.md`, EXT R2 §2–4.2, §5.1, §8 на
-`a5091f26a110f2c9e0180e9b64ad91507ac9bd7b`.
+`a03f8c3acbd87ed5c418a52561e69c63f57e94ea`, включая уточнение EXT R2 §8 и §4
+дополнения `CH8-PLAN-R8-ADDENDUM-SUBMISSION-2026-10-28.md`.
 
 ## 1. Зафиксированный срез и смысл E_M
 
@@ -11,6 +12,12 @@
 4×ubuntu-latest с `KANI_JOBS=2` и 4×macos-latest. В X0 его состояние
 не опрашивалось; все итоговые платформенные клетки ниже оставлены
 `TODO (coordinator, final CI)`. Этот документ не объявляет кандидата принятым.
+До выдачи кодовых X6/X7 требуется решение по П-2 дополнения R8. Если
+приняты изменения пакета, сначала отдельно разрешённые П-3/П-5, затем
+фиксация `S_M′` и обновление X0 (source SHA, реестр, зависимости, раскладка);
+иначе база — `S_M`. Ниже сохранён срез `S_M`; прежние T/P/H/M относятся
+только к прежнему составу. Соответствующие величины изменённой базы до
+новых результатов — UNKNOWN.
 
 Прочитанные источники (позднейшие изменения не подразумеваются):
 
@@ -231,7 +238,7 @@ L2 sequential build peak8,78GiB нельзя делить на число гар
 | --- | --- |
 | smallsort.rs:777–807 `merge_up` | `unsafe fn<T,F:FnMut(&T,&T)->bool>(left_src:*const T,right_src:*const T,dst:*mut T,is_less:&mut F)->(*const T,*const T,*mut T)`. Читает оба source, `is_l=!less(right,left)`, копирует выбранный source, продвигает ровно один source и dst через add(1). Оба текущих source initialized/aligned/readable, dst writable/aligned и disjoint с копируемым значением; арифметика add(0/1) остаётся в allocation/one-past |
 | smallsort.rs:810–840 `merge_down` | Та же сигнатура. При is_l копирует right, иначе left; выбранный source — wrapping_sub(1), dst — sub(1). Помимо чтения/записи нужен допустимый predecessor dst в его allocation. Writable singleton с dst на первом элементе недостаточен для non-ZST. Source wrapping-cursor может выйти за начало после потребления, но не разыменовывается в таком состоянии |
-| smallsort.rs:865–945 `bidirectional_merge` | `unsafe fn<T:FreezeMarker,F:FnMut(&T,&T)->bool>(v:&[T],dst:*mut T,is_less:&mut F)`. len≥2, initialized source slice, dst valid for len writes и не overlap с source; halves floor(len/2)/ceil(len/2). Runtime верхнего предела32 нет; Kani-contract ограничен2..32 |
+| smallsort.rs:865–946 `bidirectional_merge` | `unsafe fn<T:FreezeMarker,F:FnMut(&T,&T)->bool>(v:&[T],dst:*mut T,is_less:&mut F)`. len≥2, initialized source slice, dst valid for len writes и не overlap с source; halves floor(len/2)/ceil(len/2). Runtime верхнего предела32 нет; Kani-contract ограничен2..32 |
 
 Source-курсоры между собой могут совпадать: shared reads сами по себе
 не требуют source-source disjoint. Нельзя выводить ownership/provenance
@@ -392,7 +399,13 @@ definition. Стандартный `kani list` не запускался. Ordina
 | `uninit` | 59 | 0 | 59 |
 | `mutations` | 0 | 0 | 0 |
 
-**Сверка:** L1 = 114 merge + 206 network + 13 assembly + 1 smoke = **334**; L2 correct = **21**; итог **355**, расхождение с RESULT W3-L1/L2 = **0**. Ранний macOS также сообщал261+73=334 SmallSort entries. Частичный GCB p2 не является полным инвентарём.
+**Сверка:** L1 = 114 merge + 206 network + 13 assembly + 1 smoke = **334**; L2 correct = **21**; итог **355**, расхождение с RESULT W3-L1/L2 = **0**.
+Происхождение334: macOS L1-8 на `5c713131` сообщил261+73 SmallSort entries
+по партициям p2/p4 (p1/p3 —0), отчёт на `41659f9f`. Число21 перенесённых
+обычных гармоник — из `RESULT-w3-l1.md` на `b6b480cc`, итог этапа D.
+`git diff 5c713131 ac0dbbf0 -- library/` содержит только `mod correct;`
+в `smallsort/kani_k1.rs` и новый `correct.rs`: два файла,231 добавленная
+строка (1+230). Частичный GCB p2 не является полным инвентарём.
 
 Классы ordinary: 177 safety и178 correctness. Это классификация проверяемых свойств в source, не статусы SUCCESS/FAILED. `control` означает любую исключённую diagnostic/retired/negative entry, включая положительные opt-in эксперименты; это не объявление всех270 отрицательными контролями. У всех270 дополнительный cfg — `kani_smallsort_controls`, у всех625 также действует родительский `cfg(kani)`. Отдельного `kani_smallsort_uninit` на этих proof items нет; U-1 требует uninit-флаг в запросе, один cfg его не включает.
 
@@ -600,9 +613,9 @@ definition. Стандартный `kani list` не запускался. Ordina
 
 | Expanded entrypoint | Item line | Macro line | Harness / contract | Тип | N / домен | Вид | Проверяемое свойство / назначение | cfg |
 | --- | ---: | ---: | --- | --- | --- | --- | --- | --- |
-| `swap_if_less_u8` | 35 | — | `proof_for_contract(swap_if_less)` | `u8` | `N=2 exact [T;2]; indices 0,1; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
-| `swap_if_less_i32` | 40 | — | `proof_for_contract(swap_if_less)` | `i32` | `N=2 exact [T;2]; indices 0,1; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
-| `swap_if_less_u64` | 45 | — | `proof_for_contract(swap_if_less)` | `u64` | `N=2 exact [T;2]; indices 0,1; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
+| `swap_if_less_u8` | 35 | — | `proof_for_contract(swap_if_less)` | `u8` | `N=4 exact [T;4]; symbolic a,b<4 with a!=b, both index orders; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
+| `swap_if_less_i32` | 40 | — | `proof_for_contract(swap_if_less)` | `i32` | `N=4 exact [T;4]; symbolic a,b<4 with a!=b, both index orders; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
+| `swap_if_less_u64` | 45 | — | `proof_for_contract(swap_if_less)` | `u64` | `N=4 exact [T;4]; symbolic a,b<4 with a!=b, both index orders; swap/no-swap contract and unchanged frame` | correctness | proof_for_contract(swap_if_less): swapped pair and exact untouched-frame contract | `ordinary` |
 | `r11_control_swap_if_less_requires` | 54 | — | `proof` | `u8` | `N=2 exact [u8;2]; calls swap_if_less at indices (1,1), deliberate requires violation` | control | opt-in/control/diagnostic harness; excluded by cfg from ordinary list | `kani_smallsort_controls` |
 | `sort9_u8` | 105 | 83 | `proof_for_contract($f)` | `u8` | `Backing [T;17]; runtime len N..=17 with N=9; calls network on v[..len]; contract covers/sorts prefix N and harness checks unchanged suffix v[N..]; comparator invocation lt_*` | control | opt-in/control/diagnostic harness; excluded by cfg from ordinary list | `kani_smallsort_controls` |
 | `sort9_i32` | 107 | 83 | `proof_for_contract($f)` | `i32` | `Backing [T;17]; runtime len N..=17 with N=9; calls network on v[..len]; contract covers/sorts prefix N and harness checks unchanged suffix v[N..]; comparator invocation lt_*` | control | opt-in/control/diagnostic harness; excluded by cfg from ordinary list | `kani_smallsort_controls` |
