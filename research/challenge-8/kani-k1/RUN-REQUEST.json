@@ -1,27 +1,30 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "c3a-types-priority1-01",
+  "request_id": "c3a-types-controls-02",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "C3a first package: logical sortedness and full-value multiset via stable/unstable trait entries; Cell and Freeze non-Copy Drop; lengths 0/1/2 and 7/8/9",
+  "purpose": "C3a opt-in oracle controls: real trait positive, sortedness-only and permutation-only corruptions with exact expected assertions; updated ordinary swap predicate matrix",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
+      "name": "slice::sort::shared::smallsort::verify::types::control_sorted_permutation_traits_cell_drop_n0_to2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7_to9",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_sortedness_cell_n2",
+      "expect": "FAILED",
+      "expect_check": "logical output is sorted"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_permutation_drop_n2",
+      "expect": "FAILED",
+      "expect_check": "logical multiset is preserved"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n7_to9",
+      "name": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
       "expect": "SUCCESS"
     }
-  ]
+  ],
+  "controls": true
 }
