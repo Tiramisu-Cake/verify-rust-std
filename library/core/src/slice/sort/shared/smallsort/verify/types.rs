@@ -141,6 +141,24 @@ trait_cases!(sorted_permutation_traits_general_drop_u8_n0_to2, DropKey, [0, 1, 2
 trait_cases!(sorted_permutation_traits_general_drop_u8_n7_to9, DropKey, [7, 8, 9]);
 
 #[cfg(kani_smallsort_controls)]
+macro_rules! fixed_trait_case {
+    ($name:ident, $t:ty, $n:literal) => {
+        #[kani::proof]
+        #[kani::solver(cadical)]
+        #[kani::unwind(50)]
+        fn $name() {
+            cover_nontrivial_input(&trait_properties::<$t, $n>());
+        }
+    };
+}
+
+// Isolated lengths below the grouped experiments' maximum; admission awaits measurement.
+#[cfg(kani_smallsort_controls)]
+fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
+#[cfg(kani_smallsort_controls)]
+fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
+
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(50)]
 fn control_sorted_permutation_traits_cell_drop_n0_to2() {
