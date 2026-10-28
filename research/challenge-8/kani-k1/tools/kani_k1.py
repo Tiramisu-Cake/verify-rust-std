@@ -62,7 +62,7 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # RUSTFLAGS="--cfg kani_smallsort_controls" to Kani; the organizers' CI never sets it, so controls stay out of
 # the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
 CONTROLS_CFG = "kani_smallsort_controls"
-OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls", "worker_index", "worker_total"}
+OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls", "worker_index", "worker_total", "inventory"}
 KANI_JOBS = {1, 2, 3}
 PARTITION_KANI_JOBS = {1, 2}
 STANDARD_DIAGNOSTIC_MAX_HARNESSES = 80
@@ -135,6 +135,11 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     for key, allowed in (("agent", AGENTS), ("kind", KINDS), ("runner", RUNNERS)):
         if not isinstance(data[key], str) or data[key] not in allowed:
             raise RequestError(f"{key} must be one of {sorted(allowed)}")
+    if "inventory" in data:
+        if type(data["inventory"]) is not bool:
+            raise RequestError("inventory must be true or false")
+        if data["inventory"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
+            raise RequestError(f"inventory is only for kind diagnostic on runner {STANDARD_RUNNER}")
     if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
     partition = data["kind"] == "partition"
@@ -652,6 +657,123 @@ def ledger(builds: Any, prices: dict[str, float] | None = None) -> tuple[int, fl
     return len(builds), used, reserved
 
 
+def ledger_selected(builds: Any, ids: list[str], prices: dict[str, float]) -> tuple[int, float, float]:
+    """Price exactly the requested builds; reject duplicate inputs or ambiguous/missing build records."""
+    if not ids or len(ids) != len(set(ids)):
+        raise ValueError("selected build IDs must be non-empty and unique")
+    if not prices:
+        raise ValueError("selected build budget requires explicit pool prices")
+    if not isinstance(builds, list):
+        raise ValueError("build list must be a JSON array")
+    if len(builds) >= 1000:
+        raise ValueError("1000 or more builds listed; selected budget may undercount")
+    selected = []
+    for build_id in ids:
+        matches = [b for b in builds if isinstance(b, dict) and b.get("id") == build_id]
+        if len(matches) != 1:
+            raise ValueError(f"build ID {build_id} found {len(matches)} times in ledger; expected exactly once")
+        selected.append(matches[0])
+    return ledger(selected, prices)
+
+
+INVENTORY_SCHEMA = "kani-k1-ordinary-inventory-v1"
+
+
+def extract_inventory(listing: Any) -> list[str]:
+    """Match scripts/run-kani.sh get_harnesses extraction, then retain names in the verify module."""
+    if not isinstance(listing, dict) or listing.get("file-version") != "0.1":
+        raise ValueError("kani list JSON file-version must be 0.1")
+    names: list[str] = []
+    for section in ("standard-harnesses", "contract-harnesses"):
+        groups = listing.get(section)
+        if not isinstance(groups, dict):
+            raise ValueError(f"kani list JSON missing {section} object")
+        for values in groups.values():
+            if not isinstance(values, list) or any(not isinstance(name, str) for name in values):
+                raise ValueError(f"kani list JSON {section} entries must be arrays of names")
+            names.extend(name for name in values if name.startswith(HARNESS_PREFIX))
+    if any(not HARNESS_RE.fullmatch(name) for name in names):
+        raise ValueError("kani list returned a verify harness name outside the accepted full-name format")
+    if len(names) != len(set(names)):
+        raise ValueError("kani list returned duplicate verify harness names")
+    if not names:
+        raise ValueError("kani list returned no ordinary verify harnesses")
+    return names
+
+
+def write_inventory(listing: Any, request_text: str, head_sha: str, kani_commit: str, build_id: str,
+                    out: Path) -> None:
+    request = validate_request(json.loads(request_text))
+    if request.get("inventory") is not True:
+        raise ValueError("inventory artifact requires request inventory=true")
+    names = extract_inventory(listing)
+    name_text = "\n".join(names) + "\n"
+    fields = [f"schema={INVENTORY_SCHEMA}", f"request_id={request['request_id']}",
+              f"request_sha256={hashlib.sha256(request_text.encode()).hexdigest()}", f"build_id={build_id}",
+              f"head_sha={head_sha}", f"kani_commit={kani_commit}", f"count={len(names)}",
+              f"names_sha256={hashlib.sha256(name_text.encode()).hexdigest()}"]
+    out.write_text("\n".join(fields) + "\n\n" + name_text)
+
+
+def _page_bounds(total: int, offset: int, count: int) -> None:
+    if type(offset) is not int or type(count) is not int or offset < 0 or not 1 <= count <= 80:
+        raise ValueError("offset must be non-negative and count must be 1..80")
+    if offset > total:
+        raise ValueError(f"offset {offset} exceeds total {total}")
+
+
+def summary_page(summary: dict[str, Any], offset: int, count: int) -> str:
+    rows = summary.get("harnesses")
+    if not isinstance(rows, list):
+        raise ValueError("summary has no harnesses array")
+    _page_bounds(len(rows), offset, count)
+    end = min(offset + count, len(rows))
+    lines = [f"request_id={((summary.get('request') or {}).get('request_id', '?'))}",
+             f"request_sha256={summary.get('request_sha256')}", f"build_id={(summary.get('run') or {}).get('id', '')}",
+             f"head_sha={summary.get('head_sha')}", f"total={len(rows)}", f"offset={offset}", f"count={end - offset}",
+             f"next_offset={end if end < len(rows) else 'done'}", "name\tstatus\ttime_s\tchecks\tcovers"]
+    for row in rows[offset:end]:
+        checks = "" if row.get("checks_total") is None else f"{row.get('checks_failed')}/{row['checks_total']}"
+        covers = "" if row.get("covers_total") is None else f"{row.get('covers_satisfied')}/{row['covers_total']}"
+        lines.append(f"{row.get('name', '')}\t{row.get('status', '')}\t{row.get('time_s', '')}\t{checks}\t{covers}")
+    return "\n".join(lines) + "\n"
+
+
+def inventory_page(inventory_text: str, summary: dict[str, Any], offset: int, count: int) -> str:
+    header, sep, body = inventory_text.partition("\n\n")
+    if not sep:
+        raise ValueError("inventory file has no names section")
+    fields = dict(line.split("=", 1) for line in header.splitlines() if "=" in line)
+    names = body.splitlines()
+    try:
+        total = int(fields["count"])
+    except (KeyError, ValueError) as exc:
+        raise ValueError("inventory count missing or invalid") from exc
+    canonical = "\n".join(names) + ("\n" if names else "")
+    if fields.get("schema") != INVENTORY_SCHEMA or total != len(names) \
+            or hashlib.sha256(canonical.encode()).hexdigest() != fields.get("names_sha256"):
+        raise ValueError("inventory schema/count/names SHA-256 mismatch")
+    request = summary.get("request") or {}
+    run = summary.get("run") or {}
+    if request.get("inventory") is not True:
+        raise ValueError("summary is not bound to an inventory=true request")
+    bindings = {"request_id": request.get("request_id"), "request_sha256": summary.get("request_sha256"),
+                "build_id": run.get("id"), "head_sha": summary.get("head_sha"),
+                "kani_commit": summary.get("kani_commit")}
+    for key, expected in bindings.items():
+        if fields.get(key) != str(expected or ""):
+            raise ValueError(f"inventory {key} does not match summary")
+    _page_bounds(total, offset, count)
+    end = min(offset + count, total)
+    lines = [f"request_id={fields['request_id']}", f"request_sha256={fields['request_sha256']}",
+             f"build_id={fields['build_id']}", f"head_sha={fields['head_sha']}",
+             f"kani_commit={fields['kani_commit']}", f"inventory_sha256={hashlib.sha256(inventory_text.encode()).hexdigest()}",
+             f"names_sha256={fields['names_sha256']}",
+             f"total={total}", f"offset={offset}", f"count={end - offset}",
+             f"next_offset={end if end < total else 'done'}", *names[offset:end]]
+    return "\n".join(lines) + "\n"
+
+
 def file_bindings(paths: list[str]) -> dict[str, str]:
     out: dict[str, str] = {}
     for p in paths:
@@ -712,6 +834,7 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["request"]["kani_jobs"] = request.get("kani_jobs", 1)
     summary["request"]["uninit_checks"] = request.get("uninit_checks", False)
     summary["request"]["controls"] = request.get("controls", False)
+    summary["request"]["inventory"] = request.get("inventory", False)
     if request.get("controls"):
         summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
     if request.get("uninit_checks"):
@@ -973,6 +1096,23 @@ def main(argv: list[str]) -> int:
     led = sub.add_parser("ledger")
     led.add_argument("--price", action="append", default=[], metavar="POOL=USD",
                      help="per-minute price of a worker pool (repeatable); prices the ledger in USD")
+    led.add_argument("--id", action="append", default=[], help="price only this build UUID (repeatable)")
+    inv = sub.add_parser("write-inventory")
+    inv.add_argument("--listing", required=True)
+    inv.add_argument("--request", required=True)
+    inv.add_argument("--head-sha", required=True)
+    inv.add_argument("--kani-commit", required=True)
+    inv.add_argument("--build-id", required=True)
+    inv.add_argument("--out", required=True)
+    ps = sub.add_parser("page-summary")
+    ps.add_argument("summary")
+    ps.add_argument("offset", type=int)
+    ps.add_argument("count", type=int)
+    pi = sub.add_parser("page-inventory")
+    pi.add_argument("inventory")
+    pi.add_argument("summary")
+    pi.add_argument("offset", type=int)
+    pi.add_argument("count", type=int)
     m = sub.add_parser("sample-mem")
     m.add_argument("--out", required=True)
     m.add_argument("--interval", type=float, default=2.0)
@@ -989,10 +1129,35 @@ def main(argv: list[str]) -> int:
                     if not pool or not math.isfinite(float(usd)) or float(usd) <= 0:
                         raise ValueError(f"bad --price {item!r}")
                     prices[pool] = float(usd)
-            count, used, reserved = ledger(json.load(sys.stdin), prices)
+            builds = json.load(sys.stdin)
+            count, used, reserved = ledger_selected(builds, a.id, prices) if a.id else ledger(builds, prices)
             print(count, *((f"{used:.4f}", f"{reserved:.4f}") if prices else (used, reserved)))
         except (ValueError, TypeError, AttributeError) as exc:
             print(f"ledger: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "write-inventory":
+        try:
+            write_inventory(json.loads(Path(a.listing).read_text()), Path(a.request).read_text(), a.head_sha,
+                            a.kani_commit, a.build_id, Path(a.out))
+        except (OSError, json.JSONDecodeError, ValueError, KeyError) as exc:
+            print(f"write-inventory: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "page-summary":
+        try:
+            print(summary_page(json.loads(Path(a.summary).read_text()), a.offset, a.count), end="")
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            print(f"page-summary: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "page-inventory":
+        try:
+            output = inventory_page(Path(a.inventory).read_text(), json.loads(Path(a.summary).read_text()),
+                                    a.offset, a.count)
+            print(output, end="")
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            print(f"page-inventory: {exc}", file=sys.stderr)
             return 2
         return 0
     if a.cmd == "sample-mem":

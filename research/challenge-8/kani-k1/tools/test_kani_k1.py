@@ -118,6 +118,17 @@ class RequestTests(unittest.TestCase):
         with self.assertRaises(k.RequestError):
             k.validate_request(req)
 
+    def test_inventory_request_is_diagnostic_standard_only(self):
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "inventory": True}
+        k.validate_request(diag)
+        for bad in ({**diag, "inventory": 1}, {**diag, "runner": "ubuntu-latest"},
+                    {**diag, "kind": "measurement"}):
+            with self.assertRaises(k.RequestError):
+                k.validate_request(bad)
+        partition = {**diag, "kind": "partition", "harnesses": [], "worker_index": 1, "worker_total": 2}
+        with self.assertRaises(k.RequestError):
+            k.validate_request(partition)
+
 
 class SummaryTests(unittest.TestCase):
     def test_complete_with_expectations(self):
@@ -389,6 +400,14 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertIn('--max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES"', k1g)
         self.assertIn(f"MAX_TOTAL_MINUTES={k.RESOURCE_MAX_TIMEOUT_MINUTES}", gcb)
 
+    def test_gcb_inventory_uses_kani_list_generated_json_file(self):
+        gcb = (Path(__file__).resolve().parent / "gcb-k1.sh").read_text()
+        self.assertIn('"$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json', gcb)
+        self.assertNotIn('list $unstable_args ./library --std --format json >', gcb)
+        self.assertIn("test -s kani-list.json", gcb)
+        self.assertIn("--listing kani-list.json", gcb)
+        self.assertIn('Path("kani-list.json").unlink(missing_ok=True)', gcb)
+
     def run_res(self, log, peaks=PEAKS, tracked=True, exit_code=0):
         return k.summarize(json.dumps(RES_REQ), log, TIME, exit_code, "a" * 40, "b" * 40, None, {}, {}, "success",
                            None, False, peaks, tracked)
@@ -496,6 +515,67 @@ class ResourceLaneTests(unittest.TestCase):
             bad = subprocess.run([sys.executable, "-B", str(Path(k.__file__)), "ledger", "--price", price],
                                  input="[]", capture_output=True, text=True)
             self.assertEqual(bad.returncode, 2, price)
+
+    def test_ledger_selected_ids_and_unreadable_reservation(self):
+        highmem, standard = "highmem", "standard"
+        builds = [
+            {"id": "a", "startTime": "2026-10-26T10:00:00Z", "finishTime": "2026-10-26T10:10:00Z",
+             "options": {"pool": {"name": highmem}}},
+            {"id": "b", "timeout": "120s", "options": {"pool": {"name": standard}}},
+            {"id": "other", "timeout": "bad", "options": {"pool": {"name": "unpriced"}}},
+        ]
+        prices = {highmem: 0.03, standard: 0.02}
+        self.assertEqual(k.ledger_selected(builds, ["a", "b"], prices), (2, 0.3, 0.04))
+        for ids, rows, needle in ((["missing"], builds, "found 0 times"), (["a", "a"], builds, "unique"),
+                                  (["b"], [builds[1] | {"timeout": None}], "unreadable timeout")):
+            with self.assertRaises(ValueError) as cm:
+                k.ledger_selected(rows, ids, prices)
+            self.assertIn(needle, str(cm.exception))
+        command = [sys.executable, "-B", str(Path(k.__file__)), "ledger", "--price", "highmem=0.03",
+                   "--price", "standard=0.02", "--id", "a", "--id", "b"]
+        cli = subprocess.run(command, input=json.dumps(builds[:2]), capture_output=True, text=True)
+        self.assertEqual(cli.returncode, 0)
+        self.assertEqual(cli.stdout.split(), ["2", "0.3000", "0.0400"])
+        for args, source in ((["--id", "missing"], builds), (["--id", "a", "--id", "a"], builds),
+                             (["--id", "b"], [{**builds[1], "timeout": "unreadable"}])):
+            bad = subprocess.run(command[:command.index("--id")] + args,
+                                 input=json.dumps(source), capture_output=True, text=True)
+            self.assertEqual(bad.returncode, 2)
+            self.assertNotEqual(bad.stderr, "")
+
+    def test_inventory_extract_page_and_binding(self):
+        req = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "inventory": True}
+        request_text = json.dumps(req)
+        listing = {"file-version": "0.1", "standard-harnesses": {"core": [P + "proof::one", "other::h"]},
+                   "contract-harnesses": {"core": [P + "proof::two"]}}
+        names = k.extract_inventory(listing)
+        self.assertEqual(names, [P + "proof::one", P + "proof::two"])
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "inventory.txt"
+            k.write_inventory(listing, request_text, "a" * 40, "c" * 40, "build-1", path)
+            summary = {"request": {"request_id": req["request_id"], "inventory": True},
+                       "request_sha256": __import__("hashlib").sha256(request_text.encode()).hexdigest(),
+                       "run": {"id": "build-1"}, "head_sha": "a" * 40, "kani_commit": "c" * 40}
+            page = k.inventory_page(path.read_text(), summary, 1, 1)
+            self.assertIn("total=2", page)
+            self.assertIn("next_offset=done", page)
+            self.assertIn("proof::two", page)
+            self.assertIn("request_sha256=", page)
+            with self.assertRaises(ValueError):
+                k.inventory_page(path.read_text(), {**summary, "request_sha256": "wrong"}, 0, 1)
+        summary_data = {"request": {"request_id": "x"}, "request_sha256": "hash", "head_sha": "head",
+                        "run": {"id": "build"}, "harnesses": [
+                            {"name": P + "proof::one", "status": "SUCCESS", "time_s": 2.0,
+                             "checks_failed": 0, "checks_total": 3, "covers_satisfied": 2, "covers_total": 2},
+                            {"name": P + "proof::two", "status": "TIMEOUT", "time_s": 10.0,
+                             "checks_failed": None, "checks_total": None, "covers_satisfied": None,
+                             "covers_total": None}]}
+        page = k.summary_page(summary_data, 1, 1)
+        self.assertIn("request_sha256=hash", page)
+        self.assertIn("TIMEOUT\t10.0", page)
+        self.assertIn("next_offset=done", page)
+        with self.assertRaises(ValueError):
+            k.summary_page(summary_data, 0, 81)
 
     def test_standard_pool_runner(self):
         std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}

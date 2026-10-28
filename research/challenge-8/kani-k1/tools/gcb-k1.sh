@@ -98,6 +98,24 @@ stage() {
         echo "no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
         return 0
       fi
+      if python3 -B -c 'import json,sys; sys.exit(not json.load(open(sys.argv[1])).get("inventory", False))' "$K1_REQUEST"; then
+        # Match scripts/run-kani.sh get_harnesses exactly: list with the same unstable flags, std selection
+        # and JSON format. Its current call has no --no-assert-contracts option (that belongs to verify).
+        unstable_args="-Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing"
+        python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
+        "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json
+        test -s kani-list.json
+        python3 -B "$K1_TOOLS/kani_k1.py" write-inventory --listing kani-list.json \
+          --request "$K1_REQUEST" --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit)" \
+          --build-id "${K1_BUILD_ID:-}" --out "$K1_OUT/inventory.txt"
+        python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
+      fi
+      # Inventory time consumes the existing build slack; recompute the precise remaining verify bound.
+      remaining=$(( $(cat "$K1_OUT/start") + ($(total_minutes) + VERIFY_SLACK_MINUTES) * 60 - $(date +%s) ))
+      if [ "$remaining" -le 120 ]; then
+        echo "inventory complete, but no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
+        return 0
+      fi
       { free -b | awk '/^Mem:/{print "mem_total_bytes=" $2} /^Swap:/{print "swap_total_bytes=" $2}'
         echo "verify_start_after_validate_s=$(( $(date +%s) - $(cat "$K1_OUT/start") ))"
         echo "verify_budget_s=$remaining"; } | tee "$K1_OUT/machine.txt"
@@ -185,7 +203,7 @@ echo "$rc" > "$K1_OUT/gate.rc"
 # Upload set: the same paths the CircleCI lane publishes, plus the memory peaks and machine view.
 rm -rf "$K1_OUT/upload" && mkdir -p "$K1_OUT/upload/summary" "$K1_OUT/upload/log"
 cp "$K1_OUT"/summary/summary.{md,json} "$K1_OUT/upload/summary/" 2>/dev/null || true
-for f in kani.log time.txt request-error.txt peaks.txt machine.txt memcap.txt stage-error.txt; do
+for f in kani.log time.txt request-error.txt peaks.txt machine.txt memcap.txt inventory.txt stage-error.txt; do
   [ -f "$K1_OUT/$f" ] && cp "$K1_OUT/$f" "$K1_OUT/upload/log/$f"
 done
 touch "$K1_OUT/upload/summary/.staged" "$K1_OUT/upload/log/.staged"   # both directories exist for the upload step

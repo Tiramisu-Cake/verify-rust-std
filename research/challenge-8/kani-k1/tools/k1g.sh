@@ -10,11 +10,15 @@
 #   k1g.sh wait BUILD                   block until the build ends (background task), print its status
 #   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1g.sh summary BUILD                download the summary, print summary.md
+#   k1g.sh summary BUILD OFFSET [COUNT] bounded summary.json harness page (COUNT <= 80)
+#   k1g.sh inventory BUILD [OFFSET [COUNT]] filtered ordinary names (COUNT <= 80)
+#   k1g.sh cancel BUILD                  request cancellation of one Cloud Build
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
 #   k1g.sh log-lines BUILD START [N]    bounded slice of kani.log (N <= 200 lines)
 #   k1g.sh peaks BUILD                  per-command memory peaks file of the run (small)
 #   k1g.sh budget                       USD used and reserved in the project (both pools), against the cap
+#   k1g.sh budget BUILD...               cost only the listed build UUIDs
 #   k1g.sh build-tail BUILD [N]         coordinator only: last N <= 120 lines of the Cloud Build log, for setup failures
 set -euo pipefail
 
@@ -158,6 +162,9 @@ case "$cmd" in
       sleep 60
     done
     echo "build $id status=$status" ;;
+  cancel)
+    id=${1:-}; is_build "$id"; auth
+    G builds cancel "$id" --region="$REGION" ;;
   watch)
     # A detached waiter without a model: when the build ends it queues a message into the calling Codex
     # thread (the delivery the SmallSort watcher uses, WAIT-EXPERIMENT.md) and exits. Unlike that watcher it
@@ -186,12 +193,32 @@ case "$cmd" in
   summary)
     id=${1:-}; is_build "$id"; auth
     dir=$(fetch "$id")
+    if [ "$#" -gt 1 ]; then
+      offset=${2:-}; count=${3:-80}
+      [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
+      [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -le 80 ] || die "COUNT must be <= 80"
+      [ "$#" -le 3 ] || die "summary accepts OFFSET and optional COUNT"
+      [ -f "$dir/summary/summary.json" ] || die "build $id has no summary.json"
+      python3 -B "$TOOLS/kani_k1.py" page-summary "$dir/summary/summary.json" "$offset" "$count"
+      exit
+    fi
     if [ -f "$dir/log/stage-error.txt" ]; then
       echo "--- first failed stage, last lines (setup diagnostics, not Kani output):" >&2
       head -n 41 "$dir/log/stage-error.txt" | cut -c1-300 >&2
     fi
     [ -f "$dir/summary/summary.md" ] || die "build $id has no summary: treat as RUNNER_ERROR (timeout, cancel or setup failure)"
     cat "$dir/summary/summary.md" ;;
+  inventory)
+    id=${1:-}; is_build "$id"; auth
+    [ "$#" -le 3 ] || die "inventory accepts BUILD and optional OFFSET/COUNT"
+    offset=${2:-0}; count=${3:-80}
+    [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
+    [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -le 80 ] || die "COUNT must be <= 80"
+    dir=$(fetch "$id")
+    [ -f "$dir/log/inventory.txt" ] || die "build $id has no ordinary inventory (request inventory=true)"
+    [ -f "$dir/summary/summary.json" ] || die "build $id has no summary.json for inventory binding"
+    python3 -B "$TOOLS/kani_k1.py" page-inventory "$dir/log/inventory.txt" \
+      "$dir/summary/summary.json" "$offset" "$count" ;;
   peaks)
     id=${1:-}; is_build "$id"; auth
     dir=$(fetch "$id")
@@ -253,9 +280,19 @@ PY
     auth; dir=$(fetch "$id"); [ -f "$dir/log/kani.log" ] || die "build $id has no kani.log"
     sed -n "${start},$((start + count - 1))p" "$dir/log/kani.log" | cut -c1-400 ;;
   budget)
-    auth; ledger
-    echo "builds $BUILDS; used \$$USED, reserved by unfinished builds \$$RESERVED, cap \$$CAP_USD (both pools;"
-    echo "  prices per minute: k1-highmem4 \$$PRICE_HIGHMEM, k1-standard4 \$$PRICE_STANDARD)" ;;
+    if [ "$#" -eq 0 ]; then
+      auth; ledger
+      echo "builds $BUILDS; used \$$USED, reserved by unfinished builds \$$RESERVED, cap \$$CAP_USD (both pools;"
+      echo "  prices per minute: k1-highmem4 \$$PRICE_HIGHMEM, k1-standard4 \$$PRICE_STANDARD)"
+    else
+      ids=()
+      for id in "$@"; do is_build "$id"; ids+=(--id "$id"); done
+      auth
+      G builds list --region="$REGION" --limit=1000 --format=json \
+        | python3 -B "$TOOLS/kani_k1.py" ledger --price "$POOL_HIGHMEM=$PRICE_HIGHMEM" \
+            --price "$POOL_STANDARD=$PRICE_STANDARD" "${ids[@]}"
+    fi
+    ;;
   build-tail)
     id=${1:-}; is_build "$id"; n=${2:-60}; [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le 120 ] || die "N must be <= 120"
     auth; G storage cat "gs://$BUCKET/logs/log-$id.txt" | tail -n "$n" | cut -c1-300 ;;
