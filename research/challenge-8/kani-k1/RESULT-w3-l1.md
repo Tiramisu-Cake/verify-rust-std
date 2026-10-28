@@ -1968,3 +1968,17 @@ runner gcb-e2-standard-4, jobs1, controls/uninit off.
 Код smallsort.rs/kani_k1.rs/kani_k1/ побайтно равен1e21a2e7,
 используется тот же BASEd5dc2c5f. Новый резерв$0,81 помещается в остатокD
 $1,3769655 (текущий расход$0,1230345). История019 не переписана.
+
+
+### Build020 отправлен — ожидание
+
+Request-only source `ac0dbbf0fbf1ee8b90ca77c186c2058a96acbbad`:
+`git diff --stat HEAD^ HEAD` — только RUN-REQUEST.json, 3+/3-.
+Код равен1e21a2e7, все3 выбранные гармоники проверены вне controls cfg.
+Request validator принял3 гармоники; diff --check пройден.
+Build `d19d306d-43ef-44dc-a79a-fd0c0a8049cf`, статусы пока неизвестны.
+Перед dispatch: builds59 used$36,1635 reserved0 cap$43,96;
+после: максимум$36,9735, reserve$0,8100. Расход D пока$0,1230345.
+Следующий шаг: summary/peaks/check-tooling(BASEd5dc2c5f), стоимость;
+gate true → L1 FINAL CANDIDATE с source020, документы с CI TODO и одно R9.
+Ожидание через k1g watch, без goal и без новых запусков до результата.
