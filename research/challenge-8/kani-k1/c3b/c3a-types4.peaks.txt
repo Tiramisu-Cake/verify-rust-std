@@ -1,0 +1,19 @@
+interval_ms=2000
+samples=559
+elapsed_s=1117
+total_rss_peak_kb=2528440
+cmd=bash peak_kb=3752 first_s=0 last_s=1117
+cmd=cargo peak_kb=33168 first_s=0 last_s=64
+cmd=cbmc peak_kb=1494552 first_s=68 last_s=1114
+cmd=goto-cc peak_kb=45148 first_s=66 last_s=66
+cmd=goto-instrument peak_kb=45584 first_s=711 last_s=765
+cmd=kani-compiler peak_kb=1811928 first_s=2 last_s=64
+cmd=kani-driver peak_kb=2263336 first_s=0 last_s=1116
+cmd=run-kani.sh peak_kb=3652 first_s=0 last_s=1116
+cmd=tee peak_kb=1068 first_s=0 last_s=1117
+cmd=time peak_kb=1244 first_s=0 last_s=1116
+cmd=timeout peak_kb=1092 first_s=0 last_s=1116
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=357
+verify_budget_s=3483
