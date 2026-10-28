@@ -7,6 +7,7 @@
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
+//! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
 //! Ordinary contract proofs cover swap, sort4, merge N2..16, u8 prefix/scratch insertion and
 //! shifted u64 insertion regions. Ordinary `correct::contract_insert_tail_u8_scratch` covers
@@ -35,3 +36,4 @@ mod merge;
 mod mutations;
 mod network;
 mod smoke;
+mod types;

@@ -20,8 +20,10 @@ fn predicate_efficient_swap_type_matrix() {
         };
     }
     check!(u8, true);
+    check!(u16, true);
     check!(u64, true);
     check!(u128, false);
+    check!([u8; 9], false);
     check!([u8; 16], false);
     check!([u8; 17], false);
     check!([u8; 85], false);
