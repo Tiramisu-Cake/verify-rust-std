@@ -1,58 +1,35 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "submit-c2r1-compile-ordinary",
+  "request_id": "submit-c2r1-compile-controls",
   "agent": "coordinator",
   "kind": "measurement",
-  "purpose": "Compile check of submission candidate 6cfc76cb (module verify) in the organizers' ordinary cfg; 12 fast ordinary harnesses incl. stub_verified consumers; controls off",
+  "purpose": "Compile check of submission candidate 6cfc76cb with --cfg kani_smallsort_controls; 5 mutants expected FAILED plus one ordinary positive",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
+  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_insert_tail_u8_n2",
+      "expect": "FAILED"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n2",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_u8_n4",
+      "expect": "FAILED"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_up_u8_n2",
+      "expect": "FAILED"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_network_prefix_u8_n10",
+      "expect": "FAILED"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_prefix",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
+      "expect": "FAILED"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_stable_u8_n17",
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
       "expect": "SUCCESS"
     }
   ]
