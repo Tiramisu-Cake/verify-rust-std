@@ -57,7 +57,7 @@ jobs:
             echo "|---|---|---|"
           } >> "$GITHUB_STEP_SUMMARY"
           for c in default_fn generic_method control; do
-            (cd "k5-standalone/$c" && "$GITHUB_WORKSPACE/kani_build/scripts/cargo-kani" 2>&1) > "out/$c.txt"
+            (cd "k5-standalone/$c" && "$GITHUB_WORKSPACE/kani_build/scripts/cargo-kani" -Z function-contracts 2>&1) > "out/$c.txt"
             rc=$?
             lines=$(grep -E "^error|failed to resolve|does not currently support|VERIFICATION:-|Complete - " "out/$c.txt" \
               | head -n 6 | sed 's/|/\\|/g' | tr '\n' ' ')
