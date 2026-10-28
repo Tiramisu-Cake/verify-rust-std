@@ -1,6 +1,4 @@
-//! Harnesses for compare-exchange, sorting networks, insertion, and the outer small-sort routes.
-//! The families below check contract behavior, memory safety, normal returns, and selected
-//! sortedness and permutation properties over their stated element types and fixed lengths.
+//! Exchange contracts and bounded real-body network, insertion and dispatch checks.
 
 #![allow(dead_code, unused_macros)]
 
@@ -9,12 +7,7 @@ use crate::mem::size_of;
 use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
 use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
 
-// These comparators order by `x >> 1`, allowing distinct full values to share a key. Sortedness
-// therefore does not imply permutation. The shared function items match the `(T, F)` instances
-// used to verify contracts for `swap_if_less` and `bidirectional_merge`.
-
-// ---------------------------------------------------------------------------------------------
-// swap_if_less
+// Share key-order function items with merge contract proofs; equal keys may have different values.
 
 /// Positions anywhere in a 4-element array, in either order, distinct as the contract requires.
 fn check_swap_if_less<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
@@ -46,8 +39,6 @@ fn swap_if_less_u64() {
     check_swap_if_less::<u64, _>(lt_u64);
 }
 
-/// Checks that the verified contract rejects equal positions in a two-element array. Both indices
-/// remain in bounds, isolating the distinct-position precondition.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(super::super::swap_if_less)]
@@ -58,9 +49,6 @@ fn r11_control_swap_if_less_requires() {
     unsafe { swap_if_less(v.as_mut_ptr(), 1, 1, &mut lt_u8) };
     kani::cover(true, "r11 control: end reached");
 }
-
-// ---------------------------------------------------------------------------------------------
-// Harness-level checks use the shared arbitrary probe (`set_probe`, `k1_count`).
 
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
 fn same_from<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
@@ -74,13 +62,8 @@ fn same_from<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
     a.len() == b.len()
 }
 
-// ---------------------------------------------------------------------------------------------
-
-/// Reads both `u64` arguments, then returns a fresh nondeterministic result. Volatile reads keep
-/// the element accesses observable while leaving comparator outcomes unconstrained.
 fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
-    // SAFETY: comparator callers must supply readable u64 references. Kani checks both
-    // actual accesses, including references formed from raw pointers inside the sort.
+    // SAFETY: initialized readable references; volatile reads retain both accesses.
     unsafe {
         let _ = crate::ptr::read_volatile(a);
         let _ = crate::ptr::read_volatile(b);
@@ -88,15 +71,12 @@ fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
     kani::any()
 }
 
-/// Runs the actual freeze-specialized route on an exact `[u64; N]` array with unconstrained
-/// comparisons. These harnesses target memory safety and normal return, not ordering.
+// Real u64 network safety, exact N0..32 split by route; arbitrary reading comparator.
 fn w1_network_o1_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
 }
 
-/// Nondeterministic selection among constant lengths. Every allowed choice must also have a
-/// normal-return path (cover after the sort); no order constraints or contract stubs are used.
 macro_rules! w1_network_o1_cases {
     ($name:ident, [$($n:literal),+], [$($attr:meta),*]) => {
         #[kani::proof]
@@ -114,8 +94,6 @@ macro_rules! w1_network_o1_cases {
     };
 }
 
-// Exact lengths 0..=17 cover the no-merge routes: empty/singleton, insertion-only,
-// sort9/sort13 and their insertion tails.
 w1_network_o1_cases!(
     w1_network_o1_nomerge_u64,
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
@@ -149,8 +127,7 @@ struct K13Tagged {
 }
 
 type K13Cell = crate::cell::Cell<K13Tagged>;
-/// An arbitrary probe proves full multiset equality, including tag multiplicities. N <= 20 in
-/// every call below, so a u8 count suffices without overflow or modular-count ambiguity.
+// N <= 20, so a u8 probe count cannot overflow.
 fn k13_tag_count<const N: usize>(v: &[K13Cell; N], probe: u8) -> u8 {
     let mut count = 0;
     let mut i = 0;
@@ -170,7 +147,6 @@ fn k13_tags<const N: usize>(v: &[K13Cell; N]) -> [u8; N] {
     }
     tags
 }
-// ---------------------------------------------------------------------------------------------
 // These route checks stub only the explicit order-violation panic. The other assertions and
 // memory checks remain active, and no verified contracts replace the sort bodies.
 fn w2_cut_ord_violation() -> ! {
@@ -178,14 +154,11 @@ fn w2_cut_ord_violation() -> ! {
     w2_assume_ord_violation()
 }
 
-/// The same cut, without a reachability property in every short/no-merge proof.
-/// The covering wrapper above is used by the dedicated reachability control.
 fn w2_assume_ord_violation() -> ! {
     kani::assume(false);
     unreachable!()
 }
 
-/// Control showing that an assertion is reported after a normal return with the same panic stub.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
@@ -198,7 +171,6 @@ fn w2_control_a_assertion() {
     assert!(v[0] != v[0]);
 }
 
-/// Checks that the real trait dispatch and merge can return normally at length 18.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
@@ -210,8 +182,6 @@ fn w2_control_a_reachability() {
     kani::cover(true, "W2 control A: normal return also reachable");
 }
 
-/// Each instantiation owns an exact `[u64; N]` array and enters through the unstable trait route.
-/// Comparisons are unconstrained after readable accesses, and all sorting bodies remain real.
 fn w2_network_o1_fixed<const N: usize>() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; N] = kani::any();
@@ -296,7 +266,6 @@ macro_rules! w2_type_cases {
     };
 }
 
-/// Confirms an assertion remains visible after a normal return through the short route.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
@@ -359,7 +328,6 @@ w2_type_pair_cases!(w2_k16_u128_mid, u128, [15, 16, 17]);
 #[cfg(kani_smallsort_controls)]
 w2_type_pair_cases!(w2_k16_u128_hi, u128, [31, 32]);
 
-/// Confirms an assertion remains visible after a normal return through a merge route.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
@@ -371,7 +339,6 @@ fn w2_control_a_quiet_merge_assertion() {
     assert!(x != x);
 }
 
-/// Checks normal-return reachability for one type, trait route, and merge length.
 macro_rules! w2_type_reachability {
     ($name:ident, $t:ty, $stable:literal, $n:literal) => {
         #[kani::proof]
@@ -626,7 +593,6 @@ w2_o3_insertion_cases!(w2_o3_insertion_11_15, [11, 12, 13, 14, 15]);
 #[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_16_20, [16, 17, 18, 19, 20]);
 
-// Separate lengths into smaller groups so each symbolic offset is checked with a fixed allocation.
 w2_insertion_safety_cases!(w2_k11s_11_12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_13_15, [13, 14, 15]);
@@ -634,7 +600,6 @@ w2_o3_insertion_cases!(w2_o3_insertion_11_12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_13_15, [13, 14, 15]);
 
-// Exact single-length instances retain coverage for the larger insertion cases.
 w2_insertion_safety_cases!(w2_k11s_n13, [13]);
 w2_insertion_safety_cases!(w2_k11s_n14, [14]);
 #[cfg(kani_smallsort_controls)]
@@ -895,25 +860,20 @@ w2p2_k10_cases!(w2p2_k10_u64_n12, u64, [12]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n12, u8, 12);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n12, u64, 12);
 
-// Exact sort13-width arrays check the sort route where insertion begins at the array end.
 w2p2_k10_cases!(w2p2_k10_u8_n13, u8, [13]);
 w2p2_k10_cases!(w2p2_k10_u64_n13, u64, [13]);
 
-// Length-14 arrays check one real insertion after sort13, with sortedness and permutation checked
-// by separate harnesses.
 w2p2_k10_cases!(w2p2_k10_u8_n14, u8, [14]);
 w2p2_k10_cases!(w2p2_k10_u64_n14, u64, [14]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n14, u8, 14);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n14, u64, 14);
 
-// Length-15 arrays check two real insertions after sort13 using full-width values.
 w2p2_k10_cases!(w2p2_k10_u8_n15, u8, [15]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n15, u64, [15]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n15, u8, 15);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n15, u64, 15);
 
-// Length-16 arrays check sort13 followed by three real insertions.
 w2p2_k10_cases!(w2p2_k10_u8_n16, u8, [16]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n16, u64, [16]);
@@ -922,7 +882,6 @@ w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n16, u8, 16);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n16, u64, 16);
 
-// Length-17 arrays check sort13 followed by four real insertions.
 w2p2_k10_cases!(w2p2_k10_u8_n17, u8, [17]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n17, u64, [17]);
@@ -943,7 +902,6 @@ fn w3_k9s_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     let taken = cmp(&v[b], &v[a]);
     // SAFETY: a and b are distinct in-bounds initialized writable elements of v.
     unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp); }
-    // In addition to both existing ensures, explicitly check the untouched frame.
     let mut i = 0;
     while i < N {
         if i != a && i != b {
@@ -1025,7 +983,6 @@ fn w2night_k8r_start<const START: usize>() -> usize {
     tail
 }
 
-// Enumerate possible tail positions so each contract-backed interior region has a cover.
 macro_rules! w2night_k8r_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]

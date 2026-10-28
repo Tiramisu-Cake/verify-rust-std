@@ -1,5 +1,4 @@
-//! Small fixed-size checks for compare-exchange, insertion, merge, and stable ZST routes.
-//! Paired controls apply one-change copies to the same inputs and properties as real bodies.
+//! Fixed-size original/mutant witnesses and stable unit-ZST checks.
 
 use crate::kani;
 use crate::mem::MaybeUninit;
@@ -85,7 +84,6 @@ fn check_merge_consumption(call: impl FnOnce(&[u8; 4], *mut u8)) {
     let probe: u8 = kani::any();
     let mut dst = MaybeUninit::<[u8; 4]>::uninit();
     // SAFETY: source has four initialized `u8` elements and destination has room for four writes.
-    // No sortedness is assumed; this checks the real merge body with an arbitrary comparator.
     call(&src, dst.as_mut_ptr().cast());
     // SAFETY: both merge directions wrote two output elements on normal return.
     let result = unsafe { dst.assume_init() };
@@ -94,8 +92,7 @@ fn check_merge_consumption(call: impl FnOnce(&[u8; 4], *mut u8)) {
 }
 
 fn check_presorted_len(call: impl FnOnce(&mut [u8; 10])) {
-    // The first nine values are sorted, so insertion must consume index 9 and move its zero to
-    // the front. This catches a presorted length that incorrectly skips that element.
+    // Sorted prefix of nine; the tenth zero must move to the front.
     let mut v = [1u8, 1, 1, 1, 1, 1, 1, 1, 1, 0];
     call(&mut v);
     assert!(v[0] == 0 && v[9] == 1);

@@ -1,15 +1,6 @@
-//! Contracts and bounded harnesses for merge, stable primitives, insertion tails and general sort.
-//!
-//! Specification helpers are inherent functions of `CopyOnDrop<T>` so the contract attributes in
-//! the parent module can name them. An arbitrary global byte probe counts full element values for
-//! integers and byte arrays without padding; preserving its multiplicity for every probe gives
-//! multiset equality. A caller and its verified stubs share the same probe. Tagged Drop values
-//! instead use fieldwise tag counts because their representations can contain padding.
-//!
-//! Sortedness helpers call the comparator through the contract's shared reference to `&mut F`.
-//! Ordered harnesses instantiate stateless strict orders and use the same `(T, F)` in callees and
-//! callers. This does not establish an ordering contract for arbitrary `FnMut` implementations.
-//! Separate real-body harnesses allow arbitrary comparison results and check normal-return safety.
+//! Merge, insertion-tail and stable-primitive contracts and bounded callers.
+//! Probe multiplicity represents full values only for types without padding; Drop uses tag counts.
+//! Callers and verified stubs share the arbitrary probe. Ordered proofs use stateless comparators.
 
 #![allow(dead_code)]
 
@@ -23,12 +14,8 @@ use super::super::{
     sort4_stable, sort8_stable,
 };
 
-// ---------------------------------------------------------------------------------------------
-// Probe for permutation counting.
-
 const PROBE_BYTES: usize = 128;
 
-/// Largest region the loop-free helpers `k1_count_u`/`k1_sorted_u` handle.
 const K1_UNROLL: usize = 32;
 
 #[repr(C, align(16))]
@@ -36,7 +23,6 @@ struct Probe([u8; PROBE_BYTES]);
 
 static mut K1_PROBE: Probe = Probe([0; PROBE_BYTES]);
 
-/// Sets the probe to an arbitrary value. Every harness calls this once, before anything else.
 pub(crate) fn set_probe<T>() {
     assert!(size_of::<T>() <= PROBE_BYTES);
     let bytes: [u8; PROBE_BYTES] = kani::any();
@@ -45,9 +31,7 @@ pub(crate) fn set_probe<T>() {
 }
 
 /// `*p` is bytewise equal to the probe. `p` must be valid for reads of one initialized `T`.
-/// Loop-free: up to 16 guarded 8-byte words (`size_of::<T>() <= PROBE_BYTES`, checked in
-/// `set_probe`) and a 4/2/1-byte tail. Avoiding nested specification loops limits instrumentation
-/// size before constant propagation.
+/// Guarded word reads avoid nested specification loops during instrumentation.
 #[inline(always)]
 unsafe fn is_probe<T>(p: *const T) -> bool {
     let a = p as *const u8;
@@ -86,10 +70,7 @@ unsafe fn is_probe<T>(p: *const T) -> bool {
     eq
 }
 
-/// Type-specialized probe test, so that a probe count
-/// over 32 elements is 32 single tests instead of 32 x 19 guarded word compares. Integers: one
-/// compare; `[u8; 16]`: two words; `[u8; 85]`: ten words and a 4/1-byte tail. Default: `is_probe`.
-/// `p` must be valid for reads of one initialized element.
+/// Type-specialized probe test. `p` must be readable for one initialized element.
 pub(crate) trait K1Probe: Sized {
     unsafe fn k1_probe(p: *const Self) -> bool;
 }
@@ -107,9 +88,7 @@ macro_rules! k1_probe_int {
         impl K1Probe for $t {
             #[inline(always)]
             unsafe fn k1_probe(p: *const $t) -> bool {
-                // SAFETY: `p` is an aligned readable element (caller); the probe buffer is
-                // 16-aligned and larger than the integer. Plain loads, no `read_unaligned`: its
-                // library body and UB checks would be inlined with the specification.
+                // SAFETY: readable aligned element; the probe is 16-aligned and large enough.
                 unsafe { *p == *(ptr::addr_of!(K1_PROBE) as *const $t) }
             }
         }
@@ -117,7 +96,6 @@ macro_rules! k1_probe_int {
 }
 k1_probe_int!(u8 i8 u16 i16 u32 i32 u64 i64);
 
-/// The `W`-sized word at byte offset `at` of the element at `a` equals the same word of the probe.
 #[inline(always)]
 unsafe fn k1_probe_word<W: PartialEq + Copy>(a: *const u8, at: usize) -> bool {
     // SAFETY: callers keep `at + size_of::<W>()` within the element and the probe buffer.
@@ -166,7 +144,6 @@ fn call_less<T, F: FnMut(&T, &T) -> bool>(is_less: &&mut F, a: *const T, b: *con
 }
 
 impl<T> CopyOnDrop<T> {
-    /// Number of elements of `base[..len]` equal to the probe.
     pub(crate) fn k1_count(base: *const T, len: usize) -> usize {
         let mut c = 0;
         let mut i = 0;
@@ -180,8 +157,7 @@ impl<T> CopyOnDrop<T> {
         c
     }
 
-    /// `k1_count` without a loop, for `len <= K1_UNROLL` (callers check the bound).
-    /// Explicit guarded tests bound specification instrumentation to the small-sort threshold.
+    /// Loop-free count for `len <= K1_UNROLL`, bounding specification instrumentation.
     pub(crate) fn k1_count_u(base: *const T, len: usize) -> usize {
         let mut c = 0;
         macro_rules! step {
@@ -219,9 +195,7 @@ impl<T> CopyOnDrop<T> {
         ok
     }
 
-    /// `k1_sorted` as one quantifier over the constant range `1..K1_UNROLL` (the SAT backend of the
-    /// configured backend requires constant bounds), guarded by `i < len`. For `len <= K1_UNROLL`.
-    /// Retained as an alternative specification; the active merge contract uses `k1_sorted_u`.
+    /// Alternative sortedness predicate with constant quantifier bounds; `len <= K1_UNROLL`.
     pub(crate) fn k1_sorted_q<F: FnMut(&T, &T) -> bool>(
         base: *const T,
         len: usize,
@@ -248,8 +222,7 @@ impl<T> CopyOnDrop<T> {
         c
     }
 
-    /// Permutation by the light probe count: `a[..len]` and `b[..len]` hold equally many probes.
-    /// For `len <= K1_UNROLL`.
+    /// Probe multiplicity equality for `len <= K1_UNROLL`.
     pub(crate) fn k1_perm_l(a: *const T, b: *const T, len: usize) -> bool {
         Self::k1_count_l(a, len) == Self::k1_count_l(b, len)
     }
@@ -266,7 +239,6 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_sorted_q(v.as_ptr().wrapping_add(half), len - half, is_less)
     }
 
-    /// `base[..len]` is sorted: no element is less than its predecessor.
     pub(crate) fn k1_sorted<F: FnMut(&T, &T) -> bool>(
         base: *const T,
         len: usize,
@@ -283,7 +255,6 @@ impl<T> CopyOnDrop<T> {
         true
     }
 
-    /// `a[..n]` and `b[..m]` do not overlap.
     pub(crate) fn k1_disjoint(a: *const T, n: usize, b: *const T, m: usize) -> bool {
         !kani::mem::same_allocation(a, b) || {
             // SAFETY: same allocation was checked just above.
@@ -291,8 +262,6 @@ impl<T> CopyOnDrop<T> {
             d >= n as isize || -d >= m as isize
         }
     }
-
-    // insert_tail
 
     /// Number of elements in `[begin, tail]`. Only meaningful under `k1_tail_region_ok`.
     pub(crate) fn k1_tail_len(begin: *const T, tail: *const T) -> usize {
@@ -302,8 +271,7 @@ impl<T> CopyOnDrop<T> {
 
     /// `begin < tail`, both in one allocation, `[begin, tail]` valid for reads and writes.
     pub(crate) fn k1_tail_region_ok(begin: *mut T, tail: *mut T) -> bool {
-        // SAFETY: same-allocation is checked before the pointer difference; the instantiated
-        // element types are nonzero-sized. The write predicate checks the resulting region.
+        // SAFETY: same allocation checked first; instantiated element types are nonzero-sized.
         kani::mem::same_allocation(begin as *const T, tail as *const T)
             && (unsafe { tail.offset_from(begin) }) >= 1
             && kani::mem::can_write(ptr::slice_from_raw_parts_mut(
@@ -312,8 +280,7 @@ impl<T> CopyOnDrop<T> {
             ))
     }
 
-    /// Requires of `insert_tail`: the region is valid and `[begin, tail)` is sorted. One clause,
-    /// so that the pointer difference is taken only after the region check.
+    /// Check geometry before computing the pointer difference or testing the sorted prefix.
     pub(crate) fn k1_tail_pre<F: FnMut(&T, &T) -> bool>(
         begin: *mut T,
         tail: *mut T,
@@ -323,13 +290,10 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_sorted(begin, Self::k1_tail_len(begin, tail) - 1, is_less)
     }
 
-    /// `p[..n]` is valid for reads and writes. Every caller of the sort primitives passes writable
-    /// memory as the source too (it comes from `&mut [T]`), so writability is required for reads.
+    /// Sources also come from mutable slices, so the contract requires writable memory.
     pub(crate) fn k1_region_ok(p: *const T, n: usize) -> bool {
         kani::mem::can_write(ptr::slice_from_raw_parts_mut(p as *mut T, n))
     }
-
-    // sort4_stable / sort8_stable
 
     pub(crate) fn k1_sort4_pre(v_base: *const T, dst: *mut T) -> bool {
         Self::k1_region_ok(v_base, 4)
@@ -346,15 +310,11 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_disjoint(dst, 8, scratch_base, 8)
     }
 
-    // bidirectional_merge
-
-    /// `dst` is valid for `v.len()` writes and does not overlap `v`.
     pub(crate) fn k1_merge_dst_ok(v: &[T], dst: *mut T) -> bool {
         kani::mem::can_write(ptr::slice_from_raw_parts_mut(dst, v.len()))
             && Self::k1_disjoint(v.as_ptr(), v.len(), dst as *const T, v.len())
     }
 
-    /// `v[..len / 2]` and `v[len / 2..]` are sorted.
     pub(crate) fn k1_merge_halves_sorted<F: FnMut(&T, &T) -> bool>(
         v: &[T],
         is_less: &&mut F,
@@ -366,12 +326,8 @@ impl<T> CopyOnDrop<T> {
             && Self::k1_sorted_u(v.as_ptr().wrapping_add(half), len - half, is_less)
     }
 }
+// Key orders admit equal keys with different full values; sortedness does not imply permutation.
 
-// ---------------------------------------------------------------------------------------------
-// Comparators: strict orders by key, so that elements with equal keys but different full values
-// exist and the permutation property is not implied by sortedness.
-
-/// Network key order; the low bit remains part of the full-value permutation property.
 pub(crate) fn lt_u8(a: &u8, b: &u8) -> bool {
     (*a >> 1) < (*b >> 1)
 }
@@ -391,8 +347,6 @@ pub(crate) fn lt_b16(a: &[u8; 16], b: &[u8; 16]) -> bool {
 pub(crate) fn lt_b85(a: &[u8; 85], b: &[u8; 85]) -> bool {
     a[0] < b[0]
 }
-
-// ---------------------------------------------------------------------------------------------
 // Harness bodies, one per concrete length so that every loop has a constant bound.
 
 macro_rules! by_len {
@@ -427,7 +381,6 @@ pub(crate) fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, cons
 }
 
 /// Negative precondition control: u64 length 4 violates the verified merge's sorted-halves clause.
-/// Expected FAILED on the requires check `k1_merge_halves_sorted`.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(34)]
@@ -442,9 +395,7 @@ fn r11_control_bm_requires() {
     unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut is_less) };
     kani::cover(true, "r11 control: call site reached");
 }
-// ---------------------------------------------------------------------------------------------
-// Contract proofs on the whole domain reachable from small_sort_general (len <= 32, scratch 48),
-// for every (T, F) instantiation that the top harnesses below stub.
+// Stable primitives: exact source/destination arrays, matching the composed caller types.
 
 fn sort4_body<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool>(mut is_less: F) {
     set_probe::<T>();
@@ -501,8 +452,6 @@ fn sort8_all() {
     }
 }
 
-// Direct four-element contract instances for i32 and byte arrays of widths 16 and 85.
-
 #[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(34)]
@@ -524,12 +473,9 @@ fn sort4_b85() {
     sort4_body::<[u8; 85], _>(lt_b85);
 }
 
-// The four-element contract promises sortedness unconditionally, so its
-// proof uses a strict comparator. The separate ordinary proof permits arbitrary
-// comparison results and checks safety and full-value permutation of the real body.
+// Separate sort4 checks: ordered contract, and real-body safety/permutation with arbitrary results.
 fn w3_sort4_read_args<T: Copy>(a: &T, b: &T) {
     // SAFETY: both references must point to initialized readable elements.
-    // Volatile accesses retain every byte read even when the result is arbitrary.
     unsafe {
         ptr::read_volatile(a);
         ptr::read_volatile(b);
@@ -578,10 +524,9 @@ w3_sort4_cases!(w3_sort4_contract_b16, w3_sort4_arbitrary_b16, [u8; 16], lt_b16)
 #[cfg(kani_smallsort_controls)]
 w3_sort4_cases!(w3_sort4_contract_b85, w3_sort4_arbitrary_b85, [u8; 85], lt_b85);
 
-// Eight-element stable sort contract composed from matching sort4 and merge contracts.
 macro_rules! sort8_harness {
     ($name:ident, $t:ty, $cmp:expr) => {
-        /// sort8_stable with its two callees replaced by their verified contracts.
+        // Compose matching sort4 and merge contracts.
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort8_stable)]
         #[kani::unwind(34)]
         #[kani::stub_verified(crate::slice::sort::shared::smallsort::sort4_stable)]
@@ -629,10 +574,9 @@ fn insert_tail_bytes() {
     }
 }
 
-// Type-specific merge contracts over exact lengths 2..=32 and disjoint destination arrays.
 macro_rules! bm_harness {
     ($name:ident, $t:ty, $cmp:expr) => {
-        /// bidirectional_merge on 2..=32 elements.
+        // Exact arrays of each length 2..=32; destination is disjoint.
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
         #[kani::unwind(34)]
         fn $name() {
@@ -656,11 +600,7 @@ bm_harness!(bm_u64, u64, lt_u64);
 bm_harness!(bm_b16, [u8; 16], lt_b16);
 #[cfg(kani_smallsort_controls)]
 bm_harness!(bm_b85, [u8; 85], lt_b85);
-
-// ---------------------------------------------------------------------------------------------
-// Top harnesses: real trait entrypoints, every length 0..=32, callees replaced by their verified
-// contracts. Checks: enabled Kani safety properties, sortedness and full-value permutation.
-// Uninitialized-memory and aliasing-model limitations are disclosed in the PR description.
+// General/stable correctness, N0..32 with scratch48; verified merge/tail/sort4/sort8 stubs.
 
 fn check_sorted_perm<T, F: FnMut(&T, &T) -> bool>(orig: &[T], out: &[T], is_less: &mut F) {
     let mut i = 1;
@@ -746,9 +686,7 @@ general_harness!(general_b16, general_unstable_len, [u8; 16], lt_b16);
 #[cfg(kani_smallsort_controls)]
 general_harness!(general_b85, general_unstable_len, [u8; 85], lt_b85);
 
-/// One band of lengths `[$($n)*]` of a top harness. The family of bands of one type covers every
-/// length 0..=32. Explicit covers in `[$($c)*]` witness the selected routing boundaries.
-/// Contract stubs assume the matching type, comparator and allocation prerequisites.
+/// Partition lengths 0..=32; covers select reachable routing boundaries with the same stubs.
 macro_rules! general_band {
     ($name:ident, $body:ident, $t:ty, $cmp:expr, [$($n:literal)*], covers [$($c:literal)*]) => {
         #[kani::proof]
@@ -765,17 +703,13 @@ macro_rules! general_band {
     };
 }
 
-// Single-length probe of the composition cost (diagnostic).
 #[cfg(kani_smallsort_controls)]
 general_band!(general_u64_len32, general_stable_len, u64, lt_u64, [32], covers [32]);
-
-// ---------------------------------------------------------------------------------------------
 // Real-body safety harnesses use no verified-contract stubs. The manual panic boundary cuts
 // order-violation panic paths under abort semantics; it makes no claim about unwinding.
 
 fn w1_arbitrary_less(a: &u64, b: &u64) -> bool {
-    // SAFETY: callers pass initialized references; volatile reads keep both accesses observable
-    // even though the result is arbitrary. Forming a reference alone need not exercise a read.
+    // SAFETY: initialized references; volatile reads retain both accesses.
     unsafe {
         ptr::read_volatile(a);
         ptr::read_volatile(b);
@@ -789,8 +723,7 @@ fn w1_abort_ord_violation() -> ! {
     unreachable!()
 }
 
-/// Four-element u64 negative control: check real-merge permutation, then fail on normal return.
-/// Arbitrary comparisons read both arguments; only the order-violation panic path is cut.
+// u64 N4 assertion/reachability pair; real merge and arbitrary reading comparator, panic cut only.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
@@ -812,8 +745,6 @@ fn w1_control_a_must_fail() {
     assert!(v[0] != v[0]);
 }
 
-/// Four-element u64 positive control with normal-return and panic-boundary reachability.
-/// Exact multiset equality is checked only on normal returns, with the real merge body.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
@@ -909,7 +840,6 @@ fn w2_c5_normal_merge() -> [u64; 4] {
     }
 }
 
-// No assertion masking is used for these deliberate safety violations.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(6)]
@@ -940,8 +870,7 @@ fn w2_c5_unchecked_add() {
 #[kani::unwind(6)]
 fn w2_c5_copy_nonoverlapping() {
     let mut v = w2_c5_normal_merge();
-    // Deliberate overlap: both regions are within this four-element
-    // allocation and aligned, but share elements 1 and 2.
+    // Deliberate overlap at elements 1 and 2 of an aligned four-element allocation.
     unsafe {
         let p = v.as_mut_ptr();
         ptr::copy_nonoverlapping(p, p.add(1), 3);
@@ -953,8 +882,7 @@ fn w2_c5_copy_nonoverlapping() {
 #[kani::unwind(6)]
 fn w2_c5_ptr_add() {
     let v = w2_c5_normal_merge();
-    // Deliberate offset beyond one-past. Only the pointer value is
-    // written into a valid local slot; it is never dereferenced.
+    // Deliberate offset beyond one-past, without dereferencing it.
     unsafe {
         let mut result = ptr::null::<u64>();
         ptr::write_volatile(&mut result, v.as_ptr().add(5));
@@ -1028,9 +956,7 @@ w2_top_safety_a!(w2_a_all_len30_safety, w1_upper_routes_safety, 30);
 w2_top_safety_a!(w2_a_all_len31_safety, w1_upper_routes_safety, 31);
 w2_top_safety_a!(w2_a_all_len32_safety, w1_upper_routes_safety, 32);
 
-// Bounded merge correctness for u8/u64 under the strict key order x >> 1. Values remain fully
-// symbolic, including equal-key payloads. Exact allocations keep each proof's geometry explicit:
-// grouped lengths 2..=4 and fixed lengths 5..=16, with optional u8 diagnostics at 20 and 24.
+// Merge contracts: u8/u64, x>>1 order, exact arrays N2..16; optional u8 N20/24 diagnostics.
 macro_rules! w2p2_bm_small {
     ($name:ident, $t:ty, $cmp:expr) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
@@ -1080,8 +1006,7 @@ macro_rules! w2p2_r11 {
             let mut dst = MaybeUninit::<[$t; 4]>::uninit();
             let mut cmp = $cmp;
             kani::cover(true, "wave2 P2 R11: call before violated sorted-half requires");
-            // Negative precondition control: all memory conditions hold,
-            // but the first two keys [3, 0] are not sorted.
+            // Valid memory, but prefix keys [3, 0] violate sortedness.
             unsafe {
                 bidirectional_merge(&v, dst.as_mut_ptr() as *mut $t, &mut cmp);
             }
@@ -1109,9 +1034,8 @@ fn w2p2_check_sorted_perm<T, F: FnMut(&T, &T) -> bool, const N: usize>(
     );
 }
 
-// General/stable correctness uses scratch 48 and exact u8/u64 lengths up to 16. Only merge
-// is stubbed here; the insertion, sort4 and sort8 bodies remain real. The ordinary instances
-// cover u64 0..=12 and 16, and u8 0..=13 and 16; other instances remain optional controls.
+// General/stable correctness, scratch48, only merge stubbed. Ordinary: u64 N0..12/16,
+// u8 N0..13/16; other instances opt-in. Insertion, sort4 and sort8 remain real.
 fn w2p2_general_stable_len<
     T: kani::Arbitrary + Copy + FreezeMarker,
     F: FnMut(&T, &T) -> bool,
@@ -1262,8 +1186,7 @@ w2p2_general_fixed!(w2p2_gs_u8_len16, u8, lt_u8, 16);
 #[cfg(kani_smallsort_controls)]
 w2p2_fallback_fixed!(w2p2_fallback_len16, 16);
 
-// Per-type fallback correctness on exact arrays of length 8 or 9, with real insertion bodies.
-// Sortedness and full symbolic-value probe multiplicity are separate checks.
+// Per-type fallback correctness on exact N8/9 arrays, with real insertion.
 macro_rules! w2night_fallback_typed {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
@@ -1281,15 +1204,12 @@ w2night_fallback_typed!(w2night_fallback_u8_len8, u8, lt_u8, 8);
 w2night_fallback_typed!(w2night_fallback_u8_len9, u8, lt_u8, 9);
 
 // Optional u8 merge contract diagnostics at exact lengths 20 and 24.
-// These do not extend the ordinary correctness domain.
 #[cfg(kani_smallsort_controls)]
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len20, u8, lt_u8, 20);
 #[cfg(kani_smallsort_controls)]
 w2p2_bm_fixed!(w2night_k12a_bm_u8_len24, u8, lt_u8, 24);
 
-// Non-Copy Freeze values with unique identities and observable Drop.
-// Tags are tested by a separate arbitrary-tag multiplicity proof, never by
-// bytewise equality (this type can have padding). Keys retain all u64 values.
+// Drop values can have padding; test tag multiplicity rather than bytewise equality.
 struct W2NightDrop {
     key: u64,
     tag: u8,
@@ -1325,9 +1245,8 @@ fn w2night_drop_abort_quiet() -> ! {
     unreachable!()
 }
 
-// Count and tag proofs are separate for each exact length: fallback/insertion 2/4/8, and
-// general/stable 2/4/8/16 with scratch 48. These bounds are normal-return evidence, not unwind
-// safety. Duplicate-tag and extra-drop mutants validate the two independent observations.
+// Separate count/tag proofs: fallback/insertion N2/4/8; general/stable N2/4/8/16, scratch48.
+// Normal return only; duplicate-tag and extra-drop controls distinguish the observations.
 fn w2night_drop_run<
     const N: usize,
     const UPPER: bool,
@@ -1356,10 +1275,8 @@ fn w2night_drop_run<
     } else {
         super::super::small_sort_fallback(&mut v, &mut cmp);
     }
-    // Review controls only; ordinary harnesses instantiate MUTANT = 0.
     if MUTANT == 1 {
-        // Deliberately duplicate the first output tag and lose the second.
-        // Addresses are valid and disjoint; the tag property must fail.
+        // Negative control: duplicate a tag, losing another; addresses remain valid/disjoint.
         unsafe {
             let base = v.as_mut_ptr();
             ptr::copy_nonoverlapping(base, base.add(1), 1);
@@ -1373,8 +1290,7 @@ fn w2night_drop_run<
         for value in &v {
             count += (value.tag == probe) as usize;
         }
-        // Input tags are precisely 0..N, each once. Probe covers all u8 tags,
-        // including identities outside the input; no assumption on the probe.
+        // Input tags are 0..N, each once; the arbitrary probe also covers absent tags.
         let expected = if (probe as usize) < N { 1 } else { 0 };
         assert!(count == expected);
     }
@@ -1411,7 +1327,6 @@ macro_rules! w2night_drop_fixed {
     };
 }
 
-/// General/stable Drop control at length 2: the final false assertion must remain detectable.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, w1_abort_ord_violation)]
@@ -1441,7 +1356,6 @@ w2night_drop_fixed!(w2night_drop_upper8_perm, 8, true, true, w1_abort_ord_violat
 w2night_drop_fixed!(w2night_drop_upper16_count, 16, true, false, w1_abort_ord_violation);
 w2night_drop_fixed!(w2night_drop_upper16_perm, 16, true, true, w1_abort_ord_violation);
 
-/// Length-2 fallback/insertion negative control for tag loss paired with duplication.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(
@@ -1454,7 +1368,6 @@ fn w2night_drop_duplicate_tag_control() {
     w2night_drop_run::<2, false, true, 1>();
 }
 
-/// Length-2 fallback/insertion negative control for an extra destructor call.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(

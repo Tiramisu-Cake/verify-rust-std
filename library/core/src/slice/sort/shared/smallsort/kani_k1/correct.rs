@@ -1,13 +1,10 @@
 //! Correctness harnesses for full-width `u8` and `u64` arrays using verified insertion contracts.
-//! Separate cases check fallback sortedness, permutation, and the insertion contract's frame.
 
 use crate::kani;
 use super::merge::{lt_u8, lt_u64, set_probe};
 use super::super::CopyOnDrop;
 
-// For lengths 8 through 16, check fallback sortedness and full-value probe counts. The verified
-// `insert_tail` contract provides the insertion behavior while the fallback and comparator remain
-// real; the type and length domains are unchanged across these instances.
+// Fallback: u64 N8..16, u8 N9..16; verified insert_tail with matching key orders.
 fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: usize>(
     mut cmp: F,
 ) {
@@ -47,7 +44,6 @@ fallback_stub_harness!(l2_fallback_u64_n16, u64, lt_u64, 16);
 fallback_stub_harness!(l2_fallback_u8_n9, u8, lt_u8, 9);
 fallback_stub_harness!(l2_fallback_u8_n16, u8, lt_u8, 16);
 
-// Additional fixed-length cases extend the same fallback properties to intermediate lengths.
 fallback_stub_harness!(l2_fallback_u64_n9, u64, lt_u64, 9);
 fallback_stub_harness!(l2_fallback_u64_n10, u64, lt_u64, 10);
 fallback_stub_harness!(l2_fallback_u64_n11, u64, lt_u64, 11);
@@ -63,7 +59,6 @@ fallback_stub_harness!(l2_fallback_u8_n14, u8, lt_u8, 14);
 fallback_stub_harness!(l2_fallback_u8_n15, u8, lt_u8, 15);
 
 /// u8 insertion-tail contract and suffix frame in backing17, with tail indices 1..=16.
-/// The sorted-prefix precondition is supplied by the contract; each end of the region is covered.
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::solver(cadical)]
 #[kani::unwind(18)]
@@ -96,17 +91,13 @@ fn l2_r11_insert_tail() {
     let mut input = [4u8, 0, 2];
     let base = input.as_mut_ptr();
     kani::cover(true, "R11 insertion: sorted-prefix violation call reachable");
-    // Deliberate requires violation: prefix keys [2,0] are unsorted;
-    // pointers, allocation, initialization and region length are valid.
     // SAFETY: the pointer and region are valid; only the sorted-prefix contract is violated.
     unsafe {
         super::super::insert_tail(base, base.add(2), &mut lt_u8);
     }
 }
 
-// At lengths 13 through 15, stable and general routes call `insert_tail` on interior scratch
-// regions. Check starts 0, 6, or 7 and region lengths 5 through 8 explicitly: the exact scratch
-// geometry is needed because the fallback prefix contract does not cover interior regions.
+// Scratch48 tails at starts0/6/7, lengths5..8: GS N13..15 geometry differs from backing17 prefixes.
 fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq, F: FnMut(&T, &T) -> bool>(
     mut cmp: F,
 ) {
@@ -207,5 +198,4 @@ macro_rules! general_stub_harness {
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(l2_gs_u64_n15, u64, lt_u64, 15, cadical);
 general_stub_harness!(l2_gs_u8_n15, u8, lt_u8, 15, cadical);
-// Additional length-14 case covers the same stable and general route properties.
 general_stub_harness!(l2_gs_u8_n14, u8, lt_u8, 14, cadical);
