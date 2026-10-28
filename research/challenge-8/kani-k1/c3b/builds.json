@@ -43,7 +43,8 @@
     "jobs": 1,
     "timeout_min": 1,
     "maximum_charge_usd": 1.215,
-    "decision": "cancel requested to prioritize macOS timeout addendum"
+    "decision": "cancel requested to prioritize macOS timeout addendum",
+    "terminal_status": "CANCELLED"
   },
   {
     "label": "heavy6-covers-j3",
@@ -62,7 +63,8 @@
     "jobs": 3,
     "timeout_min": 10,
     "maximum_charge_usd": 1.485,
-    "decision": "cancel requested to prioritize macOS timeout addendum"
+    "decision": "cancel requested to prioritize macOS timeout addendum",
+    "terminal_status": "CANCELLED"
   },
   {
     "label": "timeout-baseline6",
@@ -104,6 +106,15 @@
     "label": "screen-2of6",
     "build_id": "aad9e376-d86f-45d4-9ab1-c6b4d7157778",
     "sha": "fe4ae04fb0b43a64f2cd1ce9c4c5d46ec3886180",
+    "harnesses": 65,
+    "jobs": 1,
+    "timeout_min": 2,
+    "maximum_charge_usd": 2.16
+  },
+  {
+    "label": "screen-3of6",
+    "build_id": "881ea993-c360-4caa-8c70-1a1c118ebca8",
+    "sha": "085f83f8cb4bce152e0c20976de692d22749d1e6",
     "harnesses": 65,
     "jobs": 1,
     "timeout_min": 2,
