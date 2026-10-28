@@ -1,0 +1,58 @@
+interval_ms=2000
+samples=474
+elapsed_s=947
+total_rss_peak_kb=6888272
+total_peak_s=914
+cmd=bash peak_kb=3848 first_s=0 last_s=947 peak_s=0
+cmd=cargo peak_kb=34320 first_s=0 last_s=66 peak_s=4
+cmd=cbmc peak_kb=3661528 first_s=72 last_s=946 peak_s=914
+cmd=goto-cc peak_kb=30308 first_s=68 last_s=766 peak_s=284
+cmd=goto-instrument peak_kb=43036 first_s=70 last_s=288 peak_s=286
+cmd=kani-compiler peak_kb=1742732 first_s=2 last_s=66 peak_s=52
+cmd=kani-driver peak_kb=5278436 first_s=0 last_s=946 peak_s=284
+cmd=run-kani.sh peak_kb=3864 first_s=0 last_s=946 peak_s=0
+cmd=tee peak_kb=1080 first_s=0 last_s=947 peak_s=0
+cmd=time peak_kb=1196 first_s=0 last_s=946 peak_s=0
+cmd=timeout peak_kb=1024 first_s=0 last_s=946 peak_s=0
+cbmc_pid=9271 peak_kb=3661528 first_s=768 last_s=946 peak_s=914 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9206 peak_kb=2237412 first_s=72 last_s=276 peak_s=120 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9244 peak_kb=2228512 first_s=290 last_s=764 peak_s=601 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+driver_s=0 rss_kb=6116
+harness_s=72 name=correct::sorted_permutation_general_stable_u8_n14
+driver_s=30 rss_kb=6116
+harness_s=290 name=merge::merge_contract_u64_n13
+driver_s=60 rss_kb=6436
+harness_s=768 name=network::mutating_insertion_safety_cell_n11_to12
+driver_s=90 rss_kb=6752
+driver_s=120 rss_kb=6752
+driver_s=150 rss_kb=6752
+driver_s=180 rss_kb=6752
+driver_s=210 rss_kb=6752
+driver_s=240 rss_kb=683980
+driver_s=270 rss_kb=1478608
+driver_s=300 rss_kb=3240068
+driver_s=331 rss_kb=3240068
+driver_s=361 rss_kb=3240068
+driver_s=391 rss_kb=3240068
+driver_s=421 rss_kb=3240068
+driver_s=451 rss_kb=3240068
+driver_s=481 rss_kb=3240068
+driver_s=511 rss_kb=3240068
+driver_s=541 rss_kb=3240068
+driver_s=571 rss_kb=3240068
+driver_s=601 rss_kb=3240068
+driver_s=631 rss_kb=3240068
+driver_s=661 rss_kb=3240068
+driver_s=691 rss_kb=3240068
+driver_s=721 rss_kb=3240068
+driver_s=752 rss_kb=3375240
+driver_s=782 rss_kb=3240084
+driver_s=812 rss_kb=3240084
+driver_s=842 rss_kb=3240084
+driver_s=872 rss_kb=3240084
+driver_s=902 rss_kb=3240084
+driver_s=932 rss_kb=3240084
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=398
+verify_budget_s=2842

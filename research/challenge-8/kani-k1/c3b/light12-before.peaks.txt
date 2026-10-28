@@ -1,0 +1,53 @@
+interval_ms=2000
+samples=170
+elapsed_s=337
+total_rss_peak_kb=2324500
+total_peak_s=48
+cmd=bash peak_kb=3812 first_s=0 last_s=337 peak_s=0
+cmd=cargo peak_kb=34948 first_s=0 last_s=62 peak_s=4
+cmd=cbmc peak_kb=809300 first_s=72 last_s=337 peak_s=186
+cmd=cc peak_kb=1136 first_s=6 last_s=6 peak_s=6
+cmd=collect2 peak_kb=1064 first_s=6 last_s=6 peak_s=6
+cmd=goto-cc peak_kb=26080 first_s=64 last_s=327 peak_s=66
+cmd=goto-instrument peak_kb=50504 first_s=68 last_s=296 peak_s=258
+cmd=kani-compiler peak_kb=1895444 first_s=2 last_s=62 peak_s=48
+cmd=kani-driver peak_kb=1197012 first_s=0 last_s=337 peak_s=172
+cmd=run-kani.sh peak_kb=3664 first_s=0 last_s=337 peak_s=0
+cmd=rust-lld peak_kb=75460 first_s=6 last_s=6 peak_s=6
+cmd=tee peak_kb=1064 first_s=0 last_s=337 peak_s=0
+cmd=time peak_kb=1164 first_s=0 last_s=337 peak_s=0
+cmd=timeout peak_kb=1024 first_s=0 last_s=337 peak_s=0
+cbmc_pid=9379 peak_kb=809300 first_s=174 last_s=232 peak_s=186 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9352 peak_kb=640504 first_s=128 last_s=170 peak_s=138 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9298 peak_kb=574264 first_s=72 last_s=106 peak_s=80 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9541 peak_kb=538260 first_s=299 last_s=325 peak_s=317 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9487 peak_kb=413600 first_s=270 last_s=292 peak_s=284 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9325 peak_kb=332180 first_s=110 last_s=124 peak_s=116 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+driver_s=0 rss_kb=6140
+harness_s=70 name=merge::general_stable_sorted_permutation_u8_n0
+driver_s=30 rss_kb=6140
+harness_s=72 name=merge::general_stable_sorted_permutation_u8_n8
+driver_s=60 rss_kb=6140
+harness_s=110 name=merge::general_stable_sorted_permutation_u8_n5
+driver_s=90 rss_kb=10488
+harness_s=128 name=merge::general_stable_sorted_permutation_u8_n9
+driver_s=120 rss_kb=628520
+harness_s=174 name=merge::general_stable_sorted_permutation_u8_n10
+driver_s=150 rss_kb=632520
+harness_s=238 name=merge::general_stable_sorted_permutation_u8_n4
+driver_s=180 rss_kb=871472
+harness_s=260 name=merge::general_stable_sorted_permutation_u8_n1
+driver_s=210 rss_kb=871472
+harness_s=262 name=merge::general_stable_sorted_permutation_u8_n2
+driver_s=240 rss_kb=872920
+harness_s=270 name=merge::general_stable_sorted_permutation_u8_n6
+driver_s=270 rss_kb=872924
+harness_s=296 name=merge::general_stable_sorted_permutation_u64_n0
+driver_s=301 rss_kb=877936
+harness_s=299 name=merge::general_stable_sorted_permutation_u8_n7
+driver_s=331 rss_kb=883188
+harness_s=329 name=merge::general_stable_sorted_permutation_u8_n3
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=329
+verify_budget_s=1831
