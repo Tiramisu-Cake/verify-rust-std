@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kani_k1 as k  # noqa: E402
 
-P = "slice::sort::shared::smallsort::kani_k1::"
+P = "slice::sort::shared::smallsort::verify::"
 REQ = {
     "schema": "kani-k1-run-request-v1", "request_id": "smoke-001", "agent": "coordinator",
     "kind": "measurement", "purpose": "lane smoke", "runner": "ubuntu-latest", "harness_timeout_minutes": 10,
@@ -105,7 +105,7 @@ class RequestTests(unittest.TestCase):
         self.bad(lambda r: r["harnesses"][0].update(name=["x"]), "harness name")
 
     def test_rejects_names_outside_experiment_module(self):
-        for name in ["slice::sort::shared::smallsort::verify::h", "x; rm -rf /", P + "a b", P, P + "ok::",
+        for name in ["slice::sort::shared::smallsort::kani_k1::h", "x; rm -rf /", P + "a b", P, P + "ok::",
                      P + "ok\n", P + "ok\n--harness x"]:
             req = copy.deepcopy(REQ)
             req["harnesses"][0]["name"] = name
@@ -420,6 +420,32 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertTrue(peaks["commands_truncated"])
         self.assertEqual(peaks["commands"][0]["cmd"], "p19")
 
+    def test_extended_peak_timestamps_and_sampler_records_are_bounded(self):
+        text = ("interval_ms=2000\nsamples=2\nelapsed_s=2\ntotal_rss_peak_kb=300\ntotal_peak_s=2\n"
+                "cmd=cbmc peak_kb=200 first_s=0 last_s=2 peak_s=2\n")
+        parsed = k.parse_peaks(text)
+        self.assertEqual(parsed["total_peak_s"], 2)
+        self.assertEqual(parsed["commands"][0]["peak_s"], 2)
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            proc = root / "proc"
+            out = root / "peaks.txt"
+            log = root / "kani.log"
+            for pid, name, rss in (("100", "cbmc", "2048"), ("101", "kani-driver", "1024")):
+                directory = proc / pid
+                directory.mkdir(parents=True)
+                (directory / "status").write_text(f"Name:\t{name}\nVmRSS:\t{rss} kB\nVmHWM:\t{rss} kB\n")
+                (directory / "cmdline").write_bytes(("kani " + P + "heavy").encode() if name == "cbmc" else b"")
+            log.write_text(f"Checking harness {P}heavy...\n")
+            k.sample_memory(out, 0.01, 0.04, proc=proc, log=log)
+            saved = out.read_text()
+            self.assertIn("total_peak_s=", saved)
+            self.assertIn("cmd=cbmc peak_kb=2048", saved)
+            self.assertIn("cbmc_pid=100", saved)
+            self.assertIn("driver_s=", saved)
+            self.assertIn("harness_s=", saved)
+            self.assertLess(len(saved), 8000)
+
     def test_time_rss_above_sampled_peak(self):
         big = "\tMaximum resident set size (kbytes): 25165824\n"
         s = k.summarize(json.dumps(RES_REQ), OK_BLOCK + tail(1, 0), big, 0, "a" * 40, "b" * 40, None, {}, {},
@@ -490,7 +516,7 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertIn("--jobs=1", k.kani_args(k.validate_request(copy.deepcopy(diag))))
         self.assertIn("--jobs=2", k.kani_args(k.validate_request({**diag, "kani_jobs": 2})))
         self.assertIn("--jobs=1", k.kani_args(k.validate_request({**REQ, "kani_jobs": 1})))
-        self.bad({**diag, "kani_jobs": 3}, "kani_jobs must be")
+        self.assertIn("--jobs=3", k.kani_args(k.validate_request({**diag, "kani_jobs": 3})))
         self.bad({**diag, "kani_jobs": True}, "kani_jobs must be")
         self.bad({**diag, "kind": "measurement", "kani_jobs": 2}, "only for kind diagnostic")
         self.bad({**diag, "runner": "circleci-linux-large", "kani_jobs": 2}, "only for kind diagnostic")
@@ -500,6 +526,22 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertEqual(s["request"]["kani_jobs"], 2)
         self.assertTrue(any("concurrently" in n for n in s["notes"]))
         self.assertIn("harnesses in parallel 2", k.render_md(s))
+
+    def test_diagnostic_harness_cap_is_standard_pool_only_and_budgeted(self):
+        entries = [{"name": P + f"h{i}", "expect": "SUCCESS"} for i in range(80)]
+        req = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harness_timeout_minutes": 1,
+               "harnesses": entries}
+        k.validate_request(req)
+        with self.assertRaises(k.RequestError):
+            k.validate_request({**req, "runner": "ubuntu-latest"})
+        with self.assertRaises(k.RequestError):
+            k.validate_request({**req, "harness_timeout_minutes": 2})
+        with self.assertRaises(k.RequestError):
+            k.validate_request({**req, "harnesses": entries + [{"name": P + "h80", "expect": "SUCCESS"}]})
+        partition = {**req, "kind": "partition", "harnesses": [], "worker_index": 1, "worker_total": 2,
+                     "kani_jobs": 3}
+        with self.assertRaises(k.RequestError):
+            k.validate_request(partition)
 
     def test_machine_memcap_gates_measurement_on_swap(self):
         std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}

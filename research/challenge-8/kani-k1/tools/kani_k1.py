@@ -63,7 +63,9 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
 CONTROLS_CFG = "kani_smallsort_controls"
 OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls", "worker_index", "worker_total"}
-KANI_JOBS = {1, 2}
+KANI_JOBS = {1, 2, 3}
+PARTITION_KANI_JOBS = {1, 2}
+STANDARD_DIAGNOSTIC_MAX_HARNESSES = 80
 HARNESS_REQUIRED = {"name", "expect"}
 HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
@@ -150,8 +152,8 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         cap = PARTITION_MAX_MINUTES if max_total_minutes is None else min(max_total_minutes, PARTITION_MAX_MINUTES)
         if type(t) is not int or not 1 <= t <= cap:
             raise RequestError(f"harness_timeout_minutes (partition wall budget) must be an integer 1..{cap}")
-        if "kani_jobs" in data and (type(data["kani_jobs"]) is not int or data["kani_jobs"] not in KANI_JOBS):
-            raise RequestError(f"kani_jobs must be one of {sorted(KANI_JOBS)}")
+        if "kani_jobs" in data and (type(data["kani_jobs"]) is not int or data["kani_jobs"] not in PARTITION_KANI_JOBS):
+            raise RequestError(f"kani_jobs must be one of {sorted(PARTITION_KANI_JOBS)} for kind partition")
         return data
     if "worker_index" in data or "worker_total" in data:
         raise RequestError("worker_index/worker_total are only for kind partition")
@@ -179,8 +181,10 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     if data["kind"] == "measurement" and timeout != MEASUREMENT_TIMEOUT_MINUTES:
         raise RequestError("a measurement run must use harness_timeout_minutes = 10")
     harnesses = data["harnesses"]
-    if not isinstance(harnesses, list) or not 1 <= len(harnesses) <= MAX_HARNESSES:
-        raise RequestError(f"harnesses must be a list of 1..{MAX_HARNESSES} entries")
+    harness_limit = (STANDARD_DIAGNOSTIC_MAX_HARNESSES
+                     if data["runner"] == STANDARD_RUNNER and data["kind"] == "diagnostic" else MAX_HARNESSES)
+    if not isinstance(harnesses, list) or not 1 <= len(harnesses) <= harness_limit:
+        raise RequestError(f"harnesses must be a list of 1..{harness_limit} entries")
     names: list[str] = []
     for entry in harnesses:
         if (not isinstance(entry, dict) or not HARNESS_REQUIRED <= set(entry)
@@ -471,8 +475,11 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
         if line.startswith("cmd="):
             f = dict(part.split("=", 1) for part in line.split() if "=" in part)
             if all(f.get(k, "").isdigit() for k in ("peak_kb", "first_s", "last_s")):
-                commands.append({"cmd": _clip(f["cmd"])[:40], "peak_kb": int(f["peak_kb"]),
-                                 "first_s": int(f["first_s"]), "last_s": int(f["last_s"])})
+                command = {"cmd": _clip(f["cmd"])[:40], "peak_kb": int(f["peak_kb"]),
+                           "first_s": int(f["first_s"]), "last_s": int(f["last_s"])}
+                if f.get("peak_s", "").isdigit():
+                    command["peak_s"] = int(f["peak_s"])
+                commands.append(command)
         elif "=" in line:
             key, value = line.split("=", 1)
             head[key.strip()] = value.strip()
@@ -482,7 +489,8 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
     commands.sort(key=lambda c: -c["peak_kb"])
     samples = num("samples")
     return {"state": "PARSED" if samples else "UNPARSED", "interval_ms": num("interval_ms"), "samples": samples,
-            "total_rss_peak_kb": num("total_rss_peak_kb"), "commands": commands[:PEAKS_TOP],
+            "total_rss_peak_kb": num("total_rss_peak_kb"), "total_peak_s": num("total_peak_s"),
+            "commands": commands[:PEAKS_TOP],
             "commands_truncated": len(commands) > PEAKS_TOP}
 
 
@@ -499,7 +507,8 @@ def _kb(value: str | None) -> int:
     return int(parts[0]) if parts and parts[0].isdigit() else 0
 
 
-def sample_memory(out: Path, interval: float, max_seconds: float | None = None, proc: Path = Path("/proc")) -> None:
+def sample_memory(out: Path, interval: float, max_seconds: float | None = None, proc: Path = Path("/proc"),
+                  log: Path | None = None) -> None:
     """Every INTERVAL seconds read VmHWM (the kernel's per-process peak RSS) of every process and keep the
     maximum per command name, plus the largest sampled sum of VmRSS. The file is rewritten atomically after
     each sample, so a killed sampler still leaves the last state. Stops on SIGTERM/SIGINT or after MAX_SECONDS."""
@@ -512,7 +521,12 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
     signal.signal(signal.SIGINT, on_signal)
     t0 = time.monotonic()
     peaks: dict[str, dict[str, int]] = {}
-    total_peak = samples = 0
+    cbmc: dict[str, dict[str, Any]] = {}
+    driver_series: list[tuple[int, int]] = []
+    harness_observations: list[tuple[int, str]] = []
+    total_peak = total_peak_s = samples = 0
+    last_driver_s = -30  # Include the baseline point at elapsed 0; subsequent points are about 30 s apart.
+    log_offset = 0
     me = str(os.getpid())
     while True:
         now = int(time.monotonic() - t0)
@@ -525,12 +539,80 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                 continue  # kernel thread or gone
             total += _kb(st.get("VmRSS"))
             name = re.sub(r"[^A-Za-z0-9._+-]", "_", st.get("Name", "?").strip())[:40] or "?"
-            entry = peaks.setdefault(name, {"peak_kb": 0, "first_s": now, "last_s": now})
-            entry["peak_kb"] = max(entry["peak_kb"], _kb(st.get("VmHWM")), _kb(st.get("VmRSS")))
+            rss_peak = max(_kb(st.get("VmHWM")), _kb(st.get("VmRSS")))
+            entry = peaks.setdefault(name, {"peak_kb": 0, "first_s": now, "last_s": now, "peak_s": now})
+            if rss_peak > entry["peak_kb"]:
+                entry["peak_kb"], entry["peak_s"] = rss_peak, now
             entry["last_s"] = now
-        total_peak, samples = max(total_peak, total), samples + 1
-        lines = [f"interval_ms={round(interval * 1000)}", f"samples={samples}", f"elapsed_s={now}", f"total_rss_peak_kb={total_peak}"]
-        lines += [f"cmd={n} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']}" for n, e in sorted(peaks.items())]
+            if name == "cbmc":
+                pid = status_path.parent.name
+                try:
+                    cmdline = (status_path.parent / "cmdline").read_bytes().replace(b"\0", b" ").decode("utf-8", "replace").strip()
+                except OSError:
+                    cmdline = ""
+                harness = re.search(r"slice::sort::shared::smallsort::verify::[A-Za-z0-9_:]+", cmdline)
+                per_pid = cbmc.setdefault(pid, {"peak_kb": 0, "first_s": now, "last_s": now,
+                                                 "peak_s": now, "hint": harness.group(0)[len(HARNESS_PREFIX):] if harness else cmdline[:80]})
+                if rss_peak > per_pid["peak_kb"]:
+                    per_pid["peak_kb"], per_pid["peak_s"] = rss_peak, now
+                per_pid["last_s"] = now
+                if len(cbmc) > 12:
+                    keep = sorted(cbmc, key=lambda p: cbmc[p]["peak_kb"], reverse=True)[:6]
+                    cbmc = {p: cbmc[p] for p in keep}
+        if now - last_driver_s >= 30:
+            driver_rss = 0
+            for status_path in proc.glob("[0-9]*/status"):
+                st = _proc_status(status_path)
+                if st and re.sub(r"[^A-Za-z0-9._+-]", "_", st.get("Name", "").strip())[:40] == "kani-driver":
+                    driver_rss += _kb(st.get("VmRSS"))
+            if len(driver_series) >= 50:
+                driver_series = driver_series[::2]
+            driver_series.append((now, driver_rss))
+            last_driver_s = now
+        if log is not None and len(harness_observations) < 50:
+            try:
+                with log.open("rb") as stream:
+                    stream.seek(log_offset)
+                    fresh = stream.read(65536)
+                    log_offset = stream.tell()
+                for line in fresh.decode("utf-8", "replace").splitlines():
+                    match = CHECKING_RE.match(line)
+                    if match:
+                        harness_name = match.group(1)
+                        if harness_name.startswith(HARNESS_PREFIX):
+                            harness_name = harness_name[len(HARNESS_PREFIX):]
+                        harness_observations.append((now, harness_name[:80]))
+                        if len(harness_observations) == 50:
+                            break
+            except OSError:
+                pass
+        if total > total_peak:
+            total_peak, total_peak_s = total, now
+        samples += 1
+        lines = [f"interval_ms={round(interval * 1000)}", f"samples={samples}", f"elapsed_s={now}",
+                 f"total_rss_peak_kb={total_peak}", f"total_peak_s={total_peak_s}"]
+        lines += [f"cmd={n} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']} peak_s={e['peak_s']}"
+                  for n, e in sorted(peaks.items())]
+        extra = [f"cbmc_pid={pid} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']} "
+                 f"peak_s={e['peak_s']} hint={'_'.join(e['hint'].split())[:60]}"
+                 for pid, e in sorted(cbmc.items(), key=lambda pair: -pair[1]["peak_kb"])[:6]]
+        drivers = [f"driver_s={elapsed} rss_kb={rss}" for elapsed, rss in driver_series]
+        harnesses = [f"harness_s={elapsed} name={re.sub(r'[^A-Za-z0-9_:.-]', '_', name)}"
+                     for elapsed, name in harness_observations]
+        # k1g.sh prints at most 8000 bytes. Keep this artifact below that bound so the useful tail records
+        # cannot be silently clipped by the reader; preserve complete lines and all legacy command rows.
+        size = sum(len(line.encode()) + 1 for line in lines)
+        for line in extra:
+            if size + len(line.encode()) + 1 <= 7900:
+                lines.append(line)
+                size += len(line.encode()) + 1
+        for i in range(max(len(drivers), len(harnesses))):
+            for records in (drivers, harnesses):
+                if i < len(records):
+                    line = records[i]
+                    if size + len(line.encode()) + 1 <= 7900:
+                        lines.append(line)
+                        size += len(line.encode()) + 1
         tmp = out.with_name(out.name + ".tmp")
         tmp.write_text("\n".join(lines) + "\n")
         tmp.replace(out)
@@ -778,12 +860,14 @@ def _peaks_lines(peaks: dict[str, Any] | None) -> list[str]:
         return []
     gib = lambda kb: "?" if kb is None else f"{kb / 2**20:.2f} GiB"  # noqa: E731
     every = "?" if peaks["interval_ms"] is None else f"{peaks['interval_ms'] / 1000:g}"
+    peak_time = "?" if peaks.get("total_peak_s") is None else f"{peaks['total_peak_s']} s"
     out = [f"- memory peaks {peaks['state']}: sampled every {every} s, {peaks['samples']} samples, "
-           f"largest sampled sum of RSS {gib(peaks['total_rss_peak_kb'])}; per command (kernel VmHWM; 13 GiB = CircleCI cap, "
+           f"largest sampled sum of RSS {gib(peaks['total_rss_peak_kb'])} at {peak_time}; per command (kernel VmHWM; 13 GiB = CircleCI cap, "
            "16 GB = organizers' runner):"]
     for c in peaks["commands"]:
         fit = "≤13 GiB" if c["peak_kb"] <= 13 * 2**20 else ("≤16 GB" if c["peak_kb"] * 1024 <= 16 * 10**9 else ">16 GB")
-        out.append(f"  - `{c['cmd']}` {gib(c['peak_kb'])} ({fit}), seen {c['first_s']}–{c['last_s']} s")
+        peak_at = f", peak sample {c['peak_s']} s" if c.get("peak_s") is not None else ""
+        out.append(f"  - `{c['cmd']}` {gib(c['peak_kb'])} ({fit}), seen {c['first_s']}–{c['last_s']} s{peak_at}")
     if peaks.get("commands_truncated"):
         out.append(f"  - …only the {PEAKS_TOP} largest commands listed")
     return out
@@ -893,6 +977,7 @@ def main(argv: list[str]) -> int:
     m.add_argument("--out", required=True)
     m.add_argument("--interval", type=float, default=2.0)
     m.add_argument("--max-seconds", type=float)
+    m.add_argument("--log", help="Kani output file; record up to 50 Checking harness lines with sampler elapsed time")
     a = ap.parse_args(argv)
     if a.cmd == "ledger":
         try:
@@ -911,7 +996,7 @@ def main(argv: list[str]) -> int:
             return 2
         return 0
     if a.cmd == "sample-mem":
-        sample_memory(Path(a.out), a.interval, a.max_seconds)
+        sample_memory(Path(a.out), a.interval, a.max_seconds, log=Path(a.log) if a.log else None)
         return 0
     if a.cmd == "validate":
         try:

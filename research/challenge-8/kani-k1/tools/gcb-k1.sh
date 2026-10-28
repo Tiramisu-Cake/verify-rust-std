@@ -107,7 +107,7 @@ stage() {
         echo "max_bytes=$(( $(awk '/^MemTotal:/{print $2}' /proc/meminfo) * 1024 ))"   # shell math: mawk prints big numbers as 1.6e+10
         if [ "${swap:-x}" = 0 ]; then echo "swap=off"; else echo "swap=on (SwapTotal ${swap:-unknown} kB)"; fi
         echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
-      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 &
+      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 --log "$K1_OUT/kani.log" &
       sampler=$!
       # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
       rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
