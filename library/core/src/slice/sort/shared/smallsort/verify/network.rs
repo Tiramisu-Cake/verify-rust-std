@@ -607,8 +607,11 @@ fn mutating_insertion_fixed<const N: usize>() {
 
 macro_rules! mutating_insertion_cases {
     ($name:ident, [$($n:literal),+]) => {
+        mutating_insertion_cases!($name, [$($n),+], 35);
+    };
+    ($name:ident, [$($n:literal),+], $unwind:literal) => {
         #[kani::proof]
-        #[kani::unwind(35)]
+        #[kani::unwind($unwind)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
             match len {
@@ -637,7 +640,10 @@ mutating_insertion_cases!(mutating_insertion_safety_cell_n16_to20, [16, 17, 18, 
 insertion_safety_cases!(insertion_safety_u64_n11_to12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n13_to15, [13, 14, 15]);
-mutating_insertion_cases!(mutating_insertion_safety_cell_n11_to12, [11, 12]);
+// The two proofs partition the former length domain exactly. Unwinding assertions remain on;
+// each bound exceeds its exact array length, including array initialization and insertion loops.
+mutating_insertion_cases!(mutating_insertion_safety_cell_n11, [11], 13);
+mutating_insertion_cases!(mutating_insertion_safety_cell_n12, [12], 14);
 #[cfg(kani_smallsort_controls)]
 mutating_insertion_cases!(mutating_insertion_safety_cell_n13_to15, [13, 14, 15]);
 
