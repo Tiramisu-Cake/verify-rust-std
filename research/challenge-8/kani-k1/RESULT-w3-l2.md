@@ -1116,3 +1116,22 @@ Network u64N15/N16 иu8N16: screening120 только, не выдавать з�
 Network17 обоих типов: cadical TIMEOUT600 + иной solver TIMEOUT120.
 H2 не вводился (D-B6). После012 — окончательная таблица/список переноса,
 строка W3-L2 ЗАВЕРШЁН, push, остановка без нового этапа.
+
+4b745aa4: check-tooling полностью ok против BASE8350fb1b;
+peaks sum11599232KiB, cbmc9980244KiB, kissat4506164KiB, swap0;
+log-grep подтвердил13 сообщений `CBMC timed out`, без новых errors.
+
+### B build 6996561a-bb61-4c8b-b65d-4ba3525fc098 — отправлен (последний)
+
+Source`65704d30`, запрос012, measurement2×10, controls=false,
+scratchu64/kissat + GS15u64/cadical. Budget перед dispatch:
+used$27,3480,reserved$8,9100,cap$43,96; после максимум$36,9330,
+свой резерв$0,675<остаткаB$0,6902.
+Статусы/фактическая стоимость пока неизвестны, нового зачёта нет.
+BASE8350fb1b5fd1f6133fcadab564ac2b0848e30b97.
+После watch — summary/peaks/check-tooling, учётB. Если нет gate=true,
+вернуть эти два экземпляра под controls cfg и не переносить в L1.
+Затем закончить итоговую таблицу/ссылки на6 buildsB, список файлов/строк
+переносаL1; обновить начало RESULT, W3-L2 ЗАВЕРШЁН, commit/push/stop.
+Новых dispatch после012 не планируется: оставшиеся задачи раскрываются
+по D-B7, H2 не вводится. ЭтапB последний дляL2.
