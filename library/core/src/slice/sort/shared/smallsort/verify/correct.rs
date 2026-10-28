@@ -25,7 +25,7 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
 
 macro_rules! fallback_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
-        fallback_stub_harness!($name, $t, $cmp, $n, cadical);
+        fallback_stub_harness!($name, $t, $cmp, $n, kissat);
     };
     ($name:ident, $t:ty, $cmp:ident, $n:literal, $solver:ident) => {
         #[kani::proof]
@@ -195,5 +195,5 @@ macro_rules! general_stub_harness {
 }
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
-general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
-general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);
+general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, kissat);
+general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, kissat);

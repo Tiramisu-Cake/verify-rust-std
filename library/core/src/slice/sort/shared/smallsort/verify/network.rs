@@ -80,6 +80,7 @@ fn unstable_freeze_network_fixed<const N: usize>() {
 macro_rules! unstable_freeze_network_cases {
     ($name:ident, [$($n:literal),+], [$($attr:meta),*]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         $(#[$attr])*
         #[kani::unwind(35)]
         fn $name() {
@@ -193,6 +194,7 @@ fn unstable_dispatch_network_fixed<const N: usize>() {
 macro_rules! unstable_dispatch_network_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::stub(super::super::panic_on_ord_violation, cut_order_violation_panic)]
         #[kani::unwind(35)]
         fn $name() {
@@ -261,6 +263,7 @@ fn dispatch_safety_fixed<T: ArbitraryValue, const N: usize, const STABLE: bool>(
 macro_rules! dispatch_safety_cases {
     ($name:ident, $t:ty, $stable:literal, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -308,6 +311,7 @@ dispatch_safety_cases!(dispatch_safety_unstable_u8_n18_31_32, u8, false, [18, 31
 macro_rules! dispatch_pair_safety_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -498,6 +502,7 @@ fn insertion_safety_fixed<const N: usize>() {
 macro_rules! insertion_safety_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -577,6 +582,7 @@ fn mutating_route_fixed<const N: usize>(stable: bool) {
 macro_rules! mutating_route_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(35)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -613,6 +619,7 @@ macro_rules! mutating_insertion_cases {
     };
     ($name:ident, [$($n:literal),+], $unwind:literal) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind($unwind)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -723,6 +730,7 @@ insertion_offset_one_cases!(
 macro_rules! insertion_offset_group_cases {
     ($plain:ident, $cell:ident, $n:literal, [$($o:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $plain() {
             const { $(assert!($o >= 1 && $o <= $n);)+ };
@@ -736,6 +744,7 @@ macro_rules! insertion_offset_group_cases {
         }
 
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(35)]
         fn $cell() {
             const { $(assert!($o >= 1 && $o <= $n);)+ };
@@ -945,6 +954,7 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
 macro_rules! network_correctness_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -1063,6 +1073,7 @@ fn insertion_permutation_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>()
 macro_rules! insertion_permutation_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             insertion_permutation_fixed::<$t, $n>();
@@ -1208,6 +1219,7 @@ fn insert_tail_value<const START: usize>(fixed_tail: Option<usize>) -> usize {
 macro_rules! insert_tail_contract_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             let tail = insert_tail_value::<$start>(None);
@@ -1226,6 +1238,7 @@ macro_rules! insert_tail_contract_case {
 macro_rules! insert_tail_contract_exact_case {
     ($name:ident, $start:literal, $end:literal) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             let tail = insert_tail_value::<$start>(Some($end));
@@ -1349,6 +1362,7 @@ fn mutating_route_permutation<const N: usize>() -> (u8, usize) {
 macro_rules! mutating_route_permutation_case {
     ($name:ident, $n:literal, [$($offset:literal),+]) => {
         #[kani::proof]
+        #[kani::solver(kissat)]
         #[kani::unwind(25)]
         fn $name() {
             let (mode, offset) = mutating_route_permutation::<$n>();
