@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l1-019-stage-d-l2-integration",
+  "request_id": "w3-l1-020-stage-d-l2-integration",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "Stage D integration: unchanged correct.rs from daf8d13e, 2 accepted L2 fallback callers and existing smoke; base d5dc2c5f; controls off",
+  "purpose": "Authorized stage D retry: unchanged code 1e21a2e7; 2 accepted L2 fallback callers and ordinary C3 predicate; base d5dc2c5f; controls off",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
@@ -16,7 +16,7 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::smoke::ok",
+      "name": "slice::sort::shared::smallsort::kani_k1::smoke::w3_efficient_swap_c3",
       "expect": "SUCCESS"
     }
   ]
