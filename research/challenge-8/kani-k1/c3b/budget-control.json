@@ -1,10 +1,10 @@
 {
-  "task_cap_usd": 8,
-  "task_cap_builds": 12,
+  "task_cap_usd": 12,
+  "task_cap_builds": 20,
   "global_initial_used_usd": 37.662,
   "global_initial_reserved_usd": 0.81,
   "maximum_own_charge_first_seven_builds_usd": 7.722,
-  "additional_dispatch_rule": "global used + reserved + next reserve <= 45.662; this conservatively includes unrelated new project charges",
+  "additional_dispatch_rule": "Use k1g.sh budget with exactly all C3b build UUIDs: own used + reserved + next reserve <= 12; retain global dispatch CAP_USD 63.96",
   "currency": "USD",
   "price_per_pool_minute": 0.0135,
   "overhead_minutes": 30
