@@ -10,23 +10,28 @@
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_insert_tail_u8_n2",
-      "expect": "FAILED"
+      "expect": "FAILED",
+      "expect_check": "assertion failed"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_u8_n4",
-      "expect": "FAILED"
+      "expect": "FAILED",
+      "expect_check": "count(&src, probe) == count(&result, probe)"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_up_u8_n2",
-      "expect": "FAILED"
+      "expect": "FAILED",
+      "expect_check": "assertion failed"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_network_prefix_u8_n10",
-      "expect": "FAILED"
+      "expect": "FAILED",
+      "expect_check": "v[0] == 0 && v[9] == 1"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
-      "expect": "FAILED"
+      "expect": "FAILED",
+      "expect_check": "assertion failed"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
