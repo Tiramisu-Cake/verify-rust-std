@@ -1,11 +1,23 @@
 # W3-L2 — корректность, план R8
 
-Итог этапа A: **L2-1 STOP по протоколу — new24 TIMEOUT1800с >600с**.
-Old/new20/24 все TIMEOUT30мин; отношение времён не определяется.
-L2-0, обе S2 и R11 insert_tail подтверждены gate6e32e784 и R9 GO.
-Собственных незавершённых builds нет; учтено $2,7007/$5,4, остаток $2,6993.
-В HEAD новый экспериментальный ensures; условие выигрыша H1 для переноса
-в L1 не выполнено. L2-2 — только в чистой сессии этапа B, передача в конце.
+**Итог L2-2:** закрыт fallback u64 N8..16 и u8 N9..16;
+закрыты GS u8 N14/N15 (stable-вход с exact arrayN/scratch48 и дополнительный
+прямой general внутри гармоники). GS u64 N13..15 и network u64 N15..17,
+u8 N16..17 раскрыты: успешной полной цепочки в бюджете нет.
+Все принятые caller проверяют сортированность и кратность полных значений.
+Подтверждения/ограничения и список переноса L1 — в итоговом разделе B в конце.
+
+**L2-1:** STOP из этапа A, new24 TIMEOUT1800с >600с. H1-выигрыш не установлен;
+новый merge-ensures/Tagged/K1MergePerm удалены из текущего набора, старый bm в силе.
+L2-0/S2/R11 подтверждены в A build6e32e784; история сохранена ниже.
+**Бюджет B:** $2,884518/$3,2, остаток $0,315482 (новый прогон не помещается).
+A $2,7007 не пересчитано; A+B $5,585218. Шесть собственных builds B терминальны.
+R9: GO шаблона8e499dcd+первый measurement; GO_WITH_NITS96cbf2d3,
+should-fix о геометрииbm закрыт решением D-B4. Открытых review/lane requests нет.
+Незачтённые опыты и R11 — только под kani_smallsort_controls.
+Последний этап W3-L2 завершён, следующих этапов/dispatch не планируется.
+
+## История этапа A (лимиты и состояние HEAD относятся к указанным коммитам)
 
 Начало: 2026-10-27T10:18:21Z. Ветка `experiment/kani-k1-correct-20261027`.
 Доля $5,4; потрачено $0, незавершённых собственных сборок на входе нет.
@@ -1135,3 +1147,142 @@ BASE8350fb1b5fd1f6133fcadab564ac2b0848e30b97.
 переносаL1; обновить начало RESULT, W3-L2 ЗАВЕРШЁН, commit/push/stop.
 Новых dispatch после012 не планируется: оставшиеся задачи раскрываются
 по D-B7, H2 не вводится. ЭтапB последний дляL2.
+
+### B build 6996561a — COMPLETE, gate=false
+
+Source65704d30, measurement2×10, controls=false, swap off.
+- `l2_insert_tail_scratch_u64` (kissat): TIMEOUT600с, checks/covers не получены.
+- `l2_gs_u64_n15` (cadical): SUCCESS388,35773с, 0/734 failed,
+  78 unreachable, covers2/2; полная цепочка НЕ засчитана: нет scratch proof.
+Whole run1185,49с; (1185,49/60+8)×0,0135=$0,37473525.
+B=$2,884518/$3,2, остаток$0,315482; A+B=$5,585218.
+Пик sampled sumRSS15,01GiB; cbmc9,52GiB, driver6,87GiB,
+kissat4,30GiB; max single-process9980908KiB. Это общие пики build.
+check-tooling полностью ok против BASE8350fb1b (pool/lane/пять хешей);
+peaks: sum15744240KiB, cbmc9980908KiB, driver7203168KiB, kissat4506104KiB.
+log-grep: GS SUCCESS на строке2726, scratch `CBMC timed out` на2733.
+
+D-B8 (R7, окончание): вернуть scratchu64 и GS15u64 под controls cfg.
+Остаток$0,315482 меньше даже минимального диагностического резерва
+(30+1)×0,0135=$0,4185 и measurement1×10=$0,54; новых dispatch нет.
+Это не объявление свойства ложным и не расходование остатка до нуля.
+
+## Итог этапа B — L2-2
+
+Все времена ниже — фактические Verification Time, если написано SUCCESS;
+для TIMEOUT — установленный лимит, не измеренное время доказательства.
+Пик — **суммарный sampled RSS всего build**, не пик отдельной гармоники.
+Точные времена каждой fallback-инстанциации приведены в разделах007/008/010.
+
+| Пробел | Гармоники correct:: | Build / gate | Время, с | Пик build, GiB | Статус |
+|---|---|---|---:|---:|---|
+| fallback u64 N8,N16 | l2_fallback_u64_n8/n16 | 1e932304 / true | 53,361 / 300,740 | 8,78 | закрыто |
+| fallback u64 N9..15 | l2_fallback_u64_n9…n15 | b436b6d6 / true | 71,098…309,293 | 8,20 | закрыто, все 7 отдельных N |
+| fallback u8 N9,N16 | l2_fallback_u8_n9/n16 | 1e932304 / true | 57,606 / 243,741 | 8,78 | закрыто |
+| fallback u8 N10..14 | l2_fallback_u8_n10…n14 | b436b6d6 / true | 109,748…199,467 | 8,20 | закрыто, все 5 отдельных N |
+| fallback u8 N15 | l2_fallback_u8_n15 | be2555c0 / true | 201,800 | 8,83 | закрыто |
+| GS u8 N14,N15 | l2_gs_u8_n14/n15 | be2555c0 / true | 215,596 / 246,823 | 8,83 | закрыто в области D-B4 |
+| GS u64 N13,N14 | l2_sweep_gs_u64_n13_kissat / n14_minisat | 4b745aa4 / false | TIMEOUT120 каждый | 11,06 | раскрыто: screening, нет нового proof600, нет scratchu64 основания |
+| GS u64 N15 | l2_gs_u64_n15 | 6996561a / false | SUCCESS388,358 | 15,01 | раскрыто: scratchu64 TIMEOUT600 (cadical и kissat), R4 цепочка не закрыта |
+| network u64 N15,N16 | l2_sweep_network_u64_n15_kissat / n16_minisat | 4b745aa4 / false | TIMEOUT120 каждый | 11,06 | раскрыто: короткий screening, proof600 этих кандидатов не было, бюджет |
+| network u8 N16 | l2_sweep_network_u8_n16_kissat | 4b745aa4 / false | TIMEOUT120 | 11,06 | раскрыто: короткий screening, proof600 этого кандидата не было, бюджет |
+| network u64 N17 | l2_network_u64_n17 / l2_sweep_network_u64_n17_kissat | 4dcf377c / false; 4b745aa4 / false | cadical TIMEOUT600; kissat TIMEOUT120 | 14,96 / 11,06 | раскрыто |
+| network u8 N17 | l2_network_u8_n17 / l2_sweep_network_u8_n17_minisat | 4dcf377c / false; 4b745aa4 / false | cadical TIMEOUT600; minisat TIMEOUT120 | 14,96 / 11,06 | раскрыто |
+
+Дополнительное основание GS u8: `l2_insert_tail_scratch_u8`, be2555c0,
+gate=true, SUCCESS319,1401с, checks0/440, covers6/6. Prefix/full u8
+и R11 — также A build6e32e784 (история/передачаA); cfg-повтор R11 в009
+дал ожидаемый FAILED на smallsort.rs:607, но общий gate009=false.
+
+Область свойств: исходные полные u64/u8, comparator ровно lt_u64/lt_u8
+(строгий слабый порядок ключа x>>1), равные ключи/разные полные значения
+разрешены. Перестановка — кратность произвольной полнобитной пробы;
+никаких Tagged, сужения домена значений, should_panic или ZST в новых
+принятых caller нет. Массивы ровно N. Полный arbitrary comparator не
+используется в correctness-caller, CD-2 не заменён отбрасыванием чтений.
+
+GS зачёт: stable trait с exact arrayN и отдельным scratch48; дополнительно
+доказан прямой general с такими же объектами, хотя std unstable u8/u64
+выбирает network. Перенос bm на prefix scratch48 — аналитический доводD-B4,
+не отдельный машинный scratch48 merge proof. Scratchu8 proof сохраняет
+явный frame вне активного региона; E1/uninit этим не заявляется.
+Network N17 следует из compile-time Copy+Freeze специализации и 17<18,
+не из runtime-cover. Все network опыты остаются вне подаваемого набора.
+
+Ориентир180с/около5GiB полностью не достигнут; measurement gate600с/16GB
+для принятого слоя достигнут. Пики build нельзя считать пиками отдельных
+гармоник или измерением совместной памяти jobs2. Партиции Linux/macOS
+этим заданием не измерялись; итог H2 CI-набора за координатором/L1.
+H2-разбиение comparator с доказанной полнотой не вводилось, бюджетD-B6.
+Старые результаты u8/u64 сохранены, раскрытие H1 17..32 из A не меняется.
+
+### Реестр builds B и денег
+
+Цена всех новых builds $0,0135/мин; формула (whole run/60+8)×цена.
+Предыдущие расходы A по старым ставкам не пересчитывались.
+
+| Request | Build UUID | Source SHA | Gate | Whole run, с | Стоимость, $ |
+|---|---|---|---|---:|---:|
+| 007 | 1e932304-105e-4f26-9556-e3b9c2b63dde | 7be57a40b5ace7e8ed3c9ae6404ce22596fec0f3 | true | 735,34 | 0,27345150 |
+| 008 | b436b6d6-7982-4230-839a-ec1c582d0103 | b7420ada37b064e5a2633fe31a97a397d359c2f3 | true | 1948,87 | 0,54649575 |
+| 009 | 4dcf377c-ebc9-4062-8556-3e4b66a5a420 | e8e361ebaa40481d4a509f40ec028f560a57d4aa | false | 3329,24 | 0,85707900 |
+| 010 | be2555c0-d29b-412c-aa42-046c7233bc07 | c638272113b56e4708a753a2e89b6fcf74fa246f | true | 1062,04 | 0,34695900 |
+| 011 | 4b745aa4-9a38-4582-aa61-2973168b3355 | b4c1ec04708a7b479162459018b54cf6b36c8807 | false | 1679,10 | 0,48579750 |
+| 012 | 6996561a-bb61-4c8b-b65d-4ba3525fc098 | 65704d30725fd8d3192025edaefcb630c8df1a87 | false | 1185,49 | 0,37473525 |
+| **B итого** | **6 терминальных builds** | | | **9940,08** | **2,88451800** |
+
+BASE007–009: `85ceaa0ddb610d43bf24495d3aab676f6be25360`.
+BASE010–012: `8350fb1b5fd1f6133fcadab564ac2b0848e30b97`.
+B личный остаток$0,315482; A+B=$5,585218.
+Общий cap поднят владельцем до$45 (CAP_USD43,96), личная доляB не менялась.
+
+### Что координатор переносит в набор L1
+
+Пути далее относительно `library/core/src/slice/sort/shared/`:
+
+1. `smallsort/kani_k1/correct.rs`: текущий файл. В обычный CI входят
+   17 fallback caller `l2_fallback_u64_n8…n16`, `l2_fallback_u8_n9…n16`;
+   `l2_gs_u8_n14/n15`; два supporting proof `l2_insert_tail_prefix_u8`
+   и `l2_insert_tail_scratch_u8` (всего21 обычная гармоника).
+   Helper/макросы рядом обязательны: fallback строки10/24, prefix59,
+   scratch92/116/129, GS133/155/167/169. Номера по финальному файлу.
+   `l2_r11_insert_tail` строка75 под cfg; повторять с controls=true,
+   expect=FAILED, expect_check=k1_tail_pre. Все solver sweeps,
+   scratchu64/GS15u64/network17 также cfg и не входят в обычный CI.
+2. `smallsort/kani_k1.rs:10`: `mod correct;` (если ещё нет).
+3. `smallsort.rs:607–610`: существующие insert_tail attrs must remain
+   (requires/region modifies/sortedness/full probe permutation).
+   `smallsort.rs:859–864`: существующий старый bm contract must remain.
+   В частности строка864 — count_u(src)==count_u(dst); дополнительного
+   Tagged requires нет. Если L1 уже на старом контракте, новых изменений
+   smallsort.rs для переноса нет. Runtime-код не менялся.
+4. Сохранить существующие зависимости `merge.rs`: set_probe, lt_u8/lt_u64,
+   CopyOnDrop::k1_count/u, sorted/region helpers, доказанные bm N14/N15 u8
+   (job160/165). Сохранить insert_tail full proofs u64/u8 в network.rs
+   и prefix u64; их основания и идентичность исходников записаныD-B3.
+   Никаких Tagged/K1MergePerm/k1_merge_matches из L2-0/L2-1 не переносить.
+5. `RESULT-w3-l2.md` — evidence/область свойств/раскрытие; RUN-REQUEST.json
+   хранит последний исторический запрос012, не список подаваемого набора.
+   Интеграционный список L1 должен выбирать обычные положительные гармоники;
+   контроли воспроизводятся отдельным запросом controls=true.
+
+R9: GO_WITH_NITS96cbf2d3; экземпляр8e499dcd + первый gate007.
+D-B4 закрывает should-fix геометрииbm; косметические joint-cover/mutant
+ниты оставлены как необязательные. Новых контрактов/шаблонов после GO
+не введено: менялись только fixed-N/solver экземпляры, cfg и отчёт.
+Открытых REVIEW REQUEST/LANE REQUEST нет; исторические строки REQUEST
+выше относятся к уже рассмотренным SHA. Чистая комната соблюдена.
+
+### Финальная проверка и передача этапа B
+
+Все6 check-tooling полностью ok по указанным BASE. Финальная фиксация:
+2026-10-28T00:35:49Z (после результатов последней сборки).
+Локально: diff --check; lane-файлы тождественны BASE8350fb1b,
+изменения smallsort.rs с входаB — только восстановление двух kani attrs.
+Никаких локальных Kani/rustc/cargo, raw logs/архивов вне разрешённого
+k1g интерфейса, force-push, PR/внешних комментариев/сообщений не было.
+Все6 buildsB терминальны, своих незавершённых сборок нет.
+Следующих этапов дляL2 нет; координатор переносит только принятый слой
+выше и сохраняет раскрытие остальных пробелов.
+
+W3-L2 ЗАВЕРШЁН
