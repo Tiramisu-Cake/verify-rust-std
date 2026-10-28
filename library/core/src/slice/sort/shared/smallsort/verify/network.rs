@@ -372,11 +372,12 @@ dispatch_pair_safety_cases!(
     [u8; 16],
     [0, 1, 2, 7, 8]
 );
-dispatch_pair_safety_cases!(
-    dispatch_safety_stable_unstable_bytes16_n15_16_17,
-    [u8; 16],
-    [15, 16, 17]
-);
+dispatch_safety_cases!(dispatch_safety_stable_bytes16_n15, [u8; 16], true, [15]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes16_n16, [u8; 16], true, [16]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes16_n17, [u8; 16], true, [17]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n15, [u8; 16], false, [15]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n16, [u8; 16], false, [16]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n17, [u8; 16], false, [17]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n31, [u8; 16], [31]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n32, [u8; 16], [32]);
 
@@ -385,11 +386,12 @@ dispatch_pair_safety_cases!(
     [u8; 17],
     [0, 1, 2, 7, 8]
 );
-dispatch_pair_safety_cases!(
-    dispatch_safety_stable_unstable_bytes17_n15_16_17,
-    [u8; 17],
-    [15, 16, 17]
-);
+dispatch_safety_cases!(dispatch_safety_stable_bytes17_n15, [u8; 17], true, [15]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes17_n16, [u8; 17], true, [16]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes17_n17, [u8; 17], true, [17]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n15, [u8; 17], false, [15]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n16, [u8; 17], false, [16]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n17, [u8; 17], false, [17]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n31, [u8; 17], [31]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n32, [u8; 17], [32]);
 
@@ -1178,10 +1180,13 @@ swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
 
 // Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
 // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
-fn insert_tail_value<const START: usize>() -> usize {
+fn insert_tail_value<const START: usize>(fixed_tail: Option<usize>) -> usize {
     set_value_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
-    let tail: usize = kani::any_where(|&t| START < t && t < 17);
+    let tail: usize = match fixed_tail {
+        Some(tail) => tail,
+        None => kani::any_where(|&t| START < t && t < 17),
+    };
     let pre = v;
     let base = v.as_mut_ptr();
     // SAFETY: each instantiation has 1 <= START <= 15, START < tail < 17; the
@@ -1205,7 +1210,7 @@ macro_rules! insert_tail_contract_case {
         #[kani::proof_for_contract(super::super::insert_tail)]
         #[kani::unwind(25)]
         fn $name() {
-            let tail = insert_tail_value::<$start>();
+            let tail = insert_tail_value::<$start>(None);
             $(proof_cover!(
                 tail == $end,
                 concat!(
@@ -1214,6 +1219,24 @@ macro_rules! insert_tail_contract_case {
                     " with requires satisfied"
                 )
             );)+
+        }
+    };
+}
+
+macro_rules! insert_tail_contract_exact_case {
+    ($name:ident, $start:literal, $end:literal) => {
+        #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::unwind(25)]
+        fn $name() {
+            let tail = insert_tail_value::<$start>(Some($end));
+            proof_cover!(
+                tail == $end,
+                concat!(
+                    "insert-tail contract covers exact tail ",
+                    stringify!($end),
+                    " with requires satisfied"
+                ),
+            );
         }
     };
 }
@@ -1237,26 +1260,60 @@ insert_tail_contract_case!(
     5,
     [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start4,
-    4,
-    [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start3,
-    3,
-    [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start2,
-    2,
-    [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start1,
-    1,
-    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail5, 4, 5);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail6, 4, 6);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail7, 4, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail8, 4, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail9, 4, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail10, 4, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail11, 4, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail12, 4, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail13, 4, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail14, 4, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail15, 4, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail16, 4, 16);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail4, 3, 4);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail5, 3, 5);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail6, 3, 6);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail7, 3, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail8, 3, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail9, 3, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail10, 3, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail11, 3, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail12, 3, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail13, 3, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail14, 3, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail15, 3, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail16, 3, 16);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail3, 2, 3);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail4, 2, 4);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail5, 2, 5);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail6, 2, 6);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail7, 2, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail8, 2, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail9, 2, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail10, 2, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail11, 2, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail12, 2, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail13, 2, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail14, 2, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail15, 2, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail16, 2, 16);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail2, 1, 2);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail3, 1, 3);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail4, 1, 4);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail5, 1, 5);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail6, 1, 6);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail7, 1, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail8, 1, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail9, 1, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail10, 1, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail11, 1, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail12, 1, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail13, 1, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail14, 1, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail15, 1, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail16, 1, 16);
 
 // At lengths 2 through 4, checks tag multiplicities after stable, unstable, or insertion routes
 // whose comparator may rewrite keys. No ordering precondition is assumed.
