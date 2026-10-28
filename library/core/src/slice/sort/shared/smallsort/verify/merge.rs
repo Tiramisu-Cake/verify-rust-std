@@ -825,18 +825,18 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
 // General/stable correctness with 48 scratch elements; only merge is stubbed.
 // Ordinary: u64 N0..12/16, u8 N0..13/16; other instances are controls.
 // Insertion and sort4 remain real.
-fn general_route_properties<
+fn general_route_properties_for_route<
     T: kani::Arbitrary + Copy + FreezeMarker,
     F: FnMut(&T, &T) -> bool,
     const N: usize,
 >(
     mut cmp: F,
+    stable: bool,
 ) {
     const { assert!(N <= 16) };
     set_value_probe::<T>();
     let mut v: [T; N] = kani::any();
     let orig = v;
-    let stable: bool = kani::any();
     if stable {
         let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
         <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
@@ -846,6 +846,16 @@ fn general_route_properties<
     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
     proof_cover!(!stable, "general route properties checked");
     proof_cover!(stable, "stable route properties checked");
+}
+
+fn general_route_properties<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    cmp: F,
+) {
+    general_route_properties_for_route::<T, F, N>(cmp, kani::any());
 }
 
 // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
@@ -873,6 +883,18 @@ macro_rules! define_general_sortedness_harness {
         #[kani::unwind(34)]
         fn $name() {
             general_route_properties::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+macro_rules! define_general_sortedness_route_harness {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal, $stable:literal) => {
+        #[kani::proof]
+        #[kani::solver(kissat)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            general_route_properties_for_route::<$t, _, $n>($cmp, $stable);
         }
     };
 }
@@ -950,17 +972,33 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u6
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n10, u8, lt_u8, 10);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n10, 10);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n11, u64, lt_u64, 11);
+define_general_sortedness_route_harness!(
+    general_sorted_permutation_u64_n11,
+    u64,
+    lt_u64,
+    11,
+    false
+);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n11, u64, lt_u64, 11, true);
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n11, u8, lt_u8, 11);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n11, 11);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n12, u64, lt_u64, 12);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n12, u8, lt_u8, 12);
+define_general_sortedness_route_harness!(
+    general_sorted_permutation_u64_n12,
+    u64,
+    lt_u64,
+    12,
+    false
+);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n12, u64, lt_u64, 12, true);
+define_general_sortedness_route_harness!(general_sorted_permutation_u8_n12, u8, lt_u8, 12, false);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n12, u8, lt_u8, 12, true);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n12, 12);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n13, u64, lt_u64, 13);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n13, u8, lt_u8, 13);
+define_general_sortedness_route_harness!(general_sorted_permutation_u8_n13, u8, lt_u8, 13, false);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n13, u8, lt_u8, 13, true);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n13, 13);
 #[cfg(kani_smallsort_controls)]
@@ -975,8 +1013,16 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n15, u6
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n15, u8, lt_u8, 15);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n15, 15);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n16, u64, lt_u64, 16);
-define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n16, u8, lt_u8, 16);
+define_general_sortedness_route_harness!(
+    general_sorted_permutation_u64_n16,
+    u64,
+    lt_u64,
+    16,
+    false
+);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n16, u64, lt_u64, 16, true);
+define_general_sortedness_route_harness!(general_sorted_permutation_u8_n16, u8, lt_u8, 16, false);
+define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n16, u8, lt_u8, 16, true);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
 

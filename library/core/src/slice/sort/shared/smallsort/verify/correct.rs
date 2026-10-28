@@ -148,12 +148,13 @@ scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
 
 // Stable and general routes for `u8` and `u64` use full-width values at lengths 13 through 15.
 // The sort4 step remains real; verified contracts are used for insertion and the final merge.
-fn general_stable_stub<
+fn general_stable_stub_for_route<
     T: kani::Arbitrary + Copy + crate::slice::sort::shared::FreezeMarker,
     F: FnMut(&T, &T) -> bool,
     const N: usize,
 >(
     mut cmp: F,
+    stable: bool,
 ) {
     use super::super::{SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl};
     use crate::mem::MaybeUninit;
@@ -163,7 +164,6 @@ fn general_stable_stub<
     set_value_probe::<T>();
     let mut output: [T; N] = kani::any();
     let input = output;
-    let stable: bool = kani::any();
     if stable {
         let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
         <T as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
@@ -181,6 +181,16 @@ fn general_stable_stub<
     proof_cover!(!stable, "general/stable: direct general route checked");
 }
 
+fn general_stable_stub<
+    T: kani::Arbitrary + Copy + crate::slice::sort::shared::FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    cmp: F,
+) {
+    general_stable_stub_for_route::<T, F, N>(cmp, kani::any());
+}
+
 macro_rules! general_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal, $solver:ident) => {
         #[kani::proof]
@@ -193,7 +203,21 @@ macro_rules! general_stub_harness {
         }
     };
 }
+macro_rules! general_stub_route_harness {
+    ($name:ident, $t:ty, $cmp:ident, $n:literal, $stable:literal, $solver:ident) => {
+        #[kani::proof]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::solver($solver)]
+        #[kani::unwind(50)]
+        fn $name() {
+            general_stable_stub_for_route::<$t, _, $n>($cmp, $stable);
+        }
+    };
+}
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
-general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, kissat);
-general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, kissat);
+general_stub_route_harness!(sorted_permutation_general_u8_n15, u8, lt_u8, 15, false, kissat);
+general_stub_route_harness!(sorted_permutation_stable_u8_n15, u8, lt_u8, 15, true, kissat);
+general_stub_route_harness!(sorted_permutation_general_u8_n14, u8, lt_u8, 14, false, kissat);
+general_stub_route_harness!(sorted_permutation_stable_u8_n14, u8, lt_u8, 14, true, kissat);
