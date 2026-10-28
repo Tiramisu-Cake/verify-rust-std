@@ -1,40 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "submit-c2r1-compile-controls",
-  "agent": "coordinator",
+  "request_id": "k5-a-default-form",
+  "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "Compile check of submission candidate 6cfc76cb with --cfg kani_smallsort_controls; 5 mutants expected FAILED plus one ordinary positive",
+  "purpose": "K5 A: true postcondition and modifies(v) on unstable default impl; qualified u64 and !Freeze Cell proof paths, no specification helpers",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
-  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_insert_tail_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
+      "name": "slice::sort::shared::smallsort::verify::k5::form_u64",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_u8_n4",
-      "expect": "FAILED",
-      "expect_check": "count(&src, probe) == count(&result, probe)"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_up_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_network_prefix_u8_n10",
-      "expect": "FAILED",
-      "expect_check": "v[0] == 0 && v[9] == 1"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
+      "name": "slice::sort::shared::smallsort::verify::k5::form_cell",
       "expect": "SUCCESS"
     }
   ]

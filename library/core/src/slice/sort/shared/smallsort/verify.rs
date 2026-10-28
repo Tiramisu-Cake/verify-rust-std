@@ -30,6 +30,7 @@
 mod assembly;
 mod comparators;
 mod correct;
+mod k5;
 mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
