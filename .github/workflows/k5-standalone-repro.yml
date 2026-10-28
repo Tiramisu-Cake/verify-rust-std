@@ -1,0 +1,73 @@
+# Public reproduction of two Kani function-contract limitations seen on SmallSort's specialized
+# `small_sort` trait methods (Challenge 8, experiment K-5). Three independent one-harness crates in
+# k5-standalone/: a contract on a `default fn` in a specializing impl, a contract on a non-default impl
+# method with its own generic parameter, and a control without either. Kani is built from source at the
+# verify-rust-std pin and at Kani's current main. Runs only on pushes of this branch; it never fails on
+# the expected Kani errors, it reports every outcome in the job summary and uploads the full outputs.
+name: K5 standalone contract repro
+
+on:
+  push:
+    branches: [ 'ci/k5-standalone-repro-20261029' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repro:
+    name: Kani ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: verify-rust-std pin
+            ref: 9461e07af7ec929f050aa4192f29363c9be07779
+          - label: main
+            ref: main
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Kani from source
+        run: |
+          mkdir -p kani_build && cd kani_build
+          git init -q .
+          git remote add origin https://github.com/model-checking/kani.git
+          git fetch --depth 1 origin "${{ matrix.ref }}" --quiet
+          git checkout FETCH_HEAD --quiet
+          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet
+          ./scripts/setup/ubuntu/install_deps.sh
+          cargo build-dev --release
+          echo "KANI_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "KANI_TOOLCHAIN=$(grep -E '^channel' rust-toolchain.toml | sed 's/.*"\(.*\)"/\1/')" >> "$GITHUB_ENV"
+
+      - name: Run the three cases
+        run: |
+          set +e
+          mkdir -p out
+          {
+            echo "## Kani ${{ matrix.label }}: \`$KANI_SHA\` (toolchain \`$KANI_TOOLCHAIN\`)"
+            echo
+            echo "Cases at \`$GITHUB_SHA\`. Expected: default_fn — macro parse error \`expected \\\`fn\\\`\`;"
+            echo "generic_method — proof_for_contract target fails to resolve; control — verification successful."
+            echo
+            echo "| case | exit code | outcome lines |"
+            echo "|---|---|---|"
+          } >> "$GITHUB_STEP_SUMMARY"
+          for c in default_fn generic_method control; do
+            (cd "k5-standalone/$c" && "$GITHUB_WORKSPACE/kani_build/scripts/cargo-kani" 2>&1) > "out/$c.txt"
+            rc=$?
+            lines=$(grep -E "^error|failed to resolve|does not currently support|VERIFICATION:-|Complete - " "out/$c.txt" \
+              | head -n 6 | sed 's/|/\\|/g' | tr '\n' ' ')
+            echo "| $c | $rc | ${lines:-(none)} |" >> "$GITHUB_STEP_SUMMARY"
+          done
+          exit 0
+
+      - name: Upload outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k5-outputs-${{ strategy.job-index }}
+          path: out/
