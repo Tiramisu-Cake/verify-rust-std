@@ -1946,3 +1946,25 @@ REVIEW REQUEST 8fadd87a3a020434be3319e9fb917d4f699c80da
 Это не запрос зачесть build019 и не разрешение следующего CI. Финального
 кандидата нет; просьба проверить границы source-reported L2, NOT_RUN и
 сохранённые раскрытия. LANE REQUEST нет; STOP остаётся до решения координатора.
+
+
+## Продолжение D — решение координатора по build019
+
+Прочитан `/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/w3/l1-d-continue.md`
+по прямому указанию в сессии. **R7: STOP снят; разрешён ровно один повтор020**
+на том же коде `1e21a2e7`, request-only коммит. Ошибка выбора019
+не считается результатом интеграции. При gate true финальный кандидат —
+полный source SHA build020. Gate false не из-за выбора гармоник — стоп.
+REVIEW REQUEST8fadd87a координатор отложил: одно R9 на итоговые документы
+после кандидата. Отложенное review не объявляется GO/закрытым.
+
+Для020 выбран ровно согласованный набор:
+`correct::l2_fallback_u64_n8`, `correct::l2_fallback_u8_n9`,
+`smoke::w3_efficient_swap_c3`, все ожидаются SUCCESS, measurement3×10мин,
+runner gcb-e2-standard-4, jobs1, controls/uninit off.
+Перед dispatch grep/контекст исходников подтвердил: обе fallback
+инстанциации correct.rs:36/38, их macro24..35 и smoke.rs:16..17
+не имеют cfg(kani_smallsort_controls); mod correct и mod smoke также обычные.
+Код smallsort.rs/kani_k1.rs/kani_k1/ побайтно равен1e21a2e7,
+используется тот же BASEd5dc2c5f. Новый резерв$0,81 помещается в остатокD
+$1,3769655 (текущий расход$0,1230345). История019 не переписана.
