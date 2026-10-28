@@ -1,29 +1,7 @@
-//! K5 C: specialized trait form and independent contract/no-contract controls.
+//! K5 D: free wrappers, reduced non-default contract and false-postcondition control.
 use super::super::UnstableSmallSortTypeImpl;
 use crate::cell::Cell;
 use crate::kani;
-
-#[kani::proof_for_contract(<u64 as UnstableSmallSortTypeImpl>::small_sort)]
-#[kani::unwind(6)]
-fn specialized_u64() {
-    let mut v: [u64; 4] = kani::any();
-    let n: usize = kani::any();
-    kani::assume(n <= 4);
-    kani::cover(n >= 2, "K5 specialized u64 call N>=2");
-    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v[..n], &mut |a, b| a < b);
-    kani::cover(n >= 2, "K5 specialized u64 return N>=2");
-}
-
-#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl::small_sort)]
-#[kani::unwind(6)]
-fn trait_path_u64() {
-    let mut v: [u64; 4] = kani::any();
-    let n: usize = kani::any();
-    kani::assume(n <= 4);
-    kani::cover(n >= 2, "K5 trait-path u64 call N>=2");
-    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v[..n], &mut |a, b| a < b);
-    kani::cover(n >= 2, "K5 trait-path u64 return N>=2");
-}
 
 #[kani::ensures(|_| true)]
 #[kani::modifies(v)]
@@ -38,24 +16,44 @@ fn free_wrapper_cell() {
     let n: usize = kani::any();
     kani::assume(n <= 2);
     kani::cover(n >= 2, "K5 free Cell wrapper call N>=2");
+    let mut plain_u64: [u64; 2] = kani::any();
+    let before = plain_u64;
+    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut plain_u64, &mut |a, b| a < b);
+    assert!(plain_u64[0] <= plain_u64[1]);
+    assert!(plain_u64 == before || plain_u64 == [before[1], before[0]]);
+    kani::cover(true, "K5 uncontracted u64 real route returns N=2");
     free_wrapper(&mut v[..n]);
     kani::cover(n >= 2, "K5 free Cell wrapper return N>=2");
 }
 
-// This trait is the reduced B example with ONLY the default contract removed.
-trait SmallSort { fn small_sort(v: &mut [u8]); }
+// B control: default contract removed; the non-default u8 impl is annotated instead.
+trait SmallSort {
+    fn small_sort(v: &mut [u8]);
+}
 impl<T> SmallSort for T {
-    default fn small_sort(v: &mut [u8]) { pair(v); }
+    default fn small_sort(v: &mut [u8]) {
+        kani::cover(v.len() >= 2, "K5 reduced uncontracted default body N>=2");
+        pair(v);
+    }
 }
 impl SmallSort for u8 {
-    fn small_sort(v: &mut [u8]) { pair(v); }
+    #[kani::ensures(|_| true)]
+    #[kani::modifies(v)]
+    fn small_sort(v: &mut [u8]) {
+        kani::cover(v.len() >= 2, "K5 reduced specialized u8 body N>=2");
+        pair(v);
+    }
 }
 fn pair(v: &mut [u8]) {
-    if v.len() == 2 && v[1] < v[0] { v.swap(0, 1); }
+    if v.len() == 2 && v[1] < v[0] {
+        v.swap(0, 1);
+    }
 }
 #[kani::ensures(|_| true)]
 #[kani::modifies(v)]
-fn control(v: &mut [u8]) { pair(v); }
+fn control(v: &mut [u8]) {
+    pair(v);
+}
 #[kani::proof_for_contract(control)]
 #[kani::unwind(3)]
 fn reduced_free_form() {
@@ -74,14 +72,38 @@ fn reduced_free_form() {
     kani::cover(true, "free control return N=2");
 }
 
-#[kani::ensures(|_| false)]
-#[kani::modifies(v)]
-fn false_control(v: &mut [u8]) { pair(v); }
-#[kani::proof_for_contract(false_control)]
+trait FalseSmallSort {
+    fn small_sort(v: &mut [u8]);
+}
+impl<T> FalseSmallSort for T {
+    default fn small_sort(v: &mut [u8]) {
+        pair(v);
+    }
+}
+impl FalseSmallSort for u8 {
+    #[kani::ensures(|_| false)]
+    #[kani::modifies(v)]
+    fn small_sort(v: &mut [u8]) {
+        kani::cover(v.len() >= 2, "K5 false specialized body N>=2");
+        pair(v);
+    }
+}
+#[kani::proof_for_contract(<u8 as FalseSmallSort>::small_sort)]
 #[kani::unwind(3)]
 fn reject_false() {
     let mut v: [u8; 2] = kani::any();
     kani::cover(true, "K5 false contract call N=2");
-    false_control(&mut v);
+    <u8 as FalseSmallSort>::small_sort(&mut v);
     kani::cover(true, "K5 false contract return N=2");
+}
+
+#[kani::proof_for_contract(<u8 as SmallSort>::small_sort)]
+#[kani::unwind(3)]
+fn reduced_specialized_form() {
+    let mut v: [u8; 2] = kani::any();
+    let n: usize = kani::any();
+    kani::assume(n <= 2);
+    kani::cover(n >= 2, "K5 reduced specialized contract call N>=2");
+    <u8 as SmallSort>::small_sort(&mut v[..n]);
+    kani::cover(n >= 2, "K5 reduced specialized contract return N>=2");
 }

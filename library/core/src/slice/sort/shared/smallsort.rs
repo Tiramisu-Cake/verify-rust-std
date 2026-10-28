@@ -96,8 +96,6 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
     }
 
     #[inline(always)]
-    #[cfg_attr(kani, kani::ensures(|_| true))]
-    #[cfg_attr(kani, kani::modifies(v))]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
         F: FnMut(&T, &T) -> bool,

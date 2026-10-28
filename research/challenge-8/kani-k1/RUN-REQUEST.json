@@ -1,19 +1,28 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "k5-c-specialized-path-forms",
+  "request_id": "k5-d-contract-and-path-controls",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K5 C: true contract on non-default unstable Freeze impl; qualified and crate::Trait paths tested separately for generic trait method resolution",
+  "purpose": "K5 D: non-generic specialized trait proof, free wrapper of real Cell default, reduced free control with uncontracted specialization, false ensures rejection; no contracts on real small_sort methods",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::k5::specialized_u64",
+      "name": "slice::sort::shared::smallsort::verify::k5::reduced_specialized_form",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::k5::trait_path_u64",
+      "name": "slice::sort::shared::smallsort::verify::k5::free_wrapper_cell",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::k5::reduced_free_form",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::k5::reject_false",
+      "expect": "FAILED",
+      "expect_check": "false"
     }
   ],
   "controls": true

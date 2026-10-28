@@ -7,6 +7,7 @@
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
+//! `k5` contains opt-in contract-form controls; see research/challenge-8/kani-k1/RESULT-K5.md.
 //!
 //! Ordinary contract proofs cover swap, sort4, merge N2..16, u8 prefix/scratch insertion and
 //! shifted u64 insertion regions. Ordinary `correct::contract_insert_tail_u8_scratch` covers
@@ -30,6 +31,7 @@
 mod assembly;
 mod comparators;
 mod correct;
+#[cfg(kani_smallsort_controls)]
 mod k5;
 mod merge;
 #[cfg(kani_smallsort_controls)]
