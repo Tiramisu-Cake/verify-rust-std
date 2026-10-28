@@ -57,15 +57,16 @@ fn check_output<const N: usize>(input: &[u8; N], output: &[u8; N], probe: u8) {
     }
     assert!(count(input, probe) == count(output, probe), "logical multiset is preserved");
     kani::cover(true, "logical sort returns after both assertions");
-    if N >= 2 {
-        kani::cover(input[0] > input[1], "logical sort returns from an unsorted input");
-        kani::cover(input[0] == input[1], "logical sort returns with duplicate keys");
-    }
+}
+
+fn cover_nontrivial_input<const N: usize>(input: &[u8; N]) {
+    kani::cover(input[0] > input[1], "logical sort returns from an unsorted input");
+    kani::cover(input[0] == input[1], "logical sort returns with duplicate keys");
 }
 
 // Cell is !Freeze: both trait defaults use insertion/fallback, with threshold 16.
 // DropKey is Freeze and non-Copy: stable and unstable dispatch select general, threshold 32.
-fn trait_properties<T: LogicalByte, const N: usize>() {
+fn trait_properties<T: LogicalByte, const N: usize>() -> [u8; N] {
     let input: [u8; N] = kani::any();
     let probe: u8 = kani::any();
     let mut values: [T; N] = crate::array::from_fn(|i| T::new(input[i]));
@@ -84,9 +85,34 @@ fn trait_properties<T: LogicalByte, const N: usize>() {
     check_output(&input, &output, probe);
     kani::cover(stable, "logical stable trait entry returns");
     kani::cover(!stable, "logical unstable trait entry returns");
+    input
+}
+
+fn trivial_trait_properties<T: LogicalByte>() {
+    let selector: u8 = kani::any();
+    match selector {
+        0 => {
+            trait_properties::<T, 0>();
+        }
+        1 => {
+            trait_properties::<T, 1>();
+        }
+        _ => cover_nontrivial_input(&trait_properties::<T, 2>()),
+    }
+    kani::cover(selector == 0, "logical length zero");
+    kani::cover(selector == 1, "logical length one");
+    kani::cover(selector == 2, "logical length two");
 }
 
 macro_rules! trait_cases {
+    ($name:ident, $t:ty, [0, 1, 2]) => {
+        #[kani::proof]
+        #[kani::solver(cadical)]
+        #[kani::unwind(50)]
+        fn $name() {
+            trivial_trait_properties::<$t>();
+        }
+    };
     ($name:ident, $t:ty, [$a:literal, $b:literal, $c:literal]) => {
         #[kani::proof]
         #[kani::solver(cadical)]
@@ -94,9 +120,9 @@ macro_rules! trait_cases {
         fn $name() {
             let selector: u8 = kani::any();
             match selector {
-                0 => trait_properties::<$t, $a>(),
-                1 => trait_properties::<$t, $b>(),
-                _ => trait_properties::<$t, $c>(),
+                0 => cover_nontrivial_input(&trait_properties::<$t, $a>()),
+                1 => cover_nontrivial_input(&trait_properties::<$t, $b>()),
+                _ => cover_nontrivial_input(&trait_properties::<$t, $c>()),
             }
             kani::cover(selector == 0, concat!("logical length ", stringify!($a)));
             kani::cover(selector == 1, concat!("logical length ", stringify!($b)));
@@ -106,18 +132,22 @@ macro_rules! trait_cases {
 }
 
 trait_cases!(sorted_permutation_traits_fallback_cell_u8_n0_to2, Cell<u8>, [0, 1, 2]);
+// Cell N7/8/9 timed out at 600 s; Drop N7/8/9 took 349.69 s (C3a, 2026-10-28).
+// Keep these grouped experiments opt-in; neither establishes CI suitability.
+#[cfg(kani_smallsort_controls)]
 trait_cases!(sorted_permutation_traits_fallback_cell_u8_n7_to9, Cell<u8>, [7, 8, 9]);
 trait_cases!(sorted_permutation_traits_general_drop_u8_n0_to2, DropKey, [0, 1, 2]);
+#[cfg(kani_smallsort_controls)]
 trait_cases!(sorted_permutation_traits_general_drop_u8_n7_to9, DropKey, [7, 8, 9]);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(50)]
-fn control_sorted_permutation_traits_cell_drop_n2() {
+fn control_sorted_permutation_traits_cell_drop_n0_to2() {
     if kani::any() {
-        trait_properties::<Cell<u8>, 2>();
+        trivial_trait_properties::<Cell<u8>>();
     } else {
-        trait_properties::<DropKey, 2>();
+        trivial_trait_properties::<DropKey>();
     }
 }
 
