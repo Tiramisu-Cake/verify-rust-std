@@ -1538,3 +1538,20 @@ RUN-REQUEST.json, merge8350fb1b стоит между2/4 и3/4 отдельно.
 при отказе или wall>240мин записать ограничение, новых прогонов не делать.
 Новых request/review по коду нет; официальный итоговый REVIEW REQUEST документов
 будет после их окончательной правки. W3-L1 ещё не завершён.
+
+## L1-8 — macOS, результат координатора
+
+Прочитан без слияния ветки отчёт:
+`origin/experiment/kani-k1-macos-l18-20261028:research/challenge-8/kani-k1/MACOS-L1-8-2026-10-28.md`,
+commit `41659f9ff4f71bf4902da5d8c06ff90c1b8fa9c6`.
+L1-8 CANDIDATE остаётся5c713131f8b92c629f0c16b68605ec2bf2547007;
+macOS source — кандидат плюс workflow, запуск40603213401.
+Все4партиции COMPLETE, по520/520 SUCCESS, gate true, inconsistency нет.
+Макс.job123мин из360; swap толькоp2=756MB. Цифры перенесены без пересчёта.
+P1/2/4 фактически3CPU/7GB; p3 фактически5CPU/14GB, поэтому не доказывает7GB.
+SmallSort counts0/261/0/73. Slowest SmallSort p2 perm_u64_n12=750с,
+p4 bm_u64_len16=803с: это успех партиций, не600с per-harness на macOS.
+MacOS TODO снят в L1-10, добавлены permalink на отчёт и ресурсные оговорки.
+L2 correct.rs в прогон не вошёл; после интеграции нужен новый macOS по отчёту.
+Стоимость Cloud BuildC не меняется, новых сборок/внешних действий не выполнялось.
+Linux2/4 и4/4 не прерывались, их watch уже установлены.
