@@ -962,7 +962,10 @@ macro_rules! network_correctness_cases {
                 $($n => network_correctness_fixed::<$t, $n>(),)+
                 _ => {}
             }
-            $(proof_cover!(len == $n, concat!("sort returns normally at length ", stringify!($n)));)+
+            $(proof_cover!(
+                len == $n,
+                concat!("sort returns normally at length ", stringify!($n))
+            );)+
         }
     };
 }
