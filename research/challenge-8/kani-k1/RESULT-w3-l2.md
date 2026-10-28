@@ -1083,3 +1083,36 @@ BASE8350fb1b5fd1f6133fcadab564ac2b0848e30b97.
 measurement при условии личного бюджета. Screening не выдавать за CI.
 После этого — итоговая таблица пробелов, список переносаL1,
 W3-L2 ЗАВЕРШЁН, push и остановка. Новых этапов дляL2 нет.
+
+### B build 4b745aa4 — COMPLETE, gate=false, все13 TIMEOUT120
+
+Sourceb4c1ec04, diagnostic13×2мин, controls=true, swap off.
+Все13 harmonic names перечислены в запросе011 и разделеD-B6;
+каждая получила TIMEOUT на лимите120с, Verification Time/checks/covers нет.
+Ни одного нового SUCCESS или FAILED конкретного свойства не получено.
+Это не означает TIMEOUT600 для kissat/minisat; лучшего решателя по этому
+screening установить нельзя. Fallback остаётся на измеренном cadical.
+Пики build: sampled sumRSS11,06GiB; cbmc9,52GiB; kissat4,30GiB;
+true single-process max9980408KiB (выше sampled9980244KiB).
+Whole run1679,10с; (1679,10/60+8)×0,0135=$0,4857975.
+B=$2,50978275/$3,2, остаток$0,69021725;
+консервативно потрачено$2,5098, остаток$0,6902; A+B=$5,2105.
+check-tooling/peaks/log-grep запрошены через BASE8350fb1b.
+
+D-B7 (R7): последний measurement2×10мин, резерв$0,675<остатка$0,6902.
+Выбрать scratchu64/kissat и исходный GS15u64/cadical. Scratch cadical
+уже TIMEOUT600; kissat/minisat только TIMEOUT120. Kissat выбран как
+неиспытанный на600 кандидат, не как установленный победитель.
+GS15/cadical ранее SUCCESS510с (gatefalse009); его повтор даёт возможность
+полного зачёта при успешном scratch prerequisite. Proof-логика/домен
+не меняются: те же рассмотренные шаблоны96cbf2d3, только solver scratch.
+Массив scratch48 и оба GS входа те же; R7 о геометрииbm — D-B4.
+Запрос012 без controls, позитивные кандидаты временно включены в обычный
+набор; если gate не будетtrue — вернуть незачтённые экземпляры под cfg.
+
+GS u64N13/N14: screening120 kissat/minisat соответственно; полного
+нового proof600 не было, основания scratch пока нет — раскрыть по бюджету.
+Network u64N15/N16 иu8N16: screening120 только, не выдавать за600.
+Network17 обоих типов: cadical TIMEOUT600 + иной solver TIMEOUT120.
+H2 не вводился (D-B6). После012 — окончательная таблица/список переноса,
+строка W3-L2 ЗАВЕРШЁН, push, остановка без нового этапа.

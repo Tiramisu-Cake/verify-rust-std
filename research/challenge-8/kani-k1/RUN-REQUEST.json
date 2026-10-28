@@ -1,63 +1,18 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "w3-l2-b-solvers-011",
+  "request_id": "w3-l2-b-final-u64-012",
   "agent": "k1-merge",
-  "kind": "diagnostic",
-  "purpose": "W3-L2 B bounded 120s solver screening on remaining exact-N GS/network gaps, scratch u64 prerequisite and fallback16: reviewed templates, only solver and fixed lengths change; controls cfg keeps experiments outside submission",
+  "kind": "measurement",
+  "purpose": "W3-L2 B final budget-limited measurement: scratch u64 exact reviewed proof with kissat after 120s screening timeout, plus original cadical GS15 previously SUCCESS510s; old merge contract and no domain changes",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 2,
-  "controls": true,
+  "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_scratch_u64_kissat",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_insert_tail_scratch_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_scratch_u64_minisat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_gs_u64_n13_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_gs_u64_n14_minisat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_network_u64_n15_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_network_u64_n16_minisat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_network_u64_n17_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_network_u8_n16_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_network_u8_n17_minisat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_fallback_u64_n16_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_fallback_u64_n16_minisat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_fallback_u8_n16_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_sweep_fallback_u8_n16_minisat",
+      "name": "slice::sort::shared::smallsort::kani_k1::correct::l2_gs_u64_n15",
       "expect": "SUCCESS"
     }
   ]

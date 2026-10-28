@@ -124,8 +124,7 @@ macro_rules! scratch_contract_harness {
         fn $name() { scratch_insert_contract::<$t, _>($cmp); }
     };
 }
-#[cfg(kani_smallsort_controls)]
-scratch_contract_harness!(l2_insert_tail_scratch_u64, u64, lt_u64);
+scratch_contract_harness!(l2_insert_tail_scratch_u64, u64, lt_u64, kissat);
 scratch_contract_harness!(l2_insert_tail_scratch_u8, u8, lt_u8);
 
 // Keep both u64/u8 routes. sort4 is real; only insertion and final merge use
@@ -162,7 +161,6 @@ macro_rules! general_stub_harness {
         fn $name() { general_stable_stub::<$t, _, $n>($cmp); }
     };
 }
-#[cfg(kani_smallsort_controls)]
 general_stub_harness!(l2_gs_u64_n15, u64, lt_u64, 15, cadical);
 general_stub_harness!(l2_gs_u8_n15, u8, lt_u8, 15, cadical);
 // Instance of reviewed template 96cbf2d3, exact N14 merge proof job160.
