@@ -1555,3 +1555,75 @@ MacOS TODO снят в L1-10, добавлены permalink на отчёт и р
 L2 correct.rs в прогон не вошёл; после интеграции нужен новый macOS по отчёту.
 Стоимость Cloud BuildC не меняется, новых сборок/внешних действий не выполнялось.
 Linux2/4 и4/4 не прерывались, их watch уже установлены.
+
+## L1-7 — результат 2/4, build16: STOP новых прогонов
+
+`dbfe8043-e99e-49e0-a794-5e103e73f025`: Cloud Build FAILURE;
+summary **PARTIAL, gate false**, expectation false, Kani exit124 (timeout).
+Назначено521, сообщено503: **501 SUCCESS +2 UNKNOWN**,18 не сообщены;
+final Complete line отсутствует. Это inconsistency полноты, не успешная партиция.
+UNKNOWN без failed check: network::w2p2_k10_u64_n8 и
+network::w2_network_o1_a_18_21. Первый missing:
+network::w1_network_o1_nomerge_u64. Контрпример/упавший assert не установлен.
+SmallSort сообщено248 (не полное назначение); сумма Verification Time всей
+партиции30935,522с. Отдельная сумма только SmallSort штатной summary не выдана;
+её нельзя заменить общей суммой или выдумать по slowest15.
+
+Wall whole run и max RSS time-v **UNPARSED/None**. Sampler elapsed19080с=
+318мин, совпадает с verify_budget_s19080, при подготовке360с отдельно.
+Предел240мин превышен независимо от отсутствующего точного wall.
+Первая Checking harness —log8026, без timestamp; до проверок ≈2735с/45,58мин
+по первому sampled goto-instrument (cbmc2737с, compiler0..2598с).
+Это оценка, точное compile time не измерено этим интерфейсом.
+Sampled sum RSS13796728KiB/13,16GiB,2с/9512samples;
+процессные пики: kani-driver9707660KiB, cbmc7011676KiB,
+goto-instrument1940996KiB. MACHINE15,63GiB, swap0.
+Summary не установила OOM; исход —timeout/неполнота, не OOM-контрпример.
+check-tooling BASE85ceaa0d exit0, pool/lane/all5 SHA-256 совпали.
+
+Slowest15 завершённых, всеSUCCESS; общая приставка
+`slice::sort::shared::smallsort::kani_k1::`, время с:
+
+| Гармоника | с |
+|---|---:|
+| network::w2p2_k10_u64_n14 | 1511,9186 |
+| network::w2p2_k10_perm_u64_n12 | 1129,8988 |
+| network::w2p2_k10_u8_n17 | 1081,5977 |
+| network::w2p2_k10_u64_n13 | 892,31537 |
+| merge::w2p2_gs_u64_len12 | 816,43677 |
+| merge::w2p2_gs_u64_len16 | 618,8711 |
+| merge::w2_a_all_len32_safety | 514,7959 |
+| merge::w2night_drop_upper16_perm | 492,95865 |
+| merge::w2p2_gs_u8_len13 | 488,33575 |
+| network::w2p2_k10_u8_n16 | 483,03476 |
+| merge::w2p2_gs_u64_len11 | 480,07843 |
+| network::w2_network_o1_a_30_32 | 458,80496 |
+| merge::w2night_fallback_u8_len8 | 430,75638 |
+| network::w2p2_k10_u64_n12 | 429,87524 |
+| network::w2_k16_a16_n32 | 386,05225 |
+
+Шесть SmallSort SUCCESS выше600с в конкурентном полном Linux прогоне;
+прежние одиночные measurement результаты не гарантируют этот ресурсный режим.
+L1-7/H2 не закрыты: timeout, missing/UNKNOWN, wall>240 и13,16GiB sampled.
+РешениеR7 по прямому правилу этапаC: никаких повторов, дроблений/перестановок
+или новых dispatch. Уже отправленная18 (4/4) не трогается, watch существует.
+
+### Учёт бюджета после timeout16
+
+Формула для точной стоимости16 неприменима: wall whole run не разобран.
+Не подставлять elapsed_sampler как точный wall. Однако он даёт нижнюю оценку:
+(19080/60+8)×0,0135 = **не менее$4,401000** для16.
+Завершённые14+15+17=$2,330118; вместе с16 — **не менее$6,731118**,
+что уже выше долиC$6,00 на **не менее$0,731118**, ещё без18.
+Перерасход раскрыт; общий cap владельца43,96 не расширяет долюC.
+Обе долгие16/18 были отправлены до известного исхода16 в разрешённой паре;
+новых запусков после установленного превышения не будет.
+Исторический A+B+C теперь не менее$10,18292325, точный итогC неизвестен.
+
+LANE REQUEST: отчёт timeout partition16 должен выдавать wall whole run и
+отдельную сумму Verification Time SmallSort (успешно завершённых), а также полный
+missing inventory. Эти поля нужны для окончательного учёта/раскрытия L1-7.
+Текущие данные ограничены штатными summary/peaks/log-grep/log-lines;
+сырые архивы/Cloud Logging не читались, tooling/исторические записи не правились.
+До расширенного отчёта точный расход16 и SmallSort-only sum раскрываются
+как недоступные, без административного обхода интерфейса.
