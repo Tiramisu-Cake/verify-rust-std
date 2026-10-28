@@ -8,8 +8,7 @@ pub(super) unsafe fn mutant_swap_if_less<T, F>(
     a_pos: usize,
     b_pos: usize,
     is_less: &mut F,
-)
-where
+) where
     F: FnMut(&T, &T) -> bool,
 {
     unsafe {
@@ -40,11 +39,7 @@ pub(super) unsafe fn mutant_insert_tail<T, F: FnMut(&T, &T) -> bool>(
         }
 
         let tmp = ManuallyDrop::new(tail.read());
-        let mut gap_guard = CopyOnDrop {
-            src: &*tmp,
-            dst: tail,
-            len: 1,
-        };
+        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };
 
         loop {
             ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);
@@ -69,7 +64,6 @@ pub(super) unsafe fn mutant_merge_up<T, F: FnMut(&T, &T) -> bool>(
     mut dst: *mut T,
     is_less: &mut F,
 ) -> (*const T, *const T, *mut T) {
-
     unsafe {
         let is_l = !is_less(&*right_src, &*left_src);
         let src = if is_l { left_src } else { right_src };
@@ -88,7 +82,6 @@ pub(super) unsafe fn mutant_bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T
     dst: *mut T,
     is_less: &mut F,
 ) {
-
     let len = v.len();
     let src = v.as_ptr();
 
@@ -122,7 +115,6 @@ pub(super) unsafe fn mutant_bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T
             left = left.add(left_nonempty as usize);
             right = right.add((!left_nonempty) as usize);
         }
-
     }
 }
 
@@ -132,7 +124,6 @@ where
     T: FreezeMarker,
     F: FnMut(&T, &T) -> bool,
 {
-
     let len = v.len();
     if len < 2 {
         return;

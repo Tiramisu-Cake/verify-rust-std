@@ -427,7 +427,8 @@ where
         same(new_a, &*pre.0) && same(new_b, &*pre.1)
     }
 }))]
-// Probe: a post-state comparator call through a raw pointer taken in the pre-state.
+// The pair is ordered on return. This post-state call through the pre-state raw pointer
+// is valid only for stateless comparators, as used by all contract proofs and verified callers.
 #[cfg_attr(kani, kani::ensures(|_| {
     let f = old(&raw mut *is_less);
     // SAFETY: `f` points to the caller's comparator, alive for the whole call.
@@ -473,19 +474,6 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
-// Contract: on return `v[..9]` is sorted by `is_less` and the number of its
-// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
-// `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
-// equality). Only `usize` counts go through `old()`.
-// Preconditions: the body's `len >= 9`, and `len <= 17` as at every network call site.
-#[cfg_attr(kani, kani::requires(v.len() >= 9 && v.len() <= 17))]
-#[cfg_attr(kani, kani::modifies(&v[..9]))]
-// One `ensures` keeps both observations within a single borrow of `v`.
-#[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 9, &is_less)
-        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 9))
-            == CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)
-))]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -535,19 +523,6 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
-// Contract: on return `v[..13]` is sorted by `is_less` and the number of its
-// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
-// `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
-// equality). Only `usize` counts go through `old()`.
-// Preconditions: the body's `len >= 13`, and `len <= 17` as at every network call site.
-#[cfg_attr(kani, kani::requires(v.len() >= 13 && v.len() <= 17))]
-#[cfg_attr(kani, kani::modifies(&v[..13]))]
-// One `ensures` keeps both observations within a single borrow of `v`.
-#[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 13, &is_less)
-        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 13))
-            == CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)
-))]
 fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -617,19 +592,19 @@ where
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
 // Contract: safety conditions above plus the sorted-prefix invariant at insertion call sites.
 // `[begin, tail)` is sorted by `is_less`; no arbitrary-comparator correctness claim is made.
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_tail_pre(begin, tail, &is_less)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_sorted_tail(begin, tail, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(
     begin,
-    CopyOnDrop::<T>::k1_tail_len(begin, tail),
+    CopyOnDrop::<T>::tail_region_len(begin, tail),
 )))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted(
     begin,
-    CopyOnDrop::<T>::k1_tail_len(begin, tail),
+    CopyOnDrop::<T>::tail_region_len(begin, tail),
     &is_less,
 )))]
 #[cfg_attr(kani, kani::ensures(|_|
-    old(CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail)))
-        == CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))
+    old(CopyOnDrop::<T>::probe_count(begin, CopyOnDrop::<T>::tail_region_len(begin, tail)))
+        == CopyOnDrop::<T>::probe_count(begin, CopyOnDrop::<T>::tail_region_len(begin, tail))
 ))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
@@ -669,24 +644,6 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 }
 
 /// Sort `v` assuming `v[..offset]` is already sorted.
-// Contract: on return `v` is sorted by `is_less` and the number of its
-// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
-// `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
-// equality). Only `usize` counts go through `old()`.
-// Preconditions: the network call site exactly (`2 <= len <= 17`, `offset` is 13, 9 or 1 by `len`)
-// and the body's `v[..offset]` sorted.
-#[cfg_attr(kani, kani::requires(
-    2 <= v.len() && v.len() <= 17
-        && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }
-))]
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sorted(v.as_ptr(), offset, &is_less)))]
-#[cfg_attr(kani, kani::modifies(v))]
-// One `ensures` keeps both observations within a single borrow of `v`.
-#[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)
-        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len()))
-            == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())
-))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,
@@ -721,11 +678,11 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
 // Contract: safety conditions above; source and destination are disjoint at
 // every call site (sort8_stable, small_sort_general_with_scratch: `v` and `scratch` are distinct).
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort4_pre(v_base, dst)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_sort4_regions(v_base, dst)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 4, &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted(dst, 4, &is_less)))]
 #[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_count(v_base, 4) == CopyOnDrop::<T>::k1_count(dst, 4)
+    CopyOnDrop::<T>::probe_count(v_base, 4) == CopyOnDrop::<T>::probe_count(dst, 4)
 ))]
 pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
     v_base: *const T,
@@ -778,15 +735,6 @@ pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and
 /// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will
 /// be stored in `dst[0..8]`.
-// Contract: safety conditions above; the three regions are pairwise disjoint at both
-// call sites in small_sort_general_with_scratch.
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort8_pre(v_base, dst, scratch_base)))]
-#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 8)))]
-#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(scratch_base, 8)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 8, &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_count(v_base, 8) == CopyOnDrop::<T>::k1_count(dst, 8)
-))]
 unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v_base: *mut T,
     dst: *mut T,
@@ -886,16 +834,16 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 /// temporary 'copies' that may not end up in the final array.
 // Contract: safety conditions above plus the documented input shape
 // "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
-// harness comparators (see kani_k1/merge.rs). `v.len() <= 32` holds at every call site
+// harness comparators (see verify/merge.rs). `v.len() <= 32` holds at every call site
 // (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
 // and bounds the loop-free specification helpers.
 #[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_dst_ok(v, dst)))]
-#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_merge_destination(v, dst)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::merge_inputs_are_sorted(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted_unrolled(dst, v.len(), &is_less)))]
 #[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())
+    CopyOnDrop::<T>::probe_count_unrolled(v.as_ptr(), v.len()) == CopyOnDrop::<T>::probe_count_unrolled(dst, v.len())
 ))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
@@ -1011,4 +959,4 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
 use crate::kani;
 #[cfg(kani)]
 #[unstable(feature = "kani", issue = "none")]
-mod kani_k1;
+mod verify;

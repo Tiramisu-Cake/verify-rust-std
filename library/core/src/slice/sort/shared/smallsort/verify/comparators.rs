@@ -3,9 +3,8 @@
 //! Sized values use observable volatile reads. ZSTs use ordinary reads to avoid the verifier's
 //! volatile-ZST limitation; this helper does not check uninitialized reads.
 
-use crate::kani;
 use crate::mem::ManuallyDrop;
-use crate::ptr;
+use crate::{kani, ptr};
 
 pub(super) fn zst_aware_less<T>(a: &T, b: &T) -> bool {
     // SAFETY: callers supply initialized readable references. ManuallyDrop prevents destruction
