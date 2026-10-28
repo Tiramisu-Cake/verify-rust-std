@@ -10,3 +10,5 @@ Read before any action:
 Clean room (owner ruling): never open the code, diffs or branches of Ch8 PRs #576, #678, #694, #701.
 
 No builds of any kind (Cloud Build, Actions, CircleCI), no local Kani/rustc/cargo/CBMC. Do not change `library/`. No force-push. Ask the owner nothing; decide disputed points and record them. Finish with `REVIEW REQUEST <sha>` and the line `W3-SUB ЗАВЕРШЁН`, then stop.
+
+The SmallSort Select/Merge session flow from the global instructions (CORE, `smallsort-session`, Evidence Brief / `smallsort-brief`) does not apply to the Kani lane: its builds are not served by the Brief reader. Do not add Brief rules to documents or tasks here; the lane interface is `k1g.sh` as in W3-RULES.
