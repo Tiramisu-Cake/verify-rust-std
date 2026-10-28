@@ -1,40 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "submit-c2r1-compile-controls",
-  "agent": "coordinator",
+  "request_id": "c3a-types-priority1-01",
+  "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "Compile check of submission candidate 6cfc76cb with --cfg kani_smallsort_controls; 5 mutants expected FAILED plus one ordinary positive",
+  "purpose": "C3a first package: logical sortedness and full-value multiset via stable/unstable trait entries; Cell and Freeze non-Copy Drop; lengths 0/1/2 and 7/8/9",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
-  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_insert_tail_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_u8_n4",
-      "expect": "FAILED",
-      "expect_check": "count(&src, probe) == count(&result, probe)"
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7_to9",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_up_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_network_prefix_u8_n10",
-      "expect": "FAILED",
-      "expect_check": "v[0] == 0 && v[9] == 1"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n7_to9",
       "expect": "SUCCESS"
     }
   ]
