@@ -56,7 +56,8 @@ fallback_stub_harness!(sorted_permutation_fallback_u8_n13, u8, lt_u8, 13);
 fallback_stub_harness!(sorted_permutation_fallback_u8_n14, u8, lt_u8, 14);
 fallback_stub_harness!(sorted_permutation_fallback_u8_n15, u8, lt_u8, 15);
 
-/// u8 insertion-tail contract and suffix frame in a 17-element allocation, with tail indices 1..=16.
+/// u8 insertion-tail contract and suffix frame in a 17-element allocation, with tail indices
+/// 1..=16.
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::solver(cadical)]
 #[kani::unwind(18)]
@@ -95,7 +96,8 @@ fn reject_unsorted_prefix_insert_tail_u8_n3() {
     }
 }
 
-// Scratch tails in 48 elements at starts 0/6/7, lengths5..8: general/stable N13..15 geometry differs from a 17-element allocation prefixes.
+// Scratch tails in 48 elements at starts 0/6/7, lengths 5..8: general/stable N13..15 geometry
+// differs from 17-element allocation prefixes.
 fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
     use super::super::SMALL_SORT_GENERAL_SCRATCH_LEN;
     set_value_probe::<T>();

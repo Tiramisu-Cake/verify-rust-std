@@ -88,7 +88,10 @@ macro_rules! unstable_freeze_network_cases {
                 $($n => unstable_freeze_network_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("unstable network normal return at ", stringify!($n)));)+
+            $(kani::cover(
+                len == $n,
+                concat!("unstable network normal return at ", stringify!($n))
+            );)+
             kani::cover(true, "unstable network family reached the end");
         }
     };
@@ -268,7 +271,10 @@ macro_rules! dispatch_safety_cases {
                 $($n => dispatch_safety_fixed::<$t, $n, $stable>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("dispatch route returns normally at ", stringify!($n)));)+
+            $(kani::cover(
+                len == $n,
+                concat!("dispatch route returns normally at ", stringify!($n))
+            );)+
             kani::cover(true, "dispatch safety family reached the end");
         }
     };
@@ -300,12 +306,6 @@ dispatch_safety_cases!(dispatch_safety_stable_u8_n15_16_17, u8, true, [15, 16, 1
 dispatch_safety_cases!(dispatch_safety_stable_u8_n31_32, u8, true, [31, 32]);
 dispatch_safety_cases!(dispatch_safety_unstable_u8_n8_9_12_13_17, u8, false, [8, 9, 12, 13, 17]);
 dispatch_safety_cases!(dispatch_safety_unstable_u8_n18_31_32, u8, false, [18, 31, 32]);
-
-impl ArbitraryValue for u128 {
-    fn arbitrary_value() -> Self {
-        kani::any()
-    }
-}
 
 /// Selects stable or unstable dispatch for each listed fixed array length and covers both routes.
 macro_rules! dispatch_pair_safety_cases {
@@ -362,7 +362,7 @@ macro_rules! dispatch_reachability_case {
 }
 
 dispatch_reachability_case!(dispatch_reachability_stable_u8_n17, u8, true, 17);
-dispatch_reachability_case!(dispatch_reachability_general_u128_n17, u128, false, 17);
+dispatch_reachability_case!(dispatch_reachability_general_bytes16_n17, [u8; 16], false, 17);
 dispatch_reachability_case!(dispatch_reachability_network_u8_n18, u8, false, 18);
 
 impl<const M: usize> ArbitraryValue for [u8; M] {
@@ -449,7 +449,7 @@ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes85_n31, [u8; 85
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes85_n32, [u8; 85], [32]);
 
 dispatch_safety_cases!(
-    dispatch_safety_unstable_bytes86_n0_2_15_16,
+    dispatch_safety_unstable_bytes86_n0_1_2_15_16,
     [u8; 86],
     false,
     [0, 1, 2, 15, 16]
@@ -507,7 +507,10 @@ macro_rules! insertion_safety_cases {
                 $($n => insertion_safety_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("insertion returns normally at length ", stringify!($n)));)+
+            $(kani::cover(
+                len == $n,
+                concat!("insertion returns normally at length ", stringify!($n))
+            );)+
             kani::cover(true, "insertion safety family reached the end");
         }
     };
@@ -638,6 +641,7 @@ mutating_insertion_cases!(mutating_insertion_safety_cell_n15, [15]);
 
 // Exact-length cases check the actual offset-one insertion call for both ordinary and mutating
 // Cell comparators. The array itself supplies the bounds for the real insertion body.
+#[cfg(kani_smallsort_controls)]
 macro_rules! insertion_offset_one_cases {
     ($plain:ident, $cell:ident, $n:literal) => {
         #[kani::proof]
@@ -898,8 +902,8 @@ insertion_offset_group_cases!(
     [17, 18, 19, 20]
 );
 
-// Full-width `u8`, `u64`, or `u128` arrays enter through the unstable trait with a strict total
-// order. The checks assert sortedness and use probe counts to establish permutation.
+// Full-width `u8` and `u64` arrays enter through the unstable trait with a strict total order.
+// The checks assert sortedness and use probe counts to establish permutation.
 fn strict_less<T: Ord>(a: &T, b: &T) -> bool {
     a < b
 }
@@ -960,6 +964,7 @@ impl ArbitraryValue for u64 {
     }
 }
 
+#[cfg(kani_smallsort_controls)]
 fn zst_less(a: &(), b: &()) -> bool {
     // Read both ZST arguments through ptr::read, then retain the strict unit order.
     let _ = super::comparators::zst_aware_less(a, b);
@@ -1093,7 +1098,7 @@ insertion_permutation_case!(insertion_permutation_u8_n17, u8, 17);
 #[cfg(kani_smallsort_controls)]
 insertion_permutation_case!(insertion_permutation_u64_n17, u64, 17);
 
-// Contract checks choose any two distinct positions in selected exact arrays of lengths 9 through 17.
+// Contract checks choose distinct positions in selected exact arrays of lengths 9 through 17.
 // The comparator is the same strict total order used by the network correctness harnesses.
 fn swap_contract_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     const { assert!(N >= 9 && N <= 17) };
@@ -1190,7 +1195,11 @@ macro_rules! insert_tail_contract_case {
             let tail = insert_tail_value::<$start>();
             $(kani::cover(
                 tail == $end,
-                concat!("insert-tail contract covers tail ", stringify!($end), " with requires satisfied")
+                concat!(
+                    "insert-tail contract covers tail ",
+                    stringify!($end),
+                    " with requires satisfied"
+                )
             );)+
         }
     };

@@ -1,7 +1,8 @@
 //! Bounded SmallSort checks; exact evidence domains and gaps are in the PR's Known limitations.
 //!
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
-//! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating comparators.
+//! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
+//! comparators.
 //! `correct` adds fallback correctness and general/stable u8 N14/15 with a 48-element scratch.
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.

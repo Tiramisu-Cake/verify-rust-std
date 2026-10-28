@@ -843,7 +843,8 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted_unrolled(dst, v.len(), &is_less)))]
 #[cfg_attr(kani, kani::ensures(|_|
-    CopyOnDrop::<T>::probe_count_unrolled(v.as_ptr(), v.len()) == CopyOnDrop::<T>::probe_count_unrolled(dst, v.len())
+    CopyOnDrop::<T>::probe_count_unrolled(v.as_ptr(), v.len())
+        == CopyOnDrop::<T>::probe_count_unrolled(dst, v.len())
 ))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],

@@ -123,7 +123,11 @@ impl<T> CopyOnDrop<T> {
             ($($i:literal)*) => {$(
                 // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
                 if $i < len
-                    && call_comparator(is_less, unsafe { base.add($i) }, unsafe { base.add($i - 1) })
+                    && call_comparator(
+                        is_less,
+                        unsafe { base.add($i) },
+                        unsafe { base.add($i - 1) },
+                    )
                 {
                     ok = false;
                 }
@@ -229,11 +233,13 @@ pub(crate) fn lt_b16(a: &[u8; 16], b: &[u8; 16]) -> bool {
     a[0] < b[0]
 }
 
+#[cfg(kani_smallsort_controls)]
 pub(crate) fn lt_b85(a: &[u8; 85], b: &[u8; 85]) -> bool {
     a[0] < b[0]
 }
 // Harness bodies, one per concrete length so that every loop has a constant bound.
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! dispatch_by_length {
     ($len:expr, $f:ident::<$t:ty>($cmp:expr), [$($n:literal)*]) => {
         match $len {
@@ -258,6 +264,7 @@ pub(crate) fn merge_length_body<
     kani::cover(true, "merge returns for a permitted length");
 }
 
+#[cfg(kani_smallsort_controls)]
 pub(crate) fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, const N: usize>(
     mut is_less: F,
 ) {
@@ -406,9 +413,17 @@ fn insert_tail_contract_integer_types_n2_to16() {
     kani::cover(len == 2, "length 2 reached");
     kani::cover(len == 16, "length 16 reached");
     if kani::any() {
-        dispatch_by_length!(len, insert_tail_len::<i32>(lt_i32), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+        dispatch_by_length!(
+            len,
+            insert_tail_len::<i32>(lt_i32),
+            [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+        );
     } else {
-        dispatch_by_length!(len, insert_tail_len::<u64>(lt_u64), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+        dispatch_by_length!(
+            len,
+            insert_tail_len::<u64>(lt_u64),
+            [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+        );
     }
 }
 
@@ -421,12 +436,21 @@ fn insert_tail_contract_byte_arrays_n2_to16() {
     kani::cover(len == 2, "length 2 reached");
     kani::cover(len == 16, "length 16 reached");
     if kani::any() {
-        dispatch_by_length!(len, insert_tail_len::<[u8; 16]>(lt_b16), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+        dispatch_by_length!(
+            len,
+            insert_tail_len::<[u8; 16]>(lt_b16),
+            [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+        );
     } else {
-        dispatch_by_length!(len, insert_tail_len::<[u8; 85]>(lt_b85), [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]);
+        dispatch_by_length!(
+            len,
+            insert_tail_len::<[u8; 85]>(lt_b85),
+            [2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+        );
     }
 }
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! define_merge_length_harness {
     ($name:ident, $t:ty, $cmp:expr) => {
         // Exact arrays of each length 2..=32; destination is disjoint.
@@ -521,6 +545,7 @@ fn merge_arbitrary_order_reachability_check_control_u64_n4() {
 
 // Real merge safety on exact u64 arrays of 2..=32 elements with arbitrary comparisons.
 // No sortedness premise is imposed; normal-return covers check that the panic cut is nonvacuous.
+#[cfg(kani_smallsort_controls)]
 fn merge_safety_body_u64<const N: usize>() {
     const { assert!(N >= 2 && N <= 32) };
     let v: [u64; N] = kani::any();
@@ -715,7 +740,8 @@ define_route_safety_harness!(route_safety_all_routes_n30, all_upper_routes_safet
 define_route_safety_harness!(route_safety_all_routes_n31, all_upper_routes_safety_body, 31);
 define_route_safety_harness!(route_safety_all_routes_n32, all_upper_routes_safety_body, 32);
 
-// Merge contracts: u8/u64, upper-bit key order, exact arrays N2..16; optional u8 N20/24 diagnostics.
+// Merge contracts: u8/u64, upper-bit key order, exact arrays N2..16; optional u8 N20/24
+// diagnostics.
 macro_rules! define_small_merge_contract_harness {
     ($name:ident, $t:ty, $cmp:expr) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
@@ -754,6 +780,7 @@ macro_rules! define_merge_contract_harness {
     };
 }
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! define_unsorted_halves_control {
     ($name:ident, $t:ty, $cmp:expr) => {
         #[kani::proof]
@@ -793,8 +820,9 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
     );
 }
 
-// General/stable correctness, a 48-element scratch array, only merge stubbed. Ordinary: u64 N0..12/16,
-// u8 N0..13/16; other instances are controls. Insertion and sort4 remain real.
+// General/stable correctness with 48 scratch elements; only merge is stubbed.
+// Ordinary: u64 N0..12/16, u8 N0..13/16; other instances are controls.
+// Insertion and sort4 remain real.
 fn general_route_properties<
     T: kani::Arbitrary + Copy + FreezeMarker,
     F: FnMut(&T, &T) -> bool,
@@ -961,10 +989,10 @@ macro_rules! define_fallback_route_harness {
 }
 
 #[cfg(kani_smallsort_controls)]
-define_fallback_route_harness!(fallback_properties_u64_n8, u64, lt_u64, 8);
-define_fallback_route_harness!(fallback_properties_u8_n8, u8, lt_u8, 8);
+define_fallback_route_harness!(fallback_sorted_permutation_u64_n8, u64, lt_u64, 8);
+define_fallback_route_harness!(fallback_sorted_permutation_u8_n8, u8, lt_u8, 8);
 #[cfg(kani_smallsort_controls)]
-define_fallback_route_harness!(fallback_properties_u8_n9, u8, lt_u8, 9);
+define_fallback_route_harness!(fallback_sorted_permutation_u8_n9, u8, lt_u8, 9);
 
 // Optional u8 merge contract diagnostics at exact lengths 20 and 24.
 #[cfg(kani_smallsort_controls)]
@@ -1008,7 +1036,8 @@ fn abort_without_order_cover() -> ! {
     unreachable!()
 }
 
-// Separate count/tag proofs: fallback/insertion N2/4/8; general/stable N2/4/8/16, a 48-element scratch array.
+// Separate count/tag proofs: fallback/insertion N2/4/8; general/stable N2/4/8/16, a 48-element
+// scratch array.
 // Normal return only; duplicate-tag and extra-drop controls distinguish the observations.
 fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool, const MUTANT: u8>()
 -> bool {
