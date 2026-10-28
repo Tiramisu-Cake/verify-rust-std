@@ -83,6 +83,8 @@ impl<T> UnstableSmallSortTypeImpl for T {
     where
         F: FnMut(&T, &T) -> bool,
     {
+        #[cfg(kani)]
+        kani::cover(v.len() >= 2, "K5 unstable default body entered N>=2");
         small_sort_fallback(v, is_less);
     }
 }
@@ -94,10 +96,14 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
     }
 
     #[inline(always)]
+    #[cfg_attr(kani, kani::ensures(|_| true))]
+    #[cfg_attr(kani, kani::modifies(v))]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
         F: FnMut(&T, &T) -> bool,
     {
+        #[cfg(kani)]
+        kani::cover(v.len() >= 2, "K5 unstable Freeze body entered N>=2");
         <T as UnstableSmallSortFreezeTypeImpl>::small_sort(v, is_less);
     }
 }
@@ -161,6 +167,8 @@ impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
         if has_efficient_in_place_swap::<T>()
             && (size_of::<T>() * SMALL_SORT_NETWORK_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE
         {
+            #[cfg(kani)]
+            kani::cover(v.len() >= 2, "K5 unstable Freeze Copy network body entered N>=2");
             small_sort_network(v, is_less);
         } else if (size_of::<T>() * SMALL_SORT_GENERAL_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE {
             small_sort_general(v, is_less);
