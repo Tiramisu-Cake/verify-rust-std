@@ -1,10 +1,8 @@
-//! Lane smoke tests are opt-in via `controls: true` (kani_smallsort_controls).
-//! `ok` checks covers and `control_must_fail` checks a located expected failure.
-//! The L1-2 C3 size-heuristic proof remains part of the ordinary std CI set.
+//! Smoke checks cover the in-place swap size heuristic and simple control assertions.
+//! The type matrix includes scalars, arrays around the size threshold, `Cell`, Drop, and ZSTs.
 
-use super::super::has_efficient_in_place_swap;
 use crate::kani;
-
+use super::super::has_efficient_in_place_swap;
 #[repr(transparent)]
 struct W3SwapDrop(u8);
 
@@ -12,7 +10,7 @@ impl crate::ops::Drop for W3SwapDrop {
     fn drop(&mut self) {}
 }
 
-/// L1-2: the size heuristic on the C3 type matrix, including a zero-sized type.
+/// Checks the heuristic for scalar, array, `Cell`, Drop, and zero-sized element types.
 #[kani::proof]
 fn w3_efficient_swap_c3() {
     macro_rules! check {

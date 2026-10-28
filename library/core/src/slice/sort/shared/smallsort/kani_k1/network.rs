@@ -1,18 +1,17 @@
-//! K1-network agent: contracts and harnesses for `swap_if_less`, `sort9_optimal`, `sort13_optimal`,
-//! `insertion_sort_shift_left` and `small_sort_network`.
-//! Written from the std source and the Kani documentation only (EXPERIMENT.md, rule R1).
+//! Harnesses for compare-exchange, sorting networks, insertion, and the outer small-sort routes.
+//! The families below check contract behavior, memory safety, normal returns, and selected
+//! sortedness and permutation properties over their stated element types and fixed lengths.
 
 #![allow(dead_code, unused_macros)]
 
-use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
-use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
 use crate::kani;
 use crate::mem::size_of;
+use super::merge::{insert_tail_len, lt_i32, lt_u8, lt_u64, set_probe};
+use super::super::{CopyOnDrop, UnstableSmallSortFreezeTypeImpl, swap_if_less};
 
-// Comparators: K1-merge's `lt_u8`/`lt_i32`/`lt_u64`, strict orders by the key `x >> 1`, so equal keys
-// with different full values exist and permutation is not implied by sortedness. Function items
-// shared with K1-merge's proofs, so that every `stub_verified` use (here and of
-// `bidirectional_merge`) has the same `(T, F)` as the `proof_for_contract` that verifies it.
+// These comparators order by `x >> 1`, allowing distinct full values to share a key. Sortedness
+// therefore does not imply permutation. The shared function items match the `(T, F)` instances
+// used to verify contracts for `swap_if_less` and `bidirectional_merge`.
 
 // ---------------------------------------------------------------------------------------------
 // swap_if_less
@@ -47,9 +46,8 @@ fn swap_if_less_u64() {
     check_swap_if_less::<u64, _>(lt_u64);
 }
 
-/// R11 control: under `stub_verified`, a call that breaks `requires(a_pos != b_pos)` must be
-/// reported as a failed precondition. Nothing else in this call can fail: the positions are
-/// in-bounds and the postcondition is satisfiable.
+/// Checks that the verified contract rejects equal positions in a two-element array. Both indices
+/// remain in bounds, isolating the distinct-position precondition.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(super::super::swap_if_less)]
@@ -62,7 +60,7 @@ fn r11_control_swap_if_less_requires() {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Harness-level checks. Permutation is stated with K1-merge's probe (`set_probe`, `k1_count`).
+// Harness-level checks use the shared arbitrary probe (`set_probe`, `k1_count`).
 
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
 fn same_from<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
@@ -77,418 +75,9 @@ fn same_from<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
 }
 
 // ---------------------------------------------------------------------------------------------
-// sort9_optimal, sort13_optimal: the real network bodies over `stub_verified(swap_if_less)`.
 
-/// Every slice length the contract admits (`n..=17`), so "only `v[..n]` changes" is exercised.
-macro_rules! check_sort_n {
-    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
-        #[kani::proof_for_contract(super::super::$f)]
-        #[kani::stub_verified(super::super::swap_if_less)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; 17] = kani::any();
-            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
-            kani::cover(len == $n, "exact length reachable");
-            kani::cover(len == 17, "longest slice reachable");
-            let pre = v;
-            let mut cmp = $cmp;
-            super::super::$f(&mut v[..len], &mut cmp);
-            // Sortedness and probe count of `v[..n]` are the contract's `ensures`; the rest is fixed.
-            assert!(same_from(&v[..], &pre[..], $n));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort9_u8, sort9_optimal, 9, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort9_i32, sort9_optimal, 9, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort9_u64, sort9_optimal, 9, u64, lt_u64);
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort13_u8, sort13_optimal, 13, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort13_i32, sort13_optimal, 13, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_sort_n!(sort13_u64, sort13_optimal, 13, u64, lt_u64);
-
-// ---------------------------------------------------------------------------------------------
-// Formulation 3 for the network contracts (phase 2): the real network bodies with the real
-// `swap_if_less`, no stubs. The contract is split over two harness families:
-// - `sortNN_01_*`: `proof_for_contract` on inputs whose `v[..n]` keys (`x >> 1`) are 0 or 1. By the
-//   0-1 principle this gives sortedness for every input: the body is a fixed sequence of
-//   compare-exchanges, each exact by the `swap_if_less` contract (RESULT-network.md, «Редукции»).
-// - `sortNN_perm_*`: permutation of `v[..n]` (probe count) on full-width inputs, plain proof.
-
-/// `v[..n]` gets the values 0..=3 (keys 0 and 1), built rather than assumed; `v[n..]` stays arbitrary.
-macro_rules! check_sort_n_01 {
-    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
-        #[kani::proof_for_contract(super::super::$f)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; 17] = kani::any();
-            let bits: [u8; $n] = kani::any();
-            let mut i = 0;
-            while i < $n {
-                v[i] = (bits[i] & 3) as $t;
-                i += 1;
-            }
-            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
-            kani::cover(len == $n, "exact length reachable");
-            kani::cover(len == 17, "longest slice reachable");
-            kani::cover(v[0] >= 2 && v[$n - 1] < 2, "unsorted 0-1 input reachable");
-            let pre = v;
-            let mut cmp = $cmp;
-            super::super::$f(&mut v[..len], &mut cmp);
-            assert!(same_from(&v[..], &pre[..], $n));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-/// Full-width values; the contract's permutation clause, stated with the same probe count.
-macro_rules! check_perm_n {
-    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
-        #[kani::proof]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; 17] = kani::any();
-            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
-            kani::cover(len == $n, "exact length reachable");
-            kani::cover(len == 17, "longest slice reachable");
-            let pre = v;
-            let mut cmp = $cmp;
-            super::super::$f(&mut v[..len], &mut cmp);
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
-            );
-            assert!(same_from(&v[..], &pre[..], $n));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-/// Permutation as above, with every compare-exchange through the verified `swap_if_less` contract
-/// (exact swap-or-not of two cells). Job 25: the real-body version for `sort13`/u64 timed out at 10 min.
-macro_rules! check_perm_stub_n {
-    ($name:ident, $f:ident, $n:literal, $t:ty, $cmp:ident) => {
-        #[kani::proof]
-        #[kani::stub_verified(super::super::swap_if_less)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; 17] = kani::any();
-            let len: usize = kani::any_where(|&l| $n <= l && l <= 17);
-            kani::cover(len == $n, "exact length reachable");
-            kani::cover(len == 17, "longest slice reachable");
-            let pre = v;
-            let mut cmp = $cmp;
-            super::super::$f(&mut v[..len], &mut cmp);
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
-            );
-            assert!(same_from(&v[..], &pre[..], $n));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_perm_stub_n!(sort13_perm_stub_u8, sort13_optimal, 13, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_perm_stub_n!(sort13_perm_stub_i32, sort13_optimal, 13, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_perm_stub_n!(sort13_perm_stub_u64, sort13_optimal, 13, u64, lt_u64);
-#[cfg(kani_smallsort_controls)]
-check_perm_stub_n!(sort9_perm_stub_u64, sort9_optimal, 9, u64, lt_u64);
-
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort9_01_u8, sort9_optimal, 9, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort9_01_i32, sort9_optimal, 9, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort9_01_u64, sort9_optimal, 9, u64, lt_u64);
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort13_01_u8, sort13_optimal, 13, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort13_01_i32, sort13_optimal, 13, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_sort_n_01!(sort13_01_u64, sort13_optimal, 13, u64, lt_u64);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort9_perm_u8, sort9_optimal, 9, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort9_perm_i32, sort9_optimal, 9, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort9_perm_u64, sort9_optimal, 9, u64, lt_u64);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort13_perm_u8, sort13_optimal, 13, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort13_perm_i32, sort13_optimal, 13, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_perm_n!(sort13_perm_u64, sort13_optimal, 13, u64, lt_u64);
-
-// ---------------------------------------------------------------------------------------------
-// Loop invariant of `insertion_sort_shift_left` (phase 5, run B)
-
-impl<T> CopyOnDrop<T> {
-    /// Invariant of the `while tail != v_end` loop of `insertion_sort_shift_left`: `tail` is
-    /// `v_base + k` with `offset <= k <= len`, `v_base[..k]` is sorted, and the probe count of
-    /// `v_base[..len]` equals `count0`, its value on loop entry (`on_entry`). Loop-free, like the
-    /// contract (`k1_sorted_q`, `k1_count_u`). `k` comes from byte addresses: the loop havocs `tail`,
-    /// so a pointer outside `v`, or not a whole number of elements away, must make the invariant
-    /// false rather than trip the UB check of `offset_from`. Zero-sized `T` is not instantiated.
-    pub(crate) fn k1_ins_inv<F: FnMut(&T, &T) -> bool>(
-        v_base: *const T,
-        len: usize,
-        offset: usize,
-        tail: *const T,
-        count0: usize,
-        is_less: &&mut F,
-    ) -> bool {
-        let sz = size_of::<T>();
-        let b = tail.addr().wrapping_sub(v_base.addr());
-        sz != 0
-            && kani::mem::same_allocation(v_base, tail)
-            && b % sz == 0
-            && offset <= b / sz
-            && b / sz <= len
-            && Self::k1_sorted_q(v_base, b / sz, is_less)
-            && Self::k1_count_u(v_base, len) == count0
-    }
-}
-
-/// Phase 5 run B: the loop-free contract of `insertion_sort_shift_left` through its loop invariant,
-/// with `insert_tail` through its verified contract (`insert_tail_net_u64`, job 26). Length 8,
-/// offset 1: the network call site for `len < 9`. Job 37 (887d01ca, contract and loop attributes of
-/// that commit): goto-instrument out of memory. Those attributes were then removed from
-/// `smallsort.rs`, so at HEAD this harness checks the phase 1 contract and `k1_ins_inv` is unused.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
-#[kani::stub_verified(super::super::insert_tail)]
-#[kani::unwind(18)]
-fn insertion_inv_o1_u64() {
-    set_probe::<u64>();
-    let mut v: [u64; 8] = kani::any();
-    let pre = v;
-    super::super::insertion_sort_shift_left(&mut v[..], 1, &mut lt_u64);
-    kani::cover(v != pre, "an element moved");
-    kani::cover(true, "end reached");
-}
-
-// ---------------------------------------------------------------------------------------------
-// insertion_sort_shift_left on the network regions: `offset` 1 for `len < 9`, 9 for
-// `9 <= len < 13`, 13 for `13 <= len <= 17` (EXPERIMENT.md TASK-network step 3). Real body,
-// including the real `insert_tail`.
-
-macro_rules! check_insertion {
-    ($name:ident, $t:ty, $cmp:ident, $offset:literal, $lo:literal, $hi:literal) => {
-        #[kani::proof_for_contract(super::super::insertion_sort_shift_left)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; $hi] = kani::any();
-            let len: usize = kani::any_where(|&l| $lo <= l && l <= $hi);
-            kani::cover(len == $lo, "shortest region reachable");
-            kani::cover(len == $hi, "longest region reachable");
-            super::super::insertion_sort_shift_left(&mut v[..len], $offset, &mut $cmp);
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o1_u8, u8, lt_u8, 1, 2, 8);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o9_u8, u8, lt_u8, 9, 9, 12);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o13_u8, u8, lt_u8, 13, 13, 17);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o1_i32, i32, lt_i32, 1, 2, 8);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o9_i32, i32, lt_i32, 9, 9, 12);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o13_i32, i32, lt_i32, 13, 13, 17);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o1_u64, u64, lt_u64, 1, 2, 8);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o9_u64, u64, lt_u64, 9, 9, 12);
-#[cfg(kani_smallsort_controls)]
-check_insertion!(insertion_o13_u64, u64, lt_u64, 13, 13, 17);
-
-// ---------------------------------------------------------------------------------------------
-// Top level, lengths 0..=17 (no merge): the real trait entrypoint and `small_sort_network` body
-// over the verified contracts of the networks and of the insertion sort.
-
-macro_rules! check_network_no_merge {
-    ($name:ident, $t:ty, $cmp:ident) => {
-        #[kani::proof]
-        #[kani::stub_verified(super::super::sort9_optimal)]
-        #[kani::stub_verified(super::super::sort13_optimal)]
-        #[kani::stub_verified(super::super::insertion_sort_shift_left)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; 17] = kani::any();
-            let len: usize = kani::any_where(|&l| l <= 17);
-            kani::cover(len == 0, "len 0 reachable");
-            kani::cover(len == 1, "len 1 reachable");
-            kani::cover(len == 2, "len 2 reachable");
-            kani::cover(len == 9, "len 9 (sort9) reachable");
-            kani::cover(len == 13, "len 13 (sort13) reachable");
-            kani::cover(len == 17, "len 17 (last without merge) reachable");
-            let pre = v;
-            let mut cmp = $cmp;
-            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
-            assert!(sorted_by(&v[..len], &mut cmp));
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
-            );
-            assert!(same_from(&v[..], &pre[..], len));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_network_no_merge!(network_upto17_u8, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_network_no_merge!(network_upto17_i32, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_network_no_merge!(network_upto17_u64, u64, lt_u64);
-
-/// `lo <= l <= hi` (a function, so that `lo = 0` raises no `unused_comparisons` lint).
-fn in_band(l: usize, lo: usize, hi: usize) -> bool {
-    lo <= l && l <= hi
-}
-
-/// Phase 2: lengths 0..=17 as three bands with one code path each (insertion from offset 1, sort9
-/// then insertion from 9, sort13 then insertion from 13). The networks go through their verified
-/// contracts; `insertion_sort_shift_left` and `insert_tail` are the real bodies.
-macro_rules! check_network_band {
-    ($name:ident, $t:ty, $cmp:ident, $lo:literal, $hi:literal, [$($c:literal),*]) => {
-        #[kani::proof]
-        #[kani::stub_verified(super::super::sort9_optimal)]
-        #[kani::stub_verified(super::super::sort13_optimal)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; $hi] = kani::any();
-            let len: usize = kani::any_where(|&l| in_band(l, $lo, $hi));
-            $(kani::cover(len == $c, "boundary length reachable");)*
-            let pre = v;
-            let mut cmp = $cmp;
-            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
-            assert!(sorted_by(&v[..len], &mut cmp));
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
-            );
-            assert!(same_from(&v[..], &pre[..], len));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-/// K1-merge's `insert_tail` contract on the network regions: `[begin, tail]` of 2..=17 elements
-/// (`insertion_sort_shift_left` on a region of up to 17). Harness body is K1-merge's `insert_tail_len`.
-macro_rules! check_insert_tail_net {
-    ($name:ident, $t:ty, $cmp:ident) => {
-        #[kani::proof_for_contract(super::super::insert_tail)]
-        #[kani::unwind(18)]
-        fn $name() {
-            let len: usize = kani::any_where(|&l| 2 <= l && l <= 17);
-            kani::cover(len == 2, "region of 2 reachable");
-            kani::cover(len == 17, "region of 17 reachable");
-            match len {
-                2 => insert_tail_len::<$t, _, 2>($cmp),
-                3 => insert_tail_len::<$t, _, 3>($cmp),
-                4 => insert_tail_len::<$t, _, 4>($cmp),
-                5 => insert_tail_len::<$t, _, 5>($cmp),
-                6 => insert_tail_len::<$t, _, 6>($cmp),
-                7 => insert_tail_len::<$t, _, 7>($cmp),
-                8 => insert_tail_len::<$t, _, 8>($cmp),
-                9 => insert_tail_len::<$t, _, 9>($cmp),
-                10 => insert_tail_len::<$t, _, 10>($cmp),
-                11 => insert_tail_len::<$t, _, 11>($cmp),
-                12 => insert_tail_len::<$t, _, 12>($cmp),
-                13 => insert_tail_len::<$t, _, 13>($cmp),
-                14 => insert_tail_len::<$t, _, 14>($cmp),
-                15 => insert_tail_len::<$t, _, 15>($cmp),
-                16 => insert_tail_len::<$t, _, 16>($cmp),
-                17 => insert_tail_len::<$t, _, 17>($cmp),
-                _ => {}
-            }
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_insert_tail_net!(insert_tail_net_u8, u8, lt_u8);
-#[cfg(kani_smallsort_controls)]
-check_insert_tail_net!(insert_tail_net_i32, i32, lt_i32);
-#[cfg(kani_smallsort_controls)]
-check_insert_tail_net!(insert_tail_net_u64, u64, lt_u64);
-
-/// Wave 1 K-8: the insertion region is a prefix of a larger allocation, with every tail
-/// position 1..=16 symbolic. The contract proof assumes only `insert_tail`'s own requires
-/// (in particular the sorted prefix); the suffix stays arbitrary and must be unchanged.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::insert_tail)]
-#[kani::unwind(18)]
-fn insert_tail_prefix_u64() {
-    set_probe::<u64>();
-    let mut v: [u64; 17] = kani::any();
-    let tail: usize = kani::any_where(|&t| 1 <= t && t < 17);
-    let pre = v;
-    let base = v.as_mut_ptr();
-    // SAFETY: both pointers belong to `v`, tail > 0; sortedness is assumed by the
-    // proof_for_contract instrumentation at this call, exactly as in insert_tail_len.
-    unsafe { super::super::insert_tail(base, base.add(tail), &mut lt_u64) };
-    assert!(same_from(&v, &pre, tail + 1));
-    kani::cover(tail == 1, "prefix region of 2 reachable with requires satisfied");
-    kani::cover(tail == 15, "proper prefix region of 16 reachable with requires satisfied");
-    kani::cover(tail == 16, "full region of 17 reachable with requires satisfied");
-    kani::cover(true, "prefix insertion: end reached");
-}
-
-/// K-8 review extension: both ends of the insertion region are symbolic within one allocation.
-/// This includes the interior regions used by scratch-based call sites, not just prefixes.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::insert_tail)]
-#[kani::unwind(18)]
-fn insert_tail_region_u64() {
-    set_probe::<u64>();
-    let mut v: [u64; 17] = kani::any();
-    let tail: usize = kani::any_where(|&t| 1 <= t && t < 17);
-    let start: usize = kani::any_where(|&s| s < tail);
-    let pre = v;
-    let base = v.as_mut_ptr();
-    // SAFETY: 0 <= start < tail < 17, and the enclosing proof_for_contract assumes
-    // precisely the callee's sorted-region precondition at this call.
-    unsafe { super::super::insert_tail(base.add(start), base.add(tail), &mut lt_u64) };
-    let mut i = 0;
-    while i < start {
-        assert!(v[i] == pre[i]);
-        i += 1;
-    }
-    assert!(same_from(&v, &pre, tail + 1));
-    kani::cover(start == 0, "region begins at allocation start");
-    kani::cover(start > 0, "region begins inside allocation");
-    kani::cover(start > 0 && tail < 16, "region has both prefix and suffix outside it");
-    kani::cover(start == 15 && tail == 16, "last two elements form region");
-    kani::cover(start == 0 && tail == 16, "whole allocation forms region");
-    kani::cover(true, "interior insertion: end reached");
-}
-
-/// Wave 1 D0/CD-2: read both arguments, then choose a fresh nondeterministic result.
-/// Volatile reads keep these accesses observable even though the result ignores the values.
+/// Reads both `u64` arguments, then returns a fresh nondeterministic result. Volatile reads keep
+/// the element accesses observable while leaving comparator outcomes unconstrained.
 fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
     // SAFETY: comparator callers must supply readable u64 references. Kani checks both
     // actual accesses, including references formed from raw pointers inside the sort.
@@ -499,23 +88,8 @@ fn w1_any_less_u64(a: &u64, b: &u64) -> bool {
     kani::any()
 }
 
-/// K-6+ (b), length 17: network + insertion, no merge and no order-violation panic path.
-/// Ordinary proof checks Kani safety and assertion classes; no sorting/permutation assertions.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(35)]
-fn w1_network_o1_len17_u64() {
-    let mut v: [u64; 17] = kani::any();
-    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
-    kani::cover(true, "network O1 length 17: normal return reachable");
-}
-
-/// CD-1 variant B: safety-class checks only; all assertion-class panics are allowed.
-/// Every callee, including bidirectional_merge, is real; no contract checks or stubs.
-
-/// As at length 24, with two length-16 regions (sort13 + insertion), then even merge.
-
-/// A constant-sized trait call in each branch keeps each network/merge shape concrete.
+/// Runs the actual freeze-specialized route on an exact `[u64; N]` array with unconstrained
+/// comparisons. These harnesses target memory safety and normal return, not ordering.
 fn w1_network_o1_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut w1_any_less_u64);
@@ -540,136 +114,13 @@ macro_rules! w1_network_o1_cases {
     };
 }
 
-// Priority odd merge paths: homogeneous sort9 halves, mixed sort9/sort13, sort13 halves.
-// No merge: includes 0/1 returns, insertion-only, sort9 and sort13, and their insertion tails.
-w1_network_o1_cases!(w1_network_o1_nomerge_u64, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], []);
-// Remaining merge lengths; together with 19/24/25/31/32, covers every length 18..=32.
-// Smaller independent partitions after job 62's unlocalized CBMC status 6.
-
-/// The bands again, with `insert_tail` through its verified contract as well (job 23: with the real
-/// `insert_tail` every u64 band timed out at 10 min). `insertion_sort_shift_left` stays real.
-macro_rules! check_network_band_tail {
-    ($name:ident, $t:ty, $cmp:ident, $lo:literal, $hi:literal, [$($c:literal),*]) => {
-        #[kani::proof]
-        #[kani::stub_verified(super::super::sort9_optimal)]
-        #[kani::stub_verified(super::super::sort13_optimal)]
-        #[kani::stub_verified(super::super::insert_tail)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; $hi] = kani::any();
-            let len: usize = kani::any_where(|&l| in_band(l, $lo, $hi));
-            $(kani::cover(len == $c, "boundary length reachable");)*
-            let pre = v;
-            let mut cmp = $cmp;
-            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..len], &mut cmp);
-            assert!(sorted_by(&v[..len], &mut cmp));
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), len)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), len)
-            );
-            assert!(same_from(&v[..], &pre[..], len));
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
-#[cfg(kani_smallsort_controls)]
-check_network_band_tail!(bandt13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
-
-/// One constant length per harness (TASK-network phase 2, step 3: "полосами фиксированных длин").
-/// Job 23 and job 26: every symbolic-length band timed out for u64, with and without the
-/// `insert_tail` stub. Networks through their verified contracts, insertion real.
-macro_rules! check_network_fixed {
-    ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
-        #[kani::proof]
-        #[kani::stub_verified(super::super::sort9_optimal)]
-        #[kani::stub_verified(super::super::sort13_optimal)]
-        #[kani::unwind(18)]
-        fn $name() {
-            set_probe::<$t>();
-            let mut v: [$t; $n] = kani::any();
-            let pre = v;
-            let mut cmp = $cmp;
-            <$t as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
-            assert!(sorted_by(&v[..], &mut cmp));
-            assert!(
-                CopyOnDrop::<$t>::k1_count(pre.as_ptr(), $n)
-                    == CopyOnDrop::<$t>::k1_count(v.as_ptr(), $n)
-            );
-            kani::cover(true, "end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-check_network_fixed!(fixed8_u64, u64, lt_u64, 8);
-#[cfg(kani_smallsort_controls)]
-check_network_fixed!(fixed12_u64, u64, lt_u64, 12);
-#[cfg(kani_smallsort_controls)]
-check_network_fixed!(fixed17_u64, u64, lt_u64, 17);
-
-/// Phase 5 run A: `check_network_fixed` at length 8 with `insert_tail` through its verified contract
-/// (`insert_tail_net_u64`, job 26), the one combination phase 2 did not run. At length 8 the network
-/// stubs are off the path (`small_sort_network` calls only `insertion_sort_shift_left(v, 1)`); they
-/// are kept so that the harness differs from `fixed8_u64` (job 31) only by the `insert_tail` stub.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::stub_verified(super::super::sort9_optimal)]
-#[kani::stub_verified(super::super::sort13_optimal)]
-#[kani::stub_verified(super::super::insert_tail)]
-#[kani::unwind(18)]
-fn fixedt8_u64() {
-    set_probe::<u64>();
-    let mut v: [u64; 8] = kani::any();
-    let pre = v;
-    let mut cmp = lt_u64;
-    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
-    assert!(sorted_by(&v[..], &mut cmp));
-    assert!(CopyOnDrop::<u64>::k1_count(pre.as_ptr(), 8) == CopyOnDrop::<u64>::k1_count(v.as_ptr(), 8));
-    kani::cover(true, "end reached");
-}
-
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band0_8_u8, u8, lt_u8, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band0_8_i32, i32, lt_i32, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band0_8_u64, u64, lt_u64, 0, 8, [0, 1, 2, 8]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band9_12_u8, u8, lt_u8, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band9_12_i32, i32, lt_i32, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band9_12_u64, u64, lt_u64, 9, 12, [9, 12]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band13_17_u8, u8, lt_u8, 13, 17, [13, 17]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band13_17_i32, i32, lt_i32, 13, 17, [13, 17]);
-#[cfg(kani_smallsort_controls)]
-check_network_band!(band13_17_u64, u64, lt_u64, 13, 17, [13, 17]);
-
-// ---------------------------------------------------------------------------------------------
-// Cost isolation (job 10: every symbolic-length harness above timed out at 5 min for u8). Constant
-// lengths, real bodies, permutation by an arbitrary probe value: for every value `p`, the number of
-// elements equal to `p` is preserved, which is multiset equality since `p` is nondeterministic.
-
+// Exact lengths 0..=17 cover the no-merge routes: empty/singleton, insertion-only,
+// sort9/sort13 and their insertion tails.
+w1_network_o1_cases!(
+    w1_network_o1_nomerge_u64,
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+    []
+);
 fn probe_count<T: PartialEq>(s: &[T], p: &T) -> usize {
     let mut n = 0;
     let mut i = 0;
@@ -681,23 +132,6 @@ fn probe_count<T: PartialEq>(s: &[T], p: &T) -> usize {
     }
     n
 }
-
-/// K-9 retry: full-width u8 values at the exact network width, with a local arbitrary probe.
-/// Removing the symbolic slice length and unchanged suffix leaves only the permutation claim.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(14)]
-fn w1_sort13_perm_fixed_u8() {
-    let mut v: [u8; 13] = kani::any();
-    let p: u8 = kani::any();
-    let pre = v;
-    super::super::sort13_optimal(&mut v, &mut lt_u8);
-    assert!(probe_count(&pre, &p) == probe_count(&v, &p));
-    kani::cover(v != pre, "sort13 moves elements");
-    kani::cover(pre[0] == p && pre[1] == p, "duplicate probe values reachable");
-    kani::cover(true, "sort13 permutation at exact length: end reached");
-}
-
 fn sorted_by<T, F: FnMut(&T, &T) -> bool>(s: &[T], cmp: &mut F) -> bool {
     let mut i = 1;
     while i < s.len() {
@@ -708,60 +142,6 @@ fn sorted_by<T, F: FnMut(&T, &T) -> bool>(s: &[T], cmp: &mut F) -> bool {
     }
     true
 }
-
-/// Real `sort9_optimal` and real `swap_if_less`, no contracts involved.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-fn direct_sort9_u8() {
-    let mut v: [u8; 9] = kani::any();
-    let p: u8 = kani::any();
-    let pre = v;
-    super::super::sort9_optimal(&mut v[..], &mut lt_u8);
-    assert!(sorted_by(&v[..], &mut lt_u8));
-    assert!(probe_count(&pre[..], &p) == probe_count(&v[..], &p));
-    kani::cover(true, "end reached");
-}
-
-/// The `sort9_optimal` contract at one constant length, over `stub_verified(swap_if_less)`.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::sort9_optimal)]
-#[kani::stub_verified(super::super::swap_if_less)]
-fn contract_sort9_u8_len9() {
-    set_probe::<u8>();
-    let mut v: [u8; 9] = kani::any();
-    super::super::sort9_optimal(&mut v[..], &mut lt_u8);
-    kani::cover(true, "end reached");
-}
-
-/// The trait entrypoint at constant length `N`, every callee real.
-fn direct_network<const N: usize>() {
-    let mut v: [u8; N] = kani::any();
-    let p: u8 = kani::any();
-    let pre = v;
-    let mut cmp = lt_u8;
-    <u8 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v[..], &mut cmp);
-    assert!(sorted_by(&v[..], &mut cmp));
-    assert!(probe_count(&pre[..], &p) == probe_count(&v[..], &p));
-    kani::cover(true, "end reached");
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(18)]
-fn direct_network_len13_u8() {
-    direct_network::<13>();
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(18)]
-fn direct_network_len17_u8() {
-    direct_network::<17>();
-}
-
-// ---------------------------------------------------------------------------------------------
-// K-13: interior-mutable comparator on the actual non-Freeze routes and direct insertion.
-
 #[derive(Clone, Copy)]
 struct K13Tagged {
     key: u8,
@@ -769,47 +149,6 @@ struct K13Tagged {
 }
 
 type K13Cell = crate::cell::Cell<K13Tagged>;
-
-static mut K13_INPUT_BASE: *const K13Tagged = crate::ptr::null();
-
-fn k13_track_input<const N: usize>(v: &[K13Cell; N]) {
-    // SAFETY: single-threaded harness; the pointer is only compared while v is alive.
-    unsafe { *crate::ptr::addr_of_mut!(K13_INPUT_BASE) = v.as_ptr().cast() };
-}
-
-/// Observe both complete values before writing either one. Cell permits mutation through the
-/// shared references; tags are preserved even if both references happen to name the same Cell.
-fn k13_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
-    // SAFETY: Cell::as_ptr points to its initialized Tagged. Volatile reads preserve both key
-    // accesses for CD-2, even though the comparison result is independent of their values.
-    let (left, right) = unsafe {
-        (crate::ptr::read_volatile(a.as_ptr()), crate::ptr::read_volatile(b.as_ptr()))
-    };
-    let left_key: u8 = kani::any();
-    let right_key: u8 = kani::any();
-    a.set(K13Tagged { key: left_key, tag: left.tag });
-    b.set(K13Tagged { key: right_key, tag: right.tag });
-    kani::cover(left.key != left_key && right.key != right_key, "K13 comparator changes both keys");
-    // SAFETY: each harness registers its live array before invoking the comparator.
-    let base = unsafe { *crate::ptr::addr_of!(K13_INPUT_BASE) };
-    kani::cover(
-        !kani::mem::same_allocation(base, a.as_ptr()) || !kani::mem::same_allocation(base, b.as_ptr()),
-        "K13 comparator writes an insert_tail temporary copy",
-    );
-    kani::any()
-}
-
-fn k13_input<const N: usize>() -> [K13Cell; N] {
-    let v = [const { crate::cell::Cell::new(K13Tagged { key: 0, tag: 0 }) }; N];
-    let mut i = 0;
-    while i < N {
-        // Both fields span all u8 values, including duplicate tags.
-        v[i].set(K13Tagged { key: kani::any(), tag: kani::any() });
-        i += 1;
-    }
-    v
-}
-
 /// An arbitrary probe proves full multiset equality, including tag multiplicities. N <= 20 in
 /// every call below, so a u8 count suffices without overflow or modular-count ambiguity.
 fn k13_tag_count<const N: usize>(v: &[K13Cell; N], probe: u8) -> u8 {
@@ -831,172 +170,9 @@ fn k13_tags<const N: usize>(v: &[K13Cell; N]) -> [u8; N] {
     }
     tags
 }
-
-fn k13_route_fixed<const N: usize>(stable: bool) -> bool {
-    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
-    let mut v = k13_input::<N>();
-    k13_track_input(&v);
-    let probe: u8 = kani::any();
-    let before = k13_tag_count(&v, probe);
-    let tags = k13_tags(&v);
-    if stable {
-        // The non-Freeze default ignores scratch, so the empty slice is sufficient.
-        let mut scratch = [];
-        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut k13_mutating_less);
-    } else {
-        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut k13_mutating_less);
-    }
-    assert!(before == k13_tag_count(&v, probe));
-    let moved = tags != k13_tags(&v);
-    kani::cover(N < 2 || moved, "K13 route: trivial length or a tag moved");
-    moved
-}
-
-/// Deliberately outside the K-1 correctness contract (len 1/18..20, arbitrary valid offset,
-/// unsorted prefix). This plain proof relies on CI --no-assert-contracts and real function bodies;
-/// it checks memory and tag permutation, not that contract or sortedness.
-fn k13_insertion_fixed<const N: usize>() -> bool {
-    let mut v = k13_input::<N>();
-    k13_track_input(&v);
-    let probe: u8 = kani::any();
-    let before = k13_tag_count(&v, probe);
-    let tags = k13_tags(&v);
-    // Sortedness of the prefix is not needed for safety or tag permutation. All valid offsets
-    // are checked; a fully presorted slice (offset == N) is a permitted no-op.
-    let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
-    super::super::insertion_sort_shift_left(&mut v, offset, &mut k13_mutating_less);
-    assert!(before == k13_tag_count(&v, probe));
-    kani::cover(offset == 1, "K13 insertion: offset 1 reachable");
-    kani::cover(offset == N, "K13 insertion: offset len reachable");
-    let moved = tags != k13_tags(&v);
-    kani::cover(N < 2 || moved, "K13 insertion: trivial length or a tag moved");
-    moved
-}
-
-macro_rules! k13_route_cases {
-    ($name:ident, [$($n:literal),+]) => {
-        #[kani::proof]
-        #[kani::unwind(35)]
-        fn $name() {
-            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
-            let stable: bool = kani::any();
-            match len {
-                $($n => { let _ = k13_route_fixed::<$n>(stable); },)+
-                _ => {}
-            }
-            $(
-                kani::cover(stable && len == $n, concat!("K13 stable default length ", stringify!($n)));
-                kani::cover(!stable && len == $n, concat!("K13 unstable fallback length ", stringify!($n)));
-            )+
-            kani::cover(true, "K13 route family: end reached");
-        }
-    };
-}
-
-macro_rules! k13_insertion_cases {
-    ($name:ident, [$($n:literal),+]) => {
-        #[kani::proof]
-        #[kani::unwind(35)]
-        fn $name() {
-            let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
-            match len {
-                $($n => { let _ = k13_insertion_fixed::<$n>(); },)+
-                _ => {}
-            }
-            $(kani::cover(len == $n, concat!("K13 insertion length ", stringify!($n)));)+
-            kani::cover(true, "K13 insertion family: end reached");
-        }
-    };
-}
-
-#[cfg(kani_smallsort_controls)]
-k13_route_cases!(k13_routes_0_8, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
-#[cfg(kani_smallsort_controls)]
-k13_route_cases!(k13_routes_9_16, [9, 10, 11, 12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
-k13_insertion_cases!(k13_insertion_1_10, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-#[cfg(kani_smallsort_controls)]
-k13_insertion_cases!(k13_insertion_11_20, [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
-
-/// Last-dispatch safety-only fallback: one allocation avoids duplicating the large permutation
-/// formulas for every constant length. Tags/keys remain full-width; no property assertions/stubs.
-/// Object-bound checks cover the full allocation of 20 Cells, not each shorter slice boundary.
-/// In particular, an access to v[len..20] would not be detected as an allocation overrun.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(35)]
-fn k13_safety_all() {
-    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
-    let mut v = k13_input::<20>();
-    k13_track_input(&v);
-    let mode: u8 = kani::any_where(|&m| m < 3);
-    let len: usize = kani::any_where(|&n| if mode < 2 { n <= 16 } else { 1 <= n && n <= 20 });
-    if mode == 0 {
-        let mut scratch = [];
-        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v[..len], &mut scratch, &mut k13_mutating_less);
-    } else if mode == 1 {
-        <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v[..len], &mut k13_mutating_less);
-    } else {
-        let offset: usize = kani::any_where(|&o| 1 <= o && o <= len);
-        super::super::insertion_sort_shift_left(&mut v[..len], offset, &mut k13_mutating_less);
-        kani::cover(offset == 1, "K13 safety insertion offset 1");
-        kani::cover(offset == len, "K13 safety insertion offset len");
-    }
-    macro_rules! routes {
-        ($($n:literal),+) => {$(
-            kani::cover(mode == 0 && len == $n, concat!("K13 safety stable ", stringify!($n)));
-            kani::cover(mode == 1 && len == $n, concat!("K13 safety unstable ", stringify!($n)));
-        )+};
-    }
-    macro_rules! insertion {
-        ($($n:literal),+) => {$(
-            kani::cover(mode == 2 && len == $n, concat!("K13 safety insertion ", stringify!($n)));
-        )+};
-    }
-    routes!(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-    insertion!(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-    kani::cover(true, "K13 full safety: end reached");
-}
-
-fn k13_small_fixed<const N: usize>(mode: u8) -> bool {
-    if mode < 2 { k13_route_fixed::<N>(mode == 0) } else { k13_insertion_fixed::<N>() }
-}
-
-/// Reduced permutation domain after all four broad families timed out in job 67.
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(35)]
-fn k13_small_permutation() {
-    let len: usize = kani::any_where(|&n| n <= 4);
-    let mode: u8 = kani::any_where(|&m| m < 3 && (len > 0 || m < 2));
-    let moved = match len {
-        0 => k13_route_fixed::<0>(mode == 0),
-        1 => k13_small_fixed::<1>(mode),
-        2 => k13_small_fixed::<2>(mode),
-        3 => k13_small_fixed::<3>(mode),
-        4 => k13_small_fixed::<4>(mode),
-        _ => false,
-    };
-    macro_rules! lengths {
-        ($($n:literal),+) => {$(
-            kani::cover(mode == 0 && len == $n, concat!("K13 permutation stable ", stringify!($n)));
-            kani::cover(mode == 1 && len == $n, concat!("K13 permutation unstable ", stringify!($n)));
-            kani::cover(mode == 2 && len == $n, concat!("K13 permutation insertion ", stringify!($n)));
-        )+};
-    }
-    // Length zero has no direct insertion call or offset.
-    kani::cover(mode == 0 && len == 0, "K13 permutation stable 0");
-    kani::cover(mode == 1 && len == 0, "K13 permutation unstable 0");
-    lengths!(1, 2, 3, 4);
-    kani::cover(mode == 0 && moved, "K13 stable actually moves a tag");
-    kani::cover(mode == 1 && moved, "K13 unstable actually moves a tag");
-    kani::cover(mode == 2 && moved, "K13 insertion actually moves a tag");
-    kani::cover(true, "K13 reduced permutation: end reached");
-}
-
 // ---------------------------------------------------------------------------------------------
-// Wave 2 priority 1. Variant A cuts only the explicit order-violation panic. All other
-// Kani checks remain active; no should_panic or verified-contract stubs are used.
+// These route checks stub only the explicit order-violation panic. The other assertions and
+// memory checks remain active, and no verified contracts replace the sort bodies.
 fn w2_cut_ord_violation() -> ! {
     kani::cover(true, "W2 variant A: order-violation stub reached");
     w2_assume_ord_violation()
@@ -1009,7 +185,7 @@ fn w2_assume_ord_violation() -> ! {
     unreachable!()
 }
 
-/// Control on a normal-return path, in this same module and with the same variant-A stub.
+/// Control showing that an assertion is reported after a normal return with the same panic stub.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
@@ -1022,7 +198,7 @@ fn w2_control_a_assertion() {
     assert!(v[0] != v[0]);
 }
 
-/// Reachability is through the real trait dispatch and real merge, not a direct stub call.
+/// Checks that the real trait dispatch and merge can return normally at length 18.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_cut_ord_violation)]
@@ -1034,8 +210,8 @@ fn w2_control_a_reachability() {
     kani::cover(true, "W2 control A: normal return also reachable");
 }
 
-/// Each branch owns an allocation of exactly N elements. Enter through the outer trait,
-/// including Freeze/Copy specialization; the CD-2 comparator and all sort bodies are real.
+/// Each instantiation owns an exact `[u64; N]` array and enters through the unstable trait route.
+/// Comparisons are unconstrained after readable accesses, and all sorting bodies remain real.
 fn w2_network_o1_fixed<const N: usize>() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; N] = kani::any();
@@ -1053,7 +229,10 @@ macro_rules! w2_network_o1_cases {
                 $($n => w2_network_o1_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("W2 O1-A network normal return at ", stringify!($n)));)+
+            $(kani::cover(
+                len == $n,
+                concat!("W2 O1-A network normal return at ", stringify!($n))
+            );)+
             kani::cover(true, "W2 O1-A network family: end reached");
         }
     };
@@ -1065,8 +244,8 @@ w2_network_o1_cases!(w2_network_o1_a_26_27, [26, 27]);
 w2_network_o1_cases!(w2_network_o1_a_28_29, [28, 29]);
 w2_network_o1_cases!(w2_network_o1_a_30_32, [30, 31, 32]);
 
-
-// K-16s: type matrix through actual trait entrypoints. Safety only; full-width inputs.
+// Type and length matrix through the actual stable and unstable trait entry points. Inputs use
+// their full element domains; these harnesses check safety and normal return, not sortedness.
 trait W2Value: Sized {
     fn w2_value() -> Self;
 }
@@ -1117,7 +296,7 @@ macro_rules! w2_type_cases {
     };
 }
 
-/// Control for the uninstrumented cut used by the short type-matrix proofs.
+/// Confirms an assertion remains visible after a normal return through the short route.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
@@ -1144,7 +323,7 @@ impl W2Value for u128 {
     fn w2_value() -> Self { kani::any() }
 }
 
-/// Both outer traits on one type and the same allowed lengths; cover every (route, N).
+/// Selects stable or unstable dispatch for each listed fixed array length and covers both routes.
 macro_rules! w2_type_pair_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
@@ -1161,8 +340,14 @@ macro_rules! w2_type_pair_cases {
                 _ => {}
             }
             $(
-                kani::cover(stable && len == $n, concat!("W2 K16s stable normal return at ", stringify!($n)));
-                kani::cover(!stable && len == $n, concat!("W2 K16s unstable normal return at ", stringify!($n)));
+                kani::cover(
+                    stable && len == $n,
+                    concat!("W2 K16s stable normal return at ", stringify!($n))
+                );
+                kani::cover(
+                    !stable && len == $n,
+                    concat!("W2 K16s unstable normal return at ", stringify!($n))
+                );
             )+
             kani::cover(true, "W2 K16s paired family: end reached");
         }
@@ -1174,8 +359,7 @@ w2_type_pair_cases!(w2_k16_u128_mid, u128, [15, 16, 17]);
 #[cfg(kani_smallsort_controls)]
 w2_type_pair_cases!(w2_k16_u128_hi, u128, [31, 32]);
 
-
-/// CD-5: the K16 template itself must expose an assertion after a normal merge return.
+/// Confirms an assertion remains visible after a normal return through a merge route.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, w2_assume_ord_violation)]
@@ -1187,7 +371,7 @@ fn w2_control_a_quiet_merge_assertion() {
     assert!(x != x);
 }
 
-/// One separately measured reachability proof per type and outer trait route with merge.
+/// Checks normal-return reachability for one type, trait route, and merge length.
 macro_rules! w2_type_reachability {
     ($name:ident, $t:ty, $stable:literal, $n:literal) => {
         #[kani::proof]
@@ -1252,14 +436,14 @@ impl W2Value for crate::cell::Cell<i32> {
     fn w2_value() -> Self { Self::new(kani::any()) }
 }
 
-// Cell is non-Freeze and non-Copy: both outer traits select their default insertion paths.
+// `Cell<i32>` is non-Freeze and non-Copy, so both trait entry points exercise default paths.
 w2_type_pair_cases!(w2_k16_cell_nonfreeze, crate::cell::Cell<i32>, [0, 1, 2, 15, 16]);
 
 impl W2Value for i32 {
     fn w2_value() -> Self { kani::any() }
 }
 
-// Freeze, Copy i32: both real trait entrypoints at the Cell matrix's lengths.
+// `i32` is Freeze and Copy; check both trait entry points at the same lengths as the Cell cases.
 w2_type_pair_cases!(w3_k16_i32_freeze, i32, [0, 1, 2, 15, 16]);
 
 w2_type_pair_cases!(w2_k16_a85_lo, [u8; 85], [0, 1, 2, 7, 8]);
@@ -1276,10 +460,8 @@ w2_type_cases!(w2_k16_a86_stable_n32, [u8; 86], true, [32]);
 w2_type_cases!(w2_k16_a86_fallback, [u8; 86], false, [0, 1, 2, 15, 16]);
 w2_type_reachability!(w2_k16_a86_stable_reach, [u8; 86], true, 17);
 
-// K-11s/B4. Plain proofs deliberately outside the old correctness contract's offset/length
-// domain. CI --no-assert-contracts is required; all insertion bodies are real.
-// A const offset at each real call avoids a symbolic initial raw pointer in the loop.
-// All valid offsets are still selected nondeterministically; guards discard only O > N.
+// Exercises insertion at every valid offset in exact `[u64; N]` arrays. Each match arm makes the
+// offset constant at the call site; all insertion bodies are real and no sorted prefix is assumed.
 fn w2_insertion_at<T, F: FnMut(&T, &T) -> bool, const O: usize>(v: &mut [T], cmp: &mut F) {
     super::super::insertion_sort_shift_left(v, O, cmp);
 }
@@ -1343,8 +525,8 @@ w2_insertion_safety_cases!(w2_k11s_11_15, [11, 12, 13, 14, 15]);
 #[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_16_20, [16, 17, 18, 19, 20]);
 
-// O3-s: safety only on exact allocations; no tag count, snapshots, input-base globals or
-// permutation assertions. The full Tagged input and both key writes follow K13's comparator.
+// Mutating comparisons overwrite both keys in tagged `Cell` values. These exact-length route and
+// insertion harnesses check memory safety and normal return without assuming a sorted prefix.
 fn w2_o3_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
     // SAFETY: both initialized Cell payloads must be readable before either write.
     let (left, right) = unsafe {
@@ -1354,7 +536,10 @@ fn w2_o3_mutating_less(a: &K13Cell, b: &K13Cell) -> bool {
     let right_key: u8 = kani::any();
     a.set(K13Tagged { key: left_key, tag: left.tag });
     b.set(K13Tagged { key: right_key, tag: right.tag });
-    kani::cover(left_key != left.key && right_key != right.key, "W2 O3 comparator changes both keys");
+    kani::cover(
+        left_key != left.key && right_key != right.key,
+        "W2 O3 comparator changes both keys"
+    );
     kani::any()
 }
 
@@ -1367,7 +552,11 @@ fn w2_o3_route_fixed<const N: usize>(stable: bool) {
     let mut v = w2_o3_input::<N>();
     if stable {
         let mut scratch = [];
-        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_o3_mutating_less);
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(
+            &mut v,
+            &mut scratch,
+            &mut w2_o3_mutating_less,
+        );
     } else {
         <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w2_o3_mutating_less);
     }
@@ -1385,8 +574,14 @@ macro_rules! w2_o3_route_cases {
                 _ => {}
             }
             $(
-                kani::cover(stable && len == $n, concat!("W2 O3 stable normal return at ", stringify!($n)));
-                kani::cover(!stable && len == $n, concat!("W2 O3 unstable normal return at ", stringify!($n)));
+                kani::cover(
+                    stable && len == $n,
+                    concat!("W2 O3 stable normal return at ", stringify!($n))
+                );
+                kani::cover(
+                    !stable && len == $n,
+                    concat!("W2 O3 unstable normal return at ", stringify!($n))
+                );
             )+
             kani::cover(true, "W2 O3 route family: end reached");
         }
@@ -1411,7 +606,10 @@ macro_rules! w2_o3_insertion_cases {
                 $($n => w2_o3_insertion_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("W2 O3 insertion normal return at ", stringify!($n)));)+
+            $(kani::cover(
+                len == $n,
+                concat!("W2 O3 insertion normal return at ", stringify!($n))
+            );)+
             kani::cover(true, "W2 O3 insertion family: end reached");
         }
     };
@@ -1428,7 +626,7 @@ w2_o3_insertion_cases!(w2_o3_insertion_11_15, [11, 12, 13, 14, 15]);
 #[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_16_20, [16, 17, 18, 19, 20]);
 
-// Final bounded split after the 11..15 O3 family returned unlocalized CBMC status 6.
+// Separate lengths into smaller groups so each symbolic offset is checked with a fixed allocation.
 w2_insertion_safety_cases!(w2_k11s_11_12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 w2_insertion_safety_cases!(w2_k11s_13_15, [13, 14, 15]);
@@ -1436,7 +634,7 @@ w2_o3_insertion_cases!(w2_o3_insertion_11_12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_13_15, [13, 14, 15]);
 
-// Prepared after job108 exceeded the 180s Linux target. NOT_RUN in W2 P1: dispatch24/24.
+// Exact single-length instances retain coverage for the larger insertion cases.
 w2_insertion_safety_cases!(w2_k11s_n13, [13]);
 w2_insertion_safety_cases!(w2_k11s_n14, [14]);
 #[cfg(kani_smallsort_controls)]
@@ -1446,8 +644,8 @@ w2_o3_insertion_cases!(w2_o3_insertion_n14, [14]);
 #[cfg(kani_smallsort_controls)]
 w2_o3_insertion_cases!(w2_o3_insertion_n15, [15]);
 
-// Wave 2 priority 2, CD-6 step 1. Actual caller domain for the remaining B4 lengths:
-// one exact allocation and the constant offset 1 in each independent plain proof.
+// Exact-length cases check the actual offset-one insertion call for both ordinary and mutating
+// Cell comparators. The array itself supplies the bounds for the real insertion body.
 macro_rules! w2p2_b4_offset_one {
     ($plain:ident, $cell:ident, $n:literal) => {
         #[kani::proof]
@@ -1479,9 +677,8 @@ w2p2_b4_offset_one!(w2p2_b4_u64_n19, w2p2_b4_cell_n19, 19);
 #[cfg(kani_smallsort_controls)]
 w2p2_b4_offset_one!(w2p2_b4_u64_n20, w2p2_b4_cell_n20, 20);
 
-// W3 L1-5: split the entire insertion-offset domain into small disjoint groups.
-// Each harness owns one exact allocation; only the listed constant-offset calls
-// are instantiated. No sorted-prefix assumption and no verified or manual stubs.
+// The groups partition all valid offsets for each exact array length. Each listed offset becomes a
+// constant call-site value; comparisons are unconstrained and no sorted-prefix contract is assumed.
 macro_rules! w3_insertion_group {
     ($plain:ident, $cell:ident, $n:literal, [$($o:literal),+]) => {
         #[kani::proof]
@@ -1543,7 +740,8 @@ w3_insertion_group!(w3_b4_n20_g3, w3_o3_n20_g3, 20, [9, 10, 11, 12]);
 w3_insertion_group!(w3_b4_n20_g4, w3_o3_n20_g4, 20, [13, 14, 15, 16]);
 w3_insertion_group!(w3_b4_n20_g5, w3_o3_n20_g5, 20, [17, 18, 19, 20]);
 
-// K-10 network correctness: full-width values, a pure strict total order, actual outer trait.
+// Full-width `u8`, `u64`, or `u128` arrays enter through the unstable trait with a strict total
+// order. The checks assert sortedness and use probe counts to establish permutation.
 fn w2p2_strict_less<T: Ord>(a: &T, b: &T) -> bool { a < b }
 
 fn w2p2_k10_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
@@ -1594,8 +792,8 @@ w2p2_k10_cases!(w2p2_k10_u64_n7, u64, [7]);
 w2p2_k10_cases!(w2p2_k10_u8_n8, u8, [8]);
 w2p2_k10_cases!(w2p2_k10_u64_n8, u64, [8]);
 
-// K-9s: the existing exact two-cell compare-exchange contract, every C3 representation.
-// No verified stubs are used here; each proof checks the real swap_if_less body.
+// Exact two-element compare-exchange contract checks use the real body across the listed element
+// representations. The contract supplies its own bounds and distinct-index preconditions.
 impl W2Value for u64 {
     fn w2_value() -> Self { kani::any() }
 }
@@ -1638,7 +836,8 @@ macro_rules! w2p2_k9s_case {
     };
 }
 
-// Contract instrumentation on this ZST reports an unsupported unallocated pointer.
+// This zero-sized-type case is control-only because contract instrumentation does not support its
+// unallocated pointer representation.
 #[cfg(kani_smallsort_controls)]
 w2p2_k9s_case!(w2p2_k9s_zst, (), w2p2_zst_less);
 w2p2_k9s_case!(w2p2_k9s_u8, u8, w2p2_strict_less::<u8>);
@@ -1651,15 +850,13 @@ w2p2_k9s_case!(w2p2_k9s_a86, [u8; 86], w2p2_array_key_less::<86>);
 w2p2_k9s_case!(w2p2_k9s_drop, W2Drop, w2p2_drop_less);
 w2p2_k9s_case!(w2p2_k9s_cell, crate::cell::Cell<i32>, w2p2_cell_less);
 
-
 w2p2_k10_cases!(w2p2_k10_u8_n9, u8, [9]);
 w2p2_k10_cases!(w2p2_k10_u64_n9, u64, [9]);
 w2p2_k10_cases!(w2p2_k10_u8_n10, u8, [10]);
 w2p2_k10_cases!(w2p2_k10_u64_n10, u64, [10]);
 
-
 /// Full-value permutation of the real insertion suffix, independent of ordering. An arbitrary
-/// read-only comparison result includes every sequence produced by K10's pure strict comparator.
+/// read-only comparison result includes every sequence produced by the pure strict comparator.
 /// No sorted-prefix assumption: all possible network outputs are included in this larger domain.
 fn w2p2_k10_insertion_perm_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>() {
     let mut v: [T; N] = kani::any();
@@ -1698,24 +895,25 @@ w2p2_k10_cases!(w2p2_k10_u64_n12, u64, [12]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n12, u8, 12);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n12, u64, 12);
 
-// Night K-10 continuation: exact sort13 width; insertion at offset 13 is a no-op.
+// Exact sort13-width arrays check the sort route where insertion begins at the array end.
 w2p2_k10_cases!(w2p2_k10_u8_n13, u8, [13]);
 w2p2_k10_cases!(w2p2_k10_u64_n13, u64, [13]);
 
-// Night K-10: one real insertion after sort13, with separate sortedness/permutation proofs.
+// Length-14 arrays check one real insertion after sort13, with sortedness and permutation checked
+// by separate harnesses.
 w2p2_k10_cases!(w2p2_k10_u8_n14, u8, [14]);
 w2p2_k10_cases!(w2p2_k10_u64_n14, u64, [14]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n14, u8, 14);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n14, u64, 14);
 
-// Night K-10: two insertions after sort13; full-width real bodies, split properties.
+// Length-15 arrays check two real insertions after sort13 using full-width values.
 w2p2_k10_cases!(w2p2_k10_u8_n15, u8, [15]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n15, u64, [15]);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n15, u8, 15);
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n15, u64, 15);
 
-// Night K-10 N16: exact arrays, real sort13 plus three insertions.
+// Length-16 arrays check sort13 followed by three real insertions.
 w2p2_k10_cases!(w2p2_k10_u8_n16, u8, [16]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n16, u64, [16]);
@@ -1724,7 +922,7 @@ w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n16, u8, 16);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n16, u64, 16);
 
-// Night K-10 final width: real sort13 plus four insertions, split properties.
+// Length-17 arrays check sort13 followed by four real insertions.
 w2p2_k10_cases!(w2p2_k10_u8_n17, u8, [17]);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_cases!(w2p2_k10_u64_n17, u64, [17]);
@@ -1733,8 +931,8 @@ w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u8_n17, u8, 17);
 #[cfg(kani_smallsort_controls)]
 w2p2_k10_insertion_perm_case!(w2p2_k10_perm_u64_n17, u64, 17);
 
-// W3 L1-4 K-9s: all distinct symbolic positions in an exact N-element allocation.
-// The comparator is exactly the pure strict order used by K-10, including its function item.
+// Contract checks choose any two distinct positions in exact arrays of lengths 9 through 17.
+// The comparator is the same strict total order used by the network correctness harnesses.
 fn w3_k9s_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     const { assert!(N >= 9 && N <= 17) };
     let mut v: [T; N] = kani::any();
@@ -1757,7 +955,10 @@ fn w3_k9s_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     kani::cover(a == N - 1 && b == 0, "K9s symbolic indices: last to first");
     kani::cover(a > 0 && a < N - 1 && b > 0 && b < N - 1, "K9s symbolic indices: interior pair");
     let network_last = if N >= 13 { 12 } else { 8 };
-    kani::cover(a == network_last || b == network_last, "K9s symbolic indices: network final position");
+    kani::cover(
+        a == network_last || b == network_last,
+        "K9s symbolic indices: network final position"
+    );
     kani::cover(taken, "K9s symbolic indices: swap branch");
     kani::cover(!taken, "K9s symbolic indices: no-swap branch");
     kani::cover(true, "K9s symbolic indices: end reached");
@@ -1802,8 +1003,8 @@ w3_k9s_case!(w3_k9s_u64_n14, u64, 14);
 w3_k9s_case!(w3_k9s_u64_n15, u64, 15);
 w3_k9s_case!(w3_k9s_u64_n16, u64, 16);
 
-// Night K-8r: fixed nonzero begin offsets inside [u64;17], all valid tail positions.
-// Contract preconditions (including sorted [begin, tail)) are supplied by proof_for_contract.
+// Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
+// `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
 fn w2night_k8r_start<const START: usize>() -> usize {
     set_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
@@ -1824,14 +1025,17 @@ fn w2night_k8r_start<const START: usize>() -> usize {
     tail
 }
 
-// List only possible tails: Kani registers even covers in a constant-false branch.
+// Enumerate possible tail positions so each contract-backed interior region has a cover.
 macro_rules! w2night_k8r_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
         #[kani::unwind(25)]
         fn $name() {
             let tail = w2night_k8r_start::<$start>();
-            $(kani::cover(tail == $end, concat!("K8r: tail ", stringify!($end), " with requires satisfied"));)+
+            $(kani::cover(
+                tail == $end,
+                concat!("K8r: tail ", stringify!($end), " with requires satisfied")
+            );)+
         }
     };
 }
@@ -1852,8 +1056,8 @@ w2night_k8r_case!(w2night_k8r_start3_u64, 3, [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 
 w2night_k8r_case!(w2night_k8r_start2_u64, 2, [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 w2night_k8r_case!(w2night_k8r_start1_u64, 1, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
-// Night O3: tag permutation under key-writing Cell comparisons, one constant length per proof.
-// Ordinary proofs use real bodies and CI --no-assert-contracts; no sorted-prefix assumption.
+// At lengths 2 through 4, checks tag multiplicities after stable, unstable, or insertion routes
+// whose comparator may rewrite keys. No ordering precondition is assumed.
 fn w2night_o3_tags<const N: usize>() -> (u8, usize) {
     use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
     let mut v = w2_o3_input::<N>();
@@ -1864,7 +1068,11 @@ fn w2night_o3_tags<const N: usize>() -> (u8, usize) {
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
     if mode == 0 {
         let mut scratch = [];
-        <K13Cell as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut w2_o3_mutating_less);
+        <K13Cell as StableSmallSortTypeImpl>::small_sort(
+            &mut v,
+            &mut scratch,
+            &mut w2_o3_mutating_less,
+        );
     } else if mode == 1 {
         <K13Cell as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut w2_o3_mutating_less);
     } else {
@@ -1885,7 +1093,10 @@ macro_rules! w2night_o3_tags_case {
         #[kani::unwind(25)]
         fn $name() {
             let (mode, offset) = w2night_o3_tags::<$n>();
-            $(kani::cover(mode == 2 && offset == $offset, concat!("O3: insertion normal return offset ", stringify!($offset)));)+
+            $(kani::cover(
+                mode == 2 && offset == $offset,
+                concat!("O3: insertion normal return offset ", stringify!($offset))
+            );)+
         }
     };
 }
@@ -1894,8 +1105,7 @@ w2night_o3_tags_case!(w2night_o3_tags_n2, 2, [1, 2]);
 w2night_o3_tags_case!(w2night_o3_tags_n3, 3, [1, 2, 3]);
 w2night_o3_tags_case!(w2night_o3_tags_n4, 4, [1, 2, 3, 4]);
 
-
-// K-15 controls on previously accepted K10 harnesses, preserving their exact inputs/checks.
+// Negative control applies the one-change network copy to the same exact input and assertions.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(25)]

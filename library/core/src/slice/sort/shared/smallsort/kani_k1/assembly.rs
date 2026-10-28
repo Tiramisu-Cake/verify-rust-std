@@ -1,13 +1,13 @@
-//! Stage B CI witnesses and K-15 paired mutation controls.
-//! Positive/negative pairs pass either the real body or its one-change copy to one check helper.
+//! Small fixed-size checks for compare-exchange, insertion, merge, and stable ZST routes.
+//! Paired controls apply one-change copies to the same inputs and properties as real bodies.
 
+use crate::kani;
+use crate::mem::MaybeUninit;
+use crate::ptr;
 use super::super::{
     StableSmallSortTypeImpl, bidirectional_merge, insert_tail, merge_up, small_sort_network,
     swap_if_less,
 };
-use crate::kani;
-use crate::mem::MaybeUninit;
-use crate::ptr;
 
 fn strict_less(a: &u8, b: &u8) -> bool {
     // SAFETY: both arguments must be initialized and readable before comparison.
@@ -15,7 +15,7 @@ fn strict_less(a: &u8, b: &u8) -> bool {
 }
 
 fn cut_ord_violation() -> ! {
-    // Variant A: cut only the explicit order-violation panic; cover normal returns below.
+    // The panic stub cuts only the explicit order-violation path; normal returns are covered below.
     kani::assume(false);
     unreachable!()
 }
@@ -84,9 +84,8 @@ fn check_merge_consumption(call: impl FnOnce(&[u8; 4], *mut u8)) {
     let src: [u8; 4] = kani::any();
     let probe: u8 = kani::any();
     let mut dst = MaybeUninit::<[u8; 4]>::uninit();
-    // SAFETY: separate initialized source and writable destination, len >= 2, u8 is Freeze.
-    // No sortedness is assumed: this is the real-body safety/permutation claim for arbitrary
-    // comparators, under the organizers' --no-assert-contracts, as in W2 variant A.
+    // SAFETY: source has four initialized `u8` elements and destination has room for four writes.
+    // No sortedness is assumed; this checks the real merge body with an arbitrary comparator.
     call(&src, dst.as_mut_ptr().cast());
     // SAFETY: both merge directions wrote two output elements on normal return.
     let result = unsafe { dst.assume_init() };
@@ -95,8 +94,8 @@ fn check_merge_consumption(call: impl FnOnce(&[u8; 4], *mut u8)) {
 }
 
 fn check_presorted_len(call: impl FnOnce(&mut [u8; 10])) {
-    // Deterministic regression: the network sorts its first 9 values, then insertion must
-    // consume index 9. Reporting presorted_len=10 silently skips this zero.
+    // The first nine values are sorted, so insertion must consume index 9 and move its zero to
+    // the front. This catches a presorted length that incorrectly skips that element.
     let mut v = [1u8, 1, 1, 1, 1, 1, 1, 1, 1, 0];
     call(&mut v);
     assert!(v[0] == 0 && v[9] == 1);
@@ -122,23 +121,54 @@ macro_rules! paired_case {
     };
 }
 
-// All calls below have the safety preconditions established by the shared check helpers.
-// Direct calls avoid Kani pin 9461e07a's missing-contract-closure error on ordinary stubs.
-paired_case!(k15_swap, k15_mutant_swap, check_swap,
+// The shared helpers establish each call's valid pointers, initialized values, and region lengths.
+paired_case!(
+    k15_swap,
+    k15_mutant_swap,
+    check_swap,
     |v: &mut [u8; 2]| unsafe { swap_if_less(v.as_mut_ptr(), 0, 1, &mut strict_less) },
-    |v: &mut [u8; 2]| unsafe { super::mutations::mutant_swap_if_less(v.as_mut_ptr(), 0, 1, &mut strict_less) });
-paired_case!(k15_insert, k15_mutant_insert, check_insert,
-    |v: &mut [u8; 2]| unsafe { insert_tail(v.as_mut_ptr(), v.as_mut_ptr().add(1), &mut strict_less) },
-    |v: &mut [u8; 2]| unsafe { super::mutations::mutant_insert_tail(v.as_mut_ptr(), v.as_mut_ptr().add(1), &mut strict_less) });
-paired_case!(k15_merge_up, k15_mutant_merge_up, check_merge_up,
+    |v: &mut [u8; 2]| unsafe {
+        super::mutations::mutant_swap_if_less(v.as_mut_ptr(), 0, 1, &mut strict_less)
+    }
+);
+paired_case!(
+    k15_insert,
+    k15_mutant_insert,
+    check_insert,
+    |v: &mut [u8; 2]| unsafe {
+        insert_tail(v.as_mut_ptr(), v.as_mut_ptr().add(1), &mut strict_less)
+    },
+    |v: &mut [u8; 2]| unsafe {
+        super::mutations::mutant_insert_tail(
+            v.as_mut_ptr(),
+            v.as_mut_ptr().add(1),
+            &mut strict_less,
+        )
+    }
+);
+paired_case!(
+    k15_merge_up,
+    k15_mutant_merge_up,
+    check_merge_up,
     |l, r, d| unsafe { merge_up(l, r, d, &mut strict_less) },
-    |l, r, d| unsafe { super::mutations::mutant_merge_up(l, r, d, &mut strict_less) });
-paired_case!(k15_merge_consumption, k15_mutant_merge_consumption, check_merge_consumption,
+    |l, r, d| unsafe { super::mutations::mutant_merge_up(l, r, d, &mut strict_less) }
+);
+paired_case!(
+    k15_merge_consumption,
+    k15_mutant_merge_consumption,
+    check_merge_consumption,
     |v: &[u8; 4], d| unsafe { bidirectional_merge(v, d, &mut arbitrary_less) },
-    |v: &[u8; 4], d| unsafe { super::mutations::mutant_bidirectional_merge(v, d, &mut arbitrary_less) });
-paired_case!(k15_presorted_len, k15_mutant_presorted_len, check_presorted_len,
+    |v: &[u8; 4], d| unsafe {
+        super::mutations::mutant_bidirectional_merge(v, d, &mut arbitrary_less)
+    }
+);
+paired_case!(
+    k15_presorted_len,
+    k15_mutant_presorted_len,
+    check_presorted_len,
     |v: &mut [u8; 10]| small_sort_network(v, &mut strict_less),
-    |v: &mut [u8; 10]| super::mutations::mutant_small_sort_network(v, &mut strict_less));
+    |v: &mut [u8; 10]| super::mutations::mutant_small_sort_network(v, &mut strict_less)
+);
 
 macro_rules! zst_ci_case {
     ($name:ident, $n:literal) => {

@@ -377,14 +377,17 @@ where
 /// types. `is_less` could be a huge function and we want to give the compiler an option to
 /// not inline this function. For the same reasons that this function is very perf critical
 /// it should be in the same module as the functions that use it.
-// K-1 contract (EXPERIMENT.md): both positions in-bounds of `v_base`'s allocation, readable and
+// Contract: both positions in-bounds of `v_base`'s allocation, readable and
 // writable, as the SAFETY comment below demands; distinct, as at every call site. `old(e)` expands
 // to `e.clone()`, so the pre-state is kept in a local bitwise-clone snapshot instead of `old(*p)`.
 // The comparator decision is recorded in the pre-state, so no `FnMut` call is needed in `ensures`.
 #[cfg_attr(kani, kani::requires(a_pos != b_pos))]
 #[cfg_attr(kani, kani::requires(
     crate::ub_checks::same_allocation(v_base as *const T, v_base.wrapping_add(a_pos) as *const T)
-        && crate::ub_checks::same_allocation(v_base as *const T, v_base.wrapping_add(b_pos) as *const T)
+        && crate::ub_checks::same_allocation(
+            v_base as *const T,
+            v_base.wrapping_add(b_pos) as *const T,
+        )
         && crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos) as *const T)
         && crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos) as *const T)
         && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
@@ -418,7 +421,11 @@ where
     });
     // SAFETY: the preconditions make both positions readable.
     let (new_a, new_b) = unsafe { (&*v_base.add(a_pos), &*v_base.add(b_pos)) };
-    if pre.2 { same(new_a, &*pre.1) && same(new_b, &*pre.0) } else { same(new_a, &*pre.0) && same(new_b, &*pre.1) }
+    if pre.2 {
+        same(new_a, &*pre.1) && same(new_b, &*pre.0)
+    } else {
+        same(new_a, &*pre.0) && same(new_b, &*pre.1)
+    }
 }))]
 // Probe: a post-state comparator call through a raw pointer taken in the pre-state.
 #[cfg_attr(kani, kani::ensures(|_| {
@@ -466,16 +473,19 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
-// K-1 contract (EXPERIMENT.md): on return `v[..9]` is sorted by `is_less` and the number of its
-// elements bytewise equal to K1-merge's global probe value is unchanged (the probe scheme of
+// Contract: on return `v[..9]` is sorted by `is_less` and the number of its
+// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
 // `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
 // equality). Only `usize` counts go through `old()`.
 // Preconditions: the body's `len >= 9`, and `len <= 17` as at every network call site.
 #[cfg_attr(kani, kani::requires(v.len() >= 9 && v.len() <= 17))]
 #[cfg_attr(kani, kani::modifies(&v[..9]))]
-// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 9, &is_less)
-    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)))]
+// One `ensures` keeps both observations within a single borrow of `v`.
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 9, &is_less)
+        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 9))
+            == CopyOnDrop::<T>::k1_count(v.as_ptr(), 9)
+))]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -525,16 +535,19 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
-// K-1 contract (EXPERIMENT.md): on return `v[..13]` is sorted by `is_less` and the number of its
-// elements bytewise equal to K1-merge's global probe value is unchanged (the probe scheme of
+// Contract: on return `v[..13]` is sorted by `is_less` and the number of its
+// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
 // `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
 // equality). Only `usize` counts go through `old()`.
 // Preconditions: the body's `len >= 13`, and `len <= 17` as at every network call site.
 #[cfg_attr(kani, kani::requires(v.len() >= 13 && v.len() <= 17))]
 #[cfg_attr(kani, kani::modifies(&v[..13]))]
-// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 13, &is_less)
-    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)) == CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)))]
+// One `ensures` keeps both observations within a single borrow of `v`.
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), 13, &is_less)
+        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), 13))
+            == CopyOnDrop::<T>::k1_count(v.as_ptr(), 13)
+))]
 fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -602,12 +615,22 @@ where
 ///
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
-// K-1 contract (K1-merge). Caller guarantees from the SAFETY doc above plus the real call sites:
-// `[begin, tail)` is sorted by `is_less` (insertion_sort_shift_left, small_sort_general_with_scratch).
+// Contract: safety conditions above plus the sorted-prefix invariant at insertion call sites.
+// `[begin, tail)` is sorted by `is_less`; no arbitrary-comparator correctness claim is made.
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_tail_pre(begin, tail, &is_less)))]
-#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| old(CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))) == CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(
+    begin,
+    CopyOnDrop::<T>::k1_tail_len(begin, tail),
+)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(
+    begin,
+    CopyOnDrop::<T>::k1_tail_len(begin, tail),
+    &is_less,
+)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    old(CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail)))
+        == CopyOnDrop::<T>::k1_count(begin, CopyOnDrop::<T>::k1_tail_len(begin, tail))
+))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {
@@ -646,18 +669,24 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 }
 
 /// Sort `v` assuming `v[..offset]` is already sorted.
-// K-1 contract (EXPERIMENT.md): on return `v` is sorted by `is_less` and the number of its
-// elements bytewise equal to K1-merge's global probe value is unchanged (the probe scheme of
+// Contract: on return `v` is sorted by `is_less` and the number of its
+// elements bytewise equal to the verification probe value is unchanged (the probe scheme of
 // `kani_k1/merge.rs`: a harness sets the probe to an arbitrary value first, so this is multiset
 // equality). Only `usize` counts go through `old()`.
 // Preconditions: the network call site exactly (`2 <= len <= 17`, `offset` is 13, 9 or 1 by `len`)
 // and the body's `v[..offset]` sorted.
-#[cfg_attr(kani, kani::requires(2 <= v.len() && v.len() <= 17 && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }))]
+#[cfg_attr(kani, kani::requires(
+    2 <= v.len() && v.len() <= 17
+        && offset == if v.len() >= 13 { 13 } else if v.len() >= 9 { 9 } else { 1 }
+))]
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sorted(v.as_ptr(), offset, &is_less)))]
 #[cfg_attr(kani, kani::modifies(v))]
-// One `ensures`: two clauses on `v: &mut [T]` fail to borrow-check (E0502, job 13).
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)
-    && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())) == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())))]
+// One `ensures` keeps both observations within a single borrow of `v`.
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_sorted(v.as_ptr(), v.len(), &is_less)
+        && old(CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len()))
+            == CopyOnDrop::<T>::k1_count(v.as_ptr(), v.len())
+))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,
@@ -690,12 +719,14 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
 
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
-// K-1 contract (K1-merge), from the SAFETY doc above; non-overlap of source and destination holds at
+// Contract: safety conditions above; source and destination are disjoint at
 // every call site (sort8_stable, small_sort_general_with_scratch: `v` and `scratch` are distinct).
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort4_pre(v_base, dst)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 4, &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v_base, 4) == CopyOnDrop::<T>::k1_count(dst, 4)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_count(v_base, 4) == CopyOnDrop::<T>::k1_count(dst, 4)
+))]
 pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
     v_base: *const T,
     dst: *mut T,
@@ -747,13 +778,15 @@ pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and
 /// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will
 /// be stored in `dst[0..8]`.
-// K-1 contract (K1-merge), from the SAFETY doc above; the three regions are pairwise disjoint at both
+// Contract: safety conditions above; the three regions are pairwise disjoint at both
 // call sites in small_sort_general_with_scratch.
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_sort8_pre(v_base, dst, scratch_base)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 8)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(scratch_base, 8)))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted(dst, 8, &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count(v_base, 8) == CopyOnDrop::<T>::k1_count(dst, 8)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_count(v_base, 8) == CopyOnDrop::<T>::k1_count(dst, 8)
+))]
 unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v_base: *mut T,
     dst: *mut T,
@@ -851,7 +884,7 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 ///
 /// Note that T must be Freeze, the comparison function is evaluated on outdated
 /// temporary 'copies' that may not end up in the final array.
-// K-1 contract (K1-merge). Requires = the `# Safety` section above plus the documented input shape
+// Contract: safety conditions above plus the documented input shape
 // "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
 // harness comparators (see kani_k1/merge.rs). `v.len() <= 32` holds at every call site
 // (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
@@ -861,7 +894,9 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 #[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::k1_merge_halves_sorted(v, &is_less)))]
 #[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 #[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_sorted_u(dst, v.len(), &is_less)))]
-#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())))]
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::k1_count_u(v.as_ptr(), v.len()) == CopyOnDrop::<T>::k1_count_u(dst, v.len())
+))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -971,8 +1006,7 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
     size_of::<T>() <= 8 // size_of::<u64>()
 }
 
-// Kani K-1 experiment (Challenge 8 minimal plan): verification-only harnesses, compiled only under
-// `cfg(kani)`. See research/challenge-8/kani-k1/EXPERIMENT.md.
+// Bounded SmallSort verification; contracts and harnesses are isolated from ordinary Rust builds.
 #[cfg(kani)]
 use crate::kani;
 #[cfg(kani)]

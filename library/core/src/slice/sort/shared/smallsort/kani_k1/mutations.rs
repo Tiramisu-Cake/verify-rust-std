@@ -1,9 +1,14 @@
-//! K-15 negative controls: runtime-body copies, enabled only by kani_smallsort_controls.
-//! Each copy differs only at its marked mutation; runtime std is untouched.
+//! One-change copies of sort helpers used by opt-in negative controls.
+//! The mutations expose whether the corresponding harness detects the changed behavior.
 
 use super::super::*;
 
-pub(super) unsafe fn mutant_swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
+pub(super) unsafe fn mutant_swap_if_less<T, F>(
+    v_base: *mut T,
+    a_pos: usize,
+    b_pos: usize,
+    is_less: &mut F,
+)
 where
     F: FnMut(&T, &T) -> bool,
 {
@@ -13,11 +18,11 @@ where
         let v_a = v_base.add(a_pos);
         let v_b = v_base.add(b_pos);
 
-        // PANIC SAFETY: if is_less panics, no scratch memory was created and the slice should still be
-        // in a well defined state, without duplicates.
+        // PANIC SAFETY: if is_less panics, no scratch memory was created and the slice should still
+        // be in a well-defined state, without duplicates.
 
-        // Important to only swap if it is more and not if it is equal. is_less should return false for
-        // equal, so we don't swap.
+        // Swap only when the elements are out of order. Equal elements produce false from is_less
+        // and are left in place.
         let should_swap = !is_less(&*v_b, &*v_a);
 
         // This is a branchless version of swap if.
@@ -37,7 +42,11 @@ where
     }
 }
 
-pub(super) unsafe fn mutant_insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
+pub(super) unsafe fn mutant_insert_tail<T, F: FnMut(&T, &T) -> bool>(
+    begin: *mut T,
+    tail: *mut T,
+    is_less: &mut F,
+) {
     // SAFETY: see individual comments.
     unsafe {
         // SAFETY: in-bounds as tail > begin.
@@ -52,7 +61,11 @@ pub(super) unsafe fn mutant_insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut
         // the correct insertion position, gap_guard ensures the element is moved
         // back into the array.
         let tmp = ManuallyDrop::new(tail.read());
-        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };
+        let mut gap_guard = CopyOnDrop {
+            src: &*tmp,
+            dst: tail,
+            len: 1,
+        };
 
         loop {
             // SAFETY: we move sift into the gap (which is valid), and point the
