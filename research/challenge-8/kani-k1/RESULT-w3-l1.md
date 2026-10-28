@@ -1800,3 +1800,60 @@ REVIEW REQUEST 02e253d1850fbde497e7d652179c6757864515e4
 - Открытых review/lane requests нет. Итоговый push обычный,без force.
 
 W3-L1 ЗАВЕРШЁН
+
+
+## Этап D — интеграция L2-2
+
+Вход C: `16d50876`, маркер W3-L1 ЗАВЕРШЁН сохранён выше как история.
+Задание D прочитано с базы `d5dc2c5fbf0da8210022112de12d25dce923934f`;
+эта база влита без конфликтов. Новый BASE check-tooling:
+`d5dc2c5fbf0da8210022112de12d25dce923934f`.
+L2 source: `daf8d13ef1ec9ba67549727ce1fd08fda50d7dd1`, итог B и список
+«Что координатор переносит в набор L1». macOS C: report `41659f9f`,
+run `40603213401`; его область не распространяется на интеграцию D.
+Доля D $1,50, новых Linux-партиций на Cloud Build не будет;
+финальная матрица ubuntu+macOS — отдельный запуск координатора.
+
+Перенесён **только** `correct.rs` из daf8d13e целиком без правок,
+добавлен `mod correct;`. Всего 21 обычная гармоника: 17 fallback caller
+(u64 N8..16, u8 N9..16), GS u8 N14/N15 и supporting prefix/scratch u8.
+Все controls/solver sweeps/непринятые опыты в файле сохранили исходный cfg.
+Tagged / K1MergePerm / k1_merge_matches и новый bm контракт не переносились.
+Экземпляр шаблона `8e499dcd` (fallback), `96cbf2d3` (GS/scratch);
+основания L2 и GO не заменяются новой proof-логикой.
+
+### Сверка зависимостей с L2 source
+
+Выполнено `git diff daf8d13e --` для следующих путей относительно
+`library/core/src/slice/sort/shared/`:
+
+| Файл | Фактический diff / вывод |
+|---|---|
+| `smallsort.rs` | Пусто: весь файл побайтно равен L2, включая insert_tail requires/modifies/ensures и прежний bidirectional_merge count_u contract. |
+| `smallsort/kani_k1/merge.rs` | 299 строк diff, +131/-168: прежние W3 cfg, удаление should_panic, L1-3 sort4. Все helpers от начала файла до Phase 1 probe побайтно равны (set_probe, K1Probe, counts, sorted/region, lt_u8/lt_u64, bm_len, insert_tail_len). Макрос w2p2_bm_fixed и вызовы u8 N14/N15 тождественны. |
+| `smallsort/kani_k1/network.rs` | 266 строк diff, +233/-33: прежние W3 cfg, L1-4 K9s, L1-5 группы, i32, ZST comparator и K15. Макрос check_insert_tail_net, full proofs u8/u64 и prefix u64 совпадают после исключения только внешнего cfg гармоник. |
+| `smallsort/kani_k1/correct.rs` | `git diff daf8d13e -- <file>` пусто, blob совпадает. |
+
+Просмотрены полные diff обоих helper-модулей через git (не чужие PR).
+Proof-значимых различий используемых контрактов, requires/ensures,
+comparator, helpers, доменов и supporting proof bodies не найдено.
+Исторические full/prefix proof в network уже были под controls после B:
+их тела и доказанные инстанциации сохранены; здесь cfg не меняется.
+Это не повторная проверка этих исторических доказательств.
+D-B4 аналитический перенос bm на prefix scratch48 не превращается
+в отдельный машинный scratch48 merge proof; R4 границы сохранены.
+
+### Интеграционный запрос 019
+
+`measurement`, runner `gcb-e2-standard-4`, 3×10 мин, jobs1,
+controls/uninit выключены. Ожидается SUCCESS для:
+`correct::l2_fallback_u64_n8`, `correct::l2_fallback_u8_n9`, `smoke::ok`.
+Цель — компиляция всего включённого набора и совпадение статусов;
+это не полная проверка 21 новых гармоник и не замер финального CI.
+Консервативный резерв (30+30)×0,0135 = $0,81 < $1,50.
+Request validator: 3 harness(es) accepted. Локальные Kani/rustc/cargo
+не запускались; runtime/lane файлы не менялись, diff --check пройден.
+Статусы/фактическая стоимость будут записаны после штатной summary.
+
+Перед dispatch019: k1g.sh budget — builds58, used$36,0555,
+reserved$0,0000, cap$43,96; личный расход D пока$0, резерв$0,81.
