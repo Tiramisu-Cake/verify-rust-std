@@ -35,3 +35,4 @@ mod merge;
 mod mutations;
 mod network;
 mod smoke;
+mod types;
