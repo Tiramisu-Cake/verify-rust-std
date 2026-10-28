@@ -82,7 +82,8 @@
     "harnesses": 6,
     "jobs": 1,
     "timeout_min": 10,
-    "maximum_charge_usd": 1.215
+    "maximum_charge_usd": 1.215,
+    "decision": "cancel requested: repeated full std inventory consumed about49min, prioritize complete performance screen"
   },
   {
     "label": "kissat-partitions-pilot",
@@ -91,7 +92,8 @@
     "harnesses": 10,
     "jobs": 1,
     "timeout_min": 2,
-    "maximum_charge_usd": 0.675
+    "maximum_charge_usd": 0.675,
+    "decision": "cancel requested: repeated full std inventory consumed about49min, prioritize complete performance screen"
   },
   {
     "label": "screen-1of6",
@@ -109,7 +111,9 @@
     "harnesses": 65,
     "jobs": 1,
     "timeout_min": 2,
-    "maximum_charge_usd": 2.16
+    "maximum_charge_usd": 2.16,
+    "terminal_status": "EXPIRED",
+    "decision": "retry same 65 domains; no proof evidence from expired queue"
   },
   {
     "label": "screen-3of6",
