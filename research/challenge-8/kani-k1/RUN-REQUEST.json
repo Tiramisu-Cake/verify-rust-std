@@ -1,19 +1,20 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "k5-a-default-form",
+  "request_id": "k5-b-reduced-default-form",
   "agent": "k1-network",
   "kind": "measurement",
-  "purpose": "K5 A: true postcondition and modifies(v) on unstable default impl; qualified u64 and !Freeze Cell proof paths, no specification helpers",
+  "purpose": "K5 B: exact 38-line reduced specialized trait default contract plus free control; all actual SmallSort attributes removed",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::k5::form_u64",
+      "name": "slice::sort::shared::smallsort::verify::k5::reduced::default_form",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::k5::form_cell",
+      "name": "slice::sort::shared::smallsort::verify::k5::reduced::free_form",
       "expect": "SUCCESS"
     }
-  ]
+  ],
+  "controls": true
 }

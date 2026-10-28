@@ -79,14 +79,10 @@ impl<T> UnstableSmallSortTypeImpl for T {
     }
 
     #[inline(always)]
-    #[cfg_attr(kani, kani::ensures(|_| true))]
-    #[cfg_attr(kani, kani::modifies(v))]
     default fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
         F: FnMut(&T, &T) -> bool,
     {
-        #[cfg(kani)]
-        kani::cover(v.len() >= 2, "K5 unstable default body entered N>=2");
         small_sort_fallback(v, is_less);
     }
 }
