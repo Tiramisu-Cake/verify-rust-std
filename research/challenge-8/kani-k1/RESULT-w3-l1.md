@@ -2029,3 +2029,58 @@ mod correct (+1 строка) и correct.rs из daf8d13e (+230 строк), в�
 smallsort.rs, merge.rs, network.rs и прочий runtime std неизменны.
 Final ubuntu+macOS CI — координатору по этой строке; здесь он не запускается
 и его итог не ожидается. В L1-10 пока TODO (coordinator, final CI run).
+
+
+## L1-10 этап D — итоговые документы
+
+Документы `W3-REQUIREMENTS.md` и `W3-DISCLOSURE-DRAFT.md`:
+commit `29aec0062714497f8ca8c05372599c0b980dd78e`. Обновлены все45 требований и явная сводка L2-2
+«закрыто / раскрыто» по исходной таблице daf8d13e. Принятый слой —
+21 ordinary гармоника, без Tagged/K1MergePerm/new bm и новой proof-логики.
+Раскрыты GS u64 N13..15, network u64 N15..17/u8 N16..17 с различием
+TIMEOUT120 screening и TIMEOUT600, caller SUCCESS без scratch prerequisite,
+H1 STOP17..32. D-B4 — аналитический перенос bm→scratch48, не отдельный
+машинный merge proof. E1/uninit, ZST loop и прежние ресурсные ограничения
+сохранены. Исторические данные привязаны к5c713131, L2 — кdaf8d13e,
+новая интеграция/кандидат — кac0dbbf0 через permalink RESULTbf264ac2.
+Build019 сохранён TOOL_ERROR/NOT_RUN,020 — gate true только за3 гармоники.
+Полный ubuntu/macOS CI — TODO (coordinator, final CI run), итог не выдуман.
+
+В disclosure нет внутренних R7/R9, агентских имён, долей/долларов или
+CircleCI-job номеров. В RESULT история/учёт и решение R7 сохранены.
+Статические проверки: diff --check,45 уникальных ID/5 столбцов/статусов/
+оснований, reference links, кандидат/build/TODO, существенные ограничения;
+code после020 неизменён; correct.rs побайтно равенdaf8d13e; lane=BASEd5dc2c5f.
+Локальные Kani/rustc/cargo не запускались, повторных проверок/CI не было.
+
+REVIEW REQUEST 29aec0062714497f8ca8c05372599c0b980dd78e
+
+Единственный актуальный review документов после финального кандидата.
+Отложенный8fadd87a заменён этой редакцией, не выдан за GO. Объект — два
+итоговых документа L1-10: L2-2 домены/границы, source-reported versus новая
+выборка, невыдуманный финальный CI, сохранённые ZST/uninit/H1 ограничения.
+Review запрошен; ответ/GO пока отсутствует. LANE REQUEST нет.
+По Dп.5–7 финальный CI не ожидается; этап заканчивается передачей.
+
+## Передача этапа D — финал
+
+- Финальный source: ac0dbbf0fbf1ee8b90ca77c186c2058a96acbbad;
+  строка L1 FINAL CANDIDATE опубликована выше вbf264ac2.
+- BASE d5dc2c5fbf0da8210022112de12d25dce923934f влит; зависимости L2
+  сверены, correct.rs изdaf8d13e без правок, mod correct подключён.
+- Build020 d19d306d-43ef-44dc-a79a-fd0c0a8049cf COMPLETE/gate true,
+ 3/3 SUCCESS,12/12covers; tooling полностью совпал, swap0, sumRSS2,01GiB.
+- Build019 d111012e — TOOL_ERROR/3NOT_RUN из-за выбора controls-only smoke;
+ STOP снят координатором, один разрешённый request-only повтор020 выполнен.
+- Код с020 не менялся; runtime/lane неизменны, никаких новых proof-логики/контрактов.
+- Личный D расход$0,2680335/$1,50, остаток$1,2319665;
+ исторический A+B+C+D минимум$14,40983175; build16 точно учитывает координатор.
+- Все20 собственных builds терминальные, unfinished0; новых dispatch не будет.
+- Финальную матрицу4×ubuntu+4×macOS делает координатор; здесь TODO,
+ прежний macOS/Cloud Build — отдельные калибровочные данные, не весь новый набор.
+- ДокументыL1-10 29aec0062714497f8ca8c05372599c0b980dd78e; открыто только их REVIEW REQUEST,
+ отложенное8fadd87a superseded, LANE REQUESTнет. Proof credit review не выдуман.
+- Следующий шаг координатора: финальный CI наcandidate и review документов.
+ Чистая комната соблюдена; PR/сообщений наружу/force-push нет.
+
+W3-L1 ЭТАП D ЗАВЕРШЁН
