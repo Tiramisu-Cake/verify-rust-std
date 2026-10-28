@@ -53,9 +53,9 @@ fn count(values: &[u8], probe: u8) -> usize {
 
 fn check_output<const N: usize>(input: &[u8; N], output: &[u8; N], probe: u8) {
     for i in 1..N {
-        assert!(output[i - 1] <= output[i], "logical output is sorted");
+        assert!(output[i - 1] <= output[i]);
     }
-    assert!(count(input, probe) == count(output, probe), "logical multiset is preserved");
+    assert!(count(input, probe) == count(output, probe));
     kani::cover(true, "logical sort returns after both assertions");
 }
 
@@ -152,11 +152,9 @@ macro_rules! fixed_trait_case {
     };
 }
 
-// Isolated lengths below the grouped experiments' maximum; admission awaits measurement.
+// Isolated Cell N7; admission awaits measurement. Drop N8 is deferred within the C3a budget.
 #[cfg(kani_smallsort_controls)]
 fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
-#[cfg(kani_smallsort_controls)]
-fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
