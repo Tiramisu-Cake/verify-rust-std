@@ -65,7 +65,7 @@ fn reduced_free_form() {
     assert!(plain_default == before || plain_default == [before[1], before[0]]);
     kani::cover(true, "K5 reduced uncontracted default return N=2");
     <u8 as SmallSort>::small_sort(&mut plain_default);
-    kani::cover(true, "K5 reduced uncontracted specialized return N=2");
+    kani::cover(true, "K5 reduced specialized return N=2");
     let mut v: [u8; 2] = kani::any();
     kani::cover(true, "free control call N=2");
     control(&mut v);
