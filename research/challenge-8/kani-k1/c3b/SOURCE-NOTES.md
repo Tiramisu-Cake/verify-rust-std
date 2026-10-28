@@ -104,3 +104,56 @@ JSON/serde/parser state текущих гармоник и память allocato
 при удалении только дублирующих witnesses и время роста driver относительно
 последовательных гармоник. Байтовый объём CBMC JSON в этом лейне не измеряется;
 terse kani.log не является полным CBMC JSON и его длина не используется как proxy.
+
+## Приоритет 1: тайм-аут macOS и solver
+
+Локальный `.github/workflows/kani.yml` autoharness явно передаёт
+`--harness-timeout 10m --default-unwind 1000 --jobs=3 --output-format=terse`.
+На pin Kani собственный `autoharness::AUTOHARNESS_TIMEOUT` равен `60s`, но
+`KaniSession::add_default_bounds` применяет его только при отсутствии timeout CLI.
+Таким образом, фактические 600 секунд у организаторов задаёт workflow.
+`run_cbmc_piped` оборачивает чтение/разбор stdout CBMC и ожидание child в
+`tokio::time::timeout`; `instrument_model` выполняется перед этим. Путь один для
+manual и auto harnesses, что объясняет три macOS отказа из дополнения.
+
+`call_cbmc::DEFAULT_SOLVER` — CaDiCaL. Приоритет: CLI > harness attribute > default.
+`handle_solver_args`: Cadical → `--sat-solver cadical`, Kissat → внешний
+`--external-sat-solver kissat`, Minisat → отсутствие solver-флага CBMC.
+Следовательно, добавлять `#[kani::solver(cadical)]` к default бесполезно.
+
+Kissat штатно устанавливается pinned Kani setup на обеих платформах:
+`kani-dependencies` задаёт `KISSAT_VERSION=4.0.1`, общий installer собирает
+`rel-4.0.1` и ставит `/usr/local/bin/kissat`. Оба platform `install_deps.sh`
+вызывают его; локальный `run-kani.sh::build_kani` проверяет pinned версию и
+при необходимости запускает setup. Workflow/flags менять не требуется.
+Память внешнего процесса `kissat` должна учитываться отдельно от `cbmc`;
+уменьшение только RSS процесса `cbmc` не считается уменьшением суммарной памяти.
+
+- [Kissat installer](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/scripts/setup/install_kissat.sh)
+- [Linux setup](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/scripts/setup/ubuntu/install_deps.sh)
+- [macOS setup](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/scripts/setup/macos/install_deps.sh)
+
+## Временная привязка H2, собственный sequential build
+
+`02b3bd09-26e8-401d-84b5-b33c6d55f759`, всего три SUCCESS, jobs=1:
+
+- correct u8 N14: Checking на 72с, Verification Time 213.544с; CBMC PID9206
+  наблюдался 72–276с (пик 2,237,412 KiB), driver VmHWM 5,278,436 KiB на 284с.
+- Следующая merge u64 N13 начинается только на 290с; её CBMC 290–764с,
+  пик 2,228,512 KiB; время проверки 476.776с.
+- Mutating insertion N11..12: Checking 768с, CBMC 768–946с, пик 3,661,528 KiB,
+  время 180.034с.
+
+Driver RSS до 210с ≈6.6 MiB, на 240с ≈668 MiB, на 270с ≈1.410 GiB;
+на 300с уже 3.090 GiB и остаётся примерно таким до конца. Пик 5.034 GiB
+на 284с относится к чтению/обработке результата ПЕРВОЙ гармоники (723 проверки,
+два SATISFIED cover); затем остаётся большой resident footprint. Это точнее
+модели «линейно от числа»: одна гармоника даёт большой transient peak и
+retained/allocator footprint. По RSS нельзя разделить live allocations и
+не возвращённые allocator-ом страницы, но время роста установлено sampler-ом.
+
+Собственные light12/light60 диагностические наборы оказались не полностью
+быстрыми: соответственно 1 и 21 TIMEOUT при отсечке 60с. У 60 — 39 SUCCESS,
+пик driver1.20 GiB; у12 — 11 SUCCESS, peak1.14 GiB. Поэтому они не являются
+линейной калибровкой по числу 12→60; их цензурированные результаты сохранены
+и не засчитываются как успешное доказательство всех выбранных доменов.
