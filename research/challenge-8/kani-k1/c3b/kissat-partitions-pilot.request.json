@@ -1,0 +1,53 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "c3b-kissat-partitions-pilot",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "C3b P1 all-ordinary inventory after trace removal, exact partitions and pinned external Kissat; 120s screen",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 2,
+  "kani_jobs": 1,
+  "inventory": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n11",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_comparator_changes_both_keys",
+      "expect": "SUCCESS"
+    }
+  ]
+}

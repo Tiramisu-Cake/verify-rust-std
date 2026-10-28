@@ -42,7 +42,8 @@
     "harnesses": 60,
     "jobs": 1,
     "timeout_min": 1,
-    "maximum_charge_usd": 1.215
+    "maximum_charge_usd": 1.215,
+    "decision": "cancel requested to prioritize macOS timeout addendum"
   },
   {
     "label": "heavy6-covers-j3",
@@ -60,6 +61,25 @@
     "harnesses": 8,
     "jobs": 3,
     "timeout_min": 10,
-    "maximum_charge_usd": 1.485
+    "maximum_charge_usd": 1.485,
+    "decision": "cancel requested to prioritize macOS timeout addendum"
+  },
+  {
+    "label": "timeout-baseline6",
+    "build_id": "bc9ee7b8-a3e8-43e4-8aa7-2f91c175b2de",
+    "sha": "84dfc4b58e48c758001b7af383e9d7e84dc84250",
+    "harnesses": 6,
+    "jobs": 1,
+    "timeout_min": 10,
+    "maximum_charge_usd": 1.215
+  },
+  {
+    "label": "timeout-no-traces6",
+    "build_id": "d7c18274-1281-4c8c-95fd-6bc9148102bb",
+    "sha": "3c1ae08596a281b65fb492cadd370a42cdc9d8f5",
+    "harnesses": 6,
+    "jobs": 1,
+    "timeout_min": 10,
+    "maximum_charge_usd": 1.215
   }
 ]
