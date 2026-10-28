@@ -456,3 +456,14 @@ Source analysis shows a shared method-owned `F` resolution barrier ([Kani #4908]
 The reproducer was tested only embedded in core; reduced non-generic/free-function controls verified, and a false trait postcondition failed as intended.
 The real-wrapper control hit a `memcmp` unwind bound; the [#1997 note](https://github.com/model-checking/kani/issues/1997#issuecomment-3134614734) alone does not establish the cause, no direct parser-issue match was found, and no “3/3” result is claimed.
 See [K5 evidence](https://github.com/Tiramisu-Cake/verify-rust-std/blob/experiment/kani-k1-k5contracts-20261028/research/challenge-8/kani-k1/RESULT-K5.md), including reproducer build `38574122-3924-440a-ab45-c4d835aa9393` and control build `be67e8d7-5a63-4d6a-9c0e-3cef3a62c062`.
+
+## Публичное воспроизведение (координатор, 2026-10-28 23:09 UTC)
+
+GitHub Actions в форке, публичный лог: [run 40784758972](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/40784758972), ветка `ci/k5-standalone-repro-20261029`, commit `daa1578d9f37727e2d347c0a263d53318a5ca824` (три crate из `k5-standalone/` на `349629ea`, без файлов `rust-toolchain.toml`; workflow `.github/workflows/k5-standalone-repro.yml`). Kani собран из исходников, `cargo-kani -Z function-contracts`, ubuntu-latest:
+
+| Kani | default_fn | generic_method | control |
+|---|---|---|---|
+| pin verify-rust-std `9461e07a` | `error: expected \`fn\`` (+ E0046/E0520), не компилируется | `failed to resolve <u8 as SmallSort>::small_sort` + «Kani does not currently support stubs or function contracts on generic functions in traits» | `VERIFICATION:- SUCCESSFUL`, 1/1 |
+| `main` `744b3e84` (2026-10-26; новее кандидата `cd355b0b` из PR #737) | то же | то же | то же |
+
+Первый прогон (run 40783398149) был без `-Z function-contracts`: контроль тогда не компилировался по этой причине, остальные два случая дали те же ошибки; он не используется как доказательство.
