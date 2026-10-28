@@ -51,21 +51,7 @@
 3. На actual caller проверить четыре exact cells. Для каждого — cover достижения нужного dispatch/региона и offset; sortedness полного логического региона; равенство полного u8-мультимножества входа/выхода; неизменность памяти вне региона на границе insertion (до последующей обработки правой половины/merge). После возврата всего N20 frame левой вставки так проверять нельзя. Никаких неявных предположений о «префикс уже отсортирован»: его доказывает предыдущий actual callee либо он строится и покрывается в standalone contract harness с ясным scope.
 4. Спроектировать не более трёх callee proofs `insert_tail`, вместе покрывающих backing `[u8;20]` с символическим `tail=1..19` (в том числе callee длины18..20 и network tail9 при backing20) и backing `[u8;16]` с network tails13..15 (region lengths14..16). Для каждого символического диапазона дать covers короткого/interior/max tail и completion, assert suffix frame. Подтвердить applicability `k1_tail_pre`/postconditions, fully initialised writable allocation, sorted-prefix precondition и write frame. Если покрытие backing16 не выводится из доказательства backing20 и требуется отдельный geometry harness, включить его в ceiling3. Если нужные exact backing/start domains не помещаются в три entries или cap, STOP и пересчитать scope/cap до dispatch; не обещать дополнительные entries.
 5. Два controls: (a) нарушение достижимого callee sorted-prefix precondition при корректных указателях/инициализации/границах должно проявиться как отдельное R11 failure; (b) мутант потери/дублирования значения должен приводить к FAILED на заявленном caller property. Controls отдельно от положительных entries и не входят в обычный набор.
-6. При выдаче сверить toolchain pin `9461e07a` и lane BASE `d5dc2c5fbf0da8210022112de12d25dce923934f`; идентичность tooling проверять штатным `check-tooling BUILD BASE` после build по процедуре W3-RULES, до dispatch сверить исходный tooling pin/дерево. Статус, slots, отмена и бюджет — через существующий Cloud Build coordinator с сохранением phase/owner/deadline/ledger. Вносить фактические wall minutes и стоимость по формуле lane `(whole-run wall minutes + 8) * $0.0135`; учитывать setup/неудачи. До dispatch координатор проверяет общий budget, slots, дедлайн, `B_lane`, timeout и money.
-
-После завершения каждого build получить **`smallsort-brief BUILD_UUID`** —
-default authoritative interface CI evidence по действующему AGENTS;
-это правило имеет приоритет перед историческими инструкциями W3-RULES/плана.
-Проверять source/tool/profile, expected/actual, covers, ресурсы и review
-по Brief. Если Brief отсутствует/неполон/недостаточен, записать limitation,
-не выводить proof acceptance и не переходить к raw evidence. Для
-административного audit необходимо отдельное явное разрешение. Не скачивать
-raw GCS archives, полные verifier/Cloud Logging logs; не выполнять
-`control.py download`, `gcloud storage cp`, `gcloud logging read` или
-`gcloud builds log`. `VERIFIED_ARCHIVE_AND_INVENTORY` подтверждает целостность,
-не formal verification. Не выставлять `download_verified` по Brief, не
-менять исторические evidence/ledger. Source-reported claims, независимо
-установленный credit, B1 bounded и B2 full proof различать.
+6. При выдаче сверить toolchain pin `9461e07a` и lane BASE `d5dc2c5fbf0da8210022112de12d25dce923934f`; идентичность tooling проверять штатным `check-tooling BUILD BASE` после build по процедуре W3-RULES, до dispatch сверить исходный tooling pin/дерево. Для каждого run использовать разрешённые K1 отчёты `k1g.sh summary`, `peaks`, `log-grep`, `log-lines` (не более 200 строк); не скачивать raw архивы или полные логи. Вносить фактические wall minutes и стоимость по формуле lane `(whole-run wall minutes + 8) * $0.0135`; учитывать setup/неудачи. До dispatch координатор проверяет общий budget, slots, дедлайн, `B_lane`, timeout и money.
 
 ### GO
 

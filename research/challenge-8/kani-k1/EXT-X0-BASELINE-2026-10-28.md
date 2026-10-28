@@ -203,15 +203,14 @@ sampled sum RSS каждые2с; это process RSS proxy конкурентно
 | p / build | Source | Факт | W verify-std incl compile | G оценка до первой проверки | Sum RSS sampled, GiB | Подготовка до verify отдельно |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 / b796ca7b-fa1c-4dd2-ba06-8b3fb22e18e7 | 1ba746138fb7b17b355166dc091f7b0bdd70ae7b | gate true,521/521 | 80:28 | ≈55,5мин | 5,11 | 409с |
-| 2 / dbfe8043-e99e-49e0-a794-5e103e73f025 | 9d204ebfc497dd05d18290857151b4a537b3e724 | PARTIAL,gate false;501SUCCESS+2UNKNOWN+18missing из521 | UNPARSED; sampler318мин не точный W | ≈45,58мин | 13,16 | 360с |
+| 2 / dbfe8043-e99e-49e0-a794-5e103e73f025 | 9d204ebfc497dd05d18290857151b4a537b3e724 | PARTIAL,gate false;501SUCCESS+2UNKNOWN+18missing из521 | UNPARSED; sampler318мин не точный W | ≈45,58мин | 13,16 | UNKNOWN |
 | 3 / ef4345ad-8ebd-45cc-93ef-a33dbdc6b505 | 3796a1ac751be151931971d25a1281d85058f642 | gate true,521/521 | 65:19 | ≈43,73мин | 4,16 | 368с |
-| 4 / aea9fcc6-b301-4f9c-a49a-a6858b34b0dc | 7281d216696e94182aeb9dedef91f407f30136f9 | gate true,519/519 | 285:15 | ≈50,05мин | 7,46 | 361с |
+| 4 / aea9fcc6-b301-4f9c-a49a-a6858b34b0dc | 7281d216696e94182aeb9dedef91f407f30136f9 | gate true,519/519 | 285:15 | ≈50,05мин | 7,46 | UNKNOWN |
 
 G — оценки по первому sampled goto-instrument, у Checking harness нет
 timestamp. W не включает отдельную подготовку lane; поэтому W не выдан
 за T целого job. Полные T_GCB, H_G и M_G остаются UNKNOWN; для p1/p3
-и p2/p4 известна отдельная подготовка по RESULT L1 на b6b480cc, но не
-гарантированный полный T внешнего job. По §4.1
+известны лишь части подготовки, не гарантированный полный T. По §4.1
 при появлении полного T_GCB разрешены условный proxy `H_G=330−T_GCB`
 и сценарий `H_U_est=330−T_GCB/1,8`; это не измерения ubuntu и не гарантия
 для нового solver/source. Для macOS коэффициент1,8 неприменим.
@@ -1099,20 +1098,6 @@ Proof entries нет; модуль содержит вызываемые тел�
 7. Сборок/локальных proof-команд, внешних PR/issues/comments нет.
    Проверка X0 — source-only inventory, ссылки/таблицы, `git diff --check`
    и whitelist трёх файлов. Commit/push — в ветку X0 без force.
-8. Действующий AGENTS Evidence Brief workflow имеет приоритет перед
-   историческими инструкциями чтения evidence в плане/W3-RULES: после
-   каждого будущего завершённого build получить `smallsort-brief BUILD_UUID`.
-   Brief — default authoritative interface для CI evidence обычного агента.
-   Если Brief отсутствует/неполон/недостаточен, зафиксировать limitation;
-   не выводить proof acceptance и не обходить ограничение raw evidence.
-   Административный audit требует отдельного явного разрешения. Не скачивать
-   raw GCS archives, полные verifier/Cloud Logging logs; не вызывать
-   `control.py download`, `gcloud storage cp`, `gcloud logging read` или
-   `gcloud builds log`. `VERIFIED_ARCHIVE_AND_INVENTORY` подтверждает только
-   целостность, не formal verification. Не выставлять `download_verified`
-   по Brief и не менять исторические evidence/ledger. Source-reported
-   claims, независимо установленный credit, B1 bounded и B2 full proof
-   остаются разными уровнями. Черновики X6/X7 приведены к этому правилу.
 
 После review X0 координатор дополняет final CI и принимает S_M, выдаёт
 отдельные задания с owner/phase/pin/budget/window. Следующий этап в этой

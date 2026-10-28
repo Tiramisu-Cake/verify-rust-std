@@ -67,21 +67,7 @@
 
 План: 3–4 чистые сессии в очереди (§8), без параллельного второго владельца proof-области. Рекомендуемые этапы: (1) Gate 0, дизайн/source-map, review request на новый шаблон; (2) X6а плюс controls; (3) N16/N20 и R11; (4) N24 и условный N32 по gate, затем X6в и отчёт. Переход к следующему этапу — только если предыдущий gate пройден, cap/slot остаются достаточными. Дополнительная сессия или работа за cap требует нового решения координатора.
 
-До каждого build: один commit — один build, новый `request_id`, `k1g.sh budget`, штатная проверка tooling и доступного бюджета. Не больше одного unfinished build. Статус, slot coordination, отмена и бюджет — через существующий Cloud Build coordinator с сохранением phase/owner/deadline/ledger. Итог CI координатору оставить `TODO` до финального принятия.
-
-После завершения каждого build получить **`smallsort-brief BUILD_UUID`**:
-это default authoritative interface CI evidence по действующему AGENTS,
-который имеет приоритет перед историческим порядком чтения в W3-RULES/плане.
-Проверять source/tool/profile, expected/actual, covers, ресурсы и review
-по Brief. Если Brief отсутствует/неполон/недостаточен, записать limitation,
-не выводить proof acceptance и не переходить к raw evidence; требуется
-отдельно разрешённый административный audit. Не скачивать raw GCS archives,
-полные verifier/Cloud Logging logs, не выполнять `control.py download`,
-`gcloud storage cp`, `gcloud logging read` или `gcloud builds log`.
-`VERIFIED_ARCHIVE_AND_INVENTORY` — целостность, не formal verification.
-Не выставлять `download_verified` по Brief и не менять исторические ledger.
-Source-reported claims, независимо установленный credit, B1 bounded и B2
-full proof различать.
+До каждого build: один commit — один build, новый `request_id`, `k1g.sh budget`, штатная проверка tooling и доступного бюджета. Не больше одного unfinished build. Для статуса/evidence использовать прежний lane интерфейс Evidence Brief, а из K1 — только `summary`, `peaks`, `log-grep` и `log-lines` не более 200 строк. Raw logs, archives и downloads не получать. Итог CI координатору оставить `TODO` до финального принятия.
 
 STOP соответствующего типа/направления при: непройденном source-binding gate; структурном mutant, который не различается; unsupported/mismatched contract; timeout/недостижимом measurement gate; недостатке cap/слота; необходимости runtime правки, запрещённой trusted модели или новых инструментов; превышении limits. TIMEOUT одного типа не запрещает предусмотренные проверки другого типа. Также после N20 разрешён ровно один заранее запланированный N24 для измерения темпа в пределах cap, даже если прогноз N32 плох. Timeout не засчитывать как время; после локального STOP последующие entries этого направления — `NOT_RUN`; повторы без плана и бюджета запрещены.
 
