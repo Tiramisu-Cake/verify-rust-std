@@ -14,14 +14,14 @@ fn exercise_swap_contract<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool>(m
     let mut v: [T; 4] = kani::any();
     let a: usize = kani::any_where(|&a| a < 4);
     let b: usize = kani::any_where(|&b| b < 4 && b != a);
-    kani::cover(a == 0 && b == 3, "swap_if_less: a < b reachable");
-    kani::cover(a == 3 && b == 0, "swap_if_less: a > b reachable");
+    proof_cover!(a == 0 && b == 3, "swap_if_less: a < b reachable");
+    proof_cover!(a == 3 && b == 0, "swap_if_less: a > b reachable");
     let (old_a, old_b) = (v[a], v[b]);
     // SAFETY: `a` and `b` are distinct in-bounds positions of `v`.
     unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
-    kani::cover(cmp(&old_b, &old_a), "swap_if_less: swap taken");
-    kani::cover(!cmp(&old_b, &old_a), "swap_if_less: swap not taken");
-    kani::cover(true, "swap_if_less: end reached");
+    proof_cover!(cmp(&old_b, &old_a), "swap_if_less: swap taken");
+    proof_cover!(!cmp(&old_b, &old_a), "swap_if_less: swap not taken");
+    proof_cover!(true, "swap_if_less: end reached");
 }
 
 #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -47,7 +47,7 @@ fn control_swap_contract_precondition_u8() {
     // SAFETY: deliberately breaks the contract precondition `a_pos != b_pos`; position 1 is
     // in-bounds, so the real body would be memory safe.
     unsafe { swap_if_less(v.as_mut_ptr(), 1, 1, &mut lt_u8) };
-    kani::cover(true, "swap contract control reached the end");
+    proof_cover!(true, "swap contract control reached the end");
 }
 
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
@@ -88,7 +88,7 @@ macro_rules! unstable_freeze_network_cases {
                 $($n => unstable_freeze_network_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(
+            $(proof_cover!(
                 len == $n,
                 concat!("unstable network normal return at ", stringify!($n))
             );)+
@@ -152,7 +152,7 @@ fn tag_sequence<const N: usize>(v: &[TaggedKeyCell; N]) -> [u8; N] {
 // These route checks stub only the explicit order-violation panic. The other assertions and
 // memory checks remain active, and no verified contracts replace the sort bodies.
 fn cut_order_violation_panic() -> ! {
-    kani::cover(true, "order-violation panic stub reached");
+    proof_cover!(true, "order-violation panic stub reached");
     assume_order_violation()
 }
 
@@ -169,7 +169,7 @@ fn control_order_violation_assertion() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; 2] = kani::any();
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less_u64);
-    kani::cover(true, "order-violation control reaches normal return before assertion");
+    proof_cover!(true, "order-violation control reaches normal return before assertion");
     assert!(v[0] != v[0]);
 }
 
@@ -181,7 +181,7 @@ fn control_order_violation_reachability() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; 18] = kani::any();
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less_u64);
-    kani::cover(true, "order-violation control reaches normal return");
+    proof_cover!(true, "order-violation control reaches normal return");
 }
 
 fn unstable_dispatch_network_fixed<const N: usize>() {
@@ -201,7 +201,7 @@ macro_rules! unstable_dispatch_network_cases {
                 $($n => unstable_dispatch_network_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(
+            $(proof_cover!(
                 len == $n,
                 concat!("unstable network normal return at ", stringify!($n))
             );)+
@@ -269,7 +269,7 @@ macro_rules! dispatch_safety_cases {
                 $($n => dispatch_safety_fixed::<$t, $n, $stable>(),)+
                 _ => {}
             }
-            $(kani::cover(
+            $(proof_cover!(
                 len == $n,
                 concat!("dispatch route returns normally at ", stringify!($n))
             );)+
@@ -283,7 +283,7 @@ macro_rules! dispatch_safety_cases {
 #[kani::unwind(35)]
 fn control_network_normal_return_assertion() {
     unstable_dispatch_network_fixed::<2>();
-    kani::cover(true, "order-violation control reaches normal return before assertion");
+    proof_cover!(true, "order-violation control reaches normal return before assertion");
     let x: u8 = kani::any();
     assert!(x != x);
 }
@@ -321,11 +321,11 @@ macro_rules! dispatch_pair_safety_cases {
                 _ => {}
             }
             $(
-                kani::cover(
+                proof_cover!(
                     stable && len == $n,
                     concat!("stable route normal return at ", stringify!($n))
                 );
-                kani::cover(
+                proof_cover!(
                     !stable && len == $n,
                     concat!("unstable route normal return at ", stringify!($n))
                 );
@@ -340,7 +340,7 @@ macro_rules! dispatch_pair_safety_cases {
 #[kani::unwind(65)]
 fn control_order_violation_merge_assertion() {
     dispatch_safety_fixed::<u8, 18, false>();
-    kani::cover(true, "merge-route control reaches normal return before assertion");
+    proof_cover!(true, "merge-route control reaches normal return before assertion");
     let x: u8 = kani::any();
     assert!(x != x);
 }
@@ -352,7 +352,7 @@ macro_rules! dispatch_reachability_case {
         #[kani::unwind(65)]
         fn $name() {
             dispatch_safety_fixed::<$t, $n, $stable>();
-            kani::cover(true, "dispatch route normal return is reachable");
+            proof_cover!(true, "dispatch route normal return is reachable");
         }
     };
 }
@@ -489,8 +489,8 @@ fn insertion_safety_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
     insertion_at_any_offset!(&mut v, offset, N, &mut volatile_reading_less_u64);
-    kani::cover(offset == 1, "insertion at offset one returns normally");
-    kani::cover(offset == N, "insertion at final offset returns normally");
+    proof_cover!(offset == 1, "insertion at offset one returns normally");
+    proof_cover!(offset == N, "insertion at final offset returns normally");
 }
 
 macro_rules! insertion_safety_cases {
@@ -503,7 +503,7 @@ macro_rules! insertion_safety_cases {
                 $($n => insertion_safety_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(
+            $(proof_cover!(
                 len == $n,
                 concat!("insertion returns normally at length ", stringify!($n))
             );)+
@@ -531,7 +531,7 @@ fn mutating_key_order(a: &TaggedKeyCell, b: &TaggedKeyCell) -> bool {
     // Keep the in-sort witness available to coverage audits without retaining its long trace
     // in every ordinary proof. The standalone witness below checks the same key mutation.
     #[cfg(kani_smallsort_controls)]
-    kani::cover(
+    proof_cover!(
         left_key != left.key && right_key != right.key,
         "mutating comparator changes both keys",
     );
@@ -584,11 +584,11 @@ macro_rules! mutating_route_cases {
                 _ => {}
             }
             $(
-                kani::cover(
+                proof_cover!(
                     stable && len == $n,
                     concat!("stable mutating route returns normally at ", stringify!($n))
                 );
-                kani::cover(
+                proof_cover!(
                     !stable && len == $n,
                     concat!("unstable mutating route returns normally at ", stringify!($n))
                 );
@@ -601,8 +601,8 @@ fn mutating_insertion_fixed<const N: usize>() {
     let mut v = tagged_values::<N>();
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
     insertion_at_any_offset!(&mut v, offset, N, &mut mutating_key_order);
-    kani::cover(offset == 1, "mutating insertion at offset one returns normally");
-    kani::cover(offset == N, "mutating insertion at final offset returns normally");
+    proof_cover!(offset == 1, "mutating insertion at offset one returns normally");
+    proof_cover!(offset == N, "mutating insertion at final offset returns normally");
 }
 
 macro_rules! mutating_insertion_cases {
@@ -618,7 +618,7 @@ macro_rules! mutating_insertion_cases {
                 $($n => mutating_insertion_fixed::<$n>(),)+
                 _ => {}
             }
-            $(kani::cover(
+            $(proof_cover!(
                 len == $n,
                 concat!("mutating insertion returns normally at ", stringify!($n))
             );)+
@@ -666,7 +666,7 @@ macro_rules! insertion_offset_one_cases {
         fn $plain() {
             let mut v: [u64; $n] = kani::any();
             super::super::insertion_sort_shift_left(&mut v, 1, &mut volatile_reading_less_u64);
-            kani::cover(
+            proof_cover!(
                 true,
                 concat!("u64 insertion at offset one returns normally at length ", stringify!($n)),
             );
@@ -677,7 +677,7 @@ macro_rules! insertion_offset_one_cases {
         fn $cell() {
             let mut v = tagged_values::<$n>();
             super::super::insertion_sort_shift_left(&mut v, 1, &mut mutating_key_order);
-            kani::cover(
+            proof_cover!(
                 true,
                 concat!("Cell insertion at offset one returns normally at length ", stringify!($n)),
             );
@@ -730,7 +730,7 @@ macro_rules! insertion_offset_group_cases {
                 $($o => insertion_at::<_, _, $o>(&mut v, &mut volatile_reading_less_u64),)+
                 _ => unreachable!(),
             }
-            $(kani::cover(offset == $o, concat!("insertion offset ", stringify!($o)));)+
+            $(proof_cover!(offset == $o, concat!("insertion offset ", stringify!($o)));)+
         }
 
         #[kani::proof]
@@ -743,7 +743,7 @@ macro_rules! insertion_offset_group_cases {
                 $($o => insertion_at::<_, _, $o>(&mut v, &mut mutating_key_order),)+
                 _ => unreachable!(),
             }
-            $(kani::cover(offset == $o, concat!("mutating insertion offset ", stringify!($o)));)+
+            $(proof_cover!(offset == $o, concat!("mutating insertion offset ", stringify!($o)));)+
         }
     };
 }
@@ -937,7 +937,7 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
     if N < 9 {
         assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
     }
-    kani::cover(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
+    proof_cover!(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
 }
 
 macro_rules! network_correctness_cases {
@@ -950,7 +950,7 @@ macro_rules! network_correctness_cases {
                 $($n => network_correctness_fixed::<$t, $n>(),)+
                 _ => {}
             }
-            $(kani::cover(len == $n, concat!("sort returns normally at length ", stringify!($n)));)+
+            $(proof_cover!(len == $n, concat!("sort returns normally at length ", stringify!($n)));)+
         }
     };
 }
@@ -1004,11 +1004,11 @@ fn swap_contract_fixed<T: ArbitraryValue, F: FnMut(&T, &T) -> bool>(mut cmp: F) 
     unsafe {
         swap_if_less(v.as_mut_ptr(), a, b, &mut cmp);
     }
-    kani::cover(reverse, "swap contract covers indices 1 and 0");
-    kani::cover(!reverse, "swap contract covers indices 0 and 1");
-    kani::cover(size_of::<T>() == 0 || taken, "swap branch or zero-sized value");
-    kani::cover(!taken, "no-swap branch");
-    kani::cover(true, "swap contract reached the end");
+    proof_cover!(reverse, "swap contract covers indices 1 and 0");
+    proof_cover!(!reverse, "swap contract covers indices 0 and 1");
+    proof_cover!(size_of::<T>() == 0 || taken, "swap branch or zero-sized value");
+    proof_cover!(!taken, "no-swap branch");
+    proof_cover!(true, "swap contract reached the end");
 }
 
 macro_rules! swap_contract_exact_array_case {
@@ -1052,7 +1052,7 @@ fn insertion_permutation_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>()
         super::super::insertion_sort_shift_left(&mut v, 9, &mut volatile_reading_less::<T>);
     }
     assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
-    kani::cover(
+    proof_cover!(
         !prefix_unchanged(&v, &pre, 0),
         "insertion preserves permutation and moves elements",
     );
@@ -1132,17 +1132,17 @@ fn swap_contract_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
         }
         i += 1;
     }
-    kani::cover(a == 0 && b == N - 1, "swap contract covers first to last");
-    kani::cover(a == N - 1 && b == 0, "swap contract covers last to first");
-    kani::cover(a > 0 && a < N - 1 && b > 0 && b < N - 1, "swap contract covers interior pair");
+    proof_cover!(a == 0 && b == N - 1, "swap contract covers first to last");
+    proof_cover!(a == N - 1 && b == 0, "swap contract covers last to first");
+    proof_cover!(a > 0 && a < N - 1 && b > 0 && b < N - 1, "swap contract covers interior pair");
     let network_last = if N >= 13 { 12 } else { 8 };
-    kani::cover(
+    proof_cover!(
         a == network_last || b == network_last,
         "swap contract covers network final position",
     );
-    kani::cover(taken, "swap contract covers swap branch");
-    kani::cover(!taken, "swap contract covers no-swap branch");
-    kani::cover(true, "swap contract covers end reached");
+    proof_cover!(taken, "swap contract covers swap branch");
+    proof_cover!(!taken, "swap contract covers no-swap branch");
+    proof_cover!(true, "swap contract covers end reached");
 }
 
 #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -1195,8 +1195,8 @@ fn insert_tail_value<const START: usize>() -> usize {
         i += 1;
     }
     assert!(prefix_unchanged(&v, &pre, tail + 1), "suffix after inserted tail remains unchanged");
-    kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
-    kani::cover(true, "insert-tail contract covers end reached");
+    proof_cover!(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
+    proof_cover!(true, "insert-tail contract covers end reached");
     tail
 }
 
@@ -1206,7 +1206,7 @@ macro_rules! insert_tail_contract_case {
         #[kani::unwind(25)]
         fn $name() {
             let tail = insert_tail_value::<$start>();
-            $(kani::cover(
+            $(proof_cover!(
                 tail == $end,
                 concat!(
                     "insert-tail contract covers tail ",
@@ -1282,10 +1282,10 @@ fn mutating_route_permutation<const N: usize>() -> (u8, usize) {
     }
     assert!(before == count_tagged_values(&v, probe), "tag multiplicity is preserved");
     let moved = tags != tag_sequence(&v);
-    kani::cover(mode == 0 && moved, "stable route moves a tag");
-    kani::cover(mode == 1 && moved, "unstable route moves a tag");
-    kani::cover(mode == 2 && moved, "insertion route moves a tag");
-    kani::cover(true, "tag permutation check reached the end");
+    proof_cover!(mode == 0 && moved, "stable route moves a tag");
+    proof_cover!(mode == 1 && moved, "unstable route moves a tag");
+    proof_cover!(mode == 2 && moved, "insertion route moves a tag");
+    proof_cover!(true, "tag permutation check reached the end");
     (mode, offset)
 }
 
@@ -1295,7 +1295,7 @@ macro_rules! mutating_route_permutation_case {
         #[kani::unwind(25)]
         fn $name() {
             let (mode, offset) = mutating_route_permutation::<$n>();
-            $(kani::cover(
+            $(proof_cover!(
                 mode == 2 && offset == $offset,
                 concat!("insertion route returns normally at offset ", stringify!($offset))
             );)+
