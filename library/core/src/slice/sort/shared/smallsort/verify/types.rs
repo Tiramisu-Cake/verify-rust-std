@@ -140,7 +140,6 @@ trait_cases!(sorted_permutation_traits_general_drop_u8_n0_to2, DropKey, [0, 1, 2
 #[cfg(kani_smallsort_controls)]
 trait_cases!(sorted_permutation_traits_general_drop_u8_n7_to9, DropKey, [7, 8, 9]);
 
-#[cfg(kani_smallsort_controls)]
 macro_rules! fixed_trait_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof]
@@ -152,8 +151,7 @@ macro_rules! fixed_trait_case {
     };
 }
 
-// Isolated Cell N7; admission awaits measurement. Drop N8 is deferred within the C3a budget.
-#[cfg(kani_smallsort_controls)]
+// Isolated Cell N7: 98.85 s, batch cbmc peak 0.21 GiB (C3a). Drop N8 remains deferred.
 fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
 
 #[cfg(kani_smallsort_controls)]
