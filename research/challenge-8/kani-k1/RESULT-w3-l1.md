@@ -1869,3 +1869,73 @@ source `1e21a2e7e88bfd002169f443051a7f4052a652a7`.
 gate false — стоп, gate true — финальный кандидат, L1-10 review и передача D.
 Документы L1-10 подготовлены отдельным Luna High worker, пока без коммита:
 main проверит их после build, добавит SHA/build и окончательные маркеры.
+
+
+## Build 019 — TOOL_ERROR, gate false; STOP этапа D
+
+`d111012e-ed67-4b74-95db-5aa2d843a5df` терминальный, Cloud Build FAILURE;
+штатная summary: TOOL_ERROR, gate false, expectation met false,
+measurement ok None, Kani exit1. Сборка Kani/набора дошла до выбора гармоник,
+но verification не началась. Все три выбранные гармоники NOT_RUN,
+время/проверки/covers для них отсутствуют. Успех интеграции не установлен.
+
+Точный текст ошибки из summary:
+```
+error: Failed to match the following harness(es):
+slice::sort::shared::smallsort::kani_k1::smoke::ok
+Please specify the fully-qualified name of a harness.
+```
+
+Причина — ошибка main в выборе третьей гармоники запроса019:
+`smoke::ok` имеет `#[cfg(kani_smallsort_controls)]` (smoke.rs:37),
+а запрос019 штатно оставляет controls off. Валидатор проверил структуру
+и имена строк, но не присутствие гармоники в реально собранном cfg.
+Это не FAILED свойства, не timeout/OOM и не контрпример L2.
+При отдельном разрешённом продолжении третьей обычной гармоникой может
+служить `smoke::w3_efficient_swap_c3`, без смены cfg и proof-логики.
+Текущий запрос и код после отказа не менялись; повтор не отправлялся.
+
+check-tooling через BASEd5dc2c5f: exit0; pool k1-standard4, все lane files
+и пять bound SHA-256 соответствуют; summary source/run совпали.
+Whole run по time-v **66,82с**, max RSS **1685820KiB** (выше sampled
+kani-compiler1685436KiB, истинный single-process пик из time-v).
+Sampler: 35 samples, 2с, elapsed66с, sum RSS peak1926044KiB≈1,84GiB.
+Machine15,63GiB, swap0; verify start after validate355с, budget2885с.
+Ни одной Verification Time нет: все NOT_RUN. Raw logs/архивы не открывались.
+
+Стоимость по правилу W3: (66,82/60+8)×0,0135 = **$0,1230345**.
+Расход D **$0,1230345/$1,50**, остаток **$1,3769655**.
+Исторический A+B+C минимум$14,14179825 не пересчитан;
+A+B+C+D минимум **$14,26483275** (точный расход build16 — координатору).
+Отдельный глобальный ledger k1g budget: builds59, used$36,1635,
+reserve$0,0000, cap$43,96. Прибавка ledger$0,1080 по start..finish
+не подменяет отчётную формулу whole run+8; это разные способы учёта.
+Все19 собственных builds терминальные, новых dispatch нет.
+
+**Стоп по TASK-w3-l1.md, этап D п.3: «Gate true — иначе стоп».**
+Пункт4 не выполнен: строка L1 FINAL CANDIDATE не выставляется,
+запуск финальной ubuntu/macOS матрицы на основании этого build не передан.
+Маркер W3-L1 ЗАВЕРШЁН выше относится к прежнему C, не к этапу D.
+Маркер W3-L1 ЭТАП D ЗАВЕРШЁН не ставится: этап не завершён.
+Новых изменений proof-логики, runtime std, lane или cfg нет.
+Вопросов владельцу/внешних сообщений/PR нет, чистая комната соблюдена.
+
+Документы L1-10 сохранены как **черновик на review**, не финальный пакет:
+45 клеток М; L2-2 по исходному daf8d13e, точные TIMEOUT120/600,
+GS u64 prerequisite gap, D-B4 и H1 STOP; старые CI результаты отделены.
+В обоих документах добавлен явный TOOL_ERROR/NOT_RUN/нет кандидата.
+Main исправил оставшиеся старые диапазоны E3/B5 и формулировку об
+ответственном за интеграцию. Статическая проверка45 ID/5 столбцов/
+статусов/непустых оснований/reference links и diff --check прошла.
+correct.rs по-прежнему побайтно равен daf8d13e.
+
+### Передача этапа D — остановка
+
+- Код интеграции `1e21a2e7e88bfd002169f443051a7f4052a652a7`, BASEd5dc2c5f.
+- Build019 d111012e: TOOL_ERROR, gate false; все3 NOT_RUN из-за smoke::ok cfg.
+- Финального кандидата/CI proof credit нет, повторов/партиций не отправлено.
+- Расход D$0,1230345, остаток$1,3769655; собственных unfinished builds0.
+- L2-2/документы сохранены без новой proof-логики, но интеграционный gate открыт.
+- Следующий шаг координатора — решение о продолжении после request-selection
+  ошибки; допустимая прежняя ordinary гармоника w3_efficient_swap_c3 указана выше.
+- Ни review, ни остаток бюджета сами по себе не отменяют явный STOP п.3.

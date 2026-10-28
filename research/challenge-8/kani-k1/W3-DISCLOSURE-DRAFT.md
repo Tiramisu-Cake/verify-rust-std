@@ -1,8 +1,8 @@
 # Towards #56: SmallSort verification disclosure (draft)
 
-This is a review draft, not a claim that Challenge 8 is resolved. Submission remains conditional on the final requirements table, the final integrated organizer CI run and the remaining correctness work; the macOS candidate run is recorded below with its resource limits. The working title is **Towards #56**. See [R8 §6–7][R8] and the [requirements table](W3-REQUIREMENTS.md).
+This is a review draft, not a claim that Challenge 8 is resolved. Submission remains conditional on the final requirements table and the integrated organizer CI run; the macOS candidate run is recorded below with its resource limits. The working title is **Towards #56**. See [R8 §6–7][R8] and the [requirements table](W3-REQUIREMENTS.md).
 
-The evidence below distinguishes historical verification records, the Cloud Build calibration runs and the separate macOS report. Historical accepted results require a true measurement gate, completed covers and successful tooling checks, as recorded in the [wave 2 report][W2]. A diagnostic SUCCESS, an archive-integrity check, or a resource-lane gate does not establish acceptance in the submitted CI domain. The measured candidate source is `5c713131f8b92c629f0c16b68605ec2bf2547007`; this is a candidate for partition measurements, not proof credit for the integrated suite. Linux results are recorded per partition below; the completed macOS candidate result is recorded separately.
+The evidence below distinguishes historical verification records, the Cloud Build calibration runs and the separate macOS report. Historical accepted results require a true measurement gate, completed covers and successful tooling checks, as recorded in the [wave 2 report][W2]. A diagnostic SUCCESS, an archive-integrity check, or a resource-lane gate does not establish acceptance in the submitted CI domain. The measured candidate source is `5c713131f8b92c629f0c16b68605ec2bf2547007`; it is a candidate for partition measurements, not proof credit for the later integrated suite. Linux results are recorded per partition below; the completed macOS candidate result is recorded separately.
 
 ## Terms used in this draft
 
@@ -38,7 +38,22 @@ The measured external stable-Freeze route uses **scratch = 48**; this is not evi
 | sort4, two separate checks | `proof_for_contract` with a pure strict comparator, plus ordinary safety proof with arbitrary comparator; u64 and `[u8;16]`, N4 | Cloud Build 16 GB, [build d065eab6-9c2e-4cf5-9022-67b2589d18f7][L1], gate true |
 | Efficient in-place swap predicate | the ten types enumerated in `w3_efficient_swap_c3`, including ZST | Cloud Build 16 GB, [build 70902589-d488-498d-9595-278e48013138][L1], cover 10/10, gate true |
 
-Correctness gaps include fallback u64 N8..16/u8 N9..16, general/stable u64 N13..15/u8 N14..15, and merge routes N17..32. Network full correctness remains open above u64 N14/u8 N15: separate u8 sortedness at N16/17 does not establish tail permutation. **Correctness work in progress:** the remaining primitive-type gaps are not part of this candidate. L1-5 is complete: B4/u64 and O3/`Cell<K13Tagged>` N13..20 with all valid offsets are in the primary layer ([split insertion results][L1]). Separate Tagged experiments are outside this candidate; only the historical results explicitly described below are cited, without importing their code or extending their domains.
+L2-2 adds 17 ordinary fallback callers (u64 N8..16 and u8 N9..16), GS u8 N14/15, and the supporting u8 prefix/scratch proofs, for 21 ordinary harmonics. These close the stated fallback ranges and GS u8 N14/15; the remaining GS u64 and network bounds are disclosed below. Network full correctness remains open above u64 N14/u8 N15: separate u8 sortedness at N16/17 does not establish tail permutation. H1 STOP for lengths 17..32 remains. L1-5 is complete: B4/u64 and O3/`Cell<K13Tagged>` N13..20 with all valid offsets are in the primary layer ([split insertion results][L1]). The imported `correct.rs` is unchanged; no Tagged, `K1MergePerm` or `new bm` contract is included. All experiments not accepted into the ordinary layer remain behind `cfg kani_smallsort_controls`.
+
+## L2-2 correctness additions and disclosed bounds
+
+The imported layer consists of 17 fallback callers (u64 N8..16 and u8 N9..16), GS u8 N14/15, and the u8 prefix and scratch supporting proofs: 21 ordinary harmonics total. The exact full-width u8/u64 domains, `lt_u8`/`lt_u64`, equal keys with distinct full values, exact-size arrays, and the unchanged `correct.rs` are recorded in the [L2 result][L2]. The GS u8 route uses stable-trait exact arrayN plus scratch48 and a separate direct-general proof. Moving the existing `bm` contract to prefix scratch48 is the D-B4 analytical transfer argument; it is not a separate machine-checked scratch48 merge proof. Scratch u8 checks retain their explicit frame outside the active region. This does not establish E1/uninitialized-memory behavior.
+
+| Route gap | Recorded result and boundary | Status |
+|---|---|---|
+| Fallback u64 N8..16; fallback u8 N9..16 | All individual lengths are closed by the accepted caller layer. | Closed for these exact type, comparator and length instances. |
+| GS u8 N14/15 | Closed within D-B4 using exact arrayN and scratch48; the supporting prefix/scratch u8 proofs are included. | Closed within the stated route and premises. |
+| GS u64 N13/14 | TIMEOUT120 on each solver sweep is screening only. No full 600-s measurement of these solver candidates was run; the required scratch u64 prerequisite is absent. | Disclosed, not closed. |
+| GS u64 N15 | Caller result SUCCESS at 388 s does not complete R4: scratch u64 timed out at TIMEOUT600 with both cadical and kissat. | Disclosed, not closed. |
+| Network u64 N15/16; u8 N16 | TIMEOUT120 sweeps are short screening runs; no corresponding full 600-s measurement of these solver candidates was run. | Disclosed, not closed. |
+| Network u64 N17; u8 N17 | Caller runs reached TIMEOUT600 with cadical; sweeps separately reached TIMEOUT120 (kissat for u64, minisat for u8). | Disclosed, not closed. |
+
+H1 STOP for 17..32 remains unchanged. The upper correctness gap is not inferred closed from nearby lengths, sortedness-only results, or the separate L2-0 Tagged experiments. All unaccepted experiments remain controls-only; no `should_panic` evidence is counted.
 
 ## Type matrix (C3)
 
@@ -153,7 +168,7 @@ E-2 separately checks B4 insertion safety for u64 N16..20 with **every offset 1.
 
 The earlier K-1 experiments expose an instrumentation limit as well as solver cost. On CircleCI 13 GiB, one experiment with the permutation counter and a trivial loop invariant OOMed in `goto-instrument`, while removing the counter in a separate experiment allowed instrumentation to complete. On the separate 32 GB resource lane, full-invariant instrumentation also hit SIGKILL near 30.5 GiB, including [build 929ef63e-58d2-4838-8a42-c5465d96797a][MERGE]. Ordinary proofs of the loop-invariant formulation also timed out at 60 minutes on the 32 GB lane, with and without that invariant ([K-1 phase 7 B/C][K1]). These are distinct instrumentation experiments, not an N32 proof. See [REPORT-K1 §3][K1], [R4 §4 item 2][R4]. The instrumentation and solver limits are recorded here as measured constraints; no extrapolated runtime or memory claim is made.
 
-The early revision-4 plan estimate of roughly 3.2× growth per extra 4 elements and the later N20/N24 timings are observations on different experiments, not a complexity theorem or a precise N32 runtime prediction. For the original formulation the later measurements show a time bottleneck even when measured process RSS is modest. The new Tagged formulation is still under controlled evaluation; no speedup is asserted ([REPORT-K1][K1], [W2 §1][W2], [L2 comparison protocol][L2]).
+The early revision-4 plan estimate of roughly 3.2× growth per extra 4 elements and the later N20/N24 timings are observations on different experiments, not a complexity theorem or a precise N32 runtime prediction. For the original formulation the later measurements show a time bottleneck even when measured process RSS is modest. The new Tagged formulation reached STOP after the N24 run exceeded the 600-s target; no speedup is asserted ([REPORT-K1][K1], [W2 §1][W2], [L2 comparison protocol][L2]).
 
 ## SAFETY comments
 
@@ -161,7 +176,9 @@ The known `merge_down` SAFETY-comment deficiency is recorded by the plan as rust
 
 ## CI resources
 
-The code candidate for Cloud Build calibration and the macOS run is `5c713131f8b92c629f0c16b68605ec2bf2547007`. The selected C3 i32 measurement passed; complete-suite evidence is recorded per partition below. Cloud Build Linux runs use the organizer's four count-based partitions with `KANI_JOBS=2`; the separate [macOS candidate measurement][MACOS] uses the default `-j` with no `KANI_JOBS`. Historical 32 GB resource results do not substitute for either platform.
+Integration build `d111012e-ed67-4b74-95db-5aa2d843a5df` on source `1e21a2e7e88bfd002169f443051a7f4052a652a7` ended TOOL_ERROR, gate false. Its request incorrectly selected the controls-only `smoke::ok` harness while controls were off, so Kani failed to match that name; all three selected harnesses were NOT_RUN. This is a request-selection error, not a property counterexample. No final integrated candidate is declared. The L2-2 statuses above remain source-reported results from the [L2 record][L2]; this build adds no proof credit. Final platform results remain `TODO (coordinator, final CI run)`.
+
+The separate old candidate for Cloud Build calibration and the macOS run is `5c713131f8b92c629f0c16b68605ec2bf2547007`. The selected C3 i32 measurement passed; complete-suite evidence is recorded per partition below. Cloud Build Linux runs use the organizer's four count-based partitions with `KANI_JOBS=2`; the separate [macOS candidate measurement][MACOS] uses the default `-j` with no `KANI_JOBS`. Historical 32 GB resource results do not substitute for either platform.
 
 | Required measurement | Current status |
 |---|---|
@@ -169,11 +186,11 @@ The code candidate for Cloud Build calibration and the macOS run is `5c713131f8b
 | Cloud Build Linux 2/4 (calibration) | Source `9d204ebfc497dd05d18290857151b4a537b3e724`; build `dbfe8043-e99e-49e0-a794-5e103e73f025`: PARTIAL, gate false, timeout (exit 124). Assigned 521; reported 503: 501 SUCCESS, 2 UNKNOWN; 18 missing. SmallSort reported 248, not a complete domain. Sampled elapsed 318 min; wall/time-v RSS unparsed. Compile/setup estimate ≈45.6 min; sampled aggregate RSS 13.16 GiB, swap off. Slowest completed: `network::w2p2_k10_u64_n14`, 1511.9186 s. |
 | Cloud Build Linux 3/4 (calibration) | Source `3796a1ac751be151931971d25a1281d85058f642`; build `ef4345ad-8ebd-45cc-93ef-a33dbdc6b505`: gate true, 521/521 SUCCESS, no list inconsistency; SmallSort 0. Wall 65:19; pre-verification compile/setup estimate ≈43.7 min; sampled aggregate RSS 4.16 GiB, swap off, no OOM. Slowest: baseline `num::nonzero::verify::nonzero_check_isqrt_u32`, 628.47455 s. |
 | Cloud Build Linux 4/4 (calibration) | Source `7281d216696e94182aeb9dedef91f407f30136f9`; build `aea9fcc6-b301-4f9c-a49a-a6858b34b0dc`: gate true, 519/519 SUCCESS, no list inconsistency; SmallSort 73. Wall 285:15; compile/setup estimate ≈50.1 min; sampled aggregate RSS 7.46 GiB, swap off, no OOM. Slowest: `merge::w2p2_bm_u64_len16`, 1270.3354 s. |
-| macOS, candidate `5c713131f8b92c629f0c16b68605ec2bf2547007` | [Run `40603213401`, report at `41659f9f`][MACOS]: all four partitions COMPLETE, 520/520 SUCCESS each, gate true, no worker-list inconsistency; longest job 123 min of 360. Default `-j`; p1/2/4 used 3 CPU / 7 GB, p3 used 5 CPU / 14 GB. Only p2 swapped: 756 MB peak. |
-| Linux (ubuntu-latest) | TODO (coordinator, final CI run), after the remaining correctness integration. |
-| Final macOS run after the remaining correctness integration | TODO (coordinator, final CI run); the completed candidate run above remains separate evidence. |
+| macOS, candidate `5c713131f8b92c629f0c16b68605ec2bf2547007` | [Run `40603213401`, report at `41659f9f`][MACOS]: all four partitions COMPLETE, 520/520 SUCCESS each, gate true, no worker-list inconsistency; longest job 123 min of the 360-min limit. Default `-j`; p1/2/4 used 3 CPU / 7 GB, p3 used 5 CPU / 14 GB. Only p2 swapped: 756 MB peak. |
+| Linux (ubuntu-latest) | TODO (coordinator, final CI run), after `correct.rs` integration. |
+| Final macOS run after `correct.rs` integration | TODO (coordinator, final CI run); the completed candidate run above remains separate evidence. |
 
-The Cloud Build results are calibration measurements, not measurements of organizer CI. Cloud Build `e2-standard-4` with jobs 2 took longer on partition 2 than the macOS candidate run: p2 verify wall 104.4 min (job 108 min). Cloud Build worker 2 timed out with an incomplete inventory, while worker 4 completed in 285:15; both exceeded an internal 240-min target (not an organizer limit). No repeat or repartition is included here. A final GitHub Actions run on `ubuntu-latest` and macOS will measure the integrated suite after the remaining correctness work. Linux (ubuntu-latest) — TODO (coordinator, final CI run). The completed macOS run has the qualifications below. All four Cloud Build runs are terminal; three workers completed, and worker 2 remains an incomplete verification result. See [R8 §2.1][R8].
+The Cloud Build results are calibration measurements, not measurements of organizer CI. Cloud Build `e2-standard-4` with jobs 2 took longer on partition 2 than the macOS candidate run: p2 verify wall 104.4 min (job 108 min). Cloud Build worker 2 timed out with an incomplete inventory, while worker 4 completed in 285:15; both exceeded an internal 240-min target (not an organizer limit). No repeat or repartition is included here. The integrated GitHub Actions run on `ubuntu-latest` and macOS remains TODO for the coordinator. The old candidate measurements do not cover `correct.rs`. The completed macOS run has the qualifications below. All four Cloud Build runs are terminal; three workers completed, and worker 2 remains an incomplete verification result. See [R8 §2.1][R8].
 
 
 
@@ -200,7 +217,7 @@ The report records SmallSort times above 600 s: p2 `network::w2p2_k10_perm_u64_n
 
 ## Evidence snapshots
 
-The measured code snapshot is `5c713131f8b92c629f0c16b68605ec2bf2547007`. Linux request sources are `1ba746138fb7b17b355166dc091f7b0bdd70ae7b`, `9d204ebfc497dd05d18290857151b4a537b3e724`, `3796a1ac751be151931971d25a1281d85058f642` and `7281d216696e94182aeb9dedef91f407f30136f9`. The [current result index][L1] records their build IDs, tooling checks, completeness and resource limits, alongside the earlier control and single-harness results. Historical reports and the separate Tagged experiment remain pinned in the references below; their outcomes are not silently extended to new types, lengths or platforms. The [macOS report][MACOS] applies to the same code candidate plus its workflow only. The remaining correctness integration is outside this candidate and requires a new final organizer CI run.
+The measured code snapshot is `5c713131f8b92c629f0c16b68605ec2bf2547007`. Linux request sources are `1ba746138fb7b17b355166dc091f7b0bdd70ae7b`, `9d204ebfc497dd05d18290857151b4a537b3e724`, `3796a1ac751be151931971d25a1281d85058f642` and `7281d216696e94182aeb9dedef91f407f30136f9`. The [current result index][L1] records their build IDs, tooling checks, completeness and resource limits, alongside the earlier control and single-harness results. Historical reports and the separate Tagged experiment remain pinned in the references below; their outcomes are not silently extended to new types, lengths or platforms. The [macOS report][MACOS] applies to the same code candidate plus its workflow only. This candidate predates the `correct.rs` integration; the integrated suite needs a new final organizer CI run.
 
 [REQ]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/73ed3906fa25fba9efed3e0669b0b6aeae377d91/research/challenge-8/REQUIREMENTS-INTERPRETATION-2026-10-24.md
 [R8]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/73ed3906fa25fba9efed3e0669b0b6aeae377d91/research/challenge-8/CH8-PLAN-R8-2026-10-27.md
@@ -209,12 +226,12 @@ The measured code snapshot is `5c713131f8b92c629f0c16b68605ec2bf2547007`. Linux 
 [W1]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/1052dee57addafe3bf2389894eb99c381f4aa4f0/research/challenge-8/kani-k1/REPORT-W1-2026-10-26.md
 [W2]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/1052dee57addafe3bf2389894eb99c381f4aa4f0/research/challenge-8/kani-k1/REPORT-W2-2026-10-27.md
 [K1]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/1052dee57addafe3bf2389894eb99c381f4aa4f0/research/challenge-8/kani-k1/REPORT-K1-2026-10-26.md
-[LANE]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/8350fb1b5fd1f6133fcadab564ac2b0848e30b97/research/challenge-8/kani-k1/EXPERIMENT.md
+[LANE]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/d5dc2c5fbf0da8210022112de12d25dce923934f/research/challenge-8/kani-k1/EXPERIMENT.md
 [NET]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/b0f457cc51f5ad39c4e6d5c2bcdc21b3dc658ece/research/challenge-8/kani-k1/RESULT-network.md
 [MERGE]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/b0f457cc51f5ad39c4e6d5c2bcdc21b3dc658ece/research/challenge-8/kani-k1/RESULT-merge.md
 [EXT]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/b0f457cc51f5ad39c4e6d5c2bcdc21b3dc658ece/research/challenge-8/kani-k1/RESULT-ext.md
 [L1U]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/b0f457cc51f5ad39c4e6d5c2bcdc21b3dc658ece/research/challenge-8/kani-k1/RESULT-w3-l1u.md
 [L1]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/537e8931f52a00c7260f7adb42636ff7a5b76e3f/research/challenge-8/kani-k1/RESULT-w3-l1.md
-[L2]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/27a2d280dc007d6d81bd5be361d98cd2fe5afd73/research/challenge-8/kani-k1/RESULT-w3-l2.md
+[L2]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/daf8d13ef1ec9ba67549727ce1fd08fda50d7dd1/research/challenge-8/kani-k1/RESULT-w3-l2.md
 
 [MACOS]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/41659f9ff4f71bf4902da5d8c06ff90c1b8fa9c6/research/challenge-8/kani-k1/MACOS-L1-8-2026-10-28.md
