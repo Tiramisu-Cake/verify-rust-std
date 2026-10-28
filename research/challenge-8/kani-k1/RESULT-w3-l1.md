@@ -1982,3 +1982,50 @@ Build `d19d306d-43ef-44dc-a79a-fd0c0a8049cf`, статусы пока неизв
 Следующий шаг: summary/peaks/check-tooling(BASEd5dc2c5f), стоимость;
 gate true → L1 FINAL CANDIDATE с source020, документы с CI TODO и одно R9.
 Ожидание через k1g watch, без goal и без новых запусков до результата.
+
+
+## Build020 — COMPLETE, gate true; финальный кандидат
+
+Build `d19d306d-43ef-44dc-a79a-fd0c0a8049cf`,
+source `ac0dbbf0fbf1ee8b90ca77c186c2058a96acbbad`, Kani `9461e07a`.
+Measurement, gcb-e2-standard-4/jobs1, controls/uninit off;
+COMPLETE, gate true, expectation met true, measurement ok true, Kani exit0.
+
+| Гармоника (префикс kani_k1::) | Ожидалось / факт | Verification Time, с | failed/total | unreachable | covers |
+|---|---|---:|---:|---:|---:|
+| correct::l2_fallback_u64_n8 | SUCCESS / SUCCESS | 46,489067 | 0/485 | 60 | 1/1 |
+| correct::l2_fallback_u8_n9 | SUCCESS / SUCCESS | 51,96637 | 0/478 | 61 | 1/1 |
+| smoke::w3_efficient_swap_c3 | SUCCESS / SUCCESS | 0,0975772 | 0/10 | 0 | 10/10 |
+
+Ни одной упавшей проверки; все12 cover выполнены. Новых proof-логики,
+requires/ensures/comparator/доменов нет, время с исходными L2 не сравнивается.
+Собрался включённый набор; проверены только эти3 гармоники, а не весь набор.
+Остальные принятые L2 инстанциации — по исходному daf8d13e и его build-реестру.
+Отказ019 остаётся TOOL_ERROR/NOT_RUN, не пересчитан в успех.
+
+Whole run **2:44,44 = 164,44с**, max single-process RSS **1740144KiB**.
+Sampler83samples/2с, elapsed164с, aggregate RSS peak2110688KiB≈2,01GiB;
+cbmc802832KiB, driver1633044KiB, compiler1740144KiB.
+Machine15,63GiB, swap0; verify start after validate335с, budget2905с.
+Пик общий для build с последовательными гармониками, не отдельные их пики.
+check-tooling exit0 против BASE`d5dc2c5fbf0da8210022112de12d25dce923934f`:
+pool/lane/все5 bound SHA-256 и summary source/run совпали.
+Чтение evidence только summary/peaks/check-tooling; raw обходов нет.
+
+Стоимость020=(164,44/60+8)×0,0135=**$0,1449990**.
+Расход D019+020=**$0,2680335/$1,50**, остаток**$1,2319665**.
+A+B+C+D минимум**$14,40983175**, исторические записи не пересчитаны;
+точный расход build16 остаётся координатору. Глобальный budget после020:
+builds60, used$36,2985, reserved0, cap$43,96. Его прибавка$0,1350
+по start..finish не подменяет отчётную формулу whole run+8.
+Все20 собственных builds терминальные, новых dispatch/партиций не будет.
+
+По решению координатора l1-d-continue.md финальный кандидат = source020:
+
+L1 FINAL CANDIDATE ac0dbbf0fbf1ee8b90ca77c186c2058a96acbbad
+
+Код после кандидата не меняется. От исходного C5c713131 в library только
+mod correct (+1 строка) и correct.rs из daf8d13e (+230 строк), всего231+;
+smallsort.rs, merge.rs, network.rs и прочий runtime std неизменны.
+Final ubuntu+macOS CI — координатору по этой строке; здесь он не запускается
+и его итог не ожидается. В L1-10 пока TODO (coordinator, final CI run).
