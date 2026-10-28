@@ -1651,3 +1651,71 @@ L1-10 уточнён: Cloud Build e2-standard-4 jobs2 — **калибровоч
 После исхода18: закончить оба документа, commit, REVIEW REQUEST <SHA>, push;
 **дождаться R9**, и только затем строкаW3-L1 ЗАВЕРШЁН, push, остановка.
 До R9 финальный маркер не ставить. Открытых LANE REQUEST теперь нет.
+
+## L1-7 — результат 4/4, build18
+
+`aea9fcc6-b301-4f9c-a49a-a6858b34b0dc`: COMPLETE, **gate true**, Kani exit0,
+519/519 SUCCESS, inconsistency нет; worker4 list совпал с проверенным.
+KANI_JOBS2, controls/uninit off. SmallSort kani_k1:73 гармоники.
+Сумма Verification Time всей партиции21879,552с (не wall); отдельная сумма
+SmallSort штатной summary не выдана. Lane по решению координатора не меняется;
+этот показатель не выдуман и не заменён общей суммой.
+Wall **4:45:15=17115с=285мин15с**, max RSS4319068KiB.
+До Checking harness ≈3003с/50,05мин по первому sampled goto-instrument
+(cbmc3005с, compiler0..2864с); первая строка Checking harness —log8024,
+без временной метки. Точный compile time остаётся не установлен.
+Sampled sum7820544KiB/7,46GiB,2с/8535samples, MACHINE15,63GiB, swap0.
+Подготовка до verify361с отдельно. OOM/отказов нет.
+check-tooling BASE8350fb1b exit0: pool/lane/all5 SHA-256 совпали.
+
+Slowest15, всеSUCCESS; приставка S=`slice::sort::shared::smallsort::kani_k1::`, с:
+
+| Гармоника | с |
+|---|---:|
+| S merge::w2p2_bm_u64_len16 | 1270,3354 |
+| S network::w2night_k8r_start1_u64 | 1076,4733 |
+| S network::w2night_k8r_start2_u64 | 1008,64484 |
+| S network::w2night_k8r_start3_u64 | 814,60547 |
+| S network::w2night_k8r_start4_u64 | 795,84784 |
+| S merge::w2p2_bm_u64_len15 | 776,5518 |
+| S merge::w2p2_bm_u64_len14 | 760,1979 |
+| ptr::non_null::verify::non_null_check_write_unaligned_u128 | 592,2365 |
+| ptr::non_null::verify::non_null_check_write_unaligned_i128 | 566,5035 |
+| S merge::w2p2_bm_u8_len16 | 533,1912 |
+| S network::w2night_k8r_start5_u64 | 518,27496 |
+| S network::w2night_k8r_start7_u64 | 489,16626 |
+| S network::w2night_k8r_start6_u64 | 477,75275 |
+| S merge::w2p2_bm_u64_len13 | 474,26697 |
+| S merge::w2p2_bm_u8_len15 | 437,36295 |
+
+Семь SmallSort SUCCESS выше600с. Внутренний порог240мин превышен;
+партиция18 была уже запущена до исхода16, дополнительных запусков/перестановок нет.
+Оценка по заданной калибровке285,25/1,8≈158,47мин ubuntu — только оценка,
+не измерение организаторов. Фактический macOS этой4/4 —117,0мин verify по
+отчёту координатора; числа macOS не пересчитывались.
+
+Стоимость18=(17115/60+8)×0,0135=**$3,958875**.
+Точно вычисляемый расходC14+15+17+18=**$6,288993**;
+с16(не менее$4,401000) **C не менее$10,689993**, превышение$6 —
+**не менее$4,689993**. Исторический A+B+C — не менее$14,14179825.
+Точный расход16/итогC остаётся координатору по start..finish Cloud Build;
+не добавлять выдуманный wall в историю. Раскрытый перерасход принят координатором,
+новых dispatch после16/18 нет. Все18 собственных builds терминальные.
+
+## L1-7/L1-8 — итог для L1-10
+
+| Cloud Build | назначено / факт | SmallSort сообщено | wall | sampled sum RSS | gate | BASE |
+|---|---|---:|---|---|---|---|
+| 1/4 b796ca7b | 521 /521SUCCESS | 0 | 80:28 | 5,11GiB | true | 85ceaa0d |
+| 2/4 dbfe8043 | 521 /501SUCCESS+2UNKNOWN,18missing | 248 | UNPARSED;sampler318мин | 13,16GiB | false | 85ceaa0d |
+| 3/4 ef4345ad | 521 /521SUCCESS | 0 | 65:19 | 4,16GiB | true | 8350fb1b |
+| 4/4 aea9fcc6 | 519 /519SUCCESS | 73 | 285:15 | 7,46GiB | true | 8350fb1b |
+
+Код гармоник одинаков с5c713131; только requests и согласованное cap-слияние.
+Всего назначено2082 Linux-гармоники (521/521/521/519); не считать4/4=521.
+Cloud Build — калибровка, а не CI организаторов. Полноты нет в2/4, повторов нет.
+Успешный macOS run40603213401 — отдельное свидетельство на кандидате:
+по520/520вкаждой4партиции, ограничения runner/swap/600с раскрыты выше.
+Linux (ubuntu-latest) — TODO (coordinator, final CI run), после этапаD;
+финальный macOS после correct.rs-интеграции также у координатора.
+Своё заданиеC заканчивается документами и R9, не началомD и не новым CI.
