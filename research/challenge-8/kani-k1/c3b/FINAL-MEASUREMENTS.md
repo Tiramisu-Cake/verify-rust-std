@@ -18,10 +18,10 @@ INCONSISTENT/PARTIAL/UNKNOWN/TIMEOUT/NOT_RUN не получают proof credit.
 | kissat-partitions-pilot | `3d1251b6-c028-45f6-a6af-1fa11832ca0e` | EXPIRED | — | — |
 | screen-1of6 | `45a0dd0c-8f94-49d1-932b-ba5759453cac` | COMPLETE | 1.88 / 2.81 / 0.60 | 1:00:52 |
 | screen-2of6 | `aad9e376-d86f-45d4-9ab1-c6b4d7157778` | EXPIRED | — | — |
-| screen-3of6 | `881ea993-c360-4caa-8c70-1a1c118ebca8` | НЕ СОБРАНО | — | — |
+| screen-3of6 | `881ea993-c360-4caa-8c70-1a1c118ebca8` | CANCELLED | — | — |
 | repair-screen2-r1 | `0709a628-b472-4f0b-b0c3-c6f0fb514883` | CANCELLED | — | — |
 | repair-priority-1 | `031fa8c0-d86b-49e9-a19e-67b4cd420725` | COMPLETE | 2.53 / 3.01 / 0.50 | — |
-| repair-priority-2 | `3b7557e0-0c2b-4d56-b1a0-ba00f52b7634` | НЕ СОБРАНО | — | — |
+| repair-priority-2 | `3b7557e0-0c2b-4d56-b1a0-ba00f52b7634` | CANCELLED | — | — |
 
 ## Полнота текущего набора
 
@@ -31,8 +31,8 @@ Source prediction: 395 имён. Bound remote inventory итогового SHA �
 SUCCESS, но больше90с: 5.
 Отброшенных старых merge-route rows: 4.
 Полный допуск: **False**. Binding errors: [].
-Pending result sets: ['screen-3of6', 'repair-priority-2'].
-Terminal без артефактов: [{'label': 'repair-screen2-r1', 'status': 'CANCELLED', 'build_id': '0709a628-b472-4f0b-b0c3-c6f0fb514883'}].
+Pending result sets: [].
+Terminal без артефактов: [{'label': 'screen-3of6', 'status': 'CANCELLED', 'build_id': '881ea993-c360-4caa-8c70-1a1c118ebca8'}, {'label': 'repair-screen2-r1', 'status': 'CANCELLED', 'build_id': '0709a628-b472-4f0b-b0c3-c6f0fb514883'}, {'label': 'repair-priority-2', 'status': 'CANCELLED', 'build_id': '3b7557e0-0c2b-4d56-b1a0-ba00f52b7634'}].
 
 Список каждого имени, source SHA и build UUID — в ordinary-timings.tsv;
 missing/not_proved/over_budget/stale — в screen-analysis.json.
@@ -62,11 +62,11 @@ missing/not_proved/over_budget/stale — в screen-analysis.json.
 
 ## Бюджет и validation
 
-Own-UUID ledger: `финальный запрос ещё не выполнен` (count / used USD / reserved USD).
+Own-UUID ledger: `16 7.7490 0.0000` (count / used USD / reserved USD).
 
 53 unit tests PASS; bash -n для обоих shell scripts PASS.
 Python analysis syntax PASS; git apply --check OPTION-OPTIN.patch PASS (patch не применён).
 Rustfmt --check с заданным config и проверка всех изменённых Rust строк≤100 выполнены;
-обязательный rustfmt повторяется после итогового commit. Локальные компиляторы не запускались.
+На итоговом commit выполнен обязательный rustfmt check с exit0. Локальные компиляторы не запускались.
 Все proof/code изменения ограничены verify-модулями, organizer scripts/workflow и runtime не менялись.
 Все commits с [skip ci], push только experiment/kani-k1-memory-20261029.

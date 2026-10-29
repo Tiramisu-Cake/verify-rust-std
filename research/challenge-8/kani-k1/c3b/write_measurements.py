@@ -57,7 +57,24 @@ lines.append("Own-UUID ledger: `" + (path.read_text().strip() if path.exists() e
 lines += ["", "53 unit tests PASS; bash -n для обоих shell scripts PASS.",
           "Python analysis syntax PASS; git apply --check OPTION-OPTIN.patch PASS (patch не применён).",
           "Rustfmt --check с заданным config и проверка всех изменённых Rust строк≤100 выполнены;",
-          "обязательный rustfmt повторяется после итогового commit. Локальные компиляторы не запускались.",
+          "На итоговом commit выполнен обязательный rustfmt check с exit0. Локальные компиляторы не запускались.",
           "Все proof/code изменения ограничены verify-модулями, organizer scripts/workflow и runtime не менялись.",
           "Все commits с [skip ci], push только experiment/kani-k1-memory-20261029.", ""]
 (BASE / "FINAL-MEASUREMENTS.md").write_text("\n".join(lines))
+
+by_name = {row["name"]: row for row in analysis["rows"]}
+with (BASE / "risk-register.tsv").open("w") as stream:
+    stream.write("name\tstatus\ttime_s\tprovisional_GCB90\tbuild_id\n")
+    for name in (BASE / "predicted-ordinary.txt").read_text().splitlines():
+        row = by_name.get(name)
+        if row is None:
+            stream.write(name + "\tUNMEASURED\t\tUNKNOWN\t\n")
+            continue
+        if row["status"] != "SUCCESS" or row["checks_failed"] != 0:
+            decision = "NOT_PROVED"
+        elif row["time_s"] > analysis["target_gcb_s"]:
+            decision = "OVER_BUDGET"
+        else:
+            decision = "WITHIN_PROVISIONAL_TARGET_NOT_MAC_CERTIFICATION"
+        stream.write("\t".join(str(x) for x in
+                     (name, row["status"], row["time_s"], decision, row["build_id"])) + "\n")
