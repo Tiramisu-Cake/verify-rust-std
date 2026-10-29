@@ -65,9 +65,10 @@ ONLY_OK = [{"name": P + "smoke::ok", "expect": "SUCCESS"}]
 
 
 class InventoryPrefixScopeTests(unittest.TestCase):
-    def test_inventory_filters_codegen_to_all_smallsort_proofs(self):
+    def test_inventory_uses_supported_list_without_harness_filter(self):
         script = (Path(__file__).parent / "gcb-k1.sh").read_text()
-        self.assertIn("--harness 'slice::sort::shared::smallsort::verify::'", script)
+        self.assertNotIn("--harness 'slice::sort::shared::smallsort::verify::'", script)
+        self.assertIn('timeout --kill-after=30 60m "$PWD/kani_build/scripts/kani" list', script)
 
 
 class RequestTests(unittest.TestCase):
@@ -205,6 +206,9 @@ class SummaryTests(unittest.TestCase):
         req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
                "harnesses": [], "inventory": True}
         k.validate_request(req)
+        k.validate_request(dict(req, harness_timeout_minutes=270))
+        with self.assertRaises(k.RequestError):
+            k.validate_request(dict(req, harness_timeout_minutes=271))
         for key in ("controls", "uninit_checks", "worker_index", "worker_total", "kani_jobs"):
             bad = dict(req, **{key: (True if key in ("controls", "uninit_checks") else 3)})
             with self.assertRaises(k.RequestError):

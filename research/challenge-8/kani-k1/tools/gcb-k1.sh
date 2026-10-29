@@ -99,13 +99,12 @@ stage() {
         return 0
       fi
       if python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); sys.exit(not (r.get("inventory", False) and r.get("kind") in ("diagnostic", "autoharness")))' "$K1_REQUEST"; then
-        # Use the same list/std/JSON path as get_harnesses, but codegen only our prefix.
-        # Unfiltered std inventory consumed ~49 min; substring selection retains all our proofs.
+        # The pin has no list-side --harness filter. Use the supported complete std list,
+        # then filter the returned metadata; C3b observed about 49 min for this preparation.
         # list has no --no-assert-contracts option here (that belongs to verification).
         unstable_args="-Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing"
         python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
-        "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json \
-          --harness 'slice::sort::shared::smallsort::verify::'
+        timeout --kill-after=30 60m "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json
         test -s kani-list.json
         python3 -B "$K1_TOOLS/kani_k1.py" write-inventory --listing kani-list.json \
           --request "$K1_REQUEST" --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit)" \
