@@ -14,14 +14,14 @@ fn exercise_swap_contract<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool>(m
     let mut v: [T; 4] = kani::any();
     let a: usize = kani::any_where(|&a| a < 4);
     let b: usize = kani::any_where(|&b| b < 4 && b != a);
-    proof_cover!(a == 0 && b == 3, "swap_if_less: a < b reachable");
-    proof_cover!(a == 3 && b == 0, "swap_if_less: a > b reachable");
+    kani::cover(a == 0 && b == 3, "swap_if_less: a < b reachable");
+    kani::cover(a == 3 && b == 0, "swap_if_less: a > b reachable");
     let (old_a, old_b) = (v[a], v[b]);
     // SAFETY: `a` and `b` are distinct in-bounds positions of `v`.
     unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
-    proof_cover!(cmp(&old_b, &old_a), "swap_if_less: swap taken");
-    proof_cover!(!cmp(&old_b, &old_a), "swap_if_less: swap not taken");
-    proof_cover!(true, "swap_if_less: end reached");
+    kani::cover(cmp(&old_b, &old_a), "swap_if_less: swap taken");
+    kani::cover(!cmp(&old_b, &old_a), "swap_if_less: swap not taken");
+    kani::cover(true, "swap_if_less: end reached");
 }
 
 #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -47,7 +47,7 @@ fn control_swap_contract_precondition_u8() {
     // SAFETY: deliberately breaks the contract precondition `a_pos != b_pos`; position 1 is
     // in-bounds, so the real body would be memory safe.
     unsafe { swap_if_less(v.as_mut_ptr(), 1, 1, &mut lt_u8) };
-    proof_cover!(true, "swap contract control reached the end");
+    kani::cover(true, "swap contract control reached the end");
 }
 
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
@@ -80,7 +80,6 @@ fn unstable_freeze_network_fixed<const N: usize>() {
 macro_rules! unstable_freeze_network_cases {
     ($name:ident, [$($n:literal),+], [$($attr:meta),*]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         $(#[$attr])*
         #[kani::unwind(35)]
         fn $name() {
@@ -89,10 +88,11 @@ macro_rules! unstable_freeze_network_cases {
                 $($n => unstable_freeze_network_fixed::<$n>(),)+
                 _ => {}
             }
-            $(proof_cover!(
+            $(kani::cover(
                 len == $n,
                 concat!("unstable network normal return at ", stringify!($n))
             );)+
+            kani::cover(true, "unstable network family reached the end");
         }
     };
 }
@@ -153,7 +153,7 @@ fn tag_sequence<const N: usize>(v: &[TaggedKeyCell; N]) -> [u8; N] {
 // These route checks stub only the explicit order-violation panic. The other assertions and
 // memory checks remain active, and no verified contracts replace the sort bodies.
 fn cut_order_violation_panic() -> ! {
-    proof_cover!(true, "order-violation panic stub reached");
+    kani::cover(true, "order-violation panic stub reached");
     assume_order_violation()
 }
 
@@ -170,7 +170,7 @@ fn control_order_violation_assertion() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; 2] = kani::any();
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less_u64);
-    proof_cover!(true, "order-violation control reaches normal return before assertion");
+    kani::cover(true, "order-violation control reaches normal return before assertion");
     assert!(v[0] != v[0]);
 }
 
@@ -182,7 +182,7 @@ fn control_order_violation_reachability() {
     use super::super::UnstableSmallSortTypeImpl;
     let mut v: [u64; 18] = kani::any();
     <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less_u64);
-    proof_cover!(true, "order-violation control reaches normal return");
+    kani::cover(true, "order-violation control reaches normal return");
 }
 
 fn unstable_dispatch_network_fixed<const N: usize>() {
@@ -194,7 +194,6 @@ fn unstable_dispatch_network_fixed<const N: usize>() {
 macro_rules! unstable_dispatch_network_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub(super::super::panic_on_ord_violation, cut_order_violation_panic)]
         #[kani::unwind(35)]
         fn $name() {
@@ -203,10 +202,11 @@ macro_rules! unstable_dispatch_network_cases {
                 $($n => unstable_dispatch_network_fixed::<$n>(),)+
                 _ => {}
             }
-            $(proof_cover!(
+            $(kani::cover(
                 len == $n,
                 concat!("unstable network normal return at ", stringify!($n))
             );)+
+            kani::cover(true, "unstable network family reached the end");
         }
     };
 }
@@ -263,7 +263,6 @@ fn dispatch_safety_fixed<T: ArbitraryValue, const N: usize, const STABLE: bool>(
 macro_rules! dispatch_safety_cases {
     ($name:ident, $t:ty, $stable:literal, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -272,10 +271,11 @@ macro_rules! dispatch_safety_cases {
                 $($n => dispatch_safety_fixed::<$t, $n, $stable>(),)+
                 _ => {}
             }
-            $(proof_cover!(
+            $(kani::cover(
                 len == $n,
                 concat!("dispatch route returns normally at ", stringify!($n))
             );)+
+            kani::cover(true, "dispatch safety family reached the end");
         }
     };
 }
@@ -286,7 +286,7 @@ macro_rules! dispatch_safety_cases {
 #[kani::unwind(35)]
 fn control_network_normal_return_assertion() {
     unstable_dispatch_network_fixed::<2>();
-    proof_cover!(true, "order-violation control reaches normal return before assertion");
+    kani::cover(true, "order-violation control reaches normal return before assertion");
     let x: u8 = kani::any();
     assert!(x != x);
 }
@@ -311,7 +311,6 @@ dispatch_safety_cases!(dispatch_safety_unstable_u8_n18_31_32, u8, false, [18, 31
 macro_rules! dispatch_pair_safety_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
         #[kani::unwind(65)]
         fn $name() {
@@ -325,15 +324,16 @@ macro_rules! dispatch_pair_safety_cases {
                 _ => {}
             }
             $(
-                proof_cover!(
+                kani::cover(
                     stable && len == $n,
                     concat!("stable route normal return at ", stringify!($n))
                 );
-                proof_cover!(
+                kani::cover(
                     !stable && len == $n,
                     concat!("unstable route normal return at ", stringify!($n))
                 );
             )+
+            kani::cover(true, "dispatch family reached the end");
         }
     };
 }
@@ -344,7 +344,7 @@ macro_rules! dispatch_pair_safety_cases {
 #[kani::unwind(65)]
 fn control_order_violation_merge_assertion() {
     dispatch_safety_fixed::<u8, 18, false>();
-    proof_cover!(true, "merge-route control reaches normal return before assertion");
+    kani::cover(true, "merge-route control reaches normal return before assertion");
     let x: u8 = kani::any();
     assert!(x != x);
 }
@@ -376,12 +376,11 @@ dispatch_pair_safety_cases!(
     [u8; 16],
     [0, 1, 2, 7, 8]
 );
-dispatch_safety_cases!(dispatch_safety_stable_bytes16_n15, [u8; 16], true, [15]);
-dispatch_safety_cases!(dispatch_safety_stable_bytes16_n16, [u8; 16], true, [16]);
-dispatch_safety_cases!(dispatch_safety_stable_bytes16_n17, [u8; 16], true, [17]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n15, [u8; 16], false, [15]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n16, [u8; 16], false, [16]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes16_n17, [u8; 16], false, [17]);
+dispatch_pair_safety_cases!(
+    dispatch_safety_stable_unstable_bytes16_n15_16_17,
+    [u8; 16],
+    [15, 16, 17]
+);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n31, [u8; 16], [31]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n32, [u8; 16], [32]);
 
@@ -390,12 +389,11 @@ dispatch_pair_safety_cases!(
     [u8; 17],
     [0, 1, 2, 7, 8]
 );
-dispatch_safety_cases!(dispatch_safety_stable_bytes17_n15, [u8; 17], true, [15]);
-dispatch_safety_cases!(dispatch_safety_stable_bytes17_n16, [u8; 17], true, [16]);
-dispatch_safety_cases!(dispatch_safety_stable_bytes17_n17, [u8; 17], true, [17]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n15, [u8; 17], false, [15]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n16, [u8; 17], false, [16]);
-dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n17, [u8; 17], false, [17]);
+dispatch_pair_safety_cases!(
+    dispatch_safety_stable_unstable_bytes17_n15_16_17,
+    [u8; 17],
+    [15, 16, 17]
+);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n31, [u8; 17], [31]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n32, [u8; 17], [32]);
 
@@ -495,14 +493,13 @@ fn insertion_safety_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
     insertion_at_any_offset!(&mut v, offset, N, &mut volatile_reading_less_u64);
-    proof_cover!(offset == 1, "insertion at offset one returns normally");
-    proof_cover!(offset == N, "insertion at final offset returns normally");
+    kani::cover(offset == 1, "insertion at offset one returns normally");
+    kani::cover(offset == N, "insertion at final offset returns normally");
 }
 
 macro_rules! insertion_safety_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -510,10 +507,11 @@ macro_rules! insertion_safety_cases {
                 $($n => insertion_safety_fixed::<$n>(),)+
                 _ => {}
             }
-            $(proof_cover!(
+            $(kani::cover(
                 len == $n,
                 concat!("insertion returns normally at length ", stringify!($n))
             );)+
+            kani::cover(true, "insertion safety family reached the end");
         }
     };
 }
@@ -535,29 +533,11 @@ fn mutating_key_order(a: &TaggedKeyCell, b: &TaggedKeyCell) -> bool {
     let right_key: u8 = kani::any();
     a.set(TaggedKey { key: left_key, tag: left.tag });
     b.set(TaggedKey { key: right_key, tag: right.tag });
-    // Keep the in-sort witness available to coverage audits without retaining its long trace
-    // in every ordinary proof. The standalone witness below checks the same key mutation.
-    #[cfg(kani_smallsort_controls)]
-    proof_cover!(
+    kani::cover(
         left_key != left.key && right_key != right.key,
         "mutating comparator changes both keys",
     );
     kani::any()
-}
-
-// The comparator still chooses both full-width keys and its result independently. This small
-// witness avoids recording an entire sort execution just to exhibit one key-changing call.
-#[kani::proof]
-fn mutating_comparator_changes_both_keys() {
-    let a = TaggedKeyCell::new(TaggedKey { key: kani::any(), tag: kani::any() });
-    let b = TaggedKeyCell::new(TaggedKey { key: kani::any(), tag: kani::any() });
-    let old_a = a.get();
-    let old_b = b.get();
-    let _ = mutating_key_order(&a, &b);
-    kani::cover(
-        a.get().key != old_a.key && b.get().key != old_b.key,
-        "mutating comparator changes both keys",
-    );
 }
 
 fn tagged_values<const N: usize>() -> [TaggedKeyCell; N] {
@@ -582,7 +562,6 @@ fn mutating_route_fixed<const N: usize>(stable: bool) {
 macro_rules! mutating_route_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(35)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -592,15 +571,16 @@ macro_rules! mutating_route_cases {
                 _ => {}
             }
             $(
-                proof_cover!(
+                kani::cover(
                     stable && len == $n,
                     concat!("stable mutating route returns normally at ", stringify!($n))
                 );
-                proof_cover!(
+                kani::cover(
                     !stable && len == $n,
                     concat!("unstable mutating route returns normally at ", stringify!($n))
                 );
             )+
+            kani::cover(true, "mutating route family reached the end");
         }
     };
 }
@@ -609,28 +589,25 @@ fn mutating_insertion_fixed<const N: usize>() {
     let mut v = tagged_values::<N>();
     let offset: usize = kani::any_where(|&o| 1 <= o && o <= N);
     insertion_at_any_offset!(&mut v, offset, N, &mut mutating_key_order);
-    proof_cover!(offset == 1, "mutating insertion at offset one returns normally");
-    proof_cover!(offset == N, "mutating insertion at final offset returns normally");
+    kani::cover(offset == 1, "mutating insertion at offset one returns normally");
+    kani::cover(offset == N, "mutating insertion at final offset returns normally");
 }
 
 macro_rules! mutating_insertion_cases {
     ($name:ident, [$($n:literal),+]) => {
-        mutating_insertion_cases!($name, [$($n),+], 35);
-    };
-    ($name:ident, [$($n:literal),+], $unwind:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
-        #[kani::unwind($unwind)]
+        #[kani::unwind(35)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
             match len {
                 $($n => mutating_insertion_fixed::<$n>(),)+
                 _ => {}
             }
-            $(proof_cover!(
+            $(kani::cover(
                 len == $n,
                 concat!("mutating insertion returns normally at ", stringify!($n))
             );)+
+            kani::cover(true, "mutating insertion family reached the end");
         }
     };
 }
@@ -649,10 +626,7 @@ mutating_insertion_cases!(mutating_insertion_safety_cell_n16_to20, [16, 17, 18, 
 insertion_safety_cases!(insertion_safety_u64_n11_to12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n13_to15, [13, 14, 15]);
-// The two proofs partition the former length domain exactly. Unwinding assertions remain on;
-// each bound exceeds its exact array length, including array initialization and insertion loops.
-mutating_insertion_cases!(mutating_insertion_safety_cell_n11, [11], 13);
-mutating_insertion_cases!(mutating_insertion_safety_cell_n12, [12], 14);
+mutating_insertion_cases!(mutating_insertion_safety_cell_n11_to12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 mutating_insertion_cases!(mutating_insertion_safety_cell_n13_to15, [13, 14, 15]);
 
@@ -675,7 +649,7 @@ macro_rules! insertion_offset_one_cases {
         fn $plain() {
             let mut v: [u64; $n] = kani::any();
             super::super::insertion_sort_shift_left(&mut v, 1, &mut volatile_reading_less_u64);
-            proof_cover!(
+            kani::cover(
                 true,
                 concat!("u64 insertion at offset one returns normally at length ", stringify!($n)),
             );
@@ -686,7 +660,7 @@ macro_rules! insertion_offset_one_cases {
         fn $cell() {
             let mut v = tagged_values::<$n>();
             super::super::insertion_sort_shift_left(&mut v, 1, &mut mutating_key_order);
-            proof_cover!(
+            kani::cover(
                 true,
                 concat!("Cell insertion at offset one returns normally at length ", stringify!($n)),
             );
@@ -730,7 +704,6 @@ insertion_offset_one_cases!(
 macro_rules! insertion_offset_group_cases {
     ($plain:ident, $cell:ident, $n:literal, [$($o:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $plain() {
             const { $(assert!($o >= 1 && $o <= $n);)+ };
@@ -740,11 +713,11 @@ macro_rules! insertion_offset_group_cases {
                 $($o => insertion_at::<_, _, $o>(&mut v, &mut volatile_reading_less_u64),)+
                 _ => unreachable!(),
             }
-            $(proof_cover!(offset == $o, concat!("insertion offset ", stringify!($o)));)+
+            $(kani::cover(offset == $o, concat!("insertion offset ", stringify!($o)));)+
+            kani::cover(true, "insertion offset group returns normally");
         }
 
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(35)]
         fn $cell() {
             const { $(assert!($o >= 1 && $o <= $n);)+ };
@@ -754,7 +727,8 @@ macro_rules! insertion_offset_group_cases {
                 $($o => insertion_at::<_, _, $o>(&mut v, &mut mutating_key_order),)+
                 _ => unreachable!(),
             }
-            $(proof_cover!(offset == $o, concat!("mutating insertion offset ", stringify!($o)));)+
+            $(kani::cover(offset == $o, concat!("mutating insertion offset ", stringify!($o)));)+
+            kani::cover(true, "mutating insertion offset group returns normally");
         }
     };
 }
@@ -948,13 +922,12 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
     if N < 9 {
         assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
     }
-    proof_cover!(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
+    kani::cover(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
 }
 
 macro_rules! network_correctness_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $name() {
             let len: usize = kani::any_where(|&l| matches!(l, $($n)|+));
@@ -962,10 +935,8 @@ macro_rules! network_correctness_cases {
                 $($n => network_correctness_fixed::<$t, $n>(),)+
                 _ => {}
             }
-            $(proof_cover!(
-                len == $n,
-                concat!("sort returns normally at length ", stringify!($n))
-            );)+
+            $(kani::cover(len == $n, concat!("sort returns normally at length ", stringify!($n)));)+
+            kani::cover(true, "sort family reached the end");
         }
     };
 }
@@ -1019,11 +990,11 @@ fn swap_contract_fixed<T: ArbitraryValue, F: FnMut(&T, &T) -> bool>(mut cmp: F) 
     unsafe {
         swap_if_less(v.as_mut_ptr(), a, b, &mut cmp);
     }
-    proof_cover!(reverse, "swap contract covers indices 1 and 0");
-    proof_cover!(!reverse, "swap contract covers indices 0 and 1");
-    proof_cover!(size_of::<T>() == 0 || taken, "swap branch or zero-sized value");
-    proof_cover!(!taken, "no-swap branch");
-    proof_cover!(true, "swap contract reached the end");
+    kani::cover(reverse, "swap contract covers indices 1 and 0");
+    kani::cover(!reverse, "swap contract covers indices 0 and 1");
+    kani::cover(size_of::<T>() == 0 || taken, "swap branch or zero-sized value");
+    kani::cover(!taken, "no-swap branch");
+    kani::cover(true, "swap contract reached the end");
 }
 
 macro_rules! swap_contract_exact_array_case {
@@ -1067,7 +1038,7 @@ fn insertion_permutation_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>()
         super::super::insertion_sort_shift_left(&mut v, 9, &mut volatile_reading_less::<T>);
     }
     assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
-    proof_cover!(
+    kani::cover(
         !prefix_unchanged(&v, &pre, 0),
         "insertion preserves permutation and moves elements",
     );
@@ -1076,10 +1047,10 @@ fn insertion_permutation_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>()
 macro_rules! insertion_permutation_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $name() {
             insertion_permutation_fixed::<$t, $n>();
+            kani::cover(true, "insertion permutation check reached the end");
         }
     };
 }
@@ -1148,17 +1119,17 @@ fn swap_contract_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
         }
         i += 1;
     }
-    proof_cover!(a == 0 && b == N - 1, "swap contract covers first to last");
-    proof_cover!(a == N - 1 && b == 0, "swap contract covers last to first");
-    proof_cover!(a > 0 && a < N - 1 && b > 0 && b < N - 1, "swap contract covers interior pair");
+    kani::cover(a == 0 && b == N - 1, "swap contract covers first to last");
+    kani::cover(a == N - 1 && b == 0, "swap contract covers last to first");
+    kani::cover(a > 0 && a < N - 1 && b > 0 && b < N - 1, "swap contract covers interior pair");
     let network_last = if N >= 13 { 12 } else { 8 };
-    proof_cover!(
+    kani::cover(
         a == network_last || b == network_last,
         "swap contract covers network final position",
     );
-    proof_cover!(taken, "swap contract covers swap branch");
-    proof_cover!(!taken, "swap contract covers no-swap branch");
-    proof_cover!(true, "swap contract covers end reached");
+    kani::cover(taken, "swap contract covers swap branch");
+    kani::cover(!taken, "swap contract covers no-swap branch");
+    kani::cover(true, "swap contract covers end reached");
 }
 
 #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -1194,13 +1165,10 @@ swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
 
 // Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
 // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
-fn insert_tail_value<const START: usize>(fixed_tail: Option<usize>) -> usize {
+fn insert_tail_value<const START: usize>() -> usize {
     set_value_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
-    let tail: usize = match fixed_tail {
-        Some(tail) => tail,
-        None => kani::any_where(|&t| START < t && t < 17),
-    };
+    let tail: usize = kani::any_where(|&t| START < t && t < 17);
     let pre = v;
     let base = v.as_mut_ptr();
     // SAFETY: each instantiation has 1 <= START <= 15, START < tail < 17; the
@@ -1214,19 +1182,18 @@ fn insert_tail_value<const START: usize>(fixed_tail: Option<usize>) -> usize {
         i += 1;
     }
     assert!(prefix_unchanged(&v, &pre, tail + 1), "suffix after inserted tail remains unchanged");
-    proof_cover!(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
-    proof_cover!(true, "insert-tail contract covers end reached");
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
+    kani::cover(true, "insert-tail contract covers end reached");
     tail
 }
 
 macro_rules! insert_tail_contract_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $name() {
-            let tail = insert_tail_value::<$start>(None);
-            $(proof_cover!(
+            let tail = insert_tail_value::<$start>();
+            $(kani::cover(
                 tail == $end,
                 concat!(
                     "insert-tail contract covers tail ",
@@ -1234,26 +1201,6 @@ macro_rules! insert_tail_contract_case {
                     " with requires satisfied"
                 )
             );)+
-        }
-    };
-}
-
-macro_rules! insert_tail_contract_exact_case {
-    ($name:ident, $start:literal, $end:literal) => {
-        #[kani::proof_for_contract(super::super::insert_tail)]
-        #[kani::solver(cadical)]
-        #[kani::unwind(25)]
-        fn $name() {
-            const { assert!($start < $end && $end < 17) };
-            let tail = insert_tail_value::<$start>(Some($end));
-            proof_cover!(
-                tail == $end,
-                concat!(
-                    "insert-tail contract covers exact tail ",
-                    stringify!($end),
-                    " with requires satisfied"
-                ),
-            );
         }
     };
 }
@@ -1267,81 +1214,36 @@ insert_tail_contract_case!(insert_tail_contract_u64_start10, 10, [11, 12, 13, 14
 insert_tail_contract_case!(insert_tail_contract_u64_start9, 9, [10, 11, 12, 13, 14, 15, 16]);
 insert_tail_contract_case!(insert_tail_contract_u64_start8, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
 insert_tail_contract_case!(insert_tail_contract_u64_start7, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail7, 6, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail8, 6, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail9, 6, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail10, 6, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail11, 6, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail12, 6, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail13, 6, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail14, 6, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail15, 6, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail16, 6, 16);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail6, 5, 6);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail7, 5, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail8, 5, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail9, 5, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail10, 5, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail11, 5, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail12, 5, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail13, 5, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail14, 5, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail15, 5, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail16, 5, 16);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail5, 4, 5);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail6, 4, 6);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail7, 4, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail8, 4, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail9, 4, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail10, 4, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail11, 4, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail12, 4, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail13, 4, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail14, 4, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail15, 4, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail16, 4, 16);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail4, 3, 4);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail5, 3, 5);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail6, 3, 6);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail7, 3, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail8, 3, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail9, 3, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail10, 3, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail11, 3, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail12, 3, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail13, 3, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail14, 3, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail15, 3, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start3_tail16, 3, 16);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail3, 2, 3);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail4, 2, 4);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail5, 2, 5);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail6, 2, 6);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail7, 2, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail8, 2, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail9, 2, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail10, 2, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail11, 2, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail12, 2, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail13, 2, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail14, 2, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail15, 2, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start2_tail16, 2, 16);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail2, 1, 2);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail3, 1, 3);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail4, 1, 4);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail5, 1, 5);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail6, 1, 6);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail7, 1, 7);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail8, 1, 8);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail9, 1, 9);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail10, 1, 10);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail11, 1, 11);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail12, 1, 12);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail13, 1, 13);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail14, 1, 14);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail15, 1, 15);
-insert_tail_contract_exact_case!(insert_tail_contract_u64_start1_tail16, 1, 16);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start6,
+    6,
+    [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start5,
+    5,
+    [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start4,
+    4,
+    [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start3,
+    3,
+    [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start2,
+    2,
+    [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
+insert_tail_contract_case!(
+    insert_tail_contract_u64_start1,
+    1,
+    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+);
 
 // At lengths 2 through 4, checks tag multiplicities after stable, unstable, or insertion routes
 // whose comparator may rewrite keys. No ordering precondition is assumed.
@@ -1367,21 +1269,20 @@ fn mutating_route_permutation<const N: usize>() -> (u8, usize) {
     }
     assert!(before == count_tagged_values(&v, probe), "tag multiplicity is preserved");
     let moved = tags != tag_sequence(&v);
-    proof_cover!(mode == 0 && moved, "stable route moves a tag");
-    proof_cover!(mode == 1 && moved, "unstable route moves a tag");
-    proof_cover!(mode == 2 && moved, "insertion route moves a tag");
-    proof_cover!(true, "tag permutation check reached the end");
+    kani::cover(mode == 0 && moved, "stable route moves a tag");
+    kani::cover(mode == 1 && moved, "unstable route moves a tag");
+    kani::cover(mode == 2 && moved, "insertion route moves a tag");
+    kani::cover(true, "tag permutation check reached the end");
     (mode, offset)
 }
 
 macro_rules! mutating_route_permutation_case {
     ($name:ident, $n:literal, [$($offset:literal),+]) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(25)]
         fn $name() {
             let (mode, offset) = mutating_route_permutation::<$n>();
-            $(proof_cover!(
+            $(kani::cover(
                 mode == 2 && offset == $offset,
                 concat!("insertion route returns normally at offset ", stringify!($offset))
             );)+

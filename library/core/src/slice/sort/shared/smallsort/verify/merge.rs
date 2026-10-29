@@ -261,7 +261,7 @@ pub(crate) fn merge_length_body<
     let mut dst = MaybeUninit::<[T; N]>::uninit();
     // SAFETY: contract checked by the enclosing proof_for_contract harness.
     unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut T, &mut is_less) };
-    proof_cover!(true, "merge returns for a permitted length");
+    kani::cover(true, "merge returns for a permitted length");
 }
 
 #[cfg(kani_smallsort_controls)]
@@ -273,7 +273,7 @@ pub(crate) fn insert_tail_len<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool, cons
     let base = v.as_mut_ptr();
     // SAFETY: contract checked by the enclosing proof_for_contract harness.
     unsafe { insert_tail(base, base.add(N - 1), &mut is_less) };
-    proof_cover!(true, "tail insertion returns for a permitted length");
+    kani::cover(true, "tail insertion returns for a permitted length");
 }
 
 /// Negative precondition control: u64 length 4 violates the verified merge's sorted-halves clause.
@@ -289,7 +289,7 @@ fn merge_rejects_unsorted_halves_control_u64_n4() {
     let mut is_less = lt_u64;
     // SAFETY: dst is a separate local of 4 elements; only the sortedness requires is violated.
     unsafe { bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut is_less) };
-    proof_cover!(true, "unsorted input call reached");
+    kani::cover(true, "unsorted input call reached");
 }
 // Stable primitives: exact source/destination arrays, matching the composed caller types.
 
@@ -299,7 +299,7 @@ fn sort4_length_body<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool>(mut is_less: 
     let mut dst = MaybeUninit::<[T; 4]>::uninit();
     // SAFETY: contract checked by the enclosing proof_for_contract harness.
     unsafe { sort4_stable(v.as_ptr(), dst.as_mut_ptr() as *mut T, &mut is_less) };
-    proof_cover!(true, "four-element stable sort returns");
+    kani::cover(true, "four-element stable sort returns");
 }
 
 /// sort4_stable for all four general element types (direct, no stubs).
@@ -308,7 +308,7 @@ fn sort4_length_body<T: kani::Arbitrary, F: FnMut(&T, &T) -> bool>(mut is_less: 
 #[kani::unwind(34)]
 fn sort4_contract_type_matrix_n4() {
     let t: u8 = kani::any_where(|t: &u8| *t < 4);
-    proof_cover!(t == 3, "last element type is reachable");
+    kani::cover(t == 3, "last element type is reachable");
     match t {
         0 => sort4_length_body::<i32, _>(lt_i32),
         1 => sort4_length_body::<u64, _>(lt_u64),
@@ -362,7 +362,7 @@ fn sort4_arbitrary_comparator_body<T: kani::Arbitrary + Copy>() {
         CopyOnDrop::<T>::probe_count(v.as_ptr(), 4)
             == CopyOnDrop::<T>::probe_count(dst.as_ptr() as *const T, 4)
     );
-    proof_cover!(true, "sort returns and preserves values with an arbitrary comparator");
+    kani::cover(true, "sort returns and preserves values with an arbitrary comparator");
 }
 
 macro_rules! define_sort4_contract_and_comparator_harnesses {
@@ -410,8 +410,8 @@ define_sort4_contract_and_comparator_harnesses!(
 #[kani::unwind(34)]
 fn insert_tail_contract_integer_types_n2_to16() {
     let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 16);
-    proof_cover!(len == 2, "length 2 reached");
-    proof_cover!(len == 16, "length 16 reached");
+    kani::cover(len == 2, "length 2 reached");
+    kani::cover(len == 16, "length 16 reached");
     if kani::any() {
         dispatch_by_length!(
             len,
@@ -433,8 +433,8 @@ fn insert_tail_contract_integer_types_n2_to16() {
 #[kani::unwind(34)]
 fn insert_tail_contract_byte_arrays_n2_to16() {
     let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 16);
-    proof_cover!(len == 2, "length 2 reached");
-    proof_cover!(len == 16, "length 16 reached");
+    kani::cover(len == 2, "length 2 reached");
+    kani::cover(len == 16, "length 16 reached");
     if kani::any() {
         dispatch_by_length!(
             len,
@@ -458,8 +458,8 @@ macro_rules! define_merge_length_harness {
         #[kani::unwind(34)]
         fn $name() {
             let len: usize = kani::any_where(|l: &usize| *l >= 2 && *l <= 32);
-            proof_cover!(len == 2, "length 2 reached");
-            proof_cover!(len == 32, "length 32 reached");
+            kani::cover(len == 2, "length 2 reached");
+            kani::cover(len == 32, "length 32 reached");
             dispatch_by_length!(len, merge_length_body::<$t>($cmp), [
                 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
             ]);
@@ -490,7 +490,7 @@ fn arbitrary_u64_order(a: &u64, b: &u64) -> bool {
 }
 
 fn abort_on_order_violation() -> ! {
-    proof_cover!(true, "order violation panic path is reachable");
+    kani::cover(true, "order violation panic path is reachable");
     kani::assume(false);
     unreachable!()
 }
@@ -510,7 +510,7 @@ fn merge_arbitrary_order_permutation_failure_control_u64_n4() {
     unsafe {
         bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut arbitrary_u64_order);
         let out = dst.assume_init();
-        proof_cover!(true, "merge returns before the mutation check");
+        kani::cover(true, "merge returns before the mutation check");
         for value in v {
             let before = v.iter().filter(|x| **x == value).count();
             let after = out.iter().filter(|x| **x == value).count();
@@ -540,7 +540,7 @@ fn merge_arbitrary_order_reachability_check_control_u64_n4() {
             assert!(before == after, "input value counts are preserved");
         }
     }
-    proof_cover!(true, "merge returns and preserves input value counts");
+    kani::cover(true, "merge returns and preserves input value counts");
 }
 
 // Real merge safety on exact u64 arrays of 2..=32 elements with arbitrary comparisons.
@@ -555,7 +555,7 @@ fn merge_safety_body_u64<const N: usize>() {
     unsafe {
         bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut arbitrary_u64_order);
     }
-    proof_cover!(true, "merge returns for arbitrary comparisons");
+    kani::cover(true, "merge returns for arbitrary comparisons");
 }
 
 // u64 selects the network through the unstable trait. A transparent non-Copy wrapper also
@@ -575,21 +575,21 @@ fn arbitrary_wrapped_u64_order(a: &WrappedU64, b: &WrappedU64) -> bool {
 fn unstable_general_u64_safety_body<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     super::super::small_sort_general(&mut v, &mut arbitrary_u64_order);
-    proof_cover!(true, "general u64 safety: normal return reachable");
+    kani::cover(true, "general u64 safety: normal return reachable");
 }
 
 fn noncopy_general_u64_safety_body<const N: usize>() {
     let payload: [u64; N] = kani::any();
     let mut v = payload.map(WrappedU64);
     <WrappedU64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut arbitrary_wrapped_u64_order);
-    proof_cover!(true, "non-Copy u64 route safety: normal return reachable");
+    kani::cover(true, "non-Copy u64 route safety: normal return reachable");
 }
 
 fn stable_general_u64_safety_body<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
     <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut arbitrary_u64_order);
-    proof_cover!(true, "stable u64 route safety: normal return reachable");
+    kani::cover(true, "stable u64 route safety: normal return reachable");
 }
 
 // Every exact length 2..=32 selects direct general u64, non-Copy unstable general, or stable
@@ -614,7 +614,7 @@ fn ordered_merge_before_safety_control_u64_n4() -> [u64; 4] {
     unsafe {
         bidirectional_merge(&v, dst.as_mut_ptr() as *mut u64, &mut |a, b| a < b);
         let out = dst.assume_init();
-        proof_cover!(true, "safety control: normal merge return before check");
+        kani::cover(true, "safety control: normal merge return before check");
         out
     }
 }
@@ -697,7 +697,6 @@ fn merge_arbitrary_order_reachability_control_u64_n4() {
 macro_rules! define_route_safety_harness {
     ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub(
             crate::slice::sort::shared::smallsort::panic_on_ord_violation,
             abort_on_order_violation
@@ -738,12 +737,8 @@ define_route_safety_harness!(route_safety_all_routes_n27, all_upper_routes_safet
 define_route_safety_harness!(route_safety_all_routes_n28, all_upper_routes_safety_body, 28);
 define_route_safety_harness!(route_safety_all_routes_n29, all_upper_routes_safety_body, 29);
 define_route_safety_harness!(route_safety_all_routes_n30, all_upper_routes_safety_body, 30);
-define_route_safety_harness!(route_safety_general_u64_n31, unstable_general_u64_safety_body, 31);
-define_route_safety_harness!(route_safety_noncopy_u64_n31, noncopy_general_u64_safety_body, 31);
-define_route_safety_harness!(route_safety_stable_u64_n31, stable_general_u64_safety_body, 31);
-define_route_safety_harness!(route_safety_general_u64_n32, unstable_general_u64_safety_body, 32);
-define_route_safety_harness!(route_safety_noncopy_u64_n32, noncopy_general_u64_safety_body, 32);
-define_route_safety_harness!(route_safety_stable_u64_n32, stable_general_u64_safety_body, 32);
+define_route_safety_harness!(route_safety_all_routes_n31, all_upper_routes_safety_body, 31);
+define_route_safety_harness!(route_safety_all_routes_n32, all_upper_routes_safety_body, 32);
 
 // Merge contracts: u8/u64, upper-bit key order, exact arrays N2..16; optional u8 N20/24
 // diagnostics.
@@ -756,15 +751,15 @@ macro_rules! define_small_merge_contract_harness {
             match len {
                 2 => {
                     merge_length_body::<$t, _, 2>($cmp);
-                    proof_cover!(true, "merge contract: length 2");
+                    kani::cover(true, "merge contract: length 2");
                 }
                 3 => {
                     merge_length_body::<$t, _, 3>($cmp);
-                    proof_cover!(true, "merge contract: length 3");
+                    kani::cover(true, "merge contract: length 3");
                 }
                 4 => {
                     merge_length_body::<$t, _, 4>($cmp);
-                    proof_cover!(true, "merge contract: length 4");
+                    kani::cover(true, "merge contract: length 4");
                 }
                 _ => {}
             }
@@ -778,7 +773,6 @@ define_small_merge_contract_harness!(merge_contract_u8_n2_to4, u8, lt_u8);
 macro_rules! define_merge_contract_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-        #[kani::solver(cadical)]
         #[kani::unwind(34)]
         fn $name() {
             merge_length_body::<$t, _, $n>($cmp);
@@ -797,7 +791,7 @@ macro_rules! define_unsorted_halves_control {
             let v: [$t; 4] = [6, 0, 2, 4];
             let mut dst = MaybeUninit::<[$t; 4]>::uninit();
             let mut cmp = $cmp;
-            proof_cover!(true, "merge call reaches the unsorted-halves check");
+            kani::cover(true, "merge call reaches the unsorted-halves check");
             // Valid memory, but prefix keys [3, 0] violate sortedness.
             unsafe {
                 bidirectional_merge(&v, dst.as_mut_ptr() as *mut $t, &mut cmp);
@@ -829,18 +823,18 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
 // General/stable correctness with 48 scratch elements; only merge is stubbed.
 // Ordinary: u64 N0..12/16, u8 N0..13/16; other instances are controls.
 // Insertion and sort4 remain real.
-fn general_route_properties_for_route<
+fn general_route_properties<
     T: kani::Arbitrary + Copy + FreezeMarker,
     F: FnMut(&T, &T) -> bool,
     const N: usize,
 >(
     mut cmp: F,
-    stable: bool,
 ) {
     const { assert!(N <= 16) };
     set_value_probe::<T>();
     let mut v: [T; N] = kani::any();
     let orig = v;
+    let stable: bool = kani::any();
     if stable {
         let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
         <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
@@ -848,21 +842,8 @@ fn general_route_properties_for_route<
         super::super::small_sort_general(&mut v, &mut cmp);
     }
     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
-    if stable {
-        proof_cover!(true, "stable route properties checked");
-    } else {
-        proof_cover!(true, "general route properties checked");
-    }
-}
-
-fn general_route_properties<
-    T: kani::Arbitrary + Copy + FreezeMarker,
-    F: FnMut(&T, &T) -> bool,
-    const N: usize,
->(
-    cmp: F,
-) {
-    general_route_properties_for_route::<T, F, N>(cmp, kani::any());
+    kani::cover(!stable, "general route properties checked");
+    kani::cover(stable, "stable route properties checked");
 }
 
 // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
@@ -879,29 +860,16 @@ fn fallback_route_properties<
     let orig = v;
     super::super::small_sort_fallback(&mut v, &mut cmp);
     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
-    proof_cover!(true, "fallback route properties checked");
+    kani::cover(true, "fallback route properties checked");
 }
 
 macro_rules! define_general_sortedness_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
         #[kani::unwind(34)]
         fn $name() {
             general_route_properties::<$t, _, $n>($cmp);
-        }
-    };
-}
-
-macro_rules! define_general_sortedness_route_harness {
-    ($name:ident, $t:ty, $cmp:expr, $n:literal, $stable:literal) => {
-        #[kani::proof]
-        #[kani::solver(cadical)]
-        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-        #[kani::unwind(34)]
-        fn $name() {
-            general_route_properties_for_route::<$t, _, $n>($cmp, $stable);
         }
     };
 }
@@ -979,33 +947,17 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u6
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n10, u8, lt_u8, 10);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n10, 10);
-define_general_sortedness_route_harness!(
-    general_sorted_permutation_u64_n11,
-    u64,
-    lt_u64,
-    11,
-    false
-);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n11, u64, lt_u64, 11, true);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n11, u64, lt_u64, 11);
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n11, u8, lt_u8, 11);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n11, 11);
-define_general_sortedness_route_harness!(
-    general_sorted_permutation_u64_n12,
-    u64,
-    lt_u64,
-    12,
-    false
-);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n12, u64, lt_u64, 12, true);
-define_general_sortedness_route_harness!(general_sorted_permutation_u8_n12, u8, lt_u8, 12, false);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n12, u8, lt_u8, 12, true);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n12, u64, lt_u64, 12);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n12, u8, lt_u8, 12);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n12, 12);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n13, u64, lt_u64, 13);
-define_general_sortedness_route_harness!(general_sorted_permutation_u8_n13, u8, lt_u8, 13, false);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n13, u8, lt_u8, 13, true);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n13, u8, lt_u8, 13);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n13, 13);
 #[cfg(kani_smallsort_controls)]
@@ -1020,16 +972,8 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n15, u6
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n15, u8, lt_u8, 15);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n15, 15);
-define_general_sortedness_route_harness!(
-    general_sorted_permutation_u64_n16,
-    u64,
-    lt_u64,
-    16,
-    false
-);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u64_n16, u64, lt_u64, 16, true);
-define_general_sortedness_route_harness!(general_sorted_permutation_u8_n16, u8, lt_u8, 16, false);
-define_general_sortedness_route_harness!(stable_sorted_permutation_u8_n16, u8, lt_u8, 16, true);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n16, u64, lt_u64, 16);
+define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n16, u8, lt_u8, 16);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
 
@@ -1037,7 +981,6 @@ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
 macro_rules! define_fallback_route_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::unwind(34)]
         fn $name() {
             fallback_route_properties::<$t, _, $n>($cmp);
@@ -1166,13 +1109,12 @@ macro_rules! define_drop_route_harness {
     (@routes $name:ident, $n:literal, $upper:literal, $perm:literal,
         $abort:ident, $first:literal, $second:literal) => {
         #[kani::proof]
-        #[kani::solver(cadical)]
         #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
         #[kani::unwind(34)]
         fn $name() {
             let alternate = drop_route_properties::<$n, $upper, $perm, 0>();
-            proof_cover!(!alternate, $first);
-            proof_cover!(alternate, $second);
+            kani::cover(!alternate, $first);
+            kani::cover(alternate, $second);
         }
     };
 }
@@ -1186,8 +1128,8 @@ macro_rules! define_drop_route_harness {
 #[kani::unwind(34)]
 fn drop_general_reachability_control_n2() {
     let alternate = drop_route_properties::<2, true, false, 0>();
-    proof_cover!(!alternate, "general route returns with the property checked");
-    proof_cover!(alternate, "stable route returns with the property checked");
+    kani::cover(!alternate, "general route returns with the property checked");
+    kani::cover(alternate, "stable route returns with the property checked");
     let drop_control_value: u64 = kani::any();
     assert!(drop_control_value != drop_control_value);
 }
@@ -1259,7 +1201,7 @@ define_drop_route_harness!(
 )]
 #[kani::unwind(34)]
 fn drop_duplicate_tag_control_n2() {
-    proof_cover!(true, "duplicate-tag control entered");
+    kani::cover(true, "duplicate-tag control entered");
     drop_route_properties::<2, false, true, 1>();
 }
 
@@ -1271,6 +1213,6 @@ fn drop_duplicate_tag_control_n2() {
 )]
 #[kani::unwind(34)]
 fn drop_extra_drop_control_n2() {
-    proof_cover!(true, "extra-drop control entered");
+    kani::cover(true, "extra-drop control entered");
     drop_route_properties::<2, false, false, 2>();
 }
