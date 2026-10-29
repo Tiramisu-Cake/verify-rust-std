@@ -1,0 +1,26 @@
+{
+  "result": "PASS_LOCAL_STATIC_ONLY",
+  "builds_run": 0,
+  "rustc_cargo_kani_cbmc_run": false,
+  "rustfmt": {
+    "exit_code": 0,
+    "edition": "2024",
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "config": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/fmtcfg/rustfmt.toml",
+    "files": [
+      "correct.rs",
+      "merge.rs",
+      "network.rs"
+    ],
+    "rust_lines_max": 100
+  },
+  "python_syntax": "PASS",
+  "independent_tsv_arithmetic": "PASS",
+  "plan_cost_arithmetic": "PASS",
+  "command_printer": "PASS (no execution)",
+  "bounded_review": "C3a evidence and final scope arithmetic/source claims reviewed; two counts corrected",
+  "restore_commit": "778204a99abd723896bac49f7a920a80868c4be4",
+  "library_commit": "c8fce2febdb97e73ab13ebe5d58d026a1e036087",
+  "actual_inventory": "NOT_RUN",
+  "formal_verification": "NOT_RUN"
+}

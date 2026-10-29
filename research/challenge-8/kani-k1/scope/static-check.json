@@ -1,0 +1,41 @@
+{
+  "result": "PASS_STATIC_FORECAST_ONLY",
+  "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
+  "baseline_ordinary": 328,
+  "predicted_ordinary": 116,
+  "predicted_controls_enabled": 423,
+  "moved_ordinary": 212,
+  "unique_baseline_names": 423,
+  "cfg_insertions": 189,
+  "manifest_counts": {
+    "ordinary.txt": 116,
+    "extended-positive.txt": 280,
+    "controls-failed.txt": 26,
+    "deferred-unsupported.txt": 1
+  },
+  "ordinary_verified_stub_callers": [],
+  "identity_domain_union_rows": 328,
+  "files": {
+    "correct": {
+      "sha256": "e2dbbb8fef06d1a056f0074d95e24bfc59a30d0e29b66a584917c4f308e92f56",
+      "added_item_cfg": 20,
+      "assertions_bodies_helpers_covers_solver_unwind_unchanged": true
+    },
+    "merge": {
+      "sha256": "a395b89cd257cf022ff979493b54ca20a4b96023eec36299c46080b511a68f92",
+      "added_item_cfg": 84,
+      "assertions_bodies_helpers_covers_solver_unwind_unchanged": true
+    },
+    "network": {
+      "sha256": "f1b381edb1ac0f9b531c0fa5064899a18d5d8c1fc1647b7c37150b119f6b64a9",
+      "added_item_cfg": 85,
+      "assertions_bodies_helpers_covers_solver_unwind_unchanged": true
+    }
+  },
+  "library_baseline_file_count": 2348,
+  "limitations": [
+    "Not Rust macro expansion or actual kani list",
+    "No compilation, Kani, CBMC or CI executed",
+    "Proof outcomes and performance of this cfg selection not established"
+  ]
+}

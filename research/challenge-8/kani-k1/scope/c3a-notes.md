@@ -1,0 +1,18 @@
+# C3a evidence and C3c partition note
+
+C3a inventory here means the four positive `types`/`smoke` harmonics ordinary in package `e96555151df91080fa0ccc106f60ee38a919c50e`. The JSON records each harness separately, with the target package/library identity distinct from the source library tree and measurement head used by each GCB run.
+
+## What the historical records establish
+
+- `types::sorted_permutation_traits_fallback_cell_u8_n0_to2`: measured SUCCESS at 40.576 s, with all assertions passing. The initial run had 20 unreachable cover checks and only 14/18 satisfied because N0/N1 do not admit the nontrivial input covers. The later cover fix is recorded in C3a, but its 234.584 s positive control combines Cell and Drop N0..2 and is not this ordinary harness's measurement. Do not claim full ordinary cover acceptance from the first row.
+- `types::sorted_permutation_traits_fallback_cell_u8_n7`: independently measured SUCCESS at 98.846 s with all five covers. This is separate from the N7/N8/N9 grouped harness, which timed out at 600 s. The single-length proof was measured under controls cfg and then admitted to ordinary with the proof body unchanged.
+- `types::sorted_permutation_traits_general_drop_u8_n0_to2`: measured SUCCESS at 53.582 s with assertions passing, but first run had the same inapplicable-cover issue (24 unreachable, 14/18). The later combined small-length control passed 23/23 covers in 234.584 s, but does not provide an isolated ordinary-harness time.
+- `smoke::predicate_efficient_swap_type_matrix`: measured SUCCESS at 0.172 s, 12/12 covers, with an exact source-file match to e9655515. The enclosing build's gate was false because of negative-control expectation matching; that does not change this positive row's result.
+
+The only directly applicable C3a timing source is GCB. C3a lacks a suitable Mac/GCB calibration, so **Mac time is UNKNOWN** for each ordinary row. Do not apply an r ratio from another family. Run-level memory peaks are shared maxima and cannot be assigned as individual harness peaks; the JSON preserves this limit. A timeout is censored evidence, not proof of impossibility. The grouped Cell N7..9 TIMEOUT proves none of N7/N8/N9 individually; separate Cell N7 has its own successful proof. Drop N7..9 passed but remains opt-in, and is not part of ordinary evidence.
+
+## C3c partition usefulness while retaining baseline covers
+
+C3c's measured splits are useful for some expensive baseline domains: they preserve the original input/assertion/stub/unwind domains while exposing smaller successors (for example, merge route variants, correct stable/unstable variants, and exact tail/route cases). The evidence also says partition timing was measured with E/K configuration choices; restoring baseline covers or changing solver means the split VT requires a new measurement. Where an original row timed out, no claim that splitting stays within the prior time budget is established.
+
+Recommendation: retain baseline cover sites and predicates in ordinary, and consider C3c splits only as candidate successors where every partition's union exactly reconstructs the old domain and cover audit confirms the old existential witnesses remain ordinary. Carry the associated partition/helper macros. Do not carry E's cover relocation or K solver change as part of that recommendation. Require a fresh GCB/macOS measurement on the restored-cover source before counting split time toward the ordinary budget. Until then mark split timing `requires measurement`; do not treat the C3c partial run as acceptance or as a point estimate for C3a types/smoke. For C3a specifically, C3c has no result rows or Mac forecast, so retain the existing measured harnesses and do not invent a partition proposal for them.

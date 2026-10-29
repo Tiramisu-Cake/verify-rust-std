@@ -1,0 +1,109 @@
+{
+  "target_source": {
+    "package_commit": "e96555151df91080fa0ccc106f60ee38a919c50e",
+    "library_tree_sha": "2baa7ebcfc57d0160319c33ad392c8389553acd7",
+    "basis": "ordinary C3a types/smoke inventory from the e9655515 package",
+    "macos_calibration": "UNKNOWN: no suitable C3a Mac/GCB calibration group"
+  },
+  "measurements": {
+    "run_1": {
+      "head": "8003d40abe12b3cfdc48729f060fd0a3214e6be6",
+      "library_tree_sha": "94f83edc8008b6c12b9accd077fc3a1e3c005e12",
+      "build_id": "2f10637a-a1d4-420f-ab5c-7eae9ecb8d97",
+      "request": "c3a-types-priority1-01",
+      "machine": "gcb-e2-standard-4, Ubuntu 24.04.5, 4 CPU, 15.6 GiB, jobs=1, 600 s per harness",
+      "memory_run": {
+        "max_process_rss_kib": 2263336,
+        "sampled_sum_rss_peak_kib": 2528440,
+        "cbmc_peak_kib": 1494552,
+        "kani_driver_peak_kib": 2263336,
+        "kani_compiler_peak_kib": 1811928,
+        "swap": "off",
+        "attribution": "Shared run-level peaks, not individually attributable to harnesses; sampler interval 2 s."
+      }
+    },
+    "run_2": {
+      "head": "98e64f381316668eef694602974070d203332e47",
+      "library_tree_sha": "018b3d6eb8de0a0766cc208169e80797c060626b",
+      "build_id": "5682e806-3426-46e8-b29b-edd12689ab95",
+      "request": "c3a-types-controls-02",
+      "machine": "gcb-e2-standard-4, Ubuntu 24.04.5, 4 CPU, jobs=1, 600 s per harness",
+      "memory_run": {
+        "max_process_rss_kib": 1810036,
+        "sampled_sum_rss_peak_kib": 1919096,
+        "cbmc_peak_kib": 1405192,
+        "kani_driver_peak_kib": 321572,
+        "kani_compiler_peak_kib": 1810036,
+        "swap": "off",
+        "attribution": "Shared run-level peaks, not individually attributable to harnesses; sampler interval 2 s."
+      }
+    },
+    "run_3": {
+      "head": "51f76623440cf1147792da40fcfc1b28f6b46178",
+      "library_tree_sha": "f1042613ab22a9b177e249f5d39ab02a44b755d6",
+      "build_id": "15520ad3-83e4-4d1b-b881-bd6554537c1d",
+      "request": "c3a-types-exact-controls-cell7-03",
+      "machine": "gcb-e2-standard-4, Ubuntu 24.04.5, 4 CPU, jobs=1, 600 s per harness",
+      "memory_run": {
+        "max_process_rss_kib": 1721800,
+        "sampled_sum_rss_peak_kib": 1934928,
+        "cbmc_peak_kib": 225124,
+        "kani_driver_peak_kib": 176348,
+        "kani_compiler_peak_kib": 1721800,
+        "swap": "off",
+        "attribution": "Shared run-level peaks, not individually attributable to harnesses; sampler interval 2 s."
+      }
+    }
+  },
+  "harnesses": {
+    "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2": {
+      "source": "research/challenge-8/kani-k1/RESULT-C3A.md, run 1; source file library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "target_code_sha": "e96555151df91080fa0ccc106f60ee38a919c50e (library tree 2baa7ebcfc57d0160319c33ad392c8389553acd7)",
+      "measured_code_library_sha": "94f83edc8008b6c12b9accd077fc3a1e3c005e12",
+      "measurement_head": "8003d40abe12b3cfdc48729f060fd0a3214e6be6",
+      "source_match": "same harness/domain intent; measured source predates the cover applicability fix recorded as 3d98d6d",
+      "status": "SUCCESS (0/573 failed); 20 unreachable covers, 14/18 satisfied",
+      "gcb_vt_seconds": 40.57603,
+      "memory": "run_1 shared peaks: CBMC 1.43 GiB, kani-driver 2.16 GiB; no per-harness peak attribution",
+      "historical_claim": "Assertions passed for measured source. The incomplete N0/N1-inapplicable covers are not full cover acceptance."
+    },
+    "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7": {
+      "source": "research/challenge-8/kani-k1/RESULT-C3A.md, run 3; source file library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "target_code_sha": "e96555151df91080fa0ccc106f60ee38a919c50e (library tree 2baa7ebcfc57d0160319c33ad392c8389553acd7)",
+      "measured_code_library_sha": "f1042613ab22a9b177e249f5d39ab02a44b755d6",
+      "measurement_head": "51f76623440cf1147792da40fcfc1b28f6b46178",
+      "status": "SUCCESS, 0/414 failed, 5/5 covers satisfied; body was measured under controls cfg and later admitted to ordinary by d7c2309aea",
+      "gcb_vt_seconds": 98.845856,
+      "memory": "run_3 shared peaks: CBMC 0.21 GiB, kani-driver 0.17 GiB; no per-harness peak attribution",
+      "historical_claim": "Positive Cell<u8> trait-entry sortedness and full logical multiset evidence for N=7."
+    },
+    "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2": {
+      "source": "research/challenge-8/kani-k1/RESULT-C3A.md, run 1; source file library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "target_code_sha": "e96555151df91080fa0ccc106f60ee38a919c50e (library tree 2baa7ebcfc57d0160319c33ad392c8389553acd7)",
+      "measured_code_library_sha": "94f83edc8008b6c12b9accd077fc3a1e3c005e12",
+      "measurement_head": "8003d40abe12b3cfdc48729f060fd0a3214e6be6",
+      "source_match": "same harness/domain intent; measured source predates the cover applicability fix recorded as 3d98d6d",
+      "status": "SUCCESS (0/739 failed); 24 unreachable covers, 14/18 satisfied",
+      "gcb_vt_seconds": 53.581898,
+      "memory": "run_1 shared peaks: CBMC 1.43 GiB, kani-driver 2.16 GiB; no per-harness peak attribution",
+      "historical_claim": "Assertions passed for measured source. Later positive controls for N0..2 passed all 23/23 covers in run 2 (234.58368 s), but that is a different combined control harness, not this ordinary harness."
+    },
+    "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix": {
+      "source": "research/challenge-8/kani-k1/RESULT-C3A.md, run 2; source file library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+      "target_code_sha": "e96555151df91080fa0ccc106f60ee38a919c50e (library tree 2baa7ebcfc57d0160319c33ad392c8389553acd7)",
+      "measured_code_library_sha": "018b3d6eb8de0a0766cc208169e80797c060626b",
+      "measurement_head": "98e64f381316668eef694602974070d203332e47",
+      "source_match": "exact smoke.rs blob matches target e9655515 source",
+      "status": "SUCCESS, 0/12 failed, 12/12 covers satisfied; whole run gate remained false due to negative-control expectation matching",
+      "gcb_vt_seconds": 0.17181155,
+      "memory": "run_2 shared peaks: CBMC 1.34 GiB, kani-driver 0.31 GiB; no per-harness peak attribution",
+      "historical_claim": "Efficient-swap predicate type matrix passed; it is a finite type matrix, not a generic-T sorting theorem."
+    }
+  },
+  "ordinary_non_evidence": {
+    "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7_to9": "TIMEOUT at 600 s in run 1; no result for the grouped N7/N8/N9 harness, and this does not negate the separately measured N7 harness.",
+    "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n7_to9": "SUCCESS in run 1 at 349.6911 s, but opt-in and above ordinary budget; not ordinary evidence.",
+    "slice::sort::shared::smallsort::verify::smoke::reject_efficient_swap_bytes9": "FAILED is an intentional negative control, gated under kani_smallsort_controls; not ordinary positive evidence.",
+    "macos": "UNKNOWN for all C3a harnesses: no valid C3a Mac/GCB calibration; do not project another family's ratio."
+  }
+}
