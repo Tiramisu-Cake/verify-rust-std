@@ -57,7 +57,9 @@ def analyze(inventory, labels, limit):
     if not expected or len(expected) != len(set(expected)):
         raise ValueError("empty/duplicated ordinary inventory")
     registry = {entry["label"]: entry for entry in json.loads((BASE / "builds.json").read_text())}
-    latest, pending, errors, superseded = {}, [], [], []
+    latest, pending, errors, superseded, stale = {}, [], [], [], []
+    delta = json.loads((BASE / "route-split-delta.json").read_text())
+    retest = set(delta["retest"])
     for label in labels:
         if not re.fullmatch(r"(?:screen|repair)-[a-z0-9-]+", label):
             raise ValueError("only explicit final screen/repair labels may supply acceptance evidence")
@@ -72,6 +74,11 @@ def analyze(inventory, labels, limit):
             continue
         for row in rows:
             name = row["name"]
+            if name in retest and subprocess.run(
+                    ["git", "merge-base", "--is-ancestor", delta["source_commit"],
+                     row["source_sha"]], cwd=BASE.parents[3], capture_output=True).returncode:
+                stale.append(row)
+                continue
             if name in latest:
                 superseded.append(dict(name=name, old_build=latest[name]["build_id"],
                                        new_build=row["build_id"]))
@@ -93,6 +100,7 @@ def analyze(inventory, labels, limit):
     result = dict(inventory=str(inventory), inventory_count=len(expected), target_gcb_s=limit,
                   evidence_labels=labels, observed_names=len(selected), missing=missing,
                   obsolete=obsolete, pending=pending, binding_errors=errors,
+                  stale_before_route_refactor=stale,
                   not_proved=not_proved, over_budget=over_budget, superseded=superseded,
                   max_observed_s=max((row["time_s"] for row in timed), default=None),
                   sum_observed_s=sum(row["time_s"] for row in timed),

@@ -97,11 +97,13 @@ TIMEOUT-гармонике: нет времени пика и RSS-ряда. `COM
 (driver 1.41 GiB) отвергает простую модель «RSS зависит только от числа гармоник».
 Полного UUID этого второго build нет в задании; его цифра остаётся внешним входом.
 
-Рабочая модель H2: сохранённые Property/trace завершённых гармоник плюс временный
-JSON/serde/parser state текущих гармоник и память allocator. Длительность сама
-по себе не является причиной роста driver: долгое SAT-решение может почти
-не выдавать новых данных. Проверяются число свойств/достигнутых covers, изменения
-при удалении только дублирующих witnesses и время роста driver относительно
+Рабочая модель H2: сохранённые ordinary Property/trace завершённых гармоник
+(включая user covers) плюс временный JSON/serde/parser state текущей гармоники и
+память allocator. Reachability-companion traces живут только до postprocess,
+поэтому их накопление между завершёнными гармониками не подтверждается.
+Длительность сама по себе не является причиной роста driver: долгое SAT-решение
+может почти не выдавать новых данных. Проверяются число свойств/достигнутых covers,
+изменения при удалении только дублирующих witnesses и время роста driver относительно
 последовательных гармоник. Байтовый объём CBMC JSON в этом лейне не измеряется;
 terse kani.log не является полным CBMC JSON и его длина не используется как proxy.
 
@@ -157,3 +159,36 @@ retained/allocator footprint. По RSS нельзя разделить live allo
 пик driver1.20 GiB; у12 — 11 SUCCESS, peak1.14 GiB. Поэтому они не являются
 линейной калибровкой по числу 12→60; их цензурированные результаты сохранены
 и не засчитываются как успешное доказательство всех выбранных доменов.
+
+### Companion reachability checks и A/B без пользовательских covers
+
+На pin assertion-reachability checks включены по умолчанию:
+`VerificationArgs::assertion_reach_checks()` возвращает `!no_assertion_reach_checks`,
+а `KaniSession::kani_compiler_local_flags()` передаёт `--assertion-reach-checks`.
+Компилятор вставляет для проверяемого свойства неблокирующий `assert(false)` класса
+`reachability_check`; его raw CBMC `FAILURE` означает достижимость. `postprocess_result`
+отделяет эти companion properties, сохраняет в ordinary property только reach status
+и удаляет companions вместе с их traces. Поэтому финальный `Vec<Property>` сохраняет
+ordinary properties и user-cover traces, но не reachability-companion traces.
+Сами companion traces разбираются и существуют transient до postprocess; это возможный
+источник parser/allocator footprint, а не доказанное накопление в driver между harnesses.
+
+`--no-assertion-reach-checks` является глобальным CLI-флагом; для этого условия он
+недопустим как решение. `--no-assert-contracts` — отдельная опция. В проверенных pin
+аргументах/атрибутах harness не найден per-harness выключатель assertion reach checks.
+
+В одном наблюдении A/B baseline6 против E без user covers: оба запуска с теми же шестью
+harnesses, default CaDiCaL, jobs=1, оба завершились PARTIAL из-за общего timeout после
+инвентаризации. Первый завершившийся `merge::general_stable_sorted_permutation_u8_n13`
+имел 631 checks и 2/2 достигнутых covers в baseline и E. Driver VmHWM: 1.94 GiB →
+1.66 GiB; время этой гармоники: 513.556 с → 435.713 с. Это один замер на вариант,
+не количественное причинное доказательство; удаление user covers не объясняет GB
+payload само по себе и не устанавливает источник остаточной памяти. Гипотеза RSS теперь
+включает transient parsing/allocator footprint наряду с ordinary retained traces;
+измеренная причинность source-only анализом не установлена.
+
+- [Reachability codegen](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs)
+- [Run-wide argument/default](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/args/mod.rs)
+- [Compiler flags](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/call_single_file.rs)
+- [Reach-check postprocessing](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_property_renderer.rs)
+- [CBMC JSON parser](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_output_parser.rs)
