@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare source-only SCOPE manifests/table; --apply inserts only item cfg attributes."""
+"""Prepare SCOPE-B manifests/table; --apply synchronizes proof cfgs, preserving review fixes."""
 import argparse
 import collections
 import csv
@@ -163,17 +163,24 @@ def main():
     ordinary = [r for r in baseline if not r["opt_in"]]
     assert len(ordinary) == 328
     if args.apply:
-        by_module = collections.defaultdict(set)
+        current = {r["name"]: r for r in inventory()}
+        by_module = collections.defaultdict(dict)
         for r in ordinary:
-            if not select(r)[1]:
-                by_module[r["module"]].add(r["offset"])
+            item = current[r["name"]]
+            offset, keep = item["offset"], select(r)[1]
+            previous = by_module[r["module"]].setdefault(offset, keep)
+            assert previous == keep, "one macro invocation cannot mix cfg decisions"
         for module, offsets in by_module.items():
-            text = source(module, BASELINE)
-            for offset in sorted(offsets, reverse=True):
+            text = source(module)
+            for offset, keep in sorted(offsets.items(), reverse=True):
                 # Attach at the first non-whitespace byte; retain preceding blank lines.
                 while text[offset].isspace():
                     offset += 1
-                text = text[:offset] + "#[cfg(kani_smallsort_controls)]\n" + text[offset:]
+                cfg = "#[cfg(kani_smallsort_controls)]\n"
+                if keep and text.startswith(cfg, offset):
+                    text = text[:offset] + text[offset + len(cfg):]
+                elif not keep and not text.startswith(cfg, offset):
+                    text = text[:offset] + cfg + text[offset:]
             (ROOT / (module + ".rs")).write_text(text)
 
     mac_path = HERE.parent / "c3c-inputs/mac-times.tsv"

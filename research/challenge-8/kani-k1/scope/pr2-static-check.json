@@ -1,0 +1,30 @@
+{
+  "result": "PASS_STATIC_PR2_FORECAST_ONLY",
+  "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
+  "patch_applied_to_temporary_source_copy": true,
+  "budget_cfg_lines": 175,
+  "by_file": {
+    "correct": 28,
+    "merge": 58,
+    "network": 89
+  },
+  "gate_origins": {
+    "SCOPE-B-review-helper": 14,
+    "SCOPE-proof": 161
+  },
+  "ordinary": 328,
+  "expected_baseline_ordinary": 328,
+  "all_names": 423,
+  "pre_existing_opt_in_unchanged": true,
+  "controls_failed": 26,
+  "controls_failed_manifest_unchanged": true,
+  "patch_only_removes_budget_cfg_lines": true,
+  "patch_sha256": "cde7317d5c974b9cf99493c3be6c34fe4651b3c6fe4c8487bb50e4be483bdbcc",
+  "library_tree": "462e8f1cc3d4104d1513fba0303c4591f32a1da4",
+  "limitations": [
+    "Source forecast, not Rust expansion or kani list",
+    "Helper-to-harness association uses local token references",
+    "Historical CI evidence does not establish PR2 on the new SHA",
+    "No builds or compiler/prover runs"
+  ]
+}

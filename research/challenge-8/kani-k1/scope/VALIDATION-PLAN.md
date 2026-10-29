@@ -1,93 +1,44 @@
-# План проверки SCOPE — НЕ ВЫПОЛНЕН
+# План проверки SCOPE-B — НЕ ВЫПОЛНЕН
 
-Объект: library-коммит `c8fce2febdb97e73ab13ebe5d58d026a1e036087` на основе точной
-библиотеки `e9655515`. Последующие documentation-only commits допустимы только при проверке
-идентичности library tree. Текущая сессия не запускала builds и не резервировала CI.
+Объект проверки — library-коммиты B `b3213b9be0` и review-fix `d627e2ffbd`; итоговый library tree `462e8f1cc3d4104d1513fba0303c4591f32a1da4`. Перед будущей проверкой сверить этот tree на выбранном SHA. В этой работе сборки и CI-запуски запрещены; Python/rustfmt результаты — локальные проверки, не формальное доказательство.
 
-## Проверки и критерии
+## Инвентарь и компиляционные проверки
 
-1. На том же SHA выполнить компиляцию/codegen и `kani list --format json` с ordinary cfg и
-   отдельно с `RUSTFLAGS="--cfg kani_smallsort_controls"`. Не использовать не поддерживаемый
-   `kani list --harness`. Сохранить SHA, pin Kani/CBMC, toolchain, cfg, flags и фактические inventories.
-   Сопоставить standard/contract harness names с manifest.tsv: ordinary116, controls423.
-   Источник этих чисел — Python forecast, поэтому расхождения расследовать, не подгонять фактический list.
-   Если ZST contract блокирует codegen, отметить blocker отдельно: FAILED counterexample это не заменяет.
-2. Compile/PASS ordinary и PASS280 opt-in проверять отдельно от FAILED26. Применять существующий
-   selected lane с controls=false/true и явным exact списком; PASS переводится в request `SUCCESS`.
-   Результат каждой выбранной гармоники обязателен, TIMEOUT/NOT_RUN/MISSING_RESULT/runner error не PASS.
-   Старый deferred ZST-contract остаётся отдельной диагностикой; он не часть PASS/FAILED gate.
-3. Полный ordinary std: все четыре партиции на **Linux и macOS**, то есть8 jobs, с существующими
-   organizer script/pin/flags и worker indexes1..4. Считать партиции заново по фактическому
-   inventory всего std: уменьшение SmallSort меняет границы, старое имя partition не является evidence.
-   Не подменять этот этап selected SmallSort. Текущий workflow ограничивает Linux partition jobs2;
-   macOS использует свой существующий default. Эти режимы не смешивать с autoharness jobs3.
-4. Полный `kani_autoharness` на **Linux и macOS**, включая остальные std manual и automatic
-   harnesses с оригинальными include/exclude, unwind1000, jobs3, timeout10m/harness, terse и
-   failure propagation через tee/gzip. GCB Linux emulation — существующий C3c `kind=autoharness`,
-   empty explicit harness list и whole-job budget; selected list не эмулирует весь job.
-   GCB Linux не заменяет macOS acceptance. Не менять workflow ради этого SCOPE.
-5. Opt-in на том же library tree: выполнить **все280** positive extensions, включая68 прежних
-   opt-in positives и212 перенесённых; отдельно26 negative controls и deferred diagnostic.
-   Expected FAILED принимать только при локализованном предусмотренном нарушении свойства.
-   Запуск всего controls cfg с единым ожиданием SUCCESS ошибочен. Для old stub callers сохранять
-   статус conditional composition: прохождение не закрывает allocation-locality transfer автоматически.
-6. Covers audit: для всех перенесённых212 proofs их прежние covers должны присутствовать при controls;
-   для сохранённых116 — при ordinary. Проверять SAT/UNSAT/unreachable по применимости, не только
-   overall SUCCESS: runner не отвергает unreachable covers автоматически. Отдельно C3a N0/1
-   applicability fix, пять Cell N7 covers, type matrix12, normal-return dispatch и all-offsets20.
-   E не применён, поэтому source-diff должен содержать лишь item cfg. Если вводятся C3c splits/E
-   позднее, нужны новый union map, helpers и отдельный повторный migration audit.
-7. Contract audit: отсутствие ordinary `stub_verified` подтвердить раскрытыми атрибутами.
-   Проверить exact type/comparator/N/allocation/begin/end для standalone proofs. Для opt-in
-   `correct`/`merge` не объявлять разрешёнными gaps begin0/shifted17/exact-N/scratch48 из-за
-   одного ordinary callee proof. Положительные/отрицательные contract controls сверить отдельно.
-8. Для ordinary и autoharness собрать per-name VT, wall/start/stop/thread, memory PID+model
-   attribution, driver/CBMC/cgroup simultaneous peaks и OOM status. Пересчитать сумму/max/число>120,
-   четыре UNKNOWN C3a, число одновременных тяжёлых proofs. Не складывать независимые RSS maxima.
-   Все8 partitions и оба autoharness должны завершиться; source audit этого не доказывает.
+1. На одном и том же SHA выполнить compile/codegen и `kani list --format json` с ordinary cfg и с `RUSTFLAGS="--cfg kani_smallsort_controls"`. Сохранить полный SHA, Kani/CBMC pins, toolchain, flags и оба фактических inventories. Сверить ordinary=144 и controls-enabled=423 с актуальными manifests. Проверить exact multiplicities и классификации PASS/FAILED/deferred; расхождения расследовать, не подгонять Python forecast. Фактический inventory — NOT_RUN.
+2. В обеих cfg-конфигурациях проверить отсутствие новых warnings `unused_macros`, `unused_imports`, `dead_code`, включая helpers, imports и macro call sites из review. Отдельно проверить actual helper reachability / macro expansion после compilation. Статический Python use check — только прогноз, не замена compiler.
+3. Перепроверить item-level cfg diff: bodies, domains, assertions, helper bodies, covers, solver и unwind не изменены; допустимы только cfg, разнесение импортов и top-level комментарии. Сопоставить lists с manifests: 144 ordinary; 252 positive extensions (=68 прежних +184 moved), 26 FAILED controls, 1 deferred unsupported; всего 423. Раскрытые атрибуты должны подтвердить 19 ordinary `stub_verified` callers, 15 matching T/N/comparator edges и 4 N0/1 без вызова merge.
 
-## Команды воспроизведения, только для будущего удалённого запуска
+## Доказательства и coverage
 
-`reproduction_commands.py --manifest {ordinary,extended-positive,controls-failed}` печатает
-exact-name команды для одного списка; сам ничего не выполняет. Он очищает worker vars, поэтому
-organizer partition mode не перехватывает selected список. Controls cfg задаётся лишь двум opt-in
-спискам, ordinary очищает RUSTFLAGS. На удалённом runner нужно предварительно воспроизвести pin/setup
-и именно указанный SHA. Выходы FAILED26 собирать по одному, не прерывая серию на первом ожидаемом fail.
-Для эффективности допустим один selected request на chunk с теми же exact именами/ожиданиями.
-Deferred ZST не добавлять в positive список для получения зелёного общего результата.
+4. Выполнить ordinary PASS отдельно от 252 positive opt-in PASS harnesses; 26 expected-FAILED controls выполнять и оценивать отдельно. Deferred ZST contract — отдельная диагностика, вне PASS/FAILED gate. Каждый обязательный harness должен иметь ожидаемый outcome; TIMEOUT, NOT_RUN, missing result, runner/compiler error не засчитываются как PASS или ожидаемый FAILED.
+5. Выполнить contract-edge audit: для пятнадцати nontrivial ordinary merge callers exact type/N/comparator/contract должен совпадать; четыре callers N0/1 не вызывают merge. Отдельно сохранять allocation gaps exact-N↔scratch48 и shifted tails; успешные отдельные contracts не делают такую композицию unconditional. Проверить остальные `proof_for_contract` type/N/comparator/region edges по манифесту.
+6. Covers audit на обоих cfg: перенесённые covers доступны с controls, retained ordinary covers доступны без controls; проверить применимость, удовлетворение и unreachable/UNSAT по harness, а не только aggregate PASS. Перепроверить C3a N0/1 applicability, Cell N7 covers, type matrix12, normal-return dispatch и insertion all-offsets20. Если появятся E или C3c splits, требуются новые manifests, union map и повторный migration audit.
+7. На том же SHA выполнить все четыре organizer `check-kani-on-std` partitions на Linux и macOS (8 jobs), с существующими pins/flags и заново рассчитанными границами всего std inventory. Эти partition проверки не взаимозаменяемы с selected SmallSort.
+8. Отдельно выполнить полный `kani_autoharness` на Linux и macOS с исходными include/exclude, unwind1000, jobs3, timeout10m/harness и failure propagation. Сохранять стандартный inventory и whole-job результаты; выбранный список или Linux GCB-emulation не заменяет organizer macOS acceptance.
+9. Для отдельного будущего PR2 применить `pr2-ungate.patch` одним коммитом с `[skip ci]`. Локальный прогноз уже проверил копию дерева: ordinary328 точно совпадает с `e9655515`, все прежние opt-in и FAILED26 сохранены. На PR2 SHA потребуются заново оба фактических inventory, предупреждения, full partitions и autoharness; результаты B автоматически не переносятся. Комментарии состава в library описывают основной B: PR2-патч по условию снимает только бюджетные cfg. Ни создание PR2 ветки, ни эти сборки сейчас не выполнялись.
 
-## Время и стоимость, $0,0135 за оплачиваемую минуту GCB
+## Метрики и стоимость плана
 
-Изменённый состав не измерен. GCB wall, стоимость всего плана и Mac wall **UNKNOWN**.
-Рабочая известная Mac сумма3583,3 с +4UNKNOWN — не GCB wall и не billable minutes.
-Калибровки C3a нет. Для прочих оставшихся семей также нельзя автоматически применять один r.
-Исторические inventory/setup занимали около49 мин; это ориентир накладных расходов,
-не обязательная добавка к каждому cached invocation.
+Для ordinary/autoharness собрать per-harness VT, wall/start/stop/thread, memory PID/model attribution, driver/CBMC/cgroup simultaneous peaks и OOM status. Пересчитать известные ΣVT/max/count>120, оставить 4 C3a UNKNOWN отдельно и зафиксировать число одновременно исполняемых тяжёлых доказательств. Не суммировать независимые PID maxima.
 
-Ниже **плановые envelopes**, не прогноз прохождения и не разрешение отправки:
+B arithmetic: 144 ordinary; 140 известными VT, сумма 4520,3 с, max 230,2 с, 8 выше120 с, +4 UNKNOWN. Это macOS historic/forecast accounting, не GCB wall или новое измерение. При selected timeout 10 минут и jobs3 ideal capped proof schedule для ordinary — `ceil(144/3)×10 = 480 мин` ($6,48 по $0,0135/мин); эта изолированная оценка перекрывается полными partitions/autoharness и не прибавляется к GCB envelope ниже.
 
-| Будущая часть | Предлагаемый envelope | GCB стоимость envelope |
+Positive opt-in =252 гармоники: планировать 7 chunks — шесть по40 и последний12; допускается единый bounded chunking с пределом40 и отдельным результатом для каждого harness. При jobs3 и timeout10m идеальный scheduling ceiling на 40-case chunk —140 мин; 210-мин envelope оставляет70 мин на setup/list overhead. Для финальных12 идеальная timeout-граница40 мин; запросить достаточный envelope после setup-измерения. FAILED26: ideal `ceil(26/3)×10=90 мин`, envelope150 мин включая60 мин setup. Не трактовать envelope как обещание завершения.
+
+GCB planning rate: $0,0135 per billed minute. Envelopes:
+
+| Work | Planning envelope | GCB envelope cost |
 |---|---:|---:|
-| Codegen/inventory двух cfg | 2×60 мин | $1,62 |
-| Диагностика8 известных>120 +4C3a, memory/covers | 90 мин | $1,215 |
-| Полный Linux autoharness C3c | timeout300 мин, work270 | максимум$4,05 |
-| Один Linux ordinary partition job | 300 мин | максимум$4,05; четыре job максимум$16,20 |
-| Positive opt-in:7 chunks по40 имён | 7×210 мин | максимум$19,845 |
-| FAILED26 отдельно | 150 мин | максимум$2,025 |
-| Deferred unsupported diagnostic | 60 мин | максимум$0,81 |
+| Codegen/inventory, 2 cfgs | 2×60 min | $1,62 |
+| Diagnostics: 8 known >120 plus 4 C3a UNKNOWN, memory/covers | 90 min | $1,215 |
+| Full Linux autoharness emulation | 300 min timeout / 270 min work | max $4,05 |
+| Four Linux ordinary partition jobs | 4×300 min | max $16,20 |
+| 252 positive opt-in, seven chunks (40×6 + 12) | 7×210 min | max $19,845 |
+| FAILED26, run separately | 150 min | max $2,025 |
+| Deferred unsupported diagnostic | 60 min | max $0,81 |
 
-Первые четыре строки нельзя назвать ожидаемой длительностью; полный std runtime не выводится из
-SmallSort VT. При40 proofs/chunk, jobs3 и10 мин/case идеальная верхняя граница proof scheduling
-`ceil(40/3)×10 =140 мин`; envelope210 оставляет70 мин на setup/list/дополнительные действия,
-но внешние setup/compiler stalls всё равно могут сорвать его. 7chunks×40 =280 positive proofs.
-Для FAILED26 идеальная timeout-граница `ceil(26/3)×10=90 мин`, envelope150 включает60 setup.
-По аналогии116 ordinary proofs дают `ceil(116/3)×10=390 мин` только для capped selected
-proof schedule, а не прогноз полного autoharness, не обещание completion и не достаточный
-single-build budget существующего300-минутного lane. Для отдельной selected диагностики нужны chunks.
+Total listed GCB envelopes: **3390 min / $45,765**, with four partition jobs. This is a conservative planning reserve, not a forecast of proof success, actual runtime or an authorized build budget. Mac partition and autoharness work need separate resources and must not use the GCB rate. Re-estimate after the first measured chunks while preserving external coordinator/owner/slot limits.
 
-Итого перечисленные **Linux/GCB envelopes =3390 мин, $45,765** при четырёх partition jobs;
-это намеренно консервативный резерв полного плана, не заявленная цена новой попытки и не открытый бюджет.
-Mac4 partition +autoharness jobs требуют отдельного ресурса/тарифа: ставку GCB к ним не применять.
-Часть setup может быть общей/cached; после первых измерений пересчитать envelopes с сохранением
-реальных coordinator/owner/slot ограничений будущего этапа. П-6 история и C3c PARTIAL не дают права
-писать «новый состав доказан» до выполнения указанных проверок.
+## Исторические источники и ограничения
+
+П-6 `check-kani-on-std`: 8/8 partition results на `6cfc76cb211d088aebaff8a449bcac953e97f942`, Actions run `40748125754`, согласно [TASK-SCOPE, правке 1](../TASK-SCOPE.md). Это только историческое основание; на SHA B/C3a не переносить без запуска. Три macOS TIMEOUT600 и гибель Ubuntu runner — данные [TASK-C3C](../TASK-C3C.md), не вывод о причине. [RESULT-C3C](../RESULT-C3C.md) отмечает, что причина остановки исторического Ubuntu run не установлена. Не читать полные логи и не выдавать эти сведения за новый SHA результат.

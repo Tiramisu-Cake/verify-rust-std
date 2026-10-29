@@ -1,0 +1,1097 @@
+{
+  "result": "PASS_STATIC_HELPER_USE_FORECAST_ONLY",
+  "configurations": {
+    "ordinary": {
+      "new_unused_candidates": [],
+      "existing_candidates": [],
+      "checked": [
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "bidirectional_merge",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "insert_tail",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "merge_up",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "small_sort_network",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "swap_if_less",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 3
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 23
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 4
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "strict_less",
+          "references": 8
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "cut_ord_violation",
+          "references": 3
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_swap",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_insert",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_merge_up",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "count",
+          "references": 2
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "arbitrary_less",
+          "references": 2
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_merge_consumption",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_presorted_len",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "macro",
+          "symbol": "paired_case",
+          "references": 5
+        },
+        {
+          "module": "assembly",
+          "kind": "macro",
+          "symbol": "stable_unit_case",
+          "references": 8
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "ManuallyDrop",
+          "references": 4
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 1
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 4
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "lt_u8",
+          "references": 1
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "set_value_probe",
+          "references": 1
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 6
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "CopyOnDrop",
+          "references": 5
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "UnstableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "bidirectional_merge",
+          "references": 4
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "sort4_stable",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 6
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "size_of",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "FreezeMarker",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 66
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 31
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_sort4_contract_and_comparator_harnesses",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_route_safety_harness",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_small_merge_contract_harness",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_merge_contract_harness",
+          "references": 9
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_general_sortedness_harness",
+          "references": 19
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_fallback_property_harness",
+          "references": 7
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_drop_route_harness",
+          "references": 13
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "UnstableSmallSortFreezeTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "swap_if_less",
+          "references": 4
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_i32",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_u8",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_u64",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 135
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "size_of",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "unstable_freeze_network_cases",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "unstable_dispatch_network_cases",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_safety_cases",
+          "references": 6
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_pair_safety_cases",
+          "references": 12
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_reachability_case",
+          "references": 3
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_at_any_offset",
+          "references": 3
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_safety_cases",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_route_cases",
+          "references": 3
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_insertion_cases",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_offset_group_cases",
+          "references": 5
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "network_correctness_cases",
+          "references": 13
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "swap_contract_exact_array_case",
+          "references": 6
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_permutation_case",
+          "references": 4
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_route_permutation_case",
+          "references": 3
+        },
+        {
+          "module": "smoke",
+          "kind": "use",
+          "symbol": "has_efficient_in_place_swap",
+          "references": 1
+        },
+        {
+          "module": "smoke",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "UnstableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "Cell",
+          "references": 4
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 25
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "logical_less",
+          "references": 2
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "count",
+          "references": 2
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "check_output",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "cover_nontrivial_input",
+          "references": 5
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "trait_properties",
+          "references": 7
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "trivial_trait_properties",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "trait_cases",
+          "references": 2
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "fixed_trait_case",
+          "references": 1
+        }
+      ]
+    },
+    "controls": {
+      "new_unused_candidates": [],
+      "existing_candidates": [],
+      "checked": [
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "bidirectional_merge",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "insert_tail",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "merge_up",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "small_sort_network",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "swap_if_less",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 3
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 23
+        },
+        {
+          "module": "assembly",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 4
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "strict_less",
+          "references": 8
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "cut_ord_violation",
+          "references": 3
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_swap",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_insert",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_merge_up",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "count",
+          "references": 2
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "arbitrary_less",
+          "references": 2
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_merge_consumption",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "fn",
+          "symbol": "check_presorted_len",
+          "references": 1
+        },
+        {
+          "module": "assembly",
+          "kind": "macro",
+          "symbol": "paired_case",
+          "references": 5
+        },
+        {
+          "module": "assembly",
+          "kind": "macro",
+          "symbol": "stable_unit_case",
+          "references": 8
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "ManuallyDrop",
+          "references": 4
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 1
+        },
+        {
+          "module": "comparators",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 4
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "CopyOnDrop",
+          "references": 4
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "lt_u64",
+          "references": 11
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "lt_u8",
+          "references": 13
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "set_value_probe",
+          "references": 5
+        },
+        {
+          "module": "correct",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 37
+        },
+        {
+          "module": "correct",
+          "kind": "fn",
+          "symbol": "fallback_stub",
+          "references": 1
+        },
+        {
+          "module": "correct",
+          "kind": "macro",
+          "symbol": "fallback_stub_harness",
+          "references": 17
+        },
+        {
+          "module": "correct",
+          "kind": "fn",
+          "symbol": "scratch_insert_contract",
+          "references": 1
+        },
+        {
+          "module": "correct",
+          "kind": "macro",
+          "symbol": "scratch_contract_harness",
+          "references": 2
+        },
+        {
+          "module": "correct",
+          "kind": "fn",
+          "symbol": "general_stable_stub",
+          "references": 1
+        },
+        {
+          "module": "correct",
+          "kind": "macro",
+          "symbol": "general_stub_harness",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "insert_tail",
+          "references": 1
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "CopyOnDrop",
+          "references": 5
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "UnstableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "bidirectional_merge",
+          "references": 12
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "sort4_stable",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 12
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "size_of",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "FreezeMarker",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 104
+        },
+        {
+          "module": "merge",
+          "kind": "use",
+          "symbol": "ptr",
+          "references": 37
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "dispatch_by_length",
+          "references": 5
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_sort4_contract_and_comparator_harnesses",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_merge_length_harness",
+          "references": 5
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_route_safety_harness",
+          "references": 31
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_small_merge_contract_harness",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_merge_contract_harness",
+          "references": 26
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_unsorted_halves_control",
+          "references": 2
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_general_sortedness_harness",
+          "references": 34
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_fallback_property_harness",
+          "references": 17
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_fallback_route_harness",
+          "references": 3
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_drop_route_harness",
+          "references": 15
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "UnstableSmallSortFreezeTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "swap_if_less",
+          "references": 6
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "set_value_probe",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_i32",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_u8",
+          "references": 2
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "lt_u64",
+          "references": 2
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 161
+        },
+        {
+          "module": "network",
+          "kind": "use",
+          "symbol": "size_of",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "unstable_freeze_network_cases",
+          "references": 1
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "unstable_dispatch_network_cases",
+          "references": 5
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_safety_cases",
+          "references": 8
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_pair_safety_cases",
+          "references": 16
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "dispatch_reachability_case",
+          "references": 3
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_at_any_offset",
+          "references": 3
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_safety_cases",
+          "references": 9
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_route_cases",
+          "references": 4
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_insertion_cases",
+          "references": 9
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_offset_one_cases",
+          "references": 5
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_offset_group_cases",
+          "references": 28
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "network_correctness_cases",
+          "references": 30
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "swap_contract_exact_array_case",
+          "references": 9
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insertion_permutation_case",
+          "references": 14
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "swap_contract_arbitrary_indices_case",
+          "references": 8
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "insert_tail_contract_case",
+          "references": 15
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "mutating_route_permutation_case",
+          "references": 3
+        },
+        {
+          "module": "smoke",
+          "kind": "use",
+          "symbol": "has_efficient_in_place_swap",
+          "references": 4
+        },
+        {
+          "module": "smoke",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 4
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "StableSmallSortTypeImpl",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "UnstableSmallSortTypeImpl",
+          "references": 3
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "Cell",
+          "references": 9
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "kani",
+          "references": 27
+        },
+        {
+          "module": "types",
+          "kind": "use",
+          "symbol": "MaybeUninit",
+          "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "logical_less",
+          "references": 4
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "count",
+          "references": 2
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "check_output",
+          "references": 3
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "cover_nontrivial_input",
+          "references": 5
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "trait_properties",
+          "references": 7
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "trivial_trait_properties",
+          "references": 3
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "trait_cases",
+          "references": 4
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "fixed_trait_case",
+          "references": 1
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Top-level cfg and token references only; no Rust name resolution or macro expansion",
+    "An occurrence in an unused macro can overestimate use; compiler warning checks remain required",
+    "Existing allow(dead_code) in merge/network is preserved; no new allow attributes",
+    "No builds, rustc, cargo, Kani or CBMC were run"
+  ]
+}

@@ -52,8 +52,9 @@ def gated(attrs):
     return bool(re.search(r"#\[\s*cfg\s*\(\s*kani_smallsort_controls\s*\)\s*\]", attrs))
 
 
-def records(module, revision=None):
-    text = source(module, revision)
+def records(module, revision=None, text=None):
+    if text is None:
+        text = source(module, revision)
     masked = predict.mask_comments_strings(text)
     spans, macros = [], {}
     for match in re.finditer(r"\bmacro_rules!\s*(\w+)\s*\{", masked):

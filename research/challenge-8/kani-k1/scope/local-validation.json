@@ -1,5 +1,6 @@
 {
   "result": "PASS_LOCAL_STATIC_ONLY",
+  "scope_variant": "B",
   "builds_run": 0,
   "rustc_cargo_kani_cbmc_run": false,
   "rustfmt": {
@@ -8,9 +9,10 @@
     "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
     "config": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/fmtcfg/rustfmt.toml",
     "files": [
-      "correct.rs",
-      "merge.rs",
-      "network.rs"
+      "verify.rs",
+      "verify/correct.rs",
+      "verify/merge.rs",
+      "verify/network.rs"
     ],
     "rust_lines_max": 100
   },
@@ -18,9 +20,43 @@
   "independent_tsv_arithmetic": "PASS",
   "plan_cost_arithmetic": "PASS",
   "command_printer": "PASS (no execution)",
-  "bounded_review": "C3a evidence and final scope arithmetic/source claims reviewed; two counts corrected",
+  "prepare_scope_apply_idempotent": "PASS (library unchanged)",
+  "static_scope": {
+    "exit_code": 0,
+    "ordinary": 144,
+    "controls_enabled": 423,
+    "matching_nontrivial_contract_edges": 15,
+    "trivial_stub_callers_without_merge": 4,
+    "proof_budget_cfgs": 161,
+    "helper_budget_cfgs": 14
+  },
+  "helper_use": {
+    "exit_code": 0,
+    "result": "STATIC_FORECAST_ONLY",
+    "ordinary_new_unused_candidates": [],
+    "controls_new_unused_candidates": []
+  },
+  "pr2": {
+    "exit_code": 0,
+    "patch_applied_to_temporary_source_copy": true,
+    "ordinary": 328,
+    "baseline_match": "e9655515 exact ordinary name set",
+    "controls_failed_unchanged": 26,
+    "pre_existing_opt_in_unchanged": true,
+    "budget_gates": 175,
+    "proof_gates_cover_moved_names": 184
+  },
+  "bounded_review": "PR2 patch/gate manifest/generator reviewed; no concrete findings; source forecast only",
   "restore_commit": "778204a99abd723896bac49f7a920a80868c4be4",
-  "library_commit": "c8fce2febdb97e73ab13ebe5d58d026a1e036087",
+  "scope_a_library_commit": "c8fce2febdb97e73ab13ebe5d58d026a1e036087",
+  "library_b_commit": "b3213b9be0ebc1032200d8c20a056d7991bdea45",
+  "library_review_fix_commit": "d627e2ffbdbf5a0ddc6061ddd6b50552c782dce6",
+  "library_tree": "462e8f1cc3d4104d1513fba0303c4591f32a1da4",
   "actual_inventory": "NOT_RUN",
-  "formal_verification": "NOT_RUN"
+  "formal_verification": "NOT_RUN",
+  "limitations": [
+    "Python helper-use forecast is not a compiler warning check",
+    "Ordinary callee/caller closure covers T/N/comparator; allocation/region transfer stays conditional",
+    "No CI suitability or new-SHA proof acceptance established"
+  ]
 }

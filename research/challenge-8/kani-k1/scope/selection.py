@@ -1,4 +1,4 @@
-"""Reviewable SCOPE policy: dependencies and domains precede timing, no E/K/R edits."""
+"""Selected SCOPE-B policy: exact T/N dependencies precede timing, no E/K/R edits."""
 import re
 
 
@@ -11,16 +11,18 @@ def select(r):
             return "correct-scratch-general", False, "Верхний dual-stub домен N14/15 и scratch contract перенесены вместе"
     if mod == "merge":
         if macro == "define_general_sortedness_harness":
-            return "merge-general-callers", False, "Вся группа merge-stub callers; exact-N contract не закрывает scratch48 transfer"
+            limit = 8 if r["args"][1] == "u64" else 9
+            return "merge-general-callers", int(r["args"][3]) <= limit, "B: u64 N0..8/u8 N0..9 с matching T/N merge-контрактами; exact-N не закрывает scratch48 transfer, композиция условная"
         if macro == "define_merge_contract_harness":
-            return "merge-contract-upper", False, "Отдельные N5..16: callers уже opt-in; ordinary сохраняет самостоятельные N2..4"
+            limit = 8 if r["args"][1] == "u64" else 9
+            return "merge-contract-upper", int(r["args"][3]) <= limit, "B: matching T/N/comparator contracts u64 N5..8/u8 N5..9; N2..4 сохраняются отдельно; выше границы callers и contracts opt-in"
         if macro in ("define_fallback_property_harness", "define_fallback_route_harness"):
             keep = macro == "define_fallback_property_harness" and int(r["args"][1]) <= 6
             return "merge-fallback", keep, "Реальные insertion bodies N0..6; дорогие N7/8 расширяют длины opt-in"
         if macro == "define_drop_route_harness":
             return "merge-drop", name != "drop_general_tag_permutation_n16", "Сохранены normal-return Drop counts до16 и tags до8; дорогой tag N16 opt-in"
         if macro == "define_route_safety_harness":
-            return "merge-routes", int(r["args"][2]) in (2, 8, 16), "Срез exact-length real general/noncopy/stable: 2/8/16; остальные три-route группы opt-in целиком"
+            return "merge-routes", int(r["args"][2]) in (2, 8, 16), "Срез exact-length real u64 general/noncopy/stable: 2/8/16; остальные три-route группы, включая N31/32, opt-in целиком"
     if mod == "network":
         if macro == "insert_tail_contract_case":
             return "tail-shifted", False, "Все start1..15 в [u64;17] вместе с insertion-stub callers opt-in"
@@ -37,7 +39,7 @@ def select(r):
             keep = macro == "unstable_freeze_network_cases" or "_n30_to32" in name
             return "network-safety-u64", keep, "Реальный u64 Freeze N0..17 и unstable30..32; промежуточные18..29 opt-in, переход18 есть у u8"
         if macro in ("dispatch_safety_cases", "dispatch_pair_safety_cases"):
-            return "dispatch-safety", not name.endswith("_n31"), "Trait/типовые переходы15..17 и максимумы32 сохранены; одиночные31 bytes16/17/85/Drop opt-in"
+            return "dispatch-safety", not name.endswith("_n31"), "Dispatch u8/bytes16/17/85/Drop max32 и типовые переходы15..17 сохранены; bytes86 только до16; одиночные31 bytes16/17/85/Drop opt-in, это не u64 general/stable max32"
         if macro == "swap_contract_exact_array_case":
             return "swap-types", "bytes85" not in name and "bytes86" not in name, "Сохраняются u8/u64, bytes16/17, Cell, Drop; дорогие byte widths85/86 opt-in"
         if macro == "swap_contract_arbitrary_indices_case":

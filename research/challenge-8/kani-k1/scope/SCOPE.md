@@ -1,192 +1,87 @@
-# SCOPE: предложенный состав, пригодность для CI не проверена
+# SCOPE: вариант B — предложенный состав, пригодность для CI не проверена
 
-2026-10-29. Ветка `experiment/kani-k1-scope-20261029`. Сборок, Kani, CBMC и внешних
-CI-запусков не было. Это пересмотр состава доказательств и заявлений PR, а не подтверждение
-прохождения organizer CI. Все неизвестные времена и allocation gaps сохранены явно.
+2026-10-29. Основа — библиотека `e96555151df91080fa0ccc106f60ee38a919c50e`; ветка подачи не менялась. Сборок, Kani, CBMC и внешних CI-запусков для выбранного SHA не было. Это решение о составе, не подтверждение CI-прохождения. Значения macOS — исторические оценки из TSV и вычислений; 4 C3a значения остаются UNKNOWN.
 
-Основа — библиотека `e96555151df91080fa0ccc106f60ee38a919c50e`, не C3c.
-Коммит восстановления `778204a` возвращает `library/` побайтно к этой основе.
-Отдельный library-коммит `c8fce2febdb97e73ab13ebe5d58d026a1e036087` добавляет только 189 item-level
-`#[cfg(kani_smallsort_controls)]` в correct/merge/network. Ни тела, ни домены, ни assertions,
-ни helper-макросы, ни covers, ни solver/unwind не изменены. Разбиения C3c не выбраны.
-Подающая ветка не изменялась. Все коммиты содержат `[skip ci]`.
+## Основания и правило выбора
 
-## Основания и принцип выбора
+П-6: исторические 8/8 ordinary partition jobs в Actions run `40748125754` относятся только к `6cfc76cb211d088aebaff8a449bcac953e97f942` (до C3a). Не переносить это свидетельство на весь `e9655515` или на новый SHA. Пакет `e9655515` даёт 328 исходных harness names; 4 C3a types/smoke имеют UNKNOWN macOS VT, включая изменённую smoke-модель. Источники и ограничения C3a сохранены в [evidence](c3a-evidence.json), [notes](c3a-notes.md) и [RESULT-C3A copy](RESULT-C3A-source.md).
 
-П-6: 8/8 ordinary-партиций Actions run `40748125754` относится к
-`6cfc76cb211d088aebaff8a449bcac953e97f942`. Это историческое свидетельство из задания,
-не свежая проверка данного патча. Оно не распространяется автоматически на весь `e9655515`.
-В основе SCOPE статически 328 ordinary: 324 неизменённых П-6 модели и четыре C3a types/smoke.
-Старое имя smoke совпадает, но его тело C3a изменено: прежние 0,1 с не присвоены новой модели.
-Для C3a отдельно сохранены [результаты](c3a-evidence.json), measurement heads и library-tree SHA,
-[заметки об ограничениях](c3a-notes.md) и [копия RESULT-C3A](RESULT-C3A-source.md)
-из `87fdd544ffbb7728135002591b1c1cb83aa25217`. Первые N0..2 измерялись до исправления covers;
-изолированный Cell N7 и smoke имеют собственные результаты. Новый состав целиком не доказан.
+Сначала сохраняются полезные свойства с соответствующими доказательствами контрактов того же домена, затем удаляются дорогие дубли. B добавляет к ядру A (116) девятнадцать general/stable merge callers (u64 N0..8, u8 N0..9) и девять matching exact merge contracts (u64 N5..8, u8 N5..9). Среди callers четыре простых N0/1 без вызова merge и пятнадцать нетривиальных callers с доказательствами того же type/N/comparator. В ordinary нет stub caller с matching T/N/comparator контрактом, оставшимся только в opt-in. Это не закрывает композицию между разными аллокациями: exact-N ↔ scratch48 и shifted tails остаются gaps; композиция имеет условный статус.
 
-Сначала сохранены полезные свойства и нужные callee, затем убраны дорогие дубли и целые верхние
-группы. Сохранены реальные trait-входы, переходы алгоритмов и типов, максимумы trait-safety,
-полная группа insertion N20 со всеми offsets, normal-return Drop и положительные witnesses.
-Отрицательные проверки остаются opt-in. Семейства сравниваются по сумме, а не только по max.
-Точное сохранение cheap names не самоцель: группы промежуточных длин дают заметную общую цену.
+Неизменённые источники и evidence SHA для каждой гармоники, а также реальные domain edges отражены в [scope.tsv](scope.tsv). Исторические имена не доказывают новый SHA. `proof_for_contract` считается зависимостью только для соответствующего типа, длины, компаратора и региона.
 
-Все 44 ordinary insertion-stub/merge-stub callers (`correct` 19 + `merge` 25 нетривиальных)
-переносятся вместе с расширенными контрактными доменами. Дополнительно переносятся два trivial
-merge callers N0/1 на каждый тип. Итого `correct` stub callers 19, `merge` callers 29.
-В предлагаемом ordinary нет `stub_verified`: это устраняет оставленные conditional claims,
-но **не доказывает** прежние allocation transfers. Самостоятельные prefix u8, merge N2..4,
-sort4 и swap контракты сохраняют только свои конкретные домены.
+## Решения по семействам
 
-У `correct` u64 fallback нужен begin0, а shifted begin1..15 в `[u64;17]` его не заменяет.
-У u8 prefix `[17]` и exact-N callers различаются allocation models; scratch48 starts0/6/7
-не равны произвольному scratch-домену. Exact-N merge witnesses не закрывают source/destination
-subregions scratch48 у general/stable и вложенного sort8. Сохранённый ordinary contract
-сам по себе не повышает старое conditional composition до whole-route theorem.
-[Карта зависимостей](dependency-review.md) и per-name `required_proofs`/`contract_domain_gap`
-в [scope.tsv](scope.tsv) сохраняют эти границы.
+Количество — исходное → ordinary B; VT — сумма известных macOS секунд до → после. T600 цензурирован и не включён в VT; U4 — четыре неизвестных C3a времени. Полные основания по harness — в [scope.tsv](scope.tsv).
 
-## Решения владельцу
+| Семейство | Остаётся / уходит; влияние на заявление | VT до → после, с |
+|---|---|---:|
+| correct fallback, 17→0 | u64 N8..16/u8 N9..16 остаются opt-in; fallback caller домены не ordinary | 1769,7→0 |
+| correct scratch/general, 3→0 | u8 scratch48 и general/stable N14/15 вместе с соответствующими contracts opt-in | 462,8→0 |
+| merge general callers, 29→19 | Ordinary: u64 N0..8, u8 N0..9; 15 нетривиальных callers имеют matching T/N proof, плюс N0/1 без вызова merge. Higher lengths opt-in | 1740,9→251,4 |
+| merge exact contracts, 24→9 | Ordinary: u64 N5..8 и u8 N5..9; higher exact-N contracts opt-in | 3894,7 + T600→685,6 |
+| real fallback, 9→7 | u8/u64 N0..6 остаются; combined N7 и u8 N8 opt-in | 369,5→50,2 |
+| Drop, 14→13 | Counts до N16, tags до N8; tag-permutation general/stable N16 opt-in | 369,8→98,0 |
+| three-route safety, 31→3 | Полные три-route доказательства только N2/8/16; остальные lengths opt-in | 3100,7→74,7 |
+| shifted tail contracts, 15→0 | START1..15 для `[u64;17]` opt-in; не переносит доказательство на другие регионы/allocations | 3145,3 + T600→0 |
+| network correctness, 27→13 | u8/u64 N0..7 и N9, плюс u8 N13; прочие lengths opt-in | 2943,7→181,5 |
+| suffix permutation, 10→4 | u8/u64 N10/14 остаются; N11/12/15 opt-in | 640,5 + T600→17,5 |
+| insertion safety lower, 10→2 | Plain/Cell N1..5 offsets остаются; N6..14 opt-in | 650,9→13,5 |
+| insertion safety upper, 56→10 | Plain/Cell N20 со всеми offsets1..20 остаются; N15..19 opt-in | 1709,3→450,3 |
+| u64 network safety, 6→2 | Freeze N0..17 и u64 unstable30..32 остаются; N18..29 opt-in | 862,0→381,4 |
+| trait dispatch safety, 22→18 | Сохранены bytes/drop/u8 dispatch до N32; u64 general/noncopy/stable N31/32 opt-in | 2007,4→1473,9 |
+| swap types, 8→6 | u8/u64/bytes16/17/Cell/Drop остаются; bytes85/86 opt-in | 742,8→143,4 |
+| swap indices, 8→0 | Exact allocations9/12/13/16 opt-in; самостоятельные17/four-position остаются в других harnesses | 222,5→0 |
+| mutating Cell routes, 4→3 | Traits N0..8 и13..16 остаются; N9..12 opt-in | 188,9→152,9 |
+| C3a types/smoke, 4→4 | Logical Cell N0..2/N7, Drop N0..2 и predicate matrix остаются; four VT UNKNOWN | U4→U4 |
+| Остальные 31, без изменений | Assembly, unit-ZST, prefix u8, merge contracts N2..4, sort4, reachability, swap17/four-position, mutating permutation | 546,0→546,0 |
 
-Числа — ordinary до→после; стоимость — сумма **известных** macOS VT, секунды.
-`T600` означает censored timeout без VT, не прибавленные 600 с.
-`U4` — четыре неизвестных C3a macOS времени, не нули. Каждая строка развёрнута в scope.tsv.
+B содержит **144 ordinary**; **184** перемещены в opt-in, ни одна гармоника не удалена. Разделение возвращает 19 merge stub callers с 9 exact contracts в дополнение к двум grouped N2..4; переносы между аллокациями остаются недоказанными. Дыры по lengths не выводятся из соседних доказательств.
 
-| Семейство, число до→после | Остаётся / уходит в opt-in | Зависимости и потеря ordinary-заявления PR | VT до→после, с |
-|---|---|---|---:|
-| correct fallback, 17→0 | Все u64 N8..16/u8 N9..16 в opt-in | Insertion-stub callers вместе с регионами; нет unconditional exact-N fallback theorem | 1769,7→0 |
-| correct scratch/general, 3→0 | u8 scratch48 и general/stable N14/15 в opt-in | Оба stubs и matching merge N14/15 вместе; нет этих scratch/composed domains | 462,8→0 |
-| merge general callers, 29→0 | Вся u8/u64 general/stable группа в opt-in | Matching type/N contracts также opt-in выше4; scratch allocation transfer не заявлен | 1740,9→0 |
-| merge exact contracts, 24→0 | N5..16 обоих типов в opt-in; N2..4 в строке остальных | Нет ordinary merge-contract theorem N5..16; callers вынесены | 3894,7 + T600→0 |
-| real fallback, 9→7 | u8/u64 N0..6 остаются; combined N7 и u8 N8 opt-in | Без verified stubs; реальное correctness N7/8 больше не ordinary | 369,5→50,2 |
-| Drop, 14→13 | Counts fallback2/4/8, general/stable2/4/8/16; tags до8 | Tag-permutation general/stable N16 opt-in; counts не заменяют tags | 369,8→98,0 |
-| three-route safety, 31→3 | Целиком route0/1/2..255 при N2/8/16; остальные N opt-in | Прямой general u64/noncopy/stable выше16 не ordinary; не выдавать другие типы за тот же домен | 3100,7→74,7 |
-| shifted tail contracts, 15→0 | Все START1..15 в `[u64;17]` в opt-in | Полный shifted family с callers; begin0/иные allocations не следуют из него | 3145,3 + T600→0 |
-| network correctness, 27→13 | u8/u64 N0..7, N9; ещё u8 N13; остальные opt-in | N<9: sorted+permutation; N9/13: sortedness, structural permutation argument отдельно | 2943,7→181,5 |
-| suffix permutation, 10→4 | u8/u64 N10/14; N11/12/15 opt-in | После width9/13 сохранены самостоятельные suffix witnesses, не full-route composition | 640,5 + T600→17,5 |
-| lower insertion safety, 10→2 | Plain/Cell N1..5 все offsets; N6..14 opt-in | Дыры длин не закрываются максимумом20 | 650,9→13,5 |
-| upper insertion safety, 56→10 | Plain/Cell N20, объединение offsets1..20; N15..19 opt-in | Сохранён максимальный домен целиком, без заявления о промежуточных lengths | 1709,3→450,3 |
-| u64 network safety, 6→2 | Freeze N0..17 и unstable30..32; группы18..29 opt-in | Переход18 остаётся у u8; exact u64 intermediate domains не заявлены | 862,0→381,4 |
-| trait dispatch safety, 22→18 | Все типовые группы/15..17/максимумы32; bytes86 до16; standalone31 opt-in | Только bytes16/17/85/Drop N31 теряются; u8 combined31/32 сохранён | 2007,4→1473,9 |
-| swap types, 8→6 | u8/u64/bytes16/17/Cell/Drop; bytes85/86 opt-in | Predicate matrix не заменяет контракты bytes85/86 | 742,8→143,4 |
-| swap indices, 8→0 | Exact allocations9/12/13/16 opt-in; отдельные17/four-position в остальных | Никакого переноса доказательства между allocations | 222,5→0 |
-| mutating Cell routes, 4→3 | Traits N0..8 и13..16; промежуточные9..12 opt-in | Удалён самостоятельный промежуточный length domain | 188,9→152,9 |
-| C3a types/smoke, 4→4 | Logical Cell N0..2/N7, Drop N0..2 и predicate matrix | Реальные traits без stubs; C3a covers требуют повторного аудита того же SHA | U4→U4 |
-| Остальные 31 без изменений | Assembly5, unit-ZST8, prefix u8, merge-contract2, sort4×4, reachability3, swap4/17×5, mutating permutation3 | Положительные witnesses и самостоятельные локальные домены; не whole generic theorem | 546,0→546,0 |
+Следующий шаг — вариант C: поднять границу merge до N10 для обоих типов (150 ordinary); отдельное решение после проверки стоимости и доменных зависимостей.
 
-Набор намеренно существенно меньше старого: **212 перенесено, ни одна гармоника не удалена**.
-Ни одна строка таблицы не объявляет временную или логическую эквивалентность разных allocations,
-типов, компараторов или длин. Sparse domains перечислены, не замаскированы диапазоном.
-Исторические module comments исходной библиотеки про «ordinary N2..16» относятся к пакету-основе;
-после cfg-отбора состав и текст заявления PR задаются этой таблицей и манифестами.
-Их обновление в нейтральную к конфигурации документацию следует сделать в подающем пакете;
-SCOPE не меняет библиотечный текст сверх разрешённых item cfg.
+## Прогноз времени и памяти
 
-## Прогноз бюджета и память
+[metrics.json](metrics.json) и [scope.tsv](scope.tsv) дают 144 ordinary: 140 с известными macOS VT и 4 C3a UNKNOWN. Сумма известных времён — **4520,3 с (75,3383 мин)**; известный max — **230,2 с**; **8** известных harnesses выше 120 с; >300 с — 0 известных. Полный прогноз — 4520,3 с + U1+U2+U3+U4, max `max(230,2; U1..U4)`, а число >120 равно `8 + count(Ui>120)`. 120 с — ориентир из organizer guidance #56, не hard limit. Наша рабочая цель около 1 часа и max 300 с превышена по известной сумме; данный B выбран ради возврата нужных contract/caller domains. При jobs=3 идеальная сумма известных VT соответствует 25,11 минутам параллельного времени без compiler/setup/прочего std, но не wall-time гарантии.
 
-Пересчёт воспроизводим: [metrics.json](metrics.json), [prepare_scope.py](prepare_scope.py),
-исходные [mac-times.tsv](../c3c-inputs/mac-times.tsv), binding в RESULT-C3C.
-Пакет-основа: 328 ordinary; 321 SUCCESS timing суммой **25367,4 с**, ещё три T600 и четыре UNKNOWN.
-TSV содержит 322 SmallSort SUCCESS строки суммой25367,5: старые smoke0,1 с здесь исключены.
+Арифметика B: A=3583,3 с + VT callers251,4 с + contracts685,6 с = 4520,3 с. Масса переноса — 184 harnesses, всего positive opt-in **252 = 68 прежних + 184 перенесённых**, FAILED controls 26 и deferred unsupported 1; controls cfg inventory прогнозируется как 423 имён. При jobs3 одновременно возможны до трёх тяжёлых proofs; каждый из четырёх UNKNOWN также может оказаться тяжёлым. Источники — [metrics.json](metrics.json), П-6 [mac-times.tsv](../c3c-inputs/mac-times.tsv) и ограничения [RESULT-C3C](../RESULT-C3C.md); фактический `kani list` не выполнялся.
 
-Предложение: **116 ordinary = 112 с известными временами + 4 C3a UNKNOWN**.
-Сумма известных VT **3583,3 с = 59,72 мин**, полный прогноз **3583,3 с + U1+U2+U3+U4**.
-Известный max **230,2 с**, полный max `max(230,2; U1; U2; U3; U4)`.
-Известных **8 >120 с**; полный счёт `8 + count(Ui>120)`.
-Известных >300 с —0; по C3a и по новому SHA это не установлено.
-Это исторические Mac точки неизменённых тел при допущении переносимости времени через cfg-отбор;
-не новый wall-time замер, не GCB-to-Mac прогноз и не CI acceptance.
+П-6 partition history описывает исторические proof outcomes, не память нового набора. По [C3c baseline per-harness-memory.tsv](../c3c/per-harness-memory.tsv) (library `e9655515`, head `f9bdf626`, build `e358163c-9006-4ea0-a402-c12a5a009747`) у moved route/tail checks есть индивидуальные peaks: u64 route N31/N32 — около 3,92/4,12 GiB CBMC HWM, shifted tail START1 — около 2,85 GiB. У большинства выбранных proofs атрибутированной памяти нет. Эти значения не предсказывают одновременный пик B. Не складывать независимые PID maxima; новый simultaneous peak и C3a per-harness memory остаются неизвестны.
 
-Порог ~120 с — идеальный ориентир организаторов из предоставленного #56, а не жёсткое правило.
-Рабочие цели **ΣVT≈1 ч и max≤300 с** — наши; они не являются критерием организаторов или
-границей wall всего job. При jobs3 SmallSort известный VT даёт идеальные19,91 мин без overhead,
-но общий std job, компиляция, inventory, неизвестные C3a и память сюда не входят.
-Все восемь известных >120 с сохранены за ценность trait/type boundaries и максимальных safety:
-bytes16/17 mid+max, u8 merge route, mutating Cell13..16, u64 Freeze0..17 и unstable30..32.
-Одновременно могут выполняться **до трёх тяжёлых проверок**, не восемь и не одна;
-последовательность scheduling этим патчем не задаётся. Четыре UNKNOWN могут тоже быть тяжёлыми.
+## PR2 — отдельный вариант
 
-Из [per-harness-memory.tsv](../c3c/per-harness-memory.tsv): baseline GCB library=`e9655515`,
-measurement head=`f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810`, build
-`e358163c-9006-4ea0-a402-c12a5a009747`. Перенесённые route N32/N31 имели CBMC HWM
-4324924/4112844 KiB (4,12/3,92 GiB), tail START1 —2989792 KiB (2,85 GiB).
-Из сохранённых есть индивидуальные замеры лишь у **10/116**: max1158900 KiB (1,11 GiB),
-assembly unit N32; это **не** верхняя граница памяти остальных моделей или всего job.
-Baseline matched-job sampled RSS-sum peak11,02 GiB, driver HWM5,53 GiB — прежний состав,
-не прогноз SCOPE. Для C3a известны только общие пики отдельных jobs1 запусков: до2,41 GiB
-sampled sum и2,16 GiB driver, без per-harness attribution; см. c3a-evidence.json.
-Mac peaks и одновременный пик нового набора UNKNOWN. RSS не равна физической RAM;
-нельзя складывать независимые per-PID maxima и объявлять это пиком при jobs3.
+PR2 получается одним коммитом применения [pr2-ungate.patch](pr2-ungate.patch): снимаются только 175 бюджетных cfg из [budget-gates.tsv](budget-gates.tsv), прежние controls/opt-in сохраняются.
+В копии дерева статически восстановлены 328 ordinary `e9655515` (325 + C3a); FAILED26 неизменны — [прогноз PR2](pr2-static-check.json), [список](pr2-ordinary.txt); сборок не было.
+Предполагаемо зелёный `check-kani-on-std`: исторически П-6 8/8 на `6cfc76cb`, Actions run `40748125754` — источник [TASK-SCOPE, правка 1](../TASK-SCOPE.md#правки-по-обсуждению-с-планировщиком-обязательны-имеют-приоритет-над-текстом-ниже).
+`kani_autoharness` предполагаемо красный: три macOS TIMEOUT600 и гибель Ubuntu runner — [TASK-C3C](../TASK-C3C.md); причина остановки Ubuntu не установлена — [RESULT-C3C](../RESULT-C3C.md).
+Эта история не гарантирует результат нового PR2 SHA; C3a имеют отдельное evidence, все четыре macOS VT UNKNOWN, полный ordinary std и autoharness требуют проверки.
 
-Варианты: выбранный состав сохраняет важные safety domains ценой восьми известных >120 с.
-Если выбрать жёсткий исторический cutoff120, потребуется дополнительно вынести именно эти восемь:
-останется108, известная сумма2239,3 с, известный max119,5 с, но потеряются перечисленные
-типовые/максимальные safety domains; C3a и пригодность нового SHA всё ещё UNKNOWN.
-Если вернуть все offsets N15..19, добавятся46 гармоник и1259,0 с: known Σ4842,3 с,
-плюс U4; это явный вариант приоритета доменов, выходящий за нашу рабочую сумму.
-Основной патч фиксирует первый вариант, не автоматически применяет cutoff к отдельным именам.
+## Covers и ограничения композиции
 
-## Covers, C3c и opt-in
+E не включён: тела harnesses и политика covers сохраняются; item-level cfg переносит proof вместе с его covers. Если позже менять covers или выбирать C3c splits, нужен новый union map и аудит migrated/retained covers на обеих конфигурациях. C3c split timing получено в другом сочетании E/K/solver и требует повторного замера перед переносом на B.
 
-E **не включён**: он меняет тела и coverage policy. Перенос proof item переносит его covers
-вместе с ним, а все covers сохранённых ordinary остаются. Отдельная будущая опция E потребует
-нового cover-migration manifest, проверки existential witnesses при обеих конфигурациях,
-сохранения настоящих dispatch-reachability covers и нового измерения. При известных3583,3 с
-и неизвестном остатке оснований ослаблять covers сейчас нет.
+Для general/noncopy/stable u64 trait-safety N31/32 больше не ordinary. Сохраняются три-route N2/8/16, u64 Freeze unstable N30..32, bytes/drop/u8 dispatch до N32 и insertion safety offsets до20; эти утверждения ограничены типами/маршрутами из конкретных harnesses. Они не составляют generic maximum theorem для всех trait families.
 
-C3c START1/6, route31/32 и correct14 разбиты с полезным max в ряде GCB проб, но измерены
-в сочетании с E/K/solver configuration кандидата. После возврата covers/изменения solver
-**требуют замера**, не получают чисел из C3c. Для исходного TIMEOUT выигрыш суммы не установлен.
-Поэтому не переносим ни successor, ни helper-макросы C3c. Если будущий этап выберет разбиение,
-он обязан перенести весь необходимый helper и union domain, без невыбранных E/K.
-Карта [domain-map.tsv](domain-map.tsv): исходное имя→то же имя→точно тот же домен, 328 строк;
-для212 исходное имя остаётся в opt-in, для116 нет дополнительной копии, controls включает его тоже.
+Ordinary merge callers используют `stub_verified(bidirectional_merge)`; matching type/N/comparator `proof_for_contract` остаются в B. Эти зависимости нужно подтвердить фактическим раскрытием. Exact-N proofs не покрывают scratch48 и shifted regions. Поэтому caller+callee в одной ordinary конфигурации устраняет меж-конфигурационный разрыв, но композиция между allocation models остаётся условной.
 
-Механизм — только существующий `cfg(kani_smallsort_controls)`; новый cfg не вводится.
-Включённый cfg компилирует423 старых имени: ordinary116 + расширенные PASS280 + FAILED26
-+ один deferred ZST contract. [manifest.tsv](manifest.tsv) задаёт раздельные ожидания:
-[ordinary.txt](ordinary.txt), [extended-positive.txt](extended-positive.txt),
-[controls-failed.txt](controls-failed.txt). PASS означает требуемый результат, не полученный.
-На runner PASS соответствует `SUCCESS`; FAILED требует ожидаемого нарушения свойства,
-а не timeout, OOM или setup/compiler error. Имя `control` само по себе не означает FAILED:
-положительные reachability controls находятся в PASS280.
-`swap_contract_zero_sized_n2` сохранён и отдельно [отложен](deferred-unsupported.txt):
-исторически неподдерживаемая ZST-инструментация — не обычный отрицательный counterexample.
-Это явное ограничение opt-in suite, а не удаление гармоники или обещание полного green cfg.
+## Статическая проверка и текущее состояние
 
-## Статическая проверка и план выполнения
+Library-коммит B `b3213b9be0` поверх `c8fce2fe` снимает только 28 proof cfg; отдельный review-fix `d627e2ffbd` гейтит 14 helpers/imports и исправляет комментарии без увеличения числа их строк. Итоговый library tree: `462e8f1cc3d4104d1513fba0303c4591f32a1da4`. Тела всех items, assertions, домены, covers, solver/unwind и импортированные имена сохранены; импорты только разнесены по cfg.
 
-Локально выполнены только Python, git/read и предписанный rustfmt. [static-check.json](static-check.json):
-`PASS_STATIC_FORECAST_ONLY`, 328/328 исходных ordinary имён, всего423/423 уникальных,
-116 ordinary/307 opt-in, identity unions328, все прежние opt-in сохранены.
-Снятие cfg из обеих версий даёт идентичный исходный текст трёх изменённых файлов;
-189 новых cfg: correct20/merge84/network85. Rustfmt `--check --edition 2024` с заданным config
-завершился exit0; строки Rust≤100. Это **статический прогноз**, не раскрытие макросов компилятором,
-не фактический `kani list` и не проверка assertions. Повторить локально можно командами:
+[static-check.json](static-check.json): 423 уникальных имени, ordinary144/opt-in279, 15 matching contract edges и 4 caller N0/1 без merge. Всего 175 новых cfg: correct28/merge58/network89 = 161 proof + 14 helper gates. [helper-use-check.json](helper-use-check.json) не прогнозирует новых unused_macros/imports/dead_code в обеих конфигурациях; прежние allow(dead_code) merge/network сохранены. Rustfmt по заданному wrapper/config — exit0, строки Rust≤100. Это статический прогноз, не компилятор, macro expansion, фактический `kani list` или доказательство CI.
 
-```sh
-cd /root/verify-rust-std-kani-scope && python3 research/challenge-8/kani-k1/scope/check_scope.py
-cd /root/verify-rust-std-kani-scope && python3 research/challenge-8/kani-k1/scope/prepare_scope.py
-```
-
-Полный, **не выполненный** [план проверки и стоимости](VALIDATION-PLAN.md) включает обе конфигурации,
-фактический inventory, все4×2 ordinary-партиции Linux/macOS, autoharness jobs3/10m на обеих ОС,
-явный PASS/FAILED opt-in и аудит covers/контрактов на SHA library-патча.
-Печататель будущих команд явно выбирает один список и ничего не запускает:
-
-```sh
-cd /root/verify-rust-std-kani-scope && python3 research/challenge-8/kani-k1/scope/reproduction_commands.py --manifest ordinary
-cd /root/verify-rust-std-kani-scope && python3 research/challenge-8/kani-k1/scope/reproduction_commands.py --manifest extended-positive
-cd /root/verify-rust-std-kani-scope && python3 research/challenge-8/kani-k1/scope/reproduction_commands.py --manifest controls-failed
-```
+Воспроизведение из корня: `python3 research/challenge-8/kani-k1/scope/prepare_scope.py`, затем `check_scope.py`, `check_helpers.py`, `prepare_pr2.py` из той же папки. `reproduction_commands.py --manifest ordinary|extended-positive|controls-failed` только печатает будущие команды и ничего не запускает. Полный будущий [план проверки](VALIDATION-PLAN.md) не выполнялся; сборки запрещены этим этапом.
 
 ## English PR draft (proposed scope, not a CI result)
 
-To keep the default SmallSort suite practical, extended proof domains are opt-in via
-`RUSTFLAGS="--cfg kani_smallsort_controls"`, consistent with the runtime guidance in
-[#56](https://github.com/model-checking/verify-rust-std/issues/56). Proof bodies and covers are preserved.
-Select positive extensions and intentional failure controls using separate exact-name manifests.
-This scope has historical evidence per source SHA; its full CI suitability remains untested.
+The default SmallSort suite keeps 144 ordinary harnesses; extensions use
+`RUSTFLAGS="--cfg kani_smallsort_controls"` with separate exact-name manifests for 252 positive
+extensions, 26 expected failures and one deferred diagnostic. Proof bodies and covers are preserved,
+following the runtime guidance in [#56](https://github.com/model-checking/verify-rust-std/issues/56).
+Merge callers through u64 N8/u8 N9 retain matching T/N contracts; scratch composition stays conditional.
+The selected SHA has not been validated by CI; four C3a macOS timings remain unknown.
 
-- `correct`: insertion-stub fallback u64 N8..16/u8 N9..16; u8 scratch48 and general/stable N14/15.
-- `merge`: all merge-stub general/stable callers, merge contracts N5..16, real fallback N7/8, tag N16, three-route safety except N2/8/16.
-- `network`: shifted u64 tails; network u8 N8/10..12/14..17 and u64 N8/10..14; suffix N11/12/15; insertion N6..19; u64 safety18..29/Cell routes9..12; standalone dispatch31; swap widths85/86 and allocations9/12/13/16.
-- Negative controls stay opt-in; positive C3a logical trait checks and smoke remain ordinary with unknown macOS timings.
+- `correct` opt-in: insertion-stub fallback u64 N8..16/u8 N9..16, u8 scratch48 and general/stable N14/15; earlier u64 scratch/N15 controls remain opt-in.
+- `merge` opt-in: contracts u64 N9..16/u8 N10..16, general/stable callers u64 N9..12/16 and u8 N10..13/16, real fallback N7/8, tag N16, three-route safety except N2/8/16.
+- `network` opt-in: shifted u64 tails; correctness u8 N8/10..12/14..17 and u64 N8/10..14; suffix N11/12/15; insertion N6..19; u64 safety18..29/Cell9..12; standalone dispatch31; swap widths85/86 and allocations9/12/13/16.
+- Negative controls remain opt-in; the four C3a timing values remain unknown.
