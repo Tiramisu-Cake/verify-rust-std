@@ -20,7 +20,8 @@
 //!
 //! Manual stubs cut only `panic_on_ord_violation`; assembly witnesses and selected opt-in
 //! coverage/control audits support nonvacuity. `run-kani.sh` does not fail on unreachable covers;
-//! historical covers were inspected separately. See the PR limitations for uninit, aliasing, generic types, ZSTs, panic and unwind.
+//! historical covers were inspected separately. See the PR limitations for uninit, aliasing,
+//! generic types, ZSTs, panic and unwind.
 //!
 //! From the repository root, `./scripts/run-kani.sh --run list` lists the ordinary suite;
 //! `./scripts/run-kani.sh --run verify-std` supplies organizer flags and `--no-assert-contracts`.
