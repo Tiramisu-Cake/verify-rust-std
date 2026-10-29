@@ -8,6 +8,7 @@ The helper closure is identifier-based and does not expand Rust macros as a comp
 from __future__ import annotations
 
 import csv
+import json
 import re
 import subprocess
 import sys
@@ -19,7 +20,6 @@ ROOT = Path(__file__).resolve().parents[4]
 BASE = Path(__file__).resolve().parent
 P6 = "6cfc76cb211d088aebaff8a449bcac953e97f942"
 C3A_PASS = "8003d40abe12b3cfdc48729f060fd0a3214e6be6"
-C3C = "2cc4a5871bf6da42d23137208247c0cf8dacb44c"
 HEAD = "9be5499c459e3157be0d86dc366b2eccd1e911c8"
 LIB = "library/core/src/slice/sort/shared/smallsort/verify"
 EXTENDED = BASE / "extended-positive.txt"
@@ -258,15 +258,33 @@ def main() -> None:
         raise SystemExit(f"expected worktree target {HEAD}, got {head}")
     scope = {r["name"]: r for r in csv.DictReader(SCOPE.open(), delimiter="\t")}
     p6_names = {n for n, r in scope.items() if r.get("proof_sha") == P6}
-    # C3c is a partial autoharness run; bounded per-harness result rows are the
-    # only rows considered. The summary records build/source identities.
-    c3c_rows = {}
-    for path in sorted(C3C_ROWS.glob("autoharness.*.rows.tsv")):
-        for line in path.read_text().splitlines():
-            if not line.startswith("slice::sort::shared::smallsort::"):
+    # Load only compact GCB result fragments and their matching status metadata.
+    # Distinct runs are ordered by finishTime; within a run, later row fragments
+    # supersede earlier snapshots for the same harness.
+    gcb_passes = defaultdict(list)
+    status_files = sorted(C3C_ROWS.glob("*.status.json"))
+    for status_path in status_files:
+        stem = status_path.name.removesuffix(".status.json")
+        status = json.loads(status_path.read_text())
+        run_rows = {}
+        for rows_path in sorted(C3C_ROWS.glob(stem + ".*.rows.tsv")):
+            for line in rows_path.read_text().splitlines():
+                if not line.startswith("slice::sort::shared::smallsort::"):
+                    continue
+                cols = line.split("\t")
+                run_rows[cols[0]] = (cols[1], rows_path.name)
+        for harness, (result, rows_name) in run_rows.items():
+            if result != "SUCCESS":
                 continue
-            cols = line.split("\t")
-            c3c_rows[cols[0]] = (cols[1], path.name, cols[2] if len(cols) > 2 else "")
+            finished = status.get("finishTime", "")
+            sha = status.get("source_sha", "")
+            build_id = status.get("id", "")
+            if not sha or not build_id or not finished:
+                continue
+            source = f"GCB C3c {stem}; build {build_id}; finished {finished}; {rows_name}"
+            gcb_passes[harness].append((finished, sha, source))
+    for entries in gcb_passes.values():
+        entries.sort(key=lambda row: row[0], reverse=True)
     # Exact C3a positive PASS evidence in RESULT-C3A: the grouped Drop case.
     c3a_name = "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n7_to9"
     c3a_pass = c3a_name in EXTENDED.read_text().splitlines()
@@ -274,10 +292,8 @@ def main() -> None:
     source_cache = {}
     rows = []
     for name in (n.strip() for n in EXTENDED.read_text().splitlines() if n.strip()):
-        candidates = []
-        if name in c3c_rows and c3c_rows[name][0] == "SUCCESS":
-            candidates.append((C3C, "GCB C3c autoharness be070a8b; " + c3c_rows[name][1]))
-        elif name == c3a_name and c3a_pass:
+        candidates = [(sha, source) for _, sha, source in gcb_passes.get(name, [])]
+        if name == c3a_name and c3a_pass:
             candidates.append((C3A_PASS, "RESULT-C3A; build 2f10637a; exact grouped Drop N7..9"))
         if name in p6_names:
             candidates.append((P6, "P-6 Actions run 40748125754; 8/8 partitions"))
@@ -306,13 +322,17 @@ def main() -> None:
     counts = Counter(r["historical_result"] for r in rows)
     transfers = Counter(r["transfer"] for r in rows)
     sources = Counter(r["selected_source"].split(";")[0] for r in rows if r["transfer"] == "PASS")
+    latest_sources = Counter(r["last_historical_source"].split(";")[0]
+                             for r in rows if r["historical_result"] == "PASS")
     text = ["# Opt-in evidence audit", "", f"Target library SHA: `{HEAD}`.",
             f"Evidence scope: {len(rows)} extended-positive harnesses; historical PASS {counts['PASS']}, no exact PASS evidence {counts['NO_EVIDENCE']}.",
             f"Transfer result after per-harness source audit: PASS {transfers['PASS']}, NO_EVIDENCE {transfers['NO_EVIDENCE']}.",
             "", "This is a source-level transfer audit, not a new Kani run. Each harness source item and its identifier-resolved verification helper call closure are compared independently; this bounded Python analysis does not expand macros as rustc does. cfg attributes, comments, and import regrouping are normalized. Production/library files outside verify/ are also checked for changes.",
             "", "Selected transferable PASS evidence source counts:"]
     text += [f"- {src}: {count}" for src, count in sources.items()]
-    text += ["", "C3c is preferred only when that harness's own source and helper closure match the target; otherwise the audit tries earlier evidence such as P-6. Rows without a suitable matching PASS remain NO_EVIDENCE; timeout, missing result, neighboring length, and negative control are not PASS.",
+    text += ["", "Latest historical PASS source counts:"]
+    text += [f"- {src}: {count}" for src, count in latest_sources.items()]
+    text += ["", "All bounded GCB `*.rows.tsv` fragments were reconciled with their matching `*.status.json` source SHA, finish time, and build ID; rows are considered newest-first. GCB evidence is selected only when that harness's source and helper closure match the target; otherwise the audit falls back to an earlier suitable PASS such as P-6. Rows without a suitable matching PASS remain NO_EVIDENCE; timeout, missing result, neighboring length, and negative control are not PASS.",
              "", "Reproduce with `python3 research/challenge-8/kani-k1/scope/audit_optin_evidence.py`."]
     SUMMARY.write_text("\n".join(text) + "\n")
     print(f"{OUT}: historical PASS {counts['PASS']}, no evidence {counts['NO_EVIDENCE']}; transferable {transfers['PASS']}")

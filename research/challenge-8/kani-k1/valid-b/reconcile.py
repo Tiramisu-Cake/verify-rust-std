@@ -2,6 +2,7 @@
 import csv
 import hashlib
 import json
+import re
 import statistics
 from collections import Counter
 from datetime import datetime
@@ -88,6 +89,19 @@ def main():
             c3a=[r for r in table if r['mac_vt_s'] == 'UNKNOWN'],
             matched_mac_ratio=dict(n=len(ratios), median=statistics.median(ratios) if ratios else None,
                                    min=min(ratios, default=None), max=max(ratios, default=None)))
+        known = [r for r in table if r['mac_vt_s'] != 'UNKNOWN']
+        data['autoharness']['matched_mac_ratio']['sum_mac_over_sum_gcb'] = (
+            sum(float(r['mac_vt_s']) for r in known) / sum(float(r['time_s']) for r in known))
+        data['autoharness']['over_120'] = sum(float(r['time_s']) > 120 for r in table)
+        data['autoharness']['over_300'] = [r['name'] for r in table if float(r['time_s']) > 300]
+        function_summary = (BASE / 'evidence/autoharness.function-summary.txt').read_text()
+        m = re.search(r'Complete - (\d+) successfully verified functions, (\d+) failures, (\d+) total\.', function_summary)
+        assert m
+        success, failures, total = map(int, m.groups())
+        assert success + failures == total
+        data['autoharness']['automatic_functions_source_summary'] = dict(success=success, failures=failures, total=total,
+            source='evidence/autoharness.function-summary.txt', verification_time='NOT_EXPORTED_BY_LANE_PARSER')
+        data['autoharness']['non_success'] = [r for r in rows if r['status'] != 'SUCCESS']
         data['c3c_historical'] = aggregate(result_rows('autoharness', BASE.parent / 'c3c/evidence'))
     (BASE / 'metrics.json').write_text(json.dumps(data, indent=2) + '\n')
     print(json.dumps(data, indent=2))

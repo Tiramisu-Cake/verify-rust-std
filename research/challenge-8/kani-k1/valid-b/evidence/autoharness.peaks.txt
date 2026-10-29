@@ -1,0 +1,101 @@
+interval_ms=2000
+samples=4820
+elapsed_s=9910
+total_rss_peak_kb=11815784
+total_peak_s=8219
+cmd=bash peak_kb=3812 first_s=0 last_s=9910 peak_s=0
+cmd=cargo peak_kb=35072 first_s=2 last_s=399 peak_s=4
+cmd=cbmc peak_kb=4401732 first_s=744 last_s=9907 peak_s=7699
+cmd=cc1 peak_kb=9712 first_s=431 last_s=3187 peak_s=644
+cmd=cc1plus peak_kb=8820 first_s=471 last_s=3301 peak_s=3113
+cmd=gcc peak_kb=1256 first_s=431 last_s=7286 peak_s=708
+cmd=goto-cc peak_kb=188844 first_s=401 last_s=9123 peak_s=457
+cmd=goto-instrument peak_kb=1899880 first_s=744 last_s=9690 peak_s=8279
+cmd=kani-compiler peak_kb=3875640 first_s=2 last_s=399 peak_s=399
+cmd=kani-driver peak_kb=6184352 first_s=2 last_s=9909 peak_s=9699
+cmd=kissat peak_kb=46848 first_s=2051 last_s=2399 peak_s=2269
+cmd=python3 peak_kb=20424 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3880 first_s=2 last_s=9909 peak_s=2
+cmd=tee peak_kb=1080 first_s=0 last_s=9910 peak_s=2
+cmd=time peak_kb=1152 first_s=2 last_s=9909 peak_s=2
+cmd=timeout peak_kb=1104 first_s=2 last_s=9909 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=8779624 peak_s=8219
+role=driver simultaneous_rss_peak_kb=6184352 peak_s=9699
+role=solver simultaneous_rss_peak_kb=46848 peak_s=2269
+cbmc_pid=89338 peak_kb=4401732 first_s=7560 last_s=7823 peak_s=7699 active=T0:network::insertion_safety_u64_n20_offsets9_to12,T1:network::dispatch_safety_stable_unstable_bytes17_n32 hint=slice::sort::shared::smallsort::verify::network::dispatch_sa
+cbmc_pid=90649 peak_kb=4398312 first_s=8151 last_s=8316 peak_s=8226 active=T0:str::validations::verify::check_run_utf8_validation,T1:network::dispatch_safety_stable_unstable_bytes17_n15_16_17,T2:slice::verify::check_reverse hint=slice::sort::shared::smallsort::verify::network::dispatch_sa
+cbmc_pid=91349 peak_kb=4141644 first_s=8469 last_s=8666 peak_s=8591 active=T0:network::dispatch_safety_stable_unstable_bytes16_n32,T1:network::dispatch_safety_stable_unstable_bytes16_n15_16_17 hint=slice::sort::shared::smallsort::verify::network::dispatch_sa
+cbmc_pid=92551 peak_kb=4127092 first_s=8598 last_s=8822 peak_s=8734 active=T0:network::dispatch_safety_stable_unstable_bytes16_n32,T1:network::dispatch_safety_stable_unstable_bytes85_n32 hint=slice::sort::shared::smallsort::verify::network::dispatch_sa
+cbmc_pid=91058 peak_kb=4092640 first_s=8186 last_s=8374 peak_s=8217 active=T0:str::validations::verify::check_run_utf8_validation,T1:network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8 hint=str::validations::verify::check_run_utf8_validation
+cbmc_pid=94035 peak_kb=3954940 first_s=9368 last_s=9701 peak_s=9536 active=T0:network::swap_contract_four_positions_i32,T1:network::network_safety_unstable_u64_n0_to17,T2:network::network_safety_unstable_u64_n30_to32 hint=slice::sort::shared::smallsort::verify::network::network_saf
+solver_pid=58028 cmd=kissat peak_kb=46848 first_s=2263 last_s=2399 peak_s=2269 active=T1:num::nonzero::verify::nonzero_check_isqrt_u64_small,T2:ptr::verify::check_align_offset_5
+solver_pid=53324 cmd=kissat peak_kb=23868 first_s=2061 last_s=2061 peak_s=2061 active=
+solver_pid=58020 cmd=kissat peak_kb=23676 first_s=2261 last_s=2261 peak_s=2261 active=T1:num::nonzero::verify::nonzero_check_isqrt_u128_large,T2:ptr::verify::check_align_offset_5
+solver_pid=53170 cmd=kissat peak_kb=22952 first_s=2051 last_s=2055 peak_s=2051 active=
+solver_pid=53432 cmd=kissat peak_kb=5436 first_s=2071 last_s=2071 peak_s=2071 active=
+driver_s=0 rss_kb=0
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_i64_to_f64
+driver_s=5574 rss_kb=1901112
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_bool_to_i8
+driver_s=6346 rss_kb=1911444
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_isize_edge_pos
+driver_s=6840 rss_kb=1969680
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_u16_to_i16
+driver_s=7117 rss_kb=2492324
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_bool_to_u8
+driver_s=7364 rss_kb=2524348
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_char_to_f32
+driver_s=7610 rss_kb=2633904
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_u64_to_f64
+driver_s=7765 rss_kb=2638000
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_f64_to_i64
+driver_s=7889 rss_kb=2851664
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_u32_small
+driver_s=8013 rss_kb=3120776
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_i64_to_u64
+driver_s=8137 rss_kb=3000120
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_i16_to_u16
+driver_s=8261 rss_kb=3016932
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_i32_large_pos
+driver_s=8384 rss_kb=3081840
+harness_s=2092 name=T0:collections::vec_deque::verify::check_vecdeque_swap
+driver_s=8477 rss_kb=3100168
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_i32_edge_neg
+driver_s=8538 rss_kb=3103024
+harness_s=2092 name=T1:intrinsics::verify::should_fail_tuple_to_array
+driver_s=8600 rss_kb=3276408
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_u128_small
+driver_s=8662 rss_kb=3691128
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_tuple_to_array
+driver_s=8723 rss_kb=3419412
+harness_s=2092 name=T1:intrinsics::verify::should_fail_tuple_to_tuple
+driver_s=8785 rss_kb=3419412
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_tuple_to_tuple
+driver_s=8847 rss_kb=3880336
+harness_s=2092 name=T1:intrinsics::verify::should_fail_tuple_to_struct
+driver_s=8909 rss_kb=3880336
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_tuple_to_struct
+driver_s=8971 rss_kb=3959360
+harness_s=2092 name=T1:intrinsics::verify::should_fail_i8_to_bool
+driver_s=9033 rss_kb=4250880
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_usize_small
+driver_s=9094 rss_kb=4006324
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_i8_to_bool
+driver_s=9155 rss_kb=4006324
+harness_s=2092 name=T1:intrinsics::verify::should_fail_u8_to_bool
+driver_s=9217 rss_kb=4006324
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_u8_to_bool
+driver_s=9248 rss_kb=4091848
+harness_s=2092 name=T1:intrinsics::verify::should_fail_i32_to_char
+driver_s=9279 rss_kb=4097800
+harness_s=2092 name=T1:intrinsics::verify::should_succeed_i32_to_char
+driver_s=9310 rss_kb=4097800
+harness_s=2092 name=T2:num::nonzero::verify::nonzero_check_saturating_mul_i64_edge_pos
+driver_s=9341 rss_kb=4469760
+harness_s=2092 name=T1:intrinsics::verify::should_fail_f32_to_char
+driver_s=9372 rss_kb=4557676
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=327
+verify_budget_s=17313

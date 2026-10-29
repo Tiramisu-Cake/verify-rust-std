@@ -1,0 +1,60 @@
+Thread 0: 
+Thread 0: 
+Thread 0: VERIFICATION:- SUCCESSFUL
+Thread 0: Verification Time: 17.895128s
+
+Thread 1: 
+Thread 1: VERIFICATION RESULT:
+Thread 1:  ** 0 of 312 failed (18 unreachable)
+Thread 1: 
+Thread 1:  ** 19 of 19 cover properties satisfied
+Thread 1: 
+Thread 1: 
+Thread 1: VERIFICATION:- SUCCESSFUL
+Thread 1: Verification Time: 217.81404s
+
+Manual Harness Summary:
+Verification failed for - num::nonzero::verify::nonzero_check_isqrt_u32
+Verification failed for - ptr::non_null::verify::non_null_check_write_unaligned_i128
+Complete - 1890 successfully verified harnesses, 2 failures, 1892 total.
+
+Autoharness Summary:
++-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------+
+| Crate | Selected Function                                                                                     | Kind of Automatic Harness   | Verification Result |
++===================================================================================================================================================================+
+| core  | <ascii::ascii_char::AsciiChar as iter::range::Step>::backward_unchecked                               | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <ascii::ascii_char::AsciiChar as iter::range::Step>::forward_unchecked                                | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <bool as intrinsics::fallback::DisjointBitOr>::disjoint_bitor                                         | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| std   | <char as ascii::AsciiExt>::is_ascii                                                                   | #[kani::proof]              | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <char as iter::range::Step>::backward_unchecked                                                       | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <char as iter::range::Step>::forward_unchecked                                                        | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i128 as intrinsics::fallback::DisjointBitOr>::disjoint_bitor                                         | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i128 as iter::range::Step>::backward_unchecked                                                       | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i128 as iter::range::Step>::forward_unchecked                                                        | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i16 as intrinsics::fallback::DisjointBitOr>::disjoint_bitor                                          | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i16 as iter::range::Step>::backward_unchecked                                                        | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i16 as iter::range::Step>::forward_unchecked                                                         | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i32 as intrinsics::fallback::DisjointBitOr>::disjoint_bitor                                          | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i32 as iter::range::Step>::backward_unchecked                                                        | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i32 as iter::range::Step>::forward_unchecked                                                         | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i64 as intrinsics::fallback::DisjointBitOr>::disjoint_bitor                                          | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i64 as iter::range::Step>::backward_unchecked                                                        | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
+| core  | <i64 as iter::range::Step>::forward_unchecked                                                         | #[kani::proof_for_contract] | Success             |
+|-------+-------------------------------------------------------------------------------------------------------+-----------------------------+---------------------|
