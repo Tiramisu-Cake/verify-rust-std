@@ -81,6 +81,9 @@ MAX_FAILED_CHECKS = 20
 MAX_LINE_CHARS = 400
 MAX_ERROR_LINES = 80
 MAX_MD_BYTES = 12000
+MAX_METADATA_FILES_PER_DIR = 2048
+MAX_METADATA_FILE_BYTES = 16 * 1024 * 1024
+METADATA_REFRESH_SECONDS = 2.0
 
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
 # Under --jobs > 1 Kani prefixes every line of a harness's output with its worker, `Thread N: ` (seen in
@@ -415,9 +418,13 @@ def parse_log(text: str) -> dict[str, Any]:
             continue
         if TIMEOUT_RE.match(line):
             current["timed_out"] = True
+            # Kani may report FAILED and then its timeout marker, with no Verification Time.
+            # This marker is terminal for the worker and must close the block before its next start.
+            open_blocks[worker] = None
             continue
         if OOM_RE.match(line):
             current["out_of_memory"] = True
+            open_blocks[worker] = None
             continue
         m = STATUS_RE.match(line)
         if m:
@@ -578,6 +585,13 @@ def _proc_ppid(path: Path) -> str | None:
         return None
 
 
+def _proc_cwd(path: Path) -> Path | None:
+    try:
+        return Path(os.readlink(path / "cwd")).resolve(strict=False)
+    except (OSError, RuntimeError):
+        return None
+
+
 def _cgroup_events() -> dict[str, int]:
     try:
         rows = (Path("/sys/fs/cgroup/memory.events")).read_text().splitlines()
@@ -586,8 +600,160 @@ def _cgroup_events() -> dict[str, int]:
     return {p[0]: int(p[1]) for line in rows if len(p := line.split()) == 2 and p[1].isdigit()}
 
 
+_METADATA_INDEX_CACHE: dict[str, dict[str, Any]] = {}
+
+
+def _canonical_path(value: str | Path, base: Path) -> Path | None:
+    try:
+        path = Path(value)
+        return (path if path.is_absolute() else base / path).resolve(strict=False)
+    except (OSError, RuntimeError, ValueError):
+        return None
+
+
+def _model_path_from_argv(argv: list[str], cwd: Path) -> Path | None:
+    # Pinned Kani appends the Goto artifact as the final positional CBMC argument.
+    if not argv:
+        return None
+    token = argv[-1]
+    if token.startswith("-") or not token.endswith(".out") or token.endswith(".symtab.out"):
+        return None
+    return _canonical_path(token, cwd)
+
+
+def _goto_model_path(value: str, metadata_dir: Path) -> Path | None:
+    if not value.endswith(".symtab.out"):
+        return None
+    goto = Path(value)
+    model = goto.with_name(goto.name[:-len(".symtab.out")] + ".out")
+    return _canonical_path(model, metadata_dir)
+
+
+def metadata_index(metadata_dir: Path) -> dict[str, Any]:
+    """Read one output directory's compiler metadata, refreshing on file mtime/size changes."""
+    try:
+        directory = metadata_dir.resolve(strict=False)
+        all_files = sorted(directory.glob("*.kani-metadata.json"))
+        overflow = len(all_files) > MAX_METADATA_FILES_PER_DIR
+        files = all_files[:MAX_METADATA_FILES_PER_DIR]
+        signature = []
+        for path in files:
+            try:
+                stat = path.stat()
+                signature.append((str(path), stat.st_mtime_ns, stat.st_size))
+            except OSError:
+                signature.append((str(path), -1, -1))
+    except OSError:
+        directory, signature, overflow = metadata_dir, [], False
+    key = str(directory)
+    now = time.monotonic()
+    cached = _METADATA_INDEX_CACHE.get(key)
+    if cached and now - cached["checked_s"] < METADATA_REFRESH_SECONDS:
+        return cached
+    if cached and cached["signature"] == signature:
+        cached["checked_s"] = now
+        return cached
+
+    index: dict[str, list[dict[str, Any]]] = {}
+    complete = not overflow
+    for raw_path, mtime_ns, size in signature:
+        if size < 0 or size > MAX_METADATA_FILE_BYTES:
+            complete = False
+            continue
+        path = Path(raw_path)
+        try:
+            raw = path.read_bytes()
+            after = path.stat()
+            if after.st_mtime_ns != mtime_ns or after.st_size != size:
+                complete = False
+                continue
+            digest = hashlib.sha256(raw).hexdigest()
+            payload = json.loads(raw)
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            complete = False
+            continue
+        if not isinstance(payload, dict):
+            complete = False
+            continue
+        for key_name in ("proof_harnesses", "test_harnesses"):
+            entries = payload.get(key_name)
+            if not isinstance(entries, list):
+                complete = False
+                continue
+            for row in entries:
+                if not isinstance(row, dict):
+                    complete = False
+                    continue
+                pretty, mangled, goto = row.get("pretty_name"), row.get("mangled_name"), row.get("goto_file")
+                if not all(isinstance(v, str) and v for v in (pretty, mangled, goto)):
+                    complete = False
+                    continue
+                model = _goto_model_path(goto, directory)
+                if model is None:
+                    continue
+                index.setdefault(str(model), []).append({
+                    "pretty_name": pretty, "mangled_name": mangled, "metadata_path": raw_path,
+                    "metadata_sha256": digest, "metadata_group": key_name,
+                })
+    cached = {"signature": signature, "checked_s": now, "index": index, "metadata_file_count": len(signature),
+              "complete": complete}
+    if len(_METADATA_INDEX_CACHE) >= 16 and key not in _METADATA_INDEX_CACHE:
+        oldest = min(_METADATA_INDEX_CACHE, key=lambda k: _METADATA_INDEX_CACHE[k]["checked_s"])
+        _METADATA_INDEX_CACHE.pop(oldest, None)
+    _METADATA_INDEX_CACHE[key] = cached
+    return cached
+
+
+def resolve_cbmc_metadata(argv: list[str], cwd: Path, *, head_sha: str | None = None,
+                          kani_commit: str | None = None, build_id: str | None = None) -> dict[str, Any]:
+    """Join final positional model path to exactly one same-directory Kani metadata row."""
+    model = _model_path_from_argv(argv, cwd)
+    identity = {"head_sha": head_sha, "kani_commit": kani_commit, "build_id": build_id}
+    if model is None:
+        return {"attribution": "unresolved-model-path", **identity}
+    result: dict[str, Any] = {"model_path": str(model), "metadata_dir": str(model.parent), **identity}
+    index = metadata_index(model.parent)
+    rows = index["index"].get(str(model), [])
+    result["metadata_file_count"] = index["metadata_file_count"]
+    result["metadata_match_count"] = len(rows)
+    if len(rows) > 1:
+        result["attribution"] = "metadata-ambiguous"
+        return result
+    if not index["complete"]:
+        result["attribution"] = "metadata-incomplete"
+        return result
+    if not rows:
+        result["attribution"] = "metadata-not-found" if not rows else "metadata-ambiguous"
+        return result
+    row = rows[0]
+    result.update(attribution="direct", direct_harness=row["pretty_name"], **row)
+    return result
+
+
+def finalize_process_records(process_records: dict[str, dict[str, Any]]) -> None:
+    """Propagate only exact CBMC metadata matches to direct child solvers; keep active sets ambiguous."""
+    cbmc_harnesses = {str(record["pid"]): record for record in process_records.values()
+                      if record.get("cmd") == "cbmc" and record.get("attribution") == "direct"}
+    for record in process_records.values():
+        parent = cbmc_harnesses.get(record.get("ppid")) if record.get("cmd") != "cbmc" else None
+        if parent is not None:
+            record.update({key: parent[key] for key in ("attribution", "direct_harness", "harness", "mangled_name",
+                                                         "metadata_path", "metadata_sha256", "metadata_group",
+                                                         "metadata_match_count", "metadata_file_count", "metadata_dir",
+                                                         "model_path", "head_sha",
+                                                         "kani_commit", "build_id") if key in parent})
+            record["parent_cbmc_pid"] = parent["pid"]
+        if record.get("attribution") != "direct":
+            record["attribution"] = "active-set-ambiguous" if record.get("active_at_peak") else "unattributed"
+        if record.get("direct_harness"):
+            record["harness"] = record["direct_harness"]
+        record["active_harnesses"] = [f"Thread {worker}: {name}"
+                                       for worker, name in sorted(record.pop("active_at_peak", {}).items())]
+
+
 def sample_memory(out: Path, interval: float, max_seconds: float | None = None, proc: Path = Path("/proc"),
-                  log: Path | None = None, harness_out: Path | None = None) -> None:
+                  log: Path | None = None, harness_out: Path | None = None, head_sha: str | None = None,
+                  kani_commit: str | None = None, build_id: str | None = None) -> None:
     """Every INTERVAL seconds read VmHWM (the kernel's per-process peak RSS) of every process and keep the
     maximum per command name, plus the largest sampled sum of VmRSS. The file is rewritten atomically after
     each sample, so a killed sampler still leaves the last state. Stops on SIGTERM/SIGINT or after MAX_SECONDS."""
@@ -639,23 +805,37 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
             if name == "cbmc":
                 pid = status_path.parent.name
                 try:
-                    cmdline = (status_path.parent / "cmdline").read_bytes().replace(b"\0", b" ").decode("utf-8", "replace").strip()
+                    argv = [arg.decode("utf-8", "replace") for arg in (status_path.parent / "cmdline").read_bytes().split(b"\0") if arg]
                 except OSError:
-                    cmdline = ""
-                harness = re.search(r"slice::sort::shared::smallsort::verify::[A-Za-z0-9_:]+", cmdline)
-                direct = harness.group(0) if harness else None
+                    argv = []
+                cwd = _proc_cwd(status_path.parent) or Path.cwd()
+                resolved = resolve_cbmc_metadata(argv, cwd, head_sha=head_sha, kani_commit=kani_commit, build_id=build_id)
+                direct = resolved.get("direct_harness")
+                model_hint = resolved.get("model_path") or (argv[-1] if argv else "")
                 per_pid = cbmc.setdefault(pid, {"peak_kb": 0, "first_s": now, "last_s": now,
-                                                 "peak_s": now, "hint": harness.group(0)[len(HARNESS_PREFIX):] if harness else cmdline[:80]})
+                                                 "peak_s": now, "hint": direct or model_hint[-100:]})
+                for field in ("direct_harness", "harness", "mangled_name", "metadata_path", "metadata_sha256",
+                              "metadata_group", "metadata_match_count"):
+                    per_pid.pop(field, None)
+                per_pid.update({k: v for k, v in resolved.items() if k != "attribution"})
+                per_pid["attribution"] = resolved["attribution"]
                 if rss_peak > per_pid["peak_kb"]:
                     per_pid["peak_kb"], per_pid["peak_s"] = rss_peak, now
-                    per_pid["direct_harness"] = direct
                     per_pid["active_at_peak"] = dict(active_by_worker)
                 per_pid["last_s"] = now
                 per_pid["active"] = ",".join(f"T{worker}:{h}" for worker, h in sorted(active_by_worker.items()))[:180]
-                record = process_records.setdefault(pid, {"pid": pid, "cmd": name})
+                record = process_records.setdefault(pid, {"pid": pid, "cmd": name, "first_s": now, "last_s": now,
+                                                          "head_sha": head_sha, "kani_commit": kani_commit,
+                                                          "build_id": build_id})
+                for field in ("direct_harness", "harness", "mangled_name", "metadata_path", "metadata_sha256",
+                              "metadata_group", "metadata_match_count"):
+                    record.pop(field, None)
+                record.update({k: v for k, v in resolved.items() if k != "attribution"})
+                record["attribution"] = resolved["attribution"]
                 if rss_peak > record.get("peak_kb", 0):
-                    record.update(peak_kb=rss_peak, peak_s=now, direct_harness=direct,
+                    record.update(peak_kb=rss_peak, peak_s=now,
                                   active_at_peak=dict(active_by_worker), ppid=_proc_ppid(status_path.parent / "stat"))
+                record["last_s"] = now
                 if len(cbmc) > 12:
                     keep = sorted(cbmc, key=lambda p: cbmc[p]["peak_kb"], reverse=True)[:6]
                     cbmc = {p: cbmc[p] for p in keep}
@@ -669,10 +849,13 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                     entry["active_at_peak"] = dict(active_by_worker)
                 entry["last_s"] = now
                 entry["active"] = ",".join(f"T{worker}:{h}" for worker, h in sorted(active_by_worker.items()))[:180]
-                record = process_records.setdefault(pid, {"pid": pid, "cmd": name})
+                record = process_records.setdefault(pid, {"pid": pid, "cmd": name, "first_s": now, "last_s": now,
+                                                          "head_sha": head_sha, "kani_commit": kani_commit,
+                                                          "build_id": build_id})
                 if rss_peak > record.get("peak_kb", 0):
-                    record.update(peak_kb=rss_peak, peak_s=now, direct_harness=None,
+                    record.update(peak_kb=rss_peak, peak_s=now,
                                   active_at_peak=dict(active_by_worker), ppid=_proc_ppid(status_path.parent / "stat"))
+                record["last_s"] = now
                 if len(solver) > 12:
                     keep = sorted(solver, key=lambda p: solver[p]["peak_kb"], reverse=True)[:6]
                     solver = {p: solver[p] for p in keep}
@@ -707,7 +890,8 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                             harness_observations.append((now, f"T{worker}:{harness_name[:70]}"))
                     else:
                         status = STATUS_RE.match(body)
-                        if (status and status.group(1) == "TIMEOUT") or TIME_RE.match(body):
+                        if ((status and status.group(1) == "TIMEOUT") or TIMEOUT_RE.match(body)
+                                or OOM_RE.match(body) or TIME_RE.match(body)):
                             active_by_worker.pop(worker, None)
             except OSError:
                 pass
@@ -784,18 +968,7 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
             lines = body + trailer
             out.write_text("\n".join(lines) + "\n")
             if harness_out is not None:
-                cbmc_harnesses = {str(record["pid"]): record.get("direct_harness") for record in process_records.values()
-                                  if record.get("cmd") == "cbmc" and record.get("direct_harness")}
-                for record in process_records.values():
-                    if record["cmd"] != "cbmc" and record.get("ppid") in cbmc_harnesses:
-                        record["direct_harness"] = cbmc_harnesses[record["ppid"]]
-                    direct = record.get("direct_harness")
-                    active = record.get("active_at_peak", {})
-                    record["attribution"] = "direct" if direct else "active-set-ambiguous" if active else "unattributed"
-                    if direct:
-                        record["harness"] = direct
-                    record["active_harnesses"] = [f"Thread {worker}: {name}" for worker, name in sorted(active.items())]
-                    record.pop("active_at_peak", None)
+                finalize_process_records(process_records)
                 harness_out.write_text("".join(json.dumps(record, sort_keys=True) + "\n"
                                                     for record in sorted(process_records.values(), key=lambda r: (-r.get("peak_kb", 0), int(r["pid"])))))
             return
@@ -1375,6 +1548,9 @@ def main(argv: list[str]) -> int:
     m.add_argument("--max-seconds", type=float)
     m.add_argument("--log", help="Kani output file; record up to 50 Checking harness lines with sampler elapsed time")
     m.add_argument("--harness-out", help="write per-PID CBMC/solver RSS attribution JSONL")
+    m.add_argument("--head-sha")
+    m.add_argument("--kani-commit")
+    m.add_argument("--build-id")
     a = ap.parse_args(argv)
     if a.cmd == "ledger":
         try:
@@ -1419,7 +1595,8 @@ def main(argv: list[str]) -> int:
         return 0
     if a.cmd == "sample-mem":
         sample_memory(Path(a.out), a.interval, a.max_seconds, log=Path(a.log) if a.log else None,
-                      harness_out=Path(a.harness_out) if a.harness_out else None)
+                      harness_out=Path(a.harness_out) if a.harness_out else None,
+                      head_sha=a.head_sha, kani_commit=a.kani_commit, build_id=a.build_id)
         return 0
     if a.cmd == "validate":
         try:

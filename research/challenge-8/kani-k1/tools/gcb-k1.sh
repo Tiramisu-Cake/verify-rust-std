@@ -130,7 +130,9 @@ stage() {
       if python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") != "autoharness")' "$K1_REQUEST"; then
         sample_log=autoharness-verification.log
       fi
-      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --harness-out "$K1_OUT/harness-memory.jsonl" --interval 2 --log "$sample_log" &
+      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --harness-out "$K1_OUT/harness-memory.jsonl" \
+        --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit)" --build-id "${K1_BUILD_ID:-}" \
+        --interval 2 --log "$sample_log" &
       sampler=$!
       # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
       rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)

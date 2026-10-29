@@ -1,5 +1,6 @@
 """Synthetic service tests for kani_k1.py. Run: python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools"""
 import copy
+import hashlib
 import json
 import os
 import subprocess
@@ -274,6 +275,39 @@ class SummaryTests(unittest.TestCase):
         self.assertIsNone(s["harnesses"][0]["time_s"])
         self.assertEqual(s["counts"]["TIMEOUT"], 1)
 
+    def test_kani_timeout_marker_closes_failed_thread_before_next_checking(self):
+        lines = []
+        for i in range(22):
+            thread = i % 3 + 1
+            name = f"std::harmonic_{i}"
+            lines.append(f"Thread {thread}: Checking harness {name}...")
+            if i < 13:
+                lines.extend((f"Thread {thread}: VERIFICATION:- FAILED",
+                              f"Thread {thread}: CBMC timed out. You may want to try increasing the harness timeout."))
+            else:
+                lines.extend((f"Thread {thread}: VERIFICATION:- SUCCESSFUL",
+                              f"Thread {thread}: Verification Time: {i}.5s"))
+        lines.append("Complete - 9 successfully verified harnesses, 13 failures, 22 total.")
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": []}
+        s = summ("\n".join(lines), req, exit_code=1)
+        self.assertEqual(s["status"], "COMPLETE")
+        self.assertEqual(s["counts"]["TIMEOUT"], 13)
+        self.assertEqual(s["counts"]["SUCCESS"], 9)
+        self.assertEqual(s["inconsistencies"], [])
+        self.assertFalse(s["expectation_met"])
+        self.assertEqual(s["autoharness"]["timed_count"], 9)
+
+    def test_timeout_marker_at_eof_is_timeout_without_verification_time(self):
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": []}
+        log = ("Thread 2: Checking harness std::cut_off...\nThread 2: VERIFICATION:- FAILED\n"
+               "Thread 2: CBMC timed out. You may want to try increasing the harness timeout.\n")
+        s = summ(log, req, exit_code=124)
+        self.assertEqual(s["status"], "PARTIAL")
+        self.assertEqual(s["harnesses"][0]["status"], "TIMEOUT")
+        self.assertIsNone(s["harnesses"][0]["time_s"])
+
     def test_autoharness_truncated_started_block_is_missing_result(self):
         req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
                "harnesses": []}
@@ -329,6 +363,73 @@ class SummaryTests(unittest.TestCase):
             self.assertLess(len(text.encode()), 7900)
             self.assertIn("cgroup_event_delta_oom_kill=1", text)
             self.assertTrue(text.rstrip().endswith("dmesg_oom=kernel: Killed process 42 (cbmc)"))
+
+    def test_same_build_metadata_joins_manual_and_hashed_autoharness_models(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manual_model = root / "manual-harness.out"
+            auto_model = root / "sha1_deadbeef_autoharness.out"
+            proof_for_contract = {"pretty_name": "slice::proof_for_contract::<u8>", "mangled_name": "_Rproofv0",
+                                  "goto_file": "manual-harness.symtab.out",
+                                  "attributes": {"kind": {"ProofForContract": {"target_fn": "sort"}}}}
+            auto_harness = {"pretty_name": "core::slice::sort::autoharness_target", "mangled_name": "_Rauto",
+                            "goto_file": str(auto_model.with_suffix(".symtab.out")),
+                            "attributes": {"kind": "Proof"}}
+            metadata = root / "libcore-abc.kani-metadata.json"
+            metadata.write_text(json.dumps({"crate_name": "core", "proof_harnesses": [proof_for_contract, auto_harness],
+                                            "test_harnesses": [], "contracted_functions": []}))
+            manual = k.resolve_cbmc_metadata(["cbmc", "--no-malloc-may-fail", "manual-harness.out"], root,
+                                             head_sha="a" * 40, kani_commit="b" * 40, build_id="build-1")
+            self.assertEqual(manual["attribution"], "direct")
+            self.assertEqual(manual["direct_harness"], proof_for_contract["pretty_name"])
+            self.assertEqual(manual["metadata_group"], "proof_harnesses")
+            self.assertEqual(manual["metadata_sha256"], hashlib.sha256(metadata.read_bytes()).hexdigest())
+            self.assertEqual((manual["head_sha"], manual["kani_commit"], manual["build_id"]),
+                             ("a" * 40, "b" * 40, "build-1"))
+            auto = k.resolve_cbmc_metadata(["cbmc", str(auto_model)], root)
+            self.assertEqual(auto["attribution"], "direct")
+            self.assertEqual(auto["direct_harness"], auto_harness["pretty_name"])
+            self.assertEqual(auto["model_path"], str(auto_model.resolve()))
+
+    def test_metadata_join_fails_closed_on_duplicate_conflict_and_missing_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model = root / "proof.out"
+            row = {"pretty_name": "crate::proof", "mangled_name": "_Rproof", "goto_file": "proof.symtab.out"}
+            path = root / "crate.kani-metadata.json"
+            path.write_text(json.dumps({"proof_harnesses": [row], "test_harnesses": []}))
+            first = k.resolve_cbmc_metadata(["cbmc", "proof.out"], root)
+            self.assertEqual(first["attribution"], "direct")
+            path.write_text(json.dumps({"proof_harnesses": [row, {**row, "pretty_name": "crate::other"}],
+                                        "test_harnesses": []}))
+            stat = path.stat()
+            os.utime(path, ns=(stat.st_atime_ns, stat.st_mtime_ns + 5_000_000_000))
+            cached = k._METADATA_INDEX_CACHE[str(root.resolve())]
+            cached["checked_s"] = 0
+            conflict = k.resolve_cbmc_metadata(["cbmc", "proof.out"], root)
+            self.assertEqual(conflict["attribution"], "metadata-ambiguous")
+            absent = k.resolve_cbmc_metadata(["cbmc", "missing.out"], root / "elsewhere")
+            self.assertEqual(absent["attribution"], "metadata-not-found")
+
+    def test_active_set_never_becomes_direct_but_solver_inherits_exact_cbmc_match(self):
+        active_only = {"10": {"pid": "10", "cmd": "cbmc", "attribution": "metadata-not-found",
+                              "active_at_peak": {"1": "crate::proof"}},
+                       "11": {"pid": "11", "cmd": "kissat", "ppid": "10", "active_at_peak": {"1": "crate::proof"}}}
+        k.finalize_process_records(active_only)
+        self.assertEqual(active_only["10"]["attribution"], "active-set-ambiguous")
+        self.assertEqual(active_only["11"]["attribution"], "active-set-ambiguous")
+        self.assertNotIn("harness", active_only["11"])
+        exact = {"20": {"pid": "20", "cmd": "cbmc", "attribution": "direct", "direct_harness": "crate::proof",
+                        "metadata_path": "/target/libcrate.kani-metadata.json", "metadata_sha256": "c" * 64,
+                        "metadata_group": "proof_harnesses", "metadata_match_count": 1, "metadata_file_count": 1,
+                        "model_path": "/target/proof.out", "head_sha": "a" * 40, "kani_commit": "b" * 40,
+                        "build_id": "build-2"},
+                 "21": {"pid": "21", "cmd": "kissat", "ppid": "20", "active_at_peak": {"1": "other"}}}
+        k.finalize_process_records(exact)
+        self.assertEqual(exact["21"]["attribution"], "direct")
+        self.assertEqual(exact["21"]["direct_harness"], "crate::proof")
+        self.assertEqual(exact["21"]["parent_cbmc_pid"], "20")
+        self.assertEqual(exact["21"]["metadata_sha256"], "c" * 64)
 
     def test_out_of_memory_status(self):
         # Kani's form for a CBMC killed by SIGKILL (seen in job 10): no time line, OOM text after the status.
@@ -947,6 +1048,38 @@ class ResourceLaneTests(unittest.TestCase):
             self.assertGreaterEqual(peaks["samples"], 2)
             self.assertEqual(peaks["total_rss_peak_kb"], 1100)
             self.assertEqual([(c["cmd"], c["peak_kb"]) for c in peaks["commands"]], [("goto_instr", 900), ("cbmc", 300)])
+
+    def test_sampler_binds_cbmc_and_direct_child_solver_to_same_build_metadata(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model = root / "proof-model.out"
+            metadata = root / "libcore.kani-metadata.json"
+            row = {"pretty_name": "core::proof_for_contract::<u8>", "mangled_name": "_Rproof",
+                   "goto_file": "proof-model.symtab.out", "attributes": {"kind": "Proof"}}
+            metadata.write_text(json.dumps({"proof_harnesses": [row], "test_harnesses": []}))
+            proc_root = root / "proc"
+            for pid, name, ppid in (("101", "cbmc", "1"), ("102", "kissat", "101")):
+                process = proc_root / pid
+                process.mkdir(parents=True)
+                (process / "status").write_text(f"Name:\t{name}\nVmHWM:\t 900 kB\nVmRSS:\t 800 kB\n")
+                (process / "stat").write_text(f"{pid} ({name}) S {ppid} 0 0\n")
+                if name == "cbmc":
+                    (process / "cmdline").write_bytes(f"cbmc\0--no-malloc-may-fail\0{model}\0".encode())
+                    os.symlink(root, process / "cwd")
+            out, memory = root / "peaks.txt", root / "harness-memory.jsonl"
+            dmesg = subprocess.CompletedProcess(["dmesg"], 1, "", "permission denied")
+            with patch.object(k, "_cgroup_events", return_value={}), patch.object(k.subprocess, "run", return_value=dmesg):
+                k.sample_memory(out, 0.01, max_seconds=0, proc=proc_root, harness_out=memory,
+                                head_sha="a" * 40, kani_commit="b" * 40, build_id="build-3")
+            records = {row["pid"]: row for row in map(json.loads, memory.read_text().splitlines())}
+            for pid in ("101", "102"):
+                self.assertEqual(records[pid]["attribution"], "direct")
+                self.assertEqual(records[pid]["harness"], row["pretty_name"])
+                self.assertEqual(records[pid]["metadata_sha256"], hashlib.sha256(metadata.read_bytes()).hexdigest())
+                self.assertEqual((records[pid]["head_sha"], records[pid]["kani_commit"], records[pid]["build_id"]),
+                                 ("a" * 40, "b" * 40, "build-3"))
+                self.assertEqual((records[pid]["first_s"], records[pid]["last_s"]), (0, 0))
+            self.assertEqual(records["102"]["parent_cbmc_pid"], "101")
 
     def test_sample_mem_cli_stops_on_sigterm(self):
         import signal
