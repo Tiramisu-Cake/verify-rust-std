@@ -1458,12 +1458,16 @@ def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
     run = summary.get("run") or {}
+    timeout_label = ("whole-job work budget" if req.get("kind") in ("autoharness", "partition")
+                     else "per-harness timeout")
+    timeout_note = ("; per-harness settings from the checked-out workflow"
+                    if req.get("kind") == "autoharness" else "")
     lines = [
         f"# K-1 run `{req.get('request_id', '?')}`: {summary['status']}",
         "",
         f"- head `{summary['head_sha']}`, Kani `{summary['kani_commit']}`, request sha256 `{summary['request_sha256']}`",
         f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
-        f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, per-harness timeout {req.get('harness_timeout_minutes')} min, "
+        f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, {timeout_label} {req.get('harness_timeout_minutes')} min{timeout_note}, "
         f"harnesses in parallel {req.get('kani_jobs', 1)}, uninit checks {'on' if req.get('uninit_checks') else 'off'}, "
         f"controls cfg {'on' if req.get('controls') else 'off'}",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",

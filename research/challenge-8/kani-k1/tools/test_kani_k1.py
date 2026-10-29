@@ -331,6 +331,14 @@ class SummaryTests(unittest.TestCase):
         self.assertIn("sum Verification Time: 1234.5 s over 300 timed harnesses", text)
         self.assertIn("summary.md truncated", text)
 
+    def test_autoharness_summary_distinguishes_work_budget_from_harness_timeout(self):
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER,
+               "harness_timeout_minutes": 270, "harnesses": []}
+        text = k.render_md(summ("", req, exit_code=124))
+        self.assertIn("whole-job work budget 270 min", text)
+        self.assertIn("per-harness settings from the checked-out workflow", text)
+        self.assertNotIn("per-harness timeout 270", text)
+
     def test_diagnostic_gate_ignores_measurement_bounds(self):
         req = req_with(kind="diagnostic", harnesses=ONLY_OK)
         no_cover = OK_BLOCK.replace(" ** 2 of 2 cover properties satisfied\n", "") + tail(1, 0)
