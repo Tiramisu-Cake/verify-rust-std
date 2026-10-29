@@ -7,6 +7,7 @@
 # directory and the dispatcher service account, so the machine's default gcloud setup is never touched.
 # The account can submit builds to the pools and read the run bucket, nothing else.
 #   k1g.sh dispatch BRANCH              start the lane on the pushed BRANCH, print the build id
+#   k1g.sh status BUILD                bounded build status/timestamps/source/pool metadata, no logs
 #   k1g.sh wait BUILD                   block until the build ends (background task), print its status
 #   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1g.sh summary BUILD                download the summary, print summary.md
@@ -151,6 +152,9 @@ case "$cmd" in
     is_build "$id"
     echo "budget after submit: at most \$$total_usd of \$$CAP_USD (used \$$USED, reserved incl. this build \$$(python3 -c "print(f'{$RESERVED + $cost:.4f}')"); pool ${pool##*/})" >&2
     echo "$id" ;;
+  status)
+    id=${1:-}; is_build "$id"; [ "$#" -eq 1 ] || die "status accepts exactly BUILD"; auth
+    describe "$id" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(json.dumps({k:d.get(k) for k in ("id","status","createTime","startTime","finishTime","timeout")}|{"source_sha":(d.get("substitutions") or {}).get("_SHA"),"pool":((d.get("options") or {}).get("pool") or {}).get("name")},sort_keys=True))' ;;
   wait)
     id=${1:-}; is_build "$id"; auth
     limit=$(describe "$id" | jqr "int(d.get('timeout', '5400s').rstrip('s'))")
