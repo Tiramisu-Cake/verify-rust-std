@@ -6,7 +6,7 @@
 # stage, records each outcome in k1-out/, always summarizes, stages the upload and writes the gate verdict
 # to k1-out/gate.rc. It exits 0 itself, so that the upload step always runs; the gate step exits with gate.rc.
 # No cgroup memory cap: on 32 GB the point is how much memory each tool needs; on 16 GB the machine's own
-# memory is the limit, as on the organizers' runner. kani_k1.py sample-mem records per-command peaks.
+# memory is the limit, as on the organizers' runner. RSS is process resident memory, not physical RAM.
 #   all | validate | deps | build | verify | summarize | gate
 set -euo pipefail
 
@@ -31,7 +31,7 @@ export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
 # Kind partition: harness_timeout_minutes is the whole worker's wall budget (no per-harness timeout, as in CI).
-total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") == "partition" else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
 
 stage() {
   case "$1" in
@@ -44,7 +44,7 @@ stage() {
         echo "lane runs only on experiment/kani-k1-* branches, not '${K1_BRANCH:-}'" > "$K1_OUT/request-error.txt"
       elif [ "$(git rev-parse HEAD)" != "${K1_SHA:-}" ]; then
         echo "checkout $(git rev-parse HEAD) differs from requested ${K1_SHA:-}" > "$K1_OUT/request-error.txt"
-      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --rustflags-out "$K1_OUT/rustflags.txt" --partition-out "$K1_OUT/partition.env" \
+      elif python3 -B "$K1_TOOLS/kani_k1.py" validate "$K1_REQUEST" --args-out "$K1_OUT/kani-args.txt" --autoharness-script-out "$K1_OUT/autoharness.sh" --rustflags-out "$K1_OUT/rustflags.txt" --partition-out "$K1_OUT/partition.env" \
              --max-total-minutes "$MAX_TOTAL_MINUTES" "${LANE_RUNNERS[@]/#/--require-runner=}" 2> "$K1_OUT/request-error.txt"; then
         touch "$K1_OUT/valid"
       fi
@@ -98,7 +98,7 @@ stage() {
         echo "no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
         return 0
       fi
-      if python3 -B -c 'import json,sys; sys.exit(not json.load(open(sys.argv[1])).get("inventory", False))' "$K1_REQUEST"; then
+      if python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); sys.exit(not (r.get("inventory", False) and r.get("kind") in ("diagnostic", "autoharness")))' "$K1_REQUEST"; then
         # Use the same list/std/JSON path as get_harnesses, but codegen only our prefix.
         # Unfiltered std inventory consumed ~49 min; substring selection retains all our proofs.
         # list has no --no-assert-contracts option here (that belongs to verification).
@@ -127,7 +127,11 @@ stage() {
         echo "max_bytes=$(( $(awk '/^MemTotal:/{print $2}' /proc/meminfo) * 1024 ))"   # shell math: mawk prints big numbers as 1.6e+10
         if [ "${swap:-x}" = 0 ]; then echo "swap=off"; else echo "swap=on (SwapTotal ${swap:-unknown} kB)"; fi
         echo "reason=Cloud Build pool, no cgroup cap"; } > "$K1_OUT/memcap.txt"
-      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --interval 2 --log "$K1_OUT/kani.log" &
+      sample_log="$K1_OUT/kani.log"
+      if python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") != "autoharness")' "$K1_REQUEST"; then
+        sample_log=autoharness-verification.log
+      fi
+      python3 -B "$K1_TOOLS/kani_k1.py" sample-mem --out "$K1_OUT/peaks.txt" --harness-out "$K1_OUT/harness-memory.jsonl" --interval 2 --log "$sample_log" &
       sampler=$!
       # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
       rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
@@ -139,6 +143,21 @@ stage() {
         # Kind partition: the organizers' worker invocation (kani.yml), no --kani-args.
         mapfile -t penv < "$K1_OUT/partition.env"; echo "partition env: ${penv[*]}" | tee -a "$K1_OUT/machine.txt"
         timeout --kill-after=30 "$remaining" /usr/bin/time -v env "${penv[@]}" bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" 2>&1 | tee "k1-out/kani.log"' 2> "$K1_OUT/time.txt"
+      elif python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") == "autoharness")' "$K1_REQUEST"; then
+        # Run the literal script body extracted from this checked-out SHA's workflow. Bash's
+        # pipefail preserves the verifier exit through tee; the workflow's gzip remains verbatim.
+        set +e
+        timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -euo pipefail "$K1_OUT/autoharness.sh" 2> "$K1_OUT/time.txt"
+        rc=$?
+        set -e
+        if [ -s autoharness-verification.log.gz ]; then
+          gzip -dc autoharness-verification.log.gz > "$K1_OUT/kani.log"
+        elif [ -f autoharness-verification.log ]; then
+          cp autoharness-verification.log "$K1_OUT/kani.log"
+        fi
+        echo "$rc" > "$K1_OUT/rc"
+        kill -TERM "$sampler" 2>/dev/null; wait "$sampler"
+        return 0
       elif python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("kind") == "partition")' "$K1_REQUEST"; then
         timeout --kill-after=30 "$remaining" /usr/bin/time -v bash -c 'set -o pipefail; scripts/run-kani.sh --path "$PWD" --kani-args "$@" 2>&1 | tee "k1-out/kani.log"' k1 "${args[@]}" 2> "$K1_OUT/time.txt"
       else
@@ -173,7 +192,7 @@ stage() {
         --build-outcome "$build_outcome" --run-id "${K1_BUILD_ID:-}" --run-attempt "" \
         --image-os "$os" --image-version "$hw" \
         --bind research/challenge-8/kani-k1/gcb/cloudbuild.yaml --bind "$K1_TOOLS/kani_k1.py" \
-        --bind "$K1_TOOLS/gcb-k1.sh" --bind scripts/run-kani.sh --bind tool_config/kani-version.toml \
+        --bind "$K1_TOOLS/gcb-k1.sh" --bind scripts/run-kani.sh --bind tool_config/kani-version.toml --bind .github/workflows/kani.yml \
         --out-dir "$K1_OUT/summary"
       cat "$K1_OUT/summary/summary.md" ;;
 
@@ -205,7 +224,7 @@ echo "$rc" > "$K1_OUT/gate.rc"
 # Upload set: the same paths the CircleCI lane publishes, plus the memory peaks and machine view.
 rm -rf "$K1_OUT/upload" && mkdir -p "$K1_OUT/upload/summary" "$K1_OUT/upload/log"
 cp "$K1_OUT"/summary/summary.{md,json} "$K1_OUT/upload/summary/" 2>/dev/null || true
-for f in kani.log time.txt request-error.txt peaks.txt machine.txt memcap.txt inventory.txt stage-error.txt; do
+for f in kani.log time.txt request-error.txt peaks.txt harness-memory.jsonl machine.txt memcap.txt inventory.txt stage-error.txt; do
   [ -f "$K1_OUT/$f" ] && cp "$K1_OUT/$f" "$K1_OUT/upload/log/$f"
 done
 touch "$K1_OUT/upload/summary/.staged" "$K1_OUT/upload/log/.staged"   # both directories exist for the upload step

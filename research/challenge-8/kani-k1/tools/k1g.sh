@@ -16,7 +16,7 @@
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
 #   k1g.sh log-lines BUILD START [N]    bounded slice of kani.log (N <= 200 lines)
-#   k1g.sh peaks BUILD                  per-command memory peaks file of the run (small)
+#   k1g.sh peaks BUILD [OFFSET [COUNT]] process RSS peaks and attribution page (COUNT <= 15)
 #   k1g.sh budget                       USD used and reserved in the project (both pools), against the cap
 #   k1g.sh budget BUILD...               cost only the listed build UUIDs
 #   k1g.sh build-tail BUILD [N]         coordinator only: last N <= 120 lines of the Cloud Build log, for setup failures
@@ -49,7 +49,7 @@ LANE_PATHS=(.circleci .github/workflows research/challenge-8/kani-k1/tools resea
             scripts/run-kani.sh tool_config/kani-version.toml rust-toolchain.toml .gitmodules .cargo library/.cargo
             library/Cargo.toml library/Cargo.lock)
 BOUND_FILES=(research/challenge-8/kani-k1/gcb/cloudbuild.yaml research/challenge-8/kani-k1/tools/kani_k1.py
-             research/challenge-8/kani-k1/tools/gcb-k1.sh scripts/run-kani.sh tool_config/kani-version.toml)
+             research/challenge-8/kani-k1/tools/gcb-k1.sh .github/workflows/kani.yml scripts/run-kani.sh tool_config/kani-version.toml)
 TOOLS=$(cd "$(dirname "$0")" && pwd)
 
 die() { echo "k1g.sh: $*" >&2; exit 2; }
@@ -130,7 +130,7 @@ case "$cmd" in
       --require-runner gcb-e2-standard-4 \
       --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
-    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") == "partition" else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
+    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     cost=$(python3 -c "print(f'{$timeout * $price:.4f}')")
     auth
@@ -221,9 +221,30 @@ case "$cmd" in
       "$dir/summary/summary.json" "$offset" "$count" ;;
   peaks)
     id=${1:-}; is_build "$id"; auth
+    [ "$#" -le 3 ] || die "peaks accepts BUILD and optional OFFSET/COUNT"
+    offset=${2:-0}; count=${3:-80}
+    [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
+    [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -le 15 ] || die "COUNT must be <= 15"
     dir=$(fetch "$id")
     [ -f "$dir/log/peaks.txt" ] || die "build $id has no peaks.txt"
-    head -c 8000 "$dir/log/peaks.txt"; [ -f "$dir/log/machine.txt" ] && cat "$dir/log/machine.txt" ;;
+    if [ -f "$dir/log/harness-memory.jsonl" ]; then head -c 2500 "$dir/log/peaks.txt"
+    else head -c 8000 "$dir/log/peaks.txt"; fi
+    [ -f "$dir/log/machine.txt" ] && cat "$dir/log/machine.txt"
+    memory="$dir/log/harness-memory.jsonl"
+    if [ -f "$memory" ]; then
+      python3 -B - "$memory" "$offset" "$count" <<'PY'
+import json, sys
+from pathlib import Path
+rows = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines() if line]
+offset, count = int(sys.argv[2]), int(sys.argv[3])
+if offset > len(rows):
+    raise SystemExit(f"OFFSET {offset} exceeds {len(rows)} process records")
+end = min(offset + count, len(rows))
+print(f"process_records={len(rows)} offset={offset} count={end-offset} next_offset={end if end < len(rows) else 'done'}")
+for row in rows[offset:end]:
+    print(json.dumps(row, sort_keys=True, separators=(",", ":")))
+PY
+    fi ;;
   check-tooling)
     # The commit comes from the Cloud Build record (substitution _SHA), the lane files are compared with
     # BASE by local git, and the summary must bind exactly BOUND_FILES.

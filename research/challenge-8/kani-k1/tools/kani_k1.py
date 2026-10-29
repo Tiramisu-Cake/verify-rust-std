@@ -23,6 +23,7 @@ import math
 import os
 import re
 import signal
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -32,7 +33,7 @@ from typing import Any
 SCHEMA = "kani-k1-run-request-v1"
 SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
-KINDS = {"measurement", "diagnostic", "resource", "partition"}
+KINDS = {"measurement", "diagnostic", "resource", "partition", "autoharness"}
 # kind partition: one worker of the organizers' CI layout (kani.yml): scripts/run-kani.sh with WORKER_INDEX /
 # WORKER_TOTAL over the whole std harness list (kani list order, ceiling-sized contiguous chunks), no harness
 # list and no per-harness timeout, exactly as their CI. harness_timeout_minutes is the wall budget of the
@@ -71,6 +72,7 @@ HARNESS_OPTIONAL = {"expect_check"}
 MAX_HARNESSES = 20
 MAX_TIMEOUT_MINUTES = 30
 RESOURCE_MAX_TIMEOUT_MINUTES = 720
+AUTOHARNESS_MAX_MINUTES = 240
 MEASUREMENT_TIMEOUT_MINUTES = 10
 MAX_TOTAL_MINUTES = 150
 MEASUREMENT_LIMIT_SECONDS = 600.0
@@ -138,11 +140,24 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     if "inventory" in data:
         if type(data["inventory"]) is not bool:
             raise RequestError("inventory must be true or false")
-        if data["inventory"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
-            raise RequestError(f"inventory is only for kind diagnostic on runner {STANDARD_RUNNER}")
+        if data["inventory"] and (data["runner"] != STANDARD_RUNNER or data["kind"] not in ("diagnostic", "autoharness")):
+            raise RequestError(f"inventory is only for kind diagnostic or autoharness on runner {STANDARD_RUNNER}")
     if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
     partition = data["kind"] == "partition"
+    autoharness = data["kind"] == "autoharness"
+    if autoharness:
+        unsupported = set(data) & {"uninit_checks", "controls", "worker_index", "worker_total", "kani_jobs"}
+        if unsupported:
+            raise RequestError(f"kind autoharness uses literal workflow flags; unsupported request keys: {sorted(unsupported)}")
+        if data["runner"] != STANDARD_RUNNER:
+            raise RequestError(f"kind autoharness runs only on runner {STANDARD_RUNNER}")
+        if data["harnesses"] != []:
+            raise RequestError("kind autoharness takes harnesses: [] (command is extracted from kani.yml)")
+        timeout = data["harness_timeout_minutes"]
+        if type(timeout) is not int or not 1 <= timeout <= AUTOHARNESS_MAX_MINUTES:
+            raise RequestError(f"harness_timeout_minutes (whole-job wall budget) must be an integer 1..{AUTOHARNESS_MAX_MINUTES}")
+        return data
     if partition:
         if data["runner"] not in PARTITION_RUNNERS:
             raise RequestError(f"kind partition runs only on {sorted(PARTITION_RUNNERS)}")
@@ -316,6 +331,31 @@ def kani_args(request: dict[str, Any]) -> list[str]:
     return args
 
 
+def extract_autoharness_command(workflow: str) -> str:
+    """Return the literal `run: |` body for kani_autoharness / Run Kani Verification."""
+    lines = workflow.splitlines()
+    job = next((i for i, line in enumerate(lines) if line == "  kani_autoharness:"), None)
+    if job is None:
+        raise ValueError("workflow has no kani_autoharness job")
+    job_end = next((i for i in range(job + 1, len(lines)) if re.match(r"^  [A-Za-z0-9_-]+:", lines[i])), len(lines))
+    step = next((i for i in range(job, job_end) if lines[i].strip() == "- name: Run Kani Verification"), None)
+    if step is None:
+        raise ValueError("kani_autoharness has no Run Kani Verification step")
+    run = next((i for i in range(step + 1, job_end) if lines[i].strip() == "run: |"), None)
+    if run is None:
+        raise ValueError("Run Kani Verification step must use a literal run: | block")
+    body: list[str] = []
+    for line in lines[run + 1:job_end]:
+        if line.strip() and not line.startswith("          "):
+            break
+        body.append(line[10:] if line.startswith("          ") else "")
+    while body and not body[-1]:
+        body.pop()
+    if not body or not any(line.startswith("scripts/run-kani.sh --run autoharness") for line in body):
+        raise ValueError("autoharness command block is empty or does not invoke run-kani.sh")
+    return "\n".join(body) + "\n"
+
+
 def _new_block(name: str) -> dict[str, Any]:
     return {"name": name, "status_line": None, "time_s": None, "checks_failed": None, "checks_total": None,
             "unreachable": None, "covers_satisfied": None, "covers_total": None, "failed_checks": [],
@@ -376,6 +416,10 @@ def parse_log(text: str) -> dict[str, Any]:
         m = STATUS_RE.match(line)
         if m:
             current["status_line"] = m.group(1)
+            if m.group(1) == "TIMEOUT":
+                # Some Kani versions print no Verification Time for a timeout.
+                # Close this worker's block here so the next Thread N start is attributed cleanly.
+                open_blocks[worker] = None
             continue
         m = TIME_RE.match(line)
         if m:
@@ -476,6 +520,8 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
         return {"state": "MISSING", "interval_ms": None, "samples": None, "total_rss_peak_kb": None, "commands": []}
     head: dict[str, str] = {}
     commands: list[dict[str, Any]] = []
+    processes: list[dict[str, str]] = []
+    roles: list[dict[str, str]] = []
     for line in text.splitlines():
         if line.startswith("cmd="):
             f = dict(part.split("=", 1) for part in line.split() if "=" in part)
@@ -485,6 +531,10 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
                 if f.get("peak_s", "").isdigit():
                     command["peak_s"] = int(f["peak_s"])
                 commands.append(command)
+        elif line.startswith(("cbmc_pid=", "solver_pid=")):
+            processes.append(dict(part.split("=", 1) for part in line.split() if "=" in part))
+        elif line.startswith("role="):
+            roles.append(dict(part.split("=", 1) for part in line.split() if "=" in part))
         elif "=" in line:
             key, value = line.split("=", 1)
             head[key.strip()] = value.strip()
@@ -496,7 +546,9 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
     return {"state": "PARSED" if samples else "UNPARSED", "interval_ms": num("interval_ms"), "samples": samples,
             "total_rss_peak_kb": num("total_rss_peak_kb"), "total_peak_s": num("total_peak_s"),
             "commands": commands[:PEAKS_TOP],
-            "commands_truncated": len(commands) > PEAKS_TOP}
+            "commands_truncated": len(commands) > PEAKS_TOP, "processes": processes[-12:], "roles": roles[-3:],
+            "cgroup_events": {k: v for k, v in head.items() if k.startswith("cgroup_")},
+            "dmesg_oom": head.get("dmesg_oom")}
 
 
 def _proc_status(path: Path) -> dict[str, str] | None:
@@ -512,8 +564,24 @@ def _kb(value: str | None) -> int:
     return int(parts[0]) if parts and parts[0].isdigit() else 0
 
 
+def _proc_ppid(path: Path) -> str | None:
+    try:
+        fields = path.read_text().rsplit(")", 1)[1].split()
+        return fields[1] if len(fields) > 1 and fields[1].isdigit() else None
+    except (OSError, IndexError):
+        return None
+
+
+def _cgroup_events() -> dict[str, int]:
+    try:
+        rows = (Path("/sys/fs/cgroup/memory.events")).read_text().splitlines()
+    except OSError:
+        return {}
+    return {p[0]: int(p[1]) for line in rows if len(p := line.split()) == 2 and p[1].isdigit()}
+
+
 def sample_memory(out: Path, interval: float, max_seconds: float | None = None, proc: Path = Path("/proc"),
-                  log: Path | None = None) -> None:
+                  log: Path | None = None, harness_out: Path | None = None) -> None:
     """Every INTERVAL seconds read VmHWM (the kernel's per-process peak RSS) of every process and keep the
     maximum per command name, plus the largest sampled sum of VmRSS. The file is rewritten atomically after
     each sample, so a killed sampler still leaves the last state. Stops on SIGTERM/SIGINT or after MAX_SECONDS."""
@@ -527,8 +595,13 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
     t0 = time.monotonic()
     peaks: dict[str, dict[str, int]] = {}
     cbmc: dict[str, dict[str, Any]] = {}
+    solver: dict[str, dict[str, Any]] = {}
     driver_series: list[tuple[int, int]] = []
     harness_observations: list[tuple[int, str]] = []
+    active_by_worker: dict[str, str] = {}
+    role_peaks: dict[str, tuple[int, int]] = {}
+    process_records: dict[str, dict[str, Any]] = {}
+    cgroup_events_start = _cgroup_events()
     total_peak = total_peak_s = samples = 0
     last_driver_s = -30  # Include the baseline point at elapsed 0; subsequent points are about 30 s apart.
     log_offset = 0
@@ -536,6 +609,7 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
     while True:
         now = int(time.monotonic() - t0)
         total = 0
+        role_now = {"driver": 0, "cbmc": 0, "solver": 0}
         for status_path in proc.glob("[0-9]*/status"):
             if status_path.parent.name == me:
                 continue
@@ -544,6 +618,13 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                 continue  # kernel thread or gone
             total += _kb(st.get("VmRSS"))
             name = re.sub(r"[^A-Za-z0-9._+-]", "_", st.get("Name", "?").strip())[:40] or "?"
+            rss_now = _kb(st.get("VmRSS"))
+            if name == "kani-driver":
+                role_now["driver"] += rss_now
+            elif name == "cbmc":
+                role_now["cbmc"] += rss_now
+            elif re.search(r"(?i)(kissat|cadical|cryptominisat|minisat|lingeling|boolector|bitwuzla|yices|cvc5|z3)", name):
+                role_now["solver"] += rss_now
             rss_peak = max(_kb(st.get("VmHWM")), _kb(st.get("VmRSS")))
             entry = peaks.setdefault(name, {"peak_kb": 0, "first_s": now, "last_s": now, "peak_s": now})
             if rss_peak > entry["peak_kb"]:
@@ -556,14 +637,39 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                 except OSError:
                     cmdline = ""
                 harness = re.search(r"slice::sort::shared::smallsort::verify::[A-Za-z0-9_:]+", cmdline)
+                direct = harness.group(0) if harness else None
                 per_pid = cbmc.setdefault(pid, {"peak_kb": 0, "first_s": now, "last_s": now,
                                                  "peak_s": now, "hint": harness.group(0)[len(HARNESS_PREFIX):] if harness else cmdline[:80]})
                 if rss_peak > per_pid["peak_kb"]:
                     per_pid["peak_kb"], per_pid["peak_s"] = rss_peak, now
+                    per_pid["direct_harness"] = direct
+                    per_pid["active_at_peak"] = dict(active_by_worker)
                 per_pid["last_s"] = now
+                per_pid["active"] = ",".join(f"T{worker}:{h}" for worker, h in sorted(active_by_worker.items()))[:180]
+                record = process_records.setdefault(pid, {"pid": pid, "cmd": name})
+                if rss_peak > record.get("peak_kb", 0):
+                    record.update(peak_kb=rss_peak, peak_s=now, direct_harness=direct,
+                                  active_at_peak=dict(active_by_worker), ppid=_proc_ppid(status_path.parent / "stat"))
                 if len(cbmc) > 12:
                     keep = sorted(cbmc, key=lambda p: cbmc[p]["peak_kb"], reverse=True)[:6]
                     cbmc = {p: cbmc[p] for p in keep}
+            elif re.search(r"(?i)(kissat|cadical|cryptominisat|minisat|lingeling|boolector|bitwuzla|yices|cvc5|z3)", name):
+                pid = status_path.parent.name
+                entry = solver.setdefault(pid, {"name": name, "peak_kb": 0, "first_s": now, "last_s": now,
+                                                "peak_s": now, "active": ""})
+                if rss_peak > entry["peak_kb"]:
+                    entry["peak_kb"], entry["peak_s"] = rss_peak, now
+                    entry["direct_harness"] = None
+                    entry["active_at_peak"] = dict(active_by_worker)
+                entry["last_s"] = now
+                entry["active"] = ",".join(f"T{worker}:{h}" for worker, h in sorted(active_by_worker.items()))[:180]
+                record = process_records.setdefault(pid, {"pid": pid, "cmd": name})
+                if rss_peak > record.get("peak_kb", 0):
+                    record.update(peak_kb=rss_peak, peak_s=now, direct_harness=None,
+                                  active_at_peak=dict(active_by_worker), ppid=_proc_ppid(status_path.parent / "stat"))
+                if len(solver) > 12:
+                    keep = sorted(solver, key=lambda p: solver[p]["peak_kb"], reverse=True)[:6]
+                    solver = {p: solver[p] for p in keep}
         if now - last_driver_s >= 30:
             driver_rss = 0
             for status_path in proc.glob("[0-9]*/status"):
@@ -574,33 +680,50 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                 driver_series = driver_series[::2]
             driver_series.append((now, driver_rss))
             last_driver_s = now
-        if log is not None and len(harness_observations) < 50:
+        if log is not None:
             try:
                 with log.open("rb") as stream:
                     stream.seek(log_offset)
                     fresh = stream.read(65536)
                     log_offset = stream.tell()
                 for line in fresh.decode("utf-8", "replace").splitlines():
-                    match = CHECKING_RE.match(line)
+                    worker, body = "0", line
+                    thread = THREAD_RE.match(line)
+                    if thread:
+                        worker, body = thread.group(1), thread.group(2)
+                    match = CHECKING_RE.match(body)
                     if match:
                         harness_name = match.group(1)
                         if harness_name.startswith(HARNESS_PREFIX):
                             harness_name = harness_name[len(HARNESS_PREFIX):]
-                        harness_observations.append((now, harness_name[:80]))
-                        if len(harness_observations) == 50:
-                            break
+                        active_by_worker[worker] = harness_name[:80]
+                        if len(harness_observations) < 50:
+                            harness_observations.append((now, f"T{worker}:{harness_name[:70]}"))
+                    else:
+                        status = STATUS_RE.match(body)
+                        if (status and status.group(1) == "TIMEOUT") or TIME_RE.match(body):
+                            active_by_worker.pop(worker, None)
             except OSError:
                 pass
         if total > total_peak:
             total_peak, total_peak_s = total, now
+        for role, rss in role_now.items():
+            if rss > role_peaks.get(role, (0, now))[0]:
+                role_peaks[role] = (rss, now)
         samples += 1
         lines = [f"interval_ms={round(interval * 1000)}", f"samples={samples}", f"elapsed_s={now}",
                  f"total_rss_peak_kb={total_peak}", f"total_peak_s={total_peak_s}"]
         lines += [f"cmd={n} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']} peak_s={e['peak_s']}"
                   for n, e in sorted(peaks.items())]
+        lines += [f"role={role} simultaneous_rss_peak_kb={rss} peak_s={at}"
+                  for role, (rss, at) in sorted(role_peaks.items())]
         extra = [f"cbmc_pid={pid} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']} "
-                 f"peak_s={e['peak_s']} hint={'_'.join(e['hint'].split())[:60]}"
+                 f"peak_s={e['peak_s']} active={re.sub(r'[^A-Za-z0-9_:.,-]', '_', e.get('active', ''))} "
+                 f"hint={'_'.join(e['hint'].split())[:60]}"
                  for pid, e in sorted(cbmc.items(), key=lambda pair: -pair[1]["peak_kb"])[:6]]
+        extra += [f"solver_pid={pid} cmd={e['name']} peak_kb={e['peak_kb']} first_s={e['first_s']} last_s={e['last_s']} "
+                  f"peak_s={e['peak_s']} active={re.sub(r'[^A-Za-z0-9_:.,-]', '_', e.get('active', ''))}"
+                  for pid, e in sorted(solver.items(), key=lambda pair: -pair[1]["peak_kb"])[:6]]
         drivers = [f"driver_s={elapsed} rss_kb={rss}" for elapsed, rss in driver_series]
         harnesses = [f"harness_s={elapsed} name={re.sub(r'[^A-Za-z0-9_:.-]', '_', name)}"
                      for elapsed, name in harness_observations]
@@ -622,6 +745,45 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
         tmp.write_text("\n".join(lines) + "\n")
         tmp.replace(out)
         if stop or (max_seconds is not None and time.monotonic() - t0 >= max_seconds):
+            cgroup = Path("/sys/fs/cgroup")
+            cgroup_events_end = _cgroup_events()
+            for filename in ("memory.current", "memory.peak", "memory.events"):
+                try:
+                    content = (cgroup / filename).read_text().strip()
+                    if filename == "memory.events":
+                        for part in content.splitlines():
+                            fields = part.split()
+                            if len(fields) == 2 and fields[1].isdigit():
+                                lines.append(f"cgroup_event_{fields[0]}={fields[1]}")
+                                lines.append(f"cgroup_event_delta_{fields[0]}={int(fields[1]) - cgroup_events_start.get(fields[0], int(fields[1]))}")
+                    elif content.isdigit():
+                        lines.append(f"cgroup_{filename.replace('.', '_')}={content}")
+                except OSError:
+                    pass
+            try:
+                dmesg = subprocess.run(["dmesg", "--ctime"], capture_output=True, text=True, timeout=3, check=False)
+                oom_lines = [line.strip() for line in dmesg.stdout.splitlines()
+                             if re.search(r"(?i)(oom-kill|out of memory|killed process)", line)]
+                lines.append("dmesg_oom=" + (" | ".join(oom_lines[-3:])[:700] if oom_lines else
+                                               ("unreadable" if dmesg.returncode else "none_seen")))
+            except (OSError, subprocess.TimeoutExpired):
+                lines.append("dmesg_oom=unavailable")
+            out.write_text("\n".join(lines) + "\n")
+            if harness_out is not None:
+                cbmc_harnesses = {str(record["pid"]): record.get("direct_harness") for record in process_records.values()
+                                  if record.get("cmd") == "cbmc" and record.get("direct_harness")}
+                for record in process_records.values():
+                    if record["cmd"] != "cbmc" and record.get("ppid") in cbmc_harnesses:
+                        record["direct_harness"] = cbmc_harnesses[record["ppid"]]
+                    direct = record.get("direct_harness")
+                    active = record.get("active_at_peak", {})
+                    record["attribution"] = "direct" if direct else "active-set-ambiguous" if active else "unattributed"
+                    if direct:
+                        record["harness"] = direct
+                    record["active_harnesses"] = [f"Thread {worker}: {name}" for worker, name in sorted(active.items())]
+                    record.pop("active_at_peak", None)
+                harness_out.write_text("".join(json.dumps(record, sort_keys=True) + "\n"
+                                                    for record in sorted(process_records.values(), key=lambda r: (-r.get("peak_kb", 0), int(r["pid"])))))
             return
         deadline = time.monotonic() + interval
         while not stop and time.monotonic() < deadline:
@@ -832,6 +994,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         return summary
     summary["request"] = {k: request[k] for k in ("request_id", "agent", "kind", "purpose", "runner", "harness_timeout_minutes")}
     summary["request"]["kani_jobs"] = request.get("kani_jobs", 1)
+    if request["kind"] == "autoharness":
+        summary["request"]["kani_jobs"] = 3
     summary["request"]["uninit_checks"] = request.get("uninit_checks", False)
     summary["request"]["controls"] = request.get("controls", False)
     summary["request"]["inventory"] = request.get("inventory", False)
@@ -856,6 +1020,65 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
         summary["complete_line"] = parsed["complete_line"]
         return summarize_partition(summary, request, parsed, exit_code, log_text)
+    if request["kind"] == "autoharness":
+        if log_text is None:
+            summary["status"] = "RUNNER_ERROR"
+            summary["notes"].append(f"autoharness log missing (build {build_outcome})")
+            return summary
+        parsed = parse_log(log_text)
+        summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
+        summary["complete_line"] = parsed["complete_line"]
+        rows = []
+        for block in parsed["blocks"]:
+            status = _block_status(block)
+            missing = status == "UNKNOWN" or (status in ("SUCCESS", "FAILED") and block["time_s"] is None)
+            rows.append({"name": block["name"], "expect": "workflow", "status":
+                         "MISSING_RESULT" if missing else status, "reported_status": status if missing else None,
+                         "time_s": block["time_s"], "checks_failed": block["checks_failed"],
+                         "checks_total": block["checks_total"], "unreachable": block["unreachable"],
+                         "covers_satisfied": block["covers_satisfied"], "covers_total": block["covers_total"],
+                         "failed_checks": block["failed_checks"], "failed_located": block["failed_located"],
+                         "failed_checks_truncated": block["failed_checks_truncated"]})
+        summary["harnesses"] = rows
+        summary["started_count"] = len(rows)
+        summary["counts"] = {status: sum(row["status"] == status for row in rows)
+                              for status in ("SUCCESS", "FAILED", "TIMEOUT", "OUT_OF_MEMORY", "MISSING_RESULT")}
+        statuses = [row["status"] for row in rows]
+        inconsistencies = summary["inconsistencies"]
+        if request.get("kani_jobs", 3) > 1 and parsed["overlaps"]:
+            inconsistencies.append(f"{parsed['overlaps']} overlapping worker block(s) under jobs=3")
+        if request.get("kani_jobs", 3) > 1 and parsed["orphans"]:
+            inconsistencies.append(f"{parsed['orphans']} unprefixed result line(s) under jobs=3")
+        complete = parsed["complete_line"]
+        if complete is None:
+            inconsistencies.append("final 'Complete - …' line missing")
+        else:
+            if complete["total"] != len(rows):
+                inconsistencies.append(f"Kani total {complete['total']} differs from {len(rows)} started harnesses")
+            if complete["success"] != sum(s == "SUCCESS" for s in statuses):
+                inconsistencies.append(f"Kani success count {complete['success']} differs from parsed successes")
+            if complete["failures"] != sum(s in ("FAILED", "TIMEOUT", "OUT_OF_MEMORY") for s in statuses):
+                inconsistencies.append(f"Kani failure count {complete['failures']} differs from parsed non-success results")
+        if exit_code is None:
+            inconsistencies.append("Kani exit code unknown")
+        elif complete is not None and (exit_code == 0) != (complete["failures"] == 0):
+            inconsistencies.append(f"Kani exit {exit_code} does not match final failure count {complete['failures']}")
+        if not rows:
+            summary["status"] = "RUNNER_ERROR"
+        elif "MISSING_RESULT" in statuses or complete is None:
+            summary["status"] = "PARTIAL"
+        elif inconsistencies:
+            summary["status"] = "INCONSISTENT"
+        else:
+            summary["status"] = "COMPLETE"
+        summary["expectation_met"] = summary["status"] == "COMPLETE" and all(s == "SUCCESS" for s in statuses)
+        summary["measurement_ok"] = summary["expectation_met"]
+        timed = [row for row in rows if row["time_s"] is not None]
+        summary["autoharness"] = {"started_count": len(rows), "counts": summary["counts"],
+                                  "sum_verification_time_s": round(sum(row["time_s"] for row in timed), 3),
+                                  "timed_count": len(timed),
+                                  "slowest": sorted(timed, key=lambda row: (-row["time_s"], row["name"]))[:15]}
+        return summary
     not_run = [{"name": e["name"], "expect": e["expect"], "status": "NOT_RUN"} for e in request["harnesses"]]
     if log_text is None:
         summary["status"] = "RUNNER_ERROR"
@@ -950,8 +1173,9 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
                                                                        and memcap["swap"] == "off")
         summary["measurement_ok"] = summary["expectation_met"] and memcap_ok and all(
             r["status"] != "SUCCESS" or (r["time_s"] is not None and r["time_s"] <= MEASUREMENT_LIMIT_SECONDS
-                                         and (r["covers_total"] or 0) >= 1
-                                         and r["covers_satisfied"] == r["covers_total"])
+                                         and (not request.get("controls") or
+                                              ((r["covers_total"] or 0) >= 1 and
+                                               r["covers_satisfied"] == r["covers_total"])))
             for r in rows)
     for r in rows:
         if r.get("unreachable"):
@@ -986,13 +1210,23 @@ def _peaks_lines(peaks: dict[str, Any] | None) -> list[str]:
     peak_time = "?" if peaks.get("total_peak_s") is None else f"{peaks['total_peak_s']} s"
     out = [f"- memory peaks {peaks['state']}: sampled every {every} s, {peaks['samples']} samples, "
            f"largest sampled sum of RSS {gib(peaks['total_rss_peak_kb'])} at {peak_time}; per command (kernel VmHWM; 13 GiB = CircleCI cap, "
-           "16 GB = organizers' runner):"]
+           "16 GB = organizers' runner). RSS is process resident memory, not physical RAM use:"]
     for c in peaks["commands"]:
         fit = "≤13 GiB" if c["peak_kb"] <= 13 * 2**20 else ("≤16 GB" if c["peak_kb"] * 1024 <= 16 * 10**9 else ">16 GB")
         peak_at = f", peak sample {c['peak_s']} s" if c.get("peak_s") is not None else ""
         out.append(f"  - `{c['cmd']}` {gib(c['peak_kb'])} ({fit}), seen {c['first_s']}–{c['last_s']} s{peak_at}")
     if peaks.get("commands_truncated"):
         out.append(f"  - …only the {PEAKS_TOP} largest commands listed")
+    for role in peaks.get("roles", []):
+        role_kb = role.get("simultaneous_rss_peak_kb", "0")
+        out.append(f"  - simultaneous {role.get('role', '?')} RSS {gib(int(role_kb))} at {role.get('peak_s', '?')} s")
+    for proc in peaks.get("processes", []):
+        pid = proc.get("cbmc_pid", proc.get("solver_pid", "?"))
+        out.append(f"  - {proc.get('cmd', 'cbmc')} PID {pid}: {gib(int(proc.get('peak_kb', '0')))} peak at {proc.get('peak_s', '?')} s; active `{proc.get('active', '')}`")
+    if peaks.get("cgroup_events"):
+        out.append("  - cgroup counters: " + ", ".join(f"{k}={v}" for k, v in sorted(peaks["cgroup_events"].items())))
+    if peaks.get("dmesg_oom"):
+        out.append(f"  - dmesg OOM scan: `{peaks['dmesg_oom']}`")
     return out
 
 
@@ -1068,6 +1302,7 @@ def main(argv: list[str]) -> int:
     v = sub.add_parser("validate")
     v.add_argument("request")
     v.add_argument("--args-out", required=True)
+    v.add_argument("--autoharness-script-out", help="extract the literal workflow command for kind autoharness")
     v.add_argument("--runner-out")
     v.add_argument("--rustflags-out", help="write the RUSTFLAGS value the request needs (empty line if none)")
     v.add_argument("--partition-out", help="write the worker environment of kind partition (empty if none)")
@@ -1118,6 +1353,7 @@ def main(argv: list[str]) -> int:
     m.add_argument("--interval", type=float, default=2.0)
     m.add_argument("--max-seconds", type=float)
     m.add_argument("--log", help="Kani output file; record up to 50 Checking harness lines with sampler elapsed time")
+    m.add_argument("--harness-out", help="write per-PID CBMC/solver RSS attribution JSONL")
     a = ap.parse_args(argv)
     if a.cmd == "ledger":
         try:
@@ -1161,7 +1397,8 @@ def main(argv: list[str]) -> int:
             return 2
         return 0
     if a.cmd == "sample-mem":
-        sample_memory(Path(a.out), a.interval, a.max_seconds, log=Path(a.log) if a.log else None)
+        sample_memory(Path(a.out), a.interval, a.max_seconds, log=Path(a.log) if a.log else None,
+                      harness_out=Path(a.harness_out) if a.harness_out else None)
         return 0
     if a.cmd == "validate":
         try:
@@ -1172,6 +1409,12 @@ def main(argv: list[str]) -> int:
             print(f"REQUEST_INVALID: {exc}", file=sys.stderr)
             return 2
         Path(a.args_out).write_text("\n".join(kani_args(request)) + "\n")
+        if request["kind"] == "autoharness":
+            if not a.autoharness_script_out:
+                raise RequestError("kind autoharness requires --autoharness-script-out")
+            Path(a.autoharness_script_out).write_text(extract_autoharness_command(Path(".github/workflows/kani.yml").read_text()))
+        elif a.autoharness_script_out:
+            Path(a.autoharness_script_out).write_text("")
         if a.runner_out:
             Path(a.runner_out).write_text(request["runner"] + "\n")
         if a.partition_out:

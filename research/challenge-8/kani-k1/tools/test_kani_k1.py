@@ -1,6 +1,7 @@
 """Synthetic service tests for kani_k1.py. Run: python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools"""
 import copy
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -187,15 +188,75 @@ class SummaryTests(unittest.TestCase):
         no_cover = OK_BLOCK.replace(" ** 2 of 2 cover properties satisfied\n", "") + tail(1, 0)
         s = summ(no_cover, req, exit_code=0)
         self.assertTrue(s["expectation_met"])
-        self.assertFalse(s["measurement_ok"])
-        self.assertFalse(k.gate_ok(s))
+        self.assertTrue(s["measurement_ok"])
+        self.assertTrue(k.gate_ok(s))
+        controls_req = req_with(controls=True, runner=k.STANDARD_RUNNER, harnesses=ONLY_OK)
+        self.assertFalse(summ(no_cover, controls_req, exit_code=0)["measurement_ok"])
         odd_format = OK_BLOCK.replace("2 of 2 cover properties satisfied", "2/2 covers ok") + tail(1, 0)
-        self.assertFalse(summ(odd_format, req, exit_code=0)["measurement_ok"])
+        self.assertFalse(summ(odd_format, controls_req, exit_code=0)["measurement_ok"])
         short = OK_BLOCK.replace("2 of 2 cover", "1 of 2 cover") + tail(1, 0)
-        self.assertFalse(summ(short, req, exit_code=0)["measurement_ok"])
+        self.assertFalse(summ(short, controls_req, exit_code=0)["measurement_ok"])
         slow = OK_BLOCK.replace("1.25s", "600.5s") + tail(1, 0)
         self.assertFalse(summ(slow, req, exit_code=0)["measurement_ok"])
-        self.assertTrue(summ(OK_BLOCK + tail(1, 0), req, exit_code=0)["measurement_ok"])
+        self.assertTrue(summ(OK_BLOCK + tail(1, 0), controls_req, exit_code=0)["measurement_ok"])
+
+    def test_autoharness_literal_workflow_command_and_validation(self):
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": [], "inventory": True}
+        k.validate_request(req)
+        for key in ("controls", "uninit_checks", "worker_index", "worker_total", "kani_jobs"):
+            bad = dict(req, **{key: (True if key in ("controls", "uninit_checks") else 3)})
+            with self.assertRaises(k.RequestError):
+                k.validate_request(bad)
+        workflow = (Path(__file__).parents[4] / ".github/workflows/kani.yml").read_text()
+        command = k.extract_autoharness_command(workflow)
+        for flag in ("--include-pattern", "--exclude-pattern", "--harness-timeout 10m", "--default-unwind 1000",
+                     "--jobs=3", "--output-format=terse", "| tee autoharness-verification.log", "gzip autoharness-verification.log"):
+            self.assertIn(flag, command)
+        self.assertIn("conversions::to_*", workflow)
+
+    def test_autoharness_step_preserves_pipeline_exit_through_gzip(self):
+        workflow = (Path(__file__).parents[4] / ".github/workflows/kani.yml").read_text()
+        command = k.extract_autoharness_command(workflow)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "scripts").mkdir()
+            stub = root / "scripts/run-kani.sh"
+            stub.write_text("#!/usr/bin/env bash\necho simulated-kani-output\nexit \"${SIM_EXIT:-0}\"\n")
+            stub.chmod(0o755)
+            script = root / "autoharness.sh"
+            script.write_text(command)
+            failed = subprocess.run(["bash", "-euo", "pipefail", str(script)], cwd=root,
+                                    env={**os.environ, "SIM_EXIT": "7"}, capture_output=True)
+            self.assertEqual(failed.returncode, 7)
+            self.assertTrue((root / "autoharness-verification.log").exists())
+            self.assertFalse((root / "autoharness-verification.log.gz").exists())
+            success = subprocess.run(["bash", "-euo", "pipefail", str(script)], cwd=root,
+                                     env={**os.environ, "SIM_EXIT": "0"}, capture_output=True)
+            self.assertEqual(success.returncode, 0)
+            self.assertTrue((root / "autoharness-verification.log.gz").exists())
+
+    def test_autoharness_thread_timeout_without_time_and_duplicate_names(self):
+        name = "intrinsics::verify::check_typed_swap_u8"
+        log = (f"Thread 1: Checking harness {name}...\nThread 1: VERIFICATION:- TIMEOUT\n"
+               f"Thread 2: Checking harness {name}...\nThread 2: VERIFICATION:- SUCCESSFUL\n"
+               "Thread 2: Verification Time: 2.5s\n" + tail(1, 1))
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": []}
+        s = summ(log, req, exit_code=1)
+        self.assertEqual(s["status"], "COMPLETE")
+        self.assertEqual(s["started_count"], 2)
+        self.assertEqual([r["status"] for r in s["harnesses"]], ["TIMEOUT", "SUCCESS"])
+        self.assertIsNone(s["harnesses"][0]["time_s"])
+        self.assertEqual(s["counts"]["TIMEOUT"], 1)
+
+    def test_autoharness_truncated_started_block_is_missing_result(self):
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": []}
+        log = "Thread 3: Checking harness std::duplicate...\n"
+        s = summ(log, req, exit_code=124)
+        self.assertEqual(s["status"], "PARTIAL")
+        self.assertEqual(s["harnesses"][0]["status"], "MISSING_RESULT")
 
     def test_diagnostic_gate_ignores_measurement_bounds(self):
         req = req_with(kind="diagnostic", harnesses=ONLY_OK)
@@ -203,6 +264,19 @@ class SummaryTests(unittest.TestCase):
         s = summ(no_cover, req, exit_code=0)
         self.assertIsNone(s["measurement_ok"])
         self.assertTrue(k.gate_ok(s))
+
+    def test_peaks_keep_simultaneous_roles_and_ambiguous_harness_attribution(self):
+        lines = ["samples=3", "total_rss_peak_kb=9000", "total_peak_s=8",
+                 "role=cbmc simultaneous_rss_peak_kb=5000 peak_s=8",
+                 "cbmc_pid=123 peak_kb=4500 first_s=4 last_s=8 peak_s=8 active=T1:foo,T2:bar hint=worker",
+                 "solver_pid=124 cmd=kissat peak_kb=2000 first_s=6 last_s=8 peak_s=7 active=T1:foo,T2:bar",
+                 "cgroup_event_oom=0", "cgroup_event_delta_oom=0", "dmesg_oom=none_seen"]
+        peaks = k.parse_peaks("\n".join(lines))
+        self.assertEqual(peaks["total_peak_s"], 8)
+        self.assertEqual(peaks["roles"][0]["simultaneous_rss_peak_kb"], "5000")
+        self.assertEqual(len(peaks["processes"]), 2)
+        self.assertIn("T2:bar", peaks["processes"][0]["active"])
+        self.assertEqual(peaks["cgroup_events"]["cgroup_event_delta_oom"], "0")
 
     def test_out_of_memory_status(self):
         # Kani's form for a CBMC killed by SIGKILL (seen in job 10): no time line, OOM text after the status.
