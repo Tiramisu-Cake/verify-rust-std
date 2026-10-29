@@ -1,5 +1,4 @@
 """Render the research ledger from saved bounded summaries, never from raw logs."""
-from collections import Counter
 import json
 from pathlib import Path
 import re

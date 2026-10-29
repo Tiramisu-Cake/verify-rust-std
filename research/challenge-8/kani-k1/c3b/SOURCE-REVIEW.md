@@ -18,3 +18,15 @@
 
 Конкретных domain holes или утраченных assertions в diff не найдено.
 Kissat, достаточность новых unwind и времена устанавливаются только GCB-замерами.
+
+## Дополнение по route split 7cedf2deb9
+
+Проверены `general_stable_stub_for_route` / `general_stub_route_harness` и
+`general_route_properties_for_route` / `define_general_sortedness_route_harness`.
+Фиксация stable=false/true разбивает прежний bool-домен исчерпывающе.
+Произвольные полноширинные массивы, общий probe, scratch48, asserts sortedness
+и multiplicity, stub targets и unwind50/34 сохранены. Correct u64 N15 controls
+и прочие merge wrappers сохраняют nondeterministic bool wrapper. Новых output
+assumptions нет. Это source audit; он не устанавливает достаточность unwind,
+успех solver или время. Общий helper меняет IR35 merge моделей, поэтому их
+старые времена не переиспользуются как окончательные.
