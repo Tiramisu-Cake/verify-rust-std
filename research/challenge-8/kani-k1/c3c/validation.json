@@ -1,5 +1,5 @@
 {
-  "lane_sha": "d3d6e6c17f758f0226b621a556a1279b3d3d9700",
+  "lane_sha": "340cad71d3d7df462a4ec2f906e94c175e1db716",
   "python_unittests": 61,
   "python_unittests_passed": true,
   "bash_syntax_exit": 0,
@@ -23,8 +23,8 @@
     },
     "autoharness": {
       "mode": "autoharness",
-      "build_timeout_minutes": 270,
-      "reserve_usd": 3.645,
+      "build_timeout_minutes": 300,
+      "reserve_usd": 4.05,
       "count": 0
     },
     "controls": {
@@ -34,6 +34,9 @@
       "count": 8
     }
   },
-  "max_reserve_usd": 8.1,
-  "local_proof_tools_run": false
+  "max_reserve_usd": 8.505,
+  "local_proof_tools_run": false,
+  "failed_setup_cost_usd": 0.0945,
+  "max_total_including_failed_setup_usd": 8.5995,
+  "inventory_repair": "Pinned list supports no --harness; supported bare std list with 60m preparation bound; autoharness work cap270 +30 build overhead"
 }

@@ -51,6 +51,6 @@ for label, names in [('baseline',old+calibration),('candidate',new+calibration)]
 full = dict(schema='kani-k1-run-request-v1',request_id='c3c-full-autoharness',agent='k1-network',
             kind='autoharness',runner='gcb-e2-standard-4',
             purpose='C3c one literal organizer autoharness job on candidate, jobs3 timeout10m unwind1000 from bound workflow; GCB 16GB no swap',
-            harness_timeout_minutes=240,inventory=True,harnesses=[])
+            harness_timeout_minutes=270,inventory=True,harnesses=[])
 (BASE/'autoharness-request.json').write_text(json.dumps(full,indent=2)+'\n')
-print('baseline',len(old+calibration),'candidate',len(new+calibration),'full wall budget240+overhead30min')
+print('baseline',len(old+calibration),'candidate',len(new+calibration),'full work budget270+overhead30min')

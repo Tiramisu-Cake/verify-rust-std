@@ -35,6 +35,16 @@
       "terminal_status": "FAILURE",
       "failure": "kani list rejects --harness; verification NOT_RUN",
       "lane_sha": "d3d6e6c17f758f0226b621a556a1279b3d3d9700"
+    },
+    {
+      "label": "candidate",
+      "build_id": "fa7d2d00-8470-40e3-be55-c96f0eaa76dc",
+      "sha": "66a7ad1fae733121cde66cc6dcf2e0ebf8b2122f",
+      "library_reference": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+      "timeout_minutes": 180,
+      "reserve_usd": 2.43,
+      "lane_sha": "25d5c981af9b26a88ef2f0c24fad60ad2960bd24"
     }
-  ]
+  ],
+  "monitor_note": "Old k1g wait processes can parse-fail after helper edit; Cloud status and summaries are queried afresh. This is not verifier evidence."
 }
