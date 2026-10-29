@@ -1,0 +1,72 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/correct.rs b/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
+index 8095b50313..abed996253 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
+@@ -177,11 +177,6 @@ fn general_stable_stub_for_route<
+         CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
+             == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
+     );
+-    if stable {
+-        proof_cover!(true, "general/stable: stable Freeze route checked");
+-    } else {
+-        proof_cover!(true, "general/stable: direct general route checked");
+-    }
+ }
+ 
+ fn general_stable_stub<
+@@ -191,7 +186,10 @@ fn general_stable_stub<
+ >(
+     cmp: F,
+ ) {
+-    general_stable_stub_for_route::<T, F, N>(cmp, kani::any());
++    let stable = kani::any();
++    general_stable_stub_for_route::<T, F, N>(cmp, stable);
++    proof_cover!(stable, "general/stable: stable Freeze route checked");
++    proof_cover!(!stable, "general/stable: direct general route checked");
+ }
+ 
+ macro_rules! general_stub_harness {
+@@ -215,6 +213,7 @@ macro_rules! general_stub_route_harness {
+         #[kani::unwind(50)]
+         fn $name() {
+             general_stable_stub_for_route::<$t, _, $n>($cmp, $stable);
++            proof_cover!(true, "general/stable: selected fixed route checked");
+         }
+     };
+ }
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+index 292642086f..aa94fa07f2 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -848,11 +848,6 @@ fn general_route_properties_for_route<
+         super::super::small_sort_general(&mut v, &mut cmp);
+     }
+     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
+-    if stable {
+-        proof_cover!(true, "stable route properties checked");
+-    } else {
+-        proof_cover!(true, "general route properties checked");
+-    }
+ }
+ 
+ fn general_route_properties<
+@@ -862,7 +857,10 @@ fn general_route_properties<
+ >(
+     cmp: F,
+ ) {
+-    general_route_properties_for_route::<T, F, N>(cmp, kani::any());
++    let stable = kani::any();
++    general_route_properties_for_route::<T, F, N>(cmp, stable);
++    proof_cover!(stable, "stable route properties checked");
++    proof_cover!(!stable, "general route properties checked");
+ }
+ 
+ // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
+@@ -902,6 +900,7 @@ macro_rules! define_general_sortedness_route_harness {
+         #[kani::unwind(34)]
+         fn $name() {
+             general_route_properties_for_route::<$t, _, $n>($cmp, $stable);
++            proof_cover!(true, "selected fixed route properties checked");
+         }
+     };
+ }

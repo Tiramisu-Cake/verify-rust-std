@@ -35,7 +35,7 @@ index 2180534c64..ae5edd14aa 100644
  mod comparators;
  mod correct;
 diff --git a/library/core/src/slice/sort/shared/smallsort/verify/correct.rs b/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
-index 81a42790be..8095b50313 100644
+index 81a42790be..abed996253 100644
 --- a/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
 +++ b/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
 @@ -20,7 +20,7 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
@@ -119,17 +119,12 @@ index 81a42790be..8095b50313 100644
      if stable {
          let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
          <T as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
-@@ -177,8 +177,21 @@ fn general_stable_stub<
+@@ -177,8 +177,19 @@ fn general_stable_stub<
          CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
              == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
      );
 -    kani::cover(stable, "general/stable: stable Freeze route checked");
 -    kani::cover(!stable, "general/stable: direct general route checked");
-+    if stable {
-+        proof_cover!(true, "general/stable: stable Freeze route checked");
-+    } else {
-+        proof_cover!(true, "general/stable: direct general route checked");
-+    }
 +}
 +
 +fn general_stable_stub<
@@ -139,11 +134,14 @@ index 81a42790be..8095b50313 100644
 +>(
 +    cmp: F,
 +) {
-+    general_stable_stub_for_route::<T, F, N>(cmp, kani::any());
++    let stable = kani::any();
++    general_stable_stub_for_route::<T, F, N>(cmp, stable);
++    proof_cover!(stable, "general/stable: stable Freeze route checked");
++    proof_cover!(!stable, "general/stable: direct general route checked");
  }
  
  macro_rules! general_stub_harness {
-@@ -193,7 +206,21 @@ macro_rules! general_stub_harness {
+@@ -193,7 +204,22 @@ macro_rules! general_stub_harness {
          }
      };
  }
@@ -156,6 +154,7 @@ index 81a42790be..8095b50313 100644
 +        #[kani::unwind(50)]
 +        fn $name() {
 +            general_stable_stub_for_route::<$t, _, $n>($cmp, $stable);
++            proof_cover!(true, "general/stable: selected fixed route checked");
 +        }
 +    };
 +}
@@ -168,7 +167,7 @@ index 81a42790be..8095b50313 100644
 +general_stub_route_harness!(sorted_permutation_general_u8_n14, u8, lt_u8, 14, false, cadical);
 +general_stub_route_harness!(sorted_permutation_stable_u8_n14, u8, lt_u8, 14, true, cadical);
 diff --git a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
-index 7098ccee92..292642086f 100644
+index 7098ccee92..aa94fa07f2 100644
 --- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
 +++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
 @@ -261,7 +261,7 @@ pub(crate) fn merge_length_body<
@@ -408,17 +407,12 @@ index 7098ccee92..292642086f 100644
      if stable {
          let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
          <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
-@@ -842,8 +848,21 @@ fn general_route_properties<
+@@ -842,8 +848,19 @@ fn general_route_properties<
          super::super::small_sort_general(&mut v, &mut cmp);
      }
      assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
 -    kani::cover(!stable, "general route properties checked");
 -    kani::cover(stable, "stable route properties checked");
-+    if stable {
-+        proof_cover!(true, "stable route properties checked");
-+    } else {
-+        proof_cover!(true, "general route properties checked");
-+    }
 +}
 +
 +fn general_route_properties<
@@ -428,11 +422,14 @@ index 7098ccee92..292642086f 100644
 +>(
 +    cmp: F,
 +) {
-+    general_route_properties_for_route::<T, F, N>(cmp, kani::any());
++    let stable = kani::any();
++    general_route_properties_for_route::<T, F, N>(cmp, stable);
++    proof_cover!(stable, "stable route properties checked");
++    proof_cover!(!stable, "general route properties checked");
  }
  
  // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
-@@ -860,12 +879,13 @@ fn fallback_route_properties<
+@@ -860,12 +877,13 @@ fn fallback_route_properties<
      let orig = v;
      super::super::small_sort_fallback(&mut v, &mut cmp);
      assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
@@ -447,7 +444,7 @@ index 7098ccee92..292642086f 100644
          #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
          #[kani::unwind(34)]
          fn $name() {
-@@ -874,6 +894,18 @@ macro_rules! define_general_sortedness_harness {
+@@ -874,6 +892,19 @@ macro_rules! define_general_sortedness_harness {
      };
  }
  
@@ -459,6 +456,7 @@ index 7098ccee92..292642086f 100644
 +        #[kani::unwind(34)]
 +        fn $name() {
 +            general_route_properties_for_route::<$t, _, $n>($cmp, $stable);
++            proof_cover!(true, "selected fixed route properties checked");
 +        }
 +    };
 +}
@@ -466,7 +464,7 @@ index 7098ccee92..292642086f 100644
  macro_rules! define_fallback_property_harness {
      ($name:ident, $n:literal) => {
          #[kani::proof]
-@@ -947,17 +979,33 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u6
+@@ -947,17 +978,33 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u6
  define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n10, u8, lt_u8, 10);
  #[cfg(kani_smallsort_controls)]
  define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n10, 10);
@@ -504,7 +502,7 @@ index 7098ccee92..292642086f 100644
  #[cfg(kani_smallsort_controls)]
  define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n13, 13);
  #[cfg(kani_smallsort_controls)]
-@@ -972,8 +1020,16 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n15, u6
+@@ -972,8 +1019,16 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n15, u6
  define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n15, u8, lt_u8, 15);
  #[cfg(kani_smallsort_controls)]
  define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n15, 15);
@@ -523,7 +521,7 @@ index 7098ccee92..292642086f 100644
  #[cfg(kani_smallsort_controls)]
  define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
  
-@@ -981,6 +1037,7 @@ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
+@@ -981,6 +1036,7 @@ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
  macro_rules! define_fallback_route_harness {
      ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
          #[kani::proof]
@@ -531,7 +529,7 @@ index 7098ccee92..292642086f 100644
          #[kani::unwind(34)]
          fn $name() {
              fallback_route_properties::<$t, _, $n>($cmp);
-@@ -1109,12 +1166,13 @@ macro_rules! define_drop_route_harness {
+@@ -1109,12 +1165,13 @@ macro_rules! define_drop_route_harness {
      (@routes $name:ident, $n:literal, $upper:literal, $perm:literal,
          $abort:ident, $first:literal, $second:literal) => {
          #[kani::proof]
@@ -547,7 +545,7 @@ index 7098ccee92..292642086f 100644
          }
      };
  }
-@@ -1128,8 +1186,8 @@ macro_rules! define_drop_route_harness {
+@@ -1128,8 +1185,8 @@ macro_rules! define_drop_route_harness {
  #[kani::unwind(34)]
  fn drop_general_reachability_control_n2() {
      let alternate = drop_route_properties::<2, true, false, 0>();
@@ -558,7 +556,7 @@ index 7098ccee92..292642086f 100644
      let drop_control_value: u64 = kani::any();
      assert!(drop_control_value != drop_control_value);
  }
-@@ -1201,7 +1259,7 @@ define_drop_route_harness!(
+@@ -1201,7 +1258,7 @@ define_drop_route_harness!(
  )]
  #[kani::unwind(34)]
  fn drop_duplicate_tag_control_n2() {
@@ -567,7 +565,7 @@ index 7098ccee92..292642086f 100644
      drop_route_properties::<2, false, true, 1>();
  }
  
-@@ -1213,6 +1271,6 @@ fn drop_duplicate_tag_control_n2() {
+@@ -1213,6 +1270,6 @@ fn drop_duplicate_tag_control_n2() {
  )]
  #[kani::unwind(34)]
  fn drop_extra_drop_control_n2() {

@@ -1,0 +1,3427 @@
+{
+  "schema": "c3c-report-tables-v1",
+  "builds": [
+    {
+      "label": "baseline",
+      "build_id": "ba81d888-90db-49c7-a04d-d6dbb9108fac",
+      "source_sha": "7b6bf1ede05d5a8369fdc0dc455b340c79a7ef03",
+      "cloud_status": "FAILURE",
+      "kani_status": "INCONSISTENT",
+      "gate": "False",
+      "cloud_wall_s": 1369.510453,
+      "kani_command_wall": "16:27.83",
+      "kani_command_wall_s": 987.83,
+      "used_ledger_cost_usd": 0.3105,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 1.296,
+      "driver_hwm_kb": 1913392,
+      "driver_hwm_peak_s": 317,
+      "cbmc_hwm_kb": 4125308,
+      "cbmc_hwm_peak_s": 674,
+      "cbmc_simultaneous_rss_kb": 8287232,
+      "cbmc_simultaneous_rss_peak_s": 620,
+      "driver_simultaneous_rss_kb": 1813648,
+      "driver_simultaneous_rss_peak_s": 315,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 9819292,
+      "sampled_total_rss_peak_s": 620,
+      "row_count": 22,
+      "success_rows": 9,
+      "censored_or_untimed_rows": 13,
+      "observed_vt_sum_s": 176.014698,
+      "smallsort_row_count": 22,
+      "smallsort_success_count": 9,
+      "smallsort_observed_vt_sum_s": 176.014698,
+      "evidence": [
+        "baseline.0000.rows.tsv",
+        "baseline.peaks.txt",
+        "baseline.process-0000.txt",
+        "baseline.process-0008.txt",
+        "baseline.process-0016.txt",
+        "baseline.status.json",
+        "baseline.summary.md",
+        "baseline.tooling.txt",
+        "baseline.transitions.txt"
+      ]
+    },
+    {
+      "label": "candidate-setup-failed",
+      "build_id": "dfada6fc-2f83-4c2e-abf5-2ce45c6e3e81",
+      "source_sha": "af406030589a1d733709a3376b5b1fa1bb1dfc2e",
+      "cloud_status": "FAILURE",
+      "kani_status": "RUNNER_ERROR",
+      "gate": "False",
+      "cloud_wall_s": 401.046908,
+      "kani_command_wall": null,
+      "kani_command_wall_s": null,
+      "used_ledger_cost_usd": 0.0945,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 2.43,
+      "driver_hwm_kb": null,
+      "driver_hwm_peak_s": null,
+      "cbmc_hwm_kb": null,
+      "cbmc_hwm_peak_s": null,
+      "cbmc_simultaneous_rss_kb": null,
+      "cbmc_simultaneous_rss_peak_s": null,
+      "driver_simultaneous_rss_kb": null,
+      "driver_simultaneous_rss_peak_s": null,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": null,
+      "sampled_total_rss_peak_s": null,
+      "row_count": 50,
+      "success_rows": 0,
+      "censored_or_untimed_rows": 50,
+      "observed_vt_sum_s": 0,
+      "smallsort_row_count": 50,
+      "smallsort_success_count": 0,
+      "smallsort_observed_vt_sum_s": 0,
+      "evidence": [
+        "candidate-setup-failed.0000.rows.tsv",
+        "candidate-setup-failed.status.json",
+        "candidate-setup-failed.summary.md",
+        "candidate-setup-failed.summary.md.stderr",
+        "candidate-setup-failed.tooling.txt"
+      ]
+    },
+    {
+      "label": "candidate",
+      "build_id": "fa7d2d00-8470-40e3-be55-c96f0eaa76dc",
+      "source_sha": "66a7ad1fae733121cde66cc6dcf2e0ebf8b2122f",
+      "cloud_status": "FAILURE",
+      "kani_status": "INCONSISTENT",
+      "gate": "False",
+      "cloud_wall_s": 1553.521812,
+      "kani_command_wall": "19:39.31",
+      "kani_command_wall_s": 1179.31,
+      "used_ledger_cost_usd": 0.351,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 2.43,
+      "driver_hwm_kb": 5263720,
+      "driver_hwm_peak_s": 533,
+      "cbmc_hwm_kb": 2576084,
+      "cbmc_hwm_peak_s": 253,
+      "cbmc_simultaneous_rss_kb": 4322320,
+      "cbmc_simultaneous_rss_peak_s": 180,
+      "driver_simultaneous_rss_kb": 5263720,
+      "driver_simultaneous_rss_peak_s": 533,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 8482016,
+      "sampled_total_rss_peak_s": 523,
+      "row_count": 50,
+      "success_rows": 42,
+      "censored_or_untimed_rows": 8,
+      "observed_vt_sum_s": 1695.575449,
+      "smallsort_row_count": 50,
+      "smallsort_success_count": 42,
+      "smallsort_observed_vt_sum_s": 1695.575449,
+      "evidence": [
+        "candidate.0000.rows.tsv",
+        "candidate.peaks.txt",
+        "candidate.process-0000.txt",
+        "candidate.process-0008.txt",
+        "candidate.process-0016.txt",
+        "candidate.process-0024.txt",
+        "candidate.process-0032.txt",
+        "candidate.process-0040.txt",
+        "candidate.process-0048.txt",
+        "candidate.status.json",
+        "candidate.summary.md",
+        "candidate.tooling.txt"
+      ]
+    },
+    {
+      "label": "autoharness",
+      "build_id": "be070a8b-f0ca-4d6c-8f86-f8aff7915cbd",
+      "source_sha": "2cc4a5871bf6da42d23137208247c0cf8dacb44c",
+      "cloud_status": "FAILURE",
+      "kani_status": "PARTIAL",
+      "gate": "False",
+      "cloud_wall_s": 17703.81755,
+      "kani_command_wall": null,
+      "kani_command_wall_s": null,
+      "used_ledger_cost_usd": 3.996,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 4.05,
+      "driver_hwm_kb": 8453412,
+      "driver_hwm_peak_s": 12331,
+      "cbmc_hwm_kb": 4552300,
+      "cbmc_hwm_peak_s": 10708,
+      "cbmc_simultaneous_rss_kb": 8785312,
+      "cbmc_simultaneous_rss_peak_s": 10754,
+      "driver_simultaneous_rss_kb": 8453412,
+      "driver_simultaneous_rss_peak_s": 12331,
+      "solver_hwm": {
+        "kissat": {
+          "hwm_kb": 44852,
+          "first_s": 2079,
+          "last_s": 2594,
+          "peak_s": 2089
+        }
+      },
+      "solver_simultaneous_rss": {
+        "simultaneous_rss_peak_kb": 35496,
+        "peak_s": 2085
+      },
+      "sampled_total_rss_peak_kb": 14198868,
+      "sampled_total_rss_peak_s": 10754,
+      "row_count": 1959,
+      "success_rows": 1951,
+      "censored_or_untimed_rows": 8,
+      "observed_vt_sum_s": 25773.944039,
+      "smallsort_row_count": 238,
+      "smallsort_success_count": 233,
+      "smallsort_observed_vt_sum_s": 18045.637751,
+      "evidence": [
+        "autoharness.0000.inventory.page",
+        "autoharness.0000.rows.tsv",
+        "autoharness.0080.inventory.page",
+        "autoharness.0080.rows.tsv",
+        "autoharness.0160.inventory.page",
+        "autoharness.0160.rows.tsv",
+        "autoharness.0240.inventory.page",
+        "autoharness.0240.rows.tsv",
+        "autoharness.0320.inventory.page",
+        "autoharness.0320.rows.tsv",
+        "autoharness.0400.inventory.page",
+        "autoharness.0400.rows.tsv",
+        "autoharness.0480.rows.tsv",
+        "autoharness.0560.rows.tsv",
+        "autoharness.0640.rows.tsv",
+        "autoharness.0720.rows.tsv",
+        "autoharness.0800.rows.tsv",
+        "autoharness.0880.rows.tsv",
+        "autoharness.0960.rows.tsv",
+        "autoharness.1040.rows.tsv",
+        "autoharness.1120.rows.tsv",
+        "autoharness.1200.rows.tsv",
+        "autoharness.1280.rows.tsv",
+        "autoharness.1360.rows.tsv",
+        "autoharness.1440.rows.tsv",
+        "autoharness.1520.rows.tsv",
+        "autoharness.1600.rows.tsv",
+        "autoharness.1680.rows.tsv",
+        "autoharness.1760.rows.tsv",
+        "autoharness.1840.rows.tsv",
+        "autoharness.1920.rows.tsv",
+        "autoharness.peaks.txt",
+        "autoharness.status.json",
+        "autoharness.summary.md",
+        "autoharness.tooling.txt"
+      ]
+    },
+    {
+      "label": "baseline-memory",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "cloud_status": "FAILURE",
+      "kani_status": "COMPLETE",
+      "gate": "False",
+      "cloud_wall_s": 2219.016907,
+      "kani_command_wall": "29:38.32",
+      "kani_command_wall_s": 1778.32,
+      "used_ledger_cost_usd": 0.4995,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 2.16,
+      "driver_hwm_kb": 5799796,
+      "driver_hwm_peak_s": 392,
+      "cbmc_hwm_kb": 4324924,
+      "cbmc_hwm_peak_s": 1206,
+      "cbmc_simultaneous_rss_kb": 7303540,
+      "cbmc_simultaneous_rss_peak_s": 912,
+      "driver_simultaneous_rss_kb": 5785276,
+      "driver_simultaneous_rss_peak_s": 390,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 11560520,
+      "sampled_total_rss_peak_s": 912,
+      "row_count": 26,
+      "success_rows": 14,
+      "censored_or_untimed_rows": 12,
+      "observed_vt_sum_s": 1042.244109,
+      "smallsort_row_count": 26,
+      "smallsort_success_count": 14,
+      "smallsort_observed_vt_sum_s": 1042.244109,
+      "evidence": [
+        "baseline-memory.0000.rows.tsv",
+        "baseline-memory.peaks.txt",
+        "baseline-memory.process-0000.txt",
+        "baseline-memory.process-0008.txt",
+        "baseline-memory.process-0016.txt",
+        "baseline-memory.process-0024.txt",
+        "baseline-memory.status.json",
+        "baseline-memory.summary.md",
+        "baseline-memory.tooling.txt"
+      ]
+    },
+    {
+      "label": "candidate-memory-1",
+      "build_id": "5ae76959-e306-4b33-9506-402bc9909768",
+      "source_sha": "1216fc2884f01af67d6328fd927edce418933af9",
+      "cloud_status": "FAILURE",
+      "kani_status": "COMPLETE",
+      "gate": "False",
+      "cloud_wall_s": 1686.028114,
+      "kani_command_wall": "21:23.49",
+      "kani_command_wall_s": 1283.49,
+      "used_ledger_cost_usd": 0.3915,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 2.43,
+      "driver_hwm_kb": 860568,
+      "driver_hwm_peak_s": 1094,
+      "cbmc_hwm_kb": 2607828,
+      "cbmc_hwm_peak_s": 682,
+      "cbmc_simultaneous_rss_kb": 5214240,
+      "cbmc_simultaneous_rss_peak_s": 543,
+      "driver_simultaneous_rss_kb": 860568,
+      "driver_simultaneous_rss_peak_s": 1094,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 5715232,
+      "sampled_total_rss_peak_s": 567,
+      "row_count": 30,
+      "success_rows": 22,
+      "censored_or_untimed_rows": 8,
+      "observed_vt_sum_s": 749.248196,
+      "smallsort_row_count": 30,
+      "smallsort_success_count": 22,
+      "smallsort_observed_vt_sum_s": 749.248196,
+      "evidence": [
+        "candidate-memory-1.0000.rows.tsv",
+        "candidate-memory-1.peaks.txt",
+        "candidate-memory-1.process-0000.txt",
+        "candidate-memory-1.process-0008.txt",
+        "candidate-memory-1.process-0016.txt",
+        "candidate-memory-1.process-0024.txt",
+        "candidate-memory-1.status.json",
+        "candidate-memory-1.summary.md",
+        "candidate-memory-1.tooling.txt"
+      ]
+    },
+    {
+      "label": "candidate-memory-2",
+      "build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2",
+      "source_sha": "eefb512a3fe8e30c31645eb63141f2a5179e39d8",
+      "cloud_status": "SUCCESS",
+      "kani_status": "COMPLETE",
+      "gate": "True",
+      "cloud_wall_s": 838.312429,
+      "kani_command_wall": "8:44.83",
+      "kani_command_wall_s": 524.83,
+      "used_ledger_cost_usd": 0.189,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 2.025,
+      "driver_hwm_kb": 5661708,
+      "driver_hwm_peak_s": 429,
+      "cbmc_hwm_kb": 1286420,
+      "cbmc_hwm_peak_s": 385,
+      "cbmc_simultaneous_rss_kb": 2784984,
+      "cbmc_simultaneous_rss_peak_s": 96,
+      "driver_simultaneous_rss_kb": 5661708,
+      "driver_simultaneous_rss_peak_s": 429,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 6718016,
+      "sampled_total_rss_peak_s": 427,
+      "row_count": 24,
+      "success_rows": 24,
+      "censored_or_untimed_rows": 0,
+      "observed_vt_sum_s": 869.434092,
+      "smallsort_row_count": 24,
+      "smallsort_success_count": 24,
+      "smallsort_observed_vt_sum_s": 869.434092,
+      "evidence": [
+        "candidate-memory-2.0000.rows.tsv",
+        "candidate-memory-2.peaks.txt",
+        "candidate-memory-2.process-0000.txt",
+        "candidate-memory-2.process-0008.txt",
+        "candidate-memory-2.process-0016.txt",
+        "candidate-memory-2.status.json",
+        "candidate-memory-2.summary.md",
+        "candidate-memory-2.tooling.txt"
+      ]
+    },
+    {
+      "label": "controls",
+      "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+      "source_sha": "34c3cf02580266542d2122707bc4d955527d0641",
+      "cloud_status": "FAILURE",
+      "kani_status": "COMPLETE",
+      "gate": "False",
+      "cloud_wall_s": 781.898721,
+      "kani_command_wall": "6:32.83",
+      "kani_command_wall_s": 392.83,
+      "used_ledger_cost_usd": 0.189,
+      "cost_basis": "measured ledger value",
+      "reserved_usd": 0.81,
+      "driver_hwm_kb": 6419416,
+      "driver_hwm_peak_s": 392,
+      "cbmc_hwm_kb": 1414408,
+      "cbmc_hwm_peak_s": 96,
+      "cbmc_simultaneous_rss_kb": 3404276,
+      "cbmc_simultaneous_rss_peak_s": 201,
+      "driver_simultaneous_rss_kb": 6419416,
+      "driver_simultaneous_rss_peak_s": 392,
+      "solver_hwm": null,
+      "solver_simultaneous_rss": null,
+      "sampled_total_rss_peak_kb": 7088568,
+      "sampled_total_rss_peak_s": 213,
+      "row_count": 10,
+      "success_rows": 9,
+      "censored_or_untimed_rows": 1,
+      "observed_vt_sum_s": 635.132976,
+      "smallsort_row_count": 10,
+      "smallsort_success_count": 9,
+      "smallsort_observed_vt_sum_s": 635.132976,
+      "evidence": [
+        "controls.0000.rows.tsv",
+        "controls.cover-grep.txt",
+        "controls.peaks.txt",
+        "controls.status.json",
+        "controls.summary.md",
+        "controls.tooling.txt"
+      ]
+    }
+  ],
+  "mac": {
+    "all_rows": 2313,
+    "all_sum_s": 28518.6,
+    "smallsort_rows": 322,
+    "smallsort_sum_s": 25367.5,
+    "smallsort_timeouts_600s": [
+      "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1"
+    ],
+    "sum_includes_timeouts": false,
+    "input": "../c3c-inputs/mac-times.tsv",
+    "source_identity": "Actions run 40748125754, P6 pre-C3a SHA 6cfc76cb211d088aebaff8a449bcac953e97f942 (task/source binding)",
+    "source_limitation": "TSV has only harness, elapsed seconds, status; no RAM, job wall, thread, or stop-time state."
+  },
+  "full_autoharness_vs_p6": {
+    "p6_mac_ci_reference": {
+      "source_identity": "Actions run 40748125754, P6 pre-C3a SHA 6cfc76cb211d088aebaff8a449bcac953e97f942 (task/source binding)",
+      "all_harmonics_count": 2313,
+      "all_harmonics_observed_vt_sum_s": 28518.6,
+      "smallsort_count": 322,
+      "smallsort_observed_vt_sum_s": 25367.5,
+      "smallsort_share_of_all_observed_vt": 0.8895071988106008,
+      "task_mac_timeouts_600s": [
+        "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+        "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+        "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1"
+      ],
+      "whole_job_wall_s": null,
+      "peak_memory": null,
+      "cost_usd": null,
+      "timed_sum_includes_timeout_rows": false
+    },
+    "c3c_autoharness": {
+      "kani_status": "PARTIAL",
+      "gate": "False",
+      "cloud_wall_s": 17703.81755,
+      "observed_vt_rows": 1959,
+      "observed_vt_sum_s": 25773.944039,
+      "smallsort_rows": 238,
+      "smallsort_observed_vt_sum_s": 18045.637751,
+      "peak_memory": 14198868,
+      "cost_usd": 3.996
+    },
+    "c3c_request_budget_minutes": 270,
+    "c3c_build_overhead_minutes": 30,
+    "measured_full_job_improvement": null,
+    "historical_ubuntu_shutdown_cause": null
+  },
+  "calibration_rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+      "family": "merge",
+      "calibration_group": "merge.contract.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 420.3,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.401,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+      "family": "network",
+      "calibration_group": "network.correctness.u8",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 450.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.5,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+      "family": "merge",
+      "calibration_group": "merge.contract.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 404.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.3496666666666666,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+      "family": "merge",
+      "calibration_group": "merge.upper_route_safety",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 420.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.4,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+      "family": "merge",
+      "calibration_group": "merge.upper_route_safety",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 505.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.6853333333333333,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+      "family": "network",
+      "calibration_group": "network.tail_contract.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 584.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.9496666666666667,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+      "family": "network",
+      "calibration_group": "network.correctness.u8",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 407.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.3579999999999999,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+      "family": "network",
+      "calibration_group": "network.correctness.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 479.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.5966666666666667,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+      "family": "network",
+      "calibration_group": "network.correctness.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 467.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": 1.5596666666666665,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "family": "merge",
+      "calibration_group": "merge.contract.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "family": "network",
+      "calibration_group": "network.insertion_permutation.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "family": "network",
+      "calibration_group": "network.tail_contract.u64",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "family": "correct",
+      "calibration_group": "correct.general_stable.u8",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 303.7755,
+      "mac_time_s": 133.7,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.4401276600647517,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+      "family": "correct",
+      "calibration_group": "correct.fallback.u64",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 76.92248,
+      "mac_time_s": 31.1,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.40430313739234625,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+      "family": "assembly",
+      "calibration_group": "assembly.zst",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 88.01203,
+      "mac_time_s": 25.7,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.2920055360613771,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+      "family": "assembly",
+      "calibration_group": "assembly.zst",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 52.73865,
+      "mac_time_s": 20.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.39060537196155004,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+      "family": "assembly",
+      "calibration_group": "assembly.zst",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 15.581951,
+      "mac_time_s": 7.5,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.48132611891797117,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+      "family": "assembly",
+      "calibration_group": "assembly.zst",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 5.483779,
+      "mac_time_s": 3.2,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.5835391980603157,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+      "family": "assembly",
+      "calibration_group": "assembly.zst",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 2.6380239,
+      "mac_time_s": 1.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.5307002715176311,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+      "family": "assembly",
+      "calibration_group": "assembly.primitive_witness",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 2.1580024,
+      "mac_time_s": 1.1,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.5097306657304923,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+      "family": "assembly",
+      "calibration_group": "assembly.primitive_witness",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 7.468569,
+      "mac_time_s": 4.3,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.5757461703841794,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+      "family": "assembly",
+      "calibration_group": "assembly.primitive_witness",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 0.98005396,
+      "mac_time_s": 0.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.40814079257431907,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+      "family": "network",
+      "calibration_group": "network.correctness.u64",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 108.13033,
+      "mac_time_s": 55.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.5141943060749006,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+      "family": "network",
+      "calibration_group": "network.correctness.u64",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 97.63996,
+      "mac_time_s": 29.2,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.2990578857262948,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+      "family": "merge",
+      "calibration_group": "merge.contract.u64",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 142.96727,
+      "mac_time_s": 49.1,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.34343524920074364,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
+      "family": "merge",
+      "calibration_group": "merge.general_stable.u64",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 137.74751,
+      "mac_time_s": 41.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": 0.302001829288965,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch",
+      "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "library_sha": "e96555151df91080fa0ccc106f60ee38a919c50e",
+      "mac_run_id": "40748125754",
+      "mac_source_sha": "6cfc76cb211d088aebaff8a449bcac953e97f942"
+    }
+  ],
+  "calibration_groups": [
+    {
+      "group": "assembly.primitive_witness",
+      "n_rows": 3,
+      "n_point": 3,
+      "n_censored": 0,
+      "median": 0.5097306657304923,
+      "p90": 0.5757461703841794,
+      "max_point": 0.5757461703841794,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "assembly.zst",
+      "n_rows": 5,
+      "n_point": 5,
+      "n_censored": 0,
+      "median": 0.48132611891797117,
+      "p90": 0.5835391980603157,
+      "max_point": 0.5835391980603157,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "correct.fallback.u64",
+      "n_rows": 1,
+      "n_point": 1,
+      "n_censored": 0,
+      "median": 0.40430313739234625,
+      "p90": 0.40430313739234625,
+      "max_point": 0.40430313739234625,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "correct.general_stable.u8",
+      "n_rows": 1,
+      "n_point": 1,
+      "n_censored": 0,
+      "median": 0.4401276600647517,
+      "p90": 0.4401276600647517,
+      "max_point": 0.4401276600647517,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "merge.contract.u64",
+      "n_rows": 4,
+      "n_point": 1,
+      "n_censored": 3,
+      "median": 0.34343524920074364,
+      "p90": 0.34343524920074364,
+      "max_point": 0.34343524920074364,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [
+        1.401,
+        1.3496666666666666
+      ],
+      "n_dual_censored": 1,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "merge.general_stable.u64",
+      "n_rows": 1,
+      "n_point": 1,
+      "n_censored": 0,
+      "median": 0.302001829288965,
+      "p90": 0.302001829288965,
+      "max_point": 0.302001829288965,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "merge.upper_route_safety",
+      "n_rows": 2,
+      "n_point": 0,
+      "n_censored": 2,
+      "median": null,
+      "p90": null,
+      "max_point": null,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [
+        1.4,
+        1.6853333333333333
+      ],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "network.correctness.u64",
+      "n_rows": 4,
+      "n_point": 2,
+      "n_censored": 2,
+      "median": 0.40662609590059773,
+      "p90": 0.5141943060749006,
+      "max_point": 0.5141943060749006,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [
+        1.5966666666666667,
+        1.5596666666666665
+      ],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "network.correctness.u8",
+      "n_rows": 2,
+      "n_point": 0,
+      "n_censored": 2,
+      "median": null,
+      "p90": null,
+      "max_point": null,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [
+        1.5,
+        1.3579999999999999
+      ],
+      "n_dual_censored": 0,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "network.insertion_permutation.u64",
+      "n_rows": 1,
+      "n_point": 0,
+      "n_censored": 1,
+      "median": null,
+      "p90": null,
+      "max_point": null,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [],
+      "n_dual_censored": 1,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    },
+    {
+      "group": "network.tail_contract.u64",
+      "n_rows": 2,
+      "n_point": 0,
+      "n_censored": 2,
+      "median": null,
+      "p90": null,
+      "max_point": null,
+      "lower_censor_bounds": [],
+      "upper_censor_bounds": [
+        1.9496666666666667
+      ],
+      "n_dual_censored": 1,
+      "source_ids": [
+        "40748125754",
+        "6cfc76cb211d088aebaff8a449bcac953e97f942",
+        "e358163c-9006-4ea0-a402-c12a5a009747",
+        "e96555151df91080fa0ccc106f60ee38a919c50e",
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "acceptance": false
+    }
+  ],
+  "per_harness_memory_rows": 80,
+  "memory_validation": [
+    {
+      "label": "baseline-memory",
+      "result_rows": 26,
+      "unique_result_names": 26,
+      "direct_cbmc_pid_rows": 26,
+      "unique_direct_harnesses": 26,
+      "unattributed_or_non_direct_cbmc_rows": 0,
+      "source_sha_values": [
+        "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810"
+      ],
+      "build_id_values": [
+        "e358163c-9006-4ea0-a402-c12a5a009747"
+      ],
+      "metadata_sha256_values": [
+        "a4fac6e0f4814109c3f79a6b1ec5ccc902325731da6477d47a78092efa84a8ad"
+      ],
+      "state": "AVAILABLE"
+    },
+    {
+      "label": "candidate-memory-1",
+      "result_rows": 30,
+      "unique_result_names": 30,
+      "direct_cbmc_pid_rows": 30,
+      "unique_direct_harnesses": 30,
+      "unattributed_or_non_direct_cbmc_rows": 0,
+      "source_sha_values": [
+        "1216fc2884f01af67d6328fd927edce418933af9"
+      ],
+      "build_id_values": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "metadata_sha256_values": [
+        "a15d2513aa02f0f09cdb3da3a06d985244570b50580703c741af359c97016183"
+      ],
+      "state": "AVAILABLE"
+    },
+    {
+      "label": "candidate-memory-2",
+      "result_rows": 24,
+      "unique_result_names": 24,
+      "direct_cbmc_pid_rows": 23,
+      "unique_direct_harnesses": 23,
+      "unattributed_or_non_direct_cbmc_rows": 0,
+      "source_sha_values": [
+        "eefb512a3fe8e30c31645eb63141f2a5179e39d8"
+      ],
+      "build_id_values": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "metadata_sha256_values": [
+        "9aebd08b283214b04d4eec89a30f0fd7b0a74418e46a0dad0d46b6c1b3c7839d"
+      ],
+      "state": "AVAILABLE"
+    }
+  ],
+  "pairing_series": {
+    "selected": "memory-5m",
+    "cutoff_minutes": 5,
+    "five_minute_series_complete": true,
+    "three_minute_series_complete": true,
+    "inputs_audit": [
+      {
+        "label": "baseline-memory",
+        "expected_rows": 26,
+        "actual_rows": 26,
+        "requested_cutoff_minutes": 5,
+        "required_cutoff_minutes": 5,
+        "rows_and_cutoff_match": true
+      },
+      {
+        "label": "candidate-memory-1",
+        "expected_rows": 30,
+        "actual_rows": 30,
+        "requested_cutoff_minutes": 5,
+        "required_cutoff_minutes": 5,
+        "rows_and_cutoff_match": true
+      },
+      {
+        "label": "candidate-memory-2",
+        "expected_rows": 24,
+        "actual_rows": 24,
+        "requested_cutoff_minutes": 5,
+        "required_cutoff_minutes": 5,
+        "rows_and_cutoff_match": true
+      },
+      {
+        "label": "baseline",
+        "expected_rows": 22,
+        "actual_rows": 22,
+        "requested_cutoff_minutes": 3,
+        "required_cutoff_minutes": 3,
+        "rows_and_cutoff_match": true
+      },
+      {
+        "label": "candidate",
+        "expected_rows": 50,
+        "actual_rows": 50,
+        "requested_cutoff_minutes": 3,
+        "required_cutoff_minutes": 3,
+        "rows_and_cutoff_match": true
+      }
+    ],
+    "mixed_cutoffs": false
+  },
+  "paired_domains": [
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n31",
+          "status": "SUCCESS",
+          "time_s": 66.26985,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n31",
+          "status": "SUCCESS",
+          "time_s": 105.07332,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n31",
+          "status": "SUCCESS",
+          "time_s": 59.33209,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 3,
+      "candidate_observed_vt_sum_s": 230.67526,
+      "candidate_max_observed_vt_s": 105.07332,
+      "candidate_success_count": 3,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n32",
+          "status": "SUCCESS",
+          "time_s": 61.24718,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n32",
+          "status": "SUCCESS",
+          "time_s": 101.15898,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n32",
+          "status": "SUCCESS",
+          "time_s": 63.054222,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 3,
+      "candidate_observed_vt_sum_s": 225.460382,
+      "candidate_max_observed_vt_s": 101.15898,
+      "candidate_success_count": 3,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail7",
+          "status": "SUCCESS",
+          "time_s": 13.42738,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail8",
+          "status": "SUCCESS",
+          "time_s": 9.509321,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail9",
+          "status": "SUCCESS",
+          "time_s": 16.061272,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail10",
+          "status": "SUCCESS",
+          "time_s": 17.10515,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail11",
+          "status": "SUCCESS",
+          "time_s": 14.197164,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail12",
+          "status": "SUCCESS",
+          "time_s": 17.100595,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail13",
+          "status": "SUCCESS",
+          "time_s": 25.565466,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail14",
+          "status": "SUCCESS",
+          "time_s": 32.047977,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail15",
+          "status": "SUCCESS",
+          "time_s": 34.936207,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail16",
+          "status": "SUCCESS",
+          "time_s": 26.340612,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 10,
+      "candidate_observed_vt_sum_s": 206.291144,
+      "candidate_max_observed_vt_s": 34.936207,
+      "candidate_success_count": 10,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 0,
+      "candidate_max_observed_vt_s": null,
+      "candidate_success_count": 0,
+      "candidate_censored_or_missing_count": 1,
+      "candidate_source_ids": [
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+        "status": "TIMEOUT",
+        "time_s": null,
+        "checks": "",
+        "covers": "",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
+          "status": "SUCCESS",
+          "time_s": 8.977134,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail3",
+          "status": "SUCCESS",
+          "time_s": 13.736409,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail4",
+          "status": "SUCCESS",
+          "time_s": 14.838967,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail5",
+          "status": "SUCCESS",
+          "time_s": 18.371464,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6",
+          "status": "SUCCESS",
+          "time_s": 14.303041,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail7",
+          "status": "SUCCESS",
+          "time_s": 16.594395,
+          "source_build_id": "5ae76959-e306-4b33-9506-402bc9909768"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail8",
+          "status": "SUCCESS",
+          "time_s": 19.046303,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9",
+          "status": "SUCCESS",
+          "time_s": 19.914776,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail10",
+          "status": "SUCCESS",
+          "time_s": 16.998772,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11",
+          "status": "SUCCESS",
+          "time_s": 24.420643,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail12",
+          "status": "SUCCESS",
+          "time_s": 22.62196,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+          "status": "SUCCESS",
+          "time_s": 31.436855,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+          "status": "SUCCESS",
+          "time_s": 36.369545,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15",
+          "status": "SUCCESS",
+          "time_s": 45.161785,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+          "status": "SUCCESS",
+          "time_s": 47.67078,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 15,
+      "candidate_observed_vt_sum_s": 350.462829,
+      "candidate_max_observed_vt_s": 47.67078,
+      "candidate_success_count": 15,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2",
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "family": "correct",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+        "status": "SUCCESS",
+        "time_s": 303.7755,
+        "checks": "0/723",
+        "covers": "2/2",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+          "status": "SUCCESS",
+          "time_s": 112.16317,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
+          "status": "SUCCESS",
+          "time_s": 142.25116,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 2,
+      "candidate_observed_vt_sum_s": 254.41433,
+      "candidate_max_observed_vt_s": 142.25116,
+      "candidate_success_count": 2,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+      "family": "correct",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+        "status": "SUCCESS",
+        "time_s": 76.92248,
+        "checks": "0/481",
+        "covers": "1/1",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+          "status": "SUCCESS",
+          "time_s": 37.113495,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 37.113495,
+      "candidate_max_observed_vt_s": 37.113495,
+      "candidate_success_count": 1,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+        "status": "SUCCESS",
+        "time_s": 108.13033,
+        "checks": "0/361",
+        "covers": "3/3",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+          "status": "SUCCESS",
+          "time_s": 58.325016,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 58.325016,
+      "candidate_max_observed_vt_s": 58.325016,
+      "candidate_success_count": 1,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+      "family": "network",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+        "status": "SUCCESS",
+        "time_s": 97.63996,
+        "checks": "0/361",
+        "covers": "3/3",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+          "status": "SUCCESS",
+          "time_s": 30.822624,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 30.822624,
+      "candidate_max_observed_vt_s": 30.822624,
+      "candidate_success_count": 1,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+        "status": "SUCCESS",
+        "time_s": 142.96727,
+        "checks": "0/442",
+        "covers": "1/1",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+          "status": "SUCCESS",
+          "time_s": 56.915627,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 56.915627,
+      "candidate_max_observed_vt_s": 56.915627,
+      "candidate_success_count": 1,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    },
+    {
+      "old_name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
+      "family": "merge",
+      "series": "memory-5m",
+      "cutoff_minutes": 5,
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
+        "status": "SUCCESS",
+        "time_s": 137.74751,
+        "checks": "0/638",
+        "covers": "2/2",
+        "source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+        "build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+        "request_id": "c3c-memory-baseline-5m"
+      },
+      "baseline_build_id": "e358163c-9006-4ea0-a402-c12a5a009747",
+      "baseline_source_sha": "f9bdf626a42ad41ae81f4ddbc0cb08f1b5647810",
+      "successors": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
+          "status": "SUCCESS",
+          "time_s": 54.63317,
+          "source_build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2"
+        }
+      ],
+      "successor_count": 1,
+      "candidate_observed_vt_sum_s": 54.63317,
+      "candidate_max_observed_vt_s": 54.63317,
+      "candidate_success_count": 1,
+      "candidate_censored_or_missing_count": 0,
+      "candidate_source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ],
+      "note": "Только сумма наблюдаемого Verification Time; цензурированные строки не восстанавливаются.",
+      "series_status": {
+        "five_minute_complete": true,
+        "three_minute_complete": true,
+        "selected_inputs": [
+          "baseline-memory",
+          "candidate-memory-1",
+          "candidate-memory-2"
+        ],
+        "inputs_audit": [
+          {
+            "label": "baseline-memory",
+            "expected_rows": 26,
+            "actual_rows": 26,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-1",
+            "expected_rows": 30,
+            "actual_rows": 30,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate-memory-2",
+            "expected_rows": 24,
+            "actual_rows": 24,
+            "requested_cutoff_minutes": 5,
+            "required_cutoff_minutes": 5,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "baseline",
+            "expected_rows": 22,
+            "actual_rows": 22,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          },
+          {
+            "label": "candidate",
+            "expected_rows": 50,
+            "actual_rows": 50,
+            "requested_cutoff_minutes": 3,
+            "required_cutoff_minutes": 3,
+            "rows_and_cutoff_match": true
+          }
+        ],
+        "not_selected_5m": null
+      }
+    }
+  ],
+  "paired_domain_families": [
+    {
+      "family": "correct",
+      "old_domains": 2,
+      "successor_rows": 3,
+      "observed_vt_sum_s": 291.527825,
+      "max_observed_vt_s": 142.25116,
+      "censored_or_missing": 0,
+      "source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2"
+      ]
+    },
+    {
+      "family": "merge",
+      "old_domains": 7,
+      "successor_rows": 11,
+      "observed_vt_sum_s": 567.684439,
+      "max_observed_vt_s": 105.07332,
+      "censored_or_missing": 3,
+      "source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2",
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ]
+    },
+    {
+      "family": "network",
+      "old_domains": 9,
+      "successor_rows": 32,
+      "observed_vt_sum_s": 645.901613,
+      "max_observed_vt_s": 58.325016,
+      "censored_or_missing": 5,
+      "source_ids": [
+        "4722df9d-7a70-46d1-b761-deef420bb1f2",
+        "5ae76959-e306-4b33-9506-402bc9909768"
+      ]
+    }
+  ],
+  "controls_audit": {
+    "state": "ROWS_AUDITED",
+    "rows": [
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+        "status": "SUCCESS",
+        "covers": "1/1",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_prefix",
+        "status": "TIMEOUT",
+        "covers": "",
+        "covers_audit_ok": false,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+        "status": "SUCCESS",
+        "covers": "1/1",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n2",
+        "status": "SUCCESS",
+        "covers": "2/2",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
+        "status": "SUCCESS",
+        "covers": "5/5",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
+        "status": "SUCCESS",
+        "covers": "3/3",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n15",
+        "status": "SUCCESS",
+        "covers": "1/1",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
+        "status": "SUCCESS",
+        "covers": "7/7",
+        "covers_audit_ok": true,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+        "status": "SUCCESS",
+        "covers": "1/2",
+        "covers_audit_ok": false,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      },
+      {
+        "label": "controls",
+        "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+        "harness": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
+        "status": "SUCCESS",
+        "covers": "1/2",
+        "covers_audit_ok": false,
+        "gate": "False",
+        "acceptance": false,
+        "evidence": "controls.0000.rows.tsv"
+      }
+    ],
+    "sample_audit_passed": false,
+    "acceptance": false
+  },
+  "risk": {
+    "available": true,
+    "count": 421,
+    "label": "AVAILABLE",
+    "top15": [
+      {
+        "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n10",
+        "family": "correct",
+        "calibration_group": "correct.fallback.u64",
+        "status": "MISSING_RESULT",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "MISSING_RESULT",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n4",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n4",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n8",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n16",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n2",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n4",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n8",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n16",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n2",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n4",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n8",
+        "family": "merge",
+        "calibration_group": "merge.unmatched",
+        "status": "NO_RESULT_ROW",
+        "gcb_time_s": null,
+        "mac_point_forecast_s": null,
+        "mac_observed_tail_transfer_s": null,
+        "mac_censored_lower_transfer_s": null,
+        "flags": [
+          "RUN_PARTIAL",
+          "NO_RESULT_ROW",
+          "NO_MAC_POINT_FORECAST"
+        ],
+        "direct_cbmc_peak_kb": null,
+        "forecast_is_acceptance": false,
+        "forecast_method": "Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results."
+      }
+    ],
+    "source": "Реестр ordinary_risk_register в measurements.json; см. risk-register.tsv"
+  },
+  "limitations": [
+    "Нет полного baseline-autoharness запуска: нельзя утверждать измеренное улучшение полного задания или причину исторического завершения Ubuntu.",
+    "Три точных Ubuntu harnesses, активных при остановке, не определяются по предоставленному TSV; имена не угадываются.",
+    "Суммы VT P6 не являются wall time, памятью или стоимостью задания; бюджет текущего C3c build задаётся отдельно.",
+    "В Mac TSV нет RAM или wall-time; суммы включают только строки со временем, без трёх timeout по 600 секунд.",
+    "Время — Verification Time. Сумма split successors — наблюдаемая сумма VT, не wall time и не время одного harness.",
+    "Отдельные максимумы HWM по процессам не складываются как RAM; для общей нагрузки используйте одновременный RSS с временем измерения.",
+    "Censor bounds не являются точечными коэффициентами; перенос к изменённым моделям — прогноз, не приёмка."
+  ]
+}

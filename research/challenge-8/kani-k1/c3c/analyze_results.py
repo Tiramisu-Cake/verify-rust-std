@@ -36,6 +36,24 @@ def calibration_group(name):
     if module=='assembly':return 'assembly.zst' if 'stable_unit_' in leaf else 'assembly.primitive_witness'
     return module+'.unmatched'
 
+def stress_scenario_coefficient(points, ratio_upper_bounds):
+    """Largest observed point or upper-censored ratio; excludes lower bounds."""
+    values=list(points)+list(ratio_upper_bounds)
+    return max(values,default=None)
+
+def censored_lower_transfer_scenario(time_s, status, coefficient):
+    """Exploratory lower-censor transfer, only for a successful candidate row."""
+    if status!='SUCCESS' or time_s is None or coefficient is None:
+        return None
+    return time_s*coefficient
+
+def inventory_result_row(matches):
+    """Return a singleton result, or distinguish absent from duplicate rows."""
+    if len(matches)==1:
+        return matches[0]
+    status='NO_RESULT_ROW' if not matches else 'DUPLICATE_RESULT_ROWS'
+    return dict(status=status,time_s=None,covers='',checks='')
+
 def metadata(lines):
     return dict(line.split('=',1) for line in lines if '=' in line and '\t' not in line
                 and re.fullmatch('[a-z_0-9]+',line.split('=',1)[0]))
@@ -105,12 +123,16 @@ def main():
             builds[entry['label']]=read_build(entry)
     baseline=builds.get('baseline-memory') or builds.get('baseline');candidate=builds.get('candidate');full=builds.get('autoharness')
     memory_parts=[builds.get('candidate-memory-1'),builds.get('candidate-memory-2')]
-    if all(memory_parts):
+    new_pair_available=all(memory_parts) and builds.get('baseline-memory') is not None
+    if new_pair_available:
         combined=[row for part in memory_parts for row in part['rows']]
         assert len(combined)==54 and len({r['name'] for r in combined})==54
         candidate=dict(rows=combined,summary_status='COMPLETE' if all(part['summary_status']=='COMPLETE' for part in memory_parts) else 'PARTIAL',source_builds=[part['build_id'] for part in memory_parts],request=dict(harness_timeout_minutes=5),process_memory=[record for part in memory_parts for record in part['process_memory']])
     macrows=[line.split('\t') for line in (BASE.parent/'c3c-inputs/mac-times.tsv').read_text().splitlines()]
-    mac={name:float(sec) for name,sec,status in macrows if name.startswith(PREFIX)}
+    # Only completed Mac runs provide point observations. Keep failed/timeout rows
+    # out of the ratio map rather than treating their reported time as exact.
+    mac={name:float(sec) for name,sec,status in macrows
+         if name.startswith(PREFIX) and status=='SUCCESSFUL' and sec not in ('','None')}
     historical_timeouts=set(PREFIX+n for n in ('merge::merge_contract_u64_n16','network::insertion_permutation_u64_n12','network::insert_tail_contract_u64_start1'))
     calibration=[];families=collections.defaultdict(list)
     if baseline:
@@ -132,17 +154,26 @@ def main():
         points=sorted(r['point_ratio'] for r in rs if r['point_ratio'] is not None)
         lows=[r['ratio_lower_bound'] for r in rs if r['ratio_lower_bound'] is not None]
         uppers=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None]
-        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['gcb_status']=='TIMEOUT' or r['mac_censored_timeout_s'] is not None for r in rs),n_unusable_or_unmeasured=sum(r['point_ratio'] is None and r['gcb_status']!='TIMEOUT' and r['mac_censored_timeout_s'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None],stress_transfer_coefficient=max(points+lows+uppers,default=None),dual_censored_count=sum(r['gcb_status']=='TIMEOUT' and r['mac_censored_timeout_s'] is not None for r in rs),coefficient_is_upper_bound=False)
+        # A Mac timeout gives only a LOWER bound on Mac/GCB. It cannot define a
+        # high-tail transfer scenario. GCB timeouts with observed Mac success give
+        # upper bounds; retain them with points, while explicitly not claiming a
+        # mathematical bound for transfer to changed models.
+        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['gcb_status']=='TIMEOUT' or r['mac_censored_timeout_s'] is not None for r in rs),n_unusable_or_unmeasured=sum(r['point_ratio'] is None and r['gcb_status']!='TIMEOUT' and r['mac_censored_timeout_s'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=uppers,stress_transfer_coefficient=stress_scenario_coefficient(points,uppers),censored_lower_transfer_coefficient=max(lows,default=None),dual_censored_count=sum(r['gcb_status']=='TIMEOUT' and r['mac_censored_timeout_s'] is not None for r in rs),coefficient_is_upper_bound=False,stress_scenario_uses='point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded',lower_censor_scenario_uses='separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models')
     paired=[]
-    if baseline and candidate:
-        old={r['name']:r for r in baseline['rows']};new={r['name']:r for r in candidate['rows']}
+    pair_baseline=baseline if new_pair_available else builds.get('baseline')
+    paired_series='metadata-bound-5m' if new_pair_available else 'initial-3m'
+    if pair_baseline and candidate:
+        assert pair_baseline['request']['harness_timeout_minutes']==candidate['request']['harness_timeout_minutes']
+        old={r['name']:r for r in pair_baseline['rows']};new={r['name']:r for r in candidate['rows']}
         domainmap=json.loads((BASE/'paired-domain-map.json').read_text());mapping=dict(domainmap['old_domains'])
-        if all(memory_parts):mapping.update(domainmap.get('additional_memory_calibration_domains',{}))
+        if new_pair_available:mapping.update(domainmap.get('additional_memory_calibration_domains',{}))
         for name,successors in mapping.items():
             rs=[new.get(n,dict(name=n,status='MISSING',time_s=None)) for n in successors]
             allok=all(r['status']=='SUCCESS' and r['time_s'] is not None for r in rs)
             paired.append(dict(old_name=name,baseline=old.get(name),successors=rs,candidate_sum_observed_s=sum(r['time_s'] or 0 for r in rs),candidate_sum_complete=allok,candidate_max_observed_s=max((r['time_s'] for r in rs if r['time_s'] is not None),default=None),note='Sum of Verification Time, not CPU or wall; censored members are not replaced by cutoff'))
     registry=[]
+    history_domains=json.loads((BASE/'paired-domain-map.json').read_text())['old_domains']
+    historical_successors={n for old,ns in history_domains.items() if old in historical_timeouts for n in ns}
     if full:
         inventory=full['ordinary_inventory'];lookup=collections.defaultdict(list)
         for row in full['rows']:lookup[row['name']].append(row)
@@ -151,27 +182,34 @@ def main():
         full['inventory_results_missing']=[n for n in inventory if not lookup[n]]
         full['inventory_results_duplicated']=[n for n in inventory if len(lookup[n])>1]
         for name in inventory:
-            row=lookup[name][0] if len(lookup[name])==1 else dict(status='MISSING_OR_DUPLICATE',time_s=None,covers='',checks='')
+            # Inventory membership is not evidence that this harness was
+            # scheduled or executed; an explicit MISSING_RESULT row stays intact.
+            row=inventory_result_row(lookup[name])
             family=name[len(PREFIX):].split('::')[0];group=calibration_group(name);fs=family_stats.get(group,{})
             secs=row['time_s'];median=fs.get('median');stress=fs.get('stress_transfer_coefficient')
             point=secs*median if secs is not None and median is not None else None
             tail=secs*stress if secs is not None and stress is not None else None
+            lower_transfer=censored_lower_transfer_scenario(secs,row['status'],fs.get('censored_lower_transfer_coefficient'))
             flags=[]
+            if name in historical_successors:flags.append('HISTORICAL_MAC_TIMEOUT600_NOT_RETESTED')
             if full['summary_status']!='COMPLETE':flags.append('RUN_'+full['summary_status'])
             if row['status']!='SUCCESS':flags.append(row['status'])
             if point is None:flags.append('NO_MAC_POINT_FORECAST')
             if point is not None and point>300:flags.append('MAC_POINT_OVER_300')
             if tail is not None and tail>300:flags.append('MAC_OBSERVED_TAIL_OVER_300')
+            if lower_transfer is not None and lower_transfer>300:flags.append('MAC_CENSORED_LOWER_TRANSFER_OVER_300')
             memory=[r for r in full['process_memory'] if r.get('harness')==name]
-            registry.append(dict(name=name,family=family,calibration_group=group,status=row['status'],gcb_time_s=secs,mac_point_forecast_s=point,mac_observed_tail_transfer_s=tail,flags=flags,direct_cbmc_peak_kb=max((r['peak_kb'] for r in memory if r['cmd']=='cbmc'),default=None),forecast_is_acceptance=False,forecast_method='Transfer within the named type/model group of source-unchanged baseline points and censored bounds onto changed candidate models; assumption, not bound'))
-    out=dict(schema='c3c-analysis-v1',builds=builds,calibration_rows=calibration,calibration_families=family_stats,paired_domains=paired,ordinary_risk_register=registry,limitations=['No complete baseline autoharness run: no measured full-job improvement or Ubuntu shutdown cause established.','Three Ubuntu in-flight names absent from supplied TSV.','Historical TSV times rounded to 0.1s; censored observations retained.','Family coefficient transfer onto changed models is forecast only; no guaranteed macOS bound.','RSS is not physical RAM; active-set attribution is ambiguous unless direct_harness is recorded.'])
-    (BASE/'measurements.json').write_text(json.dumps(out,indent=2)+'\n')
+            registry.append(dict(name=name,family=family,calibration_group=group,status=row['status'],gcb_time_s=secs,mac_point_forecast_s=point,mac_observed_tail_transfer_s=tail,mac_censored_lower_transfer_s=lower_transfer,flags=flags,direct_cbmc_peak_kb=max((r['peak_kb'] for r in memory if r['cmd']=='cbmc'),default=None),forecast_is_acceptance=False,forecast_method='Upper scenario: source-unchanged baseline points and GCB-timeout upper-censored ratios; separate lower-censor transfer field is exploratory within the typed group for successful candidate rows only. Changed-model forecasts, not bounds or acceptance results.'))
+    out=dict(schema='c3c-analysis-v1',builds=builds,calibration_rows=calibration,calibration_families=family_stats,paired_domains=paired,paired_series=paired_series,ordinary_risk_register=registry,limitations=['No complete baseline autoharness run: no measured full-job improvement or Ubuntu shutdown cause established.','Three Ubuntu in-flight names absent from supplied TSV.','Historical TSV times rounded to 0.1s; censored observations retained.','Family coefficient transfer onto changed models is forecast only; no guaranteed macOS bound.','RSS is not physical RAM; active-set attribution is ambiguous unless direct_harness is recorded.'])
+    temporary=BASE/'measurements.json.tmp'
+    temporary.write_text(json.dumps(out,indent=2)+'\n')
+    temporary.replace(BASE/'measurements.json')
     with (BASE/'calibration.tsv').open('w') as f:
         keys=['name','family','calibration_group','mac_time_s','gcb_status','gcb_time_s','point_ratio','ratio_lower_bound','ratio_upper_bound']
         f.write('\t'.join(keys)+'\n')
         for r in calibration:f.write('\t'.join(str(r.get(k,'')) for k in keys)+'\n')
     with (BASE/'risk-register.tsv').open('w') as f:
-        keys=['name','family','calibration_group','status','gcb_time_s','mac_point_forecast_s','mac_observed_tail_transfer_s','flags']
+        keys=['name','family','calibration_group','status','gcb_time_s','mac_point_forecast_s','mac_observed_tail_transfer_s','mac_censored_lower_transfer_s','flags']
         f.write('\t'.join(keys)+'\n')
         for r in registry:f.write('\t'.join(','.join(r[k]) if isinstance(r[k],list) else str(r[k]) for k in keys)+'\n')
     print(json.dumps(dict(builds={label:{k:b[k] for k in ('summary_status','gate','all','smallsort','command_wall')} for label,b in builds.items()},calibration_families=family_stats,registry_count=len(registry)),indent=2))

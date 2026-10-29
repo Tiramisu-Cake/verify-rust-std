@@ -1,0 +1,422 @@
+{
+  "builds": {
+    "baseline": {
+      "summary_status": "INCONSISTENT",
+      "gate": "False",
+      "all": {
+        "count": 22,
+        "statuses": {
+          "TIMEOUT": 13,
+          "SUCCESS": 9
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 176.014698,
+        "max_observed_s": 52.64956,
+        "censored_or_untimed": 13
+      },
+      "smallsort": {
+        "count": 22,
+        "statuses": {
+          "TIMEOUT": 13,
+          "SUCCESS": 9
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 176.014698,
+        "max_observed_s": 52.64956,
+        "censored_or_untimed": 13
+      },
+      "command_wall": "16:27.83"
+    },
+    "candidate-setup-failed": {
+      "summary_status": "RUNNER_ERROR",
+      "gate": "False",
+      "all": {
+        "count": 50,
+        "statuses": {
+          "NOT_RUN": 50
+        },
+        "timed_count": 0,
+        "sum_observed_verification_s": 0,
+        "max_observed_s": null,
+        "censored_or_untimed": 50
+      },
+      "smallsort": {
+        "count": 50,
+        "statuses": {
+          "NOT_RUN": 50
+        },
+        "timed_count": 0,
+        "sum_observed_verification_s": 0,
+        "max_observed_s": null,
+        "censored_or_untimed": 50
+      },
+      "command_wall": "None"
+    },
+    "candidate": {
+      "summary_status": "INCONSISTENT",
+      "gate": "False",
+      "all": {
+        "count": 50,
+        "statuses": {
+          "TIMEOUT": 8,
+          "SUCCESS": 42
+        },
+        "timed_count": 42,
+        "sum_observed_verification_s": 1695.575449,
+        "max_observed_s": 176.50821,
+        "censored_or_untimed": 8
+      },
+      "smallsort": {
+        "count": 50,
+        "statuses": {
+          "TIMEOUT": 8,
+          "SUCCESS": 42
+        },
+        "timed_count": 42,
+        "sum_observed_verification_s": 1695.575449,
+        "max_observed_s": 176.50821,
+        "censored_or_untimed": 8
+      },
+      "command_wall": "19:39.31"
+    },
+    "autoharness": {
+      "summary_status": "PARTIAL",
+      "gate": "False",
+      "all": {
+        "count": 1959,
+        "statuses": {
+          "SUCCESS": 1951,
+          "TIMEOUT": 5,
+          "MISSING_RESULT": 3
+        },
+        "timed_count": 1951,
+        "sum_observed_verification_s": 25773.944039,
+        "max_observed_s": 468.61154,
+        "censored_or_untimed": 8
+      },
+      "smallsort": {
+        "count": 238,
+        "statuses": {
+          "SUCCESS": 233,
+          "TIMEOUT": 2,
+          "MISSING_RESULT": 3
+        },
+        "timed_count": 233,
+        "sum_observed_verification_s": 18045.637751,
+        "max_observed_s": 468.61154,
+        "censored_or_untimed": 5
+      },
+      "command_wall": "None"
+    },
+    "baseline-memory": {
+      "summary_status": "COMPLETE",
+      "gate": "False",
+      "all": {
+        "count": 26,
+        "statuses": {
+          "TIMEOUT": 12,
+          "SUCCESS": 14
+        },
+        "timed_count": 14,
+        "sum_observed_verification_s": 1042.244109,
+        "max_observed_s": 303.7755,
+        "censored_or_untimed": 12
+      },
+      "smallsort": {
+        "count": 26,
+        "statuses": {
+          "TIMEOUT": 12,
+          "SUCCESS": 14
+        },
+        "timed_count": 14,
+        "sum_observed_verification_s": 1042.244109,
+        "max_observed_s": 303.7755,
+        "censored_or_untimed": 12
+      },
+      "command_wall": "29:38.32"
+    },
+    "candidate-memory-1": {
+      "summary_status": "COMPLETE",
+      "gate": "False",
+      "all": {
+        "count": 30,
+        "statuses": {
+          "TIMEOUT": 8,
+          "SUCCESS": 22
+        },
+        "timed_count": 22,
+        "sum_observed_verification_s": 749.248196,
+        "max_observed_s": 105.07332,
+        "censored_or_untimed": 8
+      },
+      "smallsort": {
+        "count": 30,
+        "statuses": {
+          "TIMEOUT": 8,
+          "SUCCESS": 22
+        },
+        "timed_count": 22,
+        "sum_observed_verification_s": 749.248196,
+        "max_observed_s": 105.07332,
+        "censored_or_untimed": 8
+      },
+      "command_wall": "21:23.49"
+    },
+    "candidate-memory-2": {
+      "summary_status": "COMPLETE",
+      "gate": "True",
+      "all": {
+        "count": 24,
+        "statuses": {
+          "SUCCESS": 24
+        },
+        "timed_count": 24,
+        "sum_observed_verification_s": 869.434092,
+        "max_observed_s": 142.25116,
+        "censored_or_untimed": 0
+      },
+      "smallsort": {
+        "count": 24,
+        "statuses": {
+          "SUCCESS": 24
+        },
+        "timed_count": 24,
+        "sum_observed_verification_s": 869.434092,
+        "max_observed_s": 142.25116,
+        "censored_or_untimed": 0
+      },
+      "command_wall": "8:44.83"
+    },
+    "controls": {
+      "summary_status": "COMPLETE",
+      "gate": "False",
+      "all": {
+        "count": 10,
+        "statuses": {
+          "SUCCESS": 9,
+          "TIMEOUT": 1
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 635.132976,
+        "max_observed_s": 175.81065,
+        "censored_or_untimed": 1
+      },
+      "smallsort": {
+        "count": 10,
+        "statuses": {
+          "SUCCESS": 9,
+          "TIMEOUT": 1
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 635.132976,
+        "max_observed_s": 175.81065,
+        "censored_or_untimed": 1
+      },
+      "command_wall": "6:32.83"
+    }
+  },
+  "calibration_families": {
+    "merge.contract.u64": {
+      "n_point": 1,
+      "n_censored": 3,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.34343524920074364,
+      "min": 0.34343524920074364,
+      "max_observed": 0.34343524920074364,
+      "p90_observed": 0.34343524920074364,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [
+        1.401,
+        1.3496666666666666
+      ],
+      "stress_transfer_coefficient": 1.401,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 1,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "network.correctness.u8": {
+      "n_point": 0,
+      "n_censored": 2,
+      "n_unusable_or_unmeasured": 0,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [
+        1.5,
+        1.3579999999999999
+      ],
+      "stress_transfer_coefficient": 1.5,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "merge.upper_route_safety": {
+      "n_point": 0,
+      "n_censored": 2,
+      "n_unusable_or_unmeasured": 0,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [
+        1.4,
+        1.6853333333333333
+      ],
+      "stress_transfer_coefficient": 1.6853333333333333,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "network.tail_contract.u64": {
+      "n_point": 0,
+      "n_censored": 2,
+      "n_unusable_or_unmeasured": 0,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [
+        1.9496666666666667
+      ],
+      "stress_transfer_coefficient": 1.9496666666666667,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 1,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "network.correctness.u64": {
+      "n_point": 2,
+      "n_censored": 2,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.40662609590059773,
+      "min": 0.2990578857262948,
+      "max_observed": 0.5141943060749006,
+      "p90_observed": 0.5141943060749006,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [
+        1.5966666666666667,
+        1.5596666666666665
+      ],
+      "stress_transfer_coefficient": 1.5966666666666667,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "network.insertion_permutation.u64": {
+      "n_point": 0,
+      "n_censored": 1,
+      "n_unusable_or_unmeasured": 0,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": null,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 1,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "correct.general_stable.u8": {
+      "n_point": 1,
+      "n_censored": 0,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.4401276600647517,
+      "min": 0.4401276600647517,
+      "max_observed": 0.4401276600647517,
+      "p90_observed": 0.4401276600647517,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": 0.4401276600647517,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "correct.fallback.u64": {
+      "n_point": 1,
+      "n_censored": 0,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.40430313739234625,
+      "min": 0.40430313739234625,
+      "max_observed": 0.40430313739234625,
+      "p90_observed": 0.40430313739234625,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": 0.40430313739234625,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "assembly.zst": {
+      "n_point": 5,
+      "n_censored": 0,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.48132611891797117,
+      "min": 0.2920055360613771,
+      "max_observed": 0.5835391980603157,
+      "p90_observed": 0.5835391980603157,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": 0.5835391980603157,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "assembly.primitive_witness": {
+      "n_point": 3,
+      "n_censored": 0,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.5097306657304923,
+      "min": 0.40814079257431907,
+      "max_observed": 0.5757461703841794,
+      "p90_observed": 0.5757461703841794,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": 0.5757461703841794,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    },
+    "merge.general_stable.u64": {
+      "n_point": 1,
+      "n_censored": 0,
+      "n_unusable_or_unmeasured": 0,
+      "median": 0.302001829288965,
+      "min": 0.302001829288965,
+      "max_observed": 0.302001829288965,
+      "p90_observed": 0.302001829288965,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": 0.302001829288965,
+      "censored_lower_transfer_coefficient": null,
+      "dual_censored_count": 0,
+      "coefficient_is_upper_bound": false,
+      "stress_scenario_uses": "point ratios and GCB-timeout ratio upper bounds; Mac-timeout lower bounds excluded",
+      "lower_censor_scenario_uses": "separate exploratory transfer of same-group Mac-timeout lower bounds; successful candidate row only; not a bound on changed models"
+    }
+  },
+  "registry_count": 421
+}

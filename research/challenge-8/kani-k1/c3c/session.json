@@ -71,7 +71,32 @@
       "timeout_minutes": 180,
       "reserve_usd": 2.43,
       "lane_sha": "b853c68c659bd9149383baabd01ad22bb4c9fecc"
+    },
+    {
+      "label": "candidate-memory-2",
+      "build_id": "4722df9d-7a70-46d1-b761-deef420bb1f2",
+      "sha": "eefb512a3fe8e30c31645eb63141f2a5179e39d8",
+      "library_reference": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+      "timeout_minutes": 150,
+      "reserve_usd": 2.025,
+      "lane_sha": "b853c68c659bd9149383baabd01ad22bb4c9fecc"
+    },
+    {
+      "label": "controls",
+      "build_id": "0b2482ba-6db6-4125-8aa1-2503a7a8ccf4",
+      "sha": "34c3cf02580266542d2122707bc4d955527d0641",
+      "library_reference": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+      "timeout_minutes": 60,
+      "reserve_usd": 0.81,
+      "lane_sha": "b853c68c659bd9149383baabd01ad22bb4c9fecc"
     }
   ],
-  "monitor_note": "Old k1g wait processes can parse-fail after helper edit; Cloud status and summaries are queried afresh. This is not verifier evidence."
+  "monitor_note": "Old k1g wait processes can parse-fail after helper edit; Cloud status and summaries are queried afresh. This is not verifier evidence.",
+  "final_library_sha": "e45cfc72508bf3b86df0c9f5ee5de0a533446e29",
+  "post_audit_cover_fix": {
+    "measured_library_sha": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+    "final_library_sha": "e45cfc72508bf3b86df0c9f5ee5de0a533446e29",
+    "ci_run": false,
+    "reason": "8/8 builds used; both fixed R routes expose one impossible opposite-route cover; source-only macro repair after audit, no new ordinary proof claims"
+  }
 }

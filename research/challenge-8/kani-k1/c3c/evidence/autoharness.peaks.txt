@@ -1,0 +1,99 @@
+interval_ms=2000
+samples=7197
+elapsed_s=14454
+total_rss_peak_kb=14198868
+total_peak_s=10754
+cmd=bash peak_kb=3848 first_s=0 last_s=14454 peak_s=0
+cmd=cargo peak_kb=30264 first_s=4 last_s=682 peak_s=142
+cmd=cbmc peak_kb=4552300 first_s=1164 last_s=14454 peak_s=10708
+cmd=cc1 peak_kb=9812 first_s=686 last_s=9887 peak_s=4259
+cmd=cc1plus peak_kb=9864 first_s=703 last_s=11248 peak_s=1629
+cmd=gcc peak_kb=1260 first_s=686 last_s=13903 peak_s=1054
+cmd=goto-cc peak_kb=189312 first_s=684 last_s=14416 peak_s=883
+cmd=goto-instrument peak_kb=1903136 first_s=1162 last_s=14342 peak_s=4821
+cmd=kani-compiler peak_kb=3924132 first_s=4 last_s=682 peak_s=672
+cmd=kani-driver peak_kb=8453412 first_s=2 last_s=14453 peak_s=12331
+cmd=kissat peak_kb=44852 first_s=2079 last_s=2594 peak_s=2089
+cmd=python3 peak_kb=19556 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3732 first_s=2 last_s=14453 peak_s=2
+cmd=tee peak_kb=1048 first_s=0 last_s=14454 peak_s=0
+cmd=time peak_kb=1156 first_s=2 last_s=14453 peak_s=2
+cmd=timeout peak_kb=1092 first_s=2 last_s=14453 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=8785312 peak_s=10754
+role=driver simultaneous_rss_peak_kb=8453412 peak_s=12331
+role=solver simultaneous_rss_peak_kb=35496 peak_s=2085
+cbmc_pid=111150 peak_kb=4552300 first_s=10660 last_s=11023 peak_s=10708 active=T0:correct::contract_insert_tail_u8_scratch,T1:network::insertion_safety_u64_n17_offsets5_to8,T2:network::insert_tail_contract_u64_start13 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=112521 peak_kb=4129004 first_s=11726 last_s=11881 peak_s=11855 active=T0:correct::sorted_permutation_fallback_u64_n16,T1:network::mutating_insertion_safety_cell_n6_to10,T2:network::insertion_permutation_u64_n12 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=113897 peak_kb=4064916 first_s=14214 last_s=14340 peak_s=14250 active=T0:correct::sorted_permutation_fallback_u8_n13,T1:network::dispatch_safety_stable_unstable_bytes16_n32,T2:network::network_correctness_u8_n14 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=113492 peak_kb=3872520 first_s=13539 last_s=13690 peak_s=13620 active=T0:correct::sorted_permutation_fallback_u8_n15,T1:network::dispatch_safety_stable_unstable_bytes16_n31,T2:network::network_correctness_u8_n17 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=113167 peak_kb=3799336 first_s=12766 last_s=12927 peak_s=12891 active=T0:correct::sorted_permutation_fallback_u8_n16,T1:network::insertion_safety_u64_n11_to12,T2:network::swap_contract_bytes86_n2 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=112629 peak_kb=3681800 first_s=11963 last_s=12116 peak_s=12090 active=T0:correct::sorted_permutation_fallback_u64_n16,T1:network::mutating_insertion_safety_cell_n14,T2:network::insertion_permutation_u64_n12 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+solver_pid=62787 cmd=kissat peak_kb=44852 first_s=2081 last_s=2261 peak_s=2089 active=
+solver_pid=62777 cmd=kissat peak_kb=33572 first_s=2079 last_s=2079 peak_s=2079 active=
+solver_pid=68249 cmd=kissat peak_kb=23356 first_s=2588 last_s=2594 peak_s=2590 active=T0:ffi::c_str::verify::check_bytes,T1:ptr::mut_ptr::verify::check_mut_add_usize,T2:num::verify::carrying_mul_u64_mid_edge
+solver_pid=68071 cmd=kissat peak_kb=14188 first_s=2580 last_s=2580 peak_s=2580 active=T0:ffi::c_str::verify::check_to_str
+solver_pid=67763 cmd=kissat peak_kb=7680 first_s=2564 last_s=2564 peak_s=2564 active=T0:ffi::c_str::verify::check_to_str
+driver_s=0 rss_kb=0
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_clamp_for_u128
+driver_s=10758 rss_kb=5394580
+harness_s=2488 name=T0:collections::vec_deque::verify::check_vecdeque_swap
+driver_s=11511 rss_kb=5396520
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_clamp_for_32
+driver_s=11993 rss_kb=5397168
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_clamp_for_u64
+driver_s=12264 rss_kb=6566588
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_i128
+driver_s=12505 rss_kb=5718036
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_u128
+driver_s=12746 rss_kb=5718036
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_u32
+driver_s=12897 rss_kb=5717600
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_i16
+driver_s=13017 rss_kb=5807764
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_u64
+driver_s=13138 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_i8
+driver_s=13258 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_i32
+driver_s=13379 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_i64
+driver_s=13499 rss_kb=6202456
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_u8
+driver_s=13589 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_usize
+driver_s=13650 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_isize
+driver_s=13710 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_min_for_u16
+driver_s=13770 rss_kb=6644824
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_i16
+driver_s=13830 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_i128
+driver_s=13891 rss_kb=6005848
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_u64
+driver_s=13951 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_usize
+driver_s=14011 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_i8
+driver_s=14071 rss_kb=6014044
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_u128
+driver_s=14131 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_i32
+driver_s=14192 rss_kb=5972168
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_u32
+driver_s=14252 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_u8
+driver_s=14312 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_u16
+driver_s=14342 rss_kb=6206552
+harness_s=2488 name=T0:vec::verify::verify_swap_remove
+driver_s=14372 rss_kb=6806636
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_isize
+driver_s=14402 rss_kb=5780568
+harness_s=2488 name=T1:num::nonzero::verify::nonzero_check_max_for_i64
+driver_s=14432 rss_kb=5780588
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=3186
+verify_budget_s=14454

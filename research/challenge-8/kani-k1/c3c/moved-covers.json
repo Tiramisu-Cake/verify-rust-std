@@ -1,7 +1,7 @@
 {
-  "source_sha": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+  "source_sha": "e45cfc72508bf3b86df0c9f5ee5de0a533446e29",
   "policy": "proof_cover expansion evaluates the predicate where the call is present; an enclosing controls cfg can exclude the call (notably A in-sort witness). Controls enable the kani::cover goal; source sites are not instantiated property counts.",
-  "source_sites": 100,
+  "source_sites": 102,
   "sites": [
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
@@ -77,14 +77,20 @@
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
-      "line": 181,
-      "invocation": "proof_cover!(true, \"general/stable: stable Freeze route checked\")",
+      "line": 191,
+      "invocation": "proof_cover!(stable, \"general/stable: stable Freeze route checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
-      "line": 183,
-      "invocation": "proof_cover!(true, \"general/stable: direct general route checked\")",
+      "line": 192,
+      "invocation": "proof_cover!(!stable, \"general/stable: direct general route checked\")",
+      "immediate_controls_cfg": false
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 216,
+      "invocation": "proof_cover!(true, \"general/stable: selected fixed route checked\")",
       "immediate_controls_cfg": false
     },
     {
@@ -233,55 +239,61 @@
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 852,
-      "invocation": "proof_cover!(true, \"stable route properties checked\")",
+      "line": 862,
+      "invocation": "proof_cover!(stable, \"stable route properties checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 854,
-      "invocation": "proof_cover!(true, \"general route properties checked\")",
+      "line": 863,
+      "invocation": "proof_cover!(!stable, \"general route properties checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 882,
+      "line": 880,
       "invocation": "proof_cover!(true, \"fallback route properties checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1174,
+      "line": 903,
+      "invocation": "proof_cover!(true, \"selected fixed route properties checked\")",
+      "immediate_controls_cfg": false
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1173,
       "invocation": "proof_cover!(!alternate, $first)",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1175,
+      "line": 1174,
       "invocation": "proof_cover!(alternate, $second)",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1189,
+      "line": 1188,
       "invocation": "proof_cover!(!alternate, \"general route returns with the property checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1190,
+      "line": 1189,
       "invocation": "proof_cover!(alternate, \"stable route returns with the property checked\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1262,
+      "line": 1261,
       "invocation": "proof_cover!(true, \"duplicate-tag control entered\")",
       "immediate_controls_cfg": false
     },
     {
       "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
-      "line": 1274,
+      "line": 1273,
       "invocation": "proof_cover!(true, \"extra-drop control entered\")",
       "immediate_controls_cfg": false
     },

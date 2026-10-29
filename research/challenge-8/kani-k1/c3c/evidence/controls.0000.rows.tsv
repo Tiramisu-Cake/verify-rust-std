@@ -1,0 +1,19 @@
+request_id=c3c-controls-cover-audit
+request_sha256=1020fcce12cccc0806f5d02aa56c5f96d392e556acd9b366219592f7b57bdaeb
+build_id=0b2482ba-6db6-4125-8aa1-2503a7a8ccf4
+head_sha=34c3cf02580266542d2122707bc4d955527d0641
+total=10
+offset=0
+count=10
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8	SUCCESS	68.44929	0/481	1/1
+slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_prefix	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5	SUCCESS	146.94041	0/442	1/1
+slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n2	SUCCESS	8.338895	0/638	2/2
+slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2	SUCCESS	29.244923	0/404	5/5
+slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2	SUCCESS	16.972382	0/415	3/3
+slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n15	SUCCESS	37.462524	0/384	1/1
+slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2	SUCCESS	7.562522	0/214	7/7
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14	SUCCESS	175.81065	0/723	1/2
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14	SUCCESS	144.35138	0/723	1/2

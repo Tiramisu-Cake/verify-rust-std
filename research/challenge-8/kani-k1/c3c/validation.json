@@ -1,6 +1,6 @@
 {
-  "lane_sha": "340cad71d3d7df462a4ec2f906e94c175e1db716",
-  "python_unittests": 61,
+  "lane_sha": "3184754242c250827b99db211d3fafb0ddd19b81",
+  "python_unittests": 69,
   "python_unittests_passed": true,
   "bash_syntax_exit": 0,
   "git_diff_check_exit": 0,
@@ -29,14 +29,41 @@
     },
     "controls": {
       "mode": "selected",
-      "build_timeout_minutes": 54,
-      "reserve_usd": 0.729,
-      "count": 8
+      "build_timeout_minutes": 60,
+      "reserve_usd": 0.81,
+      "count": 10
     }
   },
   "max_reserve_usd": 8.505,
   "local_proof_tools_run": false,
   "failed_setup_cost_usd": 0.0945,
   "max_total_including_failed_setup_usd": 8.5995,
-  "inventory_repair": "Pinned list supports no --harness; supported bare std list with 60m preparation bound; autoharness work cap270 +30 build overhead"
+  "inventory_repair": "Pinned list supports no --harness; supported bare std list with 60m preparation bound; autoharness work cap270 +30 build overhead",
+  "report_generator_fixture_tests": 6,
+  "final_rustfmt_check_exit": 0,
+  "final_rustfmt_check_utc": "2026-10-29T06:55:00Z",
+  "planned_builds_note": "Initial plan retained for provenance, not final totals; actual requests/8-build guard are session.json and budget files.",
+  "summary_label_regression_test": true,
+  "post_audit_library_ci_run": false,
+  "final_library_sha": "e45cfc72508bf3b86df0c9f5ee5de0a533446e29",
+  "actual_builds": 8,
+  "actual_ledger_used_usd": 6.021,
+  "actual_ledger_reserved_usd": 0,
+  "final_combined_library_diff_sha256": "95a7b94b5569898249322c4c7a92680974f33c8f777312e2f1629af05da90126",
+  "final_source_check": {
+    "final_library_sha": "e45cfc72508bf3b86df0c9f5ee5de0a533446e29",
+    "measured_library_sha": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+    "ci_run": false,
+    "rustfmt_check_exit": 0,
+    "max_library_line_length": 100,
+    "ordinary_harness_names_unchanged": true,
+    "helper_covers_removed": true,
+    "fixed_wrapper_one_cover": true,
+    "combined_wrapper_route_witnesses_retained": true,
+    "assert_assume_contract_diff": false,
+    "final_cover_source_sites": 102
+  },
+  "git_diff_check_scope": "source/report; exact bounded TSV empty last fields and literal diff context are excluded, preserved without normalization",
+  "git_diff_check_all_artifacts_exit": 2,
+  "git_diff_check_source_and_report_exit": 0
 }

@@ -1,0 +1,55 @@
+interval_ms=2000
+samples=197
+elapsed_s=393
+total_rss_peak_kb=7088568
+total_peak_s=213
+cmd=bash peak_kb=3912 first_s=0 last_s=393 peak_s=393
+cmd=cargo peak_kb=34356 first_s=2 last_s=64 peak_s=2
+cmd=cbmc peak_kb=1414408 first_s=70 last_s=386 peak_s=96
+cmd=goto-cc peak_kb=35132 first_s=66 last_s=324 peak_s=66
+cmd=goto-instrument peak_kb=51740 first_s=68 last_s=263 peak_s=215
+cmd=kani-compiler peak_kb=1876744 first_s=2 last_s=64 peak_s=52
+cmd=kani-driver peak_kb=6419416 first_s=2 last_s=392 peak_s=392
+cmd=python3 peak_kb=20232 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3684 first_s=2 last_s=392 peak_s=2
+cmd=tee peak_kb=1116 first_s=0 last_s=393 peak_s=2
+cmd=time peak_kb=1108 first_s=2 last_s=392 peak_s=2
+cmd=timeout peak_kb=1116 first_s=2 last_s=392 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=3404276 peak_s=201
+role=driver simultaneous_rss_peak_kb=6419416 peak_s=392
+cbmc_pid=9335 peak_kb=1414408 first_s=74 last_s=251 peak_s=96 active=T0:correct::sorted_permutation_general_u8_n14,T1:correct::contract_insert_tail_u8_prefix,T2:network::insert_tail_contract_u64_start1_tail2 hint=slice::sort::shared::smallsort::verify::correct::contract_in
+cbmc_pid=9381 peak_kb=1275012 first_s=217 last_s=386 peak_s=326 active=T0:correct::sorted_permutation_general_u8_n14 hint=slice::sort::shared::smallsort::verify::correct::sorted_perm
+cbmc_pid=9314 peak_kb=1265552 first_s=70 last_s=207 peak_s=140 active=T0:correct::sorted_permutation_stable_u8_n14,T1:correct::contract_insert_tail_u8_prefix,T2:merge::merge_contract_u64_n5 hint=slice::sort::shared::smallsort::verify::correct::sorted_perm
+cbmc_pid=9354 peak_kb=838640 first_s=74 last_s=219 peak_s=201 active=T0:correct::sorted_permutation_general_u8_n14,T1:correct::contract_insert_tail_u8_prefix,T2:merge::merge_contract_u64_n5 hint=slice::sort::shared::smallsort::verify::merge::merge_contrac
+cbmc_pid=9475 peak_kb=720840 first_s=255 last_s=322 peak_s=291 active=T0:correct::sorted_permutation_general_u8_n14,T1:correct::sorted_permutation_fallback_u64_n8,T2:network::dispatch_safety_stable_bytes16_n15 hint=slice::sort::shared::smallsort::verify::correct::sorted_perm
+cbmc_pid=9546 peak_kb=589188 first_s=295 last_s=332 peak_s=324 active=T0:correct::sorted_permutation_general_u8_n14,T1:merge::general_stable_sorted_permutation_u64_n2,T2:network::dispatch_safety_stable_bytes16_n15 hint=slice::sort::shared::smallsort::verify::network::dispatch_sa
+driver_s=0 rss_kb=0
+harness_s=70 name=T0:correct::sorted_permutation_stable_u8_n14
+driver_s=30 rss_kb=6088
+harness_s=74 name=T1:correct::contract_insert_tail_u8_prefix
+driver_s=60 rss_kb=6088
+harness_s=74 name=T2:merge::merge_contract_u64_n5
+driver_s=90 rss_kb=6460
+harness_s=217 name=T0:correct::sorted_permutation_general_u8_n14
+driver_s=120 rss_kb=6460
+harness_s=225 name=T2:network::mutating_route_permutation_cell_n2
+driver_s=150 rss_kb=164920
+harness_s=243 name=T2:network::insert_tail_contract_u64_start1_tail2
+driver_s=180 rss_kb=869432
+harness_s=255 name=T1:correct::sorted_permutation_fallback_u64_n8
+driver_s=211 rss_kb=4142968
+harness_s=265 name=T2:network::swap_contract_u8_n2
+driver_s=241 rss_kb=3273872
+harness_s=295 name=T2:network::dispatch_safety_stable_bytes16_n15
+driver_s=271 rss_kb=3278680
+harness_s=326 name=T1:merge::general_stable_sorted_permutation_u64_n2
+driver_s=301 rss_kb=3326500
+driver_s=332 rss_kb=4385188
+driver_s=362 rss_kb=5111360
+driver_s=392 rss_kb=6419416
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=337
+verify_budget_s=2903
+RUSTFLAGS=--cfg kani_smallsort_controls

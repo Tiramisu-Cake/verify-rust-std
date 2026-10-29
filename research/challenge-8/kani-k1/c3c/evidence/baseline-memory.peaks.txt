@@ -1,0 +1,93 @@
+interval_ms=2000
+samples=886
+elapsed_s=1778
+total_rss_peak_kb=11560520
+total_peak_s=912
+cmd=bash peak_kb=3756 first_s=0 last_s=1778 peak_s=0
+cmd=cargo peak_kb=32956 first_s=2 last_s=68 peak_s=68
+cmd=cbmc peak_kb=4324924 first_s=74 last_s=1776 peak_s=1206
+cmd=cc1 peak_kb=9784 first_s=70 last_s=382 peak_s=382
+cmd=gcc peak_kb=1260 first_s=70 last_s=382 peak_s=382
+cmd=goto-cc peak_kb=77696 first_s=70 last_s=691 peak_s=691
+cmd=goto-instrument peak_kb=60004 first_s=74 last_s=1477 peak_s=695
+cmd=kani-compiler peak_kb=2104832 first_s=2 last_s=68 peak_s=56
+cmd=kani-driver peak_kb=5799796 first_s=2 last_s=1776 peak_s=392
+cmd=python3 peak_kb=20264 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3752 first_s=2 last_s=1776 peak_s=2
+cmd=tee peak_kb=1068 first_s=0 last_s=1778 peak_s=0
+cmd=time peak_kb=1196 first_s=2 last_s=1776 peak_s=2
+cmd=timeout peak_kb=1080 first_s=2 last_s=1776 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=7303540 peak_s=912
+role=driver simultaneous_rss_peak_kb=5785276 peak_s=390
+cbmc_pid=9973 peak_kb=4324924 first_s=1079 last_s=1300 peak_s=1206 active=T0:network::network_correctness_u8_n17,T1:network::insert_tail_contract_u64_start1,T2:merge::route_safety_all_routes_n32 hint=slice::sort::shared::smallsort::verify::merge::route_safety_
+cbmc_pid=9879 peak_kb=4112844 first_s=697 last_s=995 peak_s=914 active=T0:network::network_correctness_u64_n8,T1:merge::merge_contract_u64_n14,T2:merge::route_safety_all_routes_n31 hint=slice::sort::shared::smallsort::verify::merge::route_safety_
+cbmc_pid=10011 peak_kb=2989792 first_s=1079 last_s=1375 peak_s=1121 active=T0:network::network_correctness_u8_n17,T1:network::insert_tail_contract_u64_start1,T2:network::insert_tail_contract_u64_start6 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=10078 peak_kb=2896840 first_s=1306 last_s=1604 peak_s=1332 active=T1:network::network_correctness_u8_n16,T2:network::insert_tail_contract_u64_start6 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9475 peak_kb=2598740 first_s=82 last_s=380 peak_s=370 active=T0:network::insertion_permutation_u64_n12,T1:correct::sorted_permutation_general_stable_u8_n14,T2:merge::merge_contract_u64_n16 hint=slice::sort::shared::smallsort::verify::merge::merge_contrac
+cbmc_pid=9702 peak_kb=2387004 first_s=396 last_s=689 peak_s=671 active=T0:network::network_correctness_u64_n13,T1:merge::merge_contract_u64_n5,T2:merge::merge_contract_u64_n15 hint=slice::sort::shared::smallsort::verify::merge::merge_contrac
+driver_s=0 rss_kb=0
+harness_s=74 name=T1:assembly::permutation_merge_u8_n4
+driver_s=60 rss_kb=5964
+harness_s=76 name=T0:assembly::safety_stable_unit_n17
+driver_s=120 rss_kb=411220
+harness_s=78 name=T1:assembly::sorted_network_prefix_u8_n10
+driver_s=180 rss_kb=412156
+harness_s=82 name=T2:merge::merge_contract_u64_n16
+driver_s=241 rss_kb=731560
+harness_s=88 name=T1:correct::sorted_permutation_general_stable_u8_n14
+driver_s=301 rss_kb=727364
+harness_s=92 name=T0:assembly::safety_stable_unit_n16
+driver_s=362 rss_kb=1829196
+harness_s=98 name=T0:assembly::safety_stable_unit_n8
+driver_s=422 rss_kb=4168788
+harness_s=102 name=T0:assembly::safety_stable_unit_n32
+driver_s=482 rss_kb=4233180
+harness_s=156 name=T0:assembly::safety_stable_unit_n31
+driver_s=542 rss_kb=4233180
+harness_s=245 name=T0:assembly::advancement_merge_up_u8_n2
+driver_s=603 rss_kb=4417504
+harness_s=247 name=T0:network::insertion_permutation_u64_n12
+driver_s=663 rss_kb=4237656
+harness_s=392 name=T2:merge::merge_contract_u64_n15
+driver_s=723 rss_kb=4237660
+harness_s=394 name=T1:correct::sorted_permutation_fallback_u64_n8
+driver_s=784 rss_kb=4237920
+harness_s=474 name=T1:merge::general_stable_sorted_permutation_u64_n8
+driver_s=844 rss_kb=4237920
+harness_s=548 name=T0:network::network_correctness_u64_n7
+driver_s=904 rss_kb=4237920
+harness_s=621 name=T1:merge::merge_contract_u64_n5
+driver_s=965 rss_kb=4237920
+harness_s=659 name=T0:network::network_correctness_u64_n13
+driver_s=1025 rss_kb=4238176
+harness_s=697 name=T2:merge::route_safety_all_routes_n31
+driver_s=1085 rss_kb=4238176
+harness_s=769 name=T1:merge::merge_contract_u64_n14
+driver_s=1146 rss_kb=4238176
+harness_s=961 name=T0:network::network_correctness_u64_n8
+driver_s=1206 rss_kb=4238176
+harness_s=1003 name=T2:merge::route_safety_all_routes_n32
+driver_s=1266 rss_kb=4238176
+harness_s=1077 name=T1:network::insert_tail_contract_u64_start1
+driver_s=1326 rss_kb=4238216
+harness_s=1262 name=T0:network::network_correctness_u8_n17
+driver_s=1387 rss_kb=4238216
+harness_s=1306 name=T2:network::insert_tail_contract_u64_start6
+driver_s=1447 rss_kb=4238216
+harness_s=1379 name=T1:network::network_correctness_u64_n9
+driver_s=1508 rss_kb=4238216
+harness_s=1479 name=T1:network::network_correctness_u8_n16
+driver_s=1538 rss_kb=4238216
+driver_s=1568 rss_kb=4238216
+driver_s=1598 rss_kb=4238216
+driver_s=1628 rss_kb=4238216
+driver_s=1658 rss_kb=4238216
+driver_s=1688 rss_kb=4238216
+driver_s=1718 rss_kb=4238216
+driver_s=1748 rss_kb=4238216
+driver_s=1778 rss_kb=0
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=384
+verify_budget_s=8856
