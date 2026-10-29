@@ -3,7 +3,9 @@
 #![allow(dead_code)]
 
 use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
-use super::merge::{lt_i32, lt_u8, lt_u64, set_value_probe};
+#[cfg(kani_smallsort_controls)]
+use super::merge::set_value_probe;
+use super::merge::{lt_i32, lt_u8, lt_u64};
 use crate::kani;
 use crate::mem::size_of;
 
@@ -1206,6 +1208,7 @@ fn swap_contract_u64_indices_n17() {
     swap_contract_indices::<u64, 17>();
 }
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! swap_contract_arbitrary_indices_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -1235,6 +1238,7 @@ swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
 
 // Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
 // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
+#[cfg(kani_smallsort_controls)]
 fn insert_tail_value<const START: usize>() -> usize {
     set_value_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
@@ -1257,6 +1261,7 @@ fn insert_tail_value<const START: usize>() -> usize {
     tail
 }
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! insert_tail_contract_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]

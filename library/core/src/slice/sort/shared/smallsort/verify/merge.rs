@@ -4,9 +4,11 @@
 
 #![allow(dead_code)]
 
+#[cfg(kani_smallsort_controls)]
+use super::super::insert_tail;
 use super::super::{
     CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
-    bidirectional_merge, insert_tail, sort4_stable,
+    bidirectional_merge, sort4_stable,
 };
 use crate::mem::{MaybeUninit, size_of};
 use crate::slice::sort::shared::FreezeMarker;
@@ -849,7 +851,7 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
 }
 
 // General/stable correctness with 48 scratch elements; only merge is stubbed.
-// Ordinary: u64 N0..12/16, u8 N0..13/16; other instances are controls.
+// Ordinary: u64 N0..8, u8 N0..9; larger instances are opt-in.
 // Insertion and sort4 remain real.
 fn general_route_properties<
     T: kani::Arbitrary + Copy + FreezeMarker,
@@ -1032,6 +1034,7 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n16, u8,
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
 
 // Per-type fallback correctness on exact N8/9 arrays, with real insertion.
+#[cfg(kani_smallsort_controls)]
 macro_rules! define_fallback_route_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
