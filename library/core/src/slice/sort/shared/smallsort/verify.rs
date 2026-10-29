@@ -3,13 +3,13 @@
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
 //! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
 //! comparators.
-//! `correct` adds opt-in fallback/general correctness and scratch insertion contracts.
+//! `correct` checks u8 prefix insertion; its fallback/general and scratch contracts are opt-in.
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
-//! Ordinary contracts cover selected swap types, sort4, merge u64 N2..8/u8 N2..9 and u8 prefix
+//! Ordinary contracts cover selected swap/sort4 types, merge u64 N2..8/u8 N2..9 and u8 prefix
 //! insertion. Scratch insertion and shifted u64 tails are opt-in, as are upper merge domains.
 //! Ordinary general/stable uses merge stubs at u64 N0..8/u8 N0..9; composition stays conditional.
 //! `stub_verified` requires matching type, comparator, length, allocation and active region.

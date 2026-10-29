@@ -50,7 +50,7 @@ B содержит **144 ordinary**; **184** перемещены в opt-in, н�
 
 ## PR2 — отдельный вариант
 
-PR2 получается одним коммитом применения [pr2-ungate.patch](pr2-ungate.patch): снимаются только 175 бюджетных cfg из [budget-gates.tsv](budget-gates.tsv), включая 14 строк helper-ов, импортов и макросов из [п. 2 задания](../TASK-SCOPE-B.md); прежние controls/opt-in и их helper-ы сохраняются.
+PR2 получается одним коммитом, возвращающим файлы `library/core/src/slice/sort/shared/smallsort/verify.rs` и `verify/*.rs` ровно к `e9655515` (ревью 2026-10-29: [pr2-ungate.patch](pr2-ungate.patch) снимает 175 бюджетных cfg из [budget-gates.tsv](budget-gates.tsv) и даёт ту же раскладку гармоник, но оставляет комментарии варианта B и разделённые импорты, которые `imports_granularity="Module"` потребует слить). Прежние controls (26 ожидаемых FAILED) остаются под cfg.
 В копии дерева статически восстановлены 328 ordinary `e9655515` (325 + C3a); FAILED26 неизменны — [прогноз PR2](pr2-static-check.json), [список](pr2-ordinary.txt); сборок не было.
 Партиции `check-kani-on-std` исторически прошли на `6cfc76cb` (П-6), 8/8, Actions run `40748125754`; на новом SHA не проверено — источник [TASK-SCOPE, правка 1](../TASK-SCOPE.md#правки-по-обсуждению-с-планировщиком-обязательны-имеют-приоритет-над-текстом-ниже).
 История `kani_autoharness`: три macOS TIMEOUT600 и гибель Ubuntu runner — [TASK-C3C](../TASK-C3C.md); причина остановки Ubuntu не установлена — [RESULT-C3C](../RESULT-C3C.md); на новом SHA не проверено.
