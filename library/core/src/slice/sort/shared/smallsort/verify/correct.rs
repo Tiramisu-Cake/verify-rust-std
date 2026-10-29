@@ -25,7 +25,7 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
 
 macro_rules! fallback_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
-        fallback_stub_harness!($name, $t, $cmp, $n, kissat);
+        fallback_stub_harness!($name, $t, $cmp, $n, cadical);
     };
     ($name:ident, $t:ty, $cmp:ident, $n:literal, $solver:ident) => {
         #[kani::proof]
@@ -143,7 +143,7 @@ macro_rules! scratch_contract_harness {
     };
 }
 #[cfg(kani_smallsort_controls)]
-scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, kissat);
+scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, cadical);
 scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
 
 // Stable and general routes for `u8` and `u64` use full-width values at lengths 13 through 15.
@@ -177,8 +177,11 @@ fn general_stable_stub_for_route<
         CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
             == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
     );
-    proof_cover!(stable, "general/stable: stable Freeze route checked");
-    proof_cover!(!stable, "general/stable: direct general route checked");
+    if stable {
+        proof_cover!(true, "general/stable: stable Freeze route checked");
+    } else {
+        proof_cover!(true, "general/stable: direct general route checked");
+    }
 }
 
 fn general_stable_stub<
@@ -217,7 +220,7 @@ macro_rules! general_stub_route_harness {
 }
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
-general_stub_route_harness!(sorted_permutation_general_u8_n15, u8, lt_u8, 15, false, kissat);
-general_stub_route_harness!(sorted_permutation_stable_u8_n15, u8, lt_u8, 15, true, kissat);
-general_stub_route_harness!(sorted_permutation_general_u8_n14, u8, lt_u8, 14, false, kissat);
-general_stub_route_harness!(sorted_permutation_stable_u8_n14, u8, lt_u8, 14, true, kissat);
+general_stub_route_harness!(sorted_permutation_general_u8_n15, u8, lt_u8, 15, false, cadical);
+general_stub_route_harness!(sorted_permutation_stable_u8_n15, u8, lt_u8, 15, true, cadical);
+general_stub_route_harness!(sorted_permutation_general_u8_n14, u8, lt_u8, 14, false, cadical);
+general_stub_route_harness!(sorted_permutation_stable_u8_n14, u8, lt_u8, 14, true, cadical);

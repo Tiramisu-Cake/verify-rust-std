@@ -697,7 +697,7 @@ fn merge_arbitrary_order_reachability_control_u64_n4() {
 macro_rules! define_route_safety_harness {
     ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::stub(
             crate::slice::sort::shared::smallsort::panic_on_ord_violation,
             abort_on_order_violation
@@ -774,7 +774,7 @@ define_small_merge_contract_harness!(merge_contract_u8_n2_to4, u8, lt_u8);
 macro_rules! define_merge_contract_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::unwind(34)]
         fn $name() {
             merge_length_body::<$t, _, $n>($cmp);
@@ -844,8 +844,11 @@ fn general_route_properties_for_route<
         super::super::small_sort_general(&mut v, &mut cmp);
     }
     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
-    proof_cover!(!stable, "general route properties checked");
-    proof_cover!(stable, "stable route properties checked");
+    if stable {
+        proof_cover!(true, "stable route properties checked");
+    } else {
+        proof_cover!(true, "general route properties checked");
+    }
 }
 
 fn general_route_properties<
@@ -878,7 +881,7 @@ fn fallback_route_properties<
 macro_rules! define_general_sortedness_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
         #[kani::unwind(34)]
         fn $name() {
@@ -890,7 +893,7 @@ macro_rules! define_general_sortedness_harness {
 macro_rules! define_general_sortedness_route_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal, $stable:literal) => {
         #[kani::proof]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
         #[kani::unwind(34)]
         fn $name() {
@@ -1030,7 +1033,7 @@ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
 macro_rules! define_fallback_route_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::unwind(34)]
         fn $name() {
             fallback_route_properties::<$t, _, $n>($cmp);
@@ -1159,7 +1162,7 @@ macro_rules! define_drop_route_harness {
     (@routes $name:ident, $n:literal, $upper:literal, $perm:literal,
         $abort:ident, $first:literal, $second:literal) => {
         #[kani::proof]
-        #[kani::solver(kissat)]
+        #[kani::solver(cadical)]
         #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
         #[kani::unwind(34)]
         fn $name() {
