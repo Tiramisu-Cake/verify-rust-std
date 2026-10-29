@@ -101,6 +101,8 @@ SmallSort238:233SUCCESS/2TIMEOUT/3missing; ещё183 native ordinary без resu
 252 opt-in,26 expected-FAILED и deferred не прогонялись на B; полный covers/contract-edge аудит не выполнен.
 Нет новых organizer partitions Linux/macOS, macOS autoharness и четырёх C3a mac VT; новый П-6 — решение владельца.
 GCB SmallSort144 PASS не превращает общий job с двумя std TIMEOUT в PASS и не закрывает allocation gaps.
-Проверки:70 lane tests PASS, оба native inventories/hash bindings, повтор source audit, git diff --check PASS.
+Проверки:70 lane tests PASS, оба native inventories/hash bindings, повтор source audit — PASS.
+`git diff --check` для кода/отчёта — PASS; literal evidence и per-harness TSV исключены:
+их конечные tabs/пробелы сохраняют пустые поля и исходные строки, общий check их отмечает.
 Локальных rustc/cargo/Kani/CBMC запусков не было; Rust не менялся, rustfmt для изменённых .rs не требуется.
 Все коммиты `[skip ci]`, normal push только экспериментальной ветки; ветка подачи не менялась.
