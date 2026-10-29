@@ -37,23 +37,40 @@ macro_rules! fallback_stub_harness {
         }
     };
 }
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n8, u64, lt_u64, 8);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n16, u64, lt_u64, 16);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n9, u8, lt_u8, 9);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n16, u8, lt_u8, 16);
 
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n9, u64, lt_u64, 9);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n10, u64, lt_u64, 10);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n11, u64, lt_u64, 11);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n12, u64, lt_u64, 12);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n13, u64, lt_u64, 13);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n14, u64, lt_u64, 14);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u64_n15, u64, lt_u64, 15);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n10, u8, lt_u8, 10);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n11, u8, lt_u8, 11);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n12, u8, lt_u8, 12);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n13, u8, lt_u8, 13);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n14, u8, lt_u8, 14);
+#[cfg(kani_smallsort_controls)]
 fallback_stub_harness!(sorted_permutation_fallback_u8_n15, u8, lt_u8, 15);
 
 /// u8 insertion-tail contract and suffix frame in a 17-element allocation, with tail indices
@@ -144,6 +161,7 @@ macro_rules! scratch_contract_harness {
 }
 #[cfg(kani_smallsort_controls)]
 scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, kissat);
+#[cfg(kani_smallsort_controls)]
 scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
 
 // Stable and general routes for `u8` and `u64` use full-width values at lengths 13 through 15.
@@ -195,5 +213,7 @@ macro_rules! general_stub_harness {
 }
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
+#[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
+#[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);

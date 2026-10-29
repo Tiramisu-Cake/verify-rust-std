@@ -709,35 +709,63 @@ macro_rules! define_route_safety_harness {
 }
 
 define_route_safety_harness!(route_safety_all_routes_n2, all_upper_routes_safety_body, 2);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n3, all_upper_routes_safety_body, 3);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n4, all_upper_routes_safety_body, 4);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n5, all_upper_routes_safety_body, 5);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n6, all_upper_routes_safety_body, 6);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n7, all_upper_routes_safety_body, 7);
 define_route_safety_harness!(route_safety_all_routes_n8, all_upper_routes_safety_body, 8);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n9, all_upper_routes_safety_body, 9);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n10, all_upper_routes_safety_body, 10);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n11, all_upper_routes_safety_body, 11);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n12, all_upper_routes_safety_body, 12);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n13, all_upper_routes_safety_body, 13);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n14, all_upper_routes_safety_body, 14);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n15, all_upper_routes_safety_body, 15);
 define_route_safety_harness!(route_safety_all_routes_n16, all_upper_routes_safety_body, 16);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n17, all_upper_routes_safety_body, 17);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n18, all_upper_routes_safety_body, 18);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n19, all_upper_routes_safety_body, 19);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n20, all_upper_routes_safety_body, 20);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n21, all_upper_routes_safety_body, 21);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n22, all_upper_routes_safety_body, 22);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n23, all_upper_routes_safety_body, 23);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n24, all_upper_routes_safety_body, 24);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n25, all_upper_routes_safety_body, 25);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n26, all_upper_routes_safety_body, 26);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n27, all_upper_routes_safety_body, 27);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n28, all_upper_routes_safety_body, 28);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n29, all_upper_routes_safety_body, 29);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n30, all_upper_routes_safety_body, 30);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n31, all_upper_routes_safety_body, 31);
+#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n32, all_upper_routes_safety_body, 32);
 
 // Merge contracts: u8/u64, upper-bit key order, exact arrays N2..16; optional u8 N20/24
@@ -887,76 +915,128 @@ macro_rules! define_fallback_property_harness {
         }
     };
 }
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n5, u64, lt_u64, 5);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n5, u8, lt_u8, 5);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n6, u64, lt_u64, 6);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n6, u8, lt_u8, 6);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n7, u64, lt_u64, 7);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n7, u8, lt_u8, 7);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n8, u64, lt_u64, 8);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n8, u8, lt_u8, 8);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n9, u64, lt_u64, 9);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n9, u8, lt_u8, 9);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n10, u64, lt_u64, 10);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n10, u8, lt_u8, 10);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n11, u64, lt_u64, 11);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n11, u8, lt_u8, 11);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n12, u64, lt_u64, 12);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n12, u8, lt_u8, 12);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n13, u64, lt_u64, 13);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n13, u8, lt_u8, 13);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n14, u64, lt_u64, 14);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n14, u8, lt_u8, 14);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n15, u64, lt_u64, 15);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n15, u8, lt_u8, 15);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u64_n16, u64, lt_u64, 16);
+#[cfg(kani_smallsort_controls)]
 define_merge_contract_harness!(merge_contract_u8_n16, u8, lt_u8, 16);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n0, u64, lt_u64, 0);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n0, u8, lt_u8, 0);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n0, 0);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n1, u64, lt_u64, 1);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n1, u8, lt_u8, 1);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n1, 1);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n2, u64, lt_u64, 2);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n2, u8, lt_u8, 2);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n2, 2);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n3, u64, lt_u64, 3);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n3, u8, lt_u8, 3);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n3, 3);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n4, u64, lt_u64, 4);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n4, u8, lt_u8, 4);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n4, 4);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n5, u64, lt_u64, 5);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n5, u8, lt_u8, 5);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n5, 5);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n6, u64, lt_u64, 6);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n6, u8, lt_u8, 6);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n6, 6);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n7, u64, lt_u64, 7);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n7, u8, lt_u8, 7);
+#[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n7, 7);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n8, u64, lt_u64, 8);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n8, u8, lt_u8, 8);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n8, 8);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n9, u64, lt_u64, 9);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n9, u8, lt_u8, 9);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n9, 9);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u64, lt_u64, 10);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n10, u8, lt_u8, 10);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n10, 10);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n11, u64, lt_u64, 11);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n11, u8, lt_u8, 11);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n11, 11);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n12, u64, lt_u64, 12);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n12, u8, lt_u8, 12);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n12, 12);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n13, u64, lt_u64, 13);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n13, u8, lt_u8, 13);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n13, 13);
@@ -972,7 +1052,9 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n15, u6
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n15, u8, lt_u8, 15);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n15, 15);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n16, u64, lt_u64, 16);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n16, u8, lt_u8, 16);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n16, 16);
@@ -990,6 +1072,7 @@ macro_rules! define_fallback_route_harness {
 
 #[cfg(kani_smallsort_controls)]
 define_fallback_route_harness!(fallback_sorted_permutation_u64_n8, u64, lt_u64, 8);
+#[cfg(kani_smallsort_controls)]
 define_fallback_route_harness!(fallback_sorted_permutation_u8_n8, u8, lt_u8, 8);
 #[cfg(kani_smallsort_controls)]
 define_fallback_route_harness!(fallback_sorted_permutation_u8_n9, u8, lt_u8, 9);
@@ -1185,6 +1268,7 @@ define_drop_route_harness!(
     abort_on_order_violation
 );
 define_drop_route_harness!(drop_general_drop_count_n16, 16, true, false, abort_on_order_violation);
+#[cfg(kani_smallsort_controls)]
 define_drop_route_harness!(
     drop_general_tag_permutation_n16,
     16,
