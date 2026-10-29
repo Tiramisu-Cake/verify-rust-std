@@ -23,6 +23,18 @@
       "library_reference": "e96555151df91080fa0ccc106f60ee38a919c50e",
       "timeout_minutes": 96,
       "reserve_usd": 1.296
+    },
+    {
+      "label": "candidate-setup-failed",
+      "build_id": "dfada6fc-2f83-4c2e-abf5-2ce45c6e3e81",
+      "sha": "af406030589a1d733709a3376b5b1fa1bb1dfc2e",
+      "library_reference": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+      "timeout_minutes": 180,
+      "reserve_usd": 2.43,
+      "setup_failed": true,
+      "terminal_status": "FAILURE",
+      "failure": "kani list rejects --harness; verification NOT_RUN",
+      "lane_sha": "d3d6e6c17f758f0226b621a556a1279b3d3d9700"
     }
   ]
 }

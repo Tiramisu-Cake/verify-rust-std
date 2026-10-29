@@ -44,7 +44,7 @@ for label, names in [('baseline',old+calibration),('candidate',new+calibration)]
                purpose='C3c matched jobs3: 3 Mac TIMEOUT600 + all 9 Mac >=400s domains, correct family and unchanged assembly calibration; cutoff180s is censored evidence',
                harness_timeout_minutes=3,kani_jobs=3,
                harnesses=[dict(name=name,expect='SUCCESS') for name in names])
-    if label=='candidate': req['inventory']=True
+    # Pinned kani list rejects --harness; inventory is collected in a separate supported step.
     (BASE/(label+'-request.json')).write_text(json.dumps(req,indent=2)+'\n')
 (BASE/'paired-domain-map.json').write_text(json.dumps(dict(old_domains=successors,calibration=calibration,
      ubuntu_inflight='Not identifiable from supplied terminal-only TSV; no guessed names added'),indent=2)+'\n')
