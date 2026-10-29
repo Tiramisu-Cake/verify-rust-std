@@ -738,8 +738,12 @@ define_route_safety_harness!(route_safety_all_routes_n27, all_upper_routes_safet
 define_route_safety_harness!(route_safety_all_routes_n28, all_upper_routes_safety_body, 28);
 define_route_safety_harness!(route_safety_all_routes_n29, all_upper_routes_safety_body, 29);
 define_route_safety_harness!(route_safety_all_routes_n30, all_upper_routes_safety_body, 30);
-define_route_safety_harness!(route_safety_all_routes_n31, all_upper_routes_safety_body, 31);
-define_route_safety_harness!(route_safety_all_routes_n32, all_upper_routes_safety_body, 32);
+define_route_safety_harness!(route_safety_general_u64_n31, unstable_general_u64_safety_body, 31);
+define_route_safety_harness!(route_safety_noncopy_u64_n31, noncopy_general_u64_safety_body, 31);
+define_route_safety_harness!(route_safety_stable_u64_n31, stable_general_u64_safety_body, 31);
+define_route_safety_harness!(route_safety_general_u64_n32, unstable_general_u64_safety_body, 32);
+define_route_safety_harness!(route_safety_noncopy_u64_n32, noncopy_general_u64_safety_body, 32);
+define_route_safety_harness!(route_safety_stable_u64_n32, stable_general_u64_safety_body, 32);
 
 // Merge contracts: u8/u64, upper-bit key order, exact arrays N2..16; optional u8 N20/24
 // diagnostics.

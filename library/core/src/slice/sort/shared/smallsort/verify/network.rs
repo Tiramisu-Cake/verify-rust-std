@@ -1267,16 +1267,27 @@ insert_tail_contract_case!(insert_tail_contract_u64_start10, 10, [11, 12, 13, 14
 insert_tail_contract_case!(insert_tail_contract_u64_start9, 9, [10, 11, 12, 13, 14, 15, 16]);
 insert_tail_contract_case!(insert_tail_contract_u64_start8, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
 insert_tail_contract_case!(insert_tail_contract_u64_start7, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start6,
-    6,
-    [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start5,
-    5,
-    [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail7, 6, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail8, 6, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail9, 6, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail10, 6, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail11, 6, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail12, 6, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail13, 6, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail14, 6, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail15, 6, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start6_tail16, 6, 16);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail6, 5, 6);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail7, 5, 7);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail8, 5, 8);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail9, 5, 9);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail10, 5, 10);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail11, 5, 11);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail12, 5, 12);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail13, 5, 13);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail14, 5, 14);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail15, 5, 15);
+insert_tail_contract_exact_case!(insert_tail_contract_u64_start5_tail16, 5, 16);
 insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail5, 4, 5);
 insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail6, 4, 6);
 insert_tail_contract_exact_case!(insert_tail_contract_u64_start4_tail7, 4, 7);
