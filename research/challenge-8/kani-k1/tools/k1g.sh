@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Agent helper for the Kani K-1 Cloud Build lanes, project smallsort-k1. The request's runner picks the pool:
-# gcb-e2-standard-4 -> k1-standard4 (4 vCPU / 16 GB, the organizers' ubuntu runner resources; measurement and
-# diagnostic). gcb-e2-highmem-4 -> k1-highmem4 (4 vCPU / 32 GB; kind resource only) is closed for new runs
+# gcb-e2-standard-4 -> k1-standard4 (4 vCPU / 16 GB, the organizers' ubuntu runner resources; measurement,
+# diagnostic, and inventory). gcb-e2-highmem-4 -> k1-highmem4 (4 vCPU / 32 GB; kind resource only) is closed for new runs
 # (owner, 2026-10-27: nothing needed more than 16 GB); its past builds stay in the ledger. Same verbs as k1.sh
 # (CircleCI); runs are identified by Cloud Build build ids. gcloud runs with its own configuration
 # directory and the dispatcher service account, so the machine's default gcloud setup is never touched.
@@ -131,7 +131,7 @@ case "$cmd" in
       --require-runner gcb-e2-standard-4 \
       --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
-    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
+    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     cost=$(python3 -c "print(f'{$timeout * $price:.4f}')")
     auth

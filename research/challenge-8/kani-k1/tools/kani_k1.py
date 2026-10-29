@@ -33,7 +33,7 @@ from typing import Any
 SCHEMA = "kani-k1-run-request-v1"
 SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
-KINDS = {"measurement", "diagnostic", "resource", "partition", "autoharness"}
+KINDS = {"measurement", "diagnostic", "resource", "partition", "autoharness", "inventory"}
 # kind partition: one worker of the organizers' CI layout (kani.yml): scripts/run-kani.sh with WORKER_INDEX /
 # WORKER_TOTAL over the whole std harness list (kani list order, ceiling-sized contiguous chunks), no harness
 # list and no per-harness timeout, exactly as their CI. harness_timeout_minutes is the wall budget of the
@@ -73,6 +73,7 @@ MAX_HARNESSES = 20
 MAX_TIMEOUT_MINUTES = 30
 RESOURCE_MAX_TIMEOUT_MINUTES = 720
 AUTOHARNESS_MAX_MINUTES = 270  # whole build work budget, including the supported full std inventory
+INVENTORY_MAX_MINUTES = 60
 MEASUREMENT_TIMEOUT_MINUTES = 10
 MAX_TOTAL_MINUTES = 150
 MEASUREMENT_LIMIT_SECONDS = 600.0
@@ -135,6 +136,8 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         raise RequestError(f"missing request keys: {sorted(missing)}")
     if data["schema"] != SCHEMA:
         raise RequestError(f"schema must be {SCHEMA}")
+    if not _one_line(data["purpose"], 300):
+        raise RequestError("purpose must be one non-empty line of at most 300 characters")
     if not isinstance(data["request_id"], str) or not REQUEST_ID_RE.fullmatch(data["request_id"]):
         raise RequestError("request_id must match [a-z0-9][a-z0-9._-]{0,63}")
     for key, allowed in (("agent", AGENTS), ("kind", KINDS), ("runner", RUNNERS)):
@@ -143,10 +146,24 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     if "inventory" in data:
         if type(data["inventory"]) is not bool:
             raise RequestError("inventory must be true or false")
-        if data["inventory"] and (data["runner"] != STANDARD_RUNNER or data["kind"] not in ("diagnostic", "autoharness")):
-            raise RequestError(f"inventory is only for kind diagnostic or autoharness on runner {STANDARD_RUNNER}")
-    if not _one_line(data["purpose"], 300):
-        raise RequestError("purpose must be one non-empty line of at most 300 characters")
+    inventory = data["kind"] == "inventory"
+    if inventory:
+        if data["runner"] != STANDARD_RUNNER:
+            raise RequestError(f"kind inventory runs only on runner {STANDARD_RUNNER}")
+        if data.get("inventory") is not True:
+            raise RequestError("kind inventory requires inventory: true")
+        if data["harnesses"] != []:
+            raise RequestError("kind inventory takes harnesses: []")
+        if set(data) & {"uninit_checks", "worker_index", "worker_total", "kani_jobs"}:
+            raise RequestError("kind inventory does not accept uninit_checks, worker_index, worker_total, or kani_jobs")
+        timeout = data["harness_timeout_minutes"]
+        if type(timeout) is not int or not 1 <= timeout <= INVENTORY_MAX_MINUTES:
+            raise RequestError(f"harness_timeout_minutes (whole-job wall budget) must be an integer 1..{INVENTORY_MAX_MINUTES}")
+        if "controls" in data and type(data["controls"]) is not bool:
+            raise RequestError("controls must be true or false")
+        return data
+    if data.get("inventory") and (data["runner"] != STANDARD_RUNNER or data["kind"] not in ("diagnostic", "autoharness")):
+        raise RequestError(f"inventory is only for kind diagnostic, autoharness, or inventory on runner {STANDARD_RUNNER}")
     partition = data["kind"] == "partition"
     autoharness = data["kind"] == "autoharness"
     if autoharness:
@@ -324,6 +341,8 @@ def summarize_partition(summary: dict[str, Any], request: dict[str, Any], parsed
 
 
 def kani_args(request: dict[str, Any]) -> list[str]:
+    if request["kind"] == "inventory":
+        return []
     args: list[str] = []
     for entry in request["harnesses"]:
         args += ["--harness", entry["name"]]
@@ -361,7 +380,7 @@ def extract_autoharness_command(workflow: str) -> str:
 
 def verification_mode(kind: str) -> str:
     """Map a validated request kind to the gcb-k1 verify-stage route."""
-    return {"autoharness": "autoharness", "partition": "partition", "measurement": "selected",
+    return {"inventory": "inventory", "autoharness": "autoharness", "partition": "partition", "measurement": "selected",
             "diagnostic": "selected"}.get(kind, "invalid")
 
 
@@ -1158,6 +1177,29 @@ def inventory_page(inventory_text: str, summary: dict[str, Any], offset: int, co
     return "\n".join(lines) + "\n"
 
 
+def parse_inventory_artifact(inventory_text: str, summary: dict[str, Any]) -> dict[str, Any]:
+    """Validate a completed inventory artifact against its run summary and return bounded metadata."""
+    header, sep, body = inventory_text.partition("\n\n")
+    if not sep:
+        raise ValueError("inventory artifact has no names section")
+    fields = dict(line.split("=", 1) for line in header.splitlines() if "=" in line)
+    names = body.splitlines()
+    name_text = "\n".join(names) + ("\n" if names else "")
+    if (fields.get("schema") != INVENTORY_SCHEMA or fields.get("count") != str(len(names))
+            or not names or hashlib.sha256(name_text.encode()).hexdigest() != fields.get("names_sha256")):
+        raise ValueError("inventory schema/count/names SHA-256 mismatch")
+    request = summary.get("request") or {}
+    run = summary.get("run") or {}
+    bindings = {"request_id": request.get("request_id"), "request_sha256": summary.get("request_sha256"),
+                "build_id": run.get("id"), "head_sha": summary.get("head_sha"),
+                "kani_commit": summary.get("kani_commit")}
+    for key, expected in bindings.items():
+        if fields.get(key) != str(expected or ""):
+            raise ValueError(f"inventory {key} does not match run")
+    return {"count": len(names), "names_sha256": fields["names_sha256"],
+            "artifact_sha256": hashlib.sha256(inventory_text.encode()).hexdigest()}
+
+
 def file_bindings(paths: list[str]) -> dict[str, str]:
     out: dict[str, str] = {}
     for p in paths:
@@ -1171,7 +1213,7 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
               run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
               build_outcome: str | None = None, memcap_text: str | None = None,
               memcap_tracked: bool = False, peaks_text: str | None = None,
-              peaks_tracked: bool = False) -> dict[str, Any]:
+              peaks_tracked: bool = False, inventory_text: str | None = None) -> dict[str, Any]:
     summary: dict[str, Any] = {
         "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit, "run": run or {},
         "tooling_sha256": tooling or {}, "build_outcome": build_outcome,
@@ -1244,6 +1286,27 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         summary["errors"], summary["errors_truncated"] = parsed["errors"], parsed["errors_truncated"]
         summary["complete_line"] = parsed["complete_line"]
         return summarize_partition(summary, request, parsed, exit_code, log_text)
+    if request["kind"] == "inventory":
+        parsed_log = parse_log(log_text or "")
+        summary["errors"], summary["errors_truncated"] = parsed_log["errors"], parsed_log["errors_truncated"]
+        if exit_code != 0:
+            summary["status"] = "TOOL_ERROR" if log_text else "RUNNER_ERROR"
+            summary["notes"].append(f"Kani list did not complete successfully (exit {exit_code})")
+            return summary
+        if inventory_text is None:
+            summary["status"] = "PARTIAL"
+            summary["notes"].append("Kani list exited successfully but the inventory artifact is missing")
+            return summary
+        try:
+            summary["inventory_result"] = parse_inventory_artifact(inventory_text, summary)
+        except ValueError as exc:
+            summary["status"] = "INCONSISTENT"
+            summary["inconsistencies"].append(str(exc))
+            return summary
+        summary["status"] = "COMPLETE"
+        summary["expectation_met"] = True
+        summary["measurement_ok"] = None
+        return summary
     if request["kind"] == "autoharness":
         if log_text is None:
             summary["status"] = "RUNNER_ERROR"
@@ -1458,7 +1521,7 @@ def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
     run = summary.get("run") or {}
-    timeout_label = ("whole-job work budget" if req.get("kind") in ("autoharness", "partition")
+    timeout_label = ("whole-job work budget" if req.get("kind") in ("autoharness", "partition", "inventory")
                      else "per-harness timeout")
     timeout_note = ("; per-harness settings from the checked-out workflow"
                     if req.get("kind") == "autoharness" else "")
@@ -1478,6 +1541,10 @@ def render_md(summary: dict[str, Any]) -> str:
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
     ]
+    inventory = summary.get("inventory_result")
+    if inventory is not None:
+        lines[8:8] = [f"- ordinary verify inventory: {inventory['count']} names; names SHA-256 `{inventory['names_sha256']}`",
+                       f"- inventory artifact SHA-256: `{inventory['artifact_sha256']}`", ""]
     auto = summary.get("autoharness")
     if auto is not None:
         lines[8:8] = [f"- autoharness started: {auto['started_count']}; results: {auto['counts']}; "
@@ -1557,6 +1624,7 @@ def main(argv: list[str]) -> int:
     s.add_argument("--image-version")
     s.add_argument("--memcap", help="memcap.txt of the verify step; marks the memory cap as tracked")
     s.add_argument("--peaks", help="peaks.txt of sample-mem; marks per-command memory peaks as tracked")
+    s.add_argument("--inventory", help="completed inventory artifact, required to gate kind inventory")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
@@ -1668,7 +1736,7 @@ def main(argv: list[str]) -> int:
         summary = summarize(_read_optional(a.request), _read_optional(a.log), _read_optional(a.time), exit_code,
                             a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
                             a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None,
-                            _read_optional(a.peaks), a.peaks is not None)
+                            _read_optional(a.peaks), a.peaks is not None, _read_optional(a.inventory))
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

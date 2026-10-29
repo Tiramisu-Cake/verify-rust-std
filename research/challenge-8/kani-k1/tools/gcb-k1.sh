@@ -31,7 +31,7 @@ export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
 # Kind partition: harness_timeout_minutes is the whole worker's wall budget (no per-harness timeout, as in CI).
-total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
 
 stage() {
   case "$1" in
@@ -96,6 +96,31 @@ stage() {
       remaining=$(( $(cat "$K1_OUT/start") + ($(total_minutes) + VERIFY_SLACK_MINUTES) * 60 - $(date +%s) ))
       if [ "$remaining" -le 120 ]; then
         echo "no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
+        return 0
+      fi
+      # Inventory is a compile plus supported full-list operation, with no verification invocation.
+      if [ "$(python3 -B -c 'import json,sys; print(json.load(open(sys.argv[1]))["kind"])' "$K1_REQUEST")" = inventory ]; then
+        rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
+        : > "$K1_OUT/kani.log"
+        if [ -n "$rustflags" ]; then export RUSTFLAGS="$rustflags"; echo "RUSTFLAGS=$rustflags" >> "$K1_OUT/kani.log"; fi
+        unstable_args="-Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing"
+        python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
+        list_budget=$remaining
+        [ "$list_budget" -le 3600 ] || list_budget=3600
+        set +e
+        timeout --kill-after=30 "$list_budget" "$PWD/kani_build/scripts/kani" list $unstable_args ./library --std --format json \
+          >> "$K1_OUT/kani.log" 2>&1
+        rc=$?
+        set -e
+        echo "$rc" > "$K1_OUT/rc"
+        if [ "$rc" -eq 0 ] && [ -s kani-list.json ]; then
+          python3 -B "$K1_TOOLS/kani_k1.py" write-inventory --listing kani-list.json \
+            --request "$K1_REQUEST" --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit)" \
+            --build-id "${K1_BUILD_ID:-}" --out "$K1_OUT/inventory.txt"
+        else
+          [ "$rc" -ne 0 ] || { echo "Kani list produced no kani-list.json" >> "$K1_OUT/kani.log"; echo 1 > "$K1_OUT/rc"; }
+        fi
+        python3 -B -c 'from pathlib import Path; Path("kani-list.json").unlink(missing_ok=True)'
         return 0
       fi
       if python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); sys.exit(not (r.get("inventory", False) and r.get("kind") in ("diagnostic", "autoharness")))' "$K1_REQUEST"; then
@@ -184,10 +209,12 @@ stage() {
       log_args=(); peaks_args=()
       [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
       [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt" --memcap "$K1_OUT/memcap.txt")
+      inventory_args=()
+      [ -f "$K1_OUT/inventory.txt" ] && inventory_args=(--inventory "$K1_OUT/inventory.txt")
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
       mem=$(free -b 2>/dev/null | awk '/^Mem:/{printf "%.1f GiB", $2 / 2^30}' || true)
       hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
-      python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" \
+      python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" "${inventory_args[@]}" \
         --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
         --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \
         --build-outcome "$build_outcome" --run-id "${K1_BUILD_ID:-}" --run-attempt "" \

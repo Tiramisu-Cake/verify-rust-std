@@ -55,11 +55,11 @@ def req_with(**changes):
     return req
 
 
-def summ(log, req=None, time=TIME, exit_code=1, request_error=None, build_outcome="success"):
+def summ(log, req=None, time=TIME, exit_code=1, request_error=None, build_outcome="success", inventory_text=None):
     text = json.dumps(req if req is not None else REQ)
     return k.summarize(text, log, time, exit_code, "a" * 40, "b" * 40, request_error,
                        {"id": "1", "attempt": "1", "image_os": "ubuntu24", "image_version": "x"}, {"f": "0" * 64},
-                       build_outcome)
+                       build_outcome, inventory_text=inventory_text)
 
 
 ONLY_OK = [{"name": P + "smoke::ok", "expect": "SUCCESS"}]
@@ -128,16 +128,39 @@ class RequestTests(unittest.TestCase):
         with self.assertRaises(k.RequestError):
             k.validate_request(req)
 
-    def test_inventory_request_is_diagnostic_standard_only(self):
-        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "inventory": True}
-        k.validate_request(diag)
-        for bad in ({**diag, "inventory": 1}, {**diag, "runner": "ubuntu-latest"},
-                    {**diag, "kind": "measurement"}):
+    def test_inventory_request_is_explicit_whole_job_lane(self):
+        inventory = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "inventory", "harness_timeout_minutes": 60,
+                     "harnesses": [], "inventory": True}
+        self.assertEqual(k.validate_request(inventory), inventory)
+        self.assertEqual(k.kani_args(inventory), [])
+        self.assertEqual(k.verification_mode("inventory"), "inventory")
+        for bad in ({**inventory, "inventory": 1}, {**inventory, "runner": "ubuntu-latest"},
+                    {**inventory, "inventory": False}, {**inventory, "harnesses": ONLY_OK},
+                    {**inventory, "harness_timeout_minutes": 61}, {**inventory, "controls": "yes"},
+                    {**inventory, "kani_jobs": 1}):
             with self.assertRaises(k.RequestError):
                 k.validate_request(bad)
-        partition = {**diag, "kind": "partition", "harnesses": [], "worker_index": 1, "worker_total": 2}
-        with self.assertRaises(k.RequestError):
-            k.validate_request(partition)
+
+    def test_inventory_gate_requires_success_and_bound_complete_artifact(self):
+        req = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "inventory", "harness_timeout_minutes": 60,
+               "harnesses": [], "inventory": True, "controls": True}
+        req_text = json.dumps(req)
+        names = P + "a\n" + P + "b\n"
+        fields = [f"schema={k.INVENTORY_SCHEMA}", f"request_id={req['request_id']}",
+                  f"request_sha256={hashlib.sha256(req_text.encode()).hexdigest()}", "build_id=build-1",
+                  "head_sha=" + "a" * 40, "kani_commit=" + "b" * 40, "count=2",
+                  f"names_sha256={hashlib.sha256(names.encode()).hexdigest()}"]
+        artifact = "\n".join(fields) + "\n\n" + names
+        good = k.summarize(req_text, "warning: stub", None, 0, "a" * 40, "b" * 40,
+                           run={"id": "build-1"}, inventory_text=artifact)
+        self.assertEqual(good["status"], "COMPLETE")
+        self.assertTrue(k.gate_ok(good))
+        self.assertEqual(good["inventory_result"]["count"], 2)
+        for log, code, inv in (("warning", 1, artifact), ("warning", 0, None),
+                               ("warning", 0, artifact.replace("count=2", "count=3"))):
+            summary = k.summarize(req_text, log, None, code, "a" * 40, "b" * 40,
+                                  run={"id": "build-1"}, inventory_text=inv)
+            self.assertFalse(k.gate_ok(summary), summary)
 
 
 class SummaryTests(unittest.TestCase):
