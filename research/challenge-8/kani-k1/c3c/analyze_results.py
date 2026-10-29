@@ -69,6 +69,11 @@ def read_build(entry):
         ts=lambda s:datetime.fromisoformat(s.replace('Z','+00:00'))
         build_metadata['wall_seconds']=(ts(build_metadata['finishTime'])-ts(build_metadata['startTime'])).total_seconds()
         build_metadata['ledger_cost_usd']=math.ceil(build_metadata['wall_seconds']/60)*.0135
+    for row in rows:
+        row.update(source_sha=sha,build_id=entry['build_id'],request_id=req['request_id'])
+    if 'memory' in label:
+        for record in memory:
+            assert record.get('head_sha')==sha and record.get('build_id')==entry['build_id'],(label,'process provenance')
     ours=[r for r in rows if r['name'].startswith(PREFIX)]
     def metrics(rs):
         timed=[r['time_s'] for r in rs if r['time_s'] is not None]
@@ -80,7 +85,12 @@ def main():
     for entry in SESSION['builds']:
         if (EVIDENCE/(entry['label']+'.summary.md')).exists():
             builds[entry['label']]=read_build(entry)
-    baseline=builds.get('baseline-memory') or builds.get('baseline');candidate=builds.get('candidate-memory') or builds.get('candidate');full=builds.get('autoharness')
+    baseline=builds.get('baseline-memory') or builds.get('baseline');candidate=builds.get('candidate');full=builds.get('autoharness')
+    memory_parts=[builds.get('candidate-memory-1'),builds.get('candidate-memory-2')]
+    if all(memory_parts):
+        combined=[row for part in memory_parts for row in part['rows']]
+        assert len(combined)==54 and len({r['name'] for r in combined})==54
+        candidate=dict(rows=combined,summary_status='COMPLETE' if all(part['summary_status']=='COMPLETE' for part in memory_parts) else 'PARTIAL',source_builds=[part['build_id'] for part in memory_parts],request=dict(harness_timeout_minutes=5),process_memory=[record for part in memory_parts for record in part['process_memory']])
     macrows=[line.split('\t') for line in (BASE.parent/'c3c-inputs/mac-times.tsv').read_text().splitlines()]
     mac={name:float(sec) for name,sec,status in macrows if name.startswith(PREFIX)}
     historical_timeouts=set(PREFIX+n for n in ('merge::merge_contract_u64_n16','network::insertion_permutation_u64_n12','network::insert_tail_contract_u64_start1'))
@@ -107,7 +117,8 @@ def main():
     paired=[]
     if baseline and candidate:
         old={r['name']:r for r in baseline['rows']};new={r['name']:r for r in candidate['rows']}
-        mapping=json.loads((BASE/'paired-domain-map.json').read_text())['old_domains']
+        domainmap=json.loads((BASE/'paired-domain-map.json').read_text());mapping=dict(domainmap['old_domains'])
+        if all(memory_parts):mapping.update(domainmap.get('additional_memory_calibration_domains',{}))
         for name,successors in mapping.items():
             rs=[new.get(n,dict(name=n,status='MISSING',time_s=None)) for n in successors]
             allok=all(r['status']=='SUCCESS' and r['time_s'] is not None for r in rs)
