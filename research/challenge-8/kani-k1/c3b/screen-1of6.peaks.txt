@@ -1,0 +1,126 @@
+interval_ms=2000
+samples=1823
+elapsed_s=3652
+total_rss_peak_kb=4713876
+total_peak_s=1672
+cmd=bash peak_kb=3868 first_s=0 last_s=3652 peak_s=0
+cmd=cargo peak_kb=36848 first_s=0 last_s=64 peak_s=2
+cmd=cbmc peak_kb=2951128 first_s=86 last_s=3651 peak_s=1674
+cmd=cc1plus peak_kb=8320 first_s=80 last_s=80 peak_s=80
+cmd=gcc peak_kb=1144 first_s=80 last_s=80 peak_s=80
+cmd=goto-cc peak_kb=86148 first_s=66 last_s=3510 peak_s=82
+cmd=goto-instrument peak_kb=90476 first_s=204 last_s=3643 peak_s=1692
+cmd=kani-compiler peak_kb=2271736 first_s=2 last_s=64 peak_s=56
+cmd=kani-driver peak_kb=1966092 first_s=0 last_s=3651 peak_s=204
+cmd=kissat peak_kb=625868 first_s=164 last_s=3631 peak_s=1692
+cmd=run-kani.sh peak_kb=3840 first_s=0 last_s=3651 peak_s=0
+cmd=tee peak_kb=1080 first_s=0 last_s=3652 peak_s=0
+cmd=time peak_kb=1208 first_s=0 last_s=3651 peak_s=0
+cmd=timeout peak_kb=1100 first_s=0 last_s=3651 peak_s=0
+cbmc_pid=10403 peak_kb=2951128 first_s=1571 last_s=1690 peak_s=1674 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=10139 peak_kb=2755080 first_s=796 last_s=914 peak_s=856 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=10885 peak_kb=2621696 first_s=2005 last_s=2123 peak_s=2091 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=11522 peak_kb=2566552 first_s=3017 last_s=3103 peak_s=3093 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=10926 peak_kb=2553592 first_s=2135 last_s=2253 peak_s=2231 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=10182 peak_kb=2379916 first_s=920 last_s=1038 peak_s=1036 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+driver_s=0 rss_kb=6012
+harness_s=86 name=assembly::safety_stable_unit_n31
+driver_s=240 rss_kb=1221664
+harness_s=130 name=assembly::sorted_permutation_swap_u8_n2
+driver_s=481 rss_kb=1222508
+harness_s=130 name=assembly::advancement_merge_up_u8_n2
+driver_s=721 rss_kb=1223496
+harness_s=132 name=correct::sorted_permutation_fallback_u8_n10
+driver_s=962 rss_kb=1224516
+harness_s=206 name=correct::sorted_permutation_fallback_u8_n16
+driver_s=1203 rss_kb=1224516
+harness_s=326 name=correct::sorted_permutation_fallback_u64_n13
+driver_s=1443 rss_kb=1224516
+harness_s=449 name=merge::drop_fallback_drop_count_n8
+driver_s=1593 rss_kb=1224516
+harness_s=457 name=merge::drop_general_drop_count_n4
+driver_s=1714 rss_kb=1224516
+harness_s=461 name=merge::fallback_sorted_permutation_u8_n8
+driver_s=1834 rss_kb=1224516
+harness_s=583 name=merge::fallback_sorted_permutation_u8_u64_n5
+driver_s=1954 rss_kb=1224516
+harness_s=599 name=merge::general_stable_sorted_permutation_u64_n5
+driver_s=2075 rss_kb=1224516
+harness_s=621 name=merge::general_stable_sorted_permutation_u8_n2
+driver_s=2195 rss_kb=1224516
+harness_s=629 name=merge::general_stable_sorted_permutation_u8_n1
+driver_s=2285 rss_kb=1224516
+harness_s=631 name=merge::general_stable_sorted_permutation_u8_n8
+driver_s=2346 rss_kb=1224516
+harness_s=671 name=merge::general_stable_sorted_permutation_u64_n11
+driver_s=2406 rss_kb=1224516
+harness_s=796 name=merge::merge_contract_u64_n14
+driver_s=2466 rss_kb=1224516
+harness_s=920 name=merge::merge_contract_u8_n13
+driver_s=2526 rss_kb=1224516
+harness_s=1044 name=merge::merge_contract_u8_n6
+driver_s=2586 rss_kb=1224516
+harness_s=1154 name=merge::merge_contract_u64_n7
+driver_s=2646 rss_kb=1224516
+harness_s=1277 name=merge::route_safety_all_routes_n18
+driver_s=2706 rss_kb=1224516
+harness_s=1401 name=merge::route_safety_all_routes_n23
+driver_s=2767 rss_kb=1224516
+harness_s=1525 name=merge::route_safety_all_routes_n12
+driver_s=2827 rss_kb=1224516
+harness_s=1571 name=merge::route_safety_all_routes_n29
+driver_s=2887 rss_kb=1224516
+harness_s=1694 name=merge::route_safety_all_routes_n5
+driver_s=2947 rss_kb=1224516
+harness_s=1706 name=merge::sort4_arbitrary_comparator_u64_n4
+driver_s=3007 rss_kb=1224516
+harness_s=1714 name=network::insert_tail_contract_u64_start4_tail14
+driver_s=3037 rss_kb=1224516
+harness_s=1758 name=network::insert_tail_contract_u64_start4_tail8
+driver_s=3067 rss_kb=1224516
+harness_s=1782 name=network::insert_tail_contract_u64_start3_tail8
+driver_s=3097 rss_kb=1224516
+harness_s=1804 name=network::insert_tail_contract_u64_start2_tail9
+driver_s=3127 rss_kb=1224516
+harness_s=1832 name=network::insert_tail_contract_u64_start3_tail15
+driver_s=3157 rss_kb=1224516
+harness_s=1884 name=network::insert_tail_contract_u64_start1_tail14
+driver_s=3188 rss_kb=1224516
+harness_s=1932 name=network::insert_tail_contract_u64_start2_tail11
+driver_s=3218 rss_kb=1224516
+harness_s=1970 name=network::insert_tail_contract_u64_start1_tail5
+driver_s=3248 rss_kb=1224516
+harness_s=1991 name=network::insert_tail_contract_u64_start2_tail3
+driver_s=3278 rss_kb=1224516
+harness_s=2005 name=network::insert_tail_contract_u64_start9
+driver_s=3308 rss_kb=1224516
+harness_s=2135 name=network::insert_tail_contract_u64_start14
+driver_s=3338 rss_kb=1224516
+harness_s=2255 name=network::insertion_permutation_u8_n10
+driver_s=3368 rss_kb=1224516
+harness_s=2259 name=network::swap_contract_u8_n2
+driver_s=3398 rss_kb=1224516
+harness_s=2267 name=network::swap_contract_bytes17_n2
+driver_s=3428 rss_kb=1224516
+harness_s=2281 name=network::swap_contract_u64_n2
+driver_s=3458 rss_kb=1224516
+harness_s=2289 name=network::network_correctness_u8_n5
+driver_s=3488 rss_kb=1224516
+harness_s=2293 name=network::network_correctness_u64_n8
+driver_s=3518 rss_kb=1224516
+harness_s=2416 name=network::network_correctness_u64_n13
+driver_s=3548 rss_kb=1224516
+harness_s=2538 name=network::network_correctness_u8_n13
+driver_s=3578 rss_kb=1224516
+harness_s=2572 name=network::mutating_insertion_safety_cell_n18_offsets9_to12
+driver_s=3609 rss_kb=1224516
+harness_s=2614 name=network::mutating_insertion_safety_cell_n16_offsets1_to4
+driver_s=3639 rss_kb=1324872
+harness_s=2666 name=network::mutating_insertion_safety_cell_n17_offsets5_to8
+harness_s=2714 name=network::insertion_safety_u64_n18_offsets5_to8
+harness_s=2760 name=network::insertion_safety_u64_n16_offsets13_to16
+harness_s=2771 name=network::insertion_safety_u64_n17_offsets1_to4
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=333
+verify_budget_s=8907

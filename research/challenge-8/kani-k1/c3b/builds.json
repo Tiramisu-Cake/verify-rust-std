@@ -83,7 +83,7 @@
     "jobs": 1,
     "timeout_min": 10,
     "maximum_charge_usd": 1.215,
-    "decision": "cancel requested: repeated full std inventory consumed about49min, prioritize complete performance screen"
+    "decision": "finished before cancellation request; metadata and result collected"
   },
   {
     "label": "kissat-partitions-pilot",
@@ -93,7 +93,7 @@
     "jobs": 1,
     "timeout_min": 2,
     "maximum_charge_usd": 0.675,
-    "decision": "cancel requested: repeated full std inventory consumed about49min, prioritize complete performance screen"
+    "decision": "terminal without uploaded artifact; no inventory/proof credit"
   },
   {
     "label": "screen-1of6",
@@ -119,6 +119,15 @@
     "label": "screen-3of6",
     "build_id": "881ea993-c360-4caa-8c70-1a1c118ebca8",
     "sha": "085f83f8cb4bce152e0c20976de692d22749d1e6",
+    "harnesses": 65,
+    "jobs": 1,
+    "timeout_min": 2,
+    "maximum_charge_usd": 2.16
+  },
+  {
+    "label": "repair-screen2-r1",
+    "build_id": "0709a628-b472-4f0b-b0c3-c6f0fb514883",
+    "sha": "8a0994925de0f5c2c9f7ccce3284fb003be5b7af",
     "harnesses": 65,
     "jobs": 1,
     "timeout_min": 2,
