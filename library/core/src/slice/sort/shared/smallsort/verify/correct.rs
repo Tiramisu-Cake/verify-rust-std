@@ -20,7 +20,7 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
         CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
             == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
     );
-    proof_cover!(true, "fallback: sortedness and probe count checked");
+    kani::cover(true, "fallback: sortedness and probe count checked");
 }
 
 macro_rules! fallback_stub_harness {
@@ -75,10 +75,10 @@ fn contract_insert_tail_u8_prefix() {
     for i in tail + 1..17 {
         assert!(input[i] == before[i]);
     }
-    proof_cover!(tail == 1, "u8 prefix: region 2 reachable");
-    proof_cover!(tail == 15, "u8 prefix: proper prefix region 16 reachable");
-    proof_cover!(tail == 16, "u8 prefix: full region 17 reachable");
-    proof_cover!(true, "u8 prefix: completion");
+    kani::cover(tail == 1, "u8 prefix: region 2 reachable");
+    kani::cover(tail == 15, "u8 prefix: proper prefix region 16 reachable");
+    kani::cover(tail == 16, "u8 prefix: full region 17 reachable");
+    kani::cover(true, "u8 prefix: completion");
 }
 
 #[cfg(kani_smallsort_controls)]
@@ -89,7 +89,7 @@ fn reject_unsorted_prefix_insert_tail_u8_n3() {
     set_value_probe::<u8>();
     let mut input = [4u8, 0, 2];
     let base = input.as_mut_ptr();
-    proof_cover!(true, "insertion call with unsorted prefix is reachable");
+    kani::cover(true, "insertion call with unsorted prefix is reachable");
     // SAFETY: the pointer and region are valid; only the sorted-prefix contract is violated.
     unsafe {
         super::super::insert_tail(base, base.add(2), &mut lt_u8);
@@ -121,12 +121,12 @@ fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq, F: FnMut(&T, &T) -> b
             assert!(scratch[i] == before[i]);
         }
     }
-    proof_cover!(start == 0, "scratch insertion starts at zero");
-    proof_cover!(start == 6, "scratch insertion starts at six");
-    proof_cover!(start == 7, "scratch insertion starts at seven");
-    proof_cover!(len == 5, "scratch region length five");
-    proof_cover!(len == 8, "scratch region length eight");
-    proof_cover!(true, "scratch insertion: contract and frame checked");
+    kani::cover(start == 0, "scratch insertion starts at zero");
+    kani::cover(start == 6, "scratch insertion starts at six");
+    kani::cover(start == 7, "scratch insertion starts at seven");
+    kani::cover(len == 5, "scratch region length five");
+    kani::cover(len == 8, "scratch region length eight");
+    kani::cover(true, "scratch insertion: contract and frame checked");
 }
 
 macro_rules! scratch_contract_harness {
@@ -143,18 +143,17 @@ macro_rules! scratch_contract_harness {
     };
 }
 #[cfg(kani_smallsort_controls)]
-scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, cadical);
+scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, kissat);
 scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
 
 // Stable and general routes for `u8` and `u64` use full-width values at lengths 13 through 15.
 // The sort4 step remains real; verified contracts are used for insertion and the final merge.
-fn general_stable_stub_for_route<
+fn general_stable_stub<
     T: kani::Arbitrary + Copy + crate::slice::sort::shared::FreezeMarker,
     F: FnMut(&T, &T) -> bool,
     const N: usize,
 >(
     mut cmp: F,
-    stable: bool,
 ) {
     use super::super::{SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl};
     use crate::mem::MaybeUninit;
@@ -164,6 +163,7 @@ fn general_stable_stub_for_route<
     set_value_probe::<T>();
     let mut output: [T; N] = kani::any();
     let input = output;
+    let stable: bool = kani::any();
     if stable {
         let mut scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
         <T as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
@@ -177,21 +177,8 @@ fn general_stable_stub_for_route<
         CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
             == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
     );
-    if stable {
-        proof_cover!(true, "general/stable: stable Freeze route checked");
-    } else {
-        proof_cover!(true, "general/stable: direct general route checked");
-    }
-}
-
-fn general_stable_stub<
-    T: kani::Arbitrary + Copy + crate::slice::sort::shared::FreezeMarker,
-    F: FnMut(&T, &T) -> bool,
-    const N: usize,
->(
-    cmp: F,
-) {
-    general_stable_stub_for_route::<T, F, N>(cmp, kani::any());
+    kani::cover(stable, "general/stable: stable Freeze route checked");
+    kani::cover(!stable, "general/stable: direct general route checked");
 }
 
 macro_rules! general_stub_harness {
@@ -206,21 +193,7 @@ macro_rules! general_stub_harness {
         }
     };
 }
-macro_rules! general_stub_route_harness {
-    ($name:ident, $t:ty, $cmp:ident, $n:literal, $stable:literal, $solver:ident) => {
-        #[kani::proof]
-        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
-        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
-        #[kani::solver($solver)]
-        #[kani::unwind(50)]
-        fn $name() {
-            general_stable_stub_for_route::<$t, _, $n>($cmp, $stable);
-        }
-    };
-}
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
-general_stub_route_harness!(sorted_permutation_general_u8_n15, u8, lt_u8, 15, false, cadical);
-general_stub_route_harness!(sorted_permutation_stable_u8_n15, u8, lt_u8, 15, true, cadical);
-general_stub_route_harness!(sorted_permutation_general_u8_n14, u8, lt_u8, 14, false, cadical);
-general_stub_route_harness!(sorted_permutation_stable_u8_n14, u8, lt_u8, 14, true, cadical);
+general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
+general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);
