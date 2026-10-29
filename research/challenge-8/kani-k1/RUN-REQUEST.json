@@ -1,6 +1,6 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "c3c-matched-baseline",
+  "request_id": "c3c-matched-candidate",
   "agent": "k1-network",
   "kind": "diagnostic",
   "runner": "gcb-e2-standard-4",
@@ -21,15 +21,67 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n31",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail11",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail16",
       "expect": "SUCCESS"
     },
     {
@@ -53,11 +105,71 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
       "expect": "SUCCESS"
     },
     {
@@ -96,5 +208,6 @@
       "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
       "expect": "SUCCESS"
     }
-  ]
+  ],
+  "inventory": true
 }
