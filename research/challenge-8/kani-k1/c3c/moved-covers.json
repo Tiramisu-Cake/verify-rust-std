@@ -1,0 +1,507 @@
+{
+  "source_sha": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+  "policy": "ordinary evaluates predicate; kani_smallsort_controls enables original cover",
+  "source_sites": 100,
+  "sites": [
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 23,
+      "invocation": "proof_cover!(true, \"fallback: sortedness and probe count checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 78,
+      "invocation": "proof_cover!(tail == 1, \"u8 prefix: region 2 reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 79,
+      "invocation": "proof_cover!(tail == 15, \"u8 prefix: proper prefix region 16 reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 80,
+      "invocation": "proof_cover!(tail == 16, \"u8 prefix: full region 17 reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 81,
+      "invocation": "proof_cover!(true, \"u8 prefix: completion\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 92,
+      "invocation": "proof_cover!(true, \"insertion call with unsorted prefix is reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 124,
+      "invocation": "proof_cover!(start == 0, \"scratch insertion starts at zero\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 125,
+      "invocation": "proof_cover!(start == 6, \"scratch insertion starts at six\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 126,
+      "invocation": "proof_cover!(start == 7, \"scratch insertion starts at seven\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 127,
+      "invocation": "proof_cover!(len == 5, \"scratch region length five\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 128,
+      "invocation": "proof_cover!(len == 8, \"scratch region length eight\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 129,
+      "invocation": "proof_cover!(true, \"scratch insertion: contract and frame checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 181,
+      "invocation": "proof_cover!(true, \"general/stable: stable Freeze route checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "line": 183,
+      "invocation": "proof_cover!(true, \"general/stable: direct general route checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 264,
+      "invocation": "proof_cover!(true, \"merge returns for a permitted length\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 276,
+      "invocation": "proof_cover!(true, \"tail insertion returns for a permitted length\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 292,
+      "invocation": "proof_cover!(true, \"unsorted input call reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 302,
+      "invocation": "proof_cover!(true, \"four-element stable sort returns\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 311,
+      "invocation": "proof_cover!(t == 3, \"last element type is reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 365,
+      "invocation": "proof_cover!(true, \"sort returns and preserves values with an arbitrary comparator\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 413,
+      "invocation": "proof_cover!(len == 2, \"length 2 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 414,
+      "invocation": "proof_cover!(len == 16, \"length 16 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 436,
+      "invocation": "proof_cover!(len == 2, \"length 2 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 437,
+      "invocation": "proof_cover!(len == 16, \"length 16 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 461,
+      "invocation": "proof_cover!(len == 2, \"length 2 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 462,
+      "invocation": "proof_cover!(len == 32, \"length 32 reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 493,
+      "invocation": "proof_cover!(true, \"order violation panic path is reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 513,
+      "invocation": "proof_cover!(true, \"merge returns before the mutation check\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 543,
+      "invocation": "proof_cover!(true, \"merge returns and preserves input value counts\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 558,
+      "invocation": "proof_cover!(true, \"merge returns for arbitrary comparisons\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 578,
+      "invocation": "proof_cover!(true, \"general u64 safety: normal return reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 585,
+      "invocation": "proof_cover!(true, \"non-Copy u64 route safety: normal return reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 592,
+      "invocation": "proof_cover!(true, \"stable u64 route safety: normal return reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 617,
+      "invocation": "proof_cover!(true, \"safety control: normal merge return before check\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 759,
+      "invocation": "proof_cover!(true, \"merge contract: length 2\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 763,
+      "invocation": "proof_cover!(true, \"merge contract: length 3\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 767,
+      "invocation": "proof_cover!(true, \"merge contract: length 4\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 800,
+      "invocation": "proof_cover!(true, \"merge call reaches the unsorted-halves check\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 852,
+      "invocation": "proof_cover!(true, \"stable route properties checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 854,
+      "invocation": "proof_cover!(true, \"general route properties checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 882,
+      "invocation": "proof_cover!(true, \"fallback route properties checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1174,
+      "invocation": "proof_cover!(!alternate, $first)"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1175,
+      "invocation": "proof_cover!(alternate, $second)"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1189,
+      "invocation": "proof_cover!(!alternate, \"general route returns with the property checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1190,
+      "invocation": "proof_cover!(alternate, \"stable route returns with the property checked\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1262,
+      "invocation": "proof_cover!(true, \"duplicate-tag control entered\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 1274,
+      "invocation": "proof_cover!(true, \"extra-drop control entered\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 17,
+      "invocation": "proof_cover!(a == 0 && b == 3, \"swap_if_less: a < b reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 18,
+      "invocation": "proof_cover!(a == 3 && b == 0, \"swap_if_less: a > b reachable\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 22,
+      "invocation": "proof_cover!(cmp(&old_b, &old_a), \"swap_if_less: swap taken\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 23,
+      "invocation": "proof_cover!(!cmp(&old_b, &old_a), \"swap_if_less: swap not taken\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 24,
+      "invocation": "proof_cover!(true, \"swap_if_less: end reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 50,
+      "invocation": "proof_cover!(true, \"swap contract control reached the end\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 92,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"unstable network normal return at \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 156,
+      "invocation": "proof_cover!(true, \"order-violation panic stub reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 173,
+      "invocation": "proof_cover!(true, \"order-violation control reaches normal return before assertion\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 185,
+      "invocation": "proof_cover!(true, \"order-violation control reaches normal return\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 206,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"unstable network normal return at \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 275,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"dispatch route returns normally at \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 289,
+      "invocation": "proof_cover!(true, \"order-violation control reaches normal return before assertion\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 328,
+      "invocation": "proof_cover!(\n                    stable && len == $n,\n                    concat!(\"stable route normal return at \", stringify!($n))\n                )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 332,
+      "invocation": "proof_cover!(\n                    !stable && len == $n,\n                    concat!(\"unstable route normal return at \", stringify!($n))\n                )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 347,
+      "invocation": "proof_cover!(true, \"merge-route control reaches normal return before assertion\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 498,
+      "invocation": "proof_cover!(offset == 1, \"insertion at offset one returns normally\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 499,
+      "invocation": "proof_cover!(offset == N, \"insertion at final offset returns normally\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 513,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"insertion returns normally at length \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 541,
+      "invocation": "proof_cover!(\n        left_key != left.key && right_key != right.key,\n        \"mutating comparator changes both keys\",\n    )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 595,
+      "invocation": "proof_cover!(\n                    stable && len == $n,\n                    concat!(\"stable mutating route returns normally at \", stringify!($n))\n                )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 599,
+      "invocation": "proof_cover!(\n                    !stable && len == $n,\n                    concat!(\"unstable mutating route returns normally at \", stringify!($n))\n                )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 612,
+      "invocation": "proof_cover!(offset == 1, \"mutating insertion at offset one returns normally\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 613,
+      "invocation": "proof_cover!(offset == N, \"mutating insertion at final offset returns normally\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 630,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"mutating insertion returns normally at \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 678,
+      "invocation": "proof_cover!(\n                true,\n                concat!(\"u64 insertion at offset one returns normally at length \", stringify!($n)),\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 689,
+      "invocation": "proof_cover!(\n                true,\n                concat!(\"Cell insertion at offset one returns normally at length \", stringify!($n)),\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 743,
+      "invocation": "proof_cover!(offset == $o, concat!(\"insertion offset \", stringify!($o)))"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 757,
+      "invocation": "proof_cover!(offset == $o, concat!(\"mutating insertion offset \", stringify!($o)))"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 951,
+      "invocation": "proof_cover!(N < 2 || !prefix_unchanged(&v, &pre, 0), \"trivial input or sort moves elements\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 965,
+      "invocation": "proof_cover!(\n                len == $n,\n                concat!(\"sort returns normally at length \", stringify!($n))\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1022,
+      "invocation": "proof_cover!(reverse, \"swap contract covers indices 1 and 0\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1023,
+      "invocation": "proof_cover!(!reverse, \"swap contract covers indices 0 and 1\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1024,
+      "invocation": "proof_cover!(size_of::<T>() == 0 || taken, \"swap branch or zero-sized value\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1025,
+      "invocation": "proof_cover!(!taken, \"no-swap branch\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1026,
+      "invocation": "proof_cover!(true, \"swap contract reached the end\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1070,
+      "invocation": "proof_cover!(\n        !prefix_unchanged(&v, &pre, 0),\n        \"insertion preserves permutation and moves elements\",\n    )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1151,
+      "invocation": "proof_cover!(a == 0 && b == N - 1, \"swap contract covers first to last\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1152,
+      "invocation": "proof_cover!(a == N - 1 && b == 0, \"swap contract covers last to first\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1153,
+      "invocation": "proof_cover!(a > 0 && a < N - 1 && b > 0 && b < N - 1, \"swap contract covers interior pair\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1155,
+      "invocation": "proof_cover!(\n        a == network_last || b == network_last,\n        \"swap contract covers network final position\",\n    )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1159,
+      "invocation": "proof_cover!(taken, \"swap contract covers swap branch\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1160,
+      "invocation": "proof_cover!(!taken, \"swap contract covers no-swap branch\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1161,
+      "invocation": "proof_cover!(true, \"swap contract covers end reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1217,
+      "invocation": "proof_cover!(!prefix_unchanged(&v, &pre, 0), \"insertion moves elements\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1218,
+      "invocation": "proof_cover!(true, \"insert-tail contract covers end reached\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1229,
+      "invocation": "proof_cover!(\n                tail == $end,\n                concat!(\n                    \"insert-tail contract covers tail \",\n                    stringify!($end),\n                    \" with requires satisfied\"\n                )\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1249,
+      "invocation": "proof_cover!(\n                tail == $end,\n                concat!(\n                    \"insert-tail contract covers exact tail \",\n                    stringify!($end),\n                    \" with requires satisfied\"\n                ),\n            )"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1370,
+      "invocation": "proof_cover!(mode == 0 && moved, \"stable route moves a tag\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1371,
+      "invocation": "proof_cover!(mode == 1 && moved, \"unstable route moves a tag\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1372,
+      "invocation": "proof_cover!(mode == 2 && moved, \"insertion route moves a tag\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1373,
+      "invocation": "proof_cover!(true, \"tag permutation check reached the end\")"
+    },
+    {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1384,
+      "invocation": "proof_cover!(\n                mode == 2 && offset == $offset,\n                concat!(\"insertion route returns normally at offset \", stringify!($offset))\n            )"
+    }
+  ]
+}

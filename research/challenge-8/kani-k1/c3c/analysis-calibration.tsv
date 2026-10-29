@@ -1,0 +1,14 @@
+comparison_scope	mac_gcb_calibration_eligibility	unchangedness_conditions/exclusions
+baseline e965 correct	eligible for exact common models	Source diff 6cfc76cb..e96555151df91080fa0ccc106f60ee38a919c50e changes only verify.rs registration, smoke.rs, and adds types.rs; correct models unchanged. Pair exact same names and confirm same stubs, solver (default CaDiCaL), and unwind.
+baseline e965 merge	eligible for exact common models	Same C3a-only source diff; merge models unchanged. Pair exact same names and confirm same stubs, default CaDiCaL, and unwind.
+baseline e965 network	eligible for exact common models	Same C3a-only source diff; network models unchanged. Pair exact same names and confirm same stubs, default CaDiCaL, and unwind.
+candidate correct	ineligible as calibration point	E moves user covers out of ordinary; R splits n14/n15 general+stable models. Candidate's explicit CaDiCaL is semantically same as baseline default, but cover/model changes disqualify affected family rows.
+candidate merge	ineligible as calibration point	E changes cover obligations; R splits six n11/n12/n16 general+stable models into twelve. Candidate's explicit CaDiCaL is semantically same as baseline default; changed properties/model shapes disqualify family rows.
+candidate network	ineligible as calibration point	E changes ordinary cover obligations; D changes dispatch/tail models and START5/6 exact tails. Reviewed D unwind is preserved, but model shape differs. Candidate solver remains CaDiCaL.
+assembly (baseline and candidate)	conditional eligible	Candidate source diff leaves assembly family unchanged. Exact common harness; same callee, stubs, solver, unwind; successful bounded measurements and SHA binding required. Eight exact assembly names are listed in paired-domain-map.json.
+smoke	conditional by harness	C3a changes predicate-smoke registration and adds types; exclude changed predicate-smoke row from P6 pairing. Other exact common smoke harnesses only after source/config match.
+types	ineligible	No macOS counterpart in supplied pre-C3a run; C3a adds the types harnesses.
+other exact unchanged harnesses	conditional eligible	Exact name alone is insufficient. Git/source comparison must prove callee/stubs and generated model unchanged, including solver and unwind; GCB measurement required. Supplied Ubuntu TSV is not GCB evidence.
+censored GCB timeout, Mac SUCCESS	ratio upper bound only	GCB actual time is at least timeout; Mac/GCB <= Mac observed time / GCB timeout. Preserve censoring; do not report a point ratio.
+censored Mac TIMEOUT, GCB SUCCESS	ratio lower bound only	Mac actual time is at least organizer timeout; Mac/GCB >= Mac timeout / GCB observed time. Preserve censoring; do not report a point ratio.
+any timeout/absent Verification Time	not a point-ratio row	Retain censored counts and bounds where possible; never impute timeout as measured duration.

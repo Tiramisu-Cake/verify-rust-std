@@ -1,0 +1,45 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "c3c-controls-cover-audit",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "C3c opt-in same-candidate E cover audit, explicit representative correct/merge/network families; requires all sampled covers SATISFIED, separate from ordinary proof",
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 3,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_prefix",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
+      "expect": "SUCCESS"
+    }
+  ]
+}

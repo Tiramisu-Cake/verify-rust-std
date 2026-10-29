@@ -1,0 +1,159 @@
+{
+  "source_sha": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+  "proof_only_paths": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+  ],
+  "runtime_and_contract_bodies_unchanged_by_path_scope": true,
+  "tail_partition_checks": [
+    {
+      "start": 1,
+      "old_tail_domain": "2..=16",
+      "exact_tails": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    },
+    {
+      "start": 2,
+      "old_tail_domain": "3..=16",
+      "exact_tails": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    },
+    {
+      "start": 3,
+      "old_tail_domain": "4..=16",
+      "exact_tails": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    },
+    {
+      "start": 4,
+      "old_tail_domain": "5..=16",
+      "exact_tails": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    },
+    {
+      "start": 5,
+      "old_tail_domain": "6..=16",
+      "exact_tails": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    },
+    {
+      "start": 6,
+      "old_tail_domain": "7..=16",
+      "exact_tails": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "union_complete": true,
+      "allocation_elements": 17,
+      "unwind": 25
+    }
+  ],
+  "upper_route_partition": {
+    "lengths": [
+      31,
+      32
+    ],
+    "old_selector_classes": [
+      "0",
+      "1",
+      "2..=255"
+    ],
+    "new_routes": [
+      "general_u64",
+      "noncopy_u64",
+      "stable_u64"
+    ],
+    "body_and_unwind34_retained": true
+  },
+  "note": "Python source audit; not Kani proof or unwind acceptance"
+}

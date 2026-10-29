@@ -1,0 +1,1111 @@
+{
+  "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
+  "candidate": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+  "baseline_sites": 111,
+  "note": "Source call sites including macros/controls; not a count of instantiated ordinary properties; candidate opt-in representative audit is separate",
+  "sites": [
+    {
+      "line": 23,
+      "call": "kani::cover(true, \"fallback: sortedness and probe count checked\")",
+      "message_key": "\"fallback: sortedness and probe count checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        23
+      ]
+    },
+    {
+      "line": 78,
+      "call": "kani::cover(tail == 1, \"u8 prefix: region 2 reachable\")",
+      "message_key": "\"u8 prefix: region 2 reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        78
+      ]
+    },
+    {
+      "line": 79,
+      "call": "kani::cover(tail == 15, \"u8 prefix: proper prefix region 16 reachable\")",
+      "message_key": "\"u8 prefix: proper prefix region 16 reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        79
+      ]
+    },
+    {
+      "line": 80,
+      "call": "kani::cover(tail == 16, \"u8 prefix: full region 17 reachable\")",
+      "message_key": "\"u8 prefix: full region 17 reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        80
+      ]
+    },
+    {
+      "line": 81,
+      "call": "kani::cover(true, \"u8 prefix: completion\")",
+      "message_key": "\"u8 prefix: completion\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        81
+      ]
+    },
+    {
+      "line": 92,
+      "call": "kani::cover(true, \"insertion call with unsorted prefix is reachable\")",
+      "message_key": "\"insertion call with unsorted prefix is reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        92
+      ]
+    },
+    {
+      "line": 124,
+      "call": "kani::cover(start == 0, \"scratch insertion starts at zero\")",
+      "message_key": "\"scratch insertion starts at zero\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        124
+      ]
+    },
+    {
+      "line": 125,
+      "call": "kani::cover(start == 6, \"scratch insertion starts at six\")",
+      "message_key": "\"scratch insertion starts at six\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        125
+      ]
+    },
+    {
+      "line": 126,
+      "call": "kani::cover(start == 7, \"scratch insertion starts at seven\")",
+      "message_key": "\"scratch insertion starts at seven\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        126
+      ]
+    },
+    {
+      "line": 127,
+      "call": "kani::cover(len == 5, \"scratch region length five\")",
+      "message_key": "\"scratch region length five\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        127
+      ]
+    },
+    {
+      "line": 128,
+      "call": "kani::cover(len == 8, \"scratch region length eight\")",
+      "message_key": "\"scratch region length eight\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        128
+      ]
+    },
+    {
+      "line": 129,
+      "call": "kani::cover(true, \"scratch insertion: contract and frame checked\")",
+      "message_key": "\"scratch insertion: contract and frame checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        129
+      ]
+    },
+    {
+      "line": 180,
+      "call": "kani::cover(stable, \"general/stable: stable Freeze route checked\")",
+      "message_key": "\"general/stable: stable Freeze route checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        181
+      ]
+    },
+    {
+      "line": 181,
+      "call": "kani::cover(!stable, \"general/stable: direct general route checked\")",
+      "message_key": "\"general/stable: direct general route checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        183
+      ]
+    },
+    {
+      "line": 264,
+      "call": "kani::cover(true, \"merge returns for a permitted length\")",
+      "message_key": "\"merge returns for a permitted length\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        264
+      ]
+    },
+    {
+      "line": 276,
+      "call": "kani::cover(true, \"tail insertion returns for a permitted length\")",
+      "message_key": "\"tail insertion returns for a permitted length\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        276
+      ]
+    },
+    {
+      "line": 292,
+      "call": "kani::cover(true, \"unsorted input call reached\")",
+      "message_key": "\"unsorted input call reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        292
+      ]
+    },
+    {
+      "line": 302,
+      "call": "kani::cover(true, \"four-element stable sort returns\")",
+      "message_key": "\"four-element stable sort returns\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        302
+      ]
+    },
+    {
+      "line": 311,
+      "call": "kani::cover(t == 3, \"last element type is reachable\")",
+      "message_key": "\"last element type is reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        311
+      ]
+    },
+    {
+      "line": 365,
+      "call": "kani::cover(true, \"sort returns and preserves values with an arbitrary comparator\")",
+      "message_key": "\"sort returns and preserves values with an arbitrary comparator\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        365
+      ]
+    },
+    {
+      "line": 413,
+      "call": "kani::cover(len == 2, \"length 2 reached\")",
+      "message_key": "\"length 2 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        413,
+        436,
+        461
+      ]
+    },
+    {
+      "line": 414,
+      "call": "kani::cover(len == 16, \"length 16 reached\")",
+      "message_key": "\"length 16 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        414,
+        437
+      ]
+    },
+    {
+      "line": 436,
+      "call": "kani::cover(len == 2, \"length 2 reached\")",
+      "message_key": "\"length 2 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        413,
+        436,
+        461
+      ]
+    },
+    {
+      "line": 437,
+      "call": "kani::cover(len == 16, \"length 16 reached\")",
+      "message_key": "\"length 16 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        414,
+        437
+      ]
+    },
+    {
+      "line": 461,
+      "call": "kani::cover(len == 2, \"length 2 reached\")",
+      "message_key": "\"length 2 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        413,
+        436,
+        461
+      ]
+    },
+    {
+      "line": 462,
+      "call": "kani::cover(len == 32, \"length 32 reached\")",
+      "message_key": "\"length 32 reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        462
+      ]
+    },
+    {
+      "line": 493,
+      "call": "kani::cover(true, \"order violation panic path is reachable\")",
+      "message_key": "\"order violation panic path is reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        493
+      ]
+    },
+    {
+      "line": 513,
+      "call": "kani::cover(true, \"merge returns before the mutation check\")",
+      "message_key": "\"merge returns before the mutation check\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        513
+      ]
+    },
+    {
+      "line": 543,
+      "call": "kani::cover(true, \"merge returns and preserves input value counts\")",
+      "message_key": "\"merge returns and preserves input value counts\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        543
+      ]
+    },
+    {
+      "line": 558,
+      "call": "kani::cover(true, \"merge returns for arbitrary comparisons\")",
+      "message_key": "\"merge returns for arbitrary comparisons\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        558
+      ]
+    },
+    {
+      "line": 578,
+      "call": "kani::cover(true, \"general u64 safety: normal return reachable\")",
+      "message_key": "\"general u64 safety: normal return reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        578
+      ]
+    },
+    {
+      "line": 585,
+      "call": "kani::cover(true, \"non-Copy u64 route safety: normal return reachable\")",
+      "message_key": "\"non-Copy u64 route safety: normal return reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        585
+      ]
+    },
+    {
+      "line": 592,
+      "call": "kani::cover(true, \"stable u64 route safety: normal return reachable\")",
+      "message_key": "\"stable u64 route safety: normal return reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        592
+      ]
+    },
+    {
+      "line": 617,
+      "call": "kani::cover(true, \"safety control: normal merge return before check\")",
+      "message_key": "\"safety control: normal merge return before check\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        617
+      ]
+    },
+    {
+      "line": 754,
+      "call": "kani::cover(true, \"merge contract: length 2\")",
+      "message_key": "\"merge contract: length 2\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        759
+      ]
+    },
+    {
+      "line": 758,
+      "call": "kani::cover(true, \"merge contract: length 3\")",
+      "message_key": "\"merge contract: length 3\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        763
+      ]
+    },
+    {
+      "line": 762,
+      "call": "kani::cover(true, \"merge contract: length 4\")",
+      "message_key": "\"merge contract: length 4\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        767
+      ]
+    },
+    {
+      "line": 794,
+      "call": "kani::cover(true, \"merge call reaches the unsorted-halves check\")",
+      "message_key": "\"merge call reaches the unsorted-halves check\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        800
+      ]
+    },
+    {
+      "line": 845,
+      "call": "kani::cover(!stable, \"general route properties checked\")",
+      "message_key": "\"general route properties checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        854
+      ]
+    },
+    {
+      "line": 846,
+      "call": "kani::cover(stable, \"stable route properties checked\")",
+      "message_key": "\"stable route properties checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        852
+      ]
+    },
+    {
+      "line": 863,
+      "call": "kani::cover(true, \"fallback route properties checked\")",
+      "message_key": "\"fallback route properties checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        882
+      ]
+    },
+    {
+      "line": 1116,
+      "call": "kani::cover(!alternate, $first)",
+      "message_key": "",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1174,
+        1175
+      ]
+    },
+    {
+      "line": 1117,
+      "call": "kani::cover(alternate, $second)",
+      "message_key": "",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1174,
+        1175
+      ]
+    },
+    {
+      "line": 1131,
+      "call": "kani::cover(!alternate, \"general route returns with the property checked\")",
+      "message_key": "\"general route returns with the property checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1189
+      ]
+    },
+    {
+      "line": 1132,
+      "call": "kani::cover(alternate, \"stable route returns with the property checked\")",
+      "message_key": "\"stable route returns with the property checked\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1190
+      ]
+    },
+    {
+      "line": 1204,
+      "call": "kani::cover(true, \"duplicate-tag control entered\")",
+      "message_key": "\"duplicate-tag control entered\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1262
+      ]
+    },
+    {
+      "line": 1216,
+      "call": "kani::cover(true, \"extra-drop control entered\")",
+      "message_key": "\"extra-drop control entered\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1274
+      ]
+    },
+    {
+      "line": 17,
+      "call": "kani::cover(a == 0 && b == 3, \"swap_if_less: a < b reachable\")",
+      "message_key": "\"swap_if_less: a < b reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        17
+      ]
+    },
+    {
+      "line": 18,
+      "call": "kani::cover(a == 3 && b == 0, \"swap_if_less: a > b reachable\")",
+      "message_key": "\"swap_if_less: a > b reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        18
+      ]
+    },
+    {
+      "line": 22,
+      "call": "kani::cover(cmp(&old_b, &old_a), \"swap_if_less: swap taken\")",
+      "message_key": "\"swap_if_less: swap taken\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        22
+      ]
+    },
+    {
+      "line": 23,
+      "call": "kani::cover(!cmp(&old_b, &old_a), \"swap_if_less: swap not taken\")",
+      "message_key": "\"swap_if_less: swap not taken\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        23
+      ]
+    },
+    {
+      "line": 24,
+      "call": "kani::cover(true, \"swap_if_less: end reached\")",
+      "message_key": "\"swap_if_less: end reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        24
+      ]
+    },
+    {
+      "line": 50,
+      "call": "kani::cover(true, \"swap contract control reached the end\")",
+      "message_key": "\"swap contract control reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        50
+      ]
+    },
+    {
+      "line": 91,
+      "call": "kani::cover(\n                len == $n,\n                concat!(\"unstable network normal return at \", stringify!($n))\n            )",
+      "message_key": "\"unstable network normal return at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        92,
+        206
+      ]
+    },
+    {
+      "line": 95,
+      "call": "kani::cover(true, \"unstable network family reached the end\")",
+      "message_key": "\"unstable network family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 156,
+      "call": "kani::cover(true, \"order-violation panic stub reached\")",
+      "message_key": "\"order-violation panic stub reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        156
+      ]
+    },
+    {
+      "line": 173,
+      "call": "kani::cover(true, \"order-violation control reaches normal return before assertion\")",
+      "message_key": "\"order-violation control reaches normal return before assertion\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        173,
+        289
+      ]
+    },
+    {
+      "line": 185,
+      "call": "kani::cover(true, \"order-violation control reaches normal return\")",
+      "message_key": "\"order-violation control reaches normal return\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        185
+      ]
+    },
+    {
+      "line": 205,
+      "call": "kani::cover(\n                len == $n,\n                concat!(\"unstable network normal return at \", stringify!($n))\n            )",
+      "message_key": "\"unstable network normal return at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        92,
+        206
+      ]
+    },
+    {
+      "line": 209,
+      "call": "kani::cover(true, \"unstable network family reached the end\")",
+      "message_key": "\"unstable network family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 274,
+      "call": "kani::cover(\n                len == $n,\n                concat!(\"dispatch route returns normally at \", stringify!($n))\n            )",
+      "message_key": "\"dispatch route returns normally at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        275
+      ]
+    },
+    {
+      "line": 278,
+      "call": "kani::cover(true, \"dispatch safety family reached the end\")",
+      "message_key": "\"dispatch safety family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 289,
+      "call": "kani::cover(true, \"order-violation control reaches normal return before assertion\")",
+      "message_key": "\"order-violation control reaches normal return before assertion\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        173,
+        289
+      ]
+    },
+    {
+      "line": 327,
+      "call": "kani::cover(\n                    stable && len == $n,\n                    concat!(\"stable route normal return at \", stringify!($n))\n                )",
+      "message_key": "\"stable route normal return at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        328
+      ]
+    },
+    {
+      "line": 331,
+      "call": "kani::cover(\n                    !stable && len == $n,\n                    concat!(\"unstable route normal return at \", stringify!($n))\n                )",
+      "message_key": "\"unstable route normal return at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        332
+      ]
+    },
+    {
+      "line": 336,
+      "call": "kani::cover(true, \"dispatch family reached the end\")",
+      "message_key": "\"dispatch family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 347,
+      "call": "kani::cover(true, \"merge-route control reaches normal return before assertion\")",
+      "message_key": "\"merge-route control reaches normal return before assertion\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        347
+      ]
+    },
+    {
+      "line": 359,
+      "call": "kani::cover(true, \"dispatch route normal return is reachable\")",
+      "message_key": "\"dispatch route normal return is reachable\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "retained-direct-cover",
+      "candidate_matches": [
+        359
+      ]
+    },
+    {
+      "line": 496,
+      "call": "kani::cover(offset == 1, \"insertion at offset one returns normally\")",
+      "message_key": "\"insertion at offset one returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        498
+      ]
+    },
+    {
+      "line": 497,
+      "call": "kani::cover(offset == N, \"insertion at final offset returns normally\")",
+      "message_key": "\"insertion at final offset returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        499
+      ]
+    },
+    {
+      "line": 510,
+      "call": "kani::cover(\n                len == $n,\n                concat!(\"insertion returns normally at length \", stringify!($n))\n            )",
+      "message_key": "\"insertion returns normally at length \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        513
+      ]
+    },
+    {
+      "line": 514,
+      "call": "kani::cover(true, \"insertion safety family reached the end\")",
+      "message_key": "\"insertion safety family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 536,
+      "call": "kani::cover(\n        left_key != left.key && right_key != right.key,\n        \"mutating comparator changes both keys\",\n    )",
+      "message_key": "\"mutating comparator changes both keys\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        541,
+        557
+      ]
+    },
+    {
+      "line": 574,
+      "call": "kani::cover(\n                    stable && len == $n,\n                    concat!(\"stable mutating route returns normally at \", stringify!($n))\n                )",
+      "message_key": "\"stable mutating route returns normally at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        595
+      ]
+    },
+    {
+      "line": 578,
+      "call": "kani::cover(\n                    !stable && len == $n,\n                    concat!(\"unstable mutating route returns normally at \", stringify!($n))\n                )",
+      "message_key": "\"unstable mutating route returns normally at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        599
+      ]
+    },
+    {
+      "line": 583,
+      "call": "kani::cover(true, \"mutating route family reached the end\")",
+      "message_key": "\"mutating route family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 592,
+      "call": "kani::cover(offset == 1, \"mutating insertion at offset one returns normally\")",
+      "message_key": "\"mutating insertion at offset one returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        612
+      ]
+    },
+    {
+      "line": 593,
+      "call": "kani::cover(offset == N, \"mutating insertion at final offset returns normally\")",
+      "message_key": "\"mutating insertion at final offset returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        613
+      ]
+    },
+    {
+      "line": 606,
+      "call": "kani::cover(\n                len == $n,\n                concat!(\"mutating insertion returns normally at \", stringify!($n))\n            )",
+      "message_key": "\"mutating insertion returns normally at \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        630
+      ]
+    },
+    {
+      "line": 610,
+      "call": "kani::cover(true, \"mutating insertion family reached the end\")",
+      "message_key": "\"mutating insertion family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 652,
+      "call": "kani::cover(\n                true,\n                concat!(\"u64 insertion at offset one returns normally at length \", stringify!($n)),\n            )",
+      "message_key": "\"u64 insertion at offset one returns normally at length \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        678
+      ]
+    },
+    {
+      "line": 663,
+      "call": "kani::cover(\n                true,\n                concat!(\"Cell insertion at offset one returns normally at length \", stringify!($n)),\n            )",
+      "message_key": "\"Cell insertion at offset one returns normally at length \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        689
+      ]
+    },
+    {
+      "line": 716,
+      "call": "kani::cover(offset == $o, concat!(\"insertion offset \", stringify!($o)))",
+      "message_key": "\"insertion offset \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        743
+      ]
+    },
+    {
+      "line": 717,
+      "call": "kani::cover(true, \"insertion offset group returns normally\")",
+      "message_key": "\"insertion offset group returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 730,
+      "call": "kani::cover(offset == $o, concat!(\"mutating insertion offset \", stringify!($o)))",
+      "message_key": "\"mutating insertion offset \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        757
+      ]
+    },
+    {
+      "line": 731,
+      "call": "kani::cover(true, \"mutating insertion offset group returns normally\")",
+      "message_key": "\"mutating insertion offset group returns normally\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 925,
+      "call": "kani::cover(N < 2 || !prefix_unchanged(&v, &pre, 0), \"trivial input or sort moves elements\")",
+      "message_key": "\"trivial input or sort moves elements\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        951
+      ]
+    },
+    {
+      "line": 938,
+      "call": "kani::cover(len == $n, concat!(\"sort returns normally at length \", stringify!($n)))",
+      "message_key": "\"sort returns normally at length \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        965
+      ]
+    },
+    {
+      "line": 939,
+      "call": "kani::cover(true, \"sort family reached the end\")",
+      "message_key": "\"sort family reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 993,
+      "call": "kani::cover(reverse, \"swap contract covers indices 1 and 0\")",
+      "message_key": "\"swap contract covers indices 1 and 0\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1022
+      ]
+    },
+    {
+      "line": 994,
+      "call": "kani::cover(!reverse, \"swap contract covers indices 0 and 1\")",
+      "message_key": "\"swap contract covers indices 0 and 1\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1023
+      ]
+    },
+    {
+      "line": 995,
+      "call": "kani::cover(size_of::<T>() == 0 || taken, \"swap branch or zero-sized value\")",
+      "message_key": "\"swap branch or zero-sized value\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1024
+      ]
+    },
+    {
+      "line": 996,
+      "call": "kani::cover(!taken, \"no-swap branch\")",
+      "message_key": "\"no-swap branch\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1025
+      ]
+    },
+    {
+      "line": 997,
+      "call": "kani::cover(true, \"swap contract reached the end\")",
+      "message_key": "\"swap contract reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1026
+      ]
+    },
+    {
+      "line": 1041,
+      "call": "kani::cover(\n        !prefix_unchanged(&v, &pre, 0),\n        \"insertion preserves permutation and moves elements\",\n    )",
+      "message_key": "\"insertion preserves permutation and moves elements\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1070
+      ]
+    },
+    {
+      "line": 1053,
+      "call": "kani::cover(true, \"insertion permutation check reached the end\")",
+      "message_key": "\"insertion permutation check reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "deduplicated-or-reworded-see-combined-diff",
+      "candidate_matches": []
+    },
+    {
+      "line": 1122,
+      "call": "kani::cover(a == 0 && b == N - 1, \"swap contract covers first to last\")",
+      "message_key": "\"swap contract covers first to last\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1151
+      ]
+    },
+    {
+      "line": 1123,
+      "call": "kani::cover(a == N - 1 && b == 0, \"swap contract covers last to first\")",
+      "message_key": "\"swap contract covers last to first\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1152
+      ]
+    },
+    {
+      "line": 1124,
+      "call": "kani::cover(a > 0 && a < N - 1 && b > 0 && b < N - 1, \"swap contract covers interior pair\")",
+      "message_key": "\"swap contract covers interior pair\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1153
+      ]
+    },
+    {
+      "line": 1126,
+      "call": "kani::cover(\n        a == network_last || b == network_last,\n        \"swap contract covers network final position\",\n    )",
+      "message_key": "\"swap contract covers network final position\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1155
+      ]
+    },
+    {
+      "line": 1130,
+      "call": "kani::cover(taken, \"swap contract covers swap branch\")",
+      "message_key": "\"swap contract covers swap branch\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1159
+      ]
+    },
+    {
+      "line": 1131,
+      "call": "kani::cover(!taken, \"swap contract covers no-swap branch\")",
+      "message_key": "\"swap contract covers no-swap branch\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1160
+      ]
+    },
+    {
+      "line": 1132,
+      "call": "kani::cover(true, \"swap contract covers end reached\")",
+      "message_key": "\"swap contract covers end reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1161
+      ]
+    },
+    {
+      "line": 1185,
+      "call": "kani::cover(!prefix_unchanged(&v, &pre, 0), \"insertion moves elements\")",
+      "message_key": "\"insertion moves elements\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1217
+      ]
+    },
+    {
+      "line": 1186,
+      "call": "kani::cover(true, \"insert-tail contract covers end reached\")",
+      "message_key": "\"insert-tail contract covers end reached\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1218
+      ]
+    },
+    {
+      "line": 1196,
+      "call": "kani::cover(\n                tail == $end,\n                concat!(\n                    \"insert-tail contract covers tail \",\n                    stringify!($end),\n                    \" with requires satisfied\"\n                )\n            )",
+      "message_key": "\"insert-tail contract covers tail \"|\" with requires satisfied\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1229
+      ]
+    },
+    {
+      "line": 1272,
+      "call": "kani::cover(mode == 0 && moved, \"stable route moves a tag\")",
+      "message_key": "\"stable route moves a tag\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1370
+      ]
+    },
+    {
+      "line": 1273,
+      "call": "kani::cover(mode == 1 && moved, \"unstable route moves a tag\")",
+      "message_key": "\"unstable route moves a tag\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1371
+      ]
+    },
+    {
+      "line": 1274,
+      "call": "kani::cover(mode == 2 && moved, \"insertion route moves a tag\")",
+      "message_key": "\"insertion route moves a tag\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1372
+      ]
+    },
+    {
+      "line": 1275,
+      "call": "kani::cover(true, \"tag permutation check reached the end\")",
+      "message_key": "\"tag permutation check reached the end\"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1373
+      ]
+    },
+    {
+      "line": 1285,
+      "call": "kani::cover(\n                mode == 2 && offset == $offset,\n                concat!(\"insertion route returns normally at offset \", stringify!($offset))\n            )",
+      "message_key": "\"insertion route returns normally at offset \"",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "current_policy": "kani_smallsort_controls",
+      "candidate_matches": [
+        1384
+      ]
+    }
+  ]
+}

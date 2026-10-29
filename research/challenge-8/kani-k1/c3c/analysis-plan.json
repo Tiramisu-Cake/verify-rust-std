@@ -1,0 +1,115 @@
+{
+  "schema": "c3c-bounded-probe-plan-v1",
+  "source_identity": {
+    "mac_input": "../c3c-inputs/mac-times.tsv",
+    "mac_run": "GitHub Actions run 40748125754, pre-C3a submission SHA 6cfc76cb211d088aebaff8a449bcac953e97f942",
+    "ubuntu_input": "../c3c-inputs/ubu-times.tsv",
+    "ubuntu_run_identity": null,
+    "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
+    "candidate": "fd854ca7545df59b5307b629155ca61dc3d74d0f",
+    "kani_pin": "9461e07a (full pin in run request)",
+    "limitation": "The input TSVs contain name/time/status only; they do not carry source SHA, run id, thread, or stop-time state. Preserve this limitation in any derived claim."
+  },
+  "probe_policy": {
+    "baseline_kind": "diagnostic",
+    "baseline_timeout_seconds": 180,
+    "baseline_parallelism": 3,
+    "candidate_kind": "diagnostic",
+    "candidate_timeout_seconds": 180,
+    "candidate_parallelism": 3,
+    "candidate_mapping": "Probe every inventory-confirmed successor of a selected old domain; do not synthesize missing names. Source-audit mapping currently estimates 39 target successors (15 START1 tails + 10 START6 tails + 6 n31/n32 route successors + 6 unchanged heavy names + 2 remaining timeout names) plus 8 common assembly calibration rows = 47 candidate rows. Recompute from final inventory.",
+    "timings": "Keep successful Verification Time as recorded; timeout/no-time rows are censored, never impute the timeout as observed time.",
+    "memory": "Use bounded peak summaries if captured; RSS is not physical RAM and independent maxima are not simultaneous RSS sum."
+  },
+  "mac_heavy_ge_400_seconds": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+      "seconds": 584.9,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "Exact-tail successors START=6, END=7..16; confirm inventory names."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+      "seconds": 505.6,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "route_safety_general_u64_n32; route_safety_noncopy_u64_n32; route_safety_stable_u64_n32."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+      "seconds": 479.0,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; compare solver change and cover policy explicitly."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+      "seconds": 467.9,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; compare solver change and cover policy explicitly."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+      "seconds": 450.0,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; compare solver change and cover policy explicitly."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+      "seconds": 420.3,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; covers and solver differ."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+      "seconds": 420.0,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "route_safety_general_u64_n31; route_safety_noncopy_u64_n31; route_safety_stable_u64_n31."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+      "seconds": 407.4,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; compare solver change and cover policy explicitly."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+      "seconds": 404.9,
+      "status": "SUCCESSFUL",
+      "candidate_mapping": "same domain/name if inventory confirms; covers and solver differ."
+    }
+  ],
+  "mac_timeouts_600_seconds": [
+    {
+      "name": "merge::merge_contract_u64_n16",
+      "family": "merge",
+      "candidate_mapping": "same name if inventory confirms; covers and solver differ."
+    },
+    {
+      "name": "network::insertion_permutation_u64_n12",
+      "family": "network",
+      "candidate_mapping": "same name if inventory confirms; solver differs; retain as unresolved until measured."
+    },
+    {
+      "name": "network::insert_tail_contract_u64_start1",
+      "family": "network",
+      "candidate_mapping": "Exact-tail successors START=1, END=2..16; candidate inventory names must confirm."
+    }
+  ],
+  "ubuntu_inflight_at_stop": {
+    "status": "NOT_IDENTIFIABLE_FROM_PROVIDED_DATA",
+    "count_claimed_by_task": 3,
+    "records": [],
+    "reason": "ubu-times.tsv has only name, elapsed Verification Time, and terminal status per row; it has no thread assignment, start/end timestamps, unfinished names, or stop snapshot. Last three SmallSort rows are not evidence of in-flight work.",
+    "needed_source": "A bounded stop-time per-thread snapshot or coordinator-provided exact three names plus run/source identities. Until then do not include guessed harnesses in matched probes."
+  },
+  "additional_correct_family_calibration": [
+    "correct::sorted_permutation_general_stable_u8_n14 -> general/stable u8 N14",
+    "correct::sorted_permutation_fallback_u64_n8 -> same name"
+  ],
+  "final_probe_counts": {
+    "baseline": 22,
+    "candidate": 50,
+    "required_mac_domains": 12,
+    "additional_correct_baseline": 2,
+    "unchanged_assembly": 8
+  }
+}
