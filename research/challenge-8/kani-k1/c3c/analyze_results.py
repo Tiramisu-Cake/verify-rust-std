@@ -18,6 +18,24 @@ SESSION=json.loads((BASE/'session.json').read_text())
 spec=importlib.util.spec_from_file_location('lane',ROOT/'research/challenge-8/kani-k1/tools/kani_k1.py')
 lane=importlib.util.module_from_spec(spec);spec.loader.exec_module(lane)
 
+def calibration_group(name):
+    short=name.removeprefix(PREFIX)
+    module,leaf=short.split('::',1)
+    scalar=next((t for t in ('u64','u8') if '_'+t+'_' in leaf),None)
+    if module=='correct':
+        if 'fallback_' in leaf:return 'correct.fallback.'+str(scalar)
+        if 'sorted_permutation_' in leaf:return 'correct.general_stable.'+str(scalar)
+    if module=='merge':
+        if leaf.startswith('merge_contract_'):return 'merge.contract.'+str(scalar)
+        if leaf.startswith('route_safety_'):return 'merge.upper_route_safety'
+        if 'sorted_permutation_' in leaf and not leaf.startswith('fallback_'):return 'merge.general_stable.'+str(scalar)
+    if module=='network':
+        if leaf.startswith('network_correctness_'):return 'network.correctness.'+str(scalar)
+        if leaf.startswith('insert_tail_contract_'):return 'network.tail_contract.'+str(scalar)
+        if leaf.startswith('insertion_permutation_'):return 'network.insertion_permutation.'+str(scalar)
+    if module=='assembly':return 'assembly.zst' if 'stable_unit_' in leaf else 'assembly.primitive_witness'
+    return module+'.unmatched'
+
 def metadata(lines):
     return dict(line.split('=',1) for line in lines if '=' in line and '\t' not in line
                 and re.fullmatch('[a-z_0-9]+',line.split('=',1)[0]))
@@ -97,8 +115,8 @@ def main():
     calibration=[];families=collections.defaultdict(list)
     if baseline:
         for row in baseline['rows']:
-            name=row['name'];family=name[len(PREFIX):].split('::')[0]
-            c=dict(name=name,family=family,gcb_status=row['status'],gcb_time_s=row['time_s'],mac_time_s=mac.get(name),mac_censored_timeout_s=600 if name in historical_timeouts else None,point_ratio=None,ratio_lower_bound=None,ratio_upper_bound=None)
+            name=row['name'];family=name[len(PREFIX):].split('::')[0];group=calibration_group(name)
+            c=dict(name=name,family=family,calibration_group=group,gcb_status=row['status'],gcb_time_s=row['time_s'],mac_time_s=mac.get(name),mac_censored_timeout_s=600 if name in historical_timeouts else None,point_ratio=None,ratio_lower_bound=None,ratio_upper_bound=None)
             if baseline['summary_status'] != 'COMPLETE':
                 c['not_eligible_reason']='Baseline run is not COMPLETE/consistent; preserve rows without point calibration'
             elif name in mac and row['status']=='SUCCESS' and row['time_s']:
@@ -108,12 +126,13 @@ def main():
             elif name in historical_timeouts and row['status']=='SUCCESS' and row['time_s']:
                 c['ratio_lower_bound']=600/row['time_s']
             c['model_binding']='P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch'
-            calibration.append(c);families[family].append(c)
+            calibration.append(c);families[group].append(c)
     family_stats={}
     for family,rs in families.items():
         points=sorted(r['point_ratio'] for r in rs if r['point_ratio'] is not None)
         lows=[r['ratio_lower_bound'] for r in rs if r['ratio_lower_bound'] is not None]
-        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['gcb_status']=='TIMEOUT' or r['mac_censored_timeout_s'] is not None for r in rs),n_unusable_or_unmeasured=sum(r['point_ratio'] is None and r['gcb_status']!='TIMEOUT' and r['mac_censored_timeout_s'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None],stress_transfer_coefficient=max(points+lows,default=None),coefficient_is_upper_bound=False)
+        uppers=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None]
+        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['gcb_status']=='TIMEOUT' or r['mac_censored_timeout_s'] is not None for r in rs),n_unusable_or_unmeasured=sum(r['point_ratio'] is None and r['gcb_status']!='TIMEOUT' and r['mac_censored_timeout_s'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None],stress_transfer_coefficient=max(points+lows+uppers,default=None),dual_censored_count=sum(r['gcb_status']=='TIMEOUT' and r['mac_censored_timeout_s'] is not None for r in rs),coefficient_is_upper_bound=False)
     paired=[]
     if baseline and candidate:
         old={r['name']:r for r in baseline['rows']};new={r['name']:r for r in candidate['rows']}
@@ -133,7 +152,7 @@ def main():
         full['inventory_results_duplicated']=[n for n in inventory if len(lookup[n])>1]
         for name in inventory:
             row=lookup[name][0] if len(lookup[name])==1 else dict(status='MISSING_OR_DUPLICATE',time_s=None,covers='',checks='')
-            family=name[len(PREFIX):].split('::')[0];fs=family_stats.get(family,{})
+            family=name[len(PREFIX):].split('::')[0];group=calibration_group(name);fs=family_stats.get(group,{})
             secs=row['time_s'];median=fs.get('median');stress=fs.get('stress_transfer_coefficient')
             point=secs*median if secs is not None and median is not None else None
             tail=secs*stress if secs is not None and stress is not None else None
@@ -144,15 +163,15 @@ def main():
             if point is not None and point>300:flags.append('MAC_POINT_OVER_300')
             if tail is not None and tail>300:flags.append('MAC_OBSERVED_TAIL_OVER_300')
             memory=[r for r in full['process_memory'] if r.get('harness')==name]
-            registry.append(dict(name=name,family=family,status=row['status'],gcb_time_s=secs,mac_point_forecast_s=point,mac_observed_tail_transfer_s=tail,flags=flags,direct_cbmc_peak_kb=max((r['peak_kb'] for r in memory if r['cmd']=='cbmc'),default=None),forecast_is_acceptance=False,forecast_method='Within-family transfer of source-unchanged baseline ratios onto changed candidate models; assumption, not bound'))
+            registry.append(dict(name=name,family=family,calibration_group=group,status=row['status'],gcb_time_s=secs,mac_point_forecast_s=point,mac_observed_tail_transfer_s=tail,flags=flags,direct_cbmc_peak_kb=max((r['peak_kb'] for r in memory if r['cmd']=='cbmc'),default=None),forecast_is_acceptance=False,forecast_method='Transfer within the named type/model group of source-unchanged baseline points and censored bounds onto changed candidate models; assumption, not bound'))
     out=dict(schema='c3c-analysis-v1',builds=builds,calibration_rows=calibration,calibration_families=family_stats,paired_domains=paired,ordinary_risk_register=registry,limitations=['No complete baseline autoharness run: no measured full-job improvement or Ubuntu shutdown cause established.','Three Ubuntu in-flight names absent from supplied TSV.','Historical TSV times rounded to 0.1s; censored observations retained.','Family coefficient transfer onto changed models is forecast only; no guaranteed macOS bound.','RSS is not physical RAM; active-set attribution is ambiguous unless direct_harness is recorded.'])
     (BASE/'measurements.json').write_text(json.dumps(out,indent=2)+'\n')
     with (BASE/'calibration.tsv').open('w') as f:
-        keys=['name','family','mac_time_s','gcb_status','gcb_time_s','point_ratio','ratio_lower_bound','ratio_upper_bound']
+        keys=['name','family','calibration_group','mac_time_s','gcb_status','gcb_time_s','point_ratio','ratio_lower_bound','ratio_upper_bound']
         f.write('\t'.join(keys)+'\n')
         for r in calibration:f.write('\t'.join(str(r.get(k,'')) for k in keys)+'\n')
     with (BASE/'risk-register.tsv').open('w') as f:
-        keys=['name','family','status','gcb_time_s','mac_point_forecast_s','mac_observed_tail_transfer_s','flags']
+        keys=['name','family','calibration_group','status','gcb_time_s','mac_point_forecast_s','mac_observed_tail_transfer_s','flags']
         f.write('\t'.join(keys)+'\n')
         for r in registry:f.write('\t'.join(','.join(r[k]) if isinstance(r[k],list) else str(r[k]) for k in keys)+'\n')
     print(json.dumps(dict(builds={label:{k:b[k] for k in ('summary_status','gate','all','smallsort','command_wall')} for label,b in builds.items()},calibration_families=family_stats,registry_count=len(registry)),indent=2))
