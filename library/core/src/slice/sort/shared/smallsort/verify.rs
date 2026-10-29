@@ -3,15 +3,15 @@
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
 //! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
 //! comparators.
-//! `correct` adds fallback correctness and general/stable u8 N14/15 with a 48-element scratch.
+//! `correct` checks u8 prefix insertion; its fallback/general and scratch contracts are opt-in.
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
-//! Ordinary contract proofs cover swap, sort4, merge N2..16, u8 prefix/scratch insertion and
-//! shifted u64 insertion regions. Ordinary `correct::contract_insert_tail_u8_scratch` covers
-//! starts 0/6/7 and lengths 5..8 in a 48-element allocation; its u64 counterpart is opt-in.
+//! Ordinary contracts cover selected swap/sort4 types, merge u64 N2..8/u8 N2..9 and u8 prefix
+//! insertion. Scratch insertion and shifted u64 tails are opt-in, as are upper merge domains.
+//! Ordinary general/stable uses merge stubs at u64 N0..8/u8 N0..9; composition stays conditional.
 //! `stub_verified` requires matching type, comparator, length, allocation and active region.
 //! Fallback u64 composition depends on an opt-in base-region contract; exact-array fallback
 //! and scratch merge composition also need allocation-locality transfer not proved here.
