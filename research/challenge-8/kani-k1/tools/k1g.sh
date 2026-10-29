@@ -16,7 +16,7 @@
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
 #   k1g.sh log-grep BUILD REGEX [MAX]   bounded grep of kani.log (MAX <= 200 matching lines)
 #   k1g.sh log-lines BUILD START [N]    bounded slice of kani.log (N <= 200 lines)
-#   k1g.sh peaks BUILD [OFFSET [COUNT]] process RSS peaks and attribution page (COUNT <= 15)
+#   k1g.sh peaks BUILD [OFFSET [COUNT]] process RSS peaks and attribution page (COUNT <= 8)
 #   k1g.sh budget                       USD used and reserved in the project (both pools), against the cap
 #   k1g.sh budget BUILD...               cost only the listed build UUIDs
 #   k1g.sh build-tail BUILD [N]         coordinator only: last N <= 120 lines of the Cloud Build log, for setup failures
@@ -222,16 +222,15 @@ case "$cmd" in
   peaks)
     id=${1:-}; is_build "$id"; auth
     [ "$#" -le 3 ] || die "peaks accepts BUILD and optional OFFSET/COUNT"
-    offset=${2:-0}; count=${3:-80}
+    offset=${2:-0}; count=${3:-8}
     [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
-    [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -le 15 ] || die "COUNT must be <= 15"
+    [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -le 8 ] || die "COUNT must be <= 8"
     dir=$(fetch "$id")
     [ -f "$dir/log/peaks.txt" ] || die "build $id has no peaks.txt"
-    if [ -f "$dir/log/harness-memory.jsonl" ]; then head -c 2500 "$dir/log/peaks.txt"
-    else head -c 8000 "$dir/log/peaks.txt"; fi
+    head -c 7900 "$dir/log/peaks.txt"
     [ -f "$dir/log/machine.txt" ] && cat "$dir/log/machine.txt"
     memory="$dir/log/harness-memory.jsonl"
-    if [ -f "$memory" ]; then
+    if [ -f "$memory" ] && [ "$#" -gt 1 ]; then
       python3 -B - "$memory" "$offset" "$count" <<'PY'
 import json, sys
 from pathlib import Path

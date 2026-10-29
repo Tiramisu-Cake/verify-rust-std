@@ -356,6 +356,12 @@ def extract_autoharness_command(workflow: str) -> str:
     return "\n".join(body) + "\n"
 
 
+def verification_mode(kind: str) -> str:
+    """Map a validated request kind to the gcb-k1 verify-stage route."""
+    return {"autoharness": "autoharness", "partition": "partition", "measurement": "selected",
+            "diagnostic": "selected"}.get(kind, "invalid")
+
+
 def _new_block(name: str) -> dict[str, Any]:
     return {"name": name, "status_line": None, "time_s": None, "checks_failed": None, "checks_total": None,
             "unreachable": None, "covers_satisfied": None, "covers_total": None, "failed_checks": [],
@@ -548,7 +554,7 @@ def parse_peaks(text: str | None) -> dict[str, Any]:
             "commands": commands[:PEAKS_TOP],
             "commands_truncated": len(commands) > PEAKS_TOP, "processes": processes[-12:], "roles": roles[-3:],
             "cgroup_events": {k: v for k, v in head.items() if k.startswith("cgroup_")},
-            "dmesg_oom": head.get("dmesg_oom")}
+            "dmesg_oom": head.get("dmesg_oom"), "records_truncated": head.get("sampler_records_truncated") == "true"}
 
 
 def _proc_status(path: Path) -> dict[str, str] | None:
@@ -731,14 +737,14 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
         # cannot be silently clipped by the reader; preserve complete lines and all legacy command rows.
         size = sum(len(line.encode()) + 1 for line in lines)
         for line in extra:
-            if size + len(line.encode()) + 1 <= 7900:
+            if size + len(line.encode()) + 1 <= 6500:
                 lines.append(line)
                 size += len(line.encode()) + 1
         for i in range(max(len(drivers), len(harnesses))):
             for records in (drivers, harnesses):
                 if i < len(records):
                     line = records[i]
-                    if size + len(line.encode()) + 1 <= 7900:
+                    if size + len(line.encode()) + 1 <= 6500:
                         lines.append(line)
                         size += len(line.encode()) + 1
         tmp = out.with_name(out.name + ".tmp")
@@ -749,14 +755,13 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
             cgroup_events_end = _cgroup_events()
             for filename in ("memory.current", "memory.peak", "memory.events"):
                 try:
-                    content = (cgroup / filename).read_text().strip()
                     if filename == "memory.events":
-                        for part in content.splitlines():
-                            fields = part.split()
-                            if len(fields) == 2 and fields[1].isdigit():
-                                lines.append(f"cgroup_event_{fields[0]}={fields[1]}")
-                                lines.append(f"cgroup_event_delta_{fields[0]}={int(fields[1]) - cgroup_events_start.get(fields[0], int(fields[1]))}")
-                    elif content.isdigit():
+                        for key, value in cgroup_events_end.items():
+                            lines.append(f"cgroup_event_{key}={value}")
+                            lines.append(f"cgroup_event_delta_{key}={value - cgroup_events_start.get(key, value)}")
+                        continue
+                    content = (cgroup / filename).read_text().strip()
+                    if content.isdigit():
                         lines.append(f"cgroup_{filename.replace('.', '_')}={content}")
                 except OSError:
                     pass
@@ -768,6 +773,15 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                                                ("unreadable" if dmesg.returncode else "none_seen")))
             except (OSError, subprocess.TimeoutExpired):
                 lines.append("dmesg_oom=unavailable")
+            trailer = [line for line in lines if line.startswith(("cgroup_", "dmesg_oom="))]
+            body = [line for line in lines if not line.startswith(("cgroup_", "dmesg_oom="))]
+            clipped = False
+            while len(("\n".join(body + trailer) + "\n").encode()) > 7800 and len(body) > 5:
+                body.pop()
+                clipped = True
+            if clipped:
+                body.append("sampler_records_truncated=true")
+            lines = body + trailer
             out.write_text("\n".join(lines) + "\n")
             if harness_out is not None:
                 cbmc_harnesses = {str(record["pid"]): record.get("direct_harness") for record in process_records.values()
@@ -967,6 +981,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["resources"]["peaks"] = peaks
     if peaks is not None and peaks["state"] != "PARSED":
         summary["notes"].append(f"per-command memory peaks {peaks['state']}")
+    if peaks is not None and peaks.get("records_truncated"):
+        summary["notes"].append("memory sampler detail rows truncated to preserve cgroup/OOM tail records")
     if peaks is not None and peaks["commands"] and summary["resources"]["max_rss_kb_whole_run"]:
         top, exact = peaks["commands"][0]["peak_kb"], summary["resources"]["max_rss_kb_whole_run"]
         if exact > top:
@@ -1250,6 +1266,11 @@ def render_md(summary: dict[str, Any]) -> str:
         "| harness | expect | status | time s | failed/total checks | unreachable | covers |",
         "|---|---|---|---|---|---|---|",
     ]
+    auto = summary.get("autoharness")
+    if auto is not None:
+        lines[8:8] = [f"- autoharness started: {auto['started_count']}; results: {auto['counts']}; "
+                      f"sum Verification Time: {auto['sum_verification_time_s']} s over {auto['timed_count']} timed harnesses",
+                      ""]
     part = summary.get("partition")
     if part is not None:
         lines[-2:] = [
@@ -1409,9 +1430,7 @@ def main(argv: list[str]) -> int:
             print(f"REQUEST_INVALID: {exc}", file=sys.stderr)
             return 2
         Path(a.args_out).write_text("\n".join(kani_args(request)) + "\n")
-        if request["kind"] == "autoharness":
-            if not a.autoharness_script_out:
-                raise RequestError("kind autoharness requires --autoharness-script-out")
+        if request["kind"] == "autoharness" and a.autoharness_script_out:
             Path(a.autoharness_script_out).write_text(extract_autoharness_command(Path(".github/workflows/kani.yml").read_text()))
         elif a.autoharness_script_out:
             Path(a.autoharness_script_out).write_text("")

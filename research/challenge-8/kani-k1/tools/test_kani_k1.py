@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -226,15 +227,34 @@ class SummaryTests(unittest.TestCase):
             stub.chmod(0o755)
             script = root / "autoharness.sh"
             script.write_text(command)
-            failed = subprocess.run(["bash", "-euo", "pipefail", str(script)], cwd=root,
+            failed = subprocess.run(["bash", "-e", "-o", "pipefail", str(script)], cwd=root,
                                     env={**os.environ, "SIM_EXIT": "7"}, capture_output=True)
             self.assertEqual(failed.returncode, 7)
             self.assertTrue((root / "autoharness-verification.log").exists())
             self.assertFalse((root / "autoharness-verification.log.gz").exists())
-            success = subprocess.run(["bash", "-euo", "pipefail", str(script)], cwd=root,
+            success = subprocess.run(["bash", "-e", "-o", "pipefail", str(script)], cwd=root,
                                      env={**os.environ, "SIM_EXIT": "0"}, capture_output=True)
             self.assertEqual(success.returncode, 0)
             self.assertTrue((root / "autoharness-verification.log.gz").exists())
+
+    def test_gcb_stage_route_and_dispatch_validation_without_script_output(self):
+        self.assertEqual(k.verification_mode("autoharness"), "autoharness")
+        self.assertEqual(k.verification_mode("diagnostic"), "selected")
+        self.assertEqual(k.verification_mode("partition"), "partition")
+        shell = (Path(__file__).parent / "gcb-k1.sh").read_text()
+        self.assertIn('= autoharness ]; then', shell)
+        self.assertIn('= selected ]; then', shell)
+        request = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+                   "harnesses": [], "inventory": True}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path, args_path, runner_path = root / "request.json", root / "args", root / "runner"
+            request_path.write_text(json.dumps(request))
+            result = subprocess.run([sys.executable, str(Path(__file__).parent / "kani_k1.py"), "validate",
+                                     str(request_path), "--args-out", str(args_path), "--runner-out", str(runner_path),
+                                     "--require-runner", k.STANDARD_RUNNER], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(runner_path.read_text().strip(), k.STANDARD_RUNNER)
 
     def test_autoharness_thread_timeout_without_time_and_duplicate_names(self):
         name = "intrinsics::verify::check_typed_swap_u8"
@@ -258,6 +278,21 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(s["status"], "PARTIAL")
         self.assertEqual(s["harnesses"][0]["status"], "MISSING_RESULT")
 
+    def test_autoharness_aggregate_precedes_truncated_rows(self):
+        req = {**REQ, "kind": "autoharness", "runner": k.STANDARD_RUNNER, "harness_timeout_minutes": 240,
+               "harnesses": []}
+        s = summ("", req, exit_code=0)
+        s["status"] = "COMPLETE"
+        s["expectation_met"] = True
+        s["autoharness"] = {"started_count": 300, "counts": {"SUCCESS": 300},
+                            "sum_verification_time_s": 1234.5, "timed_count": 300, "slowest": []}
+        s["harnesses"] = [{"name": f"std::h{i}", "expect": "workflow", "status": "SUCCESS", "time_s": 1.0}
+                          for i in range(300)]
+        text = k.render_md(s)
+        self.assertIn("autoharness started: 300", text)
+        self.assertIn("sum Verification Time: 1234.5 s over 300 timed harnesses", text)
+        self.assertIn("summary.md truncated", text)
+
     def test_diagnostic_gate_ignores_measurement_bounds(self):
         req = req_with(kind="diagnostic", harnesses=ONLY_OK)
         no_cover = OK_BLOCK.replace(" ** 2 of 2 cover properties satisfied\n", "") + tail(1, 0)
@@ -277,6 +312,19 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(len(peaks["processes"]), 2)
         self.assertIn("T2:bar", peaks["processes"][0]["active"])
         self.assertEqual(peaks["cgroup_events"]["cgroup_event_delta_oom"], "0")
+
+    def test_memory_peaks_keep_cgroup_and_dmesg_oom_tail(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            log = root / "peaks.txt"
+            dmesg = subprocess.CompletedProcess(["dmesg"], 0, "kernel: Killed process 42 (cbmc)\n", "")
+            with patch.object(k, "_cgroup_events", side_effect=[{"oom_kill": 1}, {"oom_kill": 2}]), \
+                 patch.object(k.subprocess, "run", return_value=dmesg):
+                k.sample_memory(log, 0.01, max_seconds=0, proc=root / "proc")
+            text = log.read_text()
+            self.assertLess(len(text.encode()), 7900)
+            self.assertIn("cgroup_event_delta_oom_kill=1", text)
+            self.assertTrue(text.rstrip().endswith("dmesg_oom=kernel: Killed process 42 (cbmc)"))
 
     def test_out_of_memory_status(self):
         # Kani's form for a CBMC killed by SIGKILL (seen in job 10): no time line, OOM text after the status.
