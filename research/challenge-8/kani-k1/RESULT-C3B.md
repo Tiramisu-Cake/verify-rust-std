@@ -14,6 +14,10 @@ Workflow явно передаёт `--harness-timeout 10m --default-unwind 1000 
 Собственный default autoharness на Kani pin — 60s; workflow переопределяет его.
 Один timeout path применяется к manual и auto harnesses. Он включает CBMC,
 чтение/разбор stdout и ожидание child, но не предшествующий `instrument_model`.
+Tokio timeout кооперативен: синхронный parse/postprocess внутри poll может
+пересечь nominal limit без Err. В critical12 есть SUCCESS124.207 при120с;
+точная фаза этих дополнительных4.2с не измерена. Printed Verification Time
+исключает instrument_model; этот overrun не объясняется временем instrumentation.
 
 H2 подтверждается как **зависимость от объёма результатов отдельных гармоник**,
 а не как линейная функция их числа. Driver сохраняет `Vec<Property>` каждого

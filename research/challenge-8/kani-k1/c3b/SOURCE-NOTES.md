@@ -203,3 +203,28 @@ jobs1, cutoff120:4SUCCESS/8TIMEOUT. Driver2.53GiB на12case против1.88GiB
 но не измерение JSONbytes и не установление причинного вклада reach traces.
 Финальный RSS-series сохраняется в bounded peaks; live objects/allocator
 раздельно не измеряются.
+
+## Nominal timeout и Verification Time
+
+У general u8 N16 в последней пробе SUCCESS124.207с при nominal120с.
+Это не ошибка строк: pinned `run_cbmc_piped` создаёт start_time после spawn,
+оборачивает process_cbmc_output в tokio::time::timeout, а VerificationResult::from
+сохраняет elapsed до extract_results и final rendering. Verification Time
+исключает instrument_model и spawn/setup; включает поток stdout, синхронные
+parse/filter/postprocessing callback и child wait. Pre-CBMC instrument_model
+выполнен в check_all_harnesses до check_harness.
+
+Tokio timeout кооперативен: синхронная обработка в одном poll может завершиться
+позже nominal duration без Err. Это допускает наблюдаемый SUCCESS124.207 при120,
+но не устанавливает конкретный блок, занявший дополнительные4.2с.
+Номинальные600с workflow также не являются preemptive CPU/wall kill;
+для допуска нужен запас, а не доказательство равенства printed time<=600.
+
+Первичные источники:
+- [harness runner](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/harness_runner.rs)
+- [CBMC call/runtime](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/call_cbmc.rs)
+- [stream parser](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_output_parser.rs)
+- [property postprocessor](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_property_renderer.rs)
+- [Tokio timeout semantics](https://docs.rs/tokio/1.53.2/tokio/time/fn.timeout.html)
+
+Tokio1.53.2 зафиксирован в [pinned Cargo.lock](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/Cargo.lock).
