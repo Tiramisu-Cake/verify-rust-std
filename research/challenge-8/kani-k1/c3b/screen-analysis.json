@@ -9,7 +9,7 @@
     "repair-priority-1",
     "repair-priority-2"
   ],
-  "observed_names": 60,
+  "observed_names": 72,
   "missing": [
     "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
     "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n1",
@@ -37,8 +37,6 @@
     "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u8_n14",
     "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u8_n15",
     "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u8_n9",
-    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
-    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n15",
     "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
     "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n15",
     "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
@@ -60,12 +58,6 @@
     "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n4",
     "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n6",
     "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n7",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n11",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n12",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n16",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n12",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n13",
-    "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n16",
     "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
     "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
     "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n10",
@@ -94,7 +86,6 @@
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n12",
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n13",
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
-    "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
     "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
@@ -153,7 +144,6 @@
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n17",
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n15",
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n16",
-    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n17",
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n15_16_17",
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n31_32",
     "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
@@ -185,7 +175,6 @@
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail12",
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15",
-    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail3",
     "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail4",
@@ -304,7 +293,6 @@
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n10",
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n11",
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n12",
-    "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n14",
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n3_to4",
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n5",
     "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n6",
@@ -352,9 +340,14 @@
   ],
   "pending": [
     "screen-3of6",
-    "repair-screen2-r1",
-    "repair-priority-1",
     "repair-priority-2"
+  ],
+  "unavailable": [
+    {
+      "label": "repair-screen2-r1",
+      "status": "CANCELLED",
+      "build_id": "0709a628-b472-4f0b-b0c3-c6f0fb514883"
+    }
   ],
   "binding_errors": [],
   "stale_before_route_refactor": [
@@ -439,6 +432,32 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n15",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_n8",
       "status": "TIMEOUT",
       "time_s": null,
@@ -452,6 +471,58 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n12",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n16",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n12",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n13",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
       "status": "TIMEOUT",
       "time_s": null,
@@ -463,6 +534,19 @@
       "build_id": "45a0dd0c-8f94-49d1-932b-ba5759453cac",
       "source_sha": "afea78b3476bdce3b36b7e2e31fad116c129a497",
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
@@ -595,6 +679,19 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n14",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
       "status": "TIMEOUT",
       "time_s": null,
@@ -609,6 +706,32 @@
     }
   ],
   "over_budget": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n11",
+      "status": "SUCCESS",
+      "time_s": 105.34339,
+      "checks": "0/638",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n16",
+      "status": "SUCCESS",
+      "time_s": 124.20711,
+      "checks": "0/631",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
       "status": "SUCCESS",
@@ -650,8 +773,8 @@
     }
   ],
   "superseded": [],
-  "max_observed_s": 116.86221,
-  "sum_observed_s": 1446.13774503,
+  "max_observed_s": 124.20711,
+  "sum_observed_s": 1757.69641603,
   "complete": false,
   "rows": [
     {
@@ -733,6 +856,32 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n15",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
       "status": "SUCCESS",
       "time_s": 5.651393,
@@ -785,6 +934,84 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n11",
+      "status": "SUCCESS",
+      "time_s": 105.34339,
+      "checks": "0/638",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n12",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u64_n16",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n12",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n13",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_sorted_permutation_u8_n16",
+      "status": "SUCCESS",
+      "time_s": 124.20711,
+      "checks": "0/631",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
       "status": "TIMEOUT",
       "time_s": null,
@@ -796,6 +1023,19 @@
       "build_id": "45a0dd0c-8f94-49d1-932b-ba5759453cac",
       "source_sha": "afea78b3476bdce3b36b7e2e31fad116c129a497",
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
@@ -928,6 +1168,19 @@
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
     },
     {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n17",
+      "status": "SUCCESS",
+      "time_s": 28.309837,
+      "checks": "0/384",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
+    },
+    {
       "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
       "status": "SUCCESS",
       "time_s": 11.056504,
@@ -1017,6 +1270,19 @@
       "build_id": "45a0dd0c-8f94-49d1-932b-ba5759453cac",
       "source_sha": "afea78b3476bdce3b36b7e2e31fad116c129a497",
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+      "status": "SUCCESS",
+      "time_s": 53.698334,
+      "checks": "0/415",
+      "checks_failed": 0,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail5",
@@ -1329,6 +1595,19 @@
       "build_id": "45a0dd0c-8f94-49d1-932b-ba5759453cac",
       "source_sha": "afea78b3476bdce3b36b7e2e31fad116c129a497",
       "request_sha256": "7fd31bb7b7efb3b239b8eb82ca2770678a168fc7bf7c90be4cb97e706531a310"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n14",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "checks_failed": null,
+      "covers": "",
+      "covers_satisfied": null,
+      "covers_total": null,
+      "build_id": "031fa8c0-d86b-49e9-a19e-67b4cd420725",
+      "source_sha": "b30c50d03c9d0fd8dc8f442742e8ee2754fc1a21",
+      "request_sha256": "346be33ea1f2be93b9484695d3abdd1490c8c0772648a7cbbcdfd939d2cc1497"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",

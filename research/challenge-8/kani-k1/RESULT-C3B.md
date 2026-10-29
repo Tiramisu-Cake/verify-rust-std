@@ -100,7 +100,7 @@ Runtime SmallSort и тела контрактов не менялись; фла
 | E / `bb7a797166` | Большие user covers в controls | Partial6: 1.94 / 2.85 → 1.66 / 2.85; первый proof513.556→435.713с | Ordinary больше не доказывает auxiliary covers |
 | D / `f79a516512` | Exact tail и dispatch partitions | D+K screen1: 1.88 / 2.81 / 0.60; 1:00:52; изолированного D нет | Объединённый входной домен сохранён |
 | K / `ac5f818d05` | Kissat в тяжёлых proof families | Тот же combined screen; 16 TIMEOUT120, не общее лечение | Не домен/не assertions |
-| R / `7cedf2deb9` | 8 joint-route proofs → 16 | Критические probes в FINAL-MEASUREMENTS; полного re-test нет | Домен сохранён по source; окончательный proof не получен |
+| R / `7cedf2deb9` | 8 joint-route proofs → 16 | General12: 2.53 / 3.01 / 0.50;22:47, 8TIMEOUT120; полного re-test нет | Домен сохранён по source; окончательный proof не получен |
 | Opt-in option | 19гармоник под controls; patch не применён | Не измерено | Точные ordinary домены раскрыты в OPTION-OPTIN.md |
 
 
@@ -177,7 +177,21 @@ N12 имеет UNKNOWN из-за общего cutoff, остальные два 
 скрининг90с необходим как рабочий критерий, но недостаточен для гарантии.
 Недоступны итоговый Mac jobs3 run, полная calibration matrix и повторные run.
 
-Окончательная сводка собранных screen/probe будет в
+Критическая general-проба `031fa8c0-d86b-49e9-a19e-67b4cd420725`:
+COMPLETE12, четыре SUCCESS и восемь TIMEOUT120. General u64 N11 —105.343с,
+general u8 N16 —124.207с (оба выше90); exact START1 tail16 —53.698с,
+stable dispatch bytes17 N17 —28.310с. Driver2.53 / CBMC3.01 / Kissat0.50,
+RSS-сумма4.93 GiB; verify wall22:47. Остальные general N12/N13/N16,
+correct general u8 N14/N15, merge contract u64 N16 и network u64 N14
+достигли лимита. Отдельное разбиение routes не закрыло требование.
+
+Driver peak2.53 GiB на12case, против1.88 на65case screen1. Пик1034с
+идёт после CBMC general u8 N16 (912–1030с), до следующего Checking1040с.
+User covers здесь отключены, но автоматические reach checks остаются.
+Это подтверждает важность отдельных payload; объём JSON не измерен и
+точный вклад retained данных/allocator/reach traces не установлен.
+
+Окончательная сводка собранных screen/probe находится в
 [c3b/FINAL-MEASUREMENTS.md](c3b/FINAL-MEASUREMENTS.md),
 [проверка полноты](c3b/screen-analysis.json),
 [все измеренные строки](c3b/ordinary-timings.tsv).
@@ -188,14 +202,15 @@ N12 имеет UNKNOWN из-за общего cutoff, остальные два 
 Установленной верхней границы памяти и wall для полного autoharness нет.
 Для Ubuntu, 3 потока: исходный H6 уже наблюдал 9.58 GiB RSS-суммы, driver 5.04;
 для шести старых covers-treated — 7.39 GiB при неизменном driver 5.04.
-У текущего кандидата есть лишь jobs1 screen1: driver 1.88, один CBMC 2.81,
-Kissat 0.60. Условная оценка `1.88 + 3×(2.81+0.60)` = **12.11 GiB** до
+У текущего кандидата есть jobs1 screen1 и general12: driver до2.53, один
+CBMC до3.01, Kissat до0.60. Условная оценка
+`2.53 + 3×(3.01+0.60)` = **13.36 GiB** до
 прочих процессов и удерживаемых результатов оставшихся сотен гармоник.
 Она предполагает такие же максимумы всех остальных доказательств, что не проверено,
 и не является верхней границей RAM. Сумма RSS также учитывает shared pages.
 Ubuntu 16GB не получает подтверждённого memory допуска.
 
-Для macOS 7GB та же условная модель 12.11 GiB не помещается. Исторический
+Для macOS 7GB та же условная модель 13.36 GiB не помещается. Исторический
 Mac sampled driver/whole max — 3.846/3.893 GiB (4032752/4082512KiB),
 не 4.08GiB; peak Linux driver 9.842 и whole 10.114GiB. Перенести коэффициент
 между ОС нельзя: отличаются concurrency, proof schedule, аллокатор,

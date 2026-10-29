@@ -3,11 +3,14 @@
   "screen_timeout_seconds": 120,
   "organizer_macos_limit_seconds": 600,
   "observed_runner_variation_multiplier": 1.7,
-  "calibration_status": "pending baseline6 and common historical harnesses; no unconditional macOS timing guarantee",
+  "calibration_status": "one old common point Mac720.369/GCB513.55634=1.40, jobs/OS not matched; no measured upper bound; full Mac jobs3 guarantee absent",
   "conditions": [
     "Every final ordinary name must appear exactly once across accepted final evidence",
     "Every final ordinary harness must be SUCCESS and <= calibrated GCB target",
     "Predicted inventory must equal bound remote kani list inventory",
     "No default workflow/script/contract/runtime changes"
-  ]
+  ],
+  "provisional_cross_platform_multiplier": 3.5,
+  "provisional_margin_seconds": 64.5,
+  "acceptance_status": "NOT_ESTABLISHED; multiple TIMEOUT120 and SUCCESS>90; final inventory not remotely confirmed"
 }

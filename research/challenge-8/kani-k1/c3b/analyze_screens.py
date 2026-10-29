@@ -57,7 +57,7 @@ def analyze(inventory, labels, limit):
     if not expected or len(expected) != len(set(expected)):
         raise ValueError("empty/duplicated ordinary inventory")
     registry = {entry["label"]: entry for entry in json.loads((BASE / "builds.json").read_text())}
-    latest, pending, errors, superseded, stale = {}, [], [], [], []
+    latest, pending, errors, superseded, stale, unavailable = {}, [], [], [], [], []
     delta = json.loads((BASE / "route-split-delta.json").read_text())
     retest = set(delta["retest"])
     for label in labels:
@@ -65,7 +65,12 @@ def analyze(inventory, labels, limit):
             raise ValueError("only explicit final screen/repair labels may supply acceptance evidence")
         path = BASE / (label + ".rows.tsv")
         if not path.exists() or not path.stat().st_size:
-            pending.append(label)
+            entry = registry[label]
+            if entry.get("terminal_status") in ("CANCELLED", "EXPIRED", "TIMEOUT", "FAILURE"):
+                unavailable.append(dict(label=label, status=entry["terminal_status"],
+                                        build_id=entry["build_id"]))
+            else:
+                pending.append(label)
             continue
         try:
             rows = read_rows(path, registry[label])
@@ -99,7 +104,7 @@ def analyze(inventory, labels, limit):
     timed = [row for row in selected if row["time_s"] is not None]
     result = dict(inventory=str(inventory), inventory_count=len(expected), target_gcb_s=limit,
                   evidence_labels=labels, observed_names=len(selected), missing=missing,
-                  obsolete=obsolete, pending=pending, binding_errors=errors,
+                  obsolete=obsolete, pending=pending, unavailable=unavailable, binding_errors=errors,
                   stale_before_route_refactor=stale,
                   not_proved=not_proved, over_budget=over_budget, superseded=superseded,
                   max_observed_s=max((row["time_s"] for row in timed), default=None),

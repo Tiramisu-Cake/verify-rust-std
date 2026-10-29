@@ -15,23 +15,24 @@ INCONSISTENT/PARTIAL/UNKNOWN/TIMEOUT/NOT_RUN не получают proof credit.
 | heavy-split-j3 | `e5995b00-2205-413c-8dc5-b691a0aaebda` | CANCELLED | — | — |
 | timeout-baseline6 | `bc9ee7b8-a3e8-43e4-8aa7-2f91c175b2de` | PARTIAL | 1.94 / 2.85 / — | — |
 | timeout-no-traces6 | `d7c18274-1281-4c8c-95fd-6bc9148102bb` | PARTIAL | 1.66 / 2.85 / — | — |
-| kissat-partitions-pilot | `3d1251b6-c028-45f6-a6af-1fa11832ca0e` | НЕ СОБРАНО | — | — |
+| kissat-partitions-pilot | `3d1251b6-c028-45f6-a6af-1fa11832ca0e` | EXPIRED | — | — |
 | screen-1of6 | `45a0dd0c-8f94-49d1-932b-ba5759453cac` | COMPLETE | 1.88 / 2.81 / 0.60 | 1:00:52 |
 | screen-2of6 | `aad9e376-d86f-45d4-9ab1-c6b4d7157778` | EXPIRED | — | — |
 | screen-3of6 | `881ea993-c360-4caa-8c70-1a1c118ebca8` | НЕ СОБРАНО | — | — |
-| repair-screen2-r1 | `0709a628-b472-4f0b-b0c3-c6f0fb514883` | НЕ СОБРАНО | — | — |
-| repair-priority-1 | `031fa8c0-d86b-49e9-a19e-67b4cd420725` | НЕ СОБРАНО | — | — |
+| repair-screen2-r1 | `0709a628-b472-4f0b-b0c3-c6f0fb514883` | CANCELLED | — | — |
+| repair-priority-1 | `031fa8c0-d86b-49e9-a19e-67b4cd420725` | COMPLETE | 2.53 / 3.01 / 0.50 | — |
 | repair-priority-2 | `3b7557e0-0c2b-4d56-b1a0-ba00f52b7634` | НЕ СОБРАНО | — | — |
 
 ## Полнота текущего набора
 
 Source prediction: 395 имён. Bound remote inventory итогового SHA отсутствует.
-Принятых по identity и source freshness измеренных имён: 60.
-Без актуальных измерений: 335; без SUCCESS: 15;
-SUCCESS, но больше90с: 3.
+Принятых по identity и source freshness измеренных имён: 72.
+Без актуальных измерений: 323; без SUCCESS: 23;
+SUCCESS, но больше90с: 5.
 Отброшенных старых merge-route rows: 4.
 Полный допуск: **False**. Binding errors: [].
-Pending result sets: ['screen-3of6', 'repair-screen2-r1', 'repair-priority-1', 'repair-priority-2'].
+Pending result sets: ['screen-3of6', 'repair-priority-2'].
+Terminal без артефактов: [{'label': 'repair-screen2-r1', 'status': 'CANCELLED', 'build_id': '0709a628-b472-4f0b-b0c3-c6f0fb514883'}].
 
 Список каждого имени, source SHA и build UUID — в ordinary-timings.tsv;
 missing/not_proved/over_budget/stale — в screen-analysis.json.
@@ -40,7 +41,20 @@ missing/not_proved/over_budget/stale — в screen-analysis.json.
 
 ### repair-priority-1
 
-Результат не собран; proof/timing credit отсутствует.
+| Имя относительно verify | Status | Время, с | Checks |
+|---|---|---:|---|
+| `correct::sorted_permutation_general_u8_n14` | TIMEOUT | None | — |
+| `correct::sorted_permutation_general_u8_n15` | TIMEOUT | None | — |
+| `merge::general_sorted_permutation_u64_n11` | SUCCESS | 105.34339 | 0/638 |
+| `merge::general_sorted_permutation_u64_n12` | TIMEOUT | None | — |
+| `merge::general_sorted_permutation_u64_n16` | TIMEOUT | None | — |
+| `merge::general_sorted_permutation_u8_n12` | TIMEOUT | None | — |
+| `merge::general_sorted_permutation_u8_n13` | TIMEOUT | None | — |
+| `merge::general_sorted_permutation_u8_n16` | SUCCESS | 124.20711 | 0/631 |
+| `merge::merge_contract_u64_n16` | TIMEOUT | None | — |
+| `network::insert_tail_contract_u64_start1_tail16` | SUCCESS | 53.698334 | 0/415 |
+| `network::network_correctness_u64_n14` | TIMEOUT | None | — |
+| `network::dispatch_safety_stable_bytes17_n17` | SUCCESS | 28.309837 | 0/384 |
 
 ### repair-priority-2
 

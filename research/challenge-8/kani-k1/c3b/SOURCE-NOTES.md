@@ -192,3 +192,14 @@ payload само по себе и не устанавливает источни
 - [Compiler flags](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/call_single_file.rs)
 - [Reach-check postprocessing](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_property_renderer.rs)
 - [CBMC JSON parser](https://github.com/model-checking/kani/blob/9461e07af7ec929f050aa4192f29363c9be07779/kani-driver/src/cbmc_output_parser.rs)
+
+## Последняя general-route проба
+
+`031fa8c0-d86b-49e9-a19e-67b4cd420725` (b30c50d03c) COMPLETE12,
+jobs1, cutoff120:4SUCCESS/8TIMEOUT. Driver2.53GiB на12case против1.88GiB
+на65case screen1. Пик1034с после CBMC general u8 N16 seen912–1030,
+до следующего Checking1040; у результата631check, user coversнет.
+Это дополнительный признак зависимости от индивидуального payload,
+но не измерение JSONbytes и не установление причинного вклада reach traces.
+Финальный RSS-series сохраняется в bounded peaks; live objects/allocator
+раздельно не измеряются.

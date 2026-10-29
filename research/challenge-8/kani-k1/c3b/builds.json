@@ -133,7 +133,9 @@
     "jobs": 1,
     "timeout_min": 2,
     "maximum_charge_usd": 2.16,
-    "decision": "cancel requested at UTC00:31 to free a slot for priority Mac-failure stable-route probe before 4h deadline"
+    "decision": "cancel requested at UTC00:31 to free a slot for priority Mac-failure stable-route probe before 4h deadline",
+    "terminal_status": "CANCELLED",
+    "artifact_status": "none; k1g summary returns RUNNER_ERROR"
   },
   {
     "label": "repair-priority-1",
@@ -142,7 +144,9 @@
     "harnesses": 12,
     "jobs": 1,
     "timeout_min": 2,
-    "maximum_charge_usd": 0.729
+    "maximum_charge_usd": 0.729,
+    "terminal_status": "FAILURE",
+    "result_state": "COMPLETE; 4 SUCCESS, 8 TIMEOUT120; two successes exceed90s"
   },
   {
     "label": "repair-priority-2",
