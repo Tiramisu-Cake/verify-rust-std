@@ -1,0 +1,1746 @@
+{
+  "schema": "c3c-analysis-v1",
+  "builds": {
+    "baseline": {
+      "label": "baseline",
+      "head_sha": "7b6bf1ede05d5a8369fdc0dc455b340c79a7ef03",
+      "build_id": "ba81d888-90db-49c7-a04d-d6dbb9108fac",
+      "request_id": "c3c-matched-baseline",
+      "request_sha256": "85ba738f15f0d6df6ca932950ab3730894d147c38074b05c91a7ff5688fa7e0f",
+      "build_metadata": {
+        "createTime": "2026-10-29T01:23:07.353087341Z",
+        "finishTime": "2026-10-29T01:46:43.987113Z",
+        "id": "ba81d888-90db-49c7-a04d-d6dbb9108fac",
+        "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+        "source_sha": "7b6bf1ede05d5a8369fdc0dc455b340c79a7ef03",
+        "startTime": "2026-10-29T01:23:54.476660658Z",
+        "status": "FAILURE",
+        "timeout": "5760s",
+        "wall_seconds": 1369.510453,
+        "ledger_cost_usd": 0.3105
+      },
+      "request": {
+        "schema": "kani-k1-run-request-v1",
+        "request_id": "c3c-matched-baseline",
+        "agent": "k1-network",
+        "kind": "diagnostic",
+        "runner": "gcb-e2-standard-4",
+        "purpose": "C3c matched jobs3: 3 Mac TIMEOUT600 + all 9 Mac >=400s domains, correct family and unchanged assembly calibration; cutoff180s is censored evidence",
+        "harness_timeout_minutes": 3,
+        "kani_jobs": 3,
+        "harnesses": [
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+            "expect": "SUCCESS"
+          }
+        ]
+      },
+      "summary_status": "INCONSISTENT",
+      "gate": "False",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+          "status": "SUCCESS",
+          "time_s": 52.64956,
+          "checks": "0/481",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+          "status": "SUCCESS",
+          "time_s": 43.655643,
+          "checks": "0/280",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+          "status": "SUCCESS",
+          "time_s": 50.006714,
+          "checks": "0/273",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+          "status": "SUCCESS",
+          "time_s": 12.122487,
+          "checks": "0/280",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+          "status": "SUCCESS",
+          "time_s": 4.618697,
+          "checks": "0/272",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+          "status": "SUCCESS",
+          "time_s": 2.1411476,
+          "checks": "0/272",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+          "status": "SUCCESS",
+          "time_s": 2.333273,
+          "checks": "0/149",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+          "status": "SUCCESS",
+          "time_s": 7.047707,
+          "checks": "0/179",
+          "covers": "1/1"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+          "status": "SUCCESS",
+          "time_s": 1.4394697,
+          "checks": "0/61",
+          "covers": "2/2"
+        }
+      ],
+      "ordinary_inventory": [],
+      "all": {
+        "count": 22,
+        "statuses": {
+          "TIMEOUT": 13,
+          "SUCCESS": 9
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 176.014698,
+        "max_observed_s": 52.64956,
+        "censored_or_untimed": 13
+      },
+      "smallsort": {
+        "count": 22,
+        "statuses": {
+          "TIMEOUT": 13,
+          "SUCCESS": 9
+        },
+        "timed_count": 9,
+        "sum_observed_verification_s": 176.014698,
+        "max_observed_s": 52.64956,
+        "censored_or_untimed": 13
+      },
+      "smallsort_share_of_observed_verification_time": 1.0,
+      "command_wall": "16:27.83",
+      "gnu_time_max_child_rss_kb": "4125308",
+      "peaks": {
+        "state": "PARSED",
+        "interval_ms": 2000,
+        "samples": 494,
+        "total_rss_peak_kb": 9819292,
+        "total_peak_s": 620,
+        "commands": [
+          {
+            "cmd": "cbmc",
+            "peak_kb": 4125308,
+            "first_s": 66,
+            "last_s": 987,
+            "peak_s": 674
+          },
+          {
+            "cmd": "kani-compiler",
+            "peak_kb": 2105268,
+            "first_s": 2,
+            "last_s": 62,
+            "peak_s": 50
+          },
+          {
+            "cmd": "kani-driver",
+            "peak_kb": 1913392,
+            "first_s": 2,
+            "last_s": 987,
+            "peak_s": 317
+          },
+          {
+            "cmd": "goto-cc",
+            "peak_kb": 73792,
+            "first_s": 64,
+            "last_s": 499,
+            "peak_s": 64
+          },
+          {
+            "cmd": "goto-instrument",
+            "peak_kb": 56784,
+            "first_s": 66,
+            "last_s": 806,
+            "peak_s": 501
+          },
+          {
+            "cmd": "cargo",
+            "peak_kb": 34648,
+            "first_s": 2,
+            "last_s": 62,
+            "peak_s": 2
+          },
+          {
+            "cmd": "python3",
+            "peak_kb": 19668,
+            "first_s": 0,
+            "last_s": 0,
+            "peak_s": 0
+          },
+          {
+            "cmd": "bash",
+            "peak_kb": 3884,
+            "first_s": 0,
+            "last_s": 988,
+            "peak_s": 2
+          },
+          {
+            "cmd": "run-kani.sh",
+            "peak_kb": 3844,
+            "first_s": 2,
+            "last_s": 987,
+            "peak_s": 2
+          },
+          {
+            "cmd": "rust-lld",
+            "peak_kb": 2872,
+            "first_s": 6,
+            "last_s": 6,
+            "peak_s": 6
+          },
+          {
+            "cmd": "time",
+            "peak_kb": 1208,
+            "first_s": 2,
+            "last_s": 987,
+            "peak_s": 2
+          },
+          {
+            "cmd": "collect2",
+            "peak_kb": 1116,
+            "first_s": 6,
+            "last_s": 6,
+            "peak_s": 6
+          }
+        ],
+        "commands_truncated": true,
+        "processes": [
+          {
+            "cbmc_pid": "9827",
+            "peak_kb": "4125308",
+            "first_s": "503",
+            "last_s": "682",
+            "peak_s": "674",
+            "active": "T0:network::network_correctness_u64_n13,T1:network::insert_tail_contract_u64_start1,T2:merge::route_safety_all_routes_n31",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          },
+          {
+            "cbmc_pid": "9800",
+            "peak_kb": "3845600",
+            "first_s": "441",
+            "last_s": "620",
+            "peak_s": "620",
+            "active": "T0:network::network_correctness_u64_n13,T1:merge::route_safety_all_routes_n32,T2:merge::route_safety_all_routes_n31",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          },
+          {
+            "cbmc_pid": "9894",
+            "peak_kb": "2991352",
+            "first_s": "630",
+            "last_s": "804",
+            "peak_s": "666",
+            "active": "T0:network::network_correctness_u8_n16,T1:network::insert_tail_contract_u64_start1,T2:network::network_correctness_u64_n8",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          },
+          {
+            "cbmc_pid": "9643",
+            "peak_kb": "2902024",
+            "first_s": "186",
+            "last_s": "365",
+            "peak_s": "208",
+            "active": "T0:network::insert_tail_contract_u64_start6,T1:merge::merge_contract_u64_n16,T2:merge::merge_contract_u64_n15",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          },
+          {
+            "cbmc_pid": "9681",
+            "peak_kb": "2572408",
+            "first_s": "257",
+            "last_s": "435",
+            "peak_s": "423",
+            "active": "T0:network::insertion_permutation_u64_n12,T1:merge::merge_contract_u64_n16,T2:merge::merge_contract_u64_n15",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          },
+          {
+            "cbmc_pid": "9746",
+            "peak_kb": "2371576",
+            "first_s": "321",
+            "last_s": "497",
+            "peak_s": "497",
+            "active": "T0:network::insertion_permutation_u64_n12,T1:merge::route_safety_all_routes_n32,T2:merge::merge_contract_u64_n15",
+            "hint": "cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si"
+          }
+        ],
+        "roles": [
+          {
+            "role": "cbmc",
+            "simultaneous_rss_peak_kb": "8287232",
+            "peak_s": "620"
+          },
+          {
+            "role": "driver",
+            "simultaneous_rss_peak_kb": "1813648",
+            "peak_s": "315"
+          }
+        ],
+        "cgroup_events": {},
+        "dmesg_oom": "none_seen",
+        "records_truncated": false
+      },
+      "process_memory": [
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u64_n13",
+            "Thread 1: network::insert_tail_contract_u64_start1",
+            "Thread 2: merge::route_safety_all_routes_n31"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 4125308,
+          "peak_s": 674,
+          "pid": "9827",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u64_n13",
+            "Thread 1: merge::route_safety_all_routes_n32",
+            "Thread 2: merge::route_safety_all_routes_n31"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 3845600,
+          "peak_s": 620,
+          "pid": "9800",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u64_n13",
+            "Thread 1: network::insert_tail_contract_u64_start1",
+            "Thread 2: merge::route_safety_all_routes_n31"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2991352,
+          "peak_s": 666,
+          "pid": "9894",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insert_tail_contract_u64_start6",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2902024,
+          "peak_s": 208,
+          "pid": "9643",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insertion_permutation_u64_n12",
+            "Thread 1: merge::merge_contract_u64_n16",
+            "Thread 2: merge::merge_contract_u64_n15"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2572408,
+          "peak_s": 423,
+          "pid": "9681",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insertion_permutation_u64_n12",
+            "Thread 1: merge::route_safety_all_routes_n32",
+            "Thread 2: merge::merge_contract_u64_n15"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2371576,
+          "peak_s": 497,
+          "pid": "9746",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insert_tail_contract_u64_start6",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2255940,
+          "peak_s": 245,
+          "pid": "9443",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n32",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 2235428,
+          "peak_s": 126,
+          "pid": "9524",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u64_n13",
+            "Thread 1: network::insert_tail_contract_u64_start1",
+            "Thread 2: merge::route_safety_all_routes_n31"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 1553860,
+          "peak_s": 650,
+          "pid": "9856",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n32",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 1157480,
+          "peak_s": 124,
+          "pid": "9510",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n31",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 1126448,
+          "peak_s": 174,
+          "pid": "9605",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insert_tail_contract_u64_start6",
+            "Thread 1: merge::merge_contract_u64_n16",
+            "Thread 2: correct::sorted_permutation_fallback_u64_n8"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 720048,
+          "peak_s": 289,
+          "pid": "9708",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u8_n16",
+            "Thread 1: network::network_correctness_u8_n17",
+            "Thread 2: network::network_correctness_u64_n8"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 570600,
+          "peak_s": 828,
+          "pid": "9981",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u8_n16",
+            "Thread 1: network::insert_tail_contract_u64_start1",
+            "Thread 2: network::network_correctness_u64_n8"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 534156,
+          "peak_s": 760,
+          "pid": "9952",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n17",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: assembly::sorted_network_prefix_u8_n10"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 245828,
+          "peak_s": 74,
+          "pid": "9394",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n17",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: assembly::sorted_network_prefix_u8_n10"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 191100,
+          "peak_s": 76,
+          "pid": "9428",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n16",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 174316,
+          "peak_s": 134,
+          "pid": "9551",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::network_correctness_u64_n13",
+            "Thread 1: network::insert_tail_contract_u64_start1",
+            "Thread 2: network::network_correctness_u64_n8"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 167660,
+          "peak_s": 688,
+          "pid": "9923",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: network::insertion_permutation_u64_n12",
+            "Thread 1: merge::merge_contract_u64_n16",
+            "Thread 2: merge::merge_contract_u64_n15"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 122944,
+          "peak_s": 371,
+          "pid": "9773",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n8",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: correct::sorted_permutation_general_stable_u8_n14"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 91784,
+          "peak_s": 138,
+          "pid": "9578",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 2: assembly::permutation_merge_u8_n4"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 53304,
+          "peak_s": 68,
+          "pid": "9384",
+          "ppid": "8811"
+        },
+        {
+          "active_harnesses": [
+            "Thread 0: assembly::safety_stable_unit_n17",
+            "Thread 1: merge::merge_contract_u64_n14",
+            "Thread 2: assembly::sorted_network_prefix_u8_n10"
+          ],
+          "attribution": "active-set-ambiguous",
+          "cmd": "cbmc",
+          "direct_harness": null,
+          "peak_kb": 35176,
+          "peak_s": 78,
+          "pid": "9470",
+          "ppid": "8811"
+        }
+      ]
+    },
+    "candidate-setup-failed": {
+      "label": "candidate-setup-failed",
+      "head_sha": "af406030589a1d733709a3376b5b1fa1bb1dfc2e",
+      "build_id": "dfada6fc-2f83-4c2e-abf5-2ce45c6e3e81",
+      "request_id": "c3c-matched-candidate",
+      "request_sha256": "6373840ff9df3070b1430fd153d47e10a42c718b598a2e2a159e13ccf36eb7e9",
+      "build_metadata": {
+        "createTime": "2026-10-29T01:23:36.913294659Z",
+        "finishTime": "2026-10-29T01:31:07.481934Z",
+        "id": "dfada6fc-2f83-4c2e-abf5-2ce45c6e3e81",
+        "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+        "source_sha": "af406030589a1d733709a3376b5b1fa1bb1dfc2e",
+        "startTime": "2026-10-29T01:24:26.435026401Z",
+        "status": "FAILURE",
+        "timeout": "10800s",
+        "wall_seconds": 401.046908,
+        "ledger_cost_usd": 0.0945
+      },
+      "request": {
+        "schema": "kani-k1-run-request-v1",
+        "request_id": "c3c-matched-candidate",
+        "agent": "k1-network",
+        "kind": "diagnostic",
+        "runner": "gcb-e2-standard-4",
+        "purpose": "C3c matched jobs3: 3 Mac TIMEOUT600 + all 9 Mac >=400s domains, correct family and unchanged assembly calibration; cutoff180s is censored evidence",
+        "harness_timeout_minutes": 3,
+        "kani_jobs": 3,
+        "harnesses": [
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail7",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail9",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail10",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail11",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail12",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail13",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail15",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail3",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail4",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail5",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail7",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail10",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail12",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+            "expect": "SUCCESS"
+          },
+          {
+            "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+            "expect": "SUCCESS"
+          }
+        ],
+        "inventory": true
+      },
+      "summary_status": "RUNNER_ERROR",
+      "gate": "False",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n31",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n31",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n31",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_general_u64_n32",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_noncopy_u64_n32",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::route_safety_stable_u64_n32",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail7",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail8",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail9",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail10",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail11",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail12",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail13",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail14",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail15",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6_tail16",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail3",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail4",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail5",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail7",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail8",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail10",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail12",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail16",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_u8_n14",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+          "status": "NOT_RUN",
+          "time_s": null,
+          "checks": "",
+          "covers": ""
+        }
+      ],
+      "ordinary_inventory": [],
+      "all": {
+        "count": 50,
+        "statuses": {
+          "NOT_RUN": 50
+        },
+        "timed_count": 0,
+        "sum_observed_verification_s": 0,
+        "max_observed_s": null,
+        "censored_or_untimed": 50
+      },
+      "smallsort": {
+        "count": 50,
+        "statuses": {
+          "NOT_RUN": 50
+        },
+        "timed_count": 0,
+        "sum_observed_verification_s": 0,
+        "max_observed_s": null,
+        "censored_or_untimed": 50
+      },
+      "smallsort_share_of_observed_verification_time": null,
+      "command_wall": "None",
+      "gnu_time_max_child_rss_kb": "None",
+      "peaks": {
+        "state": "MISSING",
+        "interval_ms": null,
+        "samples": null,
+        "total_rss_peak_kb": null,
+        "commands": []
+      },
+      "process_memory": []
+    }
+  },
+  "calibration_rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n14",
+      "family": "merge",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 420.3,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 450.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n15",
+      "family": "merge",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 404.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+      "family": "merge",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 420.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+      "family": "merge",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 505.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start6",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 584.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 407.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 479.0,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 467.9,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n16",
+      "family": "merge",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "family": "network",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": null,
+      "mac_censored_timeout_s": 600,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "family": "correct",
+      "gcb_status": "TIMEOUT",
+      "gcb_time_s": null,
+      "mac_time_s": 133.7,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_fallback_u64_n8",
+      "family": "correct",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 52.64956,
+      "mac_time_s": 31.1,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 43.655643,
+      "mac_time_s": 25.7,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 50.006714,
+      "mac_time_s": 20.6,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 12.122487,
+      "mac_time_s": 7.5,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 4.618697,
+      "mac_time_s": 3.2,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 2.1411476,
+      "mac_time_s": 1.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 2.333273,
+      "mac_time_s": 1.1,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 7.047707,
+      "mac_time_s": 4.3,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+      "family": "assembly",
+      "gcb_status": "SUCCESS",
+      "gcb_time_s": 1.4394697,
+      "mac_time_s": 0.4,
+      "mac_censored_timeout_s": null,
+      "point_ratio": null,
+      "ratio_lower_bound": null,
+      "ratio_upper_bound": null,
+      "not_eligible_reason": "Baseline run is not COMPLETE/consistent; preserve rows without point calibration",
+      "model_binding": "P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch"
+    }
+  ],
+  "calibration_families": {
+    "merge": {
+      "n_point": 0,
+      "n_censored": 5,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": null,
+      "coefficient_is_upper_bound": false
+    },
+    "network": {
+      "n_point": 0,
+      "n_censored": 7,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": null,
+      "coefficient_is_upper_bound": false
+    },
+    "correct": {
+      "n_point": 0,
+      "n_censored": 2,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": null,
+      "coefficient_is_upper_bound": false
+    },
+    "assembly": {
+      "n_point": 0,
+      "n_censored": 8,
+      "median": null,
+      "min": null,
+      "max_observed": null,
+      "p90_observed": null,
+      "censored_lower_bounds": [],
+      "censored_upper_bounds": [],
+      "stress_transfer_coefficient": null,
+      "coefficient_is_upper_bound": false
+    }
+  },
+  "paired_domains": [],
+  "ordinary_risk_register": [],
+  "limitations": [
+    "No complete baseline autoharness run: no measured full-job improvement or Ubuntu shutdown cause established.",
+    "Three Ubuntu in-flight names absent from supplied TSV.",
+    "Historical TSV times rounded to 0.1s; censored observations retained.",
+    "Family coefficient transfer onto changed models is forecast only; no guaranteed macOS bound.",
+    "RSS is not physical RAM; active-set attribution is ambiguous unless direct_harness is recorded."
+  ]
+}

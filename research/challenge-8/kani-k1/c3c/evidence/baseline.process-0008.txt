@@ -1,0 +1,97 @@
+interval_ms=2000
+samples=494
+elapsed_s=988
+total_rss_peak_kb=9819292
+total_peak_s=620
+cmd=bash peak_kb=3884 first_s=0 last_s=988 peak_s=2
+cmd=cargo peak_kb=34648 first_s=2 last_s=62 peak_s=2
+cmd=cbmc peak_kb=4125308 first_s=66 last_s=987 peak_s=674
+cmd=cc peak_kb=1072 first_s=6 last_s=6 peak_s=6
+cmd=collect2 peak_kb=1116 first_s=6 last_s=6 peak_s=6
+cmd=goto-cc peak_kb=73792 first_s=64 last_s=499 peak_s=64
+cmd=goto-instrument peak_kb=56784 first_s=66 last_s=806 peak_s=501
+cmd=kani-compiler peak_kb=2105268 first_s=2 last_s=62 peak_s=50
+cmd=kani-driver peak_kb=1913392 first_s=2 last_s=987 peak_s=317
+cmd=python3 peak_kb=19668 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3844 first_s=2 last_s=987 peak_s=2
+cmd=rust-lld peak_kb=2872 first_s=6 last_s=6 peak_s=6
+cmd=tee peak_kb=1092 first_s=0 last_s=988 peak_s=2
+cmd=time peak_kb=1208 first_s=2 last_s=987 peak_s=2
+cmd=timeout peak_kb=1080 first_s=2 last_s=987 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=8287232 peak_s=620
+role=driver simultaneous_rss_peak_kb=1813648 peak_s=315
+cbmc_pid=9827 peak_kb=4125308 first_s=503 last_s=682 peak_s=674 active=T0:network::network_correctness_u64_n13,T1:network::insert_tail_contract_u64_start1,T2:merge::route_safety_all_routes_n31 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9800 peak_kb=3845600 first_s=441 last_s=620 peak_s=620 active=T0:network::network_correctness_u64_n13,T1:merge::route_safety_all_routes_n32,T2:merge::route_safety_all_routes_n31 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9894 peak_kb=2991352 first_s=630 last_s=804 peak_s=666 active=T0:network::network_correctness_u8_n16,T1:network::insert_tail_contract_u64_start1,T2:network::network_correctness_u64_n8 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9643 peak_kb=2902024 first_s=186 last_s=365 peak_s=208 active=T0:network::insert_tail_contract_u64_start6,T1:merge::merge_contract_u64_n16,T2:merge::merge_contract_u64_n15 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9681 peak_kb=2572408 first_s=257 last_s=435 peak_s=423 active=T0:network::insertion_permutation_u64_n12,T1:merge::merge_contract_u64_n16,T2:merge::merge_contract_u64_n15 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+cbmc_pid=9746 peak_kb=2371576 first_s=321 last_s=497 peak_s=497 active=T0:network::insertion_permutation_u64_n12,T1:merge::route_safety_all_routes_n32,T2:merge::merge_contract_u64_n15 hint=cbmc_--no-malloc-may-fail_--no-undefined-shift-check_--no-si
+driver_s=0 rss_kb=0
+harness_s=66 name=T2:assembly::permutation_merge_u8_n4
+driver_s=30 rss_kb=6224
+harness_s=68 name=T0:assembly::safety_stable_unit_n17
+driver_s=60 rss_kb=6224
+harness_s=70 name=T2:assembly::sorted_network_prefix_u8_n10
+driver_s=90 rss_kb=408344
+harness_s=72 name=T1:merge::merge_contract_u64_n14
+driver_s=120 rss_kb=408344
+harness_s=78 name=T2:assembly::advancement_merge_up_u8_n2
+driver_s=150 rss_kb=412192
+harness_s=80 name=T0:assembly::safety_stable_unit_n32
+driver_s=180 rss_kb=571940
+harness_s=82 name=T2:correct::sorted_permutation_general_stable_u8_n14
+driver_s=210 rss_kb=567304
+harness_s=132 name=T0:assembly::safety_stable_unit_n16
+driver_s=241 rss_kb=718860
+harness_s=136 name=T0:assembly::safety_stable_unit_n8
+driver_s=271 rss_kb=591924
+harness_s=140 name=T0:assembly::safety_stable_unit_n31
+driver_s=301 rss_kb=733240
+harness_s=186 name=T0:network::insert_tail_contract_u64_start6
+driver_s=331 rss_kb=1512148
+harness_s=257 name=T1:merge::merge_contract_u64_n16
+driver_s=361 rss_kb=1512148
+harness_s=265 name=T2:correct::sorted_permutation_fallback_u64_n8
+driver_s=391 rss_kb=1512148
+harness_s=321 name=T2:merge::merge_contract_u64_n15
+driver_s=421 rss_kb=1512148
+harness_s=367 name=T0:network::insertion_permutation_u64_n12
+driver_s=451 rss_kb=1512148
+harness_s=441 name=T1:merge::route_safety_all_routes_n32
+driver_s=481 rss_kb=1512148
+harness_s=503 name=T2:merge::route_safety_all_routes_n31
+driver_s=511 rss_kb=1512408
+harness_s=550 name=T0:network::network_correctness_u64_n13
+driver_s=542 rss_kb=1512408
+harness_s=628 name=T1:network::insert_tail_contract_u64_start1
+driver_s=572 rss_kb=1512672
+harness_s=684 name=T2:network::network_correctness_u64_n8
+driver_s=602 rss_kb=1512672
+harness_s=732 name=T0:network::network_correctness_u8_n16
+driver_s=632 rss_kb=1512680
+harness_s=808 name=T1:network::network_correctness_u8_n17
+driver_s=662 rss_kb=1512680
+driver_s=692 rss_kb=1512680
+driver_s=722 rss_kb=1512680
+driver_s=752 rss_kb=1512680
+driver_s=782 rss_kb=1512680
+driver_s=812 rss_kb=1512684
+driver_s=843 rss_kb=1512684
+driver_s=873 rss_kb=1512684
+driver_s=903 rss_kb=1512684
+driver_s=933 rss_kb=1512684
+driver_s=963 rss_kb=1512684
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=330
+verify_budget_s=5070
+process_records=22 offset=8 count=8 next_offset=16
+{"active_harnesses":["Thread 0: network::network_correctness_u64_n13","Thread 1: network::insert_tail_contract_u64_start1","Thread 2: merge::route_safety_all_routes_n31"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":1553860,"peak_s":650,"pid":"9856","ppid":"8811"}
+{"active_harnesses":["Thread 0: assembly::safety_stable_unit_n32","Thread 1: merge::merge_contract_u64_n14","Thread 2: correct::sorted_permutation_general_stable_u8_n14"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":1157480,"peak_s":124,"pid":"9510","ppid":"8811"}
+{"active_harnesses":["Thread 0: assembly::safety_stable_unit_n31","Thread 1: merge::merge_contract_u64_n14","Thread 2: correct::sorted_permutation_general_stable_u8_n14"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":1126448,"peak_s":174,"pid":"9605","ppid":"8811"}
+{"active_harnesses":["Thread 0: network::insert_tail_contract_u64_start6","Thread 1: merge::merge_contract_u64_n16","Thread 2: correct::sorted_permutation_fallback_u64_n8"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":720048,"peak_s":289,"pid":"9708","ppid":"8811"}
+{"active_harnesses":["Thread 0: network::network_correctness_u8_n16","Thread 1: network::network_correctness_u8_n17","Thread 2: network::network_correctness_u64_n8"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":570600,"peak_s":828,"pid":"9981","ppid":"8811"}
+{"active_harnesses":["Thread 0: network::network_correctness_u8_n16","Thread 1: network::insert_tail_contract_u64_start1","Thread 2: network::network_correctness_u64_n8"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":534156,"peak_s":760,"pid":"9952","ppid":"8811"}
+{"active_harnesses":["Thread 0: assembly::safety_stable_unit_n17","Thread 1: merge::merge_contract_u64_n14","Thread 2: assembly::sorted_network_prefix_u8_n10"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":245828,"peak_s":74,"pid":"9394","ppid":"8811"}
+{"active_harnesses":["Thread 0: assembly::safety_stable_unit_n17","Thread 1: merge::merge_contract_u64_n14","Thread 2: assembly::sorted_network_prefix_u8_n10"],"attribution":"active-set-ambiguous","cmd":"cbmc","direct_harness":null,"peak_kb":191100,"peak_s":76,"pid":"9428","ppid":"8811"}

@@ -80,7 +80,7 @@ def main():
     for entry in SESSION['builds']:
         if (EVIDENCE/(entry['label']+'.summary.md')).exists():
             builds[entry['label']]=read_build(entry)
-    baseline=builds.get('baseline');candidate=builds.get('candidate');full=builds.get('autoharness')
+    baseline=builds.get('baseline-memory') or builds.get('baseline');candidate=builds.get('candidate-memory') or builds.get('candidate');full=builds.get('autoharness')
     macrows=[line.split('\t') for line in (BASE.parent/'c3c-inputs/mac-times.tsv').read_text().splitlines()]
     mac={name:float(sec) for name,sec,status in macrows if name.startswith(PREFIX)}
     historical_timeouts=set(PREFIX+n for n in ('merge::merge_contract_u64_n16','network::insertion_permutation_u64_n12','network::insert_tail_contract_u64_start1'))
@@ -94,7 +94,7 @@ def main():
             elif name in mac and row['status']=='SUCCESS' and row['time_s']:
                 c['point_ratio']=mac[name]/row['time_s']
             elif name in mac and row['status']=='TIMEOUT':
-                c['ratio_upper_bound']=mac[name]/180
+                c['ratio_upper_bound']=mac[name]/(60*baseline['request']['harness_timeout_minutes'])
             elif name in historical_timeouts and row['status']=='SUCCESS' and row['time_s']:
                 c['ratio_lower_bound']=600/row['time_s']
             c['model_binding']='P6 6cfc76cb to baseline e965: common callee/stubs/solver/unwind source unchanged; baseline library tree checked at dispatch'
@@ -103,7 +103,7 @@ def main():
     for family,rs in families.items():
         points=sorted(r['point_ratio'] for r in rs if r['point_ratio'] is not None)
         lows=[r['ratio_lower_bound'] for r in rs if r['ratio_lower_bound'] is not None]
-        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['point_ratio'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None],stress_transfer_coefficient=max(points+lows,default=None),coefficient_is_upper_bound=False)
+        family_stats[family]=dict(n_point=len(points),n_censored=sum(r['gcb_status']=='TIMEOUT' or r['mac_censored_timeout_s'] is not None for r in rs),n_unusable_or_unmeasured=sum(r['point_ratio'] is None and r['gcb_status']!='TIMEOUT' and r['mac_censored_timeout_s'] is None for r in rs),median=statistics.median(points) if points else None,min=min(points,default=None),max_observed=max(points,default=None),p90_observed=points[max(0,math.ceil(.9*len(points))-1)] if points else None,censored_lower_bounds=lows,censored_upper_bounds=[r['ratio_upper_bound'] for r in rs if r['ratio_upper_bound'] is not None],stress_transfer_coefficient=max(points+lows,default=None),coefficient_is_upper_bound=False)
     paired=[]
     if baseline and candidate:
         old={r['name']:r for r in baseline['rows']};new={r['name']:r for r in candidate['rows']}
