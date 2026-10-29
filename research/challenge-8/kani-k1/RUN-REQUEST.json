@@ -1,12 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "valid-b-inventory-ordinary",
+  "request_id": "valid-b-inventory-controls",
   "agent": "k1-network",
   "kind": "inventory",
   "runner": "gcb-e2-standard-4",
-  "purpose": "VALID-B compile and native inventory ordinary cfg, same library as 9be5499c; warnings captured.",
+  "purpose": "VALID-B compile and native inventory with controls cfg, same library as 9be5499c; warnings captured.",
   "harness_timeout_minutes": 60,
   "inventory": true,
-  "controls": false,
+  "controls": true,
   "harnesses": []
 }
