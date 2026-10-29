@@ -848,11 +848,6 @@ fn general_route_properties_for_route<
         super::super::small_sort_general(&mut v, &mut cmp);
     }
     assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
-    if stable {
-        proof_cover!(true, "stable route properties checked");
-    } else {
-        proof_cover!(true, "general route properties checked");
-    }
 }
 
 fn general_route_properties<
@@ -862,7 +857,10 @@ fn general_route_properties<
 >(
     cmp: F,
 ) {
-    general_route_properties_for_route::<T, F, N>(cmp, kani::any());
+    let stable = kani::any();
+    general_route_properties_for_route::<T, F, N>(cmp, stable);
+    proof_cover!(stable, "stable route properties checked");
+    proof_cover!(!stable, "general route properties checked");
 }
 
 // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
@@ -902,6 +900,7 @@ macro_rules! define_general_sortedness_route_harness {
         #[kani::unwind(34)]
         fn $name() {
             general_route_properties_for_route::<$t, _, $n>($cmp, $stable);
+            proof_cover!(true, "selected fixed route properties checked");
         }
     };
 }

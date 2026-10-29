@@ -177,11 +177,6 @@ fn general_stable_stub_for_route<
         CopyOnDrop::<T>::probe_count_unrolled(input.as_ptr(), N)
             == CopyOnDrop::<T>::probe_count_unrolled(output.as_ptr(), N)
     );
-    if stable {
-        proof_cover!(true, "general/stable: stable Freeze route checked");
-    } else {
-        proof_cover!(true, "general/stable: direct general route checked");
-    }
 }
 
 fn general_stable_stub<
@@ -191,7 +186,10 @@ fn general_stable_stub<
 >(
     cmp: F,
 ) {
-    general_stable_stub_for_route::<T, F, N>(cmp, kani::any());
+    let stable = kani::any();
+    general_stable_stub_for_route::<T, F, N>(cmp, stable);
+    proof_cover!(stable, "general/stable: stable Freeze route checked");
+    proof_cover!(!stable, "general/stable: direct general route checked");
 }
 
 macro_rules! general_stub_harness {
@@ -215,6 +213,7 @@ macro_rules! general_stub_route_harness {
         #[kani::unwind(50)]
         fn $name() {
             general_stable_stub_for_route::<$t, _, $n>($cmp, $stable);
+            proof_cover!(true, "general/stable: selected fixed route checked");
         }
     };
 }
