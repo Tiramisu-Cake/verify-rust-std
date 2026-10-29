@@ -375,10 +375,12 @@ class SummaryTests(unittest.TestCase):
             auto_harness = {"pretty_name": "core::slice::sort::autoharness_target", "mangled_name": "_Rauto",
                             "goto_file": str(auto_model.with_suffix(".symtab.out")),
                             "attributes": {"kind": "Proof"}}
+            null_goto = {"pretty_name": None, "mangled_name": None, "goto_file": None}
             metadata = root / "libcore-abc.kani-metadata.json"
-            metadata.write_text(json.dumps({"crate_name": "core", "proof_harnesses": [proof_for_contract, auto_harness],
+            metadata.write_text(json.dumps({"crate_name": "core", "proof_harnesses": [null_goto, proof_for_contract, auto_harness],
                                             "test_harnesses": [], "contracted_functions": []}))
-            manual = k.resolve_cbmc_metadata(["cbmc", "--no-malloc-may-fail", "manual-harness.out"], root,
+            manual = k.resolve_cbmc_metadata(["cbmc", "--object-bits", "12", str(manual_model),
+                                              "--verbosity", "9", "--json-ui"], root,
                                              head_sha="a" * 40, kani_commit="b" * 40, build_id="build-1")
             self.assertEqual(manual["attribution"], "direct")
             self.assertEqual(manual["direct_harness"], proof_for_contract["pretty_name"])
@@ -390,6 +392,23 @@ class SummaryTests(unittest.TestCase):
             self.assertEqual(auto["attribution"], "direct")
             self.assertEqual(auto["direct_harness"], auto_harness["pretty_name"])
             self.assertEqual(auto["model_path"], str(auto_model.resolve()))
+
+    def test_relative_goto_file_uses_process_cwd_not_metadata_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cwd = root / "project"
+            model_dir = cwd / "target/kani_verify_std/target/debug/deps"
+            model_dir.mkdir(parents=True)
+            metadata = model_dir / "libstd.kani-metadata.json"
+            row = {"pretty_name": "std::autoharness_target", "mangled_name": "_Rhashed",
+                   "goto_file": "target/kani_verify_std/target/debug/deps/hashed_autoharness.symtab.out"}
+            metadata.write_text(json.dumps({"proof_harnesses": [row], "test_harnesses": []}))
+            model = "target/kani_verify_std/target/debug/deps/hashed_autoharness.out"
+            result = k.resolve_cbmc_metadata(["cbmc", "--object-bits", "12", model,
+                                              "--verbosity", "9", "--json-ui"], cwd)
+            self.assertEqual(result["attribution"], "direct")
+            self.assertEqual(result["direct_harness"], row["pretty_name"])
+            self.assertEqual(result["model_path"], str((cwd / model).resolve()))
 
     def test_metadata_join_fails_closed_on_duplicate_conflict_and_missing_files(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -404,7 +423,7 @@ class SummaryTests(unittest.TestCase):
                                         "test_harnesses": []}))
             stat = path.stat()
             os.utime(path, ns=(stat.st_atime_ns, stat.st_mtime_ns + 5_000_000_000))
-            cached = k._METADATA_INDEX_CACHE[str(root.resolve())]
+            cached = k._METADATA_INDEX_CACHE[f"{root.resolve()}|cwd={root.resolve()}"]
             cached["checked_s"] = 0
             conflict = k.resolve_cbmc_metadata(["cbmc", "proof.out"], root)
             self.assertEqual(conflict["attribution"], "metadata-ambiguous")
@@ -417,7 +436,9 @@ class SummaryTests(unittest.TestCase):
                        "11": {"pid": "11", "cmd": "kissat", "ppid": "10", "active_at_peak": {"1": "crate::proof"}}}
         k.finalize_process_records(active_only)
         self.assertEqual(active_only["10"]["attribution"], "active-set-ambiguous")
+        self.assertEqual(active_only["10"]["metadata_resolution"], "metadata-not-found")
         self.assertEqual(active_only["11"]["attribution"], "active-set-ambiguous")
+        self.assertEqual(active_only["11"]["metadata_resolution"], "metadata-not-found")
         self.assertNotIn("harness", active_only["11"])
         exact = {"20": {"pid": "20", "cmd": "cbmc", "attribution": "direct", "direct_harness": "crate::proof",
                         "metadata_path": "/target/libcrate.kani-metadata.json", "metadata_sha256": "c" * 64,

@@ -611,26 +611,31 @@ def _canonical_path(value: str | Path, base: Path) -> Path | None:
         return None
 
 
-def _model_path_from_argv(argv: list[str], cwd: Path) -> Path | None:
-    # Pinned Kani appends the Goto artifact as the final positional CBMC argument.
-    if not argv:
-        return None
-    token = argv[-1]
-    if token.startswith("-") or not token.endswith(".out") or token.endswith(".symtab.out"):
-        return None
-    return _canonical_path(token, cwd)
+def _model_paths_from_argv(argv: list[str], cwd: Path) -> list[Path]:
+    # Pinned Kani appends custom CBMC args, the model, then verbosity/json-ui flags.
+    # Scan all path-like .out tokens; metadata must identify exactly one candidate.
+    candidates = []
+    seen: set[str] = set()
+    for token in argv:
+        if token.startswith("-") or not token.endswith(".out") or token.endswith(".symtab.out"):
+            continue
+        path = _canonical_path(token, cwd)
+        if path is not None and str(path) not in seen:
+            candidates.append(path)
+            seen.add(str(path))
+    return candidates
 
 
-def _goto_model_path(value: str, metadata_dir: Path) -> Path | None:
+def _goto_model_path(value: str, process_cwd: Path) -> Path | None:
     if not value.endswith(".symtab.out"):
         return None
     goto = Path(value)
     model = goto.with_name(goto.name[:-len(".symtab.out")] + ".out")
-    return _canonical_path(model, metadata_dir)
+    return _canonical_path(model, process_cwd)
 
 
-def metadata_index(metadata_dir: Path) -> dict[str, Any]:
-    """Read one output directory's compiler metadata, refreshing on file mtime/size changes."""
+def metadata_index(metadata_dir: Path, process_cwd: Path) -> dict[str, Any]:
+    """Read one output directory's compiler metadata, resolving goto_file from CBMC's cwd."""
     try:
         directory = metadata_dir.resolve(strict=False)
         all_files = sorted(directory.glob("*.kani-metadata.json"))
@@ -645,7 +650,8 @@ def metadata_index(metadata_dir: Path) -> dict[str, Any]:
                 signature.append((str(path), -1, -1))
     except OSError:
         directory, signature, overflow = metadata_dir, [], False
-    key = str(directory)
+    cwd = process_cwd.resolve(strict=False)
+    key = f"{directory}|cwd={cwd}"
     now = time.monotonic()
     cached = _METADATA_INDEX_CACHE.get(key)
     if cached and now - cached["checked_s"] < METADATA_REFRESH_SECONDS:
@@ -685,10 +691,13 @@ def metadata_index(metadata_dir: Path) -> dict[str, Any]:
                     complete = False
                     continue
                 pretty, mangled, goto = row.get("pretty_name"), row.get("mangled_name"), row.get("goto_file")
+                # `goto_file` is optional in Kani metadata; null rows cannot name this model.
+                if goto is None:
+                    continue
                 if not all(isinstance(v, str) and v for v in (pretty, mangled, goto)):
                     complete = False
                     continue
-                model = _goto_model_path(goto, directory)
+                model = _goto_model_path(goto, cwd)
                 if model is None:
                     continue
                 index.setdefault(str(model), []).append({
@@ -706,47 +715,71 @@ def metadata_index(metadata_dir: Path) -> dict[str, Any]:
 
 def resolve_cbmc_metadata(argv: list[str], cwd: Path, *, head_sha: str | None = None,
                           kani_commit: str | None = None, build_id: str | None = None) -> dict[str, Any]:
-    """Join final positional model path to exactly one same-directory Kani metadata row."""
-    model = _model_path_from_argv(argv, cwd)
+    """Join a CBMC argv model candidate to exactly one same-directory Kani metadata row."""
+    models = _model_paths_from_argv(argv, cwd)
     identity = {"head_sha": head_sha, "kani_commit": kani_commit, "build_id": build_id}
-    if model is None:
+    if not models:
         return {"attribution": "unresolved-model-path", **identity}
+    matches = []
+    incomplete = []
+    for model in models:
+        index = metadata_index(model.parent, cwd)
+        rows = index["index"].get(str(model), [])
+        if len(rows) > 1:
+            return {"attribution": "metadata-ambiguous", "model_path": str(model),
+                    "metadata_dir": str(model.parent), "metadata_file_count": index["metadata_file_count"],
+                    "metadata_match_count": len(rows), **identity}
+        if not index["complete"]:
+            incomplete.append((model, index))
+        elif len(rows) == 1:
+            matches.append((model, index, rows[0]))
+    if len(matches) > 1:
+        return {"attribution": "metadata-ambiguous", "model_candidates": [str(p) for p in models], **identity}
+    if incomplete:
+        model, index = incomplete[0]
+        return {"attribution": "metadata-incomplete", "model_path": str(model),
+                "metadata_dir": str(model.parent), "metadata_file_count": index["metadata_file_count"], **identity}
+    if not matches:
+        model = models[0]
+        index = metadata_index(model.parent, cwd)
+        return {"attribution": "metadata-not-found", "model_path": str(model),
+                "metadata_dir": str(model.parent), "metadata_file_count": index["metadata_file_count"],
+                "metadata_match_count": 0, **identity}
+    model, index, row = matches[0]
     result: dict[str, Any] = {"model_path": str(model), "metadata_dir": str(model.parent), **identity}
-    index = metadata_index(model.parent)
-    rows = index["index"].get(str(model), [])
     result["metadata_file_count"] = index["metadata_file_count"]
-    result["metadata_match_count"] = len(rows)
-    if len(rows) > 1:
-        result["attribution"] = "metadata-ambiguous"
-        return result
-    if not index["complete"]:
-        result["attribution"] = "metadata-incomplete"
-        return result
-    if not rows:
-        result["attribution"] = "metadata-not-found" if not rows else "metadata-ambiguous"
-        return result
-    row = rows[0]
+    result["metadata_match_count"] = 1
     result.update(attribution="direct", direct_harness=row["pretty_name"], **row)
     return result
 
 
 def finalize_process_records(process_records: dict[str, dict[str, Any]]) -> None:
     """Propagate only exact CBMC metadata matches to direct child solvers; keep active sets ambiguous."""
-    cbmc_harnesses = {str(record["pid"]): record for record in process_records.values()
-                      if record.get("cmd") == "cbmc" and record.get("attribution") == "direct"}
     for record in process_records.values():
-        parent = cbmc_harnesses.get(record.get("ppid")) if record.get("cmd") != "cbmc" else None
+        record.setdefault("metadata_resolution", record.get("attribution", "unresolved"))
+    cbmc_records = {str(record["pid"]): record for record in process_records.values() if record.get("cmd") == "cbmc"}
+    cbmc_harnesses = {pid: record for pid, record in cbmc_records.items() if record.get("metadata_resolution") == "direct"}
+    for record in process_records.values():
+        parent = cbmc_records.get(record.get("ppid")) if record.get("cmd") != "cbmc" else None
         if parent is not None:
-            record.update({key: parent[key] for key in ("attribution", "direct_harness", "harness", "mangled_name",
+            record["metadata_parent_pid"] = parent["pid"]
+            record["metadata_resolution"] = parent.get("metadata_resolution", parent.get("attribution"))
+        exact_parent = cbmc_harnesses.get(record.get("ppid")) if record.get("cmd") != "cbmc" else None
+        if exact_parent is not None:
+            record.update({key: exact_parent[key] for key in ("attribution", "direct_harness", "harness", "mangled_name",
                                                          "metadata_path", "metadata_sha256", "metadata_group",
                                                          "metadata_match_count", "metadata_file_count", "metadata_dir",
                                                          "model_path", "head_sha",
-                                                         "kani_commit", "build_id") if key in parent})
-            record["parent_cbmc_pid"] = parent["pid"]
-        if record.get("attribution") != "direct":
+                                                         "kani_commit", "build_id") if key in exact_parent})
+            record["parent_cbmc_pid"] = exact_parent["pid"]
+        if record.get("metadata_resolution") != "direct":
             record["attribution"] = "active-set-ambiguous" if record.get("active_at_peak") else "unattributed"
+        else:
+            record["attribution"] = "direct"
         if record.get("direct_harness"):
             record["harness"] = record["direct_harness"]
+        if record.get("cmd") != "cbmc" and parent is None:
+            record.setdefault("metadata_resolution", "no-cbmc-parent")
         record["active_harnesses"] = [f"Thread {worker}: {name}"
                                        for worker, name in sorted(record.pop("active_at_peak", {}).items())]
 
@@ -815,10 +848,11 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                 per_pid = cbmc.setdefault(pid, {"peak_kb": 0, "first_s": now, "last_s": now,
                                                  "peak_s": now, "hint": direct or model_hint[-100:]})
                 for field in ("direct_harness", "harness", "mangled_name", "metadata_path", "metadata_sha256",
-                              "metadata_group", "metadata_match_count"):
+                              "metadata_group", "metadata_match_count", "metadata_file_count", "metadata_dir", "model_path"):
                     per_pid.pop(field, None)
                 per_pid.update({k: v for k, v in resolved.items() if k != "attribution"})
                 per_pid["attribution"] = resolved["attribution"]
+                per_pid["metadata_resolution"] = resolved["attribution"]
                 if rss_peak > per_pid["peak_kb"]:
                     per_pid["peak_kb"], per_pid["peak_s"] = rss_peak, now
                     per_pid["active_at_peak"] = dict(active_by_worker)
@@ -828,10 +862,11 @@ def sample_memory(out: Path, interval: float, max_seconds: float | None = None, 
                                                           "head_sha": head_sha, "kani_commit": kani_commit,
                                                           "build_id": build_id})
                 for field in ("direct_harness", "harness", "mangled_name", "metadata_path", "metadata_sha256",
-                              "metadata_group", "metadata_match_count"):
+                              "metadata_group", "metadata_match_count", "metadata_file_count", "metadata_dir", "model_path"):
                     record.pop(field, None)
                 record.update({k: v for k, v in resolved.items() if k != "attribution"})
                 record["attribution"] = resolved["attribution"]
+                record["metadata_resolution"] = resolved["attribution"]
                 if rss_peak > record.get("peak_kb", 0):
                     record.update(peak_kb=rss_peak, peak_s=now,
                                   active_at_peak=dict(active_by_worker), ppid=_proc_ppid(status_path.parent / "stat"))
