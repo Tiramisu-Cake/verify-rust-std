@@ -159,6 +159,50 @@ fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n8, Cell<u8>, 8);
 #[cfg(kani_smallsort_controls)]
 fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
 
+// Fixing the route avoids combining both Cell branches after the N8 measurement timed out.
+// The two const values partition the original symbolic stable bool without restricting keys.
+#[cfg(kani_smallsort_controls)]
+fn fixed_route_trait_properties<T: LogicalByte, const N: usize, const STABLE: bool>() {
+    let input: [u8; N] = kani::any();
+    let probe: u8 = kani::any();
+    let mut values: [T; N] = crate::array::from_fn(|i| T::new(input[i]));
+    if STABLE {
+        let mut scratch = [const { MaybeUninit::<T>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <T as StableSmallSortTypeImpl>::small_sort(
+            &mut values,
+            &mut scratch,
+            &mut logical_less::<T>,
+        );
+    } else {
+        <T as UnstableSmallSortTypeImpl>::small_sort(&mut values, &mut logical_less::<T>);
+    }
+    let output = crate::array::from_fn(|i| values[i].value());
+    check_output(&input, &output, probe);
+    cover_nontrivial_input(&input);
+    if STABLE {
+        kani::cover(true, "logical stable trait entry returns");
+    } else {
+        kani::cover(true, "logical unstable trait entry returns");
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+macro_rules! fixed_route_trait_case {
+    ($name:ident, $t:ty, $n:literal, $stable:literal) => {
+        #[kani::proof]
+        #[kani::solver(cadical)]
+        #[kani::unwind(50)]
+        fn $name() {
+            fixed_route_trait_properties::<$t, $n, $stable>();
+        }
+    };
+}
+
+#[cfg(kani_smallsort_controls)]
+fixed_route_trait_case!(sorted_permutation_traits_stable_fallback_cell_u8_n8, Cell<u8>, 8, true);
+#[cfg(kani_smallsort_controls)]
+fixed_route_trait_case!(sorted_permutation_traits_unstable_fallback_cell_u8_n8, Cell<u8>, 8, false);
+
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(50)]
