@@ -87,3 +87,54 @@ Tooling/source/request/pin связаны summary/check-tooling; lane-файлы
 Fixture 48 slots ≠ любой backing: production driftsort даёт stack4096 байт/heap, длина бывает >48.
 Нет нового generic-backing/E1/uninit результата. GCB jobs1 не подтверждает macOS/jobs3;
 macOS UNKNOWN; полный CI организаторов нужен. Локальные Rust/Kani/CBMC не запускались.
+
+## BACKING2 — COMPLETE: прямой u64 N6..8; Linux jobs=3
+
+Library SHA `f28909ac02823ffd652a3d530d6b96add6bd4fea`; opt-in backing.
+M source `30b8b975c574dd76a6e770c7001e2a85577dc578`, measurement jobs=1.
+M build `33e2c5fd-27ba-4cdb-89f9-474f51a3ac39`; cost $0.1620.
+D source `e2e3fec798e6c5dfb2afbf992a08f8ca0959876f`, diagnostic jobs=3.
+D build `86b9e456-a7c0-4b43-93bd-ace1816100d0`; cost $0.2160.
+Своих builds2/2; spent$0.3780/reserved$0 из$2.50; CAP_USD=73.96 неизменён.
+Обе COMPLETE/gate true; k1-standard4, controls=true, timeout600, Kani9461e07a.
+Имена после `slice::sort::shared::smallsort::verify::`; B=merge::backing, O=merge::opt_split.
+M/D=measurement/diagnostic; G=MaybeUninit<[u64;48]>; RSS=GiB; checks=failed/total.
+
+| Гармоника | Маршрут/backing | Статус | VT GCB, с | CBMC RSS | Covers | Checks |
+|---|---|---|---|---|---|---|
+| M:B::general_direct_u64_n7 | general/G | SUCCESS | 89.57830 | 0.985 | 1/1 | 0/407 |
+| M:B::stable_direct_u64_n6 | stable/G | SUCCESS | 43.33153 | 0.786 | 1/1 | 0/407 |
+| M:B::stable_direct_u64_n7 | stable/G | SUCCESS | 74.84438 | 0.963 | 1/1 | 0/407 |
+| D:O::general_direct_u64_n6 | general/G | SUCCESS | 81.49289 | 0.833 | 1/1 | 0/407 |
+| D:B::general_direct_u64_n7 | general/G | SUCCESS | 118.67463 | 0.968 | 1/1 | 0/407 |
+| D:O::general_direct_u64_n8 | general/G | SUCCESS | 228.36633 | 1.511 | 1/1 | 0/407 |
+| D:B::stable_direct_u64_n6 | stable/G | SUCCESS | 97.23476 | 0.752 | 1/1 | 0/407 |
+| D:B::stable_direct_u64_n7 | stable/G | SUCCESS | 118.90441 | 0.964 | 1/1 | 0/407 |
+| D:B::stable_direct_u64_n8 | stable/G | SUCCESS | 239.84729 | 1.510 | 1/1 | 0/407 |
+
+M gate пройден: 3/3 SUCCESS<=600с, все covers SATISFIED, память измерена.
+D: все6/6 SUCCESS, covers6/6; OOM none_seen, MISSING0; swap off на Linux16GiB.
+M: max CBMC0.985/driver0.467 GiB; сумма VT207.754208с; Kani wall277.02с.
+D: max CBMC1.511/driver1.579 GiB; сумма VT884.520314с; Kani wall502.72с.
+Три CBMC реально перекрывались: PIDs9304/9299/9294, t=70..184с (также190..269,275..285).
+D sampled sum CBMC3.148GiB при98с; всех RSS3.660GiB при285с. Сумма RSS != физическая RAM.
+Метод: kernel VmHWM, sampling2с; D — диагностика, concurrent VT не measurement/полный CI.
+
+Кандидаты прямого u64 N6..8 в ordinary (по одному источнику measurement на имя):
+
+- O::general_direct_u64_n6 — [OPT G1](opt/n6.results.json).
+- B::general_direct_u64_n7 — BACKING2 M.
+- O::general_direct_u64_n8 — [OPT G2](opt/n8.results.json).
+- B::stable_direct_u64_n6 — BACKING2 M.
+- B::stable_direct_u64_n7 — BACKING2 M.
+- B::stable_direct_u64_n8 — [BACKING](backing/matched.results.json).
+
+Static audit: транзитивные helpers/oracle/probe/lt_u64/flags/pin прежние; adapter неизменён.
+Из старых символов изменён только const-guard stable на6/7/8; N7 merge — половины3/4.
+G1/G2/BACKING PASS не выдаются за measurement нового SHA; D отдельно подтвердил6/6.
+[M metrics](backing2/measurement.results.json), [D metrics](backing2/diagnostic.results.json).
+[Overlap](backing2/diagnostic.overlap.json), [static audit](backing2/static-audit.json).
+Fixture48 != любой backing; macOS UNKNOWN; пригодность — только полный CI организаторов.
+ASSEMBLY: обе ветви каждого N6..8 проверены; могут заменить прежний stubbed caller этого N.
+Если ветвь непроверена, домен N не закрыт; старые тяжёлые A/B — исторический opt-in.
+Rustfmt --check exit0; Python validators/static audit PASS; local Rust/Kani/CBMC не запускались.

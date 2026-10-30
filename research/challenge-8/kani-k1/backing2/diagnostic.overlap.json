@@ -1,0 +1,53 @@
+{
+  "build_uuid": "86b9e456-a7c0-4b43-93bd-ace1816100d0",
+  "source_sha": "e2e3fec798e6c5dfb2afbf992a08f8ca0959876f",
+  "method": "Observed CBMC PID lifetimes from bounded peaks; 2-second sampling.",
+  "max_overlap": 3,
+  "windows": [
+    {
+      "first_s": 275,
+      "last_s": 285,
+      "pids": [
+        "9385",
+        "9304",
+        "9353"
+      ],
+      "harnesses": [
+        "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n8",
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8",
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n6"
+      ]
+    },
+    {
+      "first_s": 70,
+      "last_s": 184,
+      "pids": [
+        "9304",
+        "9299",
+        "9294"
+      ],
+      "harnesses": [
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8",
+        "slice::sort::shared::smallsort::verify::merge::backing::general_direct_u64_n7",
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n7"
+      ]
+    },
+    {
+      "first_s": 190,
+      "last_s": 269,
+      "pids": [
+        "9304",
+        "9358",
+        "9353"
+      ],
+      "harnesses": [
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8",
+        "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n6",
+        "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n6"
+      ]
+    }
+  ],
+  "cbmc_simultaneous_rss_peak_kib": 3300944,
+  "cbmc_simultaneous_rss_peak_s": 98,
+  "rss_note": "Process RSS sum is not physical RAM use."
+}

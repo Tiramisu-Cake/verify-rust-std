@@ -35,7 +35,7 @@
       "build_uuid": "86b9e456-a7c0-4b43-93bd-ace1816100d0",
       "request_id": "backing2-diagnostic-20261031",
       "source_sha": "e2e3fec798e6c5dfb2afbf992a08f8ca0959876f",
-      "status": "SUBMITTED",
+      "status": "COMPLETE",
       "recorded_at_utc": "2026-10-30T22:16:32.868863+00:00",
       "kind": "diagnostic",
       "runner": "gcb-e2-standard-4",
@@ -46,22 +46,26 @@
       "entries": 6,
       "envelope_minutes": 90,
       "max_reserved_cost_usd": "1.2150",
-      "actual_cost_usd": null,
+      "actual_cost_usd": "0.2160",
       "measurement_gate": true,
       "budget_before": {
         "project_used_usd": "60.6120",
         "project_reserved_usd": "0.0000"
       },
       "budget_after_submit_upper_usd": "61.8270",
-      "scope": "Linux16GiB concurrency only; actual CBMC overlap pending; macOS UNKNOWN"
+      "scope": "Linux16GiB concurrency: 6/6 SUCCESS, real overlap3; macOS UNKNOWN",
+      "gcb_status": "SUCCESS",
+      "gate": true,
+      "finalized_at_utc": "2026-10-30T22:34:57.670325+00:00",
+      "max_cbmc_overlap": 3
     }
   ],
-  "spent_usd": "0.1620",
-  "reserved_usd": "1.2150",
+  "spent_usd": "0.3780",
+  "reserved_usd": "0.0000",
   "t0_utc": "2026-10-30T21:58:10.393761+00:00",
   "conservative_deadline_utc": "2026-10-31T00:45:00Z",
   "closing_reserve_minutes": 20,
-  "review_state": "MEASUREMENT_ACCEPTED_DIAGNOSTIC_SUBMITTED",
+  "review_state": "FINAL_REVIEW_REQUEST_PENDING",
   "planned_requests": [
     {
       "request_id": "backing2-measurement-20261031",
@@ -84,5 +88,7 @@
     "Diagnostic also requires all three measurement entries to meet the gate."
   ],
   "library_sha": "f28909ac02823ffd652a3d530d6b96add6bd4fea",
-  "review_go": "Explicit coordinator GO relayed by user for 30b8b975c5."
+  "review_go": "Explicit coordinator GO relayed by user for 30b8b975c5.",
+  "result": "COMPLETE_BOUNDED_DIRECT_U64_N6_N8",
+  "completed_at_utc": "2026-10-30T22:34:57.670808+00:00"
 }
