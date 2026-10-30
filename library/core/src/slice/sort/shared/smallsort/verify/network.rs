@@ -527,7 +527,6 @@ macro_rules! insertion_safety_cases {
 }
 
 insertion_safety_cases!(insertion_safety_u64_n1_to5, [1, 2, 3, 4, 5]);
-#[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n6_to10, [6, 7, 8, 9, 10]);
 #[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n11_to15, [11, 12, 13, 14, 15]);
@@ -625,7 +624,6 @@ macro_rules! mutating_insertion_cases {
 
 mutating_route_cases!(mutating_route_safety_cell_n0_to4, [0, 1, 2, 3, 4]);
 mutating_route_cases!(mutating_route_safety_cell_n5_to8, [5, 6, 7, 8]);
-#[cfg(kani_smallsort_controls)]
 mutating_route_cases!(mutating_route_safety_cell_n9_to12, [9, 10, 11, 12]);
 mutating_route_cases!(mutating_route_safety_cell_n13_to16, [13, 14, 15, 16]);
 mutating_insertion_cases!(mutating_insertion_safety_cell_n1_to5, [1, 2, 3, 4, 5]);
@@ -636,7 +634,6 @@ mutating_insertion_cases!(mutating_insertion_safety_cell_n11_to15, [11, 12, 13, 
 #[cfg(kani_smallsort_controls)]
 mutating_insertion_cases!(mutating_insertion_safety_cell_n16_to20, [16, 17, 18, 19, 20]);
 
-#[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n11_to12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n13_to15, [13, 14, 15]);
@@ -645,9 +642,7 @@ mutating_insertion_cases!(mutating_insertion_safety_cell_n11_to12, [11, 12]);
 #[cfg(kani_smallsort_controls)]
 mutating_insertion_cases!(mutating_insertion_safety_cell_n13_to15, [13, 14, 15]);
 
-#[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n13, [13]);
-#[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n14, [14]);
 #[cfg(kani_smallsort_controls)]
 insertion_safety_cases!(insertion_safety_u64_n15, [15]);
@@ -721,7 +716,7 @@ insertion_offset_one_cases!(
 // The groups partition all valid offsets for each exact array length. Each listed offset becomes a
 // constant call-site value; comparisons are unconstrained and no sorted-prefix contract is assumed.
 macro_rules! insertion_offset_group_cases {
-    ($plain:ident, $cell:ident, $n:literal, [$($o:literal),+]) => {
+    ($plain:ident, $(#[$cell_cfg:meta])* $cell:ident, $n:literal, [$($o:literal),+]) => {
         #[kani::proof]
         #[kani::unwind(25)]
         fn $plain() {
@@ -736,6 +731,7 @@ macro_rules! insertion_offset_group_cases {
             kani::cover(true, "insertion offset group returns normally");
         }
 
+        $(#[$cell_cfg])*
         #[kani::proof]
         #[kani::unwind(35)]
         fn $cell() {
@@ -752,163 +748,163 @@ macro_rules! insertion_offset_group_cases {
     };
 }
 
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n15_offsets1_to4,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n15_offsets1_to4,
     15,
     [1, 2, 3, 4]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n15_offsets5_to8,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n15_offsets5_to8,
     15,
     [5, 6, 7, 8]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n15_offsets9_to12,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n15_offsets9_to12,
     15,
     [9, 10, 11, 12]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n15_offsets13_to15,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n15_offsets13_to15,
     15,
     [13, 14, 15]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n16_offsets1_to4,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n16_offsets1_to4,
     16,
     [1, 2, 3, 4]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n16_offsets5_to8,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n16_offsets5_to8,
     16,
     [5, 6, 7, 8]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n16_offsets9_to12,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n16_offsets9_to12,
     16,
     [9, 10, 11, 12]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n16_offsets13_to16,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n16_offsets13_to16,
     16,
     [13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n17_offsets1_to4,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n17_offsets1_to4,
     17,
     [1, 2, 3, 4]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n17_offsets5_to8,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n17_offsets5_to8,
     17,
     [5, 6, 7, 8]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n17_offsets9_to12,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n17_offsets9_to12,
     17,
     [9, 10, 11, 12]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n17_offsets13_to15,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n17_offsets13_to15,
     17,
     [13, 14, 15]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n17_offsets16_to17,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n17_offsets16_to17,
     17,
     [16, 17]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n18_offsets1_to4,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n18_offsets1_to4,
     18,
     [1, 2, 3, 4]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n18_offsets5_to8,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n18_offsets5_to8,
     18,
     [5, 6, 7, 8]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n18_offsets9_to12,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n18_offsets9_to12,
     18,
     [9, 10, 11, 12]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n18_offsets13_to16,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n18_offsets13_to16,
     18,
     [13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n18_offsets17_to18,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n18_offsets17_to18,
     18,
     [17, 18]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n19_offsets1_to4,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n19_offsets1_to4,
     19,
     [1, 2, 3, 4]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n19_offsets5_to8,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n19_offsets5_to8,
     19,
     [5, 6, 7, 8]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n19_offsets9_to12,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n19_offsets9_to12,
     19,
     [9, 10, 11, 12]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n19_offsets13_to16,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n19_offsets13_to16,
     19,
     [13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
 insertion_offset_group_cases!(
     insertion_safety_u64_n19_offsets17_to19,
+    #[cfg(kani_smallsort_controls)]
     mutating_insertion_safety_cell_n19_offsets17_to19,
     19,
     [17, 18, 19]
@@ -1208,7 +1204,6 @@ fn swap_contract_u64_indices_n17() {
     swap_contract_indices::<u64, 17>();
 }
 
-#[cfg(kani_smallsort_controls)]
 macro_rules! swap_contract_arbitrary_indices_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof_for_contract(super::super::swap_if_less)]
@@ -1219,15 +1214,12 @@ macro_rules! swap_contract_arbitrary_indices_case {
     };
 }
 
-#[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, u8, 9);
 #[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n12, u8, 12);
-#[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, u8, 13);
 #[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n16, u8, 16);
-#[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, u64, 9);
 #[cfg(kani_smallsort_controls)]
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n12, u64, 12);
