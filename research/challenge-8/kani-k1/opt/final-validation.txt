@@ -1,0 +1,16 @@
+OPT final validation; UTC 2026-10-30T21:12:06.272349+00:00
+PASS: only 91 appended library lines; all previous source is an unchanged prefix.
+PASS: library exactly equals reviewed f052d6b7ec in all three build source commits.
+PASS: eight opt-in split harnesses; original oracle/probe/contract calls preserved.
+PASS: no added stubs, symbolic stable selector or assumptions.
+PASS: source/request SHA256/request_id/build UUID identities match bounded summary rows.
+PASS: N6/N8 measurement 8/8 SUCCESS and 1/1 covers each; same timeout/flags/pin.
+PASS: diagnostic failure retained: 6 SUCCESS, 2 OOM; 3 CBMC overlap; kernel OOM recorded.
+PASS: tooling hash checks from all three builds equal original BASE.
+PASS: own total 3/3 builds, $0.9180 spent, $0 reserved; CAP_USD=73.96 unchanged.
+PASS: report 88 lines; source/report/review/proposals lines <=100.
+PASS: all prior task commits [skip ci]; library/research commits remain separate.
+PASS: git diff --check.
+Rustfmt initial exact edition/config --check exit 0; reviewed Rust source unchanged since.
+NOT RUN: local rustc/cargo/Kani/CBMC; proof work ran only on authorized GCB lane.
+macOS UNKNOWN; diagnostic is Linux concurrency, not certification or physical-RAM proof.

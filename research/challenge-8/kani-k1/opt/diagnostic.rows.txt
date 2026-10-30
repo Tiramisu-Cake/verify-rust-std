@@ -1,0 +1,17 @@
+request_id=opt-split-jobs3-20261030
+request_sha256=2c84ed334cb92220d53b4c6981d8ecefff89e079c0b2467faf3720067fece8dc
+build_id=64a9829e-1097-4bcf-af34-6e3be5cfdd19
+head_sha=ae5aabe3f3e4422a35f861b889ac7436acab4216
+total=8
+offset=0
+count=8
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n6	SUCCESS	55.882458	0/407	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n6	SUCCESS	129.8351	0/405	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::general_contract_u64_n6	SUCCESS	206.39864	0/447	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::stable_contract_u64_n6	SUCCESS	255.93724	0/447	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n8	SUCCESS	244.31534	0/407	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8	OUT_OF_MEMORY	None		
+slice::sort::shared::smallsort::verify::merge::opt_split::general_contract_u64_n8	SUCCESS	362.54013	0/447	1/1
+slice::sort::shared::smallsort::verify::merge::opt_split::stable_contract_u64_n8	OUT_OF_MEMORY	None		

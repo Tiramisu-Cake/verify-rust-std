@@ -1,6 +1,6 @@
 {
   "task": "OPT",
-  "recorded_at_utc": "2026-10-30T20:48:12.865034+00:00",
+  "recorded_at_utc": "2026-10-30T21:10:30.621488+00:00",
   "limits": {
     "max_builds": 3,
     "max_own_spent_reserved_usd": "4.0000"
@@ -69,16 +69,27 @@
       "harness_timeout_seconds": 600,
       "full_envelope_minutes": 110,
       "closeout_reserve_minutes": 15,
-      "reserved_usd": "1.4850",
-      "actual_cost_usd": null,
-      "state": "SUBMITTED",
+      "reserved_usd": "0.0000",
+      "actual_cost_usd": "0.2565",
+      "state": "FAILURE",
       "budget_before": {
         "used_usd": "58.5870",
         "reserved_usd": "0.8100"
       },
       "budget_after_submit_upper_usd": "60.8820",
       "project_cap_usd": "73.96",
-      "scope": "Linux concurrency only; actual CBMC overlap to be measured; macOS UNKNOWN"
+      "scope": "Linux concurrency only; actual CBMC overlap to be measured; macOS UNKNOWN",
+      "evidence_state": "COMPLETE; 6 SUCCESS, 2 OUT_OF_MEMORY; gate false; kernel OOM observed",
+      "tooling_check": "PASS: source/pool/lane hashes equal BASE c52627e090",
+      "observed_max_cbmc_count": 3,
+      "evidence_next_step": "Closeout only; all 3 authorized builds used"
     }
-  ]
+  ],
+  "totals": {
+    "builds": 3,
+    "spent_usd": "0.9180",
+    "reserved_usd": "0.0000",
+    "remaining_spend_limit_usd": "3.0820",
+    "remaining_builds": 0
+  }
 }
