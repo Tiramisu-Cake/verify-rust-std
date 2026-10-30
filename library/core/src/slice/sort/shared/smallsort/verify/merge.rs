@@ -934,6 +934,115 @@ define_general_direct_harness!(general_stable_direct_u8_n8, u8, lt_u8, 8);
 #[cfg(kani_smallsort_controls)]
 define_general_direct_harness!(general_stable_direct_u8_n9, u8, lt_u8, 9);
 
+// Direct u64 routes use real merge bodies and the shared full-value oracle.
+fn scratch_view<T>(
+    holder: &mut MaybeUninit<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>,
+) -> &mut [MaybeUninit<T>] {
+    // SAFETY: the pointer retains the provenance of the exclusively borrowed holder.
+    // Arrays and MaybeUninit preserve element size/alignment, so all 48 slots fit.
+    // Only MaybeUninit<T> references are formed; no T needs to be initialized.
+    // The returned lifetime is tied to holder, which cannot be accessed during this borrow.
+    unsafe {
+        crate::slice::from_raw_parts_mut(
+            holder.as_mut_ptr().cast::<MaybeUninit<T>>(),
+            SMALL_SORT_GENERAL_SCRATCH_LEN,
+        )
+    }
+}
+
+fn general_direct_u64_properties<const N: usize>() {
+    const { assert!(N == 6 || N == 7 || N == 8) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    super::super::small_sort_general(&mut v, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "general direct split properties checked");
+}
+
+fn stable_direct_u64_properties<const N: usize>() {
+    const { assert!(N == 6 || N == 7 || N == 8) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut holder = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let scratch = scratch_view(&mut holder);
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
+macro_rules! define_direct_u64_route_harness {
+    ($name:ident, $body:ident, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body::<$n>();
+        }
+    };
+}
+
+define_direct_u64_route_harness!(general_direct_u64_n6, general_direct_u64_properties, 6);
+define_direct_u64_route_harness!(general_direct_u64_n7, general_direct_u64_properties, 7);
+define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_properties, 8);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
+define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(34)]
+fn stable_direct_value_corruption_control_u64_n2() {
+    set_value_probe::<u64>();
+    let mut v: [u64; 2] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut holder = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let scratch = scratch_view(&mut holder);
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, scratch, &mut cmp);
+    kani::cover(true, "aggregate stable sort returns before payload corruption");
+    // The low bit is payload under lt_u64; sortedness survives this mutation.
+    v[0] ^= 1;
+    assert_sorted_and_probe_preserved::<u64, _, 2>(&orig, &v, &mut cmp);
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn merge_aggregate_unsorted_halves_control_u64_n4() {
+    set_value_probe::<u64>();
+    let input: [u64; 4] = [6, 0, 2, 4];
+    let mut holder = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let scratch = scratch_view(&mut holder);
+    let src = scratch.as_mut_ptr().cast::<u64>();
+    let mut dst: [u64; 4] = kani::any();
+    let mut cmp = lt_u64;
+    kani::cover(true, "aggregate unsorted-halves call reached");
+    // SAFETY: prefix 4 is writable; dst is initialized and disjoint. The left-half
+    // keys [3, 0] deliberately violate only the stub's sorted-halves precondition.
+    unsafe {
+        ptr::copy_nonoverlapping(input.as_ptr(), src, 4);
+        bidirectional_merge(crate::slice::from_raw_parts(src, 4), dst.as_mut_ptr(), &mut cmp);
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(34)]
+fn merge_aggregate_allocation_bounds_control_u64() {
+    let mut holder = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let scratch = scratch_view(&mut holder);
+    let outside = scratch.as_mut_ptr().cast::<u64>().wrapping_add(SMALL_SORT_GENERAL_SCRATCH_LEN);
+    kani::cover(true, "aggregate allocation bounds control reaches raw write");
+    // Deliberately write one past the entire non-ZST allocation, without safe indexing.
+    unsafe { ptr::write(outside, 0) };
+}
+
 // Flip a payload bit after real sorting: keys stay sorted, full-value counts must detect it.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
@@ -1118,6 +1227,7 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n7, u64
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n7, u8, lt_u8, 7);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n7, 7);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n8, u64, lt_u64, 8);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n8, u8, lt_u8, 8);
