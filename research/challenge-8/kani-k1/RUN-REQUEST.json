@@ -1,31 +1,21 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "unstable8-gate-20261030",
+  "request_id": "unstable8-cell-split-20261030",
   "agent": "k1-merge",
   "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "UNSTABLE8 gate: real DropKey and read-only Cell<u8> trait routes at N8; unchanged logical oracle and two named negative controls. Envelope 4*10+30=70 min, $0.9450 reserved; own limit $4 and 3 builds. Pre-build review required before dispatch.",
+  "purpose": "UNSTABLE8 Cell N8 split after combined TIMEOUT: fixed stable/unstable trait entries; full symbolic input/probe, unchanged check_output and nontrivial covers. DropKey N8 PASS retained without rerun. Envelope 2*10+30=50 min, $0.6750; own spent $0.3105 plus envelope $0.9855 of $4, build 2/3.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n8",
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_permutation_drop_n2",
-      "expect": "FAILED",
-      "expect_check": "count(input, probe) == count(output, probe)"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_sortedness_cell_n2",
-      "expect": "FAILED",
-      "expect_check": "output[i - 1] <= output[i]"
     }
   ]
 }

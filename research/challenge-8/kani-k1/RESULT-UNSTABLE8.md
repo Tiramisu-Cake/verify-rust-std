@@ -1,37 +1,47 @@
-# UNSTABLE8 — PARTIAL, gate ожидается
+# UNSTABLE8 — PARTIAL, после gate
 
-Дата: 2026-10-30. Review пройден, GO получен; gate отправлен, результат ожидается.
+Дата: 2026-10-30. Gate G1 завершён; Cell N8 split подготовлен.
 База: `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`.
-Library SHA: `14f60a96372172c8699b050b64f878c2b0739dd2`.
-Source SHA: `5ff343a759b87c3927f7f3f90981d15f30e9e946`.
-Build ID: `64a70b50-30b2-4d26-b25b-7ed1463b4851`.
-Запрос и checkpoint в [unstable8/](unstable8/).
-Свои сборки 1/3; стоимость пока неизвестна, reserved $0.9450, лимит $4.
-Gate request_id: `unstable8-gate-20261030`; envelope 70 минут / $0.9450.
-Ledger при подготовке: spent $56.5350, reserved $0; CAP_USD $73.96 не менялся.
+Library G1: `14f60a96372172c8699b050b64f878c2b0739dd2`.
+Library split: `956a758288f483bef38d27372e08877bfbfd2212`.
+G1 source: `5ff343a759b87c3927f7f3f90981d15f30e9e946`.
+G1 build: `64a70b50-30b2-4d26-b25b-7ed1463b4851`, стоимость $0.3105.
+Свой ledger: 1/3 сборок, spent $0.3105, reserved $0 из $4; CAP_USD $73.96 прежний.
+G1 GCB FAILURE: gate false из-за Cell TIMEOUT; summary COMPLETE, setup корректный.
+Measurement, k1-standard4, jobs=1, controls:true, swap off, timeout 600 с на гармонику.
 
-| Тип | N | Маршрут | Статус | VT GCB | RSS | Covers |
+| Тип | N | Маршрут | Статус | VT GCB, с | RSS KiB | Covers |
 |---|---|---|---|---|---|---|
-| DropKey | 8 | stable + unstable, general | PENDING | — | — | — |
-| Cell<u8> | 8 | stable insertion + unstable fallback | PENDING | — | — | — |
+| DropKey | 8 | stable + unstable general | SUCCESS | 194.44167 | 487016 | 5/5 |
+| Cell<u8> | 8 | stable insertion + unstable fallback | TIMEOUT | — | 315944 | — |
+| Cell<u8> | 8 | stable insertion, fixed | NOT_RUN | — | — | — |
+| Cell<u8> | 8 | unstable fallback, fixed | NOT_RUN | — | — | — |
 
-Новые гармоники opt-in; fixed_trait_case вызывает существующий trait_properties.
-Сохраняются полные символические байты, произвольный probe и stable: bool.
-Общий check_output проверяет sortedness по logical value и его мультимножество.
-Ожидаются covers обеих ветвей, возврата после assert, unsorted input и duplicate keys.
-DropKey использует настоящие тела с merge; Cell comparator только читает значения.
-Новых доказанных случаев пока нет: добавление гармоники не является PASS.
+RSS — индивидуальный CBMC VmHWM; /proc опрашивается каждые 2 с, не сумма RAM.
+G1 driver peak 840616 KiB, общий для запуска, без attribution к отдельной гармонике.
+Пики могут пропустить рост между samples; time -v max 1782584 KiB относится ко всему run.
+Процессный CBMC peak надёжно привязан через metadata к соответствующей гармонике.
+Числовой safe-gate не назначается. OOM scan: none_seen; Cell достиг лимита времени.
 
-Контроли пока PENDING: reject_logical_permutation_drop_n2 должен отказать на counts;
-reject_logical_sortedness_cell_n2 — на sortedness при корректном setup.
-Oracle и существующие контроли не менялись; gate использует controls:true, jobs=1.
-Kani pin 9461e07a, toolchain, flags и lane-файлы не менялись.
+Оба существующих отрицательных контроля с корректным setup и одним ожидаемым отказом:
+Drop N2: FAILED 1/390, 1.9809694 с; counts, types.rs:58.
+Cell N2: FAILED 1/227, 0.561533 с; sortedness, types.rs:56.
+Ожидаемые expressions совпали с expect_check; covers 0/1 у обоих после намеренного отказа.
+Oracle, домены, cadical, unwind(50), flags, Kani 9461e07a и toolchain не менялись.
+check-tooling G1 подтвердил lane-файлы и шесть summary bindings относительно базы.
 
-После gate: при TIMEOUT/OOM split только незакрытых ветвей; при успехе — отдельный N9,
-если полный envelope помещается в остаток ≤4 ч и $4/3 сборки. Принятый N8 не повторять.
-Измерений памяти нет; после build указать индивидуальные пики CBMC/driver и метод.
-Числовой safe-gate не назначается. N0..2 + N8/N9 не образуют непрерывного диапазона.
-Кандидаты в ordinary Part 1 появятся только после принятого PASS; переводит координатор.
-macOS UNKNOWN; пригодность устанавливает только CI организаторов.
-Вне цели: drop-счёт, unwind, generic T и доказательство стабильности по identity.
-Заданный rustfmt --check и Python request validate прошли (exit 0).
+Доказано для DropKey N8: logical sortedness и мультимножество полных u8-значений.
+Настоящие stable/unstable trait-входы, scratch48 и bidirectional_merge, без stubs.
+Полный any [u8;8], any probe и stable: bool; covers обеих ветвей, unsorted и duplicate.
+Cell comparator read-only. Combined Cell N8 TIMEOUT не даёт proof credit.
+Split сохраняет any input/probe, тот же check_output и covers unsorted/duplicate.
+STABLE — const true/false, скрытого any-selector нет; объединение = исходный bool-домен.
+DropKey N8 не повторяется; ordinary набор не менялся, новые гармоники/helper opt-in.
+
+Кандидат в ordinary Part 1: DropKey N8; переводит координатор после оценки CI.
+N0..2 + N8/N9 не образуют непрерывный диапазон. macOS UNKNOWN.
+Пригодность устанавливает только CI организаторов; Linux GCB pilot не равен их PASS.
+Вне цели: drop-счёт, unwind, generic T, стабильность по identity; uninit checks off.
+Продолжение: split Cell N8 (50 минут, резерв $0.6750), затем при остатке отдельный N9.
+Rustfmt --check и diff-check exit 0; исходники и этот отчёт ≤100 символов/строку.
+[Запросы, bounded summary, peaks и UUID](unstable8/).

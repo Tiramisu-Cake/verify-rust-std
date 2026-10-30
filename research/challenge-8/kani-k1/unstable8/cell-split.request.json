@@ -1,0 +1,21 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "unstable8-cell-split-20261030",
+  "agent": "k1-merge",
+  "kind": "measurement",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "UNSTABLE8 Cell N8 split after combined TIMEOUT: fixed stable/unstable trait entries; full symbolic input/probe, unchanged check_output and nontrivial covers. DropKey N8 PASS retained without rerun. Envelope 2*10+30=50 min, $0.6750; own spent $0.3105 plus envelope $0.9855 of $4, build 2/3.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+      "expect": "SUCCESS"
+    }
+  ]
+}

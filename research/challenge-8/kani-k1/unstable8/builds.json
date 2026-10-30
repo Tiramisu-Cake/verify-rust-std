@@ -8,14 +8,22 @@
       "request_id": "unstable8-gate-20261030",
       "source_sha": "5ff343a759b87c3927f7f3f90981d15f30e9e946",
       "dispatch_branch": "experiment/kani-k1-unstable-20261030",
-      "stage": "DISPATCHED",
+      "stage": "COMPLETE",
       "recorded_at_utc": "2026-10-30T19:28:01.658468+00:00",
       "envelope_minutes": 70,
-      "reserved_usd": 0.945,
-      "cost_usd": null
+      "reserved_usd": 0,
+      "cost_usd": 0.3105,
+      "gcb_status": "FAILURE",
+      "gate": false,
+      "results": {
+        "drop_n8": "SUCCESS",
+        "cell_n8": "TIMEOUT",
+        "drop_negative": "FAILED_EXPECTED_COUNTS",
+        "cell_negative": "FAILED_EXPECTED_SORTEDNESS"
+      }
     }
   ],
-  "spent_usd": 0,
-  "reserved_usd": 0.945,
-  "stage": "GATE_DISPATCHED"
+  "spent_usd": 0.3105,
+  "reserved_usd": 0,
+  "stage": "CELL_SPLIT_PREPARED"
 }
