@@ -1,6 +1,6 @@
 {
   "task": "OPT",
-  "recorded_at_utc": "2026-10-30T19:53:18.662626+00:00",
+  "recorded_at_utc": "2026-10-30T20:16:03.987214+00:00",
   "limits": {
     "max_builds": 3,
     "max_own_spent_reserved_usd": "4.0000"
@@ -19,18 +19,20 @@
       "closeout_reserve_minutes": 15,
       "reserved_usd": "0.0000",
       "actual_cost_usd": "0.2970",
-      "state": "SUCCESS_WATCHER_REPORTED",
+      "state": "SUCCESS",
       "budget_before": {
         "used_usd": "56.5350",
         "reserved_usd": "1.4850"
       },
       "budget_after_submit_upper_usd": "58.9650",
       "project_cap_usd": "73.96",
-      "evidence_state": "BRIEF_HTTP_404; per-harness status/covers/VT/RSS UNKNOWN",
+      "evidence_state": "COMPLETE; 4/4 SUCCESS; 1/1 covers each; B/A gate GO",
       "brief_failure_record": "n6-brief-unavailable.json",
       "cost_query": "k1g.sh budget BUILD_UUID => 1 0.2970 0.0000",
-      "evidence_next_step": "Administrative audit authorization requested",
-      "helper_incident": "Stopped check-tooling implicit fetch; no evidence read"
+      "evidence_next_step": "N8 accepted for both B and A",
+      "helper_incident": "Stopped check-tooling implicit fetch; no evidence read",
+      "evidence_reading": "k1g.sh summary/peaks/check-tooling; explicit user authorization",
+      "tooling_check": "PASS: build source/pool and lane hashes equal base c52627e090"
     }
   ]
 }

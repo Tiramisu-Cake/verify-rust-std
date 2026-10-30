@@ -1,0 +1,72 @@
+{
+  "build_uuid": "993fe78c-4a34-489d-8c4e-485da048e1e2",
+  "source_sha": "73fb790ad0d78e81c5a2928651650398dbe7d673",
+  "request_id": "opt-split-n6-gate-20261030",
+  "actual_cost_usd": "0.2970",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n6",
+      "status": "SUCCESS",
+      "time_s": 70.8442,
+      "checks": "0/407",
+      "covers": "1/1",
+      "cbmc_peak_kib": 870280,
+      "cbmc_peak_gib": 0.8299636840820312
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n6",
+      "status": "SUCCESS",
+      "time_s": 161.62236,
+      "checks": "0/405",
+      "covers": "1/1",
+      "cbmc_peak_kib": 5618028,
+      "cbmc_peak_gib": 5.357769012451172
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_contract_u64_n6",
+      "status": "SUCCESS",
+      "time_s": 171.72945,
+      "checks": "0/447",
+      "covers": "1/1",
+      "cbmc_peak_kib": 1478980,
+      "cbmc_peak_gib": 1.4104652404785156
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_contract_u64_n6",
+      "status": "SUCCESS",
+      "time_s": 299.92233,
+      "checks": "0/447",
+      "covers": "1/1",
+      "cbmc_peak_kib": 6347128,
+      "cbmc_peak_gib": 6.053092956542969
+    }
+  ],
+  "groups": {
+    "direct": {
+      "group": "B",
+      "go": true,
+      "max_cbmc_peak_gib": 5.357769012451172,
+      "baseline_cbmc_peak_gib": 6.034,
+      "peak_reduction_percent": 11.207010068757505,
+      "sum_verification_time_s": 232.46656,
+      "baseline_verification_time_s": 235.455,
+      "causal_speedup_claim": false
+    },
+    "contract": {
+      "group": "A",
+      "go": true,
+      "max_cbmc_peak_gib": 6.053092956542969,
+      "baseline_cbmc_peak_gib": 6.583,
+      "peak_reduction_percent": 8.04962848939741,
+      "sum_verification_time_s": 471.65178000000003,
+      "baseline_verification_time_s": 310.391,
+      "causal_speedup_claim": false
+    }
+  },
+  "driver_peak_kib": 448564,
+  "sampled_sum_all_rss_peak_kib": 6329892,
+  "sampled_simultaneous_cbmc_rss_peak_kib": 6304036,
+  "sampling_interval_ms": 2000,
+  "memory_note": "RSS is process resident memory; sampled sum is not physical RAM.",
+  "macos": "UNKNOWN"
+}
