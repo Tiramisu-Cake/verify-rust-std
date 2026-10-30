@@ -1,9 +1,9 @@
-# ASSEMBLY — ordinary inventory и пять контролей приняты; controls inventory ожидается
+# ASSEMBLY — кандидат готов: inventories и пять контролей приняты
 
 Дата: 2026-10-31. Ветка `experiment/kani-k1-assembly-20261031`.
 Library SHA `d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18`.
 Library tree `954e0becf8cb6c137ea89f94ad613d83d97235e0`.
-Изменены только `verify/merge.rs` и `verify/types.rs`; production/oracle прежние.
+В library изменены `verify/merge.rs` и `verify/types.rs`; production/oracle прежние.
 
 | Изменение относительно INTEG | Ordinary | Opt-in |
 |---|---:|---:|
@@ -47,20 +47,20 @@ B DIRECT corruption control получил cover возврата сортиро
 условия, mutation и общий oracle сохранены. Это дополнительная проверка на итоговом SHA.
 
 Статические списки: Part 1 ordinary182, controls cfg463; expected-fail controls31.
-Part 2 ordinary339, controls cfg463; expected-fail controls31.
+Part 2 static forecast: ordinary339, controls cfg463; expected-fail controls31.
 Пересчёт P2: INTEG339 +3 UNSTABLE8 +6 direct −3 C −2 combined B −4 historical A =339.
 P2 снимает budget/positive gates; pending/retired/TIMEOUT/negative/unsupported/historical A
 сохраняет opt-in. Static apply patch и точное множество имён: PASS, `scope/pr2-static-check.json`.
-G1 ordinary inventory: COMPLETE, actual182 = static182, точное множество имён совпало.
-Request/source/Kani/artifact/name hashes, coverage0/80/160: PASS (`g1.inventory-check.json`).
+Inventories G1 ordinary182/G2 controls463: COMPLETE, точные множества имён равны статике.
+Bindings и полное покрытие страниц: PASS (`assembly/g1.inventory-check.json`, аналогично G2).
 
 Локально: source-transfer audit PASS, source scope/helper forecast PASS в обеих cfg.
 Rustfmt заданным wrapper/config --check exit0; изменённые .rs ≤100 колонок.
 Исходные items сохранены кроме cfg и одного указанного control cover.
-G3: новых unused/dead_code/SmallSort helper warnings не найдено; есть старые manifest/
-force-warn unstable core/lib.rs warnings. G1 targeted warnings: no match; G2 ещё ожидается.
+G1/G2 targeted unused/dead_code/SmallSort warnings: no match; G3 — лишь expected FAILED
+locations. Есть прежние manifest/force-warn unstable core/lib.rs warnings.
 Rust/cargo/Kani/CBMC локально не запускались.
-Kani9461e07a, toolchain, flags, lane-файлы прежние.
+Kani9461e07a, toolchain, flags, lane-файлы прежние; uninit checks off.
 
 G3 measurement: COMPLETE/gate true, Kani exit1 ожидаем; jobs1/controls:true, timeout600.
 Ручная сверка summary locations с frozen source выполнена, каждый control FAILED ровно один раз:
@@ -81,20 +81,20 @@ Source/request/pin/pool/tooling связаны: check-tooling PASS относи�
 `assembly/g3.controls-review.json`, `g3.summary.md`, `g3.peaks.txt`, `g3.tooling.txt`.
 Historical donor SUCCESS/FAILED не выдаются за proof credit итогового library SHA.
 
-Builds3/3; G1 cost$0.5535, G3 $0.1215; ledger spent$0.6750, G2 reserved$1.2150.
+Builds3/3; spent$1.2960 из $3.5, reserved$0; G1/G2/G3 costs: 0.5535/0.6210/0.1215.
 GO для `74f064bad9` получен; source/request/UUID ledger: `assembly/builds.json`.
 Бюджет по NOTES $3,5. Запросы: ordinary30min, controls60min (как INTEG G2/G3),
 measurement5×10min; setup30min/build; общий максимальный резерв $3.1050 ≤ $3.5.
-T0 взят консервативно по initial TASK commit: 01:22:44 MSK; deadline04:22:44 MSK,
-резерв закрытия15min. Перед каждым dispatch — fresh budget и полный envelope по остатку окна.
-При нехватке окна/бюджета — PARTIAL; timeout600 не урезать. План в `assembly/window.json`.
+T0 01:22:44 MSK, deadline04:22:44 MSK; исходное окно соблюдено, резерв закрытия15min.
+До каждого dispatch проверены budget и полный envelope: `assembly/g*.preflight.json`.
+Inventory memory/time MISSING; ресурсные оценки G1/G2 и положительная verification не заявлены.
 Только k1-standard4, CAP_USD73.96 прежний. Library tree заморожен для всех трёх запросов.
-Ожидание только k1g.sh watch с завершением хода; чтение только штатным K-1 интерфейсом.
-Не проверены: controls inventory и его warnings, macOS, jobs3, полный CI организаторов.
+Все три ожидались через k1g.sh watch с завершением хода; чтение штатным K-1 интерфейсом.
+Не проверены: native P2 inventory, macOS, jobs3 итогового набора, полный CI организаторов.
 Ветки submission не затрагивались; единственный полный CI выполняет координатор.
 
 | Build | Назначение / статус | UUID |
 |---|---|---|
 | g1 | ordinary182 / exact PASS | 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 |
-| g2 | controls463 / ожидается | 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b |
+| g2 | controls463 / exact PASS | 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b |
 | g3 | пять controls / PASS | b1cc9973-6a7d-4471-8e9f-6b5002a0c36f |

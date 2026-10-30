@@ -1,0 +1,68 @@
+{
+  "status": "PASS_EXACT_NAME_SET",
+  "build": "8d168cb0-f60f-41b1-8a8b-8822a2c7a59b",
+  "source_sha": "cb04aa5df68c91ccc290e5dd65217ed29041f5be",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
+  "controls": true,
+  "actual_count": 463,
+  "expected_count": 463,
+  "duplicates": 0,
+  "missing_names": [],
+  "unexpected_names": [],
+  "exact_name_set_equal": true,
+  "coverage_complete": true,
+  "pages": [
+    {
+      "file": "g2.inventory-0.txt",
+      "offset": 0,
+      "count": 80,
+      "next_offset": "80"
+    },
+    {
+      "file": "g2.inventory-80.txt",
+      "offset": 80,
+      "count": 80,
+      "next_offset": "160"
+    },
+    {
+      "file": "g2.inventory-160.txt",
+      "offset": 160,
+      "count": 80,
+      "next_offset": "240"
+    },
+    {
+      "file": "g2.inventory-240.txt",
+      "offset": 240,
+      "count": 80,
+      "next_offset": "320"
+    },
+    {
+      "file": "g2.inventory-320.txt",
+      "offset": 320,
+      "count": 80,
+      "next_offset": "400"
+    },
+    {
+      "file": "g2.inventory-400.txt",
+      "offset": 400,
+      "count": 63,
+      "next_offset": "done"
+    }
+  ],
+  "bindings": {
+    "request_id": "assembly-inventory-controls-20261031",
+    "request_sha256": "5cd181312e767ba379918a0a0bb7e06fc78965bdc021070584771cb2920670e9",
+    "build_id": "8d168cb0-f60f-41b1-8a8b-8822a2c7a59b",
+    "head_sha": "cb04aa5df68c91ccc290e5dd65217ed29041f5be",
+    "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+    "inventory_sha256": "70a92c711a9e23c2706bd48d53e0ee4eb6f56383b600058db787bcaacef68b33",
+    "names_sha256": "b90655e9dd896f79072f04ecc9d1b838a8977cf83427b310119f909c05b865de",
+    "total": "463"
+  },
+  "expected_file": "scope/manifest.tsv (all names)",
+  "expected_file_sha256": "a15d3dde5fb9e475d1e81e39de88ae8d419b14956c3649f3f40c071fda49ad26",
+  "tooling": "PASS_against_GO_source74f064bad9",
+  "targeted_unused_dead_code_smallsort_warnings": "NO_MATCH",
+  "memory_time_credit": "MISSING in inventory summary; no resource/performance claim",
+  "positive_verification_credit": "None; this build checks enumeration only"
+}

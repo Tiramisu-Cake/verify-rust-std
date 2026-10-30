@@ -1,77 +1,43 @@
-# ASSEMBLY — GO received, inventory dispatch
+# ASSEMBLY — COMPLETE, candidate ready for coordinator review
 
 Worktree `/root/verify-rust-std-kani-assembly`, branch `experiment/kani-k1-assembly-20261031`.
-Initial HEAD `ddcc33f837`; latest library commit `d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18`.
-Library tree `954e0becf8cb6c137ea89f94ad613d83d97235e0`.
+Library commit `d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18`.
+Frozen library tree `954e0becf8cb6c137ea89f94ad613d83d97235e0`.
+Coordinator GO for `74f064bad9`: go.json. No library edits after GO.
+All six direct u64 N6..8 ordinary, C u64 N6..8 retired; no Part2 micro-package.
+P1 ordinary182, native controls cfg463. P2 ordinary339/controls463 is a static forecast.
+Retired16, pending0, expected-fail controls31; historical A-u64 remain opt-in outside P2.
 
-Coordinator explicitly confirmed BACKING2 general N7 and stable N6/N7:
-SUCCESS, covers1/1, checks0/407, CBMC<=0.99GiB; source30b8b975c5/libraryf28909ac02,
-build33e2c5fd-27ba-4cdb-89f9-474f51a3ac39. Record: backing2-confirmation.json.
-All six direct u64 N6..8 are ordinary; C u64 N6..8 are retired duplicates.
-Static Part1 ordinary182/all463; pending0/retired16. Part2 ordinary339/all463.
-Combined B u64 N6/N7 remain retired; historical A u64 N5..8 remain opt-in outside P2.
-No Part2 micro-package. Historical results do not prove the assembled candidate tree.
+All three Cloud Builds SUCCESS, summaries COMPLETE/gate true, tooling PASS against GO source.
+G1 ordinary inventory: exact182-name set, no duplicates/missing/unexpected.
+G2 controls inventory: exact463-name set, no duplicates/missing/unexpected.
+Request/source/Kani/artifact/names hashes and complete bounded-page coverage verified.
+Native inventory validation confirms enumeration, not positive verification or performance.
+G1/G2 inventory memory/time fields MISSING. Targeted unused/dead_code/SmallSort warnings no match.
+G3 targeted query shows only intended failure locations; old manifest/core unstable warnings remain.
 
-All 3/3 builds submitted; no further build quota. Own ledger builds.json: full-envelope
-reservation USD3.105, cap USD3.5. Refresh actual spent/reserved through k1g.sh budget UUIDs.
-Coordinator GO for 74f064bad9 is recorded in go.json; library stays frozen.
-All three watches were registered. G1/G3 callbacks processed; only G2 controls inventory watcher remains active.
-Do not register duplicate watches. Wait by ending the turn after committing this evidence.
-On watcher notification, read only the completed UUID's bounded K-1 evidence.
-After GO freeze this library tree for all three requests; a library edit needs delta-review.
-Do not reverify positive transferred entries here; coordinator runs the full CI.
+G3 measurement: five intended FAILED, each exactly one check, each covers1/1.
+Both count failures at merge.rs846 in assert_sorted_and_probe_preserved.
+Sortedness source assert844 is not FAILED; terse output does not print explicit SUCCESS for it.
+Both unsorted-halves failures: smallsort.rs842 merge_inputs_are_sorted requires.
+Bounds: raw one-past-whole-allocation write, ptr/mod.rs1981; no safe indexing substituted.
+Manual review and exact source binding in g3.controls-review.json.
+Kani exit1 is expected for these negative controls. Uninit checks off; no full/generic proof claim.
 
-Regenerate library using assemble_library.py --backing2-confirmed; rustfmt required afterwards.
-Recorded confirmation also enables that mode by default. Regenerate research using:
-assembly/prepare_scope.py, scope/prepare_pr2.py, scope/check_scope.py and scope/check_helpers.py.
-All commits [skip ci], library separate from research, push without force.
+Build / request source / UUID:
+- G1 b84e992edf / 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6
+- G2 cb04aa5df6 / 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b
+- G3 a48fd96b6a / b1cc9973-6a7d-4471-8e9f-6b5002a0c36f
+All three watches delivered; no pending build or watch, no further build quota.
+Final selected-UUID ledger: spent USD1.2960, reserved USD0, budget USD3.5, builds3/3.
+Individual costs: G1 USD0.5535, G2 USD0.6210, G3 USD0.1215. CAP_USD73.96 unchanged.
+Original T0/deadline/closing reserve preserved; evidence review completed within the window.
 
-RUN-REQUEST is the G3 measurement request; do not dispatch it or any further build.
-Plan: separate ordinary30min and controls60min inventories, then five controls each10min,
-measurement jobs1/controls:true; setup30min per build. Maximum own reserve USD3.105.
-Inventories may be dispatched together; each build needs its own source SHA/request_id/UUID.
-Fresh k1g.sh budget and remaining-window check before each dispatch. CAP_USD73.96 unchanged.
-T0/deadline and closing15min reserve are in window.json; never reset the window implicitly.
-If the next full envelope does not fit, report PARTIAL with exact remaining time/budget.
-Only await builds via k1g.sh watch BUILD and end the turn.
+Report RESULT-ASSEMBLY.md <=100 lines; final-check.json binds completed checks and report.
+Not checked: native P2 inventory, macOS, jobs3 on final suite, organizers' full CI.
+Positive transplanted harnesses were not reverified by these builds; full CI belongs to coordinator.
+Only bounded K-1 readers used; no raw archive/log bypass, no local Rust/Kani/CBMC,
+no lane/toolchain/flag changes, no submission branches, Actions or CircleCI.
 
-Compare exact inventory name sets to scope/ordinary.txt and all manifest.tsv names.
-For both count controls: exactly one FAILED at count-assert of the shared oracle,
-using actual final summary location; no other FAILED. Absence of sortedness failure in
-terse output is not an explicit SUCCESS line. Check all five controls' covers.
-Unsorted-halves: merge_inputs_are_sorted; bounds: raw write outside whole allocation48.
-Do not accept compile/unsupported/TIMEOUT as expected failures.
-Bounded K-1 summary/peaks/inventory/log-grep/log-lines/check-tooling only, no raw logs.
-No local Rust/cargo/Kani/CBMC, lane or toolchain changes, or submission branches.
-
-Final completion requires inventories, controls, report <=100 lines, commit + push.
-Do not emit ASSEMBLY ЗАВЕРШЁН while required evidence remains unperformed.
-
-Submitted builds (source SHA / request_id bindings in builds.json):
-- g1 inventory controls=False: 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6
-- g2 inventory controls=True: 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b
-- g3 measurement controls=True: b1cc9973-6a7d-4471-8e9f-6b5002a0c36f
-
-After each watch notification: bounded summary, inventory/peaks as appropriate,
-check-tooling against GO source74f064bad959b6a38369bbed43e7a11f114b81b6, warning grep.
-Compare exact names for g1 ordinary182 and g2 controls463. For g3 manually inspect
-all five FAILED checks/locations/covers, especially the two placeholder count failures.
-Do not treat placeholder match as count-oracle acceptance; report final summary locations.
-No library changes or extra builds; any needed delta goes to coordinator review.
-
-G3 reviewed COMPLETE/gate true, Kani exit1 expected. Five controls each have one FAILED
-and covers1/1. Both count failures are merge.rs846 in shared oracle; sortedness844 is
-not FAILED, but no explicit sortedness SUCCESS line is printed in terse summary.
-Both input controls fail smallsort.rs842 requires; bounds fails ptr/mod.rs1981.
-Detailed manual review g3.controls-review.json; tooling PASS, no new helper warnings.
-Actual own spent USD0.1215, reserved USD2.025 for inventories (budget-after-g3.txt).
-No completion marker until both exact-name inventory comparisons and their warnings/tooling pass.
-
-G1 ordinary inventory accepted: COMPLETE/gate true, exact182-name set equals scope/ordinary.txt.
-Header/request/source/Kani/artifact/name hashes and coverage0/80/160 checked.
-Check-tooling PASS; targeted unused/dead_code/SmallSort warnings no match.
-Inventory memory/time fields MISSING; no resource/proof credit inferred. G1 costUSD0.5535.
-Current own spentUSD0.6750, reservedUSD1.2150 for G2 (budget-after-g1.txt).
-Final remaining work: G2 controls inventory exact463-name comparison, tooling and warnings;
-refresh final costs, finalize <=100-line report, commit/push, then completion markers.
-G2 watcher already registered; do not register again or submit another build.
+No work remains for this ASSEMBLY session after final commit/push and review-request markers.
+Do not resume after the final completion marker.

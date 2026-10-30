@@ -1,0 +1,53 @@
+{
+  "status": "PASS_ALL_REQUESTED_ASSEMBLY_CHECKS",
+  "library_commit": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
+  "go_reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6",
+  "all_three_build_library_trees_equal": true,
+  "lane_toolchain_flags_unchanged_since_go": true,
+  "ordinary182_controls463_exact_inventories": {
+    "g1": {
+      "count": 182,
+      "names_sha256": "b972b03684cfec842d95dd7776e7f2dbbd7f32ee06e60c7e4187ccaebb91c098",
+      "exact_name_set_equal": true,
+      "source_sha": "b84e992edf2bcc96d7a35150a7b001683d33bc11",
+      "build_uuid": "9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6"
+    },
+    "g2": {
+      "count": 463,
+      "names_sha256": "b90655e9dd896f79072f04ecc9d1b838a8977cf83427b310119f909c05b865de",
+      "exact_name_set_equal": true,
+      "source_sha": "cb04aa5df68c91ccc290e5dd65217ed29041f5be",
+      "build_uuid": "8d168cb0-f60f-41b1-8a8b-8822a2c7a59b"
+    }
+  },
+  "negative_controls": {
+    "count": 5,
+    "each_one_intended_FAILED": true,
+    "each_cover1of1": true,
+    "two_count_locations_manually_reviewed": true,
+    "explicit_sortedness_SUCCESS_line_not_claimed": true
+  },
+  "part2_static_only": {
+    "ordinary": 339,
+    "controls_cfg_universe": 463,
+    "patch_apply": "PASS",
+    "patch_sha256": "9ed61caf1fb779382a854ddcac32ef64c429e628b9d68e4d7c4864d64a4b56ec"
+  },
+  "builds": 3,
+  "max_builds": 3,
+  "spent_usd": 1.296,
+  "reserved_usd": 0,
+  "max_usd": 3.5,
+  "report_lines": 100,
+  "report_max_columns": 98,
+  "report_sha256": "c970cfe70dfb953ab1c6ec29dcd70e88f72871bb9e562e82df389cccfbf501a2",
+  "rustfmt": "Prior exit0 on unchanged final library tree; no repeated compile/test",
+  "within_original_deadline": true,
+  "limitations": [
+    "No positive re-verification by these three builds",
+    "Native P2 inventory not run; P2 is static patch forecast",
+    "macOS, jobs3 on assembled suite and full organizers CI not run",
+    "uninit checks off; no generic/full-proof credit claimed"
+  ]
+}
