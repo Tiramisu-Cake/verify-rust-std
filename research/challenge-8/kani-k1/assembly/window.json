@@ -13,5 +13,8 @@
   "measurement_envelope_minutes": 80,
   "dispatch_rule": "Before every build recompute remaining wall time and own spent/reserved. Whole next envelope plus 15min closing reserve must fit remaining window. Otherwise stop PARTIAL; do not shorten proof timeout.",
   "inventory_plan": "May dispatch both inventories before watch/end-turn; each request gets own research source SHA, same frozen library tree",
-  "go": "NOT_RECEIVED"
+  "go": "COORDINATOR_GO_RECEIVED",
+  "go_reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6",
+  "go_received_at_utc": "2026-10-30T22:40:06.501029+00:00",
+  "frozen_library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0"
 }

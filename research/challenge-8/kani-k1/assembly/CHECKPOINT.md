@@ -1,4 +1,4 @@
-# ASSEMBLY — confirmed candidate, awaiting pre-build GO
+# ASSEMBLY — GO received, inventory dispatch
 
 Worktree `/root/verify-rust-std-kani-assembly`, branch `experiment/kani-k1-assembly-20261031`.
 Initial HEAD `ddcc33f837`; latest library commit `d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18`.
@@ -13,7 +13,8 @@ Combined B u64 N6/N7 remain retired; historical A u64 N5..8 remain opt-in outsid
 No Part2 micro-package. Historical results do not prove the assembled candidate tree.
 
 No builds submitted. Own spent/reserved USD0, ceiling USD3.5 and 3 builds.
-No build GO received. End turn after PRE-BUILD REVIEW and await coordinator GO.
+Coordinator GO received for 74f064bad9; go.json records authority and frozen tree.
+Dispatch ordinary and controls inventories, register watch for both, then end turn.
 After GO freeze this library tree for all three requests; a library edit needs delta-review.
 Do not reverify positive transferred entries here; coordinator runs the full CI.
 
