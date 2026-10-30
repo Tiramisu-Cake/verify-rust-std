@@ -1392,3 +1392,59 @@ mutating_route_permutation_case!(mutating_route_permutation_cell_n4, 4, [1, 2, 3
 fn control_network_mutant_presorted_u8_n10() {
     network_correctness_u8_n10();
 }
+
+// Stable-only dispatch isolates scratch shape from the unstable route.
+#[cfg(kani_smallsort_controls)]
+mod backing {
+    use super::super::super::{SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl};
+    use super::*;
+    use crate::mem::MaybeUninit;
+
+    fn scratch_view<T>(
+        holder: &mut MaybeUninit<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>,
+    ) -> &mut [MaybeUninit<T>] {
+        // SAFETY: the pointer retains the provenance of the exclusively borrowed holder.
+        // Arrays and MaybeUninit preserve element size/alignment, so all 48 slots fit.
+        // Only MaybeUninit<T> references are formed; no T needs to be initialized.
+        // The returned lifetime is tied to holder, which cannot be accessed during this borrow.
+        unsafe {
+            crate::slice::from_raw_parts_mut(
+                holder.as_mut_ptr().cast::<MaybeUninit<T>>(),
+                SMALL_SORT_GENERAL_SCRATCH_LEN,
+            )
+        }
+    }
+
+    fn dispatch_safety_aggregate<T: ArbitraryValue, const N: usize>() {
+        let mut v: [T; N] = crate::array::from_fn(|_| T::arbitrary_value());
+        let mut holder = MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+        let scratch = scratch_view(&mut holder);
+        <T as StableSmallSortTypeImpl>::small_sort(
+            &mut v,
+            scratch,
+            &mut volatile_reading_less::<T>,
+        );
+    }
+
+    #[kani::proof]
+    #[kani::stub(
+        crate::slice::sort::shared::smallsort::panic_on_ord_violation,
+        assume_order_violation
+    )]
+    #[kani::unwind(65)]
+    fn dispatch_safety_stable_bytes17_n32_old() {
+        dispatch_safety_fixed::<[u8; 17], 32, true>();
+        kani::cover(true, "dispatch route normal return is reachable");
+    }
+
+    #[kani::proof]
+    #[kani::stub(
+        crate::slice::sort::shared::smallsort::panic_on_ord_violation,
+        assume_order_violation
+    )]
+    #[kani::unwind(65)]
+    fn dispatch_safety_stable_bytes17_n32_new() {
+        dispatch_safety_aggregate::<[u8; 17], 32>();
+        kani::cover(true, "dispatch route normal return is reachable");
+    }
+}
