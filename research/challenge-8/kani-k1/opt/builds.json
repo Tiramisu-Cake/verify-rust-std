@@ -1,0 +1,31 @@
+{
+  "task": "OPT",
+  "recorded_at_utc": "2026-10-30T19:29:47.263723+00:00",
+  "limits": {
+    "max_builds": 3,
+    "max_own_spent_reserved_usd": "4.0000"
+  },
+  "builds": [
+    {
+      "request_id": "opt-split-n6-gate-20261030",
+      "build_uuid": "993fe78c-4a34-489d-8c4e-485da048e1e2",
+      "source_sha": "73fb790ad0d78e81c5a2928651650398dbe7d673",
+      "review_go": "Explicit coordinator GO relayed by user",
+      "kind": "measurement",
+      "pool": "k1-standard4",
+      "kani_jobs": 1,
+      "harness_timeout_seconds": 600,
+      "full_envelope_minutes": 70,
+      "closeout_reserve_minutes": 15,
+      "reserved_usd": "0.9450",
+      "actual_cost_usd": null,
+      "state": "SUBMITTED",
+      "budget_before": {
+        "used_usd": "56.5350",
+        "reserved_usd": "1.4850"
+      },
+      "budget_after_submit_upper_usd": "58.9650",
+      "project_cap_usd": "73.96"
+    }
+  ]
+}
