@@ -1,6 +1,6 @@
 {
   "task": "OPT",
-  "recorded_at_utc": "2026-10-30T20:47:23.970375+00:00",
+  "recorded_at_utc": "2026-10-30T20:48:12.865034+00:00",
   "limits": {
     "max_builds": 3,
     "max_own_spent_reserved_usd": "4.0000"
@@ -57,6 +57,28 @@
       "evidence_state": "COMPLETE; 4/4 SUCCESS; 1/1 covers each",
       "tooling_check": "PASS: source/pool/lane hashes equal BASE c52627e090",
       "evidence_next_step": "jobs=3 Linux concurrency diagnostic if full envelope fits"
+    },
+    {
+      "request_id": "opt-split-jobs3-20261030",
+      "build_uuid": "64a9829e-1097-4bcf-af34-6e3be5cfdd19",
+      "source_sha": "ae5aabe3f3e4422a35f861b889ac7436acab4216",
+      "group_gate": "N6 B/A GO; all 8 measurement harnesses SUCCESS and covers 1/1",
+      "kind": "diagnostic",
+      "pool": "k1-standard4",
+      "kani_jobs": 3,
+      "harness_timeout_seconds": 600,
+      "full_envelope_minutes": 110,
+      "closeout_reserve_minutes": 15,
+      "reserved_usd": "1.4850",
+      "actual_cost_usd": null,
+      "state": "SUBMITTED",
+      "budget_before": {
+        "used_usd": "58.5870",
+        "reserved_usd": "0.8100"
+      },
+      "budget_after_submit_upper_usd": "60.8820",
+      "project_cap_usd": "73.96",
+      "scope": "Linux concurrency only; actual CBMC overlap to be measured; macOS UNKNOWN"
     }
   ]
 }

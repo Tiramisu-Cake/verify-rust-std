@@ -1,4 +1,4 @@
-# OPT — PARTIAL: N6/N8 доказаны; jobs=3 diagnostic подготовлен
+# OPT — PARTIAL: N6/N8 доказаны; jobs=3 diagnostic отправлен
 
 База: `c52627e090e059ae8000af23fded3d614a89a2e3`.
 Library SHA: `f052d6b7ec826e4f45f7bc1522dde38d5ba16a91`; только новый opt-in блок.
@@ -7,7 +7,10 @@ G1 build: `993fe78c-4a34-489d-8c4e-485da048e1e2`, COMPLETE, gate true.
 G1 request: `opt-split-n6-gate-20261030`; cost $0.2970, jobs=1, timeout 600 с.
 G2 build: `0e44427c-18bd-4de4-95b2-e8730abec632`; N8 COMPLETE, gate true.
 G2 source: `c81c10e3061e07bb83c732d81413632ada757d2c`, request opt-split-n8-20261030.
-Собственных builds 2/3; G1 cost $0.2970, G2 $0.3645; spent $0.6615/$4, reserved $0.
+G1 cost $0.2970, G2 $0.3645; own spent $0.6615, reserved $1.4850; total $2.1465/$4.
+G3 build: `64a9829e-1097-4bcf-af34-6e3be5cfdd19`, diagnostic SUBMITTED, jobs=3.
+G3 source: `ae5aabe3f3e4422a35f861b889ac7436acab4216`, request opt-split-jobs3-20261030.
+Отправлено 3/3; новых builds не будет; G3 полный envelope 110 минут, timeout 600 с.
 CAP_USD=73.96 неизменён; G2 envelope 70 минут, jobs=1, timeout 600 с.
 Список UUID/request_id/source/cost: [opt/builds.json](opt/builds.json).
 
@@ -46,7 +49,7 @@ N6 max CBMC 6.053 GiB; max driver 448564 KiB = 0.428 GiB.
 Это сумма процессной резидентной памяти, не точная физическая RAM.
 N8 max driver 789072 KiB = 0.753 GiB; sampled sum всех RSS 8797856 KiB = 8.390 GiB.
 N8 simultaneous CBMC RSS 8376572 KiB = 7.989 GiB; jobs=1, solver не перекрывались.
-16-GiB Linux, swap off, OOM none_seen; concurrency diagnostic подготовлен.
+G1/G2: 16-GiB Linux, swap off, OOM none_seen; concurrency G3 SUBMITTED.
 macOS UNKNOWN; пригодность устанавливает только CI организаторов; safe-gate не назначен.
 
 Все 8 split — кандидаты для рассмотрения ordinary: прежний домен, SUCCESS/covers, ниже пики.
@@ -67,7 +70,7 @@ Rustfmt --check edition 2024/config exit 0; source/report строки <=100, re
 Kani pin 9461e07a, nightly-2026-10-12, lane-файлы прежние; local Rust/Kani/CBMC не запускались.
 Flags: --no-assert-contracts, --object-bits 12, uninit checks off; proof на GCB.
 Это bounded Kani evidence для u64 N6/N8; универсальный full proof generic T не заявлен.
-Следующий шаг: jobs=3 diagnostic всех 8 split; полный envelope 110 мин, резерв $1.4850.
+Следующий шаг: k1g.sh watch G3, завершить ход; затем evidence, фактическое overlap и итог.
 С резервом собственные spent+reserved $2.1465/$4, builds 3/3; больше builds не будет.
 Envelope + 15 мин closeout помещаются до консервативной границы 23:00 UTC.
 Typed u64 probe / oracle-специализация либо локальная merge-декомпозиция —
