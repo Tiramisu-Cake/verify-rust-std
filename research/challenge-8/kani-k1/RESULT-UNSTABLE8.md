@@ -1,6 +1,6 @@
-# UNSTABLE8 — PARTIAL, перед последней сборкой
+# UNSTABLE8 — PARTIAL, последняя сборка ожидается
 
-Дата: 2026-10-30. G1/G2 завершены; G3 исправляет covers Cell N8 и добавляет DropKey N9.
+Дата: 2026-10-30. G1/G2 завершены; G3 запущен с исправленными covers Cell N8 и DropKey N9.
 База: `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`.
 Library G1: `14f60a96372172c8699b050b64f878c2b0739dd2`.
 Library G2: `956a758288f483bef38d27372e08877bfbfd2212`.
@@ -9,7 +9,9 @@ G1 source: `5ff343a759b87c3927f7f3f90981d15f30e9e946`.
 G2 source: `2d2cdfff1fc564b9f7e3e4ab5e6a4d1f74e808cb`.
 G1: `64a70b50-30b2-4d26-b25b-7ed1463b4851`, $0.3105.
 G2: `93263f1d-d590-454b-a496-a3c2f479b07f`, $0.2700.
-Свой ledger: 2/3 сборок, spent $0.5805, reserved $0 из $4; CAP_USD $73.96 прежний.
+Свой ledger: 3/3 сборок, spent $0.5805, reserved $0.8100 из $4; cap $73.96 прежний.
+G3: `2fbe4ddc-a6c0-4cd9-8056-12c7c828b7f8`, результат ожидается.
+G3 source: `b177a4bd5d46ae30edf1d75379ff7c43a7f19720`.
 Measurement, k1-standard4, jobs=1, controls:true, swap off, timeout 600 с на гармонику.
 G1/G2: summary COMPLETE, GCB FAILURE; setup корректный, различные причины отказа gate.
 G1 gate false из-за Cell TIMEOUT; G2 — covers 4/5 при SUCCESS assertions обоих маршрутов.
@@ -20,8 +22,8 @@ G1 gate false из-за Cell TIMEOUT; G2 — covers 4/5 при SUCCESS assertion
 | G1 | Cell | 8 | stable + unstable fallback | TIMEOUT | — | 315944 | — |
 | G2 | Cell | 8 | stable insertion, fixed | SUCCESS | 330.23926 | 195112 | 4/5 |
 | G2 | Cell | 8 | unstable fallback, fixed | SUCCESS | 237.26244 | 193556 | 4/5 |
-| G3 | Cell | 8 | stable + unstable fixed, 2 proofs | NOT_RUN | — | — | — |
-| G3 | DropKey | 9 | stable + unstable general | NOT_RUN | — | — | — |
+| G3 | Cell | 8 | stable + unstable fixed, 2 proofs | PENDING | — | — | — |
+| G3 | DropKey | 9 | stable + unstable general | PENDING | — | — | — |
 
 RSS — индивидуальный CBMC VmHWM; /proc опрашивается каждые 2 с, не сумма RAM.
 Пики отдельного driver-процесса: G1 840616 KiB, G2 460812 KiB; без per-harness attribution.

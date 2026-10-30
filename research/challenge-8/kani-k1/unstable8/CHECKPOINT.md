@@ -1,4 +1,4 @@
-# UNSTABLE8 — последняя сборка подготовлена
+# UNSTABLE8 — последняя сборка запущена
 
 G1 DropKey N8 SUCCESS 194.44167 с, 5/5; combined Cell N8 TIMEOUT.
 G2 Cell stable/unstable N8 SUCCESS 330.23926/237.26244 с, но covers 4/5 у обоих.
@@ -20,7 +20,12 @@ G3 request unstable8-final-20261030, measurement, controls:true, jobs=1.
 Envelope 3 × 10 + 30 = 60 минут, $0.8100; свои $0.5805 + $0.8100 = $1.3905 из $4.
 Это третья/последняя разрешённая сборка; дальнейших dispatch не делать.
 Консервативный cutoff 2026-10-30 22:30 UTC включает полный envelope.
-Перед dispatch обновить общий budget; alias unstable продвинуть без force на reviewed source.
+Перед dispatch обновить общий budget; alias unstable продвинуть без force на source G3.
 После dispatch записать UUID, вызвать k1g.sh watch BUILD и завершить ход.
 После G3 завершить отчёт COMPLETE/PARTIAL по реально полученным результатам и push.
 Последние строки: REVIEW REQUEST <sha> и UNSTABLE8 ЗАВЕРШЁН; после маркера остановиться.
+
+G3 build `2fbe4ddc-a6c0-4cd9-8056-12c7c828b7f8`.
+G3 source `b177a4bd5d46ae30edf1d75379ff7c43a7f19720`.
+Dispatcher ledger после G3: spent $57.8850, reserved $2.5650, total ≤$60.4500/$73.96.
+Свои spent $0.5805, reserved $0.8100; сборки 3/3, больше не запускать.
