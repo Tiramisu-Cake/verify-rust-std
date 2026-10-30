@@ -1059,6 +1059,7 @@ fn general_stable_direct_value_corruption_control_u64_n2() {
     } else {
         super::super::small_sort_general(&mut v, &mut cmp);
     }
+    kani::cover(true, "general/stable direct sort returns before payload corruption");
     v[0] ^= 1;
     assert_sorted_and_probe_preserved::<u64, _, 2>(&orig, &v, &mut cmp);
 }
