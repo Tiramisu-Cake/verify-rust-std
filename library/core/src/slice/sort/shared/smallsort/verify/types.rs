@@ -153,11 +153,13 @@ macro_rules! fixed_trait_case {
 // A single length keeps solver time within the ordinary budget.
 fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
 
-// N8 trait-route measurements stay opt-in until their time and memory budgets are reviewed.
+// N8/N9 trait-route measurements stay opt-in until their time and memory budgets are reviewed.
 #[cfg(kani_smallsort_controls)]
 fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n8, Cell<u8>, 8);
 #[cfg(kani_smallsort_controls)]
 fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
+#[cfg(kani_smallsort_controls)]
+fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n9, DropKey, 9);
 
 // Fixing the route avoids combining both Cell branches after the N8 measurement timed out.
 // The two const values partition the original symbolic stable bool without restricting keys.
@@ -179,11 +181,6 @@ fn fixed_route_trait_properties<T: LogicalByte, const N: usize, const STABLE: bo
     let output = crate::array::from_fn(|i| values[i].value());
     check_output(&input, &output, probe);
     cover_nontrivial_input(&input);
-    if STABLE {
-        kani::cover(true, "logical stable trait entry returns");
-    } else {
-        kani::cover(true, "logical unstable trait entry returns");
-    }
 }
 
 #[cfg(kani_smallsort_controls)]
@@ -194,6 +191,8 @@ macro_rules! fixed_route_trait_case {
         #[kani::unwind(50)]
         fn $name() {
             fixed_route_trait_properties::<$t, $n, $stable>();
+            // Emit only the selected route's cover; the opposite const branch cannot return.
+            kani::cover(true, concat!("logical fixed trait entry returns: stable=", $stable));
         }
     };
 }
