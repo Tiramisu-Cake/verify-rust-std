@@ -985,12 +985,9 @@ macro_rules! define_direct_u64_route_harness {
 }
 
 define_direct_u64_route_harness!(general_direct_u64_n6, general_direct_u64_properties, 6);
-#[cfg(kani_smallsort_controls)]
 define_direct_u64_route_harness!(general_direct_u64_n7, general_direct_u64_properties, 7);
 define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_properties, 8);
-#[cfg(kani_smallsort_controls)]
 define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
-#[cfg(kani_smallsort_controls)]
 define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
 define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
 
@@ -1220,10 +1217,12 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n5, u64
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n5, u8, lt_u8, 5);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n5, 5);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n6, u64, lt_u64, 6);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n6, u8, lt_u8, 6);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n6, 6);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n7, u64, lt_u64, 7);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n7, u8, lt_u8, 7);
