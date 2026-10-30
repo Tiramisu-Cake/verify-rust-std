@@ -1,12 +1,14 @@
-# BACKING — PARTIAL: кандидат подготовлен, сборки NOT_RUN
+# BACKING — PARTIAL: matched-сборка отправлена
 
 База `e5a0d8dd511730f374e2f757c8ac37f733062842`.
 Library SHA `bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22`.
-GO координатора получен после двух правок; новый build ещё не отправлен.
-Своих builds 0/2; spent $0, reserved $0 из $3; planned envelope 100 мин / $1.35.
+Build `b07fdcd8-fbd8-401e-9948-9e5f9e7201ad`.
+Source `740d22674ca200f3270fb298651302019d347828`.
+GO координатора получен после двух правок; matched-сборка SUBMITTED, результаты ожидаются.
+Своих builds 1/2; spent $0, reserved до $1.35 из $3; envelope 100 мин, цена пока неизвестна.
 Request `backing-matched-20261031`: measurement, k1-standard4, jobs=1, controls=true, timeout 600 с.
 Список UUID/request_id и окно: [backing/builds.json](backing/builds.json).
-Сборки и итоговая приёмка остаются невыполненной частью задания.
+Результаты и итоговая приёмка остаются невыполненной частью задания.
 
 В именах ниже префикс `slice::sort::shared::smallsort::verify::` опущен.
 M=merge::backing, O=merge::opt_split, D=network::backing.
@@ -16,10 +18,10 @@ Checks записаны как failed/total; численные G2 строки 
 
 | Гармоника | Backing | Статус | VT GCB, с | RSS | Covers | Checks |
 |---|---|---|---|---|---|---|
-| O::stable_direct_u64_n8 (old B) | S | NOT_RUN | — | — | — | — |
-| M::stable_direct_u64_n8 (new B) | G | NOT_RUN | — | — | — | — |
-| D::dispatch_safety_stable_bytes17_n32_old | S | NOT_RUN | — | — | — | — |
-| D::dispatch_safety_stable_bytes17_n32_new | G | NOT_RUN | — | — | — | — |
+| O::stable_direct_u64_n8 (old B) | S | PENDING | — | — | — | — |
+| M::stable_direct_u64_n8 (new B) | G | PENDING | — | — | — | — |
+| D::dispatch_safety_stable_bytes17_n32_old | S | PENDING | — | — | — | — |
+| D::dispatch_safety_stable_bytes17_n32_new | G | PENDING | — | — | — | — |
 | O::stable_contract_u64_n8 (old A, G2) | S | SUCCESS | 349.38107 | 8.029 | 1/1 | 0/447 |
 | O::general_contract_u64_n8 (new geometry A, G2) | G | SUCCESS | 221.69978 | 1.860 | 1/1 | 0/447 |
 
@@ -30,7 +32,7 @@ build `0e44427c-18bd-4de4-95b2-e8730abec632`, request `opt-split-n8-20261030`.
 [tooling](backing/reuse-a.tooling.txt). RSS — VmHWM CBMC; это не физическая RAM всей машины.
 G2 matched A не доказывает новый adapter/trait caller, новые имена или SHA.
 
-Контроли нового backing, все NOT_RUN; PASS/FAILED ещё не установлены:
+Контроли нового backing, все PENDING; PASS/FAILED ещё не установлены:
 - M::stable_value_corruption_control_u64_n2: flip payload сохраняет ключ;
   настоящий oracle: count-assert merge.rs:846; expect_check="This is a placeholder message".
   После build нужен location :846 в summary и SUCCESS sortedness-assert :844 в bounded логе.

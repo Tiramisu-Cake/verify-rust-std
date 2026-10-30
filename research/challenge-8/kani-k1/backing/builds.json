@@ -3,15 +3,28 @@
   "own_build_limit": 2,
   "own_budget_usd": 3.0,
   "cap_usd": 73.96,
-  "submitted_builds": [],
+  "submitted_builds": [
+    {
+      "build_uuid": "b07fdcd8-fbd8-401e-9948-9e5f9e7201ad",
+      "request_id": "backing-matched-20261031",
+      "source_sha": "740d22674ca200f3270fb298651302019d347828",
+      "status": "SUBMITTED",
+      "recorded_at_utc": "2026-10-30T21:18:42.171520+00:00",
+      "envelope_minutes": 100,
+      "max_reserved_cost_usd": 1.35,
+      "actual_cost_usd": null,
+      "runner": "gcb-e2-standard-4",
+      "kani_jobs": 1
+    }
+  ],
   "spent_usd": 0,
-  "reserved_usd": 0,
+  "reserved_usd": 1.35,
   "planned_request": {
     "request_id": "backing-matched-20261031",
     "entries": 7,
     "envelope_minutes": 100,
     "max_cost_usd": 1.35,
-    "build_uuid": null
+    "build_uuid": "b07fdcd8-fbd8-401e-9948-9e5f9e7201ad"
   },
   "conservative_deadline_utc": "2026-10-31T01:00:00Z",
   "closing_reserve_minutes": 20,
