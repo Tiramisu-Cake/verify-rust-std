@@ -1,10 +1,50 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "valid-b-full-autoharness",
+  "request_id": "direct-b-gate",
   "agent": "k1-network",
-  "kind": "autoharness",
+  "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "VALID-B full literal kani_autoharness emulation on unchanged 9be5499c library, native inventories measured separately; one whole-job attempt.",
-  "harness_timeout_minutes": 270,
-  "harnesses": []
+  "purpose": "DIRECT B gate: real merge, full symbolic values and both general/stable scratch48 routes; full-value corruption control. Envelope 9*10+30=120 min, $1.62 reserved.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "expect_check": "input value counts are preserved"
+    }
+  ]
 }
