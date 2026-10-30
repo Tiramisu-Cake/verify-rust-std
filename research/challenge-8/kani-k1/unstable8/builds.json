@@ -45,14 +45,39 @@
       "request_id": "unstable8-final-20261030",
       "source_sha": "b177a4bd5d46ae30edf1d75379ff7c43a7f19720",
       "dispatch_branch": "experiment/kani-k1-unstable-20261030",
-      "stage": "DISPATCHED",
+      "stage": "COMPLETE",
       "recorded_at_utc": "2026-10-30T20:18:43.474819+00:00",
       "envelope_minutes": 60,
-      "reserved_usd": 0.81,
-      "cost_usd": null
+      "reserved_usd": 0,
+      "cost_usd": 0.3375,
+      "gcb_status": "FAILURE",
+      "gate": false,
+      "results": {
+        "cell_stable_n8": "SUCCESS_COVERS_4_OF_4",
+        "cell_unstable_n8": "SUCCESS_COVERS_4_OF_4",
+        "drop_n9": "TIMEOUT"
+      },
+      "gate_failure": "optional combined DropKey N9 reached the unchanged 600 second timeout"
     }
   ],
-  "spent_usd": 0.5805,
-  "reserved_usd": 0.81,
-  "stage": "FINAL_DISPATCHED"
+  "spent_usd": 0.918,
+  "reserved_usd": 0,
+  "stage": "FINAL_PARTIAL_N9_N8_COMPLETE",
+  "accepted_n8": {
+    "DropKey": {
+      "build_id": "64a70b50-30b2-4d26-b25b-7ed1463b4851",
+      "routes": [
+        "stable",
+        "unstable"
+      ]
+    },
+    "Cell_u8": {
+      "build_id": "2fbe4ddc-a6c0-4cd9-8056-12c7c828b7f8",
+      "routes": [
+        "stable",
+        "unstable"
+      ]
+    }
+  },
+  "remaining": "Optional DropKey N9: split stable/unstable in a separately budgeted follow-up; no N8 rerun"
 }

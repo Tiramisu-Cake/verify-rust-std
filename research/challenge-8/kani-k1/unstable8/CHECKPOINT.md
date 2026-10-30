@@ -1,31 +1,25 @@
-# UNSTABLE8 — последняя сборка запущена
+# UNSTABLE8 — FINISHED: N8 COMPLETE, optional N9 PARTIAL
 
-G1 DropKey N8 SUCCESS 194.44167 с, 5/5; combined Cell N8 TIMEOUT.
-G2 Cell stable/unstable N8 SUCCESS 330.23926/237.26244 с, но covers 4/5 у обоих.
-G2 gate false только из-за недостижимого cover противоположной const-ветви.
-Из-за terse output названия отдельных covers в log-grep не напечатаны.
-Диагноз следует из const true/false и двух branch-local cover при пяти общих covers.
-G1/G2 source/build/request/cost сохранены в builds.json и RESULT-UNSTABLE8.md.
-G1/G2 check-tooling: lane-файлы равны базе 6bbf03c764; Kani pin 9461e07a прежний.
+Новых dispatch не делать: использованы 3/3 сборки, spent $0.9180, reserved $0 из $4.
+Все UUID/request_id/source/cost находятся в builds.json; итог — в RESULT-UNSTABLE8.md.
+G1 DropKey N8 SUCCESS 194.44167 с, covers 5/5, оба настоящих trait-маршрута с merge.
+G1 combined Cell N8 TIMEOUT; оба negative FAILED на ожидаемых checks при корректном setup.
+G2 Cell split: оба assertions SUCCESS, но covers 4/5 из-за opposite const branch.
+G3 cover исправлен: Cell stable N8 SUCCESS 222.42752 с, 4/4;
+Cell unstable N8 SUCCESS 206.487 с, 4/4. Дополнительный DropKey N9 TIMEOUT 600 с.
+Обязательная N8-цель закрыта; общий gate G3 false из-за optional N9, не заявлять зелёным.
 
-Library G3 78c040559f448ea3cf05ec152ab1143014068570.
-Исправление: route cover перенесён в macro с выбранным literal; недостижимого cover нет.
-Check_output, входы, any probe, comparator, flags, timeout и solver прежние.
-Гармоники Cell N8 изменены для корректного measurement gate; DropKey N8 не повторяется.
-Добавлен opt-in fixed_trait_case DropKey N9 с исходным symbolic stable.
+Library SHA 78c040559f448ea3cf05ec152ab1143014068570, соответствует G3 source b177a4bd5d.
+После G3 source менялся только research/; library delta +49 строк в одном types.rs.
+Ordinary не менялся: новые пять гармоник, helper и macro остаются opt-in.
+Кандидаты Part 1: combined DropKey N8 и две fixed-route Cell N8.
+macOS UNKNOWN; окончательную пригодность устанавливает CI организаторов.
+Все oracle/domains/flags/pin/toolchain/lane-файлы прежние; check-tooling G1/G2/G3 прошёл.
+Library-коммиты отдельно от research/; все commits [skip ci], push без force.
+Alias dispatch experiment/kani-k1-unstable-20261030 указывает на G3 source b177a4bd5d.
+Рабочая ветка experiment/kani-k1-unstable8-20261030 содержит итоговый отчёт.
 
-G3 request unstable8-final-20261030, measurement, controls:true, jobs=1.
-Три positive: исправленные Cell stable N8 + unstable N8 и combined DropKey N9.
-Контроли G1 приняты; oracle не менялся, новые negative не требуются.
-Envelope 3 × 10 + 30 = 60 минут, $0.8100; свои $0.5805 + $0.8100 = $1.3905 из $4.
-Это третья/последняя разрешённая сборка; дальнейших dispatch не делать.
-Консервативный cutoff 2026-10-30 22:30 UTC включает полный envelope.
-Перед dispatch обновить общий budget; alias unstable продвинуть без force на source G3.
-После dispatch записать UUID, вызвать k1g.sh watch BUILD и завершить ход.
-После G3 завершить отчёт COMPLETE/PARTIAL по реально полученным результатам и push.
-Последние строки: REVIEW REQUEST <sha> и UNSTABLE8 ЗАВЕРШЁН; после маркера остановиться.
-
-G3 build `2fbe4ddc-a6c0-4cd9-8056-12c7c828b7f8`.
-G3 source `b177a4bd5d46ae30edf1d75379ff7c43a7f19720`.
-Dispatcher ledger после G3: spent $57.8850, reserved $2.5650, total ≤$60.4500/$73.96.
-Свои spent $0.5805, reserved $0.8100; сборки 3/3, больше не запускать.
+Продолжение вне текущего лимита: fixed stable/unstable DropKey N9 с прежними guarantees.
+Принятый неизменённый N8 не повторять; новый бюджет требуется для новых builds.
+Никаких активных ожиданий после третьего уведомления нет, очередные watch не запускать.
+Финальный ответ: REVIEW REQUEST <sha> и UNSTABLE8 ЗАВЕРШЁН; после маркера остановиться.
