@@ -1,8 +1,8 @@
 # BACKING — PARTIAL: кандидат подготовлен, сборки NOT_RUN
 
 База `e5a0d8dd511730f374e2f757c8ac37f733062842`.
-Library SHA `a7bebf3cd1b01191540f931f2a8dca2acce2f285`.
-Новый build ID отсутствует: обязательный PRE-BUILD REVIEW ещё не получил GO.
+Library SHA `bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22`.
+GO координатора получен после двух правок; новый build ещё не отправлен.
 Своих builds 0/2; spent $0, reserved $0 из $3; planned envelope 100 мин / $1.35.
 Request `backing-matched-20261031`: measurement, k1-standard4, jobs=1, controls=true, timeout 600 с.
 Список UUID/request_id и окно: [backing/builds.json](backing/builds.json).
@@ -32,7 +32,8 @@ G2 matched A не доказывает новый adapter/trait caller, новы
 
 Контроли нового backing, все NOT_RUN; PASS/FAILED ещё не установлены:
 - M::stable_value_corruption_control_u64_n2: flip payload сохраняет ключ;
-  отказ настоящего assert_sorted_and_probe_preserved на `input value counts are preserved`.
+  настоящий oracle: count-assert merge.rs:846; expect_check="This is a placeholder message".
+  После build нужен location :846 в summary и SUCCESS sortedness-assert :844 в bounded логе.
 - M::unsorted_halves_control_u64_n4: корректная память, keys [3,0|1,2];
   отказ requires `merge_inputs_are_sorted` у stub_verified merge, --no-assert-contracts сохранён.
 - M::allocation_bounds_control_u64: cover перед ptr::write через view+48 за allocation;
@@ -47,7 +48,7 @@ A reuse допустим для merge-части B: при N8 обе sort4 пи�
 merge получает отдельный initialized v как dst, тот же F/probe/frame. A any dst покрывает
 все значения/корреляции caller; PFC ограничивает sorted halves прежним requires.
 Dispatch: обе стороны stable-only, тот же arbitrary comparator с volatile reads,
-panic stub assume_order_violation, any from_fn, unwind65 и normal-return cover.
+panic stub super::assume_order_violation, any from_fn, unwind65 и normal-return cover.
 С прежним pair-harness/macOS 509 с новая пара не сравнивается.
 
 Проверки: rustfmt --check exit0; Python request validator exit0; static audit PASS.

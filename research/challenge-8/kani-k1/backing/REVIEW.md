@@ -1,7 +1,7 @@
-# BACKING — кандидат до первой сборки
+# BACKING — кандидат с GO координатора после двух правок
 
 База: `e5a0d8dd511730f374e2f757c8ac37f733062842`.
-Library commit: `a7bebf3cd1b01191540f931f2a8dca2acce2f285`.
+Library commit: `bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22`.
 Изменены только новые модули `backing` в конце merge.rs и network.rs, всего 144 строки.
 Оба закрыты `cfg(kani_smallsort_controls)`; старые файлы — побайтные префиксы новых.
 Существующие символы, visibility, opt_split, oracle, lane, flags и pin не изменены.
@@ -55,7 +55,7 @@ Reuse не покрывает dispatch bytes17/N32/arbitrary comparator и ст�
 `network::backing::dispatch_safety_stable_bytes17_n32_{old,new}`: только stable ветвь.
 Old вызывает прежний dispatch_safety_fixed::<[u8;17],32,true>; new повторяет true-ветвь
 с aggregate holder/view, не меняя arbitrary_value/from_fn, T, N и volatile_reading_less.
-Обе имеют unwind(65), прежний stub panic_on_ord_violation -> assume_order_violation,
+Обе имеют unwind(65), stub panic_on_ord_violation -> super::assume_order_violation,
 cover normal return с одинаковым текстом. Comparator по-прежнему произвольный и читает T.
 Прежний pair-harness и его 509 с macOS не являются baseline этой пары.
 
@@ -63,7 +63,9 @@ cover normal return с одинаковым текстом. Comparator по-пр
 
 `merge::backing::stable_value_corruption_control_u64_n2`: реальный stable sort на aggregate,
 cover normal return, затем v[0]^=1 сохраняет ключ; настоящий oracle должен отказать на
-`input value counts are preserved`, sortedness должна пройти. Probe не ограничивается.
+count-assert merge.rs:846; sortedness-assert :844 должна пройти. Probe не ограничивается.
+Kani печатает placeholder: expect_check="This is a placeholder message"; принять только
+после проверки location count-assert в summary и SUCCESS sortedness в bounded log-lines.
 `unsorted_halves_control_u64_n4`: aggregate prefix [6,0,2,4], корректная отдельная any dst,
 cover до вызова, stub_verified merge; ожидается требует `merge_inputs_are_sorted`.
 `allocation_bounds_control_u64`: view.as_mut_ptr().cast::<u64>().wrapping_add(48), cover,
@@ -78,7 +80,8 @@ measurement, k1-standard4, jobs=1, controls:true, 600 с; A переисполь
 Envelope (7*10+30)=100 минут, максимум $1.35. Своих builds 0/2, spent/reserved $0/$0.
 Свой список UUID/request_id хранится в builds.json: общий label k1-network не разделяет расходы.
 Лимит задачи $3/2 builds, CAP_USD=73.96. Резерв второй сборки — только необходимый subset.
-Перед dispatch после GO повторить k1g budget и проверку полного envelope + 20 минут на закрытие.
+GO на 77050e614f получен с двумя правками; обе внесены, повторный review не требуется.
+Перед dispatch проверить k1g budget и полный envelope + 20 минут на закрытие.
 Консервативный deadline 2026-10-31 01:00 UTC; ожидание review тоже расходует окно.
 После dispatch записать UUID/request/source, запустить только k1g.sh watch BUILD и завершить ход.
 Собрать summary/peaks/log-grep/log-lines/check-tooling; проверить covers и checks по месту.
