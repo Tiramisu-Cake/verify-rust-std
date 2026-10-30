@@ -1,59 +1,57 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "direct-a-scratch48",
+  "request_id": "direct-b-remaining",
   "agent": "k1-network",
   "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "DIRECT A after B N8/N9 timeouts: same merge contract on both scratch48 layouts for remaining cells, initialized dst; sorted-halves stub control and precise B value-count control. Envelope 11*10+30=140 min, $1.89.",
+  "purpose": "DIRECT final B u64 N5..7 and u8 N5..8 after successful scratch48 A; unchanged stubbed callers u64 N6..8/u8 N9 check composition for costly B cells. Envelope 11*10+30=140 min, $1.89.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
-  "controls": true,
+  "controls": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u64_n5",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u64_n6",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u64_n7",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n5",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n6",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n7",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n8",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "direct output preserves full-value counts"
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n6",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n7",
+      "expect": "SUCCESS"
     }
   ]
 }

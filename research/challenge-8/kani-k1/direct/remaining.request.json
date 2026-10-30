@@ -4,7 +4,7 @@
   "agent": "k1-network",
   "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "DIRECT B remaining u64 N5..7 and u8 N5..8 after successful gate, real merge and both general/stable scratch48 routes. Envelope 7*10+30=100 min, $1.35 reserved.",
+  "purpose": "DIRECT final B u64 N5..7 and u8 N5..8 after successful scratch48 A; unchanged stubbed callers u64 N6..8/u8 N9 check composition for costly B cells. Envelope 11*10+30=140 min, $1.89.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": false,
@@ -35,6 +35,22 @@
     },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n7",
       "expect": "SUCCESS"
     }
   ]
