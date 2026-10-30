@@ -948,7 +948,81 @@ fn general_stable_direct_value_corruption_control_u64_n2() {
         super::super::small_sort_general(&mut v, &mut cmp);
     }
     v[0] ^= 1;
-    assert_sorted_and_probe_preserved::<u64, _, 2>(&orig, &v, &mut cmp);
+    assert!(!cmp(&v[1], &v[0]));
+    kani::assert(
+        CopyOnDrop::<u64>::probe_count_unrolled(orig.as_ptr(), 2)
+            == CopyOnDrop::<u64>::probe_count_unrolled(v.as_ptr(), 2),
+        "direct output preserves full-value counts",
+    );
+}
+
+// Match both callers' scratch allocations: only prefix N is initialized, dst is separate.
+fn merge_scratch48_length_body<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut cmp: F,
+) {
+    const { assert!(N >= 2 && N <= 32) };
+    set_value_probe::<T>();
+    let input: [T; N] = kani::any();
+    let mut dst: [T; N] = kani::any();
+    let stable: bool = kani::any();
+    let mut stable_scratch = [MaybeUninit::<T>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    let mut general_scratch = MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let src = if stable {
+        stable_scratch.as_mut_ptr() as *mut T
+    } else {
+        general_scratch.as_mut_ptr() as *mut T
+    };
+    // SAFETY: prefix N fits either backing allocation; dst is initialized and disjoint.
+    unsafe {
+        ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+        bidirectional_merge(crate::slice::from_raw_parts(src, N), dst.as_mut_ptr(), &mut cmp);
+    }
+    kani::cover(!stable, "general scratch48 merge contract checked");
+    kani::cover(stable, "stable scratch48 merge contract checked");
+}
+
+macro_rules! define_merge_scratch48_contract_harness {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+        #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::unwind(34)]
+        fn $name() {
+            merge_scratch48_length_body::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u64_n5, u64, lt_u64, 5);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u64_n6, u64, lt_u64, 6);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u64_n7, u64, lt_u64, 7);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u64_n8, u64, lt_u64, 8);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n5, u8, lt_u8, 5);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n6, u8, lt_u8, 6);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n7, u8, lt_u8, 7);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n8, u8, lt_u8, 8);
+define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n9, u8, lt_u8, 9);
+
+// Correct scratch48/destination memory, but deliberately unsorted left-half keys [3, 0].
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn merge_scratch48_unsorted_halves_control_u64_n4() {
+    set_value_probe::<u64>();
+    let input: [u64; 4] = [6, 0, 2, 4];
+    let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    let src = scratch.as_mut_ptr() as *mut u64;
+    let mut dst: [u64; 4] = kani::any();
+    let mut cmp = lt_u64;
+    kani::cover(true, "scratch48 unsorted-halves call reached");
+    // SAFETY: the two four-element regions are initialized and disjoint.
+    unsafe {
+        ptr::copy_nonoverlapping(input.as_ptr(), src, 4);
+        bidirectional_merge(crate::slice::from_raw_parts(src, 4), dst.as_mut_ptr(), &mut cmp);
+    }
 }
 
 macro_rules! define_fallback_property_harness {
