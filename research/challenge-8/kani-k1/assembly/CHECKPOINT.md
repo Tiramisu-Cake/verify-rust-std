@@ -46,3 +46,6 @@ Final completion requires inventories, controls, report <=100 lines, commit + pu
 Do not emit ASSEMBLY ЗАВЕРШЁН while required evidence remains unperformed.
 
 G1 ordinary inventory submitted: 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 (source b84e992edf).
+
+G2 controls inventory submitted: 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b (source cb04aa5df6).
+Next: submit the approved five-control measurement, then watch all three and end turn.
