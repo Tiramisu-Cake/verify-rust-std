@@ -1,9 +1,12 @@
-# UNSTABLE8 — кандидат до первой proof-сборки
+# UNSTABLE8 — gate запущен после GO
 
 База worktree: `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`.
 Library commit: `14f60a96372172c8699b050b64f878c2b0739dd2`.
 Рабочая ветка: `experiment/kani-k1-unstable8-20261030`.
-Стадия: PRE-BUILD REVIEW; GO ещё не получен, dispatch запрещён до ответа.
+Review пройден; координатор дал GO для 5ff343a759.
+Gate build: `64a70b50-30b2-4d26-b25b-7ed1463b4851`.
+Source SHA: `5ff343a759b87c3927f7f3f90981d15f30e9e946`.
+Следующий шаг: дождаться уведомления watch и прочитать bounded summary/peaks.
 
 Добавлены только две opt-in гармоники N8 в verify/types.rs, через fixed_trait_case.
 Обе наследуют trait_properties: полный any [u8; 8], any probe и any stable: bool.
@@ -23,14 +26,14 @@ Gate request сохранён отдельно в gate.request.json и уста�
 
 Envelope: 4 × 10 + 30 = 70 минут, максимум $0.9450; timeout не повышен.
 Предварительный ledger: builds 99; spent $56.5350, reserved $0, cap $73.96.
-Свой реестр builds.json пуст: 0/3 сборок, spent+reserved $0/$4.
+Свой реестр builds.json: 1/3 сборок, spent $0, reserved $0.9450 из $4.
+Budget перед dispatch: spent $56.5350, reserved $0.5400; вместе с gate ≤$58.0200.
 Непосредственно перед dispatch повторить k1g.sh budget и пересчитать остаток окна.
 Учитывать только собственные UUID/request_id: agent k1-merge общий с другими задачами.
 
 k1g.sh dispatch допускает только буквенное имя задачи; unstable8 не проходит regex.
-После GO создать и push без force alias experiment/kani-k1-unstable-20261030
-на точном reviewed SHA и dispatch через него; рабочую ветку не переименовывать.
-На момент подготовки alias отсутствует в origin; перед созданием проверить снова.
+Alias experiment/kani-k1-unstable-20261030 создан и опубликован без force
+на точном reviewed SHA; dispatch выполнен через него. Рабочая ветка прежняя.
 Lane-файлы и CAP_USD не менять. Ждать только k1g.sh watch BUILD и завершать ход.
 
 После gate: оба SUCCESS → не разделять; при достаточном остатке выбрать N9 отдельно.
