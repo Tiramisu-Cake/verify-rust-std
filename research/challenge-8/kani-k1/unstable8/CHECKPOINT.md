@@ -1,4 +1,4 @@
-# UNSTABLE8 — split Cell после gate
+# UNSTABLE8 — Cell split запущен
 
 Рабочая ветка experiment/kani-k1-unstable8-20261030; alias для dispatch — unstable.
 База `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`; GO на G1 source 5ff343a759 получен.
@@ -28,3 +28,8 @@ Envelope 2 × 10 + 30 = 50 минут, $0.6750; свой spent+envelope = $0.985
 Не повышать timeout, не менять domains/oracle/flags/pin/toolchain/lane-файлы.
 Rustfmt заданным wrapper/config exit 0, diff-check exit 0; tooling G1 равен базе.
 Дальнейшие результаты/VT/RSS фиксировать в RESULT-UNSTABLE8.md (≤100 строк).
+
+G2 build `93263f1d-d590-454b-a496-a3c2f479b07f`.
+G2 source `2d2cdfff1fc564b9f7e3e4ab5e6a4d1f74e808cb`.
+Budget перед G2: spent $57.1425, reserved $0.5400; вместе с G2 ≤$58.3575.
+Свои spent $0.3105, reserved $0.6750, сборки 2/3; ждать watch, затем summary/peaks.

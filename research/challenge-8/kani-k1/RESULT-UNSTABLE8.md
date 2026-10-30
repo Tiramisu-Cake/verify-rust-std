@@ -1,12 +1,14 @@
 # UNSTABLE8 — PARTIAL, после gate
 
-Дата: 2026-10-30. Gate G1 завершён; Cell N8 split подготовлен.
+Дата: 2026-10-30. Gate G1 завершён; Cell N8 split G2 запущен.
 База: `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`.
 Library G1: `14f60a96372172c8699b050b64f878c2b0739dd2`.
 Library split: `956a758288f483bef38d27372e08877bfbfd2212`.
 G1 source: `5ff343a759b87c3927f7f3f90981d15f30e9e946`.
 G1 build: `64a70b50-30b2-4d26-b25b-7ed1463b4851`, стоимость $0.3105.
-Свой ledger: 1/3 сборок, spent $0.3105, reserved $0 из $4; CAP_USD $73.96 прежний.
+Свой ledger: 2/3 сборок, spent $0.3105, reserved $0.6750 из $4; cap $73.96 прежний.
+G2 build `93263f1d-d590-454b-a496-a3c2f479b07f`, результат ожидается.
+G2 source `2d2cdfff1fc564b9f7e3e4ab5e6a4d1f74e808cb`.
 G1 GCB FAILURE: gate false из-за Cell TIMEOUT; summary COMPLETE, setup корректный.
 Measurement, k1-standard4, jobs=1, controls:true, swap off, timeout 600 с на гармонику.
 
@@ -14,8 +16,8 @@ Measurement, k1-standard4, jobs=1, controls:true, swap off, timeout 600 с на 
 |---|---|---|---|---|---|---|
 | DropKey | 8 | stable + unstable general | SUCCESS | 194.44167 | 487016 | 5/5 |
 | Cell<u8> | 8 | stable insertion + unstable fallback | TIMEOUT | — | 315944 | — |
-| Cell<u8> | 8 | stable insertion, fixed | NOT_RUN | — | — | — |
-| Cell<u8> | 8 | unstable fallback, fixed | NOT_RUN | — | — | — |
+| Cell<u8> | 8 | stable insertion, fixed | PENDING | — | — | — |
+| Cell<u8> | 8 | unstable fallback, fixed | PENDING | — | — | — |
 
 RSS — индивидуальный CBMC VmHWM; /proc опрашивается каждые 2 с, не сумма RAM.
 G1 driver peak 840616 KiB, общий для запуска, без attribution к отдельной гармонике.
