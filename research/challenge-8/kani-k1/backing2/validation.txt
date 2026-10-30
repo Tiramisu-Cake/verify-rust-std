@@ -1,0 +1,8 @@
+Library: f28909ac02823ffd652a3d530d6b96add6bd4fea
+Python check_source.py: exit 0 (exact scope, historical source identities, requests).
+Python kani_k1.py validate measurement.request.json: exit 0, 3 harnesses accepted.
+Python kani_k1.py validate diagnostic.request.json: exit 0, 6 harnesses accepted.
+Rustfmt --check --edition 2024 with TASK-BACKING2.md config: exit 0, merge.rs.
+git diff --check: exit 0.
+Local rustc/cargo/Kani/CBMC: not run.
+Build UUIDs: none; measurement covers/status/RSS: not established before GO/build.

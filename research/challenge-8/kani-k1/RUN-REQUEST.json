@@ -1,49 +1,25 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "backing-matched-20261031",
+  "request_id": "backing2-measurement-20261031",
   "agent": "k1-network",
   "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "BACKING B/dispatch matched + 3 controls; reuse OPT G2 A; 7*10+30=100 min, $1.35.",
+  "purpose": "BACKING2 direct u64; 3 entries; 60 min / $0.8100.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::general_direct_u64_n7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n6",
       "expect": "SUCCESS"
     },
     {
-      "name":
-"slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_old",
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n7",
       "expect": "SUCCESS"
-    },
-    {
-      "name":
-"slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_new",
-      "expect": "SUCCESS"
-    },
-    {
-      "name":
-"slice::sort::shared::smallsort::verify::merge::backing::stable_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    },
-    {
-      "name":
-"slice::sort::shared::smallsort::verify::merge::backing::unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
-    },
-    {
-      "name":
-"slice::sort::shared::smallsort::verify::merge::backing::allocation_bounds_control_u64",
-      "expect": "FAILED",
-      "expect_check": "pointer outside object bounds"
     }
   ]
 }

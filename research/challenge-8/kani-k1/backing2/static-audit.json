@@ -1,0 +1,32 @@
+{
+  "base_sha": "a3d731225cf5c55a7268cc0dada8e151e4c256ef",
+  "merge_rs_sha256": "e72da32d780b45866367b722db1363a8b57d38c420fe710b3447e975d229e0f0",
+  "exact_scope_restore": true,
+  "general_matches_opt_except_const_guard": true,
+  "stable_matches_backing_except_const_guard": true,
+  "adapter_oracle_probe_unchanged": true,
+  "other_library_and_lane_files_unchanged": true,
+  "historical_sources": {
+    "OPT_G1": {
+      "source_sha": "73fb790ad0d78e81c5a2928651650398dbe7d673",
+      "unchanged_except_appended_backing": [
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+      ]
+    },
+    "OPT_G2": {
+      "source_sha": "c81c10e3061e07bb83c732d81413632ada757d2c",
+      "unchanged_except_appended_backing": [
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+      ]
+    },
+    "BACKING": {
+      "source_sha": "740d22674ca200f3270fb298651302019d347828",
+      "unchanged_except_appended_backing": []
+    }
+  },
+  "requests_exact": true,
+  "local_proof_tools_run": false,
+  "evidence_scope": "Source identity only; historical PASS is not a measurement of this SHA."
+}
