@@ -153,6 +153,12 @@ macro_rules! fixed_trait_case {
 // A single length keeps solver time within the ordinary budget.
 fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
 
+// N8 trait-route measurements stay opt-in until their time and memory budgets are reviewed.
+#[cfg(kani_smallsort_controls)]
+fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n8, Cell<u8>, 8);
+#[cfg(kani_smallsort_controls)]
+fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
+
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(50)]
