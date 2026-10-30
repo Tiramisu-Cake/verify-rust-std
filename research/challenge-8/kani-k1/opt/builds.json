@@ -1,6 +1,6 @@
 {
   "task": "OPT",
-  "recorded_at_utc": "2026-10-30T20:16:03.987214+00:00",
+  "recorded_at_utc": "2026-10-30T20:17:50.864941+00:00",
   "limits": {
     "max_builds": 3,
     "max_own_spent_reserved_usd": "4.0000"
@@ -33,6 +33,27 @@
       "helper_incident": "Stopped check-tooling implicit fetch; no evidence read",
       "evidence_reading": "k1g.sh summary/peaks/check-tooling; explicit user authorization",
       "tooling_check": "PASS: build source/pool and lane hashes equal base c52627e090"
+    },
+    {
+      "request_id": "opt-split-n8-20261030",
+      "build_uuid": "0e44427c-18bd-4de4-95b2-e8730abec632",
+      "source_sha": "c81c10e3061e07bb83c732d81413632ada757d2c",
+      "group_gate": "N6 B/A GO; unchanged reviewed library f052d6b7ec",
+      "kind": "measurement",
+      "pool": "k1-standard4",
+      "kani_jobs": 1,
+      "harness_timeout_seconds": 600,
+      "full_envelope_minutes": 70,
+      "closeout_reserve_minutes": 15,
+      "reserved_usd": "0.9450",
+      "actual_cost_usd": null,
+      "state": "SUBMITTED",
+      "budget_before": {
+        "used_usd": "57.8850",
+        "reserved_usd": "0.8100"
+      },
+      "budget_after_submit_upper_usd": "59.6400",
+      "project_cap_usd": "73.96"
     }
   ]
 }

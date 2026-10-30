@@ -1,11 +1,14 @@
-# OPT — PARTIAL: N6 B/A GO; N8 подготовлен
+# OPT — PARTIAL: N6 B/A GO; N8 отправлен
 
 База: `c52627e090e059ae8000af23fded3d614a89a2e3`.
 Library SHA: `f052d6b7ec826e4f45f7bc1522dde38d5ba16a91`; только новый opt-in блок.
 G1 source: `73fb790ad0d78e81c5a2928651650398dbe7d673`, coordinator review GO.
 G1 build: `993fe78c-4a34-489d-8c4e-485da048e1e2`, COMPLETE, gate true.
 G1 request: `opt-split-n6-gate-20261030`; cost $0.2970, jobs=1, timeout 600 с.
-Собственных builds 1/3; spent $0.2970/$4, reserved $0; CAP_USD=73.96 неизменён.
+G2 build: `0e44427c-18bd-4de4-95b2-e8730abec632`; N8 SUBMITTED.
+G2 source: `c81c10e3061e07bb83c732d81413632ada757d2c`, request opt-split-n8-20261030.
+Собственных builds 2/3; spent $0.2970, reserved $0.9450; всего $1.2420/$4.
+CAP_USD=73.96 неизменён; G2 envelope 70 минут, jobs=1, timeout 600 с.
 Список UUID/request_id/source/cost: [opt/builds.json](opt/builds.json).
 
 Все имена имеют префикс `slice::sort::shared::smallsort::verify::merge::opt_split::`.
@@ -19,10 +22,10 @@ RSS в таблице — индивидуальный CBMC VmHWM, GiB; VT — G
 | stable_direct_u64_n6 | 6 | B/S | SUCCESS | 161.62236 | 5.358 | 1/1 |
 | general_contract_u64_n6 | 6 | A/G | SUCCESS | 171.72945 | 1.410 | 1/1 |
 | stable_contract_u64_n6 | 6 | A/S | SUCCESS | 299.92233 | 6.053 | 1/1 |
-| general_direct_u64_n8 | 8 | B/G | NOT_RUN | — | — | — |
-| stable_direct_u64_n8 | 8 | B/S | NOT_RUN | — | — | — |
-| general_contract_u64_n8 | 8 | A/G | NOT_RUN | — | — | — |
-| stable_contract_u64_n8 | 8 | A/S | NOT_RUN | — | — | — |
+| general_direct_u64_n8 | 8 | B/G | SUBMITTED | — | — | — |
+| stable_direct_u64_n8 | 8 | B/S | SUBMITTED | — | — | — |
+| general_contract_u64_n8 | 8 | A/G | SUBMITTED | — | — | — |
+| stable_contract_u64_n8 | 8 | A/S | SUBMITTED | — | — | — |
 
 Baseline из RESULT-DIRECT.md: исторические source-reported measurements, оба маршрута вместе.
 B N6 SUCCESS 235.455 с / 6.034 GiB; A N6 SUCCESS 310.391 с / 6.583 GiB.
@@ -58,8 +61,8 @@ Rustfmt --check edition 2024/config exit 0; source/report строки <=100, re
 Kani pin 9461e07a, nightly-2026-10-12, lane-файлы прежние; local Rust/Kani/CBMC не запускались.
 Flags: --no-assert-contracts, --object-bits 12, uninit checks off; proof на GCB.
 Это bounded Kani evidence для u64 N6; универсальный full proof generic T не заявлен.
-Следующий шаг: N8 для обеих принятых групп; четыре entries, полный envelope 70 мин/$0.9450.
-С N8 резервом собственные spent+reserved будут $1.2420/$4, builds 2/3.
+Следующий шаг: k1g.sh watch G2 и завершение хода, затем N8 summary/peaks/check-tooling.
+С N8 резервом собственные spent+reserved $1.2420/$4, builds 2/3.
 После N8 concurrency jobs=3 — только при оставшихся полном envelope, окне и бюджете.
 Typed u64 probe / oracle-специализация либо локальная merge-декомпозиция —
 только письменные следующие варианты; в этой сессии oracle не менялся.
