@@ -1,206 +1,29 @@
 {
-  "result": "PASS_STATIC_FORECAST_ONLY",
+  "result": "PASS_STATIC_INTEG_SCOPE_FORECAST_ONLY",
   "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
-  "baseline_ordinary": 328,
-  "predicted_ordinary": 144,
-  "predicted_controls_enabled": 423,
-  "moved_ordinary": 184,
-  "unique_baseline_names": 423,
-  "cfg_insertions": 175,
-  "manifest_counts": {
-    "ordinary.txt": 144,
-    "extended-positive.txt": 252,
-    "controls-failed.txt": 26,
-    "deferred-unsupported.txt": 1
+  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
+  "all_names": 449,
+  "ordinary": 176,
+  "p2_candidate_ordinary": 339,
+  "classes": {
+    "ordinary": 176,
+    "expected-fail": 28,
+    "preexisting-opt-in": 68,
+    "budget-deferred": 153,
+    "positive-direct": 10,
+    "timeout-diagnostic": 2,
+    "retired-duplicate": 11,
+    "deferred-unsupported": 1
   },
-  "ordinary_verified_stub_callers": [
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n2",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n3",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n4",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n5",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n6",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n7",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n2",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n3",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n4",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n5",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n6",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n7",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n8",
-    "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n9"
-  ],
-  "matching_contract_edges": [
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
-      "callee": "unreachable at N0/1"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
-      "callee": "unreachable at N0/1"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n2",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 2,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n3",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 3,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n4",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 4,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n5",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 5,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n6",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 6,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n7",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 7,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n8",
-      "type": "u64",
-      "comparator": "lt_u64",
-      "length": 8,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
-      "callee": "unreachable at N0/1"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
-      "callee": "unreachable at N0/1"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n2",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 2,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n3",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 3,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n4",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 4,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n5",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 5,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n6",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 6,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n7",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n7",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 7,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n8",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 8,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    },
-    {
-      "caller": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n9",
-      "proof": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n9",
-      "type": "u8",
-      "comparator": "lt_u8",
-      "length": 9,
-      "allocation_region_gap": "exact-N source/dst to scratch48 remains conditional"
-    }
-  ],
-  "contract_dependency_closure": "PASS_T_N_COMPARATOR_ONLY",
-  "identity_domain_union_rows": 328,
-  "files": {
-    "correct": {
-      "sha256": "36cdbbc7ca6ca3d0df350fc3d7633c43e31b20d83e40693149f52660a953fb48",
-      "added_item_cfg": 28,
-      "bodies_assertions_covers_solver_unwind_unchanged": true,
-      "imported_bindings_unchanged": true,
-      "comment_line_count_not_increased": true
-    },
-    "merge": {
-      "sha256": "a7aadc6a89e1461f129bc2eea0af532801d5243f40cd9b6836c88ce60784855e",
-      "added_item_cfg": 58,
-      "bodies_assertions_covers_solver_unwind_unchanged": true,
-      "imported_bindings_unchanged": true,
-      "comment_line_count_not_increased": true
-    },
-    "network": {
-      "sha256": "440b5d5fd85a8d233d604d3005af45ad938c1aae02709116744806fc6c9fb50f",
-      "added_item_cfg": 89,
-      "bodies_assertions_covers_solver_unwind_unchanged": true,
-      "imported_bindings_unchanged": true,
-      "comment_line_count_not_increased": true
-    }
-  },
-  "library_baseline_file_count": 2348,
+  "direct_ordinary": 12,
+  "direct_positive_optin": 10,
+  "direct_timeouts": 2,
+  "direct_controls": 2,
+  "retired_duplicates": 11,
+  "plain_insertions_returned": 31,
   "limitations": [
-    "Not Rust macro expansion or actual kani list",
-    "No compilation, Kani, CBMC or CI executed",
-    "Proof outcomes and performance of this cfg selection not established"
+    "Source scan, not Rust expansion or kani list",
+    "No compiler/Kani/build evidence was run by this static check",
+    "Positive DIRECT P2 candidate has no macOS CI evidence"
   ]
 }

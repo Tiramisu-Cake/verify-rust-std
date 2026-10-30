@@ -1,126 +1,124 @@
 #!/usr/bin/env python3
-"""Required static source forecast; deliberately not a compiler/kani-list check."""
+"""Static scope and manifest checks for INTEG; not compiler or Kani evidence."""
 import csv
-import hashlib
 import json
-import re
 import subprocess
 from collections import Counter
 
-from source_inventory import BASELINE, HERE, PREFIX, ROOT, inventory, predict, source
-from source_items import fingerprints
+from prepare_integ import (DIRECT_FAILED, DIRECT_ORDINARY, DIRECT_POSITIVE,
+                           DIRECT_TIMEOUT, LIBRARY_TREE, RETIRED, short)
+from source_inventory import BASELINE, HERE, inventory
+
+
+def read_tsv(name):
+    return list(csv.DictReader((HERE / name).open(), delimiter="\t"))
+
+
+def names(name):
+    return set((HERE / name).read_text().splitlines())
 
 
 def main():
-    base = inventory(BASELINE)
-    current = inventory()
-    baseline_names = Counter(r["name"] for r in base)
-    current_names = Counter(r["name"] for r in current)
-    assert baseline_names == current_names
-    assert all(count == 1 for count in current_names.values())
-    table = list(csv.DictReader((HERE / "scope.tsv").open(), delimiter="\t"))
-    expected = {r["name"]: r for r in table}
-    assert len(expected) == len(table) == 328
-    assert set(expected) == {r["name"] for r in base if not r["opt_in"]}
-    actual = {r["name"]: r for r in current}
-    for name, row in expected.items():
-        assert actual[name]["opt_in"] == (row["decision"] == "opt-in"), name
-        assert all(str(value).strip() for value in row.values()), name
-    for r in base:
-        if r["opt_in"]:
-            assert actual[r["name"]]["opt_in"], r["name"]
+    baseline, current = inventory(BASELINE), inventory()
+    base_names = {r["name"] for r in baseline}
+    current_by_name = {r["name"]: r for r in current}
+    assert len(base_names) == 423 and len(current_by_name) == 449
+    assert base_names <= current_by_name.keys()
+    assert len(current_by_name) == len(current)
 
-    manifests = {}
-    for filename in ("ordinary.txt", "extended-positive.txt", "controls-failed.txt",
-                     "deferred-unsupported.txt"):
-        lines = (HERE / filename).read_text().splitlines()
-        assert len(lines) == len(set(lines))
-        manifests[filename] = set(lines)
-    all_names = Counter(n for names in manifests.values() for n in names)
-    assert all_names == baseline_names
-    assert manifests["ordinary.txt"] == {r["name"] for r in current if not r["opt_in"]}
-    for filename in manifests.keys() - {"ordinary.txt"}:
-        assert all(actual[n]["opt_in"] for n in manifests[filename])
+    manifest = read_tsv("manifest.tsv")
+    by_short = {short(r["name"]): r for r in manifest}
+    assert len(by_short) == len(manifest) == 449
+    assert {r["name"] for r in manifest} == set(current_by_name)
+    for r in current:
+        m = by_short[short(r["name"])]
+        assert all(str(v).strip() for v in m.values()), r["name"]
+        assert (m["configuration"] == "opt-in") == r["opt_in"], r["name"]
+        assert m["source_library_tree"] == LIBRARY_TREE
+        if m["expectation"] == "FAILED":
+            assert m["class"] == "expected-fail", r["name"]
+        if m["class"] == "positive-direct":
+            assert m["p2_candidate"] == "yes" and m["p2_macos_ci"] == "UNKNOWN"
 
-    original_library = subprocess.check_output(
-        ["git", "ls-tree", "-r", "--name-only", BASELINE, "library"], text=True).splitlines()
-    changed = subprocess.check_output(
-        ["git", "diff", "--name-only", BASELINE, "--", "library"], text=True).splitlines()
-    assert set(changed) == {
-        "library/core/src/slice/sort/shared/smallsort/verify/" + mod + ".rs"
-        for mod in ("correct", "merge", "network")} | {str(ROOT.with_suffix(".rs"))}
-    cfg_re = re.compile(r"#\[cfg\(kani_smallsort_controls\)\]\n")
-    files = {}
-    cfg_count = 0
-    for module in ("correct", "merge", "network"):
-        before, after = source(module, BASELINE), source(module)
-        assert fingerprints(before) == fingerprints(after), module
-        delta = len(cfg_re.findall(after)) - len(cfg_re.findall(before))
-        assert delta > 0
-        cfg_count += delta
-        assert max(map(len, after.splitlines())) <= 100
-        assert sum(s.lstrip().startswith("//") for s in after.splitlines()) <= sum(
-            s.lstrip().startswith("//") for s in before.splitlines()), module
-        files[module] = dict(sha256=hashlib.sha256(after.encode()).hexdigest(),
-                             added_item_cfg=delta,
-                             bodies_assertions_covers_solver_unwind_unchanged=True,
-                             imported_bindings_unchanged=True,
-                             comment_line_count_not_increased=True)
-    assert cfg_count == 175  # 161 proof gates + 14 helper/import gates.
-    root_path = str(ROOT.with_suffix(".rs"))
-    before_root = subprocess.check_output(["git", "show", BASELINE + ":" + root_path], text=True)
-    after_root = ROOT.with_suffix(".rs").read_text()
-    assert "".join(predict.mask_comments_strings(before_root).split()) == "".join(
-        predict.mask_comments_strings(after_root).split())
-    assert sum(s.lstrip().startswith("//") for s in after_root.splitlines()) <= sum(
-        s.lstrip().startswith("//") for s in before_root.splitlines())
-    assert max(map(len, after_root.splitlines())) <= 100
-    ordinary = [r for r in current if not r["opt_in"]]
-    assert len(ordinary) == 144
-    verified_stub_callers, edges = [], []
-    for caller in ordinary:
-        if "stub_verified" not in caller["attributes"]:
-            continue
-        verified_stub_callers.append(caller["name"])
-        assert caller["macro"] == "define_general_sortedness_harness", caller
-        _, ty, cmp, n = caller["args"]
-        n = int(n)
-        if n < 2:
-            edges.append(dict(caller=caller["name"], callee="unreachable at N0/1"))
-            continue
-        suffix = "n2_to4" if n <= 4 else f"n{n}"
-        proof = actual[PREFIX + f"merge::merge_contract_{ty}_{suffix}"]
-        assert not proof["opt_in"], (caller["name"], proof["name"])
-        assert proof["args"][1:3] == [ty, cmp], proof
-        assert n <= 4 or int(proof["args"][3]) == n
-        assert "proof_for_contract" in proof["attributes"]
-        assert "bidirectional_merge" in proof["attributes"]
-        edges.append(dict(caller=caller["name"], proof=proof["name"], type=ty,
-                          comparator=cmp, length=n,
-                          allocation_region_gap="exact-N source/dst to scratch48 remains conditional"))
-    assert len(verified_stub_callers) == 19
-    assert sum("proof" in e for e in edges) == 15
-    # No original names are replaced, so every union map is the unchanged original domain.
-    mapping = list(csv.DictReader((HERE / "domain-map.tsv").open(), delimiter="\t"))
-    assert len(mapping) == len(expected)
-    assert {r["original"] for r in mapping} == set(expected)
-    assert all(r["original"] == r["successors"] for r in mapping)
-    report = dict(result="PASS_STATIC_FORECAST_ONLY", baseline=BASELINE,
-                  baseline_ordinary=328, predicted_ordinary=len(ordinary),
-                  predicted_controls_enabled=len(current), moved_ordinary=184,
-                  unique_baseline_names=len(baseline_names), cfg_insertions=cfg_count,
-                  manifest_counts={k: len(v) for k, v in manifests.items()},
-                  ordinary_verified_stub_callers=verified_stub_callers,
-                  matching_contract_edges=edges, contract_dependency_closure="PASS_T_N_COMPARATOR_ONLY",
-                  identity_domain_union_rows=len(mapping), files=files,
-                  library_baseline_file_count=len(original_library),
-                  limitations=["Not Rust macro expansion or actual kani list",
-                               "No compilation, Kani, CBMC or CI executed",
-                               "Proof outcomes and performance of this cfg selection not established"])
+    counts = Counter(r["class"] for r in manifest)
+    assert counts == Counter({"ordinary": 176, "budget-deferred": 153,
+                              "retired-duplicate": 11, "positive-direct": 10,
+                              "timeout-diagnostic": 2, "expected-fail": 28,
+                              "deferred-unsupported": 1, "preexisting-opt-in": 68}), counts
+    assert sum(r["configuration"] == "ordinary" for r in manifest) == 176
+
+    expected_lists = {
+        "ordinary.txt": {"ordinary"},
+        "extended-positive.txt": {"budget-deferred", "positive-direct", "preexisting-opt-in"},
+        "budget-deferred.txt": {"budget-deferred"},
+        "retired-duplicates.txt": {"retired-duplicate"},
+        "positive-direct.txt": {"positive-direct"},
+        "timeout-diagnostic.txt": {"timeout-diagnostic"},
+        "controls-failed.txt": {"expected-fail"},
+        "deferred-unsupported.txt": {"deferred-unsupported"},
+    }
+    for filename, classes in expected_lists.items():
+        expected = {r["name"] for r in manifest if r["class"] in classes}
+        assert names(filename) == expected, filename
+    assert len(DIRECT_ORDINARY) == 12 and len(DIRECT_POSITIVE) == 10
+    assert len(DIRECT_TIMEOUT) == 2 and len(DIRECT_FAILED) == 2 and len(RETIRED) == 11
+    assert DIRECT_ORDINARY <= by_short.keys() and DIRECT_POSITIVE <= by_short.keys()
+    assert all(by_short[n]["class"] == "ordinary" for n in DIRECT_ORDINARY)
+    assert all(by_short[n]["class"] == "positive-direct" for n in DIRECT_POSITIVE)
+    assert all(by_short[n]["class"] == "timeout-diagnostic" for n in DIRECT_TIMEOUT)
+    assert all(by_short[n]["class"] == "retired-duplicate" for n in RETIRED)
+
+    harness = {r["harness"]: r for r in read_tsv("/root/smallsort-pr-drafts/smallsort-harnesses.tsv")}
+    returned = {n for n, r in harness.items()
+                if r["part1"] == "opt-in" and r["part2"] == "ordinary" and
+                (n.startswith(("network::swap_contract_u64_n9", "network::swap_contract_u8_n9",
+                               "network::swap_contract_u8_n13")) or
+                 n == "network::mutating_route_safety_cell_n9_to12" or
+                 n.startswith("network::insertion_safety_u64"))}
+    assert len(returned) == 31, len(returned)
+    assert all(by_short[n]["class"] == "ordinary" for n in returned)
+
+    paired_cell = [r for r in current if r["macro"] == "insertion_offset_group_cases" and
+                   "#[cfg(kani_smallsort_controls)]" in r["args"][1] and
+                   short(r["name"]).startswith("network::mutating_insertion_safety_cell_")]
+    assert len(paired_cell) == 23
+    for cell in paired_cell:
+        plain = "network::" + cell["args"][0]
+        assert by_short[plain]["class"] == "ordinary"
+        assert by_short[short(cell["name"])]["class"] == "budget-deferred"
+
+    table = read_tsv("scope.tsv")
+    assert len(table) == 449 and {r["name"] for r in table} == set(current_by_name)
+    assert all(r["source_library_tree"] == LIBRARY_TREE and r["class"] for r in table)
+    assert all(r["proof_source"] for r in table)
+    assert all(r["p2_candidate"] == "yes" and r["p2_macos_ci"] == "UNKNOWN"
+               for r in table if r["class"] == "positive-direct")
+    changed_control = next(r for r in table if short(r["name"]) ==
+                           "merge::general_stable_direct_value_corruption_control_u64_n2")
+    assert "different body" in changed_control["proof_source"]
+    assert "awaits measurement" in changed_control["proof_source"]
+    direct_metrics = metrics = json.loads((HERE / "metrics.json").read_text())
+    assert direct_metrics["direct_results_gcb"]["expected-fail"]["known_time_count"] == 2
+    assert "successful_time_count" not in direct_metrics["direct_results_gcb"]["expected-fail"]
+    assert metrics["ordinary"] == 176 and metrics["p2_candidate_ordinary"] == 339
+    assert metrics["p6_incremental"]["returned_count"] == 31
+    assert metrics["p6_incremental"]["retired_count"] == 11
+    assert metrics["p6_incremental"]["returned_known_vt_s"] == 1159.9
+    assert metrics["p6_incremental"]["retired_known_vt_s"] == 245.6
+    actual_tree = subprocess.check_output(["git", "rev-parse", "HEAD:library"], text=True).strip()
+    assert actual_tree == LIBRARY_TREE, actual_tree
+
+    report = dict(result="PASS_STATIC_INTEG_SCOPE_FORECAST_ONLY", baseline=BASELINE,
+                  library_tree=actual_tree, all_names=len(current), ordinary=176,
+                  p2_candidate_ordinary=339, classes=dict(counts), direct_ordinary=len(DIRECT_ORDINARY),
+                  direct_positive_optin=len(DIRECT_POSITIVE), direct_timeouts=len(DIRECT_TIMEOUT),
+                  direct_controls=len(DIRECT_FAILED), retired_duplicates=len(RETIRED),
+                  plain_insertions_returned=len(returned),
+                  limitations=["Source scan, not Rust expansion or kani list",
+                               "No compiler/Kani/build evidence was run by this static check",
+                               "Positive DIRECT P2 candidate has no macOS CI evidence"])
     (HERE / "static-check.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps({k: report[k] for k in (
-        "result", "predicted_ordinary", "predicted_controls_enabled", "moved_ordinary",
-        "cfg_insertions", "manifest_counts", "contract_dependency_closure")}, indent=2))
+    print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -2,29 +2,38 @@
   "result": "PASS_STATIC_PR2_FORECAST_ONLY",
   "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
   "patch_applied_to_temporary_source_copy": true,
-  "budget_cfg_lines": 175,
+  "budget_cfg_lines": 173,
   "by_file": {
-    "correct": 28,
-    "merge": 58,
-    "network": 89
+    "correct": 26,
+    "merge": 67,
+    "network": 80
+  },
+  "gate_classes": {
+    "budget-deferred+preexisting-opt-in": 5,
+    "budget-deferred": 158,
+    "positive-direct": 10
   },
   "gate_origins": {
-    "SCOPE-B-review-helper": 14,
-    "SCOPE-proof": 161
+    "SCOPE-budget-helper": 8,
+    "SCOPE-proof": 165
   },
-  "ordinary": 328,
-  "expected_baseline_ordinary": 328,
-  "all_names": 423,
-  "pre_existing_opt_in_unchanged": true,
-  "controls_failed": 26,
-  "controls_failed_manifest_unchanged": true,
+  "ordinary": 339,
+  "expected_p2_candidate_ordinary": 339,
+  "all_names": 449,
+  "retained_classes": [
+    "retired-duplicate",
+    "timeout-diagnostic",
+    "expected-fail",
+    "deferred-unsupported",
+    "preexisting-opt-in"
+  ],
   "patch_only_removes_budget_cfg_lines": true,
-  "patch_sha256": "cde7317d5c974b9cf99493c3be6c34fe4651b3c6fe4c8487bb50e4be483bdbcc",
-  "library_tree": "462e8f1cc3d4104d1513fba0303c4591f32a1da4",
+  "patch_sha256": "e45f7c034ae97acebaf44ed312b4feead2855e881e9eb2f6f32dc74a6d1507a6",
+  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
   "limitations": [
-    "Source forecast, not Rust expansion or kani list",
+    "Source forecast, not Rust expansion or actual kani list",
     "Helper-to-harness association uses local token references",
-    "Historical CI evidence does not establish PR2 on the new SHA",
-    "No builds or compiler/prover runs"
+    "Positive DIRECT in P2 is a candidate; macOS CI is UNKNOWN",
+    "No compilation, Kani, CBMC or CI executed"
   ]
 }

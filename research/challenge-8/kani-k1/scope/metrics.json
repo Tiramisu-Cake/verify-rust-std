@@ -1,426 +1,65 @@
 {
-  "status": "PROPOSED_SCOPE_CI_NOT_TESTED",
-  "baseline": "e96555151df91080fa0ccc106f60ee38a919c50e",
-  "p6": "6cfc76cb211d088aebaff8a449bcac953e97f942",
-  "source_mac_sha256": "916cb3ab4d335fdd55ce3a21148017b85cf9a914300df957e3f8c58b55022af3",
-  "before": {
-    "count": 328,
-    "known_count": 321,
-    "known_vt_sum_s": 25367.4,
-    "known_max_s": 584.9,
-    "known_above_120": 73,
-    "unknown": 4,
-    "timeout600": 3
+  "status": "INTEG_STATIC_FORECAST_ONLY",
+  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
+  "counts": {
+    "ordinary": 176,
+    "expected-fail": 28,
+    "preexisting-opt-in": 68,
+    "budget-deferred": 153,
+    "positive-direct": 10,
+    "timeout-diagnostic": 2,
+    "retired-duplicate": 11,
+    "deferred-unsupported": 1
   },
-  "ordinary": {
-    "count": 144,
-    "known_count": 140,
-    "known_vt_sum_s": 4520.3,
-    "known_max_s": 230.2,
-    "known_above_120": 8,
-    "unknown": 4,
-    "timeout600": 0
+  "total": 449,
+  "ordinary": 176,
+  "p2_candidate_ordinary": 339,
+  "p2_formula": "328 + 12 ordinary DIRECT + 10 positive DIRECT - 11 retired duplicates",
+  "p6_incremental": {
+    "returned_count": 31,
+    "returned_known_vt_s": 1159.9,
+    "retired_count": 11,
+    "retired_known_vt_s": 245.6,
+    "new_direct_ordinary_macos_vt": "UNKNOWN; no P-6 macOS VT evidence"
   },
-  "moved": {
-    "count": 184,
-    "known_count": 181,
-    "known_vt_sum_s": 20847.1,
-    "known_max_s": 584.9,
-    "known_above_120": 65,
-    "unknown": 0,
-    "timeout600": 3
-  },
-  "groups": {
-    "c3a": {
-      "before": {
-        "count": 4,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 4,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 4,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 4,
-        "timeout600": 0
-      }
+  "direct_results_gcb": {
+    "expected-fail": {
+      "rows": 2,
+      "known_time_count": 2,
+      "gcb_time_sum_s": 28.1009,
+      "gcb_time_max_s": 27.591068,
+      "timeout_count": 0,
+      "gcb_rss_max_kib": 1226520
     },
-    "correct-fallback": {
-      "before": {
-        "count": 17,
-        "known_count": 17,
-        "known_vt_sum_s": 1769.7,
-        "known_max_s": 251.7,
-        "known_above_120": 6,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 0,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
+    "ordinary": {
+      "rows": 12,
+      "known_time_count": 12,
+      "gcb_time_sum_s": 708.8219,
+      "gcb_time_max_s": 187.80992,
+      "timeout_count": 0,
+      "gcb_rss_max_kib": 4710364
     },
-    "correct-scratch-general": {
-      "before": {
-        "count": 3,
-        "known_count": 3,
-        "known_vt_sum_s": 462.8,
-        "known_max_s": 168.2,
-        "known_above_120": 3,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 0,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
+    "positive-direct": {
+      "rows": 10,
+      "known_time_count": 10,
+      "gcb_time_sum_s": 2427.5576,
+      "gcb_time_max_s": 417.82526,
+      "timeout_count": 0,
+      "gcb_rss_max_kib": 9241468
     },
-    "dispatch-safety": {
-      "before": {
-        "count": 22,
-        "known_count": 22,
-        "known_vt_sum_s": 2007.4,
-        "known_max_s": 201.7,
-        "known_above_120": 7,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 18,
-        "known_count": 18,
-        "known_vt_sum_s": 1473.9,
-        "known_max_s": 201.7,
-        "known_above_120": 5,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "insertion-lower": {
-      "before": {
-        "count": 10,
-        "known_count": 10,
-        "known_vt_sum_s": 650.9,
-        "known_max_s": 123.9,
-        "known_above_120": 1,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 2,
-        "known_count": 2,
-        "known_vt_sum_s": 13.5,
-        "known_max_s": 8.6,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "insertion-permutation": {
-      "before": {
-        "count": 10,
-        "known_count": 9,
-        "known_vt_sum_s": 640.5,
-        "known_max_s": 217.2,
-        "known_above_120": 2,
-        "unknown": 0,
-        "timeout600": 1
-      },
-      "after": {
-        "count": 4,
-        "known_count": 4,
-        "known_vt_sum_s": 17.5,
-        "known_max_s": 6.9,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "insertion-upper": {
-      "before": {
-        "count": 56,
-        "known_count": 56,
-        "known_vt_sum_s": 1709.3,
-        "known_max_s": 95.0,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 10,
-        "known_count": 10,
-        "known_vt_sum_s": 450.3,
-        "known_max_s": 95.0,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "merge-contract-upper": {
-      "before": {
-        "count": 24,
-        "known_count": 23,
-        "known_vt_sum_s": 3894.7,
-        "known_max_s": 420.3,
-        "known_above_120": 14,
-        "unknown": 0,
-        "timeout600": 1
-      },
-      "after": {
-        "count": 9,
-        "known_count": 9,
-        "known_vt_sum_s": 685.6,
-        "known_max_s": 99.5,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "merge-drop": {
-      "before": {
-        "count": 14,
-        "known_count": 14,
-        "known_vt_sum_s": 369.8,
-        "known_max_s": 271.8,
-        "known_above_120": 1,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 13,
-        "known_count": 13,
-        "known_vt_sum_s": 98.0,
-        "known_max_s": 32.7,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "merge-fallback": {
-      "before": {
-        "count": 9,
-        "known_count": 9,
-        "known_vt_sum_s": 369.5,
-        "known_max_s": 217.4,
-        "known_above_120": 1,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 7,
-        "known_count": 7,
-        "known_vt_sum_s": 50.2,
-        "known_max_s": 29.2,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "merge-general-callers": {
-      "before": {
-        "count": 29,
-        "known_count": 29,
-        "known_vt_sum_s": 1740.9,
-        "known_max_s": 337.5,
-        "known_above_120": 6,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 19,
-        "known_count": 19,
-        "known_vt_sum_s": 251.4,
-        "known_max_s": 41.6,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "merge-routes": {
-      "before": {
-        "count": 31,
-        "known_count": 31,
-        "known_vt_sum_s": 3100.7,
-        "known_max_s": 505.6,
-        "known_above_120": 10,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 3,
-        "known_count": 3,
-        "known_vt_sum_s": 74.7,
-        "known_max_s": 51.8,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "mutating-routes": {
-      "before": {
-        "count": 4,
-        "known_count": 4,
-        "known_vt_sum_s": 188.9,
-        "known_max_s": 134.4,
-        "known_above_120": 1,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 3,
-        "known_count": 3,
-        "known_vt_sum_s": 152.9,
-        "known_max_s": 134.4,
-        "known_above_120": 1,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "network-correctness": {
-      "before": {
-        "count": 27,
-        "known_count": 27,
-        "known_vt_sum_s": 2943.7,
-        "known_max_s": 479.0,
-        "known_above_120": 6,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 13,
-        "known_count": 13,
-        "known_vt_sum_s": 181.5,
-        "known_max_s": 55.6,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "network-safety-u64": {
-      "before": {
-        "count": 6,
-        "known_count": 6,
-        "known_vt_sum_s": 862.0,
-        "known_max_s": 230.2,
-        "known_above_120": 5,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 2,
-        "known_count": 2,
-        "known_vt_sum_s": 381.4,
-        "known_max_s": 230.2,
-        "known_above_120": 2,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "swap-indices": {
-      "before": {
-        "count": 8,
-        "known_count": 8,
-        "known_vt_sum_s": 222.5,
-        "known_max_s": 45.1,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 0,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "swap-types": {
-      "before": {
-        "count": 8,
-        "known_count": 8,
-        "known_vt_sum_s": 742.8,
-        "known_max_s": 398.6,
-        "known_above_120": 2,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 6,
-        "known_count": 6,
-        "known_vt_sum_s": 143.4,
-        "known_max_s": 30.5,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "tail-shifted": {
-      "before": {
-        "count": 15,
-        "known_count": 14,
-        "known_vt_sum_s": 3145.3,
-        "known_max_s": 584.9,
-        "known_above_120": 8,
-        "unknown": 0,
-        "timeout600": 1
-      },
-      "after": {
-        "count": 0,
-        "known_count": 0,
-        "known_vt_sum_s": 0,
-        "known_max_s": null,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
-    },
-    "unchanged": {
-      "before": {
-        "count": 31,
-        "known_count": 31,
-        "known_vt_sum_s": 546.0,
-        "known_max_s": 85.5,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      },
-      "after": {
-        "count": 31,
-        "known_count": 31,
-        "known_vt_sum_s": 546.0,
-        "known_max_s": 85.5,
-        "known_above_120": 0,
-        "unknown": 0,
-        "timeout600": 0
-      }
+    "timeout-diagnostic": {
+      "rows": 2,
+      "known_time_count": 0,
+      "gcb_time_sum_s": 0,
+      "gcb_time_max_s": null,
+      "timeout_count": 2,
+      "gcb_rss_max_kib": 9454264
     }
   },
-  "manifests": {
-    "ordinary/PASS": 144,
-    "opt-in/FAILED": 26,
-    "opt-in/PASS": 252,
-    "opt-in/DEFERRED_UNSUPPORTED": 1
-  },
-  "notes": [
-    "Known sum plus 4 unknown C3a times, not zero; no confirmed full max or >120 count",
-    "jobs3 => at most 3 simultaneous proofs; up to 3 known-heavy proofs may overlap",
-    "VT is not job wall or machine memory, all predictions require same-SHA CI"
+  "limitations": [
+    "Source inventory forecast, not Rust expansion or actual kani list",
+    "P-6 VT is historical harness VT, not a runtime prediction",
+    "direct/results.tsv timings and RSS are GCB measurements; not Mac VT",
+    "P-7 autoharness is excluded; no cross-platform coefficient or jobs estimate"
   ]
 }

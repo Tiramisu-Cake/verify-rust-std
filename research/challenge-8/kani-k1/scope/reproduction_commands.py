@@ -8,10 +8,13 @@ from source_inventory import HERE
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--manifest", required=True,
-                    choices=("ordinary", "extended-positive", "controls-failed"))
+                    choices=("ordinary", "extended-positive", "budget-deferred",
+                             "retired-duplicates", "positive-direct", "timeout-diagnostic",
+                             "controls-failed", "deferred-unsupported"))
 args = parser.parse_args()
 names = (HERE / (args.manifest + ".txt")).read_text().splitlines()
-expected = "FAILED" if args.manifest == "controls-failed" else "PASS"
+expected = {"controls-failed": "FAILED", "timeout-diagnostic": "TIMEOUT diagnostic",
+            "deferred-unsupported": "DEFERRED_UNSUPPORTED"}.get(args.manifest, "PASS")
 print(f"# FUTURE REMOTE EXECUTION ONLY; expected {expected}; {len(names)} exact names")
 for name in names:
     env = "env -u WORKER_INDEX -u WORKER_TOTAL -u RUSTFLAGS"

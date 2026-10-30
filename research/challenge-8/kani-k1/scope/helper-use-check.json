@@ -171,7 +171,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 3
+          "references": 5
         },
         {
           "module": "merge",
@@ -189,7 +189,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "bidirectional_merge",
-          "references": 4
+          "references": 6
         },
         {
           "module": "merge",
@@ -201,7 +201,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 6
+          "references": 8
         },
         {
           "module": "merge",
@@ -213,19 +213,19 @@
           "module": "merge",
           "kind": "use",
           "symbol": "FreezeMarker",
-          "references": 2
+          "references": 3
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "kani",
-          "references": 66
+          "references": 76
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "ptr",
-          "references": 31
+          "references": 32
         },
         {
           "module": "merge",
@@ -255,7 +255,19 @@
           "module": "merge",
           "kind": "macro",
           "symbol": "define_general_sortedness_harness",
-          "references": 19
+          "references": 8
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_general_direct_harness",
+          "references": 11
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_merge_scratch48_contract_harness",
+          "references": 1
         },
         {
           "module": "merge",
@@ -279,7 +291,7 @@
           "module": "network",
           "kind": "use",
           "symbol": "swap_if_less",
-          "references": 4
+          "references": 5
         },
         {
           "module": "network",
@@ -303,7 +315,7 @@
           "module": "network",
           "kind": "use",
           "symbol": "kani",
-          "references": 135
+          "references": 137
         },
         {
           "module": "network",
@@ -351,13 +363,13 @@
           "module": "network",
           "kind": "macro",
           "symbol": "insertion_safety_cases",
-          "references": 1
+          "references": 5
         },
         {
           "module": "network",
           "kind": "macro",
           "symbol": "mutating_route_cases",
-          "references": 3
+          "references": 4
         },
         {
           "module": "network",
@@ -369,7 +381,7 @@
           "module": "network",
           "kind": "macro",
           "symbol": "insertion_offset_group_cases",
-          "references": 5
+          "references": 28
         },
         {
           "module": "network",
@@ -388,6 +400,12 @@
           "kind": "macro",
           "symbol": "insertion_permutation_case",
           "references": 4
+        },
+        {
+          "module": "network",
+          "kind": "macro",
+          "symbol": "swap_contract_arbitrary_indices_case",
+          "references": 3
         },
         {
           "module": "network",
@@ -717,13 +735,13 @@
           "module": "merge",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 3
+          "references": 7
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "StableSmallSortTypeImpl",
-          "references": 3
+          "references": 4
         },
         {
           "module": "merge",
@@ -735,7 +753,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "bidirectional_merge",
-          "references": 12
+          "references": 15
         },
         {
           "module": "merge",
@@ -747,7 +765,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 12
+          "references": 16
         },
         {
           "module": "merge",
@@ -759,19 +777,19 @@
           "module": "merge",
           "kind": "use",
           "symbol": "FreezeMarker",
-          "references": 2
+          "references": 3
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "kani",
-          "references": 104
+          "references": 118
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "ptr",
-          "references": 37
+          "references": 39
         },
         {
           "module": "merge",
@@ -820,6 +838,18 @@
           "kind": "macro",
           "symbol": "define_general_sortedness_harness",
           "references": 34
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_general_direct_harness",
+          "references": 15
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_merge_scratch48_contract_harness",
+          "references": 9
         },
         {
           "module": "merge",

@@ -73,8 +73,7 @@ def records(module, revision=None, text=None):
         args = predict.split_args(body[first + 1:pattern_end])
         positions = {}
         for i, arg in enumerate(args):
-            var = re.search(r"\$(\w+)\s*:", arg)
-            if var:
+            for var in re.finditer(r"\$(\w+)\s*:", arg):
                 positions[var[1]] = i
         generated = {}
         for fn in re.finditer(r"\bfn\s+\$(\w+)\b", body):
@@ -109,11 +108,12 @@ def records(module, revision=None, text=None):
             assert args[2] == "[]", "optional proof attribute splice requires a new source audit"
         start, attrs = attributes(masked, call.start())
         for (index, control), proof_attrs in macros[call[1]].items():
-            name = args[index].strip()
+            arg = args[index].strip()
+            name = re.sub(r"^(?:#\[[^]]+\]\s*)+", "", arg).strip()
             if not re.fullmatch(r"\w+", name):
                 raise ValueError(f"nonliteral proof name: {name}")
             result.append(dict(name=PREFIX + module + "::" + name, module=module,
-                               opt_in=control or gated(attrs), offset=start,
+                               opt_in=control or gated(attrs) or gated(args[index]), offset=start,
                                macro=call[1], args=args, attributes=proof_attrs.strip(),
                                entry=text[start:end + 1].strip() + ";"))
     for r in result:

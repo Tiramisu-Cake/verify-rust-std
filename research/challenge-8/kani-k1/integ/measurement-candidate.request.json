@@ -1,0 +1,35 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "integ-controls-smoke-candidate-not-authorized",
+  "agent": "k1-network",
+  "kind": "measurement",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "REVIEW CANDIDATE ONLY, NOT DISPATCHED: task3-build ceiling exhausted after inventory retry. B placeholder must additionally bind to common permutation assert merge.rs846/847 with sortedness844 passing; A sorted-halves fail; three cheapest ordinary DIRECT B smoke.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "expect_check": "This is a placeholder message"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
+      "expect": "FAILED",
+      "expect_check": "merge_inputs_are_sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
+      "expect": "SUCCESS"
+    }
+  ]
+}

@@ -1,44 +1,57 @@
-# План проверки SCOPE-B — НЕ ВЫПОЛНЕН
+# INTEG validation plan — source forecasts only; CI NOT RUN
 
-Объект проверки — library-коммиты B `b3213b9be0` и review-fix `d627e2ffbd`; итоговый library tree `462e8f1cc3d4104d1513fba0303c4591f32a1da4`. Перед будущей проверкой сверить этот tree на выбранном SHA. В этой работе сборки и CI-запуски запрещены; Python/rustfmt результаты — локальные проверки, не формальное доказательство.
+Target library tree: `4dd5393bbb4524104c8b05cb70910c6836c3b8de`, after INTEG and without OPT/UNSTABLE8. The
+current source inventory predicts 176 ordinary P1 names and 449 total with controls. The P2 candidate patch
+predicts 339 ordinary names. All are source forecasts until inventory/build/CI results on the exact combined
+SHA are available.
 
-## Инвентарь и компиляционные проверки
+## Local static checks
 
-1. На одном и том же SHA выполнить compile/codegen и `kani list --format json` с ordinary cfg и с `RUSTFLAGS="--cfg kani_smallsort_controls"`. Сохранить полный SHA, Kani/CBMC pins, toolchain, flags и оба фактических inventories. Сверить ordinary=144 и controls-enabled=423 с актуальными manifests. Проверить exact multiplicities и классификации PASS/FAILED/deferred; расхождения расследовать, не подгонять Python forecast. Фактический inventory — NOT_RUN.
-2. В обеих cfg-конфигурациях проверить отсутствие новых warnings `unused_macros`, `unused_imports`, `dead_code`, включая helpers, imports и macro call sites из review. Отдельно проверить actual helper reachability / macro expansion после compilation. Статический Python use check — только прогноз, не замена compiler.
-3. Перепроверить item-level cfg diff: bodies, domains, assertions, helper bodies, covers, solver и unwind не изменены; допустимы только cfg, разнесение импортов и top-level комментарии. Сопоставить lists с manifests: 144 ordinary; 252 positive extensions (=68 прежних +184 moved), 26 FAILED controls, 1 deferred unsupported; всего 423. Раскрытые атрибуты должны подтвердить 19 ordinary `stub_verified` callers, 15 matching T/N/comparator edges и 4 N0/1 без вызова merge.
+Run from the repository root:
 
-## Доказательства и coverage
+```sh
+python3 research/challenge-8/kani-k1/scope/prepare_scope.py
+python3 research/challenge-8/kani-k1/scope/prepare_pr2.py
+python3 research/challenge-8/kani-k1/scope/check_scope.py
+python3 research/challenge-8/kani-k1/scope/check_helpers.py
+```
 
-4. Выполнить ordinary PASS отдельно от 252 positive opt-in PASS harnesses; 26 expected-FAILED controls выполнять и оценивать отдельно. Deferred ZST contract — отдельная диагностика, вне PASS/FAILED gate. Каждый обязательный harness должен иметь ожидаемый outcome; TIMEOUT, NOT_RUN, missing result, runner/compiler error не засчитываются как PASS или ожидаемый FAILED.
-5. Выполнить contract-edge audit: для пятнадцати nontrivial ordinary merge callers exact type/N/comparator/contract должен совпадать; четыре callers N0/1 не вызывают merge. Отдельно сохранять allocation gaps exact-N↔scratch48 и shifted tails; успешные отдельные contracts не делают такую композицию unconditional. Проверить остальные `proof_for_contract` type/N/comparator/region edges по манифесту.
-6. Covers audit на обоих cfg: перенесённые covers доступны с controls, retained ordinary covers доступны без controls; проверить применимость, удовлетворение и unreachable/UNSAT по harness, а не только aggregate PASS. Перепроверить C3a N0/1 applicability, Cell N7 covers, type matrix12, normal-return dispatch и insertion all-offsets20. Если появятся E или C3c splits, требуются новые manifests, union map и повторный migration audit.
-7. На том же SHA выполнить все четыре organizer `check-kani-on-std` partitions на Linux и macOS (8 jobs), с существующими pins/flags и заново рассчитанными границами всего std inventory. Эти partition проверки не взаимозаменяемы с selected SmallSort.
-8. Отдельно выполнить полный `kani_autoharness` на Linux и macOS с исходными include/exclude, unwind1000, jobs3, timeout10m/harness и failure propagation. Сохранять стандартный inventory и whole-job результаты; выбранный список или Linux GCB-emulation не заменяет organizer macOS acceptance.
-9. Для отдельного будущего PR2 применить `pr2-ungate.patch` одним коммитом с `[skip ci]`. Локальный прогноз уже проверил копию дерева: ordinary328 точно совпадает с `e9655515`, все прежние opt-in и FAILED26 сохранены. На PR2 SHA потребуются заново оба фактических inventory, предупреждения, full partitions и autoharness; результаты B автоматически не переносятся. Комментарии состава в library описывают основной B: PR2-патч по условию снимает только бюджетные cfg. Ни создание PR2 ветки, ни эти сборки сейчас не выполнялись.
+These scripts check source names, class manifests, the exact 31 Part 2-to-ordinary harmonics, paired Cell
+argument cfgs, helper-use candidates, and a temporary-copy application of `pr2-ungate.patch`. They do not run
+Rust expansion, a compiler, Kani, CBMC, or CI. Their JSON outputs are explicitly marked forecast-only.
 
-## Метрики и стоимость плана
+## Future same-SHA inventory and CI
 
-Для ordinary/autoharness собрать per-harness VT, wall/start/stop/thread, memory PID/model attribution, driver/CBMC/cgroup simultaneous peaks и OOM status. Пересчитать известные ΣVT/max/count>120, оставить 4 C3a UNKNOWN отдельно и зафиксировать число одновременно исполняемых тяжёлых доказательств. Не суммировать независимые PID maxima.
+Before any formal run, pin the combined library tree and all toolchain/Kani/CBMC flags. Obtain actual ordinary
+and controls inventories, then compare exact names and classes rather than tuning the Python forecast.
+Check `unused_macros`, `unused_imports`, and `dead_code` in both configurations, including the per-argument
+Cell cfg expansion. Verify every expected-fail control fails its intended property; a timeout, setup failure,
+or missing result is not an expected failure.
 
-B arithmetic: 144 ordinary; 140 известными VT, сумма 4520,3 с, max 230,2 с, 8 выше120 с, +4 UNKNOWN. Это macOS historic/forecast accounting, не GCB wall или новое измерение. При selected timeout 10 минут и jobs3 ideal capped proof schedule для ordinary — `ceil(144/3)×10 = 480 мин` ($6,48 по $0,0135/мин); эта изолированная оценка перекрывается полными partitions/autoharness и не прибавляется к GCB envelope ниже.
+P1 manifests: 176 ordinary; 231 positive extended names; 11 retired duplicates; 2 TIMEOUT diagnostics;
+28 expected-fail controls; 1 unsupported deferred case. Keep diagnostics and controls separate from the
+ordinary acceptance gate. The 10 positive DIRECT cases remain opt-in; each is marked `p2_candidate=yes` and
+`p2_macos_ci=UNKNOWN`. The 12 new ordinary DIRECT cases likewise need verification on the combined SHA.
 
-Positive opt-in =252 гармоники: планировать 7 chunks — шесть по40 и последний12; допускается единый bounded chunking с пределом40 и отдельным результатом для каждого harness. При jobs3 и timeout10m идеальный scheduling ceiling на 40-case chunk —140 мин; 210-мин envelope оставляет70 мин на setup/list overhead. Для финальных12 идеальная timeout-граница40 мин; запросить достаточный envelope после setup-измерения. FAILED26: ideal `ceil(26/3)×10=90 мин`, envelope150 мин включая60 мин setup. Не трактовать envelope как обещание завершения.
+For DIRECT controls, verify that the value-corruption case fails in the shared `assert_sorted_and_probe_preserved`
+oracle at the intended property. The ordinary DIRECT assertion counts and contract/scratch composition also
+need same-SHA expansion. The `direct/results.tsv` FAILED control measurement used the previous control body;
+the revised shared-oracle control has no current result and awaits measurement. Preserve the distinction between
+the B/general caller matching exact T/N contracts and any conditional scratch48 allocation transfer.
 
-GCB planning rate: $0,0135 per billed minute. Envelopes:
+The 11 old sorted-permutation C callers remain controls-only as retired duplicates; their checks record that
+they have matching helper and T/F/N, both branches, the shared oracle, and no callers. C u64 N6..8 remains
+conditional on supporting A u64 cases. Mutating-Cell insertion N6..19 stays opt-in in P1; only plain u64
+insertion safety is among the 27 returned harmonics.
 
-| Work | Planning envelope | GCB envelope cost |
-|---|---:|---:|
-| Codegen/inventory, 2 cfgs | 2×60 min | $1,62 |
-| Diagnostics: 8 known >120 plus 4 C3a UNKNOWN, memory/covers | 90 min | $1,215 |
-| Full Linux autoharness emulation | 300 min timeout / 270 min work | max $4,05 |
-| Four Linux ordinary partition jobs | 4×300 min | max $16,20 |
-| 252 positive opt-in, seven chunks (40×6 + 12) | 7×210 min | max $19,845 |
-| FAILED26, run separately | 150 min | max $2,025 |
-| Deferred unsupported diagnostic | 60 min | max $0,81 |
+For any organizer or full-suite CI, use the coordinator's approved build workflow and current budget/slot
+limits. Historical P-6 success is 8/8 for Actions run `40748125754` on its historical source; it does not
+establish acceptance for this tree. Do not combine P-6 macOS VT with GCB timings from `direct/results.tsv`.
 
-Total listed GCB envelopes: **3390 min / $45,765**, with four partition jobs. This is a conservative planning reserve, not a forecast of proof success, actual runtime or an authorized build budget. Mac partition and autoharness work need separate resources and must not use the GCB rate. Re-estimate after the first measured chunks while preserving external coordinator/owner/slot limits.
+## Cost and evidence accounting
 
-## Исторические источники и ограничения
-
-П-6 `check-kani-on-std`: 8/8 partition results на `6cfc76cb211d088aebaff8a449bcac953e97f942`, Actions run `40748125754`, согласно [TASK-SCOPE, правке 1](../TASK-SCOPE.md). Это только историческое основание; на SHA B/C3a не переносить без запуска. Три macOS TIMEOUT600 и гибель Ubuntu runner — данные [TASK-C3C](../TASK-C3C.md), не вывод о причине. [RESULT-C3C](../RESULT-C3C.md) отмечает, что причина остановки исторического Ubuntu run не установлена. Не читать полные логи и не выдавать эти сведения за новый SHA результат.
+[`integ-cost.md`](integ-cost.md) reports the incremental known P-6 macOS ΣVT: +1159.9 s for the 31 returned
+harmonics and −245.6 s for the 11 retired callers. New DIRECT ordinary Mac VT is UNKNOWN. DIRECT GCB seconds
+and RSS remain separate per-harness data in [`scope.tsv`](scope.tsv). P-7 autoharness, division by job count,
+and GCB-to-Mac conversion are excluded. Historical C3a records remain in `c3a-evidence.json` and are not
+rewritten as new results.
