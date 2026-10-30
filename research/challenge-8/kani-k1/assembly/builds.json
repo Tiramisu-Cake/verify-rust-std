@@ -45,13 +45,19 @@
       "work_minutes": 50,
       "total_envelope_minutes": 80,
       "max_reserved_usd": 1.08,
-      "status": "SUBMITTED",
-      "submitted_recorded_at_utc": "2026-10-30T22:44:07.989294+00:00"
+      "status": "SUCCESS",
+      "submitted_recorded_at_utc": "2026-10-30T22:44:07.989294+00:00",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "controls_review": "PASS",
+      "cost_usd": 0.1215,
+      "tooling": "PASS",
+      "reviewed_at_utc": "2026-10-30T22:57:49.742086+00:00"
     }
   ],
-  "spent_usd": 0.0,
-  "reserved_usd": 3.105,
-  "status": "ALL_THREE_SUBMITTED_AWAITING_WATCH_RESULTS",
+  "spent_usd": 0.1215,
+  "reserved_usd": 2.025,
+  "status": "MEASUREMENT_ACCEPTED_WAITING_INVENTORIES",
   "library_commit": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
   "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
   "planned_request_ids": [
@@ -60,6 +66,6 @@
     "assembly-measurement-controls-20261031"
   ],
   "reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6",
-  "accounting": "Full envelopes reserved until refreshed with k1g.sh budget for these UUIDs",
-  "watch_registration": "Register all three immediately after journal push, then end turn"
+  "accounting": "Current actual ledger from budget-after-g3.txt; G3 single-UUID cost from g3.cost.txt",
+  "watch_registration": "All three registered previously; G3 callback received; G1/G2 watchers remain active"
 }

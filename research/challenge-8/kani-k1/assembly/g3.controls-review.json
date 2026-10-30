@@ -1,0 +1,121 @@
+{
+  "status": "PASS_FIVE_EXPECTED_FAILURES_AFTER_AGENT_MANUAL_LOCATION_REVIEW",
+  "build_uuid": "b1cc9973-6a7d-4471-8e9f-6b5002a0c36f",
+  "source_sha": "a48fd96b6a61864628f56d7579462a432c37ae2d",
+  "library_commit": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
+  "request_id": "assembly-measurement-controls-20261031",
+  "request_sha256": "e97ed8e01ca441a0e50d05fcdeb835e47548c2ab5991d02d3fbcb72b7fadbe17",
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 1,
+  "tooling_check": "PASS_against_GO_source74f064bad9",
+  "review_method": "Agent compared each summary FAILED location with the exact frozen source, beyond the placeholder text gate",
+  "manual_sortedness_statement": "Both count controls have one FAILED at count assert846. Sortedness assert844 is not a FAILED check. Terse output does not provide an explicit sortedness SUCCESS line.",
+  "controls": [
+    {
+      "name": "merge::general_stable_direct_value_corruption_control_u64_n2",
+      "status": "FAILED",
+      "time_s": 19.30084,
+      "failed_checks": 1,
+      "total_checks": 409,
+      "unreachable_checks": 69,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+      "failed_location": {
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 846
+      },
+      "classification": "shared full-value count assertion",
+      "oracle_function": "assert_sorted_and_probe_preserved",
+      "manual_count_location_acceptance": true,
+      "sortedness_source_line": 844,
+      "sortedness_failed": false,
+      "explicit_sortedness_SUCCESS_line_present": false,
+      "manual_review": "PASS"
+    },
+    {
+      "name": "merge::merge_scratch48_unsorted_halves_control_u64_n4",
+      "status": "FAILED",
+      "time_s": 0.47494856,
+      "failed_checks": 1,
+      "total_checks": 470,
+      "unreachable_checks": 122,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_description": "CopyOnDrop::<T>::merge_inputs_are_sorted(v, &is_less)",
+      "failed_location": {
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 842
+      },
+      "classification": "sorted-halves requires, with valid prefix/destination fixture",
+      "manual_review": "PASS"
+    },
+    {
+      "name": "merge::stable_direct_value_corruption_control_u64_n2",
+      "status": "FAILED",
+      "time_s": 3.979302,
+      "failed_checks": 1,
+      "total_checks": 409,
+      "unreachable_checks": 69,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+      "failed_location": {
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 846
+      },
+      "classification": "shared full-value count assertion",
+      "oracle_function": "assert_sorted_and_probe_preserved",
+      "manual_count_location_acceptance": true,
+      "sortedness_source_line": 844,
+      "sortedness_failed": false,
+      "explicit_sortedness_SUCCESS_line_present": false,
+      "manual_review": "PASS"
+    },
+    {
+      "name": "merge::merge_aggregate_unsorted_halves_control_u64_n4",
+      "status": "FAILED",
+      "time_s": 0.46557274,
+      "failed_checks": 1,
+      "total_checks": 472,
+      "unreachable_checks": 122,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_description": "CopyOnDrop::<T>::merge_inputs_are_sorted(v, &is_less)",
+      "failed_location": {
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 842
+      },
+      "classification": "sorted-halves requires, with valid prefix/destination fixture",
+      "manual_review": "PASS"
+    },
+    {
+      "name": "merge::merge_aggregate_allocation_bounds_control_u64",
+      "status": "FAILED",
+      "time_s": 0.06258469,
+      "failed_checks": 1,
+      "total_checks": 16,
+      "unreachable_checks": 3,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_description": "dereference failure: pointer outside object bounds",
+      "failed_location": {
+        "file": "/workspace/src/library/core/src/ptr/mod.rs",
+        "line": 1981
+      },
+      "classification": "raw write one past entire 48-slot aggregate allocation; not safe indexing",
+      "manual_review": "PASS"
+    }
+  ],
+  "cost_usd": 0.1215,
+  "cost_source": "g3.cost.txt (k1g.sh budget this UUID)",
+  "warning_review": "Manifest edition and force-warn unstable core/lib.rs feature warnings remain; targeted unused/dead_code/SmallSort query shows only intended failure locations, no helper warnings",
+  "limitations": [
+    "Negative controls validate expected rejection; not positive full-suite or generic proof",
+    "uninit checks off; macOS and jobs3 on final suite untested",
+    "ordinary/controls inventories still await watcher results"
+  ]
+}

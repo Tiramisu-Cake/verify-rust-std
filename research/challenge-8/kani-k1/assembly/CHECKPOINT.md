@@ -15,7 +15,8 @@ No Part2 micro-package. Historical results do not prove the assembled candidate 
 All 3/3 builds submitted; no further build quota. Own ledger builds.json: full-envelope
 reservation USD3.105, cap USD3.5. Refresh actual spent/reserved through k1g.sh budget UUIDs.
 Coordinator GO for 74f064bad9 is recorded in go.json; library stays frozen.
-Immediate next action: register k1g.sh watch for all three UUIDs and end turn.
+All three watches were registered. G3 callback processed; G1/G2 watchers remain active.
+Do not register duplicate watches. Wait by ending the turn after committing this evidence.
 On watcher notification, read only the completed UUID's bounded K-1 evidence.
 After GO freeze this library tree for all three requests; a library edit needs delta-review.
 Do not reverify positive transferred entries here; coordinator runs the full CI.
@@ -25,7 +26,7 @@ Recorded confirmation also enables that mode by default. Regenerate research usi
 assembly/prepare_scope.py, scope/prepare_pr2.py, scope/check_scope.py and scope/check_helpers.py.
 All commits [skip ci], library separate from research, push without force.
 
-RUN-REQUEST is the ordinary inventory candidate. Other validated requests are in this directory.
+RUN-REQUEST is the G3 measurement request; do not dispatch it or any further build.
 Plan: separate ordinary30min and controls60min inventories, then five controls each10min,
 measurement jobs1/controls:true; setup30min per build. Maximum own reserve USD3.105.
 Inventories may be dispatched together; each build needs its own source SHA/request_id/UUID.
@@ -57,3 +58,11 @@ Compare exact names for g1 ordinary182 and g2 controls463. For g3 manually inspe
 all five FAILED checks/locations/covers, especially the two placeholder count failures.
 Do not treat placeholder match as count-oracle acceptance; report final summary locations.
 No library changes or extra builds; any needed delta goes to coordinator review.
+
+G3 reviewed COMPLETE/gate true, Kani exit1 expected. Five controls each have one FAILED
+and covers1/1. Both count failures are merge.rs846 in shared oracle; sortedness844 is
+not FAILED, but no explicit sortedness SUCCESS line is printed in terse summary.
+Both input controls fail smallsort.rs842 requires; bounds fails ptr/mod.rs1981.
+Detailed manual review g3.controls-review.json; tooling PASS, no new helper warnings.
+Actual own spent USD0.1215, reserved USD2.025 for inventories (budget-after-g3.txt).
+No completion marker until both exact-name inventory comparisons and their warnings/tooling pass.

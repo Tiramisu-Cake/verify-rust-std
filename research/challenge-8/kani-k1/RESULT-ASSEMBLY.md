@@ -1,11 +1,8 @@
-# ASSEMBLY — GO получен, три сборки отправлены, результаты ожидаются
+# ASSEMBLY — пять контролей приняты, два inventory ещё ожидаются
 
 Дата: 2026-10-31. Ветка `experiment/kani-k1-assembly-20261031`.
-Исходный HEAD `ddcc33f8370db08a316b739c5d543c4e96910b1b`.
-Учтено обязательное дополнение `TASK-ASSEMBLY-NOTES.md`, commit `3b97f7dbd0`.
 Library SHA `d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18`.
 Library tree `954e0becf8cb6c137ea89f94ad613d83d97235e0`.
-Последний library-коммит отдельно от research: `d4e5a0907b` (только cfg-переключения).
 Изменены только `verify/merge.rs` и `verify/types.rs`; production/oracle прежние.
 
 | Изменение относительно INTEG | Ordinary | Opt-in |
@@ -59,24 +56,31 @@ P2 снимает budget/positive gates; pending/retired/TIMEOUT/negative/unsupp
 Локально: source-transfer audit PASS, source scope/helper forecast PASS в обеих cfg.
 Rustfmt заданным wrapper/config --check exit0; изменённые .rs ≤100 колонок.
 Исходные items сохранены кроме cfg и одного указанного control cover.
-Компиляторные warnings ещё не проверены; Rust/cargo/Kani/CBMC локально не запускались.
+G3: новых unused/dead_code/SmallSort helper warnings не найдено; есть старые manifest/
+force-warn unstable core/lib.rs warnings. Inventories warnings ещё не проверены.
+Rust/cargo/Kani/CBMC локально не запускались.
 Kani9461e07a, toolchain, flags, lane-файлы прежние.
 
-Measurement пяти контролей отправлен: jobs1/controls:true, результаты пока не получены.
+G3 measurement: COMPLETE/gate true, Kani exit1 ожидаем; jobs1/controls:true, timeout600.
+Ручная сверка summary locations с frozen source выполнена, каждый control FAILED ровно один раз:
 
-- DIRECT B `general_stable_direct_value_corruption_control_u64_n2`;
-- DIRECT A `merge_scratch48_unsorted_halves_control_u64_n4`;
-- BACKING `stable_direct_value_corruption_control_u64_n2`,
-  `merge_aggregate_unsorted_halves_control_u64_n4`, `merge_aggregate_allocation_bounds_control_u64`.
+| Harness (merge::) | FAILED/checks | Covers | Фактическая location |
+|---|---:|---:|---|
+| general_stable_direct_value_corruption_control_u64_n2 | 1/409 | 1/1 | merge.rs:846 |
+| merge_scratch48_unsorted_halves_control_u64_n4 | 1/470 | 1/1 | smallsort.rs:842 |
+| stable_direct_value_corruption_control_u64_n2 | 1/409 | 1/1 | merge.rs:846 |
+| merge_aggregate_unsorted_halves_control_u64_n4 | 1/472 | 1/1 | smallsort.rs:842 |
+| merge_aggregate_allocation_bounds_control_u64 | 1/16 | 1/1 | ptr/mod.rs:1981 |
 
-Для count-controls gate сверяет placeholder: вручную установить единственный FAILED
-на count-assert общего oracle по актуальной summary location итогового SHA.
-Отсутствие sortedness FAILED в terse summary не выдавать за явную строку SUCCESS.
-Unsorted-halves — merge_inputs_are_sorted; bounds — raw write за всей allocation48.
-Проверить covers и отсутствие иных отказов; compile/unsupported/TIMEOUT не подходят.
+Оба count FAILED — общий count-assert :846; sortedness :844 среди отказов отсутствует.
+Terse output не печатает отдельный sortedness SUCCESS. Оба input FAILED — requires
+merge_inputs_are_sorted; bounds — raw write за всей allocation48, не safe indexing.
+Covers5/5; иных FAILED/compile/unsupported/TIMEOUT нет; sampled CBMC1.20GiB; OOM none_seen.
+Source/request/pin/pool/tooling связаны: check-tooling PASS относительно GO `74f064bad9`.
+`assembly/g3.controls-review.json`, `g3.summary.md`, `g3.peaks.txt`, `g3.tooling.txt`.
 Historical donor SUCCESS/FAILED не выдаются за proof credit итогового library SHA.
 
-Отправлены builds3/3; максимальный резерв $3.1050; actual cost уточнить после завершения.
+Builds3/3; G3 cost$0.1215; срез ledger: spent$0.1215, inventory reserved$2.0250.
 GO для `74f064bad9` получен; source/request/UUID ledger: `assembly/builds.json`.
 Бюджет по NOTES $3,5. Запросы: ordinary30min, controls60min (как INTEG G2/G3),
 measurement5×10min; setup30min/build; общий максимальный резерв $3.1050 ≤ $3.5.
@@ -85,11 +89,11 @@ T0 взят консервативно по initial TASK commit: 01:22:44 MSK; d
 При нехватке окна/бюджета — PARTIAL; timeout600 не урезать. План в `assembly/window.json`.
 Только k1-standard4, CAP_USD73.96 прежний. Library tree заморожен для всех трёх запросов.
 Ожидание только k1g.sh watch с завершением хода; чтение только штатным K-1 интерфейсом.
-Не проверены: inventories, warnings/controls, macOS, jobs3, полный CI организаторов.
+Не проверены: inventories и их warnings, macOS, jobs3, полный CI организаторов.
 Ветки submission не затрагивались; единственный полный CI выполняет координатор.
 
-| Build | Назначение | UUID |
+| Build | Назначение / статус | UUID |
 |---|---|---|
-| g1 | ordinary inventory182 | 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 |
-| g2 | controls inventory463 | 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b |
-| g3 | measurement пяти controls | b1cc9973-6a7d-4471-8e9f-6b5002a0c36f |
+| g1 | ordinary182 / ожидается | 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 |
+| g2 | controls463 / ожидается | 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b |
+| g3 | пять controls / PASS | b1cc9973-6a7d-4471-8e9f-6b5002a0c36f |
