@@ -10,7 +10,7 @@
       "build_uuid": "33e2c5fd-27ba-4cdb-89f9-474f51a3ac39",
       "request_id": "backing2-measurement-20261031",
       "source_sha": "30b8b975c574dd76a6e770c7001e2a85577dc578",
-      "status": "SUBMITTED",
+      "status": "COMPLETE",
       "recorded_at_utc": "2026-10-30T22:01:46.625335+00:00",
       "kind": "measurement",
       "runner": "gcb-e2-standard-4",
@@ -21,20 +21,23 @@
       "entries": 3,
       "envelope_minutes": 60,
       "max_reserved_cost_usd": "0.8100",
-      "actual_cost_usd": null,
+      "actual_cost_usd": "0.1620",
       "budget_before": {
         "project_used_usd": "60.4500",
         "project_reserved_usd": "0.0000"
       },
-      "budget_after_submit_upper_usd": "61.2600"
+      "budget_after_submit_upper_usd": "61.2600",
+      "gcb_status": "SUCCESS",
+      "gate": true,
+      "finalized_at_utc": "2026-10-30T22:15:28.554066+00:00"
     }
   ],
-  "spent_usd": "0.0000",
-  "reserved_usd": "0.8100",
+  "spent_usd": "0.1620",
+  "reserved_usd": "0.0000",
   "t0_utc": "2026-10-30T21:58:10.393761+00:00",
   "conservative_deadline_utc": "2026-10-31T00:45:00Z",
   "closing_reserve_minutes": 20,
-  "review_state": "GO_APPROVED_MEASUREMENT_SUBMITTED",
+  "review_state": "MEASUREMENT_ACCEPTED_DIAGNOSTIC_READY",
   "planned_requests": [
     {
       "request_id": "backing2-measurement-20261031",

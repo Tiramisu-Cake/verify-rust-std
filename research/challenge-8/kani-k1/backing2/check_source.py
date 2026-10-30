@@ -100,15 +100,17 @@ for request, kind, jobs, names in (
     assert request["runner"] == "gcb-e2-standard-4"
     assert request["harness_timeout_minutes"] == 10
     assert request["harnesses"] == [dict(name=prefix + n, expect="SUCCESS") for n in names]
-assert (OUT / "measurement.request.json").read_bytes() == (
-    OUT.parent / "RUN-REQUEST.json"
-).read_bytes()
+active_request = (OUT.parent / "RUN-REQUEST.json").read_bytes()
+assert active_request in [
+    (OUT / f"{kind}.request.json").read_bytes() for kind in ("measurement", "diagnostic")
+]
 result = dict(
     base_sha=BASE, merge_rs_sha256=hashlib.sha256(now.encode()).hexdigest(),
     exact_scope_restore=True, general_matches_opt_except_const_guard=True,
     stable_matches_backing_except_const_guard=True, adapter_oracle_probe_unchanged=True,
     other_library_and_lane_files_unchanged=True, historical_sources=identities,
-    requests_exact=True, local_proof_tools_run=False,
+    requests_exact=True, active_request_id=json.loads(active_request)["request_id"],
+    local_proof_tools_run=False,
     evidence_scope="Source identity only; historical PASS is not a measurement of this SHA.",
 )
 (OUT / "static-audit.json").write_text(json.dumps(result, indent=2) + "\n")

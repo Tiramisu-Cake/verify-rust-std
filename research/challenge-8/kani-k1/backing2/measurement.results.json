@@ -1,0 +1,59 @@
+{
+  "build_uuid": "33e2c5fd-27ba-4cdb-89f9-474f51a3ac39",
+  "source_sha": "30b8b975c574dd76a6e770c7001e2a85577dc578",
+  "request_id": "backing2-measurement-20261031",
+  "request_sha256": "9635d6b1c94d6ee8d931fdf45f093ddc4bfc8bf21de20d5adb10eb80202cbdd4",
+  "kind": "measurement",
+  "kani_jobs": 1,
+  "gate": true,
+  "complete": true,
+  "actual_cost_usd": "0.1620",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::general_direct_u64_n7",
+      "status": "SUCCESS",
+      "time_s": 89.5783,
+      "checks": "0/407",
+      "covers": "1/1",
+      "cbmc_peak_kib": 1032980,
+      "cbmc_peak_gib": 0.9851264953613281,
+      "pid": "9280",
+      "first_s": 188,
+      "last_s": 274
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n6",
+      "status": "SUCCESS",
+      "time_s": 43.331528,
+      "checks": "0/407",
+      "covers": "1/1",
+      "cbmc_peak_kib": 824020,
+      "cbmc_peak_gib": 0.7858467102050781,
+      "pid": "9253",
+      "first_s": 144,
+      "last_s": 184
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n7",
+      "status": "SUCCESS",
+      "time_s": 74.84438,
+      "checks": "0/407",
+      "covers": "1/1",
+      "cbmc_peak_kib": 1009468,
+      "cbmc_peak_gib": 0.9627037048339844,
+      "pid": "9226",
+      "first_s": 68,
+      "last_s": 140
+    }
+  ],
+  "sum_verification_time_s": 207.754208,
+  "driver_peak_kib": 489448,
+  "sampled_simultaneous_all_rss_peak_kib": 1754628,
+  "sampled_simultaneous_cbmc_rss_peak_kib": 968340,
+  "max_cbmc_overlap_from_observed_lifetimes": 1,
+  "oom_scan": "none_seen",
+  "missing_names": [],
+  "method": "Kernel VmHWM, 2-second sampling; overlapping first_s/last_s lifetimes.",
+  "tooling_verified": true,
+  "macos": "UNKNOWN"
+}
