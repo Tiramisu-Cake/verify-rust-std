@@ -1,27 +1,26 @@
 {
   "status": "ASSEMBLY_STATIC_FORECAST_ONLY",
   "baseline": "ddcc33f837",
-  "library_tree": "2976c90fc67d06bfe64119828ed0c5ea12653b48",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
   "counts": {
-    "ordinary": 181,
+    "ordinary": 182,
     "expected-fail": 31,
     "preexisting-opt-in": 68,
     "budget-deferred": 153,
-    "pending-direct": 3,
-    "retired-duplicate": 14,
+    "retired-duplicate": 16,
     "timeout-diagnostic": 4,
     "historical-contract": 4,
     "positive-direct": 4,
     "deferred-unsupported": 1
   },
   "total": 463,
-  "ordinary": 181,
-  "p2_candidate_ordinary": 338,
+  "ordinary": 182,
+  "p2_candidate_ordinary": 339,
   "p2_formula": "ordinary + 153 budget-deferred + 4 positive A-u8; ordinary is cfg-derived",
   "controls_cfg_total": 463,
   "controls_failed": 31,
-  "pending_direct": 3,
-  "retired_duplicates": 14,
+  "pending_direct": 0,
+  "retired_duplicates": 16,
   "p6_incremental": {
     "returned_count": 31,
     "returned_known_vt_s": 1159.9,
@@ -77,7 +76,7 @@
   "limitations": [
     "Source inventory forecast, not Rust expansion or actual kani list",
     "Historical source results do not establish results on this candidate library tree",
-    "Stable direct N6/N7 remain pending until coordinator confirmation",
+    "BACKING2 promotion confirmed; assembled candidate verification is not yet run",
     "No compiler, Kani, CBMC or CI executed"
   ]
 }

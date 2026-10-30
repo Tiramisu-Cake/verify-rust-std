@@ -43,6 +43,8 @@ def main():
             assert m["p2_candidate"] == "yes" and m["p2_macos_ci"] == "UNKNOWN"
 
     counts = Counter(r["class"] for r in manifest)
+    assert counts["ordinary"] == 182 and counts["pending-direct"] == 0
+    assert counts["retired-duplicate"] == 16
     both_routes_ordinary = sum(
         not current_by_name[f"slice::sort::shared::smallsort::verify::merge::general_direct_u64_n{n}"]["opt_in"] and
         not current_by_name[f"slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n{n}"]["opt_in"]
@@ -142,7 +144,7 @@ def main():
                   classes=dict(counts),
                   limitations=["Source scan only; not Rust expansion or actual Kani inventories",
                                "Source results are historical and do not establish results on the final library tree",
-                               "BACKING2 general N7 and stable N6/N7 remain pending coordinator source/library SHA confirmation",
+                               "BACKING2 promotion confirmed; assembled candidate verification is not yet run",
                                "No compiler, Kani, CBMC or CI was run"])
     (HERE / "static-check.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))

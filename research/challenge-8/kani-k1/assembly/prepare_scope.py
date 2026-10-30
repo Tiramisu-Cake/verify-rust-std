@@ -23,11 +23,11 @@ DIRECT_SOURCES = {
     "merge::general_direct_u64_n6": ("f052d6b7ec", "73fb790ad0d78e81c5a2928651650398dbe7d673", "OPT G1 SUCCESS"),
     "merge::general_direct_u64_n8": ("f052d6b7ec", "c81c10e3061e07bb83c732d81413632ada757d2c", "OPT G2 SUCCESS"),
     "merge::general_direct_u64_n7": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
-                                     "BACKING2 SUCCESS source report; exact coordinator source/library SHA and process confirmation pending"),
+                                     "BACKING2 SUCCESS; coordinator source/library SHA and covers confirmed"),
     "merge::stable_direct_u64_n6": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
-                                     "BACKING2 SUCCESS; coordinator process confirmation pending"),
+                                     "BACKING2 SUCCESS; coordinator source/library SHA and covers confirmed"),
     "merge::stable_direct_u64_n7": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
-                                     "BACKING2 SUCCESS; coordinator process confirmation pending"),
+                                     "BACKING2 SUCCESS; coordinator source/library SHA and covers confirmed"),
     "merge::stable_direct_u64_n8": ("bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22", "740d22674ca200f3270fb298651302019d347828", "BACKING SUCCESS"),
 }
 UNSTABLE_DONOR = "78c040559f448ea3cf05ec152ab1143014068570"
@@ -302,7 +302,7 @@ def main():
                                                        "historical FAILED only; current candidate controls await measurement")},
                    limitations=["Source inventory forecast, not Rust expansion or actual kani list",
                                 "Historical source results do not establish results on this candidate library tree",
-                                "Stable direct N6/N7 remain pending until coordinator confirmation",
+                                "BACKING2 promotion confirmed; assembled candidate verification is not yet run",
                                 "No compiler, Kani, CBMC or CI executed"])
     (SCOPE / "metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({"status": metrics["status"], "library_tree": tree,

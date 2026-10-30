@@ -1,0 +1,26 @@
+{
+  "authority": "Explicit coordinator message in this conversation",
+  "status": "SUCCESS_AND_COVERS_CONFIRMED",
+  "build_uuid": "33e2c5fd-27ba-4cdb-89f9-474f51a3ac39",
+  "source_commit": "30b8b975c574dd76a6e770c7001e2a85577dc578",
+  "library_commit": "f28909ac02823ffd652a3d530d6b96add6bd4fea",
+  "library_tree": "5cf9a1308a55e923c4fead5fe059208aa6811c23",
+  "source_branch": "experiment/kani-k1-backing-20261031",
+  "harnesses": [
+    "merge::backing::general_direct_u64_n7",
+    "merge::backing::stable_direct_u64_n6",
+    "merge::backing::stable_direct_u64_n7"
+  ],
+  "each": {
+    "status": "SUCCESS",
+    "covers_satisfied": 1,
+    "covers_total": 1,
+    "failed_checks": 0,
+    "total_checks": 407,
+    "cbmc_peak_upper_bound_gib": 0.99
+  },
+  "authorization": "All six direct u64 N6..8 ordinary; C u64 N6..8 retired duplicate; no Part2 micro-package",
+  "candidate_build_go": false,
+  "independent_recheck_this_turn": false,
+  "limitation": "Historical source result and promotion authorization, not a proof result on the assembled candidate"
+}

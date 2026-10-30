@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transfer only the ASSEMBLY blocks; BACKING2 entries await coordinator confirmation."""
+"""Transfer ASSEMBLY blocks with the recorded BACKING2 coordinator confirmation."""
 import subprocess
 import textwrap
 from pathlib import Path
@@ -96,6 +96,7 @@ def prepare(confirmed=False):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--backing2-confirmed', action='store_true')
+    parser.add_argument('--backing2-confirmed', action='store_true',
+                        default=Path(__file__).with_name('backing2-confirmation.json').exists())
     args = parser.parse_args()
     prepare(args.backing2_confirmed)

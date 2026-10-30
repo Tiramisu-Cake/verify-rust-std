@@ -107,7 +107,8 @@ def main():
     retired_c = sum(f'merge::general_stable_sorted_permutation_u64_n{n}' not in ordinary
                     for n in (6, 7, 8))
     expected_ordinary = 176 + 3 + direct_ordinary - retired_c
-    assert len(records) == 463 and len(ordinary) == expected_ordinary
+    assert len(records) == 463 and len(ordinary) == expected_ordinary == 182
+    assert direct_ordinary == 6 and retired_c == 3
     changed = subprocess.check_output(['git', 'diff', BASE, '--name-only', '--', 'library'], text=True).splitlines()
     assert set(changed) == {str(ROOT / (m + '.rs')) for m in ('merge', 'types')}
     for path in changed:

@@ -1,23 +1,22 @@
 {
   "result": "PASS_STATIC_ASSEMBLY_SCOPE_FORECAST_ONLY",
   "baseline": "ddcc33f837",
-  "library_tree": "2976c90fc67d06bfe64119828ed0c5ea12653b48",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
   "all_names": 463,
-  "ordinary": 181,
-  "p2_candidate_ordinary": 338,
+  "ordinary": 182,
+  "p2_candidate_ordinary": 339,
   "controls_cfg_total": 463,
   "controls_failed": 31,
-  "pending_direct": 3,
-  "retired_duplicates": 14,
-  "direct_ordinary": 3,
-  "direct_pending": 3,
+  "pending_direct": 0,
+  "retired_duplicates": 16,
+  "direct_ordinary": 6,
+  "direct_pending": 0,
   "classes": {
-    "ordinary": 181,
+    "ordinary": 182,
     "expected-fail": 31,
     "preexisting-opt-in": 68,
     "budget-deferred": 153,
-    "pending-direct": 3,
-    "retired-duplicate": 14,
+    "retired-duplicate": 16,
     "timeout-diagnostic": 4,
     "historical-contract": 4,
     "positive-direct": 4,
@@ -26,7 +25,7 @@
   "limitations": [
     "Source scan only; not Rust expansion or actual Kani inventories",
     "Source results are historical and do not establish results on the final library tree",
-    "BACKING2 general N7 and stable N6/N7 remain pending coordinator source/library SHA confirmation",
+    "BACKING2 promotion confirmed; assembled candidate verification is not yet run",
     "No compiler, Kani, CBMC or CI was run"
   ]
 }
