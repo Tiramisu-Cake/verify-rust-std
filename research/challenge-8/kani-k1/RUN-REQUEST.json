@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "integ-inventory-ordinary",
+  "request_id": "integ-inventory-ordinary-retry",
   "agent": "k1-network",
   "kind": "inventory",
   "runner": "gcb-e2-standard-4",
-  "purpose": "INTEG ordinary inventory after conservative DIRECT and exact 31 cheap returns; expected 176 names. Envelope 10+30=40 min, reserve $0.54; no proof evidence.",
-  "harness_timeout_minutes": 10,
+  "purpose": "INTEG ordinary inventory retry: first 10m kani-list timed out; unchanged library tree4dd5393b, expected176. Work30+setup30=60min reserve USD0.81; own spent0.4725, remaining build3 for controls inventory.",
+  "harness_timeout_minutes": 30,
   "controls": false,
   "inventory": true,
   "harnesses": []

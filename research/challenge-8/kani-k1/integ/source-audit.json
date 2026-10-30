@@ -1,0 +1,30 @@
+{
+  "library_commit": "b7cd8235fbe4f23d92c9b80635f0c5ce9a5dbc1c",
+  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
+  "oracle": "assert_sorted_and_probe_preserved",
+  "oracle_changed": false,
+  "permutation_assert": {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "line": 846,
+    "expression_line": 847
+  },
+  "sortedness_assert_line": 844,
+  "control": "general_stable_direct_value_corruption_control_u64_n2",
+  "control_calls_common_oracle": true,
+  "key_preserved": "lt_u64 compares x>>1; v[0] ^=1 changes payload bit only",
+  "expected_failure_binding": "Require exactly one located FAILED check at common permutation assertion, sortedness no failure. Runner placeholder description alone does not establish acceptance.",
+  "retired_duplicates": [
+    "general_stable_sorted_permutation_u64_n2",
+    "general_stable_sorted_permutation_u64_n3",
+    "general_stable_sorted_permutation_u64_n4",
+    "general_stable_sorted_permutation_u64_n5",
+    "general_stable_sorted_permutation_u8_n2",
+    "general_stable_sorted_permutation_u8_n3",
+    "general_stable_sorted_permutation_u8_n4",
+    "general_stable_sorted_permutation_u8_n5",
+    "general_stable_sorted_permutation_u8_n6",
+    "general_stable_sorted_permutation_u8_n7",
+    "general_stable_sorted_permutation_u8_n8"
+  ],
+  "duplicate_audit": "Same general_route_properties<T,F,N>, branch on arbitrary stable bool, same unchanged oracle, only merge stub differs; no library consumers of retired entry names. N0/1, C u64 N6..8 and u8 N9 remain ordinary."
+}
