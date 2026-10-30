@@ -1,0 +1,50 @@
+{
+  "status": "PASS_EXACT_NAME_SET",
+  "build": "9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6",
+  "source_sha": "b84e992edf2bcc96d7a35150a7b001683d33bc11",
+  "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
+  "controls": false,
+  "actual_count": 182,
+  "expected_count": 182,
+  "duplicates": 0,
+  "missing_names": [],
+  "unexpected_names": [],
+  "exact_name_set_equal": true,
+  "coverage_complete": true,
+  "pages": [
+    {
+      "file": "g1.inventory-0.txt",
+      "offset": 0,
+      "count": 80,
+      "next_offset": "80"
+    },
+    {
+      "file": "g1.inventory-80.txt",
+      "offset": 80,
+      "count": 80,
+      "next_offset": "160"
+    },
+    {
+      "file": "g1.inventory-160.txt",
+      "offset": 160,
+      "count": 22,
+      "next_offset": "done"
+    }
+  ],
+  "bindings": {
+    "request_id": "assembly-inventory-ordinary-20261031",
+    "request_sha256": "2f963b23681be02fdab1a9b987ad91dfa494143b92694761b024e7ace0cb6938",
+    "build_id": "9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6",
+    "head_sha": "b84e992edf2bcc96d7a35150a7b001683d33bc11",
+    "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+    "inventory_sha256": "f0398ff9084194ff80023e1d528b8dd3cda7dfb78162d5a88a7d3398445550aa",
+    "names_sha256": "b972b03684cfec842d95dd7776e7f2dbbd7f32ee06e60c7e4187ccaebb91c098",
+    "total": "182"
+  },
+  "expected_file": "scope/ordinary.txt",
+  "expected_file_sha256": "cdc903a6d443a161d9055a5dc455e2efae9922ec5c4dc702c05435b3f09273f1",
+  "tooling": "PASS_against_GO_source74f064bad9",
+  "targeted_unused_dead_code_smallsort_warnings": "NO_MATCH",
+  "memory_time_credit": "MISSING in inventory summary; no resource/performance claim",
+  "positive_verification_credit": "None; this build checks enumeration only"
+}

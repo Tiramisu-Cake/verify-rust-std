@@ -15,7 +15,7 @@ No Part2 micro-package. Historical results do not prove the assembled candidate 
 All 3/3 builds submitted; no further build quota. Own ledger builds.json: full-envelope
 reservation USD3.105, cap USD3.5. Refresh actual spent/reserved through k1g.sh budget UUIDs.
 Coordinator GO for 74f064bad9 is recorded in go.json; library stays frozen.
-All three watches were registered. G3 callback processed; G1/G2 watchers remain active.
+All three watches were registered. G1/G3 callbacks processed; only G2 controls inventory watcher remains active.
 Do not register duplicate watches. Wait by ending the turn after committing this evidence.
 On watcher notification, read only the completed UUID's bounded K-1 evidence.
 After GO freeze this library tree for all three requests; a library edit needs delta-review.
@@ -66,3 +66,12 @@ Both input controls fail smallsort.rs842 requires; bounds fails ptr/mod.rs1981.
 Detailed manual review g3.controls-review.json; tooling PASS, no new helper warnings.
 Actual own spent USD0.1215, reserved USD2.025 for inventories (budget-after-g3.txt).
 No completion marker until both exact-name inventory comparisons and their warnings/tooling pass.
+
+G1 ordinary inventory accepted: COMPLETE/gate true, exact182-name set equals scope/ordinary.txt.
+Header/request/source/Kani/artifact/name hashes and coverage0/80/160 checked.
+Check-tooling PASS; targeted unused/dead_code/SmallSort warnings no match.
+Inventory memory/time fields MISSING; no resource/proof credit inferred. G1 costUSD0.5535.
+Current own spentUSD0.6750, reservedUSD1.2150 for G2 (budget-after-g1.txt).
+Final remaining work: G2 controls inventory exact463-name comparison, tooling and warnings;
+refresh final costs, finalize <=100-line report, commit/push, then completion markers.
+G2 watcher already registered; do not register again or submit another build.

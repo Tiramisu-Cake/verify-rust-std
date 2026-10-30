@@ -14,8 +14,15 @@
       "work_minutes": 30,
       "total_envelope_minutes": 60,
       "max_reserved_usd": 0.81,
-      "status": "SUBMITTED",
-      "submitted_recorded_at_utc": "2026-10-30T22:41:04.590989+00:00"
+      "status": "SUCCESS",
+      "submitted_recorded_at_utc": "2026-10-30T22:41:04.590989+00:00",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "inventory_review": "PASS_EXACT_182_NAMES",
+      "cost_usd": 0.5535,
+      "tooling": "PASS",
+      "targeted_warnings": "NO_MATCH",
+      "reviewed_at_utc": "2026-10-30T23:25:15.702066+00:00"
     },
     {
       "label": "g2",
@@ -55,9 +62,9 @@
       "reviewed_at_utc": "2026-10-30T22:57:49.742086+00:00"
     }
   ],
-  "spent_usd": 0.1215,
-  "reserved_usd": 2.025,
-  "status": "MEASUREMENT_ACCEPTED_WAITING_INVENTORIES",
+  "spent_usd": 0.675,
+  "reserved_usd": 1.215,
+  "status": "ORDINARY_AND_CONTROLS_MEASUREMENT_ACCEPTED_WAITING_CONTROLS_INVENTORY",
   "library_commit": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
   "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
   "planned_request_ids": [
@@ -66,6 +73,6 @@
     "assembly-measurement-controls-20261031"
   ],
   "reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6",
-  "accounting": "Current actual ledger from budget-after-g3.txt; G3 single-UUID cost from g3.cost.txt",
-  "watch_registration": "All three registered previously; G3 callback received; G1/G2 watchers remain active"
+  "accounting": "Current actual ledger from budget-after-g1.txt; single-UUID costs g1.cost.txt/g3.cost.txt",
+  "watch_registration": "All three registered; G1 and G3 callbacks processed, G2 watcher remains active"
 }
