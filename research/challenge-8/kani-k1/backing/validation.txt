@@ -4,6 +4,11 @@ Rustfmt --check: exit 0 (both modified .rs; after final library rename).
 Edition 2024; prescribed scratchpad/rustfmt.sh and fmtcfg/rustfmt.toml.
 Library SHA bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22.
 Local rustc/cargo/Kani/CBMC: NOT_RUN (task restriction).
-Proof builds: NOT_RUN; coordinator GO after both fixes; no repeat review required.
+Matched build COMPLETE, gate true; coordinator GO after both fixes.
 Both Kani stubs: explicit super::assume_order_violation.
-Payload expect_check: placeholder; require count location :846 and sortedness :844 SUCCESS.
+Payload sole FAILED at count :846; sortedness :844 reached and passed (no failure).
+Requires sole FAILED at smallsort.rs:842; raw bounds sole FAILED at ptr/mod.rs:1981.
+All 7 covers SATISFIED; 4 positive proofs SUCCESS; 3 intended negative controls FAILED.
+B RSS lower by 80.975%; dispatch RSS higher by 47.990%, dispatch candidate rejected.
+Tooling/source/request/pin identities checked; lane files unchanged; second build not needed.
+Final consistency: report/evidence bindings, budget, unchanged library: PASS.

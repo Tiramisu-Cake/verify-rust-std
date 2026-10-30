@@ -1,4 +1,4 @@
-# BACKING — кандидат с GO координатора после двух правок
+# BACKING — принятые adapter и домены, итог matched-пилота
 
 База: `e5a0d8dd511730f374e2f757c8ac37f733062842`.
 Library commit: `bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22`.
@@ -73,19 +73,18 @@ ptr::write за всю 384-байтовую allocation. Нет safe indexing, un
 Ожидается located memory check `pointer outside object bounds`; после запуска проверить
 конкретные check/location и отсутствие посторонней причины. Compile error/unsupported не PASS.
 
-## Request, бюджет и продолжение
+## Request, бюджет и результат
 
 `RUN-REQUEST.json` = `matched.request.json`, 7 явных entries: B2 + dispatch2 + controls3.
 measurement, k1-standard4, jobs=1, controls:true, 600 с; A переиспользуется из G2.
-Envelope (7*10+30)=100 минут, максимум $1.35. Своих builds 0/2, spent/reserved $0/$0.
-Свой список UUID/request_id хранится в builds.json: общий label k1-network не разделяет расходы.
-Лимит задачи $3/2 builds, CAP_USD=73.96. Резерв второй сборки — только необходимый subset.
-GO на 77050e614f получен с двумя правками; обе внесены, повторный review не требуется.
-Перед dispatch проверить k1g budget и полный envelope + 20 минут на закрытие.
-Консервативный deadline 2026-10-31 01:00 UTC; ожидание review тоже расходует окно.
-После dispatch записать UUID/request/source, запустить только k1g.sh watch BUILD и завершить ход.
-Собрать summary/peaks/log-grep/log-lines/check-tooling; проверить covers и checks по месту.
-Изменение counts из-за представления/инициализации допустимо; SUCCESS/counts сами не приёмка.
-Принимаются только new SUCCESS, нужные covers, три правильных отказа и измеримый спад RSS;
-VT <=600 с, сумма VT, wall и цена отдельно. Old TIMEOUT сохранить как данные, без speedup ratio.
-macOS UNKNOWN, fixture 48 slots не доказывает любой stack/heap backing или E1/uninit.
+GO на 77050e614f получен с двумя правками; обе внесены, повторный review не требовался.
+Envelope100 + closing20 минут помещались в окно; $1.35 резерв перед dispatch, CAP_USD=73.96.
+Source740d22674c, build b07fdcd8-fbd8-401e-9948-9e5f9e7201ad: COMPLETE/gate true.
+Своих builds1/2, spent$0.2970/reserved$0 из$3; список UUID/request/source — builds.json.
+B SUCCESS/covers/контроли, RSS7.928→1.508 GiB: принят. Dispatch1.643→2.432 GiB: STOP.
+Все три контроля дали по одному правильному located FAILED; 7/7 covers SATISFIED.
+Payload count merge.rs:846 — sole FAILED; sortedness:844 достигнута и прошла.
+Отдельные SUCCESS checks terse lane не печатает; failed count/source location подтверждены.
+Сумма VT774.49541878 с, Kani wall854.82 с; резервная сборка не нужна.
+Summary/peaks/bounded log/check-tooling и окончательные выводы — в ../RESULT-BACKING.md.
+macOS UNKNOWN, fixture48 не доказывает любой backing или E1/uninit; нужен полный CI.

@@ -1,0 +1,11 @@
+92:97 | #![feature(coverage_attribute)]
+2719: ** 1 of 16 failed (3 unreachable)
+2723:Failed Checks: dereference failure: pointer outside object bounds
+2733: ** 1 of 472 failed (122 unreachable)
+2746: ** 1 of 409 failed (69 unreachable)
+2750:Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+2751: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge.rs", line 846, in slice::sort::shared::smallsort::verify::merge::assert_sorted_and_probe_preserved::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u64}, 2>
+2759: ** 0 of 407 failed (62 unreachable)
+2770: ** 0 of 405 failed (62 unreachable)
+2782: ** 0 of 352 failed (6 unreachable)
+2794: ** 0 of 378 failed (10 unreachable)

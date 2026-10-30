@@ -1,0 +1,90 @@
+Checking harness slice::sort::shared::smallsort::verify::merge::backing::allocation_bounds_control_u64...
+
+VERIFICATION RESULT:
+ ** 1 of 16 failed (3 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: dereference failure: pointer outside object bounds
+ File: "/workspace/src/library/core/src/ptr/mod.rs", line 1981, in ptr::write::<u64>
+
+VERIFICATION:- FAILED
+Verification Time: 0.07497778s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::backing::unsorted_halves_control_u64_n4...
+  - Verified stub: core::slice::sort::shared::smallsort::bidirectional_merge
+
+VERIFICATION RESULT:
+ ** 1 of 472 failed (122 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: CopyOnDrop::<T>::merge_inputs_are_sorted(v, &is_less)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 842, in slice::sort::shared::smallsort::bidirectional_merge::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u64}>::{closure#1}
+
+VERIFICATION:- FAILED
+Verification Time: 0.6949606s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::backing::stable_value_corruption_control_u64_n2...
+
+VERIFICATION RESULT:
+ ** 1 of 409 failed (69 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge.rs", line 846, in slice::sort::shared::smallsort::verify::merge::assert_sorted_and_probe_preserved::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u64}, 2>
+
+VERIFICATION:- FAILED
+Verification Time: 4.9353704s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8...
+
+VERIFICATION RESULT:
+ ** 0 of 407 failed (62 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 214.31592s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8...
+
+VERIFICATION RESULT:
+ ** 0 of 405 failed (62 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 292.46835s
+
+Checking harness slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_new...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: panic_on_ord_violation -> super :: assume_order_violation
+
+VERIFICATION RESULT:
+ ** 0 of 352 failed (6 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 134.57643s
+
+Checking harness slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_old...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: panic_on_ord_violation -> super :: assume_order_violation
+
+VERIFICATION RESULT:
+ ** 0 of 378 failed (10 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 127.42941s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::merge::backing::allocation_bounds_control_u64
+Verification failed for - slice::sort::shared::smallsort::verify::merge::backing::unsorted_halves_control_u64_n4
+Verification failed for - slice::sort::shared::smallsort::verify::merge::backing::stable_value_corruption_control_u64_n2

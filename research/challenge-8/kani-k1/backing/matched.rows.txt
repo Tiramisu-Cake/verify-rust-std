@@ -1,0 +1,16 @@
+request_id=backing-matched-20261031
+request_sha256=ef800ff1643797b5b2ba12baa88dfad5c89e3e1292c676047d834b4b1c09bcf7
+build_id=b07fdcd8-fbd8-401e-9948-9e5f9e7201ad
+head_sha=740d22674ca200f3270fb298651302019d347828
+total=7
+offset=0
+count=7
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8	SUCCESS	292.46835	0/405	1/1
+slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8	SUCCESS	214.31592	0/407	1/1
+slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_old	SUCCESS	127.42941	0/378	1/1
+slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_new	SUCCESS	134.57643	0/352	1/1
+slice::sort::shared::smallsort::verify::merge::backing::stable_value_corruption_control_u64_n2	FAILED	4.9353704	1/409	1/1
+slice::sort::shared::smallsort::verify::merge::backing::unsorted_halves_control_u64_n4	FAILED	0.6949606	1/472	1/1
+slice::sort::shared::smallsort::verify::merge::backing::allocation_bounds_control_u64	FAILED	0.07497778	1/16	1/1

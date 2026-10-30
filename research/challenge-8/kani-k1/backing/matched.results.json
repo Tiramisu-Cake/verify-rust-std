@@ -1,0 +1,126 @@
+{
+  "build_uuid": "b07fdcd8-fbd8-401e-9948-9e5f9e7201ad",
+  "source_sha": "740d22674ca200f3270fb298651302019d347828",
+  "library_sha": "bff6e4863e4f69cfbd3b3f0cda4cc01e9d9f3c22",
+  "request_id": "backing-matched-20261031",
+  "request_sha256": "ef800ff1643797b5b2ba12baa88dfad5c89e3e1292c676047d834b4b1c09bcf7",
+  "kani_pin": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "status": "COMPLETE",
+  "gate": true,
+  "actual_cost_usd": 0.297,
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 292.46835,
+      "checks": "0/405",
+      "unreachable": 62,
+      "covers": "1/1",
+      "cbmc_peak_kib": 8313336,
+      "cbmc_peak_gib": 7.928215026855469
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::backing::stable_direct_u64_n8",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 214.31592,
+      "checks": "0/407",
+      "unreachable": 62,
+      "covers": "1/1",
+      "cbmc_peak_kib": 1581624,
+      "cbmc_peak_gib": 1.5083541870117188
+    },
+    {
+      "name":
+"slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_old",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 127.42941,
+      "checks": "0/378",
+      "unreachable": 10,
+      "covers": "1/1",
+      "cbmc_peak_kib": 1723208,
+      "cbmc_peak_gib": 1.6433792114257812
+    },
+    {
+      "name":
+"slice::sort::shared::smallsort::verify::network::backing::dispatch_safety_stable_bytes17_n32_new",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 134.57643,
+      "checks": "0/352",
+      "unreachable": 6,
+      "covers": "1/1",
+      "cbmc_peak_kib": 2550168,
+      "cbmc_peak_gib": 2.4320297241210938
+    },
+    {
+      "name":
+"slice::sort::shared::smallsort::verify::merge::backing::stable_value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "status": "FAILED",
+      "time_s": 4.9353704,
+      "checks": "1/409",
+      "unreachable": 69,
+      "covers": "1/1",
+      "cbmc_peak_kib": 150916,
+      "cbmc_peak_gib": 0.14392471313476562
+    },
+    {
+      "name":
+"slice::sort::shared::smallsort::verify::merge::backing::unsorted_halves_control_u64_n4",
+      "expect": "FAILED",
+      "status": "FAILED",
+      "time_s": 0.6949606,
+      "checks": "1/472",
+      "unreachable": 122,
+      "covers": "1/1",
+      "cbmc_peak_kib": null,
+      "cbmc_peak_gib": null
+    },
+    {
+      "name":
+"slice::sort::shared::smallsort::verify::merge::backing::allocation_bounds_control_u64",
+      "expect": "FAILED",
+      "status": "FAILED",
+      "time_s": 0.07497778,
+      "checks": "1/16",
+      "unreachable": 3,
+      "covers": "1/1",
+      "cbmc_peak_kib": null,
+      "cbmc_peak_gib": null
+    }
+  ],
+  "sum_verification_time_s": 774.49541878,
+  "kani_wall_including_compile_s": 854.82,
+  "ledger_billed_minutes": 22,
+  "cbmc_peak_method": "kernel VmHWM, sampled every 2 s, direct attribution",
+  "driver_peak_kib": 771796,
+  "sampled_simultaneous_all_rss_peak_kib": 8764912,
+  "sampled_simultaneous_cbmc_rss_peak_kib": 8240440,
+  "controls": {
+    "payload_count_location": "verify/merge.rs:846",
+    "sortedness_location": "verify/merge.rs:844",
+    "sortedness": "PASS: reached oracle, sole FAILED is count; key unchanged by low-bit flip",
+    "requires_location": "smallsort.rs:842",
+    "bounds_location": "ptr/mod.rs:1981",
+    "covers": "3/3"
+  },
+  "groups": {
+    "B": {
+      "accepted": true,
+      "old_new_rss_ratio": 5.256202485546502,
+      "rss_reduction_percent": 80.97485774663745,
+      "sum_verification_time_s": 506.78427
+    },
+    "dispatch": {
+      "accepted": false,
+      "decision": "STOP: new RSS increased",
+      "rss_increase_percent": 47.98956365105083,
+      "sum_verification_time_s": 262.00584
+    }
+  },
+  "macos": "UNKNOWN",
+  "second_build": "NOT_NEEDED: no missing entries or incorrect control failures"
+}
