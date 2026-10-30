@@ -1,0 +1,30 @@
+{
+  "build_uuid": "993fe78c-4a34-489d-8c4e-485da048e1e2",
+  "expected_source_sha": "73fb790ad0d78e81c5a2928651650398dbe7d673",
+  "observed_at_utc": "2026-10-30T19:52:47.241974+00:00",
+  "command": "smallsort-brief 993fe78c-4a34-489d-8c4e-485da048e1e2",
+  "exit_code": 1,
+  "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)",
+  "watcher_reported_build_state": "SUCCESS",
+  "assurance": "Build state only; no accepted per-harness proof evidence",
+  "harness_statuses": "UNKNOWN",
+  "covers": "UNKNOWN",
+  "verification_times": "UNKNOWN",
+  "process_rss": "UNKNOWN",
+  "group_B_go": false,
+  "group_A_go": false,
+  "raw_evidence_downloaded": "UNKNOWN: possible partial fetch before helper was stopped",
+  "requested_next_step": "Explicit authorization for administrative audit of this build",
+  "raw_evidence_read": false,
+  "check_tooling_incident": [
+    "Invoked check-tooling for metadata; helper calls fetch after local lane check.",
+    "Stopped process tree with SIGTERM after discovering this.",
+    "No fetched evidence was read; partial download remains possible."
+  ],
+  "metadata_checks_before_stop": {
+    "build_source_sha": "73fb790ad0d78e81c5a2928651650398dbe7d673",
+    "pool": "k1-standard4",
+    "lane_files_equal_base": "c52627e090e059ae8000af23fded3d614a89a2e3",
+    "summary_tooling_binding": "NOT_CHECKED"
+  }
+}
