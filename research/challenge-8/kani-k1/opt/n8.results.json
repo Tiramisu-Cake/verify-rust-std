@@ -1,0 +1,65 @@
+{
+  "build_uuid": "0e44427c-18bd-4de4-95b2-e8730abec632",
+  "source_sha": "c81c10e3061e07bb83c732d81413632ada757d2c",
+  "request_id": "opt-split-n8-20261030",
+  "actual_cost_usd": "0.3645",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n8",
+      "status": "SUCCESS",
+      "time_s": 203.0456,
+      "checks": "0/407",
+      "covers": "1/1",
+      "cbmc_peak_kib": 1583020,
+      "cbmc_peak_gib": 1.5096855163574219
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n8",
+      "status": "SUCCESS",
+      "time_s": 298.92392,
+      "checks": "0/405",
+      "covers": "1/1",
+      "cbmc_peak_kib": 8317016,
+      "cbmc_peak_gib": 7.931724548339844
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_contract_u64_n8",
+      "status": "SUCCESS",
+      "time_s": 221.69978,
+      "checks": "0/447",
+      "covers": "1/1",
+      "cbmc_peak_kib": 1950120,
+      "cbmc_peak_gib": 1.8597793579101562
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_contract_u64_n8",
+      "status": "SUCCESS",
+      "time_s": 349.38107,
+      "checks": "0/447",
+      "covers": "1/1",
+      "cbmc_peak_kib": 8419228,
+      "cbmc_peak_gib": 8.02920150756836
+    }
+  ],
+  "driver_peak_kib": 789072,
+  "sampled_sum_all_rss_peak_kib": 8797856,
+  "sampled_simultaneous_cbmc_rss_peak_kib": 8376572,
+  "sampling_interval_ms": 2000,
+  "macos": "UNKNOWN",
+  "groups": {
+    "direct": {
+      "max_cbmc_peak_gib": 7.931724548339844,
+      "baseline_cbmc_peak_gib": 9.016,
+      "sum_verification_time_s": 501.96952,
+      "baseline_status": "TIMEOUT",
+      "causal_speedup_claim": false
+    },
+    "contract": {
+      "max_cbmc_peak_gib": 8.02920150756836,
+      "baseline_cbmc_peak_gib": 8.813,
+      "sum_verification_time_s": 571.08085,
+      "baseline_status": "SUCCESS",
+      "causal_speedup_claim": false
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "task": "OPT",
-  "recorded_at_utc": "2026-10-30T20:17:50.864941+00:00",
+  "recorded_at_utc": "2026-10-30T20:47:23.970375+00:00",
   "limits": {
     "max_builds": 3,
     "max_own_spent_reserved_usd": "4.0000"
@@ -45,15 +45,18 @@
       "harness_timeout_seconds": 600,
       "full_envelope_minutes": 70,
       "closeout_reserve_minutes": 15,
-      "reserved_usd": "0.9450",
-      "actual_cost_usd": null,
-      "state": "SUBMITTED",
+      "reserved_usd": "0.0000",
+      "actual_cost_usd": "0.3645",
+      "state": "SUCCESS",
       "budget_before": {
         "used_usd": "57.8850",
         "reserved_usd": "0.8100"
       },
       "budget_after_submit_upper_usd": "59.6400",
-      "project_cap_usd": "73.96"
+      "project_cap_usd": "73.96",
+      "evidence_state": "COMPLETE; 4/4 SUCCESS; 1/1 covers each",
+      "tooling_check": "PASS: source/pool/lane hashes equal BASE c52627e090",
+      "evidence_next_step": "jobs=3 Linux concurrency diagnostic if full envelope fits"
     }
   ]
 }

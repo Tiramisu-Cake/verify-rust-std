@@ -1,14 +1,30 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "opt-split-n8-20261030",
+  "request_id": "opt-split-jobs3-20261030",
   "agent": "k1-network",
-  "kind": "measurement",
+  "kind": "diagnostic",
   "runner": "gcb-e2-standard-4",
-  "purpose": "OPT N8 after B/A N6 GO; 4*10+30=70 min, $0.9450; unchanged library.",
+  "purpose": "OPT N6/N8 split concurrency; Linux 16 GiB; 8*10+30=110 min, $1.4850.",
   "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
+  "kani_jobs": 3,
   "controls": true,
   "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_direct_u64_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_contract_u64_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::opt_split::stable_contract_u64_n6",
+      "expect": "SUCCESS"
+    },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::opt_split::general_direct_u64_n8",
       "expect": "SUCCESS"
