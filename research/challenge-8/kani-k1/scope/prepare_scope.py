@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared scope helpers; the entry point generates INTEG, never edits library source."""
+"""Shared scope helpers for ASSEMBLY scope generation; never edits library source."""
 import csv
 from pathlib import Path
 
@@ -67,8 +67,8 @@ def describe(r):
 
 
 def main():
-    from prepare_integ import main as integ_main
-    integ_main()
+    import runpy
+    runpy.run_path(str(HERE.parent / "assembly" / "prepare_scope.py"), run_name="__main__")
 
 
 if __name__ == "__main__":

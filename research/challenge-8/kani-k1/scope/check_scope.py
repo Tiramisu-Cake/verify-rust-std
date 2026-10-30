@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Static scope and manifest checks for INTEG; not compiler or Kani evidence."""
+"""Check ASSEMBLY static scope artifacts against the current source scan."""
 import csv
 import json
 import subprocess
 from collections import Counter
 
-from prepare_integ import (DIRECT_FAILED, DIRECT_ORDINARY, DIRECT_POSITIVE,
-                           DIRECT_TIMEOUT, LIBRARY_TREE, RETIRED, short)
-from source_inventory import BASELINE, HERE, inventory
+from source_inventory import HERE, inventory
+
+INTEG = "ddcc33f837"
 
 
 def read_tsv(name):
@@ -19,33 +19,40 @@ def names(name):
 
 
 def main():
-    baseline, current = inventory(BASELINE), inventory()
+    baseline, current = inventory(INTEG), inventory()
     base_names = {r["name"] for r in baseline}
     current_by_name = {r["name"]: r for r in current}
-    assert len(base_names) == 423 and len(current_by_name) == 449
+    assert len(base_names) == 449
+    assert sum(not r["opt_in"] for r in baseline) == 176
+    assert len(current_by_name) == len(current) == 463
     assert base_names <= current_by_name.keys()
-    assert len(current_by_name) == len(current)
 
+    tree = subprocess.check_output(["git", "rev-parse", "HEAD:library"], text=True).strip()
     manifest = read_tsv("manifest.tsv")
-    by_short = {short(r["name"]): r for r in manifest}
-    assert len(by_short) == len(manifest) == 449
-    assert {r["name"] for r in manifest} == set(current_by_name)
+    by_name = {r["name"]: r for r in manifest}
+    assert len(by_name) == len(manifest) == 463
+    assert set(by_name) == set(current_by_name)
     for r in current:
-        m = by_short[short(r["name"])]
+        m = by_name[r["name"]]
         assert all(str(v).strip() for v in m.values()), r["name"]
         assert (m["configuration"] == "opt-in") == r["opt_in"], r["name"]
-        assert m["source_library_tree"] == LIBRARY_TREE
+        assert m["source_library_tree"] == tree
         if m["expectation"] == "FAILED":
-            assert m["class"] == "expected-fail", r["name"]
+            assert m["class"] == "expected-fail"
         if m["class"] == "positive-direct":
             assert m["p2_candidate"] == "yes" and m["p2_macos_ci"] == "UNKNOWN"
 
     counts = Counter(r["class"] for r in manifest)
-    assert counts == Counter({"ordinary": 176, "budget-deferred": 153,
-                              "retired-duplicate": 11, "positive-direct": 10,
-                              "timeout-diagnostic": 2, "expected-fail": 28,
-                              "deferred-unsupported": 1, "preexisting-opt-in": 68}), counts
-    assert sum(r["configuration"] == "ordinary" for r in manifest) == 176
+    assert counts["ordinary"] == 182, counts
+    assert counts["expected-fail"] == 31 and counts["timeout-diagnostic"] == 4
+    assert counts["pending-direct"] in (0, 1, 2)
+    assert counts["retired-duplicate"] == 14 - counts["pending-direct"]
+    assert counts["budget-deferred"] == 153
+    assert counts["positive-direct"] == 10
+    assert counts["preexisting-opt-in"] == 68
+    assert counts["deferred-unsupported"] == 1
+    assert sum(counts.values()) == 463
+    assert sum(r["configuration"] == "ordinary" for r in manifest) == 182
 
     expected_lists = {
         "ordinary.txt": {"ordinary"},
@@ -56,67 +63,64 @@ def main():
         "timeout-diagnostic.txt": {"timeout-diagnostic"},
         "controls-failed.txt": {"expected-fail"},
         "deferred-unsupported.txt": {"deferred-unsupported"},
+        "pending-direct.txt": {"pending-direct"},
     }
     for filename, classes in expected_lists.items():
-        expected = {r["name"] for r in manifest if r["class"] in classes}
-        assert names(filename) == expected, filename
-    assert len(DIRECT_ORDINARY) == 12 and len(DIRECT_POSITIVE) == 10
-    assert len(DIRECT_TIMEOUT) == 2 and len(DIRECT_FAILED) == 2 and len(RETIRED) == 11
-    assert DIRECT_ORDINARY <= by_short.keys() and DIRECT_POSITIVE <= by_short.keys()
-    assert all(by_short[n]["class"] == "ordinary" for n in DIRECT_ORDINARY)
-    assert all(by_short[n]["class"] == "positive-direct" for n in DIRECT_POSITIVE)
-    assert all(by_short[n]["class"] == "timeout-diagnostic" for n in DIRECT_TIMEOUT)
-    assert all(by_short[n]["class"] == "retired-duplicate" for n in RETIRED)
+        assert names(filename) == {r["name"] for r in manifest if r["class"] in classes}, filename
 
-    harness = {r["harness"]: r for r in read_tsv("/root/smallsort-pr-drafts/smallsort-harnesses.tsv")}
-    returned = {n for n, r in harness.items()
-                if r["part1"] == "opt-in" and r["part2"] == "ordinary" and
-                (n.startswith(("network::swap_contract_u64_n9", "network::swap_contract_u8_n9",
-                               "network::swap_contract_u8_n13")) or
-                 n == "network::mutating_route_safety_cell_n9_to12" or
-                 n.startswith("network::insertion_safety_u64"))}
-    assert len(returned) == 31, len(returned)
-    assert all(by_short[n]["class"] == "ordinary" for n in returned)
-
-    paired_cell = [r for r in current if r["macro"] == "insertion_offset_group_cases" and
-                   "#[cfg(kani_smallsort_controls)]" in r["args"][1] and
-                   short(r["name"]).startswith("network::mutating_insertion_safety_cell_")]
-    assert len(paired_cell) == 23
-    for cell in paired_cell:
-        plain = "network::" + cell["args"][0]
-        assert by_short[plain]["class"] == "ordinary"
-        assert by_short[short(cell["name"])]["class"] == "budget-deferred"
+    direct_names = {f"slice::sort::shared::smallsort::verify::merge::{route}_direct_u64_n{n}"
+                    for route in ("general", "stable") for n in (6, 7, 8)}
+    direct_ordinary = sum(by_name[n]["class"] == "ordinary" for n in direct_names)
+    direct_pending = sum(by_name[n]["class"] == "pending-direct" for n in direct_names)
+    assert direct_ordinary + direct_pending == 6
+    assert direct_pending == counts["pending-direct"]
+    assert all(by_name[n]["class"] == ("pending-direct" if current_by_name[n]["opt_in"] else "ordinary")
+               for n in direct_names)
+    assert all(by_name[n]["class"] == "expected-fail" for n in (
+        "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
+        "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
+        "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64"))
 
     table = read_tsv("scope.tsv")
-    assert len(table) == 449 and {r["name"] for r in table} == set(current_by_name)
-    assert all(r["source_library_tree"] == LIBRARY_TREE and r["class"] for r in table)
+    assert len(table) == 463 and {r["name"] for r in table} == set(current_by_name)
+    assert all(r["source_library_tree"] == tree and r["class"] for r in table)
     assert all(r["proof_source"] for r in table)
     assert all(r["p2_candidate"] == "yes" and r["p2_macos_ci"] == "UNKNOWN"
                for r in table if r["class"] == "positive-direct")
-    changed_control = next(r for r in table if short(r["name"]) ==
-                           "merge::general_stable_direct_value_corruption_control_u64_n2")
-    assert "different body" in changed_control["proof_source"]
-    assert "awaits measurement" in changed_control["proof_source"]
-    direct_metrics = metrics = json.loads((HERE / "metrics.json").read_text())
-    assert direct_metrics["direct_results_gcb"]["expected-fail"]["known_time_count"] == 2
-    assert "successful_time_count" not in direct_metrics["direct_results_gcb"]["expected-fail"]
-    assert metrics["ordinary"] == 176 and metrics["p2_candidate_ordinary"] == 339
-    assert metrics["p6_incremental"]["returned_count"] == 31
-    assert metrics["p6_incremental"]["retired_count"] == 11
-    assert metrics["p6_incremental"]["returned_known_vt_s"] == 1159.9
-    assert metrics["p6_incremental"]["retired_known_vt_s"] == 245.6
-    actual_tree = subprocess.check_output(["git", "rev-parse", "HEAD:library"], text=True).strip()
-    assert actual_tree == LIBRARY_TREE, actual_tree
+    for r in table:
+        if r["name"] in direct_names | {
+            "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
+            "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
+            "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+        }:
+            assert "not a result on the ASSEMBLY candidate tree" in r["gcb_measurement_applicability"]
 
-    report = dict(result="PASS_STATIC_INTEG_SCOPE_FORECAST_ONLY", baseline=BASELINE,
-                  library_tree=actual_tree, all_names=len(current), ordinary=176,
-                  p2_candidate_ordinary=339, classes=dict(counts), direct_ordinary=len(DIRECT_ORDINARY),
-                  direct_positive_optin=len(DIRECT_POSITIVE), direct_timeouts=len(DIRECT_TIMEOUT),
-                  direct_controls=len(DIRECT_FAILED), retired_duplicates=len(RETIRED),
-                  cheap_harmonics_returned=len(returned), plain_insertions_returned=27,
-                  limitations=["Source scan, not Rust expansion or kani list",
-                               "No compiler/Kani/build evidence was run by this static check",
-                               "Positive DIRECT P2 candidate has no macOS CI evidence"])
+    metrics = json.loads((HERE / "metrics.json").read_text())
+    assert metrics["library_tree"] == tree
+    assert metrics["ordinary"] == 182 and metrics["p2_candidate_ordinary"] == 345
+    assert metrics["controls_cfg_total"] == 463 and metrics["controls_failed"] == 31
+    assert metrics["pending_direct"] == counts["pending-direct"]
+    assert metrics["retired_duplicates"] == counts["retired-duplicate"]
+
+    gates = read_tsv("budget-gates.tsv")
+    assert all("pending-direct" not in r["class"] for r in gates)
+    pr2 = json.loads((HERE / "pr2-static-check.json").read_text())
+    assert pr2["ordinary"] == pr2["expected_p2_candidate_ordinary"] == 345
+    assert pr2["library_tree"] == tree
+    assert pr2["all_names"] == 463
+    assert pr2["retained_classes"] and "pending-direct" in pr2["retained_classes"]
+
+    report = dict(result="PASS_STATIC_ASSEMBLY_SCOPE_FORECAST_ONLY", baseline=INTEG,
+                  library_tree=tree, all_names=len(current), ordinary=counts["ordinary"],
+                  p2_candidate_ordinary=metrics["p2_candidate_ordinary"], controls_cfg_total=463,
+                  controls_failed=counts["expected-fail"], pending_direct=counts["pending-direct"],
+                  retired_duplicates=counts["retired-duplicate"],
+                  direct_ordinary=direct_ordinary, direct_pending=direct_pending,
+                  classes=dict(counts),
+                  limitations=["Source scan only; not Rust expansion or actual Kani inventories",
+                               "Source results are historical and do not establish results on the final library tree",
+                               "Stable direct N6/N7 remain pending coordinator confirmation",
+                               "No compiler, Kani, CBMC or CI was run"])
     (HERE / "static-check.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

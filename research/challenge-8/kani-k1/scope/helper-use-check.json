@@ -171,13 +171,13 @@
           "module": "merge",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 5
+          "references": 8
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "StableSmallSortTypeImpl",
-          "references": 3
+          "references": 4
         },
         {
           "module": "merge",
@@ -201,7 +201,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 8
+          "references": 12
         },
         {
           "module": "merge",
@@ -219,7 +219,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "kani",
-          "references": 76
+          "references": 82
         },
         {
           "module": "merge",
@@ -255,13 +255,19 @@
           "module": "merge",
           "kind": "macro",
           "symbol": "define_general_sortedness_harness",
-          "references": 8
+          "references": 7
         },
         {
           "module": "merge",
           "kind": "macro",
           "symbol": "define_general_direct_harness",
           "references": 11
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_direct_u64_route_harness",
+          "references": 4
         },
         {
           "module": "merge",
@@ -429,43 +435,43 @@
           "module": "types",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "StableSmallSortTypeImpl",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "UnstableSmallSortTypeImpl",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "Cell",
-          "references": 4
+          "references": 6
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "kani",
-          "references": 25
+          "references": 31
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "fn",
           "symbol": "logical_less",
-          "references": 2
+          "references": 4
         },
         {
           "module": "types",
@@ -477,13 +483,13 @@
           "module": "types",
           "kind": "fn",
           "symbol": "check_output",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "fn",
           "symbol": "cover_nontrivial_input",
-          "references": 5
+          "references": 6
         },
         {
           "module": "types",
@@ -507,7 +513,19 @@
           "module": "types",
           "kind": "macro",
           "symbol": "fixed_trait_case",
+          "references": 2
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "fixed_route_trait_properties",
           "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "fixed_route_trait_case",
+          "references": 2
         }
       ]
     },
@@ -735,13 +753,13 @@
           "module": "merge",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 7
+          "references": 14
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "StableSmallSortTypeImpl",
-          "references": 4
+          "references": 6
         },
         {
           "module": "merge",
@@ -753,7 +771,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "bidirectional_merge",
-          "references": 15
+          "references": 16
         },
         {
           "module": "merge",
@@ -765,7 +783,7 @@
           "module": "merge",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 16
+          "references": 23
         },
         {
           "module": "merge",
@@ -783,13 +801,13 @@
           "module": "merge",
           "kind": "use",
           "symbol": "kani",
-          "references": 118
+          "references": 129
         },
         {
           "module": "merge",
           "kind": "use",
           "symbol": "ptr",
-          "references": 39
+          "references": 41
         },
         {
           "module": "merge",
@@ -844,6 +862,12 @@
           "kind": "macro",
           "symbol": "define_general_direct_harness",
           "references": 15
+        },
+        {
+          "module": "merge",
+          "kind": "macro",
+          "symbol": "define_direct_u64_route_harness",
+          "references": 6
         },
         {
           "module": "merge",
@@ -1035,43 +1059,43 @@
           "module": "types",
           "kind": "use",
           "symbol": "SMALL_SORT_GENERAL_SCRATCH_LEN",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "StableSmallSortTypeImpl",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "UnstableSmallSortTypeImpl",
-          "references": 3
+          "references": 4
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "Cell",
-          "references": 9
+          "references": 12
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "kani",
-          "references": 27
+          "references": 33
         },
         {
           "module": "types",
           "kind": "use",
           "symbol": "MaybeUninit",
-          "references": 1
+          "references": 2
         },
         {
           "module": "types",
           "kind": "fn",
           "symbol": "logical_less",
-          "references": 4
+          "references": 6
         },
         {
           "module": "types",
@@ -1083,13 +1107,13 @@
           "module": "types",
           "kind": "fn",
           "symbol": "check_output",
-          "references": 3
+          "references": 4
         },
         {
           "module": "types",
           "kind": "fn",
           "symbol": "cover_nontrivial_input",
-          "references": 5
+          "references": 6
         },
         {
           "module": "types",
@@ -1113,7 +1137,19 @@
           "module": "types",
           "kind": "macro",
           "symbol": "fixed_trait_case",
+          "references": 4
+        },
+        {
+          "module": "types",
+          "kind": "fn",
+          "symbol": "fixed_route_trait_properties",
           "references": 1
+        },
+        {
+          "module": "types",
+          "kind": "macro",
+          "symbol": "fixed_route_trait_case",
+          "references": 2
         }
       ]
     }

@@ -1,0 +1,38 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "assembly-measurement-controls-20261031",
+  "kind": "measurement",
+  "purpose": "ASSEMBLY five controls on final library; count failures require manual summary location at count assert and passed sortedness, exactly one FAILED each. Work50+setup30 reserveUSD1.0800; three-build worst envelope USD2.9700<=3. Dispatch only after GO.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "expect_check": "This is a placeholder message"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
+      "expect": "FAILED",
+      "expect_check": "merge_inputs_are_sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "expect_check": "This is a placeholder message"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
+      "expect": "FAILED",
+      "expect_check": "merge_inputs_are_sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64",
+      "expect": "FAILED",
+      "expect_check": "pointer outside object bounds"
+    }
+  ]
+}

@@ -15,6 +15,8 @@ from prepare_scope import tsv
 from source_inventory import BASELINE, HERE, MODULES, ROOT, inventory, records, source
 from source_items import CFG, imports, items, key
 
+INTEG = "ddcc33f837"
+
 
 def associated_proofs(module, current, proofs):
     """Transitive local identifier references; association is a static forecast."""
@@ -144,7 +146,10 @@ def main():
                           if class_by_name[r["name"].split("::verify::", 1)[-1]] in
                           {"ordinary", "budget-deferred", "positive-direct"})
         assert ordinary == expected, (len(ordinary), len(expected))
-        assert len(ordinary) == 339
+        expected_count = sum(class_by_name[r["name"].split("::verify::", 1)[-1]]
+                             in {"ordinary", "budget-deferred", "positive-direct"}
+                             for r in current_proofs)
+        assert len(ordinary) == expected_count == 345
         assert Counter(r["name"] for r in after_proofs) == Counter(r["name"] for r in current_proofs)
         expected_optin = {r["name"] for r in current_proofs
                           if class_by_name[r["name"].split("::verify::", 1)[-1]] not in
@@ -152,12 +157,12 @@ def main():
         assert {r["name"] for r in after_proofs if r["opt_in"]} == expected_optin
         (HERE / "pr2-ordinary.txt").write_text("\n".join(ordinary) + "\n")
 
-    report = dict(result="PASS_STATIC_PR2_FORECAST_ONLY", baseline=BASELINE,
+    report = dict(result="PASS_STATIC_PR2_FORECAST_ONLY", baseline=INTEG,
                   patch_applied_to_temporary_source_copy=True, budget_cfg_lines=len(gates),
                   by_file=per_file, gate_classes=dict(Counter(r["class"] for r in gates)),
                   gate_origins=dict(Counter(r["origin"] for r in gates)),
-                  ordinary=len(ordinary), expected_p2_candidate_ordinary=339,
-                  all_names=len(after_proofs), retained_classes=["retired-duplicate",
+                  ordinary=len(ordinary), expected_p2_candidate_ordinary=expected_count,
+                  all_names=len(after_proofs), retained_classes=["retired-duplicate", "pending-direct",
                   "timeout-diagnostic", "expected-fail", "deferred-unsupported",
                   "preexisting-opt-in"], patch_only_removes_budget_cfg_lines=True,
                   patch_sha256=hashlib.sha256(patch.encode()).hexdigest(),

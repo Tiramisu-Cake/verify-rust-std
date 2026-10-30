@@ -1,0 +1,15 @@
+--harness
+slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2
+--harness
+slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4
+--harness
+slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2
+--harness
+slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4
+--harness
+slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

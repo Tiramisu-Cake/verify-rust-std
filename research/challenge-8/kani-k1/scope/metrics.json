@@ -1,20 +1,26 @@
 {
-  "status": "INTEG_STATIC_FORECAST_ONLY",
-  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
+  "status": "ASSEMBLY_STATIC_FORECAST_ONLY",
+  "baseline": "ddcc33f837",
+  "library_tree": "3548f769bc3c1c68ff7aa01c56e100ba0f27fbb7",
   "counts": {
-    "ordinary": 176,
-    "expected-fail": 28,
+    "ordinary": 182,
+    "expected-fail": 31,
     "preexisting-opt-in": 68,
     "budget-deferred": 153,
     "positive-direct": 10,
-    "timeout-diagnostic": 2,
-    "retired-duplicate": 11,
+    "timeout-diagnostic": 4,
+    "retired-duplicate": 12,
+    "pending-direct": 2,
     "deferred-unsupported": 1
   },
-  "total": 449,
-  "ordinary": 176,
-  "p2_candidate_ordinary": 339,
-  "p2_formula": "328 + 12 ordinary DIRECT + 10 positive DIRECT - 11 retired duplicates",
+  "total": 463,
+  "ordinary": 182,
+  "p2_candidate_ordinary": 345,
+  "p2_formula": "confirmed: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 6 - retired C 3; interim: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 ordinary 4 - retired C 1",
+  "controls_cfg_total": 463,
+  "controls_failed": 31,
+  "pending_direct": 2,
+  "retired_duplicates": 12,
   "p6_incremental": {
     "returned_count": 31,
     "returned_known_vt_s": 1159.9,
@@ -56,10 +62,15 @@
       "gcb_rss_max_kib": 9454264
     }
   },
+  "source_claims": {
+    "unstable8": "code donor 78c040559f; G1 measured source 5ff343a759b87c3927f7f3f90981d15f30e9e946; G3 measured source b177a4bd5d46ae30edf1d75379ff7c43a7f19720",
+    "direct_u64": "OPT measured sources 73fb790ad0d78e81c5a2928651650398dbe7d673 and c81c10e3061e07bb83c732d81413632ada757d2c; BACKING/BACKING2 measured sources 740d22674ca200f3270fb298651302019d347828 and 30b8b975c574dd76a6e770c7001e2a85577dc578",
+    "backing_controls": "measured source 740d22674ca200f3270fb298651302019d347828; historical FAILED only; current candidate controls await measurement"
+  },
   "limitations": [
     "Source inventory forecast, not Rust expansion or actual kani list",
-    "P-6 VT is historical harness VT, not a runtime prediction",
-    "direct/results.tsv timings and RSS are GCB measurements; not Mac VT",
-    "P-7 autoharness is excluded; no cross-platform coefficient or jobs estimate"
+    "Historical source results do not establish results on this candidate library tree",
+    "Stable direct N6/N7 remain pending until coordinator confirmation",
+    "No compiler, Kani, CBMC or CI executed"
   ]
 }
