@@ -1,0 +1,19 @@
+OPT pre-build static validation (no compilation/proof performed)
+UTC: 2026-10-30T19:26:27.869047+00:00
+Base: c52627e090e059ae8000af23fded3d614a89a2e3
+Library SHA: f052d6b7ec826e4f45f7bc1522dde38d5ba16a91
+Library tree: 80e17349eb79ac57b17c0ed37a13eedd1c9da7e6
+PASS: original merge.rs is an unchanged prefix; appended 91 lines only.
+PASS: eight distinct u64 N6/N8 harnesses, whole module opt-in.
+PASS: no old selector helper calls, added selectors, stubs or assumes.
+PASS: four bodies/probes/covers; two unchanged B oracle calls.
+PASS: same proof attributes/unwind(34); only selected route/backing in each body.
+PASS: request lists exactly four N6 entries; measurement/jobs=1/controls=true.
+request opt-split-n6-gate-20261030: 4 harness(es) accepted
+PASS: requested rustfmt --check --edition 2024/config exit 0.
+PASS: git diff --check; code/docs/request lines <=100, Markdown files <=100 lines.
+PASS: original contracts, toolchain, Kani pin, flags and lane files unchanged.
+Request SHA256: 3afc572e569d2c4c4120b7d4bf920a3b42395787b106fc2cd2a27544da02dc6c
+Envelope: 4*10+30=70 minutes, 70*0.0135=$0.9450; no dispatch before review GO.
+Own builds/request UUID list: EMPTY; own spent=$0; own reserved=$0; max 3/$4.
+NOT RUN: local rustc/cargo/Kani/CBMC and Cloud Build; covers unverified.
