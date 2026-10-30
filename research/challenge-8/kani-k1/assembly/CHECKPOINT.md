@@ -14,7 +14,8 @@ No Part2 micro-package. Historical results do not prove the assembled candidate 
 
 No builds submitted. Own spent/reserved USD0, ceiling USD3.5 and 3 builds.
 Coordinator GO received for 74f064bad9; go.json records authority and frozen tree.
-Dispatch ordinary and controls inventories, register watch for both, then end turn.
+Dispatch ordinary inventory, controls inventory and five-control measurement with
+fresh per-request budget/time checks; register watch for all three, then end turn.
 After GO freeze this library tree for all three requests; a library edit needs delta-review.
 Do not reverify positive transferred entries here; coordinator runs the full CI.
 
@@ -43,3 +44,5 @@ No local Rust/cargo/Kani/CBMC, lane or toolchain changes, or submission branches
 
 Final completion requires inventories, controls, report <=100 lines, commit + push.
 Do not emit ASSEMBLY ЗАВЕРШЁН while required evidence remains unperformed.
+
+G1 ordinary inventory submitted: 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 (source b84e992edf).

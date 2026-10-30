@@ -2,10 +2,25 @@
   "agent": "k1-network",
   "max_builds": 3,
   "max_usd": 3.5,
-  "builds": [],
+  "builds": [
+    {
+      "label": "g1",
+      "uuid": "9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6",
+      "request_id": "assembly-inventory-ordinary-20261031",
+      "source_sha": "b84e992edf2bcc96d7a35150a7b001683d33bc11",
+      "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
+      "kind": "inventory",
+      "controls": false,
+      "work_minutes": 30,
+      "total_envelope_minutes": 60,
+      "max_reserved_usd": 0.81,
+      "status": "SUBMITTED",
+      "submitted_recorded_at_utc": "2026-10-30T22:41:04.590989+00:00"
+    }
+  ],
   "spent_usd": 0,
-  "reserved_usd": 0,
-  "status": "GO_RECEIVED_PREPARING_INVENTORIES",
+  "reserved_usd": 0.81,
+  "status": "SUBMITTING_APPROVED_THREE_BUILDS",
   "library_commit": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
   "library_tree": "954e0becf8cb6c137ea89f94ad613d83d97235e0",
   "planned_request_ids": [
@@ -13,5 +28,6 @@
     "assembly-inventory-ordinary-20261031",
     "assembly-measurement-controls-20261031"
   ],
-  "reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6"
+  "reviewed_source": "74f064bad959b6a38369bbed43e7a11f114b81b6",
+  "accounting": "Full envelopes reserved until refreshed with k1g.sh budget for these UUIDs"
 }
