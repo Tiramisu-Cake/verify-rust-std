@@ -1,0 +1,41 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "direct-b-remaining",
+  "agent": "k1-network",
+  "kind": "measurement",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "DIRECT B remaining u64 N5..7 and u8 N5..8 after successful gate, real merge and both general/stable scratch48 routes. Envelope 7*10+30=100 min, $1.35 reserved.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+      "expect": "SUCCESS"
+    }
+  ]
+}
