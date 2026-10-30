@@ -1,4 +1,4 @@
-# ASSEMBLY — кандидат подготовлен, ожидается PRE-BUILD REVIEW
+# ASSEMBLY — GO получен, три сборки отправлены, результаты ожидаются
 
 Дата: 2026-10-31. Ветка `experiment/kani-k1-assembly-20261031`.
 Исходный HEAD `ddcc33f8370db08a316b739c5d543c4e96910b1b`.
@@ -54,7 +54,7 @@ Part 2 ordinary339, controls cfg463; expected-fail controls31.
 Пересчёт P2: INTEG339 +3 UNSTABLE8 +6 direct −3 C −2 combined B −4 historical A =339.
 P2 снимает budget/positive gates; pending/retired/TIMEOUT/negative/unsupported/historical A
 сохраняет opt-in. Static apply patch и точное множество имён: PASS, `scope/pr2-static-check.json`.
-Фактического inventory итогового дерева ещё нет; нужны два отдельных inventory builds.
+Фактические inventory итогового дерева пока не получены; два inventory builds отправлены.
 
 Локально: source-transfer audit PASS, source scope/helper forecast PASS в обеих cfg.
 Rustfmt заданным wrapper/config --check exit0; изменённые .rs ≤100 колонок.
@@ -62,7 +62,7 @@ Rustfmt заданным wrapper/config --check exit0; изменённые .rs 
 Компиляторные warnings ещё не проверены; Rust/cargo/Kani/CBMC локально не запускались.
 Kani9461e07a, toolchain, flags, lane-файлы прежние.
 
-Контроли итогового кода пока не запускались. Подготовлен measurement jobs1/controls:true:
+Measurement пяти контролей отправлен: jobs1/controls:true, результаты пока не получены.
 
 - DIRECT B `general_stable_direct_value_corruption_control_u64_n2`;
 - DIRECT A `merge_scratch48_unsorted_halves_control_u64_n4`;
@@ -76,13 +76,20 @@ Unsorted-halves — merge_inputs_are_sorted; bounds — raw write за всей 
 Проверить covers и отсутствие иных отказов; compile/unsupported/TIMEOUT не подходят.
 Historical donor SUCCESS/FAILED не выдаются за proof credit итогового library SHA.
 
-Своих builds0/3, spent$0, reserved$0; ledger `assembly/builds.json`.
+Отправлены builds3/3; максимальный резерв $3.1050; actual cost уточнить после завершения.
+GO для `74f064bad9` получен; source/request/UUID ledger: `assembly/builds.json`.
 Бюджет по NOTES $3,5. Запросы: ordinary30min, controls60min (как INTEG G2/G3),
 measurement5×10min; setup30min/build; общий максимальный резерв $3.1050 ≤ $3.5.
 T0 взят консервативно по initial TASK commit: 01:22:44 MSK; deadline04:22:44 MSK,
 резерв закрытия15min. Перед каждым dispatch — fresh budget и полный envelope по остатку окна.
 При нехватке окна/бюджета — PARTIAL; timeout600 не урезать. План в `assembly/window.json`.
-Только k1-standard4, CAP_USD73.96 прежний. До GO dispatch запрещён; после GO tree заморожен.
+Только k1-standard4, CAP_USD73.96 прежний. Library tree заморожен для всех трёх запросов.
 Ожидание только k1g.sh watch с завершением хода; чтение только штатным K-1 интерфейсом.
 Не проверены: inventories, warnings/controls, macOS, jobs3, полный CI организаторов.
 Ветки submission не затрагивались; единственный полный CI выполняет координатор.
+
+| Build | Назначение | UUID |
+|---|---|---|
+| g1 | ordinary inventory182 | 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 |
+| g2 | controls inventory463 | 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b |
+| g3 | measurement пяти controls | b1cc9973-6a7d-4471-8e9f-6b5002a0c36f |

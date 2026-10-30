@@ -12,10 +12,11 @@ Static Part1 ordinary182/all463; pending0/retired16. Part2 ordinary339/all463.
 Combined B u64 N6/N7 remain retired; historical A u64 N5..8 remain opt-in outside P2.
 No Part2 micro-package. Historical results do not prove the assembled candidate tree.
 
-No builds submitted. Own spent/reserved USD0, ceiling USD3.5 and 3 builds.
-Coordinator GO received for 74f064bad9; go.json records authority and frozen tree.
-Dispatch ordinary inventory, controls inventory and five-control measurement with
-fresh per-request budget/time checks; register watch for all three, then end turn.
+All 3/3 builds submitted; no further build quota. Own ledger builds.json: full-envelope
+reservation USD3.105, cap USD3.5. Refresh actual spent/reserved through k1g.sh budget UUIDs.
+Coordinator GO for 74f064bad9 is recorded in go.json; library stays frozen.
+Immediate next action: register k1g.sh watch for all three UUIDs and end turn.
+On watcher notification, read only the completed UUID's bounded K-1 evidence.
 After GO freeze this library tree for all three requests; a library edit needs delta-review.
 Do not reverify positive transferred entries here; coordinator runs the full CI.
 
@@ -45,7 +46,14 @@ No local Rust/cargo/Kani/CBMC, lane or toolchain changes, or submission branches
 Final completion requires inventories, controls, report <=100 lines, commit + push.
 Do not emit ASSEMBLY ЗАВЕРШЁН while required evidence remains unperformed.
 
-G1 ordinary inventory submitted: 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6 (source b84e992edf).
+Submitted builds (source SHA / request_id bindings in builds.json):
+- g1 inventory controls=False: 9fbe5d64-ff03-4fb4-a0d9-9ec92687e3d6
+- g2 inventory controls=True: 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b
+- g3 measurement controls=True: b1cc9973-6a7d-4471-8e9f-6b5002a0c36f
 
-G2 controls inventory submitted: 8d168cb0-f60f-41b1-8a8b-8822a2c7a59b (source cb04aa5df6).
-Next: submit the approved five-control measurement, then watch all three and end turn.
+After each watch notification: bounded summary, inventory/peaks as appropriate,
+check-tooling against GO source74f064bad959b6a38369bbed43e7a11f114b81b6, warning grep.
+Compare exact names for g1 ordinary182 and g2 controls463. For g3 manually inspect
+all five FAILED checks/locations/covers, especially the two placeholder count failures.
+Do not treat placeholder match as count-oracle acceptance; report final summary locations.
+No library changes or extra builds; any needed delta goes to coordinator review.
