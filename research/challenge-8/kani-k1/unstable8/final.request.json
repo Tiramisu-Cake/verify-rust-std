@@ -1,0 +1,25 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "unstable8-final-20261030",
+  "agent": "k1-merge",
+  "kind": "measurement",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "UNSTABLE8 final: fixed Cell N8 route covers (G2 assertions SUCCESS, opposite const cover unreachable), plus separate combined DropKey N9. Oracle/domains unchanged; DropKey N8 not rerun. Envelope 3*10+30=60 min, $0.8100; own max $1.3905/$4, build 3/3.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n9",
+      "expect": "SUCCESS"
+    }
+  ]
+}

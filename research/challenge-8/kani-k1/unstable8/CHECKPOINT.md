@@ -1,35 +1,26 @@
-# UNSTABLE8 — Cell split запущен
+# UNSTABLE8 — последняя сборка подготовлена
 
-Рабочая ветка experiment/kani-k1-unstable8-20261030; alias для dispatch — unstable.
-База `6bbf03c764a5abafc2d4d5eeeb5f2972d6beaf46`; GO на G1 source 5ff343a759 получен.
-G1 build `64a70b50-30b2-4d26-b25b-7ed1463b4851`, request unstable8-gate-20261030.
-G1: DropKey N8 SUCCESS, 194.44167 с, covers 5/5; Cell N8 TIMEOUT 600 с.
-Оба negative FAILED на ожидаемых expressions, корректный setup; summary COMPLETE.
-G1 стоимость $0.3105; registry builds.json содержит только собственные UUID/request_id.
+G1 DropKey N8 SUCCESS 194.44167 с, 5/5; combined Cell N8 TIMEOUT.
+G2 Cell stable/unstable N8 SUCCESS 330.23926/237.26244 с, но covers 4/5 у обоих.
+G2 gate false только из-за недостижимого cover противоположной const-ветви.
+Из-за terse output названия отдельных covers в log-grep не напечатаны.
+Диагноз следует из const true/false и двух branch-local cover при пяти общих covers.
+G1/G2 source/build/request/cost сохранены в builds.json и RESULT-UNSTABLE8.md.
+G1/G2 check-tooling: lane-файлы равны базе 6bbf03c764; Kani pin 9461e07a прежний.
 
-Library split `956a758288f483bef38d27372e08877bfbfd2212`.
-Добавлены opt-in fixed_route_trait_properties и macro + две Cell N8 гармоники.
-STABLE — const true/false; только input [u8;8] и probe символические.
-Маршруты исходные, logical_less read-only; check_output не менялся.
-В каждом случае covers: возврат после assert, unsorted, duplicate и выбранный trait route.
-Домен исходного harness = объединение двух fixed-route доменов, без ограничений input/probe.
-Combined DropKey N8 сохранён и не запускается повторно; combined Cell остаётся opt-in.
+Library G3 78c040559f448ea3cf05ec152ab1143014068570.
+Исправление: route cover перенесён в macro с выбранным literal; недостижимого cover нет.
+Check_output, входы, any probe, comparator, flags, timeout и solver прежние.
+Гармоники Cell N8 изменены для корректного measurement gate; DropKey N8 не повторяется.
+Добавлен opt-in fixed_trait_case DropKey N9 с исходным symbolic stable.
 
-G2 request unstable8-cell-split-20261030, measurement, controls:true, jobs=1.
-Ровно две positive Cell N8; контроли G1 уже приняты, oracle не менялся.
-Envelope 2 × 10 + 30 = 50 минут, $0.6750; свой spent+envelope = $0.9855 из $4, build 2/3.
-Перед dispatch проверить текущий общий ledger и полный envelope; CAP_USD $73.96 прежний.
-Консервативный cutoff дальнейших сборок: 2026-10-30 22:30 UTC, включая полный envelope.
-После push продвинуть alias без force на тот же source SHA и dispatch.
-Записать G2 UUID/request_id, вызвать k1g.sh watch BUILD и завершить ход.
-
-После G2: сохранить любой частичный PASS; не повторять неизменённый принятый N8.
-При достаточном остатке отдельный N9 выбранного типа/тех же маршрутов, третья сборка.
-Не повышать timeout, не менять domains/oracle/flags/pin/toolchain/lane-файлы.
-Rustfmt заданным wrapper/config exit 0, diff-check exit 0; tooling G1 равен базе.
-Дальнейшие результаты/VT/RSS фиксировать в RESULT-UNSTABLE8.md (≤100 строк).
-
-G2 build `93263f1d-d590-454b-a496-a3c2f479b07f`.
-G2 source `2d2cdfff1fc564b9f7e3e4ab5e6a4d1f74e808cb`.
-Budget перед G2: spent $57.1425, reserved $0.5400; вместе с G2 ≤$58.3575.
-Свои spent $0.3105, reserved $0.6750, сборки 2/3; ждать watch, затем summary/peaks.
+G3 request unstable8-final-20261030, measurement, controls:true, jobs=1.
+Три positive: исправленные Cell stable N8 + unstable N8 и combined DropKey N9.
+Контроли G1 приняты; oracle не менялся, новые negative не требуются.
+Envelope 3 × 10 + 30 = 60 минут, $0.8100; свои $0.5805 + $0.8100 = $1.3905 из $4.
+Это третья/последняя разрешённая сборка; дальнейших dispatch не делать.
+Консервативный cutoff 2026-10-30 22:30 UTC включает полный envelope.
+Перед dispatch обновить общий budget; alias unstable продвинуть без force на reviewed source.
+После dispatch записать UUID, вызвать k1g.sh watch BUILD и завершить ход.
+После G3 завершить отчёт COMPLETE/PARTIAL по реально полученным результатам и push.
+Последние строки: REVIEW REQUEST <sha> и UNSTABLE8 ЗАВЕРШЁН; после маркера остановиться.

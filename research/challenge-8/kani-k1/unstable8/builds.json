@@ -27,14 +27,21 @@
       "request_id": "unstable8-cell-split-20261030",
       "source_sha": "2d2cdfff1fc564b9f7e3e4ab5e6a4d1f74e808cb",
       "dispatch_branch": "experiment/kani-k1-unstable-20261030",
-      "stage": "DISPATCHED",
+      "stage": "COMPLETE",
       "recorded_at_utc": "2026-10-30T19:55:13.835038+00:00",
       "envelope_minutes": 50,
-      "reserved_usd": 0.675,
-      "cost_usd": null
+      "reserved_usd": 0,
+      "cost_usd": 0.27,
+      "gcb_status": "FAILURE",
+      "gate": false,
+      "results": {
+        "cell_stable_n8": "SUCCESS_COVERS_4_OF_5",
+        "cell_unstable_n8": "SUCCESS_COVERS_4_OF_5"
+      },
+      "gate_failure": "unreachable opposite-route cover in each const specialization"
     }
   ],
-  "spent_usd": 0.3105,
-  "reserved_usd": 0.675,
-  "stage": "CELL_SPLIT_DISPATCHED"
+  "spent_usd": 0.5805,
+  "reserved_usd": 0,
+  "stage": "FINAL_PREPARED"
 }
