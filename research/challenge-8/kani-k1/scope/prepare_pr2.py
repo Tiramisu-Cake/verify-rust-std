@@ -149,7 +149,8 @@ def main():
         expected_count = sum(class_by_name[r["name"].split("::verify::", 1)[-1]]
                              in {"ordinary", "budget-deferred", "positive-direct"}
                              for r in current_proofs)
-        assert len(ordinary) == expected_count == 345
+        expected_metric = json.loads((HERE / "metrics.json").read_text())["p2_candidate_ordinary"]
+        assert len(ordinary) == expected_count == expected_metric
         assert Counter(r["name"] for r in after_proofs) == Counter(r["name"] for r in current_proofs)
         expected_optin = {r["name"] for r in current_proofs
                           if class_by_name[r["name"].split("::verify::", 1)[-1]] not in
@@ -163,6 +164,7 @@ def main():
                   gate_origins=dict(Counter(r["origin"] for r in gates)),
                   ordinary=len(ordinary), expected_p2_candidate_ordinary=expected_count,
                   all_names=len(after_proofs), retained_classes=["retired-duplicate", "pending-direct",
+                  "historical-contract",
                   "timeout-diagnostic", "expected-fail", "deferred-unsupported",
                   "preexisting-opt-in"], patch_only_removes_budget_cfg_lines=True,
                   patch_sha256=hashlib.sha256(patch.encode()).hexdigest(),

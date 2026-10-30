@@ -4,7 +4,7 @@
   "runner": "gcb-e2-standard-4",
   "request_id": "assembly-measurement-controls-20261031",
   "kind": "measurement",
-  "purpose": "ASSEMBLY five controls on final library; count failures require manual summary location at count assert and passed sortedness, exactly one FAILED each. Work50+setup30 reserveUSD1.0800; three-build worst envelope USD2.9700<=3. Dispatch only after GO.",
+  "purpose": "ASSEMBLY five controls: exactly one intended FAILED each, covers, no other failures. Count locations require manual summary check; terse absence of sortedness failure is not explicit SUCCESS. Work50+setup30 reserveUSD1.0800; three-build maxUSD3.105<=3.5. GO required.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,

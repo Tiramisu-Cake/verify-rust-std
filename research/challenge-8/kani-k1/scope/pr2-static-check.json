@@ -2,35 +2,36 @@
   "result": "PASS_STATIC_PR2_FORECAST_ONLY",
   "baseline": "ddcc33f837",
   "patch_applied_to_temporary_source_copy": true,
-  "budget_cfg_lines": 173,
+  "budget_cfg_lines": 167,
   "by_file": {
     "correct": 26,
-    "merge": 67,
+    "merge": 61,
     "network": 80
   },
   "gate_classes": {
     "budget-deferred+preexisting-opt-in": 5,
     "budget-deferred": 158,
-    "positive-direct": 10
+    "positive-direct": 4
   },
   "gate_origins": {
     "SCOPE-budget-helper": 8,
-    "SCOPE-proof": 165
+    "SCOPE-proof": 159
   },
-  "ordinary": 345,
-  "expected_p2_candidate_ordinary": 345,
+  "ordinary": 338,
+  "expected_p2_candidate_ordinary": 338,
   "all_names": 463,
   "retained_classes": [
     "retired-duplicate",
     "pending-direct",
+    "historical-contract",
     "timeout-diagnostic",
     "expected-fail",
     "deferred-unsupported",
     "preexisting-opt-in"
   ],
   "patch_only_removes_budget_cfg_lines": true,
-  "patch_sha256": "7863872f8075c85984d156a225075a07d9b258e9ddd41d498e79d934ae9c259f",
-  "library_tree": "3548f769bc3c1c68ff7aa01c56e100ba0f27fbb7",
+  "patch_sha256": "c115ad4da18a68cfb66a800756aa7c4def84c3a9e39db14b351bd0c282a4c830",
+  "library_tree": "2976c90fc67d06bfe64119828ed0c5ea12653b48",
   "limitations": [
     "Source forecast, not Rust expansion or actual kani list",
     "Helper-to-harness association uses local token references",

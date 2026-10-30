@@ -22,7 +22,8 @@ SCOPE_PATH = "research/challenge-8/kani-k1/scope/scope.tsv"
 DIRECT_SOURCES = {
     "merge::general_direct_u64_n6": ("f052d6b7ec", "73fb790ad0d78e81c5a2928651650398dbe7d673", "OPT G1 SUCCESS"),
     "merge::general_direct_u64_n8": ("f052d6b7ec", "c81c10e3061e07bb83c732d81413632ada757d2c", "OPT G2 SUCCESS"),
-    "merge::general_direct_u64_n7": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578", "BACKING2 SUCCESS"),
+    "merge::general_direct_u64_n7": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
+                                     "BACKING2 SUCCESS source report; exact coordinator source/library SHA and process confirmation pending"),
     "merge::stable_direct_u64_n6": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
                                      "BACKING2 SUCCESS; coordinator process confirmation pending"),
     "merge::stable_direct_u64_n7": ("f28909ac02823ffd652a3d530d6b96add6bd4fea", "30b8b975c574dd76a6e770c7001e2a85577dc578",
@@ -48,6 +49,9 @@ CONTROL_MEASUREMENT = "740d22674ca200f3270fb298651302019d347828"
 DIRECT_GENERAL = {f"merge::general_direct_u64_n{n}" for n in (6, 7, 8)}
 DIRECT_STABLE = {f"merge::stable_direct_u64_n{n}" for n in (6, 7, 8)}
 DIRECT_NAMES = DIRECT_GENERAL | DIRECT_STABLE
+COMBINED_B_RETIRED = {f"merge::general_stable_direct_u64_n{n}" for n in (6, 7)}
+HISTORICAL_CONTRACT = {f"merge::merge_scratch48_contract_u64_n{n}" for n in range(5, 9)}
+POSITIVE_A_U8 = {f"merge::merge_scratch48_contract_u8_n{n}" for n in range(5, 9)}
 UNSTABLE_ORDINARY = {
     "types::sorted_permutation_traits_general_drop_u8_n8",
     "types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
@@ -103,6 +107,12 @@ def main():
             klass = "timeout-diagnostic"
         elif name in UNSTABLE_ORDINARY:
             klass = "ordinary"
+        elif name in COMBINED_B_RETIRED:
+            klass = "retired-duplicate"
+        elif name in HISTORICAL_CONTRACT:
+            klass = "historical-contract"
+        elif name in POSITIVE_A_U8:
+            klass = "positive-direct"
         elif name in DIRECT_NAMES:
             klass = "ordinary" if not r["opt_in"] else "pending-direct"
         elif name.startswith("merge::general_stable_sorted_permutation_u64_n") and name.endswith(("_n6", "_n7", "_n8")):
@@ -129,7 +139,8 @@ def main():
     expected_by_class = {
         "ordinary": "PASS", "budget-deferred": "PASS", "pending-direct": "PASS",
         "positive-direct": "PASS", "preexisting-opt-in": "PASS",
-        "retired-duplicate": "PASS", "timeout-diagnostic": "TIMEOUT600",
+        "retired-duplicate": "PASS", "historical-contract": "PASS",
+        "timeout-diagnostic": "TIMEOUT600",
         "expected-fail": "FAILED", "deferred-unsupported": "DEFERRED_UNSUPPORTED",
     }
     for r in current:
@@ -232,6 +243,7 @@ def main():
         "controls-failed.txt": {"expected-fail"},
         "deferred-unsupported.txt": {"deferred-unsupported"},
         "pending-direct.txt": {"pending-direct"},
+        "historical-contracts.txt": {"historical-contract"},
     }
     for filename, selected in list_classes.items():
         (SCOPE / filename).write_text("".join(r["name"] + "\n" for r in manifest
@@ -240,23 +252,46 @@ def main():
     counts = collections.Counter(classes.values())
     ordinary = counts["ordinary"]
     p2_count = sum(counts[c] for c in ("ordinary", "budget-deferred", "positive-direct"))
-    assert ordinary == 182 and p2_count == 345 and len(manifest) == 463
+    both_routes_ordinary = sum(
+        not by_name[f"merge::general_direct_u64_n{n}"]["opt_in"] and
+        not by_name[f"merge::stable_direct_u64_n{n}"]["opt_in"]
+        for n in (6, 7, 8))
+    pending7 = (by_name["merge::general_direct_u64_n7"]["opt_in"] and
+                by_name["merge::stable_direct_u64_n7"]["opt_in"])
+    assert ordinary == 182 - int(pending7), (ordinary, pending7)
+    assert p2_count == ordinary + 153 + 4 and len(manifest) == 463
     assert counts["expected-fail"] == 31 and counts["timeout-diagnostic"] == 4
-    assert counts["pending-direct"] in (0, 1, 2)
-    assert counts["retired-duplicate"] == 14 - counts["pending-direct"]
+    assert counts["pending-direct"] == sum(r["opt_in"] for name, r in by_name.items()
+                                           if name in DIRECT_NAMES)
+    assert counts["pending-direct"] in (0, 1, 2, 3)
+    assert counts["retired-duplicate"] == 13 + both_routes_ordinary
+    assert counts["historical-contract"] == 4 and counts["positive-direct"] == 4
     old_metrics = json.loads(subprocess.check_output(
         ["git", "show", f"{INTEG}:research/challenge-8/kani-k1/scope/metrics.json"], text=True))
     metrics = dict(status="ASSEMBLY_STATIC_FORECAST_ONLY", baseline=INTEG,
                    library_tree=tree, counts=dict(counts), total=len(manifest), ordinary=ordinary,
                    p2_candidate_ordinary=p2_count,
-                   p2_formula=("confirmed: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 6 - retired C 3; "
-                               "interim: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 ordinary 4 - retired C 1"),
+                   p2_formula="ordinary + 153 budget-deferred + 4 positive A-u8; ordinary is cfg-derived",
                    controls_cfg_total=len(manifest),
                    controls_failed=31,
                    pending_direct=counts["pending-direct"],
                    retired_duplicates=counts["retired-duplicate"],
                    p6_incremental=old_metrics["p6_incremental"],
                    direct_results_gcb=old_metrics["direct_results_gcb"],
+                   classification_decisions={
+                       "combined_B_u64_N6_N7": ("retired-duplicate: old combined any-stable direct callers "
+                                                 "duplicate the prepared route-split pairs; keep opt-in as retired "
+                                                 "diagnostics and exclude P2; "
+                                                 "their historical SUCCESS remains supporting evidence only"),
+                       "A_u64_N5_N8": ("historical-contract: old array-backed fixture is not equivalent to the "
+                                       "new aggregate-backed stable route; retain opt-in and exclude P2; "
+                                       "historical SUCCESS remains supporting evidence only"),
+                       "A_u8_N5_N8": "positive-direct: retain the existing four positive opt-in candidates",
+                       "conditional_C_replacement": ("retire C N6/N7/N8 only when both direct routes for that N "
+                                                      "are ordinary; current formula is retired=13+fully-promoted "
+                                                      "pairs; ordinary=182 only when at least one N7 route is "
+                                                      "ordinary, otherwise 181"),
+                   },
                    source_claims={"unstable8": ("code donor 78c040559f; G1 measured source 5ff343a759b87c3927f7f3f90981d15f30e9e946; "
                                                 "G3 measured source b177a4bd5d46ae30edf1d75379ff7c43a7f19720"),
                                   "direct_u64": ("OPT measured sources 73fb790ad0d78e81c5a2928651650398dbe7d673 and "

@@ -43,16 +43,24 @@ def main():
             assert m["p2_candidate"] == "yes" and m["p2_macos_ci"] == "UNKNOWN"
 
     counts = Counter(r["class"] for r in manifest)
-    assert counts["ordinary"] == 182, counts
+    both_routes_ordinary = sum(
+        not current_by_name[f"slice::sort::shared::smallsort::verify::merge::general_direct_u64_n{n}"]["opt_in"] and
+        not current_by_name[f"slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n{n}"]["opt_in"]
+        for n in (6, 7, 8))
+    n7_both_pending = (
+        current_by_name["slice::sort::shared::smallsort::verify::merge::general_direct_u64_n7"]["opt_in"] and
+        current_by_name["slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7"]["opt_in"])
+    assert counts["ordinary"] == 182 - int(n7_both_pending), counts
     assert counts["expected-fail"] == 31 and counts["timeout-diagnostic"] == 4
-    assert counts["pending-direct"] in (0, 1, 2)
-    assert counts["retired-duplicate"] == 14 - counts["pending-direct"]
+    assert counts["pending-direct"] in (0, 1, 2, 3)
+    assert counts["retired-duplicate"] == 13 + both_routes_ordinary
+    assert counts["historical-contract"] == 4
     assert counts["budget-deferred"] == 153
-    assert counts["positive-direct"] == 10
+    assert counts["positive-direct"] == 4
     assert counts["preexisting-opt-in"] == 68
     assert counts["deferred-unsupported"] == 1
     assert sum(counts.values()) == 463
-    assert sum(r["configuration"] == "ordinary" for r in manifest) == 182
+    assert sum(r["configuration"] == "ordinary" for r in manifest) == counts["ordinary"]
 
     expected_lists = {
         "ordinary.txt": {"ordinary"},
@@ -64,6 +72,7 @@ def main():
         "controls-failed.txt": {"expected-fail"},
         "deferred-unsupported.txt": {"deferred-unsupported"},
         "pending-direct.txt": {"pending-direct"},
+        "historical-contracts.txt": {"historical-contract"},
     }
     for filename, classes in expected_lists.items():
         assert names(filename) == {r["name"] for r in manifest if r["class"] in classes}, filename
@@ -80,6 +89,18 @@ def main():
         "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
         "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
         "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64"))
+    combined_b = {f"slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n{n}"
+                  for n in (6, 7)}
+    historical_a = {f"slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u64_n{n}"
+                    for n in range(5, 9)}
+    positive_a_u8 = {f"slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n{n}"
+                     for n in range(5, 9)}
+    assert all(by_name[n]["class"] == "retired-duplicate" and by_name[n]["p2_candidate"] == "no"
+               for n in combined_b)
+    assert all(by_name[n]["class"] == "historical-contract" and by_name[n]["p2_candidate"] == "no"
+               for n in historical_a)
+    assert all(by_name[n]["class"] == "positive-direct" and by_name[n]["p2_candidate"] == "yes"
+               for n in positive_a_u8)
 
     table = read_tsv("scope.tsv")
     assert len(table) == 463 and {r["name"] for r in table} == set(current_by_name)
@@ -97,7 +118,8 @@ def main():
 
     metrics = json.loads((HERE / "metrics.json").read_text())
     assert metrics["library_tree"] == tree
-    assert metrics["ordinary"] == 182 and metrics["p2_candidate_ordinary"] == 345
+    assert metrics["ordinary"] == 182 - int(n7_both_pending)
+    assert metrics["p2_candidate_ordinary"] == metrics["ordinary"] + 153 + 4
     assert metrics["controls_cfg_total"] == 463 and metrics["controls_failed"] == 31
     assert metrics["pending_direct"] == counts["pending-direct"]
     assert metrics["retired_duplicates"] == counts["retired-duplicate"]
@@ -105,10 +127,11 @@ def main():
     gates = read_tsv("budget-gates.tsv")
     assert all("pending-direct" not in r["class"] for r in gates)
     pr2 = json.loads((HERE / "pr2-static-check.json").read_text())
-    assert pr2["ordinary"] == pr2["expected_p2_candidate_ordinary"] == 345
+    assert pr2["ordinary"] == pr2["expected_p2_candidate_ordinary"] == metrics["p2_candidate_ordinary"]
     assert pr2["library_tree"] == tree
     assert pr2["all_names"] == 463
     assert pr2["retained_classes"] and "pending-direct" in pr2["retained_classes"]
+    assert "historical-contract" in pr2["retained_classes"]
 
     report = dict(result="PASS_STATIC_ASSEMBLY_SCOPE_FORECAST_ONLY", baseline=INTEG,
                   library_tree=tree, all_names=len(current), ordinary=counts["ordinary"],
@@ -119,7 +142,7 @@ def main():
                   classes=dict(counts),
                   limitations=["Source scan only; not Rust expansion or actual Kani inventories",
                                "Source results are historical and do not establish results on the final library tree",
-                               "Stable direct N6/N7 remain pending coordinator confirmation",
+                               "BACKING2 general N7 and stable N6/N7 remain pending coordinator source/library SHA confirmation",
                                "No compiler, Kani, CBMC or CI was run"])
     (HERE / "static-check.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(report, ensure_ascii=False, indent=2))

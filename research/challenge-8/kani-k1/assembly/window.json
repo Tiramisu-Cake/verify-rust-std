@@ -1,0 +1,17 @@
+{
+  "t0_utc": "2026-10-30T22:22:44Z",
+  "t0_msk": "2026-10-31T01:22:44+03:00",
+  "t0_basis": "Conservative bound: initial TASK commit timestamp, before this agent started; no window reset",
+  "deadline_utc": "2026-10-31T01:22:44Z",
+  "deadline_msk": "2026-10-31T04:22:44+03:00",
+  "closing_reserve_minutes": 15,
+  "planned_inventory_work_minutes": {
+    "ordinary": 30,
+    "controls": 60
+  },
+  "per_build_setup_minutes": 30,
+  "measurement_envelope_minutes": 80,
+  "dispatch_rule": "Before every build recompute remaining wall time and own spent/reserved. Whole next envelope plus 15min closing reserve must fit remaining window. Otherwise stop PARTIAL; do not shorten proof timeout.",
+  "inventory_plan": "May dispatch both inventories before watch/end-turn; each request gets own research source SHA, same frozen library tree",
+  "go": "NOT_RECEIVED"
+}

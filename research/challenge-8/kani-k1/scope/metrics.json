@@ -1,26 +1,27 @@
 {
   "status": "ASSEMBLY_STATIC_FORECAST_ONLY",
   "baseline": "ddcc33f837",
-  "library_tree": "3548f769bc3c1c68ff7aa01c56e100ba0f27fbb7",
+  "library_tree": "2976c90fc67d06bfe64119828ed0c5ea12653b48",
   "counts": {
-    "ordinary": 182,
+    "ordinary": 181,
     "expected-fail": 31,
     "preexisting-opt-in": 68,
     "budget-deferred": 153,
-    "positive-direct": 10,
+    "pending-direct": 3,
+    "retired-duplicate": 14,
     "timeout-diagnostic": 4,
-    "retired-duplicate": 12,
-    "pending-direct": 2,
+    "historical-contract": 4,
+    "positive-direct": 4,
     "deferred-unsupported": 1
   },
   "total": 463,
-  "ordinary": 182,
-  "p2_candidate_ordinary": 345,
-  "p2_formula": "confirmed: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 6 - retired C 3; interim: INTEG 339 + UNSTABLE8 ordinary 3 + direct u64 ordinary 4 - retired C 1",
+  "ordinary": 181,
+  "p2_candidate_ordinary": 338,
+  "p2_formula": "ordinary + 153 budget-deferred + 4 positive A-u8; ordinary is cfg-derived",
   "controls_cfg_total": 463,
   "controls_failed": 31,
-  "pending_direct": 2,
-  "retired_duplicates": 12,
+  "pending_direct": 3,
+  "retired_duplicates": 14,
   "p6_incremental": {
     "returned_count": 31,
     "returned_known_vt_s": 1159.9,
@@ -61,6 +62,12 @@
       "timeout_count": 2,
       "gcb_rss_max_kib": 9454264
     }
+  },
+  "classification_decisions": {
+    "combined_B_u64_N6_N7": "retired-duplicate: old combined any-stable direct callers duplicate the prepared route-split pairs; keep opt-in as retired diagnostics and exclude P2; their historical SUCCESS remains supporting evidence only",
+    "A_u64_N5_N8": "historical-contract: old array-backed fixture is not equivalent to the new aggregate-backed stable route; retain opt-in and exclude P2; historical SUCCESS remains supporting evidence only",
+    "A_u8_N5_N8": "positive-direct: retain the existing four positive opt-in candidates",
+    "conditional_C_replacement": "retire C N6/N7/N8 only when both direct routes for that N are ordinary; current formula is retired=13+fully-promoted pairs; ordinary=182 only when at least one N7 route is ordinary, otherwise 181"
   },
   "source_claims": {
     "unstable8": "code donor 78c040559f; G1 measured source 5ff343a759b87c3927f7f3f90981d15f30e9e946; G3 measured source b177a4bd5d46ae30edf1d75379ff7c43a7f19720",

@@ -45,7 +45,12 @@ def main():
         old, current = item_map(source(module, BASE)), item_map(source(module))
         assert old.keys() <= current.keys(), module
         for k, body in old.items():
-            assert normalized(body) == normalized(current[k]), (module, k)
+            actual = current[k]
+            if k == ('fn', 'general_stable_direct_value_corruption_control_u64_n2'):
+                added_cover = '    kani::cover(true, "general/stable direct sort returns before payload corruption");\n'
+                assert actual.count(added_cover) == 1
+                actual = actual.replace(added_cover, '')
+            assert normalized(body) == normalized(actual), (module, k)
     merge = source('merge')
     opt = nested(source('merge', OPT), 'opt_split')
     backing = nested(source('merge', BACKING), 'backing')
@@ -89,25 +94,44 @@ def main():
     ordinary = {r['name'].split('::verify::')[1] for r in records if not r['opt_in']}
     confirmed = [n for n in (6, 7) if f'merge::stable_direct_u64_n{n}' in ordinary]
     for n in (6, 7, 8):
-        assert f'merge::general_direct_u64_n{n}' in ordinary
+        if n != 7:
+            assert f'merge::general_direct_u64_n{n}' in ordinary
         assert (f'merge::general_stable_sorted_permutation_u64_n{n}' in ordinary) == (
-            f'merge::stable_direct_u64_n{n}' not in ordinary)
+            not (f'merge::general_direct_u64_n{n}' in ordinary and
+                 f'merge::stable_direct_u64_n{n}' in ordinary))
     for n in (6, 7, 8):
         assert f'merge::general_stable_direct_u64_n{n}' not in ordinary
         assert f'merge::merge_scratch48_contract_u64_n{n}' not in ordinary
-    assert len(records) == 463 and len(ordinary) == 182
+    direct_ordinary = sum(f'merge::{route}_direct_u64_n{n}' in ordinary
+                          for route in ('general', 'stable') for n in (6, 7, 8))
+    retired_c = sum(f'merge::general_stable_sorted_permutation_u64_n{n}' not in ordinary
+                    for n in (6, 7, 8))
+    expected_ordinary = 176 + 3 + direct_ordinary - retired_c
+    assert len(records) == 463 and len(ordinary) == expected_ordinary
     changed = subprocess.check_output(['git', 'diff', BASE, '--name-only', '--', 'library'], text=True).splitlines()
     assert set(changed) == {str(ROOT / (m + '.rs')) for m in ('merge', 'types')}
     for path in changed:
         assert max(map(len, Path(path).read_text().splitlines())) <= 100, path
+    oracle = function(merge, 'assert_sorted_and_probe_preserved')
+    oracle_start = merge.index(oracle)
+    oracle_line = merge.count('\n', 0, oracle_start) + 1
+    sorted_line = oracle_line + oracle[:oracle.index('        assert!')].count('\n')
+    count_line = oracle_line + oracle[:oracle.index('    assert!(\n')].count('\n')
+    count_end = oracle_line + oracle[:oracle.index('    );', oracle.index('    assert!(\n'))].count('\n')
+    assert sorted_line < count_line <= count_end
     report = dict(result='PASS_STATIC_SOURCE_TRANSFER_ONLY', baseline=BASE,
+                  oracle_source_coordinates=dict(path=str(ROOT / 'merge.rs'),
+                      sortedness_assert=sorted_line, count_assert_start=count_line,
+                      count_assert_end=count_end, basis='Derived from final source; not a measured result'),
                   library_commit=subprocess.check_output(['git', 'log', '-1', '--format=%H', '--', 'library'], text=True).strip(),
                   library_tree=subprocess.check_output(['git', 'rev-parse', 'HEAD:library'], text=True).strip(),
                   sources=dict(OPT=OPT, BACKING2=BACKING, UNSTABLE8=UNSTABLE),
-                  production_and_comparators_match=True, baseline_items_preserved_except_cfg=True,
+                  production_and_comparators_match=True, baseline_items_preserved_except_cfg_and_control_cover=True,
+                  direct_corruption_pre_mutation_cover_added=True,
                   direct_helpers_and_controls_match_donors=True, unwind_and_oracle_unchanged=True,
                   general_helper_change='union of permitted N literals and relative path after flattening',
-                  ordinary=182, controls_cfg=463, stable_n6_n7_promoted=confirmed,
+                  ordinary=len(ordinary), controls_cfg=463, stable_n6_n7_promoted=confirmed,
+                  general_n7_promoted='merge::general_direct_u64_n7' in ordinary,
                   limitations=['No Rust expansion, compiler warnings, inventory or proof result',
                                'Donor SUCCESS is historical; no proof credit for the assembled tree'])
     (HERE / 'source-audit.json').write_text(json.dumps(report, indent=2) + '\n')

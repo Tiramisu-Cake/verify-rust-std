@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transfer only the ASSEMBLY blocks; stable N6/N7 await coordinator confirmation."""
+"""Transfer only the ASSEMBLY blocks; BACKING2 entries await coordinator confirmation."""
 import subprocess
 import textwrap
 from pathlib import Path
@@ -62,7 +62,8 @@ def prepare(confirmed=False):
 '''
     for route in ('general', 'stable'):
         for n in (6, 7, 8):
-            if route == 'stable' and n in (6, 7) and not confirmed:
+            if not confirmed and ((route == 'stable' and n in (6, 7)) or
+                                  (route == 'general' and n == 7)):
                 group += CFG
             group += (f'define_direct_u64_route_harness!({route}_direct_u64_n{n}, '
                       f'{route}_direct_u64_properties, {n});\n')
@@ -85,6 +86,10 @@ def prepare(confirmed=False):
             item = f'define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n{n},'
             assert CFG + item not in merge
             merge = merge.replace(item, CFG + item)
+    control = merge.index('fn general_stable_direct_value_corruption_control_u64_n2()')
+    flip = merge.index('    v[0] ^= 1;', control)
+    cover = '    kani::cover(true, "general/stable direct sort returns before payload corruption");\n'
+    merge = merge[:flip] + cover + merge[flip:]
     (ROOT / 'merge.rs').write_text(merge)
 
 
