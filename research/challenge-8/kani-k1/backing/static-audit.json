@@ -1,0 +1,43 @@
+{
+  "base_sha": "e5a0d8dd511730f374e2f757c8ac37f733062842",
+  "reuse_a_source_sha": "c81c10e3061e07bb83c732d81413632ada757d2c",
+  "checks": {
+    "merge.rs": {
+      "original_prefix_preserved": true,
+      "appended_lines": 88
+    },
+    "network.rs": {
+      "original_prefix_preserved": true,
+      "appended_lines": 56
+    },
+    "B_body_except_backing_and_adapter": true,
+    "dispatch_true_branch_except_backing_and_adapter": true,
+    "G2_to_base_identical_dependencies": {
+      "library/core/src/slice/sort/shared/smallsort.rs":
+      "2675d6128dcad0d4e79f8d1a8d2843bd4577448321e43035b5b1cfb18afdc31c",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs":
+      "a6da0f6147db12832208367d21001bdd898d68e50a1b5c7fb4e5d2e6a74c9078",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs":
+      "048b06785400b838f273ec41d17de2675cc613954131c18c199f8f881d43b2aa",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs":
+      "440b5d5fd85a8d233d604d3005af45ad938c1aae02709116744806fc6c9fb50f",
+      "library/core/src/slice/sort/shared/mod.rs":
+      "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "tool_config/kani-version.toml":
+      "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0",
+      "rust-toolchain.toml": "7a7edb1ec1b265bdcd1ec61a007000821285f4f18d64aff6b3621e203be323ec",
+      "research/challenge-8/kani-k1/tools/kani_k1.py":
+      "55d62136ad9ab71eb5c0fbd470904ecf20b1ecbb8ab34cca1bbdeff9efc8494e",
+      "research/challenge-8/kani-k1/tools/gcb-k1.sh":
+      "2547fc997b057dd41fee896b7c5aac4279a339470992433cb1b46b0145a97812",
+      "research/challenge-8/kani-k1/gcb/cloudbuild.yaml":
+      "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      ".github/workflows/kani.yml":
+      "587cf2116075865fe641bee4da47b96cc22f71ca06433f7cb6f63b3439828577"
+    },
+    "request_names_and_envelope": true,
+    "G2_to_base_whole_library_identical": true
+  },
+  "local_proof_tools_run": false
+}
