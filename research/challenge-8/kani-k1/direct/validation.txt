@@ -1,0 +1,14 @@
+Rustfmt exit=0
+Command: /tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh --check --edition 2024 --config-path /tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/fmtcfg/rustfmt.toml library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+Source audit: pre-existing merge.rs source unchanged after removing one additive block.
+Delta from 63fc45e7: +121/-0 lines, one library file.
+Request/summary audit: 31 observations matched exact request names, build ID, source SHA, request SHA-256.
+RSS audit: all 31 CBMC processes have direct metadata resolution, one match, exact build/source/Kani pin.
+All successful B/A/C property harnesses: zero failed checks, covers=2/2.
+B: 13 SUCCESS, 2 TIMEOUT (600-second limit, unknown VT).
+A: 9 SUCCESS, both backing forms covered for each.
+C: 4 SUCCESS (u64 N6..8, u8 N9), both routes covered for each.
+Controls in G2: exactly one intended failed check each; A control cover=1/1.
+Tooling checks G1/G2/G3: exit=0, base 63fc45e7b2b3e23c6129428425df602ef427156e.
+Cloud Build ledger: 3 finished builds, spent=1.4040 USD, reserved=0.0000 USD.
+Report: 93 lines, max width=99.
