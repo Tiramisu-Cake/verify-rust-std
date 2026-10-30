@@ -1,4 +1,4 @@
-# INTEG validation plan — source forecasts only; CI NOT RUN
+# INTEG validation plan — inventories checked; proofs NOT RUN
 
 Target library tree: `4dd5393bbb4524104c8b05cb70910c6836c3b8de`, after INTEG and without OPT/UNSTABLE8. The
 current source inventory predicts 176 ordinary P1 names and 449 total with controls. The P2 candidate patch
@@ -55,3 +55,12 @@ harmonics and −245.6 s for the 11 retired callers. New DIRECT ordinary Mac VT 
 and RSS remain separate per-harness data in [`scope.tsv`](scope.tsv). P-7 autoharness, division by job count,
 and GCB-to-Mac conversion are excluded. Historical C3a records remain in `c3a-evidence.json` and are not
 rewritten as new results.
+
+## Completed INTEG inventory checks
+
+On the same library tree, K-1 listed exactly 176 ordinary names on `91a8566276` and 449 names with controls
+on `7da2486dc3`. Exact sets match the manifests; no `unused_`/`dead_code`/`smallsort/verify` grep matches
+were found in either successful inventory log. The initial 10-minute list timed out, consuming one slot.
+The three-build task limit is exhausted; no controls/smoke measurement was dispatched. The candidate request
+and required file:line binding are recorded in `../integ/measurement-candidate.request.json` and
+`../integ/source-audit.json`. Inventory success is not successful verification of any property.

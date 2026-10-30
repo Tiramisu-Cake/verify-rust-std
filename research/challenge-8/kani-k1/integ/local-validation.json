@@ -1,0 +1,42 @@
+{
+  "result": "PASS_LOCAL_STATIC_INTEG",
+  "library_commit": "b7cd8235fbe4f23d92c9b80635f0c5ce9a5dbc1c",
+  "library_tree": "4dd5393bbb4524104c8b05cb70910c6836c3b8de",
+  "scripts": {
+    "prepare_scope.py": {
+      "exit_code": 0
+    },
+    "prepare_pr2.py": {
+      "exit_code": 0
+    },
+    "check_scope.py": {
+      "exit_code": 0
+    },
+    "check_helpers.py": {
+      "exit_code": 0
+    }
+  },
+  "python_ast": "PASS",
+  "network_normalized_bodies_unchanged": true,
+  "rustfmt_exit_code": 0,
+  "rustfmt_edition": "2024",
+  "rust_max_line_length": {
+    "merge.rs": 100,
+    "network.rs": 100
+  },
+  "comment_lines": {
+    "merge.rs": {
+      "before": 94,
+      "after": 93
+    },
+    "network.rs": {
+      "before": 54,
+      "after": 54
+    }
+  },
+  "local_rustc_cargo_kani_cbmc_run": false,
+  "p1_static": 176,
+  "p2_static": 339,
+  "controls_static": 449,
+  "formal_verification_current_tree": "NOT_RUN; all 3 builds used for inventories including retry"
+}

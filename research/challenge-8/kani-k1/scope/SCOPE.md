@@ -26,7 +26,7 @@ and u8 N9 remain TIMEOUT diagnostics; the two controls remain expected failures.
 from `direct/results.tsv`, measured on pilot library tree `e16a8ee5`; their macOS candidate status remains
 UNKNOWN. The current INTEG source tree remains `4dd5393bbb4524104c8b05cb70910c6836c3b8de`.
 
-The 11 retired callers were checked against their C harnesses: they use the same helper and T/F/N, cover both
+The 11 retired C callers were checked against their B counterparts: they use the same helper and T/F/N, cover both
 branches, use the shared oracle, and have no name consumers. They remain present under controls. The matching B
 callers stay ordinary. Ordinary C u64 N6..8 remains conditional on supporting A u64 proofs; A status is recorded
 per row in the manifests.
@@ -76,3 +76,14 @@ python3 research/challenge-8/kani-k1/scope/check_helpers.py
 
 These checks use a narrow Python source scan and token-reference helper forecast. They do not run a compiler,
 Kani, CBMC, or CI. The positive DIRECT P2 candidate and combined branch still require organizer CI.
+
+## INTEG inventory evidence
+
+The actual K-1 ordinary inventory on `91a8566276` has exactly 176 names; the controls inventory on
+`7da2486dc3` has exactly 449. Both used this same library tree. Exact name sets match the manifests:
+[ordinary check](../integ/g2.inventory-check.json), [controls check](../integ/g3.inventory-check.json).
+Both `unused_`/`dead_code`/`smallsort/verify` log searches returned no matches; tooling equals initial HEAD.
+These inventory runs compile and list harnesses; they do not verify their properties. INTEG used all three
+build slots after one list timeout; the revised controls and smoke measurement were not run.
+The current local report is [integ/local-validation.json](../integ/local-validation.json).
+`scope/local-validation.json` is the preserved historical SCOPE-B record, not an INTEG result.

@@ -113,7 +113,7 @@ def main():
                   p2_candidate_ordinary=339, classes=dict(counts), direct_ordinary=len(DIRECT_ORDINARY),
                   direct_positive_optin=len(DIRECT_POSITIVE), direct_timeouts=len(DIRECT_TIMEOUT),
                   direct_controls=len(DIRECT_FAILED), retired_duplicates=len(RETIRED),
-                  plain_insertions_returned=len(returned),
+                  cheap_harmonics_returned=len(returned), plain_insertions_returned=27,
                   limitations=["Source scan, not Rust expansion or kani list",
                                "No compiler/Kani/build evidence was run by this static check",
                                "Positive DIRECT P2 candidate has no macOS CI evidence"])
