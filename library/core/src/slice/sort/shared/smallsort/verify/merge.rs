@@ -1508,8 +1508,19 @@ mod backing {
         }
     }
 
+    fn general_direct_body<const N: usize>() {
+        const { assert!(N == 7) };
+        set_value_probe::<u64>();
+        let mut v: [u64; N] = kani::any();
+        let orig = v;
+        let mut cmp = lt_u64;
+        super::super::super::small_sort_general(&mut v, &mut cmp);
+        assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+        kani::cover(true, "general direct split properties checked");
+    }
+
     fn stable_direct_body<const N: usize>() {
-        const { assert!(N == 6 || N == 8) };
+        const { assert!(N == 6 || N == 7 || N == 8) };
         set_value_probe::<u64>();
         let mut v: [u64; N] = kani::any();
         let orig = v;
@@ -1519,6 +1530,26 @@ mod backing {
         <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, scratch, &mut cmp);
         assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
         kani::cover(true, "stable direct split properties checked");
+    }
+
+    #[kani::proof]
+    #[kani::unwind(34)]
+    fn general_direct_u64_n7() {
+        // N7 merges unequal halves of length 3 and 4.
+        general_direct_body::<7>();
+    }
+
+    #[kani::proof]
+    #[kani::unwind(34)]
+    fn stable_direct_u64_n6() {
+        stable_direct_body::<6>();
+    }
+
+    #[kani::proof]
+    #[kani::unwind(34)]
+    fn stable_direct_u64_n7() {
+        // N7 merges unequal halves of length 3 and 4.
+        stable_direct_body::<7>();
     }
 
     #[kani::proof]
