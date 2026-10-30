@@ -1,57 +1,31 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "direct-b-remaining",
-  "agent": "k1-network",
+  "request_id": "unstable8-gate-20261030",
+  "agent": "k1-merge",
   "kind": "measurement",
   "runner": "gcb-e2-standard-4",
-  "purpose": "DIRECT final B u64 N5..7 and u8 N5..8 after successful scratch48 A; unchanged stubbed callers u64 N6..8/u8 N9 check composition for costly B cells. Envelope 11*10+30=140 min, $1.89.",
+  "purpose": "UNSTABLE8 gate: real DropKey and read-only Cell<u8> trait routes at N8; unchanged logical oracle and two named negative controls. Envelope 4*10+30=70 min, $0.9450 reserved; own limit $4 and 3 builds. Pre-build review required before dispatch.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
-  "controls": false,
+  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n6",
+      "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n7",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_permutation_drop_n2",
+      "expect": "FAILED",
+      "expect_check": "count(input, probe) == count(output, probe)"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n9",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n6",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n7",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::types::reject_logical_sortedness_cell_n2",
+      "expect": "FAILED",
+      "expect_check": "output[i - 1] <= output[i]"
     }
   ]
 }
