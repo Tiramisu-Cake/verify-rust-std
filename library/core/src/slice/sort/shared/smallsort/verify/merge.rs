@@ -904,6 +904,53 @@ macro_rules! define_general_sortedness_harness {
     };
 }
 
+// Direct callers retain the same oracle and routes, with the real merge body.
+macro_rules! define_general_direct_harness {
+    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            general_route_properties::<$t, _, $n>($cmp);
+        }
+    };
+}
+
+define_general_direct_harness!(general_stable_direct_u64_n2, u64, lt_u64, 2);
+define_general_direct_harness!(general_stable_direct_u64_n3, u64, lt_u64, 3);
+define_general_direct_harness!(general_stable_direct_u64_n4, u64, lt_u64, 4);
+define_general_direct_harness!(general_stable_direct_u64_n5, u64, lt_u64, 5);
+define_general_direct_harness!(general_stable_direct_u64_n6, u64, lt_u64, 6);
+define_general_direct_harness!(general_stable_direct_u64_n7, u64, lt_u64, 7);
+define_general_direct_harness!(general_stable_direct_u64_n8, u64, lt_u64, 8);
+define_general_direct_harness!(general_stable_direct_u8_n2, u8, lt_u8, 2);
+define_general_direct_harness!(general_stable_direct_u8_n3, u8, lt_u8, 3);
+define_general_direct_harness!(general_stable_direct_u8_n4, u8, lt_u8, 4);
+define_general_direct_harness!(general_stable_direct_u8_n5, u8, lt_u8, 5);
+define_general_direct_harness!(general_stable_direct_u8_n6, u8, lt_u8, 6);
+define_general_direct_harness!(general_stable_direct_u8_n7, u8, lt_u8, 7);
+define_general_direct_harness!(general_stable_direct_u8_n8, u8, lt_u8, 8);
+define_general_direct_harness!(general_stable_direct_u8_n9, u8, lt_u8, 9);
+
+// Flip a payload bit after real sorting: keys stay sorted, full-value counts must detect it.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_value_corruption_control_u64_n2() {
+    set_value_probe::<u64>();
+    let mut v: [u64; 2] = kani::any();
+    let orig = v;
+    let stable: bool = kani::any();
+    let mut cmp = lt_u64;
+    if stable {
+        let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    } else {
+        super::super::small_sort_general(&mut v, &mut cmp);
+    }
+    v[0] ^= 1;
+    assert_sorted_and_probe_preserved::<u64, _, 2>(&orig, &v, &mut cmp);
+}
+
 macro_rules! define_fallback_property_harness {
     ($name:ident, $n:literal) => {
         #[kani::proof]
