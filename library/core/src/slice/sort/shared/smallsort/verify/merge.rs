@@ -985,6 +985,7 @@ macro_rules! define_direct_u64_route_harness {
 }
 
 define_direct_u64_route_harness!(general_direct_u64_n6, general_direct_u64_properties, 6);
+#[cfg(kani_smallsort_controls)]
 define_direct_u64_route_harness!(general_direct_u64_n7, general_direct_u64_properties, 7);
 define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_properties, 8);
 #[cfg(kani_smallsort_controls)]
