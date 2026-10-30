@@ -1429,7 +1429,7 @@ mod backing {
     #[kani::proof]
     #[kani::stub(
         crate::slice::sort::shared::smallsort::panic_on_ord_violation,
-        assume_order_violation
+        super::assume_order_violation
     )]
     #[kani::unwind(65)]
     fn dispatch_safety_stable_bytes17_n32_old() {
@@ -1440,7 +1440,7 @@ mod backing {
     #[kani::proof]
     #[kani::stub(
         crate::slice::sort::shared::smallsort::panic_on_ord_violation,
-        assume_order_violation
+        super::assume_order_violation
     )]
     #[kani::unwind(65)]
     fn dispatch_safety_stable_bytes17_n32_new() {
