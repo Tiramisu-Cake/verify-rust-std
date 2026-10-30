@@ -377,6 +377,63 @@ where
 /// types. `is_less` could be a huge function and we want to give the compiler an option to
 /// not inline this function. For the same reasons that this function is very perf critical
 /// it should be in the same module as the functions that use it.
+// Contract: both positions in-bounds of `v_base`'s allocation, readable and
+// writable, as the SAFETY comment below demands; distinct, as at every call site. `old(e)` expands
+// to `e.clone()`, so the pre-state is kept in a local bitwise-clone snapshot instead of `old(*p)`.
+// The comparator decision is recorded in the pre-state, so no `FnMut` call is needed in `ensures`.
+#[cfg_attr(kani, kani::requires(a_pos != b_pos))]
+#[cfg_attr(kani, kani::requires(
+    crate::ub_checks::same_allocation(v_base as *const T, v_base.wrapping_add(a_pos) as *const T)
+        && crate::ub_checks::same_allocation(
+            v_base as *const T,
+            v_base.wrapping_add(b_pos) as *const T,
+        )
+        && crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos) as *const T)
+        && crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos) as *const T)
+        && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
+        && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
+))]
+#[cfg_attr(kani, kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
+#[cfg_attr(kani, kani::ensures(|_| {
+    fn same<U>(x: &U, y: &U) -> bool {
+        // SAFETY: both point to initialized values of `U`; compared as their bytes.
+        unsafe {
+            slice::from_raw_parts(x as *const U as *const u8, size_of::<U>())
+                == slice::from_raw_parts(y as *const U as *const u8, size_of::<U>())
+        }
+    }
+    let pre = &old({
+        struct Pre<U>(ManuallyDrop<U>, ManuallyDrop<U>, bool);
+        impl<U> Clone for Pre<U> {
+            fn clone(&self) -> Self {
+                // SAFETY: a bitwise snapshot; `ManuallyDrop` keeps it from being dropped.
+                unsafe { ptr::read(self) }
+            }
+        }
+        // SAFETY: the preconditions make both positions readable.
+        unsafe {
+            Pre(
+                ManuallyDrop::new(ptr::read(v_base.add(a_pos))),
+                ManuallyDrop::new(ptr::read(v_base.add(b_pos))),
+                is_less(&*v_base.add(b_pos), &*v_base.add(a_pos)),
+            )
+        }
+    });
+    // SAFETY: the preconditions make both positions readable.
+    let (new_a, new_b) = unsafe { (&*v_base.add(a_pos), &*v_base.add(b_pos)) };
+    if pre.2 {
+        same(new_a, &*pre.1) && same(new_b, &*pre.0)
+    } else {
+        same(new_a, &*pre.0) && same(new_b, &*pre.1)
+    }
+}))]
+// The pair is ordered on return. This post-state call through the pre-state raw pointer
+// is valid only for stateless comparators, as used by all contract proofs and verified callers.
+#[cfg_attr(kani, kani::ensures(|_| {
+    let f = old(&raw mut *is_less);
+    // SAFETY: `f` points to the caller's comparator, alive for the whole call.
+    unsafe { !(*f)(&*v_base.add(b_pos), &*v_base.add(a_pos)) }
+}))]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -533,6 +590,22 @@ where
 ///
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
+// Contract: safety conditions above plus the sorted-prefix invariant at insertion call sites.
+// `[begin, tail)` is sorted by `is_less`; no arbitrary-comparator correctness claim is made.
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_sorted_tail(begin, tail, &is_less)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(
+    begin,
+    CopyOnDrop::<T>::tail_region_len(begin, tail),
+)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted(
+    begin,
+    CopyOnDrop::<T>::tail_region_len(begin, tail),
+    &is_less,
+)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    old(CopyOnDrop::<T>::probe_count(begin, CopyOnDrop::<T>::tail_region_len(begin, tail)))
+        == CopyOnDrop::<T>::probe_count(begin, CopyOnDrop::<T>::tail_region_len(begin, tail))
+))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {
@@ -603,6 +676,14 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
 
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
+// Contract: safety conditions above; source and destination are disjoint at
+// every call site (sort8_stable, small_sort_general_with_scratch: `v` and `scratch` are distinct).
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_sort4_regions(v_base, dst)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted(dst, 4, &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::probe_count(v_base, 4) == CopyOnDrop::<T>::probe_count(dst, 4)
+))]
 pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
     v_base: *const T,
     dst: *mut T,
@@ -751,6 +832,20 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 ///
 /// Note that T must be Freeze, the comparison function is evaluated on outdated
 /// temporary 'copies' that may not end up in the final array.
+// Contract: safety conditions above plus the documented input shape
+// "v[..len / 2] and v[len / 2..] are sorted"; `is_less` being a strict weak order is fixed by the
+// harness comparators (see verify/merge.rs). `v.len() <= 32` holds at every call site
+// (small_sort_general_with_scratch and small_sort_network up to their threshold 32, sort8_stable 8)
+// and bounds the loop-free specification helpers.
+#[cfg_attr(kani, kani::requires(v.len() >= 2 && v.len() <= 32))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::valid_merge_destination(v, dst)))]
+#[cfg_attr(kani, kani::requires(CopyOnDrop::<T>::merge_inputs_are_sorted(v, &is_less)))]
+#[cfg_attr(kani, kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
+#[cfg_attr(kani, kani::ensures(|_| CopyOnDrop::<T>::is_sorted_unrolled(dst, v.len(), &is_less)))]
+#[cfg_attr(kani, kani::ensures(|_|
+    CopyOnDrop::<T>::probe_count_unrolled(v.as_ptr(), v.len())
+        == CopyOnDrop::<T>::probe_count_unrolled(dst, v.len())
+))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
@@ -859,3 +954,10 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
     // Heuristic that holds true on all tested 64-bit capable architectures.
     size_of::<T>() <= 8 // size_of::<u64>()
 }
+
+// Bounded SmallSort verification; contracts and harnesses are isolated from ordinary Rust builds.
+#[cfg(kani)]
+use crate::kani;
+#[cfg(kani)]
+#[unstable(feature = "kani", issue = "none")]
+mod verify;
