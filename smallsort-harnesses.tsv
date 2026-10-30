@@ -1,0 +1,424 @@
+harness	part1	part2	expected	p6_ubuntu	p6_ubuntu_vt_s	p6_macos	p6_macos_vt_s	p7_ubuntu	p7_macos	p7_auto_ubuntu_vt_s	p7_auto_macos_vt_s
+assembly::advancement_merge_up_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	0.3	SUCCESSFUL	0.5	SUCCESSFUL	SUCCESSFUL	0.4	0.5
+assembly::permutation_merge_u8_n4	ordinary	ordinary	pass	SUCCESSFUL	0.7	SUCCESSFUL	1.3	SUCCESSFUL	SUCCESSFUL	0.9	1.2
+assembly::reject_mutant_insert_tail_u8_n2	opt-in	opt-in	fail								
+assembly::reject_mutant_merge_u8_n4	opt-in	opt-in	fail								
+assembly::reject_mutant_merge_up_u8_n2	opt-in	opt-in	fail								
+assembly::reject_mutant_network_prefix_u8_n10	opt-in	opt-in	fail								
+assembly::reject_mutant_swap_u8_n2	opt-in	opt-in	fail								
+assembly::safety_stable_unit_n1	ordinary	ordinary	pass	SUCCESSFUL	0.1	SUCCESSFUL	0.1	SUCCESSFUL	SUCCESSFUL	0.1	0.2
+assembly::safety_stable_unit_n16	ordinary	ordinary	pass	SUCCESSFUL	2.6	SUCCESSFUL	4.2	SUCCESSFUL	SUCCESSFUL	3.0	3.7
+assembly::safety_stable_unit_n17	ordinary	ordinary	pass	SUCCESSFUL	5.6	SUCCESSFUL	8.6	SUCCESSFUL	SUCCESSFUL	8.3	10.4
+assembly::safety_stable_unit_n2	ordinary	ordinary	pass	SUCCESSFUL	0.3	SUCCESSFUL	0.5	SUCCESSFUL	SUCCESSFUL	0.4	0.6
+assembly::safety_stable_unit_n31	ordinary	ordinary	pass	SUCCESSFUL	23.4	SUCCESSFUL	38.8	SUCCESSFUL	SUCCESSFUL	35.0	40.0
+assembly::safety_stable_unit_n32	ordinary	ordinary	pass	SUCCESSFUL	18.1	SUCCESSFUL	23.9	SUCCESSFUL	SUCCESSFUL	25.6	33.9
+assembly::safety_stable_unit_n7	ordinary	ordinary	pass	SUCCESSFUL	6.0	SUCCESSFUL	6.8	SUCCESSFUL	SUCCESSFUL	9.3	10.3
+assembly::safety_stable_unit_n8	ordinary	ordinary	pass	SUCCESSFUL	1.1	SUCCESSFUL	1.8	SUCCESSFUL	SUCCESSFUL	1.8	2.8
+assembly::sorted_network_prefix_u8_n10	ordinary	ordinary	pass	SUCCESSFUL	2.6	SUCCESSFUL	5.1	SUCCESSFUL	SUCCESSFUL	4.0	4.5
+assembly::sorted_permutation_insert_tail_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	0.1	SUCCESSFUL	0.2	SUCCESSFUL	SUCCESSFUL	0.2	0.4
+assembly::sorted_permutation_swap_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	0.2	SUCCESSFUL	0.3	SUCCESSFUL	SUCCESSFUL	0.3	0.3
+correct::contract_insert_tail_u64_scratch	opt-in	opt-in	pass								
+correct::contract_insert_tail_u8_prefix	ordinary	ordinary	pass	SUCCESSFUL	64.0	SUCCESSFUL	79.8	SUCCESSFUL	SUCCESSFUL	119.5	89.1
+correct::contract_insert_tail_u8_scratch	opt-in	ordinary	pass	SUCCESSFUL	129.7	SUCCESSFUL	164.8				
+correct::reject_unsorted_prefix_insert_tail_u8_n3	opt-in	opt-in	fail								
+correct::sorted_permutation_fallback_u64_n10	opt-in	ordinary	pass	SUCCESSFUL	40.4	SUCCESSFUL	75.5				
+correct::sorted_permutation_fallback_u64_n11	opt-in	ordinary	pass	SUCCESSFUL	57.1	SUCCESSFUL	102.1				
+correct::sorted_permutation_fallback_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	70.6	SUCCESSFUL	161.6				
+correct::sorted_permutation_fallback_u64_n13	opt-in	ordinary	pass	SUCCESSFUL	82.3	SUCCESSFUL	199.2				
+correct::sorted_permutation_fallback_u64_n14	opt-in	ordinary	pass	SUCCESSFUL	97.9	SUCCESSFUL	213.5				
+correct::sorted_permutation_fallback_u64_n15	opt-in	ordinary	pass	SUCCESSFUL	118.9	SUCCESSFUL	255.5				
+correct::sorted_permutation_fallback_u64_n16	opt-in	ordinary	pass	SUCCESSFUL	133.3	SUCCESSFUL	285.6				
+correct::sorted_permutation_fallback_u64_n8	opt-in	ordinary	pass	SUCCESSFUL	27.1	SUCCESSFUL	43.2				
+correct::sorted_permutation_fallback_u64_n9	opt-in	ordinary	pass	SUCCESSFUL	35.7	SUCCESSFUL	72.8				
+correct::sorted_permutation_fallback_u8_n10	opt-in	ordinary	pass	SUCCESSFUL	38.0	SUCCESSFUL	76.4				
+correct::sorted_permutation_fallback_u8_n11	opt-in	ordinary	pass	SUCCESSFUL	46.7	SUCCESSFUL	98.5				
+correct::sorted_permutation_fallback_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	55.9	SUCCESSFUL	130.8				
+correct::sorted_permutation_fallback_u8_n13	opt-in	ordinary	pass	SUCCESSFUL	65.7	SUCCESSFUL	142.6				
+correct::sorted_permutation_fallback_u8_n14	opt-in	ordinary	pass	SUCCESSFUL	80.2	SUCCESSFUL	182.2				
+correct::sorted_permutation_fallback_u8_n15	opt-in	ordinary	pass	SUCCESSFUL	100.6	SUCCESSFUL	319.0				
+correct::sorted_permutation_fallback_u8_n16	opt-in	ordinary	pass	SUCCESSFUL	116.6	SUCCESSFUL	270.2				
+correct::sorted_permutation_fallback_u8_n9	opt-in	ordinary	pass	SUCCESSFUL	30.1	SUCCESSFUL	49.9				
+correct::sorted_permutation_general_stable_u64_n15	opt-in	opt-in	pass								
+correct::sorted_permutation_general_stable_u8_n14	opt-in	ordinary	pass	SUCCESSFUL	111.2	SUCCESSFUL	168.4				
+correct::sorted_permutation_general_stable_u8_n15	opt-in	ordinary	pass	SUCCESSFUL	136.0	SUCCESSFUL	235.8				
+merge::drop_duplicate_tag_control_n2	opt-in	opt-in	fail								
+merge::drop_extra_drop_control_n2	opt-in	opt-in	fail								
+merge::drop_fallback_drop_count_n2	ordinary	ordinary	pass	SUCCESSFUL	0.4	SUCCESSFUL	1.6	SUCCESSFUL	SUCCESSFUL	0.7	0.6
+merge::drop_fallback_drop_count_n4	ordinary	ordinary	pass	SUCCESSFUL	1.0	SUCCESSFUL	1.4	SUCCESSFUL	SUCCESSFUL	1.5	1.4
+merge::drop_fallback_drop_count_n8	ordinary	ordinary	pass	SUCCESSFUL	3.1	SUCCESSFUL	4.5	SUCCESSFUL	SUCCESSFUL	4.8	3.4
+merge::drop_fallback_tag_permutation_n2	ordinary	ordinary	pass	SUCCESSFUL	0.6	SUCCESSFUL	1.0	SUCCESSFUL	SUCCESSFUL	1.0	0.9
+merge::drop_fallback_tag_permutation_n4	ordinary	ordinary	pass	SUCCESSFUL	1.4	SUCCESSFUL	2.5	SUCCESSFUL	SUCCESSFUL	2.2	1.7
+merge::drop_fallback_tag_permutation_n8	ordinary	ordinary	pass	SUCCESSFUL	6.0	SUCCESSFUL	14.4	SUCCESSFUL	SUCCESSFUL	7.4	7.7
+merge::drop_general_drop_count_n16	ordinary	ordinary	pass	SUCCESSFUL	34.7	SUCCESSFUL	43.2	SUCCESSFUL	SUCCESSFUL	44.0	34.5
+merge::drop_general_drop_count_n2	ordinary	ordinary	pass	SUCCESSFUL	1.6	SUCCESSFUL	2.3	SUCCESSFUL	SUCCESSFUL	1.9	2.0
+merge::drop_general_drop_count_n4	ordinary	ordinary	pass	SUCCESSFUL	3.0	SUCCESSFUL	5.0	SUCCESSFUL	SUCCESSFUL	5.0	4.0
+merge::drop_general_drop_count_n8	ordinary	ordinary	pass	SUCCESSFUL	9.1	SUCCESSFUL	13.2	SUCCESSFUL	SUCCESSFUL	13.3	11.4
+merge::drop_general_reachability_control_n2	opt-in	opt-in	fail								
+merge::drop_general_reachability_n2	opt-in	opt-in	pass								
+merge::drop_general_tag_permutation_n16	opt-in	ordinary	pass	SUCCESSFUL	154.1	SUCCESSFUL	494.5				
+merge::drop_general_tag_permutation_n2	ordinary	ordinary	pass	SUCCESSFUL	2.1	SUCCESSFUL	3.2	SUCCESSFUL	SUCCESSFUL	2.3	2.4
+merge::drop_general_tag_permutation_n4	ordinary	ordinary	pass	SUCCESSFUL	4.0	SUCCESSFUL	6.7	SUCCESSFUL	SUCCESSFUL	6.1	6.1
+merge::drop_general_tag_permutation_n8	ordinary	ordinary	pass	SUCCESSFUL	23.2	SUCCESSFUL	31.7	SUCCESSFUL	SUCCESSFUL	36.4	22.7
+merge::fallback_sorted_permutation_u64_n8	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_n8	opt-in	ordinary	pass	SUCCESSFUL	196.2	SUCCESSFUL	470.0				
+merge::fallback_sorted_permutation_u8_n9	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n0	ordinary	ordinary	pass	SUCCESSFUL	0.2	SUCCESSFUL	0.3	SUCCESSFUL	SUCCESSFUL	0.3	0.2
+merge::fallback_sorted_permutation_u8_u64_n1	ordinary	ordinary	pass	SUCCESSFUL	0.6	SUCCESSFUL	4.8	SUCCESSFUL	SUCCESSFUL	0.7	0.8
+merge::fallback_sorted_permutation_u8_u64_n10	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n11	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n12	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n13	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n14	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n15	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n16	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n2	ordinary	ordinary	pass	SUCCESSFUL	1.9	SUCCESSFUL	3.8	SUCCESSFUL	SUCCESSFUL	2.6	1.8
+merge::fallback_sorted_permutation_u8_u64_n3	ordinary	ordinary	pass	SUCCESSFUL	2.9	SUCCESSFUL	5.4	SUCCESSFUL	SUCCESSFUL	3.6	4.1
+merge::fallback_sorted_permutation_u8_u64_n4	ordinary	ordinary	pass	SUCCESSFUL	4.4	SUCCESSFUL	11.8	SUCCESSFUL	SUCCESSFUL	5.0	6.6
+merge::fallback_sorted_permutation_u8_u64_n5	ordinary	ordinary	pass	SUCCESSFUL	8.1	SUCCESSFUL	22.4	SUCCESSFUL	SUCCESSFUL	9.5	9.3
+merge::fallback_sorted_permutation_u8_u64_n6	ordinary	ordinary	pass	SUCCESSFUL	22.7	SUCCESSFUL	72.9	SUCCESSFUL	SUCCESSFUL	34.1	23.9
+merge::fallback_sorted_permutation_u8_u64_n7	opt-in	ordinary	pass	SUCCESSFUL	82.9	SUCCESSFUL	354.4				
+merge::fallback_sorted_permutation_u8_u64_n8	opt-in	opt-in	pass								
+merge::fallback_sorted_permutation_u8_u64_n9	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u64_n0	ordinary	ordinary	pass	SUCCESSFUL	0.3	SUCCESSFUL	0.4	SUCCESSFUL	SUCCESSFUL	0.3	0.3
+merge::general_stable_sorted_permutation_u64_n1	ordinary	ordinary	pass	SUCCESSFUL	0.5	SUCCESSFUL	2.3	SUCCESSFUL	SUCCESSFUL	0.8	0.7
+merge::general_stable_sorted_permutation_u64_n10	opt-in	ordinary	pass	SUCCESSFUL	92.6	SUCCESSFUL	437.8				
+merge::general_stable_sorted_permutation_u64_n11	opt-in	ordinary	pass	SUCCESSFUL	161.7	SUCCESSFUL	261.4				
+merge::general_stable_sorted_permutation_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	348.3	SUCCESSFUL	562.0				
+merge::general_stable_sorted_permutation_u64_n13	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u64_n14	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u64_n15	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u64_n16	opt-in	ordinary	pass	SUCCESSFUL	208.8	SUCCESSFUL	355.5				
+merge::general_stable_sorted_permutation_u64_n2	ordinary	ordinary	pass	SUCCESSFUL	3.5	SUCCESSFUL	5.9	SUCCESSFUL	SUCCESSFUL	5.6	5.6
+merge::general_stable_sorted_permutation_u64_n3	ordinary	ordinary	pass	SUCCESSFUL	5.9	SUCCESSFUL	21.4	SUCCESSFUL	SUCCESSFUL	6.5	9.1
+merge::general_stable_sorted_permutation_u64_n4	ordinary	ordinary	pass	SUCCESSFUL	10.1	SUCCESSFUL	17.1	SUCCESSFUL	SUCCESSFUL	15.3	14.0
+merge::general_stable_sorted_permutation_u64_n5	ordinary	ordinary	pass	SUCCESSFUL	13.2	SUCCESSFUL	29.9	SUCCESSFUL	SUCCESSFUL	15.2	20.3
+merge::general_stable_sorted_permutation_u64_n6	ordinary	ordinary	pass	SUCCESSFUL	17.9	SUCCESSFUL	54.6	SUCCESSFUL	SUCCESSFUL	28.5	38.3
+merge::general_stable_sorted_permutation_u64_n7	ordinary	ordinary	pass	SUCCESSFUL	22.5	SUCCESSFUL	40.1	SUCCESSFUL	SUCCESSFUL	33.9	29.4
+merge::general_stable_sorted_permutation_u64_n8	ordinary	ordinary	pass	SUCCESSFUL	41.8	SUCCESSFUL	58.7	SUCCESSFUL	SUCCESSFUL	64.7	49.0
+merge::general_stable_sorted_permutation_u64_n9	opt-in	ordinary	pass	SUCCESSFUL	54.7	SUCCESSFUL	309.3				
+merge::general_stable_sorted_permutation_u8_n0	ordinary	ordinary	pass	SUCCESSFUL	0.2	SUCCESSFUL	0.7	SUCCESSFUL	SUCCESSFUL	0.4	0.3
+merge::general_stable_sorted_permutation_u8_n1	ordinary	ordinary	pass	SUCCESSFUL	0.4	SUCCESSFUL	0.8	SUCCESSFUL	SUCCESSFUL	0.7	1.4
+merge::general_stable_sorted_permutation_u8_n10	opt-in	ordinary	pass	SUCCESSFUL	37.4	SUCCESSFUL	57.6				
+merge::general_stable_sorted_permutation_u8_n11	opt-in	ordinary	pass	SUCCESSFUL	56.4	SUCCESSFUL	249.3				
+merge::general_stable_sorted_permutation_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	107.7	SUCCESSFUL	168.9				
+merge::general_stable_sorted_permutation_u8_n13	opt-in	ordinary	pass	SUCCESSFUL	191.8	SUCCESSFUL	339.5				
+merge::general_stable_sorted_permutation_u8_n14	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u8_n15	opt-in	opt-in	pass								
+merge::general_stable_sorted_permutation_u8_n16	opt-in	ordinary	pass	SUCCESSFUL	91.9	SUCCESSFUL	351.8				
+merge::general_stable_sorted_permutation_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	3.2	SUCCESSFUL	5.9	SUCCESSFUL	SUCCESSFUL	3.7	4.7
+merge::general_stable_sorted_permutation_u8_n3	ordinary	ordinary	pass	SUCCESSFUL	4.7	SUCCESSFUL	6.9	SUCCESSFUL	SUCCESSFUL	5.5	7.2
+merge::general_stable_sorted_permutation_u8_n4	ordinary	ordinary	pass	SUCCESSFUL	6.7	SUCCESSFUL	11.2	SUCCESSFUL	SUCCESSFUL	8.2	10.9
+merge::general_stable_sorted_permutation_u8_n5	ordinary	ordinary	pass	SUCCESSFUL	9.7	SUCCESSFUL	30.3	SUCCESSFUL	SUCCESSFUL	12.3	14.5
+merge::general_stable_sorted_permutation_u8_n6	ordinary	ordinary	pass	SUCCESSFUL	13.1	SUCCESSFUL	53.2	SUCCESSFUL	SUCCESSFUL	21.0	19.1
+merge::general_stable_sorted_permutation_u8_n7	ordinary	ordinary	pass	SUCCESSFUL	15.9	SUCCESSFUL	25.1	SUCCESSFUL	SUCCESSFUL	23.4	21.2
+merge::general_stable_sorted_permutation_u8_n8	ordinary	ordinary	pass	SUCCESSFUL	21.6	SUCCESSFUL	38.7	SUCCESSFUL	SUCCESSFUL	32.1	28.6
+merge::general_stable_sorted_permutation_u8_n9	ordinary	ordinary	pass	SUCCESSFUL	26.8	SUCCESSFUL	43.7	SUCCESSFUL	SUCCESSFUL	37.0	33.7
+merge::insert_tail_contract_byte_arrays_n2_to16	opt-in	opt-in	pass								
+merge::insert_tail_contract_integer_types_n2_to16	opt-in	opt-in	pass								
+merge::intrinsic_assumption_safety_control_u64_n4	opt-in	opt-in	fail								
+merge::merge_arbitrary_order_assertion_control_u64_n4	opt-in	opt-in	fail								
+merge::merge_arbitrary_order_permutation_failure_control_u64_n4	opt-in	opt-in	fail								
+merge::merge_arbitrary_order_reachability_check_control_u64_n4	opt-in	opt-in	pass								
+merge::merge_arbitrary_order_reachability_control_u64_n4	opt-in	opt-in	pass								
+merge::merge_contract_bytes16_n2_to32	opt-in	opt-in	pass								
+merge::merge_contract_bytes85_n2_to32	opt-in	opt-in	pass								
+merge::merge_contract_i32_n2_to32	opt-in	opt-in	pass								
+merge::merge_contract_u64_n10	opt-in	ordinary	pass	SUCCESSFUL	102.0	SUCCESSFUL	143.1				
+merge::merge_contract_u64_n11	opt-in	ordinary	pass	SUCCESSFUL	114.1	SUCCESSFUL	147.1				
+merge::merge_contract_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	136.6	SUCCESSFUL	221.9				
+merge::merge_contract_u64_n13	opt-in	ordinary	pass	SUCCESSFUL	156.8	SUCCESSFUL	197.5				
+merge::merge_contract_u64_n14	opt-in	ordinary	pass	SUCCESSFUL	245.7	SUCCESSFUL	292.3				
+merge::merge_contract_u64_n15	opt-in	ordinary	pass	SUCCESSFUL	251.3	SUCCESSFUL	316.4				
+merge::merge_contract_u64_n16	opt-in	ordinary	pass	SUCCESSFUL	370.7	SUCCESSFUL	601.8				
+merge::merge_contract_u64_n2_to32	opt-in	opt-in	pass								
+merge::merge_contract_u64_n2_to4	ordinary	ordinary	pass	SUCCESSFUL	37.1	SUCCESSFUL	55.7	SUCCESSFUL	SUCCESSFUL	85.9	63.6
+merge::merge_contract_u64_n5	ordinary	ordinary	pass	SUCCESSFUL	29.9	SUCCESSFUL	40.7	SUCCESSFUL	SUCCESSFUL	65.7	48.0
+merge::merge_contract_u64_n6	ordinary	ordinary	pass	SUCCESSFUL	44.1	SUCCESSFUL	58.0	SUCCESSFUL	SUCCESSFUL	96.5	92.5
+merge::merge_contract_u64_n7	ordinary	ordinary	pass	SUCCESSFUL	49.2	SUCCESSFUL	65.5	SUCCESSFUL	SUCCESSFUL	88.0	75.9
+merge::merge_contract_u64_n8	ordinary	ordinary	pass	SUCCESSFUL	64.4	SUCCESSFUL	103.0	SUCCESSFUL	SUCCESSFUL	153.6	155.8
+merge::merge_contract_u64_n9	opt-in	ordinary	pass	SUCCESSFUL	80.6	SUCCESSFUL	112.1				
+merge::merge_contract_u8_n10	opt-in	ordinary	pass	SUCCESSFUL	71.2	SUCCESSFUL	103.1				
+merge::merge_contract_u8_n11	opt-in	ordinary	pass	SUCCESSFUL	80.1	SUCCESSFUL	148.5				
+merge::merge_contract_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	105.5	SUCCESSFUL	188.4				
+merge::merge_contract_u8_n13	opt-in	ordinary	pass	SUCCESSFUL	105.3	SUCCESSFUL	176.7				
+merge::merge_contract_u8_n14	opt-in	ordinary	pass	SUCCESSFUL	130.7	SUCCESSFUL	212.8				
+merge::merge_contract_u8_n15	opt-in	ordinary	pass	SUCCESSFUL	149.4	SUCCESSFUL	247.3				
+merge::merge_contract_u8_n16	opt-in	ordinary	pass	SUCCESSFUL	177.2	SUCCESSFUL	326.3				
+merge::merge_contract_u8_n20	opt-in	opt-in	pass								
+merge::merge_contract_u8_n24	opt-in	opt-in	pass								
+merge::merge_contract_u8_n2_to32	opt-in	opt-in	pass								
+merge::merge_contract_u8_n2_to4	ordinary	ordinary	pass	SUCCESSFUL	32.1	SUCCESSFUL	48.0	SUCCESSFUL	SUCCESSFUL	78.9	69.2
+merge::merge_contract_u8_n5	ordinary	ordinary	pass	SUCCESSFUL	25.8	SUCCESSFUL	41.9	SUCCESSFUL	SUCCESSFUL	49.5	59.5
+merge::merge_contract_u8_n6	ordinary	ordinary	pass	SUCCESSFUL	33.1	SUCCESSFUL	70.1	SUCCESSFUL	SUCCESSFUL	88.1	57.1
+merge::merge_contract_u8_n7	ordinary	ordinary	pass	SUCCESSFUL	41.8	SUCCESSFUL	62.8	SUCCESSFUL	SUCCESSFUL	79.9	100.0
+merge::merge_contract_u8_n8	ordinary	ordinary	pass	SUCCESSFUL	56.3	SUCCESSFUL	74.7	SUCCESSFUL	SUCCESSFUL	132.7	120.5
+merge::merge_contract_u8_n9	ordinary	ordinary	pass	SUCCESSFUL	56.6	SUCCESSFUL	82.2	SUCCESSFUL	SUCCESSFUL	152.6	141.2
+merge::merge_rejects_unsorted_halves_control_u64_n4	opt-in	opt-in	fail								
+merge::merge_unsorted_halves_control_u64_n4	opt-in	opt-in	fail								
+merge::merge_unsorted_halves_control_u8_n4	opt-in	opt-in	fail								
+merge::out_of_bounds_pointer_control_u64_n4	opt-in	opt-in	fail								
+merge::overlapping_copy_control_u64_n4	opt-in	opt-in	fail								
+merge::route_safety_all_routes_n10	opt-in	ordinary	pass	SUCCESSFUL	20.2	SUCCESSFUL	28.8				
+merge::route_safety_all_routes_n11	opt-in	ordinary	pass	SUCCESSFUL	20.9	SUCCESSFUL	31.0				
+merge::route_safety_all_routes_n12	opt-in	ordinary	pass	SUCCESSFUL	26.9	SUCCESSFUL	36.3				
+merge::route_safety_all_routes_n13	opt-in	ordinary	pass	SUCCESSFUL	28.3	SUCCESSFUL	33.7				
+merge::route_safety_all_routes_n14	opt-in	ordinary	pass	SUCCESSFUL	30.8	SUCCESSFUL	61.8				
+merge::route_safety_all_routes_n15	opt-in	ordinary	pass	SUCCESSFUL	32.9	SUCCESSFUL	53.1				
+merge::route_safety_all_routes_n16	ordinary	ordinary	pass	SUCCESSFUL	44.2	SUCCESSFUL	62.9	SUCCESSFUL	SUCCESSFUL	70.0	47.8
+merge::route_safety_all_routes_n17	opt-in	ordinary	pass	SUCCESSFUL	48.1	SUCCESSFUL	56.4				
+merge::route_safety_all_routes_n18	opt-in	ordinary	pass	SUCCESSFUL	51.8	SUCCESSFUL	73.6				
+merge::route_safety_all_routes_n19	opt-in	ordinary	pass	SUCCESSFUL	58.6	SUCCESSFUL	80.8				
+merge::route_safety_all_routes_n2	ordinary	ordinary	pass	SUCCESSFUL	2.6	SUCCESSFUL	3.5	SUCCESSFUL	SUCCESSFUL	4.2	3.1
+merge::route_safety_all_routes_n20	opt-in	ordinary	pass	SUCCESSFUL	60.2	SUCCESSFUL	91.4				
+merge::route_safety_all_routes_n21	opt-in	ordinary	pass	SUCCESSFUL	64.7	SUCCESSFUL	97.1				
+merge::route_safety_all_routes_n22	opt-in	ordinary	pass	SUCCESSFUL	69.8	SUCCESSFUL	115.4				
+merge::route_safety_all_routes_n23	opt-in	ordinary	pass	SUCCESSFUL	73.6	SUCCESSFUL	180.4				
+merge::route_safety_all_routes_n24	opt-in	ordinary	pass	SUCCESSFUL	76.9	SUCCESSFUL	137.9				
+merge::route_safety_all_routes_n25	opt-in	ordinary	pass	SUCCESSFUL	83.8	SUCCESSFUL	187.6				
+merge::route_safety_all_routes_n26	opt-in	ordinary	pass	SUCCESSFUL	95.4	SUCCESSFUL	166.3				
+merge::route_safety_all_routes_n27	opt-in	ordinary	pass	SUCCESSFUL	95.4	SUCCESSFUL	178.1				
+merge::route_safety_all_routes_n28	opt-in	ordinary	pass	SUCCESSFUL	103.6	SUCCESSFUL	224.6				
+merge::route_safety_all_routes_n29	opt-in	ordinary	pass	SUCCESSFUL	112.8	SUCCESSFUL	182.0				
+merge::route_safety_all_routes_n3	opt-in	ordinary	pass	SUCCESSFUL	3.6	SUCCESSFUL	5.5				
+merge::route_safety_all_routes_n30	opt-in	ordinary	pass	SUCCESSFUL	120.1	SUCCESSFUL	191.1				
+merge::route_safety_all_routes_n31	opt-in	ordinary	pass	SUCCESSFUL	129.2	SUCCESSFUL	239.3				
+merge::route_safety_all_routes_n32	opt-in	ordinary	pass	SUCCESSFUL	149.2	SUCCESSFUL	315.6				
+merge::route_safety_all_routes_n4	opt-in	ordinary	pass	SUCCESSFUL	5.2	SUCCESSFUL	11.4				
+merge::route_safety_all_routes_n5	opt-in	ordinary	pass	SUCCESSFUL	6.3	SUCCESSFUL	9.0				
+merge::route_safety_all_routes_n6	opt-in	ordinary	pass	SUCCESSFUL	8.3	SUCCESSFUL	11.8				
+merge::route_safety_all_routes_n7	opt-in	ordinary	pass	SUCCESSFUL	10.3	SUCCESSFUL	16.9				
+merge::route_safety_all_routes_n8	ordinary	ordinary	pass	SUCCESSFUL	14.9	SUCCESSFUL	22.4	SUCCESSFUL	SUCCESSFUL	23.8	16.6
+merge::route_safety_all_routes_n9	opt-in	ordinary	pass	SUCCESSFUL	16.7	SUCCESSFUL	30.7				
+merge::sort4_arbitrary_comparator_bytes16_n4	ordinary	ordinary	pass	SUCCESSFUL	10.4	SUCCESSFUL	13.1	SUCCESSFUL	SUCCESSFUL	14.4	11.7
+merge::sort4_arbitrary_comparator_bytes85_n4	opt-in	opt-in	pass								
+merge::sort4_arbitrary_comparator_u64_n4	ordinary	ordinary	pass	SUCCESSFUL	2.6	SUCCESSFUL	4.2	SUCCESSFUL	SUCCESSFUL	4.5	3.7
+merge::sort4_contract_bytes16_control_n4	opt-in	opt-in	pass								
+merge::sort4_contract_bytes16_n4	ordinary	ordinary	pass	SUCCESSFUL	39.6	SUCCESSFUL	72.4	SUCCESSFUL	SUCCESSFUL	96.4	67.4
+merge::sort4_contract_bytes85_control_n4	opt-in	opt-in	pass								
+merge::sort4_contract_bytes85_n4	opt-in	opt-in	pass								
+merge::sort4_contract_i32_control_n4	opt-in	opt-in	pass								
+merge::sort4_contract_type_matrix_n4	opt-in	opt-in	pass								
+merge::sort4_contract_u64_n4	ordinary	ordinary	pass	SUCCESSFUL	30.2	SUCCESSFUL	51.7	SUCCESSFUL	SUCCESSFUL	70.4	51.1
+merge::unchecked_add_overflow_control_u64_n4	opt-in	opt-in	fail								
+network::control_network_mutant_presorted_u8_n10	opt-in	opt-in	fail								
+network::control_network_normal_return_assertion	opt-in	opt-in	fail								
+network::control_order_violation_assertion	opt-in	opt-in	fail								
+network::control_order_violation_merge_assertion	opt-in	opt-in	fail								
+network::control_order_violation_reachability	opt-in	opt-in	pass								
+network::control_swap_contract_precondition_u8	opt-in	opt-in	fail								
+network::dispatch_reachability_general_bytes16_n17	ordinary	ordinary	pass	SUCCESSFUL	16.3	SUCCESSFUL	28.8	SUCCESSFUL	SUCCESSFUL	23.8	28.1
+network::dispatch_reachability_network_u8_n18	ordinary	ordinary	pass	SUCCESSFUL	15.8	SUCCESSFUL	38.4	SUCCESSFUL	SUCCESSFUL	19.3	34.4
+network::dispatch_reachability_stable_u8_n17	ordinary	ordinary	pass	SUCCESSFUL	9.6	SUCCESSFUL	22.9	SUCCESSFUL	SUCCESSFUL	15.9	17.3
+network::dispatch_safety_stable_u8_n0_1_2_7_8	ordinary	ordinary	pass	SUCCESSFUL	6.1	SUCCESSFUL	7.0	SUCCESSFUL	SUCCESSFUL	9.9	10.7
+network::dispatch_safety_stable_u8_n15_16_17	ordinary	ordinary	pass	SUCCESSFUL	30.1	SUCCESSFUL	66.2	SUCCESSFUL	SUCCESSFUL	45.4	52.4
+network::dispatch_safety_stable_u8_n31_32	ordinary	ordinary	pass	SUCCESSFUL	62.9	SUCCESSFUL	193.4	SUCCESSFUL	SUCCESSFUL	111.1	145.4
+network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8	ordinary	ordinary	pass	SUCCESSFUL	27.6	SUCCESSFUL	36.4	SUCCESSFUL	SUCCESSFUL	34.3	29.8
+network::dispatch_safety_stable_unstable_bytes16_n15_16_17	ordinary	ordinary	pass	SUCCESSFUL	107.5	SUCCESSFUL	167.9	SUCCESSFUL	SUCCESSFUL	154.1	206.7
+network::dispatch_safety_stable_unstable_bytes16_n31	opt-in	ordinary	pass	SUCCESSFUL	109.5	SUCCESSFUL	342.1				
+network::dispatch_safety_stable_unstable_bytes16_n32	ordinary	ordinary	pass	SUCCESSFUL	107.4	SUCCESSFUL	437.7	SUCCESSFUL	SUCCESSFUL	157.8	313.0
+network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8	ordinary	ordinary	pass	SUCCESSFUL	29.1	SUCCESSFUL	61.4	SUCCESSFUL	SUCCESSFUL	32.2	47.2
+network::dispatch_safety_stable_unstable_bytes17_n15_16_17	ordinary	ordinary	pass	SUCCESSFUL	116.7	SUCCESSFUL	302.6	SUCCESSFUL	SUCCESSFUL	143.2	228.4
+network::dispatch_safety_stable_unstable_bytes17_n31	opt-in	ordinary	pass	SUCCESSFUL	123.7	SUCCESSFUL	800.3				
+network::dispatch_safety_stable_unstable_bytes17_n32	ordinary	ordinary	pass	SUCCESSFUL	124.9	SUCCESSFUL	244.4	SUCCESSFUL	SUCCESSFUL	198.1	509.4
+network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8	ordinary	ordinary	pass	SUCCESSFUL	19.6	SUCCESSFUL	26.5	SUCCESSFUL	SUCCESSFUL	27.5	28.7
+network::dispatch_safety_stable_unstable_bytes85_n15_16_17	ordinary	ordinary	pass	SUCCESSFUL	72.0	SUCCESSFUL	136.3	SUCCESSFUL	SUCCESSFUL	88.5	146.8
+network::dispatch_safety_stable_unstable_bytes85_n31	opt-in	ordinary	pass	SUCCESSFUL	83.1	SUCCESSFUL	181.1				
+network::dispatch_safety_stable_unstable_bytes85_n32	ordinary	ordinary	pass	SUCCESSFUL	89.3	SUCCESSFUL	172.4	SUCCESSFUL	SUCCESSFUL	129.3	195.0
+network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8	ordinary	ordinary	pass	SUCCESSFUL	15.4	SUCCESSFUL	18.7	SUCCESSFUL	SUCCESSFUL	24.1	24.5
+network::dispatch_safety_stable_unstable_drop_u8_n15_16_17	ordinary	ordinary	pass	SUCCESSFUL	67.1	SUCCESSFUL	291.8	SUCCESSFUL	SUCCESSFUL	95.0	134.1
+network::dispatch_safety_stable_unstable_drop_u8_n31	opt-in	ordinary	pass	SUCCESSFUL	69.3	SUCCESSFUL	189.4				
+network::dispatch_safety_stable_unstable_drop_u8_n32	ordinary	ordinary	pass	SUCCESSFUL	67.1	SUCCESSFUL	236.5	SUCCESSFUL	SUCCESSFUL	109.4	111.8
+network::dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32	opt-in	opt-in	pass								
+network::dispatch_safety_unstable_bytes86_n0_1_2_15_16	ordinary	ordinary	pass	SUCCESSFUL	12.2	SUCCESSFUL	18.4	SUCCESSFUL	SUCCESSFUL	20.8	30.4
+network::dispatch_safety_unstable_u8_n18_31_32	ordinary	ordinary	pass	SUCCESSFUL	92.4	SUCCESSFUL	422.2	SUCCESSFUL	SUCCESSFUL	155.7	198.8
+network::dispatch_safety_unstable_u8_n8_9_12_13_17	ordinary	ordinary	pass	SUCCESSFUL	27.6	SUCCESSFUL	46.5	SUCCESSFUL	SUCCESSFUL	32.6	66.5
+network::dispatch_safety_unstable_zst_n8_9_12_13_17	opt-in	opt-in	pass								
+network::insert_tail_contract_u64_start1	opt-in	ordinary	pass	SUCCESSFUL	304.1	SUCCESSFUL	397.9				
+network::insert_tail_contract_u64_start10	opt-in	ordinary	pass	SUCCESSFUL	85.5	SUCCESSFUL	115.4				
+network::insert_tail_contract_u64_start11	opt-in	ordinary	pass	SUCCESSFUL	60.9	SUCCESSFUL	81.8				
+network::insert_tail_contract_u64_start12	opt-in	ordinary	pass	SUCCESSFUL	56.3	SUCCESSFUL	79.6				
+network::insert_tail_contract_u64_start13	opt-in	ordinary	pass	SUCCESSFUL	49.1	SUCCESSFUL	73.1				
+network::insert_tail_contract_u64_start14	opt-in	ordinary	pass	SUCCESSFUL	44.6	SUCCESSFUL	59.7				
+network::insert_tail_contract_u64_start15	opt-in	ordinary	pass	SUCCESSFUL	48.6	SUCCESSFUL	62.7				
+network::insert_tail_contract_u64_start2	opt-in	ordinary	pass	SUCCESSFUL	238.9	SUCCESSFUL	398.9				
+network::insert_tail_contract_u64_start3	opt-in	ordinary	pass	SUCCESSFUL	273.7	SUCCESSFUL	346.5				
+network::insert_tail_contract_u64_start4	opt-in	ordinary	pass	SUCCESSFUL	187.9	SUCCESSFUL	308.0				
+network::insert_tail_contract_u64_start5	opt-in	ordinary	pass	SUCCESSFUL	178.0	SUCCESSFUL	292.8				
+network::insert_tail_contract_u64_start6	opt-in	ordinary	pass	SUCCESSFUL	156.3	SUCCESSFUL	219.5				
+network::insert_tail_contract_u64_start7	opt-in	ordinary	pass	SUCCESSFUL	109.9	SUCCESSFUL	148.0				
+network::insert_tail_contract_u64_start8	opt-in	ordinary	pass	SUCCESSFUL	127.9	SUCCESSFUL	171.8				
+network::insert_tail_contract_u64_start9	opt-in	ordinary	pass	SUCCESSFUL	115.9	SUCCESSFUL	167.0				
+network::insertion_permutation_u64_n10	ordinary	ordinary	pass	SUCCESSFUL	2.5	SUCCESSFUL	4.1	SUCCESSFUL	SUCCESSFUL	4.7	3.4
+network::insertion_permutation_u64_n11	opt-in	ordinary	pass	SUCCESSFUL	24.1	SUCCESSFUL	37.5				
+network::insertion_permutation_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	625.4	SUCCESSFUL	1259.6				
+network::insertion_permutation_u64_n14	ordinary	ordinary	pass	SUCCESSFUL	6.0	SUCCESSFUL	10.9	SUCCESSFUL	SUCCESSFUL	8.7	8.3
+network::insertion_permutation_u64_n15	opt-in	ordinary	pass	SUCCESSFUL	108.7	SUCCESSFUL	172.1				
+network::insertion_permutation_u64_n16	opt-in	opt-in	pass								
+network::insertion_permutation_u64_n17	opt-in	opt-in	pass								
+network::insertion_permutation_u8_n10	ordinary	ordinary	pass	SUCCESSFUL	0.7	SUCCESSFUL	1.5	SUCCESSFUL	SUCCESSFUL	0.9	1.1
+network::insertion_permutation_u8_n11	opt-in	ordinary	pass	SUCCESSFUL	3.0	SUCCESSFUL	4.5				
+network::insertion_permutation_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	131.8	SUCCESSFUL	218.7				
+network::insertion_permutation_u8_n14	ordinary	ordinary	pass	SUCCESSFUL	1.2	SUCCESSFUL	2.0	SUCCESSFUL	SUCCESSFUL	1.8	1.8
+network::insertion_permutation_u8_n15	opt-in	ordinary	pass	SUCCESSFUL	37.7	SUCCESSFUL	66.2				
+network::insertion_permutation_u8_n16	opt-in	opt-in	pass								
+network::insertion_permutation_u8_n17	opt-in	opt-in	pass								
+network::insertion_safety_u64_n11_to12	opt-in	ordinary	pass	SUCCESSFUL	77.5	SUCCESSFUL	146.3				
+network::insertion_safety_u64_n11_to15	opt-in	opt-in	pass								
+network::insertion_safety_u64_n13	opt-in	ordinary	pass	SUCCESSFUL	36.1	SUCCESSFUL	48.5				
+network::insertion_safety_u64_n13_to15	opt-in	opt-in	pass								
+network::insertion_safety_u64_n14	opt-in	ordinary	pass	SUCCESSFUL	39.6	SUCCESSFUL	77.9				
+network::insertion_safety_u64_n15	opt-in	opt-in	pass								
+network::insertion_safety_u64_n15_offsets13_to15	opt-in	ordinary	pass	SUCCESSFUL	1.4	SUCCESSFUL	1.9				
+network::insertion_safety_u64_n15_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	18.3	SUCCESSFUL	26.7				
+network::insertion_safety_u64_n15_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	15.1	SUCCESSFUL	20.9				
+network::insertion_safety_u64_n15_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	8.0	SUCCESSFUL	10.0				
+network::insertion_safety_u64_n16_offset1	opt-in	opt-in	pass								
+network::insertion_safety_u64_n16_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	3.1	SUCCESSFUL	3.7				
+network::insertion_safety_u64_n16_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	21.7	SUCCESSFUL	39.2				
+network::insertion_safety_u64_n16_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	16.3	SUCCESSFUL	28.0				
+network::insertion_safety_u64_n16_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	10.9	SUCCESSFUL	17.9				
+network::insertion_safety_u64_n16_to20	opt-in	opt-in	pass								
+network::insertion_safety_u64_n17_offset1	opt-in	opt-in	pass								
+network::insertion_safety_u64_n17_offsets13_to15	opt-in	ordinary	pass	SUCCESSFUL	5.0	SUCCESSFUL	9.0				
+network::insertion_safety_u64_n17_offsets16_to17	opt-in	ordinary	pass	SUCCESSFUL	0.6	SUCCESSFUL	0.9				
+network::insertion_safety_u64_n17_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	26.6	SUCCESSFUL	42.4				
+network::insertion_safety_u64_n17_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	21.4	SUCCESSFUL	40.2				
+network::insertion_safety_u64_n17_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	14.6	SUCCESSFUL	26.4				
+network::insertion_safety_u64_n18_offset1	opt-in	opt-in	pass								
+network::insertion_safety_u64_n18_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	8.5	SUCCESSFUL	13.4				
+network::insertion_safety_u64_n18_offsets17_to18	opt-in	ordinary	pass	SUCCESSFUL	0.5	SUCCESSFUL	1.0				
+network::insertion_safety_u64_n18_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	30.1	SUCCESSFUL	88.5				
+network::insertion_safety_u64_n18_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	26.5	SUCCESSFUL	61.5				
+network::insertion_safety_u64_n18_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	17.3	SUCCESSFUL	27.2				
+network::insertion_safety_u64_n19_offset1	opt-in	opt-in	pass								
+network::insertion_safety_u64_n19_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	11.3	SUCCESSFUL	27.0				
+network::insertion_safety_u64_n19_offsets17_to19	opt-in	ordinary	pass	SUCCESSFUL	1.7	SUCCESSFUL	3.3				
+network::insertion_safety_u64_n19_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	38.2	SUCCESSFUL	77.9				
+network::insertion_safety_u64_n19_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	30.6	SUCCESSFUL	52.3				
+network::insertion_safety_u64_n19_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	20.7	SUCCESSFUL	32.6				
+network::insertion_safety_u64_n1_to5	ordinary	ordinary	pass	SUCCESSFUL	5.7	SUCCESSFUL	13.5	SUCCESSFUL	SUCCESSFUL	8.3	5.8
+network::insertion_safety_u64_n20_offset1	opt-in	opt-in	pass								
+network::insertion_safety_u64_n20_offsets13_to16	ordinary	ordinary	pass	SUCCESSFUL	14.6	SUCCESSFUL	31.3	SUCCESSFUL	SUCCESSFUL	19.0	32.3
+network::insertion_safety_u64_n20_offsets17_to20	ordinary	ordinary	pass	SUCCESSFUL	4.1	SUCCESSFUL	4.3	SUCCESSFUL	SUCCESSFUL	6.0	5.4
+network::insertion_safety_u64_n20_offsets1_to4	ordinary	ordinary	pass	SUCCESSFUL	40.5	SUCCESSFUL	62.9	SUCCESSFUL	SUCCESSFUL	57.6	98.5
+network::insertion_safety_u64_n20_offsets5_to8	ordinary	ordinary	pass	SUCCESSFUL	34.4	SUCCESSFUL	90.8	SUCCESSFUL	SUCCESSFUL	43.1	82.2
+network::insertion_safety_u64_n20_offsets9_to12	ordinary	ordinary	pass	SUCCESSFUL	25.1	SUCCESSFUL	46.1	SUCCESSFUL	SUCCESSFUL	41.3	50.9
+network::insertion_safety_u64_n6_to10	opt-in	ordinary	pass	SUCCESSFUL	64.9	SUCCESSFUL	111.4				
+network::mutating_insertion_safety_cell_n11_to12	opt-in	ordinary	pass	SUCCESSFUL	80.1	SUCCESSFUL	125.5				
+network::mutating_insertion_safety_cell_n11_to15	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n13	opt-in	ordinary	pass	SUCCESSFUL	50.5	SUCCESSFUL	89.9				
+network::mutating_insertion_safety_cell_n13_to15	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n14	opt-in	ordinary	pass	SUCCESSFUL	59.2	SUCCESSFUL	104.7				
+network::mutating_insertion_safety_cell_n15	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n15_offsets13_to15	opt-in	ordinary	pass	SUCCESSFUL	3.2	SUCCESSFUL	5.1				
+network::mutating_insertion_safety_cell_n15_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	31.4	SUCCESSFUL	54.7				
+network::mutating_insertion_safety_cell_n15_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	23.7	SUCCESSFUL	48.3				
+network::mutating_insertion_safety_cell_n15_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	14.5	SUCCESSFUL	29.8				
+network::mutating_insertion_safety_cell_n16_offset1	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n16_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	6.4	SUCCESSFUL	17.5				
+network::mutating_insertion_safety_cell_n16_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	32.9	SUCCESSFUL	66.8				
+network::mutating_insertion_safety_cell_n16_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	27.1	SUCCESSFUL	52.9				
+network::mutating_insertion_safety_cell_n16_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	18.3	SUCCESSFUL	89.7				
+network::mutating_insertion_safety_cell_n16_to20	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n17_offset1	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n17_offsets13_to15	opt-in	ordinary	pass	SUCCESSFUL	8.4	SUCCESSFUL	13.8				
+network::mutating_insertion_safety_cell_n17_offsets16_to17	opt-in	ordinary	pass	SUCCESSFUL	1.6	SUCCESSFUL	7.0				
+network::mutating_insertion_safety_cell_n17_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	40.5	SUCCESSFUL	304.9				
+network::mutating_insertion_safety_cell_n17_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	32.7	SUCCESSFUL	148.9				
+network::mutating_insertion_safety_cell_n17_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	24.0	SUCCESSFUL	113.8				
+network::mutating_insertion_safety_cell_n18_offset1	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n18_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	14.7	SUCCESSFUL	73.9				
+network::mutating_insertion_safety_cell_n18_offsets17_to18	opt-in	ordinary	pass	SUCCESSFUL	1.7	SUCCESSFUL	2.8				
+network::mutating_insertion_safety_cell_n18_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	46.6	SUCCESSFUL	220.1				
+network::mutating_insertion_safety_cell_n18_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	37.6	SUCCESSFUL	79.0				
+network::mutating_insertion_safety_cell_n18_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	28.1	SUCCESSFUL	113.5				
+network::mutating_insertion_safety_cell_n19_offset1	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n19_offsets13_to16	opt-in	ordinary	pass	SUCCESSFUL	20.0	SUCCESSFUL	76.4				
+network::mutating_insertion_safety_cell_n19_offsets17_to19	opt-in	ordinary	pass	SUCCESSFUL	4.2	SUCCESSFUL	7.0				
+network::mutating_insertion_safety_cell_n19_offsets1_to4	opt-in	ordinary	pass	SUCCESSFUL	54.7	SUCCESSFUL	147.2				
+network::mutating_insertion_safety_cell_n19_offsets5_to8	opt-in	ordinary	pass	SUCCESSFUL	47.4	SUCCESSFUL	93.0				
+network::mutating_insertion_safety_cell_n19_offsets9_to12	opt-in	ordinary	pass	SUCCESSFUL	34.9	SUCCESSFUL	124.8				
+network::mutating_insertion_safety_cell_n1_to5	ordinary	ordinary	pass	SUCCESSFUL	8.4	SUCCESSFUL	12.1	SUCCESSFUL	SUCCESSFUL	12.0	8.7
+network::mutating_insertion_safety_cell_n20_offset1	opt-in	opt-in	pass								
+network::mutating_insertion_safety_cell_n20_offsets13_to16	ordinary	ordinary	pass	SUCCESSFUL	25.6	SUCCESSFUL	43.5	SUCCESSFUL	SUCCESSFUL	31.7	66.2
+network::mutating_insertion_safety_cell_n20_offsets17_to20	ordinary	ordinary	pass	SUCCESSFUL	8.0	SUCCESSFUL	11.8	SUCCESSFUL	SUCCESSFUL	12.9	21.9
+network::mutating_insertion_safety_cell_n20_offsets1_to4	ordinary	ordinary	pass	SUCCESSFUL	61.9	SUCCESSFUL	95.7	SUCCESSFUL	SUCCESSFUL	73.2	143.9
+network::mutating_insertion_safety_cell_n20_offsets5_to8	ordinary	ordinary	pass	SUCCESSFUL	51.6	SUCCESSFUL	329.2	SUCCESSFUL	SUCCESSFUL	82.4	116.1
+network::mutating_insertion_safety_cell_n20_offsets9_to12	ordinary	ordinary	pass	SUCCESSFUL	43.3	SUCCESSFUL	94.3	SUCCESSFUL	SUCCESSFUL	58.8	168.3
+network::mutating_insertion_safety_cell_n6_to10	opt-in	ordinary	pass	SUCCESSFUL	83.2	SUCCESSFUL	169.4				
+network::mutating_route_permutation_cell_n2	ordinary	ordinary	pass	SUCCESSFUL	1.2	SUCCESSFUL	1.4	SUCCESSFUL	SUCCESSFUL	1.9	2.0
+network::mutating_route_permutation_cell_n3	ordinary	ordinary	pass	SUCCESSFUL	2.3	SUCCESSFUL	2.6	SUCCESSFUL	SUCCESSFUL	3.9	3.5
+network::mutating_route_permutation_cell_n4	ordinary	ordinary	pass	SUCCESSFUL	4.6	SUCCESSFUL	7.8	SUCCESSFUL	SUCCESSFUL	7.3	8.0
+network::mutating_route_safety_cell_n0_to4	ordinary	ordinary	pass	SUCCESSFUL	2.5	SUCCESSFUL	7.5	SUCCESSFUL	SUCCESSFUL	3.3	3.5
+network::mutating_route_safety_cell_n13_to16	ordinary	ordinary	pass	SUCCESSFUL	75.5	SUCCESSFUL	125.7	SUCCESSFUL	SUCCESSFUL	95.3	95.9
+network::mutating_route_safety_cell_n5_to8	ordinary	ordinary	pass	SUCCESSFUL	13.1	SUCCESSFUL	24.7	SUCCESSFUL	SUCCESSFUL	16.3	15.8
+network::mutating_route_safety_cell_n9_to12	opt-in	ordinary	pass	SUCCESSFUL	34.8	SUCCESSFUL	51.9				
+network::network_correctness_u64_n0_to2	ordinary	ordinary	pass	SUCCESSFUL	0.5	SUCCESSFUL	1.3	SUCCESSFUL	SUCCESSFUL	0.8	0.8
+network::network_correctness_u64_n10	opt-in	ordinary	pass	SUCCESSFUL	42.6	SUCCESSFUL	62.5				
+network::network_correctness_u64_n11	opt-in	ordinary	pass	SUCCESSFUL	63.9	SUCCESSFUL	188.1				
+network::network_correctness_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	123.1	SUCCESSFUL	359.4				
+network::network_correctness_u64_n13	opt-in	ordinary	pass	SUCCESSFUL	359.9	SUCCESSFUL	713.6				
+network::network_correctness_u64_n14	opt-in	ordinary	pass	SUCCESSFUL	577.5	SUCCESSFUL	666.8				
+network::network_correctness_u64_n15	opt-in	opt-in	pass								
+network::network_correctness_u64_n16	opt-in	opt-in	pass								
+network::network_correctness_u64_n17	opt-in	opt-in	pass								
+network::network_correctness_u64_n3_to4	ordinary	ordinary	pass	SUCCESSFUL	2.9	SUCCESSFUL	4.4	SUCCESSFUL	SUCCESSFUL	4.9	3.9
+network::network_correctness_u64_n5	ordinary	ordinary	pass	SUCCESSFUL	3.8	SUCCESSFUL	5.8	SUCCESSFUL	SUCCESSFUL	5.7	5.6
+network::network_correctness_u64_n6	ordinary	ordinary	pass	SUCCESSFUL	13.3	SUCCESSFUL	42.4	SUCCESSFUL	SUCCESSFUL	20.3	24.8
+network::network_correctness_u64_n7	ordinary	ordinary	pass	SUCCESSFUL	37.8	SUCCESSFUL	105.3	SUCCESSFUL	SUCCESSFUL	63.7	70.8
+network::network_correctness_u64_n8	opt-in	ordinary	pass	SUCCESSFUL	279.0	SUCCESSFUL	636.2				
+network::network_correctness_u64_n9	ordinary	ordinary	pass	SUCCESSFUL	26.4	SUCCESSFUL	45.4	SUCCESSFUL	SUCCESSFUL	37.4	36.3
+network::network_correctness_u8_n0_to2	ordinary	ordinary	pass	SUCCESSFUL	0.4	SUCCESSFUL	1.2	SUCCESSFUL	SUCCESSFUL	0.7	0.6
+network::network_correctness_u8_n10	opt-in	ordinary	pass	SUCCESSFUL	7.8	SUCCESSFUL	20.4				
+network::network_correctness_u8_n11	opt-in	ordinary	pass	SUCCESSFUL	11.0	SUCCESSFUL	21.5				
+network::network_correctness_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	19.7	SUCCESSFUL	40.4				
+network::network_correctness_u8_n13	ordinary	ordinary	pass	SUCCESSFUL	27.4	SUCCESSFUL	46.7	SUCCESSFUL	SUCCESSFUL	44.5	47.7
+network::network_correctness_u8_n14	opt-in	ordinary	pass	SUCCESSFUL	47.5	SUCCESSFUL	77.7				
+network::network_correctness_u8_n15	opt-in	ordinary	pass	SUCCESSFUL	84.9	SUCCESSFUL	122.3				
+network::network_correctness_u8_n16	opt-in	ordinary	pass	SUCCESSFUL	147.8	SUCCESSFUL	305.1				
+network::network_correctness_u8_n17	opt-in	ordinary	pass	SUCCESSFUL	347.0	SUCCESSFUL	539.4				
+network::network_correctness_u8_n3_to4	ordinary	ordinary	pass	SUCCESSFUL	1.2	SUCCESSFUL	1.8	SUCCESSFUL	SUCCESSFUL	1.5	1.9
+network::network_correctness_u8_n5	ordinary	ordinary	pass	SUCCESSFUL	1.3	SUCCESSFUL	1.7	SUCCESSFUL	SUCCESSFUL	1.8	1.8
+network::network_correctness_u8_n6	ordinary	ordinary	pass	SUCCESSFUL	3.4	SUCCESSFUL	3.9	SUCCESSFUL	SUCCESSFUL	5.4	5.3
+network::network_correctness_u8_n7	ordinary	ordinary	pass	SUCCESSFUL	16.9	SUCCESSFUL	23.2	SUCCESSFUL	SUCCESSFUL	28.2	20.0
+network::network_correctness_u8_n8	opt-in	ordinary	pass	SUCCESSFUL	91.5	SUCCESSFUL	321.1				
+network::network_correctness_u8_n9	ordinary	ordinary	pass	SUCCESSFUL	7.0	SUCCESSFUL	15.2	SUCCESSFUL	SUCCESSFUL	11.1	11.9
+network::network_safety_unstable_u64_n0_to17	ordinary	ordinary	pass	SUCCESSFUL	112.5	SUCCESSFUL	191.4	SUCCESSFUL	SUCCESSFUL	140.0	437.5
+network::network_safety_unstable_u64_n18_to21	opt-in	ordinary	pass	SUCCESSFUL	73.4	SUCCESSFUL	125.8				
+network::network_safety_unstable_u64_n22_to25	opt-in	ordinary	pass	SUCCESSFUL	97.5	SUCCESSFUL	170.6				
+network::network_safety_unstable_u64_n26_to27	opt-in	ordinary	pass	SUCCESSFUL	67.0	SUCCESSFUL	139.2				
+network::network_safety_unstable_u64_n28_to29	opt-in	ordinary	pass	SUCCESSFUL	74.6	SUCCESSFUL	119.7				
+network::network_safety_unstable_u64_n30_to32	ordinary	ordinary	pass	SUCCESSFUL	125.9	SUCCESSFUL	295.9	SUCCESSFUL	SUCCESSFUL	172.8	540.8
+network::swap_contract_bytes16_n2	ordinary	ordinary	pass	SUCCESSFUL	7.6	SUCCESSFUL	13.5	SUCCESSFUL	SUCCESSFUL	19.7	16.8
+network::swap_contract_bytes17_n2	ordinary	ordinary	pass	SUCCESSFUL	8.7	SUCCESSFUL	13.7	SUCCESSFUL	SUCCESSFUL	21.6	17.9
+network::swap_contract_bytes85_n2	opt-in	ordinary	pass	SUCCESSFUL	101.6	SUCCESSFUL	114.3				
+network::swap_contract_bytes86_n2	opt-in	ordinary	pass	SUCCESSFUL	116.4	SUCCESSFUL	121.7				
+network::swap_contract_cell_i32_n2	ordinary	ordinary	pass	SUCCESSFUL	6.3	SUCCESSFUL	10.0	SUCCESSFUL	SUCCESSFUL	14.5	11.7
+network::swap_contract_drop_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	6.1	SUCCESSFUL	9.0	SUCCESSFUL	SUCCESSFUL	14.3	12.2
+network::swap_contract_four_positions_i32	ordinary	ordinary	pass	SUCCESSFUL	5.4	SUCCESSFUL	8.6	SUCCESSFUL	SUCCESSFUL	8.4	12.7
+network::swap_contract_four_positions_u64	ordinary	ordinary	pass	SUCCESSFUL	6.2	SUCCESSFUL	8.6	SUCCESSFUL	SUCCESSFUL	13.4	14.0
+network::swap_contract_four_positions_u8	ordinary	ordinary	pass	SUCCESSFUL	4.7	SUCCESSFUL	8.2	SUCCESSFUL	SUCCESSFUL	10.8	10.3
+network::swap_contract_u64_indices_n17	ordinary	ordinary	pass	SUCCESSFUL	31.4	SUCCESSFUL	53.6	SUCCESSFUL	SUCCESSFUL	62.3	79.8
+network::swap_contract_u64_n12	opt-in	ordinary	pass	SUCCESSFUL	28.6	SUCCESSFUL	43.0				
+network::swap_contract_u64_n13	opt-in	ordinary	pass	SUCCESSFUL	24.8	SUCCESSFUL	36.1				
+network::swap_contract_u64_n16	opt-in	ordinary	pass	SUCCESSFUL	30.8	SUCCESSFUL	46.1				
+network::swap_contract_u64_n2	ordinary	ordinary	pass	SUCCESSFUL	6.3	SUCCESSFUL	10.7	SUCCESSFUL	SUCCESSFUL	12.2	15.2
+network::swap_contract_u64_n9	opt-in	ordinary	pass	SUCCESSFUL	19.7	SUCCESSFUL	31.5				
+network::swap_contract_u8_indices_n17	ordinary	ordinary	pass	SUCCESSFUL	13.8	SUCCESSFUL	21.4	SUCCESSFUL	SUCCESSFUL	31.8	28.0
+network::swap_contract_u8_n12	opt-in	ordinary	pass	SUCCESSFUL	14.0	SUCCESSFUL	22.4				
+network::swap_contract_u8_n13	opt-in	ordinary	pass	SUCCESSFUL	13.5	SUCCESSFUL	20.4				
+network::swap_contract_u8_n16	opt-in	ordinary	pass	SUCCESSFUL	14.8	SUCCESSFUL	20.2				
+network::swap_contract_u8_n2	ordinary	ordinary	pass	SUCCESSFUL	7.0	SUCCESSFUL	9.4	SUCCESSFUL	SUCCESSFUL	15.2	13.2
+network::swap_contract_u8_n9	opt-in	ordinary	pass	SUCCESSFUL	12.5	SUCCESSFUL	20.1				
+network::swap_contract_zero_sized_n2	opt-in	opt-in	deferred								
+smoke::predicate_efficient_swap_boundaries	opt-in	opt-in	pass								
+smoke::predicate_efficient_swap_type_matrix	ordinary	ordinary	pass	SUCCESSFUL	0.1	SUCCESSFUL	0.1	SUCCESSFUL	SUCCESSFUL	0.1	0.1
+smoke::reject_efficient_swap_bytes9	opt-in	opt-in	fail								
+types::control_sorted_permutation_traits_cell_drop_n0_to2	opt-in	opt-in	pass								
+types::reject_logical_permutation_drop_n2	opt-in	opt-in	fail								
+types::reject_logical_sortedness_cell_n2	opt-in	opt-in	fail								
+types::sorted_permutation_traits_fallback_cell_u8_n0_to2	ordinary	ordinary	pass					SUCCESSFUL	SUCCESSFUL	26.6	33.4
+types::sorted_permutation_traits_fallback_cell_u8_n7	ordinary	ordinary	pass					SUCCESSFUL	SUCCESSFUL	105.9	110.3
+types::sorted_permutation_traits_fallback_cell_u8_n7_to9	opt-in	opt-in	pass								
+types::sorted_permutation_traits_general_drop_u8_n0_to2	ordinary	ordinary	pass					SUCCESSFUL	SUCCESSFUL	27.2	48.6
+types::sorted_permutation_traits_general_drop_u8_n7_to9	opt-in	opt-in	pass								
