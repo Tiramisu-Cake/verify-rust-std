@@ -1396,3 +1396,94 @@ fn drop_extra_drop_control_n2() {
     kani::cover(true, "extra-drop control entered");
     drop_route_properties::<2, false, false, 2>();
 }
+
+// OPT pilot: specialize DIRECT's route/backing choice without changing its oracle or contract.
+// Each harness has one route and one scratch allocation; ordinary admission is separate.
+#[cfg(kani_smallsort_controls)]
+mod opt_split {
+    use super::*;
+
+    fn general_direct_body<const N: usize>() {
+        const { assert!(N == 6 || N == 8) };
+        set_value_probe::<u64>();
+        let mut v: [u64; N] = kani::any();
+        let orig = v;
+        let mut cmp = lt_u64;
+        super::super::super::small_sort_general(&mut v, &mut cmp);
+        assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+        kani::cover(true, "general direct split properties checked");
+    }
+
+    fn stable_direct_body<const N: usize>() {
+        const { assert!(N == 6 || N == 8) };
+        set_value_probe::<u64>();
+        let mut v: [u64; N] = kani::any();
+        let orig = v;
+        let mut cmp = lt_u64;
+        let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+        assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+        kani::cover(true, "stable direct split properties checked");
+    }
+
+    fn general_contract_body<const N: usize>() {
+        const { assert!(N == 6 || N == 8) };
+        set_value_probe::<u64>();
+        let input: [u64; N] = kani::any();
+        let mut dst: [u64; N] = kani::any();
+        let mut scratch = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+        let src = scratch.as_mut_ptr() as *mut u64;
+        let mut cmp = lt_u64;
+        // SAFETY: only prefix N is initialized; dst is initialized and disjoint.
+        unsafe {
+            ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+            bidirectional_merge(crate::slice::from_raw_parts(src, N), dst.as_mut_ptr(), &mut cmp);
+        }
+        kani::cover(true, "general scratch48 split merge contract checked");
+    }
+
+    fn stable_contract_body<const N: usize>() {
+        const { assert!(N == 6 || N == 8) };
+        set_value_probe::<u64>();
+        let input: [u64; N] = kani::any();
+        let mut dst: [u64; N] = kani::any();
+        let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+        let src = scratch.as_mut_ptr() as *mut u64;
+        let mut cmp = lt_u64;
+        // SAFETY: only prefix N is initialized; dst is initialized and disjoint.
+        unsafe {
+            ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+            bidirectional_merge(crate::slice::from_raw_parts(src, N), dst.as_mut_ptr(), &mut cmp);
+        }
+        kani::cover(true, "stable scratch48 split merge contract checked");
+    }
+
+    macro_rules! define_direct_split_harness {
+        ($name:ident, $body:ident, $n:literal) => {
+            #[kani::proof]
+            #[kani::unwind(34)]
+            fn $name() {
+                $body::<$n>();
+            }
+        };
+    }
+
+    macro_rules! define_contract_split_harness {
+        ($name:ident, $body:ident, $n:literal) => {
+            #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+            #[kani::unwind(34)]
+            fn $name() {
+                $body::<$n>();
+            }
+        };
+    }
+
+    define_direct_split_harness!(general_direct_u64_n6, general_direct_body, 6);
+    define_direct_split_harness!(stable_direct_u64_n6, stable_direct_body, 6);
+    define_direct_split_harness!(general_direct_u64_n8, general_direct_body, 8);
+    define_direct_split_harness!(stable_direct_u64_n8, stable_direct_body, 8);
+    define_contract_split_harness!(general_contract_u64_n6, general_contract_body, 6);
+    define_contract_split_harness!(stable_contract_u64_n6, stable_contract_body, 6);
+    define_contract_split_harness!(general_contract_u64_n8, general_contract_body, 8);
+    define_contract_split_harness!(stable_contract_u64_n8, stable_contract_body, 8);
+}
