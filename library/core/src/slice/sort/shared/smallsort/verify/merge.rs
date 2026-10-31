@@ -951,7 +951,7 @@ fn scratch_view<T>(
 }
 
 fn general_direct_u64_properties<const N: usize>() {
-    const { assert!(N == 6 || N == 7 || N == 8) };
+    const { assert!(N >= 6 && N <= 9) };
     set_value_probe::<u64>();
     let mut v: [u64; N] = kani::any();
     let orig = v;
@@ -962,7 +962,7 @@ fn general_direct_u64_properties<const N: usize>() {
 }
 
 fn stable_direct_u64_properties<const N: usize>() {
-    const { assert!(N == 6 || N == 7 || N == 8) };
+    const { assert!(N >= 6 && N <= 9) };
     set_value_probe::<u64>();
     let mut v: [u64; N] = kani::any();
     let orig = v;
@@ -970,6 +970,32 @@ fn stable_direct_u64_properties<const N: usize>() {
     let mut holder = MaybeUninit::<[u64; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
     let scratch = scratch_view(&mut holder);
     <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_nonconst_u64_properties<const N: usize>() {
+    const { assert!(N >= 6 && N <= 9) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_const_u64_properties<const N: usize>() {
+    const { assert!(N >= 6 && N <= 9) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
     assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
     kani::cover(true, "stable direct split properties checked");
 }
@@ -990,6 +1016,21 @@ define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_prope
 define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
 define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
 define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(general_direct_u64_n9, general_direct_u64_properties, 9);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_u64_n9, stable_direct_u64_properties, 9);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(
+    stable_direct_nonconst_u64_n9,
+    stable_direct_nonconst_u64_properties,
+    9
+);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_const_u64_n9, stable_direct_const_u64_properties, 9);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_const_u64_n8, stable_direct_const_u64_properties, 8);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
