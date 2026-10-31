@@ -91,14 +91,8 @@ fn same24to8_stable_scratch48_actual_pfc() {
     kani::cover(true, "GEOM16_SAME24TO8_PFC_COMPLETE");
 }
 
-enum Mutation {
-    None,
-    Value,
-    Source,
-    Left,
-}
-
-fn same16to0_plain(mutation: Mutation) {
+// Each monomorphization includes only its own post-call mutation and cover.
+fn same16to0_plain(after_call: impl FnOnce(*mut u8)) {
     set_value_probe::<u8>();
     let input: [u8; 8] = kani::any();
     let mut scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
@@ -115,23 +109,12 @@ fn same16to0_plain(mutation: Mutation) {
             bidirectional_merge(view, base, cmp_ref);
         }
         // The shared source view has ended before any raw mutation or fresh checker view.
-        match mutation {
-            Mutation::None => {}
-            Mutation::Value => {
-                kani::cover(true, "GEOM16_SAME16TO0_VALUE_BEFORE_MUTATION");
-                *base ^= 1;
-            }
-            Mutation::Source => {
-                kani::cover(true, "GEOM16_SAME16TO0_SOURCE_BEFORE_MUTATION");
-                *base.add(16) ^= 1;
-            }
-            Mutation::Left => unreachable!(),
-        }
+        after_call(base);
         check_same8(&input, source, base);
     }
 }
 
-fn same24to8_plain(mutation: Mutation) {
+fn same24to8_plain(after_call: impl FnOnce(*mut u8)) {
     set_value_probe::<u8>();
     let input: [u8; 8] = kani::any();
     let left: [u8; 8] = kani::any();
@@ -151,17 +134,7 @@ fn same24to8_plain(mutation: Mutation) {
             kani::assume(CopyOnDrop::<u8>::merge_inputs_are_sorted(view, &cmp_ref));
             bidirectional_merge(view, dst, cmp_ref);
         }
-        match mutation {
-            Mutation::Value => {
-                kani::cover(true, "GEOM16_SAME24TO8_VALUE_BEFORE_MUTATION");
-                *dst ^= 1;
-            }
-            Mutation::Left => {
-                kani::cover(true, "GEOM16_SAME24TO8_LEFT_BEFORE_MUTATION");
-                *base ^= 1;
-            }
-            Mutation::None | Mutation::Source => unreachable!(),
-        }
+        after_call(base);
         check_same8(&input, source, dst);
         check_left_half(base, &left);
     }
@@ -170,30 +143,46 @@ fn same24to8_plain(mutation: Mutation) {
 #[kani::proof]
 #[kani::unwind(34)]
 fn same16to0_checker_positive() {
-    same16to0_plain(Mutation::None);
+    same16to0_plain(|_| {});
     kani::cover(true, "GEOM16_SAME16TO0_CHECKER_COMPLETE");
 }
 
 #[kani::proof]
 #[kani::unwind(34)]
 fn same16to0_value_corruption_control() {
-    same16to0_plain(Mutation::Value);
+    same16to0_plain(|base| {
+        kani::cover(true, "GEOM16_SAME16TO0_VALUE_BEFORE_MUTATION");
+        // SAFETY: dst slot0 was initialized by the completed real merge.
+        unsafe { *base ^= 1 };
+    });
 }
 
 #[kani::proof]
 #[kani::unwind(34)]
 fn same16to0_source_frame_control() {
-    same16to0_plain(Mutation::Source);
+    same16to0_plain(|base| {
+        kani::cover(true, "GEOM16_SAME16TO0_SOURCE_BEFORE_MUTATION");
+        // SAFETY: source slot16 is initialized and its shared call view has ended.
+        unsafe { *base.add(16) ^= 1 };
+    });
 }
 
 #[kani::proof]
 #[kani::unwind(34)]
 fn same24to8_value_corruption_control() {
-    same24to8_plain(Mutation::Value);
+    same24to8_plain(|base| {
+        kani::cover(true, "GEOM16_SAME24TO8_VALUE_BEFORE_MUTATION");
+        // SAFETY: dst slot8 was initialized by the completed real merge.
+        unsafe { *base.add(8) ^= 1 };
+    });
 }
 
 #[kani::proof]
 #[kani::unwind(34)]
 fn same24to8_left_frame_control() {
-    same24to8_plain(Mutation::Left);
+    same24to8_plain(|base| {
+        kani::cover(true, "GEOM16_SAME24TO8_LEFT_BEFORE_MUTATION");
+        // SAFETY: protected left slot0 is initialized and outside source and dst.
+        unsafe { *base ^= 1 };
+    });
 }
