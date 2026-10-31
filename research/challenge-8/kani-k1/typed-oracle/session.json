@@ -8,9 +8,21 @@
   "branch": "experiment/kani-k1-typedoracle-20261031",
   "max_own_usd": 2,
   "max_builds": 2,
-  "builds": [],
+  "builds": [
+    {
+      "stage": "g1",
+      "UUID": "c8365803-0352-4695-a86d-8ecee29b59fe",
+      "request_id": "typed-oracle-g1-20261031-r1",
+      "source_sha": "cb7445b2b4d4b6714c3ac7cf7a1757314d463e8f",
+      "library_tree": "702a552ae226f885fe03ef5e8af0a386848587ac",
+      "status": "SUBMITTED",
+      "own_reserve_usd": 1.62,
+      "actual_spent_usd": null,
+      "receipt_recorded_at_utc": "2026-10-31T12:53:12.981286+00:00"
+    }
+  ],
   "own_spent_usd": 0,
-  "own_reserved_usd": 0,
+  "own_reserved_usd": 1.62,
   "g1": {
     "envelope_minutes": 120,
     "reserve_usd": 1.62,
@@ -20,15 +32,22 @@
     "envelope_minutes": 60,
     "reserve_usd": 0.81,
     "latest_dispatch_utc": "2026-10-31T16:16:00Z",
-    "condition": "Explicit GO; same library; own spent+reserved+0.810<=2; full time envelope plus closing; unused build slot"
+    "condition": "Explicit GO; same library; own spent+reserved+0.810<=2; full time envelope plus closing; unused build slot",
+    "authorization": "NOT_GRANTED: current coordinator GO explicitly authorizes G1"
   },
-  "state": "PRE_BUILD_REVIEW_PENDING_GO",
-  "GO": null,
+  "state": "G1_SUBMITTED_AWAITING_WATCH",
+  "GO": {
+    "coordinator": "Claude Code",
+    "source_sha": "cb7445b2b4d4b6714c3ac7cf7a1757314d463e8f",
+    "scope": "G1 only",
+    "authorization": "Explicit user-delivered GO"
+  },
   "notes": [
     "Full reserves total 2.430 > 2: G2 is conditional, never promised.",
     "Failed/cancelled/retry builds consume own slots and cost by UUID/request_id.",
     "Before dispatch fresh k1g.sh budget, actual own ledger, time and GO checks are mandatory.",
     "After dispatch k1g.sh watch UUID, then end turn; no model polling.",
     "No semantic changes after GO without published delta-review/new GO."
-  ]
+  ],
+  "next": "After watcher wake: bounded summary, peaks with attribution, status, check-tooling against cap, budget UUID; no automatic retry/G2"
 }
