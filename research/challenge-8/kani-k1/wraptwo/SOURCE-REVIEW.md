@@ -19,3 +19,15 @@ failure locations remain NOT_RUN until the coordinator authorizes G1.
 
 Main-agent final adjustment: pair_region takes a shared slice and only queries read/write
 predicates through raw pointers; it never writes or requires a mutable specification capture.
+
+## G2 delta review after G1 COMPILE_ERROR
+
+G1 supplied no compile/PFC credit: E0502 at all three scalar old-count clauses on &mut inputs.
+The same Luna High reviewer separately inspected the G2 raw-pair transformation and exact
+scratch nonoverlap arithmetic. No explicit safety, arithmetic, N2-domain, oracle or frame issue
+was found. offset_from is reached only with live nonempty regions in the same allocation;
+the negative-distance unsigned magnitude comparison preserves scratch-before-input geometry.
+Each wrapper constructs exactly two initialized writable elements after its canonical guard,
+and pair_count still captures a scalar through the same full-value checker. The PFC backing,
+probe, comparator, controls, outside frame checks and covers retain their original domains.
+Compile success, E0502 removal on the pin and all proofs/control outcomes remain NOT_RUN.

@@ -56,8 +56,8 @@ check("unwinding_assertions_retained", src.count("#[kani::unwind(16)]") == 5
 specs = re.findall(r"#\[kani::(?:requires|modifies|ensures)\((.*?)\)\]", src, re.S)
 check("fifteen_clauses_no_callback_calls", len(specs) == 15 and not any(
       re.search(r"\b(?:cmp|is_less|cell_less|byte_less|noncopy_less)\s*\(", s) for s in specs))
-check("scalar_old_count_same_probe", src.count("old(count(v, probe)) == count(v, probe)") == 3)
-check("input_only_frames", src.count("#[kani::modifies(v)]") == 3)
+check("scalar_old_count_same_probe", src.count("old(pair_count(v, probe)) == pair_count(v, probe)") == 3)
+check("input_only_frames", src.count("#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 2))]") == 3)
 check("full_value_count_not_key_count", "(v[0].model() == probe) as usize" in src
       and "(v[1].model() == probe) as usize" in src)
 check("all_expected_trait_entries", all(t in src for t in [
@@ -84,8 +84,14 @@ for row in manifest["harnesses"]:
         hits = [i + 1 for i, line in enumerate(src.splitlines())
                 if '"' + row["expect_check"] + '"' in line and "kani::assert" in line]
         check("unique_literal:" + name, len(hits) == 1, {"source_lines": hits})
-check("run_request_equals_g1", (K1 / "RUN-REQUEST.json").read_bytes()
-      == (K1 / "wraptwo/g1.request.json").read_bytes())
+check("run_request_equals_g2", (K1 / "RUN-REQUEST.json").read_bytes()
+      == (K1 / "wraptwo/g2-retry.request.json").read_bytes())
+check("raw_pair_interface_constructs_exact_n2",
+      src.count("let v = unsafe { slice::from_raw_parts_mut(v, 2) };") == 3
+      and all(re.search(rf"unsafe fn {name}\([^)]*v: \*mut", src, re.S)
+              for name in ["stable_cell", "unstable_byte", "freeze_noncopy"]))
+check("stable_retains_scratch_exclusivity", "#[kani::requires(stable_region(v, scratch))]" in src
+      and "d as usize >= 2" in src and "d.unsigned_abs() >= scratch.len()" in src)
 ok = all(c["ok"] for c in checks.values())
 print(json.dumps({"base": BASE, "head": git("rev-parse", "HEAD"), "ok": ok,
                   "scope": "lexical source/request checks only; compile and proofs NOT_RUN",

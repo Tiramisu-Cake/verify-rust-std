@@ -1,0 +1,26 @@
+{
+ "build": "7d5d04ec-f1da-493d-8be2-7ce36de3624b",
+ "request_id": "wraptwo-g1-20261031",
+ "head": "9f3da88a0b7973df3d7a7ec9d4701c6be11982cc",
+ "library_tree": "20c91cb296489182f14384a1b78b31f04eb16932",
+ "request_sha256": "315459c5e6060019967b01bd7fe244c6a68db36edfb85ba44435578a8ef1d8ba",
+ "kani_pin": "9461e07af7ec929f050aa4192f29363c9be07779",
+ "status": "COMPILE_ERROR",
+ "all_five_rows": "NOT_RUN",
+ "cause": "E0502 at scalar old(count(v, probe)) clauses: built wrap.rs:84,103,118",
+ "solver_vt": null,
+ "covers": null,
+ "compiler_wall_seconds": 44.88,
+ "run_max_rss_kib": 1326476,
+ "compiler_sampled_peak_kib": 1324600,
+ "own_cost_usd": 0.108,
+ "own_reserved_usd": 0,
+ "check_tooling": "PASS vs 30f77e859903df14b442ff9294d4fbbd44827f20",
+ "evidence": [
+  "g1.summary.md",
+  "g1.compile-diagnostic.txt",
+  "g1.peaks.txt",
+  "g1.tooling.txt",
+  "g1.cost.txt"
+ ]
+}

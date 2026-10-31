@@ -1,0 +1,48 @@
+error[E0502]: cannot borrow value as immutable because it is also borrowed as mutable
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/wrap.rs:84:31
+   |
+80 | #[kani::requires(pair_region(v))]
+   | ---------------------------------
+   | |
+   | mutable borrow occurs here
+   | mutable borrow later used here
+...
+84 | #[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
+   |                               ^ immutable borrow occurs here
+...
+95 |     <Cell<u8> as StableSmallSortTypeImpl>::small_sort(v, scratch, &mut is_less);
+   |                                                       - first borrow occurs due to use of value in closure
+
+error[E0502]: cannot borrow value as immutable because it is also borrowed as mutable
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/wrap.rs:103:31
+    |
+ 99 | #[kani::requires(pair_region(v))]
+    | ---------------------------------
+    | |
+    | mutable borrow occurs here
+    | mutable borrow later used here
+...
+103 | #[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
+    |                               ^ immutable borrow occurs here
+...
+109 |     <u8 as UnstableSmallSortTypeImpl>::small_sort(v, &mut is_less);
+    |                                                   - first borrow occurs due to use of value in closure
+
+error[E0502]: cannot borrow value as immutable because it is also borrowed as mutable
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/wrap.rs:118:31
+    |
+114 | #[kani::requires(pair_region(v))]
+    | ---------------------------------
+    | |
+    | mutable borrow occurs here
+    | mutable borrow later used here
+...
+118 | #[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
+    |                               ^ immutable borrow occurs here
+...
+124 |     <NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut is_less);
+    |                                                                - first borrow occurs due to use of value in closure
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `core` (lib) due to 3 previous errors; 1 warning emitted
+error: Failed to execute cargo (exit status: 101). Found 3 compilation errors.

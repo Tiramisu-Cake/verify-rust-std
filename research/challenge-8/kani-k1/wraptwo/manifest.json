@@ -46,5 +46,6 @@
   "retry_actual_spend_limit": 0.92,
   "optional_inventory_reserve": 0.675
  },
- "stable_scratch_domain": "separate MaybeUninit<Cell<u8>> backing[2], exposed len 0..=2; slot0 initialized symbolic, slot1 uninitialized and never read; initialized slot checked unchanged"
+ "stable_scratch_domain": "separate MaybeUninit<Cell<u8>> backing[2], exposed len 0..=2; slot0 initialized symbolic, slot1 uninitialized and never read; initialized slot checked unchanged",
+ "g2_delta": "unsafe raw initialized writable span of exactly2; scalar old(pair_count), same pure checker and probe; stable scratch disjoint requires retain original exclusivity; real bodies/PFC domains/controls unchanged"
 }
