@@ -1482,3 +1482,84 @@ mutating_route_permutation_case!(mutating_route_permutation_cell_n4, 4, [1, 2, 3
 fn control_network_mutant_presorted_u8_n10() {
     network_correctness_u8_n10();
 }
+
+#[cfg(kani_smallsort_controls)]
+mod perm12 {
+    use super::{count_matching_values, prefix_unchanged};
+    use crate::kani;
+
+    struct TraceComparator {
+        phase: u8,
+    }
+
+    impl TraceComparator {
+        fn less<const FIRST: bool, const SECOND: bool>(&mut self, a: &u64, b: &u64) -> bool {
+            // SAFETY: the real sort supplies initialized readable references, as in the parent
+            // comparator. Read the actual arguments even when the result is a fixed prefix bit.
+            unsafe {
+                let _left = crate::mem::ManuallyDrop::new(crate::ptr::read_volatile(a));
+                let _right = crate::mem::ManuallyDrop::new(crate::ptr::read_volatile(b));
+            }
+            match self.phase {
+                0 => {
+                    self.phase = 1;
+                    FIRST
+                }
+                1 => {
+                    self.phase = 2;
+                    SECOND
+                }
+                _ => kani::any::<bool>(),
+            }
+        }
+    }
+
+    fn check_permutation(pre: &[u64; 12], v: &[u64; 12], probe: &u64) {
+        assert!(count_matching_values(pre, probe) == count_matching_values(v, probe));
+    }
+
+    fn insertion_permutation<
+        const PARTITIONED: bool,
+        const FIRST: bool,
+        const SECOND: bool,
+        const CORRUPT: bool,
+    >() {
+        let mut v: [u64; 12] = kani::any();
+        let pre = v;
+        let probe: u64 = kani::any();
+        let mut trace = TraceComparator { phase: if PARTITIONED { 0 } else { 2 } };
+        // This closure is a new F instance; phase is private and never aliases array or probe data.
+        super::super::super::insertion_sort_shift_left(&mut v, 9, &mut |a, b| {
+            trace.less::<FIRST, SECOND>(a, b)
+        });
+        // Every normal return has completed tails 9, 10 and 11, each with at least one comparison.
+        assert!(trace.phase == 2);
+        kani::cover(
+            !prefix_unchanged(&v, &pre, 0),
+            "insertion preserves permutation and moves elements",
+        );
+        if CORRUPT {
+            v[0] ^= 1;
+            kani::cover(true, "insertion value corruption reached the full-value checker");
+        }
+        check_permutation(&pre, &v, &probe);
+        kani::cover(true, "insertion permutation check reached the end");
+    }
+
+    macro_rules! trace_case {
+        ($name:ident, $partitioned:literal, $first:literal, $second:literal, $corrupt:literal) => {
+            #[kani::proof]
+            #[kani::unwind(25)]
+            fn $name() {
+                insertion_permutation::<$partitioned, $first, $second, $corrupt>();
+            }
+        };
+    }
+
+    trace_case!(insertion_permutation_u64_n12_trace_unpartitioned, false, false, false, false);
+    trace_case!(insertion_permutation_u64_n12_ff, true, false, false, false);
+    trace_case!(insertion_permutation_u64_n12_ft, true, false, true, false);
+    trace_case!(insertion_permutation_u64_n12_tf, true, true, false, false);
+    trace_case!(insertion_permutation_u64_n12_tt, true, true, true, false);
+    trace_case!(insertion_permutation_u64_n12_value_corruption_control, false, false, false, true);
+}
