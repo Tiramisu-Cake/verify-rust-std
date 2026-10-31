@@ -20,6 +20,7 @@
 //! Network/insertion safety checks execute real bodies. Network sortedness is machine checked;
 //! permutation beyond N8 uses a structural argument, not a machine-checked full-route theorem.
 //! The three `small_sort` trait methods have no requires/ensures; correctness uses harness asserts.
+//! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
 //! Manual stubs cut only `panic_on_ord_violation`; covers and selected opt-in controls support
 //! nonvacuity. `run-kani.sh` does not fail on unreachable covers; historical covers were inspected
@@ -39,3 +40,4 @@ mod mutations;
 mod network;
 mod smoke;
 mod types;
+mod wrap;
