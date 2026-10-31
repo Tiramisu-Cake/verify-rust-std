@@ -5,14 +5,33 @@
   "deadline_utc": "2026-10-31T19:50:00Z",
   "closing_start_utc": "2026-10-31T19:20:00Z",
   "coordinator": "Claude Code",
-  "state": "PRE_BUILD_REVIEW_WAIT_GO",
-  "own_builds": [],
-  "own_spent_usd": 0,
+  "state": "G1_REVIEW_WAIT_COORDINATOR",
+  "own_builds": [
+    {
+      "build_uuid": "eb7eef9a-349f-4e2d-bb5c-8224b8d5b5ba",
+      "request_id": "geom16-g1-20261031-r1",
+      "request_source_sha": "7684a98d474157f09d8702695262d5314460ccf0",
+      "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
+      "request_sha256": "ea859a4d7cda0fca92edd16495c7034e56672098fd4f8265c9f901dd93015134",
+      "pool": "k1-standard4",
+      "entries": 5,
+      "state": "FAILURE",
+      "recorded_at_utc": "2026-10-31T14:58:57.911983+00:00",
+      "spent_usd": 0.2835,
+      "reserved_usd": 0,
+      "envelope_minutes": 80
+    }
+  ],
+  "own_spent_usd": 0.2835,
   "own_active_reserved_usd": 0,
   "own_proposed_g1_reserve_usd": 1.08,
   "own_proposed_g2_reserve_usd": 0.81,
   "budget_usd": 2,
   "max_builds": 2,
   "source_sha": "0560a33adbbd8b058c05370108357dcf09c265b8",
-  "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219"
+  "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
+  "g1_automatic_gate": false,
+  "g1_mandatory_pair": "COMPLETE_SUCCESS",
+  "g2_status": "NOT_RUN_WAIT_SEPARATE_GO",
+  "control_disposition": "exact frozen-source assertions located; literal matcher unmet; runtime class not emitted"
 }

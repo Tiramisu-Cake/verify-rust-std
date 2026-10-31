@@ -1,0 +1,18 @@
+    18	// SAFETY: source and destination each contain eight initialized bytes after the real call.
+    19	// Fresh views are formed here, after any deliberate mutation and its source borrow has ended.
+    20	unsafe fn check_same8(input: &[u8; 8], source: *const u8, dst: *const u8) {
+    21	    let mut cmp = lt_u8;
+    22	    let cmp = &mut cmp;
+    23	    assert!(CopyOnDrop::<u8>::is_sorted_unrolled(dst, 8, &cmp), "GEOM16_SORTED");
+    24	    assert!(
+    25	        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 8)
+    26	            == CopyOnDrop::<u8>::probe_count_unrolled(dst, 8),
+    27	        "GEOM16_FULL_VALUE_COUNT"
+    28	    );
+    29	    assert!(unsafe { initialized_span_matches(source, input) }, "GEOM16_SOURCE_FRAME");
+    30	}
+    31	
+    32	// SAFETY: the protected left half contains eight initialized bytes.
+    33	unsafe fn check_left_half(left: *const u8, input: &[u8; 8]) {
+    34	    assert!(unsafe { initialized_span_matches(left, input) }, "GEOM16_LEFT_HALF_FRAME");
+    35	}
