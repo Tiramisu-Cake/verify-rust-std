@@ -1,0 +1,51 @@
+{
+ "schema": "kani-k1-run-request-v1",
+ "agent": "k1-merge",
+ "runner": "gcb-e2-standard-4",
+ "request_id": "casefive-g1-20261101",
+ "kind": "diagnostic",
+ "purpose": "CASE5 G1: real swap_if_less vs expected conditional move on arbitrary [u8; M]; R0 repeat, R1 taken only, R2 not taken only, R3 fn pointer, R4 M=1, R5 one assert, R6 snapshot oracle, R7 reference ptr::swap; controls on, jobs 1, uninit off.",
+ "harness_timeout_minutes": 3,
+ "controls": true,
+ "kani_jobs": 1,
+ "uninit_checks": false,
+ "harnesses": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r0_closure_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive R0: component oracle position"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r1_taken_only_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive R1 taken: component oracle position"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r2_not_taken_only_bytes17",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r3_fn_pointer_bytes17",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r4_closure_bytes1",
+   "expect": "FAILED",
+   "expect_check": "casefive R4: component oracle position"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r5_single_assert_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive R5: single oracle [taken]"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r6_snapshot_oracle_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive R6: component oracle position"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_r7_reference_move_bytes17",
+   "expect": "SUCCESS"
+  }
+ ]
+}

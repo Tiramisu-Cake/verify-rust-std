@@ -1,0 +1,15 @@
+ok   library diff = merge.rs + new casefive.rs: ['M\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'A\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge/casefive.rs']
+ok   merge.rs: only cfg-gated registration ['+#[cfg(kani_smallsort_controls)]', '+mod casefive;']
+ok   casefive.rs has no inner cfg (module gated by its declaration)
+ok   request names = 8 source harnesses
+ok   7 proof attributes, macro instantiated twice -> 8 harnesses
+ok   messages found for rows ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7']
+ok   39 messages, all unique
+ok   R0 expect_check 'casefive R0: component oracle position' -> ['casefive R0: component oracle position 0', 'casefive R0: component oracle position 1']
+ok   R1 expect_check 'casefive R1 taken: component oracle position' -> ['casefive R1 taken: component oracle position 0', 'casefive R1 taken: component oracle position 1']
+ok   R4 expect_check 'casefive R4: component oracle position' -> ['casefive R4: component oracle position 0', 'casefive R4: component oracle position 1']
+ok   R5 expect_check 'casefive R5: single oracle [taken]' -> ['casefive R5: single oracle [taken]']
+ok   R6 expect_check 'casefive R6: component oracle position' -> ['casefive R6: component oracle position 0', 'casefive R6: component oracle position 1']
+ok   kind diagnostic, 3 min, controls, jobs 1, uninit off
+ok   no change outside smallsort/verify (runtime library untouched)
+GATE PASS
