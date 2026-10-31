@@ -1,0 +1,15 @@
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::final16_stable_scratch48_actual_pfc
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same16to0_stable_scratch48_actual_pfc
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same16to0_checker_positive
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same16to0_value_corruption_control
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same16to0_source_frame_control
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

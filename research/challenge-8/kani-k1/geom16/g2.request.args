@@ -1,0 +1,11 @@
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control
+--harness
+slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

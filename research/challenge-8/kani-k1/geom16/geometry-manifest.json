@@ -1,0 +1,273 @@
+{
+  "source_sha": "0560a33adbbd8b058c05370108357dcf09c265b8",
+  "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
+  "branch": "experiment/kani-k1-geomsixteen-20261031",
+  "cap_usd": 88.96,
+  "kani_pin": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "toolchain": "nightly-2026-10-12",
+  "platform": "Linux k1-standard4 / gcb-e2-standard-4; jobs1",
+  "uninit_checks": false,
+  "unwind": 34,
+  "opt_in_cfg": "kani_smallsort_controls",
+  "source_file": "library/core/src/slice/sort/shared/smallsort/verify/merge/geom16.rs",
+  "parent_registration_lines": [
+    1648,
+    1649
+  ],
+  "representation": "[MaybeUninit<u8>;48]",
+  "initializer": "[MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN]",
+  "comparator": "parent lt_u8 function item; (a >> 1) < (b >> 1)",
+  "probe": "one parent set_value_probe::<u8>() per entry; arbitrary independent immutable witness",
+  "count": "parent CopyOnDrop::<u8>::probe_count_unrolled; full u8 value",
+  "geometries": {
+    "final16": {
+      "scratch_initialized_before": [
+        [
+          0,
+          16
+        ]
+      ],
+      "scratch_uninitialized_before": [
+        [
+          16,
+          48
+        ]
+      ],
+      "source": [
+        0,
+        16
+      ],
+      "destination": "separate initialized any [u8;16]",
+      "object_identity": "scratch source and exact v16 destination are separate objects"
+    },
+    "same16to0": {
+      "scratch_initialized_before": [
+        [
+          16,
+          24
+        ]
+      ],
+      "scratch_uninitialized_before": [
+        [
+          0,
+          16
+        ],
+        [
+          24,
+          48
+        ]
+      ],
+      "source": [
+        16,
+        24
+      ],
+      "destination": [
+        0,
+        8
+      ],
+      "object_identity": "one scratch base; dst=base; source=base.add(16); disjoint"
+    },
+    "same24to8": {
+      "scratch_initialized_before": [
+        [
+          0,
+          8
+        ],
+        [
+          24,
+          32
+        ]
+      ],
+      "scratch_uninitialized_before": [
+        [
+          8,
+          24
+        ],
+        [
+          32,
+          48
+        ]
+      ],
+      "source": [
+        24,
+        32
+      ],
+      "destination": [
+        8,
+        16
+      ],
+      "protected": [
+        0,
+        8
+      ],
+      "object_identity": "one scratch base; dst=base.add(8); source=base.add(24); disjoint",
+      "left": "independent arbitrary pre-left; no sortedness assumption"
+    }
+  },
+  "views": "only initialized source8/16, checker source8, protected left8; no typed view of all48",
+  "snapshots": "input retained directly; optional left retained directly; no duplicate copies",
+  "plain_assumes": "only original merge_inputs_are_sorted; geometry/initialization by construction",
+  "post_call_callbacks": "fixture mutation/cover closures only; comparator remains parent function item",
+  "checker": {
+    "sorted": {
+      "assert_line": 23,
+      "literal_line": 23
+    },
+    "full_value_count": {
+      "assert_line": 24,
+      "literal_line": 27
+    },
+    "source_frame": {
+      "assert_line": 29,
+      "literal_line": 29
+    },
+    "left_frame": {
+      "assert_line": 34,
+      "literal_line": 34
+    }
+  },
+  "control_mutations": {
+    "value": "dst[0] ^= 1; key preserved",
+    "source_frame": "scratch slot16 ^= 1 after ending source shared view",
+    "left_frame": "scratch slot0 ^= 1; source24..32 and dst8..16 untouched"
+  },
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::final16_stable_scratch48_actual_pfc",
+      "expect": "SUCCESS",
+      "group": "g1",
+      "geometry": "final16",
+      "mode": "actual PFC",
+      "function_line": 39,
+      "required_cover": "GEOM16_FINAL16_PFC_COMPLETE",
+      "cover_line": 52,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_stable_scratch48_actual_pfc",
+      "expect": "SUCCESS",
+      "group": "g1",
+      "geometry": "same16to0",
+      "mode": "actual PFC",
+      "function_line": 57,
+      "required_cover": "GEOM16_SAME16TO0_PFC_COMPLETE",
+      "cover_line": 70,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_checker_positive",
+      "expect": "SUCCESS",
+      "group": "g1",
+      "geometry": "same16to0",
+      "mode": "plain actual body; no stubs",
+      "function_line": 145,
+      "required_cover": "GEOM16_SAME16TO0_CHECKER_COMPLETE",
+      "cover_line": 147,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_value_corruption_control",
+      "expect": "FAILED",
+      "expect_check": "GEOM16_FULL_VALUE_COUNT",
+      "group": "g1",
+      "geometry": "same16to0",
+      "mode": "plain actual body; no stubs",
+      "function_line": 152,
+      "required_cover": "GEOM16_SAME16TO0_VALUE_BEFORE_MUTATION",
+      "cover_line": 154,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_source_frame_control",
+      "expect": "FAILED",
+      "expect_check": "GEOM16_SOURCE_FRAME",
+      "group": "g1",
+      "geometry": "same16to0",
+      "mode": "plain actual body; no stubs",
+      "function_line": 162,
+      "required_cover": "GEOM16_SAME16TO0_SOURCE_BEFORE_MUTATION",
+      "cover_line": 164,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc",
+      "expect": "SUCCESS",
+      "group": "g2",
+      "geometry": "same24to8",
+      "mode": "actual PFC",
+      "function_line": 75,
+      "required_cover": "GEOM16_SAME24TO8_PFC_COMPLETE",
+      "cover_line": 91,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control",
+      "expect": "FAILED",
+      "expect_check": "GEOM16_FULL_VALUE_COUNT",
+      "group": "g2",
+      "geometry": "same24to8",
+      "mode": "plain actual body; no stubs",
+      "function_line": 172,
+      "required_cover": "GEOM16_SAME24TO8_VALUE_BEFORE_MUTATION",
+      "cover_line": 174,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control",
+      "expect": "FAILED",
+      "expect_check": "GEOM16_LEFT_HALF_FRAME",
+      "group": "g2",
+      "geometry": "same24to8",
+      "mode": "plain actual body; no stubs",
+      "function_line": 182,
+      "required_cover": "GEOM16_SAME24TO8_LEFT_BEFORE_MUTATION",
+      "cover_line": 184,
+      "execution_status": "NOT_RUN",
+      "verification_time_s": null,
+      "attributed_peak_rss_kib": null
+    }
+  ],
+  "g1_envelope": {
+    "entries": 5,
+    "per_entry_minutes": 10,
+    "overhead_minutes": 30,
+    "total_minutes": 80,
+    "reserve_usd": 1.08
+  },
+  "g2_envelope": {
+    "entries": 3,
+    "per_entry_minutes": 10,
+    "overhead_minutes": 30,
+    "total_minutes": 60,
+    "reserve_usd": 0.81
+  },
+  "full_envelope": {
+    "total_minutes": 140,
+    "reserve_usd": 1.89,
+    "build_limit": 2,
+    "own_budget_usd": 2
+  },
+  "gate": "both required PFCs and plain positive SUCCESS; covers reachable; each control exactly intended failed assert; no unexpected checks or identity mismatch",
+  "conditional_g2": "requires accepted G1, separate explicit GO, frozen library, spent+reserved+0.810<=2, full60min plus closing30min within deadline",
+  "limits": [
+    "F03 remains open for generic F/T; only concrete lawful pure lt_u8 profile",
+    "post-call controls calibrate predicates, not modifies instrumentation or a callee counterexample",
+    "local frame checks cover initialized protected spans, not all48/uninit",
+    "no caller N16, sort8 contract, general aggregate, CI/ordinary admission, Mac/jobs3 or B2 credit",
+    "SPEC-FIX may require new source-domain review and repeat"
+  ]
+}
