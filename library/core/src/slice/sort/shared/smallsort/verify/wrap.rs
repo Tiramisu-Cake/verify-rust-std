@@ -62,8 +62,8 @@ fn canonical_guard(ok: bool) -> bool {
     ok
 }
 
-fn pair_region<T>(v: &mut [T]) -> bool {
-    v.len() == 2 && can_dereference(v as *const [T]) && can_write(v as *mut [T])
+fn pair_region<T>(v: &[T]) -> bool {
+    v.len() == 2 && can_dereference(v as *const [T]) && can_write(v as *const [T] as *mut [T])
 }
 
 // Both helpers read only the two initialized input elements, never any scratch or uninit tail.
