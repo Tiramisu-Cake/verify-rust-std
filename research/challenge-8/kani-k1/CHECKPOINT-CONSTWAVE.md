@@ -1,4 +1,4 @@
-# CONSTWAVE — перед G1
+# CONSTWAVE — завершено, PARTIAL
 
 Дата: 2026-10-31. Worktree `/root/verify-rust-std-kani-constwave`.
 Ветка `experiment/kani-k1-constwave-20261031`; исходный HEAD `0d0e585912`.
@@ -18,8 +18,9 @@ Frozen library tree G1/G2: `3b06bd6d60eec19d3c7ff1a0133f8c8191f20980`.
 - Проверка бюджета до review: 120 builds, used $64.2030, reserved $0, cap $73.96.
 - Свои builds: G1 `3b1d1233-bff3-42fc-87af-21d1e083cfb0`;
   G2 `3a4f6f14-d7b1-41ad-9dd9-f17be6b8de92`.
-- G1 actual $0.3915; G2 запущен, резерв $1.0800; свой максимум $1.4715.
-- G1 request_id: `constwave-g1-measurement-pairs-20261031`; G2 ещё не создан.
+- Фактическая стоимость: G1 $0.3915, G2 $0.1080, всего $0.4995; резервов нет.
+- G1 request_id: `constwave-g1-measurement-pairs-20261031`.
+- G2 request_id: `constwave-g2-diagnostic-jobs3-20261031`.
 
 ## Кандидат и source audit
 
@@ -38,10 +39,12 @@ Aggregate → const у stable_direct сохраняет размер/alignment �
 - Python source audit: PASS; request validator: 12 harnesses accepted.
 - Предписанный rustfmt `--check --edition 2024 --config-path ...`: exit 0.
 - Строки Rust ≤100, `git diff --check`: PASS.
-- Компиляция и отсутствие новых warnings в обеих cfg пока не установлены;
-  локальные rustc/cargo/Kani/CBMC не запускались по условиям задания.
+- Cfg on компиляция G1/G2 успешна; новых диагностик merge.rs/unused/dead/
+  unexpected/unnecessary/error через log-grep не обнаружено; фоновые warnings есть.
+- Cfg off: source projection неизменна, отдельная компиляция не измерена.
+- Локальные rustc/cargo/Kani/CBMC не запускались по условиям задания.
 
-## Продолжение
+## План выполнения (история; оба dispatch завершены)
 
 1. Дождаться GO после PRE-BUILD REVIEW; до GO сборок нет.
 2. Проверить library tree и бюджет/окно, записать dispatch T0 и резерв закрытия.
@@ -118,3 +121,24 @@ Dispatch успешен, k1-standard4; после него только watch и
 После уведомления: summary/peaks/check-tooling, реальные интервалы CBMC и OOM/missing.
 RESULT-CONSTWAVE.md содержит G1 и предварительные рекомендации; завершить после G2.
 Новых сборок больше не запускать. Итог PARTIAL из-за исключённой пары PFC N9.
+
+## G2 — результат и закрытие
+
+COMPLETE; build SUCCESS; 5/5 SUCCESS, covers 1/1,1/1,1/1,2/2,4/4.
+Checks 0/405,0/405,0/405,0/407,0/637; Kani exit 0.
+G2 request SHA256 `b7068934f05995d0fc1a9614a8254fc59859de4f40fa3108a25de7f5c3fb118c`.
+G2 source `d87156a7e33e753885d910614a17f855879643c9`; check-tooling к полному BASE PASS.
+Все 5 CBMC direct attribution, metadata_match_count=1; source/build/pin совпали.
+Реальное перекрытие трёх CBMC уже в sample 50 с: PID 9287 S6, 9297 S7, 9292 S8.
+Их sampled интервалы 50–72, 50–116, 50–162 с. G5 PID9324:74–102, R16 PID9351:106–170.
+Sampled simultaneous CBMC peak 2191308 KiB @146 с; sum RSS всех процессов
+3085536 KiB @170 с; это разные временные точки, пики не складывать.
+OOM scan none_seen, MISSING/TIMEOUT нет; Linux MemTotal 16785850368 bytes, swap off.
+G2 wall с компиляцией 2:51.95; G2 CPU AMD EPYC 7B12, G1 Intel Xeon 2.20GHz.
+Разница jobs1/jobs3 VT не является matched оценкой speedup.
+G2 actual $0.1080; свои два UUID суммарно $0.4995, резервы $0; лимиты соблюдены.
+
+Итоговый RESULT-CONSTWAVE.md: PARTIAL из-за PFC N9 (VT +9.08%, G2 NOT_RUN);
+остальные пять пар успешны в G1 и G2. Рекомендации: stable_direct/general/safety → const,
+PFC scratch48 оставить. Оговорки и карта M9 включены. Library tree заморожен.
+Новых сборок и переноса U8N9 нет. После финального REVIEW REQUEST сессию не продолжать.
