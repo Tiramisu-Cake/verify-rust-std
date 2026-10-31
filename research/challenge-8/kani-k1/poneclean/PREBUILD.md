@@ -63,8 +63,8 @@ once per profile; requests validate; lines ≤ 100. rustfmt `--check` clean for 
 | G2 | `g2.request.json` | inventory, controls false, 20 min | [] | 50 min / $0.675 |
 | G3 | `g3.request.json` | inventory, controls true, 30 min | [] | 60 min / $0.810 |
 
-Sum $3.780 ≤ $4, 3 builds shared with session 2. Budget now: used $69.9135, reserved $1.08 by
-other builds, cap $88.96 (`budget-before-g1.txt`).
+Sum $3.780 ≤ $4, 3 builds shared with session 2. Budget at packet time: used $70.0215, reserved
+$0, cap $88.96 (`budget-before-g1.txt`); after all three reserves ≤ $73.80.
 G1 rows (full names under `verify::`), positives SUCCESS: 1 `network::swap_contract_u8_n9`
 (swap×StrictU8, other-cell frame); 2 `merge::sort4_contract_u64_n4` (sort4×Sort4ReadU64, `>>1`);
 3 `network::swap_contract_bytes17_n2` (KeyB17 payload); 4 `network::swap_contract_cell_i32_n2`;
