@@ -2,23 +2,15 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "constwave-g1-measurement-pairs-20261031",
-  "kind": "measurement",
-  "purpose": "CONSTWAVE G1: six matched baseline/const pairs, frozen library; real bodies and original covers/checks. jobs1 timeout600; 120+30min reserve $2.025; G2 <=90min $1.215; total <=$3.24 of $3.30. PRE-BUILD REVIEW then GO required.",
+  "request_id": "constwave-g2-diagnostic-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "CONSTWAVE G2: five const G1 SUCCESS entries with covers and no observed VT/RSS regression in matched pairs. Exclude merge PFC N9: VT +9.08%. Frozen library; jobs3 timeout600; envelope 80min $1.080; G1 $0.3915 + reserve = $1.4715 <= $3.30; second/final build.",
   "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
+  "kani_jobs": 3,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u64_n6",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7",
       "expect": "SUCCESS"
     },
     {
@@ -26,15 +18,7 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u64_n8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
       "expect": "SUCCESS"
     },
     {
@@ -42,19 +26,7 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n16",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_const_n16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_const_u8_n9",
       "expect": "SUCCESS"
     }
   ]

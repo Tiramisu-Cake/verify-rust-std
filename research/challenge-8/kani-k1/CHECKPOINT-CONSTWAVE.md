@@ -71,3 +71,34 @@ Request ID: `constwave-g1-measurement-pairs-20261031`.
 Dispatch успешен; pool k1-standard4, общий used + reserved максимум $66.2280.
 Следующий шаг: `k1g.sh watch 3b1d1233-bff3-42fc-87af-21d1e083cfb0`, завершить ход.
 После уведомления читать результаты через k1g.sh; решение по G2 — по TASK.
+
+## G1 — результаты и решение G2
+
+G1 COMPLETE; build SUCCESS; 12/12 SUCCESS, Kani exit 0, failed checks 0.
+Request sha256: `73088722be1ba8eb220fa975baa3f3a1f902905da9d5d6160dfd3b6e344b0af4`.
+Kani pin `9461e07af7ec929f050aa4192f29363c9be07779`.
+`check-tooling BUILD 0d0e585912cb1295c22d4f9e610386d00a88dc9f`: PASS, все шесть SHA.
+12 CBMC processes имеют direct attribution и metadata_match_count=1; source/build IDs совпали.
+G1 actual $0.3915; sampled sum RSS 5.10 GiB; simultaneous CBMC 4.41 GiB.
+Linux 15.63 GiB, swap off; dmesg OOM none_seen. Verify wall 22:12.81 (с компиляцией).
+
+| Пара | VT old → const, с | CBMC VmHWM old → const, KiB | ΔVT | ΔRSS |
+|---|---|---|---|---|
+| S6 | 43.307020 → 31.181812 | 873252 → 366672 | -28.00% | -58.01% |
+| S7 | 80.345360 → 65.378990 | 983592 → 410520 | -18.63% | -58.26% |
+| S8 | 202.350880 → 135.131290 | 1581664 → 770392 | -33.22% | -51.29% |
+| G5 | 105.804320 → 37.682630 | 4713196 → 737488 | -64.38% | -84.35% |
+| R16 | 77.376434 → 73.865230 | 1610096 → 1570976 | -4.54% | -2.43% |
+| M9 | 185.722870 → 202.587140 | 1342312 → 1328556 | +9.08% | -1.02% |
+
+S6/S7/S8 = stable_direct_u64_n6/n7/n8; G5 = general_stable_direct_u64_n5;
+R16 = route_safety_all_routes_n16; M9 = merge_scratch48_contract_u8_n9.
+Covers old/const: S6/S7/S8 1/1; G5 2/2; R16 4/4; M9 2/2.
+Checks old/const: S6/S7/S8 0/407 → 0/405; G5 0/407 → 0/407;
+R16 0/637 → 0/637; M9 0/440 → 0/440. Unreachable в каждой паре одинаковы.
+S6/S7/S8/G5/R16 имеют VT и RSS не выше baseline, допускаются в G2.
+Малые изменения R16 и RSS M9 не считаются устойчивым эффектом.
+M9 не проходит no-regression по VT (+9.08%), в G2 NOT_RUN; общий итог PARTIAL.
+G2 request_id `constwave-g2-diagnostic-jobs3-20261031`: только пять допущенных const.
+G2 diagnostic/jobs3/controls=true; envelope 5*10+30 = 80 мин/$1.0800.
+G1 actual + G2 reserve = $1.4715 < $3.30; это второй и последний build.
