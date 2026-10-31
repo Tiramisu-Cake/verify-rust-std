@@ -1,0 +1,77 @@
+{
+  "build_id": "9abed515-6cb8-48b3-91d3-57c7f4b98710",
+  "request_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+  "rows": {
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 219.97328,
+      "checks": "0/723",
+      "covers": "2/2",
+      "cbmc_rss_kib": 2237264
+    },
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 134.54204,
+      "checks": "0/723",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1302032
+    },
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_nonconst_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 160.19868,
+      "checks": "0/721",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1294980
+    },
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_const_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 146.22328,
+      "checks": "0/721",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1293300
+    },
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_aggregate_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 168.5793,
+      "checks": "0/723",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1300588
+    },
+    "slice::sort::shared::smallsort::verify::correct::stable_aggregate_value_corruption_control_u8_n14": {
+      "status": "FAILED",
+      "vt_s": 154.98964,
+      "checks": "1/725",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1352636
+    },
+    "slice::sort::shared::smallsort::verify::correct::stable_aggregate_allocation_bounds_control_u8": {
+      "status": "FAILED",
+      "vt_s": 0.064020626,
+      "checks": "1/16",
+      "covers": "1/1",
+      "cbmc_rss_kib": null
+    }
+  },
+  "split_nonconst": {
+    "cbmc_peak_reduction_percent": 41.80248732380264,
+    "summed_vt_s": 294.74072,
+    "summed_vt_increase_percent": 33.98932815840179
+  },
+  "stable_const_vs_nonconst": {
+    "vt_reduction_percent": 8.723792230997162,
+    "rss_reduction_percent": 0.12973173330862453
+  },
+  "stable_aggregate_vs_nonconst": {
+    "vt_increase_percent": 5.2313914197045674,
+    "rss_increase_percent": 0.43305688118735475
+  },
+  "g2_selected_stable": "sorted_permutation_stable_const_u8_n14",
+  "g2_eligible": true,
+  "g2_reason": "Both selected rows SUCCESS/covers1/1; controls targeted manually; max per-process CBMC RSS reduced by split. Gate false due count expect_check text mismatch only.",
+  "limitations": [
+    "Single G1 measurement, no repeat statistics or established mechanism.",
+    "Per-process CBMC peak reduction is not a whole-driver or total-process memory claim.",
+    "Summed VT is not per-entry billed cost.",
+    "Bounds CBMC process too short for 2s sampler; its RSS MISSING."
+  ]
+}

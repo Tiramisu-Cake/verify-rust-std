@@ -1,0 +1,40 @@
+{
+  "at_utc": "2026-10-31T07:42:36.365992+00:00",
+  "status": "PASS",
+  "go_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+  "request_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+  "library_tree": "1a7403c9949e5749a9040127935f86b96cf66a27",
+  "request_id": "corr14-g1-split-scratch-u8-n14-20261031",
+  "request_sha256": "5adee09f63bc16e496d7900cdbd9d2cad2b16601190dfb0422680b33a2bd3f9f",
+  "t0_utc": "2026-10-31T07:34:39Z",
+  "deadline_utc": "2026-10-31T11:34:39Z",
+  "remaining_minutes": 232.04,
+  "build_envelope_minutes": 100,
+  "close_reserve_minutes": 30,
+  "g1_max_usd": 1.35,
+  "both_build_envelopes_plus_close_minutes": 200,
+  "both_fit": true,
+  "own_spent_usd": 0,
+  "own_builds": 0,
+  "own_total_max_usd": 2.295,
+  "project_used_usd": 62.124,
+  "project_reserved_usd": 2.295,
+  "project_cap_usd": 73.96,
+  "project_max_after_g1_usd": 65.769,
+  "pool": "k1-standard4",
+  "kani_jobs": 1,
+  "controls": true,
+  "timeout_seconds": 600,
+  "count_control_expected": {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+    "checker": "corr14_check_u8_n14",
+    "assert_line": 259,
+    "count_expression_lines": [
+      260,
+      261
+    ],
+    "sortedness_assert_line": 257,
+    "failed_checks": 1,
+    "manual_review": "PENDING_BUILD"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "corr14-g2-const-leaves-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "CORR14 G2: G1 positives SUCCESS/covers SATISFIED; both controls manually targeted (gate false only placeholder text mismatch). Fixed-route CBMC peak reduced; select const stable. Frozen library, jobs3 leaf resource check, no caller premise transfer. 4x10+30=70min/maxUSD0.945.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 3,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_const_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_scratch",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n14",
+      "expect": "SUCCESS"
+    }
+  ]
+}

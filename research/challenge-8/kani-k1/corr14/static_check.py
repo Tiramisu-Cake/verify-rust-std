@@ -70,7 +70,7 @@ assert 'const SMALL_SORT_GENERAL_THRESHOLD: usize = 32;' in production
 assert 'SMALL_SORT_GENERAL_SCRATCH_LEN: usize = SMALL_SORT_GENERAL_THRESHOLD + 16;' in production
 merge = Path('library/core/src/slice/sort/shared/smallsort/verify/merge.rs').read_text()
 assert 'pub(crate) fn lt_u8(a: &u8, b: &u8) -> bool {\n    (*a >> 1) < (*b >> 1)' in merge
-request = json.loads(Path('research/challenge-8/kani-k1/RUN-REQUEST.json').read_text())
+request = json.loads((OUT / 'g1.request.json').read_text())
 assert len(request['harnesses']) == 7 and request['kani_jobs'] == 1 and request['controls']
 assert request['harness_timeout_minutes'] == 10
 result = dict(status='PASS', base=BASE, file=PATH, sha256=hashlib.sha256(source.encode()).hexdigest(),

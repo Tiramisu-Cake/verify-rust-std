@@ -1,5 +1,5 @@
 {
-  "status": "PRE_BUILD_REVIEW_PENDING_GO",
+  "status": "G2_PREPARING",
   "branch": "experiment/kani-k1-corrfourteen-20261031",
   "base_sha": "7c0c345b857bca90cfebed4f204251b6e30eee9c",
   "library_commit": "2bc00fceee2d6afcaca8eb136e625064e5449f73",
@@ -15,9 +15,32 @@
   "g2_envelope_minutes": 70,
   "g2_max_usd": 0.945,
   "max_total_envelope_usd": 2.295,
-  "go_sha": null,
-  "builds": [],
-  "next": "Wait for coordinator GO; budget + complete remaining-window preflight before dispatch; k1g watch then end turn.",
+  "go_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+  "builds": [
+    {
+      "label": "g1",
+      "build_id": "9abed515-6cb8-48b3-91d3-57c7f4b98710",
+      "request_id": "corr14-g1-split-scratch-u8-n14-20261031",
+      "request_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+      "library_tree": "1a7403c9949e5749a9040127935f86b96cf66a27",
+      "pool": "k1-standard4",
+      "kind": "measurement",
+      "kani_jobs": 1,
+      "controls": true,
+      "envelope_minutes": 100,
+      "max_cost_usd": 1.35,
+      "submitted_recorded_utc": "2026-10-31T07:43:06.693980+00:00",
+      "status": "FAILURE",
+      "actual_cost_usd": 0.3375,
+      "verification": "COMPLETE",
+      "gate": false,
+      "manual_controls": "TARGETED",
+      "start_time_utc": "2026-10-31T07:44:31.851508379Z",
+      "finish_time_utc": "2026-10-31T08:09:10.121663Z"
+    }
+  ],
+  "next": "Commit/push G2 request with frozen library, record current request SHA and preflight, dispatch, watch, end turn.",
   "previous_review_sha": "92370c188bf954681464b6176ef4e03c88405bac",
-  "review_fix": "One private opt-in oracle checker shared by four positives and payload control."
+  "review_fix": "One private opt-in oracle checker shared by four positives and payload control.",
+  "g2_selected_stable": "sorted_permutation_stable_const_u8_n14"
 }

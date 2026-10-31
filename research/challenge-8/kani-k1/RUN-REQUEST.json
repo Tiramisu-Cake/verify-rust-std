@@ -2,23 +2,15 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "corr14-g1-split-scratch-u8-n14-20261031",
-  "kind": "measurement",
-  "purpose": "CORR14 matched u8 N14: combined, fixed general, stable nonconst/const/aggregate, payload and allocation-bounds controls. jobs1; 7x10+30=100min, maxUSD1.35; second optional70min/USD0.945, totalUSD2.295<=2.3. Frozen library; GO required.",
+  "request_id": "corr14-g2-const-leaves-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "CORR14 G2: G1 positives SUCCESS/covers SATISFIED; both controls manually targeted (gate false only placeholder text mismatch). Fixed-route CBMC peak reduced; select const stable. Frozen library, jobs3 leaf resource check, no caller premise transfer. 4x10+30=70min/maxUSD0.945.",
   "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
+  "kani_jobs": 3,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_nonconst_u8_n14",
       "expect": "SUCCESS"
     },
     {
@@ -26,18 +18,12 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_aggregate_u8_n14",
+      "name": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_scratch",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::correct::stable_aggregate_value_corruption_control_u8_n14",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::correct::stable_aggregate_allocation_bounds_control_u8",
-      "expect": "FAILED",
-      "expect_check": "pointer outside object bounds"
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n14",
+      "expect": "SUCCESS"
     }
   ]
 }

@@ -1,0 +1,42 @@
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 04s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::correct::stable_aggregate_allocation_bounds_control_u8...
+
+VERIFICATION RESULT:
+ ** 1 of 16 failed (3 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: dereference failure: pointer outside object bounds
+ File: "/workspace/src/library/core/src/ptr/mod.rs", line 1981, in ptr::write::<u8>
+
+VERIFICATION:- FAILED
+Verification Time: 0.064020626s
+
+Checking harness slice::sort::shared::smallsort::verify::correct::stable_aggregate_value_corruption_control_u8_n14...
+  - Verified stub: core::slice::sort::shared::smallsort::bidirectional_merge
+  - Verified stub: core::slice::sort::shared::smallsort::insert_tail
+
+VERIFICATION RESULT:
+ ** 1 of 725 failed (82 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: assertion failed: CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14) ==
+    CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/correct.rs", line 259, in slice::sort::shared::smallsort::verify::correct::corr14_check_u8_n14::<for<'a, 'b> fn(&'a u8, &'b u8) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u8}>
+
+VERIFICATION:- FAILED
+Verification Time: 154.98964s
+
+Checking harness slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14...
+  - Verified stub: core::slice::sort::shared::smallsort::bidirectional_merge
+  - Verified stub: core::slice::sort::shared::smallsort::insert_tail
+
+VERIFICATION RESULT:
+ ** 0 of 723 failed (82 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+

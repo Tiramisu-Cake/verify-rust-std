@@ -1,0 +1,16 @@
+request_id=corr14-g1-split-scratch-u8-n14-20261031
+request_sha256=5adee09f63bc16e496d7900cdbd9d2cad2b16601190dfb0422680b33a2bd3f9f
+build_id=9abed515-6cb8-48b3-91d3-57c7f4b98710
+head_sha=3144dbe11c71dd61cfe655965079e960c1179d17
+total=7
+offset=0
+count=7
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14	SUCCESS	219.97328	0/723	2/2
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14	SUCCESS	134.54204	0/723	1/1
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_nonconst_u8_n14	SUCCESS	160.19868	0/721	1/1
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_const_u8_n14	SUCCESS	146.22328	0/721	1/1
+slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_aggregate_u8_n14	SUCCESS	168.5793	0/723	1/1
+slice::sort::shared::smallsort::verify::correct::stable_aggregate_value_corruption_control_u8_n14	FAILED	154.98964	1/725	1/1
+slice::sort::shared::smallsort::verify::correct::stable_aggregate_allocation_bounds_control_u8	FAILED	0.064020626	1/16	1/1

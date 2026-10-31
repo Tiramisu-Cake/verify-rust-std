@@ -1,0 +1,32 @@
+{
+  "status": "MANUALLY_TARGETED",
+  "build_id": "9abed515-6cb8-48b3-91d3-57c7f4b98710",
+  "request_sha": "3144dbe11c71dd61cfe655965079e960c1179d17",
+  "count": {
+    "failed_checks": "1/725",
+    "covers": "1/1",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+    "line": 259,
+    "checker": "corr14_check_u8_n14",
+    "count_expression": "CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14) ==",
+    "actual_comparator": "merge::lt_u8 function item",
+    "sortedness_line": 257,
+    "sortedness_failed": false,
+    "note": "Only FAILED is common count-assert. Terse output does not individually print sortedness SUCCESS."
+  },
+  "bounds": {
+    "failed_checks": "1/16",
+    "covers": "1/1",
+    "message": "dereference failure: pointer outside object bounds",
+    "file": "library/core/src/ptr/mod.rs",
+    "line": 1981,
+    "operation": "raw ptr::write, adapter allocation offset48"
+  },
+  "aggregate_gate": false,
+  "expectation_met": false,
+  "measurement_ok": false,
+  "discrepancy": "G1 count expect_check was placeholder, actual Kani check prints count expression. Original request/results preserved.",
+  "other_failures": 0,
+  "expected_names_exact": true,
+  "tooling": "PASS"
+}
