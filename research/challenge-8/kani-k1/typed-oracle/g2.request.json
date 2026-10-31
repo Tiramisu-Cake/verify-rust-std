@@ -1,0 +1,27 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "typed-oracle-g2-20261031-r1",
+  "kind": "measurement",
+  "purpose": "TYPED conditional G2: matched real general u8 N9 native and payload control. Same frozen library; new request SHA, GO, own spent+reserved+USD0.810<=2 and full60min+closing30min required.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u8_n9_native",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u8_n2",
+      "expect": "FAILED",
+      "expect_check": "typed full-value counts are preserved"
+    }
+  ]
+}

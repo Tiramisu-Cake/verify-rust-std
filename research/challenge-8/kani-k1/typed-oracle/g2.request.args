@@ -1,0 +1,11 @@
+--harness
+slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9
+--harness
+slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u8_n9_native
+--harness
+slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u8_n2
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

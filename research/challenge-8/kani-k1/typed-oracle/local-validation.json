@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "scope": "Prescribed rustfmt and existing Python request validator/static checks only; no Rust compilation or proof runs",
+  "rustfmt": {
+    "exit_code": 0,
+    "files": [
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/typed_oracle.rs"
+    ],
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "args": [
+      "--check",
+      "--edition",
+      "2024",
+      "--config-path",
+      "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/fmtcfg/rustfmt.toml"
+    ]
+  },
+  "validator": {
+    "path": "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "sha256": "55d62136ad9ab71eb5c0fbd470904ecf20b1ecbb8ab34cca1bbdeff9efc8494e",
+    "command_args": [
+      "validate",
+      "REQUEST",
+      "--args-out",
+      "ARGS",
+      "--runner-out",
+      "RUNNER",
+      "--rustflags-out",
+      "RUSTFLAGS",
+      "--require-runner",
+      "gcb-e2-standard-4",
+      "--max-total-minutes",
+      "720"
+    ],
+    "results": [
+      {
+        "request": "g1.request.json",
+        "exit_code": 0,
+        "entries": 9
+      },
+      {
+        "request": "g2.request.json",
+        "exit_code": 0,
+        "entries": 3
+      }
+    ]
+  },
+  "static_audit": {
+    "exit_code": 0,
+    "artifact": "source-audit.json"
+  },
+  "builds": 0,
+  "compiler_status": "NOT_RUN",
+  "proof_status": "NOT_RUN"
+}

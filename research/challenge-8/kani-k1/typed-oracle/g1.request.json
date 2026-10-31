@@ -1,0 +1,51 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "typed-oracle-g1-20261031-r1",
+  "kind": "measurement",
+  "purpose": "TYPED G1: matched G8 projection/native, S8 native, actual A13 projection, bridge and u64 payload control. GO required; jobs1/120min/USD1.620; own cap USD2/2 builds; no uninit checks.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_projected_generic",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_native",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::stable_u64_n8_native",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::merge_u64_n13_projected_actual_pfc",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::probe_bridge_u64_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u64_n2",
+      "expect": "FAILED",
+      "expect_check": "typed full-value counts are preserved"
+    }
+  ]
+}
