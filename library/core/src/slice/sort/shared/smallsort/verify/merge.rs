@@ -6,6 +6,8 @@
 
 #[cfg(kani_smallsort_controls)]
 mod specdiag;
+#[cfg(kani_smallsort_controls)]
+pub(super) mod specfix;
 
 #[cfg(kani_smallsort_controls)]
 use super::super::insert_tail;
@@ -35,13 +37,19 @@ pub(crate) fn set_value_probe<T>() {
 
 /// `*p` is bytewise equal to the probe. `p` must be valid for reads of one initialized `T`.
 /// Guarded word reads avoid nested specification loops during instrumentation.
+/// Supported domain: `size_of::<T>() <= PROBE_BYTES`, checked here before the first read even
+/// when `set_value_probe` was bypassed; a larger `T` is an explicit unsupported-domain failure.
 #[inline(always)]
 unsafe fn matches_value_probe<T>(p: *const T) -> bool {
     let a = p as *const u8;
     let n = size_of::<T>();
+    kani::assert(n <= PROBE_BYTES, "value probe supports at most 128 bytes per value");
+    if n > PROBE_BYTES {
+        return false;
+    }
     let w = n / 8;
     let mut eq = true;
-    // SAFETY: `p` is readable for `n` bytes and the probe buffer is larger than `n`; every read
+    // SAFETY: `p` is readable for `n` bytes and `n <= PROBE_BYTES` was checked above; every read
     // below is guarded to lie in `0..n`.
     unsafe {
         let b = ptr::addr_of!(VALUE_PROBE_BYTES) as *const u8;

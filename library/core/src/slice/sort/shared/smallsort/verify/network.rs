@@ -1058,6 +1058,48 @@ swap_contract_exact_array_case!(swap_contract_cell_i32_n2, crate::cell::Cell<i32
 swap_contract_exact_array_case!(swap_contract_zero_sized_n2, (), zst_less);
 swap_contract_exact_array_case!(swap_contract_bytes16_n2, [u8; 16], array_key_less::<16>);
 swap_contract_exact_array_case!(swap_contract_bytes17_n2, [u8; 17], array_key_less::<17>);
+
+// SPECFIX StageA: the DropValue profile stays with its private owner type; opt-in only.
+// The model is the full u8 payload; the canonical comparator only reads both payloads.
+#[cfg(kani_smallsort_controls)]
+static mut SPECFIX_PROBE_DROP: u8 = 0;
+
+#[cfg(kani_smallsort_controls)]
+fn specfix_drop_less(a: &DropValue, b: &DropValue) -> bool {
+    // SAFETY: both payloads are initialized; volatile reads retain the accesses.
+    let (x, y) = unsafe { (crate::ptr::read_volatile(&a.0), crate::ptr::read_volatile(&b.0)) };
+    x < y
+}
+
+#[cfg(kani_smallsort_controls)]
+impl super::merge::specfix::Profile for DropValue {
+    type Model = u8;
+    const CMP: fn(&DropValue, &DropValue) -> bool = specfix_drop_less;
+    fn model(x: &DropValue) -> u8 {
+        x.0
+    }
+    fn model_less(a: &u8, b: &u8) -> bool {
+        *a < *b
+    }
+    fn probe() -> u8 {
+        // SAFETY: single-threaded harness; no reference to the static is alive.
+        unsafe { *crate::ptr::addr_of!(SPECFIX_PROBE_DROP) }
+    }
+    fn set_probe(m: u8) {
+        // SAFETY: single-threaded harness; no reference to the static is alive.
+        unsafe { *crate::ptr::addr_of_mut!(SPECFIX_PROBE_DROP) = m }
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+#[kani::unwind(180)]
+fn swap_profile_drop_u8_n2() {
+    super::merge::specfix::swap_profile_pair::<DropValue>([
+        DropValue(kani::any()),
+        DropValue(kani::any()),
+    ]);
+}
 #[cfg(kani_smallsort_controls)]
 swap_contract_exact_array_case!(swap_contract_bytes86_n2, [u8; 86], array_key_less::<86>);
 
