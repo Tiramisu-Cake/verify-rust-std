@@ -1,28 +1,12 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-network",
+  "agent": "coordinator",
   "runner": "gcb-e2-standard-4",
-  "request_id": "integ2-measurement-controls-20261031",
-  "kind": "measurement",
-  "purpose": "INTEG2 G3 exactly3 expected FAILED controls, one intended count/prefix/suffix failure each, all covers and no other failures. Known Kani placeholder matcher; manually bind classes/locations to frozen source. Jobs1/work30+setup30/USD0.810; own spent+reserved+0.810<=2.90 and window required.",
-  "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
-  "controls": true,
-  "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    }
-  ]
+  "request_id": "integ2-inventory-ordinary-fix-20261031",
+  "kind": "inventory",
+  "purpose": "INTEG2 ordinary inventory after the set_value_probe import cfg fix: exact 197 expected; no proofs.",
+  "harness_timeout_minutes": 30,
+  "controls": false,
+  "inventory": true,
+  "harnesses": []
 }
