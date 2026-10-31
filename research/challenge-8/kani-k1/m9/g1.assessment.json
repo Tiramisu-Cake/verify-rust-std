@@ -1,0 +1,22 @@
+{
+  "binding": "PASS",
+  "row_coverage": "exact 5/5",
+  "g2_allowed": true,
+  "g1_status": "PARTIAL (non-const S9 TIMEOUT)",
+  "selection": "stable_direct_const_u64_n9",
+  "reason": "SUCCESS/covers; lowest measured S9 CBMC RSS; slightly lower VT than aggregate",
+  "g1_cost_usd": 0.567,
+  "g2_reserve_usd": 0.945,
+  "personal_actual_plus_reserve_usd": 1.512,
+  "memory_attribution": "direct, exact requested names/source/build for all 5 CBMC processes",
+  "cbmc_peak_gib": {
+    "stable_direct_nonconst_u64_n9": 8.026878,
+    "general_direct_u64_n9": 1.602325,
+    "stable_direct_u64_n9": 1.599457,
+    "stable_direct_const_u64_n9": 0.820843,
+    "stable_direct_const_u64_n8": 0.736202
+  },
+  "driver_peak_kib": 905832,
+  "oom": "none_seen",
+  "limitation": "N9 triad incomplete; N8 historical anchors not matched to G1 SHA"
+}

@@ -1,0 +1,30 @@
+{
+  "phase": "pre-dispatch",
+  "t0_utc": "2026-10-31T07:37:33+00:00",
+  "deadline_utc": "2026-10-31T11:37:33+00:00",
+  "work_cutoff_utc": "2026-10-31T11:07:33+00:00",
+  "checked_utc": "2026-10-31T08:24:06.344049+00:00",
+  "closing_reserve_minutes": 30,
+  "g2_envelope_minutes": 70,
+  "g2_reserve_usd": 0.945,
+  "own_finished_builds": [
+    "06ddd32a-8b17-4b20-b3cf-3ee506400980"
+  ],
+  "own_spent_usd": 0.567,
+  "personal_actual_plus_reserve_usd": 1.512,
+  "personal_cap_usd": 2.3,
+  "builds_after_submit": 2,
+  "pool": "k1-standard4",
+  "library_tree": "3c5fd2134ca7ed558976b53e1216eeedd0d6b491",
+  "request_id": "m9-g2-diagnostic-jobs3-20261031",
+  "selection": "stable_direct_const_u64_n9",
+  "budget": {
+    "builds": 119,
+    "used_usd": 63.5145,
+    "reserved_usd": 1.89,
+    "cap_usd": 73.96
+  },
+  "gate": "G9 and S9 const/aggregate SUCCESS, covers1/1; G1 nonconst TIMEOUT does not block G2",
+  "remaining_minutes": 193.44426585000002,
+  "decision": "PASS: full envelope + close fits; personal/global budgets sufficient; frozen library"
+}

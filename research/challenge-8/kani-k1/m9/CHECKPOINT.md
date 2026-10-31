@@ -1,4 +1,26 @@
-# M9 — PRE-BUILD REVIEW
+# M9 — G1 принят, G2 подготовлен
+
+GO координатора на `578350ad3a` получен; G1 source/library frozen.
+Build G1 `06ddd32a-8b17-4b20-b3cf-3ee506400980`: FAILURE, summary COMPLETE,
+gate false из-за S9 non-const TIMEOUT; четыре SUCCESS с covers1/1.
+G9 423.5913s/1.602325GiB; S9 aggregate434.4789s/1.599457GiB;
+S9 const429.67825s/0.820843GiB; S8 const143.88579s/0.736202GiB.
+S9 non-const TIMEOUT600, peak8.026878GiB; VT/checks/covers не сообщены.
+Driver peak905832KiB; OOM none_seen. G1 cost$0.5670, own builds1/2.
+Exact request SHA/names/source/build and 5 direct memory attributions: PASS.
+check-tooling относительно исходного commit: PASS.
+Артефакты чтения только k1g.sh: g1.summary.md/rows.tsv/peaks.txt/tooling.txt.
+Решение по строкам: G2 разрешён; выбрана S9 const (минимальный S9 RSS,
+VT слегка ниже aggregate). N9 триада неполная; N8 исторические опоры не matched.
+G2 diagnostic jobs3/controls:true: G9, S9 const, G8, S8 aggregate.
+Request `m9-g2-diagnostic-jobs3-20261031`, timeout600, 4 entries, validator PASS.
+Library tree `3c5fd2134ca7ed558976b53e1216eeedd0d6b491` неизменен.
+T0 07:37:33UTC; deadline11:37:33UTC, cutoff11:07:33UTC; closing reserve30min.
+G2 envelope70min/$0.9450; own actual+reserve$1.5120 ≤$2.30.
+После G2 читать строки и пики, проверить реальное перекрытие ≥3 CBMC;
+при TIMEOUT сохранить PARTIAL, не заявлять jobs3 confirmation автоматически.
+
+# Историческая подготовка PRE-BUILD REVIEW
 
 Состояние: кандидат опубликован для GO; dispatch ещё не выполнялся.
 Ветка: `experiment/kani-k1-mnine-20261031`.
