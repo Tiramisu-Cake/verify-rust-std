@@ -309,6 +309,9 @@ pub(crate) unsafe fn merge_profile<P: Profile + FreezeMarker>(
 
 /// Transparent stub adapter for `bidirectional_merge`: forwards the same arguments to the checked
 /// profile. Only function-pointer comparators convert; the profile guard then checks the value.
+/// Unusable on the pin while the raw target keeps a contract: `kani::stub` of a contracted
+/// function fails to compile (`Failed to find contract closure`, SPECFIX G1/G3). Kept as the
+/// StageB prototype; no harness stubs with it.
 pub(crate) unsafe fn merge_adapter<T, F>(v: &[T], dst: *mut T, is_less: &mut F)
 where
     T: FreezeMarker + Profile,
@@ -567,32 +570,6 @@ fn specfix_positive_regression() {
 }
 
 // Negative controls: each expects exactly the named check to fail.
-
-fn specfix_always_true_u8(_: &u8, _: &u8) -> bool {
-    true
-}
-
-/// Real general route at N2 (merge only) with the merge adapter and verified merge profile.
-/// The canonical pointer path asserts the summary; an always-true pointer must fail the guard.
-#[kani::proof]
-#[kani::stub(crate::slice::sort::shared::smallsort::bidirectional_merge, merge_adapter)]
-#[kani::stub_verified(merge_profile)]
-#[kani::unwind(34)]
-fn specfix_adapter_rejects_noncanonical_u8_n2() {
-    <u8 as Profile>::set_probe(kani::any());
-    let mut v: [u8; 2] = kani::any();
-    let orig = v;
-    let canonical: bool = kani::any();
-    let always_true: fn(&u8, &u8) -> bool = specfix_always_true_u8;
-    let mut cmp = if canonical { <u8 as Profile>::CMP } else { always_true };
-    small_sort_general(&mut v, &mut cmp);
-    let sorted = model_sorted::<u8>(v.as_ptr(), 2);
-    kani::assert(sorted, "specfix adapter route output is model-sorted");
-    let same = model_count::<u8>(orig.as_ptr(), 2) == model_count::<u8>(v.as_ptr(), 2);
-    kani::assert(same, "specfix adapter route preserves full values");
-    kani::cover(canonical, "specfix adapter canonical comparator path returns");
-    kani::cover(!canonical, "specfix adapter noncanonical comparator path reached");
-}
 
 /// Real sort4 with the canonical comparator, then one payload bit flip that keeps the key.
 #[kani::proof]
