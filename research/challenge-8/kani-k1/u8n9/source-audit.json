@@ -1,0 +1,36 @@
+{
+  "baseline_sha": "ac45675c2bdcf5629086b87b4a9a385b53df61db",
+  "library_commit": "2c65b6cdd94ad22ac71be1bb301d9f4109d9035c",
+  "library_tree": "95a25d9241f071a8c22b6c6f5edebb3a31e45100",
+  "path": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+  "old_prefix_bytes": 61353,
+  "old_prefix_sha256": "26c0ac36fd2f0fc7a48a09971c9b0829b444a3656fb69caafec3e9927c56c9d7",
+  "old_prefix_byte_identical": true,
+  "appended_bytes": 2083,
+  "appended_sha256": "cf4dd0c088d3f75fa3afc735c7b28d99ea913c3fc6b3509399a0929695f67746",
+  "only_library_changed_path": [
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs"
+  ],
+  "unique_cfg_gated_private_names": [
+    "general_direct_u8_n9_properties",
+    "stable_direct_nonconst_u8_n9_properties",
+    "stable_direct_const_u8_n9_properties",
+    "define_direct_u8_n9_route_harness",
+    "general_direct_u8_n9",
+    "stable_direct_nonconst_u8_n9",
+    "stable_direct_const_u8_n9"
+  ],
+  "no_added_imports_modules_or_stubs": true,
+  "old_resolution_basis": "All old library bytes preserved; appended names absent in old module; no imports or modules added, existing macro invocations precede new macro. Old helper/macro dependencies and production bodies unchanged.",
+  "comparator": "original lt_u8 function item, inferred F; no closure, cast or fn-pointer annotation",
+  "nonconst_const_bodies_equal_except_initializer": true,
+  "domains": "arbitrary u8[9], full-value probe, snapshot, same oracle, real route, unwind34, one post-assert cover per route; combined stable bool splits into disjoint exhaustive false/true routes",
+  "static_cfg_forecast": {
+    "ordinary_delta": 0,
+    "controls_proof_delta": 3
+  },
+  "rustfmt_check_exit": 0,
+  "max_rust_line_columns": 100,
+  "compilation_warnings_both_cfg": "PENDING remote evidence; local compile prohibited",
+  "proof_credit": "NONE before G1"
+}

@@ -1,38 +1,29 @@
 {
   "schema": "kani-k1-run-request-v1",
+  "request_id": "u8n9-g1-measurement-20261031",
   "agent": "k1-network",
-  "runner": "gcb-e2-standard-4",
-  "request_id": "assembly-measurement-controls-20261031",
   "kind": "measurement",
-  "purpose": "ASSEMBLY five controls: exactly one intended FAILED each, covers, no other failures. Count locations require manual summary check; terse absence of sortedness failure is not explicit SUCCESS. Work50+setup30 reserveUSD1.0800; three-build maxUSD3.105<=3.5. GO required.",
+  "runner": "gcb-e2-standard-4",
+  "purpose": "U8N9 G1: unchanged nonconst combined baseline; direct general, stable nonconst and stable const u8 N9. jobs1 controls; work40+setup30=70min reserveUSD0.945; G1+G2 maxUSD1.890<=1.9. Decide per row and covers; GO required.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n9",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64",
-      "expect": "FAILED",
-      "expect_check": "pointer outside object bounds"
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u8_n9",
+      "expect": "SUCCESS"
     }
   ]
 }
