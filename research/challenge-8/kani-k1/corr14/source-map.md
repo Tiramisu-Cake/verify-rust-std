@@ -1,7 +1,11 @@
 # CORR14 — статическая карта доменов до сборки
 
 Исходная combined-гармоника и весь старый correct.rs сохранены побайтово.
-`static_check.py` проверяет это, одинаковые setup/oracle, cfg, targets и параметры.
+`static_check.py` проверяет это, одинаковые setup, общий checker, cfg, targets и параметры.
+Private opt-in corr14_check_u8_n14 содержит прежний oracle: сначала sortedness,
+затем probe_count_unrolled. Все четыре positive и corruption вызывают его с тем же lt_u8.
+После подстановки checker body вместо пяти вызовов код совпадает с предыдущим review
+92370c188b (кроме поясняющего комментария); adapter/bounds/request не изменены.
 Это проверка текста; ни Rust-компиляция, ни AST/MIR equivalence ею не установлены.
 
 | Entry (correct::) | Маршрут / scratch | Соответствие |
@@ -23,8 +27,8 @@ SMALL_SORT_GENERAL_SCRATCH_LEN = 32+16 = 48, проверено по frozen sour
 
 Объединение двух fixed-route return covers представляет оба прежних маршрута;
 отдельный fixed-route cover не обязан показывать противоположную ветвь.
-Положительные covers стоят после inline oracle. У corruption cover — после sort,
-до mutation/oracle; младший payload-бит не участвует в lt_u8 (x >> 1).
+Положительные covers стоят после общего checker. У corruption cover — после sort,
+до mutation/checker; младший payload-бит не участвует в lt_u8 (x >> 1).
 Ожидается ровно один count FAILED; placeholder недостаточен без ручной location.
 Bounds control берёт pointer из того же adapter и делает raw write по offset48,
 за всей allocation [u8;48], без safe indexing, assume_init и чтения uninit T.

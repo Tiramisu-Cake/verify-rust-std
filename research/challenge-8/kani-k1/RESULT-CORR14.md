@@ -2,8 +2,8 @@
 
 Дата: 2026-10-31. Ветка `experiment/kani-k1-corrfourteen-20261031`.
 Base `7c0c345b857bca90cfebed4f204251b6e30eee9c`.
-Library SHA `2502c0b8509e5344daa6b517196d77713e1f9ef0`.
-Frozen library tree `0b5d5e647c27f9ea5a85d0b2863b40c8db7d42ea`.
+Library SHA `2bc00fceee2d6afcaca8eb136e625064e5449f73`.
+Frozen library tree `1a7403c9949e5749a9040127935f86b96cf66a27`.
 Request: `corr14-g1-split-scratch-u8-n14-20261031`, measurement/jobs1/controls:true.
 Build ID отсутствует: до GO координатора dispatch не разрешён. Свои builds0/2, cost$0.
 T0 07:34:39 UTC; работа до11:04:39, закрытие до11:34:39; резерв закрытия30min.
@@ -28,7 +28,9 @@ Split: general + non-const stable статически воспроизводя�
 Aggregate меняет backing-геометрию; это не proof старой fixture и не transfer.
 Подробности и ограничения статического сопоставления: `corr14/source-map.md`.
 
-Corruption: actual lt_u8, оба stub targets; output[0]^=1 после sort, перед тем же oracle.
+Общий private opt-in corr14_check_u8_n14 вызывается четырьмя positive и corruption.
+В нём прежние asserts в прежнем порядке: sortedness, затем full-value probe count.
+Corruption: actual lt_u8, оба stub targets; output[0]^=1 после sort, перед общим checker.
 Ожидается только count-assert FAILED; placeholder и location требуют ручной сверки.
 Bounds: raw write one-past всей allocation48 через adapter; ожидается object-bounds FAILED.
 Фактические locations пока отсутствуют. Safe indexing panic и uninit T read не используются.
@@ -38,7 +40,8 @@ Jobs3: PENDING; G2 разрешён лишь при SUCCESS выбранных g
 G2: general N14 + лучшая stable N14 + contract_insert_tail_u8_scratch + merge N14.
 Это ресурсная проверка листьев; она не переносит их proof на scratch48 caller.
 
-Статическая проверка PASS: старый файл сохранён, 4 inline oracles и corruption совпадают,
+Статическая проверка PASS: старый файл сохранён, checker совпадает с baseline oracle,
+четыре positive и corruption вызывают этот checker; точное извлечение проверено.
 новые private items opt-in; ordinary +0, opt-in +6. `corr14/static-check.json`.
 Rustfmt заданным wrapper/config --check exit0, изменённый .rs ≤100 колонок.
 Request validator: 7 entries accepted; git diff --check PASS.

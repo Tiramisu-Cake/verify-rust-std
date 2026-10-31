@@ -30,23 +30,28 @@ setup = setup.replace('::<T>', '::<u8>').replace('[T; N]', '[u8; 14]')
 setup += 'let mut cmp = lt_u8;'
 oracle = baseline[baseline.index('for i in 1..N'):baseline.index('kani::cover(stable')]
 oracle = oracle.replace('::<T>', '::<u8>').replace('..N', '..14').replace(', N)', ', 14)')
+checker_call = compact('corr14_check_u8_n14(&input, &output, &mut cmp);')
+assert compact(body('corr14_check_u8_n14')) == compact(oracle)
+assert new.count('probe_count_unrolled(input.as_ptr(), 14)') == 1
+assert compact(new).count(checker_call) == 5
 routes = ['general', 'stable_nonconst', 'stable_const', 'stable_aggregate']
 for route in routes:
     b = compact(body(f'corr14_{route}_stub_u8_n14'))
     assert compact(setup) in b
-    assert compact(oracle) in b
+    assert b.count(checker_call) == 1
     assert b.count('kani::cover(true,') == 1
     call = ('super::super::small_sort_general(&mut output, &mut cmp);' if route == 'general'
             else '<u8 as StableSmallSortTypeImpl>::small_sort(&mut output, '
                  + ('scratch' if route == 'stable_aggregate' else '&mut scratch') + ', &mut cmp);')
     assert compact(call) in b
+    assert b.index(compact(call)) < b.index(checker_call) < b.index('kani::cover(true,')
 assert '[MaybeUninit::<u8>::uninit();48]' in compact(body('corr14_stable_nonconst_stub_u8_n14'))
 assert '[const{MaybeUninit::<u8>::uninit()};48]' in compact(body('corr14_stable_const_stub_u8_n14'))
 a = compact(body('corr14_stable_aggregate_stub_u8_n14'))
 assert 'MaybeUninit::<[u8;48]>::uninit()' in a and 'corr14_scratch_view(&mutholder)' in a
 c = compact(body('stable_aggregate_value_corruption_control_u8_n14'))
-assert compact(setup) in c and compact(oracle) in c
-assert c.index('::small_sort(') < c.index('output[0]^=1;') < c.index('foriin1..14')
+assert compact(setup) in c and c.count(checker_call) == 1
+assert c.index('::small_sort(') < c.index('output[0]^=1;') < c.index(checker_call)
 b = compact(body('stable_aggregate_allocation_bounds_control_u8'))
 assert '.cast::<u8>().wrapping_add(48)' in b and 'crate::ptr::write(outside,0)' in b
 assert 'scratch[' not in b and 'ptr::read' not in b
@@ -70,7 +75,8 @@ assert len(request['harnesses']) == 7 and request['kani_jobs'] == 1 and request[
 assert request['harness_timeout_minutes'] == 10
 result = dict(status='PASS', base=BASE, file=PATH, sha256=hashlib.sha256(source.encode()).hexdigest(),
               existing_source_unchanged=True, new_ordinary_harnesses=0, new_opt_in_harnesses=6,
-              positive_inline_oracles_matched=4, corruption_inline_oracle_matched=True,
+              shared_checker_matches_baseline_oracle=True, positive_checker_calls=4,
+              corruption_checker_call_after_mutation=True,
               max_columns=max(map(len, source.splitlines())), scratch_extent=48,
               rust_compilation='NOT_RUN_LOCAL', warnings_both_cfg='PENDING_CLOUD',
               interpretation='Static source check only; no AST/MIR equivalence or proof transfer.')
