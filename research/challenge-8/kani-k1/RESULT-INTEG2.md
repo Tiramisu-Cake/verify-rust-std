@@ -57,7 +57,7 @@ G3 measurement jobs1/timeout10min/controls:true, ровно три expected FAIL
 Request IDs: `integ2-inventory-ordinary-20261031`, `integ2-inventory-controls-20261031`,
 `integ2-measurement-controls-20261031`. G1 source — review-коммит `e0ff82577d`.
 Каждый request получает отдельный published SHA/UUID в ledger, при том же library tree.
-Все native inventories, предупреждения компилятора и proof measurements: NOT_RUN.
+Результаты native inventories/предупреждений компилятора ожидаются; positive proofs NOT_RUN.
 
 | G3 control (сокращённо) | Ожидаемая location frozen source | Результат |
 |---|---|---|
