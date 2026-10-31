@@ -2,17 +2,13 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "start1-g1-measurement-20261031",
-  "kind": "measurement",
-  "purpose": "START1 baseline + exact tail partition 2..8/9..12/13..16 + shared-frame controls. Manual gate by group SUCCESS<=600s/all covers and intended control FAILED locations; baseline expect SUCCESS may TIMEOUT. G1 envelope90min/$1.215, G2 70min/$0.945; total$2.160<=2.2. Coordinator GO required.",
+  "request_id": "start1-g2-diagnostic-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "START1 G1 manual gate passed: all groups SUCCESS/all covers, both controls at shared checker1262/1265. G2 jobs3: three same group-PFC + ordinary network safety N0..17; Linux16GiB overlap/peaks/OOM. Timeout600 unchanged. Envelope4*10+30=70min/$0.945; own G1$0.486 + G2max=$1.431<=2.2.",
   "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
+  "kani_jobs": 3,
   "controls": true,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
       "expect": "SUCCESS"
@@ -26,14 +22,8 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
-      "expect": "FAILED",
-      "expect_check": "insert-tail contract covers prefix before begin unchanged"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
-      "expect": "FAILED",
-      "expect_check": "suffix after inserted tail remains unchanged"
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
+      "expect": "SUCCESS"
     }
   ]
 }

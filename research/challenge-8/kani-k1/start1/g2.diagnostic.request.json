@@ -1,0 +1,29 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "start1-g2-diagnostic-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "START1 G1 manual gate passed: all groups SUCCESS/all covers, both controls at shared checker1262/1265. G2 jobs3: three same group-PFC + ordinary network safety N0..17; Linux16GiB overlap/peaks/OOM. Timeout600 unchanged. Envelope4*10+30=70min/$0.945; own G1$0.486 + G2max=$1.431<=2.2.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 3,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
+      "expect": "SUCCESS"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "build_id": "e07bbced-be41-48cf-ad6a-0f46876e8462",
+  "head_sha": "68f278703397a297acd9122ce718f13766aa3f38",
+  "library_tree": "6008ba7c2349d4158e2898f323089c2ef61d373c",
+  "request_id": "start1-g1-measurement-20261031",
+  "request_sha256": "7336fc6058d2e7738bd576bd3cc5980bc993d0fddb560c50635f2b7086df43de",
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "summary_status": "COMPLETE",
+  "cloud_build_status": "FAILURE",
+  "summary_build_stage": "success",
+  "aggregate_gate": false,
+  "manual_task_gate": true,
+  "aggregate_false_reasons": [
+    "baseline TIMEOUT vs expect SUCCESS",
+    "control messages emitted as placeholder, request message substrings not matched; exact intended locations verified manually"
+  ],
+  "tooling": "PASS check-tooling against approved SHA",
+  "inventory": "Exact six requested/reported rows; no separate inventory run",
+  "sample_total_peak_kib": 3767456,
+  "sample_simultaneous_cbmc_peak_kib": 2970536,
+  "oom": "none_seen",
+  "cost_usd": 0.486,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_kib": 2994368
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+      "status": "SUCCESS",
+      "time_s": 328.8432,
+      "checks": "0/428",
+      "covers": "9/9",
+      "cbmc_peak_kib": 2989684
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+      "status": "SUCCESS",
+      "time_s": 307.6663,
+      "checks": "0/428",
+      "covers": "6/6",
+      "cbmc_peak_kib": 2991968
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "status": "SUCCESS",
+      "time_s": 356.5632,
+      "checks": "0/428",
+      "covers": "6/6",
+      "cbmc_peak_kib": 2994224
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
+      "status": "FAILED",
+      "time_s": 8.0541525,
+      "checks": "1/424",
+      "covers": "1/1",
+      "cbmc_peak_kib": 168736,
+      "failed_location": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:1262",
+      "failed_message": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+      "manual_location_review": "PASS: frozen source insert_tail_start1_frame; not old insert_tail_value lines1247/1250"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
+      "status": "FAILED",
+      "time_s": 49.88737,
+      "checks": "1/426",
+      "covers": "1/1",
+      "cbmc_peak_kib": 823224,
+      "failed_location": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:1265",
+      "failed_message": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+      "manual_location_review": "PASS: frozen source insert_tail_start1_frame; not old insert_tail_value lines1247/1250"
+    }
+  ],
+  "sources": [
+    "k1g.sh summary",
+    "k1g.sh summary 0 6",
+    "k1g.sh peaks 0 8",
+    "k1g.sh check-tooling",
+    "k1g.sh budget BUILD"
+  ],
+  "reviewed_at": "2026-10-31T08:15:53.234875+00:00",
+  "warnings": "Targeted unused/dead_code/warning codes/errors: no match. Existing Cargo manifest and force-warn unstable feature warnings remain; ordinary source unchanged under cfg-off."
+}
