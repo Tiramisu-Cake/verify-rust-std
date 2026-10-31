@@ -1253,6 +1253,112 @@ fn insert_tail_value<const START: usize>() -> usize {
     tail
 }
 
+// Opt-in START1 partition: no input restriction beyond the tail interval and actual requires.
+#[cfg(kani_smallsort_controls)]
+fn insert_tail_start1_frame<const START: usize>(v: &[u64; 17], pre: &[u64; 17], tail: usize) {
+    const { assert!(START == 1) };
+    let mut i = 0;
+    while i < START {
+        assert!(v[i] == pre[i], "insert-tail contract covers prefix before begin unchanged");
+        i += 1;
+    }
+    assert!(prefix_unchanged(v, pre, tail + 1), "suffix after inserted tail remains unchanged");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn insert_tail_group_value<const START: usize, const LO: usize, const HI: usize>() -> usize {
+    const {
+        assert!(START == 1);
+        assert!(START < LO && LO <= HI && HI < 17);
+    };
+    set_value_probe::<u64>();
+    let mut v: [u64; 17] = kani::any();
+    let tail: usize = kani::any_where(|&t| LO <= t && t <= HI);
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: START == 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
+    // assumes precisely insert_tail's own requires, including the sorted prefix.
+    unsafe {
+        super::super::insert_tail(base.add(START), base.add(tail), &mut lt_u64);
+    }
+    insert_tail_start1_frame::<START>(&v, &pre, tail);
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
+    kani::cover(true, "insert-tail contract covers end reached");
+    tail
+}
+
+#[cfg(kani_smallsort_controls)]
+macro_rules! insert_tail_start1_group_case {
+    ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
+        #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::unwind(25)]
+        fn $name() {
+            let tail = insert_tail_group_value::<1, $lo, $hi>();
+            $(kani::cover(
+                tail == $end,
+                concat!(
+                    "insert-tail contract covers tail ",
+                    stringify!($end),
+                    " with requires satisfied"
+                )
+            );)+
+        }
+    };
+}
+
+#[cfg(kani_smallsort_controls)]
+insert_tail_start1_group_case!(
+    insert_tail_contract_u64_start1_tail2_to8,
+    2,
+    8,
+    [2, 3, 4, 5, 6, 7, 8]
+);
+#[cfg(kani_smallsort_controls)]
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to12, 9, 12, [9, 10, 11, 12]);
+#[cfg(kani_smallsort_controls)]
+insert_tail_start1_group_case!(
+    insert_tail_contract_u64_start1_tail13_to16,
+    13,
+    16,
+    [13, 14, 15, 16]
+);
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::unwind(25)]
+fn insert_tail_contract_u64_start1_prefix_frame_control() {
+    set_value_probe::<u64>();
+    let mut v: [u64; 17] = kani::any();
+    let tail = 2;
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: begin = 1 < tail = 2 < 17; actual requires come from proof_for_contract.
+    unsafe {
+        super::super::insert_tail(base.add(1), base.add(tail), &mut lt_u64);
+    }
+    kani::cover(true, "START1 prefix control reaches corruption");
+    v[0] = pre[0] ^ 1;
+    insert_tail_start1_frame::<1>(&v, &pre, tail);
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::unwind(25)]
+fn insert_tail_contract_u64_start1_suffix_frame_control() {
+    set_value_probe::<u64>();
+    let mut v: [u64; 17] = kani::any();
+    let tail = 15;
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: begin = 1 < tail = 15 < 17; actual requires come from proof_for_contract.
+    unsafe {
+        super::super::insert_tail(base.add(1), base.add(tail), &mut lt_u64);
+    }
+    kani::cover(true, "START1 suffix control reaches corruption");
+    v[tail + 1] = pre[tail + 1] ^ 1;
+    insert_tail_start1_frame::<1>(&v, &pre, tail);
+}
+
 #[cfg(kani_smallsort_controls)]
 macro_rules! insert_tail_contract_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
