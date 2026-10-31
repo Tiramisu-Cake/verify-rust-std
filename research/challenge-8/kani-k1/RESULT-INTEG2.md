@@ -1,11 +1,11 @@
-# INTEG2 — PARTIAL, GO получен, проверки в Cloud Build
+# INTEG2 — PARTIAL: G1 compile error; G2/G3 ожидаются
 
 2026-10-31; ветка `experiment/kani-k1-integtwo-20261031`, база ASSEMBLY `e6a8ad05c9`.
 Library commit `20aa864ad04e8d81b46d41024b75dc7aa1103dcf`.
 Library tree `c522edd42ae67c385e1ee42a1c4d1bffb611c90b`.
 GO получен для `e0ff82577d`; source/request/UUID и текущий учёт — `integ2/builds.json`.
-Отправлены3/3; spent$0, reserved$2,835≤$2,90 по последнему preflight+dispatch.
-Library tree заморожен; фактическая стоимость и результаты ещё ожидаются.
+Отправлены3/3; own spent$0,108/reserved$2,025 по `budget-after-g1.txt`; лимит$2,90.
+Library tree заморожен; G2/G3 ещё не reviewed, дополнительных build slots нет.
 Это кандидат P1-max, новый зелёный P1 не заявлен.
 
 Точные статические списки: `integ2/scope/p1-ordinary.txt` (197),
@@ -43,7 +43,7 @@ START1 недопуск: все три группы в P2, baseline не воз�
 Тела fallback не редактируются; после выбора надо регенерировать selected P2 patch/manifest.
 При r=0: P1=191+u+2m+3s, P2=344−u. Все patches сейчас NOT_APPLIED.
 
-Source audit: `integ2/source-audit.json` содержит точный список изменённых items,
+Первоначальный source audit: `integ2/source-audit.json` содержит список изменённых items,
 584 сохранённых items и карту прежних local symbol bindings.
 Выбранные тела сверены с library-diff M9 `b2930031d8`, CONSTWAVE `a9daab85b0`,
 U8N9 `2c65b6cdd9`, START1 `b98ee415fd`; whole-file cherry-pick не применялся.
@@ -58,7 +58,13 @@ G3 measurement jobs1/timeout10min/controls:true, ровно три expected FAIL
 Request IDs: `integ2-inventory-ordinary-20261031`, `integ2-inventory-controls-20261031`,
 `integ2-measurement-controls-20261031`. G1 source — review-коммит `e0ff82577d`.
 Каждый request получает отдельный published SHA/UUID в ledger, при том же library tree.
-Результаты native inventories/предупреждений компилятора ожидаются; positive proofs NOT_RUN.
+G1 FAILURE/TOOL_ERROR, Kani exit1; native ordinary inventory не создан.
+E0425 network.rs:1268: ordinary START1 helper вызывает cfg-gated import set_value_probe.
+Также есть E0034 checked_sub/MAX, причинная связь/исправление не установлены.
+G1 check-tooling PASS, cost$0,108; `g1.failure-review.json`, bounded diagnostics.
+Предложен cfg-only import fix `integ2/g1-proposed-import-cfg-fix.patch`, NOT_APPLIED.
+Изначальный source audit пропустил cfg-availability; новое уточнение — `g1-import-availability-review.json`.
+G2/G3 ожидаются; positive integration proofs/macOS/full CI NOT_RUN.
 
 | G3 control (сокращённо) | Ожидаемая location frozen source | Результат |
 |---|---|---|

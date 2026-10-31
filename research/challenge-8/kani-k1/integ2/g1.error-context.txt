@@ -1,0 +1,90 @@
+   Compiling proc-macro-error v1.0.4
+   Compiling object v0.39.1
+   Compiling std v0.0.0 (/workspace/src/library/std)
+   Compiling syn v2.0.119
+   Compiling core v0.0.0 (/workspace/src/library/core)
+error[E0425]: cannot find function `set_value_probe` in this scope
+    --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network.rs:1268:5
+     |
+1268 |     set_value_probe::<u64>();
+     |     ^^^^^^^^^^^^^^^ not found in this scope
+     |
+help: consider importing this function
+     |
+   5 + use crate::slice::sort::shared::smallsort::verify::merge::set_value_probe;
+     |
+
+error[E0034]: multiple applicable items in scope
+    --> /workspace/src/library/core/src/iter/adapters/take.rs:295:22
+     |
+ 295 |                 more.checked_sub(1)
+     |                      ^^^^^^^^^^^ multiple `checked_sub` found
+     |
+    ::: /workspace/src/library/core/src/num/uint_macros.rs:1
+     |
+   1 | macro_rules! uint_impl {
+     |
+     = note: candidate #1 is defined in an impl for the type `usize`
+note: candidate #2 is defined in an impl for the type `usize`
+    --> /workspace/src/library/core/src/num/uint_macros.rs:1112:9
+     |
+1112 |           pub const fn checked_sub(self, rhs: Self) -> Option<Self> {
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: /workspace/src/library/core/src/num/mod.rs:1473:5
+     |
+1473 | /     uint_impl! {
+1474 | |         Self = usize,
+1475 | |         ActualT = u64,
+1476 | |         SignedT = isize,
+...    |
+1496 | |         bound_condition = " on 64-bit targets",
+1497 | |     }
+     | |_____- in this macro invocation
+
+error[E0034]: multiple applicable items in scope
+   --> /workspace/src/library/core/src/pat.rs:70:41
+    |
+ 64 | / macro_rules! impl_range_pat {
+ 65 | |     ($($ty:ty,)*) => {
+ 66 | |         $(
+ 67 | |             #[rustc_const_unstable(feature = "pattern_type_range_trait", issue = "123646")]
+...   |
+ 70 | |                 const MAX: $ty = <$ty>::MAX;
+    | |                                         ^^^ multiple `MAX` found
+...   |
+ 80 | | }
+    | |_- this error originates in the macro `impl_range_pat` which comes from the expansion of the macro `uint_impl`
+ 81 |
+ 82 | / impl_range_pat! {
+ 83 | |     i8, i16, i32, i64, i128, isize,
+ 84 | |     u8, u16, u32, u64, u128, usize,
+ 85 | | }
+    | |_- in this macro invocation
+    |
+    = note: candidate #1 is defined in an impl for the type `u8`
+note: candidate #2 is defined in an impl for the type `u8`
+   --> /workspace/src/library/core/src/num/uint_macros.rs:51:9
+    |
+ 51 |           pub const MAX: Self = !0;
+    |           ^^^^^^^^^^^^^^^^^^^
+    |
+   ::: /workspace/src/library/core/src/num/mod.rs:601:5
+    |
+601 | /     uint_impl! {
+602 | |         Self = u8,
+603 | |         ActualT = u8,
+604 | |         SignedT = i8,
+...   |
+624 | |         bound_condition = "",
+625 | |     }
+    | |_____- in this macro invocation
+
+error[E0034]: multiple applicable items in scope
+    --> /workspace/src/library/core/src/pat.rs:70:41
+     |
+  64 | / macro_rules! impl_range_pat {
+  65 | |     ($($ty:ty,)*) => {
+  66 | |         $(
+  67 | |             #[rustc_const_unstable(feature = "pattern_type_range_trait", issue = "123646")]
+...    |

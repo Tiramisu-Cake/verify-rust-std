@@ -1,0 +1,8 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/network.rs
+@@ -4,5 +4,4 @@
+ 
+ use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
+-#[cfg(kani_smallsort_controls)]
+ use super::merge::set_value_probe;
+ use super::merge::{lt_i32, lt_u8, lt_u64};

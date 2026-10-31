@@ -1,9 +1,9 @@
 {
-  "status": "SUBMITTED_AWAITING_RESULTS",
+  "status": "PARTIAL_G1_COMPILE_ERROR_G2_G3_AWAITING_WATCH",
   "max_builds": 3,
   "max_usd": 2.9,
-  "spent_usd": 0.0,
-  "reserved_usd": 2.835,
+  "spent_usd": 0.108,
+  "reserved_usd": 2.025,
   "builds": [
     {
       "label": "g1",
@@ -17,8 +17,16 @@
       "work_minutes": 30,
       "total_envelope_minutes": 60,
       "max_reserved_usd": 0.81,
-      "status": "SUBMITTED",
-      "submitted_recorded_at_utc": "2026-10-31T12:09:39.152696+00:00"
+      "status": "FAILURE",
+      "submitted_recorded_at_utc": "2026-10-31T12:09:39.152696+00:00",
+      "summary_status": "TOOL_ERROR",
+      "gate": false,
+      "kani_exit": 1,
+      "inventory_review": "NOT_AVAILABLE_COMPILE_ERROR",
+      "cost_usd": 0.108,
+      "tooling": "PASS",
+      "reviewed_at_utc": "2026-10-31T12:20:33.092631+00:00",
+      "diagnostics": "E0425 network.rs1268 set_value_probe unavailable in ordinary cfg; E0034 duplicate applicable core items also present, cause unresolved"
     },
     {
       "label": "g2",
@@ -77,8 +85,9 @@
   "planned_total_envelope_minutes": 210,
   "planned_max_reserve_usd": 2.835,
   "remaining_from_max_reserve_usd": 0.065,
-  "accounting": "Per-dispatch selected UUID budget snapshots; actual costs await terminal selected-UUID ledger",
+  "accounting": "Selected own UUIDs only; budget-after-g1.txt:3 builds, spent0.1080/reserved2.0250",
   "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL.",
   "reviewed_source": "e0ff82577dc58950621dadc9c141d88a5821987f",
-  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b"
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "watch_registration": "All3 registered; G1 delivered, G2/G3 pending; do not re-register existing watches"
 }

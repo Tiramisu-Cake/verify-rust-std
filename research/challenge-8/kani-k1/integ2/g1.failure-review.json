@@ -1,0 +1,28 @@
+{
+  "status": "G1_FAILURE_TOOL_ERROR_NO_INVENTORY",
+  "cloud_status_basis": "Delivered k1g watch notification",
+  "build_uuid": "cda795d5-1cd1-4c32-a87e-778302647151",
+  "source_sha": "e0ff82577dc58950621dadc9c141d88a5821987f",
+  "request_sha256": "a2831f4232f3b0938fffc8149fe2a206c787c3b23b7419954ddd1346a273c4c0",
+  "frozen_library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "kani_exit": 1,
+  "native_inventory": "NOT_AVAILABLE",
+  "tooling": "PASS",
+  "cost_usd": 0.108,
+  "reviewed_at_utc": "2026-10-31T12:20:33.092631+00:00",
+  "primary_source_error": {
+    "code": "E0425",
+    "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+    "line": 1268,
+    "symbol": "set_value_probe",
+    "finding": "START1 group helper is ordinary but its existing import at line6..7 remains controls-gated"
+  },
+  "additional_diagnostics": "E0034 multiple applicable checked_sub/MAX core items; no causal fix established",
+  "initial_audit_gap": "Initial local symbol-binding audit did not project symbol availability under cfg; helper-use forecast checked unused references, not missing imports",
+  "proposed_fix": "g1-proposed-import-cfg-fix.patch",
+  "fix_state": "NOT_APPLIED; frozen source retained; coordinator review/GO required for library delta",
+  "remaining_build_slots": 0,
+  "other_builds": "G2/G3 watched and not reviewed yet"
+}
