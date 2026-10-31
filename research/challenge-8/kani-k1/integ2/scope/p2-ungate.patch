@@ -1,0 +1,462 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/correct.rs
+@@ -2,5 +2,3 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ use super::super::CopyOnDrop;
+-#[cfg(kani_smallsort_controls)]
+ use super::merge::lt_u64;
+@@ -10,3 +8,2 @@
+ // Fallback: u64 N8..16, u8 N9..16; verified insert_tail with matching key orders.
+-#[cfg(kani_smallsort_controls)]
+ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: usize>(mut cmp: F) {
+@@ -29,3 +26,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ macro_rules! fallback_stub_harness {
+@@ -44,36 +40,19 @@
+ }
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n8, u64, lt_u64, 8);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n16, u64, lt_u64, 16);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n9, u8, lt_u8, 9);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n16, u8, lt_u8, 16);
+ 
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n9, u64, lt_u64, 9);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n10, u64, lt_u64, 10);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n11, u64, lt_u64, 11);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n12, u64, lt_u64, 12);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n13, u64, lt_u64, 13);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n14, u64, lt_u64, 14);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u64_n15, u64, lt_u64, 15);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n10, u8, lt_u8, 10);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n11, u8, lt_u8, 11);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n12, u8, lt_u8, 12);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n13, u8, lt_u8, 13);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n14, u8, lt_u8, 14);
+-#[cfg(kani_smallsort_controls)]
+ fallback_stub_harness!(sorted_permutation_fallback_u8_n15, u8, lt_u8, 15);
+@@ -154,3 +133,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ macro_rules! scratch_contract_harness {
+@@ -170,3 +148,2 @@
+ scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, kissat);
+-#[cfg(kani_smallsort_controls)]
+ scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
+@@ -209,3 +186,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ macro_rules! general_stub_harness {
+@@ -224,5 +200,3 @@
+ general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
+-#[cfg(kani_smallsort_controls)]
+ general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
+-#[cfg(kani_smallsort_controls)]
+ general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -719,48 +719,25 @@
+ define_route_safety_harness!(route_safety_all_routes_n8, all_upper_routes_safety_body, 8);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n9, all_upper_routes_safety_body, 9);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n10, all_upper_routes_safety_body, 10);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n11, all_upper_routes_safety_body, 11);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n12, all_upper_routes_safety_body, 12);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n13, all_upper_routes_safety_body, 13);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n14, all_upper_routes_safety_body, 14);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n15, all_upper_routes_safety_body, 15);
+ define_route_safety_harness!(route_safety_all_routes_n16, all_upper_routes_safety_body, 16);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n17, all_upper_routes_safety_body, 17);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n18, all_upper_routes_safety_body, 18);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n19, all_upper_routes_safety_body, 19);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n20, all_upper_routes_safety_body, 20);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n21, all_upper_routes_safety_body, 21);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n22, all_upper_routes_safety_body, 22);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n23, all_upper_routes_safety_body, 23);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n24, all_upper_routes_safety_body, 24);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n25, all_upper_routes_safety_body, 25);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n26, all_upper_routes_safety_body, 26);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n27, all_upper_routes_safety_body, 27);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n28, all_upper_routes_safety_body, 28);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n29, all_upper_routes_safety_body, 29);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n30, all_upper_routes_safety_body, 30);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n31, all_upper_routes_safety_body, 31);
+-#[cfg(kani_smallsort_controls)]
+ define_route_safety_harness!(route_safety_all_routes_n32, all_upper_routes_safety_body, 32);
+@@ -1191,9 +1168,5 @@
+ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u64_n8, u64, lt_u64, 8);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n5, u8, lt_u8, 5);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n6, u8, lt_u8, 6);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n7, u8, lt_u8, 7);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n8, u8, lt_u8, 8);
+@@ -1242,32 +1215,17 @@
+ define_merge_contract_harness!(merge_contract_u8_n8, u8, lt_u8, 8);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n9, u64, lt_u64, 9);
+ define_merge_contract_harness!(merge_contract_u8_n9, u8, lt_u8, 9);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n10, u64, lt_u64, 10);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n10, u8, lt_u8, 10);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n11, u64, lt_u64, 11);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n11, u8, lt_u8, 11);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n12, u64, lt_u64, 12);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n12, u8, lt_u8, 12);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n13, u64, lt_u64, 13);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n13, u8, lt_u8, 13);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n14, u64, lt_u64, 14);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n14, u8, lt_u8, 14);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n15, u64, lt_u64, 15);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n15, u8, lt_u8, 15);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u64_n16, u64, lt_u64, 16);
+-#[cfg(kani_smallsort_controls)]
+ define_merge_contract_harness!(merge_contract_u8_n16, u8, lt_u8, 16);
+@@ -1308,3 +1266,2 @@
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n7, u8, lt_u8, 7);
+-#[cfg(kani_smallsort_controls)]
+ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n7, 7);
+@@ -1322,5 +1279,3 @@
+ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n9, 9);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n10, u64, lt_u64, 10);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n10, u8, lt_u8, 10);
+@@ -1328,5 +1283,3 @@
+ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n10, 10);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n11, u64, lt_u64, 11);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n11, u8, lt_u8, 11);
+@@ -1334,5 +1287,3 @@
+ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n11, 11);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n12, u64, lt_u64, 12);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n12, u8, lt_u8, 12);
+@@ -1342,3 +1293,2 @@
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n13, u64, lt_u64, 13);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n13, u8, lt_u8, 13);
+@@ -1358,5 +1308,3 @@
+ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n15, 15);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n16, u64, lt_u64, 16);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n16, u8, lt_u8, 16);
+@@ -1366,3 +1314,2 @@
+ // Per-type fallback correctness on exact N8/9 arrays, with real insertion.
+-#[cfg(kani_smallsort_controls)]
+ macro_rules! define_fallback_route_harness {
+@@ -1379,3 +1326,2 @@
+ define_fallback_route_harness!(fallback_sorted_permutation_u64_n8, u64, lt_u64, 8);
+-#[cfg(kani_smallsort_controls)]
+ define_fallback_route_harness!(fallback_sorted_permutation_u8_n8, u8, lt_u8, 8);
+@@ -1575,3 +1521,2 @@
+ define_drop_route_harness!(drop_general_drop_count_n16, 16, true, false, abort_on_order_violation);
+-#[cfg(kani_smallsort_controls)]
+ define_drop_route_harness!(
+--- a/library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/network.rs
+@@ -215,9 +215,5 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ unstable_dispatch_network_cases!(network_safety_unstable_u64_n18_to21, [18, 19, 20, 21]);
+-#[cfg(kani_smallsort_controls)]
+ unstable_dispatch_network_cases!(network_safety_unstable_u64_n22_to25, [22, 23, 24, 25]);
+-#[cfg(kani_smallsort_controls)]
+ unstable_dispatch_network_cases!(network_safety_unstable_u64_n26_to27, [26, 27]);
+-#[cfg(kani_smallsort_controls)]
+ unstable_dispatch_network_cases!(network_safety_unstable_u64_n28_to29, [28, 29]);
+@@ -389,3 +385,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n31, [u8; 16], [31]);
+@@ -403,3 +398,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n31, [u8; 17], [31]);
+@@ -436,3 +430,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_drop_u8_n31, DropValue, [31]);
+@@ -456,3 +449,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes85_n31, [u8; 85], [31]);
+@@ -629,3 +621,2 @@
+ mutating_insertion_cases!(mutating_insertion_safety_cell_n1_to5, [1, 2, 3, 4, 5]);
+-#[cfg(kani_smallsort_controls)]
+ mutating_insertion_cases!(mutating_insertion_safety_cell_n6_to10, [6, 7, 8, 9, 10]);
+@@ -639,3 +630,2 @@
+ insertion_safety_cases!(insertion_safety_u64_n13_to15, [13, 14, 15]);
+-#[cfg(kani_smallsort_controls)]
+ mutating_insertion_cases!(mutating_insertion_safety_cell_n11_to12, [11, 12]);
+@@ -648,5 +638,3 @@
+ insertion_safety_cases!(insertion_safety_u64_n15, [15]);
+-#[cfg(kani_smallsort_controls)]
+ mutating_insertion_cases!(mutating_insertion_safety_cell_n13, [13]);
+-#[cfg(kani_smallsort_controls)]
+ mutating_insertion_cases!(mutating_insertion_safety_cell_n14, [14]);
+@@ -752,3 +740,2 @@
+     insertion_safety_u64_n15_offsets1_to4,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n15_offsets1_to4,
+@@ -759,3 +746,2 @@
+     insertion_safety_u64_n15_offsets5_to8,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n15_offsets5_to8,
+@@ -766,3 +752,2 @@
+     insertion_safety_u64_n15_offsets9_to12,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n15_offsets9_to12,
+@@ -773,3 +758,2 @@
+     insertion_safety_u64_n15_offsets13_to15,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n15_offsets13_to15,
+@@ -780,3 +764,2 @@
+     insertion_safety_u64_n16_offsets1_to4,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n16_offsets1_to4,
+@@ -787,3 +770,2 @@
+     insertion_safety_u64_n16_offsets5_to8,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n16_offsets5_to8,
+@@ -794,3 +776,2 @@
+     insertion_safety_u64_n16_offsets9_to12,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n16_offsets9_to12,
+@@ -801,3 +782,2 @@
+     insertion_safety_u64_n16_offsets13_to16,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n16_offsets13_to16,
+@@ -808,3 +788,2 @@
+     insertion_safety_u64_n17_offsets1_to4,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n17_offsets1_to4,
+@@ -815,3 +794,2 @@
+     insertion_safety_u64_n17_offsets5_to8,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n17_offsets5_to8,
+@@ -822,3 +800,2 @@
+     insertion_safety_u64_n17_offsets9_to12,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n17_offsets9_to12,
+@@ -829,3 +806,2 @@
+     insertion_safety_u64_n17_offsets13_to15,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n17_offsets13_to15,
+@@ -836,3 +812,2 @@
+     insertion_safety_u64_n17_offsets16_to17,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n17_offsets16_to17,
+@@ -843,3 +818,2 @@
+     insertion_safety_u64_n18_offsets1_to4,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n18_offsets1_to4,
+@@ -850,3 +824,2 @@
+     insertion_safety_u64_n18_offsets5_to8,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n18_offsets5_to8,
+@@ -857,3 +830,2 @@
+     insertion_safety_u64_n18_offsets9_to12,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n18_offsets9_to12,
+@@ -864,3 +836,2 @@
+     insertion_safety_u64_n18_offsets13_to16,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n18_offsets13_to16,
+@@ -871,3 +842,2 @@
+     insertion_safety_u64_n18_offsets17_to18,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n18_offsets17_to18,
+@@ -878,3 +848,2 @@
+     insertion_safety_u64_n19_offsets1_to4,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n19_offsets1_to4,
+@@ -885,3 +854,2 @@
+     insertion_safety_u64_n19_offsets5_to8,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n19_offsets5_to8,
+@@ -892,3 +860,2 @@
+     insertion_safety_u64_n19_offsets9_to12,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n19_offsets9_to12,
+@@ -899,3 +866,2 @@
+     insertion_safety_u64_n19_offsets13_to16,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n19_offsets13_to16,
+@@ -906,3 +872,2 @@
+     insertion_safety_u64_n19_offsets17_to19,
+-    #[cfg(kani_smallsort_controls)]
+     mutating_insertion_safety_cell_n19_offsets17_to19,
+@@ -993,5 +958,3 @@
+ network_correctness_cases!(network_correctness_u64_n7, u64, [7]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u8_n8, u8, [8]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n8, u64, [8]);
+@@ -1051,3 +1014,2 @@
+ swap_contract_exact_array_case!(swap_contract_u64_n2, u64, strict_less::<u64>);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_exact_array_case!(swap_contract_bytes85_n2, [u8; 85], array_key_less::<85>);
+@@ -1061,3 +1023,2 @@
+ swap_contract_exact_array_case!(swap_contract_bytes17_n2, [u8; 17], array_key_less::<17>);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_exact_array_case!(swap_contract_bytes86_n2, [u8; 86], array_key_less::<86>);
+@@ -1067,3 +1028,2 @@
+ network_correctness_cases!(network_correctness_u8_n10, u8, [10]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n10, u64, [10]);
+@@ -1104,6 +1064,4 @@
+ network_correctness_cases!(network_correctness_u8_n11, u8, [11]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n11, u64, [11]);
+ insertion_permutation_case!(insertion_permutation_u8_n11, u8, 11);
+-#[cfg(kani_smallsort_controls)]
+ insertion_permutation_case!(insertion_permutation_u64_n11, u64, 11);
+@@ -1111,7 +1069,4 @@
+ network_correctness_cases!(network_correctness_u8_n12, u8, [12]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n12, u64, [12]);
+-#[cfg(kani_smallsort_controls)]
+ insertion_permutation_case!(insertion_permutation_u8_n12, u8, 12);
+-#[cfg(kani_smallsort_controls)]
+ insertion_permutation_case!(insertion_permutation_u64_n12, u64, 12);
+@@ -1119,8 +1074,5 @@
+ network_correctness_cases!(network_correctness_u8_n13, u8, [13]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n13, u64, [13]);
+ 
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u8_n14, u8, [14]);
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u64_n14, u64, [14]);
+@@ -1129,3 +1081,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u8_n15, u8, [15]);
+@@ -1133,8 +1084,5 @@
+ network_correctness_cases!(network_correctness_u64_n15, u64, [15]);
+-#[cfg(kani_smallsort_controls)]
+ insertion_permutation_case!(insertion_permutation_u8_n15, u8, 15);
+-#[cfg(kani_smallsort_controls)]
+ insertion_permutation_case!(insertion_permutation_u64_n15, u64, 15);
+ 
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u8_n16, u8, [16]);
+@@ -1147,3 +1095,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ network_correctness_cases!(network_correctness_u8_n17, u8, [17]);
+@@ -1213,13 +1160,8 @@
+ swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, u8, 9);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_arbitrary_indices_case!(swap_contract_u8_n12, u8, 12);
+ swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, u8, 13);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_arbitrary_indices_case!(swap_contract_u8_n16, u8, 16);
+ swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, u64, 9);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_arbitrary_indices_case!(swap_contract_u64_n12, u64, 12);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_arbitrary_indices_case!(swap_contract_u64_n13, u64, 13);
+-#[cfg(kani_smallsort_controls)]
+ swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
+@@ -1228,3 +1170,2 @@
+ // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
+-#[cfg(kani_smallsort_controls)]
+ fn insert_tail_value<const START: usize>() -> usize {
+@@ -1353,3 +1294,2 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ macro_rules! insert_tail_contract_case {
+@@ -1372,21 +1312,11 @@
+ 
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start15, 15, [16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start14, 14, [15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start13, 13, [14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start12, 12, [13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start11, 11, [12, 13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start10, 10, [11, 12, 13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start9, 9, [10, 11, 12, 13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start8, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(insert_tail_contract_u64_start7, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(
+@@ -1396,3 +1326,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(
+@@ -1402,3 +1331,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(
+@@ -1408,3 +1336,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(
+@@ -1414,3 +1341,2 @@
+ );
+-#[cfg(kani_smallsort_controls)]
+ insert_tail_contract_case!(

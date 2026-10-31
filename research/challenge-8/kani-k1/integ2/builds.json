@@ -1,0 +1,33 @@
+{
+  "status": "PRE_GO_NOT_RUN",
+  "max_builds": 3,
+  "max_usd": 2.9,
+  "spent_usd": 0,
+  "reserved_usd": 0,
+  "builds": [],
+  "planned": [
+    {
+      "stage": "G1",
+      "request_id": "integ2-inventory-ordinary-20261031",
+      "envelope_minutes": 60,
+      "reserve_usd": 0.81
+    },
+    {
+      "stage": "G2",
+      "request_id": "integ2-inventory-controls-20261031",
+      "envelope_minutes": 90,
+      "reserve_usd": 1.215
+    },
+    {
+      "stage": "G3",
+      "request_id": "integ2-measurement-controls-20261031",
+      "envelope_minutes": 60,
+      "reserve_usd": 0.81
+    }
+  ],
+  "planned_total_envelope_minutes": 210,
+  "planned_max_reserve_usd": 2.835,
+  "remaining_from_max_reserve_usd": 0.065,
+  "accounting": "Only own UUID/request_id; common agent label must not be used for attribution",
+  "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL."
+}

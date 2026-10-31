@@ -1,0 +1,153 @@
+{
+  "status": "CFG_ONLY_FALLBACK_PATCHES_NOT_APPLIED",
+  "plans": {
+    "aggregate-stable-n6-to8": {
+      "module": "merge",
+      "gate": [
+        "stable_direct_u64_n6",
+        "stable_direct_u64_n7",
+        "stable_direct_u64_n8"
+      ],
+      "ungate": [
+        "stable_direct_aggregate_u64_properties",
+        "stable_direct_aggregate_u64_n6",
+        "stable_direct_aggregate_u64_n7",
+        "stable_direct_aggregate_u64_n8"
+      ],
+      "p1_delta": 0,
+      "p2_delta": 0,
+      "reason": "Select the preserved aggregate fixture for stable N6..8",
+      "patch": "fallbacks/aggregate-stable-n6-to8.patch",
+      "patch_sha256": "35d2202ed3ef1f7463f2b1be9a9072bac425eff8ad26c4fa92b35d136614e0e6",
+      "static_p1_after": 197,
+      "body_changes": false,
+      "applied": false
+    },
+    "u8-n9-not-admitted": {
+      "module": "merge",
+      "gate": [
+        "general_direct_u8_n9",
+        "stable_direct_nonconst_u8_n9"
+      ],
+      "ungate": [
+        "general_stable_sorted_permutation_u8_n9"
+      ],
+      "p1_delta": -1,
+      "p2_delta": 1,
+      "reason": "P1 restores C u8 N9; P2 must retain C and both new fixed-route proofs",
+      "patch": "fallbacks/u8-n9-not-admitted.patch",
+      "patch_sha256": "26c5c4a8c39f928b5c48da3e1a1594eec2826a8942b94fa259d6a2a9d66f22ab",
+      "static_p1_after": 196,
+      "body_changes": false,
+      "applied": false
+    },
+    "m9-not-admitted": {
+      "module": "merge",
+      "gate": [
+        "general_direct_u64_n9",
+        "stable_direct_u64_n9"
+      ],
+      "ungate": [],
+      "p1_delta": -2,
+      "p2_delta": 0,
+      "reason": "Move the complete M9 pair to P2; C u64 N9 stays retired",
+      "patch": "fallbacks/m9-not-admitted.patch",
+      "patch_sha256": "efc746e220d098e5ec66ae24c2ab6fa81275c373ec87320744e5f5686752957d",
+      "static_p1_after": 195,
+      "body_changes": false,
+      "applied": false
+    },
+    "start1-not-admitted": {
+      "module": "network",
+      "gate": [
+        "insert_tail_contract_u64_start1_tail2_to8",
+        "insert_tail_contract_u64_start1_tail9_to12",
+        "insert_tail_contract_u64_start1_tail13_to16"
+      ],
+      "ungate": [],
+      "p1_delta": -3,
+      "p2_delta": 0,
+      "reason": "Move all three PFC groups to P2; START1 baseline stays diagnostic",
+      "patch": "fallbacks/start1-not-admitted.patch",
+      "patch_sha256": "c450a2e2104f4db789447c3cae3fc884896f2d7e1f62fff5a9eb5fa9ec3ff533",
+      "static_p1_after": 194,
+      "body_changes": false,
+      "applied": false
+    },
+    "nonconst-b-u64-n2": {
+      "module": "merge",
+      "gate": [
+        "general_stable_direct_u64_n2"
+      ],
+      "ungate": [
+        "general_stable_direct_nonconst_u64_n2"
+      ],
+      "p1_delta": 0,
+      "p2_delta": 0,
+      "reason": "Select the preserved generic helper without changing either body",
+      "patch": "fallbacks/nonconst-b-u64-n2.patch",
+      "patch_sha256": "16e0e87dc9756d7a6e1f47eb46121c9ae0942fa65ea6e0a96bb01637af356289",
+      "static_p1_after": 197,
+      "body_changes": false,
+      "applied": false
+    },
+    "nonconst-b-u64-n3": {
+      "module": "merge",
+      "gate": [
+        "general_stable_direct_u64_n3"
+      ],
+      "ungate": [
+        "general_stable_direct_nonconst_u64_n3"
+      ],
+      "p1_delta": 0,
+      "p2_delta": 0,
+      "reason": "Select the preserved generic helper without changing either body",
+      "patch": "fallbacks/nonconst-b-u64-n3.patch",
+      "patch_sha256": "573670d59206d5dff500e243c5bdb6f0d98231b6291b12893bae3d27f34568d1",
+      "static_p1_after": 197,
+      "body_changes": false,
+      "applied": false
+    },
+    "nonconst-b-u64-n4": {
+      "module": "merge",
+      "gate": [
+        "general_stable_direct_u64_n4"
+      ],
+      "ungate": [
+        "general_stable_direct_nonconst_u64_n4"
+      ],
+      "p1_delta": 0,
+      "p2_delta": 0,
+      "reason": "Select the preserved generic helper without changing either body",
+      "patch": "fallbacks/nonconst-b-u64-n4.patch",
+      "patch_sha256": "f70cd6055ee0b38d2dd260fee8d833a97258f0016987b9b8e712a9e61c51cb5b",
+      "static_p1_after": 197,
+      "body_changes": false,
+      "applied": false
+    },
+    "nonconst-b-u64-n5": {
+      "module": "merge",
+      "gate": [
+        "general_stable_direct_u64_n5"
+      ],
+      "ungate": [
+        "general_stable_direct_nonconst_u64_n5"
+      ],
+      "p1_delta": 0,
+      "p2_delta": 0,
+      "reason": "Select the preserved generic helper without changing either body",
+      "patch": "fallbacks/nonconst-b-u64-n5.patch",
+      "patch_sha256": "0619e58c1ba007ecfa8aca2d4469b2143196b4b2c36bfddc84f89d27a2b66524",
+      "static_p1_after": 197,
+      "body_changes": false,
+      "applied": false
+    }
+  },
+  "formulas": {
+    "p1": "191+u+2*m+3*s (r=0)",
+    "p2": "344-u"
+  },
+  "p2_rule": "Regenerate selected P2 manifest/patch after cfg selection; for u=0 C u8 N9 and both new u8 proofs are in P2",
+  "exclusions": "No baseline START1, C u64 N9, aggregate N9 or const u8 N9 restored",
+  "controls_note": "Shared const corruption control remains unchanged during cfg selection"
+}

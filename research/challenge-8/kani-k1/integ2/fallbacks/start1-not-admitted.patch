@@ -1,0 +1,17 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/network.rs
+@@ -1300,4 +1300,5 @@
+ }
+ 
++#[cfg(kani_smallsort_controls)]
+ insert_tail_start1_group_case!(
+     insert_tail_contract_u64_start1_tail2_to8,
+@@ -1307,6 +1308,8 @@
+ );
+ 
++#[cfg(kani_smallsort_controls)]
+ insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to12, 9, 12, [9, 10, 11, 12]);
+ 
++#[cfg(kani_smallsort_controls)]
+ insert_tail_start1_group_case!(
+     insert_tail_contract_u64_start1_tail13_to16,

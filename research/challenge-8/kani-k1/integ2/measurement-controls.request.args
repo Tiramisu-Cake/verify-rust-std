@@ -1,0 +1,11 @@
+--harness
+slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2
+--harness
+slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control
+--harness
+slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

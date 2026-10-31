@@ -1,0 +1,43 @@
+{
+  "result": "PASS_STATIC_INTEG2_P2_FORECAST_ONLY",
+  "baseline": "e6a8ad05c9",
+  "patch_applied_to_temporary_source_copy": true,
+  "budget_cfg_lines": 155,
+  "by_file": {
+    "correct": 26,
+    "merge": 55,
+    "network": 74
+  },
+  "gate_classes": {
+    "budget-deferred+preexisting-opt-in": 5,
+    "budget-deferred": 144,
+    "positive-direct": 4,
+    "budget-deferred+timeout-diagnostic": 2
+  },
+  "gate_origins": {
+    "SCOPE-budget-helper": 7,
+    "SCOPE-proof": 148
+  },
+  "ordinary": 343,
+  "expected_p2_candidate_ordinary": 343,
+  "all_names": 479,
+  "retained_classes": [
+    "retired-duplicate",
+    "pending-direct",
+    "historical-contract",
+    "fallback",
+    "timeout-diagnostic",
+    "expected-fail",
+    "deferred-unsupported",
+    "preexisting-opt-in"
+  ],
+  "patch_only_removes_budget_cfg_lines": true,
+  "patch_sha256": "bc2243ad0488991645a90dcfe074f899d7a0939181d55f1f24e9d004e3b90251",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "limitations": [
+    "Source forecast, not Rust expansion or actual kani list",
+    "Helper-to-harness association uses local token references",
+    "Positive DIRECT in P2 is a candidate; macOS CI is UNKNOWN",
+    "No compilation, Kani, CBMC or CI executed"
+  ]
+}

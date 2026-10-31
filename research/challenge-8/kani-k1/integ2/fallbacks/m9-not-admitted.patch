@@ -1,0 +1,10 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -1050,5 +1050,7 @@
+ define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+ 
++#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(general_direct_u64_n9, general_direct_u64_properties, 9);
++#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(stable_direct_u64_n9, stable_direct_u64_properties, 9);
+ 

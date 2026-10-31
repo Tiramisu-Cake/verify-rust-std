@@ -1,0 +1,33 @@
+{
+  "status": "NOT_RUN_SOURCE_PLAN_ONLY",
+  "library_commit": "20aa864ad04e8d81b46d41024b75dc7aa1103dcf",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "controls": [
+    {
+      "name": "merge::general_stable_direct_value_corruption_control_u64_n2",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "assert_line": 841,
+      "assert_end_line": 845,
+      "sortedness_assert_line": 839,
+      "intended": "shared full-value count assertion; sortedness does not fail",
+      "cover": "general/stable direct sort returns before payload corruption"
+    },
+    {
+      "name": "network::insert_tail_contract_u64_start1_prefix_frame_control",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "assert_line": 1257,
+      "intended": "shared frame checker prefix assertion, mutation v[0]=pre[0]^1, tail2",
+      "cover": "START1 prefix control reaches corruption"
+    },
+    {
+      "name": "network::insert_tail_contract_u64_start1_suffix_frame_control",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "assert_line": 1260,
+      "intended": "shared frame checker suffix assertion, mutation v[16]=pre[16]^1, tail15",
+      "cover": "START1 suffix control reaches corruption"
+    }
+  ],
+  "expect_check": "This is a placeholder message",
+  "matcher_basis": "Known Kani text in ASSEMBLY count control and START1 pilot frame controls; no new result inferred",
+  "acceptance": "Each exactly one intended FAILED, all covers reachable, no other failures; manually match actual class/location to frozen source. Never turn matcher mismatch into gate=true."
+}

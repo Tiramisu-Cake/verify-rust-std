@@ -1,0 +1,14 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -928,4 +928,5 @@
+ }
+ 
++#[cfg(kani_smallsort_controls)]
+ #[kani::proof]
+ #[kani::unwind(34)]
+@@ -934,5 +935,4 @@
+ }
+ 
+-#[cfg(kani_smallsort_controls)]
+ define_general_direct_harness!(general_stable_direct_nonconst_u64_n2, u64, lt_u64, 2);
+ 

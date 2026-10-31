@@ -1,0 +1,36 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -1019,5 +1019,4 @@
+ }
+ 
+-#[cfg(kani_smallsort_controls)]
+ fn stable_direct_aggregate_u64_properties<const N: usize>() {
+     const { assert!(N == 6 || N == 7 || N == 8) };
+@@ -1046,6 +1045,9 @@
+ define_direct_u64_route_harness!(general_direct_u64_n7, general_direct_u64_properties, 7);
+ define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_properties, 8);
++#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
++#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
++#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+ 
+@@ -1053,5 +1055,4 @@
+ define_direct_u64_route_harness!(stable_direct_u64_n9, stable_direct_u64_properties, 9);
+ 
+-#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(
+     stable_direct_aggregate_u64_n6,
+@@ -1059,5 +1060,4 @@
+     6
+ );
+-#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(
+     stable_direct_aggregate_u64_n7,
+@@ -1065,5 +1065,4 @@
+     7
+ );
+-#[cfg(kani_smallsort_controls)]
+ define_direct_u64_route_harness!(
+     stable_direct_aggregate_u64_n8,

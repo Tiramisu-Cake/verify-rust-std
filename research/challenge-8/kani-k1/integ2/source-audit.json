@@ -1,0 +1,6970 @@
+{
+  "status": "PASS_STATIC_SOURCE_AUDIT_ONLY",
+  "baseline": "e6a8ad05c9",
+  "library_commit": "20aa864ad04e8d81b46d41024b75dc7aa1103dcf",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "changed_library_files": [
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+  ],
+  "changed_items": [
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n3"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n4"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n5"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n6"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n7"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n2"
+      ],
+      "change": "macro caller to const helper proof"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n3"
+      ],
+      "change": "macro caller to const helper proof"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n4"
+      ],
+      "change": "macro caller to const helper proof"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n5"
+      ],
+      "change": "macro caller to const helper proof"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_direct_u64_properties"
+      ],
+      "change": "approved body delta"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "stable_direct_u64_properties"
+      ],
+      "change": "approved body delta"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_stable_direct_value_corruption_control_u64_n2"
+      ],
+      "change": "approved body delta"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n9"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_direct_u8_n9"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_nonconst_u64_n2"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_direct_u64_n9"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_nonconst_u64_n5"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_direct_u8_n9_properties"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_nonconst_u8_n9"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_stable_direct_u64_n3"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_stable_direct_u64_n4"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "stable_direct_nonconst_u8_n9_properties"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_nonconst_u64_n4"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_stable_direct_u64_n5"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_aggregate_u64_n8"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_aggregate_u64_n6"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "stable_direct_aggregate_u64_properties"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_stable_direct_u64_n2"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_nonconst_u64_n3"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_aggregate_u64_n7"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_u64_n9"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_route_const_u64_properties"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_direct_u8_n9_route_harness"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n10"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n11"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n11"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n12"
+      ],
+      "change": "cfg only"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start1_tail9_to12"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insert_tail_group_value"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start1_tail2_to8"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start1_tail13_to16"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insert_tail_start1_frame"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insert_tail_contract_u64_start1_suffix_frame_control"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insert_tail_contract_u64_start1_prefix_frame_control"
+      ],
+      "change": "added item"
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insert_tail_start1_group_case"
+      ],
+      "change": "added item"
+    }
+  ],
+  "preserved_items": 584,
+  "preserved_resolved_local_bindings": [
+    {
+      "module": "assembly",
+      "item": [
+        "use",
+        "super::super::StableSmallSortTypeImpl|super::super::bidirectional_merge|super::super::insert_tail|super::super::merge_up|super::super::small_sort_network|super::super::swap_if_less"
+      ],
+      "resolved_local_symbols": [
+        "StableSmallSortTypeImpl",
+        "bidirectional_merge",
+        "insert_tail",
+        "merge_up",
+        "small_sort_network",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "use",
+        "crate::mem::MaybeUninit"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "use",
+        "crate::kani|crate::ptr"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "strict_less"
+      ],
+      "resolved_local_symbols": [
+        "ptr",
+        "strict_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "cut_ord_violation"
+      ],
+      "resolved_local_symbols": [
+        "cut_ord_violation",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "check_swap"
+      ],
+      "resolved_local_symbols": [
+        "check_swap",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "check_insert"
+      ],
+      "resolved_local_symbols": [
+        "check_insert",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "check_merge_up"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "check_merge_up",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "count"
+      ],
+      "resolved_local_symbols": [
+        "count"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "arbitrary_less"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_less",
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "check_merge_consumption"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "check_merge_consumption",
+        "count",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "fn",
+        "check_presorted_len"
+      ],
+      "resolved_local_symbols": [
+        "check_presorted_len",
+        "kani"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "macro",
+        "paired_case"
+      ],
+      "resolved_local_symbols": [
+        "cut_ord_violation",
+        "kani",
+        "paired_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "sorted_permutation_swap_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "check_swap",
+        "paired_case",
+        "strict_less",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "sorted_permutation_insert_tail_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "check_insert",
+        "insert_tail",
+        "paired_case",
+        "strict_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "advancement_merge_up_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "check_merge_up",
+        "merge_up",
+        "paired_case",
+        "strict_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "permutation_merge_u8_n4"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_less",
+        "bidirectional_merge",
+        "check_merge_consumption",
+        "paired_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "sorted_network_prefix_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "check_presorted_len",
+        "paired_case",
+        "small_sort_network",
+        "strict_less"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "macro",
+        "stable_unit_case"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "StableSmallSortTypeImpl",
+        "cut_ord_violation",
+        "kani",
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n1"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n2"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n7"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n8"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n16"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n17"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n31"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "assembly",
+      "item": [
+        "call",
+        "safety_stable_unit_n32"
+      ],
+      "resolved_local_symbols": [
+        "stable_unit_case"
+      ]
+    },
+    {
+      "module": "comparators",
+      "item": [
+        "use",
+        "crate::mem::ManuallyDrop"
+      ],
+      "resolved_local_symbols": [
+        "ManuallyDrop"
+      ]
+    },
+    {
+      "module": "comparators",
+      "item": [
+        "use",
+        "crate::kani|crate::ptr"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "comparators",
+      "item": [
+        "fn",
+        "zst_aware_less"
+      ],
+      "resolved_local_symbols": [
+        "ManuallyDrop",
+        "kani",
+        "ptr",
+        "zst_aware_less"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "use",
+        "super::super::CopyOnDrop"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "use",
+        "super::merge::lt_u64"
+      ],
+      "resolved_local_symbols": [
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "use",
+        "super::merge::lt_u8|super::merge::set_value_probe"
+      ],
+      "resolved_local_symbols": [
+        "lt_u8",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "use",
+        "crate::kani"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "fn",
+        "fallback_stub"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "fallback_stub",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "macro",
+        "fallback_stub_harness"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub",
+        "fallback_stub_harness",
+        "kani"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n11"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n13"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_fallback_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "fallback_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "fn",
+        "contract_insert_tail_u8_prefix"
+      ],
+      "resolved_local_symbols": [
+        "contract_insert_tail_u8_prefix",
+        "kani",
+        "lt_u8",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "fn",
+        "reject_unsorted_prefix_insert_tail_u8_n3"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "lt_u8",
+        "reject_unsorted_prefix_insert_tail_u8_n3",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "fn",
+        "scratch_insert_contract"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "scratch_insert_contract",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "macro",
+        "scratch_contract_harness"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "scratch_contract_harness",
+        "scratch_insert_contract"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "contract_insert_tail_u64_scratch"
+      ],
+      "resolved_local_symbols": [
+        "lt_u64",
+        "scratch_contract_harness"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "contract_insert_tail_u8_scratch"
+      ],
+      "resolved_local_symbols": [
+        "lt_u8",
+        "scratch_contract_harness"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "fn",
+        "general_stable_stub"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "general_stable_stub",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "macro",
+        "general_stub_harness"
+      ],
+      "resolved_local_symbols": [
+        "general_stable_stub",
+        "general_stub_harness",
+        "kani"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_general_stable_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "general_stub_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_general_stable_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "general_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "correct",
+      "item": [
+        "call",
+        "sorted_permutation_general_stable_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "general_stub_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "use",
+        "super::super::insert_tail"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "use",
+        "super::super::CopyOnDrop|super::super::SMALL_SORT_GENERAL_SCRATCH_LEN|super::super::StableSmallSortTypeImpl|super::super::UnstableSmallSortTypeImpl|super::super::bidirectional_merge|super::super::sort4_stable"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "UnstableSmallSortTypeImpl",
+        "bidirectional_merge",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "use",
+        "crate::mem::MaybeUninit|crate::mem::size_of"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "size_of"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "use",
+        "crate::slice::sort::shared::FreezeMarker"
+      ],
+      "resolved_local_symbols": [
+        "FreezeMarker"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "use",
+        "crate::kani|crate::ptr"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "const PROBE_BYTES: usize = 128;"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "const MAX_UNROLLED_ELEMENTS: usize = 32;"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "struct Probe([u8; PROBE_BYTES]);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "static mut VALUE_PROBE_BYTES: Probe = Probe([0; PROBE_BYTES]);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "set_value_probe"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ptr",
+        "set_value_probe",
+        "size_of"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "matches_value_probe"
+      ],
+      "resolved_local_symbols": [
+        "matches_value_probe",
+        "ptr",
+        "size_of"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "call_comparator"
+      ],
+      "resolved_local_symbols": [
+        "call_comparator"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "impl<T> CopyOnDrop<T> { pub(crate) fn probe_count(base: *const T, len: usize) -> usize { let mut c = 0; let mut i = 0; while i < len { if unsafe { matches_value_probe(base.add(i)) } { c += 1; } i += 1; } c } pub(crate) fn probe_count_unrolled(base: *const T, len: usize) -> usize { let mut c = 0; macro_rules! step { ($($i:literal)*) => {$( if $i < len && unsafe { matches_value_probe(base.add($i)) } { c += 1; } )*}; } step!( 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 ); c } pub(crate) fn is_sorted_unrolled<F: FnMut(&T, &T) -> bool>( base: *const T, len: usize, is_less: &&mut F, ) -> bool { let mut ok = true; macro_rules! step { ($($i:literal)*) => {$( if $i < len && call_comparator( is_less, unsafe { base.add($i) }, unsafe { base.add($i - 1) }, ) { ok = false; } )*}; } step!(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31); ok } pub(crate) fn is_sorted<F: FnMut(&T, &T) -> bool>( base: *const T, len: usize, is_less: &&mut F, ) -> bool { let mut i = 1; while i < len { if call_comparator(is_less, unsafe { base.add(i) }, unsafe { base.add(i - 1) }) { return false; } i += 1; } true } pub(crate) fn regions_are_disjoint(a: *const T, n: usize, b: *const T, m: usize) -> bool { !kani::mem::same_allocation(a, b) || { let d = unsafe { b.offset_from(a) }; d >= n as isize || -d >= m as isize } } pub(crate) fn tail_region_len(begin: *const T, tail: *const T) -> usize { (unsafe { tail.offset_from(begin) }) as usize + 1 } pub(crate) fn tail_region_is_writable(begin: *mut T, tail: *mut T) -> bool { kani::mem::same_allocation(begin as *const T, tail as *const T) && (unsafe { tail.offset_from(begin) }) >= 1 && kani::mem::can_write(ptr::slice_from_raw_parts_mut( begin, Self::tail_region_len(begin, tail), )) } pub(crate) fn valid_sorted_tail<F: FnMut(&T, &T) -> bool>( begin: *mut T, tail: *mut T, is_less: &&mut F, ) -> bool { Self::tail_region_is_writable(begin, tail) && Self::is_sorted(begin, Self::tail_region_len(begin, tail) - 1, is_less) } pub(crate) fn is_writable_region(p: *const T, n: usize) -> bool { kani::mem::can_write(ptr::slice_from_raw_parts_mut(p as *mut T, n)) } pub(crate) fn valid_sort4_regions(v_base: *const T, dst: *mut T) -> bool { Self::is_writable_region(v_base, 4) && Self::is_writable_region(dst, 4) && Self::regions_are_disjoint(v_base, 4, dst, 4) } pub(crate) fn valid_merge_destination(v: &[T], dst: *mut T) -> bool { kani::mem::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())) && Self::regions_are_disjoint(v.as_ptr(), v.len(), dst as *const T, v.len()) } pub(crate) fn merge_inputs_are_sorted<F: FnMut(&T, &T) -> bool>( v: &[T], is_less: &&mut F, ) -> bool { let len = v.len(); let half = len / 2; len <= MAX_UNROLLED_ELEMENTS && Self::is_sorted_unrolled(v.as_ptr(), half, is_less) && Self::is_sorted_unrolled(v.as_ptr().wrapping_add(half), len - half, is_less) } }"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "call_comparator",
+        "kani",
+        "matches_value_probe",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "lt_u8"
+      ],
+      "resolved_local_symbols": [
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "lt_i32"
+      ],
+      "resolved_local_symbols": [
+        "lt_i32"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "lt_u64"
+      ],
+      "resolved_local_symbols": [
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "lt_b16"
+      ],
+      "resolved_local_symbols": [
+        "lt_b16"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "lt_b85"
+      ],
+      "resolved_local_symbols": [
+        "lt_b85"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "dispatch_by_length"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_by_length"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_length_body"
+      ],
+      "resolved_local_symbols": [
+        "FreezeMarker",
+        "MaybeUninit",
+        "bidirectional_merge",
+        "kani",
+        "merge_length_body",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "insert_tail_len"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail",
+        "insert_tail_len",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_rejects_unsorted_halves_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "bidirectional_merge",
+        "kani",
+        "lt_u64",
+        "merge_rejects_unsorted_halves_control_u64_n4",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_length_body"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "kani",
+        "set_value_probe",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_contract_type_matrix_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "lt_b16",
+        "lt_b85",
+        "lt_i32",
+        "lt_u64",
+        "sort4_contract_type_matrix_n4",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_contract_i32_control_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "lt_i32",
+        "sort4_contract_i32_control_n4",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_contract_bytes16_control_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "lt_b16",
+        "sort4_contract_bytes16_control_n4",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_contract_bytes85_control_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "lt_b85",
+        "sort4_contract_bytes85_control_n4",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "read_sort4_arguments"
+      ],
+      "resolved_local_symbols": [
+        "ptr",
+        "read_sort4_arguments"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "sort4_arbitrary_comparator_body"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "MaybeUninit",
+        "kani",
+        "read_sort4_arguments",
+        "set_value_probe",
+        "sort4_arbitrary_comparator_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_sort4_contract_and_comparator_harnesses"
+      ],
+      "resolved_local_symbols": [
+        "define_sort4_contract_and_comparator_harnesses",
+        "kani",
+        "read_sort4_arguments",
+        "sort4_arbitrary_comparator_body",
+        "sort4_length_body",
+        "sort4_stable"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "sort4_contract_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_sort4_contract_and_comparator_harnesses",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "sort4_contract_bytes16_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_sort4_contract_and_comparator_harnesses",
+        "lt_b16"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "sort4_contract_bytes85_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_sort4_contract_and_comparator_harnesses",
+        "lt_b85"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "insert_tail_contract_integer_types_n2_to16"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_by_length",
+        "insert_tail",
+        "insert_tail_contract_integer_types_n2_to16",
+        "insert_tail_len",
+        "kani",
+        "lt_i32",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "insert_tail_contract_byte_arrays_n2_to16"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_by_length",
+        "insert_tail",
+        "insert_tail_contract_byte_arrays_n2_to16",
+        "insert_tail_len",
+        "kani",
+        "lt_b16",
+        "lt_b85"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_merge_length_harness"
+      ],
+      "resolved_local_symbols": [
+        "bidirectional_merge",
+        "define_merge_length_harness",
+        "dispatch_by_length",
+        "kani",
+        "merge_length_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n2_to32"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_length_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_i32_n2_to32"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_length_harness",
+        "lt_i32"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n2_to32"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_length_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_bytes16_n2_to32"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_length_harness",
+        "lt_b16"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_bytes85_n2_to32"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_length_harness",
+        "lt_b85"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "arbitrary_u64_order"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_u64_order",
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "abort_on_order_violation"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_arbitrary_order_permutation_failure_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "abort_on_order_violation",
+        "arbitrary_u64_order",
+        "bidirectional_merge",
+        "kani",
+        "merge_arbitrary_order_permutation_failure_control_u64_n4"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_arbitrary_order_reachability_check_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "abort_on_order_violation",
+        "arbitrary_u64_order",
+        "bidirectional_merge",
+        "kani",
+        "merge_arbitrary_order_reachability_check_control_u64_n4"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_safety_body_u64"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "arbitrary_u64_order",
+        "bidirectional_merge",
+        "kani",
+        "merge_safety_body_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "struct WrappedU64(u64);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "arbitrary_wrapped_u64_order"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_wrapped_u64_order",
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "unstable_general_u64_safety_body"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_u64_order",
+        "kani",
+        "unstable_general_u64_safety_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "noncopy_general_u64_safety_body"
+      ],
+      "resolved_local_symbols": [
+        "UnstableSmallSortTypeImpl",
+        "arbitrary_wrapped_u64_order",
+        "kani",
+        "noncopy_general_u64_safety_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "stable_general_u64_safety_body"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "arbitrary_u64_order",
+        "kani",
+        "stable_general_u64_safety_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "all_upper_routes_safety_body"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "kani",
+        "noncopy_general_u64_safety_body",
+        "stable_general_u64_safety_body",
+        "unstable_general_u64_safety_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "ordered_merge_before_safety_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "bidirectional_merge",
+        "kani",
+        "ordered_merge_before_safety_control_u64_n4"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "intrinsic_assumption_safety_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "intrinsic_assumption_safety_control_u64_n4",
+        "kani",
+        "ordered_merge_before_safety_control_u64_n4",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "unchecked_add_overflow_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ordered_merge_before_safety_control_u64_n4",
+        "ptr",
+        "unchecked_add_overflow_control_u64_n4"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "overlapping_copy_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ordered_merge_before_safety_control_u64_n4",
+        "overlapping_copy_control_u64_n4",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "out_of_bounds_pointer_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "ordered_merge_before_safety_control_u64_n4",
+        "out_of_bounds_pointer_control_u64_n4",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_arbitrary_order_assertion_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "kani",
+        "merge_arbitrary_order_assertion_control_u64_n4",
+        "merge_safety_body_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_arbitrary_order_reachability_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "kani",
+        "merge_arbitrary_order_reachability_control_u64_n4",
+        "merge_safety_body_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_route_safety_harness"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_route_safety_harness",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n2"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n3"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n4"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n5"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n6"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n7"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n8"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n9"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n10"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n11"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n12"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n13"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n14"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n15"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n16"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n17"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n18"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n19"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n20"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n21"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n22"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n23"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n24"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n25"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n26"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n27"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n28"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n29"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n30"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n31"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "route_safety_all_routes_n32"
+      ],
+      "resolved_local_symbols": [
+        "all_upper_routes_safety_body",
+        "define_route_safety_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_small_merge_contract_harness"
+      ],
+      "resolved_local_symbols": [
+        "bidirectional_merge",
+        "define_small_merge_contract_harness",
+        "kani",
+        "merge_length_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n2_to4"
+      ],
+      "resolved_local_symbols": [
+        "define_small_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n2_to4"
+      ],
+      "resolved_local_symbols": [
+        "define_small_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_merge_contract_harness"
+      ],
+      "resolved_local_symbols": [
+        "bidirectional_merge",
+        "define_merge_contract_harness",
+        "kani",
+        "merge_length_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_unsorted_halves_control"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "bidirectional_merge",
+        "define_unsorted_halves_control",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_unsorted_halves_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_unsorted_halves_control",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_unsorted_halves_control_u8_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_unsorted_halves_control",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "assert_sorted_and_probe_preserved"
+      ],
+      "resolved_local_symbols": [
+        "CopyOnDrop",
+        "assert_sorted_and_probe_preserved"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "general_route_properties"
+      ],
+      "resolved_local_symbols": [
+        "FreezeMarker",
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "assert_sorted_and_probe_preserved",
+        "general_route_properties",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "fallback_route_properties"
+      ],
+      "resolved_local_symbols": [
+        "assert_sorted_and_probe_preserved",
+        "fallback_route_properties",
+        "kani",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_general_sortedness_harness"
+      ],
+      "resolved_local_symbols": [
+        "bidirectional_merge",
+        "define_general_sortedness_harness",
+        "general_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_general_direct_harness"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "general_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n3"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_direct_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_general_direct_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "scratch_view"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "scratch_view"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_direct_u64_route_harness"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_direct_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "general_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_direct_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "general_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_direct_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "general_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "stable_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "stable_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "stable_direct_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_direct_u64_route_harness",
+        "stable_direct_u64_properties"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "stable_direct_value_corruption_control_u64_n2"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "assert_sorted_and_probe_preserved",
+        "kani",
+        "lt_u64",
+        "scratch_view",
+        "set_value_probe",
+        "stable_direct_value_corruption_control_u64_n2"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_aggregate_unsorted_halves_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "bidirectional_merge",
+        "kani",
+        "lt_u64",
+        "merge_aggregate_unsorted_halves_control_u64_n4",
+        "ptr",
+        "scratch_view",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_aggregate_allocation_bounds_control_u64"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "kani",
+        "merge_aggregate_allocation_bounds_control_u64",
+        "ptr",
+        "scratch_view"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_scratch48_length_body"
+      ],
+      "resolved_local_symbols": [
+        "FreezeMarker",
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "bidirectional_merge",
+        "kani",
+        "merge_scratch48_length_body",
+        "ptr",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_merge_scratch48_contract_harness"
+      ],
+      "resolved_local_symbols": [
+        "bidirectional_merge",
+        "define_merge_scratch48_contract_harness",
+        "kani",
+        "merge_scratch48_length_body"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u64_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u8_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u8_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_scratch48_contract_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_scratch48_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "merge_scratch48_unsorted_halves_control_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "bidirectional_merge",
+        "kani",
+        "lt_u64",
+        "merge_scratch48_unsorted_halves_control_u64_n4",
+        "ptr",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_fallback_property_harness"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness",
+        "fallback_route_properties",
+        "kani",
+        "lt_u64",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n11"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n13"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n0"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n0"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n0"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n1"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n1"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n1"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n2"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n2"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n3"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n3"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n3"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n4"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n5"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n11"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n13"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "general_stable_sorted_permutation_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "define_general_sortedness_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_property_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_fallback_route_harness"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_route_harness",
+        "fallback_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_route_harness",
+        "lt_u64"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_route_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "fallback_sorted_permutation_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "define_fallback_route_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n20"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "merge_contract_u8_n24"
+      ],
+      "resolved_local_symbols": [
+        "define_merge_contract_harness",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "struct DropTaggedValue { key: u64, tag: u8, }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "static mut DROP_COUNT: usize = 0;"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "merge",
+      "item": [
+        "other",
+        "impl crate::ops::Drop for DropTaggedValue { fn drop(&mut self) { unsafe { let count = ptr::read(ptr::addr_of!(DROP_COUNT)); ptr::write(ptr::addr_of_mut!(DROP_COUNT), count + 1); } } }"
+      ],
+      "resolved_local_symbols": [
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "arbitrary_drop_value_order"
+      ],
+      "resolved_local_symbols": [
+        "arbitrary_drop_value_order",
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "abort_without_order_cover"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "drop_route_properties"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "arbitrary_drop_value_order",
+        "drop_route_properties",
+        "kani",
+        "ptr"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "macro",
+        "define_drop_route_harness"
+      ],
+      "resolved_local_symbols": [
+        "define_drop_route_harness",
+        "drop_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "drop_general_reachability_control_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "drop_general_reachability_control_n2",
+        "drop_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_reachability_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_drop_count_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_tag_permutation_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_drop_count_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_tag_permutation_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_drop_count_n8"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_fallback_tag_permutation_n8"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_drop_count_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_tag_permutation_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_drop_count_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_tag_permutation_n4"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_drop_count_n8"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_tag_permutation_n8"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_drop_count_n16"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "call",
+        "drop_general_tag_permutation_n16"
+      ],
+      "resolved_local_symbols": [
+        "abort_on_order_violation",
+        "define_drop_route_harness"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "drop_duplicate_tag_control_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "drop_duplicate_tag_control_n2",
+        "drop_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "merge",
+      "item": [
+        "fn",
+        "drop_extra_drop_control_n2"
+      ],
+      "resolved_local_symbols": [
+        "abort_without_order_cover",
+        "drop_extra_drop_control_n2",
+        "drop_route_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "use",
+        "super::super::UnstableSmallSortFreezeTypeImpl|super::super::swap_if_less"
+      ],
+      "resolved_local_symbols": [
+        "UnstableSmallSortFreezeTypeImpl",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "use",
+        "super::merge::set_value_probe"
+      ],
+      "resolved_local_symbols": [
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "use",
+        "super::merge::lt_i32|super::merge::lt_u8|super::merge::lt_u64"
+      ],
+      "resolved_local_symbols": [
+        "lt_i32",
+        "lt_u64",
+        "lt_u8"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "use",
+        "crate::kani"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "use",
+        "crate::mem::size_of"
+      ],
+      "resolved_local_symbols": [
+        "size_of"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "exercise_swap_contract"
+      ],
+      "resolved_local_symbols": [
+        "exercise_swap_contract",
+        "kani",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_four_positions_u8"
+      ],
+      "resolved_local_symbols": [
+        "exercise_swap_contract",
+        "kani",
+        "lt_u8",
+        "swap_contract_four_positions_u8",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_four_positions_i32"
+      ],
+      "resolved_local_symbols": [
+        "exercise_swap_contract",
+        "kani",
+        "lt_i32",
+        "swap_contract_four_positions_i32",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_four_positions_u64"
+      ],
+      "resolved_local_symbols": [
+        "exercise_swap_contract",
+        "kani",
+        "lt_u64",
+        "swap_contract_four_positions_u64",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_swap_contract_precondition_u8"
+      ],
+      "resolved_local_symbols": [
+        "control_swap_contract_precondition_u8",
+        "kani",
+        "lt_u8",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "prefix_unchanged"
+      ],
+      "resolved_local_symbols": [
+        "prefix_unchanged"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "volatile_reading_less_u64"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "unstable_freeze_network_fixed"
+      ],
+      "resolved_local_symbols": [
+        "UnstableSmallSortFreezeTypeImpl",
+        "kani",
+        "unstable_freeze_network_fixed",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "unstable_freeze_network_cases"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "unstable_freeze_network_cases",
+        "unstable_freeze_network_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n0_to17"
+      ],
+      "resolved_local_symbols": [
+        "unstable_freeze_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "count_matching_values"
+      ],
+      "resolved_local_symbols": [
+        "count_matching_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "is_sorted_by"
+      ],
+      "resolved_local_symbols": [
+        "is_sorted_by"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "struct TaggedKey { key: u8, tag: u8, }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "type TaggedKeyCell = crate::cell::Cell<TaggedKey>;"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "count_tagged_values"
+      ],
+      "resolved_local_symbols": [
+        "count_tagged_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "tag_sequence"
+      ],
+      "resolved_local_symbols": [
+        "tag_sequence"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "cut_order_violation_panic"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "cut_order_violation_panic",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "assume_order_violation"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_order_violation_assertion"
+      ],
+      "resolved_local_symbols": [
+        "control_order_violation_assertion",
+        "cut_order_violation_panic",
+        "kani",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_order_violation_reachability"
+      ],
+      "resolved_local_symbols": [
+        "control_order_violation_reachability",
+        "cut_order_violation_panic",
+        "kani",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "unstable_dispatch_network_fixed"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "unstable_dispatch_network_fixed",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "unstable_dispatch_network_cases"
+      ],
+      "resolved_local_symbols": [
+        "cut_order_violation_panic",
+        "kani",
+        "unstable_dispatch_network_cases",
+        "unstable_dispatch_network_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n18_to21"
+      ],
+      "resolved_local_symbols": [
+        "unstable_dispatch_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n22_to25"
+      ],
+      "resolved_local_symbols": [
+        "unstable_dispatch_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n26_to27"
+      ],
+      "resolved_local_symbols": [
+        "unstable_dispatch_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n28_to29"
+      ],
+      "resolved_local_symbols": [
+        "unstable_dispatch_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_safety_unstable_u64_n30_to32"
+      ],
+      "resolved_local_symbols": [
+        "unstable_dispatch_network_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "trait ArbitraryValue: Sized { fn arbitrary_value() -> Self; }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl ArbitraryValue for () { fn arbitrary_value() -> Self { () } }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl ArbitraryValue for u8 { fn arbitrary_value() -> Self { kani::any() } }"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "volatile_reading_less"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "volatile_reading_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "dispatch_safety_fixed"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_fixed",
+        "volatile_reading_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "dispatch_safety_cases"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "dispatch_safety_cases",
+        "dispatch_safety_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_network_normal_return_assertion"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "control_network_normal_return_assertion",
+        "kani",
+        "unstable_dispatch_network_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_unstable_zst_n8_9_12_13_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_u8_n0_1_2_7_8"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_u8_n15_16_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_u8_n31_32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_unstable_u8_n8_9_12_13_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_unstable_u8_n18_31_32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "dispatch_pair_safety_cases"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "dispatch_pair_safety_cases",
+        "dispatch_safety_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_order_violation_merge_assertion"
+      ],
+      "resolved_local_symbols": [
+        "assume_order_violation",
+        "control_order_violation_merge_assertion",
+        "dispatch_safety_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "dispatch_reachability_case"
+      ],
+      "resolved_local_symbols": [
+        "cut_order_violation_panic",
+        "dispatch_reachability_case",
+        "dispatch_safety_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_reachability_stable_u8_n17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_reachability_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_reachability_general_bytes16_n17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_reachability_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_reachability_network_u8_n18"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_reachability_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl<const M: usize> ArbitraryValue for [u8; M] { fn arbitrary_value() -> Self { kani::any() } }"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes16_n15_16_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes16_n31"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes16_n32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes17_n15_16_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes17_n31"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes17_n32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "struct DropValue(u8);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl Drop for DropValue { fn drop(&mut self) { unsafe { let _ = crate::ptr::read_volatile(&self.0); } } }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl ArbitraryValue for DropValue { fn arbitrary_value() -> Self { Self(kani::any()) } }"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_drop_u8_n15_16_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_drop_u8_n31"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_drop_u8_n32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl ArbitraryValue for crate::cell::Cell<i32> { fn arbitrary_value() -> Self { Self::new(kani::any()) } }"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes85_n15_16_17"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes85_n31"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_stable_unstable_bytes85_n32"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_pair_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "dispatch_safety_unstable_bytes86_n0_1_2_15_16"
+      ],
+      "resolved_local_symbols": [
+        "dispatch_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insertion_at"
+      ],
+      "resolved_local_symbols": [
+        "insertion_at"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insertion_at_any_offset"
+      ],
+      "resolved_local_symbols": [
+        "insertion_at",
+        "insertion_at_any_offset"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insertion_safety_fixed"
+      ],
+      "resolved_local_symbols": [
+        "insertion_at_any_offset",
+        "insertion_safety_fixed",
+        "kani",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insertion_safety_cases"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases",
+        "insertion_safety_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n1_to5"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n6_to10"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n11_to15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_to20"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "mutating_key_order"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "mutating_key_order"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "tagged_values"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "tagged_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "mutating_route_fixed"
+      ],
+      "resolved_local_symbols": [
+        "mutating_key_order",
+        "mutating_route_fixed",
+        "tagged_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "mutating_route_cases"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "mutating_route_cases",
+        "mutating_route_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "mutating_insertion_fixed"
+      ],
+      "resolved_local_symbols": [
+        "insertion_at_any_offset",
+        "kani",
+        "mutating_insertion_fixed",
+        "mutating_key_order",
+        "tagged_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "mutating_insertion_cases"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "mutating_insertion_cases",
+        "mutating_insertion_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_safety_cell_n0_to4"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_safety_cell_n5_to8"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_safety_cell_n9_to12"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_safety_cell_n13_to16"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n1_to5"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n6_to10"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n11_to15"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n16_to20"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n11_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n13_to15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n11_to12"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n13_to15"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_safety_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n13"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n14"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_insertion_safety_cell_n15"
+      ],
+      "resolved_local_symbols": [
+        "mutating_insertion_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insertion_offset_one_cases"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases",
+        "kani",
+        "mutating_key_order",
+        "tagged_values",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_offset1"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offset1"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offset1"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offset1"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offset1"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_one_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insertion_offset_group_cases"
+      ],
+      "resolved_local_symbols": [
+        "insertion_at",
+        "insertion_offset_group_cases",
+        "kani",
+        "mutating_key_order",
+        "tagged_values",
+        "volatile_reading_less_u64"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n15_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n15_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n15_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n15_offsets13_to15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n16_offsets13_to16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offsets13_to15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n17_offsets16_to17"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offsets13_to16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n18_offsets17_to18"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offsets13_to16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n19_offsets17_to19"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offsets1_to4"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offsets5_to8"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offsets9_to12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offsets13_to16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_safety_u64_n20_offsets17_to20"
+      ],
+      "resolved_local_symbols": [
+        "insertion_offset_group_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "strict_less"
+      ],
+      "resolved_local_symbols": [
+        "strict_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "network_correctness_fixed"
+      ],
+      "resolved_local_symbols": [
+        "count_matching_values",
+        "is_sorted_by",
+        "kani",
+        "network_correctness_fixed",
+        "prefix_unchanged",
+        "strict_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "network_correctness_cases"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "network_correctness_cases",
+        "network_correctness_fixed"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n0_to2"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n0_to2"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n3_to4"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n3_to4"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n5"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n5"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n6"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n6"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n7"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n8"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "other",
+        "impl ArbitraryValue for u64 { fn arbitrary_value() -> Self { kani::any() } }"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "zst_less"
+      ],
+      "resolved_local_symbols": [
+        "zst_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "drop_value_less"
+      ],
+      "resolved_local_symbols": [
+        "drop_value_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "cell_value_less"
+      ],
+      "resolved_local_symbols": [
+        "cell_value_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "array_key_less"
+      ],
+      "resolved_local_symbols": [
+        "array_key_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_fixed"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "size_of",
+        "swap_contract_fixed",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "swap_contract_exact_array_case"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "swap_contract_exact_array_case",
+        "swap_contract_fixed",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "strict_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u64_n2"
+      ],
+      "resolved_local_symbols": [
+        "strict_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_bytes85_n2"
+      ],
+      "resolved_local_symbols": [
+        "array_key_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_drop_u8_n2"
+      ],
+      "resolved_local_symbols": [
+        "drop_value_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_cell_i32_n2"
+      ],
+      "resolved_local_symbols": [
+        "cell_value_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_zero_sized_n2"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_exact_array_case",
+        "zst_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_bytes16_n2"
+      ],
+      "resolved_local_symbols": [
+        "array_key_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_bytes17_n2"
+      ],
+      "resolved_local_symbols": [
+        "array_key_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_bytes86_n2"
+      ],
+      "resolved_local_symbols": [
+        "array_key_less",
+        "swap_contract_exact_array_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insertion_permutation_fixed"
+      ],
+      "resolved_local_symbols": [
+        "count_matching_values",
+        "insertion_permutation_fixed",
+        "kani",
+        "prefix_unchanged",
+        "volatile_reading_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insertion_permutation_case"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case",
+        "insertion_permutation_fixed",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n10"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n11"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n11"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n11"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n13"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n14"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n14"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n15"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u8_n17"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "network_correctness_u64_n17"
+      ],
+      "resolved_local_symbols": [
+        "network_correctness_cases"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u8_n17"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insertion_permutation_u64_n17"
+      ],
+      "resolved_local_symbols": [
+        "insertion_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_indices"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "strict_less",
+        "swap_contract_indices",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_u8_indices_n17"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "swap_contract_indices",
+        "swap_contract_u8_indices_n17",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "swap_contract_u64_indices_n17"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "swap_contract_indices",
+        "swap_contract_u64_indices_n17",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "swap_contract_arbitrary_indices_case"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "swap_contract_arbitrary_indices_case",
+        "swap_contract_indices",
+        "swap_if_less"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u8_n12"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u8_n13"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u8_n16"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u64_n9"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u64_n12"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u64_n13"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "swap_contract_u64_n16"
+      ],
+      "resolved_local_symbols": [
+        "swap_contract_arbitrary_indices_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "insert_tail_value"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_value",
+        "kani",
+        "lt_u64",
+        "prefix_unchanged",
+        "set_value_probe"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "insert_tail_contract_case"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case",
+        "insert_tail_value",
+        "kani"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start15"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start14"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start13"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start12"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start11"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start10"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start9"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start8"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start7"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start6"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start5"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start4"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start3"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start2"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "insert_tail_contract_u64_start1"
+      ],
+      "resolved_local_symbols": [
+        "insert_tail_contract_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "mutating_route_permutation"
+      ],
+      "resolved_local_symbols": [
+        "count_tagged_values",
+        "insertion_at_any_offset",
+        "kani",
+        "mutating_key_order",
+        "mutating_route_permutation",
+        "tag_sequence",
+        "tagged_values"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "macro",
+        "mutating_route_permutation_case"
+      ],
+      "resolved_local_symbols": [
+        "kani",
+        "mutating_route_permutation",
+        "mutating_route_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_permutation_cell_n2"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_permutation_cell_n3"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "call",
+        "mutating_route_permutation_cell_n4"
+      ],
+      "resolved_local_symbols": [
+        "mutating_route_permutation_case"
+      ]
+    },
+    {
+      "module": "network",
+      "item": [
+        "fn",
+        "control_network_mutant_presorted_u8_n10"
+      ],
+      "resolved_local_symbols": [
+        "control_network_mutant_presorted_u8_n10",
+        "kani"
+      ]
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "use",
+        "super::super::has_efficient_in_place_swap"
+      ],
+      "resolved_local_symbols": [
+        "has_efficient_in_place_swap"
+      ]
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "use",
+        "crate::kani"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "other",
+        "struct SwapDrop(u8);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "other",
+        "impl crate::ops::Drop for SwapDrop { fn drop(&mut self) {} }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "fn",
+        "predicate_efficient_swap_type_matrix"
+      ],
+      "resolved_local_symbols": [
+        "has_efficient_in_place_swap",
+        "kani",
+        "predicate_efficient_swap_type_matrix"
+      ]
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "fn",
+        "predicate_efficient_swap_boundaries"
+      ],
+      "resolved_local_symbols": [
+        "has_efficient_in_place_swap",
+        "kani",
+        "predicate_efficient_swap_boundaries"
+      ]
+    },
+    {
+      "module": "smoke",
+      "item": [
+        "fn",
+        "reject_efficient_swap_bytes9"
+      ],
+      "resolved_local_symbols": [
+        "has_efficient_in_place_swap",
+        "kani",
+        "reject_efficient_swap_bytes9"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "use",
+        "super::super::SMALL_SORT_GENERAL_SCRATCH_LEN|super::super::StableSmallSortTypeImpl|super::super::UnstableSmallSortTypeImpl"
+      ],
+      "resolved_local_symbols": [
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "UnstableSmallSortTypeImpl"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "use",
+        "crate::cell::Cell"
+      ],
+      "resolved_local_symbols": [
+        "Cell"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "use",
+        "crate::kani"
+      ],
+      "resolved_local_symbols": [
+        "kani"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "use",
+        "crate::mem::MaybeUninit"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "other",
+        "trait LogicalByte { fn new(value: u8) -> Self; fn value(&self) -> u8; }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "types",
+      "item": [
+        "other",
+        "impl LogicalByte for Cell<u8> { fn new(value: u8) -> Self { Cell::new(value) } fn value(&self) -> u8 { self.get() } }"
+      ],
+      "resolved_local_symbols": [
+        "Cell"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "other",
+        "struct DropKey(u8);"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "types",
+      "item": [
+        "other",
+        "impl crate::ops::Drop for DropKey { fn drop(&mut self) {} }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "types",
+      "item": [
+        "other",
+        "impl LogicalByte for DropKey { fn new(value: u8) -> Self { Self(value) } fn value(&self) -> u8 { self.0 } }"
+      ],
+      "resolved_local_symbols": []
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "logical_less"
+      ],
+      "resolved_local_symbols": [
+        "logical_less"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "count"
+      ],
+      "resolved_local_symbols": [
+        "count"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "check_output"
+      ],
+      "resolved_local_symbols": [
+        "check_output",
+        "count",
+        "kani"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "cover_nontrivial_input"
+      ],
+      "resolved_local_symbols": [
+        "cover_nontrivial_input",
+        "kani"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "trait_properties"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "UnstableSmallSortTypeImpl",
+        "check_output",
+        "kani",
+        "logical_less",
+        "trait_properties"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "trivial_trait_properties"
+      ],
+      "resolved_local_symbols": [
+        "cover_nontrivial_input",
+        "kani",
+        "trait_properties",
+        "trivial_trait_properties"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "macro",
+        "trait_cases"
+      ],
+      "resolved_local_symbols": [
+        "cover_nontrivial_input",
+        "kani",
+        "trait_cases",
+        "trait_properties",
+        "trivial_trait_properties"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_fallback_cell_u8_n0_to2"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "trait_cases"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_fallback_cell_u8_n7_to9"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "trait_cases"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_general_drop_u8_n0_to2"
+      ],
+      "resolved_local_symbols": [
+        "trait_cases"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_general_drop_u8_n7_to9"
+      ],
+      "resolved_local_symbols": [
+        "trait_cases"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "macro",
+        "fixed_trait_case"
+      ],
+      "resolved_local_symbols": [
+        "cover_nontrivial_input",
+        "fixed_trait_case",
+        "kani",
+        "trait_properties"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_fallback_cell_u8_n7"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "fixed_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_general_drop_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "fixed_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_fallback_cell_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "fixed_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_general_drop_u8_n9"
+      ],
+      "resolved_local_symbols": [
+        "fixed_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "fixed_route_trait_properties"
+      ],
+      "resolved_local_symbols": [
+        "MaybeUninit",
+        "SMALL_SORT_GENERAL_SCRATCH_LEN",
+        "StableSmallSortTypeImpl",
+        "UnstableSmallSortTypeImpl",
+        "check_output",
+        "cover_nontrivial_input",
+        "fixed_route_trait_properties",
+        "kani",
+        "logical_less"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "macro",
+        "fixed_route_trait_case"
+      ],
+      "resolved_local_symbols": [
+        "fixed_route_trait_case",
+        "fixed_route_trait_properties",
+        "kani"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_stable_fallback_cell_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "fixed_route_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "call",
+        "sorted_permutation_traits_unstable_fallback_cell_u8_n8"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "fixed_route_trait_case"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "control_sorted_permutation_traits_cell_drop_n0_to2"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "control_sorted_permutation_traits_cell_drop_n0_to2",
+        "kani",
+        "trivial_trait_properties"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "reject_logical_sortedness_cell_n2"
+      ],
+      "resolved_local_symbols": [
+        "Cell",
+        "UnstableSmallSortTypeImpl",
+        "check_output",
+        "kani",
+        "logical_less",
+        "reject_logical_sortedness_cell_n2"
+      ]
+    },
+    {
+      "module": "types",
+      "item": [
+        "fn",
+        "reject_logical_permutation_drop_n2"
+      ],
+      "resolved_local_symbols": [
+        "UnstableSmallSortTypeImpl",
+        "check_output",
+        "kani",
+        "logical_less",
+        "reject_logical_permutation_drop_n2"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "use",
+        "super::super::*"
+      ],
+      "resolved_local_symbols": [
+        "*"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "fn",
+        "mutant_swap_if_less"
+      ],
+      "resolved_local_symbols": [
+        "*",
+        "mutant_swap_if_less"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "fn",
+        "mutant_insert_tail"
+      ],
+      "resolved_local_symbols": [
+        "*",
+        "mutant_insert_tail"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "fn",
+        "mutant_merge_up"
+      ],
+      "resolved_local_symbols": [
+        "*",
+        "mutant_merge_up"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "fn",
+        "mutant_bidirectional_merge"
+      ],
+      "resolved_local_symbols": [
+        "*",
+        "mutant_bidirectional_merge"
+      ]
+    },
+    {
+      "module": "mutations",
+      "item": [
+        "fn",
+        "mutant_small_sort_network"
+      ],
+      "resolved_local_symbols": [
+        "*",
+        "mutant_small_sort_network"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "d8a5d087f3304a9c975f24ef3dfe0273380e61dcc0e60f4707ce36fb354baf93",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "eaf612cf5bb5e7a063c452893d361e41de14bb0c0262d064b7990b38e06d6c1c"
+  },
+  "expected_control_locations": {
+    "merge::assert_sorted_and_probe_preserved::assert!": {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 839
+    },
+    "merge::assert_sorted_and_probe_preserved::assert!(": {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "line": 841
+    },
+    "network::insert_tail_start1_frame::assert!": {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1257
+    },
+    "network::insert_tail_start1_frame::assert!(prefix_unchanged": {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1260
+    }
+  },
+  "ordinary": 197,
+  "controls_cfg": 479,
+  "donor_bodies_match": true,
+  "production_tool_lane_unchanged": true,
+  "limitations": [
+    "Lexical local dependency audit, not Rust name resolution",
+    "No compiler, native inventory or proof result on candidate tree",
+    "Intentional stable helper replacement affects direct N6..8 consumers"
+  ]
+}

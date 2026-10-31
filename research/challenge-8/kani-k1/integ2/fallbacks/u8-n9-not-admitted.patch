@@ -1,0 +1,17 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -1317,5 +1317,4 @@
+ #[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n9, u64, lt_u64, 9);
+-#[cfg(kani_smallsort_controls)]
+ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n9, u8, lt_u8, 9);
+ #[cfg(kani_smallsort_controls)]
+@@ -1639,6 +1638,8 @@
+ }
+ 
++#[cfg(kani_smallsort_controls)]
+ define_direct_u8_n9_route_harness!(general_direct_u8_n9, general_direct_u8_n9_properties);
+ 
++#[cfg(kani_smallsort_controls)]
+ define_direct_u8_n9_route_harness!(
+     stable_direct_nonconst_u8_n9,

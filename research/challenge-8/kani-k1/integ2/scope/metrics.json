@@ -1,0 +1,37 @@
+{
+  "status": "INTEG2_STATIC_SOURCE_FORECAST_ONLY",
+  "baseline": "e6a8ad05c9",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "counts": {
+    "ordinary": 197,
+    "expected-fail": 33,
+    "preexisting-opt-in": 68,
+    "budget-deferred": 142,
+    "fallback": 7,
+    "retired-duplicate": 18,
+    "timeout-diagnostic": 5,
+    "historical-contract": 4,
+    "positive-direct": 4,
+    "deferred-unsupported": 1
+  },
+  "total": 479,
+  "p1_ordinary": 197,
+  "p2_candidate_ordinary": 343,
+  "cfg_on_total": 479,
+  "exact_name_sets": {
+    "p1": "p1-ordinary.txt",
+    "p2": "p2-ordinary.txt",
+    "cfg_on": "cfg-on.txt",
+    "p1_baseline": "p1-baseline.txt",
+    "p2_baseline": "p2-baseline.txt",
+    "p1_diff": "p1-diff-from-baseline.txt",
+    "p2_diff": "p2-diff-from-baseline.txt"
+  },
+  "p2_formula": "ordinary + selected budget-deferred + A-u8 N5..8; fallback/retired/diagnostic excluded",
+  "limitations": [
+    "Source forecast only; not Rust expansion or actual Kani inventory",
+    "All new or renamed INTEG2 harnesses are source-only and unmeasured",
+    "Static P2 patch application/name check is a separate source-only check",
+    "No Rust, Cargo, Kani, build, or CI executed"
+  ]
+}
