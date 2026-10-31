@@ -1,0 +1,27 @@
+== log-grep error
+16:  Downloaded proc-macro-error-attr v1.0.4
+17:  Downloaded proc-macro-error v1.0.4
+27:   Compiling proc-macro-error-attr v1.0.4
+28:   Compiling proc-macro-error v1.0.4
+104:99 | #![feature(io_const_error)]
+677:error: Failed to find contract closure `__kani_recursion_check_bidirectional_merge` in function `core::slice::sort::shared::smallsort::bidirectional_merge`
+727:error: could not compile `core` (lib) due to 1 previous error; 92 warnings emitted
+994:133 | #![feature(error_generic_member_access)]
+1066:145 | #![feature(io_const_error)]
+1072:146 | #![feature(io_const_error_internals)]
+1186:165 | #![feature(raw_os_error_ty)]
+1519:error: Failed to execute cargo (exit status: 101). Found 1 compilation errors.
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+error: Failed to find contract closure `__kani_recursion_check_bidirectional_merge` in function `core::slice::sort::shared::smallsort::bidirectional_merge`
+
+   Compiling memchr v2.8.3
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]

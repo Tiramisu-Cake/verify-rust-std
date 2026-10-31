@@ -74,13 +74,13 @@ def row_for(name, fam, T, F, N, backing, chain, pfc_src, origin):
         canon = "lt_*" if F.startswith("lt_") else F
         stageb = (f"retarget PFC name to {prof}::<tag(T={T},F={canon})>; F item -> canonical fn pointer is a new instance; "
                   + ("StageA profile type available" if T.replace(" ", "") in STAGEA_TYPES else "needs new tag/profile impl"))
-        evidence = (f"StageA opt-in instance {inst}: G1 row" if inst else "no StageA instance") + "; StageB proof NOT_RUN"
+        evidence = (f"StageA opt-in instance {inst}: G1 e6a1c83d COMPILE_ERROR, NOT_RUN" if inst else "no StageA instance") + "; StageB proof NOT_RUN"
         shim = "none (PFC calls profile; profile PFC runs real raw helper)"
     elif kind == "stub_verified":
         prof = "+".join(n[0] for n in new)
         stageb = f"kani::stub(raw target, adapter) + stub_verified({prof}); consumer F = fn pointer to canonical lt_*"
-        shim = "adapter prototype only for bidirectional_merge (merge_adapter); insert/swap adapters StageB"
-        evidence = "adapter mechanism: G1 row 10 (merge, u8 N2); this consumer NOT_RUN; binding OPEN"
+        shim = "merge_adapter prototype unused (stub of contracted fn fails on pin); StageB: contract-free raw target or real body"
+        evidence = "adapter via kani::stub of a contracted raw target rejected by pin (G1/G3 compile error); consumer NOT_RUN; binding OPEN"
     else:
         prof = "none (no contract clause consumed)"
         stageb = ("unchanged real body; arbitrary/mutating callback safety stays real-body" if mutating

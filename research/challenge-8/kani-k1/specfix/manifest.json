@@ -195,5 +195,12 @@
    "role_status": "unchanged positive"
   }
  ],
- "controls_set_note": "exact cfg-on set is source-derived and checked natively by G3; specfix adds 11 merge::specfix harnesses and 1 network harness, all cfg(kani_smallsort_controls); ordinary set unchanged (G2)"
+ "controls_set_note": "exact cfg-on set is source-derived and checked natively by G3; specfix adds 11 merge::specfix harnesses and 1 network harness, all cfg(kani_smallsort_controls); ordinary set unchanged (G2)",
+ "removed_after_g1": {
+  "harnesses": [
+   "specfix_adapter_rejects_noncanonical_u8_n2"
+  ],
+  "reason": "kani::stub of contracted bidirectional_merge fails kani-compiler (Failed to find contract closure __kani_recursion_check_bidirectional_merge); G1 e6a1c83d and G3 12180ab6 COMPILE_ERROR; own edit reverted, merge_adapter kept unused as StageB prototype",
+  "final_tree_not_built": true
+ }
 }

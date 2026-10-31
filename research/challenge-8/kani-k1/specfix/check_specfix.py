@@ -77,17 +77,21 @@ sf = cur(f"{S}/verify/merge/specfix.rs")
 specs = re.findall(r"#\[kani::(?:requires|ensures|modifies)\((.*?)\)\]\n(?=#|pub|unsafe|fn)", sf, re.S)
 calls = [s for s in specs if re.search(r"\bcmp\s*\(|is_less\s*\(|\(\*f\)", s)]
 check("profile_specs_have_no_callback_calls", specs and not calls, {"clauses": len(specs), "calling": calls})
+check("specfix_no_stub_of_contracted_targets",
+      not re.search(r"kani::stub\(\s*crate::slice::sort::shared::smallsort::(bidirectional_merge|insert_tail|sort4_stable|swap_if_less)", sf))
 check("specfix_no_stub_verified_of_raw_targets",
       not re.search(r"stub_verified\(crate::slice::sort::shared::smallsort::", sf))
 harn = re.findall(r"#\[kani::(?:proof|proof_for_contract\([^)]*\))\][^\n]*\n(?:#\[[^\n]*\n|  [^\n]*\n|\)\]\n)*fn (\w+)", sf)
 man = json.loads((K1 / "specfix/manifest.json").read_text())
-want = sorted(e["name"].rsplit("::", 1)[1] for e in man["harnesses"] if "::merge::specfix::" in e["name"])
+removed = set(man.get("removed_after_g1", {}).get("harnesses", []))
+want = sorted(n for n in (e["name"].rsplit("::", 1)[1] for e in man["harnesses"]
+                          if "::merge::specfix::" in e["name"]) if n not in removed)
 check("specfix_harnesses_equal_manifest", sorted(harn) == want, {"source": sorted(harn), "manifest": want})
 
 # 5. Expected-FAILED literals are unique and on their own kani::assert / requires line.
 src_all = {p: cur(p) for p in (f"{S}/verify/merge.rs", f"{S}/verify/merge/specfix.rs", f"{S}/verify/network.rs")}
 for e in man["harnesses"]:
-    if e["expect"] != "FAILED":
+    if e["expect"] != "FAILED" or e["name"].rsplit("::", 1)[1] in removed:
         continue
     hits = [(p, i + 1) for p, t in src_all.items() for i, l in enumerate(t.split("\n")) if e["expect_check"] in l
             and ("kani::assert" in l or "kani::requires" in l)]
@@ -113,7 +117,8 @@ for g in ("g1", "g2", "g3"):
 check("g1_equals_manifest", g1["harnesses"] == [{k: v for k, v in e.items() if k in ("name", "expect", "expect_check")}
                                                 for e in man["harnesses"]])
 alltext = "\n".join(src_all.values())
-missing = [e["name"] for e in g1["harnesses"] if not re.search(rf"fn {e['name'].rsplit('::', 1)[1]}\(", alltext)]
+missing = [e["name"] for e in g1["harnesses"] if e["name"].rsplit("::", 1)[1] not in removed
+           and not re.search(rf"fn {e['name'].rsplit('::', 1)[1]}\(", alltext)]
 check("g1_names_in_source", not missing, missing)
 check("g1_count_le_12", len(g1["harnesses"]) <= 12, len(g1["harnesses"]))
 

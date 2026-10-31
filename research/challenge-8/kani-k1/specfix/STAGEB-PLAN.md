@@ -45,8 +45,12 @@ consumers keep the old generic contracts. StageB is one atomic patch; nothing be
    targeted G1 of every changed adapter family and one PFC per (family, tag); full CI by the
    coordinator.
 
-## Preconditions from this session's G1
+## Result of this session's G1/G3 (binding for StageB)
 
-Row 10 SUCCESS-path asserts plus a single guard failure at `merge_profile` requires is the
-evidence that the adapter chain and the fn-pointer guard work on the pin. If row 10 fails to
-compile or fails elsewhere, StageB must use real-body consumers (fresh time) instead of stubs.
+`kani::stub(bidirectional_merge, merge_adapter)` failed in kani-compiler on the pin:
+`Failed to find contract closure __kani_recursion_check_bidirectional_merge` (G1 e6a1c83d,
+G3 12180ab6). A raw target that keeps a contract cannot be stubbed by an adapter, so step 4
+works only if the raw generic target has no contract at all after step 2 (untested: needs a
+targeted control first), or the consumer runs the real body with its old asserts (fresh
+proof/time). No profile PFC, guard or control has run yet: repeat this session's G1 rows 1-9,
+11, 12 on the StageB tree before relying on them.
