@@ -1,18 +1,14 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "u8n9-g1-measurement-20261031",
+  "request_id": "u8n9-g2-diagnostic-jobs3-20261031",
   "agent": "k1-network",
-  "kind": "measurement",
+  "kind": "diagnostic",
   "runner": "gcb-e2-standard-4",
-  "purpose": "U8N9 G1: unchanged nonconst combined baseline; direct general, stable nonconst and stable const u8 N9. jobs1 controls; work40+setup30=70min reserveUSD0.945; G1+G2 maxUSD1.890<=1.9. Decide per row and covers; GO required.",
+  "purpose": "U8N9 G2 jobs3: general N9 and nonconst stable N9 (G1 faster221.65s vs300.79s, RSS0.422 vs0.311GiB); ordinary combined N8 and scratch48 A N9. work40+setup30=70min maxUSD0.945; own G1USD0.4185+G2<=1.3635<1.9. Frozen library; Linux16GiB.",
   "harness_timeout_minutes": 10,
-  "kani_jobs": 1,
+  "kani_jobs": 3,
   "controls": true,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n9",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
       "expect": "SUCCESS"
@@ -22,7 +18,11 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
       "expect": "SUCCESS"
     }
   ]

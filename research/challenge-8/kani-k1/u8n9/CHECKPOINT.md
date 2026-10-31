@@ -1,4 +1,4 @@
-# U8N9 — G1 запущен; ожидание через watch
+# U8N9 — G1 принят по строкам; G2 готов
 
 Ветка: `experiment/kani-k1-ueightnine-20261031`.
 Исходный SHA: `ac45675c2bdcf5629086b87b4a9a385b53df61db`.
@@ -34,3 +34,10 @@ initializer, jobs3/CBMC overlap/peaks/OOM/missing, стоимость и инт�
 Оговорки: fixture48 не любой backing; macOS UNKNOWN; пригодность только CI организаторов.
 Итоговые research-коммиты отдельно от library, [skip ci], push без force.
 Окончательный маркер REVIEW REQUEST / U8N9 ЗАВЕРШЁН пока не отправлялся.
+
+G1 завершён: Cloud FAILURE / summary COMPLETE / gate false из-за baseline TIMEOUT.
+Все три split entries SUCCESS/covers1/1; g1.review.json связывает строки и direct RSS.
+G1 стоимость$0.4185. Для G2 выбран non-const stable: VT221.65 против300.79с,
+RSS0.422 против0.311GiB; преимущество VT при умеренной памяти, не оптимум CI.
+G2 request `u8n9-g2-diagnostic-jobs3-20261031`, четыре entries jobs3;
+библиотека прежняя. G2 допустим по TASK без нового GO; полный резерв$0.945.

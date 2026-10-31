@@ -1,0 +1,57 @@
+{
+  "bindings": {
+    "request_id": "u8n9-g1-measurement-20261031",
+    "request_sha256": "cba2e7cba0ac4928f09c164d31a9fca7efa515803b71ecf953fcbc9e71430dc8",
+    "build_id": "62f745bc-2db0-496c-812e-88107d76a4cb",
+    "head_sha": "3acc3c19973525034e26d057bba17d19022fc89c",
+    "total": "4",
+    "count": "4",
+    "next_offset": "done"
+  },
+  "tooling_check_base": "3acc3c19973525034e26d057bba17d19022fc89c",
+  "tooling_check_exit": 0,
+  "pool": "k1-standard4",
+  "measurements": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n9",
+      "status": "TIMEOUT",
+      "vt_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_kib": 627024
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 193.24382,
+      "checks": "0/400",
+      "covers": "1/1",
+      "cbmc_peak_kib": 335140
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 221.64731,
+      "checks": "0/398",
+      "covers": "1/1",
+      "cbmc_peak_kib": 442276
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 300.79068,
+      "checks": "0/398",
+      "covers": "1/1",
+      "cbmc_peak_kib": 325988
+    }
+  ],
+  "cloud_status": "FAILURE",
+  "summary_completeness": "COMPLETE",
+  "aggregate_gate": false,
+  "decision": "G2_ALLOWED: general and both stable forms SUCCESS, covers1/1; baseline TIMEOUT is data",
+  "stable_selection": "nonconst",
+  "selection_basis": "VT221.64731s vs const300.79068s; RSS442276KiB vs325988KiB. Nonconst faster; modest extra RSS within16GiB. No organizer-CI optimum claim.",
+  "cost_usd": 0.4185,
+  "oom": "none_seen",
+  "ordinary_cfg_validation": "Source-identical after cfg elimination; no separate ordinary compile in this measurement."
+}
