@@ -164,5 +164,22 @@ class T(unittest.TestCase):
         self.assertFalse(s["evidence_integrity"])
 
 
+class Mac4(T):
+    def test_autoharness_functions_and_should_panic(self):
+        lines = (block(1, "a")
+                 + ["Thread 2: Autoharness: Checking function num::f against all possible inputs...",
+                    "Thread 2:  ** 0 of 5 failed", "Thread 2: VERIFICATION:- SUCCESSFUL",
+                    "Thread 2: Verification Time: 0.1s"]
+                 + block(3, "x_should_panic", checks=(1, 5, 0), prefix="num::") + footer(2, 2))
+        s = self.run_case(lines, ["a"], [("g", 1, "a")])
+        self.assertTrue(s["evidence_integrity"], s["integrity_problems"])
+        self.assertEqual(self.dec(s, "g"), "ADMIT")
+
+    def test_smallsort_success_with_failed_checks_still_blocks(self):
+        lines = block(1, "a", checks=(1, 5, 0)) + footer(1, 1)
+        s = self.run_case(lines, ["a"], [("g", 1, "a")])
+        self.assertFalse(s["evidence_integrity"])
+
+
 if __name__ == "__main__":
     unittest.main()

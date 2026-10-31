@@ -26,7 +26,9 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kani_k1  # noqa: E402  (pinned K-1 parser; not modified here)
 
-PARSER_VERSION = "mac-autoharness-3"
+PARSER_VERSION = "mac-autoharness-4"
+# Autoharness-generated function proofs start with this line instead of `Checking harness`.
+AUTOHARNESS_RE = re.compile(r"^Autoharness: Checking function .+ against all possible inputs\.\.\.\s*$")
 RESULT_RES = (kani_k1.STATUS_RE, kani_k1.TIME_RE, kani_k1.CHECKS_RE, kani_k1.COVER_RE, kani_k1.FAILED_CHECK_RE,
               kani_k1.TIMEOUT_RE, kani_k1.OOM_RE)
 GROUP_LINE_RE = re.compile(r"^([a-z0-9]+) (\d+|\*) (\S+)$")
@@ -86,7 +88,7 @@ def scan_events(text: str) -> dict[str, int]:
         m = kani_k1.THREAD_RE.match(line)
         if m:
             worker, line = m.group(1), m.group(2)
-        if kani_k1.CHECKING_RE.match(line):
+        if kani_k1.CHECKING_RE.match(line) or AUTOHARNESS_RE.match(line):
             overlaps += state.get(worker) == "open"
             state[worker] = "open"
             counts[worker] = {"status": 0, "checks": 0, "covers": 0, "time": 0}
@@ -177,7 +179,8 @@ def summarize(log: Path, expected_path: Path, candidates: Path, sizes: dict[str,
     for block in parsed["blocks"]:
         row = _row(block)
         statuses_all[row["status"]] = statuses_all.get(row["status"], 0) + 1
-        anomaly = _row_anomaly(row)
+        # Other std harnesses are judged by the footer: should_panic proofs succeed with failed checks.
+        anomaly = _row_anomaly(row) if block["name"].startswith(kani_k1.HARNESS_PREFIX) else None
         if anomaly:
             anomalies.append(f"{block['name']} {anomaly}")
         if block["name"].startswith(kani_k1.HARNESS_PREFIX):
