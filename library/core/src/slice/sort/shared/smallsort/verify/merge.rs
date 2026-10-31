@@ -711,15 +711,10 @@ macro_rules! define_route_safety_harness {
 }
 
 define_route_safety_harness!(route_safety_all_routes_n2, all_upper_routes_safety_body, 2);
-#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n3, all_upper_routes_safety_body, 3);
-#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n4, all_upper_routes_safety_body, 4);
-#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n5, all_upper_routes_safety_body, 5);
-#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n6, all_upper_routes_safety_body, 6);
-#[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n7, all_upper_routes_safety_body, 7);
 define_route_safety_harness!(route_safety_all_routes_n8, all_upper_routes_safety_body, 8);
 #[cfg(kani_smallsort_controls)]
@@ -874,6 +869,24 @@ fn general_route_properties<
     kani::cover(stable, "stable route properties checked");
 }
 
+fn general_route_const_u64_properties<const N: usize>() {
+    const { assert!(N <= 16) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let stable: bool = kani::any();
+    if stable {
+        let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    } else {
+        super::super::small_sort_general(&mut v, &mut cmp);
+    }
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(!stable, "general route properties checked");
+    kani::cover(stable, "stable route properties checked");
+}
+
 // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
 fn fallback_route_properties<
     T: kani::Arbitrary + Copy,
@@ -914,10 +927,42 @@ macro_rules! define_general_direct_harness {
     };
 }
 
-define_general_direct_harness!(general_stable_direct_u64_n2, u64, lt_u64, 2);
-define_general_direct_harness!(general_stable_direct_u64_n3, u64, lt_u64, 3);
-define_general_direct_harness!(general_stable_direct_u64_n4, u64, lt_u64, 4);
-define_general_direct_harness!(general_stable_direct_u64_n5, u64, lt_u64, 5);
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_u64_n2() {
+    general_route_const_u64_properties::<2>();
+}
+
+#[cfg(kani_smallsort_controls)]
+define_general_direct_harness!(general_stable_direct_nonconst_u64_n2, u64, lt_u64, 2);
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_u64_n3() {
+    general_route_const_u64_properties::<3>();
+}
+
+#[cfg(kani_smallsort_controls)]
+define_general_direct_harness!(general_stable_direct_nonconst_u64_n3, u64, lt_u64, 3);
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_u64_n4() {
+    general_route_const_u64_properties::<4>();
+}
+
+#[cfg(kani_smallsort_controls)]
+define_general_direct_harness!(general_stable_direct_nonconst_u64_n4, u64, lt_u64, 4);
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_u64_n5() {
+    general_route_const_u64_properties::<5>();
+}
+
+#[cfg(kani_smallsort_controls)]
+define_general_direct_harness!(general_stable_direct_nonconst_u64_n5, u64, lt_u64, 5);
+
 #[cfg(kani_smallsort_controls)]
 define_general_direct_harness!(general_stable_direct_u64_n6, u64, lt_u64, 6);
 #[cfg(kani_smallsort_controls)]
@@ -951,7 +996,7 @@ fn scratch_view<T>(
 }
 
 fn general_direct_u64_properties<const N: usize>() {
-    const { assert!(N == 6 || N == 7 || N == 8) };
+    const { assert!(N >= 6 && N <= 9) };
     set_value_probe::<u64>();
     let mut v: [u64; N] = kani::any();
     let orig = v;
@@ -962,6 +1007,19 @@ fn general_direct_u64_properties<const N: usize>() {
 }
 
 fn stable_direct_u64_properties<const N: usize>() {
+    const { assert!(N >= 6 && N <= 9) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_aggregate_u64_properties<const N: usize>() {
     const { assert!(N == 6 || N == 7 || N == 8) };
     set_value_probe::<u64>();
     let mut v: [u64; N] = kani::any();
@@ -990,6 +1048,28 @@ define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_prope
 define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
 define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
 define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+
+define_direct_u64_route_harness!(general_direct_u64_n9, general_direct_u64_properties, 9);
+define_direct_u64_route_harness!(stable_direct_u64_n9, stable_direct_u64_properties, 9);
+
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(
+    stable_direct_aggregate_u64_n6,
+    stable_direct_aggregate_u64_properties,
+    6
+);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(
+    stable_direct_aggregate_u64_n7,
+    stable_direct_aggregate_u64_properties,
+    7
+);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(
+    stable_direct_aggregate_u64_n8,
+    stable_direct_aggregate_u64_properties,
+    8
+);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
@@ -1052,7 +1132,7 @@ fn general_stable_direct_value_corruption_control_u64_n2() {
     let stable: bool = kani::any();
     let mut cmp = lt_u64;
     if stable {
-        let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+        let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
         <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
     } else {
         super::super::small_sort_general(&mut v, &mut cmp);
@@ -1236,6 +1316,7 @@ define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n8, u8, 
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n8, 8);
 #[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u64_n9, u64, lt_u64, 9);
+#[cfg(kani_smallsort_controls)]
 define_general_sortedness_harness!(general_stable_sorted_permutation_u8_n9, u8, lt_u8, 9);
 #[cfg(kani_smallsort_controls)]
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n9, 9);
@@ -1524,3 +1605,42 @@ fn drop_extra_drop_control_n2() {
     kani::cover(true, "extra-drop control entered");
     drop_route_properties::<2, false, false, 2>();
 }
+
+// Direct u8 N9 routes retain nonconst scratch and the shared full-value oracle.
+fn general_direct_u8_n9_properties() {
+    set_value_probe::<u8>();
+    let mut v: [u8; 9] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u8;
+    super::super::small_sort_general(&mut v, &mut cmp);
+    assert_sorted_and_probe_preserved::<u8, _, 9>(&orig, &v, &mut cmp);
+    kani::cover(true, "general route properties checked");
+}
+
+fn stable_direct_nonconst_u8_n9_properties() {
+    set_value_probe::<u8>();
+    let mut v: [u8; 9] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u8;
+    let mut scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u8, _, 9>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable route properties checked");
+}
+
+macro_rules! define_direct_u8_n9_route_harness {
+    ($name:ident, $body:ident) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body();
+        }
+    };
+}
+
+define_direct_u8_n9_route_harness!(general_direct_u8_n9, general_direct_u8_n9_properties);
+
+define_direct_u8_n9_route_harness!(
+    stable_direct_nonconst_u8_n9,
+    stable_direct_nonconst_u8_n9_properties
+);
