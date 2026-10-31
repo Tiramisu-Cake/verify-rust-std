@@ -5,6 +5,8 @@
 #![allow(dead_code)]
 
 #[cfg(kani_smallsort_controls)]
+mod casefive;
+#[cfg(kani_smallsort_controls)]
 mod specdiag;
 pub(super) mod specfix;
 
