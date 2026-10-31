@@ -2,54 +2,22 @@
  "schema": "kani-k1-run-request-v1",
  "agent": "k1-merge",
  "runner": "gcb-e2-standard-4",
- "request_id": "specdiag-g1-20261031",
+ "request_id": "specdiag-g2-uninit-20261031",
  "kind": "diagnostic",
- "purpose": "SPECDIAG G1: 20 concrete F03-F05/F09 spec diagnostics under the CI semantic flags with opt-in controls; diagnostic budget 3 min/jobs 1, not a measurement.",
+ "purpose": "SPECDIAG G2 conditional contrast: entries 6,8,10,11,15,16,17,18 with -Z uninit-checks on the same frozen tree; outside CI flags, not CI evidence.",
  "harness_timeout_minutes": 3,
  "controls": true,
  "kani_jobs": 1,
- "uninit_checks": false,
+ "uninit_checks": true,
  "harnesses": [
   {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::sort4_true_f_n4",
-   "expect": "FAILED",
-   "expect_check": "is_sorted(dst, 4, &is_less)"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::insert_tail_true_f_n2",
-   "expect": "FAILED",
-   "expect_check": "is_sorted(begin"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::merge_true_f_n2",
-   "expect": "FAILED",
-   "expect_check": "is_sorted_unrolled(dst"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_runtime_n2",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_contract_n2",
-   "expect": "FAILED",
-   "expect_check": "specdiag contract FnMut observer calls exactly one"
-  },
-  {
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_predicate_admission",
    "expect": "SUCCESS"
   },
   {
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc",
    "expect": "FAILED",
    "expect_check": "Reading from an uninitialized pointer"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_predicate_admission",
-   "expect": "SUCCESS"
   },
   {
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc",
@@ -59,20 +27,6 @@
   {
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source",
    "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_source_predicates",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_helper_oob",
-   "expect": "FAILED",
-   "expect_check": "pointer outside object bounds"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_actual_contract",
-   "expect": "FAILED",
-   "expect_check": "pointer outside object bounds"
   },
   {
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe",
@@ -93,14 +47,6 @@
    "name": "slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity",
    "expect": "FAILED",
    "expect_check": "Invalid value of type"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_t129_same_positive",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_u64_pure_pfc_positive",
-   "expect": "SUCCESS"
   }
  ]
 }

@@ -1,0 +1,91 @@
+== log-lines 2782 6
+Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_actual_contract...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+== log-lines 2884 8
+
+Failed Checks: specdiag contract FnMut observer calls exactly one
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 130, in slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_contract_n2
+Failed Checks: Check that *var_4 is assignable
+ File: "/workspace/src/library/core/src/mem/mod.rs", line 982, in mem::replace::<u8>
+
+VERIFICATION:- FAILED
+Verification Time: 11.826698s
+== log-lines 2923 9
+
+Failed Checks: |_|
+CopyOnDrop::<T>::is_sorted(begin,
+CopyOnDrop::<T>::tail_region_len(begin, tail), &is_less,)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 600, in slice::sort::shared::smallsort::insert_tail::<u64, {closure@/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:67:19: 67:37}>::{closure#2}
+
+VERIFICATION:- FAILED
+Verification Time: 3.8318017s
+
+== log-grep cover/checking (bounded)
+2716:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::swap_u64_pure_pfc_positive...
+2719: ** 0 of 311 failed (5 unreachable)
+2721: ** 1 of 1 cover properties satisfied
+2727:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::swap_t129_same_positive...
+2730: ** 0 of 311 failed (5 unreachable)
+2732: ** 1 of 1 cover properties satisfied
+2738:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity...
+2741: ** 0 of 16 failed (2 unreachable)
+2743: ** 2 of 3 cover properties satisfied
+2749:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity...
+2752: ** 0 of 16 failed (2 unreachable)
+2754: ** 3 of 3 cover properties satisfied
+2760:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::padded_swap_actual_contract...
+2763: ** 0 of 329 failed (5 unreachable)
+2765: ** 2 of 2 cover properties satisfied
+2771:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe...
+2774: ** 0 of 111 failed (34 unreachable)
+2776: ** 3 of 3 cover properties satisfied
+2782:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_actual_contract...
+2788:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_helper_oob...
+2791: ** 1 of 95 failed (4 unreachable)
+2793: ** 3 of 3 cover properties satisfied
+2795:Failed Checks: dereference failure: pointer outside object bounds
+2801:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::readonly_source_predicates...
+2804: ** 0 of 29 failed (6 unreachable)
+2806: ** 1 of 1 cover properties satisfied
+2812:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source...
+2815: ** 0 of 99 failed (4 unreachable)
+2817: ** 1 of 1 cover properties satisfied
+2823:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc...
+2826: ** 0 of 343 failed (44 unreachable)
+2828: ** 2 of 2 cover properties satisfied
+2834:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_predicate_admission...
+2837: ** 0 of 35 failed (7 unreachable)
+2839: ** 1 of 1 cover properties satisfied
+2845:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc...
+2848: ** 0 of 395 failed (36 unreachable)
+2850: ** 2 of 2 cover properties satisfied
+2856:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_predicate_admission...
+2859: ** 0 of 93 failed (5 unreachable)
+2861: ** 1 of 1 cover properties satisfied
+2867:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive...
+2870: ** 0 of 68 failed (2 unreachable)
+2872: ** 1 of 1 cover properties satisfied
+2878:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_contract_n2...
+2881: ** 2 of 340 failed (5 unreachable)
+2883: ** 4 of 4 cover properties satisfied
+2885:Failed Checks: specdiag contract FnMut observer calls exactly one
+2887:Failed Checks: Check that *var_4 is assignable
+2893:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_runtime_n2...
+2896: ** 0 of 77 failed (4 unreachable)
+2898: ** 1 of 1 cover properties satisfied
+2904:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::merge_true_f_n2...
+2907: ** 1 of 431 failed (116 unreachable)
+2909: ** 1 of 2 cover properties satisfied (1 unreachable)
+2911:Failed Checks: |_| CopyOnDrop::<T>::is_sorted_unrolled(dst, v.len(), &is_less)
+2917:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::insert_tail_true_f_n2...
+2920: ** 1 of 372 failed (38 unreachable)
+2922: ** 1 of 2 cover properties satisfied (1 unreachable)
+2924:Failed Checks: |_|
+2932:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::sort4_true_f_n4...
+2935: ** 1 of 330 failed (55 unreachable)
+2937: ** 1 of 2 cover properties satisfied (1 unreachable)
+2939:Failed Checks: |_| CopyOnDrop::<T>::is_sorted(dst, 4, &is_less)
