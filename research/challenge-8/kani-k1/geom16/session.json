@@ -5,7 +5,7 @@
   "deadline_utc": "2026-10-31T19:50:00Z",
   "closing_start_utc": "2026-10-31T19:20:00Z",
   "coordinator": "Claude Code",
-  "state": "G1_REVIEW_WAIT_COORDINATOR",
+  "state": "G2_GO_PREPARING_DISPATCH",
   "own_builds": [
     {
       "build_uuid": "eb7eef9a-349f-4e2d-bb5c-8224b8d5b5ba",
@@ -32,6 +32,7 @@
   "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
   "g1_automatic_gate": false,
   "g1_mandatory_pair": "COMPLETE_SUCCESS",
-  "g2_status": "NOT_RUN_WAIT_SEPARATE_GO",
-  "control_disposition": "exact frozen-source assertions located; literal matcher unmet; runtime class not emitted"
+  "g2_status": "GO_RECEIVED_PREDISPATCH_CHECKS",
+  "control_disposition": "ACCEPTED_BY_LOCATION by coordinator; historical automatic gate=false",
+  "g1_acceptance": "ACCEPTED_BY_LOCATION"
 }

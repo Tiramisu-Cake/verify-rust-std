@@ -1,7 +1,7 @@
-# GEOM16 — G1 REVIEW / PARTIAL GATE MISMATCH
+# GEOM16 — G1 ACCEPTED_BY_LOCATION / G2 GO
 
 Coordinator Claude Code. Mandatory actual PFC pair COMPLETE/SUCCESS; strict G1 gate false.
-Branch experiment/kani-k1-geomsixteen-20261031. G2 NOT_RUN, no separate GO.
+Branch experiment/kani-k1-geomsixteen-20261031. Coordinator accepted G1 and gave separate G2 GO.
 First recorded clock2026-10-31T14:52:55Z; conservative window14:50Z..19:50Z, closing19:20Z.
 Cap88.96 unchanged; tooling baseline6945f187208040e2d911e0797ef525668bdd46f8.
 Approved G1 request/source commit7684a98d474157f09d8702695262d5314460ccf0.
@@ -15,7 +15,7 @@ Cloud FAILURE; source/tool compilation succeeded; summary COMPLETE, Kani exit1.
 Build start14:59:39.050880025Z / finish15:20:21.709463Z on 2026-10-31.
 Own UUID ledger: builds1/2, spentUSD0.2835, active reservedUSD0, limitUSD2.
 G1 envelope80min/USD1.080; G2 proposed60min/USD0.810, spent+proposed=USD1.0935.
-G2 request geom16-g2-20261031-r1 remains prepared; any dispatch needs fresh budget/window/GO.
+G2 request geom16-g2-20261031-r1 installed; separate GO received; fresh budget/window required.
 Watch delivered terminal notification; no active own build. No retry dispatched.
 
 All rows: Linux k1-standard4 / gcb-e2-standard-4, jobs1, controls on, uninit checks off,
@@ -46,8 +46,9 @@ Runtime descriptions are Kani placeholder messages, not the expected literals.
 The exact file/line/function binds each failure to its intended frozen-source assertion;
 assertion class is source-inferred; runtime machine class is UNKNOWN (terse output omits it).
 Strict literal expectations UNMET; original request/gate/matchers are preserved unchanged.
-Automatic gate/expectation_met/measurement_ok=false. Controls require coordinator disposition;
-no silent manual gate override. Positive rows retain their individual SUCCESS evidence.
+Historical automatic gate/expectation_met/measurement_ok=false, preserved unchanged.
+Coordinator disposition ACCEPTED_BY_LOCATION for both controls; G1 accepted.
+Separate disposition file records acceptance; positive rows retain individual SUCCESS evidence.
 
 Each fixture has exactly one [MaybeUninit<u8>;48] nonconst-repeat scratch backing:
 [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN].
@@ -76,4 +77,4 @@ After SPEC-FIX, changed source/assumptions require fresh review and possibly rep
 Bounded evidence/review: geom16/g1.review.json, g1.summary.md, g1.rows.txt,
 g1.checks-lines.txt, g1.controls-grep.txt, g1.peaks.txt, g1.tooling-check.txt,
 g1.frozen-assertions.txt, g1.status.json, budget-g1-final.txt; manifest and requests unchanged.
-G1 acceptance and G2 authorization remain with coordinator; task not marked finally closed.
+G1 accepted by coordinator; G2 GO received, predispatch checks pending; task remains open.

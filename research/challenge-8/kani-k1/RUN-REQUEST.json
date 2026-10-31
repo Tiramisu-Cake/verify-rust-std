@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "geom16-g1-20261031-r1",
+  "request_id": "geom16-g2-20261031-r1",
   "agent": "k1-merge",
   "kind": "measurement",
-  "purpose": "GEOM16 G1: stable scratch48 actual u8/lt_u8 merge PFC and plain checker controls; jobs1, uninit off. Exact literal attribution required; placeholder mismatch is UNKNOWN. Separate GO and own budget/window checks required.",
+  "purpose": "GEOM16 G2: stable scratch48 actual u8/lt_u8 merge PFC and plain checker controls; jobs1, uninit off. Exact literal attribution required; placeholder mismatch is UNKNOWN. Separate GO and own budget/window checks required.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
@@ -11,26 +11,18 @@
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::geom16::final16_stable_scratch48_actual_pfc",
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_stable_scratch48_actual_pfc",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_checker_positive",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_value_corruption_control",
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control",
       "expect": "FAILED",
       "expect_check": "GEOM16_FULL_VALUE_COUNT"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same16to0_source_frame_control",
+      "name": "slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control",
       "expect": "FAILED",
-      "expect_check": "GEOM16_SOURCE_FRAME"
+      "expect_check": "GEOM16_LEFT_HALF_FRAME"
     }
   ]
 }
