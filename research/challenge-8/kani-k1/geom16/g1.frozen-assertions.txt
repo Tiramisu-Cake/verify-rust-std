@@ -11,7 +11,7 @@
     28	    );
     29	    assert!(unsafe { initialized_span_matches(source, input) }, "GEOM16_SOURCE_FRAME");
     30	}
-    31	
+    31
     32	// SAFETY: the protected left half contains eight initialized bytes.
     33	unsafe fn check_left_half(left: *const u8, input: &[u8; 8]) {
     34	    assert!(unsafe { initialized_span_matches(left, input) }, "GEOM16_LEFT_HALF_FRAME");
