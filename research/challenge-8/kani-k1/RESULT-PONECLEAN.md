@@ -6,7 +6,6 @@ nightly-2026-10-12; tools/workflows/flags untouched; no local cargo/rustc/Kani.
 Library commit `9456baadf9` (library tree **`73e902bec8`**, identical in G1/G2/G3); review packet
 `poneclean/PREBUILD.md` (GO for `72a2a67f7c`). Why PARTIAL: G1 gate false only on the three case5
 diagnostic rows (expected SUCCESS); every P1-CLEAN gate row met its expectation.
-
 ## Builds (k1-standard4, 3 of 3 shared with session 2; own $1.2825 ≤ $4, reserved 0)
 
 | Build | UUID / request / head | Result | Own cost |
@@ -15,9 +14,7 @@ diagnostic rows (expected SUCCESS); every P1-CLEAN gate row met its expectation.
 | G2 | `850af95c-d099-4504-b3d0-49d08639a9ad` / `…-g2-inventory-ordinary-…` / `37270fd462` | exact 197 = frozen P1 | $0.5670 |
 | G3 | `de37c6d8-d4aa-42e2-87c8-df4d03013a63` / `…-g3-inventory-controls-…` / `8c08b9bebe` | exact 377 = source cfg-on | $0.4725 |
 
-Project used $71.4795 / $88.96 (`poneclean/budget-final.txt`). check-tooling vs `30f77e8599` ok
-for all three; head/pin/request sha match the summaries. No retry, no fourth build.
-
+Project used $71.4795 / $88.96. check-tooling vs `30f77e8599` ok ×3; head/pin/request sha match.
 ## Snapped clauses (generic helper → checked profile; table in `poneclean/PREBUILD.md`)
 
 - `smallsort.rs`: all requires/modifies/ensures of `swap_if_less`, `sort4_stable`, `insert_tail`,
@@ -30,7 +27,6 @@ for all three; head/pin/request sha match the summaries. No retry, no fourth bui
 - Profiles (`verify/merge/specfix.rs`, ordinary module): same geometry (sort4 source readable
   instead of writable; insert `1<=d<32`), canonical fn-pointer guard, same modifies, model
   sortedness, full-value model counts / model transfer + pair order.
-
 ## 32 P1 PFC → profile/tag, 4 stubs (`poneclean/PFC-MAP.tsv`)
 
 merge ×11 + scratch48 u8 N9 → `merge_profile` LtU64/LtU8; sort4 u64/bytes16 → `sort4_profile`
@@ -40,7 +36,6 @@ StrictU8/StrictU64, bytes16/17 KeyB16/KeyB17, Cell CellI32 (model `get()`), Drop
 (private, owner module). Names/domains/N/offsets/covers/harness frame asserts unchanged; each is a
 new instance (F = fn pointer, typed model probe). `general_stable_sorted_permutation_{u8,u64}_n{0,1}`:
 `stub_verified` removed, real body, same asserts. No ordinary harness uses a verified stub.
-
 ## DEACTIVATED (`poneclean/DEACTIVATED.tsv`, 140 rows)
 
 132 `#[cfg(any())]` on concrete instantiations (72 raw PFC, 57 raw `stub_verified`, 3 SPECDIAG
@@ -49,7 +44,6 @@ were in legacy P2-343. Each row: legacy kind/target/location at the baseline, IN
 `a847dcf80b` + tree + p2 manifest sha, published Part 2 `028040f941` + tree (separate refs),
 reason, previous status. Kept: real-body `sort4_arbitrary_comparator_bytes85_n4`; START1
 prefix/suffix frame controls retargeted to `insert_tail_profile` (NOT_RUN).
-
 ## G1 rows (controls on, jobs 1, uninit off; all 14 compiled and ran; cbmc peak 2.85 GiB)
 
 | # | Harness | Status | VT s | Covers | Failure location |
@@ -67,11 +61,9 @@ prefix/suffix frame controls retargeted to `insert_tail_profile` (NOT_RUN).
 | 11 | specfix_wrong_f_merge_rejected_u8 | FAILED = exp. | 0.7 | 1/1 | specfix.rs:317 guard only |
 | 12–14 | specfix_case5_typed_swap_bytes{17,128,129} | FAILED (exp. SUCCESS) | 1.6/10.3/10.0 | 1/2 | component oracle pos 0+1 |
 
-Rows 8–11: exactly 1 failed check each, `specfix_canonical_comparator::<P>(cmp)` in the profile's
-`{closure#1}` through `Verified stub: …<profile>`: the guard rejects an always-true pointer before
-the ordered summary. RSS per row: `poneclean/g1.summary.md` / `g1.peaks.txt` (1: 0.30, 2: 0.87,
-3: 0.33, 4: 0.26, 6: 2.85, 7: 1.17 GiB; others not sampled). Unreachable checks: summary notes.
-
+Rows 8–11: exactly 1 failed check, `specfix_canonical_comparator::<P>(cmp)` via `Verified stub`:
+the guard rejects an always-true pointer before the ordered summary. cbmc RSS: 1 0.30, 2 0.87,
+3 0.33, 4 0.26, 6 2.85, 7 1.17 GiB, others not sampled (`g1.peaks.txt`).
 ## Case5 conclusion (A2 row 9 case 5)
 
 Real `swap_if_less`, closure `a[0] < b[0]`, arbitrary `[u8; M]`, no probe. At M = 17, 128, 129
@@ -85,15 +77,11 @@ trace/playback in the schema). Not a negative control, not a claimed library or 
 Impact on P1: the migrated byte-array swap PFCs use the profile (fn pointer, model `==`);
 `swap_contract_bytes17_n2` passed. The anomaly is confined to the raw closure-comparator
 diagnostic and stays OPEN; bytes16 swap is NOT_RUN here.
-
 ## Inventories
 
-- Ordinary (G2): 197/197, names SHA-256 `5e86596c…df8b` = frozen P1 (SPECFIX G2), exact set equal
-  to `poneclean/ordinary-expected.txt`. Ordinary compile of `73e902bec8` confirmed.
-- Cfg-on (G3): 377 names, SHA-256 `04e300ae…69cd`, exact set equal to `cfg-on-expected.txt` =
-  baseline 510 − 140 deactivated + 7 new (4 wrong-F, 3 case5). Cfg-on compile confirmed.
-  B1 ≠ B2: inventories give composition/compile, not proof acceptance.
-
+- G2: 197/197, names SHA-256 `5e86596c…df8b` = frozen P1, exact `ordinary-expected.txt`.
+- G3: 377, SHA-256 `04e300ae…69cd`, exact `cfg-on-expected.txt` = 510 − 140 + 7 new.
+  Both cfg compile on `73e902bec8`; composition only, not proof acceptance (B1 ≠ B2).
 ## OPEN / NOT_RUN / next
 
 - NOT_RUN on this tree: 25 of 32 P1 PFCs, 4 former stub consumers (real body), all other P1
@@ -106,7 +94,5 @@ diagnostic and stays OPEN; bytes16 swap is NOT_RUN here.
   detection, stock `is_initialized`), padding and general `FnMut` effects: OPEN, not claimed.
 - Session 2 list: none of the P1 transfer remains; only case5 diagnosis and the full CI.
 
-Artifacts: `poneclean/` (PREBUILD.md, DEACTIVATED.tsv, PFC-MAP.tsv, source_sets.py,
-make_deactivated.py, check_poneclean.py, static-check-prebuild.json, {ordinary,cfg-on}-expected.txt,
-g{1,2,3}.{request.json,dispatch,wait,summary.md,tooling,cost}.txt, g1.{peaks,extracted,
-case5-extract}.txt, g{2,3}.inventory.txt, budget-*.txt). No full/raw logs.
+Artifacts: `poneclean/` (packet, manifests, gate scripts/results, per-build request/summary/
+tooling/cost/wait files, G1 extracts, inventories, budgets). No full/raw logs.
