@@ -227,7 +227,7 @@ general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, c
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);
 
-// CORR14: fixed u8 N14 routes, with the same input/probe domain and inline oracle as combined.
+// CORR14: fixed u8 N14 routes, with the same input/probe domain and oracle as combined.
 // General and non-const stable partition the old symbolic bool; their return covers unite.
 // Const/aggregate preserve T/F/N and input/probe domains, but aggregate changes backing geometry.
 // These callers remain conditional on insert_tail/merge premises for the actual caller domains.
@@ -248,12 +248,11 @@ fn corr14_scratch_view<T>(
 }
 
 #[cfg(kani_smallsort_controls)]
-fn corr14_general_stub_u8_n14() {
-    set_value_probe::<u8>();
-    let mut output: [u8; 14] = kani::any();
-    let input = output;
-    let mut cmp = lt_u8;
-    super::super::small_sort_general(&mut output, &mut cmp);
+fn corr14_check_u8_n14<F: FnMut(&u8, &u8) -> bool>(
+    input: &[u8; 14],
+    output: &[u8; 14],
+    cmp: &mut F,
+) {
     for i in 1..14 {
         assert!(!cmp(&output[i], &output[i - 1]));
     }
@@ -261,6 +260,16 @@ fn corr14_general_stub_u8_n14() {
         CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
             == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
     );
+}
+
+#[cfg(kani_smallsort_controls)]
+fn corr14_general_stub_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    super::super::small_sort_general(&mut output, &mut cmp);
+    corr14_check_u8_n14(&input, &output, &mut cmp);
     kani::cover(true, "CORR14: general returns with properties checked");
 }
 
@@ -274,13 +283,7 @@ fn corr14_stable_nonconst_stub_u8_n14() {
     use crate::mem::MaybeUninit;
     let mut scratch = [MaybeUninit::<u8>::uninit(); 48];
     <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
-    for i in 1..14 {
-        assert!(!cmp(&output[i], &output[i - 1]));
-    }
-    assert!(
-        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
-            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
-    );
+    corr14_check_u8_n14(&input, &output, &mut cmp);
     kani::cover(true, "CORR14: stable_nonconst returns with properties checked");
 }
 
@@ -294,13 +297,7 @@ fn corr14_stable_const_stub_u8_n14() {
     use crate::mem::MaybeUninit;
     let mut scratch = [const { MaybeUninit::<u8>::uninit() }; 48];
     <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
-    for i in 1..14 {
-        assert!(!cmp(&output[i], &output[i - 1]));
-    }
-    assert!(
-        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
-            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
-    );
+    corr14_check_u8_n14(&input, &output, &mut cmp);
     kani::cover(true, "CORR14: stable_const returns with properties checked");
 }
 
@@ -315,13 +312,7 @@ fn corr14_stable_aggregate_stub_u8_n14() {
     let mut holder = MaybeUninit::<[u8; 48]>::uninit();
     let scratch = corr14_scratch_view(&mut holder);
     <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, scratch, &mut cmp);
-    for i in 1..14 {
-        assert!(!cmp(&output[i], &output[i - 1]));
-    }
-    assert!(
-        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
-            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
-    );
+    corr14_check_u8_n14(&input, &output, &mut cmp);
     kani::cover(true, "CORR14: stable_aggregate returns with properties checked");
 }
 
@@ -369,13 +360,7 @@ fn stable_aggregate_value_corruption_control_u8_n14() {
     kani::cover(true, "CORR14: aggregate stable sort returns before payload corruption");
     // lt_u8 compares x >> 1, so this payload mutation preserves sortedness.
     output[0] ^= 1;
-    for i in 1..14 {
-        assert!(!cmp(&output[i], &output[i - 1]));
-    }
-    assert!(
-        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
-            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
-    );
+    corr14_check_u8_n14(&input, &output, &mut cmp);
 }
 
 #[cfg(kani_smallsort_controls)]
