@@ -4,7 +4,8 @@
 Library commit `20aa864ad04e8d81b46d41024b75dc7aa1103dcf`.
 Library tree `c522edd42ae67c385e1ee42a1c4d1bffb611c90b`.
 GO получен для `e0ff82577d`; source/request/UUID и текущий учёт — `integ2/builds.json`.
-Лимиты:3 сборки/$2,90; library tree заморожен, результаты ещё ожидаются.
+Отправлены3/3; spent$0, reserved$2,835≤$2,90 по последнему preflight+dispatch.
+Library tree заморожен; фактическая стоимость и результаты ещё ожидаются.
 Это кандидат P1-max, новый зелёный P1 не заявлен.
 
 Точные статические списки: `integ2/scope/p1-ordinary.txt` (197),
@@ -61,14 +62,14 @@ Request IDs: `integ2-inventory-ordinary-20261031`, `integ2-inventory-controls-20
 
 | G3 control (сокращённо) | Ожидаемая location frozen source | Результат |
 |---|---|---|
-| merge::general_stable_direct_value_corruption_control_u64_n2 | merge.rs:841..845 count | NOT_RUN |
-| network::insert_tail_contract_u64_start1_prefix_frame_control | network.rs:1257 prefix | NOT_RUN |
-| network::insert_tail_contract_u64_start1_suffix_frame_control | network.rs:1260 suffix | NOT_RUN |
+| merge::general_stable_direct_value_corruption_control_u64_n2 | merge.rs:841..845 count | PENDING |
+| network::insert_tail_contract_u64_start1_prefix_frame_control | network.rs:1257 prefix | PENDING |
+| network::insert_tail_contract_u64_start1_suffix_frame_control | network.rs:1260 suffix | PENDING |
 
 Sortedness assert merge.rs:839 не должен отказать; каждый control должен иметь ровно один
 intended FAILED, достижимые covers и отсутствие иных отказов/OOB. План: `integ2/controls-plan.json`.
 Known expect_check — `This is a placeholder message`; фактические location/class сверяются вручную.
-Matcher mismatch не переименовывать в gate=true. Controls пока не приняты.
+Matcher mismatch не переименовывать в gate=true. G3 отправлен, controls пока не приняты; фактические locations ещё не reviewed.
 
 Полные envelopes G1/G2/G3:60/90/60min; максимальные резервы $0,810/$1,215/$0,810=$2,835.
 Перед каждым dispatch обязательны свежий k1g budget, own UUID ledger и full-envelope check.
@@ -79,3 +80,5 @@ T0 UTC11:58, deadline UTC16:58 (MSK19:58), резерв закрытия30min; `
 Native P2, macOS, положительные integration proofs и полный CI: NOT_RUN.
 macOS/полный CI и итоговый inventory после cfg-отбора принадлежат координатору.
 Ожидание — только k1g.sh watch с завершением хода; закрытие после проверки результатов.
+G1 `cda795d5-1cd1-4c32-a87e-778302647151`; G2 `7a0cbca0-dda5-4cb2-a0ea-ad6f9112ad71`.
+G3 `fb2ec8a5-9870-4301-a892-ad5d48b74560`; identities/preflights: `integ2/builds.json`, `g*.preflight.json`.

@@ -1,4 +1,4 @@
-# INTEG2 — GO received, approved dispatch in progress
+# INTEG2 — all three builds submitted, register watches and end turn
 
 Work only in `/root/verify-rust-std-kani-integtwo`, branch `experiment/kani-k1-integtwo-20261031`.
 Coordinator Claude Code explicitly approved review source e0ff82577dc58950621dadc9c141d88a5821987f.
@@ -8,6 +8,9 @@ frozen tree c522edd42ae67c385e1ee42a1c4d1bffb611c90b for all three builds.
 No semantic library changes without committed delta review/GO.
 
 Actual per-stage request/source SHA/UUID/status and own accounting: builds.json.
+All3/3 slots consumed. Own spent0/reserved2.835 at dispatch; actual terminal costs unreviewed.
+No further dispatch allowed. Next register all three watches and end the turn.
+On watch notification read terminal summaries, review evidence and update this checkpoint.
 Submit G1→G2→G3 in order, fresh global budget + selected own UUID budget before every dispatch.
 Publish each distinct request commit, then run preflight.py STAGE && k1g.sh dispatch BRANCH.
 Record each successful dispatch with record_submission.py STAGE.
