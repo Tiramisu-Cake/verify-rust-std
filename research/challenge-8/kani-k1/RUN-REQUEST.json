@@ -2,11 +2,35 @@
  "schema": "kani-k1-run-request-v1",
  "agent": "k1-merge",
  "runner": "gcb-e2-standard-4",
- "request_id": "poneclean-g3-inventory-controls-20261031",
- "kind": "inventory",
- "purpose": "P1-CLEAN G3: native cfg-on inventory of the same tree; exact source-derived 377-name set after retire (poneclean/cfg-on-expected.txt); no proofs.",
- "harness_timeout_minutes": 30,
+ "request_id": "integwrap-g1-20261101",
+ "kind": "measurement",
+ "purpose": "INTEGWRAP G1: WRAP-N2 wrappers made ordinary on the P1-CLEAN tree; 3 wrapper PFCs (Cell stable, u8 unstable, NonCopyU8 Freeze) and 2 opt-in controls; controls on, jobs 1, uninit off.",
+ "harness_timeout_minutes": 10,
  "controls": true,
- "inventory": true,
- "harnesses": []
+ "kani_jobs": 1,
+ "uninit_checks": false,
+ "harnesses": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::stable_cell_n2",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::unstable_byte_n2",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::freeze_noncopy_n2",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::rejects_always_true",
+   "expect": "FAILED",
+   "expect_check": "wrap canonical comparator required"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption",
+   "expect": "FAILED",
+   "expect_check": "wrap full-value checker rejects payload corruption"
+  }
+ ]
 }

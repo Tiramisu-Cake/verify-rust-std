@@ -1,0 +1,125 @@
+{
+ "base": "f000cb484e0c64fffa04581a9d5e930ee736f703",
+ "head": "4ef0f7984bcd24549b452b1edaf95fdddd255925",
+ "library_tree": "426fb74a829db04569a6e8eabed99cb78232962b",
+ "ordinary": {
+  "count": 200,
+  "sha256": "0f59670ef3639f1bf5da56783dbef7e3b04ba73f9aabe551960c961f3de71e2d"
+ },
+ "cfg_on": {
+  "count": 382,
+  "sha256": "220453cfccc8b6e207d60b7312b538c2dcb82d39e17f09cd51b0cbd96583b78d"
+ },
+ "ok": true,
+ "checks": {
+  "base_is_full_sha": {
+   "ok": true,
+   "detail": ""
+  },
+  "library_changes_exactly_verify_rs_and_wrap_rs": {
+   "ok": true,
+   "detail": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs"
+   ]
+  },
+  "wrap_rs_new_file": {
+   "ok": true,
+   "detail": ""
+  },
+  "smallsort_rs_byte_identical_to_base": {
+   "ok": true,
+   "detail": ""
+  },
+  "verify_rs_diff_is_one_doc_line_and_mod_wrap": {
+   "ok": true,
+   "detail": [
+    "+//! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.",
+    "+mod wrap;"
+   ]
+  },
+  "verify_rs_module_order_unchanged_wrap_appended_ordinary": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_rs_code_equals_wrap_n2_without_comments": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_rs_cfg_gated_items": {
+   "ok": true,
+   "detail": [
+    "always_true",
+    "rejects_always_true",
+    "rejects_payload_corruption"
+   ]
+  },
+  "wrap_rs_no_other_cfg": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_rs_no_stub_or_research_labels": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_specs_have_no_callback_calls": {
+   "ok": true,
+   "detail": 15
+  },
+  "expect_check_literal_kani_assert:wrap canonical comparator required": {
+   "ok": true,
+   "detail": [
+    "wrap.rs:61"
+   ]
+  },
+  "expect_check_literal_kani_assert:wrap full-value checker rejects payload corruption": {
+   "ok": true,
+   "detail": [
+    "wrap.rs:269"
+   ]
+  },
+  "base_sets_equal_p1_clean_native": {
+   "ok": true,
+   "detail": {
+    "ordinary": 197,
+    "cfg_on": 377
+   }
+  },
+  "ordinary_equals_frozen_197_plus_3_wrap": {
+   "ok": true,
+   "detail": 200
+  },
+  "cfg_on_equals_p1_clean_377_plus_5_wrap": {
+   "ok": true,
+   "detail": 382
+  },
+  "retired_unchanged": {
+   "ok": true,
+   "detail": 133
+  },
+  "wrap_pfc_targets_and_no_stubs": {
+   "ok": true,
+   "detail": ""
+  },
+  "g1_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "g1_entries_exact": {
+   "ok": true,
+   "detail": ""
+  },
+  "g1_entries_equal_wrap_n2_g2_retry_request": {
+   "ok": true,
+   "detail": ""
+  },
+  "g2_inventory_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "changed_rust_lines_le_100": {
+   "ok": true,
+   "detail": []
+  }
+ }
+}
