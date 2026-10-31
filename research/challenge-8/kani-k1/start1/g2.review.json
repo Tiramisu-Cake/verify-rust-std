@@ -1,0 +1,111 @@
+{
+  "build_id": "99bf7d2a-e175-437d-9ad7-7e3d525cf8f3",
+  "head_sha": "bb7458fe5208ca629b026849a0e379769879a7f3",
+  "library_tree": "6008ba7c2349d4158e2898f323089c2ef61d373c",
+  "request_id": "start1-g2-diagnostic-jobs3-20261031",
+  "request_sha256": "f729f0c1e5c7f429ef2addf9fa99032521acc69d8a0c249acb3065712b2fca92",
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "cloud_build_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "aggregate_gate": true,
+  "kani_exit": 0,
+  "kani_jobs": 3,
+  "controls": true,
+  "tooling": "PASS check-tooling against initial ebd0eac32258932ce9688f1c9e402036742aa4f6",
+  "expected_names": "Exact four requested/reported rows; page0 count4 next_offset=done",
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+      "status": "SUCCESS",
+      "time_s": 326.29486,
+      "checks": "0/428",
+      "covers": "9/9",
+      "unreachable": 36,
+      "cbmc_peak_kib": 2989216,
+      "cbmc_first_sample_s": 285,
+      "cbmc_last_sample_s": 608,
+      "cbmc_pid": "9352",
+      "memory_attribution": "direct",
+      "metadata_match_count": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+      "status": "SUCCESS",
+      "time_s": 334.6494,
+      "checks": "0/428",
+      "covers": "6/6",
+      "unreachable": 36,
+      "cbmc_peak_kib": 2993444,
+      "cbmc_first_sample_s": 66,
+      "cbmc_last_sample_s": 398,
+      "cbmc_pid": "9299",
+      "memory_attribution": "direct",
+      "metadata_match_count": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "status": "SUCCESS",
+      "time_s": 417.46927,
+      "checks": "0/428",
+      "covers": "6/6",
+      "unreachable": 36,
+      "cbmc_peak_kib": 2993832,
+      "cbmc_first_sample_s": 66,
+      "cbmc_last_sample_s": 482,
+      "cbmc_pid": "9314",
+      "memory_attribution": "direct",
+      "metadata_match_count": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
+      "status": "SUCCESS",
+      "time_s": 215.04335,
+      "checks": "0/312",
+      "covers": "19/19",
+      "unreachable": 18,
+      "cbmc_peak_kib": 3731564,
+      "cbmc_first_sample_s": 64,
+      "cbmc_last_sample_s": 277,
+      "cbmc_pid": "9274",
+      "memory_attribution": "direct",
+      "metadata_match_count": 1
+    }
+  ],
+  "memory": {
+    "interval_ms": 2000,
+    "samples": 305,
+    "elapsed_s": 610,
+    "sample_total_peak_kib": 9051140,
+    "sample_total_peak_s": 176,
+    "simultaneous_cbmc_peak_kib": 9025612,
+    "simultaneous_cbmc_peak_s": 176,
+    "direct_process_records": 4,
+    "max_concurrent_observed_cbmc": 3,
+    "overlap_sample_ranges_s": [
+      [
+        66,
+        277
+      ],
+      [
+        285,
+        398
+      ]
+    ],
+    "oom": "none_seen",
+    "swap_total_bytes": 0,
+    "mem_total_bytes": 16785850368,
+    "missing": false,
+    "note": "kernel VmHWM per process; sums are process RSS, not physical memory; attribution uses direct metadata, not active-harness lists"
+  },
+  "warnings": "Targeted unused/dead_code/warning codes/errors no match; cfg-off contains no new items (static), no separate cfg-off build",
+  "cost_usd": 0.2295,
+  "sources": [
+    "k1g.sh summary",
+    "k1g.sh summary 0 4",
+    "k1g.sh peaks 0 4",
+    "k1g.sh check-tooling",
+    "k1g.sh log-grep",
+    "k1g.sh budget G1 G2"
+  ],
+  "reviewed_at": "2026-10-31T08:35:25.096531+00:00"
+}

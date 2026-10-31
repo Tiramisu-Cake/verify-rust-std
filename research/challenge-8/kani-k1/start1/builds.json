@@ -31,7 +31,8 @@
       "summary_status": "COMPLETE",
       "manual_task_gate": true,
       "aggregate_gate": false,
-      "tooling": "PASS"
+      "tooling": "PASS",
+      "request_sha256": "7336fc6058d2e7738bd576bd3cc5980bc993d0fddb560c50635f2b7086df43de"
     },
     {
       "id": "99bf7d2a-e175-437d-9ad7-7e3d525cf8f3",
@@ -46,8 +47,17 @@
       "timeout_minutes": 70,
       "max_cost_usd": 0.945,
       "recorded_at": "2026-10-31T08:16:46.770044+00:00",
-      "status": "SUBMITTED",
-      "cost_usd": null
+      "status": "SUCCESS",
+      "cost_usd": 0.2295,
+      "summary_status": "COMPLETE",
+      "aggregate_gate": true,
+      "tooling": "PASS against initial task SHA"
     }
-  ]
+  ],
+  "result": "COMPLETE",
+  "builds_used": 2,
+  "total_cost_usd": 0.7155,
+  "own_reserved_usd": 0.0,
+  "remaining_builds": 0,
+  "completed_at": "2026-10-31T08:35:25.099104+00:00"
 }
