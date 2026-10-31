@@ -1,0 +1,29 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "m9-g2-diagnostic-jobs3-20261031",
+  "kind": "diagnostic",
+  "purpose": "M9 G2: G9 + stable const N9 (G1 SUCCESS/covers, lowest S9 RSS) + ordinary G8/S8. jobs3 overlap diagnostic, frozen library. Timeout600; work40+setup30min=$0.9450; G1 actual$0.5670 + reserve=$1.5120<=$2.30; second and final build.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 3,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_const_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
+      "expect": "SUCCESS"
+    }
+  ]
+}

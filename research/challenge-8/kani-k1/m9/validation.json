@@ -1,0 +1,62 @@
+{
+  "g1": {
+    "bindings": "PASS",
+    "tooling": "PASS",
+    "exact_rows": 5,
+    "success": 4,
+    "direct_process_attribution": 5,
+    "three_process_overlap": [],
+    "cbmc_peak_gib": {
+      "stable_direct_nonconst_u64_n9": 8.026878,
+      "general_direct_u64_n9": 1.602325,
+      "stable_direct_u64_n9": 1.599457,
+      "stable_direct_const_u64_n9": 0.820843,
+      "stable_direct_const_u64_n8": 0.736202
+    }
+  },
+  "g2": {
+    "bindings": "PASS",
+    "tooling": "PASS",
+    "exact_rows": 4,
+    "success": 4,
+    "direct_process_attribution": 4,
+    "three_process_overlap": [
+      {
+        "pids": [
+          "9280",
+          "9317",
+          "9285"
+        ],
+        "start_s": 285,
+        "end_s": 480,
+        "span_s": 195
+      },
+      {
+        "pids": [
+          "9280",
+          "9290",
+          "9285"
+        ],
+        "start_s": 70,
+        "end_s": 279,
+        "span_s": 209
+      }
+    ],
+    "cbmc_peak_gib": {
+      "general_direct_u64_n9": 1.597206,
+      "stable_direct_u64_n8": 1.511017,
+      "general_direct_u64_n8": 1.509174,
+      "stable_direct_const_u64_n9": 0.823982
+    }
+  },
+  "status": "PASS",
+  "task_outcome": "PARTIAL",
+  "finalized_utc": "2026-10-31T08:44:53.172044+00:00",
+  "library_tree": "3c5fd2134ca7ed558976b53e1216eeedd0d6b491",
+  "source_audit_fingerprint": "PASS (unchanged)",
+  "result_lines": 85,
+  "builds": 2,
+  "total_cost_usd": 0.7965,
+  "limits": "2 builds / $2.30 / deadline: respected",
+  "limitation": "controls cfg compiled; ordinary cfg source-only audit; macOS UNKNOWN"
+}

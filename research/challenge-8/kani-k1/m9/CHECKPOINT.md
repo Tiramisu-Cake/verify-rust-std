@@ -1,81 +1,42 @@
-# M9 — G1 принят, G2 подготовлен
+# M9 — итог PARTIAL, сборки завершены
 
-GO координатора на `578350ad3a` получен; G1 source/library frozen.
-Build G1 `06ddd32a-8b17-4b20-b3cf-3ee506400980`: FAILURE, summary COMPLETE,
-gate false из-за S9 non-const TIMEOUT; четыре SUCCESS с covers1/1.
-G9 423.5913s/1.602325GiB; S9 aggregate434.4789s/1.599457GiB;
-S9 const429.67825s/0.820843GiB; S8 const143.88579s/0.736202GiB.
-S9 non-const TIMEOUT600, peak8.026878GiB; VT/checks/covers не сообщены.
-Driver peak905832KiB; OOM none_seen. G1 cost$0.5670, own builds1/2.
-Exact request SHA/names/source/build and 5 direct memory attributions: PASS.
-check-tooling относительно исходного commit: PASS.
-Артефакты чтения только k1g.sh: g1.summary.md/rows.tsv/peaks.txt/tooling.txt.
-Решение по строкам: G2 разрешён; выбрана S9 const (минимальный S9 RSS,
-VT слегка ниже aggregate). N9 триада неполная; N8 исторические опоры не matched.
-G2 diagnostic jobs3/controls:true: G9, S9 const, G8, S8 aggregate.
-Request `m9-g2-diagnostic-jobs3-20261031`, timeout600, 4 entries, validator PASS.
-Library tree `3c5fd2134ca7ed558976b53e1216eeedd0d6b491` неизменен.
-T0 07:37:33UTC; deadline11:37:33UTC, cutoff11:07:33UTC; closing reserve30min.
-G2 envelope70min/$0.9450; own actual+reserve$1.5120 ≤$2.30.
-После G2 читать строки и пики, проверить реальное перекрытие ≥3 CBMC;
-при TIMEOUT сохранить PARTIAL, не заявлять jobs3 confirmation автоматически.
+Результат: `../RESULT-M9.md` (85 строк), привязки и проверки: `validation.json`.
+Library commit `b2930031d889065e89054efea16f9a10a409b048`;
+library tree `3c5fd2134ca7ed558976b53e1216eeedd0d6b491` заморожен G1=G2.
+GO координатора принят для G1 source `578350ad3ae7d7479b7a1abcfc98647db1089eb5`.
+G2 source `fe4fa2cc4f3213bb3043c9c8d172b169864f6fb8`.
 
-# Историческая подготовка PRE-BUILD REVIEW
+G1 `06ddd32a-8b17-4b20-b3cf-3ee506400980`: Cloud FAILURE, summary COMPLETE,
+gate false: G9/S9aggregate/S9const/S8const SUCCESS covers1/1;
+S9nonconst TIMEOUT600, covers/checks/VT не сообщены, peak8.026878GiB.
+G1 выбранные S9: aggregate434.47890s/1.599457GiB, const429.67825s/0.820843GiB.
+G2 разрешён по отдельным строкам; const выбран по минимальному RSS и VT.
 
-Состояние: кандидат опубликован для GO; dispatch ещё не выполнялся.
-Ветка: `experiment/kani-k1-mnine-20261031`.
-Исходный commit: `97fdf0a21e517fc99ab0a5180bfb7ee3128685c9`.
-Library commit: `b2930031d889065e89054efea16f9a10a409b048`.
-Замороженный library tree: `3c5fd2134ca7ed558976b53e1216eeedd0d6b491`.
-Подготовка: 2026-10-31 07:35:26 UTC (10:35:26 MSK).
+G2 `ed6b14d6-1cfc-4af7-81ce-6d17fd8a2e1a`: Cloud SUCCESS, summary COMPLETE,
+gate true; G9/S9const/G8/S8aggregate все SUCCESS covers1/1, VT≤600.
+Реальное перекрытие трёх CBMC: PID9280/9285/9290 вместе впервые в70s,
+общий наблюдаемый интервал70..279s; затем PID9280/9285/9317 в285..480s.
+OOM none_seen, missing0; direct memory attribution9/9 и точные requested names.
+check-tooling G1/G2 PASS относительно `97fdf0a21e`; pin/toolchain/lane прежние.
+G2 времена — под совместной нагрузкой, не single-harness measurements.
 
-Изменён только `library/core/src/slice/sort/shared/smallsort/verify/merge.rs`:
-два прежних guard расширены до 6..=9, два новых private opt-in helper-а scratch,
-пять opt-in harnesses: G9, stable N9 aggregate/non-const/const и stable N8 const.
-Ordinary harnesses не добавлены; условный stubbed C N9 сохранён.
-`source-audit.py` / `source-audit.json`: PASS; прежние items точны кроме guard.
-Новые stable helper-ы равны aggregate body кроме имени, allocation и borrow.
-Adapter/oracle/lt_u64/probe равны ASSEMBLY library `d4e5a0907b`.
-Unwind34, arbitrary input/probe, snapshot, один cover после assert сохранены;
-новых stubs, selector, импортов нет. Статический cfg forecast: ordinary+0, controls+5.
-Это source audit, не measurement controls и не compiler inventory.
+Личный бюджет: G1$0.5670 + G2$0.2295 = $0.7965 ≤$2.30;
+builds2/2, reserved$0. Полный список UUID/request_id/source в `builds.json`.
+Бюджет и полный envelope+closing reserve проверены перед обоими dispatch.
+T0 07:37:33UTC, work cutoff11:07:33UTC, deadline11:37:33UTC, closing reserve30min.
+Закрытие подготовлено08:44:53UTC; окно соблюдено. Оба ожидались watch+конец хода.
+Новых сборок не запускать: лимит2/2 исчерпан.
 
-Заданный rustfmt wrapper/config --check: exit0; Rust-строки ≤100.
-git diff --check: PASS. Lane-файлы, Kani pin, toolchain, flags не менялись.
-Локальные rustc/cargo/Kani/CBMC не запускались; compiler warnings ещё не проверены.
-RUN-REQUEST.json валиден: measurement, jobs1, controls:true, timeout10min,
-пять точных имён, expected SUCCESS; request_id `m9-g1-measurement-20261031`.
+Кандидаты в ordinary: G9 + S9const; aggregate S9 также SUCCESS jobs1.
+Условие обеих ветвей для предложения заменить C N9 выполнено;
+решение ordinary/Part2 и полный CI остаются координатору. Entries по-прежнему opt-in.
+Триада N9 неполна; N8const — самостоятельный положительный результат;
+исторические N8 BACKING anchors не matched с текущим SHA.
+Fixture48 ≠ любой backing; механизм снижения RSS не установлен; macOS UNKNOWN.
 
-Бюджет подготовки (`k1g.sh budget`): builds114, used$62.1240,
-reserved$0.0000, CAP_USD73.96; свободно$11.8360. Это не dispatch preflight.
-Личный лимит M9: $2.30 / 2 builds; пока потрачено$0, builds0.
-G1 envelope: 5×10min +30min setup =80min, резерв$1.0800.
-G2 условный: 4×10min +30min setup =70min, резерв$0.9450.
-Итого максимум$2.0250 ≤$2.30. Окно4h, резерв закрытия30min;
-оба полных envelope150min + закрытие30min укладываются в окно.
-Перед каждым dispatch повторить budget, записать T0/deadline/остаток окна;
-T0 и фактические UUID/request SHA пока не назначены, GO ещё не получен.
-Не открывать окно сборки без полного envelope и резерва закрытия.
-
-После GO на опубликованный SHA:
-1. Проверить чистое дерево, library tree, точный request и lane equality.
-2. Записать T0, deadline4h, work cutoff3.5h и dispatch preflight в `m9/`.
-3. `k1g.sh budget`, затем dispatch текущей ветки; сохранить UUID/request_id/SHA.
-4. `k1g.sh watch BUILD`; завершить ход. Никаких активных ожиданий.
-5. После пробуждения: summary и 5 rows, peaks CBMC/driver, check-tooling
-   относительно исходного commit; bounded log-grep/log-lines для warnings/covers.
-6. Решать по строкам: G2 только при SUCCESS G9 и хотя бы одной S9, с covers.
-   TIMEOUT иной формы может сделать aggregate gate false; это неполная триада.
-7. Если разрешён G2: diagnostic/jobs3/controls:true, G9, лучшая S9,
-   ordinary general_direct_u64_n8 и stable_direct_u64_n8; library tree прежний.
-   Повторить budget/preflight, отдельный request commit+push, dispatch+watch+конец хода.
-8. Проверить реальное перекрытие ≥3 CBMC, OOM/missing и стоимость своих UUID.
-9. RESULT-M9.md по заданию (≤100 строк), отдельный research commit+push;
-   итоговые REVIEW REQUEST и M9 ЗАВЕРШЁН только после завершения задания.
-
-N8 исторические опоры BACKING source740d22674c/build
-b07fdcd8-fbd8-401e-9948-9e5f9e7201ad: non-const292.468s/7.928GiB,
-aggregate214.316s/1.508GiB. Это не matched измерения нового SHA.
-Выводы N8 и N9 разделять; fixture48 ≠ любой backing; macOS UNKNOWN;
-пригодность подтверждает только CI организаторов. Одну ветвь вместо обеих
-для замены C N9 не предлагать; ordinary изменяет координатор.
+Rustfmt exit0/≤100 колонок и source audit PASS; source fingerprint неизменен.
+Compiler diagnostics G1/G2 controls cfg: новых targeted SmallSort warnings нет;
+ordinary cfg только source audit, отдельной компиляции нет.
+Локальные rustc/cargo/Kani/CBMC и посторонние CI не запускались.
+Из library изменён только verify/merge.rs; tool/service код не менялся.
+Финальная публикация — отдельный research commit с [skip ci], без force.

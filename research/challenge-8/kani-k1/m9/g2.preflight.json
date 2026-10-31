@@ -1,5 +1,5 @@
 {
-  "phase": "pre-dispatch",
+  "phase": "dispatched",
   "t0_utc": "2026-10-31T07:37:33+00:00",
   "deadline_utc": "2026-10-31T11:37:33+00:00",
   "work_cutoff_utc": "2026-10-31T11:07:33+00:00",
@@ -25,6 +25,9 @@
     "cap_usd": 73.96
   },
   "gate": "G9 and S9 const/aggregate SUCCESS, covers1/1; G1 nonconst TIMEOUT does not block G2",
-  "remaining_minutes": 193.44426585000002,
-  "decision": "PASS: full envelope + close fits; personal/global budgets sufficient; frozen library"
+  "remaining_minutes": 193.22004786666668,
+  "decision": "PASS: full envelope + close fits; personal/global budgets sufficient; frozen library",
+  "source_sha": "fe4fa2cc4f3213bb3043c9c8d172b169864f6fb8",
+  "dispatch_preflight_utc": "2026-10-31T08:24:19.797068+00:00",
+  "build": "ed6b14d6-1cfc-4af7-81ce-6d17fd8a2e1a"
 }
