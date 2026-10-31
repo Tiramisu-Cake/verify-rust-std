@@ -1,9 +1,10 @@
-# INTEG2 — PARTIAL, кандидат P1-max подготовлен к PRE-BUILD REVIEW
+# INTEG2 — PARTIAL, GO получен, проверки в Cloud Build
 
 2026-10-31; ветка `experiment/kani-k1-integtwo-20261031`, база ASSEMBLY `e6a8ad05c9`.
 Library commit `20aa864ad04e8d81b46d41024b75dc7aa1103dcf`.
 Library tree `c522edd42ae67c385e1ee42a1c4d1bffb611c90b`.
-GO ещё не получен. Builds0/3, собственные spent/reserved $0/$0; лимит $2,90.
+GO получен для `e0ff82577d`; source/request/UUID и текущий учёт — `integ2/builds.json`.
+Лимиты:3 сборки/$2,90; library tree заморожен, результаты ещё ожидаются.
 Это кандидат P1-max, новый зелёный P1 не заявлен.
 
 Точные статические списки: `integ2/scope/p1-ordinary.txt` (197),
@@ -54,8 +55,8 @@ Rustfmt заданным wrapper/config --check PASS; строки ≤100; diff-
 G3 measurement jobs1/timeout10min/controls:true, ровно три expected FAILED.
 Запросы `integ2/*.request.json` приняты штатным Python validator, всего три entries G3.
 Request IDs: `integ2-inventory-ordinary-20261031`, `integ2-inventory-controls-20261031`,
-`integ2-measurement-controls-20261031`. G1 request опубликован review-коммитом; UUID отсутствуют.
-G2/G3 получат отдельные published request SHA после GO, при том же library tree.
+`integ2-measurement-controls-20261031`. G1 source — review-коммит `e0ff82577d`.
+Каждый request получает отдельный published SHA/UUID в ledger, при том же library tree.
 Все native inventories, предупреждения компилятора и proof measurements: NOT_RUN.
 
 | G3 control (сокращённо) | Ожидаемая location frozen source | Результат |
@@ -77,4 +78,4 @@ T0 UTC11:58, deadline UTC16:58 (MSK19:58), резерв закрытия30min; `
 Четвёртой сборки нет; semantic delta требует нового review/GO.
 Native P2, macOS, положительные integration proofs и полный CI: NOT_RUN.
 macOS/полный CI и итоговый inventory после cfg-отбора принадлежат координатору.
-Следующий шаг: PRE-BUILD REVIEW опубликованного SHA и остановка до GO Claude Code.
+Ожидание — только k1g.sh watch с завершением хода; закрытие после проверки результатов.

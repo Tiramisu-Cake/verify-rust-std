@@ -1,10 +1,26 @@
 {
-  "status": "PRE_GO_NOT_RUN",
+  "status": "SUBMITTED_AWAITING_RESULTS",
   "max_builds": 3,
   "max_usd": 2.9,
-  "spent_usd": 0,
-  "reserved_usd": 0,
-  "builds": [],
+  "spent_usd": 0.0,
+  "reserved_usd": 0.81,
+  "builds": [
+    {
+      "label": "g1",
+      "uuid": "cda795d5-1cd1-4c32-a87e-778302647151",
+      "request_id": "integ2-inventory-ordinary-20261031",
+      "source_sha": "e0ff82577dc58950621dadc9c141d88a5821987f",
+      "request_sha256": "a2831f4232f3b0938fffc8149fe2a206c787c3b23b7419954ddd1346a273c4c0",
+      "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+      "kind": "inventory",
+      "controls": false,
+      "work_minutes": 30,
+      "total_envelope_minutes": 60,
+      "max_reserved_usd": 0.81,
+      "status": "SUBMITTED",
+      "submitted_recorded_at_utc": "2026-10-31T12:09:39.152696+00:00"
+    }
+  ],
   "planned": [
     {
       "stage": "G1",
@@ -28,6 +44,8 @@
   "planned_total_envelope_minutes": 210,
   "planned_max_reserve_usd": 2.835,
   "remaining_from_max_reserve_usd": 0.065,
-  "accounting": "Only own UUID/request_id; common agent label must not be used for attribution",
-  "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL."
+  "accounting": "Per-dispatch selected UUID budget snapshots; actual costs await terminal selected-UUID ledger",
+  "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL.",
+  "reviewed_source": "e0ff82577dc58950621dadc9c141d88a5821987f",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b"
 }
