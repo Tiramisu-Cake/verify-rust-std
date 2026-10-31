@@ -1,0 +1,15 @@
+--harness
+slice::sort::shared::smallsort::verify::wrap::stable_cell_n2
+--harness
+slice::sort::shared::smallsort::verify::wrap::unstable_byte_n2
+--harness
+slice::sort::shared::smallsort::verify::wrap::freeze_noncopy_n2
+--harness
+slice::sort::shared::smallsort::verify::wrap::rejects_always_true
+--harness
+slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

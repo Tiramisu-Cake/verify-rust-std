@@ -2,59 +2,35 @@
  "schema": "kani-k1-run-request-v1",
  "agent": "k1-merge",
  "runner": "gcb-e2-standard-4",
- "request_id": "specfix-a2-20261031",
+ "request_id": "wraptwo-g1-20261031",
  "kind": "measurement",
- "purpose": "SPECFIX-A2 feasibility: first run of StageA profiles without raw adapter on final tree 31997f7781; G1 rows 1-9, 11, 12 (row 10 removed); controls on, jobs 1, uninit off.",
+ "purpose": "WRAP-N2: 3 concrete entry-wrapper PFCs on real bodies, Cell stable / u8 unstable / NonCopyU8 Freeze; independent full-u8 probe, key >>1, canonical fn guard and payload controls; no stubs.",
  "harness_timeout_minutes": 10,
  "controls": true,
  "kani_jobs": 1,
  "uninit_checks": false,
  "harnesses": [
   {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::swap_profile_four_positions_u8",
+   "name": "slice::sort::shared::smallsort::verify::wrap::stable_cell_n2",
    "expect": "SUCCESS"
   },
   {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::swap_profile_cell_i32_n2",
+   "name": "slice::sort::shared::smallsort::verify::wrap::unstable_byte_n2",
    "expect": "SUCCESS"
   },
   {
-   "name": "slice::sort::shared::smallsort::verify::network::swap_profile_drop_u8_n2",
+   "name": "slice::sort::shared::smallsort::verify::wrap::freeze_noncopy_n2",
    "expect": "SUCCESS"
   },
   {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::sort4_profile_u64_n4",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::sort4_profile_bytes16_n4",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile_u8_prefix",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile_u64_start1_tail2_to8",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::merge_profile_u8_n8",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_positive_regression",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+   "name": "slice::sort::shared::smallsort::verify::wrap::rejects_always_true",
    "expect": "FAILED",
-   "expect_check": "specfix full-value checker detects payload corruption"
+   "expect_check": "wrap canonical comparator required"
   },
   {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_probe_guard_rejects_t129",
+   "name": "slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption",
    "expect": "FAILED",
-   "expect_check": "value probe supports at most 128 bytes per value"
+   "expect_check": "wrap full-value checker rejects payload corruption"
   }
  ]
 }
