@@ -1,0 +1,21 @@
+ok   diff 0b63fbdaac..d558b986c6 = casefive.rs only: ['M\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge/casefive.rs']
+ok   module doc: 3 lines appended, old lines kept
+ok   G1/G2 rows (everything after the imports) byte-identical, tail appended
+ok   no inner cfg (module gated by its declaration in merge.rs)
+ok   merge.rs unchanged
+ok   8 new harnesses in order: ['casefive_a1_plain_profile_bytes17', 'casefive_a2_raw_call_bytes17', 'casefive_p17_checked_contract_bytes17', 'casefive_p16_checked_contract_bytes16', 'casefive_s4_checked_contract_bytes16', 'casefive_c1_bad_body_contract_bytes17', 'casefive_d1_select_read_bytes1', 'casefive_d2_select_read_u8']
+ok   unwind 180 on every new row
+ok   targets {'casefive_a1_plain_profile_bytes17': '', 'casefive_a2_raw_call_bytes17': '', 'casefive_p17_checked_contract_bytes17': 'swap_profile_checked', 'casefive_p16_checked_contract_bytes16': 'swap_profile_checked', 'casefive_s4_checked_contract_bytes16': 'sort4_profile_checked', 'casefive_c1_bad_body_contract_bytes17': 'bad_swap_profile', 'casefive_d1_select_read_bytes1': '', 'casefive_d2_select_read_u8': ''}
+ok   swap_profile_checked contract == swap_profile contract
+ok   bad_swap_profile contract == swap_profile contract
+ok   sort4_profile_checked contract == sort4_profile contract
+ok   twins call the real swap_if_less / sort4_stable as the profiles do
+ok   C1 body: no selected pointer, no swap_if_less
+ok   94 literal casefive messages (R0/R4 concat! prefix excluded), all unique
+ok   transfer ensures text occurs in the tail only on the two swap-contract targets
+ok   request = the 8 new rows
+ok   C1 expects FAILED on the transfer ensures
+ok   D1 expect_check matches only D1's assert
+ok   other rows expect SUCCESS
+ok   kind diagnostic, 3 min, controls, jobs 1, uninit off
+GATE PASS
