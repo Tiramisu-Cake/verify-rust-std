@@ -226,3 +226,167 @@ general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15
 general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
 #[cfg(kani_smallsort_controls)]
 general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);
+
+// CORR14: fixed u8 N14 routes, with the same input/probe domain and inline oracle as combined.
+// General and non-const stable partition the old symbolic bool; their return covers unite.
+// Const/aggregate preserve T/F/N and input/probe domains, but aggregate changes backing geometry.
+// These callers remain conditional on insert_tail/merge premises for the actual caller domains.
+#[cfg(kani_smallsort_controls)]
+fn corr14_scratch_view<T>(
+    holder: &mut crate::mem::MaybeUninit<[T; 48]>,
+) -> &mut [crate::mem::MaybeUninit<T>] {
+    // SAFETY: the pointer keeps the provenance of the exclusively borrowed holder.
+    // Arrays and MaybeUninit preserve element size/alignment; the extent is exactly 48 elements.
+    // Only MaybeUninit<T> references are formed, without reading uninitialized T or assume_init.
+    // The result's lifetime is tied to holder, excluding access to holder throughout this borrow.
+    unsafe {
+        crate::slice::from_raw_parts_mut(
+            holder.as_mut_ptr().cast::<crate::mem::MaybeUninit<T>>(),
+            48,
+        )
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+fn corr14_general_stub_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    super::super::small_sort_general(&mut output, &mut cmp);
+    for i in 1..14 {
+        assert!(!cmp(&output[i], &output[i - 1]));
+    }
+    assert!(
+        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
+            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+    );
+    kani::cover(true, "CORR14: general returns with properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn corr14_stable_nonconst_stub_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    use super::super::StableSmallSortTypeImpl;
+    use crate::mem::MaybeUninit;
+    let mut scratch = [MaybeUninit::<u8>::uninit(); 48];
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
+    for i in 1..14 {
+        assert!(!cmp(&output[i], &output[i - 1]));
+    }
+    assert!(
+        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
+            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+    );
+    kani::cover(true, "CORR14: stable_nonconst returns with properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn corr14_stable_const_stub_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    use super::super::StableSmallSortTypeImpl;
+    use crate::mem::MaybeUninit;
+    let mut scratch = [const { MaybeUninit::<u8>::uninit() }; 48];
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, &mut scratch, &mut cmp);
+    for i in 1..14 {
+        assert!(!cmp(&output[i], &output[i - 1]));
+    }
+    assert!(
+        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
+            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+    );
+    kani::cover(true, "CORR14: stable_const returns with properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn corr14_stable_aggregate_stub_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    use super::super::StableSmallSortTypeImpl;
+    use crate::mem::MaybeUninit;
+    let mut holder = MaybeUninit::<[u8; 48]>::uninit();
+    let scratch = corr14_scratch_view(&mut holder);
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, scratch, &mut cmp);
+    for i in 1..14 {
+        assert!(!cmp(&output[i], &output[i - 1]));
+    }
+    assert!(
+        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
+            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+    );
+    kani::cover(true, "CORR14: stable_aggregate returns with properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+macro_rules! corr14_stub_harness {
+    ($name:ident, $body:ident) => {
+        #[kani::proof]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+        #[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+        #[kani::solver(cadical)]
+        #[kani::unwind(50)]
+        fn $name() {
+            $body();
+        }
+    };
+}
+#[cfg(kani_smallsort_controls)]
+corr14_stub_harness!(sorted_permutation_general_u8_n14, corr14_general_stub_u8_n14);
+#[cfg(kani_smallsort_controls)]
+corr14_stub_harness!(sorted_permutation_stable_nonconst_u8_n14, corr14_stable_nonconst_stub_u8_n14);
+#[cfg(kani_smallsort_controls)]
+corr14_stub_harness!(sorted_permutation_stable_const_u8_n14, corr14_stable_const_stub_u8_n14);
+#[cfg(kani_smallsort_controls)]
+corr14_stub_harness!(
+    sorted_permutation_stable_aggregate_u8_n14,
+    corr14_stable_aggregate_stub_u8_n14
+);
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
+#[kani::stub_verified(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::solver(cadical)]
+#[kani::unwind(50)]
+fn stable_aggregate_value_corruption_control_u8_n14() {
+    set_value_probe::<u8>();
+    let mut output: [u8; 14] = kani::any();
+    let input = output;
+    let mut cmp = lt_u8;
+    use super::super::StableSmallSortTypeImpl;
+    use crate::mem::MaybeUninit;
+    let mut holder = MaybeUninit::<[u8; 48]>::uninit();
+    let scratch = corr14_scratch_view(&mut holder);
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut output, scratch, &mut cmp);
+    kani::cover(true, "CORR14: aggregate stable sort returns before payload corruption");
+    // lt_u8 compares x >> 1, so this payload mutation preserves sortedness.
+    output[0] ^= 1;
+    for i in 1..14 {
+        assert!(!cmp(&output[i], &output[i - 1]));
+    }
+    assert!(
+        CopyOnDrop::<u8>::probe_count_unrolled(input.as_ptr(), 14)
+            == CopyOnDrop::<u8>::probe_count_unrolled(output.as_ptr(), 14)
+    );
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::solver(cadical)]
+#[kani::unwind(50)]
+fn stable_aggregate_allocation_bounds_control_u8() {
+    let mut holder = crate::mem::MaybeUninit::<[u8; 48]>::uninit();
+    let scratch = corr14_scratch_view(&mut holder);
+    let outside = scratch.as_mut_ptr().cast::<u8>().wrapping_add(48);
+    kani::cover(true, "CORR14: aggregate bounds control reaches raw write");
+    // Deliberately invalid: one past the entire allocation, without safe indexing or a T read.
+    unsafe { crate::ptr::write(outside, 0) };
+}
