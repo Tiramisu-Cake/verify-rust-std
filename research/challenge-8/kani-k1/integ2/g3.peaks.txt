@@ -1,0 +1,35 @@
+interval_ms=2000
+samples=68
+elapsed_s=132
+total_rss_peak_kb=1897600
+total_peak_s=46
+cmd=bash peak_kb=3744 first_s=0 last_s=132 peak_s=0
+cmd=cargo peak_kb=33596 first_s=2 last_s=60 peak_s=60
+cmd=cbmc peak_kb=823680 first_s=64 last_s=130 peak_s=84
+cmd=goto-instrument peak_kb=42248 first_s=62 last_s=124 peak_s=72
+cmd=kani-compiler peak_kb=1706740 first_s=2 last_s=60 peak_s=46
+cmd=kani-driver peak_kb=741036 first_s=2 last_s=130 peak_s=122
+cmd=python3 peak_kb=20524 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3752 first_s=2 last_s=132 peak_s=2
+cmd=tee peak_kb=1068 first_s=0 last_s=132 peak_s=2
+cmd=time peak_kb=1156 first_s=2 last_s=132 peak_s=2
+cmd=timeout peak_kb=1072 first_s=2 last_s=132 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=801036 peak_s=98
+role=driver simultaneous_rss_peak_kb=481412 peak_s=122
+cbmc_pid=9262 peak_kb=823680 first_s=74 last_s=120 peak_s=84 active=T0:network::insert_tail_contract_u64_start1_suffix_frame_control hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9224 peak_kb=262584 first_s=64 last_s=70 peak_s=68 active=T0:merge::general_stable_direct_value_corruption_control_u64_n2 hint=slice::sort::shared::smallsort::verify::merge::general_stabl
+cbmc_pid=9300 peak_kb=155076 first_s=126 last_s=130 peak_s=130 active=T0:network::insert_tail_contract_u64_start1_prefix_frame_control hint=slice::sort::shared::smallsort::verify::network::insert_tail
+driver_s=0 rss_kb=0
+harness_s=64 name=T0:merge::general_stable_direct_value_corruption_control_u64_n2
+driver_s=30 rss_kb=6112
+harness_s=74 name=T0:network::insert_tail_contract_u64_start1_suffix_frame_control
+driver_s=60 rss_kb=6432
+harness_s=126 name=T0:network::insert_tail_contract_u64_start1_prefix_frame_control
+driver_s=90 rss_kb=122748
+driver_s=120 rss_kb=329668
+dmesg_oom=none_seen
+mem_total_bytes=16785842176
+swap_total_bytes=0
+verify_start_after_validate_s=335
+verify_budget_s=2905
+RUSTFLAGS=--cfg kani_smallsort_controls

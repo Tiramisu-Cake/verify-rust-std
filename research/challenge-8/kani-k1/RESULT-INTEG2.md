@@ -1,11 +1,11 @@
-# INTEG2 — PARTIAL: G1 compile error; G2/G3 ожидаются
+# INTEG2 — PARTIAL: G1 compile error, G3 controls PASS, G2 ожидается
 
 2026-10-31; ветка `experiment/kani-k1-integtwo-20261031`, база ASSEMBLY `e6a8ad05c9`.
 Library commit `20aa864ad04e8d81b46d41024b75dc7aa1103dcf`.
 Library tree `c522edd42ae67c385e1ee42a1c4d1bffb611c90b`.
 GO получен для `e0ff82577d`; source/request/UUID и текущий учёт — `integ2/builds.json`.
-Отправлены3/3; own spent$0,108/reserved$2,025 по `budget-after-g1.txt`; лимит$2,90.
-Library tree заморожен; G2/G3 ещё не reviewed, дополнительных build slots нет.
+Отправлены3/3; own spent$0,2295/reserved$1,215 по `budget-after-g3.txt`; лимит$2,90.
+Library tree заморожен; G2 ещё не reviewed, дополнительных build slots нет.
 Это кандидат P1-max, новый зелёный P1 не заявлен.
 
 Точные статические списки: `integ2/scope/p1-ordinary.txt` (197),
@@ -64,18 +64,21 @@ E0425 network.rs:1268: ordinary START1 helper вызывает cfg-gated import 
 G1 check-tooling PASS, cost$0,108; `g1.failure-review.json`, bounded diagnostics.
 Предложен cfg-only import fix `integ2/g1-proposed-import-cfg-fix.patch`, NOT_APPLIED.
 Изначальный source audit пропустил cfg-availability; новое уточнение — `g1-import-availability-review.json`.
-G2/G3 ожидаются; positive integration proofs/macOS/full CI NOT_RUN.
+G2 ожидается; positive integration proofs/macOS/full CI NOT_RUN.
 
 | G3 control (сокращённо) | Ожидаемая location frozen source | Результат |
 |---|---|---|
-| merge::general_stable_direct_value_corruption_control_u64_n2 | merge.rs:841..845 count | PENDING |
-| network::insert_tail_contract_u64_start1_prefix_frame_control | network.rs:1257 prefix | PENDING |
-| network::insert_tail_contract_u64_start1_suffix_frame_control | network.rs:1260 suffix | PENDING |
+| merge::general_stable_direct_value_corruption_control_u64_n2 | merge.rs:841 count | PASS1/409, covers1/1 |
+| network::insert_tail_contract_u64_start1_prefix_frame_control | network.rs:1257 prefix | PASS1/424, covers1/1 |
+| network::insert_tail_contract_u64_start1_suffix_frame_control | network.rs:1260 suffix | PASS1/426, covers1/1 |
 
 Sortedness assert merge.rs:839 не должен отказать; каждый control должен иметь ровно один
 intended FAILED, достижимые covers и отсутствие иных отказов/OOB. План: `integ2/controls-plan.json`.
 Known expect_check — `This is a placeholder message`; фактические location/class сверяются вручную.
-Matcher mismatch не переименовывать в gate=true. G3 отправлен, controls пока не приняты; фактические locations ещё не reviewed.
+Matcher совпал; gate true не переименован из mismatch. G3 COMPLETE/gate true, Cloud SUCCESS; Kani exit1 ожидаем. Ровно3 intended FAILED/covers3/3,
+иных отказов/OOB нет; source locations сверены вручную: `integ2/g3.controls-review.json`.
+Sortedness839 не FAILED; отдельной явной SUCCESS строки в terse output нет.
+G3 cost$0,1215; tooling PASS; targeted helper warnings no match; sampled CBMC≤0,79GiB/OOM none_seen.
 
 Полные envelopes G1/G2/G3:60/90/60min; максимальные резервы $0,810/$1,215/$0,810=$2,835.
 Перед каждым dispatch обязательны свежий k1g budget, own UUID ledger и full-envelope check.

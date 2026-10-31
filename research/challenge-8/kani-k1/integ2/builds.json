@@ -1,9 +1,9 @@
 {
-  "status": "PARTIAL_G1_COMPILE_ERROR_G2_G3_AWAITING_WATCH",
+  "status": "PARTIAL_G1_COMPILE_ERROR_G3_CONTROLS_PASS_G2_AWAITING_WATCH",
   "max_builds": 3,
   "max_usd": 2.9,
-  "spent_usd": 0.108,
-  "reserved_usd": 2.025,
+  "spent_usd": 0.2295,
+  "reserved_usd": 1.215,
   "builds": [
     {
       "label": "g1",
@@ -55,11 +55,19 @@
       "work_minutes": 30,
       "total_envelope_minutes": 60,
       "max_reserved_usd": 0.81,
-      "status": "SUBMITTED",
+      "status": "SUCCESS",
       "submitted_recorded_at_utc": "2026-10-31T12:11:44.794395+00:00",
       "kani_jobs": 1,
       "harness_count": 3,
-      "harness_timeout_minutes": 10
+      "harness_timeout_minutes": 10,
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 1,
+      "controls_review": "PASS_THREE_INTENDED_FAILED_ALL_COVERS_LOCATION_CLASS_MANUALLY_MATCHED",
+      "cost_usd": 0.1215,
+      "tooling": "PASS",
+      "targeted_warnings": "NO_HELPER_WARNING_MATCH",
+      "reviewed_at_utc": "2026-10-31T12:23:05.748383+00:00"
     }
   ],
   "planned": [
@@ -85,9 +93,9 @@
   "planned_total_envelope_minutes": 210,
   "planned_max_reserve_usd": 2.835,
   "remaining_from_max_reserve_usd": 0.065,
-  "accounting": "Selected own UUIDs only; budget-after-g1.txt:3 builds, spent0.1080/reserved2.0250",
+  "accounting": "Own selected UUID ledger budget-after-g3.txt: spent0.2295/reserved1.2150",
   "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL.",
   "reviewed_source": "e0ff82577dc58950621dadc9c141d88a5821987f",
   "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
-  "watch_registration": "All3 registered; G1 delivered, G2/G3 pending; do not re-register existing watches"
+  "watch_registration": "G1/G3 notifications delivered and reviewed; G2 watch already registered, pending, do not re-register"
 }
