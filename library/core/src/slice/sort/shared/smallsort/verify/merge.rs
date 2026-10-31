@@ -1644,3 +1644,6 @@ define_direct_u8_n9_route_harness!(
     stable_direct_nonconst_u8_n9,
     stable_direct_nonconst_u8_n9_properties
 );
+
+#[cfg(kani_smallsort_controls)]
+mod geom16;
