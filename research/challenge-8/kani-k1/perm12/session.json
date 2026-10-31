@@ -11,8 +11,24 @@
   "g1_envelope_usd": 1.35,
   "g2_envelope_minutes": 70,
   "g2_envelope_usd": 0.945,
-  "spent_usd": 0,
+  "spent_usd": 0.675,
   "reserved_usd": 0,
-  "builds": [],
-  "go_status": "WAITING_FOR_CLAUDE_CODE"
+  "builds": [
+    {
+      "stage": "G1",
+      "uuid": "cf13853e-f3f0-4e0e-b4aa-cadc631e2c4b",
+      "request_id": "perm12-g1-measurement-20261031",
+      "request_sha": "d3c7db7b0108e030500960c41a302783b2401fc6",
+      "status": "FAILURE",
+      "reserved_usd": 0,
+      "actual_cost_usd": 0.675,
+      "finish_utc": "2026-10-31T13:41:04.387997Z",
+      "summary_status": "COMPLETE"
+    }
+  ],
+  "go_status": "GRANTED_BY_CLAUDE_CODE_FOR_d3c7db7b0108e030500960c41a302783b2401fc6",
+  "final_verdict": "STOP",
+  "proof": "PARTIAL",
+  "jobs3": "NOT_RUN_G1_GATE_STOP",
+  "remaining_budget_usd": 1.325
 }

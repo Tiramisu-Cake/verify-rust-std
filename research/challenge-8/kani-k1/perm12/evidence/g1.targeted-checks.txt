@@ -1,0 +1,20 @@
+92:97 | #![feature(coverage_attribute)]
+742:   Compiling unwind v0.0.0 (/workspace/src/library/unwind)
+744: --> /workspace/src/library/unwind/src/lib.rs:3:12
+752: --> /workspace/src/library/unwind/src/lib.rs:4:12
+1547:   Compiling panic_unwind v0.0.0 (/workspace/src/library/panic_unwind)
+1595:  --> /workspace/src/library/panic_unwind/src/lib.rs:18:12
+1603:  --> /workspace/src/library/panic_unwind/src/lib.rs:19:12
+1605:19 | #![feature(panic_unwind)]
+1609:  --> /workspace/src/library/panic_unwind/src/lib.rs:20:12
+1615:  --> /workspace/src/library/panic_unwind/src/lib.rs:21:12
+1621:  --> /workspace/src/library/panic_unwind/src/lib.rs:22:12
+1627:  --> /workspace/src/library/panic_unwind/src/lib.rs:24:12
+2314:368 | #![feature(panic_can_unwind)]
+2548:415 | #![feature(panic_unwind)]
+2671:26 | #![feature(panic_can_unwind)]
+2727: ** 2 of 3 cover properties satisfied (1 unreachable)
+2738: ** 2 of 3 cover properties satisfied (1 unreachable)
+2755: ** 2 of 3 cover properties satisfied (1 unreachable)
+2766: ** 3 of 3 cover properties satisfied
+2768:Failed Checks: assertion failed: count_matching_values(pre, probe) == count_matching_values(v, probe)

@@ -1,0 +1,91 @@
+30 | #![feature(f16)]
+   |            ^^^
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+   Compiling dummy v0.1.0 (/workspace/src/target/kani_verify_std)
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 03s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_trace_unpartitioned...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf...
+
+VERIFICATION RESULT:
+ ** 0 of 141 failed (5 unreachable)
+
+ ** 2 of 3 cover properties satisfied (1 unreachable)
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 379.85687s
+
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft...
+
+VERIFICATION RESULT:
+ ** 0 of 141 failed (5 unreachable)
+
+ ** 2 of 3 cover properties satisfied (1 unreachable)
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 269.27847s
+
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff...
+
+VERIFICATION RESULT:
+ ** 0 of 141 failed (5 unreachable)
+
+ ** 2 of 3 cover properties satisfied (1 unreachable)
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 14.510511s
+
+Checking harness slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_value_corruption_control...
+
+VERIFICATION RESULT:
+ ** 1 of 141 failed (4 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+Failed Checks: assertion failed: count_matching_values(pre, probe) == count_matching_values(v, probe)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network.rs", line 1518, in slice::sort::shared::smallsort::verify::network::perm12::check_permutation
+
+VERIFICATION:- FAILED
+Verification Time: 3.9003792s
+
+Checking harness slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_trace_unpartitioned
+Verification failed for - slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt
+Verification failed for - slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_value_corruption_control
+Verification failed for - slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12
+Complete - 3 successfully verified harnesses, 4 failures, 7 total.

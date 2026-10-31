@@ -1,0 +1,113 @@
+{
+  "build_id": "cf13853e-f3f0-4e0e-b4aa-cadc631e2c4b",
+  "request_sha": "d3c7db7b0108e030500960c41a302783b2401fc6",
+  "request_sha256": "5494af1c33010249b3439d2455a3e9a83e027a46fac3b637cd686463e49fc5cc",
+  "interface_status": "COMPLETE",
+  "cloud_status": "FAILURE",
+  "gate": false,
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "status": "TIMEOUT",
+      "verification_time_s": null,
+      "checks": null,
+      "covers": null,
+      "harness_wall_s": null,
+      "cbmc_pid": "9414",
+      "cbmc_peak_kib": 148220
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_trace_unpartitioned",
+      "status": "TIMEOUT",
+      "verification_time_s": null,
+      "checks": null,
+      "covers": null,
+      "harness_wall_s": null,
+      "cbmc_pid": "9252",
+      "cbmc_peak_kib": 165632
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff",
+      "status": "SUCCESS",
+      "verification_time_s": 14.510511,
+      "checks": "0/141",
+      "covers": "2/3",
+      "harness_wall_s": null,
+      "cbmc_pid": "9360",
+      "cbmc_peak_kib": 74944
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft",
+      "status": "SUCCESS",
+      "verification_time_s": 269.27847,
+      "checks": "0/141",
+      "covers": "2/3",
+      "harness_wall_s": null,
+      "cbmc_pid": "9306",
+      "cbmc_peak_kib": 128512
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf",
+      "status": "SUCCESS",
+      "verification_time_s": 379.85687,
+      "checks": "0/141",
+      "covers": "2/3",
+      "harness_wall_s": null,
+      "cbmc_pid": "9279",
+      "cbmc_peak_kib": 145496
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt",
+      "status": "TIMEOUT",
+      "verification_time_s": null,
+      "checks": null,
+      "covers": null,
+      "harness_wall_s": null,
+      "cbmc_pid": "9333",
+      "cbmc_peak_kib": 131680
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_value_corruption_control",
+      "status": "FAILED",
+      "verification_time_s": 3.9003792,
+      "checks": "1/141",
+      "covers": "3/3",
+      "harness_wall_s": null,
+      "cbmc_pid": "9387",
+      "cbmc_peak_kib": 120056
+    }
+  ],
+  "partition_proof": "PARTIAL_3_OF_4",
+  "optimization_gate": "STOP",
+  "jobs3": "NOT_RUN_G1_GATE_STOP",
+  "speedup": null,
+  "completed_case_sum_verification_s": 663.645851,
+  "sum_all_four_verification_s": null,
+  "sum_all_four_verification_lower_bound_s": 663.645851,
+  "max_completed_case_verification_s": 379.85687,
+  "max_all_case_verification_s": null,
+  "sum_case_harness_wall_s": null,
+  "max_case_harness_wall_s": null,
+  "whole_kani_wall_s": 2536.14,
+  "whole_cloud_wall_s": 2955.325376,
+  "whole_time_v_single_process_max_rss_kib": 1673140,
+  "sampled_total_rss_peak_kib": 1902820,
+  "sampled_cbmc_process_max_peak_kib": 165632,
+  "sampled_driver_process_max_peak_kib": 77084,
+  "count_control": {
+    "status": "FAILED",
+    "failed_checks": 1,
+    "total_checks": 141,
+    "description": "assertion failed: count_matching_values(pre, probe) == count_matching_values(v, probe)",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+    "line": 1518,
+    "class_reported_by_description": "assertion",
+    "covers": "3/3",
+    "intended_failure_observed": true,
+    "request_matcher_matches": false
+  },
+  "covers_limitation": "Positive rows 2/3 with one unreachable; source identifies CORRUPT=false branch. Terse output has no per-cover IDs.",
+  "missing_metrics": "No exact per-harness wall times in bounded interface; no numerical speedup with timeout baselines.",
+  "evidence_scope": "Interface COMPLETE 7/7 rows; theorem/evidence PARTIAL; no B2 or baseline machine proof credit.",
+  "sampled_case_cbmc_process_max_peak_kib": 145496
+}
