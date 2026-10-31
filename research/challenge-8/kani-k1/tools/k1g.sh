@@ -38,7 +38,7 @@ CACHE=${K1_CACHE:-${TMPDIR:-/tmp}/kani-k1-gcb}
 # margin for billing rounding.
 # Every build is priced by the pool it ran in; dispatch refuses a build whose timeout at its pool's price
 # would take used + reserved USD over CAP_USD. Raising the cap is the owner's decision.
-CAP_USD=73.96
+CAP_USD=88.96
 RESOURCE_MAX_TOTAL_MINUTES=720      # = kani_k1.py RESOURCE_MAX_TIMEOUT_MINUTES = gcb-k1.sh MAX_TOTAL_MINUTES
 # Prices from the owner's billing, 2026-10-27: private pools are billed per vCPU-minute and GB-minute;
 # Oct 1-27 Cloud Build cost $13.03 = E2 cpu $4.74 + E2 ram $8.29, almost all from 733 min of e2-highmem-4,
