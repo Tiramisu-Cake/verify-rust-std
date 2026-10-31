@@ -39,7 +39,7 @@ exclusivity и lifetime; layout массивов/MaybeUninit сохраняет 
 Aggregate не доказывает старую array-backed fixture, произвольный backing или transfer.
 
 Caller остаётся conditional на insert_tail/merge callee premises соответствующих доменов.
-Даже ускорение и SUCCESS всех callers этого не снимают. Возможный G2 проверяет листья
+Даже ускорение и SUCCESS всех callers этого не снимают. G2 проверяет листья
 на своих fixtures (insert scratch48, merge N14), без transfer к scratch48 caller.
 Новые items private opt-in; ordinary cfg не получает новых items/imports.
 Без локальной компиляции отсутствие новых предупреждений обеих cfg ещё не установлено.

@@ -1,0 +1,45 @@
+{
+  "build_id": "906b886b-481f-4312-8c40-e8c1684dd6d8",
+  "request_sha": "382139b06a31a97b245d6d6c5a767353faa53150",
+  "request_sha256": "da332c2fd39d4d1ea78971470da35349e013b7627d60561aabc49185430139d3",
+  "gate": true,
+  "verification": "COMPLETE",
+  "kind": "diagnostic",
+  "kani_jobs": 3,
+  "rows": {
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 191.8503,
+      "checks": "0/723",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1301236
+    },
+    "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_const_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 209.52907,
+      "checks": "0/721",
+      "covers": "1/1",
+      "cbmc_rss_kib": 1292448
+    },
+    "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_scratch": {
+      "status": "SUCCESS",
+      "vt_s": 356.4523,
+      "checks": "0/440",
+      "covers": "6/6",
+      "cbmc_rss_kib": 4553476
+    },
+    "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n14": {
+      "status": "SUCCESS",
+      "vt_s": 522.7337,
+      "checks": "0/435",
+      "covers": "1/1",
+      "cbmc_rss_kib": 2052492
+    }
+  },
+  "total_rss_peak_kib": 11176376,
+  "simultaneous_cbmc_rss_peak_kib": 7524072,
+  "driver_vmhwm_kib": 5774408,
+  "oom": "none_seen",
+  "timing_scope": "Shared jobs3 run; no single-harness speedup inference.",
+  "proof_scope": "Leaf proofs hold on their own fixtures. No transfer to scratch48 caller premises."
+}

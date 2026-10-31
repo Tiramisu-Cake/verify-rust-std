@@ -1,5 +1,5 @@
 {
-  "status": "G2_PREPARING",
+  "status": "COMPLETE",
   "branch": "experiment/kani-k1-corrfourteen-20261031",
   "base_sha": "7c0c345b857bca90cfebed4f204251b6e30eee9c",
   "library_commit": "2bc00fceee2d6afcaca8eb136e625064e5449f73",
@@ -37,10 +37,37 @@
       "manual_controls": "TARGETED",
       "start_time_utc": "2026-10-31T07:44:31.851508379Z",
       "finish_time_utc": "2026-10-31T08:09:10.121663Z"
+    },
+    {
+      "label": "g2",
+      "build_id": "906b886b-481f-4312-8c40-e8c1684dd6d8",
+      "request_id": "corr14-g2-const-leaves-jobs3-20261031",
+      "request_sha": "382139b06a31a97b245d6d6c5a767353faa53150",
+      "library_tree": "1a7403c9949e5749a9040127935f86b96cf66a27",
+      "pool": "k1-standard4",
+      "kind": "diagnostic",
+      "kani_jobs": 3,
+      "controls": true,
+      "envelope_minutes": 70,
+      "max_cost_usd": 0.945,
+      "submitted_recorded_utc": "2026-10-31T08:12:49.225132+00:00",
+      "status": "SUCCESS",
+      "actual_cost_usd": 0.2295,
+      "verification": "COMPLETE",
+      "gate": true,
+      "cost_source": "Two-build k1g budget total less G1 k1g budget cost.",
+      "start_time_utc": "2026-10-31T08:13:37.006543438Z",
+      "finish_time_utc": "2026-10-31T08:30:23.047738Z"
     }
   ],
-  "next": "Commit/push G2 request with frozen library, record current request SHA and preflight, dispatch, watch, end turn.",
+  "next": "Coordinator review only; session ends after CORR14 completion marker.",
   "previous_review_sha": "92370c188bf954681464b6176ef4e03c88405bac",
   "review_fix": "One private opt-in oracle checker shared by four positives and payload control.",
-  "g2_selected_stable": "sorted_permutation_stable_const_u8_n14"
+  "g2_selected_stable": "sorted_permutation_stable_const_u8_n14",
+  "closed_recorded_utc": "2026-10-31T08:32:46.287499+00:00",
+  "actual_total_cost_usd": 0.567,
+  "reserved_usd": 0,
+  "builds_used": 2,
+  "outcome": "Pilot complete: split lowers CBMC peak, summed VT increases; const selected; G2 all SUCCESS; G1 gate false retained due expected-check text mismatch.",
+  "remaining_premises": "Caller insert_tail/merge premises on actual caller domains are not discharged by G2 fixtures."
 }
