@@ -1,40 +1,41 @@
-# INTEG2 — PARTIAL: G1 compile error; G3 controls PASS; G2 watcher pending
+# INTEG2 — CLOSED / PARTIAL, three builds consumed and all results reviewed
 
-Work only in `/root/verify-rust-std-kani-integtwo`, branch `experiment/kani-k1-integtwo-20261031`.
-Coordinator Claude Code explicitly approved review source e0ff82577dc58950621dadc9c141d88a5821987f.
-GO is recorded in go.json; task is ../TASK-INTEG2.md.
-Library commit20aa864ad04e8d81b46d41024b75dc7aa1103dcf;
-frozen tree c522edd42ae67c385e1ee42a1c4d1bffb611c90b for all three builds.
-No semantic library changes without committed delta review/GO.
+Worktree /root/verify-rust-std-kani-integtwo, branch experiment/kani-k1-integtwo-20261031.
+Coordinator Claude Code; original task ../TASK-INTEG2.md.
+GO source e0ff82577dc58950621dadc9c141d88a5821987f; go.json.
+Library20aa864ad04e8d81b46d41024b75dc7aa1103dcf;
+frozen library tree c522edd42ae67c385e1ee42a1c4d1bffb611c90b for all three requests.
+No library changes after GO. Report ../RESULT-INTEG2.md <=100 lines.
 
-Actual request/source SHA/UUID/status and own accounting: builds.json.
-All3/3 slots consumed; no additional dispatch allowed.
-All three watches already registered. G1/G3 delivered and reviewed; G2 pending, do not re-register.
-G1 cda795d5-1cd1-4c32-a87e-778302647151 FAILURE/TOOL_ERROR, Kani exit1, no native inventory.
-Primary source error E0425 network.rs1268: ordinary START1 helper uses controls-gated import.
-Additional E0034 checked_sub/MAX diagnostics observed; causal resolution unestablished.
-G1 tooling PASS, cost0.108; G3 COMPLETE/gate true, three controls accepted, cost0.1215.
-G3 one intended FAILED each, covers3/3; actual source locations841/1257/1260 manually verified.
-See g3.controls-review.json; no other failures/OOB, sortedness839 not FAILED (no explicit SUCCESS).
-Own selected UUID ledger spent0.2295/reserved1.215; no additional slots.
-Evidence: g1.summary.md, g1.error-context.txt, g1.diagnostics.txt, g1.failure-review.json.
-Proposed fix g1-proposed-import-cfg-fix.patch only removes import cfg, NOT_APPLIED.
-Cfg availability source review in g1-import-availability-review.json; not a compiler/proof result.
-Initial source audit/unused forecast missed gated-import availability; preserve historical reports.
-Frozen library stays unchanged; any semantic delta requires committed review/GO.
-Next end turn awaiting G2 notification; then exact cfg-on479 inventory/bindings/pages and warnings review.
-Original T0 UTC11:58, deadline16:58 UTC/19:58 MSK, closing30min; never reset.
-Only k1-standard4; CAP_USD73.96/pin/toolchain/flags/lane unchanged.
+G1 cda795d5-1cd1-4c32-a87e-778302647151, source e0ff82577d:
+FAILURE/TOOL_ERROR, Kani exit1, ordinary inventory absent. Cost USD0.1080.
+E0425 network.rs1268: ordinary START1 group helper uses controls-gated set_value_probe import.
+Additional E0034 checked_sub/MAX diagnostics recorded; causal resolution not established.
+Initial source binding/unused forecast missed cfg-availability; historical reports retained.
+g1.failure-review.json/g1-import-availability-review.json document the finding.
+g1-proposed-import-cfg-fix.patch removes only the import cfg, NOT_APPLIED.
+Any library delta requires committed review/GO; this session has no remaining build slot.
 
-Source forecast ordinary197/cfg-on479/static P2=343; exact manifests in scope/.
-Source audit, helper-use forecast, scope check, static P2 apply/name check and prescribed rustfmt PASS.
-All native inventory/proof/compiler warnings on candidate remain unreviewed until terminal results.
-G3 controls accepted on frozen tree; actual review is g3.controls-review.json; original plan unchanged.
-Use only approved K-1 summary/inventory/peaks/log-grep/log-lines/check-tooling/budget readers.
-Review exact inventory sets and complete bounded pages/bindings; targeted compiler warnings.
-G3: exactly one intended count/prefix/suffix FAILED per harness, all covers, no other failures/OOB.
-Check actual location/class against frozen source manually; matcher mismatch stays gate=false.
-No local Rust/cargo/Kani/CBMC, no Actions/CircleCI/submission branches.
-Native P2/macOS/positive integration proofs/full CI remain NOT_RUN; coordinator owns later CI.
-Cfg-only fallback patches in cfg-fallbacks.json, not applied; no baseline duplicates resurrected.
-After evidence: update result<=100 lines/ledger, commit+push, final markers from task; stop after marker.
+G2 7a0cbca0-dda5-4cb2-a0ea-ad6f9112ad71, source580296b8f5:
+SUCCESS/COMPLETE/gate true, exact cfg-on479 names in six bound pages, no duplicates/missing/extra.
+g2.inventory-check.json binds request/source/pin/artifact/names hashes and complete coverage.
+Cost USD0.6075, targeted warnings no match; inventory resource/time fields MISSING.
+Native enumeration only, no positive verification credit.
+
+G3 fb2ec8a5-9870-4301-a892-ad5d48b74560, source00c7a1e00a:
+SUCCESS/COMPLETE/gate true, expected Kani exit1. Cost USD0.1215.
+Exactly one intended FAILED each, covers3/3, no other failures/OOB.
+Manually verified frozen-source count841/prefix1257/suffix1260 locations/classes.
+Sortedness839 not FAILED; terse output has no separate explicit sortedness SUCCESS line.
+g3.controls-review.json/g3.rows.txt/g3.summary.md bind the accepted negative controls.
+
+All three tooling checks PASS against GO. Only k1-standard4; pin/toolchain/flags/lane/CAP unchanged.
+Own exact UUID ledger budget-final.txt: spent USD0.8370 <=2.90, reserved0, builds3/3.
+All watches delivered and all terminal results reviewed; no pending watch/build and no more dispatch.
+Original T0 UTC11:58/deadline16:58 and closing30min preserved; closed within original window.
+No local Rust/cargo/Kani/CBMC, Actions/CircleCI, submission branches or positive integration proofs.
+P1-max197/static P2=343; full names/diffs/manifests in scope/, static P2 apply/name check PASS.
+A-u8 N5..8 retained; fallback patches in cfg-fallbacks.json NOT_APPLIED; no baselines resurrected.
+Native P2/macOS/full CI NOT_RUN. Candidate is not green; ordinary compile blocker must be resolved.
+Coordinator handoff: review/GO import fix, later ordinary inventory, macOS/cfg selection and full CI.
+After final commit/push and completion marker, do not continue this closed session.

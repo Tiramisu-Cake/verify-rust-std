@@ -1,9 +1,9 @@
 {
-  "status": "PARTIAL_G1_COMPILE_ERROR_G3_CONTROLS_PASS_G2_AWAITING_WATCH",
+  "status": "CLOSED_PARTIAL_G1_ORDINARY_COMPILE_BLOCKER",
   "max_builds": 3,
   "max_usd": 2.9,
-  "spent_usd": 0.2295,
-  "reserved_usd": 1.215,
+  "spent_usd": 0.837,
+  "reserved_usd": 0.0,
   "builds": [
     {
       "label": "g1",
@@ -40,8 +40,16 @@
       "work_minutes": 60,
       "total_envelope_minutes": 90,
       "max_reserved_usd": 1.215,
-      "status": "SUBMITTED",
-      "submitted_recorded_at_utc": "2026-10-31T12:10:39.227471+00:00"
+      "status": "SUCCESS",
+      "submitted_recorded_at_utc": "2026-10-31T12:10:39.227471+00:00",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 0,
+      "inventory_review": "PASS_EXACT_479_NAMES_COMPLETE_BOUND_PAGES",
+      "cost_usd": 0.6075,
+      "tooling": "PASS",
+      "targeted_warnings": "NO_MATCH",
+      "reviewed_at_utc": "2026-10-31T12:58:15.656683+00:00"
     },
     {
       "label": "g3",
@@ -93,9 +101,13 @@
   "planned_total_envelope_minutes": 210,
   "planned_max_reserve_usd": 2.835,
   "remaining_from_max_reserve_usd": 0.065,
-  "accounting": "Own selected UUID ledger budget-after-g3.txt: spent0.2295/reserved1.2150",
+  "accounting": "Final exact own-UUID ledger budget-final.txt; individual g1/g2/g3.cost.txt;3 builds/USD0.8370, reserved0",
   "dispatch_rule": "GO first; per-stage k1g.sh budget, own UUID spent/reserved, global cap, next full envelope plus closing reserve before dispatch. At most3 builds; retry replaces an unexecuted stage. G3 spent+reserved+0.810<=2.90 else NOT_RUN/PARTIAL.",
   "reviewed_source": "e0ff82577dc58950621dadc9c141d88a5821987f",
   "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
-  "watch_registration": "G1/G3 notifications delivered and reviewed; G2 watch already registered, pending, do not re-register"
+  "watch_registration": "All three watches delivered and all terminal results reviewed; no pending builds/watches",
+  "closed_at_utc": "2026-10-31T12:58:15.656683+00:00",
+  "remaining_build_slots": 0,
+  "overall_result": "PARTIAL",
+  "blocker": "G1 ordinary compilation E0425 gated import; E0034 also recorded. Import-only proposal NOT_APPLIED, new delta review/GO needed."
 }

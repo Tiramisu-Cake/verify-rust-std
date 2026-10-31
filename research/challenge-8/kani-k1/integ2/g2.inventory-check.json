@@ -1,0 +1,70 @@
+{
+  "status": "PASS_EXACT_479_NAME_SET",
+  "build": "7a0cbca0-dda5-4cb2-a0ea-ad6f9112ad71",
+  "source_sha": "580296b8f50e96e9cdce5c69c00590249e6d7edd",
+  "library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "controls": true,
+  "actual_count": 479,
+  "expected_count": 479,
+  "duplicates": 0,
+  "missing_names": [],
+  "unexpected_names": [],
+  "exact_name_set_equal": true,
+  "coverage_complete": true,
+  "pages": [
+    {
+      "file": "g2.inventory-0.txt",
+      "offset": 0,
+      "count": 80,
+      "next_offset": "80"
+    },
+    {
+      "file": "g2.inventory-80.txt",
+      "offset": 80,
+      "count": 80,
+      "next_offset": "160"
+    },
+    {
+      "file": "g2.inventory-160.txt",
+      "offset": 160,
+      "count": 80,
+      "next_offset": "240"
+    },
+    {
+      "file": "g2.inventory-240.txt",
+      "offset": 240,
+      "count": 80,
+      "next_offset": "320"
+    },
+    {
+      "file": "g2.inventory-320.txt",
+      "offset": 320,
+      "count": 80,
+      "next_offset": "400"
+    },
+    {
+      "file": "g2.inventory-400.txt",
+      "offset": 400,
+      "count": 79,
+      "next_offset": "done"
+    }
+  ],
+  "bindings": {
+    "request_id": "integ2-inventory-controls-20261031",
+    "request_sha256": "5d7efe6756de00a7f710e203727ca77b4fe64c412b12c4b1297490db4bfc2245",
+    "build_id": "7a0cbca0-dda5-4cb2-a0ea-ad6f9112ad71",
+    "head_sha": "580296b8f50e96e9cdce5c69c00590249e6d7edd",
+    "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+    "inventory_sha256": "0aa559a0cbe8484d738c3fef2738b844a28740f86d84b08195df18a406b180c0",
+    "names_sha256": "6640638d51e806ac43f21a62067e7cd7394bd0dade6e8c7aec57f26f3df5a96c",
+    "total": "479"
+  },
+  "expected_file": "scope/cfg-on.txt",
+  "expected_file_sha256": "5e2d1b1f7f80c1dab14fa2cb7120720ab031535aa6d92a66d88b20f6eda74271",
+  "positive_verification_credit": "None; enumeration only",
+  "memory_time_credit": "Inventory summary fields MISSING; no performance claim",
+  "artifact_binding": "K-1 reader checks inventory schema/count/hash against bound run summary on every page",
+  "tooling": "PASS_against_GO_source_e0ff82577d",
+  "targeted_unused_dead_code_smallsort_warnings": "NO_MATCH",
+  "reviewed_at_utc": "2026-10-31T12:58:15.656683+00:00"
+}

@@ -1,0 +1,55 @@
+RUSTFLAGS=--cfg kani_smallsort_controls
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`
+warning: `dummy` (manifest) generated 1 warning
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded proc-macro-error-attr v1.0.4
+  Downloaded proc-macro-error v1.0.4
+  Downloaded unicode-ident v1.0.24
+  Downloaded syn v1.0.109
+   Compiling proc-macro2 v1.0.107
+   Compiling version_check v0.9.5
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling syn v1.0.109
+   Compiling safety v0.1.0 (/workspace/src/library/contracts/safety)
+   Compiling compiler_builtins v0.1.160 (/workspace/src/library/compiler-builtins/compiler-builtins)
+   Compiling libc v0.2.189
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling proc-macro-error v1.0.4
+   Compiling object v0.39.1
+   Compiling std v0.0.0 (/workspace/src/library/std)
+   Compiling syn v2.0.119
+   Compiling core v0.0.0 (/workspace/src/library/core)
+warning: use of an unstable feature
+  --> /workspace/src/library/core/src/lib.rs:88:12
+   |
+88 | #![feature(asm_experimental_arch)]
+   |            ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: requested on the command line with `--force-warn unstable-features`
+
+warning: use of an unstable feature
+  --> /workspace/src/library/core/src/lib.rs:89:12
+   |
+89 | #![feature(bstr_internals)]
+   |            ^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+  --> /workspace/src/library/core/src/lib.rs:90:12
+   |
+90 | #![feature(cfg_target_has_reliable_f16_f128)]
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+  --> /workspace/src/library/core/src/lib.rs:91:12
+   |
+91 | #![feature(const_carrying_mul_add)]
+   |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+  --> /workspace/src/library/core/src/lib.rs:92:12
+   |
+92 | #![feature(const_cmp)]
