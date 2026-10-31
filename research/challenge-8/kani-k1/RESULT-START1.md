@@ -1,4 +1,4 @@
-# START1 — PARTIAL: G1 manual gate PASS, G2 подготовлен
+# START1 — PARTIAL: G1 manual gate PASS, G2 запущен
 
 Ветка `experiment/kani-k1-startone-20261031`; исходный SHA `ebd0eac322`.
 Library SHA `b98ee415fdfa69b683ebac7e627811b0ccb2aa1a`.
@@ -42,7 +42,8 @@ G1 envelope 90min/$1,215; только при gate успехе G2 diagnostic/jo
 три группы + ordinary `network_safety_unstable_u64_n0_to17`, envelope70min/$0,945.
 Полный максимум двух envelope160min/$2,160≤$2,2; G1 actual+G2max=$1,431.
 T0/окно и резерв закрытия30min записаны, перед G2 budget/остаток окна проверяются заново.
-Jobs3/перекрытие/OOM пока UNKNOWN; фактические UUID/request SHA будут записаны в start1/builds.json.
+G2 UUID `99bf7d2a-e175-437d-9ad7-7e3d525cf8f3`, source `bb7458fe52`; library tree прежний.
+Jobs3/перекрытие/OOM ожидаются; source/request/UUID ledger: start1/builds.json.
 
 Статика Python PASS: точный partition, tail covers, shared checker, неизменность исходных items.
 Заданный rustfmt --check exit0; изменённый .rs ≤100 колонок; git diff --check PASS.
