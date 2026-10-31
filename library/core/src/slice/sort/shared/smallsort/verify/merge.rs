@@ -1524,3 +1524,60 @@ fn drop_extra_drop_control_n2() {
     kani::cover(true, "extra-drop control entered");
     drop_route_properties::<2, false, false, 2>();
 }
+
+// Budget-gated direct u8 N9 routes with the shared full-value oracle and real merge bodies.
+#[cfg(kani_smallsort_controls)]
+fn general_direct_u8_n9_properties() {
+    set_value_probe::<u8>();
+    let mut v: [u8; 9] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u8;
+    super::super::small_sort_general(&mut v, &mut cmp);
+    assert_sorted_and_probe_preserved::<u8, _, 9>(&orig, &v, &mut cmp);
+    kani::cover(true, "general route properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_nonconst_u8_n9_properties() {
+    set_value_probe::<u8>();
+    let mut v: [u8; 9] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u8;
+    let mut scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u8, _, 9>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable route properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_const_u8_n9_properties() {
+    set_value_probe::<u8>();
+    let mut v: [u8; 9] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u8;
+    let mut scratch = [const { MaybeUninit::<u8>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u8, _, 9>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable route properties checked");
+}
+
+#[cfg(kani_smallsort_controls)]
+macro_rules! define_direct_u8_n9_route_harness {
+    ($name:ident, $body:ident) => {
+        #[kani::proof]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body();
+        }
+    };
+}
+
+#[cfg(kani_smallsort_controls)]
+define_direct_u8_n9_route_harness!(general_direct_u8_n9, general_direct_u8_n9_properties);
+#[cfg(kani_smallsort_controls)]
+define_direct_u8_n9_route_harness!(
+    stable_direct_nonconst_u8_n9,
+    stable_direct_nonconst_u8_n9_properties
+);
+#[cfg(kani_smallsort_controls)]
+define_direct_u8_n9_route_harness!(stable_direct_const_u8_n9, stable_direct_const_u8_n9_properties);
