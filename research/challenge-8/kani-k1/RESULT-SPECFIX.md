@@ -82,3 +82,44 @@ Artifacts: `specfix/TRANSFER.tsv` (342 + 16 omissions), `make_transfer.py`, `man
 `check_specfix.py`, `static-check-prebuild.json` / `static-check-final.json` (ok),
 `REVIEW.md`, `STAGEB-PLAN.md`, `g{1,2,3}.request.json|summary.md|tooling.txt|cost.txt|
 dispatch.txt|wait.txt`, `g1.extracted.txt`, `g2.inventory.txt`, budget files. No full/raw logs.
+
+## A2 — feasibility build of the final StageA tree (no raw adapter)
+
+Task `TASK-SPECFIX-A2.md`; request commit `f3086d0c4b` (library tree `31997f7781`, unchanged),
+`specfix-a2-20261031`, build `623e141b-4bf1-4929-ac16-0a077af7a798`, k1-standard4, FAILURE (gate
+False: row 9). Own cost $0.3105 (reserved $1.89, released); project $69.9135 / $88.96.
+check-tooling vs `30f77e8599` ok; head/pin/request sha match. cfg-on compile of the final tree
+**confirmed**: kani-compiler 1.85 GiB, ends ~62 s; all 11 harnesses ran. Run 15:40, 3.18 GiB.
+
+| Row | Harness (merge::specfix unless noted) | Status | VT s | cbmc RSS | Covers | Failure |
+|---|---|---|---|---|---|---|
+| 1 | swap_profile_four_positions_u8 | SUCCESS | 15.4 | 0.30 GiB | 5/5 | — |
+| 2 | swap_profile_cell_i32_n2 | SUCCESS | 19.0 | UNKNOWN¹ | 5/5 | — |
+| 3 | network::swap_profile_drop_u8_n2 | SUCCESS | 18.7 | UNKNOWN¹ | 5/5 | — |
+| 4 | sort4_profile_u64_n4 | SUCCESS | 65.7 | 0.90 GiB | 1/1 | — |
+| 5 | sort4_profile_bytes16_n4 | SUCCESS | 78.1 | 0.99 GiB | 1/1 | — |
+| 6 | insert_tail_profile_u8_prefix | SUCCESS | 159.8 | 1.68 GiB | 4/4 | — |
+| 7 | insert_tail_profile_u64_start1_tail2_to8 | SUCCESS | 287.1 | 3.18 GiB | 8/8 | — |
+| 8 | merge_profile_u8_n8 | SUCCESS | 158.2 | 1.43 GiB | 1/1 | — |
+| 9 | specfix_positive_regression | **FAILED** (exp. SUCCESS) | 17.1 | 0.26 GiB | 9/10, 1 unreach. | specfix.rs:535 |
+| 11 | specfix_full_value_checker_rejects_payload_change_u8 | FAILED = exp. | 3.1 | 0.09 GiB | 1/1 | specfix.rs:588 only |
+| 12 | specfix_probe_guard_rejects_t129 | FAILED = exp. | 0.1 | UNKNOWN¹ | 1/2, 1 unreach. | merge.rs:46 only |
+
+¹ not among the 8 sampled cbmc processes (2 s sampling). Checks: 0 failed in rows 1–8; exactly
+1 failed in 9, 11, 12. Row 11: key-order assert :586 holds, only the full-value check fails.
+Row 12: guard fails, no pointer/OOB check fails; the unreachable cover is the only one after
+the guard (`returns no match`; the one before it is satisfied) — domain rejection, not OOB.
+Row 9: only `specfix typed swap keeps full 129-byte values` (case 5, real `swap_if_less` on
+`[u8;129]` with `a[0] < b[0]`, no probe) fails; the other 6 cases have no failed check. Cause
+UNKNOWN (terse output, no trace, no rerun); no probe is involved; which cover is unreachable is
+not printed. Neither a library defect nor a Kani bug is claimed (SPECDIAG19 checked zero values via
+byte `same`). Next: case 5 as its own harness with a trace / smaller N (library edit → review).
+
+Meaning for the P1-clean gate: first proof evidence on the pin that the 8 profile PFCs (fn-pointer
+canonical guard, callback-free specs, real raw helper bodies) hold with all covers, and that
+controls 11/12 detect exactly their target. The final tree compiles cfg-on, so the G1/G3 blocker
+was row 10 alone. Not reached: positive regression red (case 5); the ordinary set was not
+rebuilt (G2 exact 197 holds for `31997f7781` by projection only); no consumer is migrated, so
+F03 stays OPEN and no P1/P2 proof credit transfers. P1-clean needs row 9 green or case 5
+diagnosed, then StageB migration and the coordinator's full CI.
+Artifacts: `specfix/a2.*`, `A2-PREBUILD.md`, `static-check-a2.json`, `budget-{before,after}-a2.txt`.

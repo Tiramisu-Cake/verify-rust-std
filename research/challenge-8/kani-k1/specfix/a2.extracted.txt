@@ -1,0 +1,41 @@
+== log-lines 2716 40
+Checking harness slice::sort::shared::smallsort::verify::merge::specfix::specfix_probe_guard_rejects_t129...
+
+VERIFICATION RESULT:
+ ** 1 of 90 failed (41 unreachable)
+
+ ** 1 of 2 cover properties satisfied (1 unreachable)
+
+Failed Checks: value probe supports at most 128 bytes per value
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge.rs", line 46, in slice::sort::shared::smallsort::verify::merge::matches_value_probe::<[u8; 129]>
+
+VERIFICATION:- FAILED
+Verification Time: 0.1053881s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8...
+
+VERIFICATION RESULT:
+ ** 1 of 389 failed (60 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: specfix full-value checker detects payload corruption
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs", line 588, in slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8
+
+VERIFICATION:- FAILED
+Verification Time: 3.1440346s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::specfix::specfix_positive_regression...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: panic_on_ord_violation -> specfix_abort_on_order_violation
+
+VERIFICATION RESULT:
+ ** 1 of 839 failed (98 unreachable)
+
+ ** 9 of 10 cover properties satisfied (1 unreachable)
+
+Failed Checks: specfix typed swap keeps full 129-byte values
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs", line 535, in slice::sort::shared::smallsort::verify::merge::specfix::typed_swap_t129
+
+VERIFICATION:- FAILED
+Verification Time: 17.11733s
+
