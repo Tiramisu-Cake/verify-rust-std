@@ -3,18 +3,20 @@
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
 //! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
 //! comparators.
-//! `correct` checks u8 prefix insertion; its fallback/general and scratch contracts are opt-in.
+//! `correct` checks u8 prefix insertion through the insertion profile.
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
-//! Ordinary contracts cover selected swap/sort4 types, merge u64 N2..8/u8 N2..9 and u8 prefix
-//! insertion. Scratch insertion and shifted u64 tails are opt-in, as are upper merge domains.
-//! Ordinary general/stable uses merge stubs at u64 N0..8/u8 N0..9; composition stays conditional.
-//! `stub_verified` requires matching type, comparator, length, allocation and active region.
-//! Fallback u64 composition depends on an opt-in base-region contract; exact-array fallback
-//! and scratch merge composition also need allocation-locality transfer not proved here.
+//! `swap_if_less`, `sort4_stable`, `insert_tail` and `bidirectional_merge` carry no generic
+//! contract: no order or frame summary holds for an arbitrary `FnMut`. Their contract proofs
+//! check closed profiles (`merge::specfix`): a tag fixes the element type, one canonical
+//! comparator and a full-value model; the profile runs the real helper, and a guard rejects any
+//! other comparator value. Ordinary profile proofs cover selected swap types and orders, sort4
+//! u64/[u8; 16], merge u64 N2..8/u8 N2..9 (u8 N9 also from scratch48), u8 prefix and u64
+//! start-1 insertion. No ordinary harness uses a verified stub; general/stable N0/N1 run real
+//! bodies. Stubbed composition and upper domains of the removed raw contracts are retired.
 //! Network/insertion safety checks execute real bodies. Network sortedness is machine checked;
 //! permutation beyond N8 uses a structural argument, not a machine-checked full-route theorem.
 //! The three `small_sort` trait methods have no requires/ensures; correctness uses harness asserts.

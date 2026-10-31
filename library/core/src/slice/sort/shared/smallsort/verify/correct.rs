@@ -1,14 +1,18 @@
-//! Correctness harnesses for full-width `u8` and `u64` arrays using verified insertion contracts.
+//! u8 prefix insertion through the checked `insert_tail_profile` (tag `LtU8`). The fallback,
+//! scratch and general/stable harnesses below used the removed raw `insert_tail`/merge contracts
+//! (stubs or contract proofs) and are retired; see poneclean/DEACTIVATED.tsv.
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::super::CopyOnDrop;
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::merge::lt_u64;
+use super::merge::specfix::{LtU8, Profile, insert_tail_profile};
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::merge::{lt_u8, set_value_probe};
 use crate::kani;
 
 // Fallback: u64 N8..16, u8 N9..16; verified insert_tail with matching key orders.
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: usize>(mut cmp: F) {
     const {
         assert!(N <= 16);
@@ -27,7 +31,7 @@ fn fallback_stub<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool, const N: u
     kani::cover(true, "fallback: sortedness and probe count checked");
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 macro_rules! fallback_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal) => {
         fallback_stub_harness!($name, $t, $cmp, $n, cadical);
@@ -42,57 +46,57 @@ macro_rules! fallback_stub_harness {
         }
     };
 }
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n8, u64, lt_u64, 8);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n16, u64, lt_u64, 16);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n9, u8, lt_u8, 9);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n16, u8, lt_u8, 16);
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n9, u64, lt_u64, 9);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n10, u64, lt_u64, 10);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n11, u64, lt_u64, 11);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n12, u64, lt_u64, 12);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n13, u64, lt_u64, 13);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n14, u64, lt_u64, 14);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u64_n15, u64, lt_u64, 15);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n10, u8, lt_u8, 10);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n11, u8, lt_u8, 11);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n12, u8, lt_u8, 12);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n13, u8, lt_u8, 13);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n14, u8, lt_u8, 14);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n15, u8, lt_u8, 15);
 
-/// u8 insertion-tail contract and suffix frame in a 17-element allocation, with tail indices
-/// 1..=16.
-#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
+/// u8 insertion-tail profile contract and suffix frame in a 17-element allocation, with tail
+/// indices 1..=16.
+#[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
 #[kani::solver(cadical)]
 #[kani::unwind(18)]
 fn contract_insert_tail_u8_prefix() {
-    set_value_probe::<u8>();
+    LtU8::set_probe(kani::any());
     let mut input: [u8; 17] = kani::any();
     let tail: usize = kani::any_where(|t: &usize| 1 <= *t && *t < 17);
     let before = input;
     let base = input.as_mut_ptr();
-    // SAFETY: valid same-allocation region. proof_for_contract supplies the
-    // sorted-prefix requires; the suffix is outside the modifies region.
+    // SAFETY: valid same-allocation region. proof_for_contract supplies the model-sorted
+    // prefix requires of the profile; the suffix is outside the modifies region.
     unsafe {
-        super::super::insert_tail(base, base.add(tail), &mut lt_u8);
+        insert_tail_profile::<LtU8>(base, base.add(tail), LtU8::CMP);
     }
     for i in tail + 1..17 {
         assert!(input[i] == before[i]);
@@ -103,7 +107,7 @@ fn contract_insert_tail_u8_prefix() {
     kani::cover(true, "u8 prefix: completion");
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]
 #[kani::stub_verified(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(18)]
@@ -120,7 +124,7 @@ fn reject_unsorted_prefix_insert_tail_u8_n3() {
 
 // Scratch tails in 48 elements at starts 0/6/7, lengths 5..8: general/stable N13..15 geometry
 // differs from 17-element allocation prefixes.
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
     use super::super::SMALL_SORT_GENERAL_SCRATCH_LEN;
     set_value_probe::<T>();
@@ -152,7 +156,7 @@ fn scratch_insert_contract<T: kani::Arbitrary + Copy + Eq, F: FnMut(&T, &T) -> b
     kani::cover(true, "scratch insertion: contract and frame checked");
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 macro_rules! scratch_contract_harness {
     ($name:ident, $t:ty, $cmp:ident) => {
         scratch_contract_harness!($name, $t, $cmp, cadical);
@@ -166,14 +170,14 @@ macro_rules! scratch_contract_harness {
         }
     };
 }
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 scratch_contract_harness!(contract_insert_tail_u64_scratch, u64, lt_u64, kissat);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 scratch_contract_harness!(contract_insert_tail_u8_scratch, u8, lt_u8);
 
 // Stable and general routes for `u8` and `u64` use full-width values at lengths 13 through 15.
 // The sort4 step remains real; verified contracts are used for insertion and the final merge.
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fn general_stable_stub<
     T: kani::Arbitrary + Copy + crate::slice::sort::shared::FreezeMarker,
     F: FnMut(&T, &T) -> bool,
@@ -207,7 +211,7 @@ fn general_stable_stub<
     kani::cover(!stable, "general/stable: direct general route checked");
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 macro_rules! general_stub_harness {
     ($name:ident, $t:ty, $cmp:ident, $n:literal, $solver:ident) => {
         #[kani::proof]
@@ -220,9 +224,9 @@ macro_rules! general_stub_harness {
         }
     };
 }
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 general_stub_harness!(sorted_permutation_general_stable_u64_n15, u64, lt_u64, 15, cadical);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 general_stub_harness!(sorted_permutation_general_stable_u8_n15, u8, lt_u8, 15, cadical);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 general_stub_harness!(sorted_permutation_general_stable_u8_n14, u8, lt_u8, 14, cadical);

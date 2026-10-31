@@ -1,46 +1,53 @@
-//! Exchange contracts and bounded real-body network, insertion and dispatch checks.
+//! Exchange profile proofs and bounded real-body network, insertion and dispatch checks.
+//! `swap_if_less` and `insert_tail` have no generic contract; their contract proofs check the
+//! closed profiles `swap_profile` / `insert_tail_profile` (merge::specfix), which run the real
+//! helper with one canonical comparator per tag. Profile tags for comparators owned here follow.
 
 #![allow(dead_code)]
 
-use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
-use super::merge::set_value_probe;
-use super::merge::{lt_i32, lt_u8, lt_u64};
+use super::super::UnstableSmallSortFreezeTypeImpl;
+use super::merge::specfix::{
+    LtI32, LtU8, LtU64, Profile, identity_profile, insert_tail_profile, swap_profile,
+};
 use crate::kani;
 use crate::mem::size_of;
 
-// Share key-order function items with merge contract proofs; equal keys may have different values.
+// Share key-order function items with merge profile proofs; equal keys may have different values.
 
-/// Positions anywhere in a 4-element array, in either order, distinct as the contract requires.
-fn exercise_swap_contract<T: kani::Arbitrary + Copy, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
-    let mut v: [T; 4] = kani::any();
+/// Positions anywhere in a 4-element array, in either order, distinct as the profile requires.
+fn exercise_swap_contract<P: Profile>()
+where
+    P::Elem: kani::Arbitrary + Copy,
+{
+    let mut v: [P::Elem; 4] = kani::any();
     let a: usize = kani::any_where(|&a| a < 4);
     let b: usize = kani::any_where(|&b| b < 4 && b != a);
     kani::cover(a == 0 && b == 3, "swap_if_less: a < b reachable");
     kani::cover(a == 3 && b == 0, "swap_if_less: a > b reachable");
     let (old_a, old_b) = (v[a], v[b]);
-    // SAFETY: `a` and `b` are distinct in-bounds positions of `v`.
-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
-    kani::cover(cmp(&old_b, &old_a), "swap_if_less: swap taken");
-    kani::cover(!cmp(&old_b, &old_a), "swap_if_less: swap not taken");
+    // SAFETY: `a` and `b` are distinct in-bounds positions of `v`; canonical comparator.
+    unsafe { swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP) };
+    kani::cover((P::CMP)(&old_b, &old_a), "swap_if_less: swap taken");
+    kani::cover(!(P::CMP)(&old_b, &old_a), "swap_if_less: swap not taken");
     kani::cover(true, "swap_if_less: end reached");
 }
 
-#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
 fn swap_contract_four_positions_u8() {
-    exercise_swap_contract::<u8, _>(lt_u8);
+    exercise_swap_contract::<LtU8>();
 }
 
-#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
 fn swap_contract_four_positions_i32() {
-    exercise_swap_contract::<i32, _>(lt_i32);
+    exercise_swap_contract::<LtI32>();
 }
 
-#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
 fn swap_contract_four_positions_u64() {
-    exercise_swap_contract::<u64, _>(lt_u64);
+    exercise_swap_contract::<LtU64>();
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]
 #[kani::stub_verified(super::super::swap_if_less)]
 fn control_swap_contract_precondition_u8() {
@@ -995,8 +1002,9 @@ network_correctness_cases!(network_correctness_u8_n8, u8, [8]);
 #[cfg(kani_smallsort_controls)]
 network_correctness_cases!(network_correctness_u64_n8, u64, [8]);
 
-// Exact two-element compare-exchange contract checks use the real body across the listed element
-// representations. The contract supplies its own bounds and distinct-index preconditions.
+// Exact two-element compare-exchange profile checks run the real body across the listed element
+// representations, one canonical comparator tag each. The profile supplies the bounds and
+// distinct-index preconditions.
 impl ArbitraryValue for u64 {
     fn arbitrary_value() -> Self {
         kani::any()
@@ -1020,61 +1028,81 @@ fn array_key_less<const M: usize>(a: &[u8; M], b: &[u8; M]) -> bool {
     a[0] < b[0]
 }
 
-fn swap_contract_fixed<T: ArbitraryValue, F: FnMut(&T, &T) -> bool>(mut cmp: F) {
-    let mut v: [T; 2] = crate::array::from_fn(|_| T::arbitrary_value());
-    let reverse: bool = kani::any();
-    let (a, b) = if reverse { (1, 0) } else { (0, 1) };
-    let taken = cmp(&v[b], &v[a]);
-    // SAFETY: a and b are distinct initialized writable elements of the live exact array.
-    unsafe {
-        swap_if_less(v.as_mut_ptr(), a, b, &mut cmp);
+// Profile tags for the comparators owned by this module. Each model is the full logical value:
+// the whole scalar or byte array, `Cell::get()`, and the whole DropValue payload. The private
+// DropValue profile stays with its owner type.
+identity_profile!(
+    /// `u8` with `strict_less::<u8>`, the full order.
+    StrictU8,
+    u8,
+    PROFILE_PROBE_STRICT_U8,
+    0,
+    strict_less::<u8>,
+    strict_less::<u8>
+);
+identity_profile!(
+    /// `u64` with `strict_less::<u64>`, the full order.
+    StrictU64,
+    u64,
+    PROFILE_PROBE_STRICT_U64,
+    0,
+    strict_less::<u64>,
+    strict_less::<u64>
+);
+identity_profile!(
+    /// `[u8; 16]` with `array_key_less::<16>`: key byte 0, the other bytes are payload.
+    KeyB16,
+    [u8; 16],
+    PROFILE_PROBE_KEY_B16,
+    [0; 16],
+    array_key_less::<16>,
+    array_key_less::<16>
+);
+identity_profile!(
+    /// `[u8; 17]` with `array_key_less::<17>`: key byte 0, the other bytes are payload.
+    KeyB17,
+    [u8; 17],
+    PROFILE_PROBE_KEY_B17,
+    [0; 17],
+    array_key_less::<17>,
+    array_key_less::<17>
+);
+
+static mut PROFILE_PROBE_CELL_I32: i32 = 0;
+
+/// `Cell<i32>` with `cell_value_less`; the model is `get()`, the comparator only reads.
+pub(crate) struct CellI32;
+
+impl Profile for CellI32 {
+    type Elem = crate::cell::Cell<i32>;
+    type Model = i32;
+    const CMP: fn(&Self::Elem, &Self::Elem) -> bool = cell_value_less;
+    fn model(x: &crate::cell::Cell<i32>) -> i32 {
+        x.get()
     }
-    kani::cover(reverse, "swap contract covers indices 1 and 0");
-    kani::cover(!reverse, "swap contract covers indices 0 and 1");
-    kani::cover(size_of::<T>() == 0 || taken, "swap branch or zero-sized value");
-    kani::cover(!taken, "no-swap branch");
-    kani::cover(true, "swap contract reached the end");
+    fn model_less(a: &i32, b: &i32) -> bool {
+        *a < *b
+    }
+    fn probe() -> i32 {
+        // SAFETY: single-threaded harness; no reference to the static is alive.
+        unsafe { *crate::ptr::addr_of!(PROFILE_PROBE_CELL_I32) }
+    }
+    fn set_probe(m: i32) {
+        // SAFETY: single-threaded harness; no reference to the static is alive.
+        unsafe { *crate::ptr::addr_of_mut!(PROFILE_PROBE_CELL_I32) = m }
+    }
 }
 
-macro_rules! swap_contract_exact_array_case {
-    ($name:ident, $t:ty, $cmp:expr) => {
-        #[kani::proof_for_contract(super::super::swap_if_less)]
-        #[kani::unwind(180)]
-        fn $name() {
-            swap_contract_fixed::<$t, _>($cmp);
-        }
-    };
-}
+static mut PROFILE_PROBE_DROP_U8: u8 = 0;
 
-swap_contract_exact_array_case!(swap_contract_u8_n2, u8, strict_less::<u8>);
-swap_contract_exact_array_case!(swap_contract_u64_n2, u64, strict_less::<u64>);
-#[cfg(kani_smallsort_controls)]
-swap_contract_exact_array_case!(swap_contract_bytes85_n2, [u8; 85], array_key_less::<85>);
-swap_contract_exact_array_case!(swap_contract_drop_u8_n2, DropValue, drop_value_less);
-swap_contract_exact_array_case!(swap_contract_cell_i32_n2, crate::cell::Cell<i32>, cell_value_less);
-// This zero-sized-type case is control-only because contract instrumentation does not support its
-// unallocated pointer representation.
-#[cfg(kani_smallsort_controls)]
-swap_contract_exact_array_case!(swap_contract_zero_sized_n2, (), zst_less);
-swap_contract_exact_array_case!(swap_contract_bytes16_n2, [u8; 16], array_key_less::<16>);
-swap_contract_exact_array_case!(swap_contract_bytes17_n2, [u8; 17], array_key_less::<17>);
+/// `DropValue` with `drop_value_less`; the model is the whole u8 payload. Snapshots copy the
+/// payload model only, so no destructor runs in a specification. Private like its element type.
+struct DropU8;
 
-// SPECFIX StageA: the DropValue profile stays with its private owner type; opt-in only.
-// The model is the full u8 payload; the canonical comparator only reads both payloads.
-#[cfg(kani_smallsort_controls)]
-static mut SPECFIX_PROBE_DROP: u8 = 0;
-
-#[cfg(kani_smallsort_controls)]
-fn specfix_drop_less(a: &DropValue, b: &DropValue) -> bool {
-    // SAFETY: both payloads are initialized; volatile reads retain the accesses.
-    let (x, y) = unsafe { (crate::ptr::read_volatile(&a.0), crate::ptr::read_volatile(&b.0)) };
-    x < y
-}
-
-#[cfg(kani_smallsort_controls)]
-impl super::merge::specfix::Profile for DropValue {
+impl Profile for DropU8 {
+    type Elem = DropValue;
     type Model = u8;
-    const CMP: fn(&DropValue, &DropValue) -> bool = specfix_drop_less;
+    const CMP: fn(&DropValue, &DropValue) -> bool = drop_value_less;
     fn model(x: &DropValue) -> u8 {
         x.0
     }
@@ -1083,24 +1111,57 @@ impl super::merge::specfix::Profile for DropValue {
     }
     fn probe() -> u8 {
         // SAFETY: single-threaded harness; no reference to the static is alive.
-        unsafe { *crate::ptr::addr_of!(SPECFIX_PROBE_DROP) }
+        unsafe { *crate::ptr::addr_of!(PROFILE_PROBE_DROP_U8) }
     }
     fn set_probe(m: u8) {
         // SAFETY: single-threaded harness; no reference to the static is alive.
-        unsafe { *crate::ptr::addr_of_mut!(SPECFIX_PROBE_DROP) = m }
+        unsafe { *crate::ptr::addr_of_mut!(PROFILE_PROBE_DROP_U8) = m }
     }
 }
 
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
-#[kani::unwind(180)]
-fn swap_profile_drop_u8_n2() {
-    super::merge::specfix::swap_profile_pair::<DropValue>([
-        DropValue(kani::any()),
-        DropValue(kani::any()),
-    ]);
+fn swap_contract_fixed<P: Profile>()
+where
+    P::Elem: ArbitraryValue,
+{
+    let mut v: [P::Elem; 2] =
+        crate::array::from_fn(|_| <P::Elem as ArbitraryValue>::arbitrary_value());
+    let reverse: bool = kani::any();
+    let (a, b) = if reverse { (1, 0) } else { (0, 1) };
+    let taken = (P::CMP)(&v[b], &v[a]);
+    // SAFETY: a and b are distinct initialized writable elements of the live exact array.
+    unsafe {
+        swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP);
+    }
+    kani::cover(reverse, "swap contract covers indices 1 and 0");
+    kani::cover(!reverse, "swap contract covers indices 0 and 1");
+    kani::cover(size_of::<P::Elem>() == 0 || taken, "swap branch or zero-sized value");
+    kani::cover(!taken, "no-swap branch");
+    kani::cover(true, "swap contract reached the end");
 }
-#[cfg(kani_smallsort_controls)]
+
+macro_rules! swap_contract_exact_array_case {
+    ($name:ident, $tag:ty) => {
+        #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+        #[kani::unwind(180)]
+        fn $name() {
+            swap_contract_fixed::<$tag>();
+        }
+    };
+}
+
+swap_contract_exact_array_case!(swap_contract_u8_n2, StrictU8);
+swap_contract_exact_array_case!(swap_contract_u64_n2, StrictU64);
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
+swap_contract_exact_array_case!(swap_contract_bytes85_n2, [u8; 85], array_key_less::<85>);
+swap_contract_exact_array_case!(swap_contract_drop_u8_n2, DropU8);
+swap_contract_exact_array_case!(swap_contract_cell_i32_n2, CellI32);
+// This zero-sized-type case is control-only because contract instrumentation does not support its
+// unallocated pointer representation.
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
+swap_contract_exact_array_case!(swap_contract_zero_sized_n2, (), zst_less);
+swap_contract_exact_array_case!(swap_contract_bytes16_n2, KeyB16);
+swap_contract_exact_array_case!(swap_contract_bytes17_n2, KeyB17);
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_exact_array_case!(swap_contract_bytes86_n2, [u8; 86], array_key_less::<86>);
 
 network_correctness_cases!(network_correctness_u8_n9, u8, [9]);
@@ -1195,19 +1256,21 @@ insertion_permutation_case!(insertion_permutation_u8_n17, u8, 17);
 #[cfg(kani_smallsort_controls)]
 insertion_permutation_case!(insertion_permutation_u64_n17, u64, 17);
 
-// Contract checks choose distinct positions in selected exact arrays of lengths 9 through 17.
-// The comparator is the same strict total order used by the network correctness harnesses.
-fn swap_contract_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
+// Profile checks choose distinct positions in selected exact arrays of lengths 9 through 17.
+// The tag is the strict total order used by the network correctness harnesses.
+fn swap_contract_indices<P: Profile, const N: usize>()
+where
+    P::Elem: kani::Arbitrary + Copy + PartialEq,
+{
     const { assert!(N >= 9 && N <= 17) };
-    let mut v: [T; N] = kani::any();
+    let mut v: [P::Elem; N] = kani::any();
     let pre = v;
     let a: usize = kani::any_where(|&i| i < N);
     let b: usize = kani::any_where(|&i| i < N && i != a);
-    let mut cmp = strict_less::<T>;
-    let taken = cmp(&v[b], &v[a]);
+    let taken = (P::CMP)(&v[b], &v[a]);
     // SAFETY: a and b are distinct in-bounds initialized writable elements of v.
     unsafe {
-        swap_if_less(v.as_mut_ptr(), a, b, &mut cmp);
+        swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP);
     }
     let mut i = 0;
     while i < N {
@@ -1229,45 +1292,45 @@ fn swap_contract_indices<T: kani::Arbitrary + Copy + Ord, const N: usize>() {
     kani::cover(true, "swap contract covers end reached");
 }
 
-#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
 #[kani::unwind(25)]
 fn swap_contract_u8_indices_n17() {
-    swap_contract_indices::<u8, 17>();
+    swap_contract_indices::<StrictU8, 17>();
 }
 
-#[kani::proof_for_contract(super::super::swap_if_less)]
+#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
 #[kani::unwind(25)]
 fn swap_contract_u64_indices_n17() {
-    swap_contract_indices::<u64, 17>();
+    swap_contract_indices::<StrictU64, 17>();
 }
 
 macro_rules! swap_contract_arbitrary_indices_case {
-    ($name:ident, $t:ty, $n:literal) => {
-        #[kani::proof_for_contract(super::super::swap_if_less)]
+    ($name:ident, $tag:ty, $n:literal) => {
+        #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
         #[kani::unwind(25)]
         fn $name() {
-            swap_contract_indices::<$t, $n>();
+            swap_contract_indices::<$tag, $n>();
         }
     };
 }
 
-swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, u8, 9);
-#[cfg(kani_smallsort_controls)]
+swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, StrictU8, 9);
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n12, u8, 12);
-swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, u8, 13);
-#[cfg(kani_smallsort_controls)]
+swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, StrictU8, 13);
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n16, u8, 16);
-swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, u64, 9);
-#[cfg(kani_smallsort_controls)]
+swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, StrictU64, 9);
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n12, u64, 12);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n13, u64, 13);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
 
 // Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
 // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fn insert_tail_value<const START: usize>() -> usize {
     set_value_probe::<u64>();
     let mut v: [u64; 17] = kani::any();
@@ -1306,15 +1369,15 @@ fn insert_tail_group_value<const START: usize, const LO: usize, const HI: usize>
         assert!(START == 1);
         assert!(START < LO && LO <= HI && HI < 17);
     };
-    set_value_probe::<u64>();
+    LtU64::set_probe(kani::any());
     let mut v: [u64; 17] = kani::any();
     let tail: usize = kani::any_where(|&t| LO <= t && t <= HI);
     let pre = v;
     let base = v.as_mut_ptr();
     // SAFETY: START == 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
-    // assumes precisely insert_tail's own requires, including the sorted prefix.
+    // assumes precisely the profile requires, including the model-sorted prefix.
     unsafe {
-        super::super::insert_tail(base.add(START), base.add(tail), &mut lt_u64);
+        insert_tail_profile::<LtU64>(base.add(START), base.add(tail), LtU64::CMP);
     }
     insert_tail_start1_frame::<START>(&v, &pre, tail);
     kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
@@ -1324,7 +1387,7 @@ fn insert_tail_group_value<const START: usize, const LO: usize, const HI: usize>
 
 macro_rules! insert_tail_start1_group_case {
     ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
-        #[kani::proof_for_contract(super::super::insert_tail)]
+        #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
         #[kani::unwind(25)]
         fn $name() {
             let tail = insert_tail_group_value::<1, $lo, $hi>();
@@ -1356,43 +1419,45 @@ insert_tail_start1_group_case!(
     [13, 14, 15, 16]
 );
 
+// Frame control on the profile contract: same body, then one deliberate frame corruption.
 #[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
 #[kani::unwind(25)]
 fn insert_tail_contract_u64_start1_prefix_frame_control() {
-    set_value_probe::<u64>();
+    LtU64::set_probe(kani::any());
     let mut v: [u64; 17] = kani::any();
     let tail = 2;
     let pre = v;
     let base = v.as_mut_ptr();
-    // SAFETY: begin = 1 < tail = 2 < 17; actual requires come from proof_for_contract.
+    // SAFETY: begin = 1 < tail = 2 < 17; the profile requires come from proof_for_contract.
     unsafe {
-        super::super::insert_tail(base.add(1), base.add(tail), &mut lt_u64);
+        insert_tail_profile::<LtU64>(base.add(1), base.add(tail), LtU64::CMP);
     }
     kani::cover(true, "START1 prefix control reaches corruption");
     v[0] = pre[0] ^ 1;
     insert_tail_start1_frame::<1>(&v, &pre, tail);
 }
 
+// Frame control on the profile contract: same body, then one deliberate frame corruption.
 #[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(super::super::insert_tail)]
+#[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
 #[kani::unwind(25)]
 fn insert_tail_contract_u64_start1_suffix_frame_control() {
-    set_value_probe::<u64>();
+    LtU64::set_probe(kani::any());
     let mut v: [u64; 17] = kani::any();
     let tail = 15;
     let pre = v;
     let base = v.as_mut_ptr();
-    // SAFETY: begin = 1 < tail = 15 < 17; actual requires come from proof_for_contract.
+    // SAFETY: begin = 1 < tail = 15 < 17; the profile requires come from proof_for_contract.
     unsafe {
-        super::super::insert_tail(base.add(1), base.add(tail), &mut lt_u64);
+        insert_tail_profile::<LtU64>(base.add(1), base.add(tail), LtU64::CMP);
     }
     kani::cover(true, "START1 suffix control reaches corruption");
     v[tail + 1] = pre[tail + 1] ^ 1;
     insert_tail_start1_frame::<1>(&v, &pre, tail);
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 macro_rules! insert_tail_contract_case {
     ($name:ident, $start:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::super::insert_tail)]
@@ -1411,55 +1476,55 @@ macro_rules! insert_tail_contract_case {
     };
 }
 
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start15, 15, [16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start14, 14, [15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start13, 13, [14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start12, 12, [13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start11, 11, [12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start10, 10, [11, 12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start9, 9, [10, 11, 12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start8, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(insert_tail_contract_u64_start7, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start6,
     6,
     [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start5,
     5,
     [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start4,
     4,
     [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start3,
     3,
     [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start2,
     2,
     [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 );
-#[cfg(kani_smallsort_controls)]
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 insert_tail_contract_case!(
     insert_tail_contract_u64_start1,
     1,

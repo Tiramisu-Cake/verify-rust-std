@@ -1,14 +1,17 @@
 //! Concrete specification diagnostics; selected explicitly, never ordinary suite entries.
 //! Intentionally invalid memory controls must only execute in Kani.
+//! Diagnostics of the removed raw helper contracts and predicates are retired (P1-CLEAN).
 //! `kani::assert` keeps each literal message in the property description: `assert!` in core
 //! reports a shared placeholder on the pinned Kani.
 
-use super::{CopyOnDrop, Probe, VALUE_PROBE_BYTES, lt_u64, matches_value_probe, set_value_probe};
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
+use super::{CopyOnDrop, set_value_probe};
+use super::{Probe, VALUE_PROBE_BYTES, lt_u64, matches_value_probe};
 use crate::cell::Cell;
 use crate::mem::{MaybeUninit, align_of, offset_of, size_of};
-use crate::slice::sort::shared::smallsort::{
-    bidirectional_merge, insert_tail, sort4_stable, swap_if_less,
-};
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
+use crate::slice::sort::shared::smallsort::{bidirectional_merge, insert_tail};
+use crate::slice::sort::shared::smallsort::{sort4_stable, swap_if_less};
 use crate::{kani, ptr};
 
 static READONLY_SOURCE: [u64; 4] = [6, 2, 4, 0];
@@ -39,6 +42,7 @@ unsafe fn initialize_pad_fields(p: *mut Pad) {
     }
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(140)]
 fn sort4_true_f_n4() {
@@ -56,6 +60,7 @@ fn sort4_true_f_n4() {
     kani::cover(true, "specdiag sort4 true F checked call returned");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(140)]
 fn insert_tail_true_f_n2() {
@@ -75,6 +80,7 @@ fn insert_tail_true_f_n2() {
     kani::cover(true, "specdiag insert true F checked call returned");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
 #[kani::unwind(140)]
 fn merge_true_f_n2() {
@@ -112,6 +118,7 @@ fn swap_fnmut_runtime_n2() {
     kani::cover(true, "specdiag runtime FnMut completion");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::swap_if_less)]
 #[kani::unwind(140)]
 fn swap_fnmut_contract_n2() {
@@ -147,6 +154,7 @@ fn initialized_memory_positive() {
     kani::cover(true, "specdiag initialized memory completion");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]
 #[kani::unwind(140)]
 fn uninit_tail_predicate_admission() {
@@ -169,6 +177,7 @@ fn uninit_tail_predicate_admission() {
     kani::cover(true, "specdiag uninitialized tail admission completion without tail read");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::insert_tail)]
 #[kani::unwind(140)]
 fn uninit_tail_actual_pfc() {
@@ -183,6 +192,7 @@ fn uninit_tail_actual_pfc() {
     kani::cover(true, "specdiag uninitialized tail PFC returned");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]
 fn uninit_sort4_predicate_admission() {
     let src = [MaybeUninit::<u64>::uninit(); 4];
@@ -209,6 +219,7 @@ fn uninit_sort4_predicate_admission() {
     kani::cover(true, "specdiag uninitialized sort4 admission completion without source read");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(140)]
 fn uninit_sort4_actual_pfc() {
@@ -239,6 +250,7 @@ fn readonly_sort4_source() {
     kani::cover(true, "specdiag readonly actual sort4 returned with full result");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]
 fn readonly_source_predicates() {
     let base = READONLY_SOURCE.as_ptr();
@@ -270,6 +282,7 @@ fn probe_t129_helper_oob() {
     kani::cover(!matched, "specdiag probe t129 result differed");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::sort4_stable)]
 #[kani::unwind(140)]
 fn probe_t129_actual_contract() {
@@ -299,6 +312,7 @@ fn padded_probe() {
     kani::cover(!matched, "specdiag padded probe result differed");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::swap_if_less)]
 #[kani::unwind(140)]
 fn padded_swap_actual_contract() {
@@ -338,6 +352,7 @@ fn invalid_bool_sensitivity() {
     kani::cover(!value, "specdiag invalid bool read result false");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::swap_if_less)]
 #[kani::unwind(140)]
 fn swap_t129_same_positive() {
@@ -348,6 +363,7 @@ fn swap_t129_same_positive() {
     kani::cover(true, "specdiag swap t129 same positive completion");
 }
 
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::swap_if_less)]
 #[kani::unwind(140)]
 fn swap_u64_pure_pfc_positive() {
