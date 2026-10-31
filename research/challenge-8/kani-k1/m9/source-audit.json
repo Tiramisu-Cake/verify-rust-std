@@ -1,0 +1,48 @@
+{
+  "assembly_library_sha": "d4e5a0907b4d3e73b251afbc32b1bcdca58c8b18",
+  "baseline": "97fdf0a21e517fc99ab0a5180bfb7ee3128685c9",
+  "cfg_forecast": {
+    "controls_delta": 5,
+    "ordinary_delta": 0
+  },
+  "existing_items": "exact except two guards extended to 6..=9",
+  "limitation": "source audit, not compiler inventory or measurement controls",
+  "new_opt_in_harnesses": {
+    "general_direct_u64_n9": [
+      "general_direct_u64_properties",
+      9
+    ],
+    "stable_direct_const_u64_n8": [
+      "stable_direct_const_u64_properties",
+      8
+    ],
+    "stable_direct_const_u64_n9": [
+      "stable_direct_const_u64_properties",
+      9
+    ],
+    "stable_direct_nonconst_u64_n9": [
+      "stable_direct_nonconst_u64_properties",
+      9
+    ],
+    "stable_direct_u64_n9": [
+      "stable_direct_u64_properties",
+      9
+    ]
+  },
+  "new_private_opt_in_helpers": [
+    "stable_direct_const_u64_properties",
+    "stable_direct_nonconst_u64_properties"
+  ],
+  "rust_max_columns": 100,
+  "source_sha256": "8f14d35a8e4f78d6beeb581e831ac0108fab8c767da29a5907c44b4971534ccc",
+  "stable_variants": "exact aggregate body except name, scratch allocation and borrow",
+  "status": "PASS",
+  "stubs": false,
+  "unchanged_from_assembly": [
+    "scratch_view",
+    "assert_sorted_and_probe_preserved",
+    "lt_u64",
+    "set_value_probe"
+  ],
+  "unwind": 34
+}
