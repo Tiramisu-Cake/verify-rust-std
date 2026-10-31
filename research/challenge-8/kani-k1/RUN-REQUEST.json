@@ -2,35 +2,40 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "assembly-measurement-controls-20261031",
+  "request_id": "corr14-g1-split-scratch-u8-n14-20261031",
   "kind": "measurement",
-  "purpose": "ASSEMBLY five controls: exactly one intended FAILED each, covers, no other failures. Count locations require manual summary check; terse absence of sortedness failure is not explicit SUCCESS. Work50+setup30 reserveUSD1.0800; three-build maxUSD3.105<=3.5. GO required.",
+  "purpose": "CORR14 matched u8 N14: combined, fixed general, stable nonconst/const/aggregate, payload and allocation-bounds controls. jobs1; 7x10+30=100min, maxUSD1.35; second optional70min/USD0.945, totalUSD2.295<=2.3. Frozen library; GO required.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_stable_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_general_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_nonconst_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_const_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::sorted_permutation_stable_aggregate_u8_n14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::correct::stable_aggregate_value_corruption_control_u8_n14",
       "expect": "FAILED",
       "expect_check": "This is a placeholder message"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64",
+      "name": "slice::sort::shared::smallsort::verify::correct::stable_aggregate_allocation_bounds_control_u8",
       "expect": "FAILED",
       "expect_check": "pointer outside object bounds"
     }
