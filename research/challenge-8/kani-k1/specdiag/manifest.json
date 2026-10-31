@@ -1,0 +1,318 @@
+{
+ "schema": "specdiag-manifest-v1",
+ "task": "research/challenge-8/kani-k1/TASK-SPECDIAG.md",
+ "base": "391804160e7a28f54b03f1bcff54be624d01a61c",
+ "cap_commit": "30f77e859903df14b442ff9294d4fbbd44827f20",
+ "base_library_tree": "b10a21505be73f26be50cd0e1c0f0c5f48773f9a",
+ "kani_pin": "9461e07af7ec929f050aa4192f29363c9be07779",
+ "toolchain": "nightly-2026-10-12",
+ "matcher_notes": [
+  "lane matcher: a located failed check whose description contains expect_check (kani_k1.py _row_meets)",
+  "new asserts use kani::assert so the literal message is the description; core assert! reports a shared placeholder on this pin (RESULT-C3A-source, RESULT-DIRECT)",
+  "contract requires/ensures descriptions are stringify! of the clause (pin kani_macros contracts/mod.rs); generic text, attribution by file:line",
+  "expect_check states the intended sensitivity; it is not a prediction that the profile detects it",
+  "actual class/location/count of failures is reviewed by hand against target; matcher hits alone are not attribution"
+ ],
+ "classification": {
+  "SUCCESS_on_FAILED_entry": "NOT_DETECTED_IN_PROFILE (UNKNOWN if the read is not bound to executed code)",
+  "non_target_failure": "not a negative control; matcher mismatch kept",
+  "compile_unsupported_timeout_unwind": "tool limitation, not a negative control"
+ },
+ "g1": {
+  "request": "research/challenge-8/kani-k1/specdiag/g1.request.json",
+  "entries": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ]
+ },
+ "g2": {
+  "request": "research/challenge-8/kani-k1/specdiag/g2.request.json",
+  "entries": [
+   6,
+   8,
+   10,
+   11,
+   15,
+   16,
+   17,
+   18
+  ],
+  "condition": "only if named in GO and actual own spent+reserved+0.729 <= 2.00 USD with the full window"
+ },
+ "entries": [
+  {
+   "index": 1,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::sort4_true_f_n4",
+   "mode": "PFC sort4_stable",
+   "expect": "FAILED",
+   "expect_check": "is_sorted(dst, 4, &is_less)",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:683 sort4 sortedness ensures",
+   "setup": "u64 [0;4] src, separate initialized dst4, always-true F, probe set_value_probe::<u64>",
+   "alternatives": [
+    "requires/precondition, count ensures (684), panic or OOB are not the F03 reproducer"
+   ],
+   "g2": false
+  },
+  {
+   "index": 2,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::insert_tail_true_f_n2",
+   "mode": "PFC insert_tail",
+   "expect": "FAILED",
+   "expect_check": "is_sorted(begin",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:600 insert_tail sortedness ensures",
+   "setup": "u64 [0;2], begin0/tail1, sorted prefix of length 1 is vacuous, always-true F",
+   "alternatives": [
+    "requires valid_sorted_tail, probe-count ensures (605) are non-target"
+   ],
+   "g2": false
+  },
+  {
+   "index": 3,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::merge_true_f_n2",
+   "mode": "PFC bidirectional_merge",
+   "expect": "FAILED",
+   "expect_check": "is_sorted_unrolled(dst",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:844 merge sortedness ensures",
+   "setup": "u64 [0;2] v, separate initialized dst2, singleton halves, always-true F",
+   "alternatives": [
+    "requires 840-842, count ensures 845, panic_on_ord_violation are non-target"
+   ],
+   "g2": false
+  },
+  {
+   "index": 4,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_runtime_n2",
+   "mode": "plain swap_if_less",
+   "expect": "SUCCESS",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs runtime observer calls==1",
+   "setup": "any initialized [u64;2], Cell<u8> counter closure returning constant false",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 5,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_contract_n2",
+   "mode": "PFC swap_if_less",
+   "expect": "FAILED",
+   "expect_check": "specdiag contract FnMut observer calls exactly one",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs contract observer after the checked call",
+   "setup": "same setup as 4 under the actual contract check",
+   "alternatives": [
+    "frame/assigns failure on the Cell write inside the body (modifies names only the two positions): a separate F03 effects/frame result; matcher mismatch kept if only it fails",
+    "covers calls>=2 and calls==3 are source-bound observations, not an exact callback total unless satisfied together with the observer failure"
+   ],
+   "g2": false
+  },
+  {
+   "index": 6,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive",
+   "mode": "plain",
+   "expect": "SUCCESS",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs can_dereference and volatile values",
+   "setup": "initialized u8 7, u64 19, bool true",
+   "alternatives": [],
+   "g2": true
+  },
+  {
+   "index": 7,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_predicate_admission",
+   "mode": "plain",
+   "expect": "SUCCESS",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs valid_sorted_tail admits uninitialized tail",
+   "setup": "MaybeUninit<u64>[2], only [0] written; allocation/alignment/can_write then predicate; no tail read",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 8,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc",
+   "mode": "PFC insert_tail",
+   "expect": "FAILED",
+   "expect_check": "Reading from an uninitialized pointer",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:605 old probe_count, else library/core/src/slice/sort/shared/smallsort.rs:614 body comparison read of tail",
+   "setup": "same region as 7, pure lt_u64, probe u64",
+   "alternatives": [
+    "G1 has no initialization instrumentation (kani_intrinsics.rs:213 is_initialized=true when uninit checks are off): SUCCESS = NOT_DETECTED_IN_PROFILE"
+   ],
+   "g2": true
+  },
+  {
+   "index": 9,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_predicate_admission",
+   "mode": "plain",
+   "expect": "SUCCESS",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs valid_sort4_regions admits uninitialized source",
+   "setup": "uninitialized MaybeUninit<u64>[4] source, writable dst4; alignment, can_write, disjointness, then predicate; no source read",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 10,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc",
+   "mode": "PFC sort4_stable",
+   "expect": "FAILED",
+   "expect_check": "Reading from an uninitialized pointer",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:701 sort4 body first comparison read of source (count ensures 684 reads it too)",
+   "setup": "uninitialized source4, initialized disjoint dst4, pure lt_u64, probe u64",
+   "alternatives": [
+    "G1 without init instrumentation: SUCCESS = NOT_DETECTED_IN_PROFILE"
+   ],
+   "g2": true
+  },
+  {
+   "index": 11,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source",
+   "mode": "plain sort4_stable",
+   "expect": "SUCCESS",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs sortedness, full values 0,2,4,6 and return",
+   "setup": "static [6,2,4,0], writable separate dst, lt_u64",
+   "alternatives": [],
+   "g2": true
+  },
+  {
+   "index": 12,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_source_predicates",
+   "mode": "plain",
+   "expect": "SUCCESS",
+   "finding": "F04",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs can_write(static) true per pin mem.rs:35-36, valid_sort4_regions, can_dereference",
+   "setup": "same static, no write to the source",
+   "alternatives": [
+    "can_write=true is geometry only, not permission to write a static"
+   ],
+   "g2": false
+  },
+  {
+   "index": 13,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_helper_oob",
+   "mode": "plain",
+   "expect": "FAILED",
+   "expect_check": "pointer outside object bounds",
+   "finding": "F05",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:70 byte read b+128 of the 128-byte probe",
+   "setup": "direct matches_value_probe::<[u8;129]> on [0;129], probe raw-zeroed, no set_value_probe",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 14,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_actual_contract",
+   "mode": "PFC sort4_stable",
+   "expect": "FAILED",
+   "expect_check": "pointer outside object bounds",
+   "finding": "F05",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:70 via library/core/src/slice/sort/shared/smallsort.rs:684 sort4 count ensures",
+   "setup": "T=[u8;129], four zero initialized T, separate dst, pure constant-false F, probe raw-zeroed",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 15,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe",
+   "mode": "plain",
+   "expect": "FAILED",
+   "expect_check": "Reading from an uninitialized pointer",
+   "finding": "F05",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:51 u64 word read over padding in matches_value_probe<Pad>",
+   "setup": "repr(C) Pad{u8,u32} built in place, fields written, padding untouched; layout asserted",
+   "alternatives": [
+    "G1 without init instrumentation: SUCCESS = NOT_DETECTED_IN_PROFILE"
+   ],
+   "g2": true
+  },
+  {
+   "index": 16,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_swap_actual_contract",
+   "mode": "PFC swap_if_less",
+   "expect": "FAILED",
+   "expect_check": "Reading from an uninitialized pointer",
+   "finding": "F05",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:401-402 nested same<Pad> byte comparison in swap ensures (397)",
+   "setup": "two valid Pad in place, padding untouched, pure constant-false F",
+   "alternatives": [
+    "failure in requires can_dereference (kani mem.rs:78 assert_is_initialized) or in the snapshot read before same: same-binding UNKNOWN",
+    "a G1 postcondition failure of same over nondeterministic padding is a separate logical observation, not an init-check result"
+   ],
+   "g2": true
+  },
+  {
+   "index": 17,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity",
+   "mode": "plain",
+   "expect": "FAILED",
+   "expect_check": "Reading from an uninitialized pointer",
+   "finding": "F09",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs volatile read of MaybeUninit<u8>",
+   "setup": "uninitialized u8 slot, two dependent value covers, no added failing assert",
+   "alternatives": [
+    "G1: SUCCESS = NOT_DETECTED_IN_PROFILE"
+   ],
+   "g2": true
+  },
+  {
+   "index": 18,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity",
+   "mode": "plain",
+   "expect": "FAILED",
+   "expect_check": "Invalid value of type",
+   "finding": "F09",
+   "target": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs volatile read of initialized byte 2 as bool",
+   "setup": "validity control, not an uninitialized-byte control",
+   "alternatives": [
+    "run-kani.sh:87 does not pass -Z valid-value-checks; neither G1 nor G2 adds it: SUCCESS = NOT_DETECTED_IN_PROFILE"
+   ],
+   "g2": true
+  },
+  {
+   "index": 19,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_t129_same_positive",
+   "mode": "PFC swap_if_less",
+   "expect": "SUCCESS",
+   "finding": "F05",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:401-402 same<[u8;129]> passes; probe not used by swap",
+   "setup": "initialized [[0u8;129];2], pure constant-false F, unwind 140 with unwinding assertions",
+   "alternatives": [],
+   "g2": false
+  },
+  {
+   "index": 20,
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_u64_pure_pfc_positive",
+   "mode": "PFC swap_if_less",
+   "expect": "SUCCESS",
+   "finding": "F03",
+   "target": "library/core/src/slice/sort/shared/smallsort.rs:397/432 activation, snapshot and ensures pipeline",
+   "setup": "any [u64;2], pure constant-false F",
+   "alternatives": [],
+   "g2": false
+  }
+ ]
+}

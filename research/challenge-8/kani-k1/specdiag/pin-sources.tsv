@@ -1,0 +1,13 @@
+pin_path	git_blob	used_for
+library/kani_core/src/mem.rs	42875177f699d98360a67bb1e050efdbb8296df7	can_write=aligned+inbounds (35-36); can_dereference adds assert_is_initialized+has_valid_value (73-80)
+kani-compiler/src/kani_middle/transform/kani_intrinsics.rs	7def650ad5fcbd9c8e404afacbd685d6070bbaf4	is_initialized returns true without -Z uninit-checks (213-214); has_valid_value body always generated
+kani-compiler/src/kani_middle/transform/check_uninit/mod.rs	dbb8c6ed087ecffb472d24ebc40182e5b81b0232	uninit check text "Undefined Behavior: Reading from an uninitialized pointer of type" (342)
+kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs	e4c2c6cf940661edec0710759b585d3f7816ec29	instrumented read sites
+kani-compiler/src/kani_middle/transform/check_values.rs	d134c26b1df7d7afc83bfb743bda88b99fef0d78	validity text "Undefined Behavior: Invalid value of type" (99,113); separate -Z valid-value-checks
+library/kani_macros/src/sysroot/contracts/mod.rs	af1c15cc53b4e01c4cd2126c266dbcb912e1c06a	ensures/requires asserted with stringify! of the clause
+library/kani_macros/src/sysroot/contracts/check.rs	73b8bfcdb6f0c04a4a6a14666476ab3a7c42c542	check closure, modifies wrapper
+library/kani_macros/src/sysroot/contracts/helpers.rs	1298e09f258f9d3f02653291851eba00f0d67216	contract helpers
+tests/expected/uninit/access-padding-uninit/access-padding-uninit.expected	da8d15b2dbb90771f0c3d4d4be0779a638030285	padding read text under uninit checks
+tests/expected/uninit/intrinsics/expected	e2ca608475a1a2dc6fb720e7b476642d5ca55424	compare_bytes/volatile/read uninit texts
+tests/expected/intrinsics/unaligned_volatile/out_of_bounds/expected	73c3fe902ea429e1e33f0bec960318af8be5d449	OOB text "dereference failure: pointer outside object bounds"
+# pin https://github.com/model-checking/kani/tree/9461e07af7ec929f050aa4192f29363c9be07779; blobs verified by git hash-object against the pin tree listing
