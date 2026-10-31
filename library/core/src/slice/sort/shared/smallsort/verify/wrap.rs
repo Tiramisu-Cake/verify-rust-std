@@ -7,9 +7,9 @@ use super::super::{
     StableSmallSortTypeImpl, UnstableSmallSortFreezeTypeImpl, UnstableSmallSortTypeImpl,
 };
 use crate::cell::Cell;
-use crate::kani;
 use crate::mem::MaybeUninit;
-use crate::ub_checks::{can_dereference, can_write};
+use crate::ub_checks::{can_dereference, can_write, same_allocation};
+use crate::{kani, ptr, slice};
 
 /// Freeze, one byte, neither Copy nor Drop: selects the default Freeze general implementation.
 #[repr(transparent)]
@@ -62,8 +62,22 @@ fn canonical_guard(ok: bool) -> bool {
     ok
 }
 
-fn pair_region<T>(v: &[T]) -> bool {
-    v.len() == 2 && can_dereference(v as *const [T]) && can_write(v as *const [T] as *mut [T])
+fn pair_region<T>(v: *mut T) -> bool {
+    can_dereference(ptr::slice_from_raw_parts(v, 2))
+        && can_write(ptr::slice_from_raw_parts_mut(v, 2))
+}
+
+// The raw interface must retain the exclusivity previously supplied by two &mut slices.
+fn stable_region(v: *mut Cell<u8>, scratch: &[MaybeUninit<Cell<u8>>]) -> bool {
+    pair_region(v)
+        && (scratch.is_empty()
+            || !same_allocation(v as *const Cell<u8>, scratch.as_ptr().cast::<Cell<u8>>())
+            || {
+                // SAFETY: both nonempty regions are live and in the same allocation.
+                // MaybeUninit<Cell<u8>> and Cell<u8> have identical size and alignment.
+                let d = unsafe { scratch.as_ptr().cast::<Cell<u8>>().offset_from(v) };
+                if d >= 0 { d as usize >= 2 } else { d.unsigned_abs() >= scratch.len() }
+            })
 }
 
 // Both helpers read only the two initialized input elements, never any scratch or uninit tail.
@@ -75,15 +89,28 @@ fn count<T: Model>(v: &[T], probe: u8) -> usize {
     (v[0].model() == probe) as usize + (v[1].model() == probe) as usize
 }
 
+// Raw pair arguments avoid conflicting generated captures of an &mut slice on the pinned
+// contract macros (G1 E0502). The raw span is always exactly N2; these adapters use the same
+// pure checker as the corruption control. Only the scalar count is captured in old().
+fn pair_sorted<T: Model>(v: *const T) -> bool {
+    // SAFETY: the wrapper requires establish a readable initialized two-element span.
+    sorted(unsafe { slice::from_raw_parts(v, 2) })
+}
+
+fn pair_count<T: Model>(v: *const T, probe: u8) -> usize {
+    // SAFETY: the wrapper requires establish a readable initialized two-element span.
+    count(unsafe { slice::from_raw_parts(v, 2) }, probe)
+}
+
 // Cell is !Freeze: the default Stable entry ignores scratch and runs insertion from index 1.
 // Only the input slice is writable in the frame; even initialized caller scratch is untouched.
-#[kani::requires(pair_region(v))]
+#[kani::requires(stable_region(v, scratch))]
 #[kani::requires(canonical(cmp, cell_less))]
-#[kani::modifies(v)]
-#[kani::ensures(|_| sorted(v))]
-#[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
-fn stable_cell(
-    v: &mut [Cell<u8>],
+#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 2))]
+#[kani::ensures(|_| pair_sorted(v))]
+#[kani::ensures(|_| old(pair_count(v, probe)) == pair_count(v, probe))]
+unsafe fn stable_cell(
+    v: *mut Cell<u8>,
     scratch: &mut [MaybeUninit<Cell<u8>>],
     cmp: fn(&Cell<u8>, &Cell<u8>) -> bool,
     probe: u8,
@@ -91,6 +118,8 @@ fn stable_cell(
     if !canonical_guard(canonical(cmp, cell_less)) {
         return;
     }
+    // SAFETY: the requires establish exactly two initialized writable elements.
+    let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <Cell<u8> as StableSmallSortTypeImpl>::small_sort(v, scratch, &mut is_less);
 }
@@ -98,13 +127,15 @@ fn stable_cell(
 // u8 is Freeze + Copy and has efficient swap: network route, insertion only at N2.
 #[kani::requires(pair_region(v))]
 #[kani::requires(canonical(cmp, byte_less))]
-#[kani::modifies(v)]
-#[kani::ensures(|_| sorted(v))]
-#[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
-fn unstable_byte(v: &mut [u8], cmp: fn(&u8, &u8) -> bool, probe: u8) {
+#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 2))]
+#[kani::ensures(|_| pair_sorted(v))]
+#[kani::ensures(|_| old(pair_count(v, probe)) == pair_count(v, probe))]
+unsafe fn unstable_byte(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
     if !canonical_guard(canonical(cmp, byte_less)) {
         return;
     }
+    // SAFETY: the requires establish exactly two initialized writable elements.
+    let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <u8 as UnstableSmallSortTypeImpl>::small_sort(v, &mut is_less);
 }
@@ -113,13 +144,15 @@ fn unstable_byte(v: &mut [u8], cmp: fn(&u8, &u8) -> bool, probe: u8) {
 // At N2 general copies two singleton halves, merges into v and forgets the panic copy-back guard.
 #[kani::requires(pair_region(v))]
 #[kani::requires(canonical(cmp, noncopy_less))]
-#[kani::modifies(v)]
-#[kani::ensures(|_| sorted(v))]
-#[kani::ensures(|_| old(count(v, probe)) == count(v, probe))]
-fn freeze_noncopy(v: &mut [NonCopyU8], cmp: fn(&NonCopyU8, &NonCopyU8) -> bool, probe: u8) {
+#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 2))]
+#[kani::ensures(|_| pair_sorted(v))]
+#[kani::ensures(|_| old(pair_count(v, probe)) == pair_count(v, probe))]
+unsafe fn freeze_noncopy(v: *mut NonCopyU8, cmp: fn(&NonCopyU8, &NonCopyU8) -> bool, probe: u8) {
     if !canonical_guard(canonical(cmp, noncopy_less)) {
         return;
     }
+    // SAFETY: the requires establish exactly two initialized writable elements.
+    let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut is_less);
 }
@@ -143,7 +176,8 @@ fn stable_cell_n2() {
     let scratch_len: usize = kani::any_where(|n: &usize| *n <= 2);
     // SAFETY: this slot was initialized above; Cell has no padding and get reads its full value.
     let scratch_before = unsafe { scratch[0].assume_init_ref() }.get();
-    stable_cell(&mut v[1..3], &mut scratch[..scratch_len], cell_less, probe);
+    // SAFETY: active pair in initialized backing4; separate valid scratch; canonical pointer.
+    unsafe { stable_cell(v[1..3].as_mut_ptr(), &mut scratch[..scratch_len], cell_less, probe) };
     kani::assert(v[0].get() == left && v[3].get() == right, "wrap stable input frame");
     // SAFETY: the default Cell route does not write scratch; only the input may be modified.
     let scratch_after = unsafe { scratch[0].assume_init_ref() }.get();
@@ -160,7 +194,8 @@ fn unstable_byte_n2() {
     let [left, a, b, right]: [u8; 4] = kani::any();
     let probe: u8 = kani::any();
     let mut v = [left, a, b, right];
-    unstable_byte(&mut v[1..3], byte_less, probe);
+    // SAFETY: active pair in initialized backing4; canonical pointer.
+    unsafe { unstable_byte(v[1..3].as_mut_ptr(), byte_less, probe) };
     kani::assert(v[0] == left && v[3] == right, "wrap unstable input frame");
     input_covers(a, b, probe);
     kani::cover(true, "wrap unstable u8 trait entry returns");
@@ -172,7 +207,8 @@ fn freeze_noncopy_n2() {
     let [left, a, b, right]: [u8; 4] = kani::any();
     let probe: u8 = kani::any();
     let mut v = [NonCopyU8(left), NonCopyU8(a), NonCopyU8(b), NonCopyU8(right)];
-    freeze_noncopy(&mut v[1..3], noncopy_less, probe);
+    // SAFETY: active pair in initialized backing4; canonical pointer.
+    unsafe { freeze_noncopy(v[1..3].as_mut_ptr(), noncopy_less, probe) };
     kani::assert(v[0].0 == left && v[3].0 == right, "wrap Freeze input frame");
     input_covers(a, b, probe);
     kani::cover(true, "wrap Freeze NonCopyU8 trait entry returns");
@@ -194,17 +230,20 @@ fn rejects_always_true() {
         0 => {
             let mut v = [Cell::new(a), Cell::new(b)];
             kani::cover(true, "wrap invalid stable comparator reaches guard");
-            stable_cell(&mut v, &mut [], always_true::<Cell<u8>>, probe);
+            // SAFETY: valid pair/scratch; only canonical identity is deliberately rejected.
+            unsafe { stable_cell(v.as_mut_ptr(), &mut [], always_true::<Cell<u8>>, probe) };
         }
         1 => {
             let mut v = [a, b];
             kani::cover(true, "wrap invalid unstable comparator reaches guard");
-            unstable_byte(&mut v, always_true::<u8>, probe);
+            // SAFETY: valid pair; only canonical identity is deliberately rejected.
+            unsafe { unstable_byte(v.as_mut_ptr(), always_true::<u8>, probe) };
         }
         _ => {
             let mut v = [NonCopyU8(a), NonCopyU8(b)];
             kani::cover(true, "wrap invalid Freeze comparator reaches guard");
-            freeze_noncopy(&mut v, always_true::<NonCopyU8>, probe);
+            // SAFETY: valid pair; only canonical identity is deliberately rejected.
+            unsafe { freeze_noncopy(v.as_mut_ptr(), always_true::<NonCopyU8>, probe) };
         }
     }
 }
