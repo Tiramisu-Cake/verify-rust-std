@@ -1,0 +1,199 @@
+{
+ "schema": "specfix-controls-manifest-v1",
+ "stage": "StageA",
+ "base": "d8f97fb2dfda3df9384ba80ccfedc6a328d69af9",
+ "harnesses": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::swap_profile_four_positions_u8",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "swap_profile<u8>, lt_u8 key order; mirrors network::swap_contract_four_positions_u8 (4 positions, both orders)"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::swap_profile_cell_i32_n2",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "swap_profile<Cell<i32>>, model get(); mirrors network::swap_contract_cell_i32_n2"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::network::swap_profile_drop_u8_n2",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "swap_profile<DropValue>, model payload, profile in owner module; mirrors network::swap_contract_drop_u8_n2"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::sort4_profile_u64_n4",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "sort4_profile<u64>; mirrors merge::sort4_contract_u64_n4 (reading lt_u64)"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::sort4_profile_bytes16_n4",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "sort4_profile<[u8;16]>; mirrors merge::sort4_contract_bytes16_n4 (reading lt_b16)"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile_u8_prefix",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "insert_tail_profile<u8>, [u8;17] begin 0 tail 1..16, suffix frame; mirrors correct::contract_insert_tail_u8_prefix"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile_u64_start1_tail2_to8",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "insert_tail_profile<u64>, begin 1 tails 2..8, prefix/suffix frame; mirrors network::insert_tail_contract_u64_start1_tail2_to8"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::merge_profile_u8_n8",
+   "expect": "SUCCESS",
+   "role": "profile PFC",
+   "property": "merge_profile<u8> N8; mirrors merge::merge_contract_u8_n8"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_positive_regression",
+   "expect": "SUCCESS",
+   "role": "positive regression",
+   "property": "7 cases: raw sort4/insert true F full values (SPECDIAG1/2), raw merge true F normal return (SPECDIAG3), runtime FnMut observer (SPECDIAG4), readonly/initialized admission (SPECDIAG6/11/12), typed swap 129 (SPECDIAG19), typed/byte oracle bridge u64"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_adapter_rejects_noncanonical_u8_n2",
+   "expect": "FAILED",
+   "expect_check": "specfix_canonical_comparator",
+   "role": "negative control",
+   "property": "real general route N2 through kani::stub(bidirectional_merge, merge_adapter)+stub_verified(merge_profile); canonical path asserts summary, always-true pointer must fail only the guard requires",
+   "check_locations": [
+    "merge/specfix.rs:295"
+   ],
+   "only_failure": true,
+   "expected_location_fn": "merge_profile",
+   "check_locations_note": "clause text is shared by the four profiles; only merge_profile is replaced (stub_verified) in this harness, so the failure must be at its requires line"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+   "expect": "FAILED",
+   "expect_check": "specfix full-value checker detects payload corruption",
+   "role": "negative control",
+   "property": "real sort4 then payload bit flip with keys sorted; only the full-value checker fails",
+   "check_locations": [
+    "merge/specfix.rs:611"
+   ],
+   "only_failure": true
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_probe_guard_rejects_t129",
+   "expect": "FAILED",
+   "expect_check": "value probe supports at most 128 bytes per value",
+   "role": "negative control",
+   "property": "matches_value_probe::<[u8;129]>: domain rejection by the new guard before any read; no OOB",
+   "check_locations": [
+    "merge.rs:46"
+   ],
+   "only_failure": true
+  }
+ ],
+ "specdiag_cases": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::sort4_true_f_n4",
+   "case": "SPECDIAG1",
+   "role_status": "old generic ordered ensures still false for always-true F (ordinary unchanged, F03 OPEN); new raw form: specfix_positive_regression case 0, no ordered claim"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::insert_tail_true_f_n2",
+   "case": "SPECDIAG2",
+   "role_status": "as above; raw form case 1"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::merge_true_f_n2",
+   "case": "SPECDIAG3",
+   "role_status": "as above; raw form case 2 (normal return only)"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_runtime_n2",
+   "case": "SPECDIAG4",
+   "role_status": "unchanged positive; mirrored by case 3"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_contract_n2",
+   "case": "SPECDIAG5",
+   "role_status": "old generic swap contract unchanged: extra spec F calls and Cell frame remain OPEN; profiles take fn pointers with no captured state, effectful F outside every profile"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive",
+   "case": "SPECDIAG6",
+   "role_status": "unchanged positive; profile admission in case 4"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_predicate_admission",
+   "case": "SPECDIAG7",
+   "role_status": "old predicate unchanged; profile tail_region adds declared can_dereference premise; stock is_initialized=true so not a detector (OPEN, not required to FAIL)"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc",
+   "case": "SPECDIAG8",
+   "role_status": "profile/model limitation: NOT_DETECTED_IN_PROFILE remains OPEN"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_predicate_admission",
+   "case": "SPECDIAG9",
+   "role_status": "as 7 for sort4_regions"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc",
+   "case": "SPECDIAG10",
+   "role_status": "profile/model limitation OPEN"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source",
+   "case": "SPECDIAG11",
+   "role_status": "unchanged positive; profile admits readonly source in case 4"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_source_predicates",
+   "case": "SPECDIAG12",
+   "role_status": "unchanged; profile source premise is can_dereference, not can_write"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_helper_oob",
+   "case": "SPECDIAG13",
+   "role_status": "now expected to fail at the guard (domain rejection) instead of OOB; G1 row 12 is the reviewed form; this diagnostic is not rerun"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_actual_contract",
+   "case": "SPECDIAG14",
+   "role_status": "UNKNOWN (timeout); guard now rejects before reads; not rerun"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe",
+   "case": "SPECDIAG15",
+   "role_status": "byte oracle padding unsupported (OPEN); profiles use typed full models"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_swap_actual_contract",
+   "case": "SPECDIAG16",
+   "role_status": "old byte same() unchanged in ordinary (OPEN); profile swap uses typed model equality"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity",
+   "case": "SPECDIAG17",
+   "role_status": "checker limitation (F09) OPEN"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity",
+   "case": "SPECDIAG18",
+   "role_status": "checker limitation (F09) OPEN"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_t129_same_positive",
+   "case": "SPECDIAG19",
+   "role_status": "unchanged positive; typed form case 5"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_u64_pure_pfc_positive",
+   "case": "SPECDIAG20",
+   "role_status": "unchanged positive"
+  }
+ ],
+ "controls_set_note": "exact cfg-on set is source-derived and checked natively by G3; specfix adds 11 merge::specfix harnesses and 1 network harness, all cfg(kani_smallsort_controls); ordinary set unchanged (G2)"
+}
