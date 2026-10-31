@@ -15,14 +15,16 @@
       "request_id": "typed-oracle-g1-20261031-r1",
       "source_sha": "cb7445b2b4d4b6714c3ac7cf7a1757314d463e8f",
       "library_tree": "702a552ae226f885fe03ef5e8af0a386848587ac",
-      "status": "SUBMITTED",
-      "own_reserve_usd": 1.62,
-      "actual_spent_usd": null,
-      "receipt_recorded_at_utc": "2026-10-31T12:53:12.981286+00:00"
+      "status": "FAILURE",
+      "own_reserve_usd": 0,
+      "actual_spent_usd": 0.54,
+      "receipt_recorded_at_utc": "2026-10-31T12:53:12.981286+00:00",
+      "startTime": "2026-10-31T12:53:42.927707637Z",
+      "finishTime": "2026-10-31T13:33:22.779046Z"
     }
   ],
-  "own_spent_usd": 0,
-  "own_reserved_usd": 1.62,
+  "own_spent_usd": 0.54,
+  "own_reserved_usd": 0,
   "g1": {
     "envelope_minutes": 120,
     "reserve_usd": 1.62,
@@ -35,7 +37,7 @@
     "condition": "Explicit GO; same library; own spent+reserved+0.810<=2; full time envelope plus closing; unused build slot",
     "authorization": "NOT_GRANTED: current coordinator GO explicitly authorizes G1"
   },
-  "state": "G1_SUBMITTED_AWAITING_WATCH",
+  "state": "CLOSED_PARTIAL_STOP",
   "GO": {
     "coordinator": "Claude Code",
     "source_sha": "cb7445b2b4d4b6714c3ac7cf7a1757314d463e8f",
@@ -49,5 +51,7 @@
     "After dispatch k1g.sh watch UUID, then end turn; no model polling.",
     "No semantic changes after GO without published delta-review/new GO."
   ],
-  "next": "After watcher wake: bounded summary, peaks with attribution, status, check-tooling against cap, budget UUID; no automatic retry/G2"
+  "next": "Coordinator review of final research commit; no additional work after TYPED completion marker unless newly instructed.",
+  "result": "PARTIAL: G1 eight positive SUCCESS; control count-vs-sortedness identity unresolved at shared macro site; gate=false",
+  "decision": "STOP: no consistent useful gain in required u64/A pairs; G2 optional NOT_RUN"
 }

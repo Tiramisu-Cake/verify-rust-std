@@ -1,0 +1,18 @@
+request_id=typed-oracle-g1-20261031-r1
+request_sha256=66c2af602d22e45d3756349143aa42258fdde2dbc244ae06111bb0c9a5596895
+build_id=c8365803-0352-4695-a86d-8ecee29b59fe
+head_sha=cb7445b2b4d4b6714c3ac7cf7a1757314d463e8f
+total=9
+offset=0
+count=9
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8	SUCCESS	190.83966	0/407	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_projected_generic	SUCCESS	274.23306	0/434	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_native	SUCCESS	245.28836	0/611	1/1
+slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8	SUCCESS	130.50938	0/405	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::stable_u64_n8_native	SUCCESS	127.12238	0/609	1/1
+slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n13	SUCCESS	434.6263	0/442	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::merge_u64_n13_projected_actual_pfc	SUCCESS	467.07452	0/469	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::probe_bridge_u64_u8	SUCCESS	1.3681898	0/190	1/1
+slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u64_n2	FAILED	5.6921606	1/613	1/1

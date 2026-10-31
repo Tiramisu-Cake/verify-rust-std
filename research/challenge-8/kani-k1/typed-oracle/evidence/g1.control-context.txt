@@ -1,0 +1,13 @@
+Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u64_n2...
+
+VERIFICATION RESULT:
+ ** 1 of 613 failed (67 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/typed_oracle.rs", line 68, in slice::sort::shared::smallsort::verify::merge::typed_oracle::assert_u64_properties::<for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u64}, 2>
+
+VERIFICATION:- FAILED
+Verification Time: 5.6921606s
+

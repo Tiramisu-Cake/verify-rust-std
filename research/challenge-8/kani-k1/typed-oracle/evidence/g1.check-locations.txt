@@ -1,0 +1,47 @@
+2716:Checking harness slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8...
+2718:VERIFICATION RESULT:
+2721: ** 1 of 1 cover properties satisfied
+2724:VERIFICATION:- SUCCESSFUL
+2725:Verification Time: 130.50938s
+2727:Checking harness slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8...
+2729:VERIFICATION RESULT:
+2732: ** 1 of 1 cover properties satisfied
+2735:VERIFICATION:- SUCCESSFUL
+2736:Verification Time: 190.83966s
+2738:Checking harness slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n13...
+2740:VERIFICATION RESULT:
+2743: ** 1 of 1 cover properties satisfied
+2746:VERIFICATION:- SUCCESSFUL
+2747:Verification Time: 434.6263s
+2749:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::value_corruption_control_u64_n2...
+2751:VERIFICATION RESULT:
+2754: ** 1 of 1 cover properties satisfied
+2756:Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+2757: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/typed_oracle.rs", line 68, in slice::sort::shared::smallsort::verify::merge::typed_oracle::assert_u64_properties::<for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::merge::lt_u64}, 2>
+2759:VERIFICATION:- FAILED
+2760:Verification Time: 5.6921606s
+2762:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::merge_u64_n13_projected_actual_pfc...
+2764:VERIFICATION RESULT:
+2767: ** 1 of 1 cover properties satisfied
+2770:VERIFICATION:- SUCCESSFUL
+2771:Verification Time: 467.07452s
+2773:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::stable_u64_n8_native...
+2775:VERIFICATION RESULT:
+2778: ** 1 of 1 cover properties satisfied
+2781:VERIFICATION:- SUCCESSFUL
+2782:Verification Time: 127.12238s
+2784:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_native...
+2786:VERIFICATION RESULT:
+2789: ** 1 of 1 cover properties satisfied
+2792:VERIFICATION:- SUCCESSFUL
+2793:Verification Time: 245.28836s
+2795:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::general_u64_n8_projected_generic...
+2797:VERIFICATION RESULT:
+2800: ** 1 of 1 cover properties satisfied
+2803:VERIFICATION:- SUCCESSFUL
+2804:Verification Time: 274.23306s
+2806:Checking harness slice::sort::shared::smallsort::verify::merge::typed_oracle::probe_bridge_u64_u8...
+2808:VERIFICATION RESULT:
+2811: ** 1 of 1 cover properties satisfied
+2814:VERIFICATION:- SUCCESSFUL
+2815:Verification Time: 1.3681898s
