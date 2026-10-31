@@ -1,10 +1,11 @@
-# START1 — PARTIAL: кандидат подготовлен, сборок ещё нет
+# START1 — PARTIAL: G1 запущен, результаты ожидаются
 
 Ветка `experiment/kani-k1-startone-20261031`; исходный SHA `ebd0eac322`.
 Library SHA `b98ee415fdfa69b683ebac7e627811b0ccb2aa1a`.
 Library tree `6008ba7c2349d4158e2898f323089c2ef61d373c`.
-Стадия: обязательный pre-build review/GO; dispatch не выполнен.
-Build ID отсутствует; стоимость своих сборок $0; лимит 2 сборки / $2,2.
+Review/GO для `68f2787033` получен; G1 dispatch выполнен на этом SHA.
+G1 UUID `e07bbced-be41-48cf-ad6a-0f46876e8462`; резерв $1,215, стоимость ещё неизвестна.
+Лимит 2 сборки / $2,2; T0 10:37:45 MSK, deadline14:37:45 MSK, закрытие30min.
 
 | Гармоника / tail-группа | Статус | VT | CBMC RSS | Covers | Checks |
 |---|---|---|---|---|---|

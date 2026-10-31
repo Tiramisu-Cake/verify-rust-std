@@ -11,6 +11,23 @@
   "total_envelope_minutes": 160,
   "total_max_usd": 2.16,
   "closure_reserve_minutes": 30,
-  "dispatch_authorization": "PENDING coordinator pre-build review/GO",
-  "builds": []
+  "dispatch_authorization": "Coordinator GO for 68f278703397a297acd9122ce718f13766aa3f38",
+  "builds": [
+    {
+      "id": "e07bbced-be41-48cf-ad6a-0f46876e8462",
+      "request_id": "start1-g1-measurement-20261031",
+      "source_sha": "68f278703397a297acd9122ce718f13766aa3f38",
+      "library_tree": "6008ba7c2349d4158e2898f323089c2ef61d373c",
+      "kind": "measurement",
+      "kani_jobs": 1,
+      "controls": true,
+      "entries": 6,
+      "timeout_minutes": 90,
+      "max_cost_usd": 1.215,
+      "recorded_at": "2026-10-31T07:38:24.795788+00:00",
+      "status": "SUBMITTED",
+      "cost_usd": null,
+      "control_location_review": "PENDING: shared checker network.rs1262/1265 required; old insert_tail_value locations do not count"
+    }
+  ]
 }
