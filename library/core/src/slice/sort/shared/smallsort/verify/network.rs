@@ -3,7 +3,6 @@
 #![allow(dead_code)]
 
 use super::super::{UnstableSmallSortFreezeTypeImpl, swap_if_less};
-#[cfg(kani_smallsort_controls)]
 use super::merge::set_value_probe;
 use super::merge::{lt_i32, lt_u8, lt_u64};
 use crate::kani;
