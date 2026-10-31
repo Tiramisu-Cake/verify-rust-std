@@ -16,8 +16,9 @@ Frozen library tree G1/G2: `3b06bd6d60eec19d3c7ff1a0133f8c8191f20980`.
 - Не запускать сборку без полного envelope + резерва закрытия в остатке окна.
 - Максимум 2 сборки/$3.30, суммарный полный envelope $3.24; CAP_USD не менять.
 - Проверка бюджета до review: 120 builds, used $64.2030, reserved $0, cap $73.96.
-- Свои build UUID: G1 `3b1d1233-bff3-42fc-87af-21d1e083cfb0`; G2 нет.
-- G1 запущен: фактическая стоимость пока неизвестна, резерв $2.025.
+- Свои builds: G1 `3b1d1233-bff3-42fc-87af-21d1e083cfb0`;
+  G2 `3a4f6f14-d7b1-41ad-9dd9-f17be6b8de92`.
+- G1 actual $0.3915; G2 запущен, резерв $1.0800; свой максимум $1.4715.
 - G1 request_id: `constwave-g1-measurement-pairs-20261031`; G2 ещё не создан.
 
 ## Кандидат и source audit
@@ -102,3 +103,18 @@ M9 не проходит no-regression по VT (+9.08%), в G2 NOT_RUN; общи
 G2 request_id `constwave-g2-diagnostic-jobs3-20261031`: только пять допущенных const.
 G2 diagnostic/jobs3/controls=true; envelope 5*10+30 = 80 мин/$1.0800.
 G1 actual + G2 reserve = $1.4715 < $3.30; это второй и последний build.
+
+## G2 — dispatch
+
+Source SHA: `d87156a7e33e753885d910614a17f855879643c9`; library tree прежний.
+Dispatch T0: `2026-10-31 10:43:43 UTC`.
+Осталось 256.3 мин до 15:00 UTC; envelope80 + закрытие30 помещаются.
+Budget перед dispatch: 122 builds, used $65.0130, reserved $0, cap $73.96.
+После G2 максимум used+reserved $66.0930. Свой G1 actual + G2 reserve $1.4715.
+G2 — второй и последний build; только пять допущенных const-entries.
+Build UUID G2: `3a4f6f14-d7b1-41ad-9dd9-f17be6b8de92`.
+Request ID: `constwave-g2-diagnostic-jobs3-20261031`.
+Dispatch успешен, k1-standard4; после него только watch и завершение хода.
+После уведомления: summary/peaks/check-tooling, реальные интервалы CBMC и OOM/missing.
+RESULT-CONSTWAVE.md содержит G1 и предварительные рекомендации; завершить после G2.
+Новых сборок больше не запускать. Итог PARTIAL из-за исключённой пары PFC N9.
