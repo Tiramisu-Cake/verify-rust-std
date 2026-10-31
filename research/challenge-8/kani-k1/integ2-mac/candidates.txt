@@ -1,0 +1,24 @@
+# <group> <expected covers or *> <harness>; a group is admitted or demoted as a whole (threshold 300 s on macOS)
+m9 1 slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9
+m9 1 slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9
+start1 9 slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8
+start1 6 slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12
+start1 6 slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16
+u8n9 1 slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9
+u8n9 1 slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9
+s68const 1 slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6
+s68const 1 slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7
+s68const 1 slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8
+btwoconst 2 slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2
+bthreeconst 2 slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3
+bfourconst 2 slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4
+bfiveconst 2 slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5
+retncten 3 slice::sort::shared::smallsort::verify::network::network_correctness_u8_n10
+retnceleven 3 slice::sort::shared::smallsort::verify::network::network_correctness_u8_n11
+retnctwelve 3 slice::sort::shared::smallsort::verify::network::network_correctness_u8_n12
+retipeleven 2 slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n11
+retrsthree 4 slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n3
+retrsfour 4 slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n4
+retrsfive 4 slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n5
+retrssix 4 slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n6
+retrsseven 4 slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n7

@@ -1,0 +1,174 @@
+# Kani K-1 experiment, macOS autoharness: the organizers' kani_autoharness job (kani.yml) on macos-latest only, on a
+# fixed candidate. Started by workflow_dispatch on an experiment/kani-k1-* branch by the coordinator only, one run at
+# a time. The verification command is extracted literally from kani.yml at the checked-out SHA; additions are a
+# ps/sysctl memory sampler running beside it and an on-runner SmallSort summary against an exact expected name list.
+name: SmallSort Kani K1 macOS autoharness
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smallsort-kani-k1
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  K1_TOOLS: research/challenge-8/kani-k1/tools
+  K1_MAC: research/challenge-8/kani-k1/integ2-mac
+  K1_OUT: k1-out
+
+jobs:
+  autoharness:
+    name: macos-latest autoharness
+    if: startsWith(github.ref, 'refs/heads/experiment/kani-k1-')
+    runs-on: macos-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - name: Bind inputs, record identities and extract the organizers' command
+        run: |
+          mkdir -p "$K1_OUT/summary"
+          # The candidate must be the reviewed one: library tree and the exact inputs are pinned in binding.txt.
+          want_tree=$(sed -n 's/^library_tree=//p' "$K1_MAC/binding.txt")
+          test -n "$want_tree" && test "$(git rev-parse HEAD:library)" = "$want_tree"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          # No K-1 lane variables may leak into the organizers' command.
+          if env | grep -E '^(RUSTFLAGS|RUSTDOCFLAGS|KANI_[A-Z_]*|WORKER_[A-Z_]*)=' ; then echo "unexpected env"; exit 1; fi
+          groups=(); while IFS= read -r g; do groups+=(--group "$g"); done < <(sed -n 's/^group=//p' "$K1_MAC/binding.txt")
+          python3 -B "$K1_TOOLS/mac_autoharness.py" check-inputs --expected "$K1_MAC/expected.txt" \
+            --expected-count "$(sed -n 's/^expected_count=//p' "$K1_MAC/binding.txt")" \
+            --candidates "$K1_MAC/candidates.txt" "${groups[@]}"
+          python3 -B "$K1_TOOLS/mac_autoharness.py" extract --workflow .github/workflows/kani.yml \
+            --out "$K1_OUT/autoharness.sh" > "$K1_OUT/command.sha256"
+          {
+            echo "head_sha=$GITHUB_SHA"
+            echo "library_tree=$(git rev-parse HEAD:library)"
+            cat "$K1_MAC/binding.txt"
+            for f in .github/workflows/smallsort-kani-k1.yml .github/workflows/kani.yml scripts/run-kani.sh \
+                     tool_config/kani-version.toml "$K1_TOOLS/mac_autoharness.py" "$K1_TOOLS/kani_k1.py" \
+                     "$K1_MAC/expected.txt" "$K1_MAC/candidates.txt" "$K1_MAC/binding.txt"; do
+              echo "sha256:$f=$(shasum -a 256 "$f" | cut -d' ' -f1)"
+            done
+            echo "command_body_sha256=$(cat "$K1_OUT/command.sha256")"
+            echo "kani_commit_declared=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/')"
+            git submodule status | sed 's/^ *-*/submodule=/'
+            echo "run_id=$GITHUB_RUN_ID"
+            echo "run_attempt=$GITHUB_RUN_ATTEMPT"
+            echo "image=${ImageOS:-} ${ImageVersion:-}"
+            echo "arch=$(uname -m)"
+            echo "ncpu=$(sysctl -n hw.ncpu)"
+            echo "memsize=$(sysctl -n hw.memsize)"
+            echo "cpu=$(sysctl -n machdep.cpu.brand_string)"
+            echo "macos=$(sw_vers -productVersion)"
+          } | tee "$K1_OUT/summary/identities.txt"
+
+      - name: Run Kani Verification (organizers' command, timed)
+        id: kani
+        run: |
+          # Every 5 s: RSS per command name from ps (KiB), the sum of RSS and the swap in use (maxima).
+          cat > "$K1_OUT/macsampler.py" <<'PY'
+          import os, re, subprocess, sys, time
+          out = sys.argv[1]; t0 = time.monotonic(); peaks = {}; tot_peak = n = ps_errors = 0
+          swap_peak = None; cbmc_max = 0; cbmc3_samples = 0
+          while True:
+              now = int(time.monotonic() - t0); tot = 0
+              r = subprocess.run(["ps", "-A", "-o", "rss=,comm="], capture_output=True, text=True)
+              if r.returncode != 0:
+                  ps_errors += 1
+              cbmc = 0
+              for line in r.stdout.splitlines():
+                  parts = line.split(None, 1)
+                  if len(parts) != 2 or not parts[0].isdigit():
+                      continue
+                  rss = int(parts[0]); tot += rss
+                  name = re.sub(r"[^A-Za-z0-9._+-]", "_", os.path.basename(parts[1].strip()))[:40] or "?"
+                  cbmc += name == "cbmc"
+                  e = peaks.setdefault(name, [0, now, now]); e[0] = max(e[0], rss); e[2] = now
+              tot_peak = max(tot_peak, tot); cbmc_max = max(cbmc_max, cbmc); cbmc3_samples += cbmc >= 3
+              sw = subprocess.run(["sysctl", "-n", "vm.swapusage"], capture_output=True, text=True)
+              m = re.search(r"used = ([0-9.]+)M", sw.stdout) if sw.returncode == 0 else None
+              if m:
+                  swap_peak = max(swap_peak or 0, int(float(m.group(1))))
+              n += 1
+              # cmd=… peak_kb is the largest single process with that basename (not a sum, not VmHWM);
+              # total_rss_peak_kb sums every host process (shared pages, background included).
+              lines = ["interval_ms=5000", f"samples={n}", f"elapsed_s={now}", f"ps_errors={ps_errors}",
+                       f"total_rss_peak_kb={tot_peak}",
+                       f"swap_used_peak_mb={'MISSING' if swap_peak is None else swap_peak}",
+                       f"cbmc_processes_max={cbmc_max}", f"samples_with_three_or_more_cbmc={cbmc3_samples}"]
+              lines += [f"cmd={k} peak_kb={v[0]} first_s={v[1]} last_s={v[2]}" for k, v in sorted(peaks.items()) if v[0] >= 102400]
+              with open(out + ".tmp", "w") as f:
+                  f.write("\n".join(lines) + "\n")
+              os.replace(out + ".tmp", out)
+              time.sleep(5)
+          PY
+          python3 -B "$K1_OUT/macsampler.py" "$K1_OUT/summary/peaks.txt" &
+          sampler=$!
+          trap 'kill "$sampler" 2>/dev/null || true' EXIT
+          start=$(date +%s)
+          set +e
+          # Same shell options as the organizers' step (GitHub bash default: -e -o pipefail).
+          bash --noprofile --norc -eo pipefail "$K1_OUT/autoharness.sh"
+          rc=$?
+          set -e
+          { echo "wall_s=$(( $(date +%s) - start ))"; echo "kani_rc=$rc"
+            declared=$(grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/')
+            actual=$(git -C kani_build rev-parse HEAD 2>/dev/null || echo MISSING)
+            echo "kani_checkout=$actual"
+            [ "$actual" = "$declared" ] && echo "kani_checkout_matches_declared=true" || echo "kani_checkout_matches_declared=false"
+            echo "kani_toolchain=$( (cd kani_build 2>/dev/null && rustup show active-toolchain 2>/dev/null | head -1) || echo MISSING)"
+          } | tee -a "$K1_OUT/summary/identities.txt"
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit "$rc"
+
+      - name: Summarize SmallSort rows
+        id: summary
+        if: always()
+        run: |
+          log=autoharness-verification.log
+          if [ ! -f "$log" ] && [ -f "$log.gz" ]; then gunzip -k "$log.gz"; fi
+          groups=(); while IFS= read -r g; do groups+=(--group "$g"); done < <(sed -n 's/^group=//p' "$K1_MAC/binding.txt")
+          set +e
+          python3 -B "$K1_TOOLS/mac_autoharness.py" summarize --log "$log" --expected "$K1_MAC/expected.txt" \
+            --candidates "$K1_MAC/candidates.txt" "${groups[@]}" --threshold 300 \
+            --exit-code "${{ steps.kani.outputs.rc || 'MISSING' }}" \
+            --identities "$K1_OUT/summary/identities.txt" --out-dir "$K1_OUT/summary"
+          prc=$?
+          set -e
+          cp "$K1_OUT/summary/identities.txt" "$K1_OUT/summary/identities.final.txt" 2>/dev/null || true
+          [ -f "$K1_OUT/summary/summary.md" ] && cat "$K1_OUT/summary/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          grep -E '^(total_rss_peak_kb|swap_used_peak_mb|cbmc_processes_max|samples_with_three_or_more_cbmc|ps_errors)=' \
+            "$K1_OUT/summary/peaks.txt" >> "$GITHUB_STEP_SUMMARY" || true
+          if [ -f "$log" ] && [ ! -f "$log.gz" ]; then gzip -k "$log"; fi
+          echo "parser_rc=$prc" | tee -a "$K1_OUT/summary/identities.txt"
+          # Integrity failure (rc 3) or a parser crash fails this step; the Kani outcome is the step above.
+          exit "$prc"
+
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-mac-autoharness-summary
+          path: k1-out/summary/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload log (bounded reads only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kani-k1-mac-autoharness-log
+          path: autoharness-verification.log.gz
+          if-no-files-found: warn
+          retention-days: 30
