@@ -5,6 +5,9 @@
 #![allow(dead_code)]
 
 #[cfg(kani_smallsort_controls)]
+mod specdiag;
+
+#[cfg(kani_smallsort_controls)]
 use super::super::insert_tail;
 use super::super::{
     CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
