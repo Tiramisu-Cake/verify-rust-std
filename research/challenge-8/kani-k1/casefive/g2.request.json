@@ -1,0 +1,28 @@
+{
+ "schema": "kani-k1-run-request-v1",
+ "agent": "k1-merge",
+ "runner": "gcb-e2-standard-4",
+ "request_id": "casefive-g2-20261101",
+ "kind": "diagnostic",
+ "purpose": "CASE5 G2: G2B swap_if_less body replayed step by step with one assert per step, G2C array == oracle only, G2D R0 on u8; controls on, jobs 1, uninit off.",
+ "harness_timeout_minutes": 3,
+ "controls": true,
+ "kani_jobs": 1,
+ "uninit_checks": false,
+ "harnesses": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_g2b_replica_steps_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive G2B: step"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_g2c_array_eq_only_bytes17",
+   "expect": "FAILED",
+   "expect_check": "casefive G2C: array == oracle"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_g2d_closure_u8",
+   "expect": "SUCCESS"
+  }
+ ]
+}

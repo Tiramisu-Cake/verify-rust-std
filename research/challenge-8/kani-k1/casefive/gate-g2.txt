@@ -1,0 +1,13 @@
+ok   library diff = merge.rs + new casefive.rs: ['M\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'A\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge/casefive.rs']
+ok   merge.rs: only cfg-gated registration ['+#[cfg(kani_smallsort_controls)]', '+mod casefive;']
+ok   no change outside smallsort/verify (runtime library untouched)
+ok   casefive.rs has no inner cfg (module gated by its declaration)
+ok   11 harnesses in source, messages parsed for 11
+ok   54 messages, all unique
+ok   casefive_g2b_replica_steps_bytes17 exists in source
+ok   casefive_g2b_replica_steps_bytes17 expect_check 'casefive G2B: step' -> ['casefive G2B: step 1 decision == taken', 'casefive G2B: step 2 first select', 'casefive G2B: step 3 second select', 'casefive G2B: step 4 read of the second selection', 'casefive G2B: step 5 position 0 after copy', 'casefive G2B: step 6 position 1 after copy_nonoverlapping']
+ok   casefive_g2c_array_eq_only_bytes17 exists in source
+ok   casefive_g2c_array_eq_only_bytes17 expect_check 'casefive G2C: array == oracle' -> ['casefive G2C: array == oracle']
+ok   casefive_g2d_closure_u8 exists in source
+ok   kind diagnostic, 3 min, controls, jobs 1, uninit off
+GATE PASS

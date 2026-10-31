@@ -1,0 +1,44 @@
+interval_ms=2000
+samples=41
+elapsed_s=79
+total_rss_peak_kb=1894816
+total_peak_s=48
+cmd=bash peak_kb=3780 first_s=0 last_s=79 peak_s=0
+cmd=cargo peak_kb=34284 first_s=2 last_s=62 peak_s=4
+cmd=cbmc peak_kb=50380 first_s=66 last_s=78 peak_s=74
+cmd=cc1 peak_kb=7032 first_s=76 last_s=76 peak_s=76
+cmd=gcc peak_kb=1132 first_s=76 last_s=76 peak_s=76
+cmd=goto-cc peak_kb=5608 first_s=64 last_s=64 peak_s=64
+cmd=goto-instrument peak_kb=11256 first_s=76 last_s=76 peak_s=76
+cmd=kani-compiler peak_kb=1663772 first_s=2 last_s=62 peak_s=48
+cmd=kani-driver peak_kb=113908 first_s=2 last_s=78 peak_s=72
+cmd=python3 peak_kb=20508 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3748 first_s=2 last_s=78 peak_s=2
+cmd=tee peak_kb=1116 first_s=0 last_s=79 peak_s=0
+cmd=time peak_kb=1248 first_s=2 last_s=78 peak_s=2
+cmd=timeout peak_kb=1092 first_s=2 last_s=78 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=49280 peak_s=78
+role=driver simultaneous_rss_peak_kb=100116 peak_s=74
+cbmc_pid=9385 peak_kb=50380 first_s=74 last_s=74 peak_s=74 active=T0:merge::casefive::casefive_r3_fn_pointer_bytes17 hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+cbmc_pid=9354 peak_kb=49644 first_s=72 last_s=72 peak_s=72 active=T0:merge::casefive::casefive_r5_single_assert_bytes17 hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+cbmc_pid=9447 peak_kb=49280 first_s=78 last_s=78 peak_s=78 active= hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+cbmc_pid=9294 peak_kb=48464 first_s=68 last_s=68 peak_s=68 active=T0:merge::casefive::casefive_r7_reference_move_bytes17 hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+cbmc_pid=9263 peak_kb=47068 first_s=66 last_s=66 peak_s=66 active= hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+cbmc_pid=9323 peak_kb=36188 first_s=70 last_s=70 peak_s=70 active=T0:merge::casefive::casefive_r6_snapshot_oracle_bytes17 hint=slice::sort::shared::smallsort::verify::merge::casefive::cas
+driver_s=0 rss_kb=0
+harness_s=66 name=T0:merge::casefive::casefive_r7_reference_move_bytes17
+driver_s=30 rss_kb=6092
+harness_s=68 name=T0:merge::casefive::casefive_r6_snapshot_oracle_bytes17
+driver_s=60 rss_kb=6092
+harness_s=70 name=T0:merge::casefive::casefive_r5_single_assert_bytes17
+harness_s=72 name=T0:merge::casefive::casefive_r3_fn_pointer_bytes17
+harness_s=74 name=T0:merge::casefive::casefive_r2_not_taken_only_bytes17
+harness_s=76 name=T0:merge::casefive::casefive_r1_taken_only_bytes17
+harness_s=78 name=T0:merge::casefive::casefive_r0_closure_bytes17
+harness_s=79 name=T0:merge::casefive::casefive_r4_closure_bytes1
+dmesg_oom=none_seen
+mem_total_bytes=16785842176
+swap_total_bytes=0
+verify_start_after_validate_s=362
+verify_budget_s=2518
+RUSTFLAGS=--cfg kani_smallsort_controls
