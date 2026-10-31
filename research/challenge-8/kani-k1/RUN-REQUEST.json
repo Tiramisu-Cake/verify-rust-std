@@ -2,37 +2,38 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "assembly-measurement-controls-20261031",
+  "request_id": "start1-g1-measurement-20261031",
   "kind": "measurement",
-  "purpose": "ASSEMBLY five controls: exactly one intended FAILED each, covers, no other failures. Count locations require manual summary check; terse absence of sortedness failure is not explicit SUCCESS. Work50+setup30 reserveUSD1.0800; three-build maxUSD3.105<=3.5. GO required.",
+  "purpose": "START1 baseline + exact tail partition 2..8/9..12/13..16 + shared-frame controls. Manual gate by group SUCCESS<=600s/all covers and intended control FAILED locations; baseline expect SUCCESS may TIMEOUT. G1 envelope90min/$1.215, G2 70min/$0.945; total$2.160<=2.2. Coordinator GO required.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
-      "expect": "FAILED",
-      "expect_check": "This is a placeholder message"
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_unsorted_halves_control_u64_n4",
-      "expect": "FAILED",
-      "expect_check": "merge_inputs_are_sorted"
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64",
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
       "expect": "FAILED",
-      "expect_check": "pointer outside object bounds"
+      "expect_check": "insert-tail contract covers prefix before begin unchanged"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
+      "expect": "FAILED",
+      "expect_check": "suffix after inserted tail remains unchanged"
     }
   ]
 }

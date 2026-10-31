@@ -1,0 +1,57 @@
+{
+  "base_sha": "ebd0eac32258932ce9688f1c9e402036742aa4f6",
+  "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "file_sha256": "518a888f471b92a829e6658ff679f6e63f7f84317ab1bf50808a77b221e277f8",
+  "existing_source_identical": true,
+  "max_columns": 100,
+  "partition_exact": true,
+  "groups": [
+    {
+      "name": "insert_tail_contract_u64_start1_tail2_to8",
+      "lo": 2,
+      "hi": 8,
+      "tail_covers": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected_cover_count": 9
+    },
+    {
+      "name": "insert_tail_contract_u64_start1_tail9_to12",
+      "lo": 9,
+      "hi": 12,
+      "tail_covers": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "expected_cover_count": 6
+    },
+    {
+      "name": "insert_tail_contract_u64_start1_tail13_to16",
+      "lo": 13,
+      "hi": 16,
+      "tail_covers": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "expected_cover_count": 6
+    }
+  ],
+  "new_opt_in_pfcs": 5,
+  "shared_checker": "insert_tail_start1_frame",
+  "local_compile": "NOT_RUN: local rustc/cargo/Kani prohibited",
+  "warnings": "UNVERIFIED until Cloud Build; cfg guards inspected",
+  "rustfmt": "PASS: prescribed --check exit 0",
+  "library_sha": "b98ee415fdfa69b683ebac7e627811b0ccb2aa1a",
+  "library_tree": "6008ba7c2349d4158e2898f323089c2ef61d373c",
+  "request_validation": "PASS: 6 harnesses accepted, gcb-e2-standard-4, measurement/jobs1/controls:true"
+}

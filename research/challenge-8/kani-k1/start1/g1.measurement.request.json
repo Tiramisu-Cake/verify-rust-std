@@ -1,0 +1,39 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "start1-g1-measurement-20261031",
+  "kind": "measurement",
+  "purpose": "START1 baseline + exact tail partition 2..8/9..12/13..16 + shared-frame controls. Manual gate by group SUCCESS<=600s/all covers and intended control FAILED locations; baseline expect SUCCESS may TIMEOUT. G1 envelope90min/$1.215, G2 70min/$0.945; total$2.160<=2.2. Coordinator GO required.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
+      "expect": "FAILED",
+      "expect_check": "insert-tail contract covers prefix before begin unchanged"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
+      "expect": "FAILED",
+      "expect_check": "suffix after inserted tail remains unchanged"
+    }
+  ]
+}
