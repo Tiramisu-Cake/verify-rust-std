@@ -2,73 +2,11 @@
  "schema": "kani-k1-run-request-v1",
  "agent": "k1-merge",
  "runner": "gcb-e2-standard-4",
- "request_id": "poneclean-g1-20261031",
- "kind": "measurement",
- "purpose": "P1-CLEAN G1: 7 migrated P1 profile PFCs (swap/sort4/insert/merge x tags), 4 wrong-F guard controls, case5 typed swap 17/128/129; controls on, jobs 1, uninit off.",
- "harness_timeout_minutes": 10,
- "controls": true,
- "kani_jobs": 1,
- "uninit_checks": false,
- "harnesses": [
-  {
-   "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n9",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes17_n2",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::network::swap_contract_cell_i32_n2",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::network::swap_contract_drop_u8_n2",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_swap_rejected_u8",
-   "expect": "FAILED",
-   "expect_check": "specfix_canonical_comparator"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_sort4_rejected_u64",
-   "expect": "FAILED",
-   "expect_check": "specfix_canonical_comparator"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_insert_rejected_u8",
-   "expect": "FAILED",
-   "expect_check": "specfix_canonical_comparator"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_merge_rejected_u8",
-   "expect": "FAILED",
-   "expect_check": "specfix_canonical_comparator"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes17",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes128",
-   "expect": "SUCCESS"
-  },
-  {
-   "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes129",
-   "expect": "SUCCESS"
-  }
- ]
+ "request_id": "poneclean-g2-inventory-ordinary-20261031",
+ "kind": "inventory",
+ "purpose": "P1-CLEAN G2: native ordinary inventory of the P1-CLEAN library tree; exact frozen P1 197 names expected; no proofs.",
+ "harness_timeout_minutes": 20,
+ "controls": false,
+ "inventory": true,
+ "harnesses": []
 }
