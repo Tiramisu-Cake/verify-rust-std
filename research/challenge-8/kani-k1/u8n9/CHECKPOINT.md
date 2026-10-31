@@ -1,4 +1,4 @@
-# U8N9 — G1 принят по строкам; G2 готов
+# U8N9 — G2 запущен; ожидание через watch
 
 Ветка: `experiment/kani-k1-ueightnine-20261031`.
 Исходный SHA: `ac45675c2bdcf5629086b87b4a9a385b53df61db`.
@@ -41,3 +41,11 @@ G1 стоимость$0.4185. Для G2 выбран non-const stable: VT221.65 
 RSS0.422 против0.311GiB; преимущество VT при умеренной памяти, не оптимум CI.
 G2 request `u8n9-g2-diagnostic-jobs3-20261031`, четыре entries jobs3;
 библиотека прежняя. G2 допустим по TASK без нового GO; полный резерв$0.945.
+
+G2 dispatched: `9a33a513-9346-44c0-9d05-dedfcc0c6e63`,
+source `8a7c7f22b2d154eaa81c362ea9902d60cc0fef79`; tree прежний.
+Сборок2/2: больше не запускать. G1 actual$0.4185 + G2 reserve$0.945 <=$1.3635.
+G2 preflight UTC10:45:25, осталось202.23min: envelope70 + closure30 помещаются.
+После уведомления: summary/rows/peaks, direct CBMC overlap и OOM/missing,
+check-tooling относительно GO3acc3c1997; budget обоих собственных UUID.
+Затем RESULT-U8N9.md <=100 строк, commit/push и финальные маркеры TASK.
