@@ -16,7 +16,8 @@ Frozen library tree G1/G2: `3b06bd6d60eec19d3c7ff1a0133f8c8191f20980`.
 - Не запускать сборку без полного envelope + резерва закрытия в остатке окна.
 - Максимум 2 сборки/$3.30, суммарный полный envelope $3.24; CAP_USD не менять.
 - Проверка бюджета до review: 120 builds, used $64.2030, reserved $0, cap $73.96.
-- Свои build UUID: **нет**, dispatch не выполнялся. Стоимость пилота: $0.
+- Свои build UUID: G1 `3b1d1233-bff3-42fc-87af-21d1e083cfb0`; G2 нет.
+- G1 запущен: фактическая стоимость пока неизвестна, резерв $2.025.
 - G1 request_id: `constwave-g1-measurement-pairs-20261031`; G2 ещё не создан.
 
 ## Кандидат и source audit
@@ -56,3 +57,17 @@ Aggregate → const у stable_direct сохраняет размер/alignment �
 
 Никакие Select/Merge/Evidence Brief процедуры не применять; результаты только через k1g.sh.
 Соседний U8N9 не переносить. Pin/toolchain/flags/lane-файлы и submission/* не менять.
+
+## G1 — GO и dispatch
+
+GO координатора получен для `b87fa44877`, review пройден.
+Dispatch T0: `2026-10-31 10:10:25 UTC`.
+До закрытия 15:00 UTC осталось 289.6 мин; envelope G1 150 + закрытие 30
+помещаются. G1 максимум $2.025; G1+G2 максимум $3.24 < $3.30.
+Budget непосредственно перед dispatch: 120 builds, used $64.2030, reserved $0.
+Build source SHA: `b87fa448770e07e51f498e4fe2320fbaab292ea1`.
+Build UUID G1: `3b1d1233-bff3-42fc-87af-21d1e083cfb0`.
+Request ID: `constwave-g1-measurement-pairs-20261031`.
+Dispatch успешен; pool k1-standard4, общий used + reserved максимум $66.2280.
+Следующий шаг: `k1g.sh watch 3b1d1233-bff3-42fc-87af-21d1e083cfb0`, завершить ход.
+После уведомления читать результаты через k1g.sh; решение по G2 — по TASK.
