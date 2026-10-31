@@ -1,0 +1,30 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "uninit_checks": false,
+  "request_id": "perm12-g2-jobs3-20261031",
+  "kind": "diagnostic",
+  "kani_jobs": 3,
+  "purpose": "PERM12 G2 jobs3 admission only after G1 engineering gate PASS. Frozen G1 library; envelope70min/USD0.945; own spent+reserved+0.945<=2 and closing reserve required.",
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt",
+      "expect": "SUCCESS"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "perm12-manifest-v1",
+  "base_sha": "e0ff82577dc58950621dadc9c141d88a5821987f",
+  "cap_sha": "92d89e7a8bca371e9b4a48175d08322d3f24a2e4",
+  "source_sha": "e01ed338d746601dd12eb50d937805db32f085dd",
+  "base_library_tree": "c522edd42ae67c385e1ee42a1c4d1bffb611c90b",
+  "source_library_tree": "521e2b4bd57c83c321f03445ff10f8d12c93fb24",
+  "changed_library_paths": [
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+  ],
+  "new_module": "network::perm12",
+  "original_harness": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+  "g1_entries": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_trace_unpartitioned",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_value_corruption_control",
+      "expect": "FAILED",
+      "expect_check": "This is a placeholder message"
+    }
+  ],
+  "g2_entries": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt",
+      "expect": "SUCCESS"
+    }
+  ],
+  "bound_files": {
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+    "research/challenge-8/kani-k1/tools/kani_k1.py": "55d62136ad9ab71eb5c0fbd470904ecf20b1ecbb8ab34cca1bbdeff9efc8494e",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh": "2547fc997b057dd41fee896b7c5aac4279a339470992433cb1b46b0145a97812",
+    "research/challenge-8/kani-k1/tools/k1g.sh": "20a1c9536dd6c0d8c484a4f9cc059c74ab8edb5fb667eaffb3dd30933c6ee99e",
+    ".github/workflows/kani.yml": "587cf2116075865fe641bee4da47b96cc22f71ca06433f7cb6f63b3439828577",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0",
+    "rust-toolchain.toml": "7a7edb1ec1b265bdcd1ec61a007000821285f4f18d64aff6b3621e203be323ec"
+  },
+  "request_sha256": {
+    "g1.request.json": "5494af1c33010249b3439d2455a3e9a83e027a46fac3b637cd686463e49fc5cc",
+    "g2.request.json": "a2ff4ea75ea01ccd163fe8f1d20753bbc2b06699f1969facf5441c173574a4b0"
+  },
+  "count_failure": {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+    "line": 1518,
+    "class": "assertion",
+    "expect_check": "This is a placeholder message",
+    "actual_message_status": "UNCONFIRMED until G1; frozen lane precedent only"
+  },
+  "phase_assert_line": 1536,
+  "corruption_line": 1542,
+  "post_flip_cover_line": 1543,
+  "positive_covers": [
+    "insertion preserves permutation and moves elements",
+    "insertion permutation check reached the end"
+  ],
+  "unwind": 25,
+  "offset": 9,
+  "array_type": "[u64; 12]",
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "rust_toolchain": "nightly-2026-10-12",
+  "uninit_checks": false
+}

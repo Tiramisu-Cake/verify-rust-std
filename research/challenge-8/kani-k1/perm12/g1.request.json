@@ -1,0 +1,43 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "uninit_checks": false,
+  "request_id": "perm12-g1-measurement-20261031",
+  "kind": "measurement",
+  "kani_jobs": 1,
+  "purpose": "PERM12 G1 original/adapter baselines, exhaustive two-bit trace cases and count control. Envelope100min/USD1.350; requires published review GO, fresh global/own budget and closing reserve.",
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_trace_unpartitioned",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_value_corruption_control",
+      "expect": "FAILED",
+      "expect_check": "This is a placeholder message"
+    }
+  ]
+}

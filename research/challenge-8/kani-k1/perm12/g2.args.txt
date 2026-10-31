@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ff
+--harness
+slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_ft
+--harness
+slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tf
+--harness
+slice::sort::shared::smallsort::verify::network::perm12::insertion_permutation_u64_n12_tt
+--exact
+--harness-timeout
+10m
+--jobs=3
+--output-format=terse
