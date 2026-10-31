@@ -594,6 +594,14 @@ fn stable_general_u64_safety_body<const N: usize>() {
     kani::cover(true, "stable u64 route safety: normal return reachable");
 }
 
+#[cfg(kani_smallsort_controls)]
+fn stable_general_const_u64_safety_body<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut arbitrary_u64_order);
+    kani::cover(true, "stable u64 route safety: normal return reachable");
+}
+
 // Every exact length 2..=32 selects direct general u64, non-Copy unstable general, or stable
 // Freeze sorting. Each route has a normal-return cover and uses real callees with scratch 48.
 fn all_upper_routes_safety_body<const N: usize>() {
@@ -602,6 +610,16 @@ fn all_upper_routes_safety_body<const N: usize>() {
         0 => unstable_general_u64_safety_body::<N>(),
         1 => noncopy_general_u64_safety_body::<N>(),
         _ => stable_general_u64_safety_body::<N>(),
+    }
+}
+
+#[cfg(kani_smallsort_controls)]
+fn all_upper_routes_const_safety_body<const N: usize>() {
+    let route: u8 = kani::any();
+    match route {
+        0 => unstable_general_u64_safety_body::<N>(),
+        1 => noncopy_general_u64_safety_body::<N>(),
+        _ => stable_general_const_u64_safety_body::<N>(),
     }
 }
 
@@ -737,6 +755,13 @@ define_route_safety_harness!(route_safety_all_routes_n14, all_upper_routes_safet
 #[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n15, all_upper_routes_safety_body, 15);
 define_route_safety_harness!(route_safety_all_routes_n16, all_upper_routes_safety_body, 16);
+
+#[cfg(kani_smallsort_controls)]
+define_route_safety_harness!(
+    route_safety_all_routes_const_n16,
+    all_upper_routes_const_safety_body,
+    16
+);
 #[cfg(kani_smallsort_controls)]
 define_route_safety_harness!(route_safety_all_routes_n17, all_upper_routes_safety_body, 17);
 #[cfg(kani_smallsort_controls)]
@@ -874,6 +899,30 @@ fn general_route_properties<
     kani::cover(stable, "stable route properties checked");
 }
 
+#[cfg(kani_smallsort_controls)]
+fn general_route_const_properties<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut cmp: F,
+) {
+    const { assert!(N <= 16) };
+    set_value_probe::<T>();
+    let mut v: [T; N] = kani::any();
+    let orig = v;
+    let stable: bool = kani::any();
+    if stable {
+        let mut scratch = [const { MaybeUninit::<T>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+        <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    } else {
+        super::super::small_sort_general(&mut v, &mut cmp);
+    }
+    assert_sorted_and_probe_preserved::<T, _, N>(&orig, &v, &mut cmp);
+    kani::cover(!stable, "general route properties checked");
+    kani::cover(stable, "stable route properties checked");
+}
+
 // Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
 fn fallback_route_properties<
     T: kani::Arbitrary + Copy,
@@ -918,6 +967,13 @@ define_general_direct_harness!(general_stable_direct_u64_n2, u64, lt_u64, 2);
 define_general_direct_harness!(general_stable_direct_u64_n3, u64, lt_u64, 3);
 define_general_direct_harness!(general_stable_direct_u64_n4, u64, lt_u64, 4);
 define_general_direct_harness!(general_stable_direct_u64_n5, u64, lt_u64, 5);
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(34)]
+fn general_stable_direct_const_u64_n5() {
+    general_route_const_properties::<u64, _, 5>(lt_u64);
+}
 #[cfg(kani_smallsort_controls)]
 define_general_direct_harness!(general_stable_direct_u64_n6, u64, lt_u64, 6);
 #[cfg(kani_smallsort_controls)]
@@ -974,6 +1030,19 @@ fn stable_direct_u64_properties<const N: usize>() {
     kani::cover(true, "stable direct split properties checked");
 }
 
+#[cfg(kani_smallsort_controls)]
+fn stable_direct_const_u64_properties<const N: usize>() {
+    const { assert!(N == 6 || N == 7 || N == 8) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    let mut cmp = lt_u64;
+    let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
 macro_rules! define_direct_u64_route_harness {
     ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
@@ -990,6 +1059,13 @@ define_direct_u64_route_harness!(general_direct_u64_n8, general_direct_u64_prope
 define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_properties, 6);
 define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
 define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
+
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_const_u64_n6, stable_direct_const_u64_properties, 6);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_const_u64_n7, stable_direct_const_u64_properties, 7);
+#[cfg(kani_smallsort_controls)]
+define_direct_u64_route_harness!(stable_direct_const_u64_n8, stable_direct_const_u64_properties, 8);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
@@ -1091,6 +1167,35 @@ fn merge_scratch48_length_body<
     kani::cover(stable, "stable scratch48 merge contract checked");
 }
 
+#[cfg(kani_smallsort_controls)]
+fn merge_scratch48_const_length_body<
+    T: kani::Arbitrary + Copy + FreezeMarker,
+    F: FnMut(&T, &T) -> bool,
+    const N: usize,
+>(
+    mut cmp: F,
+) {
+    const { assert!(N >= 2 && N <= 32) };
+    set_value_probe::<T>();
+    let input: [T; N] = kani::any();
+    let mut dst: [T; N] = kani::any();
+    let stable: bool = kani::any();
+    let mut stable_scratch = [const { MaybeUninit::<T>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    let mut general_scratch = MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+    let src = if stable {
+        stable_scratch.as_mut_ptr() as *mut T
+    } else {
+        general_scratch.as_mut_ptr() as *mut T
+    };
+    // SAFETY: prefix N fits either backing allocation; dst is initialized and disjoint.
+    unsafe {
+        ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+        bidirectional_merge(crate::slice::from_raw_parts(src, N), dst.as_mut_ptr(), &mut cmp);
+    }
+    kani::cover(!stable, "general scratch48 merge contract checked");
+    kani::cover(stable, "stable scratch48 merge contract checked");
+}
+
 macro_rules! define_merge_scratch48_contract_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
@@ -1118,6 +1223,13 @@ define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n7, u8, lt_
 #[cfg(kani_smallsort_controls)]
 define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n8, u8, lt_u8, 8);
 define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n9, u8, lt_u8, 9);
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof_for_contract(crate::slice::sort::shared::smallsort::bidirectional_merge)]
+#[kani::unwind(34)]
+fn merge_scratch48_contract_const_u8_n9() {
+    merge_scratch48_const_length_body::<u8, _, 9>(lt_u8);
+}
 
 // Correct scratch48/destination memory, but deliberately unsorted left-half keys [3, 0].
 #[cfg(kani_smallsort_controls)]
