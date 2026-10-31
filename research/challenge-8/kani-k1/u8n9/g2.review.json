@@ -1,0 +1,89 @@
+{
+  "bindings": {
+    "request_id": "u8n9-g2-diagnostic-jobs3-20261031",
+    "request_sha256": "789125aea2bd39fa3e18f63fc2683c44643fa3f04bfa56c94a62fed490a9cb96",
+    "build_id": "9a33a513-9346-44c0-9d05-dedfcc0c6e63",
+    "head_sha": "8a7c7f22b2d154eaa81c362ea9902d60cc0fef79",
+    "total": "4",
+    "count": "4",
+    "next_offset": "done"
+  },
+  "tooling_check_base": "3acc3c19973525034e26d057bba17d19022fc89c",
+  "tooling_check_exit": 0,
+  "library_tree": "95a25d9241f071a8c22b6c6f5edebb3a31e45100",
+  "measurements": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 230.09187,
+      "checks": "0/400",
+      "covers": "1/1",
+      "cbmc_peak_kib": 336032,
+      "pid": "9284",
+      "first_s": 68,
+      "last_s": 295
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 227.56679,
+      "checks": "0/398",
+      "covers": "1/1",
+      "cbmc_peak_kib": 444808,
+      "pid": "9279",
+      "first_s": 68,
+      "last_s": 293
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+      "status": "SUCCESS",
+      "vt_s": 148.75179,
+      "checks": "0/400",
+      "covers": "2/2",
+      "cbmc_peak_kib": 583952,
+      "pid": "9331",
+      "first_s": 297,
+      "last_s": 444
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+      "status": "SUCCESS",
+      "vt_s": 295.33417,
+      "checks": "0/440",
+      "covers": "2/2",
+      "cbmc_peak_kib": 1342456,
+      "pid": "9304",
+      "first_s": 72,
+      "last_s": 363
+    }
+  ],
+  "cloud_status": "SUCCESS",
+  "summary_completeness": "COMPLETE",
+  "aggregate_gate": true,
+  "real_cbmc_overlap": {
+    "pids": [
+      "9304",
+      "9279",
+      "9284"
+    ],
+    "sampled_lifetime_intersection_s": [
+      72,
+      293
+    ],
+    "basis": "direct metadata-bound processes; overlapping sampled first/last times and measured simultaneous CBMC RSS",
+    "simultaneous_cbmc_peak_kib": 2007308,
+    "peak_s": 293
+  },
+  "total_sampled_rss_peak_kib": 3105008,
+  "total_peak_s": 363,
+  "time_v_max_single_process_rss_kib": 1939628,
+  "mem_total_bytes": 16785850368,
+  "swap_total_bytes": 0,
+  "oom": "none_seen",
+  "missing_rows": 0,
+  "missing_cbmc_attributions": 0,
+  "covers": "6/6",
+  "cost_usd": 0.189,
+  "measurement_caveat": "Shared jobs3 diagnostic; VT/RSS not isolated single-harness measurements.",
+  "decision": "COMPLETE: direct general and nonconst stable N9 successful in G1 and G2; const alternative G1 also successful."
+}

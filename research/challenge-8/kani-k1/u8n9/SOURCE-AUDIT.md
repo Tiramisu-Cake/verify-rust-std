@@ -38,6 +38,9 @@ Python сверил тела двух stable helper-ов: различается
 условий и не меняет symbolic domain. Probe используется прежним bytewise oracle.
 
 Rustfmt заданным wrapper/config: exit0; `git diff --check`: PASS; строки Rust <=100.
-Локальные rustc/cargo/Kani/CBMC не запускались. Compilation и warnings в обеих cfg
-до remote evidence остаются PENDING; статический аудит не является proof credit.
+Локальные rustc/cargo/Kani/CBMC не запускались. G1/G2 controls compile успешен;
+targeted merge/unused/dead_code/error diagnostics не найдены. Ordinary cfg исключает
+весь новый блок: исходные items/dependencies прежние, fresh ordinary compile не запускался.
+Статический аудит отдельно от proof credit: G1 три новых entry SUCCESS/covers1/1,
+G2 general и nonconst stable SUCCESS/covers1/1 на том же library tree.
 Baseline остаётся non-const combined; соседний CONSTWAVE не переносился.
