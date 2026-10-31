@@ -1,0 +1,36 @@
+Checking harness slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control...
+
+VERIFICATION RESULT:
+ ** 1 of 302 failed (86 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/geom16.rs", line 34, in slice::sort::shared::smallsort::verify::merge::geom16::check_left_half
+
+VERIFICATION:- FAILED
+Verification Time: 16.685663s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control...
+
+VERIFICATION RESULT:
+ ** 1 of 302 failed (86 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: This is a placeholder message; Kani doesn't support message formatted at runtime
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/geom16.rs", line 24, in slice::sort::shared::smallsort::verify::merge::geom16::check_same8
+
+VERIFICATION:- FAILED
+Verification Time: 17.663279s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc...
+
+VERIFICATION RESULT:
+ ** 0 of 457 failed (91 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 162.8244s

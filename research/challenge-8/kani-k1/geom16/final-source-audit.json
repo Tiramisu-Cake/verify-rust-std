@@ -1,0 +1,25 @@
+{
+  "kind": "FINAL_STATIC_AUDIT_NO_NEW_PROOF_EXECUTION",
+  "result": "PASS",
+  "base_sha": "6a6a03e9535ee9204881687d29e884bb695be662",
+  "g1_sha": "7684a98d474157f09d8702695262d5314460ccf0",
+  "g2_sha": "a5fe87afe995ade63ef14684ee6a3540b534a3a6",
+  "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
+  "library_write_scope": [
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/geom16.rs"
+  ],
+  "g1_to_g2_library_byte_identical": true,
+  "working_library_frozen": true,
+  "ordinary_projection_byte_identical": true,
+  "parent_top_and_old_items_dependencies_byte_identical": true,
+  "all_other_library_files_unchanged": true,
+  "registrations": "only cfg/module geom16 at EOF; top specdiag insertion independent",
+  "ordinary_harnesses_added": 0,
+  "request_identities": "G1 and G2 committed requests equal prepared exact bytes",
+  "child_sha256": "97f7e3523e3914a94a4ebbf8e4a1aa38c057b8d713e5c796c69815128d51b3db",
+  "initializer": "[MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN]",
+  "representation": "one stable [MaybeUninit<u8>;48] per fixture",
+  "original_audit": "source-audit.json retained as pre-build snapshot; audit.py expects G1 installed",
+  "local_rust_compilation_or_proof": "NOT_RUN"
+}

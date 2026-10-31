@@ -1,0 +1,45 @@
+interval_ms=2000
+samples=137
+elapsed_s=272
+total_rss_peak_kb=1920088
+total_peak_s=52
+cmd=bash peak_kb=3912 first_s=0 last_s=272 peak_s=0
+cmd=cargo peak_kb=34376 first_s=2 last_s=66 peak_s=4
+cmd=cbmc peak_kb=1265540 first_s=70 last_s=270 peak_s=258
+cmd=goto-cc peak_kb=19260 first_s=68 last_s=68 peak_s=68
+cmd=goto-instrument peak_kb=44148 first_s=106 last_s=108 peak_s=106
+cmd=kani-compiler peak_kb=1710708 first_s=2 last_s=66 peak_s=52
+cmd=kani-driver peak_kb=615132 first_s=2 last_s=270 peak_s=270
+cmd=python3 peak_kb=20600 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3772 first_s=2 last_s=270 peak_s=2
+cmd=tee peak_kb=1184 first_s=0 last_s=272 peak_s=0
+cmd=time peak_kb=1092 first_s=2 last_s=270 peak_s=2
+cmd=timeout peak_kb=1116 first_s=2 last_s=270 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=1257828 peak_s=252
+role=driver simultaneous_rss_peak_kb=615132 peak_s=270
+cbmc_pid=9289 peak_kb=1265540 first_s=110 last_s=270 peak_s=258 active=T0:merge::geom16::same24to8_stable_scratch48_actual_pfc hint=slice::sort::shared::smallsort::verify::merge::geom16::same2
+cbmc_pid=9224 peak_kb=299596 first_s=70 last_s=84 peak_s=78 active=T0:merge::geom16::same24to8_left_frame_control hint=slice::sort::shared::smallsort::verify::merge::geom16::same2
+cbmc_pid=9251 peak_kb=252108 first_s=88 last_s=104 peak_s=98 active=T0:merge::geom16::same24to8_value_corruption_control hint=slice::sort::shared::smallsort::verify::merge::geom16::same2
+driver_s=0 rss_kb=0
+harness_s=70 name=T0:merge::geom16::same24to8_left_frame_control
+driver_s=30 rss_kb=5980
+harness_s=88 name=T0:merge::geom16::same24to8_value_corruption_control
+driver_s=60 rss_kb=6300
+harness_s=110 name=T0:merge::geom16::same24to8_stable_scratch48_actual_pfc
+driver_s=90 rss_kb=364944
+driver_s=120 rss_kb=427708
+driver_s=150 rss_kb=427708
+driver_s=180 rss_kb=427708
+driver_s=210 rss_kb=427708
+driver_s=240 rss_kb=427708
+driver_s=270 rss_kb=615132
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=365
+verify_budget_s=2875
+RUSTFLAGS=--cfg kani_smallsort_controls
+process_records=3 offset=0 count=3 next_offset=done
+{"active_harnesses":["Thread 0: merge::geom16::same24to8_stable_scratch48_actual_pfc"],"attribution":"direct","build_id":"fcfce897-dafb-49d2-a156-4edc01f323e9","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc","first_s":110,"harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc","head_sha":"a5fe87afe995ade63ef14684ee6a3540b534a3a6","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":270,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1637same24to8_stable_scratch48_actual_pfc","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"4e595c84182b888e8de84bb28873f1796711c507868021108723fb990caa8872","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1637same24to8_stable_scratch48_actual_pfc.out","peak_kb":1265540,"peak_s":258,"pid":"9289","ppid":"8825","pretty_name":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_stable_scratch48_actual_pfc"}
+{"active_harnesses":["Thread 0: merge::geom16::same24to8_left_frame_control"],"attribution":"direct","build_id":"fcfce897-dafb-49d2-a156-4edc01f323e9","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control","first_s":70,"harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control","head_sha":"a5fe87afe995ade63ef14684ee6a3540b534a3a6","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":84,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1628same24to8_left_frame_control","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"4e595c84182b888e8de84bb28873f1796711c507868021108723fb990caa8872","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1628same24to8_left_frame_control.out","peak_kb":299596,"peak_s":78,"pid":"9224","ppid":"8825","pretty_name":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_left_frame_control"}
+{"active_harnesses":["Thread 0: merge::geom16::same24to8_value_corruption_control"],"attribution":"direct","build_id":"fcfce897-dafb-49d2-a156-4edc01f323e9","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control","first_s":88,"harness":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control","head_sha":"a5fe87afe995ade63ef14684ee6a3540b534a3a6","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":104,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1634same24to8_value_corruption_control","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"4e595c84182b888e8de84bb28873f1796711c507868021108723fb990caa8872","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/43b5be8172ae5717/out/core-43b5be8172ae5717__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify5merge6geom1634same24to8_value_corruption_control.out","peak_kb":252108,"peak_s":98,"pid":"9251","ppid":"8825","pretty_name":"slice::sort::shared::smallsort::verify::merge::geom16::same24to8_value_corruption_control"}

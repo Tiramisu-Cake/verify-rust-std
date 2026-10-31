@@ -5,7 +5,7 @@
   "deadline_utc": "2026-10-31T19:50:00Z",
   "closing_start_utc": "2026-10-31T19:20:00Z",
   "coordinator": "Claude Code",
-  "state": "G2_GO_PREPARING_DISPATCH",
+  "state": "CLOSED_COMPLETE_BOUNDED_MEASUREMENT",
   "own_builds": [
     {
       "build_uuid": "eb7eef9a-349f-4e2d-bb5c-8224b8d5b5ba",
@@ -20,9 +20,23 @@
       "spent_usd": 0.2835,
       "reserved_usd": 0,
       "envelope_minutes": 80
+    },
+    {
+      "build_uuid": "fcfce897-dafb-49d2-a156-4edc01f323e9",
+      "request_id": "geom16-g2-20261031-r1",
+      "request_source_sha": "a5fe87afe995ade63ef14684ee6a3540b534a3a6",
+      "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
+      "request_sha256": "519a123c9930905b8320262ab1f35fe5e91eb18dc60148060af7fc778e1c5e95",
+      "pool": "k1-standard4",
+      "entries": 3,
+      "state": "FAILURE",
+      "recorded_at_utc": "2026-10-31T15:27:18.717163+00:00",
+      "spent_usd": 0.162,
+      "reserved_usd": 0,
+      "envelope_minutes": 60
     }
   ],
-  "own_spent_usd": 0.2835,
+  "own_spent_usd": 0.4455,
   "own_active_reserved_usd": 0,
   "own_proposed_g1_reserve_usd": 1.08,
   "own_proposed_g2_reserve_usd": 0.81,
@@ -32,7 +46,10 @@
   "library_tree": "5084baaaa44d11967abca2f367626385dc7ec219",
   "g1_automatic_gate": false,
   "g1_mandatory_pair": "COMPLETE_SUCCESS",
-  "g2_status": "GO_RECEIVED_PREDISPATCH_CHECKS",
+  "g2_status": "COMPLETE_BY_FROZEN_LOCATION",
   "control_disposition": "ACCEPTED_BY_LOCATION by coordinator; historical automatic gate=false",
-  "g1_acceptance": "ACCEPTED_BY_LOCATION"
+  "g1_acceptance": "ACCEPTED_BY_LOCATION",
+  "g2_automatic_gate": false,
+  "closed_at_utc": "2026-10-31T15:42:32.983489+00:00",
+  "no_active_build_or_watch": true
 }
