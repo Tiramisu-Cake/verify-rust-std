@@ -147,22 +147,28 @@ are relative to the harness name in the same row. The `reject_mutant_merge_up`
 manifest entry is excluded because it targets the separate `merge_up` helper,
 not `bidirectional_merge`.
 
-## Remaining explicit OPEN points
+## Points after G1/G2 (see RESULT-SPECDIAG.md)
 
-- Whether Kani binds the comparator observer in `swap_if_less` to the intended
-  single body call remains OPEN. A stateful comparator can make the current
-  pair-order ensures fail without an element memory error.
-- Whether `insert_tail`'s writable tail predicate admits uninitialized memory
-  and where the actual first read fails remain separate OPEN outcomes.
-- `sort4_stable` source writeability is a predicate artifact: the body only
-  reads source. Static source `can_write` is not permission to write that
-  source. Initialization still needs separate evidence.
-- `same` is nested in `swap_if_less` ensures and is not independently targeted.
-  If validity/init/snapshot machinery fails first, same-binding stays UNKNOWN.
-- K5 reported generic trait contract/stub parser and resolver barriers. Bounded
-  free wrappers are a possible diagnostic form, but the K5 wrapper control
-  ended at memcmp unwind; it did not establish proof credit or generic
-  comparator-purity expressibility at this pin.
+- `swap_if_less` with a counting `FnMut`: under PFC the observer `calls==1` fails and
+  `calls==3` is reachable (body + `old` decision + pair-order ensures); separately the
+  `Cell` write is outside `modifies` (assigns failure in `mem::replace::<u8>`). A future
+  contract must restrict effectful callbacks or declare their footprint; the pair-order
+  ensures must not re-call `F` for stateful comparators. Plain call: exactly one call.
+- Always-true `F` violates the sortedness ensures of `sort4_stable`, `insert_tail` and
+  `bidirectional_merge` with all requires met: sortedness belongs to the lawful pure
+  order profile only; safety/permutation claims must be stated separately for any `F`.
+- `valid_sorted_tail` and `valid_sort4_regions` admit an uninitialized tail/source
+  (geometry only). The actual uninitialized read is NOT_DETECTED under CI flags and the
+  `-Z uninit-checks` profile reports unsupported layouts for `MaybeUninit` arrays and
+  raw-pointer/union code (production `select_unpredictable`), so read-side evidence is
+  UNKNOWN. Requires need an explicit initialization predicate.
+- `sort4_stable` static source: `can_write` is true (geometry); the requirement is an
+  artifact of the predicate, not a permission to write.
+- `matches_value_probe::<[u8;129]>` reads past the 128-byte probe (helper confirmed);
+  the actual contract use timed out at 3 min (UNKNOWN). `same<[u8;129]>` passes, so the
+  bound applies to the probe only. Padding: same/probe binding UNKNOWN in both profiles.
+- K5 generic trait contract/stub barriers stand; bounded free wrappers remain a possible
+  form, not established proof credit or comparator-purity expressibility at this pin.
 
 Source references: `smallsort.rs` annotations and production bodies;
 `verify/merge.rs` representation/domain helpers and PFC/stub harnesses;

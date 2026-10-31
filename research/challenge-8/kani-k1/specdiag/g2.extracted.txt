@@ -1,0 +1,36 @@
+2716:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity...
+2719: ** 0 of 45 failed (7 unreachable)
+2721: ** 2 of 3 cover properties satisfied
+2727:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity...
+2730: ** 1 of 47 failed (13 unreachable)
+2732: ** 0 of 3 cover properties satisfied (3 unreachable)
+2734:Failed Checks: Interaction between raw pointers and unions is not yet supported.
+2735: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 322, in slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity
+2740:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::padded_swap_actual_contract...
+2743: ** 1 of 480 failed (47 unreachable)
+2745: ** 0 of 2 cover properties satisfied (2 unreachable)
+2747:Failed Checks: Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<slice::sort::shared::smallsort::verify::merge::specdiag::Pad>; 2] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<slice::sort::shared::smallsort::verify::merge::specdiag::Pad> as a field.
+2748: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 306, in slice::sort::shared::smallsort::verify::merge::specdiag::padded_swap_actual_contract
+2753:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe...
+2756: ** 1 of 215 failed (70 unreachable)
+2758: ** 0 of 3 cover properties satisfied (3 unreachable)
+2760:Failed Checks: Interaction between raw pointers and unions is not yet supported.
+2761: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 291, in slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe
+2766:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source...
+2769: ** 1 of 193 failed (32 unreachable)
+2771: ** 0 of 1 cover properties satisfied (1 unreachable)
+2773:Failed Checks: Interaction between raw pointers and unions is not yet supported.
+2774: File: "/workspace/src/library/core/src/hint.rs", line 844, in hint::select_unpredictable::<*const u64>
+2779:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc...
+2782: ** 1 of 517 failed (103 unreachable)
+2784: ** 0 of 2 cover properties satisfied (2 unreachable)
+2786:Failed Checks: Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<u64>; 4] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<u64> as a field.
+2787: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 216, in slice::sort::shared::smallsort::verify::merge::specdiag::uninit_sort4_actual_pfc
+2792:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc...
+2795: ** 1 of 529 failed (93 unreachable)
+2797: ** 0 of 2 cover properties satisfied (2 unreachable)
+2799:Failed Checks: Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<u64>; 2] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<u64> as a field.
+2800: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs", line 176, in slice::sort::shared::smallsort::verify::merge::specdiag::uninit_tail_actual_pfc
+2805:Checking harness slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive...
+2808: ** 0 of 123 failed (7 unreachable)
+2810: ** 1 of 1 cover properties satisfied
