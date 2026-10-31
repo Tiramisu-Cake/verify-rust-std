@@ -1,0 +1,151 @@
+{
+ "base": "6f3a2629615cc7184b840d3c21aaea54b129267e",
+ "head": "9456baadf9e44cec0237936782216ad48ec1fb8b",
+ "ok": true,
+ "checks": {
+  "smallsort_rs_equals_annotation_free_projection_of_base": {
+   "ok": true,
+   "detail": ""
+  },
+  "smallsort_rs_has_no_kani_contracts": {
+   "ok": true,
+   "detail": ""
+  },
+  "smallsort_rs_only_added_line_is_tail_comment": {
+   "ok": true,
+   "detail": [
+    "+// Bounded SmallSort verification; harnesses are isolated from ordinary Rust builds."
+   ]
+  },
+  "signature_identical:swap_if_less": {
+   "ok": true,
+   "detail": ""
+  },
+  "signature_identical:insert_tail": {
+   "ok": true,
+   "detail": ""
+  },
+  "signature_identical:sort4_stable": {
+   "ok": true,
+   "detail": ""
+  },
+  "signature_identical:bidirectional_merge": {
+   "ok": true,
+   "detail": ""
+  },
+  "library_changes_limited": {
+   "ok": true,
+   "detail": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/correct.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs"
+   ]
+  },
+  "verify_rs_module_order_unchanged": {
+   "ok": true,
+   "detail": ""
+  },
+  "specs_have_no_callback_calls": {
+   "ok": true,
+   "detail": {
+    "clauses": 20,
+    "calling": []
+   }
+  },
+  "no_callback_spec_helpers_left": {
+   "ok": true,
+   "detail": ""
+  },
+  "frozen_p1_count_197": {
+   "ok": true,
+   "detail": ""
+  },
+  "static_ordinary_equals_frozen_p1": {
+   "ok": true,
+   "detail": {
+    "missing": [],
+    "extra": []
+   }
+  },
+  "no_active_raw_contract_proof_or_stub": {
+   "ok": true,
+   "detail": []
+  },
+  "no_ordinary_stub_verified": {
+   "ok": true,
+   "detail": []
+  },
+  "cfg_on_equals_base_minus_deactivated_plus_new": {
+   "ok": true,
+   "detail": {
+    "count": 377,
+    "base": 510,
+    "deactivated": 140
+   }
+  },
+  "new_harnesses_are_opt_in": {
+   "ok": true,
+   "detail": ""
+  },
+  "p1_pfc_count_32": {
+   "ok": true,
+   "detail": 32
+  },
+  "p1_pfc_all_profile_targets_with_tag": {
+   "ok": true,
+   "detail": []
+  },
+  "p1_former_stub_consumers_real_body": {
+   "ok": true,
+   "detail": []
+  },
+  "guard_requires_located:swap_profile": {
+   "ok": true,
+   "detail": [
+    "merge/specfix.rs:218"
+   ]
+  },
+  "guard_requires_located:sort4_profile": {
+   "ok": true,
+   "detail": [
+    "merge/specfix.rs:243"
+   ]
+  },
+  "guard_requires_located:insert_tail_profile": {
+   "ok": true,
+   "detail": [
+    "merge/specfix.rs:279"
+   ]
+  },
+  "guard_requires_located:merge_profile": {
+   "ok": true,
+   "detail": [
+    "merge/specfix.rs:317"
+   ]
+  },
+  "g1_entries_13_to_14": {
+   "ok": true,
+   "detail": 14
+  },
+  "g1_names_in_cfg_on": {
+   "ok": true,
+   "detail": ""
+  },
+  "g1_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "g2_g3_inventory_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "verify_rust_lines_le_100": {
+   "ok": true,
+   "detail": []
+  }
+ }
+}
