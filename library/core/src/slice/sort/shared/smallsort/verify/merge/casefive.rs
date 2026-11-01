@@ -672,3 +672,136 @@ fn casefive_d2_select_read_u8() {
     kani::cover(!c && x != y, "casefive D2: second selected, values differ");
     kani::assert(got == if c { x } else { y }, "casefive D2: read through the selection");
 }
+
+// A1 ARRAYFACTOR: F0/F1 reuse D1/D2 above without edits. Each row below changes one factor
+// of D1; all oracle booleans and covers precede the first assert (assert-assume on the pin).
+
+/// F2: D1 with an explicit branch in place of `select_unpredictable`.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f2_if_bytes1() {
+    let x: [u8; 1] = kani::any();
+    let y: [u8; 1] = kani::any();
+    let mut v = [x, y];
+    let c: bool = kani::any();
+    let base = v.as_mut_ptr();
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let s = if c { base } else { unsafe { base.add(1) } };
+    // SAFETY: `s` points to an initialized element of the live array.
+    let got = unsafe { ptr::read(s) };
+    let value_ok = got[0] == if c { x[0] } else { y[0] };
+    kani::cover(c && x[0] != y[0], "arrayfactor F2: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F2: second selected, values differ");
+    kani::assert(value_ok, "arrayfactor F2: read through if selection");
+}
+
+/// F3: D1 with a copy by dereference in place of `ptr::read`.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f3_deref_bytes1() {
+    let x: [u8; 1] = kani::any();
+    let y: [u8; 1] = kani::any();
+    let mut v = [x, y];
+    let c: bool = kani::any();
+    let base = v.as_mut_ptr();
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let s = hint::select_unpredictable(c, base, unsafe { base.add(1) });
+    // SAFETY: `s` points to an initialized element of the live array; `[u8; 1]` is Copy.
+    let got = unsafe { *s };
+    let value_ok = got[0] == if c { x[0] } else { y[0] };
+    kani::cover(c && x[0] != y[0], "arrayfactor F3: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F3: second selected, values differ");
+    kani::assert(value_ok, "arrayfactor F3: copy through dereference");
+}
+
+/// F4: D1 with `from_fn` construction using the same independent pre-values.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f4_from_fn_bytes1() {
+    let x: [u8; 1] = kani::any();
+    let y: [u8; 1] = kani::any();
+    let mut v: [[u8; 1]; 2] = crate::array::from_fn(|k| if k == 0 { x } else { y });
+    let c: bool = kani::any();
+    let base = v.as_mut_ptr();
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let s = hint::select_unpredictable(c, base, unsafe { base.add(1) });
+    // SAFETY: `s` points to an initialized element of the live array.
+    let got = unsafe { ptr::read(s) };
+    let value_ok = got[0] == if c { x[0] } else { y[0] };
+    kani::cover(c && x[0] != y[0], "arrayfactor F4: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F4: second selected, values differ");
+    kani::assert(value_ok, "arrayfactor F4: read from from_fn selection");
+}
+
+/// F5: D1 with symbolic index order; the oracle remains the independent pre-values.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f5_symbolic_indices_bytes1() {
+    let x: [u8; 1] = kani::any();
+    let y: [u8; 1] = kani::any();
+    let mut v = [x, y];
+    let c: bool = kani::any();
+    let r: bool = kani::any();
+    let (i, j) = if r { (1, 0) } else { (0, 1) };
+    let base = v.as_mut_ptr();
+    // SAFETY: i and j are distinct in-bounds indices of the two-element array.
+    let s = hint::select_unpredictable(c, unsafe { base.add(i) }, unsafe { base.add(j) });
+    // SAFETY: `s` points to an initialized element of the live array.
+    let got = unsafe { ptr::read(s) };
+    let value_ok = got[0] == if c { [x, y][i][0] } else { [x, y][j][0] };
+    kani::cover(c && x[0] != y[0], "arrayfactor F5: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F5: second selected, values differ");
+    kani::cover(r && x[0] != y[0], "arrayfactor F5: indices 1 and 0, values differ");
+    kani::cover(!r && x[0] != y[0], "arrayfactor F5: indices 0 and 1, values differ");
+    kani::assert(value_ok, "arrayfactor F5: read through symbolic indices");
+}
+
+/// F6: D1 with an additional address oracle and pre-assert address/value outcome covers.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f6_address_bytes1() {
+    let x: [u8; 1] = kani::any();
+    let y: [u8; 1] = kani::any();
+    let mut v = [x, y];
+    let c: bool = kani::any();
+    let base = v.as_mut_ptr();
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let s = hint::select_unpredictable(c, base, unsafe { base.add(1) });
+    // SAFETY: `s` points to an initialized element of the live array.
+    let got = unsafe { ptr::read(s) };
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let addr_ok = s == if c { base } else { unsafe { base.add(1) } };
+    let value_ok = got[0] == if c { x[0] } else { y[0] };
+    kani::cover(c && x[0] != y[0], "arrayfactor F6: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F6: second selected, values differ");
+    kani::cover(addr_ok && !value_ok, "arrayfactor F6: right address, wrong value");
+    kani::cover(!addr_ok, "arrayfactor F6: wrong address");
+    kani::cover(addr_ok && value_ok, "arrayfactor F6: right address, right value");
+    kani::assert(addr_ok, "arrayfactor F6: selected address");
+    // A quiet value check after a failed address check does not establish PASS on cut paths.
+    kani::assert(value_ok, "arrayfactor F6: read through the selection");
+}
+
+/// F7: D1 with concrete distinct pre-values and one assert per selected branch.
+#[kani::proof]
+#[kani::unwind(180)]
+fn arrayfactor_f7_witness_bytes1() {
+    let x: [u8; 1] = [1];
+    let y: [u8; 1] = [2];
+    let mut v = [x, y];
+    let c: bool = kani::any();
+    let base = v.as_mut_ptr();
+    // SAFETY: position 1 is in bounds of the two-element array.
+    let s = hint::select_unpredictable(c, base, unsafe { base.add(1) });
+    // SAFETY: `s` points to an initialized element of the live array.
+    let got = unsafe { ptr::read(s) };
+    let first_ok = got[0] == x[0];
+    let second_ok = got[0] == y[0];
+    kani::cover(c && x[0] != y[0], "arrayfactor F7: first selected, values differ");
+    kani::cover(!c && x[0] != y[0], "arrayfactor F7: second selected, values differ");
+    if c {
+        kani::assert(first_ok, "arrayfactor F7: first selected value");
+    } else {
+        kani::assert(second_ok, "arrayfactor F7: second selected value");
+    }
+}
