@@ -2,11 +2,21 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "cleanup-g2-inventory-382-20261101",
-  "kind": "inventory",
-  "purpose": "CLEANUP: native inventory, controls=true, exact 382 names; compile/list only, no proofs.",
-  "harness_timeout_minutes": 20,
-  "controls": true,
-  "inventory": true,
-  "harnesses": []
+  "request_id": "macbase-g1-measure-old2-20261102",
+  "kind": "measurement",
+  "purpose": "MACSPLIT baseline: VT/RSS of the two unsplit v5 ordinary harnesses (bytes17 N32 Stable+Unstable pair; insert_tail u64 START1 tail13..16) on the v5 tree; jobs1; compare with macsplit G2.",
+  "harness_timeout_minutes": 10,
+  "controls": false,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+      "expect": "SUCCESS"
+    }
+  ]
 }
