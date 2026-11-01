@@ -1,0 +1,28 @@
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative...
+
+VERIFICATION RESULT:
+ ** 1 of 326 failed (18 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: netnine negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network.rs", line 1005, in slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative
+
+VERIFICATION:- FAILED
+Verification Time: 7.939304s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9...
+
+VERIFICATION RESULT:
+ ** 0 of 345 failed (18 unreachable)
+
+ ** 4 of 4 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 261.0528s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative
+Complete - 1 successfully verified harnesses, 1 failures, 2 total.

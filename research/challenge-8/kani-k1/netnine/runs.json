@@ -1,0 +1,39 @@
+{
+  "build_uuid": "15e9cc87-6e89-4b44-b839-e43161af6a31",
+  "request_id": "netnine-g1-full-value-count-20261102",
+  "head_sha": "915da659071b5b00fe51921394ce6a5e25c11c9b",
+  "library_commit": "24d9f1d3d8f1ff03f2c3dbe891d1e8f6f30a4d13",
+  "library_tree": "ac095c9d7bc9d6909f15015bea6ba692ee032f00",
+  "coordinator_go": "GO 915da65907: G1 exactly two rows, reserve $0.675",
+  "submitted_recorded_at": "2026-11-01T21:21:57.501561+00:00",
+  "own_spent_usd": 0.1755,
+  "own_reserved_usd": 0,
+  "own_builds": 1,
+  "max_builds": 1,
+  "task_cap_usd": 0.75,
+  "global_used_usd": 74.814,
+  "global_reserved_after_submit_usd": 0.675,
+  "global_cap_usd": 88.96,
+  "initial_reserve_usd": 0.675,
+  "build_status": "SUCCESS",
+  "measurement_gate": true,
+  "expectation_met": true,
+  "measurement_ok": true,
+  "build_wall_seconds": 728.750271,
+  "results": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+      "status": "SUCCESS",
+      "vt_seconds": 261.0528,
+      "checks": "0/345",
+      "covers": "4/4"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+      "status": "FAILED",
+      "vt_seconds": 7.939304,
+      "checks": "1/326",
+      "covers": "2/2"
+    }
+  ]
+}
