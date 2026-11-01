@@ -1,0 +1,40 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "wone-g1-20261102",
+  "kind": "measurement",
+  "purpose": "WONE: four length-parametric real-entry PFCs N0..3 with N+2 backing/offset1; Stable u8 scratch48; two plain N3 Stable u8 controls. Ordinary200 unchanged.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::stable_cell_n0_to3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n0_to3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n0_to3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n0_to3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::rejects_always_true",
+      "expect": "FAILED",
+      "expect_check": "wone canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::rejects_payload_corruption",
+      "expect": "FAILED",
+      "expect_check": "wone full-value checker rejects payload corruption"
+    }
+  ]
+}
