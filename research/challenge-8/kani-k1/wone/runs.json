@@ -1,0 +1,37 @@
+{
+  "review_sha": "07e6954e3c6593e18ff28580106d147cd914e1dd",
+  "library_tree": "1731596d7c6df1e7fc745fa9e8d6a9ae4df7a432",
+  "runs": [
+    {
+      "label": "G1",
+      "uuid": "19e85ac8-ab3d-4e47-9fe7-a73547326ae0",
+      "request_id": "wone-g1-20261102",
+      "request_sha256": "e0e7ac117a4bb93f65750202f5a7a155cede41c7c6f56cd98b58de82e1ec4a51",
+      "pool": "k1-standard4",
+      "reserved_usd": 0,
+      "status": "FAILURE",
+      "coordinator_go": "GO 07e6954e3c, exact six-row packet",
+      "spent_usd": 0.6345,
+      "start_time": "2026-11-01T21:48:03.748194302Z",
+      "finish_time": "2026-11-01T22:34:07.621037Z",
+      "summary_status": "COMPLETE",
+      "compile_status": "SUCCESS",
+      "expectation_met": false,
+      "measurement_ok": false,
+      "rows": {
+        "stable_cell_n0_to3": "SUCCESS",
+        "unstable_byte_n0_to3": "TIMEOUT",
+        "freeze_noncopy_n0_to3": "TIMEOUT",
+        "stable_byte_n0_to3": "OUT_OF_MEMORY",
+        "rejects_always_true": "FAILED_EXPECTED",
+        "rejects_payload_corruption": "FAILED_EXPECTED"
+      }
+    }
+  ],
+  "own_spent_usd": 0.6345,
+  "own_reserved_usd": 0,
+  "task_cap_usd": 1.5,
+  "build_limit": 2,
+  "outcome": "PARTIAL",
+  "g2": "NOT_RUN: no compile error; same complete reserve would exceed task budget"
+}
