@@ -2,11 +2,11 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "cleanup-g1-inventory-200-20261101",
+  "request_id": "cleanup-g2-inventory-382-20261101",
   "kind": "inventory",
-  "purpose": "CLEANUP: native inventory, controls=false, exact 200 names; compile/list only, no proofs.",
+  "purpose": "CLEANUP: native inventory, controls=true, exact 382 names; compile/list only, no proofs.",
   "harness_timeout_minutes": 20,
-  "controls": false,
+  "controls": true,
   "inventory": true,
   "harnesses": []
 }
