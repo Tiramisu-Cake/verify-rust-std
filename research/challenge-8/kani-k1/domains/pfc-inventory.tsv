@@ -1,0 +1,38 @@
+name	target	profile_tag	domain	location (annotation; invocation)	cfg v5	notes
+network::swap_contract_four_positions_u8	swap_profile	LtU8	exact [u8;4], distinct arbitrary indices a,b<4, either order	network.rs:35	ordinary	—
+network::swap_contract_four_positions_i32	swap_profile	LtI32	exact [i32;4], distinct arbitrary indices a,b<4, either order	network.rs:40	ordinary	—
+network::swap_contract_four_positions_u64	swap_profile	LtU64	exact [u64;4], distinct arbitrary indices a,b<4, either order	network.rs:45	ordinary	—
+network::swap_contract_u8_n2	swap_profile	StrictU8	exact [u8;2], indices (0,1) or (1,0)	network.rs:1133; invocation 1141	ordinary	macro-expanded
+network::swap_contract_u64_n2	swap_profile	StrictU64	exact [u64;2], indices (0,1) or (1,0)	network.rs:1133; invocation 1142	ordinary	macro-expanded
+network::swap_contract_drop_u8_n2	swap_profile	DropU8	exact [DropValue;2], indices (0,1) or (1,0)	network.rs:1133; invocation 1143	ordinary	macro-expanded
+network::swap_contract_cell_i32_n2	swap_profile	CellI32	exact [Cell<i32>;2], indices (0,1) or (1,0)	network.rs:1133; invocation 1144	ordinary	macro-expanded
+network::swap_contract_bytes16_n2	swap_profile	KeyB16	exact [[u8;16];2], indices (0,1) or (1,0)	network.rs:1133; invocation 1145	ordinary	macro-expanded; model trust open (Kani #5104)
+network::swap_contract_bytes17_n2	swap_profile	KeyB17	exact [[u8;17];2], indices (0,1) or (1,0)	network.rs:1133; invocation 1146	ordinary	macro-expanded; model trust open (Kani #5104)
+network::swap_contract_u8_indices_n17	swap_profile	StrictU8	exact [u8;17], distinct arbitrary indices; untouched cells asserted	network.rs:1276	ordinary	—
+network::swap_contract_u64_indices_n17	swap_profile	StrictU64	exact [u64;17], distinct arbitrary indices; untouched cells asserted	network.rs:1282	ordinary	—
+network::swap_contract_u8_n9	swap_profile	StrictU8	exact [u8;9], distinct arbitrary indices; untouched cells asserted	network.rs:1290; invocation 1298	ordinary	macro-expanded
+network::swap_contract_u8_n13	swap_profile	StrictU8	exact [u8;13], distinct arbitrary indices; untouched cells asserted	network.rs:1290; invocation 1299	ordinary	macro-expanded
+network::swap_contract_u64_n9	swap_profile	StrictU64	exact [u64;9], distinct arbitrary indices; untouched cells asserted	network.rs:1290; invocation 1300	ordinary	macro-expanded
+merge::sort4_contract_u64_n4	sort4_profile	Sort4ReadU64	source [u64;4], separate MaybeUninit destination [u64;4]	merge.rs:218; invocation 232	ordinary	macro-expanded
+merge::sort4_contract_bytes16_n4	sort4_profile	Sort4ReadB16	source [[u8;16];4], separate MaybeUninit destination [[u8;16];4]	merge.rs:218; invocation 238	ordinary	macro-expanded; model trust open (Kani #5104)
+network::insert_tail_contract_u64_start1_tail2_to8	insert_tail_profile	LtU64	backing [u64;17], begin=1, tail 2..=8 (active N 2..=8)	network.rs:1339; invocation 1355	ordinary	macro-expanded
+network::insert_tail_contract_u64_start1_tail9_to12	insert_tail_profile	LtU64	backing [u64;17], begin=1, tail 9..=12 (active N 9..=12)	network.rs:1339; invocation 1362	ordinary	macro-expanded
+network::insert_tail_contract_u64_start1_tail13_to16	insert_tail_profile	LtU64	backing [u64;17], begin=1, tail 13..=16 (active N 13..=16)	network.rs:1339; invocation 1364	ordinary	macro-expanded
+network::contract_insert_tail_u8_prefix	insert_tail_profile	LtU8	backing [u8;17], begin=0, tail 1..=16 (active N 2..=17)	network.rs:1373	ordinary	—
+merge::merge_contract_u64_n2_to4	merge_profile	LtU64	exact source [u64;N], N 2..=4, separate MaybeUninit destination	merge.rs:542; invocation 565	ordinary	macro-expanded length dispatch
+merge::merge_contract_u8_n2_to4	merge_profile	LtU8	exact source [u8;N], N 2..=4, separate MaybeUninit destination	merge.rs:542; invocation 566	ordinary	macro-expanded length dispatch
+merge::merge_contract_u64_n5	merge_profile	LtU64	exact source [u64;5], separate MaybeUninit destination	merge.rs:570; invocation 924	ordinary	macro-expanded
+merge::merge_contract_u8_n5	merge_profile	LtU8	exact source [u8;5], separate MaybeUninit destination	merge.rs:570; invocation 925	ordinary	macro-expanded
+merge::merge_contract_u64_n6	merge_profile	LtU64	exact source [u64;6], separate MaybeUninit destination	merge.rs:570; invocation 926	ordinary	macro-expanded
+merge::merge_contract_u8_n6	merge_profile	LtU8	exact source [u8;6], separate MaybeUninit destination	merge.rs:570; invocation 927	ordinary	macro-expanded
+merge::merge_contract_u64_n7	merge_profile	LtU64	exact source [u64;7], separate MaybeUninit destination	merge.rs:570; invocation 928	ordinary	macro-expanded
+merge::merge_contract_u8_n7	merge_profile	LtU8	exact source [u8;7], separate MaybeUninit destination	merge.rs:570; invocation 929	ordinary	macro-expanded
+merge::merge_contract_u64_n8	merge_profile	LtU64	exact source [u64;8], separate MaybeUninit destination	merge.rs:570; invocation 930	ordinary	macro-expanded
+merge::merge_contract_u8_n8	merge_profile	LtU8	exact source [u8;8], separate MaybeUninit destination	merge.rs:570; invocation 931	ordinary	macro-expanded
+merge::merge_contract_u8_n9	merge_profile	LtU8	exact source [u8;9], separate MaybeUninit destination	merge.rs:570; invocation 932	ordinary	macro-expanded
+merge::merge_scratch48_contract_u8_n9	merge_profile	LtU8	source = prefix [0..9) of a 48-slot scratch (stable or general form); separate initialized destination [u8;9]	merge.rs:899; invocation 907	ordinary	macro-expanded; two backing forms
+wrap::stable_cell_n2	stable_cell	—	backing [Cell<u8>;4], active pair 1..=2; separate scratch [MaybeUninit<Cell<u8>>;2], slot 0 initialized, length 0..=2	wrap.rs:169	ordinary	—
+wrap::unstable_byte_n2	unstable_byte	—	backing [u8;4], active pair 1..=2	wrap.rs:191	ordinary	—
+wrap::freeze_noncopy_n2	freeze_noncopy	—	backing [NonCopyU8;4], active pair 1..=2	wrap.rs:204	ordinary	—
+network::insert_tail_contract_u64_start1_prefix_frame_control	insert_tail_profile	LtU64	backing [u64;17], begin=1, tail=2; prefix corrupted after return	network.rs:1398	cfg(kani_smallsort_controls)	negative control (expected failure)
+network::insert_tail_contract_u64_start1_suffix_frame_control	insert_tail_profile	LtU64	backing [u64;17], begin=1, tail=15; suffix corrupted after return	network.rs:1417	cfg(kani_smallsort_controls)	negative control (expected failure)
