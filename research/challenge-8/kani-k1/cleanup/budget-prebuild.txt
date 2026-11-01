@@ -1,0 +1,7 @@
+Snapshot during PRE-BUILD REVIEW preparation (2026-11-01), via tools/k1g.sh budget:
+builds 149; used $73.2480, reserved by unfinished builds $0.0000, cap $88.96.
+Prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135.
+CLEANUP own UUIDs: none; builds 0/2; spent $0.0000; reserved $0.0000.
+Planned reserve: 2 * (20 + 30) minutes * $0.0135 = $1.3500 <= $1.4000.
+Project headroom at snapshot after both planned reserves: $14.3620.
+Refresh tools/k1g.sh budget before each dispatch; retain cap and track own UUIDs only.

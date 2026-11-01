@@ -1,12 +1,12 @@
 {
- "schema": "kani-k1-run-request-v1",
- "agent": "k1-merge",
- "runner": "gcb-e2-standard-4",
- "request_id": "integwrapfix-inventory-ordinary-20261101",
- "kind": "inventory",
- "purpose": "INTEGWRAPFIX: native ordinary inventory after moving contract_insert_tail_u8_prefix from correct to network (kani list ordering); exact 200 names expected (integwrapfix/ordinary-expected.txt); no proofs.",
- "harness_timeout_minutes": 20,
- "controls": false,
- "inventory": true,
- "harnesses": []
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "cleanup-g1-inventory-200-20261101",
+  "kind": "inventory",
+  "purpose": "CLEANUP: native inventory, controls=false, exact 200 names; compile/list only, no proofs.",
+  "harness_timeout_minutes": 20,
+  "controls": false,
+  "inventory": true,
+  "harnesses": []
 }

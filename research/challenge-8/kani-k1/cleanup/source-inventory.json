@@ -1,0 +1,4519 @@
+{
+  "status": "PASS",
+  "source_root": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+  "source_files": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs"
+  ],
+  "source_file_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5791fee0819b16774172f0800c19018b7358bca49f65d89439783e16b6c38e90",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "b6185bc08055318c09a0cb4e5981a0a58a17259ef2d09ee145f69d89e1228088",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "4c16aa6aeb031054007775b2d75b668d3fae9677ab5ac92d5c8dc289d0129eaf",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "b38f5ed861964981db5adced202e2d41c83ccae3530fe06d0f1e45d444156a94",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs": "dcb7c5fdc77bb47bfedb6fe81eaa0482c01baf7bbd2fdd6b26a5c8ce6beafe08",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "3896e64b1a5922b5dc5cc9284d6b762b1c581ac0fd9a11ef50e425e13822a17a",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "b805cf4055af183820f4496fd7aa5bffe15f1bcd3c9ad1e168067b0467880d29",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "e8dff265fd02fb4c0c95738c0d051206523c3ed5db302dc62332875bb626e248",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "e3d17315a4a9f87a4076187dd2844c72327c9a2dcabe5c16acf7dc3184445ec2",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6"
+  },
+  "required_counts": {
+    "ordinary": 200,
+    "cfg_on": 382
+  },
+  "exact_counts_pass": true,
+  "scope": "verify.rs external module tree, including macro-generated proof items",
+  "method": "Rust comments and strings are masked; direct proof attributes, proof-producing local declarative macros, module cfg gates, and kani_smallsort_controls gates are parsed statically.",
+  "limitation": "Source-level name prediction only; it does not expand Rust macros or establish compiler/Kani inventory membership.",
+  "ordinary": {
+    "count": 200,
+    "expected": {
+      "status": "EXACT",
+      "expected_file": "research/challenge-8/kani-k1/integwrapfix/ordinary-expected.txt",
+      "expected_count": 200,
+      "expected_sha256": "1ea7bb6585d8cff99db84a6fcd99e61a5928537817b34c92c5c4579cd610b621",
+      "duplicate_expected_names": [],
+      "missing_names": [],
+      "unexpected_names": []
+    },
+    "harnesses": [
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 145,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 153,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 189,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 193,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 194,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 190,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 195,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 196,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 191,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 192,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 163,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 129,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 119,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1120,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1128,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1136,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1121,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1129,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1137,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1168,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1144,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1152,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1160,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1145,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1153,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1161,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 935,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 938,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 939,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 940,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 941,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 942,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 943,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 789,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 790,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 791,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 796,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1234,
+        "origin": "macro:define_direct_u8_n9_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 676,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 685,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 694,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 703,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 716,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 717,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 718,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 719,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 720,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 721,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 722,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 933,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 936,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 934,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 937,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 565,
+        "origin": "macro:define_small_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 924,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 926,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 928,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 930,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 566,
+        "origin": "macro:define_small_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 925,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 927,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 929,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 931,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 932,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 907,
+        "origin": "macro:define_merge_scratch48_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 505,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 484,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 485,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 486,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 487,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 488,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 489,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 490,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_bytes16_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 238,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 232,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_bytes16_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 238,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 232,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1236,
+        "origin": "macro:define_direct_u8_n9_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 792,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 793,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 794,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 797,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::contract_insert_tail_u8_prefix",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1376,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_general_bytes16_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 366,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_network_u8_n18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 367,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_stable_u8_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 365,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 305,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 306,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n31_32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 307,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 375,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 380,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 387,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 389,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 394,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 401,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 442,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 447,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 454,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 422,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 427,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 434,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 456,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n18_31_32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 309,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n8_9_12_13_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 308,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1364,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1355,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1362,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1185,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1211,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1184,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1190,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1210,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n11_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 632,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 640,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 641,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 767,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 746,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 753,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 760,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 795,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 774,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 781,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 788,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 823,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets16_to17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 830,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 802,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 809,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 816,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 858,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets17_to18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 865,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 837,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 844,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 851,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 893,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets17_to19",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 900,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 872,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 879,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 886,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 524,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 925,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets17_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 931,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 907,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 913,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 919,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n6_to10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 525,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n1_to5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 624,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 925,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets17_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 931,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 907,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 913,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 919,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1479,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1480,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1481,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n0_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 620,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 623,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 621,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 622,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 978,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n3_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 980,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 983,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 985,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 988,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1149,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 977,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1150,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1187,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1194,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1202,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n3_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 979,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 982,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 984,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 987,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1148,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 97,
+        "origin": "macro:unstable_freeze_network_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30_to32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 219,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes16_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1145,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes17_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1146,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_cell_i32_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1144,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_drop_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1143,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_i32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 41,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u64",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 46,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 36,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_indices_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1284,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1142,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1300,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_indices_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1278,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1299,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1141,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1298,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+        "line": 15,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 134,
+        "origin": "macro:trait_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 154,
+        "origin": "macro:fixed_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 138,
+        "origin": "macro:trait_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 156,
+        "origin": "macro:fixed_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 198,
+        "origin": "macro:fixed_route_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 199,
+        "origin": "macro:fixed_route_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::freeze_noncopy_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 206,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::stable_cell_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 171,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::unstable_byte_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 193,
+        "origin": "direct",
+        "gates": []
+      }
+    ]
+  },
+  "cfg_on": {
+    "count": 382,
+    "expected": {
+      "status": "EXACT",
+      "expected_file": "research/challenge-8/kani-k1/cleanup/cfg-on-expected.txt",
+      "expected_count": 382,
+      "expected_sha256": "a68292ac787478338602431c81f70c44e193b4d54bc343699daf75f23472d669",
+      "duplicate_expected_names": [],
+      "missing_names": [],
+      "unexpected_names": []
+    },
+    "historical_full_replacement": {
+      "status": "EXACT_FULL_REPLACEMENT",
+      "historical_file": "research/challenge-8/kani-k1/integwrap/cfg-on-expected.txt",
+      "historical_sha256": "220453cfccc8b6e207d60b7312b538c2dcb82d39e17f09cd51b0cbd96583b78d",
+      "expected_file": "research/challenge-8/kani-k1/cleanup/cfg-on-expected.txt",
+      "expected_sha256": "a68292ac787478338602431c81f70c44e193b4d54bc343699daf75f23472d669",
+      "replaced_old_name": "slice::sort::shared::smallsort::verify::correct::contract_insert_tail_u8_prefix",
+      "replacement_name": "slice::sort::shared::smallsort::verify::network::contract_insert_tail_u8_prefix",
+      "historical_old_name_count": 1,
+      "historical_replacement_name_count": 0,
+      "transformed_count": 382,
+      "expected_count": 382,
+      "missing_names": [],
+      "unexpected_names": []
+    },
+    "harnesses": [
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::advancement_merge_up_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 145,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 153,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_insert_tail_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 129,
+        "origin": "macro:paired_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_u8_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 153,
+        "origin": "macro:paired_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_merge_up_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 145,
+        "origin": "macro:paired_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_network_prefix_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 163,
+        "origin": "macro:paired_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 119,
+        "origin": "macro:paired_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 189,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 193,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 194,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 190,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 195,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 196,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 191,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 192,
+        "origin": "macro:stable_unit_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_network_prefix_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 163,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 129,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_swap_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+        "line": 119,
+        "origin": "macro:paired_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_duplicate_tag_control_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1185,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_extra_drop_control_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1197,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1120,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1128,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1136,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1121,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1129,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1137,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1168,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1144,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1152,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1160,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_reachability_control_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1110,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_reachability_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1119,
+        "origin": "macro:define_drop_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1170,
+        "origin": "macro:define_drop_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1145,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1153,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1161,
+        "origin": "macro:define_drop_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 978,
+        "origin": "macro:define_fallback_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 980,
+        "origin": "macro:define_fallback_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 982,
+        "origin": "macro:define_fallback_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 935,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 938,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 951,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 953,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 955,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 957,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 959,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 961,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 963,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 939,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 940,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 941,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 942,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 943,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 945,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 947,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 949,
+        "origin": "macro:define_fallback_property_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 789,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 790,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 791,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 796,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1234,
+        "origin": "macro:define_direct_u8_n9_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_nonconst_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 681,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_nonconst_u64_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 690,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_nonconst_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 699,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_nonconst_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 708,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 676,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 685,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 694,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 703,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 711,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 713,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 715,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 716,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 717,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 718,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 719,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 720,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 721,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 722,
+        "origin": "macro:define_general_direct_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 724,
+        "origin": "macro:define_general_direct_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_value_corruption_control_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 851,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 933,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 936,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 934,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 937,
+        "origin": "macro:define_general_sortedness_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::intrinsic_assumption_safety_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 398,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_aggregate_allocation_bounds_control_u64",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 838,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_arbitrary_order_assertion_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 453,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_arbitrary_order_permutation_failure_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 279,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_arbitrary_order_reachability_check_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 303,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_arbitrary_order_reachability_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 466,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 565,
+        "origin": "macro:define_small_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 924,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 926,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 928,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 930,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 566,
+        "origin": "macro:define_small_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 925,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 927,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 929,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 931,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 932,
+        "origin": "macro:define_merge_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 907,
+        "origin": "macro:define_merge_scratch48_contract_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::out_of_bounds_pointer_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 435,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::overlapping_copy_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 423,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 494,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 496,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 498,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 500,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 502,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 504,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 505,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 507,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 509,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n19",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 511,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 484,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 513,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n21",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 515,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n22",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 517,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n23",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 519,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n24",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 521,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n25",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 523,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n26",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 525,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n27",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 527,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n28",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 529,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n29",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 531,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 485,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n30",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 533,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 535,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 537,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 486,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 487,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 488,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 489,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 490,
+        "origin": "macro:define_route_safety_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 492,
+        "origin": "macro:define_route_safety_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_bytes16_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 238,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_bytes85_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 249,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 232,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_bytes16_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 238,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 232,
+        "origin": "macro:define_sort4_contract_and_comparator_harnesses",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::initialized_memory_positive",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 56,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::invalid_bool_sensitivity",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 128,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::padded_probe",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 103,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::probe_t129_helper_oob",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 91,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::raw_uninit_read_sensitivity",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 118,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::readonly_sort4_source",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 74,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specdiag::swap_fnmut_runtime_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs",
+        "line": 42,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes128",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 587,
+        "origin": "macro:case5_typed_swap",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes129",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 589,
+        "origin": "macro:case5_typed_swap",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_case5_typed_swap_bytes17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 585,
+        "origin": "macro:case5_typed_swap",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 458,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_positive_regression",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 439,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_probe_guard_rejects_t129",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 477,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_insert_rejected_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 525,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_merge_rejected_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 537,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_sort4_rejected_u64",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 512,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_swap_rejected_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "line": 502,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_aggregate_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 800,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_aggregate_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 806,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_aggregate_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 812,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 1236,
+        "origin": "macro:define_direct_u8_n9_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 792,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 793,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 794,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 797,
+        "origin": "macro:define_direct_u64_route_harness",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_value_corruption_control_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 821,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::merge::unchecked_add_overflow_control_u64_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "line": 410,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::contract_insert_tail_u8_prefix",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1376,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::control_network_mutant_presorted_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1488,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::control_network_normal_return_assertion",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 288,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::control_order_violation_assertion",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 166,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::control_order_violation_merge_assertion",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 346,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::control_order_violation_reachability",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 178,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_general_bytes16_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 366,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_network_u8_n18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 367,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_stable_u8_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 365,
+        "origin": "macro:dispatch_reachability_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 305,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 306,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n31_32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 307,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 375,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 380,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 386,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 387,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 389,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 394,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 400,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 401,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 442,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 447,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 453,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 454,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 422,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 427,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n31",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 433,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 434,
+        "origin": "macro:dispatch_pair_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 296,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 456,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n18_31_32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 309,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n8_9_12_13_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 308,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_zst_n8_9_12_13_17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 303,
+        "origin": "macro:dispatch_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_prefix_frame_control",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1400,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_suffix_frame_control",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1419,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1364,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1355,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1362,
+        "origin": "macro:insert_tail_start1_group_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1185,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1192,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1200,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1211,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1220,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1229,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1238,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1184,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1190,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1198,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1210,
+        "origin": "macro:insertion_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1218,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1227,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1236,
+        "origin": "macro:insertion_permutation_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n11_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 632,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n11_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 527,
+        "origin": "macro:insertion_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 640,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 634,
+        "origin": "macro:insertion_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 641,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 643,
+        "origin": "macro:insertion_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 767,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 746,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 753,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 760,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 681,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 795,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 774,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 781,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 788,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 529,
+        "origin": "macro:insertion_safety_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 687,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 823,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets16_to17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 830,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 802,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 809,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 816,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 693,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 858,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets17_to18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 865,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 837,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 844,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 851,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 699,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 893,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets17_to19",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 900,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 872,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 879,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 886,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 524,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 705,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 925,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets17_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 931,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 907,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 913,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 919,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n6_to10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 525,
+        "origin": "macro:insertion_safety_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n11_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 636,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n11_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 628,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 645,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 638,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 647,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 649,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 767,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 746,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 753,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 760,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 681,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 795,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 774,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 781,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 788,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 630,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 687,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets13_to15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 823,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets16_to17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 830,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 802,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 809,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 816,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 693,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 858,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offsets17_to18",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 865,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 837,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 844,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n18_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 851,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 699,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 893,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offsets17_to19",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 900,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 872,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 879,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n19_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 886,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n1_to5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 624,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offset1",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 705,
+        "origin": "macro:insertion_offset_one_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 925,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets17_to20",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 931,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets1_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 907,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 913,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 919,
+        "origin": "macro:insertion_offset_group_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n6_to10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 626,
+        "origin": "macro:mutating_insertion_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1479,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n3",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1480,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1481,
+        "origin": "macro:mutating_route_permutation_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n0_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 620,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n13_to16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 623,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n5_to8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 621,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n9_to12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 622,
+        "origin": "macro:mutating_route_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 978,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1152,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1189,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1196,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1204,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1209,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1216,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1225,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1234,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n3_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 980,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 983,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 985,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 988,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 992,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1149,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 977,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n10",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1150,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n11",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1187,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n12",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1194,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1202,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n14",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1207,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n15",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1214,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n16",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1223,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1232,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n3_to4",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 979,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n5",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 982,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n6",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 984,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 987,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 990,
+        "origin": "macro:network_correctness_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1148,
+        "origin": "macro:network_correctness_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 97,
+        "origin": "macro:unstable_freeze_network_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n18_to21",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 212,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n22_to25",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 214,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n26_to27",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 216,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n28_to29",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 218,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30_to32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 219,
+        "origin": "macro:unstable_dispatch_network_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes16_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1145,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes17_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1146,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_cell_i32_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1144,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_drop_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1143,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_i32",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 41,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u64",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 46,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 36,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_indices_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1284,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1142,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1300,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_indices_n17",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1278,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n13",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1299,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1141,
+        "origin": "macro:swap_contract_exact_array_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "line": 1298,
+        "origin": "macro:swap_contract_arbitrary_indices_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_boundaries",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+        "line": 38,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+        "line": 15,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::smoke::reject_efficient_swap_bytes9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+        "line": 48,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::control_sorted_permutation_traits_cell_drop_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 204,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::reject_logical_permutation_drop_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 226,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::reject_logical_sortedness_cell_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 215,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 134,
+        "origin": "macro:trait_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 154,
+        "origin": "macro:fixed_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7_to9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 137,
+        "origin": "macro:trait_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 160,
+        "origin": "macro:fixed_trait_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 138,
+        "origin": "macro:trait_cases",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n7_to9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 140,
+        "origin": "macro:trait_cases",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 156,
+        "origin": "macro:fixed_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n9",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 162,
+        "origin": "macro:fixed_trait_case",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 198,
+        "origin": "macro:fixed_route_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "line": 199,
+        "origin": "macro:fixed_route_trait_case",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::freeze_noncopy_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 206,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::rejects_always_true",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 227,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 258,
+        "origin": "direct",
+        "gates": [
+          "kani_smallsort_controls"
+        ]
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::stable_cell_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 171,
+        "origin": "direct",
+        "gates": []
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::wrap::unstable_byte_n2",
+        "source": "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+        "line": 193,
+        "origin": "direct",
+        "gates": []
+      }
+    ]
+  }
+}
