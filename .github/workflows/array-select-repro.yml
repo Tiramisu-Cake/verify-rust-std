@@ -1,0 +1,80 @@
+# Standalone array-select reproduction on a pinned Kani revision and a frozen
+# snapshot of Kani main. A green job means the report was collected, not that
+# any proof succeeded.
+name: Array select standalone repro
+
+on:
+  push:
+    branches: [ 'ci/kani-array-select-repro-20261101' ]
+    paths:
+      - 'array-select-standalone/**'
+      - '.github/workflows/array-select-repro.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repro:
+    if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/ci/kani-array-select-repro-20261101'
+    name: Kani ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: verify-rust-std pin
+            ref: 9461e07af7ec929f050aa4192f29363c9be07779
+          - label: main snapshot
+            ref: 744b3e84d6eb68fd5456826997568666791bd355
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Kani from source
+        id: build
+        run: |
+          mkdir -p out kani_build
+          cd kani_build
+          git init -q .
+          git remote add origin https://github.com/model-checking/kani.git
+          git fetch --depth 1 origin "${{ matrix.ref }}" --quiet
+          git checkout FETCH_HEAD --quiet
+          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet
+          kani_sha=$(git rev-parse HEAD)
+          kani_toolchain=$(sed -nE 's/^channel[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' rust-toolchain.toml | head -n 1)
+          {
+            echo "KANI_SHA=$kani_sha"
+            echo "KANI_TOOLCHAIN=$kani_toolchain"
+            echo "KANI_ROOT=$GITHUB_WORKSPACE/kani_build"
+          } >> "$GITHUB_ENV"
+          printf 'sha=%s\ntoolchain=%s\nroot=%s\n' "$kani_sha" "$kani_toolchain" "$GITHUB_WORKSPACE/kani_build" > ../out/build-metadata.txt
+          set +e
+          ./scripts/setup/ubuntu/install_deps.sh > ../out/install-deps.txt 2>&1
+          install_rc=$?
+          printf 'command: ./scripts/setup/ubuntu/install_deps.sh\nrc: %s\n' "$install_rc" > ../out/install-deps.command.txt
+          printf '%s\n' "$install_rc" > ../out/install-deps.rc
+          if [ "$install_rc" -ne 0 ]; then exit "$install_rc"; fi
+          cargo build-dev --release > ../out/build.txt 2>&1
+          build_rc=$?
+          printf 'command: cargo build-dev --release\nrc: %s\n' "$build_rc" > ../out/build.command.txt
+          printf '%s\n' "$build_rc" > ../out/build.rc
+          if [ "$build_rc" -ne 0 ]; then exit "$build_rc"; fi
+
+      - name: Run harnesses and write report
+        if: always()
+        env:
+          KANI_ROOT: ${{ env.KANI_ROOT }}
+          KANI_TOOLCHAIN: ${{ env.KANI_TOOLCHAIN }}
+          KANI_LABEL: ${{ matrix.label }}
+          KANI_EXPECTED_SHA: ${{ matrix.ref }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: python3 array-select-standalone/ci_report.py run
+
+      - name: Upload commands and raw outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: array-select-outputs-${{ strategy.job-index }}
+          path: out/
+          if-no-files-found: warn
