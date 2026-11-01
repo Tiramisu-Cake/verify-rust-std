@@ -1,0 +1,281 @@
+{
+  "build_outcome": "success",
+  "complete_line": {
+    "failures": 1,
+    "success": 3,
+    "total": 4
+  },
+  "errors": [],
+  "errors_truncated": false,
+  "expectation_met": true,
+  "harnesses": [
+    {
+      "checks_failed": 0,
+      "checks_total": 569,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9",
+      "status": "SUCCESS",
+      "time_s": 217.59927,
+      "unreachable": 53
+    },
+    {
+      "checks_failed": 0,
+      "checks_total": 743,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9",
+      "status": "SUCCESS",
+      "time_s": 25.559757,
+      "unreachable": 59
+    },
+    {
+      "checks_failed": 0,
+      "checks_total": 571,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+      "status": "SUCCESS",
+      "time_s": 154.85562,
+      "unreachable": 57
+    },
+    {
+      "checks_failed": 1,
+      "checks_total": 743,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "expect": "FAILED",
+      "expect_check": "bridgenine output preserves full-value probe count",
+      "failed_checks": [
+        {
+          "description": "bridgenine output preserves full-value probe count",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/bridge.rs:176"
+        }
+      ],
+      "failed_checks_truncated": false,
+      "failed_located": 1,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9",
+      "status": "FAILED",
+      "time_s": 19.98077,
+      "unreachable": 58
+    }
+  ],
+  "head_sha": "b5448315bd55a3c8019f4df3cee5c3c4be54c912",
+  "inconsistencies": [],
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "kani_exit_code": 1,
+  "measurement_ok": true,
+  "notes": [
+    "time -v max RSS 1839220 KiB exceeds the largest sampled command peak 1838980 KiB: a process grew between samples; use the time -v value as the true single-process peak",
+    "--cfg kani_smallsort_controls on: opt-in control/mutant harnesses compiled, outside the CI set",
+    "53 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9",
+    "59 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9",
+    "57 unreachable check(s) in slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+    "58 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9"
+  ],
+  "request": {
+    "agent": "k1-merge",
+    "controls": true,
+    "harness_timeout_minutes": 10,
+    "inventory": false,
+    "kani_jobs": 1,
+    "kind": "measurement",
+    "purpose": "BRIDGENINE B2: actual Stable u8 N9 direct A versus merge-only bridge B, shared canonical fn-pointer/probe/model oracle; matching scratch48 real-body leaf and payload-only count negative. No N16/macOS credit.",
+    "request_id": "bridgenine-g1-20261101",
+    "runner": "gcb-e2-standard-4",
+    "uninit_checks": false
+  },
+  "request_sha256": "0762e62c52cd59c7f19b4cf9db4bc126c9174cb590725e1497599caee8b32bc0",
+  "resources": {
+    "max_rss_kb_whole_run": 1839220,
+    "memcap": {
+      "max_bytes": 16785850368,
+      "oom_kill": null,
+      "peak_bytes": null,
+      "reason": "Cloud Build pool, no cgroup cap",
+      "state": "MACHINE",
+      "swap": "off"
+    },
+    "peaks": {
+      "cgroup_events": {},
+      "commands": [
+        {
+          "cmd": "kani-compiler",
+          "first_s": 2,
+          "last_s": 62,
+          "peak_kb": 1838980,
+          "peak_s": 48
+        },
+        {
+          "cmd": "cbmc",
+          "first_s": 66,
+          "last_s": 491,
+          "peak_kb": 1323280,
+          "peak_s": 467
+        },
+        {
+          "cmd": "kani-driver",
+          "first_s": 2,
+          "last_s": 491,
+          "peak_kb": 832152,
+          "peak_s": 114
+        },
+        {
+          "cmd": "goto-instrument",
+          "first_s": 86,
+          "last_s": 335,
+          "peak_kb": 80452,
+          "peak_s": 335
+        },
+        {
+          "cmd": "goto-cc",
+          "first_s": 64,
+          "last_s": 64,
+          "peak_kb": 36020,
+          "peak_s": 64
+        },
+        {
+          "cmd": "cargo",
+          "first_s": 2,
+          "last_s": 62,
+          "peak_kb": 33120,
+          "peak_s": 62
+        },
+        {
+          "cmd": "python3",
+          "first_s": 0,
+          "last_s": 0,
+          "peak_kb": 20604,
+          "peak_s": 0
+        },
+        {
+          "cmd": "bash",
+          "first_s": 0,
+          "last_s": 491,
+          "peak_kb": 3952,
+          "peak_s": 0
+        },
+        {
+          "cmd": "run-kani.sh",
+          "first_s": 2,
+          "last_s": 491,
+          "peak_kb": 3756,
+          "peak_s": 2
+        },
+        {
+          "cmd": "time",
+          "first_s": 2,
+          "last_s": 491,
+          "peak_kb": 1112,
+          "peak_s": 2
+        },
+        {
+          "cmd": "timeout",
+          "first_s": 2,
+          "last_s": 491,
+          "peak_kb": 1100,
+          "peak_s": 2
+        },
+        {
+          "cmd": "tee",
+          "first_s": 0,
+          "last_s": 491,
+          "peak_kb": 1092,
+          "peak_s": 0
+        }
+      ],
+      "commands_truncated": false,
+      "dmesg_oom": "none_seen",
+      "interval_ms": 2000,
+      "processes": [
+        {
+          "active": "T0:merge::merge_scratch48_contract_u8_n9",
+          "cbmc_pid": "9322",
+          "first_s": "337",
+          "hint": "slice::sort::shared::smallsort::verify::merge::merge_scratch",
+          "last_s": "491",
+          "peak_kb": "1323280",
+          "peak_s": "467"
+        },
+        {
+          "active": "T0:bridge::bridgenine_direct_u8_n9",
+          "cbmc_pid": "9284",
+          "first_s": "116",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridgenine_d",
+          "last_s": "331",
+          "peak_kb": "426800",
+          "peak_s": "120"
+        },
+        {
+          "active": "T0:bridge::bridgenine_payload_flip_u8_n9",
+          "cbmc_pid": "9230",
+          "first_s": "66",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridgenine_p",
+          "last_s": "84",
+          "peak_kb": "350956",
+          "peak_s": "72"
+        },
+        {
+          "active": "T0:bridge::bridgenine_caller_u8_n9",
+          "cbmc_pid": "9257",
+          "first_s": "88",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridgenine_c",
+          "last_s": "112",
+          "peak_kb": "347688",
+          "peak_s": "94"
+        }
+      ],
+      "records_truncated": false,
+      "roles": [
+        {
+          "peak_s": "477",
+          "role": "cbmc",
+          "simultaneous_rss_peak_kb": "1308196"
+        },
+        {
+          "peak_s": "491",
+          "role": "driver",
+          "simultaneous_rss_peak_kb": "805060"
+        }
+      ],
+      "samples": 247,
+      "state": "PARSED",
+      "total_peak_s": 491,
+      "total_rss_peak_kb": 2124792
+    },
+    "time_file": "PARSED",
+    "wall_whole_run": "8:11.80"
+  },
+  "run": {
+    "attempt": null,
+    "id": "b457683e-137b-485b-96a2-6d6fcf54e217",
+    "image_os": "Ubuntu 24.04.5 LTS",
+    "image_version": "4 CPU Intel(R) Xeon(R) CPU @ 2.20GHz, 15.6 GiB (container view; pool per Cloud Build record)"
+  },
+  "schema": "kani-k1-run-summary-v2",
+  "status": "COMPLETE",
+  "tooling_sha256": {
+    ".github/workflows/kani.yml": "587cf2116075865fe641bee4da47b96cc22f71ca06433f7cb6f63b3439828577",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh": "2547fc997b057dd41fee896b7c5aac4279a339470992433cb1b46b0145a97812",
+    "research/challenge-8/kani-k1/tools/kani_k1.py": "55d62136ad9ab71eb5c0fbd470904ecf20b1ecbb8ab34cca1bbdeff9efc8494e",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0"
+  },
+  "unrequested_blocks": []
+}

@@ -1,0 +1,50 @@
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9...
+  - Stub: bidirectional_merge -> adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile
+
+VERIFICATION RESULT:
+ ** 1 of 743 failed (58 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+Failed Checks: bridgenine output preserves full-value probe count
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/bridge.rs", line 176, in slice::sort::shared::smallsort::verify::bridge::bridgenine_stable_caller
+
+VERIFICATION:- FAILED
+Verification Time: 19.98077s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9...
+  - Stub: bidirectional_merge -> adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile
+
+VERIFICATION RESULT:
+ ** 0 of 743 failed (59 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 25.559757s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9...
+
+VERIFICATION RESULT:
+ ** 0 of 569 failed (53 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 217.59927s
+
+Checking harness slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9...
+
+VERIFICATION RESULT:
+ ** 0 of 571 failed (57 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 154.85562s
+
