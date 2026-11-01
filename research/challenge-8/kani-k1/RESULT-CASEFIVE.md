@@ -95,23 +95,35 @@ in ordinary with the caveat "model-trust OPEN (CASE5-2)". No row shows them wron
 needs the direct constant-position form, and the plain PFC-fixture baseline passes for KeyB17.
 Do not cite them as evidence of faithful modelling. Closing needs a cheaper in-target check (the
 twins exceed 3 min / 7 GiB; cause not analysed) or a newer pin: coordinator/owner decision.
-## A1 ARRAYFACTOR — PRE-BUILD REVIEW, NOT_RUN (await coordinator GO)
-Task `TASK-ARRAYFACTOR.md`, library `56387d7234` (tree `894ee6d862`); packet `arrayfactor/PREBUILD.md`.
-One planned diagnostic `arrayfactor-a1-20261101`, 8 rows, reserve $0.729 <= $0.75; no submitted UUID.
-Own spent $0, reserved $0. Pin `9461e07af7`, nightly-2026-10-12; ordinary 197 unchanged.
-All entries below describe A1 only; earlier CASE5-2 D1/D2 evidence remains separate.
-| Row | Status | Failed checks | Covers |
+## A1 ARRAYFACTOR — COMPLETE: symbolic indices suppress the divergence in this fixture
+Task `TASK-ARRAYFACTOR.md`; library `56387d7234`, tree `894ee6d862`; published/run head `0a2764a562`.
+Build `cc350da7-7c1a-4acf-abc0-6ee6eda702ad`, request `arrayfactor-a1-20261101`: 8/8 compiled/ran,
+all predictions matched; build SUCCESS, gate true (Kani exit 1 is expected for these diagnostics).
+Pin `9461e07af7`, nightly-2026-10-12; flags unchanged; 3 min, jobs 1, controls on, uninit off.
+Own $0.1080/$0.75, reserve $0 released; project snapshot $73.3560 used + $1.9980 others reserved / $88.96.
+`check-tooling` vs `30f77e8599` PASS; compilation+verification wall 69.61 s, max RSS 1664908 KiB, no OOM seen.
+| Row | Status | Failed checks (literal message; only listed checks failed) | Covers |
 |---|---|---|---|
-| F0 existing D1 | NOT_RUN | UNKNOWN | UNKNOWN |
-| F1 existing D2, u8 | NOT_RUN | UNKNOWN | UNKNOWN |
-| F2 if selection | NOT_RUN | UNKNOWN | UNKNOWN |
-| F3 dereference copy | NOT_RUN | UNKNOWN | UNKNOWN |
-| F4 from_fn construction | NOT_RUN | UNKNOWN | UNKNOWN |
-| F5 symbolic indices | NOT_RUN | UNKNOWN | UNKNOWN |
-| F6 address/value oracles | NOT_RUN | UNKNOWN | UNKNOWN |
-| F7 concrete [1]/[2], branch checks | NOT_RUN | UNKNOWN | UNKNOWN |
-Factor/branch/value-vs-address conclusions: UNKNOWN pending the authorized build.
-F6 value-check silence after address failure is not PASS on cut paths; covers precede both asserts.
-F7 SUCCESS would only mean this witness did not reproduce. Predictions are in PREBUILD.md.
-Local exact D1/D2 fragment and pin/flags: `arrayfactor/reproducer.rs`, `arrayfactor/REPRODUCER.md`.
-No local proof, trace/playback workaround, Part 1 validation, external publication or issue.
+| F0 unchanged D1 | FAILED | `casefive D1: read through the selection` | 2/2 |
+| F1 unchanged D2, u8 | SUCCESS | — | 2/2 |
+| F2 if selection | FAILED | `arrayfactor F2: read through if selection` | 2/2 |
+| F3 dereference copy | FAILED | `arrayfactor F3: copy through dereference` | 2/2 |
+| F4 from_fn construction | FAILED | `arrayfactor F4: read from from_fn selection` | 2/2 |
+| F5 symbolic indices | SUCCESS | — | 4/4 |
+| F6 address/value oracles | FAILED | `arrayfactor F6: read through the selection` | 4/5 |
+| F7 concrete [1]/[2] | FAILED | `arrayfactor F7: first selected value` | 2/2 |
+**Factors:** D1/D2 reproduce the array/scalar difference. In this one-factor matrix, symbolic
+index order (F5) suppresses the divergence; changing select to if (F2), read to dereference (F3),
+or construction to from_fn (F4) does not. Thus select_unpredictable and ptr::read are not necessary
+for this symptom; this from_fn form alone does not reproduce A2's success. No general trigger theorem.
+**Address/value:** F6's first (address) assert did not fail; its value assert did. With covers
+before both asserts, 4/5 covers imply right-address/wrong-value and right-address/right-value
+are satisfied, wrong-address unsatisfied (inferred from source/counts and address check; terse
+output does not name individual covers). No value PASS is inferred on paths cut by a failed assert.
+**Branch:** F7 fails only on c=true (base, expected 1); c=false (base+1, expected 2) holds for
+this witness. Both branch covers are satisfied and asserts execute on disjoint paths.
+**UNKNOWN:** actual wrong byte, failing-branch distribution for arbitrary x/y, and the responsible
+compiler/model/backend component; symbolic indices are a local suppression, not faithful-model proof.
+Ordinary 197 source membership unchanged; no new Part 1 validation or array-profile trust credit.
+Artifacts: `arrayfactor/` (bounded summary/rows/status/peaks/tooling/cost/ledger); minimal exact D1/D2
+code `reproducer.rs`, pin/flags `REPRODUCER.md`. One build only; no trace/raw-log workaround or issue.

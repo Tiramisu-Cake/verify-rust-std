@@ -31,6 +31,10 @@ kani_build/scripts/kani verify-std -Z unstable-options ./library \
 
 The one authorized ARRAYFACTOR build includes F2–F7 too: exact request `a1.request.json`,
 generated additional CLI arguments `a1.args.txt`, environment `a1.rustflags.txt`.
-No pin/flags/timeout change or local proof is part of this package. Before A1 dispatch, its
-status is NOT_RUN. CASE5-2 reported D1 FAILED, D2 SUCCESS (both covers satisfied), which
-motivates rerunning these controls; new A1 evidence will be recorded separately.
+No pin/flags/timeout change or local proof is part of this package. A1 ran the authoritative
+in-tree D1/D2 on head `0a2764a562`: D1 FAILED on `casefive D1: read through the selection`,
+D2 SUCCESS, both covers satisfied in each. Build `cc350da7-7c1a-4acf-abc0-6ee6eda702ad`;
+bounded evidence `a1.summary.md`, `a1.rows.txt`, `a1.tooling.txt`. These repeat the CASE5-2
+observation; this extracted fragment was not separately compiled or run in a different context.
+F7 also reproduces with x=[1], y=[2]: only c=true's first-selected check fails. It does not
+print the wrong byte. F5's symbolic index order suppresses the failure in this fixture.
