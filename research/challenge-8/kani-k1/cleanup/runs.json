@@ -1,0 +1,28 @@
+{
+  "library_commit": "dd0f293f00c032d9fc69b74419a304dbb92d1108",
+  "library_tree": "cbe69760c8166d49acf1171c46185dfa3d58b270",
+  "coordinator_go": "b996cc62ece60859ba7f20d2c37dc9962bf8f6db",
+  "builds": [
+    {
+      "label": "G1",
+      "uuid": "131ff241-7501-4942-b438-9a586f475b9c",
+      "head_sha": "b996cc62ece60859ba7f20d2c37dc9962bf8f6db",
+      "request_id": "cleanup-g1-inventory-200-20261101",
+      "controls": false,
+      "expected_count": 200,
+      "reserve_usd": "0.6750"
+    },
+    {
+      "label": "G2",
+      "uuid": "a1fa83b7-22c5-4be5-b0b4-6b8805e536fe",
+      "head_sha": "a476a6578864d802e61916021ee525ec60b552a1",
+      "request_id": "cleanup-g2-inventory-382-20261101",
+      "controls": true,
+      "expected_count": 382,
+      "reserve_usd": "0.6750"
+    }
+  ],
+  "own_builds": 2,
+  "max_combined_reserve_usd": "1.3500",
+  "actual_cost": "PENDING_TERMINAL_ACCOUNTING"
+}
