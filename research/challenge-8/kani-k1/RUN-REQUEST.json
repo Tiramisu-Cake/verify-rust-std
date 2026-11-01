@@ -1,22 +1,52 @@
 {
- "schema": "kani-k1-run-request-v1",
- "agent": "k1-merge",
- "runner": "gcb-e2-standard-4",
- "request_id": "casefivetwo-g1-20261101",
- "kind": "diagnostic",
- "purpose": "CASE5-2: array-model PFC trust. A1/A2 plain profile and raw call in the PFC fixture, P17/P16/S4 PFCs of byte-checked twins, C1 negative wrong body under the swap contract, D1/D2 select read reproducer; controls on, jobs 1, uninit off.",
- "harness_timeout_minutes": 3,
- "controls": true,
- "kani_jobs": 1,
- "uninit_checks": false,
- "harnesses": [
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_a1_plain_profile_bytes17", "expect": "SUCCESS"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_a2_raw_call_bytes17", "expect": "SUCCESS"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_p17_checked_contract_bytes17", "expect": "SUCCESS"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_p16_checked_contract_bytes16", "expect": "SUCCESS"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_s4_checked_contract_bytes16", "expect": "SUCCESS"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_c1_bad_body_contract_bytes17", "expect": "FAILED", "expect_check": "swap_transfer::<P>(old(pair_models::<P>(v, a, b)), v, a, b)"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_d1_select_read_bytes1", "expect": "FAILED", "expect_check": "casefive D1: read through the selection"},
-  {"name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_d2_select_read_u8", "expect": "SUCCESS"}
- ]
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "arrayfactor-a1-20261101",
+  "kind": "diagnostic",
+  "purpose": "A1 ARRAYFACTOR: unchanged D1/D2 controls plus one-factor if, dereference, from_fn, symbolic indices, address oracle and concrete witness rows. Diagnostic predictions only; no Part 1 validation.",
+  "harness_timeout_minutes": 3,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_d1_select_read_bytes1",
+      "expect": "FAILED",
+      "expect_check": "casefive D1: read through the selection"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::casefive_d2_select_read_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f2_if_bytes1",
+      "expect": "FAILED",
+      "expect_check": "arrayfactor F2: read through if selection"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f3_deref_bytes1",
+      "expect": "FAILED",
+      "expect_check": "arrayfactor F3: copy through dereference"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f4_from_fn_bytes1",
+      "expect": "FAILED",
+      "expect_check": "arrayfactor F4: read from from_fn selection"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f5_symbolic_indices_bytes1",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f6_address_bytes1",
+      "expect": "FAILED",
+      "expect_check": "arrayfactor F6: read through the selection"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f7_witness_bytes1",
+      "expect": "FAILED",
+      "expect_check": "arrayfactor F7: first selected value"
+    }
+  ]
 }

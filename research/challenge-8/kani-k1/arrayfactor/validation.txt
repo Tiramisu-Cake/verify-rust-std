@@ -1,0 +1,9 @@
+PASS: old casefive.rs prefix byte-identical to task/base db9583a0b9.
+PASS: root RUN-REQUEST.json equals arrayfactor/a1.request.json.
+PASS: extracted D1/D2 reproducer functions/doc comments byte-identical to library.
+PASS: added Rust rows and reproducer Rust/comments <=100 columns.
+PASS: lane/tools/workflows/toolchain paths equal 30f77e859903df14b442ff9294d4fbbd44827f20.
+PASS: A1 ARRAYFACTOR result section <=35 lines (pending evidence).
+PASS: project rustfmt wrapper --check --edition 2024, project config, casefive.rs + reproducer.rs (exit 0).
+PASS: git diff --check (exit 0).
+No local cargo/rustc/Kani/CBMC/proof runs. Static checks do not establish compilation or proof.

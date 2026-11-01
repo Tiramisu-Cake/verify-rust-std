@@ -1,0 +1,55 @@
+ok   diff db9583a0b9..56387d7234 = casefive.rs only: ['M\tlibrary/core/src/slice/sort/shared/smallsort/verify/merge/casefive.rs']
+ok   entire old casefive.rs is a byte-identical prefix
+ok   no inner cfg in appended harnesses
+ok   six new proof harnesses appended in order: ['arrayfactor_f2_if_bytes1', 'arrayfactor_f3_deref_bytes1', 'arrayfactor_f4_from_fn_bytes1', 'arrayfactor_f5_symbolic_indices_bytes1', 'arrayfactor_f6_address_bytes1', 'arrayfactor_f7_witness_bytes1']
+ok   unwind 180 on every appended harness
+ok   found function body arrayfactor_f2_if_bytes1
+ok   found function body arrayfactor_f3_deref_bytes1
+ok   found function body arrayfactor_f4_from_fn_bytes1
+ok   found function body arrayfactor_f5_symbolic_indices_bytes1
+ok   found function body arrayfactor_f6_address_bytes1
+ok   found function body arrayfactor_f7_witness_bytes1
+ok   arrayfactor_f2_if_bytes1: all covers precede every assert
+ok   arrayfactor_f2_if_bytes1: expected assertion message(s): ['arrayfactor F2: read through if selection']
+ok   arrayfactor_f2_if_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f2_if_bytes1: c/!c covers require differing values
+ok   arrayfactor_f3_deref_bytes1: all covers precede every assert
+ok   arrayfactor_f3_deref_bytes1: expected assertion message(s): ['arrayfactor F3: copy through dereference']
+ok   arrayfactor_f3_deref_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f3_deref_bytes1: c/!c covers require differing values
+ok   arrayfactor_f4_from_fn_bytes1: all covers precede every assert
+ok   arrayfactor_f4_from_fn_bytes1: expected assertion message(s): ['arrayfactor F4: read from from_fn selection']
+ok   arrayfactor_f4_from_fn_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f4_from_fn_bytes1: c/!c covers require differing values
+ok   arrayfactor_f5_symbolic_indices_bytes1: all covers precede every assert
+ok   arrayfactor_f5_symbolic_indices_bytes1: expected assertion message(s): ['arrayfactor F5: read through symbolic indices']
+ok   arrayfactor_f5_symbolic_indices_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f5_symbolic_indices_bytes1: c/!c covers require differing values
+ok   arrayfactor_f6_address_bytes1: all covers precede every assert
+ok   arrayfactor_f6_address_bytes1: expected assertion message(s): ['arrayfactor F6: selected address', 'arrayfactor F6: read through the selection']
+ok   arrayfactor_f6_address_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f6_address_bytes1: c/!c covers require differing values
+ok   arrayfactor_f7_witness_bytes1: all covers precede every assert
+ok   arrayfactor_f7_witness_bytes1: expected assertion message(s): ['arrayfactor F7: first selected value', 'arrayfactor F7: second selected value']
+ok   arrayfactor_f7_witness_bytes1: every oracle boolean is computed before the first assert
+ok   arrayfactor_f7_witness_bytes1: c/!c covers require differing values
+ok   F2: if-selected pointer then ptr::read
+ok   F3: D1 selector with copy by dereference
+ok   F4: from_fn array construction with D1 selection
+ok   F5: symbolic r-controlled index order
+ok   F5: c/!c and r/!r covers require differing values
+ok   F6: address/value booleans and all three outcome covers
+ok   F7: concrete distinct witness values and path-specific assertions
+ok   F2-F7 retain D1's shared array base setup
+ok   request has exactly F0-F7 rows in order: ['casefive_d1_select_read_bytes1', 'casefive_d2_select_read_u8', 'arrayfactor_f2_if_bytes1', 'arrayfactor_f3_deref_bytes1', 'arrayfactor_f4_from_fn_bytes1', 'arrayfactor_f5_symbolic_indices_bytes1', 'arrayfactor_f6_address_bytes1', 'arrayfactor_f7_witness_bytes1']
+ok   request predictions F0/F2/F3/F4/F6/F7 fail, F1/F5 succeed: ['FAILED', 'SUCCESS', 'FAILED', 'FAILED', 'FAILED', 'SUCCESS', 'FAILED', 'FAILED']
+ok   every FAILED request row names its own expected assertion
+ok   expect_check literals identify F0, F6 value, and F7 first-value assertions: {'casefive_d1_select_read_bytes1': 'casefive D1: read through the selection', 'casefive_d2_select_read_u8': None, 'arrayfactor_f2_if_bytes1': 'arrayfactor F2: read through if selection', 'arrayfactor_f3_deref_bytes1': 'arrayfactor F3: copy through dereference', 'arrayfactor_f4_from_fn_bytes1': 'arrayfactor F4: read from from_fn selection', 'arrayfactor_f5_symbolic_indices_bytes1': None, 'arrayfactor_f6_address_bytes1': 'arrayfactor F6: read through the selection', 'arrayfactor_f7_witness_bytes1': 'arrayfactor F7: first selected value'}
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::casefive_d1_select_read_bytes1
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f2_if_bytes1
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f3_deref_bytes1
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f4_from_fn_bytes1
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f6_address_bytes1
+ok   expect_check appears on exactly one assert: slice::sort::shared::smallsort::verify::merge::casefive::arrayfactor_f7_witness_bytes1
+ok   request is diagnostic on standard4, arrayfactor ID, timeout 3, controls/jobs/uninit settings correct
+GATE PASS

@@ -95,3 +95,23 @@ in ordinary with the caveat "model-trust OPEN (CASE5-2)". No row shows them wron
 needs the direct constant-position form, and the plain PFC-fixture baseline passes for KeyB17.
 Do not cite them as evidence of faithful modelling. Closing needs a cheaper in-target check (the
 twins exceed 3 min / 7 GiB; cause not analysed) or a newer pin: coordinator/owner decision.
+## A1 ARRAYFACTOR — PRE-BUILD REVIEW, NOT_RUN (await coordinator GO)
+Task `TASK-ARRAYFACTOR.md`, library `56387d7234` (tree `894ee6d862`); packet `arrayfactor/PREBUILD.md`.
+One planned diagnostic `arrayfactor-a1-20261101`, 8 rows, reserve $0.729 <= $0.75; no submitted UUID.
+Own spent $0, reserved $0. Pin `9461e07af7`, nightly-2026-10-12; ordinary 197 unchanged.
+All entries below describe A1 only; earlier CASE5-2 D1/D2 evidence remains separate.
+| Row | Status | Failed checks | Covers |
+|---|---|---|---|
+| F0 existing D1 | NOT_RUN | UNKNOWN | UNKNOWN |
+| F1 existing D2, u8 | NOT_RUN | UNKNOWN | UNKNOWN |
+| F2 if selection | NOT_RUN | UNKNOWN | UNKNOWN |
+| F3 dereference copy | NOT_RUN | UNKNOWN | UNKNOWN |
+| F4 from_fn construction | NOT_RUN | UNKNOWN | UNKNOWN |
+| F5 symbolic indices | NOT_RUN | UNKNOWN | UNKNOWN |
+| F6 address/value oracles | NOT_RUN | UNKNOWN | UNKNOWN |
+| F7 concrete [1]/[2], branch checks | NOT_RUN | UNKNOWN | UNKNOWN |
+Factor/branch/value-vs-address conclusions: UNKNOWN pending the authorized build.
+F6 value-check silence after address failure is not PASS on cut paths; covers precede both asserts.
+F7 SUCCESS would only mean this witness did not reproduce. Predictions are in PREBUILD.md.
+Local exact D1/D2 fragment and pin/flags: `arrayfactor/reproducer.rs`, `arrayfactor/REPRODUCER.md`.
+No local proof, trace/playback workaround, Part 1 validation, external publication or issue.
