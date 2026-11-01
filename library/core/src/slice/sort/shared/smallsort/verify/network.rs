@@ -398,7 +398,8 @@ dispatch_pair_safety_cases!(
 );
 #[cfg(kani_smallsort_controls)]
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n31, [u8; 17], [31]);
-dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n32, [u8; 17], [32]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes17_n32, [u8; 17], true, [32]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n32, [u8; 17], false, [32]);
 
 /// Freeze but non-Copy; the real destructor observes its own initialized key. No drop-count
 /// or permutation property is asserted in the safety matrix.
@@ -1361,12 +1362,9 @@ insert_tail_start1_group_case!(
 
 insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to12, 9, 12, [9, 10, 11, 12]);
 
-insert_tail_start1_group_case!(
-    insert_tail_contract_u64_start1_tail13_to16,
-    13,
-    16,
-    [13, 14, 15, 16]
-);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13_to14, 13, 14, [13, 14]);
+
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]);
 
 /// u8 insertion-tail profile contract and suffix frame in a 17-element allocation, with tail
 /// indices 1..=16.
