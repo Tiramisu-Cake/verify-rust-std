@@ -39,12 +39,24 @@ proof заменить сырой вызов адаптером, который 
   адаптера достигнут); 3) caller с иным ЗНАЧЕНИЕМ fn pointer того же типа (FAILED ровно на requires canonical);
   4) caller с нарушенной сортировкой правой половины `[1..3]` (FAILED ровно на requires `merge_halves_sorted`;
   без sortedness-assume). Строку с неподдержанным F в proof-пакет не включать.
+- A3 (дополнение к аудиту `/root/CH8_V4_AUDIT_ADDENDUM_RISK_CLOSURE_RU.md`, данные): калибровка проверки
+  `modifies` в цели PFC. Отдельный proof-owned target, объявленный до своих PFC: `modifies` только
+  `slice(dst, 3)`; тело вызывает настоящий raw `bidirectional_merge` N3 (без raw-stub и без stub_verified).
+  Caller harness заранее создаёт initialized `backing: [u8; 4]`, dst = байты `[0..3)`, sentinel = `backing[3]`
+  (передаётся raw pointer, в modifies не входит), отдельный initialized источник `[u8; 3]`; premises выполнены
+  конструкцией; probe устанавливается в harness ДО вызова target. Один target с флагом, две PFC-гармоники:
+  5) positive — допустимое тело (SUCCESS); 6) negative — `*sentinel ^= 1` ВНУТРИ target после достижимого cover
+  (ожидаемо FAILED на assigns/modifies именно этой записи; OOB/precondition/unsupported не засчитываются).
+  Это новая геометрия, а не перенос exact-N3 leaf; A3 не подтверждает frame всех профилей и не расширяет leaf.
+- В PRE-BUILD REVIEW и RESULT — минимальная запись домена caller↔leaf (T, тип и значение F, N, backing/offsets,
+  init, frame, probe, свойства): у exact-N3 leaf destination — отдельный `MaybeUninit<[u8; 3]>`; caller должен
+  совпасть по постановке либо явно обосновать отличие.
   Под `--no-assert-contracts` requires stub_verified проверяются в месте вызова — подтвердить фактом строк 3–4.
   Compile error / unsupported / timeout не считаются отрицательным контролем.
 
 ## Сборки (≤ 2, ≤ $0.75 суммарно)
 
-G1 diagnostic, controls:true, kani_jobs 1, uninit off, 4 rows × 3 мин → резерв (4×3+30)×0.0135 = $0.567.
+G1 diagnostic, controls:true, kani_jobs 1, uninit off, 6 rows × 3 мин → резерв (6×3+30)×0.0135 = $0.648.
 G2 — только при compile error, с отдельным GO и если fact_spent + новый полный резерв ≤ $0.75; иначе PARTIAL
 (timeout/kind ради зачёта не менять). PRE-BUILD REVIEW → GO → build.
 Ordinary набор не меняется (проверить статически). Library commit отдельно от research, `[skip ci]`, без force.
