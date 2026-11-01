@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "base": "ed6e746bf8ec64043e7179be0a6eb631f106601b",
+  "existing_source_preserved_except_comment": true,
+  "ordinary_exact": 200,
+  "controls_exact": 384,
+  "controls_added": [
+    "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+    "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative"
+  ],
+  "scope": "Static source forecast; native compilation and proof status NOT_RUN before GO.",
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5791fee0819b16774172f0800c19018b7358bca49f65d89439783e16b6c38e90",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "b6185bc08055318c09a0cb4e5981a0a58a17259ef2d09ee145f69d89e1228088",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "4c16aa6aeb031054007775b2d75b668d3fae9677ab5ac92d5c8dc289d0129eaf",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "b38f5ed861964981db5adced202e2d41c83ccae3530fe06d0f1e45d444156a94",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs": "dcb7c5fdc77bb47bfedb6fe81eaa0482c01baf7bbd2fdd6b26a5c8ce6beafe08",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "3896e64b1a5922b5dc5cc9284d6b762b1c581ac0fd9a11ef50e425e13822a17a",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "366746469e70496b4a14a77c4dead3662111b69f282b520ffac98559072f7360",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "e8dff265fd02fb4c0c95738c0d051206523c3ed5db302dc62332875bb626e248",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "e3d17315a4a9f87a4076187dd2844c72327c9a2dcabe5c16acf7dc3184445ec2",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6"
+  },
+  "new_harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 966,
+      "origin": "direct",
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 994,
+      "origin": "direct",
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    }
+  ]
+}
