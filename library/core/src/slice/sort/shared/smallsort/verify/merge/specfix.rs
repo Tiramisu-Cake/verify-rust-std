@@ -331,11 +331,9 @@ pub(crate) unsafe fn merge_profile<P: Profile>(
     unsafe { bidirectional_merge(v, dst, &mut is_less) }
 }
 
-// Opt-in harnesses. The profile contract proofs themselves carry the old helper proof names in
-// network.rs, merge.rs and correct.rs.
+// Opt-in harnesses; profile contract proofs are in `network` and `merge`.
 
-// Positive regression: raw unordered forms of SPECDIAG 1-4, readonly/initialized admission and
-// the typed/byte oracle bridge. The 129-byte typed swap moved to the case5 harnesses below.
+// Check unordered callbacks, readable initialized inputs and the typed/byte oracle bridge.
 
 #[cfg(kani_smallsort_controls)]
 static SPECFIX_READONLY_U64: [u64; 4] = [6, 2, 4, 0];

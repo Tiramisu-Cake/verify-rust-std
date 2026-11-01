@@ -47,17 +47,6 @@ fn swap_contract_four_positions_u64() {
     exercise_swap_contract::<LtU64>();
 }
 
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-#[kani::proof]
-#[kani::stub_verified(super::super::swap_if_less)]
-fn control_swap_contract_precondition_u8() {
-    let mut v: [u8; 2] = kani::any();
-    // SAFETY: deliberately breaks the contract precondition `a_pos != b_pos`; position 1 is
-    // in-bounds, so the real body would be memory safe.
-    unsafe { swap_if_less(v.as_mut_ptr(), 1, 1, &mut lt_u8) };
-    kani::cover(true, "swap contract control reached the end");
-}
-
 /// `a[from..] == b[from..]` element by element (slice `==` would become a byte loop of `memcmp`).
 fn prefix_unchanged<T: PartialEq>(a: &[T], b: &[T], from: usize) -> bool {
     let mut i = from;
@@ -1151,18 +1140,10 @@ macro_rules! swap_contract_exact_array_case {
 
 swap_contract_exact_array_case!(swap_contract_u8_n2, StrictU8);
 swap_contract_exact_array_case!(swap_contract_u64_n2, StrictU64);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_exact_array_case!(swap_contract_bytes85_n2, [u8; 85], array_key_less::<85>);
 swap_contract_exact_array_case!(swap_contract_drop_u8_n2, DropU8);
 swap_contract_exact_array_case!(swap_contract_cell_i32_n2, CellI32);
-// This zero-sized-type case is control-only because contract instrumentation does not support its
-// unallocated pointer representation.
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_exact_array_case!(swap_contract_zero_sized_n2, (), zst_less);
 swap_contract_exact_array_case!(swap_contract_bytes16_n2, KeyB16);
 swap_contract_exact_array_case!(swap_contract_bytes17_n2, KeyB17);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_exact_array_case!(swap_contract_bytes86_n2, [u8; 86], array_key_less::<86>);
 
 network_correctness_cases!(network_correctness_u8_n9, u8, [9]);
 network_correctness_cases!(network_correctness_u64_n9, u64, [9]);
@@ -1315,43 +1296,11 @@ macro_rules! swap_contract_arbitrary_indices_case {
 }
 
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, StrictU8, 9);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_arbitrary_indices_case!(swap_contract_u8_n12, u8, 12);
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, StrictU8, 13);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_arbitrary_indices_case!(swap_contract_u8_n16, u8, 16);
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, StrictU64, 9);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_arbitrary_indices_case!(swap_contract_u64_n12, u64, 12);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_arbitrary_indices_case!(swap_contract_u64_n13, u64, 13);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-swap_contract_arbitrary_indices_case!(swap_contract_u64_n16, u64, 16);
 
 // Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
 // `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-fn insert_tail_value<const START: usize>() -> usize {
-    set_value_probe::<u64>();
-    let mut v: [u64; 17] = kani::any();
-    let tail: usize = kani::any_where(|&t| START < t && t < 17);
-    let pre = v;
-    let base = v.as_mut_ptr();
-    // SAFETY: each instantiation has 1 <= START <= 15, START < tail < 17; the
-    // enclosing proof_for_contract assumes precisely insert_tail's own requires.
-    unsafe {
-        super::super::insert_tail(base.add(START), base.add(tail), &mut lt_u64);
-    }
-    let mut i = 0;
-    while i < START {
-        assert!(v[i] == pre[i], "insert-tail contract covers prefix before begin unchanged");
-        i += 1;
-    }
-    assert!(prefix_unchanged(&v, &pre, tail + 1), "suffix after inserted tail remains unchanged");
-    kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
-    kani::cover(true, "insert-tail contract covers end reached");
-    tail
-}
 
 // START1 tail intervals jointly cover every tail from 2 through 16.
 fn insert_tail_start1_frame<const START: usize>(v: &[u64; 17], pre: &[u64; 17], tail: usize) {
@@ -1481,80 +1430,6 @@ fn insert_tail_contract_u64_start1_suffix_frame_control() {
     v[tail + 1] = pre[tail + 1] ^ 1;
     insert_tail_start1_frame::<1>(&v, &pre, tail);
 }
-
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-macro_rules! insert_tail_contract_case {
-    ($name:ident, $start:literal, [$($end:literal),+]) => {
-        #[kani::proof_for_contract(super::super::insert_tail)]
-        #[kani::unwind(25)]
-        fn $name() {
-            let tail = insert_tail_value::<$start>();
-            $(kani::cover(
-                tail == $end,
-                concat!(
-                    "insert-tail contract covers tail ",
-                    stringify!($end),
-                    " with requires satisfied"
-                )
-            );)+
-        }
-    };
-}
-
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start15, 15, [16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start14, 14, [15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start13, 13, [14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start12, 12, [13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start11, 11, [12, 13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start10, 10, [11, 12, 13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start9, 9, [10, 11, 12, 13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start8, 8, [9, 10, 11, 12, 13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(insert_tail_contract_u64_start7, 7, [8, 9, 10, 11, 12, 13, 14, 15, 16]);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start6,
-    6,
-    [7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start5,
-    5,
-    [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start4,
-    4,
-    [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start3,
-    3,
-    [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start2,
-    2,
-    [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
-#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
-insert_tail_contract_case!(
-    insert_tail_contract_u64_start1,
-    1,
-    [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-);
 
 // At lengths 2 through 4, checks tag multiplicities after stable, unstable, or insertion routes
 // whose comparator may rewrite keys. No ordering precondition is assumed.
