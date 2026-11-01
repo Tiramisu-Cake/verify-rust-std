@@ -2,11 +2,29 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "macsplit-g1-inventory-202-20261102",
-  "kind": "inventory",
-  "purpose": "MACSPLIT: native ordinary inventory after splitting bytes17_n32 (Stable/Unstable) and insert_tail u64 tail13_to16 (13..14/15..16); exact 202 names expected (macsplit/ordinary-expected.txt); no proofs.",
-  "harness_timeout_minutes": 20,
+  "request_id": "macsplit-g2-measure-split4-20261102",
+  "kind": "measurement",
+  "purpose": "MACSPLIT: VT/RSS of the four split ordinary harnesses (Stable/Unstable bytes17 N32; insert_tail u64 START1 tail13..14 and 15..16) on the 202-name ordinary tree; jobs1.",
+  "harness_timeout_minutes": 10,
   "controls": false,
-  "inventory": true,
-  "harnesses": []
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15_to16",
+      "expect": "SUCCESS"
+    }
+  ]
 }
