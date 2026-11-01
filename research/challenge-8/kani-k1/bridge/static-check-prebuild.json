@@ -1,0 +1,84 @@
+{
+  "ok": true,
+  "base": "2dde801cf428de600e3786ebcc2b4c16a3f03be6",
+  "checks": {
+    "library_scope": true,
+    "registration_only": true,
+    "bridge_opt_in": true,
+    "target_module_before_pfc_module": true,
+    "a3_target_before_pfcs": true,
+    "ordinary_exact_base_and_frozen_200": true,
+    "cfg_on_delta_exact_six": true,
+    "request_exact_six": true,
+    "request_copy": true,
+    "request_envelope": true,
+    "sole_closed_impl": true,
+    "forward_received_fn_value": true,
+    "no_transmute_or_specialization": true,
+    "caller_stubs_only": true,
+    "line_width": true
+  },
+  "ordinary_count": 200,
+  "ordinary_names_sha256": "1ea7bb6585d8cff99db84a6fcd99e61a5928537817b34c92c5c4579cd610b621",
+  "cfg_on_before": 382,
+  "cfg_on_after": 388,
+  "new_rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3",
+      "cls": "controls",
+      "line": 38,
+      "pfc": "merge_profile",
+      "stub_verified": [],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3",
+      "cls": "controls",
+      "line": 69,
+      "pfc": null,
+      "stub_verified": [
+        "merge_profile"
+      ],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3",
+      "cls": "controls",
+      "line": 84,
+      "pfc": null,
+      "stub_verified": [
+        "merge_profile"
+      ],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3",
+      "cls": "controls",
+      "line": 95,
+      "pfc": null,
+      "stub_verified": [
+        "merge_profile"
+      ],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3",
+      "cls": "controls",
+      "line": 144,
+      "pfc": "frame_target",
+      "stub_verified": [],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3",
+      "cls": "controls",
+      "line": 150,
+      "pfc": "frame_target",
+      "stub_verified": [],
+      "file": "bridge.rs"
+    }
+  ],
+  "request_sha256": "1d5ddc80d96f5a5e53aa3af1d89db195388a17b9ff4ced0aa01369584f0c3e7a",
+  "reserve_usd": 0.648,
+  "limitation": "Static source forecast only; compile/proofs/native inventory NOT_RUN"
+}

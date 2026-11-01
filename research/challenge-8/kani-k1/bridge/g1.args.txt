@@ -1,0 +1,17 @@
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3
+--harness
+slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3
+--exact
+--harness-timeout
+3m
+--jobs=1
+--output-format=terse

@@ -1,0 +1,41 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "bridge-g1-20261101",
+  "kind": "diagnostic",
+  "purpose": "BRIDGE B1 exact u8 N3: independent real-body leaf, raw-to-adapter verified-profile caller and canonical/sortedness controls; A3 independent PFC write-set enforcement pair. No B2/N9/N16 credit.",
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3",
+      "expect": "FAILED",
+      "expect_check": "specfix_canonical_comparator"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3",
+      "expect": "FAILED",
+      "expect_check": "merge_halves_sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3",
+      "expect": "FAILED",
+      "expect_check": "is assignable"
+    }
+  ]
+}
