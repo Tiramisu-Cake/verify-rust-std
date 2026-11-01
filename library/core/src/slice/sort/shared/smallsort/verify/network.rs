@@ -950,12 +950,62 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
     <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
     assert!(is_sorted_by(&v, &mut cmp));
     // Below the network width, keep the direct full-route permutation proof.
-    // At N >= 9, compose the structural network permutation with the separately checked
-    // real insertion-tail permutation. This keeps its probe formula out of the network.
+    // At N >= 9, there is a structural network argument and separate leaf/suffix proofs,
+    // but no full machine-checked composition. This keeps the probe formula out of the network.
     if N < 9 {
         assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
     }
     kani::cover(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
+}
+
+// Direct full-value count on the real unstable u8/default-< route, with an independent probe.
+// `cmp` retains the function-item type of `strict_less::<u8>` (no fn-pointer coercion).
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+fn netnine_full_value_count_u8_n9() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [u8; 9] = kani::any();
+    let pre = v;
+    let probe: u8 = kani::any();
+    let mut cmp = strict_less::<u8>;
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "netnine: sorted output");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "netnine: full-value count preserved",
+    );
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "netnine: sort moves elements");
+    kani::cover(count_matching_values(&pre, &probe) > 0, "netnine: probe hits input");
+    kani::cover(count_matching_values(&pre, &probe) == 0, "netnine: probe misses input");
+    let mut duplicates = false;
+    let mut i = 1;
+    while i < v.len() {
+        duplicates |= v[i] == v[i - 1];
+        i += 1;
+    }
+    kani::cover(duplicates, "netnine: duplicates present");
+}
+
+// Narrow count-oracle control: corruption preserves ordinary < order but changes count(0) 9 -> 8.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+fn netnine_full_value_count_u8_n9_negative() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v = [0u8; 9];
+    let pre = v;
+    let probe = 0u8;
+    let mut cmp = strict_less::<u8>;
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    kani::cover(true, "netnine negative: sort returned before corruption");
+    v[8] = 1;
+    kani::assert(is_sorted_by(&v, &mut cmp), "netnine negative: sorted after corruption");
+    kani::cover(true, "netnine negative: corrupted count check reached");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "netnine negative: full-value count preserved",
+    );
 }
 
 macro_rules! network_correctness_cases {
