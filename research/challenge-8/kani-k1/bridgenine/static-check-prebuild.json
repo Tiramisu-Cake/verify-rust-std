@@ -1,0 +1,69 @@
+{
+  "ok": true,
+  "base": "2d1d17ca773d97f899006a4c5f84d120e63d4af3",
+  "checks": {
+    "library_only_opt_in_bridge": true,
+    "old_bridge_behavior_unchanged": true,
+    "ordinary_exact_base_and_frozen_200": true,
+    "cfg_on_delta_exact_three": true,
+    "leaf_existing_independent_pfc": true,
+    "request_exact_order_and_copy": true,
+    "request_envelope": true,
+    "negative_literal_count_check_only": true,
+    "actual_stable_api_and_scratch": true,
+    "same_explicit_fn_pointer": true,
+    "independent_shared_probe_ab": true,
+    "no_caller_assumes_panic_cut_or_other_profiles": true,
+    "a_no_stubs_b_and_control_merge_only": true,
+    "oracle_model_only": true,
+    "payload_flip_after_return_fixed_witness": true,
+    "covers_before_oracle": true,
+    "line_width": true
+  },
+  "ordinary_count": 200,
+  "ordinary_names_sha256": "1ea7bb6585d8cff99db84a6fcd99e61a5928537817b34c92c5c4579cd610b621",
+  "cfg_on_before": 388,
+  "cfg_on_after": 391,
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+      "cls": "ordinary",
+      "line": 1111,
+      "macro": "define_merge_scratch48_contract_harness",
+      "pfc": "specfix::merge_profile",
+      "stub_verified": [],
+      "file": "merge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9",
+      "cls": "controls",
+      "line": 180,
+      "pfc": null,
+      "stub_verified": [],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9",
+      "cls": "controls",
+      "line": 188,
+      "pfc": null,
+      "stub_verified": [
+        "merge_profile"
+      ],
+      "file": "bridge.rs"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9",
+      "cls": "controls",
+      "line": 198,
+      "pfc": null,
+      "stub_verified": [
+        "merge_profile"
+      ],
+      "file": "bridge.rs"
+    }
+  ],
+  "request_sha256": "0762e62c52cd59c7f19b4cf9db4bc126c9174cb590725e1497599caee8b32bc0",
+  "reserve_usd": 0.945,
+  "limitation": "Static source/request checks only; compile/proofs/native inventory NOT_RUN"
+}
