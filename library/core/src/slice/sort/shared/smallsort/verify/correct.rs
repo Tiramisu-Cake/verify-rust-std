@@ -1,14 +1,14 @@
-//! u8 prefix insertion through the checked `insert_tail_profile` (tag `LtU8`). The fallback,
-//! scratch and general/stable harnesses below used the removed raw `insert_tail`/merge contracts
-//! (stubs or contract proofs) and are retired; see poneclean/DEACTIVATED.tsv.
+//! The fallback, scratch and general/stable harnesses below used the removed raw `insert_tail`/merge
+//! contracts (stubs or contract proofs) and are retired; see poneclean/DEACTIVATED.tsv. The u8 prefix
+//! insertion contract harness lives in `network` (listed after its target, see kani list ordering).
 
 #[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::super::CopyOnDrop;
 #[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::merge::lt_u64;
-use super::merge::specfix::{LtU8, Profile, insert_tail_profile};
 #[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use super::merge::{lt_u8, set_value_probe};
+#[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 use crate::kani;
 
 // Fallback: u64 N8..16, u8 N9..16; verified insert_tail with matching key orders.
@@ -81,31 +81,6 @@ fallback_stub_harness!(sorted_permutation_fallback_u8_n13, u8, lt_u8, 13);
 fallback_stub_harness!(sorted_permutation_fallback_u8_n14, u8, lt_u8, 14);
 #[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 fallback_stub_harness!(sorted_permutation_fallback_u8_n15, u8, lt_u8, 15);
-
-/// u8 insertion-tail profile contract and suffix frame in a 17-element allocation, with tail
-/// indices 1..=16.
-#[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
-#[kani::solver(cadical)]
-#[kani::unwind(18)]
-fn contract_insert_tail_u8_prefix() {
-    LtU8::set_probe(kani::any());
-    let mut input: [u8; 17] = kani::any();
-    let tail: usize = kani::any_where(|t: &usize| 1 <= *t && *t < 17);
-    let before = input;
-    let base = input.as_mut_ptr();
-    // SAFETY: valid same-allocation region. proof_for_contract supplies the model-sorted
-    // prefix requires of the profile; the suffix is outside the modifies region.
-    unsafe {
-        insert_tail_profile::<LtU8>(base, base.add(tail), LtU8::CMP);
-    }
-    for i in tail + 1..17 {
-        assert!(input[i] == before[i]);
-    }
-    kani::cover(tail == 1, "u8 prefix: region 2 reachable");
-    kani::cover(tail == 15, "u8 prefix: proper prefix region 16 reachable");
-    kani::cover(tail == 16, "u8 prefix: full region 17 reachable");
-    kani::cover(true, "u8 prefix: completion");
-}
 
 #[cfg(any())] // retired by P1-CLEAN, see poneclean/DEACTIVATED.tsv
 #[kani::proof]

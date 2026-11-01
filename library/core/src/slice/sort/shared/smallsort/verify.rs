@@ -3,7 +3,7 @@
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
 //! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
 //! comparators.
-//! `correct` checks u8 prefix insertion through the insertion profile.
+//! `correct` keeps only retired harnesses; its u8 prefix insertion check is in `network`.
 //! `assembly` pairs original/mutant witnesses and checks stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `mutations` contains changed copies used only by opt-in controls.
