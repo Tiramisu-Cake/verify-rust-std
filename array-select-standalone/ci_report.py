@@ -139,12 +139,12 @@ def run() -> int:
             (OUT / "cbmc-version.txt").write_text("CBMC binary not found in this Kani build\n")
             (OUT / "cbmc-version.rc").write_text("MISSING\n")
         for name in NAMES:
-            execute(f"harness-{name}", [str(kani), "--output-format=terse", "--solver", "cadical",
+            execute(f"harness-{name}", [str(kani), "-Z", "unstable-options", "--output-format=terse", "--solver", "cadical",
                     "--harness-timeout", "3m", "--jobs=1", "--harness", f"check::{name}", "--exact"])
-        execute("d1-minisat", [str(kani), "--output-format=terse", "--solver", "minisat",
+        execute("d1-minisat", [str(kani), "-Z", "unstable-options", "--output-format=terse", "--solver", "minisat",
                 "--harness-timeout", "3m", "--jobs=1", "--harness", f"check::{NAMES[0]}", "--exact"])
         for tag, name in [("playback-d1", NAMES[0]), ("playback-w", NAMES[5])]:
-            execute(tag, [str(kani), "-Z", "concrete-playback", "--concrete-playback=print", "--harness",
+            execute(tag, [str(kani), "-Z", "unstable-options", "-Z", "concrete-playback", "--concrete-playback=print", "--harness",
                     f"check::{name}", "--exact", "--output-format=terse", "--solver", "cadical",
                     "--harness-timeout", "3m", "--jobs=1"])
     else:
