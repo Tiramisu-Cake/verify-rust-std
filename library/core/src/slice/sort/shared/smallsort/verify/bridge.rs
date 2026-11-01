@@ -1,4 +1,4 @@
-//! Exact-N3 feasibility smoke: raw merge -> adapter -> checked profile summary.
+//! Exact-N3 smoke and actual Stable u8 N9: raw merge -> adapter -> checked profile summary.
 //! The leaf PFC has no substitutions. A3 uses a separate initialized backing geometry and
 //! checks the target's own write set; it does not extend the profile leaf's domain.
 
@@ -10,7 +10,9 @@ use super::merge::specfix::{
 };
 use crate::mem::MaybeUninit;
 use crate::slice::sort::shared::FreezeMarker;
-use crate::slice::sort::shared::smallsort::bidirectional_merge;
+use crate::slice::sort::shared::smallsort::{
+    SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, bidirectional_merge,
+};
 use crate::ub_checks::{can_dereference, can_write};
 use crate::{kani, ptr};
 
@@ -153,4 +155,55 @@ fn bridge_frame_positive_u8_n3() {
 #[kani::unwind(34)]
 fn bridge_frame_negative_u8_n3() {
     frame_case(true);
+}
+
+// A and B share the actual Stable entry, fn-pointer instance, scratch form and model oracle.
+// Only merge is replaced in B; real sort4/insertion must establish its sorted-halves requires.
+// At N9 the merge reads initialized scratch[0..9), split 4+5, into the separate original v[0..9).
+fn bridgenine_stable_caller(mut v: [u8; 9], corrupt_payload: bool) {
+    let count_before = model_count::<LtU8>(v.as_ptr(), 9);
+    let mut is_less: fn(&u8, &u8) -> bool = LtU8::CMP;
+    let mut scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+    kani::cover(true, "bridgenine Stable entry reached");
+    <u8 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut is_less);
+    if corrupt_payload {
+        // Outside the callee: preserve the key x >> 1 while changing the full value.
+        v[0] ^= 1;
+    }
+    // Both caller covers are reachable even in the intentional count-failure control.
+    kani::cover(true, "bridgenine Stable returned and oracle reached");
+    kani::assert(model_sorted::<LtU8>(v.as_ptr(), 9), "bridgenine output is key sorted");
+    kani::assert(
+        count_before == model_count::<LtU8>(v.as_ptr(), 9),
+        "bridgenine output preserves full-value probe count",
+    );
+}
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn bridgenine_direct_u8_n9() {
+    LtU8::set_probe(kani::any());
+    let v: [u8; 9] = kani::any();
+    bridgenine_stable_caller(v, false);
+}
+
+#[kani::proof]
+#[kani::stub(bidirectional_merge, adapter)]
+#[kani::stub_verified(merge_profile)]
+#[kani::unwind(34)]
+fn bridgenine_caller_u8_n9() {
+    LtU8::set_probe(kani::any());
+    let v: [u8; 9] = kani::any();
+    bridgenine_stable_caller(v, false);
+}
+
+#[kani::proof]
+#[kani::stub(bidirectional_merge, adapter)]
+#[kani::stub_verified(merge_profile)]
+#[kani::unwind(34)]
+fn bridgenine_payload_flip_u8_n9() {
+    let p: u8 = kani::any();
+    LtU8::set_probe(p);
+    // Fixed witness family: all nine values equal the same arbitrary probe, so count 9 -> 8.
+    bridgenine_stable_caller([p; 9], true);
 }
