@@ -10,7 +10,11 @@
       "request_id": "cleanup-g1-inventory-200-20261101",
       "controls": false,
       "expected_count": 200,
-      "reserve_usd": "0.6750"
+      "reserve_usd": "0.6750",
+      "status": "SUCCESS",
+      "native_exact_inventory": true,
+      "actual_cost_usd": "0.5940",
+      "tooling_check": "PASS"
     },
     {
       "label": "G2",
@@ -24,5 +28,7 @@
   ],
   "own_builds": 2,
   "max_combined_reserve_usd": "1.3500",
-  "actual_cost": "PENDING_TERMINAL_ACCOUNTING"
+  "actual_cost": "PENDING_TERMINAL_ACCOUNTING",
+  "own_spent_usd": "0.5940",
+  "own_reserved_usd": "0.6750"
 }
