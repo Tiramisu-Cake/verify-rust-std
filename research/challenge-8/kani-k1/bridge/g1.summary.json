@@ -1,0 +1,322 @@
+{
+  "build_outcome": "success",
+  "complete_line": {
+    "failures": 3,
+    "success": 3,
+    "total": 6
+  },
+  "errors": [],
+  "errors_truncated": false,
+  "expectation_met": true,
+  "harnesses": [
+    {
+      "checks_failed": 0,
+      "checks_total": 566,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3",
+      "status": "SUCCESS",
+      "time_s": 24.658857,
+      "unreachable": 68
+    },
+    {
+      "checks_failed": 0,
+      "checks_total": 538,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3",
+      "status": "SUCCESS",
+      "time_s": 2.8605793,
+      "unreachable": 65
+    },
+    {
+      "checks_failed": 1,
+      "checks_total": 538,
+      "covers_satisfied": 2,
+      "covers_total": 3,
+      "expect": "FAILED",
+      "expect_check": "specfix_canonical_comparator",
+      "failed_checks": [
+        {
+          "description": "specfix_canonical_comparator::<P>(cmp)",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:317"
+        }
+      ],
+      "failed_checks_truncated": false,
+      "failed_located": 1,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3",
+      "status": "FAILED",
+      "time_s": 0.8994017,
+      "unreachable": 70
+    },
+    {
+      "checks_failed": 1,
+      "checks_total": 532,
+      "covers_satisfied": 2,
+      "covers_total": 3,
+      "expect": "FAILED",
+      "expect_check": "merge_halves_sorted",
+      "failed_checks": [
+        {
+          "description": "merge_regions::<P::Elem>(v, dst) && merge_halves_sorted::<P>(v)",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:318"
+        }
+      ],
+      "failed_checks_truncated": false,
+      "failed_located": 1,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3",
+      "status": "FAILED",
+      "time_s": 0.7789321,
+      "unreachable": 71
+    },
+    {
+      "checks_failed": 0,
+      "checks_total": 442,
+      "covers_satisfied": 2,
+      "covers_total": 5,
+      "expect": "SUCCESS",
+      "expect_check": null,
+      "failed_checks": [],
+      "failed_checks_truncated": false,
+      "failed_located": 0,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3",
+      "status": "SUCCESS",
+      "time_s": 11.219263,
+      "unreachable": 40
+    },
+    {
+      "checks_failed": 1,
+      "checks_total": 442,
+      "covers_satisfied": 3,
+      "covers_total": 5,
+      "expect": "FAILED",
+      "expect_check": "is assignable",
+      "failed_checks": [
+        {
+          "description": "Check that *var_15 is assignable",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/bridge.rs:122"
+        }
+      ],
+      "failed_checks_truncated": false,
+      "failed_located": 1,
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3",
+      "status": "FAILED",
+      "time_s": 20.019207,
+      "unreachable": 40
+    }
+  ],
+  "head_sha": "08bcec360de5d25be2b3631d2eac4d9004ed7312",
+  "inconsistencies": [],
+  "kani_commit": "9461e07af7ec929f050aa4192f29363c9be07779",
+  "kani_exit_code": 1,
+  "measurement_ok": null,
+  "notes": [
+    "--cfg kani_smallsort_controls on: opt-in control/mutant harnesses compiled, outside the CI set",
+    "68 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3",
+    "65 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3",
+    "70 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3",
+    "71 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3",
+    "40 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3",
+    "40 unreachable check(s) in slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3"
+  ],
+  "request": {
+    "agent": "k1-merge",
+    "controls": true,
+    "harness_timeout_minutes": 3,
+    "inventory": false,
+    "kani_jobs": 1,
+    "kind": "diagnostic",
+    "purpose": "BRIDGE B1 exact u8 N3: independent real-body leaf, raw-to-adapter verified-profile caller and canonical/sortedness controls; A3 independent PFC write-set enforcement pair. No B2/N9/N16 credit.",
+    "request_id": "bridge-g1-20261101",
+    "runner": "gcb-e2-standard-4",
+    "uninit_checks": false
+  },
+  "request_sha256": "1d5ddc80d96f5a5e53aa3af1d89db195388a17b9ff4ced0aa01369584f0c3e7a",
+  "resources": {
+    "max_rss_kb_whole_run": 1799700,
+    "memcap": {
+      "max_bytes": 16785850368,
+      "oom_kill": null,
+      "peak_bytes": null,
+      "reason": "Cloud Build pool, no cgroup cap",
+      "state": "MACHINE",
+      "swap": "off"
+    },
+    "peaks": {
+      "cgroup_events": {},
+      "commands": [
+        {
+          "cmd": "kani-compiler",
+          "first_s": 2,
+          "last_s": 60,
+          "peak_kb": 1799700,
+          "peak_s": 48
+        },
+        {
+          "cmd": "cbmc",
+          "first_s": 68,
+          "last_s": 138,
+          "peak_kb": 532072,
+          "peak_s": 84
+        },
+        {
+          "cmd": "kani-driver",
+          "first_s": 2,
+          "last_s": 138,
+          "peak_kb": 129848,
+          "peak_s": 138
+        },
+        {
+          "cmd": "goto-instrument",
+          "first_s": 64,
+          "last_s": 112,
+          "peak_kb": 80388,
+          "peak_s": 112
+        },
+        {
+          "cmd": "cargo",
+          "first_s": 2,
+          "last_s": 60,
+          "peak_kb": 33356,
+          "peak_s": 52
+        },
+        {
+          "cmd": "python3",
+          "first_s": 0,
+          "last_s": 0,
+          "peak_kb": 20616,
+          "peak_s": 0
+        },
+        {
+          "cmd": "goto-cc",
+          "first_s": 62,
+          "last_s": 62,
+          "peak_kb": 17136,
+          "peak_s": 62
+        },
+        {
+          "cmd": "bash",
+          "first_s": 0,
+          "last_s": 139,
+          "peak_kb": 3920,
+          "peak_s": 0
+        },
+        {
+          "cmd": "run-kani.sh",
+          "first_s": 2,
+          "last_s": 138,
+          "peak_kb": 3768,
+          "peak_s": 2
+        },
+        {
+          "cmd": "gcc",
+          "first_s": 104,
+          "last_s": 106,
+          "peak_kb": 1180,
+          "peak_s": 106
+        },
+        {
+          "cmd": "tee",
+          "first_s": 0,
+          "last_s": 139,
+          "peak_kb": 1176,
+          "peak_s": 2
+        },
+        {
+          "cmd": "time",
+          "first_s": 2,
+          "last_s": 138,
+          "peak_kb": 1172,
+          "peak_s": 2
+        }
+      ],
+      "commands_truncated": true,
+      "dmesg_oom": "none_seen",
+      "interval_ms": 2000,
+      "processes": [
+        {
+          "active": "T0:bridge::bridge_frame_negative_u8_n3",
+          "cbmc_pid": "9256",
+          "first_s": "68",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridge_frame",
+          "last_s": "86",
+          "peak_kb": "532072",
+          "peak_s": "84"
+        },
+        {
+          "active": "T0:bridge::bridge_leaf_u8_n3",
+          "cbmc_pid": "9413",
+          "first_s": "114",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridge_leaf_",
+          "last_s": "138",
+          "peak_kb": "474544",
+          "peak_s": "138"
+        },
+        {
+          "active": "T0:bridge::bridge_frame_positive_u8_n3",
+          "cbmc_pid": "9294",
+          "first_s": "90",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridge_frame",
+          "last_s": "100",
+          "peak_kb": "456280",
+          "peak_s": "98"
+        },
+        {
+          "active": "",
+          "cbmc_pid": "9375",
+          "first_s": "108",
+          "hint": "slice::sort::shared::smallsort::verify::bridge::bridge_calle",
+          "last_s": "108",
+          "peak_kb": "64484",
+          "peak_s": "108"
+        }
+      ],
+      "records_truncated": false,
+      "roles": [
+        {
+          "peak_s": "84",
+          "role": "cbmc",
+          "simultaneous_rss_peak_kb": "532072"
+        },
+        {
+          "peak_s": "138",
+          "role": "driver",
+          "simultaneous_rss_peak_kb": "129848"
+        }
+      ],
+      "samples": 71,
+      "state": "PARSED",
+      "total_peak_s": 48,
+      "total_rss_peak_kb": 2062460
+    },
+    "time_file": "PARSED",
+    "wall_whole_run": "2:18.77"
+  },
+  "run": {
+    "attempt": null,
+    "id": "642e7d4e-60e8-429b-8aed-1817ecd233d9",
+    "image_os": "Ubuntu 24.04.5 LTS",
+    "image_version": "4 CPU Intel(R) Xeon(R) CPU @ 2.20GHz, 15.6 GiB (container view; pool per Cloud Build record)"
+  },
+  "schema": "kani-k1-run-summary-v2",
+  "status": "COMPLETE",
+  "tooling_sha256": {
+    ".github/workflows/kani.yml": "587cf2116075865fe641bee4da47b96cc22f71ca06433f7cb6f63b3439828577",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh": "2547fc997b057dd41fee896b7c5aac4279a339470992433cb1b46b0145a97812",
+    "research/challenge-8/kani-k1/tools/kani_k1.py": "55d62136ad9ab71eb5c0fbd470904ecf20b1ecbb8ab34cca1bbdeff9efc8494e",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0"
+  },
+  "unrequested_blocks": []
+}

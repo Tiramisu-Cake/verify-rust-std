@@ -1,0 +1,80 @@
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3...
+
+VERIFICATION RESULT:
+ ** 1 of 442 failed (40 unreachable)
+
+ ** 3 of 5 cover properties satisfied (2 unreachable)
+
+Failed Checks: Check that *var_15 is assignable
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/bridge.rs", line 122, in slice::sort::shared::smallsort::verify::bridge::frame_target::{closure#2}::{closure#0}
+
+VERIFICATION:- FAILED
+Verification Time: 20.019207s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3...
+
+VERIFICATION RESULT:
+ ** 0 of 442 failed (40 unreachable)
+
+ ** 2 of 5 cover properties satisfied (3 unreachable)
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 11.219263s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3...
+  - Stub: bidirectional_merge -> adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile
+
+VERIFICATION RESULT:
+ ** 1 of 532 failed (71 unreachable)
+
+ ** 2 of 3 cover properties satisfied (1 unreachable)
+
+Failed Checks: merge_regions::<P::Elem>(v, dst) && merge_halves_sorted::<P>(v)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs", line 318, in slice::sort::shared::smallsort::verify::merge::specfix::merge_profile::<slice::sort::shared::smallsort::verify::merge::specfix::LtU8>::{closure#1}
+
+VERIFICATION:- FAILED
+Verification Time: 0.7789321s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3...
+  - Stub: bidirectional_merge -> adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile
+
+VERIFICATION RESULT:
+ ** 1 of 538 failed (70 unreachable)
+
+ ** 2 of 3 cover properties satisfied (1 unreachable)
+
+Failed Checks: specfix_canonical_comparator::<P>(cmp)
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs", line 317, in slice::sort::shared::smallsort::verify::merge::specfix::merge_profile::<slice::sort::shared::smallsort::verify::merge::specfix::LtU8>::{closure#1}
+
+VERIFICATION:- FAILED
+Verification Time: 0.8994017s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3...
+  - Stub: bidirectional_merge -> adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile
+
+VERIFICATION RESULT:
+ ** 0 of 538 failed (65 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 2.8605793s
+
+Checking harness slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3...
+
+VERIFICATION RESULT:
+ ** 0 of 566 failed (68 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 24.658857s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3

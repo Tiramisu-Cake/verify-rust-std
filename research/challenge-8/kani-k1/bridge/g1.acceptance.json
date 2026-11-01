@@ -1,0 +1,31 @@
+{
+  "accepted": true,
+  "checks": {
+    "build_head_matches_GO": true,
+    "pin_matches": true,
+    "request_hash_matches": true,
+    "build_uuid_matches": true,
+    "complete_six": true,
+    "all_expectations_met": true,
+    "positive_caller_all_three_covers": true,
+    "leaf_cover": true,
+    "row3_exact_one_target_failure": true,
+    "row4_exact_one_target_failure": true,
+    "row6_exact_one_target_failure": true,
+    "sentinel_cover_precedes_failing_write": true,
+    "tooling:.github/workflows/kani.yml": true,
+    "tooling:research/challenge-8/kani-k1/gcb/cloudbuild.yaml": true,
+    "tooling:research/challenge-8/kani-k1/tools/gcb-k1.sh": true,
+    "tooling:research/challenge-8/kani-k1/tools/kani_k1.py": true,
+    "tooling:scripts/run-kani.sh": true,
+    "tooling:tool_config/kani-version.toml": true,
+    "library_tree_unchanged": true,
+    "request_projection_matches": true,
+    "request_rows_match": true
+  },
+  "covers_limitation": "A3 reports only aggregate 2/5 and 3/5, no per-cover identities. Reachability of the negative write after its unconditional cover is inferred from the exact assigns failure at bridge.rs:122; extra unreachable cover identities UNKNOWN.",
+  "own_spent_usd": 0.1215,
+  "own_reserved_usd": 0,
+  "builds": 1,
+  "request_normalization": "Summary stores request metadata, adds inventory=false default, and stores harness selection separately. Original request SHA-256 matches exactly."
+}
