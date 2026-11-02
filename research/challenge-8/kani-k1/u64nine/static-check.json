@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "base": "58d464ce1ce3d3ad7e60325e3297fdf07d38db4c",
+  "base_library_tree": "3b6d2a51dae08e52464f4b2b82f5168d8ba9977b",
+  "library_tree": "d22566ab5a685df2608ddb756714e51ad288f08d",
+  "ordinary_exact": 200,
+  "controls_exact": 399,
+  "u64nine_added": 4,
+  "library_change": "new network/u64nine.rs + appended cfg-gated mod registration only",
+  "runtime_and_protected_tooling_unchanged": true,
+  "annotations": {
+    "u64nine_leaf_u64_n9": [
+      "#[kani::proof_for_contract(swap_u64_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64nine_composed_u64_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter_u64nine)]",
+      "#[kani::stub_verified(swap_u64_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64nine_wrong_cmp_u64_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter_u64nine)]",
+      "#[kani::stub_verified(swap_u64_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64nine_count_negative_u64_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter_u64nine)]",
+      "#[kani::stub_verified(swap_u64_net9)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "covers_required": {
+    "u64nine_leaf_u64_n9": [
+      "u64nine leaf N9: swap taken",
+      "u64nine leaf N9: swap not taken",
+      "u64nine leaf N9: first to last",
+      "u64nine leaf N9: last to first",
+      "u64nine leaf N9: interior pair",
+      "u64nine leaf N9: probe hits input",
+      "u64nine leaf N9: probe misses input"
+    ],
+    "u64nine_composed_u64_n9": [
+      "u64nine N9: adapter entered",
+      "u64nine N9: all actual exchanges intercepted",
+      "u64nine N9: sort moves elements",
+      "u64nine N9: probe hits input",
+      "u64nine N9: probe misses input",
+      "u64nine N9: duplicates present",
+      "u64nine N9: high-bit probe hits input"
+    ],
+    "u64nine_wrong_cmp_u64_n9": [
+      "u64nine N9 wrong comparator: actual entry reached",
+      "u64nine N9: adapter entered"
+    ],
+    "u64nine_count_negative_u64_n9": [
+      "u64nine N9: adapter entered",
+      "u64nine N9 negative: sort returned before corruption",
+      "u64nine N9 negative: corrupted count check reached"
+    ]
+  },
+  "failed_literal_lines": {
+    "u64nine canonical comparator required": 123,
+    "u64nine N9 negative: full-value count preserved": 237
+  },
+  "source_sha256": "b0e1afc20fa0262b87f496475c0ac9181ff36ca37761b8e85e0e936b20702bf1",
+  "request_sha256": "7a0dcbf7cc987602d0d5f309098a7f2c99adf6221b6f136ac0d76f3b2931fead",
+  "dependency_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "78fc8fe8bfc37d59d27c194d2f7e9c45e0c629dcf394c6bcf13f00b53ab9ed61",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "14e55bbcaa809df9048fce4c728c44e5951d50b0688f1219707facc7ddbcb171",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs": "b0e1afc20fa0262b87f496475c0ac9181ff36ca37761b8e85e0e936b20702bf1",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/ub_checks.rs": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0",
+    "rust-toolchain.toml": "7a7edb1ec1b265bdcd1ec61a007000821285f4f18d64aff6b3621e203be323ec"
+  },
+  "scope": "Static source/packet checks only; compile, proof and covers NOT_RUN before GO."
+}

@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9
+--harness
+slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9
+--harness
+slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9
+--harness
+slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse
