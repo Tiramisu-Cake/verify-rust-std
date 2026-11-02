@@ -100,3 +100,6 @@ fn u64ten_insert_strict_u64_begin0_tail9() {
     kani::cover(hits == 0, "u64ten insert: probe misses backing10");
     kani::cover(probe >= (1u64 << 40) && hits > 0, "u64ten insert: high-bit probe hits backing10");
 }
+
+// U64-TEN-CALLER: opt-in child composing the actual u64 N10 route from the leaves above.
+mod caller;
