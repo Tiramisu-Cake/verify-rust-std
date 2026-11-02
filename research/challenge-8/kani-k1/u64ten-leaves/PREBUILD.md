@@ -15,7 +15,7 @@ Diffs: library.diff, request.diff (zero context). No competitor PR code/branches
 
 - `verify/network/u64nine.rs`: only appended comment + `mod tenleaves;` after all existing items
   (static_check: file == base + registration, byte-exact).
-- New `verify/network/u64nine/tenleaves.rs` (child `network::u64nine::tenleaves`, 104 lines): 2 PFC roots
+- New `verify/network/u64nine/tenleaves.rs` (child `network::u64nine::tenleaves`, 102 lines): 2 PFC roots
   + pure `sorted10_u64`. Inherits the `kani_smallsort_controls` gate of `network::u64nine`. Uses
   parent-private swap_u64_net9/U64Cmp and ancestor-private StrictU64/count_matching_values/
   prefix_unchanged without visibility changes; count9_u64 not needed (counts via count_matching_values,
