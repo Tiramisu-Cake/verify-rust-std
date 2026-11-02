@@ -1,0 +1,92 @@
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13...
+  - Stub: swap_if_less -> adapter13
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net13
+
+VERIFICATION RESULT:
+ ** 1 of 569 failed (18 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+Failed Checks: netcomp N13 negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs", line 459, in slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13
+
+VERIFICATION:- FAILED
+Verification Time: 138.28883s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13...
+  - Stub: swap_if_less -> adapter13
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net13
+
+VERIFICATION RESULT:
+ ** 1 of 550 failed (29 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: netcomp canonical comparator required
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs", line 354, in <u8 as slice::sort::shared::smallsort::verify::network::netcomp::SwapBridge13<for<'a, 'b> fn(&'a u8, &'b u8) -> bool>>::exchange
+
+VERIFICATION:- FAILED
+Verification Time: 0.54970115s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13...
+  - Stub: swap_if_less -> adapter13
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net13
+
+VERIFICATION RESULT:
+ ** 0 of 588 failed (18 unreachable)
+
+ ** 6 of 6 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 268.8405s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13...
+
+VERIFICATION RESULT:
+ ** 0 of 388 failed (5 unreachable)
+
+ ** 7 of 7 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 52.948425s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9...
+  - Stub: swap_if_less -> adapter9
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 1 of 569 failed (18 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+Failed Checks: netcomp N9 negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs", line 242, in slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9
+
+VERIFICATION:- FAILED
+Verification Time: 59.137207s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9...
+  - Stub: swap_if_less -> adapter9
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 0 of 588 failed (18 unreachable)
+
+ ** 6 of 6 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 93.435s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9...
+
+VERIFICATION RESULT:
+ ** 0 of 383 failed (22 unreachable)
+
+ ** 4 of 4 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 242.8685s
