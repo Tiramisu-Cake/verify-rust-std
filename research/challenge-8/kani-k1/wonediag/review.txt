@@ -1,0 +1,16 @@
+PRE-BUILD REVIEW of complete library.patch and exact three-row request against 82848e3bc9.
+Library: only 55 appended lines in existing gated wrap::wone; original source prefix unchanged.
+Targets, contracts, private T/F/CMP, all old harnesses and other library files unchanged.
+Each new PFC: exact original target, literal3, explicit backing5/offset1, unrestricted A/B/C/
+probe/sentinels, unwind16, unchanged input_frame after return, seven N3-only cover goals.
+No match/length dispatch, assumptions, stubs, presort, tied probe or new summaries.
+Stable u8: separate uninitialized scratch48, entire borrowed slice, unchanged whole-slice modifies.
+Cover reachability source witnesses: reversed A/B/C=4/2/0; increasing=0/2/4; tied=0/1/0;
+duplicate=0/0/0; hit probe=A; miss 0/0/0 with probe=1; unconditional return after real body.
+These are source witnesses, not fresh verification results or proof of body return.
+Ordinary exact200 and cfg-on391 checked separately from target ordering (23 sites/bad0).
+Request validator/rustfmt/whitespace pass; no local compilation/proofs or Build submitted.
+Lane/workflows/toolchain/pin byte-identical vs 30f77e859903df14b442ff9294d4fbbd44827f20.
+Patch artifact equals full committed library delta; library tree af3da15225005c0eba22ef42626c8562485c8e7e.
+No concrete source blocker found. Native compile and all three PFC outcomes remain NOT_RUN.
+WAITING FOR COORDINATOR GO; one Build, full reserve $0.810, no G2/automatic retry.

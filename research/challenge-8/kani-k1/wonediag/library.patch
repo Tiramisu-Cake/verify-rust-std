@@ -1,0 +1,63 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs b/library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs
+index 3216a0c572..dcbbe03934 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs
+@@ -320,3 +320,58 @@ fn rejects_payload_corruption() {
+     kani::assert(sorted(&v), "wone corrupted payload keeps key order");
+     kani::assert(before == count(&v, probe), "wone full-value checker rejects payload corruption");
+ }
++
++// Fixed-N3 diagnostic: separate uncontracted covers, without unreachable N0/N1/N2 goals.
++fn input_covers_n3(a: u8, b: u8, c: u8, probe: u8) {
++    kani::cover(true, "wonediag N3 returns");
++    kani::cover((a >> 1) > (b >> 1) && (b >> 1) > (c >> 1), "wonediag N3 reversed keys return");
++    kani::cover((a >> 1) < (b >> 1) && (b >> 1) < (c >> 1), "wonediag N3 increasing keys return");
++    kani::cover(
++        a != b && (a >> 1) == (b >> 1) && (b >> 1) == (c >> 1),
++        "wonediag N3 tied distinct values",
++    );
++    kani::cover(a == b && b == c, "wonediag N3 duplicate full values");
++    kani::cover(probe == a, "wonediag N3 independent probe hits input");
++    kani::cover(
++        probe != a && probe != b && probe != c,
++        "wonediag N3 independent probe misses input",
++    );
++}
++
++#[kani::proof_for_contract(unstable_byte_len)]
++#[kani::unwind(16)]
++fn unstable_byte_n3() {
++    let [left, a, b, c, right]: [u8; 5] = kani::any();
++    let probe: u8 = kani::any();
++    let mut v = [left, a, b, c, right];
++    // SAFETY: initialized offset1/len3 in backing5, canonical pointer.
++    unsafe { unstable_byte_len(v.as_mut_ptr().wrapping_add(1), 3, byte_less, probe) };
++    input_frame(&v, left, right);
++    input_covers_n3(a, b, c, probe);
++}
++
++#[kani::proof_for_contract(freeze_noncopy_len)]
++#[kani::unwind(16)]
++fn freeze_noncopy_n3() {
++    let [left, a, b, c, right]: [u8; 5] = kani::any();
++    let probe: u8 = kani::any();
++    let mut v = [NonCopyU8(left), NonCopyU8(a), NonCopyU8(b), NonCopyU8(c), NonCopyU8(right)];
++    // SAFETY: initialized offset1/len3 in backing5, canonical pointer; internal scratch48.
++    unsafe { freeze_noncopy_len(v.as_mut_ptr().wrapping_add(1), 3, noncopy_less, probe) };
++    input_frame(&v, left, right);
++    input_covers_n3(a, b, c, probe);
++}
++
++#[kani::proof_for_contract(stable_byte_len)]
++#[kani::unwind(16)]
++fn stable_byte_n3() {
++    let [left, a, b, c, right]: [u8; 5] = kani::any();
++    let probe: u8 = kani::any();
++    let mut v = [left, a, b, c, right];
++    let mut scratch = [MaybeUninit::uninit(); 48];
++    // SAFETY: initialized offset1/len3 in backing5, separate full scratch48, canonical pointer.
++    unsafe { stable_byte_len(v.as_mut_ptr().wrapping_add(1), 3, &mut scratch, byte_less, probe) };
++    // Scratch may change under the unchanged whole-slice modifies; input sentinels must not.
++    input_frame(&v, left, right);
++    input_covers_n3(a, b, c, probe);
++}
