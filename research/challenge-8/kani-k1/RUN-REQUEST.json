@@ -2,40 +2,17 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "mergestep-up-down-steps-merge4-calibration-20261102",
+  "request_id": "directfour-direct-merge4-baseline-20261102",
   "kind": "measurement",
-  "purpose": "MERGESTEP: closed u8/U8Cmp merge_up/merge_down step summaries (two no-stub leaves), actual composed merge4 PFC through raw-helper adapters and verified steps, and up/down binding plus count negative controls; no N18 claim.",
+  "purpose": "DIRECTFOUR: direct merge_profile<StrictU8> PFC on the MERGESTEP composed merge4 fixture (source18[..4] -> separate scratch32+0, same post-oracle), real bidirectional_merge and merge_up/down, no stubs; diagnostic baseline, no N18 claim.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "uninit_checks": false,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8",
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::directfour::directfour_merge4_u8",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8",
-      "expect": "FAILED",
-      "expect_check": "mergestep actual up adapter binding control"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8",
-      "expect": "FAILED",
-      "expect_check": "mergestep actual down adapter binding control"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8",
-      "expect": "FAILED",
-      "expect_check": "mergestep calibration negative: full-value count preserved"
     }
   ]
 }

@@ -1,0 +1,37 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index e6f83a10af..28397170b8 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "mergestep-up-down-steps-merge4-calibration-20261102",
++  "request_id": "directfour-direct-merge4-baseline-20261102",
+@@ -7 +7 @@
+-  "purpose": "MERGESTEP: closed u8/U8Cmp merge_up/merge_down step summaries (two no-stub leaves), actual composed merge4 PFC through raw-helper adapters and verified steps, and up/down binding plus count negative controls; no N18 claim.",
++  "purpose": "DIRECTFOUR: direct merge_profile<StrictU8> PFC on the MERGESTEP composed merge4 fixture (source18[..4] -> separate scratch32+0, same post-oracle), real bidirectional_merge and merge_up/down, no stubs; diagnostic baseline, no N18 claim.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::directfour::directfour_merge4_u8",
+@@ -16,23 +15,0 @@
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8",
+-      "expect": "SUCCESS"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8",
+-      "expect": "SUCCESS"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8",
+-      "expect": "FAILED",
+-      "expect_check": "mergestep actual up adapter binding control"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8",
+-      "expect": "FAILED",
+-      "expect_check": "mergestep actual down adapter binding control"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8",
+-      "expect": "FAILED",
+-      "expect_check": "mergestep calibration negative: full-value count preserved"

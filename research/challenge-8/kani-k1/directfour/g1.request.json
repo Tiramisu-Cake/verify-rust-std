@@ -1,0 +1,18 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "directfour-direct-merge4-baseline-20261102",
+  "kind": "measurement",
+  "purpose": "DIRECTFOUR: direct merge_profile<StrictU8> PFC on the MERGESTEP composed merge4 fixture (source18[..4] -> separate scratch32+0, same post-oracle), real bidirectional_merge and merge_up/down, no stubs; diagnostic baseline, no N18 claim.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::directfour::directfour_merge4_u8",
+      "expect": "SUCCESS"
+    }
+  ]
+}
