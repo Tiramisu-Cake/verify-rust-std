@@ -1,0 +1,37 @@
+interval_ms=2000
+samples=131
+elapsed_s=260
+total_rss_peak_kb=2050316
+total_peak_s=48
+cmd=bash peak_kb=3788 first_s=0 last_s=260 peak_s=0
+cmd=cargo peak_kb=33456 first_s=2 last_s=62 peak_s=62
+cmd=cbmc peak_kb=992880 first_s=68 last_s=258 peak_s=132
+cmd=goto-instrument peak_kb=79068 first_s=64 last_s=158 peak_s=66
+cmd=kani-compiler peak_kb=1793664 first_s=2 last_s=62 peak_s=48
+cmd=kani-driver peak_kb=1102256 first_s=2 last_s=258 peak_s=148
+cmd=python3 peak_kb=20628 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3852 first_s=2 last_s=258 peak_s=2
+cmd=tee peak_kb=1080 first_s=0 last_s=260 peak_s=2
+cmd=time peak_kb=1248 first_s=2 last_s=258 peak_s=2
+cmd=timeout peak_kb=1088 first_s=2 last_s=258 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=992880 peak_s=132
+role=driver simultaneous_rss_peak_kb=812868 peak_s=258
+cbmc_pid=9226 peak_kb=992880 first_s=68 last_s=144 peak_s=132 active=T0:network::u64nine::tenleaves::u64ten_insert_strict_u64_begin0_tail9 hint=slice::sort::shared::smallsort::verify::network::u64nine::te
+cbmc_pid=9268 peak_kb=397352 first_s=160 last_s=258 peak_s=164 active=T0:network::u64nine::tenleaves::u64ten_swap_prefix9_backing10 hint=slice::sort::shared::smallsort::verify::network::u64nine::te
+driver_s=0 rss_kb=0
+harness_s=68 name=T0:network::u64nine::tenleaves::u64ten_insert_strict_u64_begin0_tail9
+driver_s=30 rss_kb=6136
+harness_s=160 name=T0:network::u64nine::tenleaves::u64ten_swap_prefix9_backing10
+driver_s=60 rss_kb=6392
+driver_s=90 rss_kb=6696
+driver_s=120 rss_kb=6696
+driver_s=150 rss_kb=696104
+driver_s=180 rss_kb=696104
+driver_s=210 rss_kb=696104
+driver_s=240 rss_kb=696104
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=329
+verify_budget_s=2311
+RUSTFLAGS=--cfg kani_smallsort_controls
