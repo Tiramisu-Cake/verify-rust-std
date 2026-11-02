@@ -1,0 +1,39 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index 807ac2682f..e5182cf478 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "netcomp2-n9-cover-n13-pair-frame-count-20261102",
++  "request_id": "net18-leaves-swap18-merge18-scratch32-20261102",
+@@ -7 +7 @@
+-  "purpose": "NETCOMP2: corrected N9 direct/composed covers and current count control, separate exact N13 no-stub leaf/composition and actual-binding/count controls; one joint seven-row gate.",
++  "purpose": "NET18-LEAVES: three independent real-body PFCs for Unstable u8 N18 geometry: swap_net9 on backing18 offsets 0 and 9, and StrictU8 merge_profile source18 into prefix18 of a separate scratch32; no caller composition.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_left_backing18",
+@@ -18 +18 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_right_backing18",
+@@ -22,10 +22 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+-      "expect": "FAILED",
+-      "expect_check": "netcomp N9 negative: full-value count preserved"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+-      "expect": "SUCCESS"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_merge_strict_scratch32",
+@@ -33,10 +23,0 @@
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+-      "expect": "FAILED",
+-      "expect_check": "netcomp canonical comparator required"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+-      "expect": "FAILED",
+-      "expect_check": "netcomp N13 negative: full-value count preserved"

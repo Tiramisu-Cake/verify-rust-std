@@ -1,0 +1,26 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "net18-leaves-swap18-merge18-scratch32-20261102",
+  "kind": "measurement",
+  "purpose": "NET18-LEAVES: three independent real-body PFCs for Unstable u8 N18 geometry: swap_net9 on backing18 offsets 0 and 9, and StrictU8 merge_profile source18 into prefix18 of a separate scratch32; no caller composition.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_left_backing18",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_right_backing18",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_merge_strict_scratch32",
+      "expect": "SUCCESS"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "request_sha256": "bee157bfce2eba6fb13f4d8882b04e2033bbbe4699252858c06a68d153e3459d",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_left_backing18",
+      "annotations": [
+        "proof_for_contract(super::swap_net9)",
+        "unwind(25)"
+      ],
+      "expect": "SUCCESS",
+      "geometry": "unrestricted [u8;18], base+0, active9 global 0..8, local a!=b<9, independent by-value probe",
+      "required_covers": [
+        "net18 swap leaf: swap taken",
+        "net18 swap leaf: swap not taken",
+        "net18 swap leaf: first to last",
+        "net18 swap leaf: last to first",
+        "net18 swap leaf: interior pair",
+        "net18 swap leaf: probe hits active9",
+        "net18 swap leaf: probe misses active9"
+      ],
+      "fixture_asserts": [
+        "net18 swap leaf: pair transfer",
+        "net18 swap leaf: pair ordered",
+        "net18 swap leaf: active9 count preserved",
+        "net18 swap leaf: backing18 count preserved",
+        "net18 swap leaf: backing18 values outside pair unchanged"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_right_backing18",
+      "annotations": [
+        "proof_for_contract(super::swap_net9)",
+        "unwind(25)"
+      ],
+      "expect": "SUCCESS",
+      "geometry": "unrestricted [u8;18], base+9, active9 global 9..17, local a!=b<9, independent by-value probe",
+      "required_covers": [
+        "net18 swap leaf: swap taken",
+        "net18 swap leaf: swap not taken",
+        "net18 swap leaf: first to last",
+        "net18 swap leaf: last to first",
+        "net18 swap leaf: interior pair",
+        "net18 swap leaf: probe hits active9",
+        "net18 swap leaf: probe misses active9"
+      ],
+      "fixture_asserts": [
+        "net18 swap leaf: pair transfer",
+        "net18 swap leaf: pair ordered",
+        "net18 swap leaf: active9 count preserved",
+        "net18 swap leaf: backing18 count preserved",
+        "net18 swap leaf: backing18 values outside pair unchanged"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_merge_strict_scratch32",
+      "annotations": [
+        "proof_for_contract(super::super::super::merge::specfix::merge_profile)",
+        "unwind(34)"
+      ],
+      "expect": "SUCCESS",
+      "geometry": "StrictU8 probe any, then unrestricted source [u8;18] (sorted halves9 only via target requires); dst separate MaybeUninit<[u8;32]> offset0, prefix18 written, tail never read",
+      "required_covers": [
+        "net18 merge: returned",
+        "net18 merge: left first",
+        "net18 merge: right first",
+        "net18 merge: equal first values",
+        "net18 merge: probe hits source18",
+        "net18 merge: probe misses source18"
+      ],
+      "fixture_asserts": [
+        "net18 merge: probe unchanged",
+        "net18 merge: source18 unchanged",
+        "net18 merge: destination prefix18 sorted",
+        "net18 merge: source18/prefix18 full-value count preserved"
+      ]
+    }
+  ],
+  "allowed_failed_checks": []
+}
