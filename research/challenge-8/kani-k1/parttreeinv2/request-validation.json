@@ -1,0 +1,20 @@
+{
+  "g1.request.json": {
+    "valid": true,
+    "validator": "tools/kani_k1.py validate --args-out <tmp> --runner-out <tmp> --require-runner gcb-e2-standard-4 --max-total-minutes 720 (exit 0, '0 harness(es) accepted'; runner gcb-e2-standard-4)",
+    "sha256": "fca8268d2d2025ad2cfba5e417ef75bddbe04223b936159e5c59324d5067d149",
+    "request_id": "parttreeinv-g1-cfgon-20261102",
+    "kind": "inventory",
+    "controls": true,
+    "inventory": true,
+    "harnesses": [],
+    "harness_timeout_minutes": 60,
+    "inventory_max_minutes_schema": 60,
+    "absent_fields": ["kani_jobs", "uninit_checks", "worker"],
+    "timeout_with_overhead_minutes": 90,
+    "reserve_usd": "1.2150",
+    "RUN-REQUEST.json_equal": true,
+    "diff_vs_parttwotree_g1_request": ["request_id", "purpose", "harness_timeout_minutes 20 -> 60"],
+    "previous_request_sha256": "e10c0993162ee8e8b22a3f1e57470a652aa8e76506c3222b4eaf40b0e1bc4d98"
+  }
+}

@@ -1,0 +1,10 @@
+Snapshot during PRE-BUILD preparation, 2026-11-02 18:56:20 UTC, via tools/k1g.sh budget:
+builds 178; used $81.0915, reserved by unfinished builds $0.5400, cap $88.96 (both pools).
+Prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135.
+Reserved $0.5400 = one unfinished standard4 build of 40 min (owner not visible via k1g; coordinator: PART2-SPLIT31,
+owner k1-network, foreign ledger). Project slots: 1 of <=2 unfinished; k1-merge: 0 of <=1
+(own PARTTWO-TREE 2fc095d3 finished: k1g.sh budget UUID -> 1 build $0.6075, reserved $0.0000; not this stage).
+PARTTREE-INV2 own UUIDs: none; builds 0/1; spent $0.0000; reserved $0.0000.
+Planned reserve: (60 + 30) minutes * $0.0135 = $1.2150 <= stage cap $1.25.
+Project after this reserve: $81.0915 + $0.5400 + $1.2150 = $82.8465 <= $88.96 (headroom $6.1135).
+Refresh tools/k1g.sh budget and slots immediately before dispatch.

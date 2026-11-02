@@ -1,0 +1,566 @@
+{
+  "status": "PASS",
+  "failed": [],
+  "head": "b0ccb16f9751b8b2953262969850f02226dfd073",
+  "worktree_mode": false,
+  "identities": {
+    "v6": "d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097",
+    "v6_tree": "d4ec476a7a001363e58f19948c188a9c2078e370",
+    "branch_base": "4f4034527d3e3a26e4cd94e12ba6922e2b5e80e4",
+    "macsplit_report": "71d18696613bdd6b00648a0d7b44d1cd3c6da940",
+    "lines": {
+      "bridge": {
+        "report": "8cbb26750012c51d99266fa9fbe342519345649d",
+        "library": "77cb4c97733d24c1f03f11dc803a2a7676bfc4d5",
+        "library_tree": "b903aba7c37e6956dc7b2643b4da79695d54fe4c",
+        "prerequisites": {
+          "b07dc219a27af35e9832335c129bb8759926b7ca": "f3bf04b5ccf83592e98c1d536d21713e7c01363a"
+        }
+      },
+      "wone": {
+        "report": "b21be6cd8639ba779b9badea989abe3a3e4a2c91",
+        "library": "4231462d124b8c69bfaa55dd0eb956717308f1be",
+        "library_tree": "c407b96a8cde34a9f28b8a967bf897f74bd06992",
+        "prerequisites": {
+          "e4f1df6a348fe67277250f84e5a6aa83638a7892": "1731596d7c6df1e7fc745fa9e8d6a9ae4df7a432",
+          "af8b0db75a78f737772c8fe86ed7d5cdff109e11": "af3da15225005c0eba22ef42626c8562485c8e7e"
+        }
+      },
+      "netten": {
+        "report": "61cfba69c3dac0b87324d2845c1164e08222d0a6",
+        "library": "2ebda13e1445186f53a12b69a4419aafe4f17e1b",
+        "library_tree": "40d3b22c82551eafb6d55510bf0bba2bcfbebf74",
+        "prerequisites": {
+          "f4d3775dc505ef26e30158cfa7e78f120cd3c30e": "3b6d2a51dae08e52464f4b2b82f5168d8ba9977b",
+          "23ba8cfddbce1cf0313ab402fd6376d157a0f845": "74e42aaa191879280e8e7827c1e32a4ac65d5f18"
+        }
+      },
+      "u64": {
+        "report": "4b9d56c46d1be97ba981610fb0dea77e0c864f66",
+        "library": "497077c6cd14fdbcc439807c0cdc186860cb00ce",
+        "library_tree": "90a3889318f1db39163e8fe9e382da39d9cf5e85",
+        "prerequisites": {
+          "9ab925b1578b9102e3009c0ec940c5c9cc0280cb": "d22566ab5a685df2608ddb756714e51ad288f08d",
+          "fddf308321046a8cd8f5526622a5e2353d79830e": "d22566ab5a685df2608ddb756714e51ad288f08d"
+        }
+      },
+      "n18": {
+        "report": "e3a778017a0e057b34d6ea910fcca9d21f7dc3a3",
+        "library": "248b2725c6cd528a6d87aa5928e362dc11e74522",
+        "library_tree": "7996f9c151be2011be23bb44d04f286ea2905810",
+        "prerequisites": {
+          "7d8b21728b1ccb632d67374918bd13d2c45de116": "1fa41b3a5f101ee3981787f71588bfc22e2aae5b",
+          "97a252bea7ee68720b097ecf83d014e0b87d5f20": "dc7c79bb9b2a779a6db2977f6142adfea835441b",
+          "4eb7e81259f843da6517a8de97c68e23b584eb76": "1fa41b3a5f101ee3981787f71588bfc22e2aae5b",
+          "91d4d9f77a5a6e7f27b151839e6ac42114523a89": "dc7c79bb9b2a779a6db2977f6142adfea835441b",
+          "813a03db4a0ae11fbe8e00418b17556ae5171758": "334b3a2912259c4b75193c465fdbd0d776cdc7b7"
+        }
+      }
+    }
+  },
+  "counts": {
+    "ordinary": 202,
+    "ordinary_pfc": 36,
+    "ordinary_plain": 166,
+    "cfg_on": 438,
+    "v6_cfg_on": 384,
+    "added_opt_in": 54,
+    "added_pfc": 26,
+    "added_plain": 28
+  },
+  "hashes": {
+    "cfg_on_expected_sha256": "da9bcae231b35b1c42d2873976879c1209a688cc03bc25a3421f5fea7b578f1b",
+    "added_sha256": "ac8c1c4a0509480dae614c36471e32a84b6b7ae93c8b9d081a2c02d1ae474230",
+    "ordinary_names_sha256": "78c4c05003b25e764576c62f52e3c10bc7602976521ff6f49dcfbc53d9ff79e7",
+    "macsplit_expected_sha256": "78c4c05003b25e764576c62f52e3c10bc7602976521ff6f49dcfbc53d9ff79e7",
+    "macsplit_pages_names_sha256": "b721d93c7a7eec362fd3fad0327e6e2ed0a866020851251632a7d0761c2bc904"
+  },
+  "files": {
+    "library/core/src/slice/sort/shared/smallsort/verify/bridge.rs": {
+      "source_commit": "77cb4c97733d24c1f03f11dc803a2a7676bfc4d5",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/bridge.rs",
+      "sha256": "c23c98ab02395b36ab6cf29f1e1e5d8e40ab6c6ddb02ed61d00dd0628cac7833",
+      "source_sha256": "c23c98ab02395b36ab6cf29f1e1e5d8e40ab6c6ddb02ed61d00dd0628cac7833",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs": {
+      "source_commit": "4231462d124b8c69bfaa55dd0eb956717308f1be",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs",
+      "sha256": "5eea4aa0a1d4274f773f184e29b5c9160ef9e8b571ce1a673b90d1ef5a0a95ef",
+      "source_sha256": "5eea4aa0a1d4274f773f184e29b5c9160ef9e8b571ce1a673b90d1ef5a0a95ef",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten.rs": {
+      "source_commit": "2ebda13e1445186f53a12b69a4419aafe4f17e1b",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten.rs",
+      "sha256": "695023a6f02359da9b7a8575ae6df474425290cf5b8b7b645e1f55aa4ccc126b",
+      "source_sha256": "695023a6f02359da9b7a8575ae6df474425290cf5b8b7b645e1f55aa4ccc126b",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs": {
+      "source_commit": "2ebda13e1445186f53a12b69a4419aafe4f17e1b",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs",
+      "sha256": "1553847604e9cb6624cc6fe357c098d03b39e9e0645927cb86cef348a81c596b",
+      "source_sha256": "1553847604e9cb6624cc6fe357c098d03b39e9e0645927cb86cef348a81c596b",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/neteighteen.rs": {
+      "source_commit": "248b2725c6cd528a6d87aa5928e362dc11e74522",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/neteighteen.rs",
+      "sha256": "6c6281e9d41825fccaa4e844bb4436fb8f3909a1b68c4578da14b571b5423ee4",
+      "source_sha256": "6c6281e9d41825fccaa4e844bb4436fb8f3909a1b68c4578da14b571b5423ee4",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs": {
+      "source_commit": "248b2725c6cd528a6d87aa5928e362dc11e74522",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs",
+      "sha256": "2ae7e36dbcd2828e344481fb0ff8bed530f7e75865e4496cf801279ec503d1a5",
+      "source_sha256": "2ae7e36dbcd2828e344481fb0ff8bed530f7e75865e4496cf801279ec503d1a5",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs": {
+      "source_commit": "248b2725c6cd528a6d87aa5928e362dc11e74522",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs",
+      "sha256": "d8f694728de2393e1c59076484e99d1b68e19198bc36f50279acd3c9bec724ac",
+      "source_sha256": "d8f694728de2393e1c59076484e99d1b68e19198bc36f50279acd3c9bec724ac",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs": {
+      "source_commit": "497077c6cd14fdbcc439807c0cdc186860cb00ce",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+      "sha256": "fd27513298a12d77deaef17822b6bbd2a48e5ad2ec53eed366bf53260c36999d",
+      "source_sha256": "fd27513298a12d77deaef17822b6bbd2a48e5ad2ec53eed366bf53260c36999d",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs": {
+      "source_commit": "497077c6cd14fdbcc439807c0cdc186860cb00ce",
+      "source_path": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs",
+      "sha256": "330732a2df9aec04863b6bbbff493f4e532ad5ea8cc0ef6b06d31e5f1ee2f9d6",
+      "source_sha256": "330732a2df9aec04863b6bbbff493f4e532ad5ea8cc0ef6b06d31e5f1ee2f9d6",
+      "relation": "byte-identical"
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs": {
+      "source_commit": "f4d3775dc505ef26e30158cfa7e78f120cd3c30e",
+      "sha256": "be32ff1cf425398fc639f319a061237231bf9b80cee3b42e9758aaf73249d7c9",
+      "relation": "NETCOMP2 blob + netten registration (2ebda13e14) + neteighteen/mergestep registrations (248b2725c6)"
+    }
+  },
+  "parent_edits": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": {
+      "v6_sha256": "5791fee0819b16774172f0800c19018b7358bca49f65d89439783e16b6c38e90",
+      "sha256": "29de9ac9d083686561bee09f0b53c31f8ed1d05cc097e91690af4bb88ad2d1d1",
+      "inserted": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod bridge;"
+      ]
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": {
+      "v6_sha256": "d3d0047bf9b08aca809264c8dfac9dab746b305bab38c9c23f702a44d67e7f7a",
+      "sha256": "2233268e84e4ac638c53aa2ddb72f63cc3de7cc1e8d733cc95e7e2b5049c050c",
+      "inserted": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod netcomp;",
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod u64nine;"
+      ]
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
+      "v6_sha256": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6",
+      "sha256": "4bdbae717cc3a2125be8a701593f1950fc43c8768e5a94fdd5abbd3c0422eb99",
+      "inserted": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod wone;"
+      ]
+    }
+  },
+  "dependencies": {
+    "bridge": {
+      "identical": [
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs"
+      ],
+      "differing": [
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs"
+      ]
+    },
+    "wone": {
+      "identical": [
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs"
+      ],
+      "differing": []
+    },
+    "netten": {
+      "identical": [
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs"
+      ],
+      "differing": []
+    },
+    "u64": {
+      "identical": [
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs"
+      ],
+      "differing": []
+    },
+    "n18": {
+      "identical": [
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs"
+      ],
+      "differing": []
+    }
+  },
+  "lineages": {
+    "bridge": {
+      "total_cfg_on": 391,
+      "ordinary": 200,
+      "transferred": [
+        "slice::sort::shared::smallsort::verify::bridge::bridge_caller_positive_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridge_caller_unsorted_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridge_caller_wrong_f_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridge_frame_negative_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridge_frame_positive_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridge_leaf_u8_n3",
+        "slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9",
+        "slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9",
+        "slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9"
+      ],
+      "transferred_in_ordinary": [],
+      "not_transferred": []
+    },
+    "wone": {
+      "total_cfg_on": 394,
+      "ordinary": 200,
+      "transferred": [
+        "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n0_to3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n2",
+        "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::rejects_always_true",
+        "slice::sort::shared::smallsort::verify::wrap::wone::rejects_payload_corruption",
+        "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n0_to3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n2",
+        "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::stable_cell_n0_to3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n0_to3",
+        "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n2",
+        "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3"
+      ],
+      "transferred_in_ordinary": [],
+      "not_transferred": []
+    },
+    "netten": {
+      "total_cfg_on": 401,
+      "ordinary": 200,
+      "transferred": [
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_count_negative_u8_n10",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_positive_u8_n10",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_swap_binding_negative_u8_n10",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_insert_strict_u8_begin0_tail9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_swap_prefix9_backing10"
+      ],
+      "transferred_in_ordinary": [],
+      "not_transferred": [
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative"
+      ]
+    },
+    "u64": {
+      "total_cfg_on": 403,
+      "ordinary": 200,
+      "transferred": [
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9",
+        "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9",
+        "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9",
+        "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9",
+        "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_composed_u64_n13",
+        "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13",
+        "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_leaf_u64_n13",
+        "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13"
+      ],
+      "transferred_in_ordinary": [],
+      "not_transferred": [
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative"
+      ]
+    },
+    "n18": {
+      "total_cfg_on": 405,
+      "ordinary": 200,
+      "transferred": [
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::directfour::directfour_merge4_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_merge_strict_scratch32",
+        "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_left_backing18",
+        "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_right_backing18"
+      ],
+      "transferred_in_ordinary": [],
+      "not_transferred": [
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative"
+      ]
+    }
+  },
+  "checks": {
+    "v6_tree": {
+      "pass": true
+    },
+    "branch_base_tree_equals_v6": {
+      "pass": true
+    },
+    "macsplit_report_tree_equals_v6": {
+      "pass": true
+    },
+    "branch_base_is_ancestor": {
+      "pass": true
+    },
+    "identity_bridge": {
+      "pass": true
+    },
+    "identity_wone": {
+      "pass": true
+    },
+    "identity_netten": {
+      "pass": true
+    },
+    "identity_u64": {
+      "pass": true
+    },
+    "identity_n18": {
+      "pass": true
+    },
+    "v5_base_tree": {
+      "pass": true
+    },
+    "lineN_common_base": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/bridge.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/neteighteen.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs": {
+      "pass": true
+    },
+    "copy:library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs": {
+      "pass": true
+    },
+    "netcomp_composition": {
+      "pass": true
+    },
+    "parent_insert_only:library/core/src/slice/sort/shared/smallsort/verify.rs": {
+      "pass": true,
+      "detail": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod bridge;"
+      ]
+    },
+    "parent_insert_only:library/core/src/slice/sort/shared/smallsort/verify/network.rs": {
+      "pass": true,
+      "detail": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod netcomp;",
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod u64nine;"
+      ]
+    },
+    "parent_insert_only:library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
+      "pass": true,
+      "detail": [
+        "",
+        "#[cfg(kani_smallsort_controls)]",
+        "mod wone;"
+      ]
+    },
+    "library_changed_paths_exact": {
+      "pass": true,
+      "detail": [
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/bridge.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp/neteighteen.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs",
+        "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/wrap/wone.rs",
+        "M\tlibrary/core/src/slice/sort/shared/smallsort/verify.rs",
+        "M\tlibrary/core/src/slice/sort/shared/smallsort/verify/network.rs",
+        "M\tlibrary/core/src/slice/sort/shared/smallsort/verify/wrap.rs"
+      ]
+    },
+    "runtime_smallsort_rs_unchanged": {
+      "pass": true
+    },
+    "deps_identical_wone": {
+      "pass": true,
+      "detail": []
+    },
+    "deps_identical_netten": {
+      "pass": true,
+      "detail": []
+    },
+    "deps_identical_u64": {
+      "pass": true,
+      "detail": []
+    },
+    "deps_identical_n18": {
+      "pass": true,
+      "detail": []
+    },
+    "deps_bridge_differ_only_by_cleanup": {
+      "pass": true
+    },
+    "wrap_rs_equals_wone_lineage": {
+      "pass": true
+    },
+    "lineage_bridge_transferred_opt_in_only": {
+      "pass": true
+    },
+    "lineage_wone_transferred_opt_in_only": {
+      "pass": true
+    },
+    "lineage_netten_transferred_opt_in_only": {
+      "pass": true
+    },
+    "lineage_u64_transferred_opt_in_only": {
+      "pass": true
+    },
+    "lineage_n18_transferred_opt_in_only": {
+      "pass": true
+    },
+    "macsplit_native_pages_equal_expected": {
+      "pass": true
+    },
+    "ordinary_equals_macsplit_native_202": {
+      "pass": true
+    },
+    "ordinary_equals_v6_static": {
+      "pass": true
+    },
+    "v6_roots_unchanged_metadata": {
+      "pass": true
+    },
+    "ordinary_pfc_36": {
+      "pass": true,
+      "detail": 36
+    },
+    "ordinary_insert_tail_pfc_5": {
+      "pass": true,
+      "detail": [
+        "network::contract_insert_tail_u8_prefix",
+        "network::insert_tail_contract_u64_start1_tail13_to14",
+        "network::insert_tail_contract_u64_start1_tail15_to16",
+        "network::insert_tail_contract_u64_start1_tail2_to8",
+        "network::insert_tail_contract_u64_start1_tail9_to12"
+      ]
+    },
+    "v6_split_names_present": {
+      "pass": true
+    },
+    "retired_absent": {
+      "pass": true
+    },
+    "cfg_on_equals_union": {
+      "pass": true
+    },
+    "added_all_in_transferred_modules": {
+      "pass": true
+    },
+    "added_all_controls_gated": {
+      "pass": true
+    },
+    "transferred_annotations_equal_lineage": {
+      "pass": true
+    },
+    "not_transferred_exactly_netnine_netthirteen": {
+      "pass": true,
+      "detail": [
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+        "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+        "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative"
+      ]
+    }
+  },
+  "limitation": "Static source forecast; compiler/Kani membership only from the native inventory Build."
+}
