@@ -37,5 +37,4 @@ Inherited unchanged: NET18-LEAVES swap18 credit and historical merge18 TIMEOUT (
 Own 1/1 Build, spent$0.2970, reserved$0 (initial reserve$1.215 <= stage cap$2.50); project cap$88.96. No G2: resource/coverage failure.
 Static: ordinary200 unchanged; cfg-on398->404; pfc_order24/bad0; rustfmt/diff-check PASS. Not proofs.
 Evidence: mergestep/g1.{summary.md,rows.txt,checks-lines.txt,peaks.txt,tooling.txt,status.json,cost.txt}, runs.json, PREBUILD.md.
-Open (coordinator decision): composed merge4 under600s; binding-cover expectations after a failing guard.
-Next: STOP. MERGESTEP ЗАВЕРШЁН
+Open (coordinator decision): composed merge4 under600s; binding-cover expectations after a failing guard. Next: STOP. MERGESTEP ЗАВЕРШЁН
