@@ -1,0 +1,30 @@
+2716:Checking harness slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9...
+2717:  - Stub: swap_if_less -> adapter_u64nine
+2718:  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+2721: ** 1 of 570 failed (18 unreachable)
+2723: ** 3 of 3 cover properties satisfied
+2725:Failed Checks: u64nine N9 negative: full-value count preserved
+2726: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs", line 235, in slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9
+2728:VERIFICATION:- FAILED
+2729:Verification Time: 82.19006s
+2731:Checking harness slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9...
+2732:  - Stub: swap_if_less -> adapter_u64nine
+2733:  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+2736: ** 1 of 550 failed (29 unreachable)
+2738: ** 2 of 2 cover properties satisfied
+2740:Failed Checks: u64nine canonical comparator required
+2741: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs", line 123, in <u64 as slice::sort::shared::smallsort::verify::network::u64nine::SwapBridgeU64Nine<for<'a, 'b> fn(&'a u64, &'b u64) -> bool>>::exchange
+2743:VERIFICATION:- FAILED
+2744:Verification Time: 0.77463937s
+2746:Checking harness slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9...
+2747:  - Stub: swap_if_less -> adapter_u64nine
+2748:  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+2751: ** 0 of 588 failed (18 unreachable)
+2753: ** 7 of 7 cover properties satisfied
+2756:VERIFICATION:- SUCCESSFUL
+2757:Verification Time: 148.28758s
+2759:Checking harness slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9...
+2762: ** 0 of 388 failed (5 unreachable)
+2764: ** 7 of 7 cover properties satisfied
+2767:VERIFICATION:- SUCCESSFUL
+2768:Verification Time: 76.41763s
