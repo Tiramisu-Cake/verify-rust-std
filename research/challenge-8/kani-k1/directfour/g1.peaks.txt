@@ -1,0 +1,23 @@
+interval_ms=2000
+samples=24
+elapsed_s=46
+total_rss_peak_kb=1345944
+total_peak_s=44
+cmd=bash peak_kb=3824 first_s=0 last_s=46 peak_s=0
+cmd=cargo peak_kb=34420 first_s=2 last_s=44 peak_s=4
+cmd=kani-compiler peak_kb=1287724 first_s=2 last_s=44 peak_s=44
+cmd=kani-driver peak_kb=6288 first_s=2 last_s=44 peak_s=32
+cmd=python3 peak_kb=20624 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3588 first_s=2 last_s=44 peak_s=2
+cmd=tee peak_kb=1180 first_s=0 last_s=46 peak_s=0
+cmd=time peak_kb=1204 first_s=2 last_s=44 peak_s=2
+cmd=timeout peak_kb=1080 first_s=2 last_s=44 peak_s=2
+role=driver simultaneous_rss_peak_kb=6288 peak_s=32
+driver_s=0 rss_kb=0
+driver_s=30 rss_kb=6032
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=376
+verify_budget_s=1664
+RUSTFLAGS=--cfg kani_smallsort_controls

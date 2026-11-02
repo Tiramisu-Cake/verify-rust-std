@@ -1,0 +1,26 @@
+{
+  "task": "DIRECTFOUR",
+  "agent": "k1-network",
+  "build_limit": 1,
+  "build_limit_compile_error_branch": 2,
+  "stage_cap_usd": 1.1,
+  "planned_reserve_usd": 0.54,
+  "request_sha256": "82bc61a1959b25ff2cd8a9eb7cac3300449f11bbd1f9379f91178e372e85d5fb",
+  "builds": [
+    {
+      "gate": "G1",
+      "build": "37d72ac9-af24-4969-8754-e1e01ef6be88",
+      "source_sha": "88d57dea956344eb3ef1589933ed93de91a7bb4f",
+      "coordinator_go": "GO 88d57dea95; one Build",
+      "submitted_utc": "2026-11-02T15:28:42Z",
+      "finished_utc": "2026-11-02T15:37:11Z",
+      "cloud_status": "FAILURE",
+      "summary_status": "COMPILE_ERROR",
+      "row": "directfour_merge4_u8 NOT_RUN",
+      "cost_usd": 0.108
+    }
+  ],
+  "spent_usd": 0.108,
+  "reserved_usd": 0,
+  "status": "G2_PREBUILD_WAITING_GO"
+}

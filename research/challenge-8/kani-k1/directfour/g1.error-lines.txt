@@ -1,0 +1,68 @@
+   Compiling proc-macro-error v1.0.4
+   Compiling object v0.39.1
+   Compiling std v0.0.0 (/workspace/src/library/std)
+   Compiling syn v2.0.119
+   Compiling core v0.0.0 (/workspace/src/library/core)
+error[E0599]: no associated function or constant named `set_probe` found for struct `slice::sort::shared::smallsort::verify::network::StrictU8` in the current scope
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs:15:15
+   |
+15 |     StrictU8::set_probe(kani::any());
+   |               ^^^^^^^^^ associated function or constant not found in `slice::sort::shared::smallsort::verify::network::StrictU8`
+   |
+  ::: /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:46:9
+   |
+46 |         pub(crate) struct $tag;
+   |         ----------------------- associated function or constant `set_probe` not found for this struct
+   |
+   = help: items from traits can only be used if the trait is in scope
+help: there is an associated function `probe` with a similar name
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:37:5
+   |
+37 |     fn probe() -> Self::Model;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: trait `Profile` which provides `set_probe` is implemented but not in scope; perhaps you want to import it
+   |
+ 7 + use crate::slice::sort::shared::smallsort::verify::merge::specfix::Profile;
+   |
+
+error[E0599]: no associated function or constant named `probe` found for struct `slice::sort::shared::smallsort::verify::network::StrictU8` in the current scope
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs:16:27
+   |
+16 |     let probe = StrictU8::probe();
+   |                           ^^^^^ associated function or constant not found in `slice::sort::shared::smallsort::verify::network::StrictU8`
+   |
+  ::: /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:46:9
+   |
+46 |         pub(crate) struct $tag;
+   |         ----------------------- associated function or constant `probe` not found for this struct
+   |
+   = help: items from traits can only be used if the trait is in scope
+help: there is an associated function `set_probe` with a similar name
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:38:5
+   |
+38 |     fn set_probe(m: Self::Model);
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: trait `Profile` which provides `probe` is implemented but not in scope; perhaps you want to import it
+   |
+ 7 + use crate::slice::sort::shared::smallsort::verify::merge::specfix::Profile;
+   |
+
+error[E0599]: no associated function or constant named `CMP` found for struct `slice::sort::shared::smallsort::verify::network::StrictU8` in the current scope
+  --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs:23:32
+   |
+23 |     let cmp: U8Cmp = StrictU8::CMP;
+   |                                ^^^ associated function or constant not found in `slice::sort::shared::smallsort::verify::network::StrictU8`
+   |
+  ::: /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:46:9
+   |
+46 |         pub(crate) struct $tag;
+   |         ----------------------- associated function or constant `CMP` not found for this struct
+   |
+   = help: items from traits can only be used if the trait is in scope
+help: trait `Profile` which provides `CMP` is implemented but not in scope; perhaps you want to import it
+   |
+ 7 + use crate::slice::sort::shared::smallsort::verify::merge::specfix::Profile;
+   |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `core` (lib) due to 3 previous errors; 1 warning emitted

@@ -11,7 +11,7 @@ index 2cae464bed..50bc82ace6 100644
 +mod directfour;
 diff --git a/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs b/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs
 new file mode 100644
-index 0000000000..57ff44ece7
+index 0000000000..19313017ec
 --- /dev/null
 +++ b/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep/directfour.rs
 @@ -0,0 +1,34 @@
@@ -24,7 +24,7 @@ index 0000000000..57ff44ece7
 +use super::{ACTIVE4, StrictU8, U8Cmp, check_merge4, count_matching_values, register};
 +use crate::kani;
 +use crate::mem::MaybeUninit;
-+use crate::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile;
++use crate::slice::sort::shared::smallsort::verify::merge::specfix::{Profile, merge_profile};
 +
 +#[kani::proof_for_contract(super::super::super::super::merge::specfix::merge_profile)]
 +#[kani::unwind(34)]
