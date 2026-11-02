@@ -18,9 +18,22 @@
       "summary_status": "COMPILE_ERROR",
       "row": "directfour_merge4_u8 NOT_RUN",
       "cost_usd": 0.108
+    },
+    {
+      "gate": "G2",
+      "build": "9a000cec-dbd7-4b81-ab81-54da258f9d83",
+      "source_sha": "7cedb3a2a3cdc259a8c42930f64a06e9c28f121b",
+      "coordinator_go": "GO 7cedb3a2a3; G2 compile-error branch, one Build",
+      "submitted_utc": "2026-11-02T15:49:33Z",
+      "finished_utc": "2026-11-02T16:01:42Z",
+      "cloud_status": "SUCCESS",
+      "summary_status": "COMPLETE",
+      "row": "directfour_merge4_u8 SUCCESS 207.97597s 0/677;67 covers6/6",
+      "cost_usd": 0.162
     }
   ],
-  "spent_usd": 0.108,
+  "spent_usd": 0.27,
   "reserved_usd": 0,
-  "status": "G2_PREBUILD_WAITING_GO"
+  "status": "COMPLETE",
+  "task_outcome": "PASS (direct4)"
 }

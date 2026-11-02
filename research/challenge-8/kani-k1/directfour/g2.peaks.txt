@@ -1,0 +1,37 @@
+interval_ms=2000
+samples=146
+elapsed_s=290
+total_rss_peak_kb=2023140
+total_peak_s=50
+cmd=bash peak_kb=3840 first_s=0 last_s=290 peak_s=0
+cmd=cargo peak_kb=34188 first_s=2 last_s=64 peak_s=2
+cmd=cbmc peak_kb=894860 first_s=82 last_s=288 peak_s=280
+cmd=goto-cc peak_kb=71132 first_s=66 last_s=66 peak_s=66
+cmd=goto-instrument peak_kb=99680 first_s=68 last_s=80 peak_s=68
+cmd=kani-compiler peak_kb=1781964 first_s=2 last_s=64 peak_s=50
+cmd=kani-driver peak_kb=359028 first_s=2 last_s=288 peak_s=288
+cmd=python3 peak_kb=20412 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3668 first_s=2 last_s=288 peak_s=2
+cmd=tee peak_kb=1072 first_s=0 last_s=290 peak_s=0
+cmd=time peak_kb=1088 first_s=2 last_s=288 peak_s=2
+cmd=timeout peak_kb=1080 first_s=2 last_s=288 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=865564 peak_s=280
+role=driver simultaneous_rss_peak_kb=359028 peak_s=288
+cbmc_pid=9221 peak_kb=894860 first_s=82 last_s=288 peak_s=280 active=T0:network::netcomp::mergestep::directfour::directfour_merge4_u8 hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+driver_s=0 rss_kb=0
+harness_s=82 name=T0:network::netcomp::mergestep::directfour::directfour_merge4_u8
+driver_s=30 rss_kb=6044
+driver_s=60 rss_kb=6296
+driver_s=90 rss_kb=6632
+driver_s=120 rss_kb=6632
+driver_s=150 rss_kb=6632
+driver_s=180 rss_kb=6632
+driver_s=210 rss_kb=6632
+driver_s=240 rss_kb=6632
+driver_s=270 rss_kb=6632
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=366
+verify_budget_s=1674
+RUSTFLAGS=--cfg kani_smallsort_controls
