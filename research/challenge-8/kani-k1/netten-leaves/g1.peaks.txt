@@ -1,0 +1,39 @@
+interval_ms=2000
+samples=112
+elapsed_s=220
+total_rss_peak_kb=2064280
+total_peak_s=50
+cmd=bash peak_kb=3888 first_s=0 last_s=220 peak_s=0
+cmd=cargo peak_kb=33044 first_s=2 last_s=64 peak_s=60
+cmd=cbmc peak_kb=1013808 first_s=70 last_s=218 peak_s=116
+cmd=goto-instrument peak_kb=81208 first_s=66 last_s=142 peak_s=68
+cmd=kani-compiler peak_kb=1785056 first_s=2 last_s=64 peak_s=50
+cmd=kani-driver peak_kb=899912 first_s=2 last_s=218 peak_s=130
+cmd=python3 peak_kb=20484 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3604 first_s=2 last_s=220 peak_s=2
+cmd=tee peak_kb=1076 first_s=0 last_s=220 peak_s=2
+cmd=time peak_kb=1108 first_s=2 last_s=220 peak_s=2
+cmd=timeout peak_kb=1024 first_s=2 last_s=220 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=1013808 peak_s=116
+role=driver simultaneous_rss_peak_kb=665328 peak_s=218
+cbmc_pid=9226 peak_kb=1013808 first_s=70 last_s=128 peak_s=116 active=T0:network::netcomp::netten::netten_insert_strict_u8_begin0_tail9 hint=slice::sort::shared::smallsort::verify::network::netcomp::ne
+cbmc_pid=9268 peak_kb=355216 first_s=144 last_s=218 peak_s=206 active=T0:network::netcomp::netten::netten_swap_prefix9_backing10 hint=slice::sort::shared::smallsort::verify::network::netcomp::ne
+driver_s=0 rss_kb=0
+harness_s=70 name=T0:network::netcomp::netten::netten_insert_strict_u8_begin0_tail9
+driver_s=30 rss_kb=6116
+harness_s=144 name=T0:network::netcomp::netten::netten_swap_prefix9_backing10
+driver_s=60 rss_kb=6372
+driver_s=90 rss_kb=6744
+driver_s=120 rss_kb=69396
+driver_s=150 rss_kb=569012
+driver_s=180 rss_kb=569012
+driver_s=210 rss_kb=569012
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=361
+verify_budget_s=2279
+RUSTFLAGS=--cfg kani_smallsort_controls
+process_records=2 offset=0 count=2 next_offset=done
+{"active_harnesses":["Thread 0: network::netcomp::netten::netten_insert_strict_u8_begin0_tail9"],"attribution":"direct","build_id":"f6fdbf06-58fa-4c1d-9692-c8236cc38892","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_insert_strict_u8_begin0_tail9","first_s":70,"harness":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_insert_strict_u8_begin0_tail9","head_sha":"1914e42274cb2a7e574a0d6497c4a9922983a9cf","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":128,"mangled_name":"_RNvNtNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify7network7netcomp6netten36netten_insert_strict_u8_begin0_tail9","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out/core-4fbf41e31c66702c.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"16ec037434f430834e7be24fa525a74d4ee8d3c202bebf424d2956eee844c629","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out/core-4fbf41e31c66702c__RNvNtNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify7network7netcomp6netten36netten_insert_strict_u8_begin0_tail9.out","peak_kb":1013808,"peak_s":116,"pid":"9226","ppid":"8824","pretty_name":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_insert_strict_u8_begin0_tail9"}
+{"active_harnesses":["Thread 0: network::netcomp::netten::netten_swap_prefix9_backing10"],"attribution":"direct","build_id":"f6fdbf06-58fa-4c1d-9692-c8236cc38892","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_swap_prefix9_backing10","first_s":144,"harness":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_swap_prefix9_backing10","head_sha":"1914e42274cb2a7e574a0d6497c4a9922983a9cf","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":218,"mangled_name":"_RNvNtNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify7network7netcomp6netten29netten_swap_prefix9_backing10","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out/core-4fbf41e31c66702c.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"16ec037434f430834e7be24fa525a74d4ee8d3c202bebf424d2956eee844c629","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/4fbf41e31c66702c/out/core-4fbf41e31c66702c__RNvNtNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify7network7netcomp6netten29netten_swap_prefix9_backing10.out","peak_kb":355216,"peak_s":206,"pid":"9268","ppid":"8824","pretty_name":"slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_swap_prefix9_backing10"}
