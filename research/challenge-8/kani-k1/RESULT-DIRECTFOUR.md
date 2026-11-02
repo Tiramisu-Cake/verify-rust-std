@@ -22,5 +22,4 @@ NOT established: composed speedup (composed VT UNKNOWN); N18/N32/merge18; other 
 uninit/alias-validity/unwind; Part1/ordinary credit. Historical MERGESTEP TIMEOUT/failed gate unchanged.
 Own 2/2 Builds (G2 by compile-error branch), spent$0.2700, reserved$0 (cap$1.10); project cap$88.96. No G3. Static (not proofs):
 ordinary200 unchanged; cfg-on404->405; pfc_order25/bad0; rustfmt/diff-check PASS.
-Evidence: directfour/g{1,2}.{summary.md,status.json,rows.txt,cost.txt,peaks.txt,tooling.txt}, g1.error-lines.txt,
-g2.checks-lines.txt, runs.json, PREBUILD.md, PREBUILD-G2.md, static-check.json. Next: STOP.
+Evidence: directfour/g{1,2}.{summary.md,status.json,rows.txt,cost.txt,peaks.txt,tooling.txt}, g1.error-lines.txt, g2.checks-lines.txt, runs.json, PREBUILD{,-G2}.md. STOP.
