@@ -75,3 +75,14 @@ the failed-check list (initial/after-corruption literals differ and do not conta
 - Own cap $2.50: plan $1.485; one shared compile-error repeat ≤ $0.945 → full-reserve ceiling $2.430. Max 3 Builds.
 - Window: T0 at G1 dispatch; G1 envelope 40 min + G2 70 min + finishing fit main 180 min; G2 after G1 terminal/accounting.
 - Night limit: tonight PART2-FAST spent $0.513; current night total/limit is a coordinator check before GO.
+
+## G2 PRE-BUILD (after G1 terminal/accounting, 2026-11-02 ~20:43Z)
+- G1 ac1574d8 terminal: baseline `network_correctness_u64_n8` TIMEOUT at 600 s, cost $0.2430 (partposts/g1.result.md).
+  No compile/setup error: the same library tree d646cb40 (controls on, posts module included) compiled cleanly, so G2
+  is not a known compile blocker. Baseline TIMEOUT does not cancel the split (task); no repeat used.
+- RUN-REQUEST.json := partposts/g2.request.json (sha256 0326ea4419bb30a3c60545cc9cb9727067a0ef7119e7a01f0efd13a19918a170),
+  re-validated (4 harnesses accepted). Library tree d646cb40 and lane files unchanged (this commit touches research only).
+- Budget: project 182 builds, used $82.5360, reserved by unfinished $0.0000; + G2 $0.945 = $83.481 ≤ $88.96.
+  Own spent $0.2430 + G2 reserve $0.945 = $1.188 ≤ $2.50; the one compile-repeat (≤ $0.945) stays unused → ≤ $2.133.
+- Slots: 0 unfinished in project; G2 makes 1, k1-network 1. Window: T0 20:20:30Z, main ends 23:20:30Z; G2 70 min envelope
+  from ~20:45Z ends ~21:55Z plus finishing, inside main. Night total/limit: coordinator check before GO.

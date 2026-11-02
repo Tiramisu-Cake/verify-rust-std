@@ -2,17 +2,31 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "partposts-g1-baseline-u64n8-20261102",
+  "request_id": "partposts-g2-split-u64n8-20261102",
   "kind": "measurement",
-  "purpose": "PART2-POSTS8 G1: GCB VT/RSS of unchanged combined opt-in root network_correctness_u64_n8 (sortedness + full-value count) on the posts library tree; controls on, jobs1.",
+  "purpose": "PART2-POSTS8 G2: split u64 N8 posts as direct roots network::posts sorted/count (SUCCESS) plus order/count full-u64 negative controls (FAILED at their literals); controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_sorted_u64_n8",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_count_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_order_negative_u64_n8",
+      "expect": "FAILED",
+      "expect_check": "partposts negative: sortedness"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_count_negative_u64_n8",
+      "expect": "FAILED",
+      "expect_check": "partposts negative: full-value count preserved"
     }
   ]
 }
