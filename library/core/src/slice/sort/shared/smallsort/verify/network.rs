@@ -12,6 +12,9 @@ use super::merge::specfix::{
 use crate::kani;
 use crate::mem::size_of;
 
+#[cfg(kani_smallsort_controls)]
+mod netcomp;
+
 // Share key-order function items with merge profile proofs; equal keys may have different values.
 
 /// Positions anywhere in a 4-element array, in either order, distinct as the profile requires.
@@ -1486,3 +1489,6 @@ mutating_route_permutation_case!(mutating_route_permutation_cell_n4, 4, [1, 2, 3
 fn control_network_mutant_presorted_u8_n10() {
     network_correctness_u8_n10();
 }
+
+#[cfg(kani_smallsort_controls)]
+mod u64nine;

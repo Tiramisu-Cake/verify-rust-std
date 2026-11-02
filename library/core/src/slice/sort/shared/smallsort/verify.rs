@@ -39,3 +39,6 @@ mod network;
 mod smoke;
 mod types;
 mod wrap;
+
+#[cfg(kani_smallsort_controls)]
+mod bridge;
