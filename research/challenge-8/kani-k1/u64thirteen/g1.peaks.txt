@@ -1,0 +1,67 @@
+interval_ms=2000
+samples=514
+elapsed_s=1028
+total_rss_peak_kb=6525164
+total_peak_s=425
+cmd=bash peak_kb=3940 first_s=0 last_s=1028 peak_s=0
+cmd=cargo peak_kb=34400 first_s=2 last_s=62 peak_s=4
+cmd=cbmc peak_kb=3390464 first_s=66 last_s=1026 peak_s=421
+cmd=goto-instrument peak_kb=26700 first_s=64 last_s=846 peak_s=846
+cmd=kani-compiler peak_kb=1809864 first_s=2 last_s=62 peak_s=48
+cmd=kani-driver peak_kb=4981392 first_s=2 last_s=1026 peak_s=232
+cmd=python3 peak_kb=20508 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3592 first_s=2 last_s=1026 peak_s=2
+cmd=tee peak_kb=1056 first_s=0 last_s=1028 peak_s=2
+cmd=time peak_kb=1244 first_s=2 last_s=1026 peak_s=2
+cmd=timeout peak_kb=1024 first_s=2 last_s=1026 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=3372168 peak_s=425
+role=driver simultaneous_rss_peak_kb=4939460 peak_s=232
+cbmc_pid=9285 peak_kb=3390464 first_s=240 last_s=840 peak_s=421 active=T0:network::u64nine::uthirteen::u64thirteen_composed_u64_n13 hint=slice::sort::shared::smallsort::verify::network::u64nine::ut
+cbmc_pid=9231 peak_kb=2032700 first_s=66 last_s=216 peak_s=160 active=T0:network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13 hint=slice::sort::shared::smallsort::verify::network::u64nine::ut
+cbmc_pid=9325 peak_kb=411696 first_s=848 last_s=1026 peak_s=858 active=T0:network::u64nine::uthirteen::u64thirteen_leaf_u64_n13 hint=slice::sort::shared::smallsort::verify::network::u64nine::ut
+cbmc_pid=9258 peak_kb=35584 first_s=238 last_s=238 peak_s=238 active= hint=slice::sort::shared::smallsort::verify::network::u64nine::ut
+driver_s=0 rss_kb=0
+harness_s=66 name=T0:network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13
+driver_s=30 rss_kb=6004
+harness_s=238 name=T0:network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13
+driver_s=60 rss_kb=6324
+harness_s=240 name=T0:network::u64nine::uthirteen::u64thirteen_composed_u64_n13
+driver_s=90 rss_kb=6908
+harness_s=848 name=T0:network::u64nine::uthirteen::u64thirteen_leaf_u64_n13
+driver_s=120 rss_kb=7172
+driver_s=150 rss_kb=7436
+driver_s=180 rss_kb=595600
+driver_s=210 rss_kb=1396372
+driver_s=240 rss_kb=3133740
+driver_s=270 rss_kb=3133740
+driver_s=300 rss_kb=3133740
+driver_s=330 rss_kb=3133740
+driver_s=361 rss_kb=3133740
+driver_s=391 rss_kb=3133740
+driver_s=421 rss_kb=3133740
+driver_s=451 rss_kb=3133740
+driver_s=481 rss_kb=3133740
+driver_s=511 rss_kb=3133740
+driver_s=541 rss_kb=3133740
+driver_s=571 rss_kb=3133740
+driver_s=601 rss_kb=3133740
+driver_s=631 rss_kb=3133740
+driver_s=661 rss_kb=3133740
+driver_s=691 rss_kb=3133768
+driver_s=721 rss_kb=3133768
+driver_s=752 rss_kb=3133768
+driver_s=782 rss_kb=3133768
+driver_s=812 rss_kb=3133768
+driver_s=842 rss_kb=3133768
+driver_s=872 rss_kb=3133768
+driver_s=902 rss_kb=3133768
+driver_s=932 rss_kb=3133768
+driver_s=962 rss_kb=3133768
+driver_s=992 rss_kb=3133768
+driver_s=1022 rss_kb=3133768
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=351
+verify_budget_s=3489
+RUSTFLAGS=--cfg kani_smallsort_controls

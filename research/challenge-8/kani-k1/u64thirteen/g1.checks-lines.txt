@@ -1,0 +1,54 @@
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13...
+  - Stub: swap_if_less -> adapter_u64thirteen
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::swap_u64_net13
+
+VERIFICATION RESULT:
+ ** 1 of 570 failed (18 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+Failed Checks: u64thirteen N13 negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs", line 238, in slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13
+
+VERIFICATION:- FAILED
+Verification Time: 169.42989s
+
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13...
+  - Stub: swap_if_less -> adapter_u64thirteen
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::swap_u64_net13
+
+VERIFICATION RESULT:
+ ** 1 of 550 failed (29 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: u64thirteen canonical comparator required
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/uthirteen.rs", line 127, in <u64 as slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::SwapBridgeU64Thirteen<for<'a, 'b> fn(&'a u64, &'b u64) -> bool>>::exchange
+
+VERIFICATION:- FAILED
+Verification Time: 1.02872s
+
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_composed_u64_n13...
+  - Stub: swap_if_less -> adapter_u64thirteen
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::swap_u64_net13
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_leaf_u64_n13...
+
+VERIFICATION RESULT:
+ ** 0 of 388 failed (5 unreachable)
+
+ ** 7 of 7 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 180.07642s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_composed_u64_n13
+Complete - 1 successfully verified harnesses, 3 failures, 4 total.
