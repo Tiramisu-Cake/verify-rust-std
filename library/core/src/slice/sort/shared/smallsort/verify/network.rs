@@ -1008,6 +1008,56 @@ fn netnine_full_value_count_u8_n9_negative() {
     );
 }
 
+// N13 uses sort13_optimal, then insertion with the full prefix13 and no merge.
+// Keep the same full-value domain and function-item comparator as the N9 experiment above.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+fn netthirteen_full_value_count_u8_n13() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v: [u8; 13] = kani::any();
+    let pre = v;
+    let probe: u8 = kani::any();
+    let mut cmp = strict_less::<u8>;
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "netthirteen: sorted output");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "netthirteen: full-value count preserved",
+    );
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "netthirteen: sort moves elements");
+    kani::cover(count_matching_values(&pre, &probe) > 0, "netthirteen: probe hits input");
+    kani::cover(count_matching_values(&pre, &probe) == 0, "netthirteen: probe misses input");
+    let mut duplicates = false;
+    let mut i = 1;
+    while i < v.len() {
+        duplicates |= v[i] == v[i - 1];
+        i += 1;
+    }
+    kani::cover(duplicates, "netthirteen: duplicates present");
+}
+
+// Narrow count-oracle control: corruption preserves ordinary < order but changes count(0) 13 -> 12.
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::unwind(25)]
+fn netthirteen_full_value_count_u8_n13_negative() {
+    use super::super::UnstableSmallSortTypeImpl;
+    let mut v = [0u8; 13];
+    let pre = v;
+    let probe = 0u8;
+    let mut cmp = strict_less::<u8>;
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    kani::cover(true, "netthirteen negative: sort returned before corruption");
+    v[12] = 1;
+    kani::assert(is_sorted_by(&v, &mut cmp), "netthirteen negative: sorted after corruption");
+    kani::cover(true, "netthirteen negative: corrupted count check reached");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "netthirteen negative: full-value count preserved",
+    );
+}
+
 macro_rules! network_correctness_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
