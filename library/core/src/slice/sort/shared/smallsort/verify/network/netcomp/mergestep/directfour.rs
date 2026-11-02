@@ -7,7 +7,7 @@
 use super::{ACTIVE4, StrictU8, U8Cmp, check_merge4, count_matching_values, register};
 use crate::kani;
 use crate::mem::MaybeUninit;
-use crate::slice::sort::shared::smallsort::verify::merge::specfix::merge_profile;
+use crate::slice::sort::shared::smallsort::verify::merge::specfix::{Profile, merge_profile};
 
 #[kani::proof_for_contract(super::super::super::super::merge::specfix::merge_profile)]
 #[kani::unwind(34)]
