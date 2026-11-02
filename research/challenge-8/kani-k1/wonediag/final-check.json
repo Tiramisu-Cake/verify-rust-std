@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "checks": {
+    "cloud_success": true,
+    "source_binding": true,
+    "request_binding": true,
+    "build_binding": true,
+    "three_exact_rows": true,
+    "all_checks_and_covers_pass": true,
+    "all_rss_direct": true,
+    "measurement_gate": true,
+    "tooling_pass": true,
+    "library_unchanged": true,
+    "library_tree": true,
+    "only_one_build_cost": true,
+    "verification_time_explicitly_printed": true
+  },
+  "source_sha": "31edc5a6fb81465514f28a24948c38f12299ad6c",
+  "build_id": "b9e00fd2-b4a6-42fa-986b-f74db31a2f12",
+  "rows": {
+    "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3": {
+      "status": "SUCCESS",
+      "verification_time_s": 59.776577,
+      "checks_failed": 0,
+      "checks_total": 498,
+      "covers_satisfied": 7,
+      "covers_total": 7,
+      "cbmc_rss_peak_kib": 416160,
+      "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+    },
+    "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3": {
+      "status": "SUCCESS",
+      "verification_time_s": 272.5441,
+      "checks_failed": 0,
+      "checks_total": 478,
+      "covers_satisfied": 7,
+      "covers_total": 7,
+      "cbmc_rss_peak_kib": 1161416,
+      "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+    },
+    "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3": {
+      "status": "SUCCESS",
+      "verification_time_s": 286.1486,
+      "checks_failed": 0,
+      "checks_total": 475,
+      "covers_satisfied": 7,
+      "covers_total": 7,
+      "cbmc_rss_peak_kib": 1156924,
+      "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+    }
+  },
+  "scope": "Exactly three requested fixed-N3 PFCs; source inventory counts are static, not native inventory proofs."
+}

@@ -1,13 +1,67 @@
 {
-  "state": "PRE_BUILD_WAITING_FOR_COORDINATOR_GO",
+  "state": "COMPLETE",
   "library_commit": "af8b0db75a78f737772c8fe86ed7d5cdff109e11",
   "library_tree": "af3da15225005c0eba22ef42626c8562485c8e7e",
   "request_id": "wonediag-g1-20261102",
   "request_sha256": "605ba88774653998448d96773cb31f8e88074df58c732840fc063f37d097c95a",
-  "runs": [],
-  "own_spent_usd": 0,
+  "runs": [
+    {
+      "label": "G1",
+      "uuid": "b9e00fd2-b4a6-42fa-986b-f74db31a2f12",
+      "request_id": "wonediag-g1-20261102",
+      "request_sha256": "605ba88774653998448d96773cb31f8e88074df58c732840fc063f37d097c95a",
+      "source_sha": "31edc5a6fb81465514f28a24948c38f12299ad6c",
+      "library_tree": "af3da15225005c0eba22ef42626c8562485c8e7e",
+      "pool": "k1-standard4",
+      "reserved_usd": 0,
+      "spent_usd": 0.243,
+      "status": "SUCCESS",
+      "coordinator_go": "User relayed coordinator GO for 31edc5a6fb; exactly one three-row RUN-REQUEST Build, reserve $0.810.",
+      "summary_status": "COMPLETE",
+      "compile_status": "SUCCESS",
+      "expectation_met": true,
+      "measurement_ok": true,
+      "start_time": "2026-11-02T07:12:41.123775119Z",
+      "finish_time": "2026-11-02T07:30:18.997241Z",
+      "rows": {
+        "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3": {
+          "status": "SUCCESS",
+          "verification_time_s": 59.776577,
+          "checks_failed": 0,
+          "checks_total": 498,
+          "covers_satisfied": 7,
+          "covers_total": 7,
+          "cbmc_rss_peak_kib": 416160,
+          "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+        },
+        "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3": {
+          "status": "SUCCESS",
+          "verification_time_s": 272.5441,
+          "checks_failed": 0,
+          "checks_total": 478,
+          "covers_satisfied": 7,
+          "covers_total": 7,
+          "cbmc_rss_peak_kib": 1161416,
+          "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+        },
+        "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3": {
+          "status": "SUCCESS",
+          "verification_time_s": 286.1486,
+          "checks_failed": 0,
+          "checks_total": 475,
+          "covers_satisfied": 7,
+          "covers_total": 7,
+          "cbmc_rss_peak_kib": 1156924,
+          "rss_attribution": "direct metadata binding; sampled kernel VmHWM"
+        }
+      }
+    }
+  ],
+  "own_spent_usd": 0.243,
   "own_reserved_usd": 0,
   "build_limit": 1,
   "g1_planned_reserve_usd": 0.81,
-  "g2": "NOT_AUTHORIZED: no second build in this stage"
+  "g2": "NOT_AUTHORIZED: no second build in this stage",
+  "review_sha": "31edc5a6fb81465514f28a24948c38f12299ad6c",
+  "outcome": "SUCCESS_3_OF_3_FIXED_N3_PFCS"
 }

@@ -1,0 +1,59 @@
+interval_ms=2000
+samples=351
+elapsed_s=700
+total_rss_peak_kb=2116280
+total_peak_s=52
+cmd=bash peak_kb=3904 first_s=0 last_s=700 peak_s=0
+cmd=cargo peak_kb=34812 first_s=2 last_s=66 peak_s=4
+cmd=cbmc peak_kb=1161416 first_s=74 last_s=699 peak_s=607
+cmd=goto-cc peak_kb=8184 first_s=68 last_s=68 peak_s=68
+cmd=goto-instrument peak_kb=26948 first_s=70 last_s=639 peak_s=72
+cmd=kani-compiler peak_kb=1730584 first_s=2 last_s=66 peak_s=52
+cmd=kani-driver peak_kb=528844 first_s=2 last_s=699 peak_s=635
+cmd=python3 peak_kb=20508 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3796 first_s=2 last_s=699 peak_s=2
+cmd=tee peak_kb=1120 first_s=0 last_s=700 peak_s=0
+cmd=time peak_kb=1112 first_s=2 last_s=699 peak_s=2
+cmd=timeout peak_kb=1080 first_s=2 last_s=699 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=1161416 peak_s=607
+role=driver simultaneous_rss_peak_kb=528844 peak_s=635
+cbmc_pid=9272 peak_kb=1161416 first_s=365 last_s=633 peak_s=607 active=T0:wrap::wone::freeze_noncopy_n3 hint=slice::sort::shared::smallsort::verify::wrap::wone::freeze_n
+cbmc_pid=9234 peak_kb=1156924 first_s=74 last_s=357 peak_s=329 active=T0:wrap::wone::stable_byte_n3 hint=slice::sort::shared::smallsort::verify::wrap::wone::stable_b
+cbmc_pid=9312 peak_kb=416160 first_s=641 last_s=699 peak_s=697 active=T0:wrap::wone::unstable_byte_n3 hint=slice::sort::shared::smallsort::verify::wrap::wone::unstable
+driver_s=0 rss_kb=0
+harness_s=74 name=T0:wrap::wone::stable_byte_n3
+driver_s=30 rss_kb=6028
+harness_s=365 name=T0:wrap::wone::freeze_noncopy_n3
+driver_s=60 rss_kb=6280
+harness_s=641 name=T0:wrap::wone::unstable_byte_n3
+driver_s=90 rss_kb=6620
+driver_s=120 rss_kb=6620
+driver_s=150 rss_kb=6620
+driver_s=180 rss_kb=6620
+driver_s=210 rss_kb=6620
+driver_s=240 rss_kb=6620
+driver_s=270 rss_kb=6620
+driver_s=300 rss_kb=6620
+driver_s=331 rss_kb=6620
+driver_s=361 rss_kb=334232
+driver_s=391 rss_kb=334252
+driver_s=421 rss_kb=334268
+driver_s=451 rss_kb=334300
+driver_s=481 rss_kb=334300
+driver_s=511 rss_kb=334300
+driver_s=541 rss_kb=334304
+driver_s=571 rss_kb=334304
+driver_s=601 rss_kb=334304
+driver_s=631 rss_kb=429540
+driver_s=661 rss_kb=379540
+driver_s=691 rss_kb=379540
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=338
+verify_budget_s=2902
+RUSTFLAGS=--cfg kani_smallsort_controls
+process_records=3 offset=0 count=3 next_offset=done
+{"active_harnesses":["Thread 0: wrap::wone::freeze_noncopy_n3"],"attribution":"direct","build_id":"b9e00fd2-b4a6-42fa-986b-f74db31a2f12","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3","first_s":365,"harness":"slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3","head_sha":"31edc5a6fb81465514f28a24948c38f12299ad6c","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":633,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone17freeze_noncopy_n3","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"32884902ff3c176105b57d5e8b7c4915dd0712e237ea845923a5275b03c248e6","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone17freeze_noncopy_n3.out","peak_kb":1161416,"peak_s":607,"pid":"9272","ppid":"8824","pretty_name":"slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3"}
+{"active_harnesses":["Thread 0: wrap::wone::stable_byte_n3"],"attribution":"direct","build_id":"b9e00fd2-b4a6-42fa-986b-f74db31a2f12","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3","first_s":74,"harness":"slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3","head_sha":"31edc5a6fb81465514f28a24948c38f12299ad6c","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":357,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone14stable_byte_n3","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"32884902ff3c176105b57d5e8b7c4915dd0712e237ea845923a5275b03c248e6","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone14stable_byte_n3.out","peak_kb":1156924,"peak_s":329,"pid":"9234","ppid":"8824","pretty_name":"slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3"}
+{"active_harnesses":["Thread 0: wrap::wone::unstable_byte_n3"],"attribution":"direct","build_id":"b9e00fd2-b4a6-42fa-986b-f74db31a2f12","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3","first_s":641,"harness":"slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3","head_sha":"31edc5a6fb81465514f28a24948c38f12299ad6c","kani_commit":"9461e07af7ec929f050aa4192f29363c9be07779","last_s":699,"mangled_name":"_RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone16unstable_byte_n3","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"32884902ff3c176105b57d5e8b7c4915dd0712e237ea845923a5275b03c248e6","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/e93b1dabfd66d29b/out/core-e93b1dabfd66d29b__RNvNtNtNtNtNtNtNtCseEPdmDViqFc_4core5slice4sort6shared9smallsort6verify4wrap4wone16unstable_byte_n3.out","peak_kb":416160,"peak_s":697,"pid":"9312","ppid":"8824","pretty_name":"slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3"}
