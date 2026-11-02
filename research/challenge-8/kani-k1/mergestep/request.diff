@@ -1,0 +1,35 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index e5182cf478..e6f83a10af 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "net18-leaves-swap18-merge18-scratch32-20261102",
++  "request_id": "mergestep-up-down-steps-merge4-calibration-20261102",
+@@ -7 +7 @@
+-  "purpose": "NET18-LEAVES: three independent real-body PFCs for Unstable u8 N18 geometry: swap_net9 on backing18 offsets 0 and 9, and StrictU8 merge_profile source18 into prefix18 of a separate scratch32; no caller composition.",
++  "purpose": "MERGESTEP: closed u8/U8Cmp merge_up/merge_down step summaries (two no-stub leaves), actual composed merge4 PFC through raw-helper adapters and verified steps, and up/down binding plus count negative controls; no N18 claim.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_left_backing18",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8",
+@@ -18 +18 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_swap_right_backing18",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8",
+@@ -22 +22 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::neteighteen::net18_merge_strict_scratch32",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8",
+@@ -23,0 +24,15 @@
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8",
++      "expect": "FAILED",
++      "expect_check": "mergestep actual up adapter binding control"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8",
++      "expect": "FAILED",
++      "expect_check": "mergestep actual down adapter binding control"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8",
++      "expect": "FAILED",
++      "expect_check": "mergestep calibration negative: full-value count preserved"

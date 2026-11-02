@@ -1,0 +1,184 @@
+{
+  "request_sha256": "fa2a217facff573af3576489d5b4aac29ad7885a388740105cada62703bc679f",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8",
+      "expect": "SUCCESS",
+      "geometry": "no stubs; source [u8;18]=any, i!=j<18 any; separate MaybeUninit<[u8;32]>, k<32 any, mask32/init32 any (only mask cells initialized); probe any; cmp StrictU8::CMP",
+      "required_covers": [
+        "mergestep up leaf: left selected",
+        "mergestep up leaf: right selected",
+        "mergestep up leaf: tie",
+        "mergestep up leaf: probe hits written value",
+        "mergestep up leaf: probe misses written value",
+        "mergestep up leaf: source cells 0 and 17",
+        "mergestep up leaf: source cells 17 and 0",
+        "mergestep up leaf: destination cell 0",
+        "mergestep up leaf: destination cell 31",
+        "mergestep up leaf: written cell was uninitialized",
+        "mergestep up leaf: written cell was initialized"
+      ],
+      "intended_checks": [
+        "contract requires/modifies(dst)/2 ensures of up_step_u8",
+        "mergestep up step: actual raw tuple equals decoder",
+        "mergestep up leaf: take_left iff left <= right",
+        "mergestep step leaf: written cell holds selected full value",
+        "mergestep step leaf: written probe indicator equals selected source indicator",
+        "mergestep step leaf: other initialized cells unchanged",
+        "mergestep step leaf: source18 unchanged"
+      ],
+      "annotations": [
+        "proof_for_contract(up_step_u8",
+        "unwind(34"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8",
+      "expect": "SUCCESS",
+      "geometry": "as up leaf, but k in 1..32 (writable predecessor, not required initialized)",
+      "required_covers": [
+        "mergestep down leaf: left selected",
+        "mergestep down leaf: right selected",
+        "mergestep down leaf: tie",
+        "mergestep down leaf: probe hits written value",
+        "mergestep down leaf: probe misses written value",
+        "mergestep down leaf: source cells 0 and 17",
+        "mergestep down leaf: source cells 17 and 0",
+        "mergestep down leaf: destination cell 1",
+        "mergestep down leaf: destination cell 31",
+        "mergestep down leaf: written cell was uninitialized",
+        "mergestep down leaf: written cell was initialized",
+        "mergestep down leaf: predecessor uninitialized"
+      ],
+      "intended_checks": [
+        "contract requires/modifies(dst)/2 ensures of down_step_u8",
+        "mergestep down step: actual raw tuple equals decoder",
+        "mergestep down leaf: take_left iff right < left",
+        "mergestep step leaf: written cell holds selected full value",
+        "mergestep step leaf: written probe indicator equals selected source indicator",
+        "mergestep step leaf: other initialized cells unchanged",
+        "mergestep step leaf: source18 unchanged"
+      ],
+      "annotations": [
+        "proof_for_contract(down_step_u8",
+        "unwind(34"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8",
+      "expect": "SUCCESS",
+      "geometry": "PFC merge_profile::<StrictU8>; set_probe(any), source [u8;18]=any, slice source18[..4] (halves2 sorted only via requires); dst MaybeUninit<[u8;32]> offset0, prefix4 written; flags false",
+      "required_covers": [
+        "mergestep merge4: returned",
+        "mergestep merge4: left first",
+        "mergestep merge4: right first",
+        "mergestep merge4: equal first values",
+        "mergestep merge4: probe hits source prefix4",
+        "mergestep merge4: probe misses source prefix4",
+        "mergestep actual up adapter entered",
+        "mergestep actual down adapter entered"
+      ],
+      "intended_checks": [
+        "merge_profile requires/modifies(dst[..4])/ensures sorted+model_count",
+        "stub_verified requires of up_step_u8/down_step_u8 at each actual call",
+        "no panic_on_ord_violation",
+        "mergestep adapter: received canonical comparator",
+        "mergestep up adapter: actual pointers in registered halves and prefix",
+        "mergestep down adapter: actual pointers in registered halves and prefix",
+        "mergestep up ledger: forward endpoints within bounds",
+        "mergestep up ledger: written prefix count equals forward-consumed count",
+        "mergestep down ledger: reverse endpoints within bounds",
+        "mergestep down ledger: written suffix count equals reverse-consumed count",
+        "mergestep down check: front prefix and back suffix disjoint",
+        "mergestep down check: front prefix sorted",
+        "mergestep down check: back suffix sorted",
+        "mergestep down check: front last <= back first",
+        "mergestep merge4: StrictU8 probe unchanged",
+        "mergestep merge4: readonly context unchanged",
+        "mergestep merge4: source18 unchanged",
+        "mergestep merge4: destination prefix4 sorted",
+        "mergestep merge4: source/destination prefix4 full-value count preserved"
+      ],
+      "annotations": [
+        "proof_for_contract(super::super::super::merge::specfix::merge_profile",
+        "stub(merge_up, up_adapter",
+        "stub(merge_down, down_adapter",
+        "stub_verified(up_step_u8",
+        "stub_verified(down_step_u8",
+        "unwind(34"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8",
+      "expect": "FAILED",
+      "expect_check": "mergestep actual up adapter binding control",
+      "geometry": "plain proof; source18=[0;18], probe0, dst32 uninit, fail_up=true, fail_down=false",
+      "required_covers": [
+        "mergestep control: actual entry reached",
+        "mergestep control: merge returned",
+        "mergestep actual up adapter entered",
+        "mergestep actual down adapter entered"
+      ],
+      "annotations": [
+        "proo",
+        "stub(merge_up, up_adapter",
+        "stub(merge_down, down_adapter",
+        "stub_verified(up_step_u8",
+        "stub_verified(down_step_u8",
+        "unwind(34"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8",
+      "expect": "FAILED",
+      "expect_check": "mergestep actual down adapter binding control",
+      "geometry": "plain proof; source18=[0;18], probe0, dst32 uninit, fail_up=false, fail_down=true",
+      "required_covers": [
+        "mergestep control: actual entry reached",
+        "mergestep control: merge returned",
+        "mergestep actual up adapter entered",
+        "mergestep actual down adapter entered"
+      ],
+      "annotations": [
+        "proo",
+        "stub(merge_up, up_adapter",
+        "stub(merge_down, down_adapter",
+        "stub_verified(up_step_u8",
+        "stub_verified(down_step_u8",
+        "unwind(34"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8",
+      "expect": "FAILED",
+      "expect_check": "mergestep calibration negative: full-value count preserved",
+      "geometry": "plain proof; source18=[0;18], probe0, dst32 uninit, flags false; check_merge4 passes, then dst[3]=1 (prefix4 [0,0,0,1] sorted, count0 4->3)",
+      "required_covers": [
+        "mergestep control: actual entry reached",
+        "mergestep control: merge returned",
+        "mergestep actual up adapter entered",
+        "mergestep actual down adapter entered",
+        "mergestep calibration negative: returned before corruption",
+        "mergestep calibration negative: corrupted count check reached"
+      ],
+      "intended_checks": [
+        "mergestep merge4: StrictU8 probe unchanged",
+        "mergestep merge4: readonly context unchanged",
+        "mergestep merge4: source18 unchanged",
+        "mergestep merge4: destination prefix4 sorted",
+        "mergestep merge4: source/destination prefix4 full-value count preserved",
+        "mergestep calibration negative: sorted after corruption"
+      ],
+      "annotations": [
+        "proo",
+        "stub(merge_up, up_adapter",
+        "stub(merge_down, down_adapter",
+        "stub_verified(up_step_u8",
+        "stub_verified(down_step_u8",
+        "unwind(34"
+      ]
+    }
+  ],
+  "allowed_failed_checks": [],
+  "negative_rule": "each FAILED row: exactly its expect_check literal fails; every other check SUCCESS; no unsupported/unwinding/panic/assigns/UB failures"
+}

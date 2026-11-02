@@ -1,0 +1,17 @@
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

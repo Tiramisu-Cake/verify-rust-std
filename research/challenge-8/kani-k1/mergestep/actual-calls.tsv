@@ -1,0 +1,16 @@
+# MERGESTEP raw-call map (source audit data, not executed fact). S=library/core/src/slice/sort/shared/smallsort.rs
+# M=.../verify/network/netcomp/mergestep.rs, SF=.../verify/merge/specfix.rs. Composed/control roots only; leaves have no stubs.
+step	site	call	actual args (merge4: src=source18 base, dst=scratch32 base)	substitution	step domain check
+0	M:508/M:526	merge_profile::<StrictU8>(&src[..4], dst, cmp)	len4, len_div_2=2	none (PFC target in composed root; real body in controls)	-
+1	SF:331	bidirectional_merge(v, dst, &mut is_less)	is_less=local copy of received cmp	none (real body)	-
+2	S:803-809	left=src+0 right=src+2 dst=dst+0; left_rev=src+1 right_rev=src+3 dst_rev=dst+3	setup	none	-
+3	S:811	for _ in 0..2	2 iterations, unwind34	none	-
+4	S:812 it1	merge_up(src+0, src+2, dst+0, is_less)	L in left half, R in right half, D idx0	stub merge_up->up_adapter (S:676 inline(always) kept)	up_step_u8 requires; D idx0 in up domain 0..31
+5	S:813 it1	merge_down(src+1, src+3, dst+3, is_less)	D idx3	stub merge_down->down_adapter (S:709 inline(always) kept)	down_step_u8 requires; D idx3 in 1..31, predecessor dst+2
+6	S:812 it2	merge_up(L in {src+0,src+1}, R in {src+2,src+3}, dst+1)	D idx1	up_adapter	D idx1
+7	S:813 it2	merge_down(Lr in {src+1,src+0}, Rr in {src+3,src+2}, dst+2)	D idx2	down_adapter	D idx2, predecessor dst+1
+8	M:up/down adapter	up_step_u8 / down_step_u8(l, r, d, *is_less)	actual pointers and received cmp	stub_verified(up_step_u8), stub_verified(down_step_u8)	requires asserted at call
+9	M:adapter return	up_decode / down_decode(l, r, d, take_left)	returned typed tuple	-	same decoder as leaf refinement asserts
+10	S:816-817	left_end=left_rev.wrapping_add(1); right_end=right_rev.wrapping_add(1)	left_rev may be src-1 (one before source18 start), opaque	none	no offset_from on before-base
+11	S:820	!len.is_multiple_of(2)	len4 even: odd tail not taken	none	-
+12	S:831-832	left!=left_end || right!=right_end -> panic_on_ord_violation	must be unreachable (canonical cmp, sorted halves)	NOT stubbed	-
