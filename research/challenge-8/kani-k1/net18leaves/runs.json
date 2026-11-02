@@ -4,8 +4,23 @@
   "build_limit_compile_error_branch": 2,
   "stage_cap_usd": 1.7,
   "planned_reserve_usd": 0.81,
-  "builds": [],
-  "spent_usd": 0,
+  "builds": [
+    "b05d30cc-f789-4946-b0c7-e1cbad944aae"
+  ],
+  "spent_usd": 0.297,
   "reserved_usd": 0,
-  "status": "PREBUILD_WAITING_GO"
+  "status": "COMPLETE",
+  "source_sha": "8567fa24d2226aafc2539fd990f777216c291199",
+  "request_sha256": "bee157bfce2eba6fb13f4d8882b04e2033bbbe4699252858c06a68d153e3459d",
+  "coordinator_go": "GO 8567fa24d2; one exact three-row Build",
+  "dispatch_branch": "experiment/kani-k1-neteighteenleaves-20261102",
+  "dispatch_note": "k1g.sh branch regex [a-z]+ rejects digits in net18leaves; same-SHA alias branch pushed, no tooling change",
+  "submitted_utc": "2026-11-02T13:24:20Z",
+  "task_outcome": "PARTIAL",
+  "completed_utc": "2026-11-02T13:46:18.053452Z",
+  "rows": {
+    "net18_swap_left_backing18": "SUCCESS 63.211487s 0/409;5 covers7/7",
+    "net18_swap_right_backing18": "SUCCESS 71.6207s 0/409;5 covers7/7",
+    "net18_merge_strict_scratch32": "TIMEOUT cap600 VT UNKNOWN"
+  }
 }
