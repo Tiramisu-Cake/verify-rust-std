@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "base": "b47dc20eba5ae095f44dc26ca1df81df3fbf8c2d",
+  "existing_library_source_preserved": true,
+  "ordinary_exact": 200,
+  "controls_exact": 386,
+  "controls_added": [
+    "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+    "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative"
+  ],
+  "scope": "Static source forecast; native compilation and proof status NOT_RUN before GO.",
+  "request_sha256": "af58fb068502f9342ad5c8badfca7a030e7e88b4c11d3c5ed443d9c73f2b1a07",
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5791fee0819b16774172f0800c19018b7358bca49f65d89439783e16b6c38e90",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "b6185bc08055318c09a0cb4e5981a0a58a17259ef2d09ee145f69d89e1228088",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "4c16aa6aeb031054007775b2d75b668d3fae9677ab5ac92d5c8dc289d0129eaf",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "b38f5ed861964981db5adced202e2d41c83ccae3530fe06d0f1e45d444156a94",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs": "dcb7c5fdc77bb47bfedb6fe81eaa0482c01baf7bbd2fdd6b26a5c8ce6beafe08",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "3896e64b1a5922b5dc5cc9284d6b762b1c581ac0fd9a11ef50e425e13822a17a",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "0434e236ccf35d4d86e4b7c8f2f716ea925b563172773666f559bc29017d8c00",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "e8dff265fd02fb4c0c95738c0d051206523c3ed5db302dc62332875bb626e248",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "e3d17315a4a9f87a4076187dd2844c72327c9a2dcabe5c16acf7dc3184445ec2",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6"
+  },
+  "new_harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1016,
+      "origin": "direct",
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative",
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1044,
+      "origin": "direct",
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    }
+  ]
+}

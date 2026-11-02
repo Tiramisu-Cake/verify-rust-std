@@ -2,22 +2,22 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "netnine-g1-full-value-count-20261102",
+  "request_id": "netthirteen-g1-full-value-count-20261102",
   "kind": "measurement",
-  "purpose": "NETNINE N9 real unstable u8/default-< full-value count with independent probe; narrow count corruption control.",
+  "purpose": "NETTHIRTEEN N13 real unstable u8/default-< full-value count with independent probe; narrow count corruption control.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "uninit_checks": false,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::netnine_full_value_count_u8_n9_negative",
+      "name": "slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative",
       "expect": "FAILED",
-      "expect_check": "netnine negative: full-value count preserved"
+      "expect_check": "netthirteen negative: full-value count preserved"
     }
   ]
 }
