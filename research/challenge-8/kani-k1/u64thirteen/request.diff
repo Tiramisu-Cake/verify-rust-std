@@ -1,0 +1,28 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index 6d445e8af0..dc26c7b5ce 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "u64nine-n9-leaf-composition-controls-20261102",
++  "request_id": "u64thirteen-n13-leaf-composition-controls-20261102",
+@@ -7 +7 @@
+-  "purpose": "U64-N9: typed u64/U64Cmp N9 no-stub leaf for swap_u64_net9, actual-route composed positive, actual-binding wrong-cmp and full-u64 count controls; one joint four-row gate.",
++  "purpose": "U64-N13: typed u64/U64Cmp N13 no-stub leaf for swap_u64_net13, actual-route composed positive (45 raw exchanges), actual-binding wrong-cmp and full-u64 count controls; one joint four-row gate.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_leaf_u64_n13",
+@@ -18 +18 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_composed_u64_n13",
+@@ -22 +22 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13",
+@@ -24 +24 @@
+-      "expect_check": "u64nine canonical comparator required"
++      "expect_check": "u64thirteen canonical comparator required"
+@@ -27 +27 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13",
+@@ -29 +29 @@
+-      "expect_check": "u64nine N9 negative: full-value count preserved"
++      "expect_check": "u64thirteen N13 negative: full-value count preserved"

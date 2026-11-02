@@ -1,0 +1,32 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "u64thirteen-n13-leaf-composition-controls-20261102",
+  "kind": "measurement",
+  "purpose": "U64-N13: typed u64/U64Cmp N13 no-stub leaf for swap_u64_net13, actual-route composed positive (45 raw exchanges), actual-binding wrong-cmp and full-u64 count controls; one joint four-row gate.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_leaf_u64_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_composed_u64_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13",
+      "expect": "FAILED",
+      "expect_check": "u64thirteen canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13",
+      "expect": "FAILED",
+      "expect_check": "u64thirteen N13 negative: full-value count preserved"
+    }
+  ]
+}
