@@ -6,7 +6,6 @@ Library commit 248b2725c6cd528a6d87aa5928e362dc11e74522, tree 7996f9c151be2011be
 Request directfour-direct-merge4-baseline-20261102, SHA256 82bc61a1…85d5fb matches (same bytes G1/G2); owner k1-network.
 Pin Kani9461e07af7 / nightly-2026-10-12; check-tooling vs30f77e8599 PASS (both builds); bound hashes = MERGESTEP.
 measurement, controls:true, jobs1, uninit off, 600s, k1-standard4/16GiB, swap off; unwind34, unwinding assertions on.
-
 | row network::netcomp::mergestep::directfour:: | Status | VT s | CBMC RSS KiB | Failed/total; unreachable | Covers |
 |---|---|---:|---:|---|---|
 | directfour_merge4_u8 | SUCCESS | 207.97597 | 894860 | 0/677;67 | 6/6 |
@@ -21,7 +20,7 @@ steps + ledgers) hit TIMEOUT600 (VT UNKNOWN, CBMC 2607368KiB). So the composed T
 bundle as a whole on this fixture; which part (ledgers vs pointer/havoc/assigns of verified stubs) is NOT separated.
 NOT established: composed speedup (composed VT UNKNOWN); N18/N32/merge18; other CMP/F/backing/probe; generic T/FnMut;
 uninit/alias-validity/unwind; Part1/ordinary credit. Historical MERGESTEP TIMEOUT/failed gate unchanged.
-Own 2/2 Builds (G2 by compile-error branch), spent$0.2700, reserved$0 (cap$1.10); project cap$88.96. No G3.
-Static: ordinary200 unchanged; cfg-on404->405; pfc_order25/bad0; rustfmt/diff-check PASS. Not proofs.
+Own 2/2 Builds (G2 by compile-error branch), spent$0.2700, reserved$0 (cap$1.10); project cap$88.96. No G3. Static (not proofs):
+ordinary200 unchanged; cfg-on404->405; pfc_order25/bad0; rustfmt/diff-check PASS.
 Evidence: directfour/g{1,2}.{summary.md,status.json,rows.txt,cost.txt,peaks.txt,tooling.txt}, g1.error-lines.txt,
 g2.checks-lines.txt, runs.json, PREBUILD.md, PREBUILD-G2.md, static-check.json. Next: STOP.
