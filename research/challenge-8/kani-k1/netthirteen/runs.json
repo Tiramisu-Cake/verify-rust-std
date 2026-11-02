@@ -1,8 +1,31 @@
 {
   "request_id": "netthirteen-g1-full-value-count-20261102",
-  "build_uuids": [],
-  "own_spent_usd": 0,
+  "build_uuids": [
+    "beefc7a4-f532-4bc2-ac48-42b393cb42eb"
+  ],
+  "own_spent_usd": 0.243,
   "own_reserved_usd": 0,
   "planned_reserve_usd": 0.675,
-  "status": "WAITING_FOR_COORDINATOR_GO"
+  "status": "COMPLETE",
+  "review_sha": "42843d7d0d4b8ff592059facd659667bef5bdc26",
+  "coordinator_go": "GO for 42843d7d0d; one Build, exact RUN-REQUEST, reserve $0.675",
+  "library_commit": "d60b2c975d18ef8f69234f0269c5cf89faa2fa24",
+  "library_tree": "a618a0bdce2816d5d50ce73b351fcdcba1a59d1e",
+  "request_sha256": "af58fb068502f9342ad5c8badfca7a030e7e88b4c11d3c5ed443d9c73f2b1a07",
+  "cloud_build_status": "FAILURE",
+  "positive_status": "TIMEOUT",
+  "negative_status": "FAILED_EXPECTED",
+  "positive_timeout_cap_s": 600,
+  "positive_vt_s": null,
+  "positive_covers": null,
+  "negative_vt_s": 16.02919,
+  "negative_covers": {
+    "reached": 2,
+    "total": 2
+  },
+  "positive_cbmc_rss_kib": 462300,
+  "negative_cbmc_rss_kib": 345172,
+  "expectation_met": false,
+  "measurement_ok": false,
+  "gate": false
 }

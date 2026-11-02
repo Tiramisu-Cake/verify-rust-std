@@ -1,0 +1,23 @@
+Checking harness slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative...
+
+VERIFICATION RESULT:
+ ** 1 of 326 failed (18 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: netthirteen negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network.rs", line 1055, in slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative
+
+VERIFICATION:- FAILED
+Verification Time: 16.02919s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative
+Verification failed for - slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13
+Complete - 0 successfully verified harnesses, 2 failures, 2 total.

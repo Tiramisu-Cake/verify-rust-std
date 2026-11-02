@@ -1,0 +1,24 @@
+742:   Compiling unwind v0.0.0 (/workspace/src/library/unwind)
+744: --> /workspace/src/library/unwind/src/lib.rs:3:12
+752: --> /workspace/src/library/unwind/src/lib.rs:4:12
+1546:   Compiling panic_unwind v0.0.0 (/workspace/src/library/panic_unwind)
+1595:  --> /workspace/src/library/panic_unwind/src/lib.rs:18:12
+1603:  --> /workspace/src/library/panic_unwind/src/lib.rs:19:12
+1605:19 | #![feature(panic_unwind)]
+1609:  --> /workspace/src/library/panic_unwind/src/lib.rs:20:12
+1615:  --> /workspace/src/library/panic_unwind/src/lib.rs:21:12
+1621:  --> /workspace/src/library/panic_unwind/src/lib.rs:22:12
+1627:  --> /workspace/src/library/panic_unwind/src/lib.rs:24:12
+2314:368 | #![feature(panic_can_unwind)]
+2548:415 | #![feature(panic_unwind)]
+2671:26 | #![feature(panic_can_unwind)]
+2716:Checking harness slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative...
+2723:Failed Checks: netthirteen negative: full-value count preserved
+2724: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network.rs", line 1055, in slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative
+2726:VERIFICATION:- FAILED
+2727:Verification Time: 16.02919s
+2729:Checking harness slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13...
+2732:VERIFICATION:- FAILED
+2733:CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+2736:Verification failed for - slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13_negative
+2737:Verification failed for - slice::sort::shared::smallsort::verify::network::netthirteen_full_value_count_u8_n13
