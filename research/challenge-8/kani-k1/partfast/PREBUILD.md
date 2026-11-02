@@ -57,3 +57,12 @@ resource kind, solver flags, instrumentation or list preparation. Existing tool 
 - Slots: 1 unfinished in project now; G1 makes 2 (≤2), k1-network has none. Nightly ~$4 limit: coordinator check.
 - Envelope: build timeout 70 min + finishing must fit main 180 min from T0; G2 only after G1 terminal/accounting.
 - History, not a prediction: several of these roots were TIMEOUT under other profiles (c3b/c3c jobs>1 summaries).
+
+## G2 PRE-BUILD (after G1 terminal/accounting, 2026-11-02 ~19:43Z)
+- G1 5765f47e terminal SUCCESS, 4/4 rows accepted, cost $0.2835 (partfast/g1.result.md). No shared setup error.
+- RUN-REQUEST.json := partfast/g2.request.json (sha256 e46f07c2bdf8f06749570d2c3a9cb1b7e1c20c1a5b99d2bee136d11b8a25a97a),
+  re-validated; library tree d4ec476a and lane files unchanged (this commit touches only research files).
+- Budget: project 180 builds, used $82.0635, reserved by unfinished $0.0000; + G2 $0.945 = $83.0085 ≤ $88.96.
+  Own spent $0.2835 + G2 reserve $0.945 = $1.2285 ≤ $2.00; no further planned packet after G2.
+- Slots: 0 unfinished in project; G2 makes 1. Window: T0 19:19:05Z, main ends 22:19Z; G2 70 min envelope from ~19:45Z
+  ends ~20:55Z plus finishing, inside main.
