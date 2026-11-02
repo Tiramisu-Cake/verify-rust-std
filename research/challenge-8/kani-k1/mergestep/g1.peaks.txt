@@ -1,0 +1,67 @@
+interval_ms=2000
+samples=452
+elapsed_s=902
+total_rss_peak_kb=3121728
+total_peak_s=144
+cmd=bash peak_kb=3940 first_s=0 last_s=902 peak_s=2
+cmd=cargo peak_kb=33412 first_s=2 last_s=66 peak_s=66
+cmd=cbmc peak_kb=2607368 first_s=76 last_s=898 peak_s=144
+cmd=goto-cc peak_kb=86052 first_s=68 last_s=808 peak_s=70
+cmd=goto-instrument peak_kb=102688 first_s=98 last_s=834 peak_s=108
+cmd=kani-compiler peak_kb=2268520 first_s=2 last_s=66 peak_s=54
+cmd=kani-driver peak_kb=1943364 first_s=2 last_s=902 peak_s=902
+cmd=python3 peak_kb=20512 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3704 first_s=2 last_s=902 peak_s=2
+cmd=tee peak_kb=1072 first_s=0 last_s=902 peak_s=2
+cmd=time peak_kb=1200 first_s=2 last_s=902 peak_s=2
+cmd=timeout peak_kb=1052 first_s=2 last_s=902 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=2590656 peak_s=144
+role=driver simultaneous_rss_peak_kb=1943364 peak_s=902
+cbmc_pid=9345 peak_kb=2607368 first_s=128 last_s=726 peak_s=144 active=T0:network::netcomp::mergestep::mergestep_composed_merge4_u8 hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+cbmc_pid=9421 peak_kb=440604 first_s=836 last_s=898 peak_s=868 active=T0:network::netcomp::mergestep::mergestep_up_leaf_u8 hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+cbmc_pid=9383 peak_kb=407980 first_s=746 last_s=802 peak_s=798 active=T0:network::netcomp::mergestep::mergestep_down_leaf_u8 hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+cbmc_pid=9247 peak_kb=242468 first_s=76 last_s=94 peak_s=88 active=T0:network::netcomp::mergestep::mergestep_count_negative_u8 hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+cbmc_pid=9276 peak_kb=80148 first_s=100 last_s=100 peak_s=100 active= hint=slice::sort::shared::smallsort::verify::network::netcomp::me
+driver_s=0 rss_kb=0
+harness_s=76 name=T0:network::netcomp::mergestep::mergestep_count_negative_u8
+driver_s=30 rss_kb=6084
+harness_s=100 name=T0:network::netcomp::mergestep::mergestep_down_binding_negative_u8
+driver_s=60 rss_kb=6084
+harness_s=106 name=T0:network::netcomp::mergestep::mergestep_up_binding_negative_u8
+driver_s=90 rss_kb=129944
+harness_s=128 name=T0:network::netcomp::mergestep::mergestep_composed_merge4_u8
+driver_s=120 rss_kb=511956
+harness_s=746 name=T0:network::netcomp::mergestep::mergestep_down_leaf_u8
+driver_s=150 rss_kb=511956
+harness_s=836 name=T0:network::netcomp::mergestep::mergestep_up_leaf_u8
+driver_s=180 rss_kb=511956
+driver_s=210 rss_kb=511956
+driver_s=240 rss_kb=511956
+driver_s=270 rss_kb=512012
+driver_s=300 rss_kb=512012
+driver_s=330 rss_kb=512012
+driver_s=361 rss_kb=512012
+driver_s=391 rss_kb=512012
+driver_s=421 rss_kb=512012
+driver_s=451 rss_kb=512012
+driver_s=481 rss_kb=512012
+driver_s=511 rss_kb=512012
+driver_s=541 rss_kb=512012
+driver_s=571 rss_kb=512044
+driver_s=601 rss_kb=512044
+driver_s=631 rss_kb=512044
+driver_s=661 rss_kb=512044
+driver_s=691 rss_kb=512044
+driver_s=722 rss_kb=512044
+driver_s=752 rss_kb=512044
+driver_s=782 rss_kb=512044
+driver_s=812 rss_kb=1115264
+driver_s=842 rss_kb=1115264
+driver_s=872 rss_kb=1115264
+driver_s=902 rss_kb=1943364
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=365
+verify_budget_s=4675
+RUSTFLAGS=--cfg kani_smallsort_controls

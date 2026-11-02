@@ -4,10 +4,26 @@
   "build_limit_compile_error_branch": 2,
   "stage_cap_usd": 2.5,
   "planned_reserve_usd": 1.215,
-  "builds": [],
-  "spent_usd": 0,
+  "builds": [
+    "1e9c0ac0-ce89-498f-bc5b-d25c70af2279"
+  ],
+  "spent_usd": 0.297,
   "reserved_usd": 0,
-  "status": "PREBUILD_WAITING_GO",
+  "status": "COMPLETE",
   "agent": "k1-network",
-  "request_sha256": "fa2a217facff573af3576489d5b4aac29ad7885a388740105cada62703bc679f"
+  "request_sha256": "fa2a217facff573af3576489d5b4aac29ad7885a388740105cada62703bc679f",
+  "task_outcome": "PARTIAL",
+  "source_sha": "3e3357d6e4f11c8137c313e2cac2cda1bf56ed51",
+  "coordinator_go": "GO 3e3357d6e4; one Build",
+  "dispatch_branch": "experiment/kani-k1-mergestep-20261102",
+  "submitted_utc": "2026-11-02T14:34:40Z",
+  "completed_utc": "2026-11-02T14:57:25.682492Z",
+  "rows": {
+    "mergestep_up_leaf_u8": "SUCCESS 68.24657s 0/534;10 covers11/11",
+    "mergestep_down_leaf_u8": "SUCCESS 61.10075s 0/546;10 covers12/12",
+    "mergestep_composed_merge4_u8": "TIMEOUT cap600 VT UNKNOWN",
+    "mergestep_up_binding_negative_u8": "FAILED literal only 1/528;52 covers2/4",
+    "mergestep_down_binding_negative_u8": "FAILED literal only 1/528;27 covers3/4",
+    "mergestep_count_negative_u8": "FAILED literal only 1/614;7 covers6/6"
+  }
 }

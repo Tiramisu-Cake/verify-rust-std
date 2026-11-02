@@ -1,0 +1,89 @@
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8...
+  - Stub: merge_down -> down_adapter
+  - Stub: merge_up -> up_adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::down_step_u8
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::up_step_u8
+
+VERIFICATION RESULT:
+ ** 1 of 614 failed (7 unreachable)
+
+ ** 6 of 6 cover properties satisfied
+
+Failed Checks: mergestep calibration negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs", line 576, in slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8
+
+VERIFICATION:- FAILED
+Verification Time: 20.115993s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8...
+  - Stub: merge_down -> down_adapter
+  - Stub: merge_up -> up_adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::down_step_u8
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::up_step_u8
+
+VERIFICATION RESULT:
+ ** 1 of 528 failed (27 unreachable)
+
+ ** 3 of 4 cover properties satisfied (1 unreachable)
+
+Failed Checks: mergestep actual down adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs", line 415, in <u8 as slice::sort::shared::smallsort::verify::network::netcomp::mergestep::MergeStepBridge<for<'a, 'b> fn(&'a u8, &'b u8) -> bool>>::down
+
+VERIFICATION:- FAILED
+Verification Time: 2.9483438s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8...
+  - Stub: merge_down -> down_adapter
+  - Stub: merge_up -> up_adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::down_step_u8
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::up_step_u8
+
+VERIFICATION RESULT:
+ ** 1 of 528 failed (52 unreachable)
+
+ ** 2 of 4 cover properties satisfied (2 unreachable)
+
+Failed Checks: mergestep actual up adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/mergestep.rs", line 394, in <u8 as slice::sort::shared::smallsort::verify::network::netcomp::mergestep::MergeStepBridge<for<'a, 'b> fn(&'a u8, &'b u8) -> bool>>::up
+
+VERIFICATION:- FAILED
+Verification Time: 1.0452672s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8...
+  - Stub: merge_down -> down_adapter
+  - Stub: merge_up -> up_adapter
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::down_step_u8
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::mergestep::up_step_u8
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_leaf_u8...
+
+VERIFICATION RESULT:
+ ** 0 of 546 failed (10 unreachable)
+
+ ** 12 of 12 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 61.10075s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_leaf_u8...
+
+VERIFICATION RESULT:
+ ** 0 of 534 failed (10 unreachable)
+
+ ** 11 of 11 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 68.24657s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_count_negative_u8
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_down_binding_negative_u8
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_up_binding_negative_u8
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::mergestep::mergestep_composed_merge4_u8
+Complete - 2 successfully verified harnesses, 4 failures, 6 total.
