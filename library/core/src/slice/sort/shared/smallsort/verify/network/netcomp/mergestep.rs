@@ -578,3 +578,6 @@ fn mergestep_count_negative_u8() {
         "mergestep calibration negative: full-value count preserved",
     );
 }
+
+// DIRECTFOUR direct merge4 baseline without step substitutions: child module after all above.
+mod directfour;
