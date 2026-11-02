@@ -1,0 +1,104 @@
+{
+  "library_commit": "47ed440a23641545fba1eedd279a0ebabe6edf02",
+  "library_tree": "f9fa2945d6fd31f042b66926aad098f906f4abca",
+  "task_head": "a76671d5c4ef08e50bbad371e2353a2f1e0220b4",
+  "request_id": "netcomp-g1-n9-pair-frame-count-20261102",
+  "request_sha256": "e7afc8c7cb631569289b751c103892302c736191f28153e95216f24c41dc312a",
+  "domain": {
+    "T": "u8",
+    "F": "U8Cmp = fn(&u8,&u8) -> bool",
+    "canonical_value": "network::StrictU8::CMP = strict_less::<u8> reified",
+    "N": 9,
+    "backing": "initialized exact [u8;9]",
+    "base_offset": 0,
+    "pair": "arbitrary a,b in 0..9 with a!=b in independent leaf; 25 actual call sites in caller",
+    "probe": "independent arbitrary u8 passed by value; fixed 0 only in count control",
+    "frame": "only v[a],v[b] may change inside swap_net9; context/trace not in modifies"
+  },
+  "annotations": {
+    "netcomp_leaf_u8_n9": [
+      "#[kani::proof_for_contract(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_direct_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_wrong_cmp_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "required_cover_labels": {
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9": [
+      "netcomp leaf N9: swap taken",
+      "netcomp leaf N9: swap not taken",
+      "netcomp leaf N9: first to last",
+      "netcomp leaf N9: last to first",
+      "netcomp leaf N9: interior pair",
+      "netcomp leaf N9: probe hits input",
+      "netcomp leaf N9: probe misses input"
+    ],
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9": [
+      "netcomp N9: sort moves elements",
+      "netcomp N9: probe hits input",
+      "netcomp N9: probe misses input",
+      "netcomp N9: duplicates present"
+    ],
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9": [
+      "netcomp N9: adapter entered",
+      "netcomp N9: all actual exchanges intercepted",
+      "netcomp N9: sort moves elements",
+      "netcomp N9: probe hits input",
+      "netcomp N9: probe misses input",
+      "netcomp N9: duplicates present"
+    ],
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9": [
+      "netcomp N9: adapter entered",
+      "netcomp N9 wrong comparator: actual entry reached"
+    ],
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9": [
+      "netcomp N9: adapter entered",
+      "netcomp N9: all actual exchanges intercepted",
+      "netcomp N9 negative: sort returned before corruption",
+      "netcomp N9 negative: corrupted count check reached"
+    ]
+  },
+  "cover_note": "Unique source labels only; backend may duplicate properties for actual call instances. All required positive cover properties must be SATISFIED.",
+  "negative_acceptance": [
+    {
+      "root": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+      "only_expected_failed_literal": "netcomp canonical comparator required",
+      "literal_line": 122,
+      "all_other_failed_checks_allowed": false
+    },
+    {
+      "root": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+      "only_expected_failed_literal": "netcomp N9 negative: full-value count preserved",
+      "literal_line": 244,
+      "all_other_failed_checks_allowed": false
+    }
+  ],
+  "target_line": 42,
+  "pfc_attribute_line": 48,
+  "proof_status": "NOT_RUN",
+  "builds": [],
+  "own_spent_usd": 0,
+  "own_reserved_usd": 0,
+  "proposed_g1_reserve_usd": 1.08,
+  "slot": "No dispatch/slot acquisition before coordinator GO; ledger unfinished reserve is zero at snapshot."
+}

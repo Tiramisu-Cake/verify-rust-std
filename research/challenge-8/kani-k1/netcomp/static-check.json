@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "base": "a76671d5c4ef08e50bbad371e2353a2f1e0220b4",
+  "ordinary_exact": 200,
+  "controls_exact": 391,
+  "controls_added": [
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+    "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9"
+  ],
+  "existing_network_bytes_preserved": true,
+  "runtime_and_protected_tooling_unchanged": true,
+  "target_precedes_pfc": true,
+  "pfc_module_gate": "inherited kani_smallsort_controls",
+  "request_sha256": "e7afc8c7cb631569289b751c103892302c736191f28153e95216f24c41dc312a",
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "9e1866c614d51fdecc6be0b668f94624a2ef83aedb770319da8da2c2d9736a24",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs": "9e3440b91171765c406c964f01b91c32fbf4a87826f76e9f186c74217283f351",
+    "library/core/src/slice/sort/shared/smallsort.rs": "78fc8fe8bfc37d59d27c194d2f7e9c45e0c629dcf394c6bcf13f00b53ab9ed61"
+  },
+  "annotations": {
+    "netcomp_leaf_u8_n9": [
+      "#[kani::proof_for_contract(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_direct_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_wrong_cmp_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "scope": "Static source/packet checks only; compile, proof and covers NOT_RUN before GO."
+}

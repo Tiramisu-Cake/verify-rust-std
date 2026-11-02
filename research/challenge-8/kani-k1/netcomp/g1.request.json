@@ -1,0 +1,36 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "netcomp-g1-n9-pair-frame-count-20261102",
+  "kind": "measurement",
+  "purpose": "NETCOMP G1: exact N9 u8/U8Cmp leaf, matching actual-entry direct/composed, actual-binding comparator guard and sorted count-corruption controls.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "netcomp canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "netcomp N9 negative: full-value count preserved"
+    }
+  ]
+}
