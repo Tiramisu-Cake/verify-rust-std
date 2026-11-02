@@ -1,0 +1,30 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index 6d445e8af0..aa5482f37b 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -3 +3 @@
+-  "agent": "k1-merge",
++  "agent": "k1-network",
+@@ -5 +5 @@
+-  "request_id": "u64nine-n9-leaf-composition-controls-20261102",
++  "request_id": "usixtyfourten-swap9-backing10-insert-tail9-20261102",
+@@ -7 +7 @@
+-  "purpose": "U64-N9: typed u64/U64Cmp N9 no-stub leaf for swap_u64_net9, actual-route composed positive, actual-binding wrong-cmp and full-u64 count controls; one joint four-row gate.",
++  "purpose": "U64-TEN-LEAVES: matching u64 N10 leaves, no stubs: swap_u64_net9 on prefix9 of exact backing10 and insert_tail_profile<StrictU64> begin0/tail9 on whole backing10; two-row leaf gate.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::u64ten_swap_prefix9_backing10",
+@@ -18 +18 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::u64ten_insert_strict_u64_begin0_tail9",
+@@ -20,10 +19,0 @@
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9",
+-      "expect": "FAILED",
+-      "expect_check": "u64nine canonical comparator required"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9",
+-      "expect": "FAILED",
+-      "expect_check": "u64nine N9 negative: full-value count preserved"
