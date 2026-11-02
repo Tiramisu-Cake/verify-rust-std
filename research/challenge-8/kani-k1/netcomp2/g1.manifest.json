@@ -1,0 +1,107 @@
+{
+  "scope": "source-derived reachable cover expectations, not executed proof evidence",
+  "covers": {
+    "netcomp_direct_u8_n9": [
+      "netcomp N9: sort moves elements",
+      "netcomp N9: probe hits input",
+      "netcomp N9: probe misses input",
+      "netcomp N9: duplicates present"
+    ],
+    "netcomp_composed_u8_n9": [
+      "netcomp N9: adapter entered",
+      "netcomp N9: sort moves elements",
+      "netcomp N9: probe hits input",
+      "netcomp N9: probe misses input",
+      "netcomp N9: duplicates present",
+      "netcomp N9: all actual exchanges intercepted"
+    ],
+    "netcomp_count_negative_u8_n9": [
+      "netcomp N9: adapter entered",
+      "netcomp N9 negative: sort returned before corruption",
+      "netcomp N9 negative: corrupted count check reached"
+    ],
+    "netcomp_leaf_u8_n13": [
+      "netcomp leaf N13: swap taken",
+      "netcomp leaf N13: swap not taken",
+      "netcomp leaf N13: first to last",
+      "netcomp leaf N13: last to first",
+      "netcomp leaf N13: interior pair",
+      "netcomp leaf N13: probe hits input",
+      "netcomp leaf N13: probe misses input"
+    ],
+    "netcomp_composed_u8_n13": [
+      "netcomp N13: adapter entered",
+      "netcomp N13: sort moves elements",
+      "netcomp N13: probe hits input",
+      "netcomp N13: probe misses input",
+      "netcomp N13: duplicates present",
+      "netcomp N13: all actual exchanges intercepted"
+    ],
+    "netcomp_wrong_cmp_u8_n13": [
+      "netcomp N13 wrong comparator: actual entry reached",
+      "netcomp N13: adapter entered"
+    ],
+    "netcomp_count_negative_u8_n13": [
+      "netcomp N13: adapter entered",
+      "netcomp N13 negative: sort returned before corruption",
+      "netcomp N13 negative: corrupted count check reached"
+    ]
+  },
+  "annotations": {
+    "netcomp_direct_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_leaf_u8_n13": [
+      "#[kani::proof_for_contract(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_wrong_cmp_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "expected_failed_checks": {
+    "netcomp_count_negative_u8_n9": "netcomp N9 negative: full-value count preserved",
+    "netcomp_wrong_cmp_u8_n13": "netcomp canonical comparator required",
+    "netcomp_count_negative_u8_n13": "netcomp N13 negative: full-value count preserved"
+  },
+  "literal_sites": {
+    "netcomp canonical comparator required": [
+      122,
+      354
+    ],
+    "netcomp N9 negative: full-value count preserved": [
+      244
+    ],
+    "netcomp N13 negative: full-value count preserved": [
+      461
+    ]
+  }
+}

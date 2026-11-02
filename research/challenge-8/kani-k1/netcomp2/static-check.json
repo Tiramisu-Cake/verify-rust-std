@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "base": "b57bf76f699d77fc774f54cceba1c64d78340c22",
+  "reused_source": "0944189023c0c53620ed74a45bb2d2efef4c53cd",
+  "ordinary_exact": 200,
+  "controls_exact": 395,
+  "n13_added": 4,
+  "n9_prefix_exact_except_requested_cover_move": true,
+  "all_other_library_bytes_preserved_from_g1": true,
+  "runtime_and_protected_tooling_unchanged": true,
+  "annotations": {
+    "netcomp_leaf_u8_n9": [
+      "#[kani::proof_for_contract(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_direct_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_wrong_cmp_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n9": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter9)]",
+      "#[kani::stub_verified(swap_net9)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_leaf_u8_n13": [
+      "#[kani::proof_for_contract(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_composed_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_wrong_cmp_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ],
+    "netcomp_count_negative_u8_n13": [
+      "#[kani::proof]",
+      "#[kani::stub(swap_if_less, adapter13)]",
+      "#[kani::stub_verified(swap_net13)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "source_sha256": "98866103e22c0d52285e0f128334b94ddcb723cf8dcba0e6dbef68b7eecb025f",
+  "request_sha256": "69646d5b669310254328a92ea9d35d7d0b2a99c0708cd94f4605e04422723311",
+  "dependency_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "78fc8fe8bfc37d59d27c194d2f7e9c45e0c629dcf394c6bcf13f00b53ab9ed61",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "9e1866c614d51fdecc6be0b668f94624a2ef83aedb770319da8da2c2d9736a24",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/ub_checks.rs": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0",
+    "rust-toolchain.toml": "7a7edb1ec1b265bdcd1ec61a007000821285f4f18d64aff6b3621e203be323ec"
+  },
+  "scope": "Static source/packet checks only; compile, proof and covers NOT_RUN before GO."
+}

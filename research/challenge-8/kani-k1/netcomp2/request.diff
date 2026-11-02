@@ -1,0 +1,37 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index 2536e6462b..807ac2682f 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "netcomp-g1-n9-pair-frame-count-20261102",
++  "request_id": "netcomp2-n9-cover-n13-pair-frame-count-20261102",
+@@ -7 +7 @@
+-  "purpose": "NETCOMP G1: exact N9 u8/U8Cmp leaf, matching actual-entry direct/composed, actual-binding comparator guard and sorted count-corruption controls.",
++  "purpose": "NETCOMP2: corrected N9 direct/composed covers and current count control, separate exact N13 no-stub leaf/composition and actual-binding/count controls; one joint seven-row gate.",
+@@ -14 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+@@ -18 +18 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+@@ -22 +22,6 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
++      "expect": "FAILED",
++      "expect_check": "netcomp N9 negative: full-value count preserved"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+@@ -26 +31,5 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
++      "expect": "SUCCESS"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+@@ -31 +40 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
++      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+@@ -33 +42 @@
+-      "expect_check": "netcomp N9 negative: full-value count preserved"
++      "expect_check": "netcomp N13 negative: full-value count preserved"
