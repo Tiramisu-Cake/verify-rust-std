@@ -237,3 +237,6 @@ fn u64nine_count_negative_u64_n9() {
         "u64nine N9 negative: full-value count preserved",
     );
 }
+
+// U64-N13: separate exact-13 typed child; the N9 items above are unchanged.
+mod uthirteen;
