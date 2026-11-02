@@ -1,45 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-network",
+  "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "netcomp2-n9-cover-n13-pair-frame-count-20261102",
+  "request_id": "netten-leaves-swap9-backing10-insert-tail9-20261102",
   "kind": "measurement",
-  "purpose": "NETCOMP2: corrected N9 direct/composed covers and current count control, separate exact N13 no-stub leaf/composition and actual-binding/count controls; one joint seven-row gate.",
+  "purpose": "NETTEN-LEAVES: matching u8 N10 leaves, no stubs: swap_net9 on prefix9 of exact backing10 and insert_tail_profile<StrictU8> begin0/tail9 on whole backing10; two-row leaf gate.",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "uninit_checks": false,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_direct_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_swap_prefix9_backing10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netten::netten_insert_strict_u8_begin0_tail9",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
-      "expect": "FAILED",
-      "expect_check": "netcomp N9 negative: full-value count preserved"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
-      "expect": "FAILED",
-      "expect_check": "netcomp canonical comparator required"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
-      "expect": "FAILED",
-      "expect_check": "netcomp N13 negative: full-value count preserved"
     }
   ]
 }
