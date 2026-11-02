@@ -1,0 +1,16 @@
+{
+  "task": "U64-TEN-CALLER",
+  "owner": "k1-network",
+  "packages": {
+    "G1": {"rows": 1, "reserve_usd": 0.54, "status": "PREBUILD_WAITING_GO", "build": null},
+    "G1R": {"rows": 1, "reserve_usd": 0.54, "status": "NOT_PLANNED_UNLESS_G1_COMPILE_ERROR", "build": null},
+    "G2": {"rows": 3, "reserve_usd": 0.81, "status": "PLANNED_AFTER_G1", "build": null},
+    "G2R": {"rows": 3, "reserve_usd": 0.81, "status": "NOT_PLANNED_UNLESS_G2_COMPILE_ERROR", "build": null}
+  },
+  "build_limit": 4,
+  "stage_cap_usd": 2.8,
+  "builds": [],
+  "spent_usd": 0,
+  "reserved_usd": 0,
+  "status": "PREBUILD_G1"
+}

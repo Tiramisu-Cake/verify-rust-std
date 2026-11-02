@@ -1,0 +1,17 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index aa5482f37b..f9efad20d6 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "usixtyfourten-swap9-backing10-insert-tail9-20261102",
++  "request_id": "usixtyfourtencall-g1-positive-u64-n10-20261102",
+@@ -7 +7 @@
+-  "purpose": "U64-TEN-LEAVES: matching u64 N10 leaves, no stubs: swap_u64_net9 on prefix9 of exact backing10 and insert_tail_profile<StrictU64> begin0/tail9 on whole backing10; two-row leaf gate.",
++  "purpose": "U64-TEN-CALLER G1: actual Unstable u64/U64Cmp N10 positive via raw swap_if_less->swap_adapter_u64ten->verified swap_u64_net9 and raw insert_tail->insert_adapter_u64ten->verified insert_tail_profile<StrictU64>; full-u64 input and independent probe; one-row positive gate (controls in G2).",
+@@ -14,5 +14 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::u64ten_swap_prefix9_backing10",
+-      "expect": "SUCCESS"
+-    },
+-    {
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::u64ten_insert_strict_u64_begin0_tail9",
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_u64_n10",

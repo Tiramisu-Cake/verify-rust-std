@@ -1,0 +1,263 @@
+{
+  "status": "PASS",
+  "base": "f057b7e4ebebd2050861976ee8bb0ee0172703c2",
+  "base_library_commit": "e4c696648a5a4ff4f92dbe1ec7ed145afea25ee8",
+  "base_library_tree": "3c600416e508b037ebdfe817f6dc93d0314c9b21",
+  "leaves_reviewed_source": "9009451c82740af506708b7a2217099b57970807",
+  "library_commit": "a6010df7b451da55d4227ad5960b0c93992f10f0",
+  "library_tree": "514c6f841cf2af3b27f6d9aa8f27c86e24c562af",
+  "ordinary_exact": 200,
+  "controls_exact": 405,
+  "controls_before": 401,
+  "added": [
+    "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10",
+    "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_insert_binding_negative_u64_n10",
+    "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_u64_n10",
+    "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_swap_binding_negative_u64_n10"
+  ],
+  "changed_library_files": [
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs"
+  ],
+  "parent_change": "registration only",
+  "leaves_and_dependencies_byte_identical_to_reviewed_leaves_source": true,
+  "protected_tooling_unchanged": true,
+  "pfc_order": "ordinary pfc sites 21 bad 0",
+  "annotations": {
+    "u64tencall_positive_u64_n10": [
+      "#[kani::proof]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::swap_u64_net9)]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64tencall_swap_binding_negative_u64_n10": [
+      "#[kani::proof]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::swap_u64_net9)]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64tencall_insert_binding_negative_u64_n10": [
+      "#[kani::proof]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::swap_u64_net9)]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]",
+      "#[kani::unwind(25)]"
+    ],
+    "u64tencall_count_negative_u64_n10": [
+      "#[kani::proof]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::swap_u64_net9)]",
+      "#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]",
+      "#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]",
+      "#[kani::unwind(25)]"
+    ]
+  },
+  "covers": {
+    "u64tencall_positive_u64_n10": [
+      "u64tencall positive: returned",
+      "u64tencall positive: input has descending adjacent pair",
+      "u64tencall positive: probe hits pre10",
+      "u64tencall positive: probe misses pre10",
+      "u64tencall positive: pre10 has duplicate value",
+      "u64tencall positive: probe hits only original tail",
+      "u64tencall positive: all hits",
+      "u64tencall positive: tail-min input returned",
+      "u64tencall positive: high-bit probe hits pre10"
+    ],
+    "u64tencall_swap_binding_negative_u64_n10": [
+      "u64tencall swap control: actual entry reached"
+    ],
+    "u64tencall_insert_binding_negative_u64_n10": [
+      "u64tencall insert control: actual entry reached"
+    ],
+    "u64tencall_count_negative_u64_n10": [
+      "u64tencall negative: returned before corruption",
+      "u64tencall negative: count check reached"
+    ]
+  },
+  "cover_predicates": {
+    "u64tencall_positive_u64_n10": [
+      "true",
+      "descending",
+      "hits10 > 0",
+      "hits10 == 0",
+      "duplicate",
+      "probe == pre[9] && hits9 == 0",
+      "ctx.swap_hits == 25 && ctx.insert_hits == 1",
+      "tail_min",
+      "probe >= (1u64 << 40) && hits10 > 0"
+    ],
+    "u64tencall_swap_binding_negative_u64_n10": [
+      "true"
+    ],
+    "u64tencall_insert_binding_negative_u64_n10": [
+      "true"
+    ],
+    "u64tencall_count_negative_u64_n10": [
+      "true",
+      "true"
+    ]
+  },
+  "marker_lines": {
+    "u64tencall actual swap adapter binding control": 111,
+    "u64tencall actual insert adapter binding control": 172,
+    "u64tencall negative: full-value count preserved": 339
+  },
+  "swap_edges": [
+    [
+      435,
+      0,
+      3
+    ],
+    [
+      436,
+      1,
+      7
+    ],
+    [
+      437,
+      2,
+      5
+    ],
+    [
+      438,
+      4,
+      8
+    ],
+    [
+      439,
+      0,
+      7
+    ],
+    [
+      440,
+      2,
+      4
+    ],
+    [
+      441,
+      3,
+      8
+    ],
+    [
+      442,
+      5,
+      6
+    ],
+    [
+      443,
+      0,
+      2
+    ],
+    [
+      444,
+      1,
+      3
+    ],
+    [
+      445,
+      4,
+      5
+    ],
+    [
+      446,
+      7,
+      8
+    ],
+    [
+      447,
+      1,
+      4
+    ],
+    [
+      448,
+      3,
+      6
+    ],
+    [
+      449,
+      5,
+      7
+    ],
+    [
+      450,
+      0,
+      1
+    ],
+    [
+      451,
+      2,
+      4
+    ],
+    [
+      452,
+      3,
+      5
+    ],
+    [
+      453,
+      6,
+      8
+    ],
+    [
+      454,
+      2,
+      3
+    ],
+    [
+      455,
+      4,
+      5
+    ],
+    [
+      456,
+      6,
+      7
+    ],
+    [
+      457,
+      1,
+      2
+    ],
+    [
+      458,
+      3,
+      4
+    ],
+    [
+      459,
+      5,
+      6
+    ]
+  ],
+  "insert_tail_call_line": 596,
+  "network_call_lines": [
+    343,
+    349
+  ],
+  "request_sha256": {
+    "g1": "628c4bfe8d913102a420513fa87698faf97f9bf2af7fa786c568cb2e43db536d",
+    "g2": "2344a3b82f536f8e7b656cf319f7870029922c4eee7c956d09f440bbe8091862"
+  },
+  "run_request_sha256": "628c4bfe8d913102a420513fa87698faf97f9bf2af7fa786c568cb2e43db536d",
+  "child_sha256": "9f434dae05f0a7c39a36f8061cedf893d049def8067d076cf7661da62b4f8ce6",
+  "dependency_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "78fc8fe8bfc37d59d27c194d2f7e9c45e0c629dcf394c6bcf13f00b53ab9ed61",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "14e55bbcaa809df9048fce4c728c44e5951d50b0688f1219707facc7ddbcb171",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs": "4a7513b58534c2ddf51c2a079a6c7bc2d48cf2a6c411ca26318dc3830946efc1",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves.rs": "770b44ebcc4cdcdaff79b917bd99a41f6f3a15be60646f9463aa64d1dfac5ae6",
+    "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs": "9f434dae05f0a7c39a36f8061cedf893d049def8067d076cf7661da62b4f8ce6",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "b38f5ed861964981db5adced202e2d41c83ccae3530fe06d0f1e45d444156a94",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/ub_checks.rs": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "f2f2c86a6b480e44223ab43adfce621b30bfc28cf496b4d88fec6caebaa9cdd0",
+    "rust-toolchain.toml": "7a7edb1ec1b265bdcd1ec61a007000821285f4f18d64aff6b3621e203be323ec"
+  },
+  "scope": "Static source/packet checks only; compile, proof and covers NOT_RUN before GO."
+}

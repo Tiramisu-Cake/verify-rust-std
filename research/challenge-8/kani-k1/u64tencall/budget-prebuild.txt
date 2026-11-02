@@ -1,0 +1,10 @@
+Observed 2026-11-02T17:26Z via existing tools/k1g.sh budget (read-only).
+builds173; used$79.8900; reserved by unfinished builds$0.0000; cap$88.96.
+Planned G1 reserve (1*10+30)*$0.0135=$0.540; G2 (3*10+30)*$0.0135=$0.810; planned pair $1.350.
+With both compile repairs G1R $0.540 + G2R $0.810: all four envelopes $2.700 <= own cap $2.80.
+Project used+G1 reserve = $80.4300; +G2 $0.810 = $81.2400; +PARTTWO-TREE planned $0.675 (other owner) = $81.9150.
+Worst case all four own envelopes + PARTTWO $0.675: $79.89+$2.70+$0.675 = $83.2650 <= $88.96.
+Unfinished reserve$0 => no queued/running project Build observed (<=2 project, <=1 on k1-network).
+Stable owner k1-network; own spent$0/reserved$0, no UUIDs. No slot acquired, no Build submitted.
+Deadline/window: each envelope (G1 40min, G2 60min incl. 30min overhead) must fit the coordinator's
+active deadline with closeout reserve; refresh ledger/slots/deadline after GO, before dispatch.

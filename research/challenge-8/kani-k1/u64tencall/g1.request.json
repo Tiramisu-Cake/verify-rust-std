@@ -1,0 +1,18 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "usixtyfourtencall-g1-positive-u64-n10-20261102",
+  "kind": "measurement",
+  "purpose": "U64-TEN-CALLER G1: actual Unstable u64/U64Cmp N10 positive via raw swap_if_less->swap_adapter_u64ten->verified swap_u64_net9 and raw insert_tail->insert_adapter_u64ten->verified insert_tail_profile<StrictU64>; full-u64 input and independent probe; one-row positive gate (controls in G2).",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_u64_n10",
+      "expect": "SUCCESS"
+    }
+  ]
+}
