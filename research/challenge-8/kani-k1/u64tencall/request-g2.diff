@@ -1,0 +1,26 @@
+diff --git a/research/challenge-8/kani-k1/RUN-REQUEST.json b/research/challenge-8/kani-k1/RUN-REQUEST.json
+index f9efad20d6..ec312061d2 100644
+--- a/research/challenge-8/kani-k1/RUN-REQUEST.json
++++ b/research/challenge-8/kani-k1/RUN-REQUEST.json
+@@ -5 +5 @@
+-  "request_id": "usixtyfourtencall-g1-positive-u64-n10-20261102",
++  "request_id": "usixtyfourtencall-g2-controls-u64-n10-20261102",
+@@ -7 +7 @@
+-  "purpose": "U64-TEN-CALLER G1: actual Unstable u64/U64Cmp N10 positive via raw swap_if_less->swap_adapter_u64ten->verified swap_u64_net9 and raw insert_tail->insert_adapter_u64ten->verified insert_tail_profile<StrictU64>; full-u64 input and independent probe; one-row positive gate (controls in G2).",
++  "purpose": "U64-TEN-CALLER G2: planned controls of the same frozen library tree: swap and insert adapter binding controls and full-u64 count control; three-row control gate.",
+@@ -14,2 +14,13 @@
+-      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_u64_n10",
+-      "expect": "SUCCESS"
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_swap_binding_negative_u64_n10",
++      "expect": "FAILED",
++      "expect_check": "u64tencall actual swap adapter binding control"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_insert_binding_negative_u64_n10",
++      "expect": "FAILED",
++      "expect_check": "u64tencall actual insert adapter binding control"
++    },
++    {
++      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10",
++      "expect": "FAILED",
++      "expect_check": "u64tencall negative: full-value count preserved"

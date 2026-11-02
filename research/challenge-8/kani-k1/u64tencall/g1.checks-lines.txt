@@ -1,0 +1,17 @@
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 04s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_u64_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter_u64ten
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter_u64ten
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+scripts/run-kani.sh: line 258:  8825 Killed                  "$kani_path" verify-std -Z unstable-options ./library $unstable_args --no-assert-contracts "${command_args[@]}" --cbmc-args --object-bits 12
