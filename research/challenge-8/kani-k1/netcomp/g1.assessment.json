@@ -1,0 +1,46 @@
+{
+  "task_outcome": "PARTIAL",
+  "g1_gate": false,
+  "lane_summary_status": "COMPLETE",
+  "cloud_build_status": "FAILURE",
+  "expectation_met": true,
+  "measurement_ok": false,
+  "kani_exit": 1,
+  "source_sha": "0944189023c0c53620ed74a45bb2d2efef4c53cd",
+  "request_sha256": "e7afc8c7cb631569289b751c103892302c736191f28153e95216f24c41dc312a",
+  "build_uuid": "b3e257d1-eaf9-4323-a8f1-f4648798cbd9",
+  "library_commit": "47ed440a23641545fba1eedd279a0ebabe6edf02",
+  "library_tree": "f9fa2945d6fd31f042b66926aad098f906f4abca",
+  "identities_and_tooling": "PASS",
+  "all_positive_verification_statuses": "SUCCESS",
+  "positive_cover_acceptance": "FAIL: direct A9 4/5, one unreachable; leaf7/7 and B9 6/6",
+  "cover_source_attribution": {
+    "literal": "netcomp N9: all actual exchanges intercepted",
+    "source": "network/netcomp.rs:155, through run9 composed=false -> positive9(false)",
+    "method": "Source call-graph/constant-branch attribution; terse log prints only aggregate 4/5 (1 unreachable), no cover label.",
+    "limitation": "Cannot waive the unfulfilled cover or claim full measurement acceptance."
+  },
+  "negative_checks": "Both sole failed checks exactly match expect_check; all negative covers satisfied.",
+  "actual_route_binding": "B reports raw->adapter and verified swap_net9; hits/root/frame/invariant checks pass; wrong comparator reaches same adapter guard.",
+  "open_obligations": [
+    "Accepted full positive-cover gate for matching direct/composed calibration",
+    "N13 matching leaf, caller and both controls NOT_RUN",
+    "No old function-item F transfer"
+  ],
+  "comparison": {
+    "scope": "Observed per-row VT/RSS arithmetic; overall measurement gate remains false.",
+    "vt_a_seconds": 260.72028,
+    "vt_b_seconds": 111.43491,
+    "vt_leaf_seconds": 49.674446,
+    "vt_b_plus_leaf_seconds": 161.109356,
+    "observed_vt_reduction_percent": 38.206051,
+    "cbmc_rss_kib_a": 275776,
+    "cbmc_rss_kib_b": 988628,
+    "cbmc_rss_kib_leaf": 314920,
+    "jobs1_cbmc_rss_kib_max_b_leaf": 988628,
+    "observed_cbmc_peak_ratio": 3.5848949872360176
+  },
+  "cost_usd": 0.2295,
+  "reserved_usd": 0,
+  "next_step": "STOP. G2/N13 NOT_RUN. No compile error; current task permits no coverage/semantic retry or automatic source change."
+}

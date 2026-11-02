@@ -3,9 +3,29 @@
   "request_prefix": "netcomp-",
   "task_cap_usd": 2.5,
   "max_builds": 2,
-  "builds": [],
-  "own_spent_usd": 0,
+  "builds": [
+    {
+      "gate": "G1",
+      "uuid": "b3e257d1-eaf9-4323-a8f1-f4648798cbd9",
+      "request_id": "netcomp-g1-n9-pair-frame-count-20261102",
+      "source_sha": "0944189023c0c53620ed74a45bb2d2efef4c53cd",
+      "library_commit": "47ed440a23641545fba1eedd279a0ebabe6edf02",
+      "library_tree": "f9fa2945d6fd31f042b66926aad098f906f4abca",
+      "request_sha256": "e7afc8c7cb631569289b751c103892302c736191f28153e95216f24c41dc312a",
+      "coordinator_go": "User GO for G1 0944189023, exactly one Build / five N9 rows",
+      "submitted_at_record_utc": "2026-11-02T08:40:48.142780+00:00",
+      "reserve_usd": 0,
+      "status": "FAILURE",
+      "summary_status": "COMPLETE",
+      "expectation_met": true,
+      "measurement_ok": false,
+      "task_gate": false,
+      "actual_cost_usd": 0.2295,
+      "finish_time": "2026-11-02T08:57:55.675562Z"
+    }
+  ],
+  "own_spent_usd": 0.2295,
   "own_reserved_usd": 0,
   "proposed_g1_reserve_usd": 1.08,
-  "state": "PRE_BUILD_WAITING_COORDINATOR_GO"
+  "state": "CLOSED_PARTIAL_G1_COVERAGE_GATE_FALSE_G2_NOT_RUN"
 }
