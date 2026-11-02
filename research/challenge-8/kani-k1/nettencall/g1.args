@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_positive_u8_n10
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_swap_binding_negative_u8_n10
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_count_negative_u8_n10
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse

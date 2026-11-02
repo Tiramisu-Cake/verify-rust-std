@@ -1,0 +1,2 @@
+PASS: assigned rustfmt wrapper --check --edition 2024 --config-path assigned fmtcfg/rustfmt.toml; netten.rs (with child) and netten/caller.rs; exit0.
+PASS: git diff --check 9835bd00dc..library commit 2ebda13e14; caller.rs max line <=100 (static_check.py).
