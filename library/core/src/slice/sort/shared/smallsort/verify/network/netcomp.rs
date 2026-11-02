@@ -461,3 +461,6 @@ fn netcomp_count_negative_u8_n13() {
         "netcomp N13 negative: full-value count preserved",
     );
 }
+
+// NETTEN: opt-in child with matching u8 N10 leaves; it reuses the private items above.
+mod netten;
