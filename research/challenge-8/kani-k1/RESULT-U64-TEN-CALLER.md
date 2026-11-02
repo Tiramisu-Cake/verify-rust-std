@@ -27,8 +27,7 @@ G2 only failed checks: `u64tencall actual swap adapter binding control` caller.r
 G2 gate: expectation_met=true, measurement_ok=true, gate=true, Kani exit1 (expected), Complete 0/3 verified, 3 failures (all designated).
   Insert control passed 25 swaps + all insert premises before its marker; count control passed run/hits/frames/final posts, sorted
   after v[9]=2^41, and the same full-u64 count predicate failed (count(2^40) 10->9, low 32 bits equal).
-Packages: G1 OOM (positive UNKNOWN); G1R NOT_RUN (no compile error); G2 COMPLETE gate PASS; G2R NOT_RUN (no compile error).
-  No repairs applied. Own 2/4 Builds, spent $0.2160 + $0.2025 = $0.4185, reserved $0 (cap $2.80). Ledger after: builds176, used $80.3085.
+Packages: G1 OOM; G1R/G2R NOT_RUN (no compile error, no repairs); G2 gate PASS. Own 2/4 Builds, spent $0.2160 + $0.2025 = $0.4185, reserved $0 (cap $2.80). Ledger after: builds176, used $80.3085.
 Matching leaves (old Build dd2f7e52, source 9009451c82, byte-identical deps, reuse-dependencies.md): swap_u64_net9 SUCCESS 9/9
   100.61334s; insert_tail_profile<StrictU64> SUCCESS 9/9 79.74734s. Applicable, not rows of these Builds. No mixed-run VT estimate:
   positive VT UNKNOWN. No speedup claim; u8 NETTEN timings are not a u64 forecast.
@@ -36,7 +35,6 @@ Stage gate: identities/domain/reuse match; G2 controls PASS; positive NOT establ
 Established: the composed u64 route compiles; raw->adapter->verified-summary binding is reached and its marker controls fire; the
   insert premises (incl. prefix9 sorted by the real network) and the count control path hold on the concrete control inputs.
 Not established: the actual u64/U64Cmp N10 theorem for any [u64;10]/any probe (positive UNKNOWN); function-item F, generic T/FnMut/N,
-  other backings/offsets, stability, uninit/alias-validity/unwind, trait-PFC, ordinary v6/202. Static ordinary200, cfg-on 405.
-  U64-N13 remains PARTIAL. Positive needs a coordinator decision (memory profile); not started here, no further Builds.
-Evidence: u64tencall/g{1,2}.{summary.md,status.txt,tooling.txt,cost.txt,peaks.txt,checks-grep.txt,checks-lines.txt}, PREBUILD.md,
-  PREBUILD-G2.md, static-check.json. Next: STOP after this one stage.
+  other backings/offsets, stability, uninit/alias-validity/unwind, trait-PFC, ordinary v6/202 (static ordinary200, cfg-on 405).
+  U64-N13 PARTIAL. Positive needs a coordinator decision (memory profile); no further Builds here.
+Evidence: u64tencall/g{1,2}.{summary,status,tooling,cost,peaks,checks-grep,checks-lines}, PREBUILD{,-G2}.md. STOP after this stage.
