@@ -464,3 +464,6 @@ fn netcomp_count_negative_u8_n13() {
 
 // NET18-LEAVES geometry fixtures: opt-in child module after all targets and roots above.
 mod neteighteen;
+
+// MERGESTEP step summaries and actual merge4 calibration: opt-in child module after all above.
+mod mergestep;
