@@ -1,0 +1,5 @@
+ordinary pfc sites 42 bad 0
+Breakdown (integwrapfix/pfc_order.py on candidate library 2756f0e2a6): 42 lexical proof_for_contract sites, 0 targets after
+their PFC. The script only sees cfg attributes within 3 lines of the site, not module-level inheritance, so its
+"ordinary" label is lexical: 16 sites are in ordinary sources (as MACSPLIT/v6) and 26 are the direct PFC roots of the
+cfg-gated transferred modules. Cfg/ordinary membership comes from check_parttwotree.py, not from this heuristic.

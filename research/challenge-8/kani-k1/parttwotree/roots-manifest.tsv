@@ -1,0 +1,439 @@
+name	set	kind	target	unwind	stub	stub_verified	source:line	origin	gates	cfg_provenance
+assembly::advancement_merge_up_u8_n2	ordinary	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:145	macro:paired_case (macro template attrs)	-	none
+assembly::permutation_merge_u8_n4	ordinary	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:153	macro:paired_case (macro template attrs)	-	none
+assembly::reject_mutant_insert_tail_u8_n2	opt-in	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:129	macro:paired_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+assembly::reject_mutant_merge_u8_n4	opt-in	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:153	macro:paired_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+assembly::reject_mutant_merge_up_u8_n2	opt-in	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:145	macro:paired_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+assembly::reject_mutant_network_prefix_u8_n10	opt-in	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:163	macro:paired_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+assembly::reject_mutant_swap_u8_n2	opt-in	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:119	macro:paired_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+assembly::safety_stable_unit_n1	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:189	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n16	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:193	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n17	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:194	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n2	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:190	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n31	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:195	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n32	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:196	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n7	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:191	macro:stable_unit_case (macro template attrs)	-	none
+assembly::safety_stable_unit_n8	ordinary	plain		65	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:192	macro:stable_unit_case (macro template attrs)	-	none
+assembly::sorted_network_prefix_u8_n10	ordinary	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:163	macro:paired_case (macro template attrs)	-	none
+assembly::sorted_permutation_insert_tail_u8_n2	ordinary	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:129	macro:paired_case (macro template attrs)	-	none
+assembly::sorted_permutation_swap_u8_n2	ordinary	plain		17	super::super::panic_on_ord_violation, cut_ord_violation		assembly.rs:119	macro:paired_case (macro template attrs)	-	none
+bridge::bridge_caller_positive_u8_n3	opt-in	plain		34	bidirectional_merge, adapter	merge_profile	bridge.rs:77	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridge_caller_unsorted_u8_n3	opt-in	plain		34	bidirectional_merge, adapter	merge_profile	bridge.rs:103	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridge_caller_wrong_f_u8_n3	opt-in	plain		34	bidirectional_merge, adapter	merge_profile	bridge.rs:92	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridge_frame_negative_u8_n3	opt-in	pfc	frame_target	34			bridge.rs:156	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridge_frame_positive_u8_n3	opt-in	pfc	frame_target	34			bridge.rs:150	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridge_leaf_u8_n3	opt-in	pfc	merge_profile	34			bridge.rs:46	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridgenine_caller_u8_n9	opt-in	plain		34	bidirectional_merge, adapter	merge_profile	bridge.rs:194	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridgenine_direct_u8_n9	opt-in	plain		34			bridge.rs:184	direct	kani_smallsort_controls	module registration + inner #![cfg]
+bridge::bridgenine_payload_flip_u8_n9	opt-in	plain		34	bidirectional_merge, adapter	merge_profile	bridge.rs:204	direct	kani_smallsort_controls	module registration + inner #![cfg]
+merge::drop_duplicate_tag_control_n2	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_without_order_cover		merge.rs:1185	direct	kani_smallsort_controls	item/macro cfg
+merge::drop_extra_drop_control_n2	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_without_order_cover		merge.rs:1197	direct	kani_smallsort_controls	item/macro cfg
+merge::drop_fallback_drop_count_n2	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1120	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_fallback_drop_count_n4	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1128	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_fallback_drop_count_n8	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1136	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_fallback_tag_permutation_n2	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1121	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_fallback_tag_permutation_n4	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1129	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_fallback_tag_permutation_n8	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1137	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_drop_count_n16	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1168	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_drop_count_n2	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1144	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_drop_count_n4	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1152	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_drop_count_n8	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1160	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_reachability_control_n2	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:1110	direct	kani_smallsort_controls	item/macro cfg
+merge::drop_general_reachability_n2	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1119	macro:define_drop_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::drop_general_tag_permutation_n16	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1170	macro:define_drop_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::drop_general_tag_permutation_n2	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1145	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_tag_permutation_n4	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1153	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::drop_general_tag_permutation_n8	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort		merge.rs:1161	macro:define_drop_route_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u64_n8	opt-in	plain		34			merge.rs:978	macro:define_fallback_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_n8	opt-in	plain		34			merge.rs:980	macro:define_fallback_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_n9	opt-in	plain		34			merge.rs:982	macro:define_fallback_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n0	ordinary	plain		34			merge.rs:935	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n1	ordinary	plain		34			merge.rs:938	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n10	opt-in	plain		34			merge.rs:951	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n11	opt-in	plain		34			merge.rs:953	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n12	opt-in	plain		34			merge.rs:955	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n13	opt-in	plain		34			merge.rs:957	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n14	opt-in	plain		34			merge.rs:959	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n15	opt-in	plain		34			merge.rs:961	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n16	opt-in	plain		34			merge.rs:963	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n2	ordinary	plain		34			merge.rs:939	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n3	ordinary	plain		34			merge.rs:940	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n4	ordinary	plain		34			merge.rs:941	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n5	ordinary	plain		34			merge.rs:942	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n6	ordinary	plain		34			merge.rs:943	macro:define_fallback_property_harness (macro template attrs)	-	none
+merge::fallback_sorted_permutation_u8_u64_n7	opt-in	plain		34			merge.rs:945	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n8	opt-in	plain		34			merge.rs:947	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::fallback_sorted_permutation_u8_u64_n9	opt-in	plain		34			merge.rs:949	macro:define_fallback_property_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_direct_u64_n6	ordinary	plain		34			merge.rs:789	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::general_direct_u64_n7	ordinary	plain		34			merge.rs:790	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::general_direct_u64_n8	ordinary	plain		34			merge.rs:791	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::general_direct_u64_n9	ordinary	plain		34			merge.rs:796	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::general_direct_u8_n9	ordinary	plain		34			merge.rs:1234	macro:define_direct_u8_n9_route_harness (macro template attrs)	-	none
+merge::general_stable_direct_nonconst_u64_n2	opt-in	plain		34			merge.rs:681	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_nonconst_u64_n3	opt-in	plain		34			merge.rs:690	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_nonconst_u64_n4	opt-in	plain		34			merge.rs:699	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_nonconst_u64_n5	opt-in	plain		34			merge.rs:708	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_u64_n2	ordinary	plain		34			merge.rs:676	direct	-	none
+merge::general_stable_direct_u64_n3	ordinary	plain		34			merge.rs:685	direct	-	none
+merge::general_stable_direct_u64_n4	ordinary	plain		34			merge.rs:694	direct	-	none
+merge::general_stable_direct_u64_n5	ordinary	plain		34			merge.rs:703	direct	-	none
+merge::general_stable_direct_u64_n6	opt-in	plain		34			merge.rs:711	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_u64_n7	opt-in	plain		34			merge.rs:713	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_u64_n8	opt-in	plain		34			merge.rs:715	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_u8_n2	ordinary	plain		34			merge.rs:716	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n3	ordinary	plain		34			merge.rs:717	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n4	ordinary	plain		34			merge.rs:718	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n5	ordinary	plain		34			merge.rs:719	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n6	ordinary	plain		34			merge.rs:720	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n7	ordinary	plain		34			merge.rs:721	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n8	ordinary	plain		34			merge.rs:722	macro:define_general_direct_harness (macro template attrs)	-	none
+merge::general_stable_direct_u8_n9	opt-in	plain		34			merge.rs:724	macro:define_general_direct_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::general_stable_direct_value_corruption_control_u64_n2	opt-in	plain		34			merge.rs:851	direct	kani_smallsort_controls	item/macro cfg
+merge::general_stable_sorted_permutation_u64_n0	ordinary	plain		34			merge.rs:933	macro:define_general_sortedness_harness (macro template attrs)	-	none
+merge::general_stable_sorted_permutation_u64_n1	ordinary	plain		34			merge.rs:936	macro:define_general_sortedness_harness (macro template attrs)	-	none
+merge::general_stable_sorted_permutation_u8_n0	ordinary	plain		34			merge.rs:934	macro:define_general_sortedness_harness (macro template attrs)	-	none
+merge::general_stable_sorted_permutation_u8_n1	ordinary	plain		34			merge.rs:937	macro:define_general_sortedness_harness (macro template attrs)	-	none
+merge::intrinsic_assumption_safety_control_u64_n4	opt-in	plain		6			merge.rs:398	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_aggregate_allocation_bounds_control_u64	opt-in	plain		34			merge.rs:838	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_arbitrary_order_assertion_control_u64_n4	opt-in	plain		6	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:453	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_arbitrary_order_permutation_failure_control_u64_n4	opt-in	plain		6	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:279	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_arbitrary_order_reachability_check_control_u64_n4	opt-in	plain		6	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:303	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_arbitrary_order_reachability_control_u64_n4	opt-in	plain		6	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:466	direct	kani_smallsort_controls	item/macro cfg
+merge::merge_contract_u64_n2_to4	ordinary	pfc	specfix::merge_profile	34			merge.rs:565	macro:define_small_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u64_n5	ordinary	pfc	specfix::merge_profile	34			merge.rs:924	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u64_n6	ordinary	pfc	specfix::merge_profile	34			merge.rs:926	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u64_n7	ordinary	pfc	specfix::merge_profile	34			merge.rs:928	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u64_n8	ordinary	pfc	specfix::merge_profile	34			merge.rs:930	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n2_to4	ordinary	pfc	specfix::merge_profile	34			merge.rs:566	macro:define_small_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n5	ordinary	pfc	specfix::merge_profile	34			merge.rs:925	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n6	ordinary	pfc	specfix::merge_profile	34			merge.rs:927	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n7	ordinary	pfc	specfix::merge_profile	34			merge.rs:929	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n8	ordinary	pfc	specfix::merge_profile	34			merge.rs:931	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_contract_u8_n9	ordinary	pfc	specfix::merge_profile	34			merge.rs:932	macro:define_merge_contract_harness (macro template attrs)	-	none
+merge::merge_scratch48_contract_u8_n9	ordinary	pfc	specfix::merge_profile	34			merge.rs:907	macro:define_merge_scratch48_contract_harness (macro template attrs)	-	none
+merge::out_of_bounds_pointer_control_u64_n4	opt-in	plain		6			merge.rs:435	direct	kani_smallsort_controls	item/macro cfg
+merge::overlapping_copy_control_u64_n4	opt-in	plain		6			merge.rs:423	direct	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n10	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:494	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n11	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:496	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n12	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:498	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n13	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:500	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n14	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:502	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n15	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:504	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n16	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:505	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n17	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:507	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n18	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:509	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n19	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:511	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n2	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:484	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n20	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:513	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n21	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:515	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n22	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:517	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n23	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:519	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n24	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:521	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n25	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:523	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n26	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:525	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n27	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:527	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n28	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:529	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n29	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:531	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n3	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:485	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n30	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:533	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n31	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:535	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n32	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:537	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::route_safety_all_routes_n4	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:486	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n5	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:487	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n6	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:488	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n7	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:489	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n8	ordinary	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:490	macro:define_route_safety_harness (macro template attrs)	-	none
+merge::route_safety_all_routes_n9	opt-in	plain		34	crate::slice::sort::shared::smallsort::panic_on_ord_violation, abort_on_order_violation		merge.rs:492	macro:define_route_safety_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::sort4_arbitrary_comparator_bytes16_n4	ordinary	plain		34			merge.rs:238	macro:define_sort4_contract_and_comparator_harnesses (macro template attrs)	-	none
+merge::sort4_arbitrary_comparator_bytes85_n4	opt-in	plain		34			merge.rs:249	direct	kani_smallsort_controls	item/macro cfg
+merge::sort4_arbitrary_comparator_u64_n4	ordinary	plain		34			merge.rs:232	macro:define_sort4_contract_and_comparator_harnesses (macro template attrs)	-	none
+merge::sort4_contract_bytes16_n4	ordinary	pfc	specfix::sort4_profile	34			merge.rs:238	macro:define_sort4_contract_and_comparator_harnesses (macro template attrs)	-	none
+merge::sort4_contract_u64_n4	ordinary	pfc	specfix::sort4_profile	34			merge.rs:232	macro:define_sort4_contract_and_comparator_harnesses (macro template attrs)	-	none
+merge::specdiag::initialized_memory_positive	opt-in	plain					merge/specdiag.rs:56	direct	kani_smallsort_controls	module registration
+merge::specdiag::invalid_bool_sensitivity	opt-in	plain					merge/specdiag.rs:128	direct	kani_smallsort_controls	module registration
+merge::specdiag::padded_probe	opt-in	plain		140			merge/specdiag.rs:103	direct	kani_smallsort_controls	module registration
+merge::specdiag::probe_t129_helper_oob	opt-in	plain		140			merge/specdiag.rs:91	direct	kani_smallsort_controls	module registration
+merge::specdiag::raw_uninit_read_sensitivity	opt-in	plain					merge/specdiag.rs:118	direct	kani_smallsort_controls	module registration
+merge::specdiag::readonly_sort4_source	opt-in	plain		140			merge/specdiag.rs:74	direct	kani_smallsort_controls	module registration
+merge::specdiag::swap_fnmut_runtime_n2	opt-in	plain		140			merge/specdiag.rs:42	direct	kani_smallsort_controls	module registration
+merge::specfix::specfix_case5_typed_swap_bytes128	opt-in	plain		140			merge/specfix.rs:587	macro:case5_typed_swap (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_case5_typed_swap_bytes129	opt-in	plain		140			merge/specfix.rs:589	macro:case5_typed_swap (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_case5_typed_swap_bytes17	opt-in	plain		140			merge/specfix.rs:585	macro:case5_typed_swap (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_full_value_checker_rejects_payload_change_u8	opt-in	plain		6			merge/specfix.rs:458	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_positive_regression	opt-in	plain		140	crate::slice::sort::shared::smallsort::panic_on_ord_violation, specfix_abort_on_order_violation		merge/specfix.rs:439	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_probe_guard_rejects_t129	opt-in	plain		140			merge/specfix.rs:477	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_wrong_f_insert_rejected_u8	opt-in	plain				insert_tail_profile	merge/specfix.rs:525	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_wrong_f_merge_rejected_u8	opt-in	plain				merge_profile	merge/specfix.rs:537	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_wrong_f_sort4_rejected_u64	opt-in	plain				sort4_profile	merge/specfix.rs:512	direct	kani_smallsort_controls	item/macro cfg
+merge::specfix::specfix_wrong_f_swap_rejected_u8	opt-in	plain				swap_profile	merge/specfix.rs:502	direct	kani_smallsort_controls	item/macro cfg
+merge::stable_direct_aggregate_u64_n6	opt-in	plain		34			merge.rs:800	macro:define_direct_u64_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::stable_direct_aggregate_u64_n7	opt-in	plain		34			merge.rs:806	macro:define_direct_u64_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::stable_direct_aggregate_u64_n8	opt-in	plain		34			merge.rs:812	macro:define_direct_u64_route_harness (macro template attrs)	kani_smallsort_controls	item/macro cfg
+merge::stable_direct_nonconst_u8_n9	ordinary	plain		34			merge.rs:1236	macro:define_direct_u8_n9_route_harness (macro template attrs)	-	none
+merge::stable_direct_u64_n6	ordinary	plain		34			merge.rs:792	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::stable_direct_u64_n7	ordinary	plain		34			merge.rs:793	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::stable_direct_u64_n8	ordinary	plain		34			merge.rs:794	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::stable_direct_u64_n9	ordinary	plain		34			merge.rs:797	macro:define_direct_u64_route_harness (macro template attrs)	-	none
+merge::stable_direct_value_corruption_control_u64_n2	opt-in	plain		34			merge.rs:821	direct	kani_smallsort_controls	item/macro cfg
+merge::unchecked_add_overflow_control_u64_n4	opt-in	plain		6			merge.rs:410	direct	kani_smallsort_controls	item/macro cfg
+network::contract_insert_tail_u8_prefix	ordinary	pfc	super::merge::specfix::insert_tail_profile	18			network.rs:1377	direct	-	none
+network::control_network_mutant_presorted_u8_n10	opt-in	plain		25	super::super::small_sort_network, super::mutations::mutant_small_sort_network		network.rs:1489	direct	kani_smallsort_controls	item/macro cfg
+network::control_network_normal_return_assertion	opt-in	plain		35	super::super::panic_on_ord_violation, assume_order_violation		network.rs:291	direct	kani_smallsort_controls	item/macro cfg
+network::control_order_violation_assertion	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:169	direct	kani_smallsort_controls	item/macro cfg
+network::control_order_violation_merge_assertion	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:349	direct	kani_smallsort_controls	item/macro cfg
+network::control_order_violation_reachability	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:181	direct	kani_smallsort_controls	item/macro cfg
+network::dispatch_reachability_general_bytes16_n17	ordinary	plain		65	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:369	macro:dispatch_reachability_case (macro template attrs)	-	none
+network::dispatch_reachability_network_u8_n18	ordinary	plain		65	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:370	macro:dispatch_reachability_case (macro template attrs)	-	none
+network::dispatch_reachability_stable_u8_n17	ordinary	plain		65	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:368	macro:dispatch_reachability_case (macro template attrs)	-	none
+network::dispatch_safety_stable_bytes17_n32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:404	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_u8_n0_1_2_7_8	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:308	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_u8_n15_16_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:309	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_u8_n31_32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:310	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:378	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes16_n15_16_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:383	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes16_n31	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:389	macro:dispatch_pair_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::dispatch_safety_stable_unstable_bytes16_n32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:390	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:392	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes17_n15_16_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:397	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes17_n31	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:403	macro:dispatch_pair_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:446	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes85_n15_16_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:451	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_bytes85_n31	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:457	macro:dispatch_pair_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::dispatch_safety_stable_unstable_bytes85_n32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:458	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:426	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_drop_u8_n15_16_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:431	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_unstable_drop_u8_n31	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:437	macro:dispatch_pair_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::dispatch_safety_stable_unstable_drop_u8_n32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:438	macro:dispatch_pair_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:299	macro:dispatch_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::dispatch_safety_unstable_bytes17_n32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:405	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_unstable_bytes86_n0_1_2_15_16	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:460	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_unstable_u8_n18_31_32	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:312	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_unstable_u8_n8_9_12_13_17	ordinary	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:311	macro:dispatch_safety_cases (macro template attrs)	-	none
+network::dispatch_safety_unstable_zst_n8_9_12_13_17	opt-in	plain		65	super::super::panic_on_ord_violation, assume_order_violation		network.rs:306	macro:dispatch_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insert_tail_contract_u64_start1_prefix_frame_control	opt-in	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1401	direct	kani_smallsort_controls	item/macro cfg
+network::insert_tail_contract_u64_start1_suffix_frame_control	opt-in	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1420	direct	kani_smallsort_controls	item/macro cfg
+network::insert_tail_contract_u64_start1_tail13_to14	ordinary	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1368	macro:insert_tail_start1_group_case (macro template attrs)	-	none
+network::insert_tail_contract_u64_start1_tail15_to16	ordinary	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1370	macro:insert_tail_start1_group_case (macro template attrs)	-	none
+network::insert_tail_contract_u64_start1_tail2_to8	ordinary	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1359	macro:insert_tail_start1_group_case (macro template attrs)	-	none
+network::insert_tail_contract_u64_start1_tail9_to12	ordinary	pfc	super::merge::specfix::insert_tail_profile	25			network.rs:1366	macro:insert_tail_start1_group_case (macro template attrs)	-	none
+network::insertion_permutation_u64_n10	ordinary	plain		25			network.rs:1189	macro:insertion_permutation_case (macro template attrs)	-	none
+network::insertion_permutation_u64_n11	opt-in	plain		25			network.rs:1196	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u64_n12	opt-in	plain		25			network.rs:1204	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u64_n14	ordinary	plain		25			network.rs:1215	macro:insertion_permutation_case (macro template attrs)	-	none
+network::insertion_permutation_u64_n15	opt-in	plain		25			network.rs:1224	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u64_n16	opt-in	plain		25			network.rs:1233	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u64_n17	opt-in	plain		25			network.rs:1242	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u8_n10	ordinary	plain		25			network.rs:1188	macro:insertion_permutation_case (macro template attrs)	-	none
+network::insertion_permutation_u8_n11	ordinary	plain		25			network.rs:1194	macro:insertion_permutation_case (macro template attrs)	-	none
+network::insertion_permutation_u8_n12	opt-in	plain		25			network.rs:1202	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u8_n14	ordinary	plain		25			network.rs:1214	macro:insertion_permutation_case (macro template attrs)	-	none
+network::insertion_permutation_u8_n15	opt-in	plain		25			network.rs:1222	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u8_n16	opt-in	plain		25			network.rs:1231	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_permutation_u8_n17	opt-in	plain		25			network.rs:1240	macro:insertion_permutation_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n11_to12	ordinary	plain		25			network.rs:636	macro:insertion_safety_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n11_to15	opt-in	plain		25			network.rs:531	macro:insertion_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n13	ordinary	plain		25			network.rs:644	macro:insertion_safety_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n13_to15	opt-in	plain		25			network.rs:638	macro:insertion_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n14	ordinary	plain		25			network.rs:645	macro:insertion_safety_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n15	opt-in	plain		25			network.rs:647	macro:insertion_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n15_offsets13_to15	ordinary	plain		25			network.rs:771	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n15_offsets1_to4	ordinary	plain		25			network.rs:750	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n15_offsets5_to8	ordinary	plain		25			network.rs:757	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n15_offsets9_to12	ordinary	plain		25			network.rs:764	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n16_offset1	opt-in	plain		25			network.rs:685	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n16_offsets13_to16	ordinary	plain		25			network.rs:799	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n16_offsets1_to4	ordinary	plain		25			network.rs:778	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n16_offsets5_to8	ordinary	plain		25			network.rs:785	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n16_offsets9_to12	ordinary	plain		25			network.rs:792	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n16_to20	opt-in	plain		25			network.rs:533	macro:insertion_safety_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n17_offset1	opt-in	plain		25			network.rs:691	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n17_offsets13_to15	ordinary	plain		25			network.rs:827	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n17_offsets16_to17	ordinary	plain		25			network.rs:834	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n17_offsets1_to4	ordinary	plain		25			network.rs:806	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n17_offsets5_to8	ordinary	plain		25			network.rs:813	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n17_offsets9_to12	ordinary	plain		25			network.rs:820	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n18_offset1	opt-in	plain		25			network.rs:697	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n18_offsets13_to16	ordinary	plain		25			network.rs:862	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n18_offsets17_to18	ordinary	plain		25			network.rs:869	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n18_offsets1_to4	ordinary	plain		25			network.rs:841	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n18_offsets5_to8	ordinary	plain		25			network.rs:848	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n18_offsets9_to12	ordinary	plain		25			network.rs:855	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n19_offset1	opt-in	plain		25			network.rs:703	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n19_offsets13_to16	ordinary	plain		25			network.rs:897	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n19_offsets17_to19	ordinary	plain		25			network.rs:904	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n19_offsets1_to4	ordinary	plain		25			network.rs:876	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n19_offsets5_to8	ordinary	plain		25			network.rs:883	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n19_offsets9_to12	ordinary	plain		25			network.rs:890	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n1_to5	ordinary	plain		25			network.rs:528	macro:insertion_safety_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n20_offset1	opt-in	plain		25			network.rs:709	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::insertion_safety_u64_n20_offsets13_to16	ordinary	plain		25			network.rs:929	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n20_offsets17_to20	ordinary	plain		25			network.rs:935	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n20_offsets1_to4	ordinary	plain		25			network.rs:911	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n20_offsets5_to8	ordinary	plain		25			network.rs:917	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n20_offsets9_to12	ordinary	plain		25			network.rs:923	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::insertion_safety_u64_n6_to10	ordinary	plain		25			network.rs:529	macro:insertion_safety_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n11_to12	opt-in	plain		35			network.rs:640	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n11_to15	opt-in	plain		35			network.rs:632	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n13	opt-in	plain		35			network.rs:649	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n13_to15	opt-in	plain		35			network.rs:642	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n14	opt-in	plain		35			network.rs:651	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n15	opt-in	plain		35			network.rs:653	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n15_offsets13_to15	opt-in	plain		35			network.rs:771	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n15_offsets1_to4	opt-in	plain		35			network.rs:750	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n15_offsets5_to8	opt-in	plain		35			network.rs:757	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n15_offsets9_to12	opt-in	plain		35			network.rs:764	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_offset1	opt-in	plain		25			network.rs:685	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_offsets13_to16	opt-in	plain		35			network.rs:799	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_offsets1_to4	opt-in	plain		35			network.rs:778	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_offsets5_to8	opt-in	plain		35			network.rs:785	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_offsets9_to12	opt-in	plain		35			network.rs:792	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n16_to20	opt-in	plain		35			network.rs:634	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offset1	opt-in	plain		25			network.rs:691	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offsets13_to15	opt-in	plain		35			network.rs:827	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offsets16_to17	opt-in	plain		35			network.rs:834	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offsets1_to4	opt-in	plain		35			network.rs:806	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offsets5_to8	opt-in	plain		35			network.rs:813	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n17_offsets9_to12	opt-in	plain		35			network.rs:820	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offset1	opt-in	plain		25			network.rs:697	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offsets13_to16	opt-in	plain		35			network.rs:862	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offsets17_to18	opt-in	plain		35			network.rs:869	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offsets1_to4	opt-in	plain		35			network.rs:841	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offsets5_to8	opt-in	plain		35			network.rs:848	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n18_offsets9_to12	opt-in	plain		35			network.rs:855	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offset1	opt-in	plain		25			network.rs:703	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offsets13_to16	opt-in	plain		35			network.rs:897	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offsets17_to19	opt-in	plain		35			network.rs:904	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offsets1_to4	opt-in	plain		35			network.rs:876	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offsets5_to8	opt-in	plain		35			network.rs:883	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n19_offsets9_to12	opt-in	plain		35			network.rs:890	macro:insertion_offset_group_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n1_to5	ordinary	plain		35			network.rs:628	macro:mutating_insertion_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n20_offset1	opt-in	plain		25			network.rs:709	macro:insertion_offset_one_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_insertion_safety_cell_n20_offsets13_to16	ordinary	plain		35			network.rs:929	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n20_offsets17_to20	ordinary	plain		35			network.rs:935	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n20_offsets1_to4	ordinary	plain		35			network.rs:911	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n20_offsets5_to8	ordinary	plain		35			network.rs:917	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n20_offsets9_to12	ordinary	plain		35			network.rs:923	macro:insertion_offset_group_cases (macro template attrs)	-	none
+network::mutating_insertion_safety_cell_n6_to10	opt-in	plain		35			network.rs:630	macro:mutating_insertion_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::mutating_route_permutation_cell_n2	ordinary	plain		25			network.rs:1480	macro:mutating_route_permutation_case (macro template attrs)	-	none
+network::mutating_route_permutation_cell_n3	ordinary	plain		25			network.rs:1481	macro:mutating_route_permutation_case (macro template attrs)	-	none
+network::mutating_route_permutation_cell_n4	ordinary	plain		25			network.rs:1482	macro:mutating_route_permutation_case (macro template attrs)	-	none
+network::mutating_route_safety_cell_n0_to4	ordinary	plain		35			network.rs:624	macro:mutating_route_cases (macro template attrs)	-	none
+network::mutating_route_safety_cell_n13_to16	ordinary	plain		35			network.rs:627	macro:mutating_route_cases (macro template attrs)	-	none
+network::mutating_route_safety_cell_n5_to8	ordinary	plain		35			network.rs:625	macro:mutating_route_cases (macro template attrs)	-	none
+network::mutating_route_safety_cell_n9_to12	ordinary	plain		35			network.rs:626	macro:mutating_route_cases (macro template attrs)	-	none
+network::netcomp::mergestep::directfour::directfour_merge4_u8	opt-in	pfc	super::super::super::super::merge::specfix::merge_profile	34			network/netcomp/mergestep/directfour.rs:14	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_composed_merge4_u8	opt-in	pfc	super::super::super::merge::specfix::merge_profile	34	merge_up, up_adapter;merge_down, down_adapter	up_step_u8;down_step_u8	network/netcomp/mergestep.rs:498	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_count_negative_u8	opt-in	plain		34	merge_up, up_adapter;merge_down, down_adapter	up_step_u8;down_step_u8	network/netcomp/mergestep.rs:562	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_down_binding_negative_u8	opt-in	plain		34	merge_up, up_adapter;merge_down, down_adapter	up_step_u8;down_step_u8	network/netcomp/mergestep.rs:549	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_down_leaf_u8	opt-in	pfc	down_step_u8	34			network/netcomp/mergestep.rs:209	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_up_binding_negative_u8	opt-in	plain		34	merge_up, up_adapter;merge_down, down_adapter	up_step_u8;down_step_u8	network/netcomp/mergestep.rs:536	direct	kani_smallsort_controls	module registration
+network::netcomp::mergestep::mergestep_up_leaf_u8	opt-in	pfc	up_step_u8	34			network/netcomp/mergestep.rs:176	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_composed_u8_n13	opt-in	plain		25	swap_if_less, adapter13	swap_net13	network/netcomp.rs:426	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_composed_u8_n9	opt-in	plain		25	swap_if_less, adapter9	swap_net9	network/netcomp.rs:205	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_count_negative_u8_n13	opt-in	plain		25	swap_if_less, adapter13	swap_net13	network/netcomp.rs:449	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_count_negative_u8_n9	opt-in	plain		25	swap_if_less, adapter9	swap_net9	network/netcomp.rs:232	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_direct_u8_n9	opt-in	plain		25			network/netcomp.rs:197	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_leaf_u8_n13	opt-in	pfc	swap_net13	25			network/netcomp.rs:282	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_leaf_u8_n9	opt-in	pfc	swap_net9	25			network/netcomp.rs:50	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_wrong_cmp_u8_n13	opt-in	plain		25	swap_if_less, adapter13	swap_net13	network/netcomp.rs:435	direct	kani_smallsort_controls	module registration
+network::netcomp::netcomp_wrong_cmp_u8_n9	opt-in	plain		25	swap_if_less, adapter9	swap_net9	network/netcomp.rs:218	direct	kani_smallsort_controls	module registration
+network::netcomp::neteighteen::net18_merge_strict_scratch32	opt-in	pfc	super::super::super::merge::specfix::merge_profile	34			network/netcomp/neteighteen.rs:71	direct	kani_smallsort_controls	module registration
+network::netcomp::neteighteen::net18_swap_left_backing18	opt-in	pfc	super::swap_net9	25			network/netcomp/neteighteen.rs:57	direct	kani_smallsort_controls	module registration
+network::netcomp::neteighteen::net18_swap_right_backing18	opt-in	pfc	super::swap_net9	25			network/netcomp/neteighteen.rs:63	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::caller::nettencall_count_negative_u8_n10	opt-in	plain		25	crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter10;crate::slice::sort::shared::smallsort::insert_tail, insert_adapter10	super::super::swap_net9;super::super::super::super::merge::specfix::insert_tail_profile	network/netcomp/netten/caller.rs:309	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10	opt-in	plain		25	crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter10;crate::slice::sort::shared::smallsort::insert_tail, insert_adapter10	super::super::swap_net9;super::super::super::super::merge::specfix::insert_tail_profile	network/netcomp/netten/caller.rs:294	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::caller::nettencall_positive_u8_n10	opt-in	plain		25	crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter10;crate::slice::sort::shared::smallsort::insert_tail, insert_adapter10	super::super::swap_net9;super::super::super::super::merge::specfix::insert_tail_profile	network/netcomp/netten/caller.rs:232	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::caller::nettencall_swap_binding_negative_u8_n10	opt-in	plain		25	crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter10;crate::slice::sort::shared::smallsort::insert_tail, insert_adapter10	super::super::swap_net9;super::super::super::super::merge::specfix::insert_tail_profile	network/netcomp/netten/caller.rs:279	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::netten_insert_strict_u8_begin0_tail9	opt-in	pfc	super::super::super::merge::specfix::insert_tail_profile	25			network/netcomp/netten.rs:71	direct	kani_smallsort_controls	module registration
+network::netcomp::netten::netten_swap_prefix9_backing10	opt-in	pfc	super::swap_net9	25			network/netcomp/netten.rs:26	direct	kani_smallsort_controls	module registration
+network::network_correctness_u64_n0_to2	ordinary	plain		25			network.rs:982	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u64_n10	opt-in	plain		25			network.rs:1156	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n11	opt-in	plain		25			network.rs:1193	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n12	opt-in	plain		25			network.rs:1200	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n13	opt-in	plain		25			network.rs:1208	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n14	opt-in	plain		25			network.rs:1213	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n15	opt-in	plain		25			network.rs:1220	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n16	opt-in	plain		25			network.rs:1229	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n17	opt-in	plain		25			network.rs:1238	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n3_to4	ordinary	plain		25			network.rs:984	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u64_n5	ordinary	plain		25			network.rs:987	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u64_n6	ordinary	plain		25			network.rs:989	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u64_n7	ordinary	plain		25			network.rs:992	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u64_n8	opt-in	plain		25			network.rs:996	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u64_n9	ordinary	plain		25			network.rs:1153	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n0_to2	ordinary	plain		25			network.rs:981	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n10	ordinary	plain		25			network.rs:1154	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n11	ordinary	plain		25			network.rs:1191	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n12	ordinary	plain		25			network.rs:1198	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n13	ordinary	plain		25			network.rs:1206	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n14	opt-in	plain		25			network.rs:1211	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u8_n15	opt-in	plain		25			network.rs:1218	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u8_n16	opt-in	plain		25			network.rs:1227	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u8_n17	opt-in	plain		25			network.rs:1236	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u8_n3_to4	ordinary	plain		25			network.rs:983	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n5	ordinary	plain		25			network.rs:986	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n6	ordinary	plain		25			network.rs:988	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n7	ordinary	plain		25			network.rs:991	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_correctness_u8_n8	opt-in	plain		25			network.rs:994	macro:network_correctness_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_correctness_u8_n9	ordinary	plain		25			network.rs:1152	macro:network_correctness_cases (macro template attrs)	-	none
+network::network_safety_unstable_u64_n0_to17	ordinary	plain		35			network.rs:100	macro:unstable_freeze_network_cases (macro template attrs)	-	none
+network::network_safety_unstable_u64_n18_to21	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:215	macro:unstable_dispatch_network_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_safety_unstable_u64_n22_to25	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:217	macro:unstable_dispatch_network_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_safety_unstable_u64_n26_to27	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:219	macro:unstable_dispatch_network_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_safety_unstable_u64_n28_to29	opt-in	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:221	macro:unstable_dispatch_network_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+network::network_safety_unstable_u64_n30_to32	ordinary	plain		35	super::super::panic_on_ord_violation, cut_order_violation_panic		network.rs:222	macro:unstable_dispatch_network_cases (macro template attrs)	-	none
+network::swap_contract_bytes16_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1149	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_bytes17_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1150	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_cell_i32_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1148	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_drop_u8_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1147	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_four_positions_i32	ordinary	pfc	super::merge::specfix::swap_profile				network.rs:44	direct	-	none
+network::swap_contract_four_positions_u64	ordinary	pfc	super::merge::specfix::swap_profile				network.rs:49	direct	-	none
+network::swap_contract_four_positions_u8	ordinary	pfc	super::merge::specfix::swap_profile				network.rs:39	direct	-	none
+network::swap_contract_u64_indices_n17	ordinary	pfc	super::merge::specfix::swap_profile	25			network.rs:1288	direct	-	none
+network::swap_contract_u64_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1146	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_u64_n9	ordinary	pfc	super::merge::specfix::swap_profile	25			network.rs:1304	macro:swap_contract_arbitrary_indices_case (macro template attrs)	-	none
+network::swap_contract_u8_indices_n17	ordinary	pfc	super::merge::specfix::swap_profile	25			network.rs:1282	direct	-	none
+network::swap_contract_u8_n13	ordinary	pfc	super::merge::specfix::swap_profile	25			network.rs:1303	macro:swap_contract_arbitrary_indices_case (macro template attrs)	-	none
+network::swap_contract_u8_n2	ordinary	pfc	super::merge::specfix::swap_profile	180			network.rs:1145	macro:swap_contract_exact_array_case (macro template attrs)	-	none
+network::swap_contract_u8_n9	ordinary	pfc	super::merge::specfix::swap_profile	25			network.rs:1302	macro:swap_contract_arbitrary_indices_case (macro template attrs)	-	none
+network::u64nine::u64nine_composed_u64_n9	opt-in	plain		25	swap_if_less, adapter_u64nine	swap_u64_net9	network/u64nine.rs:173	direct	kani_smallsort_controls	module registration
+network::u64nine::u64nine_count_negative_u64_n9	opt-in	plain		25	swap_if_less, adapter_u64nine	swap_u64_net9	network/u64nine.rs:223	direct	kani_smallsort_controls	module registration
+network::u64nine::u64nine_leaf_u64_n9	opt-in	pfc	swap_u64_net9	25			network/u64nine.rs:51	direct	kani_smallsort_controls	module registration
+network::u64nine::u64nine_wrong_cmp_u64_n9	opt-in	plain		25	swap_if_less, adapter_u64nine	swap_u64_net9	network/u64nine.rs:209	direct	kani_smallsort_controls	module registration
+network::u64nine::uthirteen::u64thirteen_composed_u64_n13	opt-in	plain		25	swap_if_less, adapter_u64thirteen	swap_u64_net13	network/u64nine/uthirteen.rs:180	direct	kani_smallsort_controls	module registration
+network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13	opt-in	plain		25	swap_if_less, adapter_u64thirteen	swap_u64_net13	network/u64nine/uthirteen.rs:226	direct	kani_smallsort_controls	module registration
+network::u64nine::uthirteen::u64thirteen_leaf_u64_n13	opt-in	pfc	swap_u64_net13	25			network/u64nine/uthirteen.rs:49	direct	kani_smallsort_controls	module registration
+network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13	opt-in	plain		25	swap_if_less, adapter_u64thirteen	swap_u64_net13	network/u64nine/uthirteen.rs:212	direct	kani_smallsort_controls	module registration
+smoke::predicate_efficient_swap_boundaries	opt-in	plain					smoke.rs:38	direct	kani_smallsort_controls	item/macro cfg
+smoke::predicate_efficient_swap_type_matrix	ordinary	plain					smoke.rs:15	direct	-	none
+smoke::reject_efficient_swap_bytes9	opt-in	plain					smoke.rs:48	direct	kani_smallsort_controls	item/macro cfg
+types::control_sorted_permutation_traits_cell_drop_n0_to2	opt-in	plain		50			types.rs:204	direct	kani_smallsort_controls	item/macro cfg
+types::reject_logical_permutation_drop_n2	opt-in	plain		4			types.rs:226	direct	kani_smallsort_controls	item/macro cfg
+types::reject_logical_sortedness_cell_n2	opt-in	plain		4			types.rs:215	direct	kani_smallsort_controls	item/macro cfg
+types::sorted_permutation_traits_fallback_cell_u8_n0_to2	ordinary	plain		50			types.rs:134	macro:trait_cases (macro template attrs)	-	none
+types::sorted_permutation_traits_fallback_cell_u8_n7	ordinary	plain		50			types.rs:154	macro:fixed_trait_case (macro template attrs)	-	none
+types::sorted_permutation_traits_fallback_cell_u8_n7_to9	opt-in	plain		50			types.rs:137	macro:trait_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+types::sorted_permutation_traits_fallback_cell_u8_n8	opt-in	plain		50			types.rs:160	macro:fixed_trait_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+types::sorted_permutation_traits_general_drop_u8_n0_to2	ordinary	plain		50			types.rs:138	macro:trait_cases (macro template attrs)	-	none
+types::sorted_permutation_traits_general_drop_u8_n7_to9	opt-in	plain		50			types.rs:140	macro:trait_cases (macro template attrs)	kani_smallsort_controls	item/macro cfg
+types::sorted_permutation_traits_general_drop_u8_n8	ordinary	plain		50			types.rs:156	macro:fixed_trait_case (macro template attrs)	-	none
+types::sorted_permutation_traits_general_drop_u8_n9	opt-in	plain		50			types.rs:162	macro:fixed_trait_case (macro template attrs)	kani_smallsort_controls	item/macro cfg
+types::sorted_permutation_traits_stable_fallback_cell_u8_n8	ordinary	plain		50			types.rs:198	macro:fixed_route_trait_case (macro template attrs)	-	none
+types::sorted_permutation_traits_unstable_fallback_cell_u8_n8	ordinary	plain		50			types.rs:199	macro:fixed_route_trait_case (macro template attrs)	-	none
+wrap::freeze_noncopy_n2	ordinary	pfc	freeze_noncopy	16			wrap.rs:206	direct	-	none
+wrap::rejects_always_true	opt-in	plain		16			wrap.rs:227	direct	kani_smallsort_controls	item/macro cfg
+wrap::rejects_payload_corruption	opt-in	plain		16			wrap.rs:258	direct	kani_smallsort_controls	item/macro cfg
+wrap::stable_cell_n2	ordinary	pfc	stable_cell	16			wrap.rs:171	direct	-	none
+wrap::unstable_byte_n2	ordinary	pfc	unstable_byte	16			wrap.rs:193	direct	-	none
+wrap::wone::freeze_noncopy_n0_to3	opt-in	pfc	freeze_noncopy_len	16			wrap/wone.rs:265	direct	kani_smallsort_controls	module registration
+wrap::wone::freeze_noncopy_n2	opt-in	pfc	freeze_noncopy_len	16			wrap/wone.rs:404	direct	kani_smallsort_controls	module registration
+wrap::wone::freeze_noncopy_n3	opt-in	pfc	freeze_noncopy_len	16			wrap/wone.rs:355	direct	kani_smallsort_controls	module registration
+wrap::wone::rejects_always_true	opt-in	plain		16			wrap/wone.rs:296	direct	kani_smallsort_controls	module registration
+wrap::wone::rejects_payload_corruption	opt-in	plain		16			wrap/wone.rs:309	direct	kani_smallsort_controls	module registration
+wrap::wone::stable_byte_n0_to3	opt-in	pfc	stable_byte_len	16			wrap/wone.rs:278	direct	kani_smallsort_controls	module registration
+wrap::wone::stable_byte_n2	opt-in	pfc	stable_byte_len	16			wrap/wone.rs:416	direct	kani_smallsort_controls	module registration
+wrap::wone::stable_byte_n3	opt-in	pfc	stable_byte_len	16			wrap/wone.rs:367	direct	kani_smallsort_controls	module registration
+wrap::wone::stable_cell_n0_to3	opt-in	pfc	stable_cell_len	16			wrap/wone.rs:222	direct	kani_smallsort_controls	module registration
+wrap::wone::unstable_byte_n0_to3	opt-in	pfc	unstable_byte_len	16			wrap/wone.rs:252	direct	kani_smallsort_controls	module registration
+wrap::wone::unstable_byte_n2	opt-in	pfc	unstable_byte_len	16			wrap/wone.rs:392	direct	kani_smallsort_controls	module registration
+wrap::wone::unstable_byte_n3	opt-in	pfc	unstable_byte_len	16			wrap/wone.rs:343	direct	kani_smallsort_controls	module registration

@@ -1,0 +1,56 @@
+root (verify::)	class	expect	pair/dependencies	sole failure literal	covers	domain	historical evidence (other trees; not credit)
+bridge::bridge_leaf_u8_n3	A-leaf	SUCCESS	leaf of bridge_caller_positive_u8_n3	-	1/1	merge_profile<LtU8> N3 split1+2, init src[u8;3]+0, uninit dst[u8;3]+0, probe before call	642e7d4e SUCCESS 24.66s
+bridge::bridge_caller_positive_u8_n3	A-consumer	SUCCESS	stub bidirectional_merge->adapter; stub_verified merge_profile; leaf bridge_leaf_u8_n3 (same run)	-	3/3	as leaf, right pair sorted	642e7d4e SUCCESS 2.86s
+merge::merge_scratch48_contract_u8_n9	A-leaf (ordinary v6 root)	SUCCESS	leaf of bridgenine_caller_u8_n9; ordinary, also in v6 202	-	2/2	merge_profile<LtU8> scratch48 src+0 prefix9 init/tail39 uninit split4+5, dst[u8;9]+0	b457683e SUCCESS 154.86s 1323280KiB
+bridge::bridgenine_caller_u8_n9	A-consumer	SUCCESS	stub bidirectional_merge->adapter; stub_verified merge_profile; leaf merge_scratch48_contract_u8_n9 (same run)	-	3/3	Stable u8 N9, F=fnptr LtU8::CMP, scratch48, independent probe	b457683e SUCCESS 25.56s 347688KiB
+bridge::bridgenine_direct_u8_n9	A-theorem/baseline	SUCCESS	none (no stubs); direct baseline of bridgenine_caller	-	2/2	as caller	b457683e SUCCESS 217.60s 426800KiB
+network::netcomp::netcomp_leaf_u8_n9	A-leaf	SUCCESS	leaf of netcomp_composed_u8_n9	-	7/7	swap_net9 u8 U8Cmp StrictU8::CMP, any [u8;9]+0, distinct a,b<9, probe	b3e257d1 SUCCESS 49.67s (reused by 44af7732)
+network::netcomp::netcomp_composed_u8_n9	A-consumer	SUCCESS	stub swap_if_less->adapter9; stub_verified swap_net9; leaf netcomp_leaf_u8_n9 (same run)	-	6/6	Unstable u8 N9 entry, any [u8;9], probe	44af7732 SUCCESS 93.44s 989648KiB
+network::netcomp::netcomp_direct_u8_n9	A-theorem/baseline	SUCCESS	none; fnptr direct baseline (A9)	-	4/4	as composed	44af7732 SUCCESS 242.87s
+network::netcomp::netcomp_leaf_u8_n13	A-leaf	SUCCESS	leaf of netcomp_composed_u8_n13	-	7/7	swap_net13, any [u8;13]+0	44af7732 SUCCESS 52.95s
+network::netcomp::netcomp_composed_u8_n13	A-consumer	SUCCESS	stub swap_if_less->adapter13; stub_verified swap_net13; leaf netcomp_leaf_u8_n13	-	6/6	Unstable u8 N13, any [u8;13], probe	44af7732 SUCCESS 268.84s 2156824KiB
+network::u64nine::u64nine_leaf_u64_n9	A-leaf	SUCCESS	leaf of u64nine_composed_u64_n9	-	7/7	swap_u64_net9 U64Cmp StrictU64::CMP, any [u64;9]+0	62bb5025 SUCCESS 76.42s
+network::u64nine::u64nine_composed_u64_n9	A-consumer	SUCCESS	stub swap_if_less->adapter_u64nine; stub_verified swap_u64_net9; leaf above	-	7/7	Unstable u64 N9, any [u64;9], u64 probe	62bb5025 SUCCESS 148.29s 1345528KiB
+network::netcomp::netten::netten_swap_prefix9_backing10	A-leaf	SUCCESS	swap leaf of nettencall_positive_u8_n10	-	8/8	swap_net9 prefix9 of any [u8;10]+0, frame v[9]	f6fdbf06 SUCCESS 77.11s
+network::netcomp::netten::netten_insert_strict_u8_begin0_tail9	A-leaf	SUCCESS	insert leaf of nettencall_positive_u8_n10	-	8/8	insert_tail_profile<StrictU8> begin0/tail9 in backing10; sorted prefix9 from requires	f6fdbf06 SUCCESS 59.59s 1013808KiB
+network::netcomp::netten::caller::nettencall_positive_u8_n10	A-consumer	SUCCESS	stub swap_if_less->swap_adapter10, insert_tail->insert_adapter10; stub_verified swap_net9, insert_tail_profile; both netten leaves (same run)	-	8/8	Unstable u8 N10, any [u8;10]+0, shared probe, prefix9 sorted asserted	ea3fee3a SUCCESS 332.93s 2362004KiB
+network::netcomp::neteighteen::net18_swap_left_backing18	A-theorem (leaf, no consumer)	SUCCESS	none	-	7/7	swap_net9 at backing18+0	b05d30cc SUCCESS 63.21s
+network::netcomp::neteighteen::net18_swap_right_backing18	A-theorem (leaf, no consumer)	SUCCESS	none	-	7/7	swap_net9 at backing18+9	b05d30cc SUCCESS 71.62s
+network::netcomp::mergestep::mergestep_up_leaf_u8	A-theorem (leaf, consumer OPEN)	SUCCESS	none	-	11/11	up_step_u8, src [u8;18], dst MaybeUninit<[u8;32]>	1e9c0ac0 SUCCESS 68.25s
+network::netcomp::mergestep::mergestep_down_leaf_u8	A-theorem (leaf, consumer OPEN)	SUCCESS	none	-	12/12	down_step_u8, as up	1e9c0ac0 SUCCESS 61.10s
+network::netcomp::mergestep::directfour::directfour_merge4_u8	A-theorem/baseline	SUCCESS	none (no step substitutions)	-	6/6	merge_profile<StrictU8> source18[..4] -> scratch32+0	9a000cec SUCCESS 207.98s 894860KiB
+network::u64nine::uthirteen::u64thirteen_leaf_u64_n13	A-theorem (leaf, consumer OPEN)	SUCCESS	none	-	7/7	swap_u64_net13, any [u64;13]+0	f11489dc SUCCESS 180.08s
+wrap::wone::stable_cell_n0_to3	A-theorem	SUCCESS	none	-	18/18	stable_cell_len N0..3, Cell<u8>, backing N+2 offset1	19e85ac8 SUCCESS 147.90s
+wrap::wone::unstable_byte_n3	A-theorem	SUCCESS	none	-	7/7	unstable_byte_len N3 backing5 offset1	b9e00fd2 SUCCESS 59.78s
+wrap::wone::freeze_noncopy_n3	A-theorem	SUCCESS	none	-	7/7	freeze_noncopy_len N3	b9e00fd2 SUCCESS 272.54s
+wrap::wone::stable_byte_n3	A-theorem	SUCCESS	none	-	7/7	stable_byte_len N3, scratch48	b9e00fd2 SUCCESS 286.15s
+wrap::wone::unstable_byte_n2	A-theorem	SUCCESS	none	-	7/7	N2 backing4 offset1	84ff0a05 SUCCESS 31.01s
+wrap::wone::freeze_noncopy_n2	A-theorem	SUCCESS	none	-	7/7	N2	84ff0a05 SUCCESS 193.37s
+wrap::wone::stable_byte_n2	A-theorem	SUCCESS	none	-	7/7	N2	84ff0a05 SUCCESS 181.04s
+bridge::bridge_caller_wrong_f_u8_n3	B-negative	FAILED	as bridge_caller_positive	merge_profile requires canonical comparator @merge/specfix.rs:317	2/3	wrong F always_true	642e7d4e FAILED expected
+bridge::bridge_caller_unsorted_u8_n3	B-negative	FAILED	as bridge_caller_positive	merge_profile requires sorted halves @merge/specfix.rs:318	2/3	keys [1,0]	642e7d4e FAILED expected
+bridge::bridgenine_payload_flip_u8_n9	B-negative	FAILED	as bridgenine_caller	'bridgenine output preserves full-value probe count' @bridge.rs:176 (literal :178)	3/3	[p;9], v[0]^=1	b457683e FAILED expected
+wrap::wone::rejects_always_true	B-negative	FAILED	none	'wone canonical comparator required' @wrap/wone.rs:58	1/1	always_true F	19e85ac8 FAILED expected
+wrap::wone::rejects_payload_corruption	B-negative	FAILED	none	'wone full-value checker rejects payload corruption' @wrap/wone.rs:321	1/1	real Stable u8 N3 then v[0]^=1	19e85ac8 FAILED expected
+network::netcomp::netcomp_wrong_cmp_u8_n9	B-negative	FAILED	as composed N9	'netcomp canonical comparator required' @netcomp.rs:122	2/2	always_true_u8	b3e257d1 FAILED expected (reused 44af7732)
+network::netcomp::netcomp_count_negative_u8_n9	B-negative	FAILED	as composed N9	'netcomp N9 negative: full-value count preserved' @netcomp.rs:242 (literal :244)	3/3	[0;9], v[8]=1	44af7732 FAILED expected
+network::netcomp::netcomp_wrong_cmp_u8_n13	B-negative	FAILED	as composed N13	'netcomp canonical comparator required' @netcomp.rs:354	2/2	always_true_u8	44af7732 FAILED expected
+network::netcomp::netcomp_count_negative_u8_n13	B-negative	FAILED	as composed N13	'netcomp N13 negative: full-value count preserved' @netcomp.rs:459 (literal :461)	3/3	[0;13], v[12]=1	44af7732 FAILED expected
+network::u64nine::u64nine_wrong_cmp_u64_n9	B-negative	FAILED	as composed u64 N9	'u64nine canonical comparator required' @u64nine.rs:123	2/2	always_true_u64	62bb5025 FAILED expected
+network::u64nine::u64nine_count_negative_u64_n9	B-negative	FAILED	as composed u64 N9	'u64nine N9 negative: full-value count preserved' @u64nine.rs:235 (literal :237)	3/3	v[8]=1<<41, probe 1<<40	62bb5025 FAILED expected
+network::u64nine::uthirteen::u64thirteen_wrong_cmp_u64_n13	B-negative	FAILED	route of u64 N13 (consumer OPEN)	'u64thirteen canonical comparator required' @uthirteen.rs:127	2/2	always_true_u64	f11489dc FAILED expected
+network::u64nine::uthirteen::u64thirteen_count_negative_u64_n13	B-negative	FAILED	route of u64 N13 (consumer OPEN)	'u64thirteen N13 negative: full-value count preserved' @uthirteen.rs:240 (span)	3/3	concrete	f11489dc FAILED expected
+network::netcomp::netten::caller::nettencall_swap_binding_negative_u8_n10	B-negative	FAILED	as nettencall_positive	'nettencall actual swap adapter binding control' @caller.rs:101	1/1	concrete	ea3fee3a FAILED expected
+network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10	B-negative	FAILED	as nettencall_positive	'nettencall actual insert adapter binding control' @caller.rs:162	1/1	concrete	ea3fee3a FAILED expected
+network::netcomp::netten::caller::nettencall_count_negative_u8_n10	B-negative	FAILED	as nettencall_positive	'nettencall negative: full-value count preserved' @caller.rs:320 (literal :322)	2/2	concrete, v[9]=1	ea3fee3a FAILED expected
+network::netcomp::mergestep::mergestep_count_negative_u8	B-negative	FAILED	composed merge4 route (positive OPEN)	'mergestep calibration negative: full-value count preserved' @mergestep.rs:576 (literal :578)	6/6	concrete zero	1e9c0ac0 FAILED literal only
+wrap::wone::unstable_byte_n0_to3	C-OPEN	TIMEOUT (historical)	none	-	UNKNOWN	N0..3 union	19e85ac8 TIMEOUT
+wrap::wone::freeze_noncopy_n0_to3	C-OPEN	TIMEOUT (historical)	none	-	UNKNOWN	N0..3 union	19e85ac8 TIMEOUT 15585836KiB
+wrap::wone::stable_byte_n0_to3	C-OPEN	OUT_OF_MEMORY (historical)	none	-	UNKNOWN	N0..3 union	19e85ac8 OOM 15679436KiB
+network::u64nine::uthirteen::u64thirteen_composed_u64_n13	C-OPEN	TIMEOUT (historical)	leaf u64thirteen_leaf_u64_n13	-	UNKNOWN	u64 N13 entry	f11489dc TIMEOUT600 3390464KiB
+network::netcomp::neteighteen::net18_merge_strict_scratch32	C-OPEN	TIMEOUT (historical)	none	-	UNKNOWN	merge_profile<StrictU8> 18 -> scratch32	b05d30cc TIMEOUT600
+network::netcomp::mergestep::mergestep_composed_merge4_u8	C-OPEN	TIMEOUT (historical)	step leaves up/down	-	UNKNOWN	merge4 via step summaries	1e9c0ac0 TIMEOUT600
+network::netcomp::mergestep::mergestep_up_binding_negative_u8	C-diagnostic	FAILED literal; cover gate not met	as composed merge4	'mergestep actual up adapter binding control' @mergestep.rs:394	2/4 (declared 4/4)	concrete	1e9c0ac0 MERGESTEP gate FAIL
+network::netcomp::mergestep::mergestep_down_binding_negative_u8	C-diagnostic	FAILED literal; cover gate not met	as composed merge4	'mergestep actual down adapter binding control' @mergestep.rs:415	3/4 (declared 4/4)	concrete	1e9c0ac0 MERGESTEP gate FAIL
+bridge::bridge_frame_positive_u8_n3	C-diagnostic	SUCCESS, covers 2/5	frame_target calibration	-	2/5	src3, backing4, sentinel [3]	642e7d4e SUCCESS 11.22s, cover limitation
+bridge::bridge_frame_negative_u8_n3	C-diagnostic	FAILED (assignable)	frame_target calibration	assigns/modifies check @bridge.rs:122	3/5	sentinel write	642e7d4e FAILED expected

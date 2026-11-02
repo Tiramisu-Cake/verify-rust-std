@@ -1,0 +1,9 @@
+Snapshot during PRE-BUILD REVIEW preparation (2026-11-02), via tools/k1g.sh budget:
+builds 174; used $79.8900, reserved by unfinished builds $0.5400, cap $88.96.
+Prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135.
+Reserved $0.5400 = one unfinished standard4 build of 40 min (owner not visible via k1g; task: parallel u64 leaf,
+other owner, own ledger). Project slots: 1 of <=2 queued/running/unresolved occupied; k1-merge stable owner: 0 of <=1.
+PARTTWO-TREE own UUIDs: none; builds 0/1; spent $0.0000; reserved $0.0000.
+Planned reserve: (20 + 30) minutes * $0.0135 = $0.6750 <= stage cap $0.70.
+Project after this reserve: $79.8900 + $0.5400 + $0.6750 = $81.1050 <= $88.96 (headroom $7.8550).
+Refresh tools/k1g.sh budget and slots immediately before dispatch.
