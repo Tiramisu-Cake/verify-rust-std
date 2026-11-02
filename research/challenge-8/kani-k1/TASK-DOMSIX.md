@@ -6,7 +6,7 @@
 
 ## Контекст
 
-Part 1 v6 = `submission/ch8-smallsort-part1-v6` @ `d6b8caf7fe` (library tree `b578183b92895f7792fbbda7b5dda54f453bd9ec`;
+Part 1 v6 = `submission/ch8-smallsort-part1-v6` @ `d6b8caf7fe` (library tree — см. «Уточнения»;
 одиночный коммит на upstream `c0bd09c354`). Отличие от v5 `5a3009b065` — только `verify/network.rs`
 (см. `git diff 5a3009b065 d6b8caf7fe`):
 - ordinary `dispatch_safety_stable_unstable_bytes17_n32` → `dispatch_safety_stable_bytes17_n32` +
@@ -39,3 +39,10 @@ Kani run https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/414041500
 
 Короткий `RESULT-DOMSIX.md` (≤ 20 строк): что изменено, вывод check_domains.py, открытые вопросы.
 Маркеры `REVIEW REQUEST <sha>` / `DOMSIX ЗАВЕРШЁН`. Один этап — затем стоп.
+
+## Уточнения (обязательны, приоритет над текстом выше)
+
+- Исправить library tree: `git rev-parse d6b8caf7fe:library` даёт **d4ec476a7a001363e58f19948c188a9c2078e370**, а не b578183b92895f7792fbbda7b5dda54f453bd9ec. Полный commit — d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097; parent c0bd09c354a50bf9fe4dcc7cc5f9c34503658479. MACSPLIT G1 head71d18696613bdd6b00648a0d7b44d1cd3c6da940 имеет тот же d4ec476a7a tree; эту связь inventory→v6 проверить и записать.
+- DOMSIX от45f6e7f7cc сохраняет library v5/cbe69760c8. Старый checker требует `HEAD:library == TREE`, поэтому с запретом менять library он не пройдёт после простой замены TREE. Проверять источники через `git show d6b8caf7fe:path`, identity целевого PIN:library и соответствие inventory-head:library; явно отделить source pin от HEAD документационного worktree. Не выдавать HEAD за v6 и не переносить library ради прохождения checker.
+- Обновить все set-equality проверки: v4-live содержит старое tail13_to16, а native v5 G2 — оба старых ordinary имени. Использовать явное отображение двух старых имён в четыре новых. Для cfg-on v6 построить static set как `(native_v5_cfg_on − old2) ∪ new4`, проверить source/cfg provenance и native ordinary202; не ограничиваться числом384 и не называть этот набор native G2 v6. Проверку отсутствия retired72 и прочие независимые проверки сохранить.
+- TSV теперь содержит38 конкретных PFC entries:36 ordinary +2 controls; insert_tail5, остальные family counts прежние. Обновить header `cfg v5`, docstrings/output/README и v4→v6 mapping. Разбиение invocation не добавляет lexical PFC attribute site или новый semantic domain:22 domain records сохраняются; число lexical sites сверить с source, не увеличивать механически вместе с PFC count.
