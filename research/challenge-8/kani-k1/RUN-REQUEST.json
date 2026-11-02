@@ -2,24 +2,24 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "wonediag-g1-20261102",
+  "request_id": "wonetwo-g1-20261102",
   "kind": "measurement",
-  "purpose": "WONEDIAG: three fixed-N3 PFCs of unchanged W1 targets; backing5/offset1, unrestricted input/probe/sentinels, unwind16, Stable u8 full separate uninitialized scratch48 and whole-slice modifies. Seven N3 covers each; ordinary200 unchanged.",
+  "purpose": "WONETWO: three fixed-N2 PFCs of unchanged W1 targets; backing4/offset1, unrestricted input/probe/sentinels, unwind16, Stable u8 full separate uninitialized scratch48 and whole-slice modifies. Seven reachable N2 covers each; ordinary200 unchanged.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n3",
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n3",
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n3",
+      "name": "slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n2",
       "expect": "SUCCESS"
     }
   ]

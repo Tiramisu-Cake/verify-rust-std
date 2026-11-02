@@ -1,0 +1,11 @@
+--harness
+slice::sort::shared::smallsort::verify::wrap::wone::unstable_byte_n2
+--harness
+slice::sort::shared::smallsort::verify::wrap::wone::freeze_noncopy_n2
+--harness
+slice::sort::shared::smallsort::verify::wrap::wone::stable_byte_n2
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse
