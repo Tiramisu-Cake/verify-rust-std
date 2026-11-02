@@ -237,3 +237,6 @@ fn u64nine_count_negative_u64_n9() {
         "u64nine N9 negative: full-value count preserved",
     );
 }
+
+// U64-TEN-LEAVES: opt-in child with matching u64 N10 leaves; it reuses the private items above.
+mod tenleaves;
