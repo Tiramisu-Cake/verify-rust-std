@@ -461,3 +461,6 @@ fn netcomp_count_negative_u8_n13() {
         "netcomp N13 negative: full-value count preserved",
     );
 }
+
+// NET18-LEAVES geometry fixtures: opt-in child module after all targets and roots above.
+mod neteighteen;
