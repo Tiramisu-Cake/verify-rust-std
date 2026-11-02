@@ -1,0 +1,56 @@
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter_u64ten
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter_u64ten
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1092 failed (62 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: u64tencall negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs", line 337, in slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10
+
+VERIFICATION:- FAILED
+Verification Time: 288.65643s
+
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_insert_binding_negative_u64_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter_u64ten
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter_u64ten
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1054 failed (76 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: u64tencall actual insert adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs", line 172, in <u64 as slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::InsertBridgeU64Ten<for<'a, 'b> fn(&'a u64, &'b u64) -> bool>>::insert
+
+VERIFICATION:- FAILED
+Verification Time: 130.20987s
+
+Checking harness slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_swap_binding_negative_u64_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter_u64ten
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter_u64ten
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::u64nine::swap_u64_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1054 failed (114 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: u64tencall actual swap adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs", line 111, in <u64 as slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::SwapBridgeU64Ten<for<'a, 'b> fn(&'a u64, &'b u64) -> bool>>::exchange
+
+VERIFICATION:- FAILED
+Verification Time: 1.9865115s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_insert_binding_negative_u64_n10
+Verification failed for - slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_swap_binding_negative_u64_n10
+Complete - 0 successfully verified harnesses, 3 failures, 3 total.

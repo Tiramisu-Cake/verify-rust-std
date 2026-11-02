@@ -1,0 +1,49 @@
+interval_ms=2000
+samples=256
+elapsed_s=511
+total_rss_peak_kb=11500452
+total_peak_s=365
+cmd=bash peak_kb=3992 first_s=0 last_s=511 peak_s=0
+cmd=cargo peak_kb=33124 first_s=2 last_s=70 peak_s=70
+cmd=cbmc peak_kb=2317032 first_s=80 last_s=509 peak_s=275
+cmd=goto-cc peak_kb=102268 first_s=72 last_s=503 peak_s=369
+cmd=goto-instrument peak_kb=76452 first_s=76 last_s=507 peak_s=76
+cmd=kani-compiler peak_kb=2229632 first_s=2 last_s=70 peak_s=56
+cmd=kani-driver peak_kb=11507076 first_s=2 last_s=509 peak_s=365
+cmd=python3 peak_kb=20512 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3632 first_s=2 last_s=509 peak_s=2
+cmd=tee peak_kb=1092 first_s=0 last_s=511 peak_s=2
+cmd=time peak_kb=1152 first_s=2 last_s=509 peak_s=2
+cmd=timeout peak_kb=1120 first_s=2 last_s=509 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=2317032 peak_s=275
+role=driver simultaneous_rss_peak_kb=11481336 peak_s=365
+cbmc_pid=9227 peak_kb=2317032 first_s=80 last_s=339 peak_s=275 active=T0:network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10 hint=slice::sort::shared::smallsort::verify::network::u64nine::te
+cbmc_pid=9256 peak_kb=1409568 first_s=373 last_s=499 peak_s=443 active=T0:network::u64nine::tenleaves::caller::u64tencall_insert_binding_negative_u64_n10 hint=slice::sort::shared::smallsort::verify::network::u64nine::te
+cbmc_pid=9285 peak_kb=48840 first_s=509 last_s=509 peak_s=509 active= hint=slice::sort::shared::smallsort::verify::network::u64nine::te
+driver_s=0 rss_kb=0
+harness_s=80 name=T0:network::u64nine::tenleaves::caller::u64tencall_count_negative_u64_n10
+driver_s=30 rss_kb=6160
+harness_s=373 name=T0:network::u64nine::tenleaves::caller::u64tencall_insert_binding_negativ
+driver_s=60 rss_kb=6416
+harness_s=509 name=T0:network::u64nine::tenleaves::caller::u64tencall_swap_binding_negative_
+driver_s=90 rss_kb=6684
+driver_s=120 rss_kb=6944
+driver_s=150 rss_kb=6944
+driver_s=180 rss_kb=6944
+driver_s=210 rss_kb=167440
+driver_s=240 rss_kb=787984
+driver_s=271 rss_kb=1553940
+driver_s=301 rss_kb=2346532
+driver_s=331 rss_kb=3153424
+driver_s=361 rss_kb=10262360
+driver_s=391 rss_kb=7026168
+driver_s=421 rss_kb=7026168
+driver_s=451 rss_kb=7235064
+driver_s=481 rss_kb=8041996
+driver_s=511 rss_kb=0
+dmesg_oom=none_seen
+mem_total_bytes=16785842176
+swap_total_bytes=0
+verify_start_after_validate_s=361
+verify_budget_s=2879
+RUSTFLAGS=--cfg kani_smallsort_controls

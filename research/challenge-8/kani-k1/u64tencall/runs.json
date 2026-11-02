@@ -15,28 +15,35 @@
     "G1R": {
       "rows": 1,
       "reserve_usd": 0.54,
-      "status": "NOT_ALLOWED_NO_COMPILE_ERROR",
+      "status": "NOT_RUN_NO_COMPILE_ERROR",
       "build": null
     },
     "G2": {
       "rows": 3,
       "reserve_usd": 0.81,
-      "status": "PREBUILD_WAITING_GO",
-      "build": null
+      "status": "COMPLETE",
+      "build": "e5d4b707-4110-49ca-902e-902f171befc4",
+      "spent_usd": 0.2025,
+      "source_sha": "623c2228caaac32ffe964216226112b13abc04ea",
+      "coordinator_go": "GO 623c2228ca; one Build G2",
+      "outcome": "gate PASS: 3 controls FAILED only designated literals, covers 1/1,1/1,2/2"
     },
     "G2R": {
       "rows": 3,
       "reserve_usd": 0.81,
-      "status": "NOT_PLANNED_UNLESS_G2_COMPILE_ERROR",
+      "status": "NOT_RUN_NO_COMPILE_ERROR",
       "build": null
     }
   },
   "build_limit": 4,
   "stage_cap_usd": 2.8,
   "builds": [
-    "06da11e6-9985-4965-9464-215cc3ddf390"
+    "06da11e6-9985-4965-9464-215cc3ddf390",
+    "e5d4b707-4110-49ca-902e-902f171befc4"
   ],
-  "spent_usd": 0.216,
+  "spent_usd": 0.4185,
   "reserved_usd": 0,
-  "status": "PREBUILD_G2"
+  "status": "COMPLETE",
+  "task_outcome": "PARTIAL",
+  "completed_utc": "2026-11-02T18:08:22.187866Z"
 }
