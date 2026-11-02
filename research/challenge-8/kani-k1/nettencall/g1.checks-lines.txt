@@ -1,0 +1,70 @@
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_count_negative_u8_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter10
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter10
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1092 failed (62 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: nettencall negative: full-value count preserved
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs", line 320, in slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_count_negative_u8_n10
+
+VERIFICATION:- FAILED
+Verification Time: 267.89996s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter10
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter10
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1054 failed (76 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: nettencall actual insert adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs", line 162, in <u8 as slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::InsertBridge10<for<'a, 'b> fn(&'a u8, &'b u8) -> bool>>::insert
+
+VERIFICATION:- FAILED
+Verification Time: 123.02263s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_swap_binding_negative_u8_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter10
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter10
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 1 of 1054 failed (114 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+Failed Checks: nettencall actual swap adapter binding control
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/netten/caller.rs", line 101, in <u8 as slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::SwapBridge10<for<'a, 'b> fn(&'a u8, &'b u8) -> bool>>::exchange
+
+VERIFICATION:- FAILED
+Verification Time: 1.9009693s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_positive_u8_n10...
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: insert_tail -> insert_adapter10
+  - Stub: crate :: slice :: sort :: shared :: smallsort :: swap_if_less -> swap_adapter10
+  - Verified stub: core::slice::sort::shared::smallsort::verify::merge::specfix::insert_tail_profile
+  - Verified stub: core::slice::sort::shared::smallsort::verify::network::netcomp::swap_net9
+
+VERIFICATION RESULT:
+ ** 0 of 1106 failed (62 unreachable)
+
+ ** 8 of 8 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 332.92896s
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_count_negative_u8_n10
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::netten::caller::nettencall_insert_binding_negative_u8_n10
