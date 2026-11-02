@@ -95,3 +95,6 @@ fn netten_insert_strict_u8_begin0_tail9() {
     kani::cover(hits > 0, "netten insert: probe hits backing10");
     kani::cover(hits == 0, "netten insert: probe misses backing10");
 }
+
+// NETTEN-CALLER: opt-in child composing the actual N10 route from the leaves above.
+mod caller;
