@@ -1,0 +1,40 @@
+{
+  "ordinary": {
+    "base": 202,
+    "candidate": 202,
+    "added": [],
+    "removed": []
+  },
+  "cfg_on": {
+    "base": 384,
+    "candidate": 386,
+    "added": [
+      "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n31",
+      "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n31"
+    ],
+    "removed": []
+  },
+  "ordinary_vs_macsplit_native_reference": {
+    "expected": 202,
+    "set_equal": true,
+    "missing": [],
+    "extra": []
+  },
+  "new_roots": {
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n31": {
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 402,
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    },
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n31": {
+      "source": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 404,
+      "gates": [
+        "kani_smallsort_controls"
+      ]
+    }
+  },
+  "pass": true
+}

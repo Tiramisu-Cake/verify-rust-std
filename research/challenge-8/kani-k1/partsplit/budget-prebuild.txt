@@ -1,0 +1,8 @@
+Snapshot 2026-11-02T18:24Z during PRE-BUILD preparation, via tools/k1g.sh budget:
+builds 176; used $80.3085, reserved by unfinished builds $0.6750 (one 50-min standard4 envelope), cap $88.96.
+Prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135.
+PART2-SPLIT31 own UUIDs: none; builds 0/4; spent $0.0000; reserved $0.0000.
+Planned: G1 (2*10+30)*0.0135=$0.6750 + G2 (10+30)*0.0135=$0.5400 = $1.2150.
+All four incl. G1R/G2R: $2.4300 <= own cap $2.50.
+Project headroom at snapshot: 88.96-80.3085-0.6750 = $7.9765 >= $2.4300.
+Refresh tools/k1g.sh budget before each dispatch; own UUIDs only.

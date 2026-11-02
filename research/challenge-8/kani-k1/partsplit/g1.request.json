@@ -1,0 +1,22 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "partsplit-g1-measure-bytes17-n31-split-20261102",
+  "kind": "measurement",
+  "purpose": "PART2-SPLIT31 G1: opt-in Stable and Unstable bytes17 N31 dispatch safety roots splitting the N31 pair domain; jobs1, controls on.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n31",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n31",
+      "expect": "SUCCESS"
+    }
+  ]
+}
