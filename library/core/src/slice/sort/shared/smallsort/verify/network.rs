@@ -398,6 +398,10 @@ dispatch_pair_safety_cases!(
 );
 #[cfg(kani_smallsort_controls)]
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n31, [u8; 17], [31]);
+#[cfg(kani_smallsort_controls)]
+dispatch_safety_cases!(dispatch_safety_stable_bytes17_n31, [u8; 17], true, [31]);
+#[cfg(kani_smallsort_controls)]
+dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n31, [u8; 17], false, [31]);
 dispatch_safety_cases!(dispatch_safety_stable_bytes17_n32, [u8; 17], true, [32]);
 dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n32, [u8; 17], false, [32]);
 
