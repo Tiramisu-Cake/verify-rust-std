@@ -29,14 +29,12 @@ Gate: 8/8 accepted (identities/profile, SUCCESS, 0 unintended failures, all cove
 Cost: own spent $0.4860 (G1 $0.2160 + G2 $0.2700) of cap $1.95, own reserved $0. Window: T0 10:50:27Z, G2 terminal 11:29Z.
 Project after (11:31Z): 191 builds, used $84.5745, reserved by unfinished $0.9450 (one foreign build, COVERCOST k1-merge), cap $88.96.
 
-Meaning/limits: bounded normal-return safety of exact any `[u64;N]` on the three general/stable u64 routes, arbitrary volatile-reading
-comparator, panic_on_ord_violation cut by cover+assume(false), unwind 34. Not correctness, not all T/F/impls, not unwind cleanup,
-uninit checks off. Source unchanged → measurement, not a speed-up. Opt-in result only; ordinary 202/v7 unchanged; no PR/issue/CI.
+Meaning/limits: bounded normal-return safety of any `[u64;N]` on the three routes, arbitrary volatile-reading comparator, panic cut by
+cover+assume(false), unwind 34; not correctness/all T/unwind cleanup, uninit off. Measurement only; ordinary 202/v7 unchanged; no PR/CI.
 Candidate-for-v7: all eight ≤300 s GCB shortlist (max n25 189.0 s); ≤600 s proof fit; macOS/jobs3 margin OPEN (no factor).
 History (other trees/profiles, not matched): N18 TIMEOUT@120 s screen → 92.6 s here; N23 TIMEOUT@120 s → 137.5 s (above that
 screen); N21 180 → 112.3 s; N19/N20/N22/N24/N25 first records. N17 (ROUTESAB) 121.7 s → N18 92.6 s: no step at N18.
 E/F advice (not run): same sort8_stable shape for all N≥16; VT is noisy but trends ~+14 s/N (92.6→189.0 over N18..25, N19>N20/21 and
 N22>N23), CBMC RSS +0.16 GiB/N. Linear extrapolation: E[26..29] ~190–250 s, F[30..32] ~250–300 s, RSS ≤ ~4 GiB, well inside
-10 min/row and 16 GiB. Run E (4 rows, reserve $0.945) and F (3 rows, reserve $0.810) as is; no route split upfront.
-No TIMEOUT rows here, so no route split is indicated. If an E/F row TIMEOUTs, routes 0/1 (both via small_sort_general's own
-scratch) vs route 2 (caller scratch) would be the split line, but that needs new route-restricted harnesses (source change, new task).
+10 min/row and 16 GiB. Run E (4 rows, reserve $0.945) and F (3 rows, $0.810) as is; no TIMEOUT here → no route split upfront.
+If an E/F row TIMEOUTs: split routes 0/1 (small_sort_general own scratch) vs 2 (caller scratch) — needs new harnesses (new task).
