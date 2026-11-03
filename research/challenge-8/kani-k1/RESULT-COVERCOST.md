@@ -26,6 +26,5 @@ Verdict (task rule "driver grows the same -> covers not the cause"): hypothesis 
   whether that is the causal reason is not established. Growth onset/rate track the CBMC phase, mechanism unknown.
 Not established: the original positive with covers (still OPEN/UNKNOWN on 16 GB); any reachability claim for the
   composed route; the theorem with its original obligations. SUCCESS here is "diagnostic, no proof credit".
-  The 16 GB margin is thin (3.7 GiB); driver memory of u64 N10 composition remains the barrier; next step is the
-  coordinator's decision. Ledger after: builds189, used $84.0885 (other owners' builds unfinished $0.9450).
-Evidence: covercost/g1.summary.md, g1.{status,tooling,cost,peaks,checks-grep}.txt, PREBUILD.md, static-check.json. STOP.
+  16 GB margin is thin (3.7 GiB); u64 N10 driver memory remains the barrier; next step: coordinator decision.
+Ledger after: builds189, used $84.0885 (unfinished $0.9450, other owners). Evidence: covercost/g1.summary.md, g1.{status,tooling,cost,peaks,checks-grep}.txt, PREBUILD.md, static-check.json. STOP.
