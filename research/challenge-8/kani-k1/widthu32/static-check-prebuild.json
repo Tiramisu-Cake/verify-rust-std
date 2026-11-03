@@ -1,0 +1,62 @@
+{
+ "base": "e0fda080f5ea479d8f4fb801f4b42adde2b3259f",
+ "permsolver": "a13389358a2bf617891a90fbccae343feeb2a613",
+ "head": "78c413817522adc6f35dceab57fa102d17a8c8b2",
+ "library_changed": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/widthu32.rs"
+ ],
+ "network_rs_base_blob": "1a85a483b16449485a02c4e1140033c8a22956fa",
+ "network_rs_sha256": "7d2194543f5731fb24942972fedfdd4fac2496b5e3fede22f649cb27a804ee86",
+ "widthu32_rs_sha256": "a224fb7b12c705e2f2ff65eec4467f76014268f7df142485e1d6592977996f0d",
+ "widthu32_rs_bytes": 3502,
+ "permsolver_solver_rs_blob": "ed6f56b6bedeeff322999ea297f301530eaa61a6",
+ "u64_tokens_in_widthu32": 2,
+ "covers_per_root": {
+  "widthu32_perm_n8_default": 5,
+  "widthu32_perm_n8_kissat": 5,
+  "widthu32_perm_n8_value_loss_control": 5
+ },
+ "root_lines": {
+  "widthu32_perm_n8_default": 14,
+  "widthu32_perm_n8_kissat": 37,
+  "widthu32_perm_n8_value_loss_control": 60
+ },
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "ordinary_sorted_sha256": "d5d5550231e06e8190ddb9bf2149eb379f5911087a89ef157405bc80b49842e5",
+ "controls_on_count": [
+  384,
+  387
+ ],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_default",
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_kissat",
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_value_loss_control"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "request_sha256": "ab2a1ab9a15626e78308b93bf04a73304c6d38d05c29c452eb5b8ad6bc66ca85",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_default",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_kissat",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_value_loss_control",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 60,
+ "envelope_usd": 0.81,
+ "status": "PASS",
+ "errors": []
+}

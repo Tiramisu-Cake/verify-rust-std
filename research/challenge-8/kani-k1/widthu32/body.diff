@@ -1,0 +1,57 @@
+--- permsolver:perm_arbitrary_kissat_u64_n8
++++ widthu32:widthu32_perm_n8_default
+@@ -3,3 +3,2 @@
+-#[kani::solver(kissat)]
+-fn perm_arbitrary_kissat_u64_n8() {
+-let mut v: [u64;
++fn widthu32_perm_n8_default() {
++let mut v: [u32;
+@@ -8,3 +7,3 @@
+-let probe: u64 = kani::any();
+-let mut cmp = super::strict_less::<u64>;
+-<u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
++let probe: u32 = kani::any();
++let mut cmp = super::strict_less::<u32>;
++<u32 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+@@ -14,0 +14,2 @@
++kani::cover(super::count_matching_values(&pre, &probe) > 0, "widthu32: probe occurs in input");
++kani::cover(super::count_matching_values(&pre, &probe) == 0, "widthu32: probe absent from input");
+
+--- permsolver:perm_arbitrary_kissat_u64_n8
++++ widthu32:widthu32_perm_n8_kissat
+@@ -4,2 +4,2 @@
+-fn perm_arbitrary_kissat_u64_n8() {
+-let mut v: [u64;
++fn widthu32_perm_n8_kissat() {
++let mut v: [u32;
+@@ -8,3 +8,3 @@
+-let probe: u64 = kani::any();
+-let mut cmp = super::strict_less::<u64>;
+-<u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
++let probe: u32 = kani::any();
++let mut cmp = super::strict_less::<u32>;
++<u32 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+@@ -14,0 +15,2 @@
++kani::cover(super::count_matching_values(&pre, &probe) > 0, "widthu32: probe occurs in input");
++kani::cover(super::count_matching_values(&pre, &probe) == 0, "widthu32: probe absent from input");
+
+--- permsolver:perm_arbitrary_kissat_u64_n8
++++ widthu32:widthu32_perm_n8_value_loss_control
+@@ -4,2 +4,2 @@
+-fn perm_arbitrary_kissat_u64_n8() {
+-let mut v: [u64;
++fn widthu32_perm_n8_value_loss_control() {
++let mut v: [u32;
+@@ -8,4 +8,5 @@
+-let probe: u64 = kani::any();
+-let mut cmp = super::strict_less::<u64>;
+-<u64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+-kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "partposts: full-value count preserved");
++let probe: u32 = kani::any();
++let mut cmp = super::strict_less::<u32>;
++<u32 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
++v[0] = v[1];
++kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "widthu32 negative: full-value count after value loss");
+@@ -14,0 +16,2 @@
++kani::cover(super::count_matching_values(&pre, &probe) > 0, "widthu32: probe occurs in input");
++kani::cover(super::count_matching_values(&pre, &probe) == 0, "widthu32: probe absent from input");

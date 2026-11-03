@@ -1,0 +1,27 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "widthuthirtytwo-g1-perm-u32n8-20261103",
+  "kind": "diagnostic",
+  "purpose": "WIDTHU32 G1: width point u32 for the N8 permutation oracle network::widthu32 (PERMSOLVER arbitrary-probe body, type u32): default solver (measurement), kissat (SUCCESS), kissat value-loss control v[0]=v[1] (FAILED at its count literal); controls on, jobs1.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_default",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_kissat",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::widthu32::widthu32_perm_n8_value_loss_control",
+      "expect": "FAILED",
+      "expect_check": "widthu32 negative: full-value count after value loss"
+    }
+  ]
+}
