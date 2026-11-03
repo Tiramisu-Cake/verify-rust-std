@@ -28,3 +28,8 @@ rows 1/2 finished between 2 s samples. Whole run max RSS 1.66 GiB (time -v), kan
 Domain u8 only, N16 (stable general) and N18 (unstable network), comparator any-bool, no read, no mutation. Not checked:
 uninit/validity, unwind cleanup (Kani panics do not unwind; `CopyOnDrop` not run), the original volatile comparator.
 Own spent $0.1890 (cap $1.30); project after: used $90.1365, reserved $0.9450 (other owner), cap $93.96. One Build, no retry.
+## Addendum (coordinator decision after review of e288f8bf08)
+Location `smallsort.rs:854 in panic_on_ord_violation` accepted as unambiguous attribution (controls point at their own
+panicprobe.rs lines 37/48/54). Diagnostic classification counted: on u8 N16 general and N18 network without stub the only
+failed check is the guard panic; no other default-check failures. Conclusion: the stub cuts paths that reached the guard;
+no other default-check failures found on these two domains. Lane gate of rows 4/6 unchanged: frozen gate not accepted.
