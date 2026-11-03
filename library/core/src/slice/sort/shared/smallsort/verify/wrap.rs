@@ -268,3 +268,6 @@ fn rejects_payload_corruption() {
     kani::assert(sorted(&v), "wrap corrupted payload keeps key order");
     kani::assert(before == count(&v, probe), "wrap full-value checker rejects payload corruption");
 }
+
+#[cfg(kani_smallsort_controls)]
+mod more;
