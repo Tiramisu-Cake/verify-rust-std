@@ -80,3 +80,12 @@ rustflags `--cfg kani_smallsort_controls` (controls true). No highmem, resource 
 - Window: main 150 min + closeout 30 min from T0; G1 timeout 70 min, then G2 70 min envelope; both fit inside main
   if G2 dispatches ≤ ~75 min after T0. Expected G1 wall well under timeout unless rows hit the 10 min/row limit.
 - Compile-error repair (one per stage, new review/GO) only if own spent + its reserve ≤ $1.95.
+
+## G2 dispatch record (coordinator pre-approved G2 in the G1 GO; after G1 terminal/accounting, 2026-11-03T11:08Z)
+- G1 38eb81fa terminal SUCCESS, 4/4 rows accepted, cost $0.2160 (routescd/g1.result.md). No shared setup/compile error.
+- RUN-REQUEST.json := routescd/g2.request.json (sha256 f52055e87ab357ee9c709a7998d790077b6170a82f69101b87d005eb134c868c),
+  unchanged since 60358cf5; library tree d4ec476a and lane files unchanged (this commit touches only research files).
+- Budget: project 190 builds, used $84.3045, reserved by unfinished $0.9450 (one foreign build = 70 min, COVERCOST k1-merge);
+  + G2 $0.945 = $86.1945 ≤ $88.96. Own spent $0.2160 + G2 reserve $0.945 = $1.1610 ≤ $1.95.
+- Slots: 1 unfinished in project (foreign); G2 makes 2 (≤ 2), k1-network 1 (≤ 1). Window: T0 10:50:27Z, main ends
+  13:20Z; G2 70 min envelope from ~11:09Z ends ~12:19Z, inside main.
