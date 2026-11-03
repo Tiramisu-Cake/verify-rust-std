@@ -1,0 +1,206 @@
+--- stable_cell_n4
++++ stable_cell_n8
+@@ -2 +2 @@
+-#[kani::requires(stable_region_n::<4>(v, scratch))]
++#[kani::requires(stable_region_n::<8>(v, scratch))]
+@@ -4,4 +4,4 @@
+-#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 4))]
+-#[kani::ensures(|_| span_sorted::<_, 4>(v))]
+-#[kani::ensures(|_| old(span_count::<_, 4>(v, probe)) == span_count::<_, 4>(v, probe))]
+-unsafe fn stable_cell_n4(
++#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 8))]
++#[kani::ensures(|_| span_sorted::<_, 8>(v))]
++#[kani::ensures(|_| old(span_count::<_, 8>(v, probe)) == span_count::<_, 8>(v, probe))]
++unsafe fn stable_cell_n8(
+@@ -16,2 +16,2 @@
+-    // SAFETY: the requires establish exactly four initialized writable elements.
+-    let v = unsafe { slice::from_raw_parts_mut(v, 4) };
++    // SAFETY: the requires establish exactly eight initialized writable elements.
++    let v = unsafe { slice::from_raw_parts_mut(v, 8) };
+--- stable_cell_n4_backing6
++++ stable_cell_n8_backing10
+@@ -1 +1 @@
+-#[kani::proof_for_contract(stable_cell_n4)]
++#[kani::proof_for_contract(stable_cell_n8)]
+@@ -3,2 +3,2 @@
+-fn stable_cell_n4_backing6() {
+-    let [left, a, b, c, d, right]: [u8; 6] = kani::any();
++fn stable_cell_n8_backing10() {
++    let [left, a, b, c, d, e, f, g, h, right]: [u8; 10] = kani::any();
+@@ -6,2 +6,12 @@
+-    let mut v =
+-        [Cell::new(left), Cell::new(a), Cell::new(b), Cell::new(c), Cell::new(d), Cell::new(right)];
++    let mut v = [
++        Cell::new(left),
++        Cell::new(a),
++        Cell::new(b),
++        Cell::new(c),
++        Cell::new(d),
++        Cell::new(e),
++        Cell::new(f),
++        Cell::new(g),
++        Cell::new(h),
++        Cell::new(right),
++    ];
+@@ -12,3 +22,3 @@
+-    // SAFETY: active span in initialized backing6; separate valid scratch; canonical pointer.
+-    unsafe { stable_cell_n4(v[1..5].as_mut_ptr(), &mut scratch[..scratch_len], cell_less, probe) };
+-    kani::assert(v[0].get() == left && v[5].get() == right, "wrap N4 stable input frame");
++    // SAFETY: active span in initialized backing10; separate valid scratch; canonical pointer.
++    unsafe { stable_cell_n8(v[1..9].as_mut_ptr(), &mut scratch[..scratch_len], cell_less, probe) };
++    kani::assert(v[0].get() == left && v[9].get() == right, "wrap N8 stable input frame");
+@@ -17,5 +27,5 @@
+-    kani::assert(scratch_before == scratch_after, "wrap N4 stable scratch frame");
+-    kani::cover(scratch_len == 0, "wrap N4 stable empty scratch returns");
+-    kani::cover(scratch_len == 2, "wrap N4 stable unread uninit scratch tail returns");
+-    n4_covers(a, b, c, d, probe);
+-    kani::cover(true, "wrap N4 stable Cell trait entry returns");
++    kani::assert(scratch_before == scratch_after, "wrap N8 stable scratch frame");
++    kani::cover(scratch_len == 0, "wrap N8 stable empty scratch returns");
++    kani::cover(scratch_len == 2, "wrap N8 stable unread uninit scratch tail returns");
++    span_covers([a, b, c, d, e, f, g, h], probe);
++    kani::cover(true, "wrap N8 stable Cell trait entry returns");
+--- unstable_cell_n4
++++ unstable_cell_n8
+@@ -2 +2 @@
+-#[kani::requires(span_region::<Cell<u8>, 4>(v))]
++#[kani::requires(span_region::<Cell<u8>, 8>(v))]
+@@ -4,4 +4,4 @@
+-#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 4))]
+-#[kani::ensures(|_| span_sorted::<_, 4>(v))]
+-#[kani::ensures(|_| old(span_count::<_, 4>(v, probe)) == span_count::<_, 4>(v, probe))]
+-unsafe fn unstable_cell_n4(v: *mut Cell<u8>, cmp: fn(&Cell<u8>, &Cell<u8>) -> bool, probe: u8) {
++#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 8))]
++#[kani::ensures(|_| span_sorted::<_, 8>(v))]
++#[kani::ensures(|_| old(span_count::<_, 8>(v, probe)) == span_count::<_, 8>(v, probe))]
++unsafe fn unstable_cell_n8(v: *mut Cell<u8>, cmp: fn(&Cell<u8>, &Cell<u8>) -> bool, probe: u8) {
+@@ -11,2 +11,2 @@
+-    // SAFETY: the requires establish exactly four initialized writable elements.
+-    let v = unsafe { slice::from_raw_parts_mut(v, 4) };
++    // SAFETY: the requires establish exactly eight initialized writable elements.
++    let v = unsafe { slice::from_raw_parts_mut(v, 8) };
+--- unstable_cell_n4_backing6
++++ unstable_cell_n8_backing10
+@@ -1 +1 @@
+-#[kani::proof_for_contract(unstable_cell_n4)]
++#[kani::proof_for_contract(unstable_cell_n8)]
+@@ -3,2 +3,2 @@
+-fn unstable_cell_n4_backing6() {
+-    let [left, a, b, c, d, right]: [u8; 6] = kani::any();
++fn unstable_cell_n8_backing10() {
++    let [left, a, b, c, d, e, f, g, h, right]: [u8; 10] = kani::any();
+@@ -6,7 +6,17 @@
+-    let mut v =
+-        [Cell::new(left), Cell::new(a), Cell::new(b), Cell::new(c), Cell::new(d), Cell::new(right)];
+-    // SAFETY: active span in initialized backing6; canonical pointer.
+-    unsafe { unstable_cell_n4(v[1..5].as_mut_ptr(), cell_less, probe) };
+-    kani::assert(v[0].get() == left && v[5].get() == right, "wrap N4 unstable Cell input frame");
+-    n4_covers(a, b, c, d, probe);
+-    kani::cover(true, "wrap N4 unstable Cell trait entry returns");
++    let mut v = [
++        Cell::new(left),
++        Cell::new(a),
++        Cell::new(b),
++        Cell::new(c),
++        Cell::new(d),
++        Cell::new(e),
++        Cell::new(f),
++        Cell::new(g),
++        Cell::new(h),
++        Cell::new(right),
++    ];
++    // SAFETY: active span in initialized backing10; canonical pointer.
++    unsafe { unstable_cell_n8(v[1..9].as_mut_ptr(), cell_less, probe) };
++    kani::assert(v[0].get() == left && v[9].get() == right, "wrap N8 unstable Cell input frame");
++    span_covers([a, b, c, d, e, f, g, h], probe);
++    kani::cover(true, "wrap N8 unstable Cell trait entry returns");
+--- unstable_byte_n4
++++ unstable_byte_n8
+@@ -1,2 +1,3 @@
+-// u8, Unstable Freeze Copy: network, len < 18 so no merge; presorted 1, insertion from index 1.
+-#[kani::requires(span_region::<u8, 4>(v))]
++// u8, Unstable Freeze Copy: network, len < 18 so no merge; 8 < 9 so presorted 1, insertion from
++// index 1 (seven insert_tail calls).
++#[kani::requires(span_region::<u8, 8>(v))]
+@@ -4,4 +5,4 @@
+-#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 4))]
+-#[kani::ensures(|_| span_sorted::<_, 4>(v))]
+-#[kani::ensures(|_| old(span_count::<_, 4>(v, probe)) == span_count::<_, 4>(v, probe))]
+-unsafe fn unstable_byte_n4(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
++#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 8))]
++#[kani::ensures(|_| span_sorted::<_, 8>(v))]
++#[kani::ensures(|_| old(span_count::<_, 8>(v, probe)) == span_count::<_, 8>(v, probe))]
++unsafe fn unstable_byte_n8(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
+@@ -11,2 +12,2 @@
+-    // SAFETY: the requires establish exactly four initialized writable elements.
+-    let v = unsafe { slice::from_raw_parts_mut(v, 4) };
++    // SAFETY: the requires establish exactly eight initialized writable elements.
++    let v = unsafe { slice::from_raw_parts_mut(v, 8) };
+--- unstable_byte_n4_backing6
++++ unstable_byte_n8_backing10
+@@ -1 +1 @@
+-#[kani::proof_for_contract(unstable_byte_n4)]
++#[kani::proof_for_contract(unstable_byte_n8)]
+@@ -3,2 +3,2 @@
+-fn unstable_byte_n4_backing6() {
+-    let [left, a, b, c, d, right]: [u8; 6] = kani::any();
++fn unstable_byte_n8_backing10() {
++    let [left, a, b, c, d, e, f, g, h, right]: [u8; 10] = kani::any();
+@@ -6,6 +6,6 @@
+-    let mut v = [left, a, b, c, d, right];
+-    // SAFETY: active span in initialized backing6; canonical pointer.
+-    unsafe { unstable_byte_n4(v[1..5].as_mut_ptr(), byte_less, probe) };
+-    kani::assert(v[0] == left && v[5] == right, "wrap N4 unstable input frame");
+-    n4_covers(a, b, c, d, probe);
+-    kani::cover(true, "wrap N4 unstable u8 trait entry returns");
++    let mut v = [left, a, b, c, d, e, f, g, h, right];
++    // SAFETY: active span in initialized backing10; canonical pointer.
++    unsafe { unstable_byte_n8(v[1..9].as_mut_ptr(), byte_less, probe) };
++    kani::assert(v[0] == left && v[9] == right, "wrap N8 unstable input frame");
++    span_covers([a, b, c, d, e, f, g, h], probe);
++    kani::cover(true, "wrap N8 unstable u8 trait entry returns");
+--- unstable_byte_n4
++++ unstable_byte_n9
+@@ -1,2 +1,3 @@
+-// u8, Unstable Freeze Copy: network, len < 18 so no merge; presorted 1, insertion from index 1.
+-#[kani::requires(span_region::<u8, 4>(v))]
++// u8, Unstable Freeze Copy: network, len < 18 so no merge; 9 <= len < 13 so sort9_optimal, then
++// insertion from offset 9 == len has no tail.
++#[kani::requires(span_region::<u8, 9>(v))]
+@@ -4,4 +5,4 @@
+-#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 4))]
+-#[kani::ensures(|_| span_sorted::<_, 4>(v))]
+-#[kani::ensures(|_| old(span_count::<_, 4>(v, probe)) == span_count::<_, 4>(v, probe))]
+-unsafe fn unstable_byte_n4(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
++#[kani::modifies(ptr::slice_from_raw_parts_mut(v, 9))]
++#[kani::ensures(|_| span_sorted::<_, 9>(v))]
++#[kani::ensures(|_| old(span_count::<_, 9>(v, probe)) == span_count::<_, 9>(v, probe))]
++unsafe fn unstable_byte_n9(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
+@@ -11,2 +12,2 @@
+-    // SAFETY: the requires establish exactly four initialized writable elements.
+-    let v = unsafe { slice::from_raw_parts_mut(v, 4) };
++    // SAFETY: the requires establish exactly nine initialized writable elements.
++    let v = unsafe { slice::from_raw_parts_mut(v, 9) };
+--- unstable_byte_n4_backing6
++++ unstable_byte_n9_backing11
+@@ -1 +1 @@
+-#[kani::proof_for_contract(unstable_byte_n4)]
++#[kani::proof_for_contract(unstable_byte_n9)]
+@@ -3,2 +3,2 @@
+-fn unstable_byte_n4_backing6() {
+-    let [left, a, b, c, d, right]: [u8; 6] = kani::any();
++fn unstable_byte_n9_backing11() {
++    let [left, a, b, c, d, e, f, g, h, i, right]: [u8; 11] = kani::any();
+@@ -6,6 +6,6 @@
+-    let mut v = [left, a, b, c, d, right];
+-    // SAFETY: active span in initialized backing6; canonical pointer.
+-    unsafe { unstable_byte_n4(v[1..5].as_mut_ptr(), byte_less, probe) };
+-    kani::assert(v[0] == left && v[5] == right, "wrap N4 unstable input frame");
+-    n4_covers(a, b, c, d, probe);
+-    kani::cover(true, "wrap N4 unstable u8 trait entry returns");
++    let mut v = [left, a, b, c, d, e, f, g, h, i, right];
++    // SAFETY: active span in initialized backing11; canonical pointer.
++    unsafe { unstable_byte_n9(v[1..10].as_mut_ptr(), byte_less, probe) };
++    kani::assert(v[0] == left && v[10] == right, "wrap N9 unstable input frame");
++    span_covers([a, b, c, d, e, f, g, h, i], probe);
++    kani::cover(true, "wrap N9 unstable u8 trait entry returns");

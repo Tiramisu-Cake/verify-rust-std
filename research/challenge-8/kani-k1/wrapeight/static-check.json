@@ -1,0 +1,184 @@
+{
+ "base": "e8e238db9d87323fa4da011a1a8b37fb76ec91c0",
+ "head": "76219f4b21be267f7e2e2c543d73ee5bf40ed712",
+ "library_tree": "49e5af24f007a5336240c420db173d4854f777fe",
+ "more_rs_sha256": "4f9dee77e2b89b339be3ef86f938d0f35c4cc85e0c7284d62a454bb681d125d8",
+ "ordinary": {
+  "count": 202,
+  "sha256": "78c4c05003b25e764576c62f52e3c10bc7602976521ff6f49dcfbc53d9ff79e7"
+ },
+ "ordinary_pfc": 36,
+ "cfg_on": {
+  "count": 396,
+  "sha256": "37f96fea42ea458927f97884330ba62335049f08ac374cbbc202d418bc9fc3be"
+ },
+ "cfg_on_pfc": 49,
+ "opt_in_pfc": 13,
+ "ok": true,
+ "checks": {
+  "base_is_full_sha": {
+   "ok": true,
+   "detail": ""
+  },
+  "base_library_tree_v6": {
+   "ok": true,
+   "detail": ""
+  },
+  "library_commits_are_two_cherry_picks_plus_one": {
+   "ok": true,
+   "detail": [
+    "0fede6d2f945db9b1966e3bd6864920eda71d5d9",
+    "46464f84ce5fcc776995251331f36c4f84ba9083",
+    "76219f4b21be267f7e2e2c543d73ee5bf40ed712"
+   ]
+  },
+  "cherry_picks_patch_identical_to_wrapmore": {
+   "ok": true,
+   "detail": [
+    "0fede6d2f945db9b1966e3bd6864920eda71d5d9",
+    "46464f84ce5fcc776995251331f36c4f84ba9083"
+   ]
+  },
+  "after_picks_library_tree_is_wrapmore_g2": {
+   "ok": true,
+   "detail": ""
+  },
+  "picks_touch_only_wrap_rs_and_more_rs": {
+   "ok": true,
+   "detail": ""
+  },
+  "own_commit_touches_only_more_rs": {
+   "ok": true,
+   "detail": ""
+  },
+  "non_library_changes_are_research_only": {
+   "ok": true,
+   "detail": [
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap/more.rs",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/TASK-WRAPEIGHT.md",
+    "research/challenge-8/kani-k1/wrapeight/cfg-on-expected.txt",
+    "research/challenge-8/kani-k1/wrapeight/check_wrapeight.py",
+    "research/challenge-8/kani-k1/wrapeight/g1.request.json",
+    "research/challenge-8/kani-k1/wrapeight/semantic-diff.txt",
+    "research/challenge-8/kani-k1/wrapeight/static-check.json"
+   ]
+  },
+  "library_changes_exactly_wrap_rs_and_more_rs": {
+   "ok": true,
+   "detail": ""
+  },
+  "more_rs_prefix_is_wrapmore_byte_identical": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_rs_equals_wrapmore": {
+   "ok": true,
+   "detail": ""
+  },
+  "new_specs_have_no_callback_calls": {
+   "ok": true,
+   "detail": 20
+  },
+  "old_only_scalar_count": {
+   "ok": true,
+   "detail": [
+    "span_count::<_, 8>(v, probe)",
+    "span_count::<_, 9>(v, probe)"
+   ]
+  },
+  "no_stub_cfg_or_visibility_widening": {
+   "ok": true,
+   "detail": ""
+  },
+  "rust_lines_le_100": {
+   "ok": true,
+   "detail": 100
+  },
+  "unwind_16_on_every_new_root": {
+   "ok": true,
+   "detail": ""
+  },
+  "base_sets_202_384": {
+   "ok": true,
+   "detail": ""
+  },
+  "ordinary_unchanged_202": {
+   "ok": true,
+   "detail": ""
+  },
+  "ordinary_pfc_unchanged_36": {
+   "ok": true,
+   "detail": ""
+  },
+  "cfg_on_392_after_wrapmore": {
+   "ok": true,
+   "detail": ""
+  },
+  "cfg_on_equals_wrapmore_plus_four": {
+   "ok": true,
+   "detail": [
+    "slice::sort::shared::smallsort::verify::wrap::more::stable_cell_n8_backing10",
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n8_backing10",
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n9_backing11",
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_cell_n8_backing10"
+   ]
+  },
+  "retired_unchanged": {
+   "ok": true,
+   "detail": ""
+  },
+  "cfg_on_pfc_38_45_49": {
+   "ok": true,
+   "detail": {
+    "opt_in_pfc": [
+     2,
+     9,
+     13
+    ]
+   }
+  },
+  "new_pfc_targets_and_no_stubs": {
+   "ok": true,
+   "detail": {
+    "slice::sort::shared::smallsort::verify::wrap::more::stable_cell_n8_backing10": [
+     "stable_cell_n8",
+     []
+    ],
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_cell_n8_backing10": [
+     "unstable_cell_n8",
+     []
+    ],
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n8_backing10": [
+     "unstable_byte_n8",
+     []
+    ],
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n9_backing11": [
+     "unstable_byte_n9",
+     []
+    ]
+   }
+  },
+  "run_request_equals_packet_request": {
+   "ok": true,
+   "detail": ""
+  },
+  "request_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "request_entries_exact": {
+   "ok": true,
+   "detail": ""
+  },
+  "lane_files_equal_base": {
+   "ok": true,
+   "detail": ""
+  },
+  "lane_delta_vs_30f77e85_is_k1g_cap_only": {
+   "ok": true,
+   "detail": ""
+  }
+ }
+}

@@ -1,0 +1,30 @@
+{
+ "schema": "kani-k1-run-request-v1",
+ "agent": "k1-merge",
+ "runner": "gcb-e2-standard-4",
+ "request_id": "wrapeight-g1-20261103",
+ "kind": "measurement",
+ "purpose": "WRAPEIGHT: opt-in fixed-N8/N9 wrapper contracts (backing N+2 frame) on the cheap N4 routes: Stable Cell insertion N8, Unstable Cell fallback N8, u8 network N8 (insert_tail) and N9 (sort9_optimal); 4 PFCs; controls on, jobs 1, uninit off.",
+ "harness_timeout_minutes": 10,
+ "controls": true,
+ "kani_jobs": 1,
+ "uninit_checks": false,
+ "harnesses": [
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::more::stable_cell_n8_backing10",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::more::unstable_cell_n8_backing10",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n8_backing10",
+   "expect": "SUCCESS"
+  },
+  {
+   "name": "slice::sort::shared::smallsort::verify::wrap::more::unstable_byte_n9_backing11",
+   "expect": "SUCCESS"
+  }
+ ]
+}
