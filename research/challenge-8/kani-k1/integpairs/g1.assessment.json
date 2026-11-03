@@ -1,0 +1,25 @@
+{
+ "build_id": "504cea68-dbfe-44f5-94b5-aa603f1a6b29",
+ "source_sha": "c20d0c0b86b3dea8ee546e4cc1ea45e91b475006",
+ "request_sha256": "b1c5ace07562274a69a78a6dc30c1557ff894f309038d595ef44b7be1e30fb2c",
+ "cloud_status": "SUCCESS", "lane": "COMPLETE", "lane_gate": true, "expectation_met": true, "measurement_ok": true,
+ "kani_exit": 1, "kani_complete_line": "Complete - 4 successfully verified harnesses, 4 failures, 8 total.",
+ "tooling_vs_e8e238db9d": "PASS",
+ "stage_gate": {
+  "positive": {
+   "netcomp_leaf_u8_n9": "SUCCESS 0/388 covers 7/7 = matrix",
+   "netcomp_composed_u8_n9": "SUCCESS 0/588 covers 6/6 = matrix",
+   "u64nine_leaf_u64_n9": "SUCCESS 0/388 covers 7/7 = matrix",
+   "u64nine_composed_u64_n9": "SUCCESS 0/588 covers 7/7 = matrix"
+  },
+  "negative": {
+   "netcomp_wrong_cmp_u8_n9": "FAILED 1/550, sole located check 'netcomp canonical comparator required' @netcomp.rs:122 = matrix; covers 2/2",
+   "netcomp_count_negative_u8_n9": "FAILED 1/569, sole 'netcomp N9 negative: full-value count preserved' @netcomp.rs:242 = matrix; covers 3/3",
+   "u64nine_wrong_cmp_u64_n9": "FAILED 1/550, sole 'u64nine canonical comparator required' @u64nine.rs:123 = matrix; covers 2/2",
+   "u64nine_count_negative_u64_n9": "FAILED 1/570, sole 'u64nine N9 negative: full-value count preserved' @u64nine.rs:235 = matrix; covers 3/3"
+  },
+  "pairs_same_build": {"netcomp-u8-n9": "COUNTED", "u64nine-u64-n9": "COUNTED"},
+  "timeout_or_oom": "none (dmesg none_seen)"
+ },
+ "cost_usd": 0.2295
+}
