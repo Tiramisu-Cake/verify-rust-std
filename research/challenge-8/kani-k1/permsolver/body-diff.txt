@@ -3,8 +3,6 @@
 -fn partposts_count_u64_n8() {
 +#[kani::solver(kissat)]
 +fn perm_arbitrary_kissat_u64_n8() {
-@@ -13 +13,0 @@
--kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8");
 == quadratic vs perm::perm_quadratic_u64_n8 (super::super::super:: -> super::super::, super::quadratic -> quadratic)
 @@ -3 +3,2 @@
 -fn perm_quadratic_u64_n8() {

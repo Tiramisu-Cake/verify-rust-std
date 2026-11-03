@@ -1,6 +1,6 @@
 # PERMSOLVER PRE-BUILD (G1 request prepared; nothing dispatched)
 
-Runtime Claude Code, executor alone, no subagents. Owner k1-merge, slug permsolver. Prepared 2026-11-03T10:55Z;
+Runtime Claude Code, executor alone, no subagents. Owner k1-merge, slug permsolver. Prepared 2026-11-03T10:55Z, revised after review of 7cde06f731 (POSTS8 length cover restored);
 T0 not started (starts at the actual G1 dispatch after coordinator GO, and only after COVERCOST 623c19b0 — same owner —
 is terminal and accounted). This file registers no phase and grants no dispatch.
 
@@ -8,11 +8,11 @@ is terminal and accounted). This file registers no phase and grants no dispatch.
 - Branch `experiment/kani-k1-permsolver-20261103`; base `a7271841047ef010fbbb2719ce01d7018b2d1cc7` (terminal PERMPROBE,
   library tree `6af2d315e125e7dcc4dc5df92a0180b6e941a1be`); task commit `ba1b899a4c` (TASK-PERMSOLVER.md sha256
   b21aab06…5c4c).
-- Library commit `33898a9768fac072803c1fb6c685cb64959bfcba`: only `verify/network/posts/perm.rs` (+3, append
-  `#[cfg(kani_smallsort_controls)] mod solver;`) and new `verify/network/posts/perm/solver.rs` (+109). Library diff vs base:
-  2 files, +112 −0. New library tree **`df160e9b7c5606a5b5528a2d08c0ac6237f9b699`**.
+- Library commits `33898a9768fac072803c1fb6c685cb64959bfcba` + review fix `4be7709979d7149cf8eea068afbfaab2d77f6944`: only `verify/network/posts/perm.rs` (+3, append
+  `#[cfg(kani_smallsort_controls)] mod solver;`) and new `verify/network/posts/perm/solver.rs` (+110). Library diff vs base:
+  2 files, +113 −0. New library tree **`bbbf5e4899e0e3cb8e98a49f123348454f9c1529`**.
   perm.rs blob dadf765b → 6221903c (sha256 cbd0fe1e…76f1de); first 4793 bytes (= whole base perm.rs) byte-identical (`cmp`).
-  solver.rs blob 47406fa2 (sha256 c92a00b8…b81d8, 4046 B). Unchanged: posts.rs c7a83009 (ffda00b6…a522), network.rs
+  solver.rs blob ed6f56b6 (sha256 c5b31471…5a28, 4131 B). Unchanged: posts.rs c7a83009 (ffda00b6…a522), network.rs
   95356887 (bf31fbe3…bdd6), smallsort.rs d1d7f552 (78fc8fe8…ed61). So all POSTS8/PERMPROBE roots, `quadratic_counts_preserved`,
   parent helpers (`strict_less`, `count_matching_values`, `is_sorted_by`, `prefix_unchanged`) and the runtime are unchanged.
 - Lane files (k1g.sh LANE_PATHS) at HEAD equal frozen tooling `30f77e859903df14b442ff9294d4fbbd44827f20` (`git diff --stat`
@@ -27,15 +27,12 @@ PFC, contract, summary, payload assume, `any_where`, width cut. All 4 roots are 
 #[kani::solver(kissat)]`. The POSTS8 body is not extracted into a helper (it is the `#[kani::proof]` fn itself), so
 `perm_arbitrary_kissat_u64_n8` is a copy; the quadratic root calls the existing helper directly.
 
-## Byte-diff of new bodies vs originals (`permsolver/body-diff.txt`, sha256 0903960a…8c25; `permsolver/body_diff.py`)
+## Byte-diff of new bodies vs originals (`permsolver/body-diff.txt`, sha256 f0d69a29…23a0; `permsolver/body_diff.py`)
 Whitespace-normalized (rustfmt rewraps longer paths), paths mapped back to the original module
 (`super::super::super::` → `super::` vs posts.rs; → `super::super::` and `super::quadratic_counts_preserved` → bare vs perm.rs):
-- `perm_arbitrary_kissat_u64_n8` vs `posts::partposts_count_u64_n8`: + `#[kani::solver(kissat)]`, fn name, and −1 line
-  `kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8")`. Setup, probe, entry, assert and its literal
-  `partposts: full-value count preserved`, the two kept covers and their literals are identical. **Flag:** the dropped cover
-  follows the task's explicit list "те же covers: sort moves, check reached" and gate 2/2 (same cover count as the PERMPROBE
-  kissat row); it is trivially true after return. If the coordinator wants the byte-identical body, restoring that one line is the
-  only change (gate would then be 3/3).
+- `perm_arbitrary_kissat_u64_n8` vs `posts::partposts_count_u64_n8`: + `#[kani::solver(kissat)]` and fn name only. Setup,
+  probe, entry, assert and its literal `partposts: full-value count preserved`, all 3 covers and their literals are identical
+  (the length cover dropped in 33898a9768 is restored in 4be7709979 per coordinator review).
 - `perm_quadratic_kissat_u64_n8` vs `perm::perm_quadratic_u64_n8`: + `#[kani::solver(kissat)]` and fn name only.
 - `perm_arbitrary_kissat_negative_u64_n8` vs `posts::partposts_count_negative_u64_n8`: + solver, name, literals renamed
   `partposts count control: …` → `permsolver arbitrary control: …`, `count check reached` → `check reached`, designated
@@ -50,13 +47,15 @@ so post has no room for y ∉ S and count(post, y) = 0 = count(pre, y): equivale
 PERMPROBE's index probe). The solver attribute changes only the SAT backend of the same CBMC goal, not the claim. Inputs stay
 full 64-bit; no speed-up is assumed.
 
+## Gate covers: arbitrary positive 3/3, quadratic positive 2/2, controls 2/2 each
+
 ## Annotations / covers / literals (prefix `verify::network::posts::perm::solver::`)
 | Root | Line | Input / probe | Asserts in order (literal) | Covers |
 |---|---:|---|---|---|
-| perm_arbitrary_kissat_u64_n8 | 17 | any `[u64;8]`, probe any u64 | `partposts: full-value count preserved` | 2: `partposts count: sort moves elements` (!prefix_unchanged) / `partposts count: check reached the end` |
-| perm_quadratic_kissat_u64_n8 | 38 | any `[u64;8]` | `permprobe: quadratic counts preserved` | 2: `permprobe quadratic: sort moves elements` / `… check reached` |
-| perm_arbitrary_kissat_negative_u64_n8 | 57 | `[P;8]`, probe P | `… initial sortedness`, `… initial count`; v7=Q; `… sortedness after overwrite`; **`permsolver negative: arbitrary count`** | 2: `permsolver arbitrary control: returned before corruption` / `… check reached` (before final assert) |
-| perm_quadratic_kissat_negative_u64_n8 | 89 | `[P;8]` | `… initial counts`; v7=Q; `… sortedness after overwrite`; **`permsolver negative: quadratic count`** | 2: `permsolver quadratic control: returned before corruption` / `… check reached` (before final assert) |
+| perm_arbitrary_kissat_u64_n8 | 17 | any `[u64;8]`, probe any u64 | `partposts: full-value count preserved` | 3: `partposts count: sort moves elements` (!prefix_unchanged) / `… sort returns normally at length 8` / `… check reached the end` |
+| perm_quadratic_kissat_u64_n8 | 39 | any `[u64;8]` | `permprobe: quadratic counts preserved` | 2: `permprobe quadratic: sort moves elements` / `… check reached` |
+| perm_arbitrary_kissat_negative_u64_n8 | 58 | `[P;8]`, probe P | `… initial sortedness`, `… initial count`; v7=Q; `… sortedness after overwrite`; **`permsolver negative: arbitrary count`** | 2: `permsolver arbitrary control: returned before corruption` / `… check reached` (before final assert) |
+| perm_quadratic_kissat_negative_u64_n8 | 90 | `[P;8]` | `… initial counts`; v7=Q; `… sortedness after overwrite`; **`permsolver negative: quadratic count`** | 2: `permsolver quadratic control: returned before corruption` / `… check reached` (before final assert) |
 
 P=1<<40, Q=1<<41 only in controls. `[P;8]` stays `[P;8]` after the entry, initial checks pass; v7=Q keeps order (`Q<P` false)
 and count(P) 8→7, so only the designated literal fails. Every literal in solver.rs occurs once there; neither designated literal is
@@ -65,8 +64,8 @@ other literal) is not counted as intended-negative.
 
 ## Static inventory / format (`cleanup/source_inventory.py` imported by a scratch script on base archive and HEAD; no report written)
 - Ordinary 202 → 202, sorted-name sha256 d5d55502…42e5 at both. cfg-on 393 → 397; opt-in 191 → 195. Exact delta +4 −0:
-  `perm::solver::{perm_arbitrary_kissat_u64_n8:17, perm_quadratic_kissat_u64_n8:38, perm_arbitrary_kissat_negative_u64_n8:57,
-  perm_quadratic_kissat_negative_u64_n8:89}`, origin direct, gates [kani_smallsort_controls].
+  `perm::solver::{perm_arbitrary_kissat_u64_n8:17, perm_quadratic_kissat_u64_n8:39, perm_arbitrary_kissat_negative_u64_n8:58,
+  perm_quadratic_kissat_negative_u64_n8:90}`, origin direct, gates [kani_smallsort_controls].
 - PFC 36 unchanged: solver.rs has no `proof_for_contract` (text sites in smallsort tree 27 = base); `integwrapfix/pfc_order.py`
   ordinary pfc sites 16 bad 0 at base and HEAD. Native inventory not run.
 - rustfmt (TASK-DIRECT wrapper, `--edition 2024`, fmtcfg/rustfmt.toml) applied to solver.rs, then `--check` on network.rs,
@@ -84,8 +83,8 @@ kind measurement, agent k1-merge, runner gcb-e2-standard-4 (k1-standard4, 4 vCPU
 the root attribute).
 
 ## Budget / slots / window (k1g.sh budget, 2026-11-03T10:52Z)
-- Project: 189 builds, used $83.9130, reserved by unfinished $1.4850 (expected COVERCOST 623c19b0 on k1-merge + ROUTESCD on
-  k1-network — coordinator to confirm), cap $88.96. + G1 reserve (4×10+30)×$0.0135 = **$0.945** → $86.343 ≤ $88.96.
+- Project: 189 builds, used $83.9130, reserved by unfinished $1.4850 (coordinator-confirmed: COVERCOST 623c19b0 k1-merge $0.54 +
+  ROUTESCD G1 k1-network $0.945), cap $88.96. + G1 reserve (4×10+30)×$0.0135 = **$0.945** → $86.343 ≤ $88.96.
 - Slots: dispatch only after COVERCOST is terminal and accounted; then project unfinished ≤ 2 (ROUTESCD may run), k1-merge 1.
   Before dispatch I re-run `k1g.sh budget` and re-check spent + reserves ≤ cap.
 - Own cap $1.00: one Build $0.945; no retry/G2. A single compile-error repair only with new review/GO if own spent + reserve
