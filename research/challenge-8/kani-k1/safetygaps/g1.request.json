@@ -1,0 +1,26 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "safetygaps-g1-measure-dispatch-bytes85-zst-20261103",
+  "kind": "measurement",
+  "purpose": "SAFETYGAPS G1: GCB VT/RSS of three existing opt-in dispatch_safety roots (bytes85 N31 stable+unstable, ZST stable N0..32 list, ZST unstable N8..17 list) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n31",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_zst_n8_9_12_13_17",
+      "expect": "SUCCESS"
+    }
+  ]
+}
