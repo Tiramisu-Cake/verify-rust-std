@@ -2,40 +2,48 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "cellsplit-g1-measure-cell-n11-15-split7-20261103",
+  "request_id": "cellsplit-g2-measure-cell-n16-17-split9-20261103",
   "kind": "measurement",
-  "purpose": "CELLSPLIT G1: GCB VT/RSS of existing opt-in mutating Cell<TaggedKey> insertion split roots N11..15 (n11_to12, n13, n14, n15 offset groups 1-4/5-8/9-12/13-15) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "purpose": "CELLSPLIT G2: GCB VT/RSS of existing opt-in mutating Cell<TaggedKey> insertion split roots N16..17 offset groups on unchanged v6 library tree d4ec476a; controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n11_to12",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets1_to4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n13",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets5_to8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n14",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets9_to12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets1_to4",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n16_offsets13_to16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets5_to8",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets1_to4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets9_to12",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets5_to8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n15_offsets13_to15",
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets9_to12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets13_to15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n17_offsets16_to17",
       "expect": "SUCCESS"
     }
   ]

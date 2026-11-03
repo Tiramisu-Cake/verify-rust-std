@@ -71,3 +71,13 @@ workflows, tooling unchanged.
 - Window: T0 at G1 dispatch; main 300 min + closeout 30. G2 needs ≥ 110 min left of main, G3 ≥ 120 min; otherwise not run.
 - No retry; only the one compile-error repair exception per stage with new review/GO. Status 6 on ≥ 4/7 G1 rows → stop
   before G2 and report.
+
+## G2 PRE-BUILD (after G1 terminal/accounting, 2026-11-03 ~16:35Z)
+- G1 37bbcae6 terminal SUCCESS, 7/7 rows accepted, cost $0.2430 (cellsplit/g1.result.md). No status 6, no compile/setup error.
+- RUN-REQUEST.json := cellsplit/g2.request.json (sha256 4c1e9ce6829a7cc9ff7b9ead8f04fd61b8bbdc3ac09d0f5b76212e8b6937a998),
+  re-validated (9 rows); library tree d4ec476a and lane files unchanged since 24c93e8d (only research files change).
+- Required covers G2 (from source inventory above): n16 groups 6,6,6,6; n17 groups 6,6,6,5,4.
+- Budget: project 203 builds, used $88.3005, reserved by unfinished $1.2150 (another owner's build) → + G2 $1.620 =
+  $91.1355 ≤ $93.96. Own spent $0.2430 + G2 reserve $1.620 = $1.863 ≤ $3.60 (G3 $1.755 rechecked after G2 accounting).
+- Slots: 1 unfinished in project (not k1-network); G2 makes 2 (≤2), k1-network 1 (≤1).
+- Window: T0 16:11:14Z, main ends 21:11Z; ~276 min left ≥ 9×10+20 = 110 min.
