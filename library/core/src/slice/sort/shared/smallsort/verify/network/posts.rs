@@ -90,3 +90,6 @@ fn partposts_count_negative_u64_n8() {
         "partposts negative: full-value count preserved",
     );
 }
+
+#[cfg(kani_smallsort_controls)]
+mod perm;
