@@ -1486,3 +1486,6 @@ mutating_route_permutation_case!(mutating_route_permutation_cell_n4, 4, [1, 2, 3
 fn control_network_mutant_presorted_u8_n10() {
     network_correctness_u8_n10();
 }
+
+#[cfg(kani_smallsort_controls)]
+mod permany;
