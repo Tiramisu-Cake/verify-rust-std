@@ -42,6 +42,16 @@ STAGES = {
         ("network::u64nine::u64nine_wrong_cmp_u64_n9", "control", "u64nine-u64-n9"),
         ("network::u64nine::u64nine_count_negative_u64_n9", "control", "u64nine-u64-n9"),
     ],
+    "g2": [
+        ("merge::merge_scratch48_contract_u8_n9", "leaf", "bridgenine-u8-n9"),
+        ("bridge::bridgenine_caller_u8_n9", "consumer", "bridgenine-u8-n9"),
+        ("bridge::bridgenine_direct_u8_n9", "baseline", "bridgenine-u8-n9"),
+        ("bridge::bridgenine_payload_flip_u8_n9", "control", "bridgenine-u8-n9"),
+        ("network::netcomp::netcomp_leaf_u8_n13", "leaf", "netcomp-u8-n13"),
+        ("network::netcomp::netcomp_composed_u8_n13", "consumer", "netcomp-u8-n13"),
+        ("network::netcomp::netcomp_wrong_cmp_u8_n13", "control", "netcomp-u8-n13"),
+        ("network::netcomp::netcomp_count_negative_u8_n13", "control", "netcomp-u8-n13"),
+    ],
 }
 LITERAL_RE = re.compile(r"^'(?P<lit>[^']+)' @(?P<file>[A-Za-z0-9_]+\.rs):(?P<line>\d+)(?: \(literal :(?P<lit_line>\d+)\))?$")
 
@@ -64,6 +74,24 @@ def matrix_rows() -> dict[str, dict[str, str]]:
 
 def root_block(src: list[str], fn: str) -> tuple[int, list[str]] | None:
     hits = [i for i, l in enumerate(src) if re.match(rf"^fn {re.escape(fn)}\(\)", l)]
+    if not hits:
+        # Macro-defined root: exactly one `define_*!(fn, ...)` invocation; attributes come from the
+        # single `macro_rules!` body's `#[...]` lines before its `fn $name()`.
+        inv = [i for i, l in enumerate(src) if re.match(rf"^(define_\w+)!\({re.escape(fn)},", l)]
+        if len(inv) != 1:
+            return None
+        mac = re.match(r"^(define_\w+)!", src[inv[0]]).group(1)
+        defs = [i for i, l in enumerate(src) if l.strip() == f"macro_rules! {mac} {{"]
+        if len(defs) != 1:
+            return None
+        attrs = []
+        for l in src[defs[0] + 1:defs[0] + 12]:
+            t = l.strip()
+            if t.startswith("fn $name()"):
+                return inv[0] + 1, attrs + [f"(macro {mac} @line {defs[0] + 1})"]
+            if t.startswith("#["):
+                attrs.append(t)
+        return None
     if len(hits) != 1:
         return None
     i = hits[0]

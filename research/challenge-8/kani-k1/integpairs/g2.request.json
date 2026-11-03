@@ -1,0 +1,49 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "integpairs-g2-bridgenine-n13-pairs-20261103",
+  "kind": "measurement",
+  "purpose": "INTEGPAIRS G2: same-Build leaf+consumer pairs on integrated tree a45388ac59 (merge scratch48 leaf + bridgenine caller u8 N9 with direct baseline/payload flip; netcomp u8 N13 with controls); unchanged library.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_caller_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_direct_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::bridge::bridgenine_payload_flip_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "bridgenine output preserves full-value probe count"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n13",
+      "expect": "FAILED",
+      "expect_check": "netcomp canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n13",
+      "expect": "FAILED",
+      "expect_check": "netcomp N13 negative: full-value count preserved"
+    }
+  ]
+}

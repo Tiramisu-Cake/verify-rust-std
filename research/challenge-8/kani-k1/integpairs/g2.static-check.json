@@ -1,0 +1,166 @@
+{
+ "stage": "g2",
+ "ok": true,
+ "problems": [],
+ "library_tree": "a45388ac593c809405558ea0c27599f487b17e4e",
+ "expected_sha256": "da9bcae231b35b1c42d2873976879c1209a688cc03bc25a3421f5fea7b578f1b",
+ "matrix_sha256": "e3b60199a46f580e98c62a0dc7794a72a185edea9e9967db6d110f0be9793e39",
+ "request": "research/challenge-8/kani-k1/RUN-REQUEST.json",
+ "request_sha256": "216c2e26ef7a88c18d9caf70c9fa59e9d373c1c9967483162e99b3bd1f9cc537",
+ "request_valid": true,
+ "reserve_minutes": 110,
+ "reserve_usd": 1.485,
+ "rows": [
+  {
+   "row": "merge::merge_scratch48_contract_u8_n9",
+   "role": "leaf",
+   "pair": "bridgenine-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-leaf (ordinary v6 root)",
+   "expect": "SUCCESS",
+   "covers": "2/2",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+   "fn_line": 907,
+   "attrs": [
+    "#[kani::proof_for_contract(specfix::merge_profile)]",
+    "#[kani::unwind(34)]",
+    "(macro define_merge_scratch48_contract_harness @line 897)"
+   ],
+   "unwind": "34"
+  },
+  {
+   "row": "bridge::bridgenine_caller_u8_n9",
+   "role": "consumer",
+   "pair": "bridgenine-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-consumer",
+   "expect": "SUCCESS",
+   "covers": "3/3",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/bridge.rs",
+   "fn_line": 194,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(bidirectional_merge, adapter)]",
+    "#[kani::stub_verified(merge_profile)]",
+    "#[kani::unwind(34)]"
+   ],
+   "unwind": "34"
+  },
+  {
+   "row": "bridge::bridgenine_direct_u8_n9",
+   "role": "baseline",
+   "pair": "bridgenine-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-theorem/baseline",
+   "expect": "SUCCESS",
+   "covers": "2/2",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/bridge.rs",
+   "fn_line": 184,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::unwind(34)]"
+   ],
+   "unwind": "34"
+  },
+  {
+   "row": "bridge::bridgenine_payload_flip_u8_n9",
+   "role": "control",
+   "pair": "bridgenine-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "3/3",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/bridge.rs",
+   "fn_line": 204,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(bidirectional_merge, adapter)]",
+    "#[kani::stub_verified(merge_profile)]",
+    "#[kani::unwind(34)]"
+   ],
+   "unwind": "34",
+   "expect_check": "bridgenine output preserves full-value probe count",
+   "reported_line": 176,
+   "literal_line": 178,
+   "literal_occurrences_in_file": 1
+  },
+  {
+   "row": "network::netcomp::netcomp_leaf_u8_n13",
+   "role": "leaf",
+   "pair": "netcomp-u8-n13",
+   "inventory_count": 1,
+   "matrix_class": "A-leaf",
+   "expect": "SUCCESS",
+   "covers": "7/7",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 282,
+   "attrs": [
+    "#[kani::proof_for_contract(swap_net13)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::netcomp::netcomp_composed_u8_n13",
+   "role": "consumer",
+   "pair": "netcomp-u8-n13",
+   "inventory_count": 1,
+   "matrix_class": "A-consumer",
+   "expect": "SUCCESS",
+   "covers": "6/6",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 426,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter13)]",
+    "#[kani::stub_verified(swap_net13)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::netcomp::netcomp_wrong_cmp_u8_n13",
+   "role": "control",
+   "pair": "netcomp-u8-n13",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "2/2",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 435,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter13)]",
+    "#[kani::stub_verified(swap_net13)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "netcomp canonical comparator required",
+   "reported_line": 354,
+   "literal_line": 354,
+   "literal_occurrences_in_file": 2
+  },
+  {
+   "row": "network::netcomp::netcomp_count_negative_u8_n13",
+   "role": "control",
+   "pair": "netcomp-u8-n13",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "3/3",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 449,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter13)]",
+    "#[kani::stub_verified(swap_net13)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "netcomp N13 negative: full-value count preserved",
+   "reported_line": 459,
+   "literal_line": 461,
+   "literal_occurrences_in_file": 1
+  }
+ ]
+}

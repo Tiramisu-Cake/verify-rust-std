@@ -1,0 +1,5 @@
+2026-11-03 pre-build G2 (after G1 terminal/accounting):
+builds 197; used $86.4645, reserved by unfinished builds $0.9450, cap $93.96 (both pools;
+  prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135)
+own: G1 spent 0.2295 (504cea68) + G2 reserve (8x10+30)x0.0135 = 1.4850 -> 1.7145 <= stage cap 3.00
+project after G2 reserve = used + reserved (above) + 1.4850; re-checked by k1g.sh dispatch
