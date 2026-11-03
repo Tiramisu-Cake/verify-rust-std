@@ -1,0 +1,228 @@
+{
+ "base": "e8e238db9d87323fa4da011a1a8b37fb76ec91c0",
+ "head": "04d4e32dfca7f67ea3b1afb514b0a216b976ec3d",
+ "library_changed": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs"
+ ],
+ "network_rs_inserted_at_line": 15,
+ "typematrix_rs_sha256": "34b6e3790ea34a27aab3f59d8ba12e974a5525504a20f184efac54beb4b96a95",
+ "typematrix_rs_lines": 133,
+ "network_rs_sha256": "33550fa79ccc8340f7201bf5d641248f1cce727c524d43ecebdca1672dd6f798",
+ "network_rs_base_blob": "1a85a483b16449485a02c4e1140033c8a22956fa",
+ "macro_diff_pairs": [
+  "stub paths one module deeper (same two functions)",
+  "stub paths one module deeper (same two functions)"
+ ],
+ "macro_unexplained": [],
+ "macro_compared_lines": [
+  49,
+  49
+ ],
+ "roots": [
+  {
+   "name": "dispatch_safety_stable_unstable_u8u32_n0_1_2_7_8",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "(u8, u32)",
+   "stable": null,
+   "lengths": [
+    0,
+    1,
+    2,
+    7,
+    8
+   ],
+   "covers": 11
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_u8u32_n15_16_17",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "(u8, u32)",
+   "stable": null,
+   "lengths": [
+    15,
+    16,
+    17
+   ],
+   "covers": 7
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_u8u32_n31_32",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "(u8, u32)",
+   "stable": null,
+   "lengths": [
+    31,
+    32
+   ],
+   "covers": 5
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_u128_n0_1_2_7_8",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "u128",
+   "stable": null,
+   "lengths": [
+    0,
+    1,
+    2,
+    7,
+    8
+   ],
+   "covers": 11
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_u128_n15_16_17",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "u128",
+   "stable": null,
+   "lengths": [
+    15,
+    16,
+    17
+   ],
+   "covers": 7
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_u128_n31_32",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "u128",
+   "stable": null,
+   "lengths": [
+    31,
+    32
+   ],
+   "covers": 5
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_bytes9_n0_1_2_7_8",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "[u8; 9]",
+   "stable": null,
+   "lengths": [
+    0,
+    1,
+    2,
+    7,
+    8
+   ],
+   "covers": 11
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_bytes9_n15_16_17",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "[u8; 9]",
+   "stable": null,
+   "lengths": [
+    15,
+    16,
+    17
+   ],
+   "covers": 7
+  },
+  {
+   "name": "dispatch_safety_stable_unstable_bytes9_n31_32",
+   "macro": "dispatch_pair_safety_cases",
+   "type": "[u8; 9]",
+   "stable": null,
+   "lengths": [
+    31,
+    32
+   ],
+   "covers": 5
+  },
+  {
+   "name": "dispatch_safety_unstable_u8u32_n9_12_13_18",
+   "macro": "dispatch_safety_cases",
+   "type": "(u8, u32)",
+   "stable": "false",
+   "lengths": [
+    9,
+    12,
+    13,
+    18
+   ],
+   "covers": 5
+  }
+ ],
+ "covers_total": 74,
+ "arbitrary_impls": [
+  [
+   "(u8, u32)",
+   "(kani::any(), kani::any())"
+  ],
+  [
+   "u128",
+   "kani::any()"
+  ]
+ ],
+ "const_asserts": [
+  "assert!(size_of::<(u8, u32)>() == 8 && align_of::<(u8, u32)>() == 4);",
+  "assert!(size_of::<u128>() == 16 && align_of::<u128>() == 16);",
+  "assert!(size_of::<[u8; 9]>() == 9 && align_of::<[u8; 9]>() == 1);",
+  "assert!(has_efficient_in_place_swap::<(u8, u32)>());",
+  "assert!(size_of::<(u8, u32)>() * SMALL_SORT_NETWORK_SCRATCH_LEN <= MAX_STACK_ARRAY_SIZE);",
+  "assert!(!has_efficient_in_place_swap::<u128>());",
+  "assert!(size_of::<u128>() * SMALL_SORT_GENERAL_SCRATCH_LEN <= MAX_STACK_ARRAY_SIZE);",
+  "assert!(!has_efficient_in_place_swap::<[u8; 9]>());",
+  "assert!(size_of::<[u8; 9]>() * SMALL_SORT_GENERAL_SCRATCH_LEN <= MAX_STACK_ARRAY_SIZE);"
+ ],
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "controls_on_count": [
+  384,
+  394
+ ],
+ "ordinary_delta": [],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n0_1_2_7_8",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n15_16_17",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n31_32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n0_1_2_7_8",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n15_16_17",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n31_32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n0_1_2_7_8",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n15_16_17",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n31_32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n9_12_13_18"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "request_sha256": "b122e59d9848a77fdb78b33ad5336cd57d912782204a0dbb47697a6c8f3d0b5d",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n0_1_2_7_8",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n15_16_17",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n31_32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n0_1_2_7_8",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n15_16_17",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n31_32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n0_1_2_7_8",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n15_16_17",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n31_32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n9_12_13_18",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 130,
+ "envelope_usd": 1.755,
+ "status": "PASS",
+ "errors": []
+}

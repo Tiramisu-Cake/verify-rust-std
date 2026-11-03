@@ -1,0 +1,12 @@
+--- base:library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs
+@@ -3,3 +3,3 @@
+         #[kani::proof]
+-        #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
++        #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]
+         #[kani::unwind(65)]
+@@ -23,3 +23,3 @@
+         #[kani::proof]
+-        #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
++        #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]
+         #[kani::unwind(65)]
