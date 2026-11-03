@@ -5,6 +5,9 @@
 
 #![allow(dead_code)]
 
+#[cfg(kani_smallsort_controls)]
+mod loopinv;
+
 use super::super::UnstableSmallSortFreezeTypeImpl;
 use super::merge::specfix::{
     LtI32, LtU8, LtU64, Profile, identity_profile, insert_tail_profile, swap_profile,

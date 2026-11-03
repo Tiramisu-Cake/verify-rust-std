@@ -590,6 +590,18 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
         let v_base = v.as_mut_ptr();
         let v_end = v_base.add(len);
         let mut tail = v_base.add(offset);
+        #[cfg_attr(
+            all(kani, kani_smallsort_controls),
+            crate::kani::loop_invariant(
+                mem::size_of::<T>() == 0
+                    || (crate::ub_checks::same_allocation(v_base, tail)
+                        && crate::ub_checks::same_allocation(v_base, v_end)
+                        && v_base.addr() < tail.addr()
+                        && tail.addr() <= v_end.addr()
+                        && (tail.addr() - v_base.addr()) % mem::size_of::<T>() == 0)
+            ),
+            crate::kani::loop_modifies(&tail, ptr::slice_from_raw_parts(v_base, len))
+        )]
         while tail != v_end {
             // SAFETY: v_base and tail are both valid pointers to elements, and
             // v_base < tail since we checked offset != 0.
