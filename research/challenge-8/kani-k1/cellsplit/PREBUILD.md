@@ -81,3 +81,13 @@ workflows, tooling unchanged.
   $91.1355 ≤ $93.96. Own spent $0.2430 + G2 reserve $1.620 = $1.863 ≤ $3.60 (G3 $1.755 rechecked after G2 accounting).
 - Slots: 1 unfinished in project (not k1-network); G2 makes 2 (≤2), k1-network 1 (≤1).
 - Window: T0 16:11:14Z, main ends 21:11Z; ~276 min left ≥ 9×10+20 = 110 min.
+
+## G3 PRE-BUILD (after G2 terminal/accounting, 2026-11-03 ~16:56Z)
+- G2 f77274f7 terminal SUCCESS, 9/9 rows accepted, cost $0.2295 (cellsplit/g2.result.md). No status 6, no setup error.
+- RUN-REQUEST.json := cellsplit/g3.request.json (sha256 61b78853f42661e9c8a823be3e03f51b5b46ae63323734f59df9b27de6cd5ee7),
+  re-validated (10 rows); library tree d4ec476a and lane files unchanged since d3a639c2 (only research files change).
+- Required covers G3 (source inventory above): n18 groups 6,6,6,6,4; n19 groups 6,6,6,6,5.
+- Budget: project 204 builds, used $88.5300, reserved by unfinished $1.2150 (UNSTABLEZST, k1-merge) → + G3 $1.755 =
+  $91.5000 ≤ $93.96. Own spent $0.2430 + $0.2295 = $0.4725 + G3 reserve $1.755 = $2.2275 ≤ $3.60. G3 is the last packet.
+- Slots: 1 unfinished in project (k1-merge); G3 makes 2 (≤2), k1-network 1 (≤1).
+- Window: T0 16:11:14Z, main ends 21:11Z; ~255 min left ≥ 10×10+20 = 120 min.
