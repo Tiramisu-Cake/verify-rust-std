@@ -45,6 +45,15 @@ dispatch_safety_cases!(
     [0, 1, 2, 7, 8, 15, 16, 17, 31, 32]
 );
 
+// UNSTABLEZST: `dispatch_safety_unstable_zst_n8_9_12_13_17` with `zst_aware_less` as the only
+// change, as one family and per length.
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n8_9_12_13_17, (), false, [8, 9, 12, 13, 17]);
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n8, (), false, [8]);
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n9, (), false, [9]);
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n12, (), false, [12]);
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n13, (), false, [13]);
+dispatch_safety_cases!(zst_unstable_dispatch_aware_n17, (), false, [17]);
+
 // The original root restricted to N2: the unchanged `volatile_reading_less` body.
 #[kani::proof]
 #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]
