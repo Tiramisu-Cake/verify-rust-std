@@ -461,3 +461,6 @@ fn netcomp_count_negative_u8_n13() {
         "netcomp N13 negative: full-value count preserved",
     );
 }
+
+#[cfg(kani_smallsort_controls)]
+mod directbounds;

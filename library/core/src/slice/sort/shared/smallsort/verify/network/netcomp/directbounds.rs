@@ -1,0 +1,117 @@
+//! DIRECTBOUNDS: direct actual unstable u8 route at N10 and N13 with the A9 comparator.
+//! Same T, F, comparator value, probe and oracle as `netcomp_direct_u8_n9` (A9, positive9(false)).
+//! No stubs, contract summaries or adapters: every root runs the real network body.
+
+use super::super::{StrictU8, count_matching_values, is_sorted_by, prefix_unchanged};
+use super::{U8Cmp, canonical};
+use crate::kani;
+use crate::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl;
+use crate::slice::sort::shared::smallsort::verify::merge::specfix::Profile;
+
+// A9 run9(v, probe, cmp, false) without its composed-only locals: actual trait entry, then the
+// canonical comparator check. Route: Freeze/Copy -> small_sort_network, no merge below len 18.
+fn run10(v: &mut [u8; 10], cmp: &mut U8Cmp) {
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(v, cmp);
+    kani::assert(canonical(*cmp), "directbounds N10: canonical comparator unchanged");
+}
+
+fn run13(v: &mut [u8; 13], cmp: &mut U8Cmp) {
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(v, cmp);
+    kani::assert(canonical(*cmp), "directbounds N13: canonical comparator unchanged");
+}
+
+#[kani::proof]
+#[kani::unwind(25)]
+fn direct_u8_n10() {
+    let mut v: [u8; 10] = kani::any();
+    let pre = v;
+    let probe: u8 = kani::any();
+    let mut cmp: U8Cmp = StrictU8::CMP;
+    run10(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N10: sorted output");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds N10: full-value count preserved",
+    );
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "directbounds N10: sort moves elements");
+    kani::cover(count_matching_values(&pre, &probe) > 0, "directbounds N10: probe hits input");
+    kani::cover(count_matching_values(&pre, &probe) == 0, "directbounds N10: probe misses input");
+    let mut duplicates = false;
+    let mut i = 1;
+    while i < 10 {
+        duplicates |= v[i] == v[i - 1];
+        i += 1;
+    }
+    kani::cover(duplicates, "directbounds N10: duplicates present");
+}
+
+#[kani::proof]
+#[kani::unwind(25)]
+fn direct_u8_n13() {
+    let mut v: [u8; 13] = kani::any();
+    let pre = v;
+    let probe: u8 = kani::any();
+    let mut cmp: U8Cmp = StrictU8::CMP;
+    run13(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N13: sorted output");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds N13: full-value count preserved",
+    );
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "directbounds N13: sort moves elements");
+    kani::cover(count_matching_values(&pre, &probe) > 0, "directbounds N13: probe hits input");
+    kani::cover(count_matching_values(&pre, &probe) == 0, "directbounds N13: probe misses input");
+    let mut duplicates = false;
+    let mut i = 1;
+    while i < 13 {
+        duplicates |= v[i] == v[i - 1];
+        i += 1;
+    }
+    kani::cover(duplicates, "directbounds N13: duplicates present");
+}
+
+#[kani::proof]
+#[kani::unwind(25)]
+fn count_negative_u8_n10() {
+    let mut v = [0u8; 10];
+    let pre = v;
+    let probe = 0u8;
+    let mut cmp: U8Cmp = StrictU8::CMP;
+    run10(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N10 negative: sorted before corruption");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds N10 negative: count before corruption",
+    );
+    kani::cover(true, "directbounds N10 negative: sort returned before corruption");
+    v[9] = 1;
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N10 negative: sorted after corruption");
+    kani::cover(true, "directbounds N10 negative: corrupted count check reached");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds negative: count n10",
+    );
+}
+
+#[kani::proof]
+#[kani::unwind(25)]
+fn count_negative_u8_n13() {
+    let mut v = [0u8; 13];
+    let pre = v;
+    let probe = 0u8;
+    let mut cmp: U8Cmp = StrictU8::CMP;
+    run13(&mut v, &mut cmp);
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N13 negative: sorted before corruption");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds N13 negative: count before corruption",
+    );
+    kani::cover(true, "directbounds N13 negative: sort returned before corruption");
+    v[12] = 1;
+    kani::assert(is_sorted_by(&v, &mut cmp), "directbounds N13 negative: sorted after corruption");
+    kani::cover(true, "directbounds N13 negative: corrupted count check reached");
+    kani::assert(
+        count_matching_values(&pre, &probe) == count_matching_values(&v, &probe),
+        "directbounds negative: count n13",
+    );
+}
