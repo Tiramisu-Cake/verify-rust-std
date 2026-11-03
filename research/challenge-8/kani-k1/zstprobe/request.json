@@ -1,0 +1,30 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "zstprobe-diag-zst-dispatch-volatile-20261103",
+  "kind": "diagnostic",
+  "purpose": "ZSTPROBE: localize the 4 pointer-check failures of stable ZST dispatch (SAFETYGAPS G1): zst_aware_less copy, original volatile at N2, volatile unit-read repro and control; controls on, jobs1.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_volatile_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_dangling",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_local",
+      "expect": "SUCCESS"
+    }
+  ]
+}

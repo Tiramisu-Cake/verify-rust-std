@@ -1,0 +1,60 @@
+{
+ "base": "e8e238db9d87323fa4da011a1a8b37fb76ec91c0",
+ "library_changed": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/zstprobe.rs"
+ ],
+ "network_rs_inserted": [
+  "#[cfg(kani_smallsort_controls)]",
+  "mod zstprobe;",
+  ""
+ ],
+ "zstprobe_rs_sha256": "2a83942028c91f7bbb81f38d10a85187918b84e910a6b84f1882fbe46c5c6454",
+ "network_rs_sha256": "aeccc8cd9592892dc099bb001947c4d2356c6260eec5bb633cae8061f0e00105",
+ "network_rs_base_blob": "1a85a483b16449485a02c4e1140033c8a22956fa",
+ "root1_diff_pairs": [
+  "use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl}; -> use super::super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};",
+  "stable call: volatile_reading_less -> zst_aware_less (rustfmt joins lines)",
+  "<T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less::<T>); -> <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut zst_aware_less::<T>);",
+  "#[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)] -> #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]",
+  "dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32, -> zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32,"
+ ],
+ "root1_unexplained": [],
+ "root1_compared_lines": [
+  41,
+  37
+ ],
+ "new_controls_harnesses": [
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_volatile_n2",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_dangling",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_local"
+ ],
+ "stub_lines": 2,
+ "ordinary_delta": 0,
+ "pfc_delta": 0,
+ "controls_delta": 4,
+ "request_sha256": "6a1d2d15b8524ebc99e405b9d4e25d8b0972b672e66991c9697629d6ab3dad09",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_volatile_n2",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_dangling",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_local",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 70,
+ "envelope_usd": 0.945,
+ "status": "PASS",
+ "errors": []
+}

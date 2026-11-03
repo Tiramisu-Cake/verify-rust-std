@@ -1,0 +1,29 @@
+--- base:library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ library/core/src/slice/sort/shared/smallsort/verify/network/zstprobe.rs
+@@ -1,3 +1,3 @@
+ fn dispatch_safety_fixed<T: ArbitraryValue, const N: usize, const STABLE: bool>() {
+-    use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
++    use super::super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+     let mut v: [T; N] = crate::array::from_fn(|_| T::arbitrary_value());
+@@ -5,9 +5,5 @@
+         let mut scratch = [const { crate::mem::MaybeUninit::<T>::uninit() }; 48];
+-        <T as StableSmallSortTypeImpl>::small_sort(
+-            &mut v,
+-            &mut scratch,
+-            &mut volatile_reading_less::<T>,
+-        );
++        <T as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut zst_aware_less::<T>);
+     } else {
+-        <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less::<T>);
++        <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut zst_aware_less::<T>);
+     }
+@@ -18,3 +14,3 @@
+         #[kani::proof]
+-        #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
++        #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]
+         #[kani::unwind(65)]
+@@ -36,3 +32,3 @@
+ dispatch_safety_cases!(
+-    dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32,
++    zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32,
+     (),
