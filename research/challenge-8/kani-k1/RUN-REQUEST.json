@@ -2,28 +2,28 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "safetynet-g1-measure-u64netsafety4-n18to29-20261103",
+  "request_id": "routesab-g1-measure-allroutes-n9to12-20261103",
   "kind": "measurement",
-  "purpose": "SAFETYNET G1: GCB VT/RSS and normal-return safety of four existing opt-in u64 Unstable network_safety roots N18..29 (dispatch route, panic stub, unwind 35) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "purpose": "ROUTESAB G1 (packet A): GCB VT/RSS and normal-return safety of existing opt-in merge::route_safety_all_routes_n9..n12 (direct general u64 / non-Copy Unstable general / Stable u64 scratch 48; panic stub, unwind 34) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n18_to21",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n22_to25",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n10",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n26_to27",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n11",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n28_to29",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n12",
       "expect": "SUCCESS"
     }
   ]
