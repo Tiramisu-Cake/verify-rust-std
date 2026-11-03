@@ -1,32 +1,36 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-network",
+  "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "partposts-g2-split-u64n8-20261102",
+  "request_id": "permprobe-g1-oracles-u64n8-20261103",
   "kind": "measurement",
-  "purpose": "PART2-POSTS8 G2: split u64 N8 posts as direct roots network::posts sorted/count (SUCCESS) plus order/count full-u64 negative controls (FAILED at their literals); controls on, jobs1.",
+  "purpose": "PERMPROBE G1: u64 N8 permutation oracles network::posts::perm index-probe/quadratic/index+kissat (SUCCESS) plus index/quadratic full-u64 negative controls (FAILED at their literals); controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_sorted_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::perm_index_u64_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_count_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::perm_quadratic_u64_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_order_negative_u64_n8",
-      "expect": "FAILED",
-      "expect_check": "partposts negative: sortedness"
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::perm_index_kissat_u64_n8",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::posts::partposts_count_negative_u64_n8",
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::perm_index_negative_u64_n8",
       "expect": "FAILED",
-      "expect_check": "partposts negative: full-value count preserved"
+      "expect_check": "permprobe negative: index count"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::perm_quadratic_negative_u64_n8",
+      "expect": "FAILED",
+      "expect_check": "permprobe negative: quadratic count"
     }
   ]
 }
