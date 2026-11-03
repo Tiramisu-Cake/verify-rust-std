@@ -6,14 +6,22 @@
       "rows": 1,
       "kind": "diagnostic",
       "reserve_usd": 0.54,
-      "status": "PREBUILD_WAITING_GO",
-      "build": null
+      "status": "COMPLETE",
+      "build": "623c19b0-7637-4fb8-a191-1622c8e893a3",
+      "spent_usd": 0.1755,
+      "source_sha": "de75524bb7276b556e60f7c22ea5b126b4e36a0b",
+      "coordinator_go": "GO de75524bb7; one Build G1",
+      "outcome": "diagnostic SUCCESS VT 347.03745s 0/1104; driver 11.92 GiB, same growth rate; covers not the cause"
     }
   },
   "build_limit": 1,
   "stage_cap_usd": 0.6,
-  "builds": [],
-  "spent_usd": 0,
+  "builds": [
+    "623c19b0-7637-4fb8-a191-1622c8e893a3"
+  ],
+  "spent_usd": 0.1755,
   "reserved_usd": 0,
-  "status": "PREBUILD_WAITING_GO"
+  "status": "COMPLETE",
+  "task_outcome": "DIAGNOSTIC_DONE_HYPOTHESIS_REFUTED",
+  "completed_utc": "2026-11-03T10:59:24.285556Z"
 }
