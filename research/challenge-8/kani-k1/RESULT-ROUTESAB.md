@@ -35,5 +35,5 @@ uninit checks off. Source unchanged → measurement, not a speed-up. Opt-in resu
 Candidate-for-v7: all eight ≤300 s GCB shortlist (max n17 121.7 s); ≤600 s proof fit; macOS/jobs3 margin OPEN (no factor).
 History (other trees/profiles, not matched): N9 34→29.2, N10 41→38.9, N12 43→43.2, N14 65→56.1 s; N11/N13/N15/N17 first records.
 C–F advice (not run): VT grows ~4 s/N in the sort4 regime (N9..15), then ×1.9 at N17 when sort8_stable (two extra 8-merges)
-starts. C[18..21] fits as 4 rows; split by route not needed upfront. D/E/F (N22..32, 3 more merge levels of insert_tail
+starts. C[18..21] fits as 4 rows; split by route not needed upfront. D/E/F (N22..32: same sort8 shape, insert_tail tail grows to N/2-8 per half
 work) are the likely >300 s risk: keep packet shape, but decide route-split for E[26..29]/F[30..32] after C/D VT, not now.
