@@ -1,0 +1,32 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "permsolver-g1-kissat-oracles-u64n8-20261103",
+  "kind": "measurement",
+  "purpose": "PERMSOLVER G1: kissat on the remaining u64 N8 permutation oracles network::posts::perm::solver arbitrary-probe/quadratic (SUCCESS) plus arbitrary/quadratic full-u64 kissat negative controls (FAILED at their literals); controls on, jobs1.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::solver::perm_arbitrary_kissat_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::solver::perm_quadratic_kissat_u64_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::solver::perm_arbitrary_kissat_negative_u64_n8",
+      "expect": "FAILED",
+      "expect_check": "permsolver negative: arbitrary count"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::posts::perm::solver::perm_quadratic_kissat_negative_u64_n8",
+      "expect": "FAILED",
+      "expect_check": "permsolver negative: quadratic count"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+== arbitrary vs posts::partposts_count_u64_n8 (paths super::super::super:: -> super::)
+@@ -3 +3,2 @@
+-fn partposts_count_u64_n8() {
++#[kani::solver(kissat)]
++fn perm_arbitrary_kissat_u64_n8() {
+@@ -13 +13,0 @@
+-kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8");
+== quadratic vs perm::perm_quadratic_u64_n8 (super::super::super:: -> super::super::, super::quadratic -> quadratic)
+@@ -3 +3,2 @@
+-fn perm_quadratic_u64_n8() {
++#[kani::solver(kissat)]
++fn perm_quadratic_kissat_u64_n8() {
+== arbitrary control vs posts::partposts_count_negative_u64_n8
+@@ -3 +3,2 @@
+-fn partposts_count_negative_u64_n8() {
++#[kani::solver(kissat)]
++fn perm_arbitrary_kissat_negative_u64_n8() {
+@@ -12,3 +13,3 @@
+-kani::assert(super::is_sorted_by(&v, &mut cmp), "partposts count control: initial sortedness");
+-kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "partposts count control: initial count");
+-kani::cover(true, "partposts count control: returned before corruption");
++kani::assert(super::is_sorted_by(&v, &mut cmp), "permsolver arbitrary control: initial sortedness");
++kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "permsolver arbitrary control: initial count");
++kani::cover(true, "permsolver arbitrary control: returned before corruption");
+@@ -17,3 +18,3 @@
+-kani::assert(super::is_sorted_by(&v, &mut cmp), "partposts count control: sortedness after overwrite");
+-kani::cover(true, "partposts count control: count check reached");
+-kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "partposts negative: full-value count preserved");
++kani::assert(super::is_sorted_by(&v, &mut cmp), "permsolver arbitrary control: sortedness after overwrite");
++kani::cover(true, "permsolver arbitrary control: check reached");
++kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "permsolver negative: arbitrary count");
+== quadratic control vs perm::perm_quadratic_negative_u64_n8
+@@ -3 +3,2 @@
+-fn perm_quadratic_negative_u64_n8() {
++#[kani::solver(kissat)]
++fn perm_quadratic_kissat_negative_u64_n8() {
+@@ -11,2 +12,2 @@
+-kani::assert(quadratic_counts_preserved(&pre, &v), "permprobe quadratic control: initial counts");
+-kani::cover(true, "permprobe quadratic control: returned before corruption");
++kani::assert(quadratic_counts_preserved(&pre, &v), "permsolver quadratic control: initial counts");
++kani::cover(true, "permsolver quadratic control: returned before corruption");
+@@ -15,3 +16,3 @@
+-kani::assert(super::super::is_sorted_by(&v, &mut cmp), "permprobe quadratic control: sortedness after overwrite");
+-kani::cover(true, "permprobe quadratic control: check reached");
+-kani::assert(quadratic_counts_preserved(&pre, &v), "permprobe negative: quadratic count");
++kani::assert(super::super::is_sorted_by(&v, &mut cmp), "permsolver quadratic control: sortedness after overwrite");
++kani::cover(true, "permsolver quadratic control: check reached");
++kani::assert(quadratic_counts_preserved(&pre, &v), "permsolver negative: quadratic count");
