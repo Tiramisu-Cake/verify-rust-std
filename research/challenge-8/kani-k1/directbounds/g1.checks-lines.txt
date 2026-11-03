@@ -1,0 +1,60 @@
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+   Compiling dummy v0.1.0 (/workspace/src/target/kani_verify_std)
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 06s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n13...
+
+VERIFICATION RESULT:
+ ** 1 of 348 failed (18 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: directbounds negative: count n13
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/directbounds.rs", line 113, in slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n13
+
+VERIFICATION:- FAILED
+Verification Time: 19.990736s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n10...
+
+VERIFICATION RESULT:
+ ** 1 of 348 failed (18 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+Failed Checks: directbounds negative: count n10
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/network/netcomp/directbounds.rs", line 90, in slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n10
+
+VERIFICATION:- FAILED
+Verification Time: 10.206177s
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n13...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Checking harness slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n10...
+
+CBMC failed
+VERIFICATION:- FAILED
+CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+
+Manual Harness Summary:
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n13
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n10
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n13
+Verification failed for - slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n10
+Complete - 0 successfully verified harnesses, 4 failures, 4 total.
