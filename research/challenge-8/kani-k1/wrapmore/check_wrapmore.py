@@ -27,8 +27,14 @@ TOOLING = "30f77e859903df14b442ff9294d4fbbd44827f20"
 S = "library/core/src/slice/sort/shared/smallsort"
 W = ss.PREFIX + "wrap::"
 M = W + "more::"
-NEW = {"g1": ["stable_freeze_byte_n2", "unstable_cell_n2", "rejects_always_true_more"]}
+G1 = ["stable_freeze_byte_n2", "unstable_cell_n2", "rejects_always_true_more"]
+G2 = [w + "_n4_backing6" for w in ("stable_cell", "unstable_byte", "freeze_noncopy",
+                                   "stable_freeze_byte", "unstable_cell")]
+NEW = {"g1": G1, "g2": G1 + G2}  # cumulative over BASE; the request holds only the stage rows
+ROWS = {"g1": G1, "g2": G2}
 PFC = {"stable_freeze_byte_n2": "stable_freeze_byte", "unstable_cell_n2": "unstable_cell"}
+PFC.update({n: n[:-len("_backing6")] for n in G2})
+LIB_G1 = "0bf64c1c32977c54c090cb4ef23aba40ba38c33c"
 LANE = [".circleci", ".github/workflows", "research/challenge-8/kani-k1/tools",
         "research/challenge-8/kani-k1/gcb", "scripts/run-kani.sh", "tool_config/kani-version.toml",
         "rust-toolchain.toml", ".gitmodules", ".cargo", "library/.cargo", "library/Cargo.toml",
@@ -77,9 +83,18 @@ check("ensures_never_mention_scratch",
 helper = re.search(r"fn freeze_scratch<.*?\n}\n", more, re.S)[0]
 check("scratch_spec_helper_reads_no_values",
       not re.search(r"assume_init|\.read\(|\*scratch|\[\s*\w+\s*\]", helper))
-check("old_only_scalar_pair_count",
-      re.findall(r"old\(([^()]*\([^()]*\))\)", more) == ["pair_count(v, probe)"] * len(
-          re.findall(r"old\(", more)))
+olds = re.findall(r"old\(([^()]*\([^()]*\))\)", more)
+check("old_only_scalar_count",
+      len(olds) == len(re.findall(r"old\(", more))
+      and set(olds) <= {"pair_count(v, probe)", "span_count::<_, 4>(v, probe)"}, sorted(set(olds)))
+if STAGE == "g2":
+    g1_more = git("show", f"{LIB_G1}:{S}/verify/wrap/more.rs")
+    body = lambda t: t[t.index("// Raw scratch keeps"):]
+    check("g1_items_byte_identical_after_imports", more[len(more) - len(body(more)):].startswith(
+        body(g1_more)), "only the module doc line and use lists changed")
+    check("g2_spec_helpers_read_only_input_span",
+          not re.search(r"scratch", re.search(r"fn span_sorted.*?\nfn stable_region_n", more,
+                                               re.S)[0]))
 check("no_stub_cfg_or_visibility_widening",
       not re.search(r"stub|#\[cfg|pub\b|pub\(", more))
 check("rust_lines_le_100", max(map(len, lines)) <= 100, max(map(len, lines)))
@@ -119,7 +134,7 @@ check("request_flags", req["kind"] == "measurement" and req["controls"] is True
       and req["harness_timeout_minutes"] == 10 and req["runner"] == "gcb-e2-standard-4"
       and req["agent"] == "k1-merge" and req["request_id"].startswith("wrapmore-"))
 want = [(M + n, "FAILED" if n.startswith("rejects") else "SUCCESS",
-         lit if n.startswith("rejects") else None) for n in NEW[STAGE]]
+         lit if n.startswith("rejects") else None) for n in ROWS[STAGE]]
 check("request_entries_exact",
       [(e["name"], e["expect"], e.get("expect_check")) for e in req["harnesses"]] == want)
 check("lane_files_equal_frozen_tooling",

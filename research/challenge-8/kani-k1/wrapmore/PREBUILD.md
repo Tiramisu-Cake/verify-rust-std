@@ -79,3 +79,70 @@ that literal/line, covers 2/2. Gate PFC: SUCCESS, 0 failures, all covers satisfi
 - The route-witness assert is beyond the task's spec form (harness-level only); if the source reading were wrong it
   fails that PFC row, and that would be the finding.
 - Scope: concrete types u8/Cell<u8>, N2 only; no generic T/F, no panic/unwind, no stable-tie-order claim.
+
+# WRAPMORE PRE-BUILD G2 (after G1 terminal/accounting; nothing dispatched)
+
+G1 b896b36d terminal SUCCESS, 3/3 rows accepted, cost $0.1890 (`g1.result.md`); no compile blocker ⇒ G2 runs.
+
+## Identities
+- Library commit `716e094b615484c1e0f1fac3e6f87299f14a0c49`, library tree **`7cdb7ee5eb8343ee943c9b79b2a4ecdb04fa60b8`**;
+  `wrap/more.rs` blob `1f476056f0`, sha256 0510281b…ecc4. wrap.rs, smallsort.rs and all other library files unchanged
+  vs G1 tree. Lane files = `30f77e85`.
+- Request `wrapmore/g2.request.json` = `RUN-REQUEST.json` (G2 commit), id `wrapmore-g2-20261103`, sha256
+  21dbdd87f38caaa8837994aa346d50e6852ec5643fbb239a420243524786e805; validate OK (5×`--harness`, `--exact`,
+  10m, `--jobs=1`, terse; `--cfg kani_smallsort_controls`).
+
+## Semantic diff (more.rs vs G1 library commit 0bf64c1c32)
+- Module doc +1 clause; `use` lists add UnstableSmallSortFreezeTypeImpl, Model, NonCopyU8, noncopy_less,
+  can_dereference. Every G1 item from `freeze_scratch` to `rejects_always_true_more` byte-identical (gate check).
+- Appended child helpers: `span_region::<T,N>` (= pair_region over N), `span_sorted::<T,N>` / `span_count::<T,N>`
+  (same key/full-value model as `sorted`/`count`, reading only the N input elements), `stable_region_n::<N>`
+  (= `stable_region` with offset ≥ N). Five wrappers `*_n4`, five PFC `*_n4_backing6`, `n4_covers`, `ordered_pair`.
+  Parent and existing wrappers/helpers/PFC untouched; no union of lengths, only fixed N4.
+
+## Contracts (all: `canonical(cmp, <same comparator>)`; ensures `span_sorted::<_,4>(v)` and
+`old(span_count::<_,4>(v,probe)) == span_count::<_,4>(v,probe)`)
+| Wrapper (more.rs) | requires (region) | modifies | Trait call |
+|---|---|---|---|
+| `stable_cell_n4` :192 | `stable_region_n::<4>(v, scratch)` (scratch `&mut`, as parent) | `slice(v,4)` | `<Cell<u8> as Stable>` |
+| `unstable_byte_n4` :213 | `span_region::<u8,4>(v)` | `slice(v,4)` | `<u8 as Unstable>` |
+| `freeze_noncopy_n4` :229 | `span_region::<NonCopyU8,4>(v)` | `slice(v,4)` | `<NonCopyU8 as UnstableFreeze>` |
+| `stable_freeze_byte_n4` :248 | `span_region::<u8,4>(v) && freeze_scratch::<4>(v, scratch, scratch_len)` (≥ 20) | `slice(v,4)`, **`slice(scratch, scratch_len)`** | `<u8 as Stable>` |
+| `unstable_cell_n4` :273 | `span_region::<Cell<u8>,4>(v)` | `slice(v,4)` | `<Cell<u8> as Unstable>` |
+
+## Route by source at N4 (smallsort.rs)
+- Cell Stable: !Freeze ⇒ blanket default (30-46) ⇒ `insertion_sort_shift_left(v,1)`: 3 tails, ≤ 3 shifts each.
+- u8 Unstable: Freeze ⇒ (90-101) ⇒ FreezeMarker+CopyMarker impl (142-171): size 1 ≤ 8 and 32 ≤ 4096 ⇒
+  `small_sort_network` (311): 4 ≤ 32, `no_merge` (4 < 18), region v[0..4], presorted 1 (< 9) ⇒ insertion from 1, return.
+- NonCopyU8: Freeze, !Copy ⇒ default Freeze impl (113-130): 48 ≤ 4096 ⇒ `small_sort_general` (205), private
+  scratch48 ≥ 20 ⇒ general_with_scratch: len < 8, presorted 1: v[0]→s[0], v[2]→s[2]; each half 1 copy + 1 insert_tail;
+  `bidirectional_merge` 2 iterations into v.
+- u8 Stable Freeze: specialized (49-62) ⇒ the same general path with caller scratch (abort if < 20, 230-232).
+  **Route witness** (harness): `scratch[0..4] == ordered_pair(a,b) ++ ordered_pair(c,d)` (stable: swap only if the
+  second key is strictly less, exactly insert_tail); the insertion route would leave those slots nondeterministic.
+- Cell Unstable: blanket (75-88) ⇒ `small_sort_fallback` ⇒ insertion from 1.
+- Unwind: max iterations 4 (`span_count`), insertion 3 tails / ≤ 3 shifts, general 2 offsets × 1 + merge 2; need ≥ 5;
+  `unwind(16)` as N2 (unwinding assertions on).
+
+## Harnesses, covers, literals (`wrap::more::`, all expect SUCCESS, no stub)
+| Row | Own asserts | Covers |
+|---|---|---|
+| stable_cell_n4_backing6 | frame v[0],v[5]; scratch frame (initialized slot 0, len ≤ 2) | 2 scratch + 7 n4 + entry = **10** |
+| unstable_byte_n4_backing6 | frame | 7 + entry = **8** |
+| freeze_noncopy_n4_backing6 | frame | **8** |
+| stable_freeze_byte_n4_backing6 | frame; route witness | 2 scratch len (20, 21) + 7 + entry = **10** |
+| unstable_cell_n4_backing6 | frame | **8** |
+`n4_covers` = the six N2 `input_covers` on the first pair (reversed, increasing, tie, duplicate, probe hit/miss) +
+`wrap N4 strictly reversed keys return` (k(a)>k(b)>k(c)>k(d): every element must move). Backing6 `[l,a,b,c,d,r]` all
+`kani::any`, independent probe. Gate: SUCCESS, 0 failures, all covers satisfied. No control in G2.
+
+## Static delta (`check_wrapmore.py g2` → `static-check-g2.json`, ok 23/23; rustfmt `--check` clean)
+- Ordinary unchanged **202** (sha256 78c4c050…79e7). cfg-on **384 → 392** = base + 3 G1 + 5 G2 names, exact
+  (`cfg-on-expected-g2.txt`, sha256 1dfc6d6c…4717). PFC targets = the five `*_n4` wrappers, no `stub_verified`.
+
+## Budget / slots (`k1g.sh budget` 2026-11-03 ~11:57Z)
+- Project 193 builds, used $85.1145, reserved by unfinished $0.9450 (ROUTESEF, k1-network). G2 reserve
+  (5×10+30)×$0.0135 = $1.080 ⇒ 85.1145 + 0.9450 + 1.080 = **$87.1395 ≤ $88.96**. Own: $0.1890 + $1.080 = $1.269 ≤ $1.95.
+- Slot k1-merge free (G1 terminal). Window: T0 11:36:24Z, main ends 14:36Z; G2 80 min envelope + closeout fits.
+- Risk: N2 general-route rows took 168–202 s; N4 roughly doubles the symbolic bytes and merge steps, so
+  freeze_noncopy / stable_freeze_byte N4 may TIMEOUT at 10 min — a row fact, no retry, N not reduced.
