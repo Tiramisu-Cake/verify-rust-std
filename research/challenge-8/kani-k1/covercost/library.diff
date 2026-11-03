@@ -1,0 +1,47 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs b/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
+index 5f64211718..48293b3bf2 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
+@@ -339,3 +339,42 @@ fn u64tencall_count_negative_u64_n10() {
+         "u64tencall negative: full-value count preserved",
+     );
+ }
++
++// COVERCOST diagnostic (memory only, no proof credit): byte clone of u64tencall_positive_u64_n10
++// with every kani::cover of the root body removed; nothing else differs. Helpers and adapters
++// above are shared unchanged and contain no kani::cover.
++#[kani::proof]
++#[kani::stub(crate::slice::sort::shared::smallsort::swap_if_less, swap_adapter_u64ten)]
++#[kani::stub_verified(super::super::swap_u64_net9)]
++#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]
++#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]
++#[kani::unwind(25)]
++fn u64tencall_positive_nocover_u64_n10() {
++    let mut v: [u64; 10] = kani::any();
++    let pre = v;
++    let probe: u64 = kani::any();
++    let mut cmp: U64Cmp = StrictU64::CMP;
++    run_u64ten(&mut v, probe, &mut cmp);
++    check_final_u64ten(&v, &pre, probe);
++    let mut descending = false;
++    let mut duplicate = false;
++    let mut tail_min = true;
++    let mut i = 0;
++    while i < 10 {
++        if i > 0 && pre[i] < pre[i - 1] {
++            descending = true;
++        }
++        let mut j = i + 1;
++        while j < 10 {
++            duplicate |= pre[i] == pre[j];
++            j += 1;
++        }
++        if i < 9 && pre[9] >= pre[i] {
++            tail_min = false;
++        }
++        i += 1;
++    }
++    let hits10 = count_matching_values(&pre, &probe);
++    let hits9 = count_matching_values(&pre[..9], &probe);
++    let ctx = context_u64ten();
++}

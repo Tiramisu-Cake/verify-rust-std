@@ -1,0 +1,22 @@
+--- original-root
++++ clone-root
+@@ -7 +7 @@
+-fn u64tencall_positive_u64_n10() {
++fn u64tencall_positive_nocover_u64_n10() {
+@@ -14 +13,0 @@
+-    kani::cover(true, "u64tencall positive: returned");
+@@ -36,14 +34,0 @@
+-    kani::cover(descending, "u64tencall positive: input has descending adjacent pair");
+-    kani::cover(hits10 > 0, "u64tencall positive: probe hits pre10");
+-    kani::cover(hits10 == 0, "u64tencall positive: probe misses pre10");
+-    kani::cover(duplicate, "u64tencall positive: pre10 has duplicate value");
+-    kani::cover(
+-        probe == pre[9] && hits9 == 0,
+-        "u64tencall positive: probe hits only original tail",
+-    );
+-    kani::cover(ctx.swap_hits == 25 && ctx.insert_hits == 1, "u64tencall positive: all hits");
+-    kani::cover(tail_min, "u64tencall positive: tail-min input returned");
+-    kani::cover(
+-        probe >= (1u64 << 40) && hits10 > 0,
+-        "u64tencall positive: high-bit probe hits pre10",
+-    );

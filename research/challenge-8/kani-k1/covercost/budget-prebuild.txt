@@ -1,0 +1,9 @@
+Observed 2026-11-03T10:20:37Z via existing tools/k1g.sh budget (read-only).
+builds186; used$83.0895; reserved by unfinished builds$2.0250; cap$88.96.
+G1 reserve (1*10+30)*$0.0135=$0.540 <= own cap $0.60 (one Build; no G1R unless compile error + new GO,
+own spent + reserve <= $0.60, i.e. a repair would fit only if G1 spent <= $0.06 -- practically not available).
+Project used+unfinished+G1 = $83.0895+$2.0250+$0.540 = $85.6545 <= $88.96.
+Unfinished reserve $2.0250 includes PERMPROBE (Build 87487311..., stable owner k1-merge, same owner as COVERCOST).
+Slot rule: <=2 unfinished project Builds, <=1 on k1-merge -> COVERCOST dispatch only after PERMPROBE is terminal
+and accounted. Own spent$0/reserved$0, no UUIDs. No slot acquired, no Build submitted.
+Window: main 90 min + closeout 30 min; G1 envelope 40 min (10 row + 30 overhead). Refresh ledger/slots after GO.

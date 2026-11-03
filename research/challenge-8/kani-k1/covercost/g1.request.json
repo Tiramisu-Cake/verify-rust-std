@@ -1,0 +1,18 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "covercost-g1-positive-nocover-u64-n10-20261103",
+  "kind": "diagnostic",
+  "purpose": "COVERCOST G1: kani-driver memory diagnostic, cover-free byte clone of u64tencall_positive_u64_n10 (actual u64/U64Cmp N10 composed route, same stubs/inputs/asserts); no proof credit.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::tenleaves::caller::u64tencall_positive_nocover_u64_n10",
+      "expect": "SUCCESS"
+    }
+  ]
+}
