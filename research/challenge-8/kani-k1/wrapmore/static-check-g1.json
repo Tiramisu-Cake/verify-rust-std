@@ -1,0 +1,131 @@
+{
+ "stage": "g1",
+ "base": "2104e7a596fabb058a99c8bcdf0e3f487d9a7753",
+ "head": "0bf64c1c32977c54c090cb4ef23aba40ba38c33c",
+ "library_tree": "b9be6513e756ad74f4f04bb3ebb8b487023bcaa7",
+ "more_rs_sha256": "f5d1e4b69cb41b003194df36917972097245a5038b5ed21f9f9ebba287b18e50",
+ "ordinary": {
+  "count": 202,
+  "sha256": "78c4c05003b25e764576c62f52e3c10bc7602976521ff6f49dcfbc53d9ff79e7"
+ },
+ "cfg_on": {
+  "count": 387,
+  "sha256": "66d0206ec407aa4d62d2cd1e8c68a580af4c44dca14152a3bd7d392d10c7fb75"
+ },
+ "ok": true,
+ "checks": {
+  "base_is_full_sha": {
+   "ok": true,
+   "detail": ""
+  },
+  "base_library_tree_v6": {
+   "ok": true,
+   "detail": ""
+  },
+  "library_changes_exactly_wrap_rs_and_more_rs": {
+   "ok": true,
+   "detail": [
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap/more.rs"
+   ]
+  },
+  "more_rs_new_file": {
+   "ok": true,
+   "detail": ""
+  },
+  "wrap_rs_diff_is_cfg_gated_mod_more_appended": {
+   "ok": true,
+   "detail": [
+    "+",
+    "+#[cfg(kani_smallsort_controls)]",
+    "+mod more;"
+   ]
+  },
+  "wrap_rs_prefix_byte_identical": {
+   "ok": true,
+   "detail": ""
+  },
+  "specs_have_no_callback_calls": {
+   "ok": true,
+   "detail": 10
+  },
+  "ensures_never_mention_scratch": {
+   "ok": true,
+   "detail": ""
+  },
+  "scratch_spec_helper_reads_no_values": {
+   "ok": true,
+   "detail": ""
+  },
+  "old_only_scalar_pair_count": {
+   "ok": true,
+   "detail": ""
+  },
+  "no_stub_cfg_or_visibility_widening": {
+   "ok": true,
+   "detail": ""
+  },
+  "rust_lines_le_100": {
+   "ok": true,
+   "detail": 99
+  },
+  "expect_check_literal_single_kani_assert": {
+   "ok": true,
+   "detail": [
+    "wrap.rs:61"
+   ]
+  },
+  "base_sets_202_384": {
+   "ok": true,
+   "detail": ""
+  },
+  "ordinary_unchanged_202": {
+   "ok": true,
+   "detail": 202
+  },
+  "cfg_on_equals_base_plus_new": {
+   "ok": true,
+   "detail": {
+    "count": 387,
+    "added": [
+     "slice::sort::shared::smallsort::verify::wrap::more::rejects_always_true_more",
+     "slice::sort::shared::smallsort::verify::wrap::more::stable_freeze_byte_n2",
+     "slice::sort::shared::smallsort::verify::wrap::more::unstable_cell_n2"
+    ]
+   }
+  },
+  "retired_unchanged": {
+   "ok": true,
+   "detail": ""
+  },
+  "more_pfc_targets_and_no_stubs": {
+   "ok": true,
+   "detail": {
+    "slice::sort::shared::smallsort::verify::wrap::more::stable_freeze_byte_n2": [
+     "stable_freeze_byte",
+     []
+    ],
+    "slice::sort::shared::smallsort::verify::wrap::more::unstable_cell_n2": [
+     "unstable_cell",
+     []
+    ],
+    "slice::sort::shared::smallsort::verify::wrap::more::rejects_always_true_more": [
+     null,
+     []
+    ]
+   }
+  },
+  "request_flags": {
+   "ok": true,
+   "detail": ""
+  },
+  "request_entries_exact": {
+   "ok": true,
+   "detail": ""
+  },
+  "lane_files_equal_frozen_tooling": {
+   "ok": true,
+   "detail": ""
+  }
+ }
+}
