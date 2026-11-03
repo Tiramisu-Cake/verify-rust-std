@@ -1,0 +1,62 @@
+{
+ "base": "e0fda080f5ea479d8f4fb801f4b42adde2b3259f",
+ "head": "3e07b5d1ef490c92441f40c39882a110769c0fa4",
+ "library_files_changed": [
+  "library/core/src/slice/sort/shared/smallsort.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/loopinv.rs"
+ ],
+ "smallsort_diff": {
+  "hunks": 1,
+  "added": 12,
+  "removed": 0
+ },
+ "ordinary_build_smallsort_equals_base": true,
+ "counts": {
+  "ordinary": {
+   "base": 202,
+   "head": 202
+  },
+  "controls": {
+   "base": 384,
+   "head": 387
+  },
+  "pfc": {
+   "base": 38,
+   "head": 38
+  },
+  "pfc_controls": {
+   "base": 40,
+   "head": 40
+  }
+ },
+ "ordinary_equal": true,
+ "pfc_equal": true,
+ "controls_delta": {
+  "added": [
+   "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_false_control",
+   "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_true",
+   "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_insertion_u64_n2_offset1"
+  ],
+  "removed": []
+ },
+ "ordinary_sha256": "d5d5550231e06e8190ddb9bf2149eb379f5911087a89ef157405bc80b49842e5",
+ "controls_sha256": {
+  "base": "9b0fd5ce9c6a0b4b45b7e32033842e9d5a49bfeb09aaa73f60649aa7e1e9ded1",
+  "head": "761080d30d8681afbf0cfa7576fd2a547670196aafb3c917f7c6e2fbccaea7bb"
+ },
+ "pfc_sha256": "932af8851b90b20557276027b19933cc6252ecc2098d409f2ee11121cac828d7",
+ "lane_stray_controls_guard": [
+  "HEAD:library/core/src/slice/sort/shared/smallsort.rs"
+ ],
+ "lane_guard_blocks_dispatch": true,
+ "request_valid": true,
+ "run_request_matches": true,
+ "request_sha256": "0f084bc65dc00f70ed66ab56eaf9cce49422e0e3522cfd2165a9fa600e719492",
+ "source_sha256": {
+  "library/core/src/slice/sort/shared/smallsort.rs": "dd65d61ec3cef5aa5ebf16c561e3494a47b23532dcfe672f05eb46d9101c620c",
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "19ce3f331d9d292721320548fc31ce304775cf3cc2f0d1a431da04c34a905497",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/loopinv.rs": "bccbee5067cfee861d2f5861c7a446f877e718a496c1076864966f2436012099"
+ },
+ "errors": []
+}

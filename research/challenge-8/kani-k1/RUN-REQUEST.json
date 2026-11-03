@@ -1,30 +1,27 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-network",
+  "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "partfast-g2-measure-u64net3-ins1-20261102",
-  "kind": "measurement",
-  "purpose": "PART2-FAST G2: GCB VT/RSS of existing opt-in roots network_correctness u64 N10/N11/N12 and insertion_permutation u8 N15 on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "request_id": "loopinv-e2-diag-outer-loop-20261103",
+  "kind": "diagnostic",
+  "purpose": "LOOPINV E2 pilot: Kani loop contract on the outer pointer loop of insertion_sort_shift_left (controls-gated), real u64 N2 offset1 root plus true/false loop-copy tool controls; bounded only.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n10",
+      "name": "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_insertion_u64_n2_offset1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n11",
+      "name": "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_true",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n12",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n15",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_false_control",
+      "expect": "FAILED",
+      "expect_check": "Check invariant after step for loop"
     }
   ]
 }
