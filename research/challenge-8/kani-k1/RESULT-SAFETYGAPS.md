@@ -37,5 +37,4 @@ v7 shortlist (≤300 s GCB, accepted): dispatch_safety_stable_unstable_bytes85_n
 (142.6 s); GCB result only, macOS not established.
 Cell split plan (not run; existing opt-in roots, no source change): N11..15 → n11_to12, n13, n14, n15_offsets{1_to4,5_to8,
 9_to12,13_to15}; N16..19 → offsets{1_to4,5_to8,9_to12} each + n16 13_to16, n17 13_to15+16_to17, n18 13_to16+17_to18, n19
-13_to16+17_to19. n11_to15 FAILED must first be classified (bounded evidence, coordinator) before any split dispatch.
-Receipts: safetygaps/PREBUILD.md, g1.result.md, g2.result.md.
+13_to16+17_to19. n11_to15 FAILED must first be classified (bounded evidence, coordinator) before any split dispatch. Receipts: safetygaps/{PREBUILD,g1.result,g2.result}.md.
