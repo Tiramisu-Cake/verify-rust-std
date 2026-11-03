@@ -1,0 +1,12 @@
+# grep 'wrap/cellwrap\.rs'
+2737: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/wrap/cellwrap.rs", line 92, in slice::sort::shared::smallsort::verify::wrap::cellwrap::cellwrap_stable_tag_corruption::{closure#2}
+# grep warning kinds other than unstable feature / dummy manifest
+(no match)
+# total warning lines
+200
+# grep warnings not 'use of an unstable feature'
+11:warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`
+12:warning: `dummy` (manifest) generated 1 warning
+2714:warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+# grep 'generated [0-9]+ warning'
+12:warning: `dummy` (manifest) generated 1 warning
