@@ -349,6 +349,7 @@ fn u64tencall_count_negative_u64_n10() {
 #[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]
 #[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]
 #[kani::unwind(25)]
+#[allow(unused_variables, unused_assignments)]
 fn u64tencall_positive_nocover_u64_n10() {
     let mut v: [u64; 10] = kani::any();
     let pre = v;
