@@ -1,0 +1,41 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "panicprobe-e1-diag-6roots-20261103",
+  "kind": "diagnostic",
+  "purpose": "PANICPROBE E1: should_panic calibration (plain panic; panic + OOB read) and unstubbed u8 network N18 / general N16 with any-bool comparator, should_panic and plain pairs; controls on, jobs1. Envelope 6*10+30=90 min, $1.215.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_plain",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_ub",
+      "expect": "FAILED",
+      "expect_check": "pointer outside object bounds"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_should_panic",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_plain",
+      "expect": "FAILED",
+      "expect_check": "does not correctly implement a total order"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_should_panic",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_plain",
+      "expect": "FAILED",
+      "expect_check": "does not correctly implement a total order"
+    }
+  ]
+}

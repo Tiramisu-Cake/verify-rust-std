@@ -1,0 +1,154 @@
+{
+ "base": "e8e238db9d87323fa4da011a1a8b37fb76ec91c0",
+ "head": "4bd0da5ac09ca6f09abbc64742687cad5437edc4",
+ "library_changed": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/panicprobe.rs"
+ ],
+ "network_rs_inserted_at_line": 14,
+ "network_rs_base_blob": "1a85a483b16449485a02c4e1140033c8a22956fa",
+ "network_rs_sha256": "137a897dc13add076de8dfcdb57ac4ba71330e5e09b438c5b2f48f16e9cf2da1",
+ "panicprobe_rs_sha256": "9daf5e74238872e3bc5701e02ab862dae554c6a191eb111bff3aad36d89e6af7",
+ "roots": {
+  "panic_control_plain": {
+   "line": 35,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::should_panic]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "if kani::any() {",
+    "panic!(\"panicprobe control\");",
+    "}",
+    "kani::cover(true, \"panicprobe control normal return\");"
+   ]
+  },
+  "panic_control_ub": {
+   "line": 45,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::should_panic]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "let local: [u8; 4] = kani::any();",
+    "if kani::any() {",
+    "panic!(\"panicprobe ub control\");",
+    "}",
+    "if kani::any() {",
+    "let past_end = local.as_ptr().wrapping_add(local.len());",
+    "// SAFETY: none. Deliberate out-of-bounds read one past the local array, Kani only; the",
+    "// value is used so the read stays in the program.",
+    "let byte = unsafe { *past_end };",
+    "crate::hint::black_box(byte);",
+    "}",
+    "kani::cover(true, \"panicprobe ub control normal return\");"
+   ]
+  },
+  "panic_network_u8_n18_should_panic": {
+   "line": 63,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::should_panic]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "network_u8_n18();"
+   ]
+  },
+  "panic_network_u8_n18_plain": {
+   "line": 69,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "network_u8_n18();"
+   ]
+  },
+  "panic_general_u8_n16_should_panic": {
+   "line": 76,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::should_panic]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "general_u8_n16();"
+   ]
+  },
+  "panic_general_u8_n16_plain": {
+   "line": 82,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::unwind(65)]"
+   ],
+   "body": [
+    "general_u8_n16();"
+   ]
+  }
+ },
+ "kani_proof_count": 6,
+ "covers": [
+  "kani::cover(true, \"panicprobe network u8 n18 normal return\");",
+  "kani::cover(true, \"panicprobe general u8 n16 normal return\");",
+  "kani::cover(true, \"panicprobe control normal return\");",
+  "kani::cover(true, \"panicprobe ub control normal return\");"
+ ],
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "controls_on_count": [
+  384,
+  390
+ ],
+ "ordinary_delta": [],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_plain",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_ub",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_plain",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_should_panic",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_plain",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_should_panic"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "request_sha256": "d1dccfe467d7662408718abd91f9ce51e0228075e16f56aa27f6640c090dbe6b",
+ "request_profile": {
+  "kind": "diagnostic",
+  "runner": "gcb-e2-standard-4",
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harness_timeout_minutes": 10,
+  "agent": "k1-network"
+ },
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_plain",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_control_ub",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_should_panic",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_network_u8_n18_plain",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_should_panic",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::panicprobe::panic_general_u8_n16_plain",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 90,
+ "envelope_usd": 1.215,
+ "status": "PASS",
+ "errors": []
+}
