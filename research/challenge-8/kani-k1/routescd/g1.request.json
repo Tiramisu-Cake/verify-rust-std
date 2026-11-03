@@ -1,0 +1,30 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "routescd-g1-measure-allroutes-n18to21-20261103",
+  "kind": "measurement",
+  "purpose": "ROUTESCD G1 (packet C): GCB VT/RSS and normal-return safety of existing opt-in merge::route_safety_all_routes_n18..n21 (direct general u64 / non-Copy Unstable general / Stable u64 scratch 48; panic stub, unwind 34) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "harness_timeout_minutes": 10,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n18",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n19",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n20",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n21",
+      "expect": "SUCCESS"
+    }
+  ]
+}
