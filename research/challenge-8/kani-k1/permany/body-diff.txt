@@ -1,0 +1,60 @@
+== permany_count_u64_n8 vs posts::partposts_count_u64_n8 @a13389358a (same parent paths super::)
+@@ -1,3 +1 @@
+-#[kani::proof]
+-#[kani::unwind(25)]
+-fn partposts_count_u64_n8() {
++fn permany_count_u64_n8<const CORRUPT: bool>() {
+@@ -8 +6 @@
+-let mut cmp = super::strict_less::<u64>;
++let mut cmp = any_less;
+@@ -10,4 +8,2 @@
+-kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "partposts: full-value count preserved");
+-kani::cover(!super::prefix_unchanged(&v, &pre, 0), "partposts count: sort moves elements");
+-kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8");
+-kani::cover(true, "partposts count: check reached the end");
++if CORRUPT {
++v[0] = v[1];
+@@ -14,0 +11,7 @@
++kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "permany: full-value count preserved");
++kani::cover(super::count_matching_values(&pre, &probe) > 0, "permany: probe hits the input");
++kani::cover(super::count_matching_values(&pre, &probe) == 0, "permany: probe misses the input");
++kani::cover(!super::prefix_unchanged(&v, &pre, 0), "permany count: sort moves elements");
++kani::cover(v.len() == 8, "permany count: sort returns normally at length 8");
++kani::cover(true, "permany count: check reached the end");
++}
+== permany_count_u64_n8 vs posts::perm::solver::perm_arbitrary_kissat_u64_n8 @a13389358a (super::super::super:: -> super::)
+@@ -1,4 +1 @@
+-#[kani::proof]
+-#[kani::unwind(25)]
+-#[kani::solver(kissat)]
+-fn perm_arbitrary_kissat_u64_n8() {
++fn permany_count_u64_n8<const CORRUPT: bool>() {
+@@ -9 +6 @@
+-let mut cmp = super::strict_less::<u64>;
++let mut cmp = any_less;
+@@ -11,4 +8,2 @@
+-kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "partposts: full-value count preserved");
+-kani::cover(!super::prefix_unchanged(&v, &pre, 0), "partposts count: sort moves elements");
+-kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8");
+-kani::cover(true, "partposts count: check reached the end");
++if CORRUPT {
++v[0] = v[1];
+@@ -15,0 +11,7 @@
++kani::assert(super::count_matching_values(&pre, &probe) == super::count_matching_values(&v, &probe), "permany: full-value count preserved");
++kani::cover(super::count_matching_values(&pre, &probe) > 0, "permany: probe hits the input");
++kani::cover(super::count_matching_values(&pre, &probe) == 0, "permany: probe misses the input");
++kani::cover(!super::prefix_unchanged(&v, &pre, 0), "permany count: sort moves elements");
++kani::cover(v.len() == 8, "permany count: sort returns normally at length 8");
++kani::cover(true, "permany count: check reached the end");
++}
+== permany_u64_n8_kissat vs permany_u64_n8_default
+@@ -3 +3,2 @@
+-fn permany_u64_n8_default() {
++#[kani::solver(kissat)]
++fn permany_u64_n8_kissat() {
+== permany_u64_n8_value_loss_control vs permany_u64_n8_kissat
+@@ -4,2 +4,2 @@
+-fn permany_u64_n8_kissat() {
+-permany_count_u64_n8::<false>();
++fn permany_u64_n8_value_loss_control() {
++permany_count_u64_n8::<true>();
