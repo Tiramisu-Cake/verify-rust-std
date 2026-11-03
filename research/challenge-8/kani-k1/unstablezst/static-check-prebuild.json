@@ -1,0 +1,88 @@
+{
+ "base": "5fc77d446f1d17eb7be227dc1d604ba40d01477b",
+ "head": "c6c78658f7e23b3e510321f2e7bb98cd280262eb",
+ "library_changed": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network/zstprobe.rs"
+ ],
+ "zstprobe_rs_inserted_at_line": 47,
+ "zstprobe_rs_inserted": [
+  "",
+  "// UNSTABLEZST: `dispatch_safety_unstable_zst_n8_9_12_13_17` with `zst_aware_less` as the only",
+  "// change, as one family and per length.",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n8_9_12_13_17, (), false, [8, 9, 12, 13, 17]);",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n8, (), false, [8]);",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n9, (), false, [9]);",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n12, (), false, [12]);",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n13, (), false, [13]);",
+  "dispatch_safety_cases!(zst_unstable_dispatch_aware_n17, (), false, [17]);"
+ ],
+ "zstprobe_rs_sha256": "91ceefc21a0a51eec1fb8b930b17cd7591b6899e17700d5521932066115f7aaa",
+ "zstprobe_rs_base_blob": "1de43823c6ecc685284c8130e57e949dddd04133",
+ "network_rs_blob": "37d4da2bf9963a746afaa908e5e662104b9a8e34",
+ "root1_diff_pairs": [
+  "module depth: use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl}; -> use super::super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};",
+  "stable call (dead at STABLE = false): volatile_reading_less -> zst_aware_less",
+  "comparator (live branch at STABLE = false): <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut volatile_reading_less::<T>); -> <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut zst_aware_less::<T>);",
+  "module depth (same two functions): #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)] -> #[kani::stub(super::super::super::panic_on_ord_violation, super::assume_order_violation)]",
+  "root name: dispatch_safety_cases!(dispatch_safety_unstable_zst_n8_9_12_13_17, (), false, [8, 9, 12, 13, 17]); -> dispatch_safety_cases!(zst_unstable_dispatch_aware_n8_9_12_13_17, (), false, [8, 9, 12, 13, 17]);"
+ ],
+ "root1_unexplained": [],
+ "root1_compared_lines": [
+  36,
+  32
+ ],
+ "covers_per_root": {
+  "zst_unstable_dispatch_aware_n8_9_12_13_17": 6,
+  "zst_unstable_dispatch_aware_n8": 2,
+  "zst_unstable_dispatch_aware_n9": 2,
+  "zst_unstable_dispatch_aware_n12": 2,
+  "zst_unstable_dispatch_aware_n13": 2,
+  "zst_unstable_dispatch_aware_n17": 2
+ },
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "controls_on_count": [
+  388,
+  394
+ ],
+ "ordinary_delta": [],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n12",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n13",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n17",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n8",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n8_9_12_13_17",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n9"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "request_sha256": "0507b71351a78af507cee9fcf0fbde27b9e1fa473c6e8d9923f4262390c108dc",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n8_9_12_13_17",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n8",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n9",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n12",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n13",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::zstprobe::zst_unstable_dispatch_aware_n17",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 90,
+ "envelope_usd": 1.215,
+ "status": "PASS",
+ "errors": []
+}
