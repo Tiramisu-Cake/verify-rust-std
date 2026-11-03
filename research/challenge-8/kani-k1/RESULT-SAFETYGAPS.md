@@ -38,3 +38,18 @@ v7 shortlist (≤300 s GCB, accepted): dispatch_safety_stable_unstable_bytes85_n
 Cell split plan (not run; existing opt-in roots, no source change): N11..15 → n11_to12, n13, n14, n15_offsets{1_to4,5_to8,
 9_to12,13_to15}; N16..19 → offsets{1_to4,5_to8,9_to12} each + n16 13_to16, n17 13_to15+16_to17, n18 13_to16+17_to18, n19
 13_to16+17_to19. n11_to15 FAILED must first be classified (bounded evidence, coordinator) before any split dispatch. Receipts: safetygaps/{PREBUILD,g1.result,g2.result}.md.
+
+## Addendum — bounded classification of the two FAILED rows (k1g.sh log-grep/log-lines, coordinator-authorized; no rerun)
+(1) stable ZST, G1 46745c1e kani.log 2728-2742: "4 of 391 failed (5 unreachable)", "11 of 11 cover properties satisfied", then
+four `Failed Checks:` lines (pointer NULL / pointer invalid / pointer outside object bounds / invalid integer address),
+VERIFICATION FAILED, 345.92 s. The lane runs `--output-format=terse` (kani_k1.py 352), which prints only descriptions: no
+property id, function, file or line exists anywhere in the log (grep for Location/File/Function/property ids: no match). The
+summary's "@ no location" is kani_k1.py's placeholder for that (1574), not a CBMC fact. The four checks are the standard pointer-
+check set of one dereference class, so a core-vs-harness/Kani-model attribution is NOT determinable from existing evidence; it
+needs a non-terse run (new request/GO). Still neither real UB nor artifact; stays FAILED.
+(2) Cell N11..15, G2 27cc7d3f kani.log 2733-2736: "CBMC failed with status 6", VERIFICATION FAILED, no VERIFICATION RESULT block,
+no Failed Checks, no time — CBMC terminated abnormally before reporting, so this is NOT a counterexample. Not TIMEOUT (CBMC
+span 814–1181 s ≈ 367 s < 600 s) and not a kernel OOM kill (dmesg none_seen; peak 8.47 GiB of 15.6 GiB). Status 6 matches the
+CBMC exit-code class for internal error/exception (which also covers a caught bad_alloc "Out of memory"); a SIGABRT reading
+cannot be excluded because terse output carries no CBMC message. Root cause UNKNOWN; row = RUNNER/CBMC_ABNORMAL_EXIT, OPEN.
+Split plan unchanged; for N11..15 the smaller existing roots also test whether the abnormal exit is size-related.
