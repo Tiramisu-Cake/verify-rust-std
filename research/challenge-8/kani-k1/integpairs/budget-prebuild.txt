@@ -1,0 +1,5 @@
+2026-11-03 pre-build G1 (k1g.sh budget, before any INTEGPAIRS dispatch):
+builds 195; used $86.2350, reserved by unfinished builds $0.0000, cap $93.96 (both pools;
+  prices per minute: k1-highmem4 $0.0195, k1-standard4 $0.0135)
+G1 reserve (8x10+30)x0.0135 = 1.4850; stage cap 3.00 (G1+G2 reserves 2.9700)
+project after G1 reserve = 86.2350 + 1.4850 = 87.7200 <= 93.96 (plus any WRAPMORE G2 reserve at dispatch time; re-checked before dispatch)

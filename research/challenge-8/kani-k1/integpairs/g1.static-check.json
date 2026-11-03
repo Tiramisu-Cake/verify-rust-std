@@ -1,0 +1,171 @@
+{
+ "stage": "g1",
+ "ok": true,
+ "problems": [],
+ "library_tree": "a45388ac593c809405558ea0c27599f487b17e4e",
+ "expected_sha256": "da9bcae231b35b1c42d2873976879c1209a688cc03bc25a3421f5fea7b578f1b",
+ "matrix_sha256": "e3b60199a46f580e98c62a0dc7794a72a185edea9e9967db6d110f0be9793e39",
+ "request": "research/challenge-8/kani-k1/RUN-REQUEST.json",
+ "request_sha256": "b1c5ace07562274a69a78a6dc30c1557ff894f309038d595ef44b7be1e30fb2c",
+ "request_valid": true,
+ "reserve_minutes": 110,
+ "reserve_usd": 1.485,
+ "rows": [
+  {
+   "row": "network::netcomp::netcomp_leaf_u8_n9",
+   "role": "leaf",
+   "pair": "netcomp-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-leaf",
+   "expect": "SUCCESS",
+   "covers": "7/7",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 50,
+   "attrs": [
+    "#[kani::proof_for_contract(swap_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::netcomp::netcomp_composed_u8_n9",
+   "role": "consumer",
+   "pair": "netcomp-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-consumer",
+   "expect": "SUCCESS",
+   "covers": "6/6",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 205,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter9)]",
+    "#[kani::stub_verified(swap_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::netcomp::netcomp_wrong_cmp_u8_n9",
+   "role": "control",
+   "pair": "netcomp-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "2/2",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 218,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter9)]",
+    "#[kani::stub_verified(swap_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "netcomp canonical comparator required",
+   "reported_line": 122,
+   "literal_line": 122,
+   "literal_occurrences_in_file": 2
+  },
+  {
+   "row": "network::netcomp::netcomp_count_negative_u8_n9",
+   "role": "control",
+   "pair": "netcomp-u8-n9",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "3/3",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/netcomp.rs",
+   "fn_line": 232,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter9)]",
+    "#[kani::stub_verified(swap_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "netcomp N9 negative: full-value count preserved",
+   "reported_line": 242,
+   "literal_line": 244,
+   "literal_occurrences_in_file": 1
+  },
+  {
+   "row": "network::u64nine::u64nine_leaf_u64_n9",
+   "role": "leaf",
+   "pair": "u64nine-u64-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-leaf",
+   "expect": "SUCCESS",
+   "covers": "7/7",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+   "fn_line": 51,
+   "attrs": [
+    "#[kani::proof_for_contract(swap_u64_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::u64nine::u64nine_composed_u64_n9",
+   "role": "consumer",
+   "pair": "u64nine-u64-n9",
+   "inventory_count": 1,
+   "matrix_class": "A-consumer",
+   "expect": "SUCCESS",
+   "covers": "7/7",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+   "fn_line": 173,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter_u64nine)]",
+    "#[kani::stub_verified(swap_u64_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25"
+  },
+  {
+   "row": "network::u64nine::u64nine_wrong_cmp_u64_n9",
+   "role": "control",
+   "pair": "u64nine-u64-n9",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "2/2",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+   "fn_line": 209,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter_u64nine)]",
+    "#[kani::stub_verified(swap_u64_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "u64nine canonical comparator required",
+   "reported_line": 123,
+   "literal_line": 123,
+   "literal_occurrences_in_file": 1
+  },
+  {
+   "row": "network::u64nine::u64nine_count_negative_u64_n9",
+   "role": "control",
+   "pair": "u64nine-u64-n9",
+   "inventory_count": 1,
+   "matrix_class": "B-negative",
+   "expect": "FAILED",
+   "covers": "3/3",
+   "file": "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs",
+   "fn_line": 223,
+   "attrs": [
+    "#[kani::proof]",
+    "#[kani::stub(swap_if_less, adapter_u64nine)]",
+    "#[kani::stub_verified(swap_u64_net9)]",
+    "#[kani::unwind(25)]"
+   ],
+   "unwind": "25",
+   "expect_check": "u64nine N9 negative: full-value count preserved",
+   "reported_line": 235,
+   "literal_line": 237,
+   "literal_occurrences_in_file": 1
+  }
+ ]
+}

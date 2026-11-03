@@ -2,11 +2,49 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "parttreeinv-g1-cfgon-20261102",
-  "kind": "inventory",
-  "purpose": "PARTTREE-INV2: full cfg-on inventory of unchanged integrated library tree a45388ac593c809405558ea0c27599f487b17e4e, expected438 names; larger inventory time budget only; no proofs.",
-  "harness_timeout_minutes": 60,
+  "request_id": "integpairs-g1-n9-u8-u64-pairs-20261103",
+  "kind": "measurement",
+  "purpose": "INTEGPAIRS G1: same-Build leaf+consumer pairs on integrated tree a45388ac59 (netcomp u8 N9, u64nine u64 N9) with their wrong-cmp/count controls; unchanged library; no ordinary credit.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
   "controls": true,
-  "inventory": true,
-  "harnesses": []
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_leaf_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_composed_u8_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_wrong_cmp_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "netcomp canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::netcomp_count_negative_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "netcomp N9 negative: full-value count preserved"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_leaf_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_composed_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_wrong_cmp_u64_n9",
+      "expect": "FAILED",
+      "expect_check": "u64nine canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::u64nine::u64nine_count_negative_u64_n9",
+      "expect": "FAILED",
+      "expect_check": "u64nine N9 negative: full-value count preserved"
+    }
+  ]
 }
