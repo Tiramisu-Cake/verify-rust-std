@@ -27,5 +27,4 @@ permutation); backing elements 0 and 3 and the scratch slot keep their full valu
 ## Not proved
 Any key order or stability; N > 2; the unstable blanket entry; arbitrary `FnMut` or any other comparator (the guard
 rejects them); panic/unwind, uninit detection. Root 1 is opt-in (controls), not an ordinary proof.
-
 CELLWRAP ЗАВЕРШЁН
