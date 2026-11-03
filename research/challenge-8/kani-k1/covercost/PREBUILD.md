@@ -1,11 +1,12 @@
 # COVERCOST PRE-BUILD REVIEW — G1 (cover-free positive, diagnostic)
 
-Status: WAITING FOR COORDINATOR GO. No Build submitted; compile/run NOT_RUN. Diagnostic, no proof credit.
+Status: WAITING FOR COORDINATOR GO (revision 2 after review dce6fab10d). No Build submitted; compile/run NOT_RUN. Diagnostic, no proof credit.
 Runtime: Claude Code, executor alone (no subagents). Task: TASK-COVERCOST.md (commit 50eba374db).
 Review SHA = the published research commit carrying this packet.
 Branch experiment/kani-k1-covercost-20261103; base 5737fa738bac360f19dd0113b2b8640f16bea5f5 (terminal U64-TEN-CALLER).
 Base library tree 514c6f841cf2af3b27f6d9aa8f27c86e24c562af (= U64-TEN-CALLER reviewed G1/G2 tree).
-New library commit 38225ba3877beefaac18c5d89f20f61a3c48e8c3, tree 59c7f8fe30acd177cf139ec5a5e53883f27eb971.
+New library commit 8b986b9775c7de2fea81cdef6c29e7f15ea4c755, tree 67f41939ab06ef0391b241a376e1b8ef335b6433
+(38225ba387 clone + review dce6fab10d fix: one `#[allow(unused_variables, unused_assignments)]` on the clone).
 Stable owner k1-merge. Request covercost-g1-positive-nocover-u64-n10-20261103,
 SHA256 d47b9fa263fec78dbf51f4d296b234bf5902ad2d480868b65c88f740145c51b6; RUN-REQUEST.json byte-equal g1.request.json.
 Files: library.diff, root-clone.diff, static_check.py/static-check.json, g1.request.json, g1.args,
@@ -20,23 +21,25 @@ child), so the original root, the 3 controls, every helper/adapter and all line 
 expect_check literals :111/:172/:339) are unchanged. A child file was rejected: it needs a `mod` line in
 caller.rs plus re-pathed stub annotations, and its name would be `caller::<child>::…`, not the required
 `caller::u64tencall_positive_nocover_u64_n10`. A shared-body helper was rejected: it would change the
-original root. So the body is duplicated. Only library file changed: caller.rs (+39 lines).
+original root. So the body is duplicated. Only library file changed: caller.rs (+40 lines).
 
 ## Byte diff original root -> clone (root-clone.diff, zero context)
 
-Annotations byte-identical (6 lines: proof, stub swap_if_less->swap_adapter_u64ten, stub_verified
+Kani annotations byte-identical (6 lines: proof, stub swap_if_less->swap_adapter_u64ten, stub_verified
 swap_u64_net9, stub insert_tail->insert_adapter_u64ten, stub_verified insert_tail_profile, unwind(25)).
-Diff = fn name line (`u64tencall_positive_u64_n10` -> `u64tencall_positive_nocover_u64_n10`) + 9 removed
+Diff = one added lint attribute `#[allow(unused_variables, unused_assignments)]` (directly after
+`#[kani::unwind(25)]`, before `fn`; the only `#[allow(` in caller.rs; not a kani attribute) + fn name
+line (`u64tencall_positive_u64_n10` -> `u64tencall_positive_nocover_u64_n10`) + 9 removed
 `kani::cover(...)` statements (1 after check_final + 8 after the predicate block; 15 source lines).
 Everything else identical and in the same order: `v: [u64;10]=any`, `pre=v`, `probe: u64=any`,
 `cmp=StrictU64::CMP`, `run_u64ten` (register, actual `<u64 as UnstableSmallSortTypeImpl>::small_sort`,
 canonical cmp, check_context: 25 swaps/1 insert/frames), `check_final_u64ten` (sorted10, count10).
 The root body itself has no kani::assert; all asserts are in the shared, unchanged helpers/adapters.
-Note: the cover-predicate locals (loop: descending/duplicate/tail_min; hits10, hits9, ctx) are kept
-verbatim, now unread (pure, side-effect-free; no assert depends on them). Expect rustc unused-variable
-warnings only; the lane has no -D warnings (RUSTFLAGS = `--cfg kani_smallsort_controls` only; no
-.cargo config; lib.rs denies only specific lints). Alternative if the coordinator prefers: also drop
-those locals (not done — the task says the only difference is removed covers).
+The cover-predicate locals (loop: descending/duplicate/tail_min; hits10, hits9, ctx) are kept
+verbatim and are now unread (pure, side-effect-free; no assert depends on them). Review dce6fab10d:
+their new unused_variables/unused_assignments warnings are silenced by the single allow attribute on
+the clone only (no compile-repair margin in the cap). The 3-line header comment is unchanged
+(its "nothing else differs" refers to the body; the allow line is the one annotation addition).
 
 ## Remaining reachable covers: 0
 

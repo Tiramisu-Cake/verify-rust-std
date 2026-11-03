@@ -90,7 +90,8 @@ assert child.startswith(base_child), "existing bytes of caller.rs changed"
 appended = child[len(base_child):]
 orig = root_block(base_child, ORIG)
 assert orig == root_block(child, ORIG)
-expected_clone = strip_covers(orig).replace(f"fn {ORIG}()", f"fn {CLONE}()", 1)
+ALLOW = "#[allow(unused_variables, unused_assignments)]"  # review dce6fab10d: the only extra line
+expected_clone = strip_covers(orig).replace(f"fn {ORIG}()", f"{ALLOW}\nfn {CLONE}()", 1)
 assert appended == HEADER + expected_clone, "appended text is not header + cover-free clone"
 clone = root_block(child, CLONE)
 assert clone == expected_clone
@@ -103,7 +104,8 @@ diff = list(difflib.unified_diff(orig.splitlines(), clone.splitlines(), "origina
 (HERE / "root-clone.diff").write_text("\n".join(diff) + "\n")
 removed = [l[1:] for l in diff if l.startswith("-") and not l.startswith("---")]
 added = [l[1:] for l in diff if l.startswith("+") and not l.startswith("+++")]
-assert added == [f"fn {CLONE}() {{"], added
+assert added == [ALLOW, f"fn {CLONE}() {{"], added
+assert child.count("#[allow(") == 1 and ALLOW in clone and ALLOW not in orig
 assert removed[0] == f"fn {ORIG}() {{"
 removed_cover_text = "\n".join(removed[1:])
 assert removed_cover_text.count("kani::cover(") == 9
@@ -238,7 +240,7 @@ report = dict(
     changed_library_files=[CHILD], child_change="append-only (header comment + clone root)",
     base_child_sha256=sha(base_child), child_sha256=sha(child),
     original_root_sha256=sha(orig), clone_root_sha256=sha(clone),
-    clone_diff_removed_cover_calls=9, clone_diff_other_change="fn name only",
+    clone_diff_removed_cover_calls=9, clone_diff_other_change="fn name + one #[allow(unused_variables, unused_assignments)] line",
     covers_per_root=covers_per_root, child_covers_outside_roots=0,
     reachable_helpers=[f"{f.split('/verify/')[1]}:{n}" for f, n, _ in reach if n != CLONE],
     macro_arg_helpers=["network.rs:strict_less (0 covers)"],

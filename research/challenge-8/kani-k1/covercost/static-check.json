@@ -2,18 +2,18 @@
  "status": "PASS",
  "base": "5737fa738bac360f19dd0113b2b8640f16bea5f5",
  "base_library_tree": "514c6f841cf2af3b27f6d9aa8f27c86e24c562af",
- "library_commit": "38225ba3877beefaac18c5d89f20f61a3c48e8c3",
- "library_tree": "59c7f8fe30acd177cf139ec5a5e53883f27eb971",
+ "library_commit": "8b986b9775c7de2fea81cdef6c29e7f15ea4c755",
+ "library_tree": "67f41939ab06ef0391b241a376e1b8ef335b6433",
  "changed_library_files": [
   "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs"
  ],
  "child_change": "append-only (header comment + clone root)",
  "base_child_sha256": "9f434dae05f0a7c39a36f8061cedf893d049def8067d076cf7661da62b4f8ce6",
- "child_sha256": "8c480dc513eba31845cbe0f4d9d49e3f617bd6ced81fda218f41c40616db9595",
+ "child_sha256": "e85e9cb22d5462c609863a66059256ee55c46990a69088dd28ba1629e9bc076b",
  "original_root_sha256": "c9cbc35ccebefdfef615ec47213b78ac2f6825bdd61167f2c05b21bc4e566cba",
- "clone_root_sha256": "184bbd012f2b65be150f6a33cb47712144c7d045c83886d5d4ec1ffde4ffe8fb",
+ "clone_root_sha256": "15a42a879d5719884168f00bc4acedd2bef0896bdb5361c8a75f1d7cb38222d5",
  "clone_diff_removed_cover_calls": 9,
- "clone_diff_other_change": "fn name only",
+ "clone_diff_other_change": "fn name + one #[allow(unused_variables, unused_assignments)] line",
  "covers_per_root": {
   "u64tencall_positive_u64_n10": 9,
   "u64tencall_swap_binding_negative_u64_n10": 1,
@@ -136,7 +136,7 @@
  "dependency_sha256": {
   "library/core/src/slice/sort/shared/smallsort.rs": "78fc8fe8bfc37d59d27c194d2f7e9c45e0c629dcf394c6bcf13f00b53ab9ed61",
   "library/core/src/ub_checks.rs": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
-  "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs": "8c480dc513eba31845cbe0f4d9d49e3f617bd6ced81fda218f41c40616db9595",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs": "e85e9cb22d5462c609863a66059256ee55c46990a69088dd28ba1629e9bc076b",
   "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves.rs": "770b44ebcc4cdcdaff79b917bd99a41f6f3a15be60646f9463aa64d1dfac5ae6",
   "library/core/src/slice/sort/shared/smallsort/verify/network/u64nine.rs": "4a7513b58534c2ddf51c2a079a6c7bc2d48cf2a6c411ca26318dc3830946efc1",
   "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "14e55bbcaa809df9048fce4c728c44e5951d50b0688f1219707facc7ddbcb171",

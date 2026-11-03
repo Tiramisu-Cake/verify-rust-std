@@ -1,8 +1,8 @@
 diff --git a/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs b/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
-index 5f64211718..48293b3bf2 100644
+index 5f64211718..95b1c1e9bb 100644
 --- a/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
 +++ b/library/core/src/slice/sort/shared/smallsort/verify/network/u64nine/tenleaves/caller.rs
-@@ -339,3 +339,42 @@ fn u64tencall_count_negative_u64_n10() {
+@@ -339,3 +339,43 @@ fn u64tencall_count_negative_u64_n10() {
          "u64tencall negative: full-value count preserved",
      );
  }
@@ -16,6 +16,7 @@ index 5f64211718..48293b3bf2 100644
 +#[kani::stub(crate::slice::sort::shared::smallsort::insert_tail, insert_adapter_u64ten)]
 +#[kani::stub_verified(super::super::super::super::merge::specfix::insert_tail_profile)]
 +#[kani::unwind(25)]
++#[allow(unused_variables, unused_assignments)]
 +fn u64tencall_positive_nocover_u64_n10() {
 +    let mut v: [u64; 10] = kani::any();
 +    let pre = v;
