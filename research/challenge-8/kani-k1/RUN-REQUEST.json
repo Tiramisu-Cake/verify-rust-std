@@ -2,28 +2,24 @@
   "schema": "kani-k1-run-request-v1",
   "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "routesef-g1-measure-allroutes-n26to29-20261103",
+  "request_id": "routesef-g2-measure-allroutes-n30to32-20261103",
   "kind": "measurement",
-  "purpose": "ROUTESEF G1 (packet E): GCB VT/RSS and normal-return safety of existing opt-in merge::route_safety_all_routes_n26..n29 (direct general u64 / non-Copy Unstable general / Stable u64 scratch 48; panic stub, unwind 34) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
+  "purpose": "ROUTESEF G2 (packet F): GCB VT/RSS and normal-return safety of existing opt-in merge::route_safety_all_routes_n30..n32 (direct general u64 / non-Copy Unstable general / Stable u64 scratch 48; panic stub, unwind 34) on unchanged v6 library tree d4ec476a; controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n26",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n30",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n27",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n28",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n29",
+      "name": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n32",
       "expect": "SUCCESS"
     }
   ]

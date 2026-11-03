@@ -84,3 +84,14 @@ Requests differ from ROUTESCD g1 only in request_id, purpose text and harness na
 - Window: main 150 min + closeout 30 min from T0; G1 timeout 70 min, then G2 60 min envelope; both fit inside main
   if G2 dispatches ≤ ~85 min after T0. A row at the 10 min limit is a bounded TIMEOUT fact, no retry.
 - Compile-error repair (one per stage, new review/GO) only if own spent + its reserve ≤ $1.80.
+
+## G2 dispatch record (coordinator pre-approved G2 in the G1 GO; after G1 terminal/accounting, 2026-11-03T12:06Z)
+- G1 6515c8ee terminal SUCCESS, 4/4 rows accepted, cost $0.3375 (routesef/g1.result.md). No shared setup/compile error.
+- RUN-REQUEST.json := routesef/g2.request.json (sha256 76ca39b82807b2f12deee9e280ddc94671d7a232b5f4da238125df7206801c14),
+  unchanged since 604e01b4 (`git diff --quiet 604e01b4 HEAD` true before this commit); library tree d4ec476a and lane files
+  unchanged (this commit touches only research files).
+- Budget: project 194 builds, used $85.4520, reserved by unfinished $1.0800 (one foreign build of 80 min; WRAPMORE G1's 60 min
+  = $0.81 plus any second build ≥ 40 min = $0.54 would exceed $1.08, so exactly one unfinished, not ours);
+  + G2 $0.810 = $87.3420 ≤ $93.96. Own spent $0.3375 + G2 reserve $0.810 = $1.1475 ≤ $1.80.
+- Slots: 1 unfinished in project (foreign); G2 makes 2 (≤ 2), k1-network 1 (≤ 1). Window: T0 11:38:06Z, main ends
+  14:08Z; G2 60 min envelope from ~12:07Z ends ~13:07Z, inside main.
