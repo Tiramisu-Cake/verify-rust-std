@@ -131,3 +131,20 @@ dispatch_safety_cases!(
     false,
     [9, 12, 13, 18]
 );
+
+// TYPESPLIT: the three `_n31_32` pair roots above split by route × length; each cell is one
+// single-route root (stable: `small_sort_general_with_scratch`; unstable: network or general).
+dispatch_safety_cases!(dispatch_safety_stable_u8u32_n31, (u8, u32), true, [31]);
+dispatch_safety_cases!(dispatch_safety_stable_u8u32_n32, (u8, u32), true, [32]);
+dispatch_safety_cases!(dispatch_safety_unstable_u8u32_n31, (u8, u32), false, [31]);
+dispatch_safety_cases!(dispatch_safety_unstable_u8u32_n32, (u8, u32), false, [32]);
+
+dispatch_safety_cases!(dispatch_safety_stable_u128_n31, u128, true, [31]);
+dispatch_safety_cases!(dispatch_safety_stable_u128_n32, u128, true, [32]);
+dispatch_safety_cases!(dispatch_safety_unstable_u128_n31, u128, false, [31]);
+dispatch_safety_cases!(dispatch_safety_unstable_u128_n32, u128, false, [32]);
+
+dispatch_safety_cases!(dispatch_safety_stable_bytes9_n31, [u8; 9], true, [31]);
+dispatch_safety_cases!(dispatch_safety_stable_bytes9_n32, [u8; 9], true, [32]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes9_n31, [u8; 9], false, [31]);
+dispatch_safety_cases!(dispatch_safety_unstable_bytes9_n32, [u8; 9], false, [32]);
