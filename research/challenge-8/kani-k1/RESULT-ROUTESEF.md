@@ -22,8 +22,7 @@ G2 routesef-g2-measure-allroutes-n30to32-20261103 (76ca39b8…1c14) → build a7
 Row RSS = VmHWM of the one CBMC PID attributed `active=T0:<root>` (jobs 1); unreachable counts are Kani data. Packet peaks (per
 Build): G1 time -v max 3513332 KiB (3.35 GiB, cbmc), kani-compiler 2.01, driver 1.60, process-sum 4.31 GiB, wall 17:14; G2 time -v
 max 4320440 KiB (4.12 GiB, cbmc), kani-compiler 1.89, driver 1.73, process-sum 5.14 GiB, wall 18:17; OOM none_seen.
-Covers 4/4 = PRE-BUILD forecast: normal return of each of the three routes (direct general u64, non-Copy Unstable general, Stable
-u64 scratch 48) + abort_on_order_violation stub cover; the stub cover is not counted as a route return.
+Covers 4/4 = PRE-BUILD forecast: 3 route normal returns (direct general, non-Copy Unstable, Stable scratch 48) + stub cover (no return).
 Gate: 7/7 accepted (identities/profile, SUCCESS, 0 unintended failures, all covers). No counterexample. Overall ROUTESEF PASS.
 Cost: own spent $0.7020 (G1 $0.3375 + G2 $0.3645) of cap $1.80, own reserved $0; no repair used. T0 11:38:06Z, G2 terminal
 12:35:37Z. Project after (12:37Z): 195 builds, used $86.2350, reserved by unfinished $0.0000, cap $93.96.
@@ -33,9 +32,8 @@ Candidate-for-v7: N26..29 ≤300 s GCB shortlist (max n29 253.7 s). N30..32 >300
 macOS/jobs3 margin OPEN (no factor). N32 is the scratch boundary 48 = 32+16 (abort_immediate not taken), still SUCCESS.
 History (other trees/profiles, not matched): N29/N31/N32 TIMEOUT@120 s screen → 253.7/329.2/358.9 s here (all above that screen,
 consistent); N26/N27/N28/N30 first records. Task forecast E 190–250 s held (n29 +3.7 s); F 250–300 s exceeded by 8–59 s.
+B1 N9..32, tree d4ec476a, same profile (VT s / CBMC GiB; N16, N2..8 ordinary; ROUTESAB ≤17, ROUTESCD 18..25, here 26..32):
 
-B1 total, N9..32 opt-in all-routes safety (tree d4ec476a, same profile; VT s / CBMC GiB; N16, N2..8 ordinary, not B1; N9..15,17
-ROUTESAB, N18..25 ROUTESCD, N26..32 this stage):
 | N | VT | RSS | N | VT | RSS | N | VT | RSS | N | VT | RSS | N | VT | RSS | N | VT | RSS |
 |---|---:|---:|---|---:|---:|---|---:|---:|---|---:|---:|---|---:|---:|---|---:|---:|
 | 9 | 29.2 | 0.63 | 13 | 54.5 | 1.07 | 18 | 92.6 | 1.76 | 22 | 156.6 | 2.47 | 26 | 243.8 | 3.03 | 30 | 307.7 | 3.72 |
