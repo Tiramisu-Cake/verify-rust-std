@@ -1,0 +1,128 @@
+{
+ "base": "e0fda080f5ea479d8f4fb801f4b42adde2b3259f",
+ "ok": true,
+ "passed": 20,
+ "total": 20,
+ "cfg_on": 387,
+ "ordinary": 202,
+ "checks": [
+  {
+   "check": "library delta = wrap.rs (M) + wrap/cellwrap.rs (A)",
+   "ok": true,
+   "detail": [
+    "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/wrap/cellwrap.rs",
+    "M\tlibrary/core/src/slice/sort/shared/smallsort/verify/wrap.rs"
+   ]
+  },
+  {
+   "check": "wrap.rs = base + appended cfg-gated mod line",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "wrap.rs:61 guard literal unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "cellwrap.rs lines <= 100",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "no cfg inside child (module gate only)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "no stub / stub_verified",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "exactly two one-line ensures, both the tag-count line",
+   "ok": true,
+   "detail": [
+    71,
+    92
+   ]
+  },
+  {
+   "check": "expect_check 'pair_tag_count(v, probe)' only in ensures/helper lines",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "guard literal not duplicated in child",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "PFC roots/targets",
+   "ok": true,
+   "detail": [
+    [
+     "cellwrap_stable",
+     "cellwrap_stable_tags_n2"
+    ],
+    [
+     "cellwrap_stable_tag_corruption",
+     "cellwrap_tag_corruption_control"
+    ]
+   ]
+  },
+  {
+   "check": "plain control root",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "mutant = positive wrapper + tag flip only",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "comparator = network.rs mutating_key_order modulo name/alias/cover text",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "TaggedKey layout = network.rs",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "ordinary unchanged = macsplit 202",
+   "ok": true,
+   "detail": 202
+  },
+  {
+   "check": "ordinary PFC 36 unchanged",
+   "ok": true,
+   "detail": 36
+  },
+  {
+   "check": "cfg-on exact delta +3",
+   "ok": true,
+   "detail": [
+    384,
+    387
+   ]
+  },
+  {
+   "check": "retired unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "request rows = the 3 roots in order",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "RUN-REQUEST.json = g1.request.json",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

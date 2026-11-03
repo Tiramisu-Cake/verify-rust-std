@@ -1,0 +1,83 @@
+# CELLWRAP semantic diff (unified, -w). Wrapper: wrap.rs:105-125 stable_cell -> cellwrap.rs:67-85 cellwrap_stable
+--- wrap.rs:stable_cell
++++ cellwrap.rs:cellwrap_stable
+@@ -1,21 +1,19 @@
+-// Cell is !Freeze: the default Stable entry ignores scratch and runs insertion from index 1.
+-// Only the input slice is writable in the frame; even initialized caller scratch is untouched.
+-#[kani::requires(stable_region(v, scratch))]
+-#[kani::requires(canonical(cmp, cell_less))]
++// Cell is !Freeze: the blanket Stable entry ignores scratch and runs insertion from index 1.
++#[kani::requires(tagged_region(v, scratch))]
++#[kani::requires(canonical(cmp, cellwrap_key_order))]
+ #[kani::modifies(ptr::slice_from_raw_parts_mut(v, 2))]
+-#[kani::ensures(|_| pair_sorted(v))]
+-#[kani::ensures(|_| old(pair_count(v, probe)) == pair_count(v, probe))]
+-unsafe fn stable_cell(
+-    v: *mut Cell<u8>,
+-    scratch: &mut [MaybeUninit<Cell<u8>>],
+-    cmp: fn(&Cell<u8>, &Cell<u8>) -> bool,
++#[kani::ensures(|_| old(pair_tag_count(v, probe)) == pair_tag_count(v, probe))]
++unsafe fn cellwrap_stable(
++    v: *mut Cell<TaggedKey>,
++    scratch: &mut [MaybeUninit<Cell<TaggedKey>>],
++    cmp: fn(&Cell<TaggedKey>, &Cell<TaggedKey>) -> bool,
+     probe: u8,
+ ) {
+-    if !canonical_guard(canonical(cmp, cell_less)) {
++    if !canonical_guard(canonical(cmp, cellwrap_key_order)) {
+         return;
+     }
+     // SAFETY: the requires establish exactly two initialized writable elements.
+     let v = unsafe { slice::from_raw_parts_mut(v, 2) };
+     let mut is_less = cmp;
+-    <Cell<u8> as StableSmallSortTypeImpl>::small_sort(v, scratch, &mut is_less);
++    <Cell<TaggedKey> as StableSmallSortTypeImpl>::small_sort(v, scratch, &mut is_less);
+# Harness: wrap.rs:169-189 stable_cell_n2 -> cellwrap.rs:113-143 cellwrap_n2_body (macro, -w ignores its indent) + root 1
+--- wrap.rs:stable_cell_n2
++++ cellwrap.rs:cellwrap_n2_body+cellwrap_stable_tags_n2
+@@ -1,21 +1,31 @@
+-#[kani::proof_for_contract(stable_cell)]
+-#[kani::unwind(16)]
+-fn stable_cell_n2() {
+-    let [left, a, b, right]: [u8; 4] = kani::any();
++        let [left, a, b, right] = [any_tagged(), any_tagged(), any_tagged(), any_tagged()];
+     let probe: u8 = kani::any();
+     let mut v = [Cell::new(left), Cell::new(a), Cell::new(b), Cell::new(right)];
+-    let mut scratch = [MaybeUninit::new(Cell::new(kani::any())), MaybeUninit::uninit()];
++        let mut scratch = [MaybeUninit::new(Cell::new(any_tagged())), MaybeUninit::uninit()];
+     let scratch_len: usize = kani::any_where(|n: &usize| *n <= 2);
+-    // SAFETY: this slot was initialized above; Cell has no padding and get reads its full value.
++        // SAFETY: this slot was initialized above; TaggedKey has no padding and get reads it all.
+     let scratch_before = unsafe { scratch[0].assume_init_ref() }.get();
+     // SAFETY: active pair in initialized backing4; separate valid scratch; canonical pointer.
+-    unsafe { stable_cell(v[1..3].as_mut_ptr(), &mut scratch[..scratch_len], cell_less, probe) };
+-    kani::assert(v[0].get() == left && v[3].get() == right, "wrap stable input frame");
+-    // SAFETY: the default Cell route does not write scratch; only the input may be modified.
++        unsafe {
++            $wrapper(v[1..3].as_mut_ptr(), &mut scratch[..scratch_len], cellwrap_key_order, probe)
++        };
++        kani::assert(same(v[0].get(), left) && same(v[3].get(), right), "cellwrap input frame");
++        // SAFETY: the blanket Cell route does not write scratch; only the input may be modified.
+     let scratch_after = unsafe { scratch[0].assume_init_ref() }.get();
+-    kani::assert(scratch_before == scratch_after, "wrap stable scratch frame");
+-    kani::cover(scratch_len == 0, "wrap stable empty scratch returns");
+-    kani::cover(scratch_len == 2, "wrap stable unread uninit scratch tail returns");
+-    input_covers(a, b, probe);
+-    kani::cover(true, "wrap stable Cell trait entry returns");
++        kani::assert(same(scratch_before, scratch_after), "cellwrap scratch frame");
++        let tags = (v[1].get().tag, v[2].get().tag);
++        kani::cover(scratch_len == 0, "cellwrap empty scratch returns");
++        kani::cover(scratch_len == 2, "cellwrap unread uninit scratch tail returns");
++        kani::cover(probe == a.tag || probe == b.tag, "cellwrap independent probe hits a tag");
++        kani::cover(probe != a.tag && probe != b.tag, "cellwrap independent probe misses tags");
++        kani::cover(a.tag != b.tag && tags == (b.tag, a.tag), "cellwrap tags exchanged");
++        kani::cover(a.tag != b.tag && tags == (a.tag, b.tag), "cellwrap tags stay in place");
++        kani::cover(true, "cellwrap stable Cell<TaggedKey> trait entry returns");
++    }};
++}
++
++#[kani::proof_for_contract(cellwrap_stable)]
++#[kani::unwind(16)]
++fn cellwrap_stable_tags_n2() {
++    cellwrap_n2_body!(cellwrap_stable);
+ }
