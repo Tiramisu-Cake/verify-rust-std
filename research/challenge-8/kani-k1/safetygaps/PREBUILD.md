@@ -78,3 +78,13 @@ library-tree identity (not recounted; no native inventory here). Library, harnes
   terminal/accounted; then G1 makes project 2 (≤2), k1-network 1 (≤1).
 - Window: T0 at G1 dispatch; main 150 min + closeout 30. G1 60 min envelope, G2 60 min after G1 terminal → ≤ 120 min + finishing.
 - History, not a prediction: bytes85_n31 has a historical macOS 109.8 s point (c3c-inputs/mac-times.tsv, not a GCB baseline); ZST and Cell N11..20 roots unmeasured on GCB/v6.
+
+## G2 PRE-BUILD (after G1 terminal/accounting, 2026-11-03 ~13:52Z; covered by coordinator GO 69769295 for G2)
+- G1 46745c1e terminal FAILURE, cost $0.3645 (safetygaps/g1.result.md): bytes85_n31 SUCCESS, stable ZST FAILED
+  (4 dereference checks, reported to coordinator), unstable ZST TIMEOUT. No compile/setup blocker: all three rows ran.
+- RUN-REQUEST.json := safetygaps/g2.request.json (sha256 7caeb8f1e90edbde31d68a0de416491864edd580055831e53415d99943f23dc2),
+  re-validated; library tree d4ec476a, tools/gcb and lane files unchanged since 69769295 (only research files change).
+- Budget: project 199 builds, used $87.2205, reserved by unfinished $1.4850 (one non-own build); + G2 $0.810 = $89.5155
+  ≤ $93.96. Own spent $0.3645 + G2 reserve $0.810 = $1.1745 ≤ $1.65; no further planned packet.
+- Slots: 1 unfinished in project (not k1-network: DIRECTBOUNDS ee675c46 and G1 terminal); G2 makes 2 (≤2), k1-network 1.
+- Window: T0 13:20:44Z, main ends 15:50:44Z; G2 60 min envelope from ~13:53Z ends ~14:53Z plus finishing, inside main.
