@@ -1,0 +1,33 @@
+2716:Checking harness slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_local...
+2719: ** 4 of 16 failed (2 unreachable)
+2721: ** 1 of 1 cover properties satisfied
+2723:Failed Checks: dereference failure: pointer NULL
+2724:Failed Checks: dereference failure: pointer invalid
+2725:Failed Checks: dereference failure: pointer outside object bounds
+2726:Failed Checks: dereference failure: invalid integer address
+2728:VERIFICATION:- FAILED
+2729:Verification Time: 0.055160776s
+2731:Checking harness slice::sort::shared::smallsort::verify::network::zstprobe::zst_read_volatile_dangling...
+2734: ** 5 of 32 failed (2 unreachable)
+2736: ** 1 of 1 cover properties satisfied
+2738:Failed Checks: dereference failure: pointer NULL
+2739:Failed Checks: dereference failure: deallocated dynamic object
+2740:Failed Checks: dereference failure: dead object
+2741:Failed Checks: dereference failure: pointer outside object bounds
+2742:Failed Checks: dereference failure: invalid integer address
+2744:VERIFICATION:- FAILED
+2745:Verification Time: 0.065541565s
+2747:Checking harness slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_volatile_n2...
+2751: ** 4 of 356 failed (12 unreachable)
+2753: ** 2 of 2 cover properties satisfied
+2755:Failed Checks: dereference failure: pointer NULL
+2756:Failed Checks: dereference failure: pointer invalid
+2757:Failed Checks: dereference failure: pointer outside object bounds
+2758:Failed Checks: dereference failure: invalid integer address
+2760:VERIFICATION:- FAILED
+2761:Verification Time: 1.2114006s
+2763:Checking harness slice::sort::shared::smallsort::verify::network::zstprobe::zst_stable_dispatch_aware_n0_1_2_7_8_15_16_17_31_32...
+2767: ** 0 of 391 failed (5 unreachable)
+2769: ** 11 of 11 cover properties satisfied
+2772:VERIFICATION:- SUCCESSFUL
+2773:Verification Time: 194.84787s
