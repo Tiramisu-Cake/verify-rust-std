@@ -1,0 +1,32 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-network",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "directbounds-n10-n13-direct-u8-20261103",
+  "kind": "measurement",
+  "purpose": "DIRECTBOUNDS: direct actual unstable u8 network at N10 and N13 with the A9 comparator U8Cmp = StrictU8::CMP and default solver; no stubs; full-value count controls.",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "uninit_checks": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n10",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n10",
+      "expect": "FAILED",
+      "expect_check": "directbounds negative: count n10"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n13",
+      "expect": "FAILED",
+      "expect_check": "directbounds negative: count n13"
+    }
+  ]
+}

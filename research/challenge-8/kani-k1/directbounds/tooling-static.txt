@@ -1,0 +1,14 @@
+Lane paths at HEAD vs tooling base e8e238db9d87323fa4da011a1a8b37fb76ec91c0 (git object ids; ABSENT in both = EQUAL):
+EQUAL ABSENT .circleci
+EQUAL 135902a0ada360d7c32145d26eebcfb1c46fab9f .github/workflows
+EQUAL 30a077a7cb287f99b91f0b1d5bc3da7743243607 research/challenge-8/kani-k1/tools
+EQUAL ee45300dae3c5a771cc91b00d10d962f59b2a075 research/challenge-8/kani-k1/gcb
+EQUAL 55227b2921c1113fe242f18f3e0bc8669c4ecdd1 scripts/run-kani.sh
+EQUAL e121de6e60e9a4f622b9609369d7c34f58839a40 tool_config/kani-version.toml
+EQUAL 8013d9cc08638d40f8fe32589e61eae2ece7705f rust-toolchain.toml
+EQUAL 8b0134981647f61bcb0288631c9b3904368091f8 .gitmodules
+EQUAL ABSENT .cargo
+EQUAL ABSENT library/.cargo
+EQUAL 788c990c163440c389f4891cc0b3fa521ba79ad4 library/Cargo.toml
+EQUAL a07eac016fd533417c397e4f2007cef9b76fb121 library/Cargo.lock
+git diff e8e238db9d HEAD -- <lane paths>: 0 bytes

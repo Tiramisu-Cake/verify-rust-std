@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n10
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::directbounds::direct_u8_n13
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n10
+--harness
+slice::sort::shared::smallsort::verify::network::netcomp::directbounds::count_negative_u8_n13
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse
