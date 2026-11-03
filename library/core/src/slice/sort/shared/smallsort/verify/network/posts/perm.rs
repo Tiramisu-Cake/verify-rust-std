@@ -129,3 +129,6 @@ fn perm_quadratic_negative_u64_n8() {
     kani::cover(true, "permprobe quadratic control: check reached");
     kani::assert(quadratic_counts_preserved(&pre, &v), "permprobe negative: quadratic count");
 }
+
+#[cfg(kani_smallsort_controls)]
+mod solver;
