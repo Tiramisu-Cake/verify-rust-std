@@ -29,6 +29,7 @@ fn perm_arbitrary_kissat_u64_n8() {
         !super::super::super::prefix_unchanged(&v, &pre, 0),
         "partposts count: sort moves elements",
     );
+    kani::cover(v.len() == 8, "partposts count: sort returns normally at length 8");
     kani::cover(true, "partposts count: check reached the end");
 }
 
