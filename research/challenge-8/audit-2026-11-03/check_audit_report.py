@@ -32,7 +32,9 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PKG_FILES = ["README.md", "snapshots.tsv", "harnesses.tsv", "claims.tsv", "findings.tsv", "resources.tsv",
-             "check_audit_report.py"]
+             "check_audit_report.py",
+             # audit-readiness revision: prototype (not integrated into CI), its tests, its note, the result
+             "COVER-PARSER.md", "cover_parser.py", "test_cover_parser.py", "RESULT-AUDITREADY.md"]
 VERIFY = "library/core/src/slice/sort/shared/smallsort/verify/"
 PREFIX = "slice::sort::shared::smallsort::verify::"
 FORK = "https://github.com/Tiramisu-Cake/verify-rust-std"
@@ -348,6 +350,25 @@ def main() -> int:
         err("snapshots.tsv PART2-FAST: RESULT is published at the recorded commit; status must state its 8/8 outcome")
     if fast and fast_result == "blob" and any("PENDING" in h["result_ref"] for h in hs if h["snapshot"] == "PART2-FAST"):
         err("harnesses.tsv PART2-FAST: rows still PENDING although the RESULT is published")
+
+    # --- audit-readiness wording (lexical) --------------------------------------------------
+    case5_rows = {"merge::sort4_contract_bytes16_n4", "network::swap_contract_bytes16_n2",
+                  "network::swap_contract_bytes17_n2"}
+    for h in hs:
+        if h["snapshot"] == "P1-V6" and h["name"].removeprefix("verify::") in case5_rows:
+            if "OPEN model-trust caveat" not in h["note"]:
+                err(f"harnesses.tsv: {h['name']}: CASE5 model-trust caveat missing from the row")
+            else:
+                counters["case5_caveat_rows"] += 1
+    readme_text = (HERE / "README.md").read_text() if (HERE / "README.md").is_file() else ""
+    for phrase in ("reported SUCCESS with an OPEN model-trust caveat", "Cover enforcement is OPEN",
+                   "not integrated into CI", "Partition jobs", "Autoharness jobs"):
+        if phrase not in readme_text:
+            err(f"README.md: required statement missing: {phrase!r}")
+    for f in PKG_FILES:
+        if f != "check_audit_report.py" and (HERE / f).is_file() and \
+                re.search(r"organi[sz]er[- ]CI", (HERE / f).read_text(), re.I):
+            err(f"{f}: says 'organizer CI'; use 'upstream kani.yml run in our fork'")
 
     # --- URLs, relative links, private paths -------------------------------------------------
     for f in PKG_FILES:

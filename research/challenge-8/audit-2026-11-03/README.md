@@ -5,6 +5,9 @@
 `Tiramisu-Cake/verify-rust-std` fork establish, what they do not establish, and how to check every statement
 against code without credentials. This package was produced without running any compiler, Kani, proof or CI job.
 
+**Revision 2026-11-03 (audit readiness):** wording of the CI, CASE5, cover and panic-cut statements, plus a
+cover-parser prototype; scope, counts and source snapshots are unchanged ([RESULT-AUDITREADY.md](RESULT-AUDITREADY.md)).
+
 **This report does not claim that Challenge 8 is solved.** All results are bounded (fixed lengths, types,
 comparators and memory layouts), and several Challenge requirements are open (Sections 1, 5 and 7).
 
@@ -18,6 +21,8 @@ Package contents (all next to this file):
 | [findings.tsv](findings.tsv) | F01–F11 and A1–A4: neutral definition, status at the v4 baseline and now, links, remaining scope |
 | [resources.tsv](resources.tsv) | per-row verification time (VT) and process-specific memory, with missing fields marked |
 | [check_audit_report.py](check_audit_report.py) | offline static checker (Python standard library + Git) |
+| [COVER-PARSER.md](COVER-PARSER.md), [cover_parser.py](cover_parser.py), [test_cover_parser.py](test_cover_parser.py) | cover/result parser **prototype** with synthetic tests; not integrated into CI, no historical cover acceptance |
+| [RESULT-AUDITREADY.md](RESULT-AUDITREADY.md) | short result of the audit-readiness revision |
 
 ## 0. Identities and vocabulary
 
@@ -26,7 +31,7 @@ Three different library snapshots matter. They are never combined into one proof
 | Snapshot | Commit | `library/` tree | What it is |
 |---|---|---|---|
 | Part 1 v6 (`P1-V6`) | `d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097` | `d4ec476a7a001363e58f19948c188a9c2078e370` | the Part 1 submission head; one commit on upstream `c0bd09c354a50bf9fe4dcc7cc5f9c34503658479` |
-| Integrated research candidate (`INTEGRATED`) | `2756f0e2a6ae0956fdb427574eda39b5b9a76e64` | `a45388ac593c809405558ea0c27599f487b17e4e` | v6 plus 54 opt-in research roots; **not** the organizer-CI-verified v6 head |
+| Integrated research candidate (`INTEGRATED`) | `2756f0e2a6ae0956fdb427574eda39b5b9a76e64` | `a45388ac593c809405558ea0c27599f487b17e4e` | v6 plus 54 opt-in research roots; **not** the v6 head covered by the upstream `kani.yml` run in our fork |
 | v4 baseline (`V4-BASELINE`) | `f0ba14f97b3adea21c1c9671db6245afe7a15887` | `3c23a45984f0f7cc5e43150a566b09fb1937e7c0` | Part 1 v4, used only for the delta in Section 5 |
 
 This documentation branch starts at `6ff24c756c28f56fcac9c0bcb6551bf692bde7d1` (the terminal inventory report of
@@ -56,6 +61,10 @@ Vocabulary used throughout:
   not assurance levels.
 - **Same-Build vs cross-Build**: a leaf and its consumer run in the same Cloud Build on the same tree, or in
   different Builds (possibly different trees). Cross-Build pairings are reported as historical evidence only.
+- **Upstream `kani.yml` run in our fork**: a GitHub Actions run, in the fork `Tiramisu-Cake/verify-rust-std`, of
+  the workflow file `.github/workflows/kani.yml` and `scripts/run-kani.sh` as they are at the run's commit (both
+  unchanged from upstream `c0bd09c354` at v6). It is **not** an upstream pull-request check and **not** acceptance
+  by the Challenge committee; this report uses neither.
 - **Inventory**: the name list printed by `kani list`; it shows compilation and harness membership, not proofs.
 - **Status words**: SUCCESS/FAILED/TIMEOUT/OUT_OF_MEMORY are per-harness verifier outcomes as recorded;
   PASS/PARTIAL/FAIL are stage gates of a whole Build as recorded; OPEN = not established and not scheduled;
@@ -91,8 +100,8 @@ Helpers on these routes: `swap_if_less` ([380][ss-380]), `sort9_optimal`/`sort13
 
 **Bounded Kani approach.** Each harness fixes a finite set of lengths and a concrete element type, builds inputs
 with `kani::any()`, chooses a concrete comparator (a function item, a reified function pointer, a mutating or a
-fully arbitrary comparator), and bounds loops by `#[kani::unwind]`. The ordinary set runs with the organizer
-flags, including `--no-assert-contracts` (contracts are checked only in PFC targets). The three trait methods
+fully arbitrary comparator), and bounds loops by `#[kani::unwind]`. The ordinary set runs with the flags of the
+upstream `scripts/run-kani.sh`, including `--no-assert-contracts` (contracts are checked only in PFC targets). The three trait methods
 have no requires/ensures; correctness of the entries is stated by harness assertions and, for N2, by three
 forwarding-wrapper contracts ([verify.rs:20–31][verify-doc]).
 
@@ -101,13 +110,31 @@ forwarding-wrapper contracts ([verify.rs:20–31][verify-doc]).
 - **Identity.** Commit `d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097`, library tree
   `d4ec476a7a001363e58f19948c188a9c2078e370`; 13 files changed relative to `c0bd09c354`: 11 verification files (`verify.rs` and 10 under `verify/`), a
   `check-cfg` entry in `library/core/Cargo.toml` and the registration in `smallsort.rs`.
-- **Organizer CI.** [Run 41404150041][ci6]: workflow `Kani`, `workflow_dispatch`, attempt 1, `head_sha` = v6, all
-  16 jobs concluded `success` (queried from the GitHub API at cutoff). Autoharness jobs: Ubuntu
-  (`125142276276`, 07:06:42–08:35:47Z) and macOS (`125142276438`, 07:06:48–09:23:06Z). The public domain registry
-  bound to v6 records that both autoharness jobs report all 202 ordinary SmallSort harnesses SUCCESSFUL
-  ([registry][dom]); this report did not re-read the job logs. **Per-harness times and satisfied-cover counts for
-  v6 are UNKNOWN here** (they exist only in run artifacts, not in a bounded published record); cover totals of
-  earlier versions are not carried over.
+- **Upstream `kani.yml` run in our fork.** [Run 41404150041][ci6]: workflow `Kani`, `workflow_dispatch`,
+  attempt 1, `head_sha` = v6, all 16 jobs concluded `success` (queried from the GitHub API at cutoff). This is
+  not an upstream PR check and not committee acceptance. The 16 jobs of [kani.yml][wf] are two separate
+  schedules plus service jobs:
+  - **Partition jobs** (8 = Ubuntu/macOS × partitions 1–4, [kani.yml:19–66][wf-part]): each worker runs
+    `kani list` on the whole library, takes the full standard + contract harness list of all of `std` (not
+    only SmallSort), and verifies its ceiling-division chunk of that list with `verify-std … --exact`
+    ([run-kani.sh:191–207][rk-list], [:289–309][rk-part]). The 202 ordinary SmallSort roots are therefore
+    spread over partitions by list position; which partition ran which root is not recorded here.
+  - **Autoharness jobs** (2, [kani.yml:68–219][wf-auto]): a separate `kani autoharness` schedule with include
+    patterns, `--harness-timeout 10m`, `--jobs=3`: Ubuntu (`125142276276`, 07:06:42–08:35:47Z) and macOS
+    (`125142276438`, 07:06:48–09:23:06Z).
+  - Service jobs (6): metrics ×2, log analysis ×2, `kani list`, autoharness analyzer.
+
+  The public domain registry bound to v6 records that both autoharness jobs report all 202 ordinary SmallSort
+  harnesses SUCCESSFUL ([registry][dom]); this report did not re-read any job log, and per-partition outcomes
+  of SmallSort roots are not itemized here. **Per-harness times and satisfied-cover counts for v6 are UNKNOWN
+  here** (they exist only in run artifacts, not in a bounded published record); cover totals of earlier
+  versions are not carried over.
+- **Cover enforcement is OPEN.** Neither `kani.yml` nor `run-kani.sh` at v6 contains a step that checks
+  satisfied-cover counts (checked by reading both files), so a green job is a run-level verifier outcome, not a
+  cover-acceptance gate. The presence of `kani::cover!` in a harness, or of the cover gate of the research
+  K-1 Cloud Build lane, does not mean that any cover check is enabled in fork or PR CI. A cover-parser
+  prototype with synthetic tests is in [COVER-PARSER.md](COVER-PARSER.md); it is **not integrated into CI and
+  establishes no historical cover acceptance**.
 - **Native inventory.** The ordinary name set of this library tree was obtained natively by MACSPLIT G1
   (`cbce904f-449c-4fe7-bb75-c14b1f70fbec`, exact 202) ([RESULT-MACSPLIT][r-macsplit]); the cfg-on set of 384 for v6
   is static only.
@@ -115,7 +142,7 @@ forwarding-wrapper contracts ([verify.rs:20–31][verify-doc]).
 
 | Group | Roots | Property |
 |---|---:|---|
-| PFC: `swap_profile` 14, `sort4_profile` 2, `insert_tail_profile` 5, `merge_profile` 12, wrappers 3 | 36 | contract on the executed domain (see below) |
+| PFC: `swap_profile` 14 (incl. `KeyB16`, `KeyB17` †), `sort4_profile` 2 (incl. `Sort4ReadB16` †), `insert_tail_profile` 5, `merge_profile` 12, wrappers 3 | 36 | contract on the executed domain (see below) |
 | Direct general/stable entries (u8 N0..9, u64 N0..9) | 25 | key order + full-value count |
 | Fallback insertion (u8/u64 N0..6) | 7 | key order + full-value count |
 | Network entry correctness (u8 N0..7, 9..13; u64 N0..7, 9) | 16 | order; full-value count only for N < 9 |
@@ -125,6 +152,13 @@ forwarding-wrapper contracts ([verify.rs:20–31][verify-doc]).
 | Trait entries with logical-byte model (`Cell<u8>`, `DropKey`) | 6 | order + count of logical values |
 | Assembly helper pairs (positive members), `has_efficient_in_place_swap` type matrix, `sort4` with arbitrary comparator | 8 | helper properties / safety + value preservation |
 
+† `swap_contract_bytes16_n2` (`KeyB16`), `swap_contract_bytes17_n2` (`KeyB17`) and `sort4_contract_bytes16_n4`
+(`Sort4ReadB16`) are **reported SUCCESS with an OPEN model-trust caveat** (CASE5, Section 6): the pinned Kani
+mis-models an array-element read through a selected pointer in a direct fixture, and why the PFC context is
+spared is unknown. The caveat is neither evidence that these proofs are false nor a resolved error; the same
+caveat is attached to these rows in [harnesses.tsv](harnesses.tsv) and to claims `V6-SWAP`/`V6-SORT4` in
+[claims.tsv](claims.tsv).
+
 - **Contract domains.** The executed domain of each PFC is listed target × tag × domain in the
   [registry][dom] and its [PFC inventory][dom-inv] (36 ordinary + 2 opt-in frame controls). Comparators are
   always the canonical **function pointer** of a profile tag; requires accept a wider domain (e.g. `merge_profile`
@@ -133,12 +167,15 @@ forwarding-wrapper contracts ([verify.rs:20–31][verify-doc]).
   17-element backing). Only executed domains are claimed.
 - **No ordinary composition.** No ordinary root uses `stub_verified`; the four `stub_verified` uses are opt-in
   wrong-comparator controls ([specfix.rs:501][sf-501]). 57 ordinary roots carry a manual `stub` of
-  `panic_on_ord_violation` (abort, assume or cut), so their safety results are normal-return only.
+  `panic_on_ord_violation` (abort, assume or cut), so their safety results are normal-return only. These 57
+  cuts restrict the scope (normal return, not unwind); they are not declared defects and are not shown to make
+  any root vacuous. Whether every root still reaches a normal-return path is a cover question, which is OPEN
+  for v6 (see "Cover enforcement" above).
 - **Generic limitations.** No claim for arbitrary `T`, arbitrary `FnMut`, closures, other comparator
   instantiations, other lengths/backings/offsets, tie stability, uninitialized-memory detection, panic or unwind.
   `Sort4ReadU64` and `LtU64` have different canonical comparators and probes ([specfix.rs:74][sf-74],
-  [:103][sf-103], [:112][sf-112]). The array-element profiles `KeyB16`, `KeyB17`, `Sort4ReadB16` carry an OPEN
-  model-trust question (Section 7).
+  [:103][sf-103], [:112][sf-112]). The three rows on the array-element profiles `KeyB16`, `KeyB17`,
+  `Sort4ReadB16` are reported SUCCESS with an OPEN model-trust caveat († above; Sections 6 and 7).
 
 ## 3. Part 2: opt-in harnesses and the integrated tree
 
@@ -231,7 +268,7 @@ at v4 are **not** counted as new closures.
 | F05 | bytewise oracle | substantially fixed at v4 | unchanged; probe helper guards size ≤ 128; padding unsupported |
 | F06 | whole-output permutation for network N ≥ 9 | open | ordinary unchanged (count only N < 9); research: u8 N9/N10/N13 and u64 N9 compositions on separate trees; OPEN in ordinary |
 | F07 | conditional composition in ordinary | removed at v4 | still none in ordinary; experimental compositions only on research trees |
-| F08 | panic/unwind/ownership | open | unchanged: 57 manual panic stubs, normal-return drop checks; OPEN |
+| F08 | panic/unwind/ownership | open | unchanged: 57 manual panic stubs (scope restriction to normal return, not declared defects), normal-return drop checks; OPEN |
 | F09 | not all UB classes checked | open | unchanged flags; OPEN |
 | F10 | Part 2 on old base | incompatible | source integrated on v6 + inventory 438/438; proof NOT_RUN |
 | F11 | retired scaffolding, unpublished inventory refs | 149 `cfg(any())` items | 0 at v6 ([CLEANUP][r-clean]); controls behind `cfg(kani_smallsort_controls)` |
@@ -263,20 +300,23 @@ Net +58 names; this includes returns, duplicate retirements and splits, so it is
 - CASE5 ([record][r-case5]): a minimal fixture (`[u8;1]` element read through a `select_unpredictable`-selected
   pointer) produces a counterexample that no Rust execution can produce; the same on `u8` passes. Component and
   trigger UNKNOWN; model trust of `KeyB16`, `KeyB17`, `Sort4ReadB16` stays OPEN (in-target twins timed out).
-  This is not evidence that those proofs are false, and the passing scalar diagnostic does not close it.
+  The three ordinary rows on those profiles remain **reported SUCCESS with an OPEN model-trust caveat**: this
+  is not evidence that those proofs are false, not a resolved error, and the passing scalar diagnostic does not
+  close it.
 - GEOM16 ([record][r-geom]): three N16 scratch48 merge PFC geometries SUCCESS (one at 526.8 s), four controls
   failed at the intended locations; automated gates false, accepted by location. No caller-N16 theorem.
 - WRAP-N2 ([record][r-wrap]) accepted three N2 wrappers (later ordinary); the N0..3 wrapper union failed for three
   types (W2).
 - MACSPLIT: split halves measured on GCB (bytes17 max VT −52 %, sum lower; insert_tail max −28 %, sum higher). The
-  macOS outcome was settled only by the full organizer CI of v6 (Section 2).
+  macOS outcome was settled only by the full upstream `kani.yml` run of v6 in our fork (Section 2).
 - SPLIT31 (opt-in, own tree): max VT 167.4 s vs 237.9 s (≈ −30 %), sum 280.7 s vs 237.9 s (+18 %), CBMC peak
   2.38 vs 4.00 GiB; whole-Build sampled process peaks 2.90 vs 4.45 GiB.
 
 **Resources.** [resources.tsv](resources.tsv) keeps VT, CBMC, kani-driver, compiler and process-sum RSS in separate
-columns with machine/jobs/flags/timeout. Three environments are never mixed: organizer CI (Ubuntu/macOS
-autoharness, `--jobs=3`, 10-minute harness timeout; per-harness data UNKNOWN here), research Cloud Build (GCB
-`k1-standard4`, 4 vCPU/16 GiB, swap off, jobs 1, 600 s/row), and macOS figures reported for earlier organizer runs.
+columns with machine/jobs/flags/timeout. Three environments are never mixed: the upstream `kani.yml` run in our
+fork (partition jobs with `KANI_JOBS=2` on Ubuntu and `-j` on macOS; autoharness jobs with `--jobs=3` and a
+10-minute harness timeout; per-harness data UNKNOWN here), research Cloud Build (GCB `k1-standard4`, 4 vCPU/16
+GiB, swap off, jobs 1, 600 s/row), and macOS figures reported for earlier `Kani` workflow runs.
 A `600` entry with status "timeout cap" is the limit, not a completed VT. Notable memory facts: the u64 N10
 positive was killed by the kernel while kani-driver held 15285244 KiB sampled (14.58 GiB; `time -v` 15764976 KiB),
 CBMC 2711020 KiB, so CBMC was not the cause; the u8 N10 composition Build reached kani-driver VmHWM 14781664 KiB.
@@ -290,11 +330,12 @@ The inventory lane has no sampler (peaks MISSING).
   `d4ec476a7a`): eight existing opt-in roots, unchanged source, all SUCCESS with full covers on GCB jobs 1 (Builds
   `5765f47e-81d4-4729-9bc6-76e51998bbcc`, `38ec4914-5a7e-4690-aa32-d8ec32d889f7`): network correctness u8 N8
   143.6 s (order + count), u8 N14 111.5 s, N15 198.2 s, N16 311.9 s, u64 N10 66.2 s, N11 150.6 s, N12 302.8 s (order
-  only), insertion suffix u8 N15 34.9 s (count only). This is a measurement on the v6 tree, not organizer CI and not
-  an ordinary admission; by GCB time the highest macOS risk is u8 N16 and u64 N12.
+  only), insertion suffix u8 N15 34.9 s (count only). This is a measurement on the v6 tree, not an upstream `kani.yml`
+  run and not an ordinary admission; by GCB time the highest macOS risk is u8 N16 and u64 N12.
 - GCB fits under 600 s do not show macOS/jobs3 readiness. A reasonable target is a 400–450 s margin per root; the
-  final gate for any new Part 1 version is a separately authorized full organizer CI of that exact commit on both
-  operating systems. No such version was created for this report.
+  final gate for any new Part 1 version is a separately authorized full upstream `kani.yml` run of that exact
+  commit on both operating systems; upstream PR checks and committee acceptance are separate steps. No such
+  version was created for this report.
 
 Known limitations (apply to all results above):
 
@@ -303,7 +344,8 @@ Known limitations (apply to all results above):
 2. **Comparator identity and stability.** Results bind one concrete comparator value and Rust type (function item
    vs function pointer); no tie-stability claim beyond key order; mutating/arbitrary comparators only in safety
    families.
-3. **Model trust (CASE5).** Array-element profiles have an open modelling question on the pinned Kani.
+3. **Model trust (CASE5).** Array-element profiles have an open modelling question on the pinned Kani; the
+   three affected ordinary rows are reported SUCCESS with that OPEN caveat (Section 2 †).
 4. **Initialization, aliasing, validity.** No uninitialized-read or invalid-value instrumentation in the profile
    used; `can_dereference` premises are written but not enforced by instrumentation; aliasing beyond Kani's
    pointer checks is not modelled.
@@ -312,6 +354,8 @@ Known limitations (apply to all results above):
 6. **Trusted tools and settings.** Kani `9461e07af7ec929f050aa4192f29363c9be07779` and its CBMC, toolchain
    `nightly-2026-10-12` ([kani-version.toml][kv]), `--no-assert-contracts`, `--cbmc-args --object-bits 12`, per-root
    unwind bounds and the manual stubs are trusted; unreachable checks reported by Kani are not itemized.
+7. **Covers.** No cover check is enabled in the ordinary workflow; v6 satisfied-cover counts are UNKNOWN; the
+   cover-parser prototype is not integrated into CI (Section 2).
 
 ## 8. Reproducing the static checks
 
@@ -321,6 +365,7 @@ git fetch origin '+refs/heads/*:refs/remotes/origin/*'
 git remote add upstream https://github.com/model-checking/verify-rust-std.git && git fetch upstream main
 git checkout <commit of this file>
 python3 -B research/challenge-8/audit-2026-11-03/check_audit_report.py
+python3 -B research/challenge-8/audit-2026-11-03/test_cover_parser.py   # synthetic prototype tests only
 ```
 
 Output at cutoff: `PASS` with 453 harness rows whose identifier appears on the declared line at the declared
@@ -343,9 +388,10 @@ upstream `main`.
 
 **Pinned verifier invocations (documented, not run here).**
 
-- Organizer CI at v6: [kani.yml autoharness step][wf-auto] (`--harness-timeout 10m`, `--default-unwind 1000`,
-  `--jobs=3`) calling [run-kani.sh autoharness][rk-auto]; partition jobs call [verify-std][rk-vs]; unstable flags
-  at [run-kani.sh:87][rk-87]. Commands for the SmallSort suite are documented in [verify.rs:28–31][verify-cmd].
+- Upstream `kani.yml` at v6 (run in our fork): partition jobs ([kani.yml:19–66][wf-part]) call
+  [verify-std][rk-vs] on their chunk of the full `kani list`; the separate [autoharness step][wf-auto]
+  (`--harness-timeout 10m`, `--default-unwind 1000`, `--jobs=3`) calls [run-kani.sh autoharness][rk-auto];
+  unstable flags at [run-kani.sh:87][rk-87]. Commands for the SmallSort suite are documented in [verify.rs:28–31][verify-cmd].
 - Research Cloud Build lane (frozen tooling `30f77e8599`): request → [`kani_args`][k1-args]
   (`--harness <name>`… `--exact --harness-timeout <m>m --jobs=<n> --output-format=terse`, optional
   `-Z uninit-checks`), controls via `RUSTFLAGS="--cfg kani_smallsort_controls"` ([kani_k1.py:1726][k1-rf],
@@ -360,6 +406,15 @@ upstream `main`.
 - The opt-in classification has two boundary rows (Section 3); both splits are stated.
 - Leaf reuse across Builds (N10, N22c) and the NETCOMP calibration Build with gate FAIL remain historical.
 - PART2-FAST rows are opt-in GCB measurements; their macOS/jobs3 behaviour is UNKNOWN.
+- Cover enforcement in the ordinary workflow is OPEN; the cover-parser prototype was tested only on synthetic
+  records and was not run on any real log of Run 41404150041 (Section 2, [COVER-PARSER.md](COVER-PARSER.md)).
+- Partition-job outcomes of individual SmallSort roots in Run 41404150041 are not itemized; only the run- and
+  job-level conclusions and the registry statement about the autoharness jobs are used.
+
+[wf]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097/.github/workflows/kani.yml
+[wf-part]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097/.github/workflows/kani.yml#L19-L66
+[rk-list]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097/scripts/run-kani.sh#L191-L207
+[rk-part]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097/scripts/run-kani.sh#L289-L309
 
 [ch8]: https://github.com/model-checking/verify-rust-std/blob/c0bd09c354a50bf9fe4dcc7cc5f9c34503658479/doc/src/challenges/0008-smallsort.md
 [ch8-ub]: https://github.com/model-checking/verify-rust-std/blob/c0bd09c354a50bf9fe4dcc7cc5f9c34503658479/doc/src/challenges/0008-smallsort.md#L19-L27
