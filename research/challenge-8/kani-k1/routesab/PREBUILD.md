@@ -78,3 +78,12 @@ rustflags `--cfg kani_smallsort_controls`. No highmem, resource kind, solver fla
   (SAFETYNET) terminal SUCCESS 2026-11-03T10:00:39Z, accounted in RESULT-SAFETYNET.md. Foreign ledgers untouched.
 - Window: main 150 min + closeout 30 min from T0; G1 timeout 70 min, then G2 70 min envelope; both fit inside main
   only if G2 dispatches ≤ ~75 min after T0 (G1 expected ~20–30 min wall).
+
+## G2 dispatch record (coordinator pre-approved G2 in the G1 GO; after G1 terminal/accounting, 2026-11-03T10:26Z)
+- G1 c6bc3a65 terminal SUCCESS, 4/4 rows accepted, cost $0.1350 (routesab/g1.result.md). No shared setup/compile error.
+- RUN-REQUEST.json := routesab/g2.request.json (sha256 b606895376bb051940a25717e3a128bc7a3910d7a2bb5666bf97700c139f3e00),
+  unchanged since e9e70271; library tree d4ec476a and lane files unchanged (this commit touches only research files).
+- Budget: project 186 builds, used $83.2245, reserved by unfinished $1.0800 (PERMPROBE 87487311, foreign); + G2 $0.945 =
+  $85.2495 ≤ $88.96. Own spent $0.1350 + G2 reserve $0.945 = $1.0800 ≤ $1.95.
+- Slots: 1 unfinished in project (foreign); G2 makes 2 (≤ 2), k1-network 1 (≤ 1). Window: T0 10:12:15Z, main ends
+  12:42Z; G2 70 min envelope from ~10:27Z ends ~11:37Z plus finishing, inside main.
