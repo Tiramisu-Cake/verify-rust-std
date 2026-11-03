@@ -1,53 +1,61 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-merge",
+  "agent": "k1-network",
   "runner": "gcb-e2-standard-4",
-  "request_id": "typematrix-meas-dispatch-u8u32-u128-bytes9-20261103",
+  "request_id": "typesplit-meas-dispatch-n31-n32-route-split-20261103",
   "kind": "measurement",
-  "purpose": "TYPEMATRIX B4: stable+unstable dispatch safety for (u8, u32) (network, padding), u128 (general, align 16) and [u8; 9] (general, first size with has_efficient_in_place_swap false) in opt-in network::typematrix; controls on, jobs1.",
+  "purpose": "TYPESPLIT B4: the three TYPEMATRIX _n31_32 pair roots ((u8, u32), u128, [u8; 9]) split into 12 single-route single-length dispatch safety roots (stable/unstable x 31/32) in opt-in network::typematrix; controls on, jobs1.",
   "harness_timeout_minutes": 10,
   "controls": true,
   "kani_jobs": 1,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n0_1_2_7_8",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n15_16_17",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u8u32_n31_32",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n0_1_2_7_8",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n15_16_17",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u128_n31_32",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n0_1_2_7_8",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n15_16_17",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_bytes9_n31_32",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n31",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n9_12_13_18",
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n31",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n32",
       "expect": "SUCCESS"
     }
   ]

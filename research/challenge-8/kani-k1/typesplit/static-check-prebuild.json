@@ -1,0 +1,472 @@
+{
+ "lib_base": "0d33d29f0e6cc8d230ef5095af59cd7d896ff709",
+ "tool_base": "e8e238db9d87323fa4da011a1a8b37fb76ec91c0",
+ "head": "d0589867b94e6e7c3a6dc7f9d296b56d25e5e0e4",
+ "library_changed_vs_lib_base": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs"
+ ],
+ "library_changed_vs_tool_base": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs"
+ ],
+ "typematrix_rs_base_lines": 133,
+ "typematrix_rs_lines": 150,
+ "typematrix_rs_sha256": "80ee35d1fde33a342cb596df5f7032ec24748238aa2d87a0d9a9e1b22978cf24",
+ "typematrix_rs_base_blob": "e8a693a8694b523e7c2f84e4505be56365aed848",
+ "appended_lines": 17,
+ "new_roots": [
+  {
+   "name": "dispatch_safety_stable_u8u32_n31",
+   "type": "(u8, u32)",
+   "stable": "true",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "stable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_stable_u8u32_n32",
+   "type": "(u8, u32)",
+   "stable": "true",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "stable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_u8u32_n31",
+   "type": "(u8, u32)",
+   "stable": "false",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "unstable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_u8u32_n32",
+   "type": "(u8, u32)",
+   "stable": "false",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_stable_u128_n31",
+   "type": "u128",
+   "stable": "true",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "stable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_stable_u128_n32",
+   "type": "u128",
+   "stable": "true",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "stable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_u128_n31",
+   "type": "u128",
+   "stable": "false",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "unstable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_u128_n32",
+   "type": "u128",
+   "stable": "false",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_stable_bytes9_n31",
+   "type": "[u8; 9]",
+   "stable": "true",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "stable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_stable_bytes9_n32",
+   "type": "[u8; 9]",
+   "stable": "true",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "stable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_bytes9_n31",
+   "type": "[u8; 9]",
+   "stable": "false",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "unstable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "name": "dispatch_safety_unstable_bytes9_n32",
+   "type": "[u8; 9]",
+   "stable": "false",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  }
+ ],
+ "new_covers_total": 24,
+ "cell_correspondence": [
+  {
+   "pair_root": "dispatch_safety_stable_unstable_u8u32_n31_32",
+   "type": "(u8, u32)",
+   "pair_cells": [
+    [
+     "stable",
+     31
+    ],
+    [
+     "stable",
+     32
+    ],
+    [
+     "unstable",
+     31
+    ],
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "pair_covers": [
+    "stable route normal return at 31",
+    "unstable route normal return at 31",
+    "stable route normal return at 32",
+    "unstable route normal return at 32",
+    "dispatch family reached the end"
+   ],
+   "split_roots": {
+    "dispatch_safety_stable_u8u32_n31": [
+     [
+      "stable",
+      31
+     ]
+    ],
+    "dispatch_safety_stable_u8u32_n32": [
+     [
+      "stable",
+      32
+     ]
+    ],
+    "dispatch_safety_unstable_u8u32_n31": [
+     [
+      "unstable",
+      31
+     ]
+    ],
+    "dispatch_safety_unstable_u8u32_n32": [
+     [
+      "unstable",
+      32
+     ]
+    ]
+   },
+   "equal_cells": true
+  },
+  {
+   "pair_root": "dispatch_safety_stable_unstable_u128_n31_32",
+   "type": "u128",
+   "pair_cells": [
+    [
+     "stable",
+     31
+    ],
+    [
+     "stable",
+     32
+    ],
+    [
+     "unstable",
+     31
+    ],
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "pair_covers": [
+    "stable route normal return at 31",
+    "unstable route normal return at 31",
+    "stable route normal return at 32",
+    "unstable route normal return at 32",
+    "dispatch family reached the end"
+   ],
+   "split_roots": {
+    "dispatch_safety_stable_u128_n31": [
+     [
+      "stable",
+      31
+     ]
+    ],
+    "dispatch_safety_stable_u128_n32": [
+     [
+      "stable",
+      32
+     ]
+    ],
+    "dispatch_safety_unstable_u128_n31": [
+     [
+      "unstable",
+      31
+     ]
+    ],
+    "dispatch_safety_unstable_u128_n32": [
+     [
+      "unstable",
+      32
+     ]
+    ]
+   },
+   "equal_cells": true
+  },
+  {
+   "pair_root": "dispatch_safety_stable_unstable_bytes9_n31_32",
+   "type": "[u8; 9]",
+   "pair_cells": [
+    [
+     "stable",
+     31
+    ],
+    [
+     "stable",
+     32
+    ],
+    [
+     "unstable",
+     31
+    ],
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "pair_covers": [
+    "stable route normal return at 31",
+    "unstable route normal return at 31",
+    "stable route normal return at 32",
+    "unstable route normal return at 32",
+    "dispatch family reached the end"
+   ],
+   "split_roots": {
+    "dispatch_safety_stable_bytes9_n31": [
+     [
+      "stable",
+      31
+     ]
+    ],
+    "dispatch_safety_stable_bytes9_n32": [
+     [
+      "stable",
+      32
+     ]
+    ],
+    "dispatch_safety_unstable_bytes9_n31": [
+     [
+      "unstable",
+      31
+     ]
+    ],
+    "dispatch_safety_unstable_bytes9_n32": [
+     [
+      "unstable",
+      32
+     ]
+    ]
+   },
+   "equal_cells": true
+  }
+ ],
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "controls_on_count": [
+  394,
+  406
+ ],
+ "ordinary_delta": [],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n32"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "lane_files_changed_vs_tool_base": [],
+ "rustfmt_check_rc": 0,
+ "request_sha256": "2f5b88dc980dcdb033d090c8dbd71110c9d8dc89bb0f3c88490897c8ab294390",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u8u32_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u8u32_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u128_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u128_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_bytes9_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_bytes9_n32",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 150,
+ "envelope_usd": 2.025,
+ "status": "PASS",
+ "errors": []
+}
