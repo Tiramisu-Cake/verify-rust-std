@@ -62,12 +62,13 @@ fn canonical_guard(ok: bool) -> bool {
     ok
 }
 
+// Geometry only: initialization and exclusive mutable storage come from the harness fixtures.
 fn pair_region<T>(v: *mut T) -> bool {
     can_dereference(ptr::slice_from_raw_parts(v, 2))
         && can_write(ptr::slice_from_raw_parts_mut(v, 2))
 }
 
-// The raw interface must retain the exclusivity previously supplied by two &mut slices.
+// The geometry requires disjoint input/scratch spans; fixture borrows supply exclusivity.
 fn stable_region(v: *mut Cell<u8>, scratch: &[MaybeUninit<Cell<u8>>]) -> bool {
     pair_region(v)
         && (scratch.is_empty()
@@ -93,12 +94,12 @@ fn count<T: Model>(v: &[T], probe: u8) -> usize {
 // macros. The raw span is always exactly N2; these adapters use the same pure checker as the
 // corruption control. Only the scalar count is captured in old().
 fn pair_sorted<T: Model>(v: *const T) -> bool {
-    // SAFETY: the wrapper requires establish a readable initialized two-element span.
+    // SAFETY: fixture initialization supplies two values; the requires check their span geometry.
     sorted(unsafe { slice::from_raw_parts(v, 2) })
 }
 
 fn pair_count<T: Model>(v: *const T, probe: u8) -> usize {
-    // SAFETY: the wrapper requires establish a readable initialized two-element span.
+    // SAFETY: fixture initialization supplies two values; the requires check their span geometry.
     count(unsafe { slice::from_raw_parts(v, 2) }, probe)
 }
 
@@ -118,7 +119,7 @@ unsafe fn stable_cell(
     if !canonical_guard(canonical(cmp, cell_less)) {
         return;
     }
-    // SAFETY: the requires establish exactly two initialized writable elements.
+    // SAFETY: initialized exclusive fixture storage; the requires check the two-element geometry.
     let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <Cell<u8> as StableSmallSortTypeImpl>::small_sort(v, scratch, &mut is_less);
@@ -134,7 +135,7 @@ unsafe fn unstable_byte(v: *mut u8, cmp: fn(&u8, &u8) -> bool, probe: u8) {
     if !canonical_guard(canonical(cmp, byte_less)) {
         return;
     }
-    // SAFETY: the requires establish exactly two initialized writable elements.
+    // SAFETY: initialized exclusive fixture storage; the requires check the two-element geometry.
     let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <u8 as UnstableSmallSortTypeImpl>::small_sort(v, &mut is_less);
@@ -151,7 +152,7 @@ unsafe fn freeze_noncopy(v: *mut NonCopyU8, cmp: fn(&NonCopyU8, &NonCopyU8) -> b
     if !canonical_guard(canonical(cmp, noncopy_less)) {
         return;
     }
-    // SAFETY: the requires establish exactly two initialized writable elements.
+    // SAFETY: initialized exclusive fixture storage; the requires check the two-element geometry.
     let v = unsafe { slice::from_raw_parts_mut(v, 2) };
     let mut is_less = cmp;
     <NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut is_less);

@@ -2,8 +2,6 @@
 //! Probe multiplicity represents full values only for types without padding; Drop uses tag counts.
 //! Profile proofs (`specfix`) use typed full-value model counts; real-body callers use the probe.
 
-#![allow(dead_code)]
-
 pub(super) mod specfix;
 
 use specfix::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};

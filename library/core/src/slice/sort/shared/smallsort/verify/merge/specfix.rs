@@ -11,6 +11,8 @@
 //! this file is opt-in. `kani::assert` keeps literal property descriptions; core `assert!` in
 //! this crate reports a shared placeholder on the pinned Kani.
 
+// Region predicates below check geometry only (alignment, bounds and allocation separation).
+// Constructed fixtures supply initialized inputs and exclusive mutable destination storage.
 use super::{lt_u8, lt_u64};
 #[cfg(kani_smallsort_controls)]
 use crate::mem::MaybeUninit;
@@ -188,7 +190,7 @@ pub(crate) fn pair_models<P: Profile>(
     a: usize,
     b: usize,
 ) -> (P::Model, P::Model) {
-    // SAFETY: the requires make both positions readable initialized values.
+    // SAFETY: fixture values are initialized; the requires check both positions' geometry.
     unsafe { (P::model(&*v.add(a)), P::model(&*v.add(b))) }
 }
 
@@ -224,11 +226,11 @@ pub(crate) unsafe fn swap_profile<P: Profile>(
     cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
     let mut is_less = cmp;
-    // SAFETY: the requires establish swap_if_less's safety conditions; `is_less` is `P::CMP`.
+    // SAFETY: initialized exclusive fixture storage; requires check geometry and `P::CMP`.
     unsafe { swap_if_less(v, a, b, &mut is_less) }
 }
 
-// sort4_stable profile: readable initialized source, writable disjoint destination.
+// sort4_stable profile: source/destination geometry; fixtures initialize the source.
 
 pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
     size_of::<T>() > 0
@@ -248,12 +250,12 @@ pub(crate) unsafe fn sort4_profile<P: Profile>(
     cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
     let mut is_less = cmp;
-    // SAFETY: the requires establish sort4_stable's read/write/disjointness conditions.
+    // SAFETY: fixtures initialize src and own dst; requires check both spans and disjointness.
     unsafe { sort4_stable(src, dst, &mut is_less) }
 }
 
-// insert_tail profile: geometry and bounds before the distance, full region readable and
-// writable before any typed read; the sorted prefix is a pure model premise.
+// insert_tail profile: full-span geometry and bounds before the distance or typed reads;
+// fixtures initialize the elements; the sorted prefix is a pure model premise.
 
 pub(crate) fn tail_len<T>(begin: *const T, tail: *const T) -> usize {
     // SAFETY: evaluated only after `tail_region` established one allocation and both bounds.
@@ -291,7 +293,7 @@ pub(crate) unsafe fn insert_tail_profile<P: Profile>(
     cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
     let mut is_less = cmp;
-    // SAFETY: the requires establish insert_tail's region and sorted-prefix conditions.
+    // SAFETY: initialized exclusive fixture storage; requires check geometry and sorted prefix.
     unsafe { insert_tail(begin, tail, &mut is_less) }
 }
 
@@ -325,7 +327,7 @@ pub(crate) unsafe fn merge_profile<P: Profile>(
     P::Elem: FreezeMarker,
 {
     let mut is_less = cmp;
-    // SAFETY: the requires establish bidirectional_merge's destination and length conditions.
+    // SAFETY: fixtures initialize v and own dst; requires check destination geometry and lengths.
     unsafe { bidirectional_merge(v, dst, &mut is_less) }
 }
 

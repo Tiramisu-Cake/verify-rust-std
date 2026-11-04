@@ -3,8 +3,6 @@
 //! closed profiles `swap_profile` / `insert_tail_profile` (merge::specfix), which run the real
 //! helper with one canonical comparator per tag. Profile tags for comparators owned here follow.
 
-#![allow(dead_code)]
-
 use super::super::UnstableSmallSortFreezeTypeImpl;
 use super::merge::specfix::{
     LtI32, LtU8, LtU64, Profile, identity_profile, insert_tail_profile, swap_profile,
@@ -13,6 +11,80 @@ use crate::kani;
 use crate::mem::size_of;
 
 // Share key-order function items with merge profile proofs; equal keys may have different values.
+
+/// Real exchange with coincident positions, including an unlawful true comparison on equality.
+#[kani::proof]
+fn swap_same_position_u8() {
+    let before: u8 = kani::any();
+    let mut value = before;
+    let taken: bool = kani::any();
+    let mut cmp = |a: &u8, b: &u8| {
+        // SAFETY: both shared references point at the same initialized byte.
+        unsafe {
+            let _ = crate::ptr::read_volatile(a);
+            let _ = crate::ptr::read_volatile(b);
+        }
+        taken
+    };
+    // SAFETY: both positions name the single live, aligned, initialized writable byte.
+    unsafe { super::super::swap_if_less(&mut value, 0, 0, &mut cmp) };
+    kani::assert(value == before, "same-position exchange preserves the full byte");
+    kani::cover(taken, "same-position exchange: true comparator returns");
+    kani::cover(!taken, "same-position exchange: false comparator returns");
+}
+
+/// Freeze without Copy; its size exceeds the general route's stack budget.
+#[repr(transparent)]
+struct NonCopyBytes86([u8; 86]);
+
+const _: () = {
+    use super::super::{CopyMarker, MAX_STACK_ARRAY_SIZE, SMALL_SORT_GENERAL_SCRATCH_LEN};
+    use crate::slice::sort::shared::FreezeMarker;
+
+    fn require_freeze<T: FreezeMarker>() {}
+    let _ = require_freeze::<NonCopyBytes86>;
+    assert!(size_of::<NonCopyBytes86>() == 86);
+    assert!(size_of::<NonCopyBytes86>() * SMALL_SORT_GENERAL_SCRATCH_LEN > MAX_STACK_ARRAY_SIZE);
+
+    // Type inference becomes ambiguous if CopyMarker holds. Copy implies CopyMarker through
+    // the runtime blanket impl, so this also statically excludes Copy and its specialization.
+    trait AmbiguousIfCopy<A> {
+        const CHECK: () = ();
+    }
+    impl<T> AmbiguousIfCopy<()> for T {}
+    impl<T: CopyMarker> AmbiguousIfCopy<u8> for T {}
+    let () = <NonCopyBytes86 as AmbiguousIfCopy<_>>::CHECK;
+};
+
+#[kani::proof]
+#[kani::unwind(87)]
+fn unstable_freeze_noncopy_bytes86_fallback_n2() {
+    use super::super::{SMALL_SORT_FALLBACK_THRESHOLD, UnstableSmallSortTypeImpl};
+
+    let [a, b]: [[u8; 86]; 2] = kani::any();
+    let mut v = [NonCopyBytes86(a), NonCopyBytes86(b)];
+    let taken: bool = kani::any();
+    let mut cmp = |a: &NonCopyBytes86, b: &NonCopyBytes86| {
+        // SAFETY: the real insertion comparator must receive initialized readable payloads.
+        unsafe {
+            let _ = crate::ptr::read_volatile(&a.0[0]);
+            let _ = crate::ptr::read_volatile(&b.0[0]);
+        }
+        taken
+    };
+    assert!(
+        <NonCopyBytes86 as UnstableSmallSortTypeImpl>::small_sort_threshold()
+            == SMALL_SORT_FALLBACK_THRESHOLD
+    );
+    <NonCopyBytes86 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+    for i in 0..86 {
+        kani::assert(v[0].0[i] == if taken { b[i] } else { a[i] }, "fallback keeps first value");
+        kani::assert(v[1].0[i] == if taken { a[i] } else { b[i] }, "fallback keeps second value");
+    }
+    kani::cover(taken, "Freeze non-Copy bytes86 fallback swaps at N2");
+    kani::cover(!taken, "Freeze non-Copy bytes86 fallback keeps order at N2");
+    kani::cover(true, "Freeze non-Copy bytes86 fallback returns at N2");
+}
 
 /// Positions anywhere in a 4-element array, in either order, distinct as the profile requires.
 fn exercise_swap_contract<P: Profile>()
@@ -642,7 +714,7 @@ insertion_offset_group_cell_case!(
 );
 
 // Full-width `u8` and `u64` arrays enter through the unstable trait with a strict total order.
-// The checks assert sortedness and use probe counts to establish permutation.
+// The checks assert sortedness; only N < 9 also checks full-route probe counts.
 fn strict_less<T: Ord>(a: &T, b: &T) -> bool {
     a < b
 }
@@ -656,8 +728,8 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
     <T as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
     assert!(is_sorted_by(&v, &mut cmp));
     // Below the network width, keep the direct full-route permutation proof.
-    // At N >= 9, compose the structural network permutation with the separately checked
-    // real insertion-tail permutation. This keeps its probe formula out of the network.
+    // At N >= 9 this harness checks only order. Separate harnesses check permutation of
+    // the insertion suffix; this harness does not assert full-route permutation.
     if N < 9 {
         assert!(count_matching_values(&pre, &probe) == count_matching_values(&v, &probe));
     }

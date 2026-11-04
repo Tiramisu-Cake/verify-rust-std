@@ -1,8 +1,13 @@
 //! Bounded SmallSort checks for selected input domains and properties (Part 1).
 //!
+//! The three `small_sort` trait methods have no contracts. On the current Kani pin, contracts
+//! on specialization `default fn` and PFC on trait methods with their own generic `F` are not
+//! accepted (reproduced on `cd355b0b`, Actions runs 41894986646 and 41894991130).
+//! Helper contracts here use closed profiles that each fix one comparator.
+//!
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
 //! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
-//! comparators.
+//! comparators, same-position exchange and the Freeze non-Copy large-value fallback.
 //! `assembly` checks fixed-size original witnesses and stable unit ZST N1/2/7/8/16/17/31/32.
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
@@ -18,7 +23,6 @@
 //! Network/insertion safety checks execute real bodies. Network sortedness is machine checked at
 //! the listed lengths; the ordinary network asserts the probe count only for N < 9. Longer
 //! compositions belong to separate research results, not to this suite.
-//! The three `small_sort` trait methods have no requires/ensures; correctness uses harness asserts.
 //! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
 //! Manual stubs cut only `panic_on_ord_violation`; covers and eight opt-in negative controls
@@ -30,6 +34,8 @@
 //! `specfix_wrong_f_sort4_rejected_u64`, `specfix_wrong_f_insert_rejected_u8` and
 //! `specfix_wrong_f_merge_rejected_u8`. Other diagnostics and lengths are a separate Part 2.
 //! `run-kani.sh` does not fail on unreachable covers; historical covers were inspected separately.
+//! Region predicates describe pointer geometry, not initialization or permissions; constructed
+//! fixtures supply initialized inputs and exclusive mutable storage.
 //! Limits: `run-kani.sh` enables no uninitialized-memory or value-validity checks; the measured
 //! Kani profile does not report writes to immutable bytes (no permission check); unwinding is not
 //! checked. Aliasing, generic types, ZSTs and panic paths are covered only as listed.

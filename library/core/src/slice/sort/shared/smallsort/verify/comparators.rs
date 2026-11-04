@@ -1,7 +1,8 @@
 //! Comparator shared by bounded stable unit-ZST harnesses.
 //!
-//! Sized values use observable volatile reads. ZSTs use ordinary reads to avoid the verifier's
-//! volatile-ZST limitation; this helper does not check uninitialized reads.
+//! Sized values use observable volatile reads. On this Kani pin, ZST `read_volatile` calls in
+//! measured in-core fixtures produced pointer-check failures whose cause is not established.
+//! ZSTs therefore use `ptr::read`; this helper does not check uninitialized reads.
 
 use crate::mem::ManuallyDrop;
 use crate::{kani, ptr};
