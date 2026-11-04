@@ -1,11 +1,11 @@
 {
   "schema": "realcontractstwo-ledger-v1",
-  "state": "G1 complete; six SUCCESS, expected negative FAILED, sort4 FAILED on builtin memcmp unwind; review handoff, no further build authorized",
-  "owner": "k1-network",
-  "owner_availability": "coordinator explicitly declared k1-network free and authorized owner-only request change before dispatch",
-  "stage": "realcontractstwo-g1-reviewed-results",
-  "request_id": "realcontractstwo-g1-20261104",
-  "request_sha256": "49e677cea73efca3d400f80ff3d58262e5225d67ea9d423eed9280d3d136401d",
+  "state": "G2 packet prepared under explicit coordinator self-dispatch GO; wait for SCRATCHGEOM owner release, then dispatch exactly five rows",
+  "owner": "k1-merge",
+  "owner_availability": "reserved choice after SCRATCHGEOM 88af6889-68fc-48ae-9c20-9e8cfcff729d terminal notification/readiness metadata",
+  "stage": "realcontractstwo-g2-prepared",
+  "request_id": "realcontractstwo-g2-20261105",
+  "request_sha256": "cddff54bb42f40ce7a8c2a50d3e90e0eab54cd51a1a22f7ce2dacc6a74ece0d9",
   "branch": "experiment/kani-k1-realcontractstwo-20261104",
   "task_sha": "ca4b4a00e9",
   "library_sha": "def6ad2e111e68987b040e3d3eb14a279e4aea0d",
@@ -21,14 +21,14 @@
     "closeout": 30
   },
   "runner": "gcb-e2-standard-4",
-  "harness_count": 8,
+  "harness_count": 5,
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "price_per_minute_usd": 0.0135,
-  "planned_timeout_minutes": 110,
-  "planned_reserve_usd": 0,
-  "own_spent_plus_planned_reserve_usd": 0.1485,
+  "planned_timeout_minutes": 80,
+  "planned_reserve_usd": 1.08,
+  "own_spent_plus_planned_reserve_usd": 1.2285,
   "project_budget_snapshot": {
     "source": "k1g.sh budget (one preparation query)",
     "builds": 224,
@@ -187,7 +187,7 @@
       "evidence_interface": "k1g summary, summary BUILD 0 8 (next_offset done), check-tooling, bounded log-grep and budget; no raw logs read"
     }
   ],
-  "updated_at_utc": "2026-11-04T20:58:19.203737+00:00",
+  "updated_at_utc": "2026-11-04T21:02:26.899605+00:00",
   "prepared_request_sha256": "0b0188923d4cbe99a94d9f1698aadd67c17b01396f3eb90e4fb002676d2fc5f1",
   "prepared_owner": "k1-merge",
   "compile_error_repairs_dispatched": 0,
@@ -196,7 +196,7 @@
     "owner_only_commit_sha": "15703f81d243be38e04c13c27b3e5789fec92e01",
     "source": "coordinator user GO: change only agent to free k1-network in separate [skip ci] commit, push, dispatch, watch, end turn",
     "owner_change_only": "request agent k1-merge -> k1-network; no other file changed before dispatch",
-    "g2_authorized": false
+    "g2_authorized": true
   },
   "project_budget_snapshot_dispatch": {
     "source": "authorized k1g dispatch output",
@@ -205,5 +205,56 @@
     "after_submit_max_usd": 97.899,
     "cap_usd": 118.96
   },
-  "next_step": "no dispatch; coordinator decision/new GO needed for sort4 caller localization and targeted follow-up; no TIMEOUT, insert splitting unnecessary"
+  "next_step": "publish PRE-BUILD; wait for SCRATCHGEOM terminal owner release; self-dispatch G2 under existing GO and immediately watch/end turn",
+  "g2_library_sha": "c2bc02b1151f77d163e94b3a69abff07c4be7701",
+  "g2_authorization": {
+    "source": "coordinator user GO after G1 af0bd533ca; exact five-row composition; self-dispatch after publishing PRE-BUILD, then watch",
+    "owner": "k1-merge",
+    "alternative_owner_if_earlier_free": "k1-network",
+    "alternative_owner_selected": false,
+    "dispatch_gate_build": "88af6889-68fc-48ae-9c20-9e8cfcff729d",
+    "gate_watch_cache": "/tmp/kani-k1-realcontractstwo-scratchgeom-gate",
+    "gate_watch_registered": true,
+    "dispatch_requires_new_go": false,
+    "max_harnesses": 5,
+    "harness_timeout_minutes": 10
+  },
+  "g2_preparation": {
+    "request_sha256": "cddff54bb42f40ce7a8c2a50d3e90e0eab54cd51a1a22f7ce2dacc6a74ece0d9",
+    "library_sha": "c2bc02b1151f77d163e94b3a69abff07c4be7701",
+    "owner": "k1-merge",
+    "rows": [
+      {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+        "expect": "SUCCESS"
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_bytes16",
+        "expect": "SUCCESS"
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
+        "expect": "SUCCESS"
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
+        "expect": "SUCCESS"
+      },
+      {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+        "expect": "FAILED",
+        "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())"
+      }
+    ],
+    "validation": "PASS: request validator, whitespace, exact G1 runtime restoration after stripping only new merge helper/attributes, unchanged sort4 contract, protected lane paths equal full base",
+    "compilation_and_proofs": "NOT_RUN; Cloud Build only after gate"
+  },
+  "project_budget_snapshot_g2_preparation": {
+    "source": "k1g.sh budget",
+    "builds": 226,
+    "used_usd": 95.4825,
+    "reserved_usd": 2.43,
+    "with_g2_max_usd": 98.9925,
+    "refresh_required_at_dispatch": true
+  }
 }

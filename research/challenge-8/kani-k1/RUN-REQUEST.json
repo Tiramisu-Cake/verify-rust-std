@@ -1,46 +1,34 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "realcontractstwo-g1-20261104",
-  "agent": "k1-network",
+  "request_id": "realcontractstwo-g2-20261105",
+  "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "REALCONTRACTSTWO G1: matching u8 swap PFC/consumer backing9/13; real insert_tail u64 tail1..4 safety/frame and equal-pointer negative; real sort4_stable u64 safety/frame; ordinary insert_tail regression.",
+  "purpose": "REALCONTRACTSTWO G2: scalar source-frame sort4 PFC u64 and bytes16; real bidirectional_merge safety/modifies PFC u64 len2/4 with order-panic cut; overlapping-destination verified-stub negative.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insert_tail_equal_begin_u64",
-      "expect": "FAILED",
-      "expect_check": "begin < tail"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_bytes16",
       "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+      "expect": "FAILED",
+      "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())"
     }
   ]
 }
