@@ -148,3 +148,32 @@ dispatch_safety_cases!(dispatch_safety_stable_bytes9_n31, [u8; 9], true, [31]);
 dispatch_safety_cases!(dispatch_safety_stable_bytes9_n32, [u8; 9], true, [32]);
 dispatch_safety_cases!(dispatch_safety_unstable_bytes9_n31, [u8; 9], false, [31]);
 dispatch_safety_cases!(dispatch_safety_unstable_bytes9_n32, [u8; 9], false, [32]);
+
+// TYPEUXVI: `u16` (size 2, align 2). Only the element width is new: unstable takes
+// `small_sort_network` like `(u8, u32)`, stable `small_sort_general_with_scratch`. The same seven
+// shapes as `(u8, u32)`: two pair roots, the network lengths, and N31/N32 one route per root.
+const _: () = {
+    use super::super::super::{
+        MAX_STACK_ARRAY_SIZE, SMALL_SORT_NETWORK_SCRATCH_LEN, has_efficient_in_place_swap,
+    };
+    use crate::mem::{align_of, size_of};
+    if cfg!(any(target_arch = "x86_64", target_arch = "aarch64")) {
+        assert!(size_of::<u16>() == 2 && align_of::<u16>() == 2);
+        assert!(has_efficient_in_place_swap::<u16>());
+        assert!(size_of::<u16>() * SMALL_SORT_NETWORK_SCRATCH_LEN <= MAX_STACK_ARRAY_SIZE);
+    }
+};
+
+impl ArbitraryValue for u16 {
+    fn arbitrary_value() -> Self {
+        kani::any()
+    }
+}
+
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_u16_n0_1_2_7_8, u16, [0, 1, 2, 7, 8]);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_u16_n15_16_17, u16, [15, 16, 17]);
+dispatch_safety_cases!(dispatch_safety_unstable_u16_n9_12_13_18, u16, false, [9, 12, 13, 18]);
+dispatch_safety_cases!(dispatch_safety_stable_u16_n31, u16, true, [31]);
+dispatch_safety_cases!(dispatch_safety_stable_u16_n32, u16, true, [32]);
+dispatch_safety_cases!(dispatch_safety_unstable_u16_n31, u16, false, [31]);
+dispatch_safety_cases!(dispatch_safety_unstable_u16_n32, u16, false, [32]);
