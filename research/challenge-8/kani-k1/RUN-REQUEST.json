@@ -1,0 +1,46 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "realcontracts-g1-20261104",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "REALCONTRACTS G1: safety contracts on real swap/insertion helpers, opt-in bounded PFC, out-of-backing verified-stub control, and three ordinary regression roots.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u64_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_bytes17_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_safety_u64_len1_to6",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_outside_backing_u8",
+      "expect": "FAILED",
+      "expect_check": "can_dereference"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
+      "expect": "SUCCESS"
+    }
+  ]
+}
