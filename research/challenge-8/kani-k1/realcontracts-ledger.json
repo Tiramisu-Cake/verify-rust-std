@@ -1,8 +1,8 @@
 {
   "schema": "realcontracts-ledger-v1",
   "owner": "k1-merge",
-  "stage": "realcontracts-g1-review",
-  "request_id": "realcontracts-g1-compile-repair1-20261104",
+  "stage": "realcontracts-g2",
+  "request_id": "realcontracts-g2-20261104",
   "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "project_cap_usd": 118.96,
   "own_cap_usd": 3.0,
@@ -10,8 +10,8 @@
   "max_primary_builds": 2,
   "compile_error_repairs_per_build": 1,
   "price_per_minute_usd": 0.0135,
-  "planned_timeout_minutes": 70,
-  "planned_reserve_usd": 0,
+  "planned_timeout_minutes": 90,
+  "planned_reserve_usd": 1.215,
   "builds": [
     {
       "stage": "realcontracts-g1",
@@ -161,7 +161,7 @@
       ]
     }
   ],
-  "state": "G1 and its sole compile repair finished; insertion PFC TIMEOUT; review requested; no further repair or dispatch; G2 requires new coordinator GO",
+  "state": "G2 prepared under coordinator GO; dispatch only after watched VALIDVALTWO build finishes; no G2 dispatch yet",
   "library_sha": "3f0fc215587ee4b5ab4e8e9f901e49ea206f7c19",
   "project_budget_snapshot": {
     "queried_at_utc": "2026-11-04T19:29:47.674160+00:00",
@@ -177,6 +177,25 @@
       "dispatched": 1
     }
   },
-  "own_spent_plus_planned_reserve_usd": 0.3645,
-  "updated_at_utc": "2026-11-04T20:08:55.954299+00:00"
+  "own_spent_plus_planned_reserve_usd": 1.5795,
+  "updated_at_utc": "2026-11-04T20:12:01.709430+00:00",
+  "g2_library_sha": "92d131ab3308199c1a739a3dcad178cc6806b732",
+  "g2_authorization": {
+    "source": "coordinator user GO after G1 a376005646 review",
+    "owner": "k1-merge",
+    "max_harnesses": 6,
+    "harness_timeout_minutes": 10,
+    "dispatch_requires_new_go": false,
+    "dispatch_gate_build": "13642a63-de9e-4e28-b4e3-f55fd370538d",
+    "dispatch_gate_last_observed_status": "WORKING",
+    "dispatch_gate_observation": "single k1g status query before G2 preparation; watch must notify completion before dispatch",
+    "alternative_owner_not_used": "k1-network after CODEFIX 6bc006d2"
+  },
+  "project_budget_snapshot_g2_preparation": {
+    "queried_at_utc": "2026-11-04T20:12:01.709395+00:00",
+    "builds": 222,
+    "used_usd": 94.4025,
+    "reserved_usd": 1.8225,
+    "with_g2_max_usd": 97.44
+  }
 }
