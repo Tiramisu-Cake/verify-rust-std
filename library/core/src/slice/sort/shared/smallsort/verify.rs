@@ -14,27 +14,31 @@
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
-//! `swap_if_less`, `sort4_stable`, `insert_tail` and `bidirectional_merge` carry no generic
-//! contract: no order or frame summary holds for an arbitrary `FnMut`. Their contract proofs
-//! check closed profiles (`merge::specfix`): a tag fixes the element type, one canonical
-//! comparator and a full-value model; the profile runs the real helper, and a guard rejects any
-//! other comparator value. Ordinary profile proofs cover selected swap types and orders, sort4
-//! u64/[u8; 16], merge u64 N2..8/u8 N2..9 (u8 N9 also from scratch48), u8 prefix and u64
-//! start-1 insertion. No ordinary harness uses a verified stub; general/stable N0/N1 run real
-//! bodies. Stubbed composition and larger contract domains are outside this suite.
-//! Network/insertion safety checks execute real bodies. Network sortedness is machine checked at
-//! the listed lengths; the ordinary network asserts the probe count only for N < 9. Longer
-//! compositions belong to separate research results, not to this suite.
+//! The real helpers `swap_if_less`, `insertion_sort_shift_left`, `insert_tail`, `sort4_stable`
+//! and `bidirectional_merge` carry safety/modifies contracts. `realcontracts` proves bounded
+//! type/comparator domains with a stateless comparator that reads both arguments and returns
+//! a fresh arbitrary bool: swap u8/u64/[u8; 17] backing4, u8 backing9/13, insert_tail u64
+//! backing5 tail1..4, sort4 u64 source4/disjoint dst4, and merge u64 N2/4 with disjoint dst.
+//! These are not universal callback frame proofs. Ordinary N9/N13 u8 network consumers use
+//! verified swap stubs paired with the same type, backing and comparator PFC domains. Their
+//! return cover is reachable; two callback covers are unreachable because the stub cuts calls.
+//! The separate closed profiles in `merge::specfix` fix the comparator and full-value model;
+//! a guard rejects any other comparator value. Ordinary profile proofs cover selected swap
+//! types/orders, sort4 u64/[u8; 16], merge u64 N2..8/u8 N2..9 (u8 N9 also from scratch48),
+//! u8 prefix and u64 start-1 insertion. General/stable N0/N1 run real bodies.
+//! Network/insertion safety checks otherwise execute real bodies. Network sortedness is checked
+//! at the listed lengths; the ordinary network asserts the probe count only for N < 9.
 //! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
-//! Manual stubs cut only `panic_on_ord_violation`; covers and eight opt-in negative controls
-//! support nonvacuity. The controls are compiled only with `cfg(kani_smallsort_controls)`, which
-//! CI never sets, and each must fail its named check: `assembly::reject_mutant_swap_u8_n2` (the
-//! negated exchange in `mutations`), `wrap::rejects_payload_corruption`,
-//! `wrap::rejects_always_true`, and in `merge::specfix`
+//! Manual stubs cut only `panic_on_ord_violation`; the paired realcontracts consumers also use
+//! verified swap stubs. Covers and opt-in negative controls support nonvacuity. The original
+//! eight controls require `cfg(kani_smallsort_controls)` and must fail their named check:
+//! `assembly::reject_mutant_swap_u8_n2` (the negated exchange in `mutations`),
+//! `wrap::rejects_payload_corruption`, `wrap::rejects_always_true`, and in `merge::specfix`
 //! `specfix_full_value_checker_rejects_payload_change_u8`, `specfix_wrong_f_swap_rejected_u8`,
 //! `specfix_wrong_f_sort4_rejected_u64`, `specfix_wrong_f_insert_rejected_u8` and
-//! `specfix_wrong_f_merge_rejected_u8`. Other diagnostics and lengths are a separate Part 2.
+//! `specfix_wrong_f_merge_rejected_u8`. Additional realcontracts negative controls, real network
+//! consumers, insertion PFCs and sort4 [u8; 16] also require that cfg; CI never sets it.
 //! `run-kani.sh` does not fail on unreachable covers; historical covers were inspected separately.
 //! Region predicates describe pointer geometry, not initialization or permissions; constructed
 //! fixtures supply initialized inputs and exclusive mutable storage.
@@ -54,6 +58,7 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+mod realcontracts;
 mod smoke;
 mod types;
 mod wrap;
