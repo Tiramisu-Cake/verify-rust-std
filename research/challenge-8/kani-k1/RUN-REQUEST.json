@@ -1,42 +1,33 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "permtags-g1-20261105-01",
-  "agent": "k1-network",
+  "request_id": "permtags-g2-20261105-01",
+  "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "PERMTAGS G1: identity-tag permutation with fresh arbitrary comparison answers; route checks, network u8 N9/13/16, stable general u64 N9, stable Cell fallback N16, duplicate mutant.",
+  "purpose": "PERMTAGS G2: network u8 N17, separate kissat network u8 N32, stable general u64 N16, stable Cell fallback N8/N12; arbitrary comparison answers and unchanged identity-tag checker.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::permtags::tag_types_preserve_source_routes",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n9",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n32_kissat",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n13",
+      "name": "slice::sort::shared::smallsort::verify::permtags::general_u64_n16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n16",
+      "name": "slice::sort::shared::smallsort::verify::permtags::fallback_cell_u8_n8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permtags::general_u64_n9",
+      "name": "slice::sort::shared::smallsort::verify::permtags::fallback_cell_u8_n12",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::permtags::fallback_cell_u8_n16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::permtags::reject_duplicate_network_u8_n9",
-      "expect": "FAILED",
-      "expect_check": "permtags: every input tag occurs exactly once"
     }
   ]
 }
