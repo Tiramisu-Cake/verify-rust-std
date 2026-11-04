@@ -8,9 +8,10 @@
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
 //! Opt-in `realcontracts` checks safety requires/modifies on the real `swap_if_less`,
-//! `insertion_sort_shift_left`, `insert_tail` and `sort4_stable` for bounded domains and stateless
-//! nondeterministic comparators. These contracts specify no ordering; callback state and effects
-//! outside the input are unproved. `bidirectional_merge` carries no generic contract.
+//! `insertion_sort_shift_left`, `insert_tail`, `sort4_stable` and `bidirectional_merge` for bounded
+//! domains and stateless nondeterministic comparators. These contracts specify no ordering;
+//! callback state and effects outside the input are unproved. Merge panic paths are cut only
+//! at the explicit order-violation boundary, as in the ordinary safety family.
 //! Existing order/frame contract proofs
 //! check closed profiles (`merge::specfix`): a tag fixes the element type, one canonical
 //! comparator and a full-value model; the profile runs the real helper, and a guard rejects any

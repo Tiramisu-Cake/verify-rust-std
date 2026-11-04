@@ -3,7 +3,9 @@
 //! an arbitrary decision on every call, including when both swap positions are equal.
 //! Bounded domains do not establish a frame for stateful or externally mutating callbacks.
 
-use super::super::{insert_tail, insertion_sort_shift_left, sort4_stable, swap_if_less};
+use super::super::{
+    bidirectional_merge, insert_tail, insertion_sort_shift_left, sort4_stable, swap_if_less,
+};
 use crate::kani;
 
 fn arbitrary_less<T>(a: &T, b: &T) -> bool {
@@ -228,7 +230,9 @@ fn sort4_safety_u64() {
     // SAFETY: four initialized source values and a distinct allocation writable for four
     // destination values. The destination need not be initialized before the call.
     unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
-    kani::assert(src == before, "realcontractstwo sort4 source frame");
+    for i in 0..4 {
+        kani::assert(src[i] == before[i], "realcontractstwo sort4 source frame");
+    }
     // SAFETY: the real body writes all four output slots on every normal-return path.
     // This read exercises the output; the lane does not enable uninit/value-validity checks.
     let result = unsafe { dst.assume_init() };
@@ -237,4 +241,84 @@ fn sort4_safety_u64() {
         let _value = unsafe { crate::ptr::read_volatile(value) };
     }
     kani::cover(true, "realcontractstwo sort4 returns");
+}
+
+// G2 compares every source byte with scalar equality, avoiding array PartialEq's memcmp.
+#[kani::proof_for_contract(sort4_stable)]
+#[kani::unwind(32)]
+fn sort4_safety_bytes16() {
+    let src: [[u8; 16]; 4] = kani::any();
+    let before = src;
+    let mut dst = crate::mem::MaybeUninit::<[[u8; 16]; 4]>::uninit();
+    // SAFETY: four initialized source values, disjoint storage writable for four outputs.
+    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<[u8; 16]>) };
+    for i in 0..4 {
+        for byte in 0..16 {
+            kani::assert(src[i][byte] == before[i][byte], "realcontractstwo sort4 byte source frame");
+        }
+    }
+    // SAFETY: the real body writes all four output values before returning normally.
+    // Uninit/value-validity checks remain disabled in this diagnostic lane.
+    let result = unsafe { dst.assume_init() };
+    for value in &result {
+        // SAFETY: each output is initialized on normal return.
+        let _value = unsafe { crate::ptr::read_volatile(value) };
+    }
+    kani::cover(true, "realcontractstwo sort4 bytes16 returns");
+}
+
+fn cut_merge_order_violation() -> ! {
+    // Match the ordinary safety family: reach the explicit order-violation boundary,
+    // then cut the abort path. This does not check panic unwinding.
+    kani::cover(true, "realcontractstwo merge order violation reachable");
+    kani::assume(false);
+    unreachable!()
+}
+
+fn exercise_merge_u64<const N: usize>() {
+    let src: [u64; N] = kani::any();
+    let before = src;
+    let mut dst = crate::mem::MaybeUninit::<[u64; N]>::uninit();
+    // SAFETY: N is 2 or 4 in these PFCs; src is an initialized Freeze u64 slice,
+    // and a distinct destination allocation has space for exactly N values.
+    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+    for i in 0..N {
+        kani::assert(src[i] == before[i], "realcontractstwo merge source frame");
+    }
+    // SAFETY: every output slot is written on normal return; inconsistent comparator
+    // paths reach the explicit panic boundary and are cut by the safety stub.
+    let result = unsafe { dst.assume_init() };
+    for value in &result {
+        // SAFETY: initialized output on normal return.
+        let _value = unsafe { crate::ptr::read_volatile(value) };
+    }
+    kani::cover(true, "realcontractstwo merge returns");
+}
+
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
+#[kani::unwind(16)]
+fn merge_safety_u64_len2() {
+    exercise_merge_u64::<2>();
+}
+
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
+#[kani::unwind(16)]
+fn merge_safety_u64_len4() {
+    exercise_merge_u64::<4>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(16)]
+fn rejects_merge_overlapping_dst_u64() {
+    let mut backing: [u64; 4] = kani::any();
+    let base = backing.as_mut_ptr();
+    // SAFETY: source is the first two initialized values of this allocation.
+    let src = unsafe { crate::slice::from_raw_parts(base as *const u64, 2) };
+    kani::cover(true, "realcontractstwo overlapping merge consumer reached");
+    // Deliberate contract violation: dst[0..2] covers backing[1..3], so it is writable
+    // and in bounds but overlaps source[0..2] at backing[1]. Only disjointness fails.
+    unsafe { bidirectional_merge(src, base.add(1), &mut arbitrary_less::<u64>) };
 }

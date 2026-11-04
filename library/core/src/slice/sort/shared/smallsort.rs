@@ -819,6 +819,16 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
     (left_src, right_src, dst)
 }
 
+#[cfg(kani)]
+fn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) -> bool {
+    let Some(bytes) = size_of::<T>().checked_mul(len) else {
+        return false;
+    };
+    bytes == 0
+        || !crate::ub_checks::same_allocation(src, dst)
+        || (src as usize).abs_diff(dst as usize) >= bytes
+}
+
 /// Merge v assuming v[..len / 2] and v[len / 2..] are sorted.
 ///
 /// Original idea for bi-directional merging by Igor van den Hoven (quadsort),
@@ -831,6 +841,11 @@ unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
 ///
 /// Note that T must be Freeze, the comparison function is evaluated on outdated
 /// temporary 'copies' that may not end up in the final array.
+#[safety::requires(v.len() >= 2)]
+#[safety::requires(crate::ub_checks::can_dereference(v as *const [T]))]
+#[safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())))]
+#[safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len()))]
+#[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
