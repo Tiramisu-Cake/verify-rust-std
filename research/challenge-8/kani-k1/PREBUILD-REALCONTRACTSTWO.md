@@ -1,6 +1,7 @@
 # REALCONTRACTSTWO G1 — exact-packet PRE-BUILD review
 
-State: prepared, not dispatched. Stop until coordinator GO for the full published packet SHA.
+State: historical preparation packet; G1 completed after coordinator GO. See RESULT-REALCONTRACTSTWO.md.
+Preparation identities below precede the explicitly authorized owner-only change recorded in the outcome.
 Worktree `/root/verify-rust-std-kani-realcontractstwo`; branch `experiment/kani-k1-realcontractstwo-20261104`.
 Task `ca4b4a00e9`, inherited library/report base `d648179493`.
 Library commit `def6ad2e111e68987b040e3d3eb14a279e4aea0d`; tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`.
@@ -140,3 +141,31 @@ Write RESULT-REALCONTRACTSTWO.md in <=35 lines and update the new ledger, publis
 then REVIEW REQUEST / REALCONTRACTSTWO ЗАВЕРШЁН and stop. These safety/frame contracts support
 only the tested bounded stateless comparator domains; no ordering ensures, universal T/F frame,
 non-Copy/Drop/ZST proof, panic-path proof or bidirectional_merge contract is claimed here.
+
+
+## Observed G1 outcome / review handoff
+
+Coordinator GO for `378cdf9b8029301db45b12bfa56e42ba871136f3` explicitly reassigned the busy
+k1-merge owner to free k1-network and authorized a separate owner-only [skip ci] commit, push,
+dispatch and watch. Commit `15703f81d243be38e04c13c27b3e5789fec92e01` changed exactly one request line (agent), with no
+other source/request edits. Actual request SHA-256 is `49e677cea73efca3d400f80ff3d58262e5225d67ea9d423eed9280d3d136401d`.
+Build `6ba92a58-0136-490d-a553-4649e9ce254d` was dispatched for this source and watched with k1g.sh; the completion
+notification reported Cloud Build FAILURE. Bounded summary COMPLETE, Kani exit 1, gate false.
+Check-tooling passed expected pool, source identity, protected paths and all six file hashes.
+The bounded eight-row page has matching request/source/build identities and next_offset=done.
+
+Both matching u8 swap PFCs and N9/N13 stub consumers are SUCCESS. Their type/backing/comparator
+domains now match; PFC domains include every network position. Insert_tail u64 backing5 tail1..4
+is SUCCESS (7/7 covers), and the equal-pointer negative has exactly the expected failed requires
+at smallsort.rs:582. The unchanged ordinary u8 N2 insertion regression also passes. Sort4 u64 is
+FAILED: its only failed check is an unwinding assertion in builtin-library-memcmp:25. The PFC is
+not established. Source inspection suggests the 32-byte source-frame equality and unwind16;
+the failed-check location alone does not bind the memcmp to that caller. No runtime safety
+counterexample or successful sort4 summary is inferred. No compile error or TIMEOUT occurred.
+
+Full row timings, checks, cover counts, exact contracts, ordinary applicability and limits are
+in RESULT-REALCONTRACTSTWO.md (<=35 lines) and realcontractstwo-ledger.json. Cost is $0.1485,
+reserve zero, under the own $3 cap; one primary build consumed, no repair or G2 dispatched.
+Only reporting files change after this result. The tested library/request/tooling remain intact.
+No further dispatch is authorized: a targeted sort4 follow-up requires a coordinator decision
+and new GO. Publish this evidence handoff with [skip ci], REVIEW REQUEST and stop.

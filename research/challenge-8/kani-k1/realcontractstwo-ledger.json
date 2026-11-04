@@ -1,19 +1,19 @@
 {
   "schema": "realcontractstwo-ledger-v1",
-  "state": "PRE-BUILD REVIEW required; no dispatch before exact-packet coordinator GO",
-  "owner": "k1-merge",
-  "owner_availability": "must be free at dispatch; preparation budget snapshot does not establish owner availability",
-  "stage": "realcontractstwo-g1",
+  "state": "G1 complete; six SUCCESS, expected negative FAILED, sort4 FAILED on builtin memcmp unwind; review handoff, no further build authorized",
+  "owner": "k1-network",
+  "owner_availability": "coordinator explicitly declared k1-network free and authorized owner-only request change before dispatch",
+  "stage": "realcontractstwo-g1-reviewed-results",
   "request_id": "realcontractstwo-g1-20261104",
-  "request_sha256": "0b0188923d4cbe99a94d9f1698aadd67c17b01396f3eb90e4fb002676d2fc5f1",
+  "request_sha256": "49e677cea73efca3d400f80ff3d58262e5225d67ea9d423eed9280d3d136401d",
   "branch": "experiment/kani-k1-realcontractstwo-20261104",
   "task_sha": "ca4b4a00e9",
   "library_sha": "def6ad2e111e68987b040e3d3eb14a279e4aea0d",
   "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "project_cap_usd": 118.96,
   "own_cap_usd": 3.0,
-  "own_spent_usd": 0.0,
-  "primary_builds_dispatched": 0,
+  "own_spent_usd": 0.1485,
+  "primary_builds_dispatched": 1,
   "max_primary_builds": 2,
   "compile_error_repairs_per_build": 1,
   "time_window_minutes": {
@@ -27,8 +27,8 @@
   "controls": true,
   "price_per_minute_usd": 0.0135,
   "planned_timeout_minutes": 110,
-  "planned_reserve_usd": 1.485,
-  "own_spent_plus_planned_reserve_usd": 1.485,
+  "planned_reserve_usd": 0,
+  "own_spent_plus_planned_reserve_usd": 0.1485,
   "project_budget_snapshot": {
     "source": "k1g.sh budget (one preparation query)",
     "builds": 224,
@@ -44,10 +44,166 @@
     "tooling_paths": "PASS: all k1g LANE_PATHS equal full tooling base",
     "whitespace": "PASS: git diff --check",
     "root_presence": "PASS: all eight requested roots found; negative requires check named",
-    "compilation_and_proofs": "NOT_RUN: forbidden locally; coordinator GO required for Cloud Build",
+    "compilation_and_proofs": "G1 compiled; bounded summary COMPLETE, gate false due sort4 memcmp unwinding assertion",
     "network_position_domains": "PASS: all 25 sort9 and 45 sort13 swap calls lie inside matching backing9/backing13 PFC position domains",
     "budget_and_identity": "PASS: exact decimal reserve/cap arithmetic; ledger binds request file SHA-256 and full library SHA"
   },
-  "builds": [],
-  "updated_at_utc": "2026-11-04T20:41:30.400179+00:00"
+  "builds": [
+    {
+      "stage": "realcontractstwo-g1",
+      "request_id": "realcontractstwo-g1-20261104",
+      "owner": "k1-network",
+      "head_sha": "15703f81d243be38e04c13c27b3e5789fec92e01",
+      "library_sha": "def6ad2e111e68987b040e3d3eb14a279e4aea0d",
+      "build_uuid": "6ba92a58-0136-490d-a553-4649e9ce254d",
+      "request_sha256": "49e677cea73efca3d400f80ff3d58262e5225d67ea9d423eed9280d3d136401d",
+      "status": "COMPLETE",
+      "cloud_build_status": "FAILURE",
+      "gate": false,
+      "expectation_met": false,
+      "kani_exit": 1,
+      "tooling_check": "PASS: expected pool, source identity, protected paths and six hashes against full base",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 17.355093,
+          "failed_total_checks": "0/219",
+          "covers": "6/6",
+          "unreachable_checks": 4
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing13",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 17.583559,
+          "failed_total_checks": "0/219",
+          "covers": "6/6",
+          "unreachable_checks": 4
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 11.660206,
+          "failed_total_checks": "0/383",
+          "covers": "1/3",
+          "unreachable_checks": 18
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 13.978799,
+          "failed_total_checks": "0/383",
+          "covers": "1/3",
+          "unreachable_checks": 18
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 34.020428,
+          "failed_total_checks": "0/219",
+          "covers": "7/7",
+          "unreachable_checks": 4
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insert_tail_equal_begin_u64",
+          "expect": "FAILED",
+          "status": "FAILED",
+          "time_s": 0.20505936,
+          "failed_total_checks": "1/205",
+          "covers": "1/3",
+          "unreachable_checks": 9
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+          "expect": "SUCCESS",
+          "status": "FAILED",
+          "time_s": 14.53286,
+          "failed_total_checks": "1/271",
+          "covers": "2/3",
+          "unreachable_checks": null
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 0.31345087,
+          "failed_total_checks": "0/106",
+          "covers": "1/1",
+          "unreachable_checks": 4
+        }
+      ],
+      "failed_checks": [
+        {
+          "harness": "realcontracts::rejects_insert_tail_equal_begin_u64",
+          "description": "begin < tail && insert_tail_contract_len(begin, tail) > 1 &&",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 582,
+          "expect_check_matched": true
+        },
+        {
+          "harness": "realcontracts::sort4_safety_u64",
+          "description": "unwinding assertion loop 0",
+          "file": "<builtin-library-memcmp>",
+          "line": 25,
+          "bounded_log_grep_lines": [
+            2729,
+            2730
+          ],
+          "caller_binding": "not established by bounded failed-check location",
+          "source_hypothesis": "src == before compares [u64;4] (32 bytes) while this harness unwind is 16; not independently trace-bound"
+        }
+      ],
+      "matched_composition_pairs": [
+        {
+          "pfc": "realcontracts::swap_safety_u8_backing9",
+          "consumer": "realcontracts::unstable_network_safety_u8_n9_stubbed",
+          "element_type": "u8",
+          "backing": 9,
+          "comparator": "arbitrary_less::<u8> function item; stateless, volatile reads, fresh arbitrary bool",
+          "outcome": "both SUCCESS; PFC arbitrary in-bounds positions include all network calls"
+        },
+        {
+          "pfc": "realcontracts::swap_safety_u8_backing13",
+          "consumer": "realcontracts::unstable_network_safety_u8_n13_stubbed",
+          "element_type": "u8",
+          "backing": 13,
+          "comparator": "arbitrary_less::<u8> function item; stateless, volatile reads, fresh arbitrary bool",
+          "outcome": "both SUCCESS; PFC arbitrary in-bounds positions include all network calls"
+        }
+      ],
+      "harness_timeout_minutes": 10,
+      "whole_run_peak_rss_kib": 1748140,
+      "whole_run_wall": "3:11.46",
+      "cbmc_peak_rss_gib": 1.24,
+      "oom_scan": "none_seen",
+      "spent_usd": 0.1485,
+      "reserve_usd": 0,
+      "cost_source": "k1g.sh budget 6ba92a58-0136-490d-a553-4649e9ce254d: 1 0.1485 0.0000",
+      "evidence_interface": "k1g summary, summary BUILD 0 8 (next_offset done), check-tooling, bounded log-grep and budget; no raw logs read"
+    }
+  ],
+  "updated_at_utc": "2026-11-04T20:58:19.203737+00:00",
+  "prepared_request_sha256": "0b0188923d4cbe99a94d9f1698aadd67c17b01396f3eb90e4fb002676d2fc5f1",
+  "prepared_owner": "k1-merge",
+  "compile_error_repairs_dispatched": 0,
+  "authorization": {
+    "reviewed_packet_sha": "378cdf9b8029301db45b12bfa56e42ba871136f3",
+    "owner_only_commit_sha": "15703f81d243be38e04c13c27b3e5789fec92e01",
+    "source": "coordinator user GO: change only agent to free k1-network in separate [skip ci] commit, push, dispatch, watch, end turn",
+    "owner_change_only": "request agent k1-merge -> k1-network; no other file changed before dispatch",
+    "g2_authorized": false
+  },
+  "project_budget_snapshot_dispatch": {
+    "source": "authorized k1g dispatch output",
+    "used_usd": 95.334,
+    "reserved_including_g1_usd": 2.565,
+    "after_submit_max_usd": 97.899,
+    "cap_usd": 118.96
+  },
+  "next_step": "no dispatch; coordinator decision/new GO needed for sort4 caller localization and targeted follow-up; no TIMEOUT, insert splitting unnecessary"
 }
