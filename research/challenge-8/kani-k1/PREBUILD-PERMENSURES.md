@@ -1,6 +1,6 @@
 # PERMENSURES G1 — exact PRE-BUILD packet
 
-PREPARED ONLY: no build submitted; stop for coordinator review/GO of the published HEAD.
+Historical preparation packet; G1 has completed. Actual owner, source and outcome are recorded below.
 Worktree `/root/verify-rust-std-kani-permensures`, branch
 `experiment/kani-k1-permensures-20261105`, task commit `c8d85f424494cd6c00680a74b15df4bffac0a968`.
 Library commit `7e7c80142fdd6be52fc965d9770d30e4b4c0657b`.
@@ -114,3 +114,81 @@ After this library/research [skip ci] publication and non-force push, print
 After exact GO, use k1g.sh dispatch on this branch, then k1g.sh watch BUILD and end the turn.
 After its completion, use only bounded K-1 evidence, verify source/tooling identities and
 covers, update RESULT-PERMENSURES.md (<=35 lines), publish REVIEW REQUEST / completion, stop.
+
+
+## Authorized dispatch and observed G1 outcome
+
+The coordinator gave GO for exact prepared HEAD
+`097b2b70353996edcb428daf0f34c1fd5851a85b`, conditional on a free owner. The coordinator
+identified k1-network as occupied by ENSURES G2 and k1-merge by VEIGHTINTEG
+`03d45e6a-0553-414e-83ea-6f6c9ce87778`. A gate-only watch used
+`K1_CACHE=/tmp/kani-k1-permensures-veightinteg-gate`; its completion notification was SUCCESS.
+No dependency summary, source or diff was opened. The explicit authorization permitted
+selecting k1-merge on release via a separate [skip ci] agent-only commit.
+
+Commit `d86897746f1b3d6c0bbfed3ca3c03e96a46dbe96` changes exactly that request agent from
+k1-network to k1-merge. The seven roots and all verification settings are unchanged; the
+validator accepted the request again. Actual request SHA-256 is
+`b50523137af441883f518375ce6dcae05a850db8cf6595aa17127e118dc5ab3f`.
+The non-force push preceded the single dispatch as build
+`a338036e-c5d4-4e4e-afca-dccd5bc3d336`; own watch was registered and the turn ended.
+Dispatch accounting: used $98.5470, reserved including this build $1.3500, maximum
+$99.8970 < project cap $118.96. No competing source or credentials were read.
+
+The completion notification reported Cloud FAILURE. Bounded summary is COMPLETE, with
+Kani exit 1, gate false and expectations false; it records successful compilation/run setup,
+not a compiler error. The seven-row page has total=7, offset=0, next_offset=done and binds
+this exact request hash, source SHA and build UUID. check-tooling passed standard4 pool,
+all protected lane paths, source/build binding and all six tooling hashes against
+`59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`.
+
+| Root | Status | Time s | Failed/total | Unreachable | Covers |
+| --- | --- | --- | --- | --- | --- |
+| swap_permutation_u8_backing17 | SUCCESS | 33.189846 | 0/289 | 4 | 7/7 |
+| swap_permutation_u8_backing32 | SUCCESS | 36.972645 | 0/289 | 4 | 7/7 |
+| unstable_network_permutation_u8_n17 | SUCCESS | 400.42688 | 0/463 | 20 | 4/5 (1 unreachable) |
+| unstable_network_permutation_u8_n32 | TIMEOUT | not reported | not reported | not reported | not reported |
+| rejects_network_corruption_u8_n17 | TIMEOUT | not reported | not reported | not reported | not reported |
+| swap_permutation_u8_backing18 | SUCCESS | 34.21762 | 0/289 | 4 | 7/7 |
+| unstable_network_permutation_u8_n18 | SUCCESS | 200.49629 | 0/463 | 14 | 5/5 |
+
+Bounded k1g log-grep locates the control at kani.log:2710 and its timeout at 2716;
+N32 starts at 2718 and times out at 2724. Both exact terminal diagnostics are:
+`CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.`
+No verification time/check/cover result is reported for either timeout; the request limit
+is 600 s, not an observed completed-proof time. In particular the expected failure of
+`permensures network tag mask` was not established: TIMEOUT does not satisfy the control.
+
+A second bounded grep locates N17's 4/5 cover summary at line2733, explicitly one unreachable;
+N18's 5/5 at2746 and PFC backing18/32/17 7/7 at2757/2768/2779. It does not expose individual
+cover labels. The source route has no merge at N17, making the declared order-panic cover
+unreachable there; this explains the aggregate count by source inspection, not by a separately
+reported per-label trace. All seven PFC covers and all five N18 covers were satisfied.
+Unreachable checks are recorded separately and do not add independent proof credit.
+
+The conditional model compiled with the pinned min_specialization toolchain. Thus the narrow
+repair authorization (one repair only for a T-specialization compile error) does not apply.
+No repair, unchanged retry or G2 was dispatched. The latest instruction authorized one Build;
+any further experiment requires a new coordinator decision.
+
+Bounded results establish the real swap's new permutation ensures for full u8 inputs and
+symbolic positions on backings17,18,32. Consumers use the exact same T/F/backing and prove
+the fixed distinct-tag permutation at N17/N18 on normal return, with real insertion/merge
+and only the explicit order-violation panic cut. N32's matching PFC passes but its consumer
+times out, so N32 composition is unresolved. The negative control is also unresolved.
+u64 has a model but no proof result in this packet; no claim is made for other T.
+Backing4/9/13/24 PFCs and N24 consumer remain prepared and unsubmitted; existing safety PFC
+roots were preserved but not rerun. This does not establish a universal T/F theorem,
+arbitrary-payload consumer theorem, panic unwinding or uninit/value-validity guarantees.
+
+The stubbed N17 time 400.42688 s is 65.42688 s (19.53%) above the task-reported PERMTAGS
+real-body reference 335 s. There is no observed speedup in this comparison; the historical
+reference was not independently reproduced and does not establish a controlled causal effect.
+N18 takes 200.49629 s; no direct N18 baseline is available here. Current composition did not
+reach N32 within the configured ten-minute limit; impossibility is not inferred from timeout.
+
+Whole verify run including compilation: 33:11.00, max RSS 3649684 KiB; sampled per-CBMC peak
+2.69 GiB attributed to N32. dmesg OOM scan none_seen is not proof of memory headroom.
+Bounded `k1g.sh budget BUILD` reports `1 0.5535 0.0000`: actual own cost $0.5535, reserve
+zero, under the $3.00 own cap. Reporting changes only this document and RESULT-PERMENSURES.md
+(<=35 lines). Publish [skip ci], non-force push, REVIEW REQUEST, then stop without more builds.
