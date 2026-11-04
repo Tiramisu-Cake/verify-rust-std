@@ -1,34 +1,42 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "realcontractstwo-g2-20261105",
+  "request_id": "permensures-g1-20261105",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "REALCONTRACTSTWO G2: scalar source-frame sort4 PFC u64 and bytes16; real bidirectional_merge safety/modifies PFC u64 len2/4 with order-panic cut; overlapping-destination verified-stub negative.",
+  "purpose": "PERMENSURES G1: conditional full-value swap permutation PFC u8 backing17/18/32; matched verified-swap Unstable network tag consumers N17/18/32, real insertion/merge with order-panic cut; post-sort corruption mask control.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_bytes16",
+      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
+      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n17",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
+      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+      "name": "slice::sort::shared::smallsort::verify::permensures::rejects_network_corruption_u8_n17",
       "expect": "FAILED",
-      "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())"
+      "expect_check": "permensures network tag mask"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing18",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n18",
+      "expect": "SUCCESS"
     }
   ]
 }
