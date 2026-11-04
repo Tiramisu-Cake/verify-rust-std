@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "checks": {
+    "ordinary_202_plus_2": true,
+    "controls_unchanged_8": true,
+    "old_210_roots_token_identical": true,
+    "all_retained_helpers_token_identical": true,
+    "cfg_off_and_on_no_static_orphans": true,
+    "library_diff_only_verify": true,
+    "tooling_equals_59893bff1f": true,
+    "line_width_100": true,
+    "git_diff_check": true
+  },
+  "v7": "e47065279026cebacbcb4a281cc695024a4a3718",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "ordinary_before": 202,
+  "ordinary_after": 204,
+  "new_roots": [
+    "network::swap_same_position_u8",
+    "network::unstable_freeze_noncopy_bytes86_fallback_n2"
+  ],
+  "controls": [
+    "assembly::reject_mutant_swap_u8_n2",
+    "merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+    "merge::specfix::specfix_wrong_f_insert_rejected_u8",
+    "merge::specfix::specfix_wrong_f_merge_rejected_u8",
+    "merge::specfix::specfix_wrong_f_sort4_rejected_u64",
+    "merge::specfix::specfix_wrong_f_swap_rejected_u8",
+    "wrap::rejects_always_true",
+    "wrap::rejects_payload_corruption"
+  ],
+  "root_changes": [],
+  "retained_helper_changes": [],
+  "removed_helpers": [],
+  "static_orphans": {
+    "False": [
+      [],
+      [],
+      []
+    ],
+    "True": [
+      [],
+      [],
+      []
+    ]
+  },
+  "outside_verify": [],
+  "lane_diff": "",
+  "long_lines": [],
+  "verify_lines_before": 3065,
+  "verify_lines_after": 3145,
+  "verify_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "2bec69cb8504ec91ce3f866d0478f698c0e2ad45389033556832c17955696352",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "efe715558af666d98b3b8e586defde26775814e109d250d47e3037e1fb0d58a2",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "a6307246184b0919c30f91b70358a2ad6a9a523423b0d6eb2912f501849873ea",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "429c25af6f6883956f5832cca0afa8e6f5c21f3833bad479af75847f0df3812c",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "7e14857d7609fc1d11fb56aaa402d66a508ab5dbf4ac8e3bd05fde3d1917979f",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "d720ef455a0285a75d9919ae7d888dc3f62fce8777a1c8c1ab9a30f3d47fdb1b",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "10c0bf2a6642a5f0a2bf30eef22adfea0988b5354891ac823c0600064a803f24"
+  },
+  "limitations": "Source macro expansion and conservative name closure, not compiler inventory. ArbitraryValue impls also audited against concrete generic instantiations. Compile/warning checks for cfg-off and cfg-on await the authorized GCB build."
+}

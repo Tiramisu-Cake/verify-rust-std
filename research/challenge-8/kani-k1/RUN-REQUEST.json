@@ -1,0 +1,27 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "codefix-v8-20261104-01",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "CODEFIX v8: two new ordinary real-body harnesses, all covers and mutant swap control; cfg-off inventory.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 15,
+  "kani_jobs": 1,
+  "inventory": true,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
+      "expect": "FAILED",
+      "expect_check": "assertion failed"
+    }
+  ]
+}
