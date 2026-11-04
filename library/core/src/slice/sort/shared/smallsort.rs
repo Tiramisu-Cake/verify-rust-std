@@ -1,5 +1,7 @@
 //! This module contains a variety of sort implementations that are optimized for small lengths.
 
+#[cfg(kani)]
+use crate::kani;
 use crate::mem::{self, ManuallyDrop, MaybeUninit};
 use crate::slice::sort::shared::FreezeMarker;
 use crate::{hint, intrinsics, ptr, slice};
