@@ -84,6 +84,37 @@ fn unstable_bool_n4_to8() {
     kani::cover(reversed, "validval unstable bool reversed input returns");
 }
 
+// Fixed-length counterparts of unstable_bool_n4_to8, with the same strict
+// comparator and post-call route/reversed-input covers. N2 and N4 both select
+// the network entry's insertion body from index 1, without scratch merge.
+#[kani::proof]
+#[kani::solver(cadical)]
+#[kani::unwind(20)]
+fn unstable_bool_n2() {
+    let mut values: [bool; 2] = kani::any();
+    let reversed = values[0] && !values[1];
+    <bool as UnstableSmallSortTypeImpl>::small_sort(
+        &mut values,
+        &mut |a: &bool, b: &bool| *a < *b,
+    );
+    kani::cover(true, "validval unstable bool network route N2 returns");
+    kani::cover(reversed, "validval unstable bool reversed input returns");
+}
+
+#[kani::proof]
+#[kani::solver(cadical)]
+#[kani::unwind(20)]
+fn unstable_bool_n4() {
+    let mut values: [bool; 4] = kani::any();
+    let reversed = values[0] && !values[1];
+    <bool as UnstableSmallSortTypeImpl>::small_sort(
+        &mut values,
+        &mut |a: &bool, b: &bool| *a < *b,
+    );
+    kani::cover(true, "validval unstable bool network route N4 returns");
+    kani::cover(reversed, "validval unstable bool reversed input returns");
+}
+
 fn valid_char() -> char {
     let scalar: u32 = kani::any();
     kani::assume(scalar <= 0x10FFFF && (scalar < 0xD800 || scalar > 0xDFFF));
