@@ -1,0 +1,758 @@
+{
+  "status": "PASS",
+  "checks": {
+    "1_ordinary_same_as_v6": true,
+    "2_cfg_on_is_ordinary_plus_8": true,
+    "3_no_dangling_refs_or_orphans": true,
+    "4_format": true,
+    "5_diff_scope": true,
+    "6_line_counts": true
+  },
+  "v6": "d6b8caf7fe0ef3ef5a7f21549a26de58d26ea097",
+  "base": "233f96f66ab3785881cead133817ed5db4c76b09",
+  "head": "working tree",
+  "v6_files": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5791fee0819b16774172f0800c19018b7358bca49f65d89439783e16b6c38e90",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "b6185bc08055318c09a0cb4e5981a0a58a17259ef2d09ee145f69d89e1228088",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "4c16aa6aeb031054007775b2d75b668d3fae9677ab5ac92d5c8dc289d0129eaf",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "b38f5ed861964981db5adced202e2d41c83ccae3530fe06d0f1e45d444156a94",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs": "dcb7c5fdc77bb47bfedb6fe81eaa0482c01baf7bbd2fdd6b26a5c8ce6beafe08",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c3629c0cad204fa647187e3fee6e46a3d1d219491f42f58b7f65af6023667946",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "3896e64b1a5922b5dc5cc9284d6b762b1c581ac0fd9a11ef50e425e13822a17a",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "d3d0047bf9b08aca809264c8dfac9dab746b305bab38c9c23f702a44d67e7f7a",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "e8dff265fd02fb4c0c95738c0d051206523c3ed5db302dc62332875bb626e248",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "e3d17315a4a9f87a4076187dd2844c72327c9a2dcabe5c16acf7dc3184445ec2",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6"
+  },
+  "v7_files": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "ce3f7f5f994e38dc5a8c91757a883960b53d444ae49edc697684f984c0d0c05b",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "efe715558af666d98b3b8e586defde26775814e109d250d47e3037e1fb0d58a2",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "4c16aa6aeb031054007775b2d75b668d3fae9677ab5ac92d5c8dc289d0129eaf",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "0aa1c906b92d0035c74ec810bd6fc95631c95f195fc23cdf35813b20842b91d8",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "c2f2b53ecbf6c70983c4bccf1c4a381a12707d686c84fe4334874fbe1233a37c",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "c9d53901f16c1bf30ae49a3e126884475f83b2586ac91f4596c1804e194d4b9b",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "d720ef455a0285a75d9919ae7d888dc3f62fce8777a1c8c1ab9a30f3d47fdb1b",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "d829b2539e76d7098238d08effa87b9af75772c444d33d909c7724162614adc6"
+  },
+  "names": {
+    "v6_ordinary": 202,
+    "v6_cfg_on": 384,
+    "v7_ordinary": 202,
+    "v7_cfg_on": 210,
+    "ordinary_equal": true,
+    "ordinary_missing": [],
+    "ordinary_unexpected": [],
+    "cfg_on_minus_ordinary": [
+      "assembly::reject_mutant_swap_u8_n2",
+      "merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+      "merge::specfix::specfix_wrong_f_insert_rejected_u8",
+      "merge::specfix::specfix_wrong_f_merge_rejected_u8",
+      "merge::specfix::specfix_wrong_f_sort4_rejected_u64",
+      "merge::specfix::specfix_wrong_f_swap_rejected_u8",
+      "wrap::rejects_always_true",
+      "wrap::rejects_payload_corruption"
+    ],
+    "controls_found_in_v6": true,
+    "controls_v6_missing": [],
+    "removed_opt_in_roots": 174,
+    "pass_check1_names": true,
+    "pass_check2": true
+  },
+  "bodies": {
+    "dependency_removed_explained": [
+      "removed:library/core/src/slice/sort/shared/smallsort/verify/network.rs:impl:impl ArbitraryValue for (  )"
+    ],
+    "roots_compared": 210,
+    "root_token_differences": [],
+    "root_doc_only_differences": [],
+    "dependency_items_checked": 280,
+    "dependency_token_differences": [],
+    "dependency_doc_only_differences": [],
+    "dependency_missing_or_removed": [],
+    "pass_check1_bodies": true
+  },
+  "macro_split_equivalence": {
+    "rows": 39,
+    "all_identical": true,
+    "not_identical": []
+  },
+  "items": {
+    "removed": [
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:macro_rules:paired_case",
+        "gated": false
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:insert_tail_len",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:lt_b85",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:merge_safety_body_u64",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:ordered_merge_before_safety_control_u64_n4",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:scratch_view",
+        "gated": false
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:stable_direct_aggregate_u64_properties",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:macro_rules:define_fallback_route_harness",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:mod:specdiag",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:use:use super : : super : : { bidirectional_merge , insert_tail } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:fn:check_pad_layout",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:fn:initialize_pad_fields",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:fn:zero_probe",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:inner_doc:module_doc",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:static:READONLY_SOURCE",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:struct:Pad",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:use:use crate : : cell : : Cell ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:use:use crate : : mem : : { MaybeUninit , align_of , offset_of , size_of } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:use:use crate : : slice : : sort : : shared : : smallsort : : { sort4_stable , swap_if_less } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:use:use crate : : { kani , ptr } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:use:use super : : { Probe , VALUE_PROBE_BYTES , lt_u64 , matches_value_probe } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:oracle_bridge_u64",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:raw_insert_true_f",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:raw_merge_true_f",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:raw_sort4_true_f",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:readonly_and_initialized_admission",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:runtime_fnmut_observer",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:fn:specfix_abort_on_order_violation",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:macro_rules:case5_typed_swap",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:static:SPECFIX_READONLY_U64",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs:use:use super : : { VALUE_PROBE_BYTES , matches_value_probe , set_value_probe } ;",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs:fn:mutant_bidirectional_merge",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs:fn:mutant_insert_tail",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs:fn:mutant_merge_up",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs:fn:mutant_small_sort_network",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:fn:zst_less",
+        "gated": true
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:impl:impl ArbitraryValue for (  )",
+        "gated": false
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_rules:insertion_offset_group_cases",
+        "gated": false
+      },
+      {
+        "item": "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_rules:insertion_offset_one_cases",
+        "gated": true
+      }
+    ],
+    "added": [
+      "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:macro_rules:original_case",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_rules:insertion_offset_group_cell_case",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_rules:insertion_offset_group_u64_case"
+    ],
+    "changed": [
+      "library/core/src/slice/sort/shared/smallsort/verify/types.rs:macro_rules:trait_cases"
+    ],
+    "doc_only": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs:inner_doc:module_doc",
+      "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:inner_doc:module_doc",
+      "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs:inner_doc:module_doc",
+      "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs:inner_doc:module_doc"
+    ],
+    "expected_changed": {
+      "library/core/src/slice/sort/shared/smallsort/verify/types.rs:macro_rules:trait_cases": {
+        "v6_arms": 2,
+        "v7_arms": 1,
+        "kept_arm_identical": true
+      }
+    },
+    "unexpected_added": [],
+    "ungated_removed": [
+      "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:macro_rules:paired_case",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:scratch_view",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs:impl:impl ArbitraryValue for (  )",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_rules:insertion_offset_group_cases"
+    ],
+    "pass_items": true
+  },
+  "check3": {
+    "v6_cfg_off": {
+      "orphan_items": [
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:scratch_view"
+      ],
+      "orphan_imports": [],
+      "unused_arms": []
+    },
+    "v6_cfg_on": {
+      "orphan_items": [
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:insert_tail_len",
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs:fn:lt_b85",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:fn:zst_less"
+      ],
+      "orphan_imports": [],
+      "unused_arms": []
+    },
+    "v7_cfg_off": {
+      "orphan_items": [],
+      "orphan_imports": [],
+      "unused_arms": []
+    },
+    "v7_cfg_on": {
+      "orphan_items": [],
+      "orphan_imports": [],
+      "unused_arms": []
+    },
+    "references": {
+      "removed_item_names": 204,
+      "references_to_removed_names": [],
+      "undeclared_source_files": [],
+      "mutations_references": [
+        "mutant_swap_if_less"
+      ],
+      "unresolved_mutations": [],
+      "specdiag_mentions": [],
+      "pass_check3_refs": true
+    },
+    "network_roots_with_unit_element_type": [],
+    "pass_check3": true
+  },
+  "format": {
+    "files": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs"
+    ],
+    "long_lines": [],
+    "git_diff_check_rc": 0,
+    "git_diff_check_output": "",
+    "rustfmt_rc": 0,
+    "rustfmt_output": "",
+    "pass_check4": true
+  },
+  "diff_scope": {
+    "changed_files": [
+      "library/core/Cargo.toml",
+      "library/core/src/slice/sort/shared/smallsort.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs",
+      "research/challenge-8/kani-k1/RESULT-TRIMPART.md",
+      "research/challenge-8/kani-k1/TASK-TRIMPART.md",
+      "research/challenge-8/kani-k1/trimpart/check-report.json",
+      "research/challenge-8/kani-k1/trimpart/check_trimpart.py",
+      "research/challenge-8/kani-k1/trimpart/controls-expected.txt",
+      "research/challenge-8/kani-k1/trimpart/moved-to-part2.txt",
+      "research/challenge-8/kani-k1/trimpart/ordinary-expected.txt"
+    ],
+    "outside_allowed": [],
+    "smallsort_rs_lines": [
+      "+",
+      "+// Bounded SmallSort verification; harnesses are isolated from ordinary Rust builds.",
+      "+#[cfg(kani)]",
+      "+#[unstable(feature = \"kani\", issue = \"none\")]",
+      "+mod verify;"
+    ],
+    "smallsort_rs_same_as_v6": true,
+    "smallsort_rs_only_additions": true,
+    "cargo_toml_lines": [
+      "+    # Opt-in Kani control/mutant harnesses of the SmallSort proofs; never set by CI.",
+      "+    'cfg(kani_smallsort_controls)',"
+    ],
+    "cargo_toml_same_as_v6": true,
+    "runtime_smallsort_unchanged_c0bd09c354_to_233f96f66a": true,
+    "pass_check5": true
+  },
+  "line_counts": {
+    "v6": {
+      "per_file": {
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": {
+          "comment": 31,
+          "blank": 1,
+          "ordinary_code": 7,
+          "opt_in_code": 2,
+          "total": 41
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": {
+          "comment": 14,
+          "blank": 15,
+          "ordinary_code": 167,
+          "total": 196
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": {
+          "comment": 6,
+          "blank": 2,
+          "ordinary_code": 14,
+          "total": 22
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": {
+          "comment": 85,
+          "blank": 100,
+          "ordinary_code": 684,
+          "opt_in_code": 370,
+          "total": 1239
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs": {
+          "comment": 14,
+          "blank": 13,
+          "opt_in_code": 109,
+          "total": 136
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": {
+          "comment": 75,
+          "blank": 51,
+          "opt_in_code": 209,
+          "ordinary_code": 254,
+          "total": 589
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": {
+          "comment": 6,
+          "blank": 31,
+          "opt_in_code": 137,
+          "total": 174
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs": {
+          "comment": 77,
+          "blank": 112,
+          "ordinary_code": 1064,
+          "opt_in_code": 235,
+          "total": 1488
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": {
+          "comment": 4,
+          "blank": 5,
+          "ordinary_code": 28,
+          "opt_in_code": 14,
+          "total": 51
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs": {
+          "comment": 11,
+          "blank": 26,
+          "ordinary_code": 159,
+          "opt_in_code": 36,
+          "total": 232
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
+          "comment": 38,
+          "blank": 27,
+          "ordinary_code": 160,
+          "opt_in_code": 45,
+          "total": 270
+        },
+        "library/core/src/slice/sort/shared/smallsort.rs": {
+          "blank": 1,
+          "total": 5,
+          "comment": 1,
+          "ordinary_code": 3
+        },
+        "library/core/Cargo.toml": {
+          "comment": 1,
+          "total": 2,
+          "opt_in_code": 1
+        }
+      },
+      "total": {
+        "comment": 363,
+        "blank": 384,
+        "ordinary_code": 2540,
+        "opt_in_code": 1158,
+        "total": 4445
+      },
+      "mixed_items": [
+        "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:macro_rules:paired_case:99",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:747",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:754",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:761",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:768",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:775",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:782",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:789",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:796",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:803",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:810",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:817",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:824",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:831",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:838",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:845",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:852",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:859",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:866",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:873",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:880",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:887",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:894",
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs:macro_call:insertion_offset_group_cases:901"
+      ]
+    },
+    "v7": {
+      "per_file": {
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": {
+          "comment": 41,
+          "blank": 1,
+          "ordinary_code": 7,
+          "opt_in_code": 2,
+          "total": 51
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": {
+          "comment": 17,
+          "blank": 15,
+          "ordinary_code": 140,
+          "opt_in_code": 9,
+          "total": 181
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": {
+          "comment": 6,
+          "blank": 2,
+          "ordinary_code": 14,
+          "total": 22
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": {
+          "comment": 58,
+          "blank": 72,
+          "ordinary_code": 674,
+          "total": 804
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": {
+          "comment": 59,
+          "blank": 37,
+          "ordinary_code": 254,
+          "opt_in_code": 63,
+          "total": 413
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": {
+          "comment": 2,
+          "blank": 5,
+          "opt_in_code": 20,
+          "total": 27
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/network.rs": {
+          "comment": 70,
+          "blank": 97,
+          "ordinary_code": 924,
+          "total": 1091
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": {
+          "comment": 3,
+          "blank": 3,
+          "ordinary_code": 28,
+          "total": 34
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/types.rs": {
+          "comment": 7,
+          "blank": 22,
+          "ordinary_code": 143,
+          "total": 172
+        },
+        "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
+          "comment": 38,
+          "blank": 27,
+          "ordinary_code": 160,
+          "opt_in_code": 45,
+          "total": 270
+        },
+        "library/core/src/slice/sort/shared/smallsort.rs": {
+          "blank": 1,
+          "total": 5,
+          "comment": 1,
+          "ordinary_code": 3
+        },
+        "library/core/Cargo.toml": {
+          "comment": 1,
+          "total": 2,
+          "opt_in_code": 1
+        }
+      },
+      "total": {
+        "comment": 303,
+        "blank": 282,
+        "ordinary_code": 2347,
+        "opt_in_code": 140,
+        "total": 3072
+      },
+      "mixed_items": []
+    }
+  },
+  "removed_opt_in_roots": [
+    "assembly::reject_mutant_insert_tail_u8_n2",
+    "assembly::reject_mutant_merge_u8_n4",
+    "assembly::reject_mutant_merge_up_u8_n2",
+    "assembly::reject_mutant_network_prefix_u8_n10",
+    "merge::drop_duplicate_tag_control_n2",
+    "merge::drop_extra_drop_control_n2",
+    "merge::drop_general_reachability_control_n2",
+    "merge::drop_general_reachability_n2",
+    "merge::drop_general_tag_permutation_n16",
+    "merge::fallback_sorted_permutation_u64_n8",
+    "merge::fallback_sorted_permutation_u8_n8",
+    "merge::fallback_sorted_permutation_u8_n9",
+    "merge::fallback_sorted_permutation_u8_u64_n10",
+    "merge::fallback_sorted_permutation_u8_u64_n11",
+    "merge::fallback_sorted_permutation_u8_u64_n12",
+    "merge::fallback_sorted_permutation_u8_u64_n13",
+    "merge::fallback_sorted_permutation_u8_u64_n14",
+    "merge::fallback_sorted_permutation_u8_u64_n15",
+    "merge::fallback_sorted_permutation_u8_u64_n16",
+    "merge::fallback_sorted_permutation_u8_u64_n7",
+    "merge::fallback_sorted_permutation_u8_u64_n8",
+    "merge::fallback_sorted_permutation_u8_u64_n9",
+    "merge::general_stable_direct_nonconst_u64_n2",
+    "merge::general_stable_direct_nonconst_u64_n3",
+    "merge::general_stable_direct_nonconst_u64_n4",
+    "merge::general_stable_direct_nonconst_u64_n5",
+    "merge::general_stable_direct_u64_n6",
+    "merge::general_stable_direct_u64_n7",
+    "merge::general_stable_direct_u64_n8",
+    "merge::general_stable_direct_u8_n9",
+    "merge::general_stable_direct_value_corruption_control_u64_n2",
+    "merge::intrinsic_assumption_safety_control_u64_n4",
+    "merge::merge_aggregate_allocation_bounds_control_u64",
+    "merge::merge_arbitrary_order_assertion_control_u64_n4",
+    "merge::merge_arbitrary_order_permutation_failure_control_u64_n4",
+    "merge::merge_arbitrary_order_reachability_check_control_u64_n4",
+    "merge::merge_arbitrary_order_reachability_control_u64_n4",
+    "merge::out_of_bounds_pointer_control_u64_n4",
+    "merge::overlapping_copy_control_u64_n4",
+    "merge::route_safety_all_routes_n10",
+    "merge::route_safety_all_routes_n11",
+    "merge::route_safety_all_routes_n12",
+    "merge::route_safety_all_routes_n13",
+    "merge::route_safety_all_routes_n14",
+    "merge::route_safety_all_routes_n15",
+    "merge::route_safety_all_routes_n17",
+    "merge::route_safety_all_routes_n18",
+    "merge::route_safety_all_routes_n19",
+    "merge::route_safety_all_routes_n20",
+    "merge::route_safety_all_routes_n21",
+    "merge::route_safety_all_routes_n22",
+    "merge::route_safety_all_routes_n23",
+    "merge::route_safety_all_routes_n24",
+    "merge::route_safety_all_routes_n25",
+    "merge::route_safety_all_routes_n26",
+    "merge::route_safety_all_routes_n27",
+    "merge::route_safety_all_routes_n28",
+    "merge::route_safety_all_routes_n29",
+    "merge::route_safety_all_routes_n30",
+    "merge::route_safety_all_routes_n31",
+    "merge::route_safety_all_routes_n32",
+    "merge::route_safety_all_routes_n9",
+    "merge::sort4_arbitrary_comparator_bytes85_n4",
+    "merge::specdiag::initialized_memory_positive",
+    "merge::specdiag::invalid_bool_sensitivity",
+    "merge::specdiag::padded_probe",
+    "merge::specdiag::probe_t129_helper_oob",
+    "merge::specdiag::raw_uninit_read_sensitivity",
+    "merge::specdiag::readonly_sort4_source",
+    "merge::specdiag::swap_fnmut_runtime_n2",
+    "merge::specfix::specfix_case5_typed_swap_bytes128",
+    "merge::specfix::specfix_case5_typed_swap_bytes129",
+    "merge::specfix::specfix_case5_typed_swap_bytes17",
+    "merge::specfix::specfix_positive_regression",
+    "merge::specfix::specfix_probe_guard_rejects_t129",
+    "merge::stable_direct_aggregate_u64_n6",
+    "merge::stable_direct_aggregate_u64_n7",
+    "merge::stable_direct_aggregate_u64_n8",
+    "merge::stable_direct_value_corruption_control_u64_n2",
+    "merge::unchecked_add_overflow_control_u64_n4",
+    "network::control_network_mutant_presorted_u8_n10",
+    "network::control_network_normal_return_assertion",
+    "network::control_order_violation_assertion",
+    "network::control_order_violation_merge_assertion",
+    "network::control_order_violation_reachability",
+    "network::dispatch_safety_stable_unstable_bytes16_n31",
+    "network::dispatch_safety_stable_unstable_bytes17_n31",
+    "network::dispatch_safety_stable_unstable_bytes85_n31",
+    "network::dispatch_safety_stable_unstable_drop_u8_n31",
+    "network::dispatch_safety_stable_zst_n0_1_2_7_8_15_16_17_31_32",
+    "network::dispatch_safety_unstable_zst_n8_9_12_13_17",
+    "network::insert_tail_contract_u64_start1_prefix_frame_control",
+    "network::insert_tail_contract_u64_start1_suffix_frame_control",
+    "network::insertion_permutation_u64_n11",
+    "network::insertion_permutation_u64_n12",
+    "network::insertion_permutation_u64_n15",
+    "network::insertion_permutation_u64_n16",
+    "network::insertion_permutation_u64_n17",
+    "network::insertion_permutation_u8_n12",
+    "network::insertion_permutation_u8_n15",
+    "network::insertion_permutation_u8_n16",
+    "network::insertion_permutation_u8_n17",
+    "network::insertion_safety_u64_n11_to15",
+    "network::insertion_safety_u64_n13_to15",
+    "network::insertion_safety_u64_n15",
+    "network::insertion_safety_u64_n16_offset1",
+    "network::insertion_safety_u64_n16_to20",
+    "network::insertion_safety_u64_n17_offset1",
+    "network::insertion_safety_u64_n18_offset1",
+    "network::insertion_safety_u64_n19_offset1",
+    "network::insertion_safety_u64_n20_offset1",
+    "network::mutating_insertion_safety_cell_n11_to12",
+    "network::mutating_insertion_safety_cell_n11_to15",
+    "network::mutating_insertion_safety_cell_n13",
+    "network::mutating_insertion_safety_cell_n13_to15",
+    "network::mutating_insertion_safety_cell_n14",
+    "network::mutating_insertion_safety_cell_n15",
+    "network::mutating_insertion_safety_cell_n15_offsets13_to15",
+    "network::mutating_insertion_safety_cell_n15_offsets1_to4",
+    "network::mutating_insertion_safety_cell_n15_offsets5_to8",
+    "network::mutating_insertion_safety_cell_n15_offsets9_to12",
+    "network::mutating_insertion_safety_cell_n16_offset1",
+    "network::mutating_insertion_safety_cell_n16_offsets13_to16",
+    "network::mutating_insertion_safety_cell_n16_offsets1_to4",
+    "network::mutating_insertion_safety_cell_n16_offsets5_to8",
+    "network::mutating_insertion_safety_cell_n16_offsets9_to12",
+    "network::mutating_insertion_safety_cell_n16_to20",
+    "network::mutating_insertion_safety_cell_n17_offset1",
+    "network::mutating_insertion_safety_cell_n17_offsets13_to15",
+    "network::mutating_insertion_safety_cell_n17_offsets16_to17",
+    "network::mutating_insertion_safety_cell_n17_offsets1_to4",
+    "network::mutating_insertion_safety_cell_n17_offsets5_to8",
+    "network::mutating_insertion_safety_cell_n17_offsets9_to12",
+    "network::mutating_insertion_safety_cell_n18_offset1",
+    "network::mutating_insertion_safety_cell_n18_offsets13_to16",
+    "network::mutating_insertion_safety_cell_n18_offsets17_to18",
+    "network::mutating_insertion_safety_cell_n18_offsets1_to4",
+    "network::mutating_insertion_safety_cell_n18_offsets5_to8",
+    "network::mutating_insertion_safety_cell_n18_offsets9_to12",
+    "network::mutating_insertion_safety_cell_n19_offset1",
+    "network::mutating_insertion_safety_cell_n19_offsets13_to16",
+    "network::mutating_insertion_safety_cell_n19_offsets17_to19",
+    "network::mutating_insertion_safety_cell_n19_offsets1_to4",
+    "network::mutating_insertion_safety_cell_n19_offsets5_to8",
+    "network::mutating_insertion_safety_cell_n19_offsets9_to12",
+    "network::mutating_insertion_safety_cell_n20_offset1",
+    "network::mutating_insertion_safety_cell_n6_to10",
+    "network::network_correctness_u64_n10",
+    "network::network_correctness_u64_n11",
+    "network::network_correctness_u64_n12",
+    "network::network_correctness_u64_n13",
+    "network::network_correctness_u64_n14",
+    "network::network_correctness_u64_n15",
+    "network::network_correctness_u64_n16",
+    "network::network_correctness_u64_n17",
+    "network::network_correctness_u64_n8",
+    "network::network_correctness_u8_n14",
+    "network::network_correctness_u8_n15",
+    "network::network_correctness_u8_n16",
+    "network::network_correctness_u8_n17",
+    "network::network_correctness_u8_n8",
+    "network::network_safety_unstable_u64_n18_to21",
+    "network::network_safety_unstable_u64_n22_to25",
+    "network::network_safety_unstable_u64_n26_to27",
+    "network::network_safety_unstable_u64_n28_to29",
+    "smoke::predicate_efficient_swap_boundaries",
+    "smoke::reject_efficient_swap_bytes9",
+    "types::control_sorted_permutation_traits_cell_drop_n0_to2",
+    "types::reject_logical_permutation_drop_n2",
+    "types::reject_logical_sortedness_cell_n2",
+    "types::sorted_permutation_traits_fallback_cell_u8_n7_to9",
+    "types::sorted_permutation_traits_fallback_cell_u8_n8",
+    "types::sorted_permutation_traits_general_drop_u8_n7_to9",
+    "types::sorted_permutation_traits_general_drop_u8_n9"
+  ],
+  "method": "Source-level lexer, item splitter and macro_rules expander; token comparison ignores whitespace and plain comments, doc comments are compared separately; name-based conservative dependency closure (every verify item whose name occurs in a reached item). Not a compiler or Kani inventory."
+}
