@@ -1,27 +1,42 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "codefix-v8-20261104-02",
+  "request_id": "permtags-g1-20261105-01",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "CODEFIX v8: two new ordinary real-body harnesses, all covers and mutant swap control; cfg-off inventory.",
+  "purpose": "PERMTAGS G1: identity-tag permutation with fresh arbitrary comparison answers; route checks, network u8 N9/13/16, stable general u64 N9, stable Cell fallback N16, duplicate mutant.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 15,
+  "harness_timeout_minutes": 10,
   "kani_jobs": 1,
-  "inventory": true,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
+      "name": "slice::sort::shared::smallsort::verify::permtags::tag_types_preserve_source_routes",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permtags::general_u64_n9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permtags::fallback_cell_u8_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::permtags::reject_duplicate_network_u8_n9",
       "expect": "FAILED",
-      "expect_check": "assertion failed"
+      "expect_check": "permtags: every input tag occurs exactly once"
     }
   ]
 }
