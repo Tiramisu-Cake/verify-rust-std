@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8
+--harness
+slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8
+--harness
+slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2
+--harness
+slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_swap_rejected_u8
+--exact
+--harness-timeout
+10m
+--jobs=1
+--output-format=terse
