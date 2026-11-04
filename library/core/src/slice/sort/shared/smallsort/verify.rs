@@ -27,7 +27,7 @@
 //! compositions belong to separate research results, not to this suite.
 //! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
-//! Manual stubs cut only `panic_on_ord_violation`; covers and eight opt-in negative controls
+//! Manual stubs cut only `panic_on_ord_violation`; covers and eight Part 1 opt-in negative controls
 //! support nonvacuity. The controls are compiled only with `cfg(kani_smallsort_controls)`, which
 //! CI never sets, and each must fail its named check: `assembly::reject_mutant_swap_u8_n2` (the
 //! negated exchange in `mutations`), `wrap::rejects_payload_corruption`,
@@ -35,6 +35,8 @@
 //! `specfix_full_value_checker_rejects_payload_change_u8`, `specfix_wrong_f_swap_rejected_u8`,
 //! `specfix_wrong_f_sort4_rejected_u64`, `specfix_wrong_f_insert_rejected_u8` and
 //! `specfix_wrong_f_merge_rejected_u8`. Other diagnostics and lengths are a separate Part 2.
+//! The opt-in Part 2 `permtags` module checks distinct identity tags with arbitrary comparison
+//! answers, type-route predicates and a duplicate-element mutant; see its module docs for scope.
 //! `run-kani.sh` does not fail on unreachable covers; historical covers were inspected separately.
 //! Region predicates describe pointer geometry, not initialization or permissions; constructed
 //! fixtures supply initialized inputs and exclusive mutable storage.
@@ -54,6 +56,8 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+#[cfg(kani_smallsort_controls)]
+mod permtags;
 mod smoke;
 mod types;
 mod wrap;
