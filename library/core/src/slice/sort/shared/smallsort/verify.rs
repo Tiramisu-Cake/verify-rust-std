@@ -46,6 +46,8 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+#[cfg(kani_smallsort_controls)]
+mod pincheck;
 mod smoke;
 mod types;
 mod wrap;
