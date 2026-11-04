@@ -21,7 +21,10 @@
 //! backing5 tail1..4, sort4 u64 source4/disjoint dst4, and merge u64 N2/4 with disjoint dst.
 //! These are not universal callback frame proofs. Ordinary N9/N13 u8 network consumers use
 //! verified swap stubs paired with the same type, backing and comparator PFC domains. Their
-//! return cover is reachable; two callback covers are unreachable because the stub cuts calls.
+//! return cover is retained. The ordinary consumers omit `realcontracts comparator true` and
+//! `realcontracts comparator false`: the verified swap stub cuts the callback. A coverage-only
+//! hook is stubbed to a no-op, preserving the comparator function-item type and PFC domain.
+//! Original consumers with both covers remain opt-in as `_with_callback_covers`.
 //! The separate closed profiles in `merge::specfix` fix the comparator and full-value model;
 //! a guard rejects any other comparator value. Ordinary profile proofs cover selected swap
 //! types/orders, sort4 u64/[u8; 16], merge u64 N2..8/u8 N2..9 (u8 N9 also from scratch48),
@@ -33,8 +36,10 @@
 //! type-selected route moves whole elements and branches only on answers/positions/lengths/type
 //! properties, not payloads. This source-level assumption is not a generic refinement theorem;
 //! payload-mutating comparators, sortedness and stability are excluded. The normal-return cover
-//! is reached; the network order-violation panic cover is unreachable. Larger tag domains and
-//! the duplicate-tag mutant require `cfg(kani_smallsort_controls)`.
+//! is retained. Ordinary N9/N13 omit `permtags: order violation panic is reachable` because
+//! the network cannot reach that boundary; its assume(false) cutoff is unchanged. Original
+//! `_with_panic_cover` variants, larger tag domains and the duplicate-tag mutant require
+//! `cfg(kani_smallsort_controls)`. All ordinary covers must be reachable.
 //! `scratchgeom` checks Stable Freeze u64 N2 with a separate minimal scratch allocation of
 //! 18 elements: real bodies, arbitrary reading comparator, geometry and full-value preservation
 //! on normal return. Larger and shared-allocation geometries require the controls cfg.

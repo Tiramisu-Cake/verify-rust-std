@@ -61,8 +61,15 @@ fn arbitrary_cell_order(a: &Cell<u8>, b: &Cell<u8>) -> bool {
     kani::any()
 }
 
+#[cfg(kani_smallsort_controls)]
 fn abort_on_order_violation() -> ! {
     kani::cover(true, "permtags: order violation panic is reachable");
+    kani::assume(false);
+    unreachable!()
+}
+
+// The ordinary networks never reach this panic boundary. Keep the cutoff but omit its cover.
+fn abort_without_panic_cover() -> ! {
     kani::assume(false);
     unreachable!()
 }
@@ -147,6 +154,7 @@ fn tag_types_preserve_source_routes() {
     kani::cover(true, "permtags: tag and source types select the required routes");
 }
 
+#[cfg(kani_smallsort_controls)]
 macro_rules! permutation_case {
     ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
@@ -161,8 +169,31 @@ macro_rules! permutation_case {
     };
 }
 
-permutation_case!(network_u8_n9, network_body, 9);
-permutation_case!(network_u8_n13, network_body, 13);
+#[kani::proof]
+#[kani::stub(
+    crate::slice::sort::shared::smallsort::panic_on_ord_violation,
+    abort_without_panic_cover
+)]
+#[kani::unwind(34)]
+fn network_u8_n9() {
+    network_body::<9>();
+}
+
+#[cfg(kani_smallsort_controls)]
+permutation_case!(network_u8_n9_with_panic_cover, network_body, 9);
+
+#[kani::proof]
+#[kani::stub(
+    crate::slice::sort::shared::smallsort::panic_on_ord_violation,
+    abort_without_panic_cover
+)]
+#[kani::unwind(34)]
+fn network_u8_n13() {
+    network_body::<13>();
+}
+
+#[cfg(kani_smallsort_controls)]
+permutation_case!(network_u8_n13_with_panic_cover, network_body, 13);
 #[cfg(kani_smallsort_controls)]
 permutation_case!(network_u8_n16, network_body, 16);
 #[cfg(kani_smallsort_controls)]

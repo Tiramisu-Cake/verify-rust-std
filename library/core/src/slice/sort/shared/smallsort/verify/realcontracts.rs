@@ -18,10 +18,18 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
         let _b = crate::mem::ManuallyDrop::new(crate::ptr::read_volatile(b));
     }
     let answer: bool = kani::any();
-    kani::cover(answer, "realcontracts comparator true");
-    kani::cover(!answer, "realcontracts comparator false");
+    comparison_covers(answer);
     answer
 }
+
+// A coverage-only hook lets stubbed consumers omit unreachable callback covers while retaining
+// the same arbitrary_less::<u8> function-item type as their matching ordinary PFCs.
+fn comparison_covers(answer: bool) {
+    kani::cover(answer, "realcontracts comparator true");
+    kani::cover(!answer, "realcontracts comparator false");
+}
+
+fn omit_comparison_covers(_answer: bool) {}
 
 fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     let mut v: [T; 4] = kani::any();
@@ -143,9 +151,18 @@ fn unstable_network_safety_u8_n9_real() {
 }
 
 #[kani::proof]
+#[kani::stub(comparison_covers, omit_comparison_covers)]
 #[kani::stub_verified(swap_if_less)]
 #[kani::unwind(16)]
 fn unstable_network_safety_u8_n9_stubbed() {
+    exercise_unstable_network_u8::<9>();
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n9_stubbed_with_callback_covers() {
     exercise_unstable_network_u8::<9>();
 }
 
@@ -157,9 +174,18 @@ fn unstable_network_safety_u8_n13_real() {
 }
 
 #[kani::proof]
+#[kani::stub(comparison_covers, omit_comparison_covers)]
 #[kani::stub_verified(swap_if_less)]
 #[kani::unwind(16)]
 fn unstable_network_safety_u8_n13_stubbed() {
+    exercise_unstable_network_u8::<13>();
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n13_stubbed_with_callback_covers() {
     exercise_unstable_network_u8::<13>();
 }
 
