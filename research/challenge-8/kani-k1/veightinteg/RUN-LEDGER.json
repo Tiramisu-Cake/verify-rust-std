@@ -1,9 +1,9 @@
 {
   "task": "VEIGHTINTEG",
-  "state": "PRE_BUILD_REVIEW",
+  "state": "AUTHORIZED_WAITING_FOR_SLOT",
   "branch": "experiment/kani-k1-veightinteg-20261105",
-  "owner": "k1-network",
-  "owner_dispatch_condition": "Coordinator GO must confirm this stable owner has a free slot.",
+  "owner": "k1-merge",
+  "owner_dispatch_condition": "Dispatch after watched PERMTAGS G2 finishes; use k1-network if coordinator reports it free earlier.",
   "primary_build_limit": 1,
   "retry_limit": 0,
   "compile_error_repair_limit": 1,
@@ -12,8 +12,8 @@
   "main_minutes": 240,
   "closeout_minutes": 30,
   "window_start": "Await coordinator GO/dispatch; no active build.",
-  "request_id": "veightinteg-g1-20261105-01",
-  "request_sha256": "1f55dc32633f4b3078286dfabc40cd9a8a0178c1411413924f2523a36966fb9b",
+  "request_id": "veightinteg-g1-20261105-02",
+  "request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
   "library_commits": [
     "fa6a1d3142dd7463ffe35ab51e24a54c7ad470e6",
     "f351bbc1c61fe7397006d713db7e0e7de9c3bfb5",
@@ -25,12 +25,18 @@
   "builds": [],
   "spent_usd": 0,
   "budget_observed": {
-    "builds": 228,
+    "builds": 229,
     "used_usd": 96.846,
-    "reserved_usd": 1.08,
-    "with_this_max_reservation_usd": 100.356
+    "reserved_usd": 2.025,
+    "with_this_max_reservation_usd": 101.301
   },
-  "budget_observation_utc": "2026-11-04T21:53:17.863184+00:00",
-  "budget_note": "Recheck immediately before dispatch. No authorization to dispatch before GO.",
-  "slot_note": "Coordinator: k1-network reserved for ENSURES; k1-merge for PERMTAGS G2. Await GO."
+  "budget_observation_utc": "2026-11-04T21:59:28.696935+00:00",
+  "budget_note": "Recheck immediately before dispatch. Conditional coverage-only GO received.",
+  "slot_note": "Coordinator: ENSURES 6d95823e occupies k1-network; PERMTAGS G2 8c10dc52 occupies k1-merge.",
+  "authorization": "Coordinator GO for one build conditional on coverage-only changes; preserve opt-in originals and require all ordinary covers reachable.",
+  "coverage_correction_commit": "4b4803b126638b7ece733076ceb7361b653c98b9",
+  "slot_watch_build": "8c10dc52-3e39-4b07-800f-0c1d3aad4888",
+  "slot_watch_cache": "/tmp/veightinteg-k1g-slotwatch",
+  "expected_new_ordinary_covers": 55,
+  "allowed_unreachable_covers": 0
 }

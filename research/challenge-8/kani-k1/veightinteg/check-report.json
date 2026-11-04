@@ -2,7 +2,7 @@
   "status": "PASS",
   "checks": {
     "ordinary_204_plus_15": true,
-    "cfg_on_249_with_30_opt_in": true,
+    "cfg_on_253_with_34_opt_in": true,
     "v8_212_roots_tokens_identical": true,
     "all_existing_verify_files_except_module_doc_byte_identical": true,
     "all_existing_runtime_function_bodies_tokens_identical": true,
@@ -10,7 +10,11 @@
     "runtime_all_tokens_exactly_realcontractstwo": true,
     "request_exactly_15_new_ordinary_success_roots": true,
     "request_prescribed_settings": true,
-    "three_source_modules_bodies_tokens_identical_after_same_rustfmt": true,
+    "source_module_bodies_unchanged_after_cover_hook_expansion": true,
+    "only_expected_cover_helpers_and_opt_in_variants_added": true,
+    "cover_only_adjustment_and_exact_original_opt_in_copies": true,
+    "all_other_packet_roots_unchanged": true,
+    "only_four_opt_in_roots_added_to_packet": true,
     "cfg_off_and_on_no_static_orphans": true,
     "library_diff_paths_and_check_cfg_only": true,
     "lane_files_equal_tooling_base": true,
@@ -22,7 +26,7 @@
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "ordinary_before": 204,
   "ordinary_after": 219,
-  "cfg_on": 249,
+  "cfg_on": 253,
   "new_roots": [
     "permtags::network_u8_n13",
     "permtags::network_u8_n9",
@@ -52,9 +56,11 @@
     "permtags::general_u64_n17",
     "permtags::general_u64_n32",
     "permtags::general_u64_n9",
+    "permtags::network_u8_n13_with_panic_cover",
     "permtags::network_u8_n16",
     "permtags::network_u8_n17",
     "permtags::network_u8_n32",
+    "permtags::network_u8_n9_with_panic_cover",
     "permtags::reject_duplicate_network_u8_n9",
     "realcontracts::insertion_safety_u64_len1_to6",
     "realcontracts::insertion_safety_u64_len2",
@@ -64,7 +70,9 @@
     "realcontracts::rejects_swap_outside_backing_u8",
     "realcontracts::sort4_safety_bytes16",
     "realcontracts::unstable_network_safety_u8_n13_real",
+    "realcontracts::unstable_network_safety_u8_n13_stubbed_with_callback_covers",
     "realcontracts::unstable_network_safety_u8_n9_real",
+    "realcontracts::unstable_network_safety_u8_n9_stubbed_with_callback_covers",
     "scratchgeom::stable_u64_min_scratch_n17",
     "scratchgeom::stable_u64_min_scratch_n8",
     "scratchgeom::stable_u64_scratch40_n8",
@@ -77,6 +85,43 @@
   "runtime_changed": [],
   "upstream_runtime_changed": [],
   "source_body_changes": [],
+  "cover_only_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "unchanged_packet_root_differences": [],
+  "removed_ordinary_covers": {
+    "realcontracts::unstable_network_safety_u8_n9_stubbed": [
+      "realcontracts comparator true",
+      "realcontracts comparator false"
+    ],
+    "realcontracts::unstable_network_safety_u8_n13_stubbed": [
+      "realcontracts comparator true",
+      "realcontracts comparator false"
+    ],
+    "permtags::network_u8_n9": [
+      "permtags: order violation panic is reachable"
+    ],
+    "permtags::network_u8_n13": [
+      "permtags: order violation panic is reachable"
+    ]
+  },
+  "coverage_change_base": "b4ad90657369b970a48921100bb01d05902372e7",
+  "request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
+  "expected_new_ordinary_covers": {
+    "satisfied": 55,
+    "total": 55,
+    "unreachable": 0
+  },
   "static_orphans": {
     "False": [
       [],
@@ -99,8 +144,8 @@
   ],
   "verify_lines": {
     "library/core/src/slice/sort/shared/smallsort/verify.rs": {
-      "total": 76,
-      "ordinary_or_shared": 74,
+      "total": 81,
+      "ordinary_or_shared": 79,
       "opt_in_only": 2
     },
     "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": {
@@ -134,14 +179,14 @@
       "opt_in_only": 0
     },
     "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": {
-      "total": 198,
-      "ordinary_or_shared": 127,
-      "opt_in_only": 71
+      "total": 229,
+      "ordinary_or_shared": 134,
+      "opt_in_only": 95
     },
     "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": {
-      "total": 336,
-      "ordinary_or_shared": 213,
-      "opt_in_only": 123
+      "total": 362,
+      "ordinary_or_shared": 225,
+      "opt_in_only": 137
     },
     "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": {
       "total": 112,
@@ -165,9 +210,9 @@
     }
   },
   "verify_lines_total": {
-    "total": 3810,
-    "ordinary_or_shared": 3429,
-    "opt_in_only": 381
+    "total": 3872,
+    "ordinary_or_shared": 3453,
+    "opt_in_only": 419
   },
   "verify_lines_v8": 3147,
   "runtime_lines": 964,
@@ -301,20 +346,21 @@
     }
   },
   "sha256": {
-    "library/core/src/slice/sort/shared/smallsort/verify.rs": "a65834fb727efe404b03ba360196321036d0528c5c67a7ac328b261acd015723",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5867c230b3f9cc5028b9b9cb0cdf89f5eee792595da47a14b3ecd7fc4e474430",
     "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "efe715558af666d98b3b8e586defde26775814e109d250d47e3037e1fb0d58a2",
     "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
     "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "a6307246184b0919c30f91b70358a2ad6a9a523423b0d6eb2912f501849873ea",
     "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "429c25af6f6883956f5832cca0afa8e6f5c21f3833bad479af75847f0df3812c",
     "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
     "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "7e14857d7609fc1d11fb56aaa402d66a508ab5dbf4ac8e3bd05fde3d1917979f",
-    "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": "a9ab37ff577932bd69652b72165a40f6b05b15080ca8ef465647af818fed002d",
-    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "334160b0623282f25cb2b71ab80022494394315b0281e10c9ce800a6362f97b1",
+    "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": "bbb020787ba85765b21990759043a2374d7ff17600ed1ae630503f7765e7e395",
+    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "f53fabeb7e97b2d7f4eae9deaa50ddcbd33abb3ab305409550e754eb70f1467e",
     "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": "5736dd3d4c7cfe5b20a557fd7c53f73d4f503ec46b6bcc2de6a68e8dd49f6f9f",
     "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
     "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "d720ef455a0285a75d9919ae7d888dc3f62fce8777a1c8c1ab9a30f3d47fdb1b",
     "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "10c0bf2a6642a5f0a2bf30eef22adfea0988b5354891ac823c0600064a803f24",
     "library/core/src/slice/sort/shared/smallsort.rs": "93bbff8e18af726d17023a39520219aa8f198d33508bdf835fa03c217ddfbe0a"
   },
-  "limitations": "Source macro expansion, cfg gates and token comparisons only; not compiler inventory or proof. Line split assigns explicit cfg-gated item spans to opt-in and remaining lines (shared helpers, blank lines and comments) to ordinary/shared. Prior times/covers are source-reported, not independently reverified here."
+  "limitations": "Source macro expansion, cfg gates and token comparisons only; not compiler inventory or proof. Line split assigns explicit cfg-gated item spans to opt-in and remaining lines (shared helpers, blank lines and comments) to ordinary/shared. Prior times/covers are source-reported, not independently reverified here.",
+  "expected_covers_sha256": "8a816b0836d46e332aeafec98f980a0bbb32f2a36c45b81da7446b1bcc07c19f"
 }
