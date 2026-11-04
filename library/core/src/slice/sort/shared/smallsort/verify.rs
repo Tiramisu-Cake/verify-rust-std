@@ -46,6 +46,7 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+mod scratchgeom;
 mod smoke;
 mod types;
 mod wrap;
