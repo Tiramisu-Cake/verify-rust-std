@@ -24,10 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - label: verify-rust-std pin
-            ref: 9461e07af7ec929f050aa4192f29363c9be07779
-          - label: main snapshot
-            ref: 744b3e84d6eb68fd5456826997568666791bd355
+          - label: verify-rust-std pin 233f96f66a
+            ref: cd355b0bccd32300713bc2ce4f765dafa1510607
     steps:
       - uses: actions/checkout@v4
 
