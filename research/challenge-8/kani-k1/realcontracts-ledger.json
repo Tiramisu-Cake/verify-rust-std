@@ -1,17 +1,17 @@
 {
   "schema": "realcontracts-ledger-v1",
   "owner": "k1-merge",
-  "stage": "realcontracts-g1-compile-repair1",
+  "stage": "realcontracts-g1-review",
   "request_id": "realcontracts-g1-compile-repair1-20261104",
   "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "project_cap_usd": 118.96,
   "own_cap_usd": 3.0,
-  "own_spent_usd": 0.135,
+  "own_spent_usd": 0.3645,
   "max_primary_builds": 2,
   "compile_error_repairs_per_build": 1,
   "price_per_minute_usd": 0.0135,
   "planned_timeout_minutes": 70,
-  "planned_reserve_usd": 0.945,
+  "planned_reserve_usd": 0,
   "builds": [
     {
       "stage": "realcontracts-g1",
@@ -62,9 +62,106 @@
         "E0433: missing kani import in generated requires/modifies",
         "E0034: multiple applicable numeric items in existing core; relation to E0433 unestablished"
       ]
+    },
+    {
+      "stage": "realcontracts-g1-compile-repair1",
+      "request_id": "realcontracts-g1-compile-repair1-20261104",
+      "head_sha": "7cea662d2c09be7f114aa5fe6a111648f1e5d139",
+      "build_uuid": "7420db72-52f9-4f7e-9bdf-774780d91e84",
+      "request_sha256": "b345ecd6fb42f6a5bec12fc9c1e05274256a7dfafcc18c4b08bb2aa76d0bd4c7",
+      "status": "COMPLETE",
+      "cloud_build_status": "FAILURE",
+      "gate": false,
+      "expectation_met": false,
+      "kani_exit": 1,
+      "tooling_check": "PASS",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing4",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 19.355654,
+          "failed_total_checks": "0/229",
+          "covers": "6/6"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u64_backing4",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 19.362135,
+          "failed_total_checks": "0/229",
+          "covers": "6/6"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_bytes17_backing4",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 31.84324,
+          "failed_total_checks": "0/402",
+          "covers": "6/6"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_safety_u64_len1_to6",
+          "expect": "SUCCESS",
+          "status": "TIMEOUT",
+          "time_s": null,
+          "failed_total_checks": null,
+          "covers": null
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_outside_backing_u8",
+          "expect": "FAILED",
+          "status": "FAILED",
+          "time_s": 0.17645621,
+          "failed_total_checks": "1/137",
+          "covers": "1/3"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 12.086438,
+          "failed_total_checks": "0/388",
+          "covers": "6/6"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 14.242737,
+          "failed_total_checks": "0/326",
+          "covers": "5/5"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 10.211888,
+          "failed_total_checks": "0/119",
+          "covers": "16/16"
+        }
+      ],
+      "failed_check": {
+        "harness": "realcontracts::rejects_swap_outside_backing_u8",
+        "description": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&",
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 404
+      },
+      "timeout_harness": "realcontracts::insertion_safety_u64_len1_to6",
+      "harness_timeout_minutes": 5,
+      "insertion_cbmc_peak_rss_gib": 14.88,
+      "whole_run_peak_rss_kib": 15609960,
+      "whole_run_wall": "8:45.61",
+      "spent_usd": 0.2295,
+      "reserve_usd": 0,
+      "cost_source": "combined k1g.sh budget ORIGINAL REPAIR = 2 0.3645 0.0000, minus original cost 0.1350",
+      "diagnostics": [
+        "Compilation reached verification; six SUCCESS, intended negative FAILED, insertion TIMEOUT",
+        "bounded log-grep: Failed Checks at kani.log line 2752, CBMC timed out at line 2763"
+      ]
     }
   ],
-  "state": "compile-error repair prepared; new exact-packet coordinator GO required before dispatch; G2 not run",
+  "state": "G1 and its sole compile repair finished; insertion PFC TIMEOUT; review requested; no further repair or dispatch; G2 requires new coordinator GO",
   "library_sha": "3f0fc215587ee4b5ab4e8e9f901e49ea206f7c19",
   "project_budget_snapshot": {
     "queried_at_utc": "2026-11-04T19:29:47.674160+00:00",
@@ -77,9 +174,9 @@
   "repair_attempts": {
     "realcontracts-g1": {
       "prepared": 1,
-      "dispatched": 0
+      "dispatched": 1
     }
   },
-  "own_spent_plus_planned_reserve_usd": 1.08,
-  "updated_at_utc": "2026-11-04T19:45:52.260340+00:00"
+  "own_spent_plus_planned_reserve_usd": 0.3645,
+  "updated_at_utc": "2026-11-04T20:08:55.954299+00:00"
 }

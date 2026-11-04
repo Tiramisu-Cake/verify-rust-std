@@ -1,7 +1,8 @@
 # REALCONTRACTS G1 — exact-packet review
 
-State: historical G1 packet; build 841ecc9e-3696-4188-aad0-300cd6f4a35b ended COMPILE_ERROR.
-The compile-error repair packet below requires new exact-SHA coordinator GO before dispatch.
+State: historical G1 / compile-repair packets, both dispatched after coordinator GO.
+Repair reached verification; insertion PFC TIMEOUT leaves gate false. See RESULT-REALCONTRACTS.md.
+No further dispatch is authorized; G2 requires a new coordinator GO.
 Worktree `/root/verify-rust-std-kani-realcontracts`; branch `experiment/kani-k1-realcontracts-20261104`.
 Task `3bd643ceaa`; tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`.
 Library commit `3f0fc215587ee4b5ab4e8e9f901e49ea206f7c19`; owner `k1-merge`.
@@ -90,7 +91,7 @@ itself part of the spike. G2 needs separate coordinator GO after G1 analysis. Af
 k1g dispatch, then k1g watch and end the turn; read only bounded K-1 summaries/rows/peaks/log-grep,
 check tooling against the full base, and write RESULT-REALCONTRACTS.md in at most 35 lines.
 
-## G1 compile-error repair 1 — review packet
+## G1 compile-error repair 1 — historical review packet
 
 G1 source SHA `23fa5dee5f23645abea868d1370b46298d96435b` is bound by the bounded summary;
 check-tooling passed pool, source identity and all six tooling SHA-256 checks against the base.
@@ -114,3 +115,22 @@ G1 cost by k1g budget is $0.135; new worst-case reserve $0.945; own spent + rese
 No repair dispatch has occurred. No second compile-error repair for G1 is authorized.
 RESULT-REALCONTRACTS.md records the observed failure and proof limitations; compile acceptance
 and every requested proof/cover/regression measurement still await this repair build.
+
+## Observed repair outcome / review handoff
+
+Coordinator GO approved `7cea662d2c09be7f114aa5fe6a111648f1e5d139`; dispatched build
+`7420db72-52f9-4f7e-9bdf-774780d91e84` and waited via k1g watch. Bounded summary and its
+8-row page bind this exact SHA/request. Check-tooling passed the pool, source/request identities
+and all six file hashes against the full base. The compile repair reached verification.
+Three swap PFCs are SUCCESS with 6/6 covers each; the negative stub consumer has exactly
+one failed check, the b_pos dereference requires at smallsort.rs:404. All three regression
+roots are SUCCESS. Insertion PFC is TIMEOUT at the 5-minute harness limit, peak CBMC RSS
+14.88 GiB; none_seen in the OOM scan is not proof of memory headroom. Whole-run wall is
+8:45.61, maximum RSS 15609960 KiB. Summary COMPLETE describes reporting completeness;
+gate/expectation are false because insertion did not prove. G2 was not run.
+
+Costs: original $0.1350, repair $0.2295 (combined bounded budget $0.3645, no reserve).
+The sole compile repair is consumed. No code, flags, request or harness changes were made
+after this build; only RESULT, this historical packet record, and the ledger are updated.
+Insertion's symbolic domain may need a separately reviewed next experiment; this handoff
+does not select or authorize G2. Stop with REVIEW REQUEST for the published report commit.
