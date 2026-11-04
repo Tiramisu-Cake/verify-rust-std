@@ -233,8 +233,8 @@ class SummaryTests(unittest.TestCase):
         k.validate_request(dict(req, harness_timeout_minutes=270))
         with self.assertRaises(k.RequestError):
             k.validate_request(dict(req, harness_timeout_minutes=271))
-        for key in ("controls", "uninit_checks", "worker_index", "worker_total", "kani_jobs"):
-            bad = dict(req, **{key: (True if key in ("controls", "uninit_checks") else 3)})
+        for key in ("controls", "uninit_checks", "valid_value_checks", "worker_index", "worker_total", "kani_jobs"):
+            bad = dict(req, **{key: (True if key in ("controls", "uninit_checks", "valid_value_checks") else 3)})
             with self.assertRaises(k.RequestError):
                 k.validate_request(bad)
         workflow = (Path(__file__).parents[4] / ".github/workflows/kani.yml").read_text()
@@ -984,6 +984,24 @@ class ResourceLaneTests(unittest.TestCase):
         self.assertTrue(any("outside CI" in n for n in s["notes"]))
         self.assertIn("uninit checks on", k.render_md(s))
 
+    def test_valid_value_checks(self):
+        diag = {**REQ, "runner": k.STANDARD_RUNNER, "kind": "diagnostic", "harnesses": ONLY_OK}
+        args = k.kani_args(k.validate_request({**diag, "valid_value_checks": True}))
+        self.assertEqual(args[args.index("-Z") + 1], "valid-value-checks")
+        both = k.kani_args(k.validate_request({**diag, "uninit_checks": True, "valid_value_checks": True}))
+        self.assertIn("uninit-checks", both)
+        self.assertIn("valid-value-checks", both)
+        self.assertNotIn("valid-value-checks", k.kani_args(k.validate_request(copy.deepcopy(diag))))
+        self.assertNotIn("valid-value-checks", k.kani_args(k.validate_request({**REQ, "valid_value_checks": False})))
+        self.bad({**diag, "valid_value_checks": 1}, "true or false")
+        self.bad({**diag, "kind": "measurement", "valid_value_checks": True}, "only for kind diagnostic")
+        self.bad({**diag, "runner": "circleci-linux-large", "valid_value_checks": True}, "only for kind diagnostic")
+        s = k.summarize(json.dumps({**diag, "valid_value_checks": True}), OK_BLOCK + tail(1, 0), TIME, 0, "a" * 40,
+                        "b" * 40, None, {}, {}, "success")
+        self.assertTrue(s["request"]["valid_value_checks"])
+        self.assertTrue(any("valid-value-checks on" in n for n in s["notes"]))
+        self.assertIn("valid-value checks on", k.render_md(s))
+
     def test_controls_cfg(self):
         std = {**REQ, "runner": k.STANDARD_RUNNER, "harnesses": ONLY_OK}
         k.validate_request({**std, "controls": True})
@@ -1022,7 +1040,7 @@ class ResourceLaneTests(unittest.TestCase):
         self.bad({**part, "worker_index": 5}, "worker_index")
         self.bad({k2: v for k2, v in part.items() if k2 != "worker_total"}, "worker_index")
         self.bad({**part, "harnesses": ONLY_OK}, "harnesses: []")
-        self.bad({**part, "controls": True}, "no uninit_checks, no controls")
+        self.bad({**part, "controls": True}, "no valid_value_checks, no controls")
         self.bad({**part, "harness_timeout_minutes": 301}, "1..300")
         self.bad({**REQ, "worker_index": 1, "worker_total": 4}, "only for kind partition")
         other = "core::num::verify::checked_add_u8"
