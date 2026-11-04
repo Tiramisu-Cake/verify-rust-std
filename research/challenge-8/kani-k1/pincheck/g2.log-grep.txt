@@ -1,0 +1,24 @@
+846:104 | #![feature(cast_maybe_uninit)]
+864:107 | #![feature(clone_to_uninit)]
+1146:154 | #![feature(maybe_uninit_array_assume_init)]
+1152:155 | #![feature(maybe_uninit_fill)]
+1158:156 | #![feature(maybe_uninit_uninit_array_transpose)]
+2050:325 | #![feature(cast_maybe_uninit)]
+2062:327 | #![feature(clone_to_uninit)]
+2296:366 | #![feature(maybe_uninit_array_assume_init)]
+2302:367 | #![feature(maybe_uninit_fill)]
+2344:374 | #![feature(ptr_as_uninit)]
+2730:Failed Checks: Interaction between raw pointers and unions is not yet supported.
+2731: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/assembly.rs", line 83, in slice::sort::shared::smallsort::verify::assembly::check_merge_consumption::<{closure@/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/assembly.rs:135:5: 135:21}>
+2743:Failed Checks: Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.
+2744: File: "/workspace/src/library/core/src/ops/function.rs", line 166, in <for<'a, 'b> fn(&'a u8, &'b u8) -> bool as ops::function::FnMut<(&u8, &u8)>>::call_mut
+2749:Checking harness slice::sort::shared::smallsort::verify::pincheck::raw_uninit_read_sensitivity...
+2756:Failed Checks: Interaction between raw pointers and unions is not yet supported.
+2757: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/pincheck.rs", line 106, in slice::sort::shared::smallsort::verify::pincheck::raw_uninit_read_sensitivity
+2769:Failed Checks: Transmuting between types of incompatible layouts.
+2770: File: "/workspace/src/library/core/src/mem/mod.rs", line 1283, in mem::transmute_neo::<mem::maybe_uninit::MaybeUninit<u8>, u8>
+2775:Checking harness slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_uninit_read_u8...
+2782:Failed Checks: Transmuting between types of incompatible layouts.
+2783: File: "/workspace/src/library/core/src/mem/mod.rs", line 1283, in mem::transmute_neo::<mem::maybe_uninit::MaybeUninit<u8>, u8>
+2791:Verification failed for - slice::sort::shared::smallsort::verify::pincheck::raw_uninit_read_sensitivity
+2793:Verification failed for - slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_uninit_read_u8
