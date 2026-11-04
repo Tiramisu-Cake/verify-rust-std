@@ -575,6 +575,76 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
     (bytes / elem_size).saturating_add(1)
 }
 
+// Verification-only comparator model. Specialization is on the concrete (T, F) pair,
+// never on a function address or a caller-supplied claim about an arbitrary callback.
+#[cfg(kani)]
+trait InsertTailComparatorModel<T> {
+    fn has_model(&self) -> bool;
+    unsafe fn model_sorted(&self, begin: *const T, len: usize) -> bool;
+    unsafe fn model_count(&self, begin: *const T, len: usize) -> usize;
+}
+
+#[cfg(kani)]
+impl<T, F> InsertTailComparatorModel<T> for F {
+    default fn has_model(&self) -> bool {
+        false
+    }
+    default unsafe fn model_sorted(&self, _begin: *const T, _len: usize) -> bool {
+        true
+    }
+    default unsafe fn model_count(&self, _begin: *const T, _len: usize) -> usize {
+        0
+    }
+}
+
+// The probe is arbitrary in each harness, fixed throughout the composition and ignored by
+// the runtime comparison. Counts compare whole u64 values, without truncation or key masking.
+#[cfg(kani)]
+struct InsertTailU64Less {
+    probe: u64,
+}
+
+#[cfg(kani)]
+impl<'a, 'b> FnOnce<(&'a u64, &'b u64)> for InsertTailU64Less {
+    type Output = bool;
+    extern "rust-call" fn call_once(self, (a, b): (&'a u64, &'b u64)) -> bool {
+        a < b
+    }
+}
+
+#[cfg(kani)]
+impl<'a, 'b> FnMut<(&'a u64, &'b u64)> for InsertTailU64Less {
+    extern "rust-call" fn call_mut(&mut self, (a, b): (&'a u64, &'b u64)) -> bool {
+        a < b
+    }
+}
+
+#[cfg(kani)]
+impl InsertTailComparatorModel<u64> for InsertTailU64Less {
+    fn has_model(&self) -> bool {
+        true
+    }
+    unsafe fn model_sorted(&self, begin: *const u64, len: usize) -> bool {
+        for i in 1..len {
+            // SAFETY: contract requires establish a readable initialized region of len values.
+            if unsafe { *begin.add(i) < *begin.add(i - 1) } {
+                return false;
+            }
+        }
+        true
+    }
+    unsafe fn model_count(&self, begin: *const u64, len: usize) -> usize {
+        let mut count = 0;
+        for i in 0..len {
+            // SAFETY: contract requires establish a readable initialized region of len values.
+            if unsafe { *begin.add(i) } == self.probe {
+                count += 1;
+            }
+        }
+        count
+    }
+}
+
 /// Sorts range [begin, tail] assuming [begin, tail) is already sorted.
 ///
 /// # Safety
@@ -595,6 +665,31 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
     kani,
     crate::kani::modifies(ptr::slice_from_raw_parts_mut(begin, insert_tail_contract_len(begin, tail)))
 )]
+#[cfg_attr(kani, crate::kani::ensures(|_|
+    !old(<F as InsertTailComparatorModel<T>>::has_model(is_less))
+        || !old(unsafe {
+            <F as InsertTailComparatorModel<T>>::model_sorted(
+                is_less, begin, insert_tail_contract_len(begin, tail).saturating_sub(1),
+            )
+        })
+        || unsafe {
+            <F as InsertTailComparatorModel<T>>::model_sorted(
+                is_less, begin, insert_tail_contract_len(begin, tail),
+            )
+        }
+))]
+#[cfg_attr(kani, crate::kani::ensures(|_|
+    !old(<F as InsertTailComparatorModel<T>>::has_model(is_less))
+        || old(unsafe {
+            <F as InsertTailComparatorModel<T>>::model_count(
+                is_less, begin, insert_tail_contract_len(begin, tail),
+            )
+        }) == unsafe {
+            <F as InsertTailComparatorModel<T>>::model_count(
+                is_less, begin, insert_tail_contract_len(begin, tail),
+            )
+        }
+))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {

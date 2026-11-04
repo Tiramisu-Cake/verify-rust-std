@@ -163,6 +163,8 @@
 #![feature(unboxed_closures)]
 #![feature(unsized_fn_params)]
 #![feature(with_negative_coherence)]
+// Required only by the Kani canonical comparator used in real-helper contracts.
+#![cfg_attr(kani, feature(fn_traits))]
 // Required for Kani loop contracts, which are annotated as custom stmt attributes.
 #![feature(proc_macro_hygiene)]
 // tidy-alphabetical-end

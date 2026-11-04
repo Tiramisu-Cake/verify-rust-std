@@ -2,6 +2,7 @@
 //! Each PFC uses one T/F instantiation. Stateless comparators read both arguments and return
 //! an arbitrary decision on every call, including when both swap positions are equal.
 //! Bounded domains do not establish a frame for stateful or externally mutating callbacks.
+//! ENSURES adds a separate canonical u64 comparator model and ordered insertion composition.
 
 use super::super::{
     bidirectional_merge, insert_tail, insertion_sort_shift_left, sort4_stable, swap_if_less,
@@ -321,4 +322,107 @@ fn rejects_merge_overlapping_dst_u64() {
     // Deliberate contract violation: dst[0..2] covers backing[1..3], so it is writable
     // and in bounds but overlaps source[0..2] at backing[1]. Only disjointness fails.
     unsafe { bidirectional_merge(src, base.add(1), &mut arbitrary_less::<u64>) };
+}
+
+// ENSURES G1: one concrete comparator type shared by the PFC and real-entry consumers.
+// Only this model has ordering/count summaries; arbitrary_less keeps the safety-only default.
+use super::super::{InsertTailComparatorModel, InsertTailU64Less};
+
+fn ensures_sorted(v: &[u64]) -> bool {
+    for i in 1..v.len() {
+        if v[i] < v[i - 1] {
+            return false;
+        }
+    }
+    true
+}
+
+fn ensures_count(v: &[u64], probe: u64) -> usize {
+    let mut count = 0;
+    for value in v {
+        if *value == probe {
+            count += 1;
+        }
+    }
+    count
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail1_to4_backing5() {
+    let mut v: [u64; 5] = kani::any();
+    let before = v;
+    let tail: usize = kani::any();
+    kani::assume(1 <= tail && tail <= 4);
+    let probe: u64 = kani::any();
+    let mut cmp = InsertTailU64Less { probe };
+    let prefix_sorted = ensures_sorted(&before[..tail]);
+    kani::assert(
+        <InsertTailU64Less as InsertTailComparatorModel<u64>>::has_model(&cmp),
+        "ensures canonical comparator model selected",
+    );
+    let begin = v.as_mut_ptr();
+    // SAFETY: tail is 1..4 in an initialized writable u64 backing5 allocation.
+    // No sortedness assumption: the order ensures is checked as an implication.
+    unsafe { insert_tail(begin, begin.add(tail), &mut cmp) };
+    kani::assert(
+        !prefix_sorted || ensures_sorted(&v[..=tail]),
+        "ensures insert_tail sorted prefix extended",
+    );
+    kani::assert(
+        ensures_count(&before[..=tail], probe) == ensures_count(&v[..=tail], probe),
+        "ensures insert_tail full-value probe count",
+    );
+    for i in 0..5 {
+        kani::assert(i <= tail || v[i] == before[i], "ensures insert_tail suffix frame");
+    }
+    kani::cover(tail == 1, "ensures insert_tail tail1 returns");
+    kani::cover(tail == 2, "ensures insert_tail tail2 returns");
+    kani::cover(tail == 3, "ensures insert_tail tail3 returns");
+    kani::cover(tail == 4, "ensures insert_tail tail4 returns");
+    kani::cover(prefix_sorted, "ensures insert_tail sorted premise reachable");
+    kani::cover(!prefix_sorted, "ensures insert_tail unsorted premise reachable");
+    kani::cover(before[tail] < before[tail - 1], "ensures insert_tail moves reachable");
+    kani::cover(before[tail] >= before[tail - 1], "ensures insert_tail early return reachable");
+    kani::cover(ensures_count(&before[..=tail], probe) > 0, "ensures probe present reachable");
+    kani::cover(true, "ensures insert_tail returns");
+}
+
+fn exercise_ensures_insertion_n5(corrupt: bool) {
+    let mut v: [u64; 5] = kani::any();
+    let before = v;
+    let probe: u64 = kani::any();
+    let mut cmp = InsertTailU64Less { probe };
+    // The real insertion loop calls insert_tail four times on this same backing5,
+    // at tails 1, 2, 3 and 4; (T, F, backing, tail) all match the PFC above.
+    insertion_sort_shift_left(&mut v, 1, &mut cmp);
+    kani::cover(true, "ensures insertion n5 stubbed entry returns");
+    if corrupt {
+        // Deliberate post-stub consumer mutation. This preserves the original call domain
+        // and forces an inversion independently of the arbitrary input and probe.
+        v[0] = u64::MAX;
+        v[1] = 0;
+    }
+    kani::assert(ensures_sorted(&v), "ensures consumer n5 sortedness");
+    kani::assert(
+        ensures_count(&before, probe) == ensures_count(&v, probe),
+        "ensures consumer n5 full-value permutation probe",
+    );
+    kani::cover(ensures_count(&before, probe) > 0, "ensures consumer probe present reachable");
+    kani::cover(v[0] < v[4], "ensures consumer nonconstant result reachable");
+    kani::cover(true, "ensures consumer assertions reached");
+}
+
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(16)]
+fn insertion_ensures_u64_n5_stubbed() {
+    exercise_ensures_insertion_n5(false);
+}
+
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(16)]
+fn rejects_insertion_ensures_u64_n5_corruption() {
+    exercise_ensures_insertion_n5(true);
 }
