@@ -1,4 +1,4 @@
-# REALCONTRACTS G2 — pre-build packet
+# REALCONTRACTS G2 — historical pre-build packet and outcome
 
 Coordinator GO after review of G1 report `a376005646353f5a9c15cd9af717bf83b0658b17` authorizes
 self-dispatch of this described G2 after publication. Owner remains `k1-merge`. Dispatch must
@@ -50,3 +50,56 @@ Then watch the gate build and end the turn. Its completion notification permits 
 under this GO (no new permission request); dispatch exactly the published G2 request, immediately
 k1g watch the new build and end the turn. Read only bounded K-1 evidence after completion,
 update RESULT (<=35 lines) and ledger, publish, then REVIEW REQUEST / REALCONTRACTS ЗАВЕРШЁН.
+
+
+## Observed G2 outcome
+
+VALIDVALTWO watch delivered terminal FAILURE for `13642a63-de9e-4e28-b4e3-f55fd370538d`;
+completion was the scheduling condition, so G2 self-dispatch proceeded under the existing GO.
+No VALIDVALTWO summary, branch or code was read. G2 dispatched source
+`c848fd4d0ddf5cfbb6ec3b0cccee12cfca88be1b` as build `ee952605-3d34-4831-b34d-5e84d22c2aea`,
+then k1g watch delivered SUCCESS. Bounded summary/row page bind request hash
+`d2c82a16e774b870643d8d06529f7a9f89b5e924843a7a8b4c3253390c2bd443` and the exact source.
+Check-tooling passed pool/source identity and all six tooling hashes against the full base.
+Summary COMPLETE, gate true, expectations true, Kani exit 0; all six rows SUCCESS.
+
+| G2 root suffix | Time s | Failed/total | Covers | Unreachable checks |
+| --- | --- | --- | --- | --- |
+| insertion_safety_u64_len2 | 81.02985 | 0/160 | 6/6 | 4 |
+| insertion_safety_u64_len3 | 105.375145 | 0/160 | 6/6 | 4 |
+| unstable_network_safety_u8_n9_real | 6.299193 | 0/298 | 3/3 | 18 |
+| unstable_network_safety_u8_n9_stubbed | 8.070763 | 0/375 | 1/3 | 18 |
+| unstable_network_safety_u8_n13_real | 11.438447 | 0/298 | 3/3 | 18 |
+| unstable_network_safety_u8_n13_stubbed | 16.726189 | 0/375 | 1/3 | 18 |
+
+Exact-length insertion PFCs at 2 and 3 are feasible on this pin with arbitrary offsets/answers;
+this does not close the symbolic backing6/len1..6 timeout or locate the next infeasible length.
+The insertion CBMC peaks are 4.62 GiB (len2) and 4.71 GiB (len3), whole-run maximum RSS
+4941096 KiB, wall 5:18.93; OOM scan none_seen. Unreachable checks are reported separately
+from covers and are not extra independent proof credit. All insertion covers are satisfied.
+
+The same-body paired consumers show no speedup: stub/real = 1.281238 for N9 (+28.12%) and
+1.462278 for N13 (+46.23%). These are single diagnostic runs, jobs 1 on the standard4 pool,
+not a repeated performance experiment. The stubbed network has more checked properties
+(375 vs 298), but that correlation alone does not establish the cause of its slower time.
+Real consumers execute the nondeterministic comparator and report 3/3 covers. Stubbed
+consumers report 1/3: source inspection shows all swap callbacks replaced and insertion at
+offset == len, so the return cover remains while the two comparator-answer covers are not
+executed. This cover interpretation is inferred from the paired harness/route source;
+the bounded summary reports counts, not individual cover names. Bounded log-grep independently
+reports 1 of 3 covers with 2 unreachable for both stubbed consumers. Normal-return safety is
+checked in the stated domains; ordering/permutation are not asserted. Larger-backing
+consumers assume the real helper summary whose body PFC was bounded at backing4; they do
+not independently establish a universal swap-body proof for backing9/backing13.
+
+Evidence for the next step: requires/modifies on the real safe insertion helper compile and
+prove at exact lengths 2 and 3; real swap summaries can be applied at actual N9/N13 call sites,
+but measured stub composition is slower here. insert_tail/bidirectional_merge contracts and
+an ensures model need separate work; no such contract/model was added in this task.
+
+Costs from combined bounded k1g budget: three builds $0.5400, reserve $0. G2 cost $0.1755
+is the combined amount less prior $0.3645; own cap $3 is respected. The two authorized
+primary builds and sole G1 compile repair are finished. Only reports/ledger change after
+this build; tested library, request, workflows and tooling stay unchanged. RESULT is 35 lines.
+No further build or implementation is undertaken. Publish the final report with [skip ci],
+REVIEW REQUEST, and REALCONTRACTS ЗАВЕРШЁН.
