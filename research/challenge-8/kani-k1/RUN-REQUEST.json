@@ -1,56 +1,39 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "agent": "k1-network",
+  "agent": "k1-merge",
   "runner": "gcb-e2-standard-4",
-  "request_id": "pincheck-g1-controls-case5-20261104",
+  "request_id": "pincheck-g2-uninit-pilot-20261104",
   "kind": "diagnostic",
-  "purpose": "PINCHECK G1: the 6 Part 1 v7 negative controls not yet run on Kani cd355b0b, plus CASE5 D1 (old-pin impossible counterexample), F5 (passing variant), D2 (scalar control); jobs1, uninit off.",
-  "harness_timeout_minutes": 2,
+  "purpose": "PINCHECK G2: -Z uninit-checks pilot on Kani cd355b0b: MaybeUninit calibration pair, SPECDIAG raw uninit read, real swap_if_less (PFC), insert_tail, bidirectional_merge small roots; jobs1.",
+  "harness_timeout_minutes": 5,
   "controls": true,
   "kani_jobs": 1,
-  "uninit_checks": false,
+  "uninit_checks": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+      "name": "slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_uninit_read_u8",
       "expect": "FAILED",
-      "expect_check": "specfix full-value checker detects payload corruption"
+      "expect_check": "uninitialized"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption",
-      "expect": "FAILED",
-      "expect_check": "wrap full-value checker rejects payload corruption"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::wrap::rejects_always_true",
-      "expect": "FAILED",
-      "expect_check": "wrap canonical comparator required"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_sort4_rejected_u64",
-      "expect": "FAILED",
-      "expect_check": "specfix_canonical_comparator::<P>(cmp)"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_insert_rejected_u8",
-      "expect": "FAILED",
-      "expect_check": "specfix_canonical_comparator::<P>(cmp)"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_merge_rejected_u8",
-      "expect": "FAILED",
-      "expect_check": "specfix_canonical_comparator::<P>(cmp)"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::pincheck::casefive_d1_select_read_bytes1",
-      "expect": "FAILED",
-      "expect_check": "casefive D1: read through the selection"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::pincheck::arrayfactor_f5_symbolic_indices_bytes1",
+      "name": "slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_init_read_u8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::pincheck::casefive_d2_select_read_u8",
+      "name": "slice::sort::shared::smallsort::verify::pincheck::raw_uninit_read_sensitivity",
+      "expect": "FAILED",
+      "expect_check": "Interaction between raw pointers and unions is not yet supported"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
       "expect": "SUCCESS"
     }
   ]
