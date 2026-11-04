@@ -1,15 +1,15 @@
 {
   "ledger_id": "codefix-budget-20261104",
-  "stage_id": "codefix-v8-prebuild",
+  "stage_id": "codefix-v8-closeout",
   "slug": "codefix",
   "owner": "k1-network",
   "library_sha": "56efe5c477ded5bc06a975f6a843822d09100894",
   "request_id": "codefix-v8-20261104-02",
-  "state": "READY_WAITING_SLOT_AND_GO",
-  "build_uuid": null,
-  "builds_dispatched": 0,
+  "state": "COMPLETE",
+  "build_uuid": "6bc006d2-eff0-406e-92a5-06c934e5e97f",
+  "builds_dispatched": 1,
   "own_cap_usd": 1.5,
-  "own_spent_usd": 0.0,
+  "own_spent_usd": 0.6345,
   "proposed_build_max_minutes": 75,
   "proposed_build_reserve_usd": 1.0125,
   "project_cap_usd": 118.96,
@@ -18,6 +18,26 @@
   "project_reserved_usd_observed": 0.0,
   "repair_policy": "At most one compile-error/verify-warning repair if spent + reserve <= 1.50.",
   "new_harness_acceptance_seconds": 60,
-  "runs": [],
-  "coordinator_instruction": "Packet 3c8dcf8bd1 accepted with issue-link doc correction; no dispatch until coordinator GO after VALIDVAL frees k1-network."
+  "runs": [
+    {
+      "stage_id": "codefix-v8-build",
+      "build_uuid": "6bc006d2-eff0-406e-92a5-06c934e5e97f",
+      "request_id": "codefix-v8-20261104-02",
+      "source_sha": "63bbd6d309b8063a515dae5be1a082e7e6836992",
+      "reserve_usd": 0.0,
+      "state": "SUCCESS",
+      "cost_usd": 0.6345,
+      "gate": true,
+      "expectations_met": true,
+      "verify_warning_count": 0
+    }
+  ],
+  "coordinator_instruction": "GO for exact packet 63bbd6d309b8063a515dae5be1a082e7e6836992; slot k1-network released; watch then end turn; inspect verify warnings after completion.",
+  "approved_packet_sha": "63bbd6d309b8063a515dae5be1a082e7e6836992",
+  "dispatch_project_used_usd": 94.173,
+  "dispatch_project_reserved_including_this_build_usd": 1.9575,
+  "own_reserved_usd": 0.0,
+  "repairs_used": 0,
+  "inventory_count": 204,
+  "result": "RESULT-CODEFIX.md"
 }

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "checks": {
+    "inventory_bindings_and_continuations": true,
+    "inventory_names_hash": true,
+    "inventory_exact_expected_204": true,
+    "delta_v7_exact_two": true,
+    "no_controls_in_inventory": true,
+    "library_identical_to_build": true,
+    "gate_and_expectations_met": true,
+    "new_harness_times_le_60s": true,
+    "new_covers_5_of_5": true,
+    "mutant_exact_order_assertion_failure": true,
+    "verify_warning_paths_absent": true
+  },
+  "build_id": "6bc006d2-eff0-406e-92a5-06c934e5e97f",
+  "source_sha": "63bbd6d309b8063a515dae5be1a082e7e6836992",
+  "request_id": "codefix-v8-20261104-02",
+  "request_sha256": "c8b6de28b7cca912b4aa6729c172d765e4de6cbdeb31586eea6a688d66347cb3",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "inventory_sha256": "49e6b41052b51351ba134d638f56bea438f578e71268eca4afcbb4502764fbae",
+  "names_sha256": "c001244b21749437ac4b23468feea2ce866c75faaf6eb67cb65d041fcea6bf00",
+  "inventory_count": 204,
+  "added_vs_v7": [
+    "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
+    "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2"
+  ],
+  "removed_vs_v7": [],
+  "proof_scope": "Diagnostic real-body checks of the two new harnesses only; prior 202 roots were not rerun.",
+  "warnings": "Path-targeted bounded log-grep returned only the expected control failure location; no verify warning paths.",
+  "own_cost_usd": 0.6345,
+  "builds": 1,
+  "repairs": 0
+}
