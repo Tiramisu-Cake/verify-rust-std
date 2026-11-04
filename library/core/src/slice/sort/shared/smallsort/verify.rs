@@ -35,6 +35,9 @@
 //! payload-mutating comparators, sortedness and stability are excluded. The normal-return cover
 //! is reached; the network order-violation panic cover is unreachable. Larger tag domains and
 //! the duplicate-tag mutant require `cfg(kani_smallsort_controls)`.
+//! `scratchgeom` checks Stable Freeze u64 N2 with a separate minimal scratch allocation of
+//! 18 elements: real bodies, arbitrary reading comparator, geometry and full-value preservation
+//! on normal return. Larger and shared-allocation geometries require the controls cfg.
 //! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
 //! Manual stubs cut only `panic_on_ord_violation`; the paired realcontracts consumers also use
@@ -67,6 +70,7 @@ mod mutations;
 mod network;
 mod permtags;
 mod realcontracts;
+mod scratchgeom;
 mod smoke;
 mod types;
 mod wrap;
