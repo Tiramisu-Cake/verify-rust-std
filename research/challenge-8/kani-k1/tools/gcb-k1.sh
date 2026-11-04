@@ -49,9 +49,11 @@ stage() {
         touch "$K1_OUT/valid"
       fi
       # The controls cfg may gate only the proof modules: anywhere else it could change the code under test.
+      # Owner exception 2026-11-04: smallsort.rs itself, for opt-in loop-contract attributes (LOOPINV).
       if valid && [ -n "$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null)" ]; then
         stray=$(git grep -l kani_smallsort_controls -- library ':!library/core/src/slice/sort/shared/smallsort/verify' \
-                ':!library/core/src/slice/sort/shared/smallsort/verify.rs' ':!library/core/Cargo.toml' || true)
+                ':!library/core/src/slice/sort/shared/smallsort/verify.rs' ':!library/core/Cargo.toml' \
+                ':!library/core/src/slice/sort/shared/smallsort.rs' || true)
         if [ -n "$stray" ]; then
           echo "controls cfg used outside the proof modules: $(echo $stray)" > "$K1_OUT/request-error.txt"; rm -f "$K1_OUT/valid"
         fi
