@@ -1,0 +1,18 @@
+# k1g.sh log-grep c151dc31-7bb8-4cfb-8b63-c685c65192a5 'Checking harness|CBMC|VERIFICATION|Complete -' 40
+7:CBMC 6.11.0
+10:CBMC 6.11.0
+2716:Checking harness slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_false_control...
+2718:CBMC failed
+2719:VERIFICATION:- FAILED
+2720:CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+2722:Checking harness slice::sort::shared::smallsort::verify::network::loopinv::loopinv_copy_true...
+2724:CBMC failed
+2725:VERIFICATION:- FAILED
+2726:CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+2728:Checking harness slice::sort::shared::smallsort::verify::network::loopinv::loopinv_insertion_u64_n2_offset1...
+2730:CBMC failed
+2731:VERIFICATION:- FAILED
+2732:CBMC timed out. You may want to rerun your proof with a larger timeout or use stubbing to reduce the size of the code the verifier reasons about.
+2738:Complete - 0 successfully verified harnesses, 3 failures, 3 total.
+# k1g.sh log-grep c151dc31-7bb8-4cfb-8b63-c685c65192a5 '[-]> .*smallsort|^error' 20
+(no match)
