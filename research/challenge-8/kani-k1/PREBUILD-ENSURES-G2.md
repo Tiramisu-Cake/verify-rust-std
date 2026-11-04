@@ -1,5 +1,7 @@
 # ENSURES G2 — authorized exact scaling packet
 
+Historical preparation packet; G2 completed successfully. See observed outcome below.
+
 Coordinator GO after G1 `c0fbf091c42025e6eb5144bf2ca839f43fbe63e2` authorizes preparing,
 committing, publishing and self-dispatching exactly seven fixed-tail insert_tail ensures PFCs
 on backing8 (tails1..7), plus a real insertion_sort_shift_left u64 N8 consumer with
@@ -76,4 +78,69 @@ k1g.sh watch BUILD and end the turn. On notification use only bounded summary/ro
 and budget evidence. Update RESULT-ENSURES.md in <=35 lines, preserve the G1 history here/in its
 PREBUILD, and explicitly state PFC-domain union >= consumer domain, full N8 sortedness/count
 via ensures, times vs N5 and a qualified N16 forecast. Publish [skip ci] reporting,
+REVIEW REQUEST / ENSURES ЗАВЕРШЁН, then stop.
+
+
+## Observed G2 outcome / final review handoff
+
+Published source `9286a7713f4a8331184004ccc435055968e1ff16` was checked against the exact
+eight-row GO packet and dispatched without another approval request under the coordinator's
+explicit authorization. Owner k1-network was declared free by that GO. Build
+`e8526f1c-c5f7-48c8-a314-fb50bed6b517` was registered with k1g watch; the turn ended.
+The queued completion reported SUCCESS. Bounded summary COMPLETE, gate/expectations true,
+Kani exit0. The eight-row page binds exact request hash, build and source with offset0/count8,
+total8/next_offset=done. Check-tooling passes expected standard4 pool, source/run identity,
+all protected lane paths and six bound hashes against the full tooling base.
+
+| Root realcontracts:: | Status | Time s | Failed/total | Covers | Unreachable checks |
+| --- | --- | --- | --- | --- | --- |
+| insert_tail_ensures_u64_tail1_backing8 | SUCCESS | 69.21353 | 0/531 | 5/6 | 4 |
+| insert_tail_ensures_u64_tail2_backing8 | SUCCESS | 80.58219 | 0/531 | 6/6 | 4 |
+| insert_tail_ensures_u64_tail3_backing8 | SUCCESS | 92.28954 | 0/531 | 6/6 | 4 |
+| insert_tail_ensures_u64_tail4_backing8 | SUCCESS | 92.91752 | 0/531 | 6/6 | 4 |
+| insert_tail_ensures_u64_tail5_backing8 | SUCCESS | 113.276955 | 0/531 | 6/6 | 4 |
+| insert_tail_ensures_u64_tail6_backing8 | SUCCESS | 130.98123 | 0/531 | 6/6 | 4 |
+| insert_tail_ensures_u64_tail7_backing8 | SUCCESS | 117.54943 | 0/531 | 6/6 | 6 |
+| insertion_ensures_u64_n8_stubbed | SUCCESS | 548.07477 | 0/492 | 4/4 | 4 |
+
+All eight expected SUCCESS rows pass. Covers for tails2..7 are6/6, consumer4/4.
+Tail1 is5/6 with one unreachable cover, rather than the five registered covers anticipated
+in preparation. Bounded log-lines2794/count20 confirms this exact tail1 block, SUCCESS and
+one unreachable cover; terse output does not identify an individual cover property. The source
+has a sixth cover guarded by TAIL>1 for an unsorted prefix; at TAIL=1 that guard is false
+and the singleton prefix is always sorted. Attribution to that guarded cover is a source-based
+inference, not a separately printed property-ID binding. No code/build repair is needed to
+meet the request. Unreachable checks do not add independent proof credit.
+
+The union of the seven actual real-body PFC domains covers every N8 consumer helper call:
+u64, InsertTailU64Less, arbitrary full [u64;8], arbitrary immutable full-u64 probe, begin at
+allocation base and tail1..7. The consumer executes the original insertion loop with precisely
+those seven calls. stub_verified(insert_tail) supplies only the helper contract under Kani
+semantics, without unfolding its body in this consumer; sortedness and full-value count are
+checked over all eight output elements. No sorted-prefix assumption narrows the PFC domains.
+The singleton initial prefix plus conditional order ensures, count ensures and suffix/probe
+frame establish the bounded composition. This uses source/attribute binding and Kani semantics,
+not an independent lowered-IR/callgraph audit or a universal havoc multiset axiom.
+
+N5 consumer247.8377s -> N8 consumer548.07477s, ratio2.211426, leaving51.92523s below the
+600s harness limit. Fixed-tail PFCs total696.810395s, individually69.21..130.98s, versus the
+G1 symbolic-tail/backing5 PFC229.96153s. Those PFC timings change both partition and domain;
+the aggregate ratio3.030117 is not an isolated causal measurement of increasing N.
+
+N16 forecast is deliberately conditional: a linear-in-N extrapolation from N8 gives1096.15s
+(18.27min); a power fit through the two consumer points gives exponent1.688578 and1766.66s
+(29.44min). These are model examples, not a guaranteed interval or proof that either scaling
+law applies. CBMC peak increases3.58->8.94GiB (2.4972x); the N8 monolithic consumer already
+uses most of its ten-minute allowance. A direct N16 consumer with current summaries may exceed
+both time and16GB constraints. Larger PFC backing16/tails1..15 and checked unwind bounds are
+required before composition credit; fifteen PFCs plus one consumer exceed one eight-row packet.
+No N16/32 verification, extra build or further authorization is inferred.
+
+G2 wall including compilation24:23.93, max RSS9374368KiB, sampled sum RSS8.93GiB,
+per-CBMC peak8.94GiB attributed by bounded summary to the N8 consumer. OOM scan none_seen is
+not a headroom proof. Budget for both actual builds: `2 0.6750 0.0000`; G2=$0.4185,
+G1=$0.2565, total$0.6750 under own cap$4.00. Dispatch maximum was$101.3955 under$118.96.
+Both primary builds are consumed; there were no compile-error repairs or additional dispatches.
+The final RESULT preserves all twelve G1/G2 rows, exact ensures, domains, comparisons and
+qualified forecast in at most35 lines. After G2 only reporting files change. Publish [skip ci],
 REVIEW REQUEST / ENSURES ЗАВЕРШЁН, then stop.
