@@ -3,7 +3,7 @@
 //! an arbitrary decision on every call, including when both swap positions are equal.
 //! Bounded domains do not establish a frame for stateful or externally mutating callbacks.
 
-use super::super::{insertion_sort_shift_left, swap_if_less};
+use super::super::{insert_tail, insertion_sort_shift_left, sort4_stable, swap_if_less};
 use crate::kani;
 
 fn arbitrary_less<T>(a: &T, b: &T) -> bool {
@@ -118,6 +118,8 @@ fn insertion_safety_u64_len3() {
 // Both consumers in each pair call this identical body with the same stateless F as the u8 PFC.
 // The verified-stub version checks call-site requires and assumes the swap frame; G1's PFC
 // backing4 is bounded evidence, not an independent universal proof for backing9/backing13.
+// REALCONTRACTSTWO adds matching backing9/backing13 PFCs below; composition credit requires
+// both the matching PFC and consumer to pass, and remains limited to these T/F/backing domains.
 fn exercise_unstable_network_u8<const N: usize>() {
     let mut v: [u8; N] = kani::any();
     <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(
@@ -151,4 +153,88 @@ fn unstable_network_safety_u8_n13_real() {
 #[kani::unwind(16)]
 fn unstable_network_safety_u8_n13_stubbed() {
     exercise_unstable_network_u8::<13>();
+}
+
+// REALCONTRACTSTWO G1: cover the actual network consumers' allocation sizes with the same
+// u8/function-item comparator and arbitrary (including equal) positions throughout backing N.
+fn exercise_swap_u8_backing<const N: usize>() {
+    let mut v: [u8; N] = kani::any();
+    let before = v;
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    kani::assume(a < N && b < N);
+    // SAFETY: both positions are initialized writable elements of this allocation.
+    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<u8>) };
+    for i in 0..N {
+        kani::assert(i == a || i == b || v[i] == before[i], "realcontractstwo swap frame");
+    }
+    kani::cover(a == b, "realcontractstwo equal swap positions return");
+    kani::cover(a < b, "realcontractstwo increasing swap positions return");
+    kani::cover(a > b, "realcontractstwo decreasing swap positions return");
+    kani::cover(true, "realcontractstwo swap returns");
+}
+
+#[kani::proof_for_contract(swap_if_less)]
+#[kani::unwind(16)]
+fn swap_safety_u8_backing9() {
+    exercise_swap_u8_backing::<9>();
+}
+
+#[kani::proof_for_contract(swap_if_less)]
+#[kani::unwind(16)]
+fn swap_safety_u8_backing13() {
+    exercise_swap_u8_backing::<13>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_safety_u64_tail1_to4_backing5() {
+    let mut v: [u64; 5] = kani::any();
+    let before = v;
+    let tail: usize = kani::any();
+    kani::assume(1 <= tail && tail <= 4);
+    let begin = v.as_mut_ptr();
+    // SAFETY: begin < tail, and the inclusive region is initialized, readable/writable,
+    // aligned and within this one allocation. No sorted-prefix premise is needed for safety.
+    unsafe { insert_tail(begin, begin.add(tail), &mut arbitrary_less::<u64>) };
+    for i in 0..5 {
+        kani::assert(i <= tail || v[i] == before[i], "realcontractstwo insert_tail frame");
+    }
+    kani::cover(tail == 1, "realcontractstwo insert_tail offset1 returns");
+    kani::cover(tail == 2, "realcontractstwo insert_tail offset2 returns");
+    kani::cover(tail == 3, "realcontractstwo insert_tail offset3 returns");
+    kani::cover(tail == 4, "realcontractstwo insert_tail offset4 returns");
+    kani::cover(true, "realcontractstwo insert_tail returns");
+}
+
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(16)]
+fn rejects_insert_tail_equal_begin_u64() {
+    let mut v: [u64; 5] = kani::any();
+    let begin = v.as_mut_ptr();
+    kani::cover(true, "realcontractstwo invalid insert_tail consumer reached");
+    // Deliberate contract violation: initialized pointers in one allocation, but tail == begin.
+    // The stub must fail the begin < tail requires, before any real-body access.
+    unsafe { insert_tail(begin, begin, &mut arbitrary_less::<u64>) };
+}
+
+#[kani::proof_for_contract(sort4_stable)]
+#[kani::unwind(16)]
+fn sort4_safety_u64() {
+    let src: [u64; 4] = kani::any();
+    let before = src;
+    let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
+    // SAFETY: four initialized source values and a distinct allocation writable for four
+    // destination values. The destination need not be initialized before the call.
+    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+    kani::assert(src == before, "realcontractstwo sort4 source frame");
+    // SAFETY: the real body writes all four output slots on every normal-return path.
+    // This read exercises the output; the lane does not enable uninit/value-validity checks.
+    let result = unsafe { dst.assume_init() };
+    for value in &result {
+        // SAFETY: each returned output element is initialized and readable.
+        let _value = unsafe { crate::ptr::read_volatile(value) };
+    }
+    kani::cover(true, "realcontractstwo sort4 returns");
 }

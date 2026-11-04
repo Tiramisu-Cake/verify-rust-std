@@ -558,10 +558,43 @@ where
     }
 }
 
+// Contract-only geometry. Return zero for invalid inputs, including equal pointers, so the
+// modifies expression stays total even in a consumer that deliberately violates requires.
+#[cfg(kani)]
+fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
+    let elem_size = size_of::<T>();
+    if elem_size == 0 || begin >= tail || !crate::ub_checks::same_allocation(begin, tail) {
+        return 0;
+    }
+    let Some(bytes) = (tail as usize).checked_sub(begin as usize) else {
+        return 0;
+    };
+    if bytes > isize::MAX as usize || bytes % elem_size != 0 {
+        return 0;
+    }
+    (bytes / elem_size).saturating_add(1)
+}
+
 /// Sorts range [begin, tail] assuming [begin, tail) is already sorted.
 ///
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
+#[safety::requires(
+    begin < tail
+        && insert_tail_contract_len(begin, tail) > 1
+        && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
+            begin,
+            insert_tail_contract_len(begin, tail),
+        ))
+        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(
+            begin,
+            insert_tail_contract_len(begin, tail),
+        ))
+)]
+#[cfg_attr(
+    kani,
+    crate::kani::modifies(ptr::slice_from_raw_parts_mut(begin, insert_tail_contract_len(begin, tail)))
+)]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {
@@ -632,8 +665,24 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     }
 }
 
+#[cfg(kani)]
+fn sort4_contract_regions_disjoint<T>(src: *const T, dst: *mut T) -> bool {
+    let Some(bytes) = size_of::<T>().checked_mul(4) else {
+        return false;
+    };
+    bytes == 0
+        || !crate::ub_checks::same_allocation(src, dst)
+        || (src as usize).abs_diff(dst as usize) >= bytes
+}
+
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
+#[safety::requires(
+    crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base, 4))
+        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, 4))
+        && sort4_contract_regions_disjoint(v_base, dst)
+)]
+#[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
 pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
     v_base: *const T,
     dst: *mut T,
