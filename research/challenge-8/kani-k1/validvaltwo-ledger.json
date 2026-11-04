@@ -3,14 +3,14 @@
   "request_id": "validvaltwo-s1-20261104",
   "owner": "k1-merge",
   "owner_confirmation": "Coordinator GO for c9ea5a1c04209f17337ab86a38b600001ababdf9 explicitly authorizes owner-only request change after build 7420db72-52f9-4f7e-9bdf-774780d91e84 finishes; watcher and one bounded status read confirm FAILURE/finished",
-  "owner_status": "CONFIRMED_BY_CONDITIONAL_GO_AFTER_PREDECESSOR_FINISHED",
-  "state": "DISPATCHED_WATCH_PENDING",
+  "owner_status": "COMPLETED_SINGLE_AUTHORIZED_BUILD",
+  "state": "COMPLETED_WITH_LIMITATIONS",
   "library_sha": "5453d3515f19a5b63368710170a67631f2018b0f",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "request_sha256": "d455ff141b7bead9b3bd42fe66803e781ce113c7da267cbe6c2fefa4407c0564",
   "build_uuid": "13642a63-de9e-4e28-b4e3-f55fd370538d",
-  "spent_usd": 0,
-  "reserved_usd": 0.81,
+  "spent_usd": 0.1215,
+  "reserved_usd": 0,
   "planned_timeout_minutes": 60,
   "planned_reserve_usd": 0.81,
   "own_cap_usd": 0.9,
@@ -33,5 +33,76 @@
   "closeout_deadline": "2026-11-04T21:58:38.564227+00:00",
   "project_used_usd_at_dispatch": 94.4025,
   "project_reserved_usd_including_this_build": 1.8225,
-  "project_used_plus_reserved_usd_at_dispatch": 96.225
+  "project_used_plus_reserved_usd_at_dispatch": 96.225,
+  "build_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "expectation_met": false,
+  "compilation": "SUCCESS",
+  "kani_exit_code": 1,
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "tooling_check": "PASS",
+  "repair_count": 0,
+  "closed_recorded_at": "2026-11-04T20:20:30.149059+00:00",
+  "outcomes": [
+    {
+      "root": "accepts_bool_byte_0_or_1",
+      "reported_status": "SUCCESS",
+      "classification": "SUCCESS",
+      "failed_check": null,
+      "location": null,
+      "failed_checks": 0,
+      "total_checks": 33,
+      "unreachable_checks": 2,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "verification_time_s": 0.05790285
+    },
+    {
+      "root": "unstable_bool_n2",
+      "reported_status": "FAILED",
+      "classification": "UNSUPPORTED_OPERATION",
+      "failed_check": "Kani currently doesn't support checking validity of `copy_nonoverlapping` for `*const bool`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:578",
+      "function": "ptr::copy_nonoverlapping::<bool>",
+      "failed_checks": 1,
+      "total_checks": 688,
+      "unreachable_checks": 23,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "verification_time_s": 1.0034426
+    },
+    {
+      "root": "unstable_bool_n4",
+      "reported_status": "FAILED",
+      "classification": "UNSUPPORTED_OPERATION",
+      "failed_check": "Kani currently doesn't support checking validity of `copy_nonoverlapping` for `*const bool`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:578",
+      "function": "ptr::copy_nonoverlapping::<bool>",
+      "failed_checks": 1,
+      "total_checks": 694,
+      "unreachable_checks": 23,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "verification_time_s": 1.4320953
+    }
+  ],
+  "evidence": {
+    "interface": "bounded k1g.sh",
+    "summary": true,
+    "rows": {
+      "offset": 0,
+      "count": 3,
+      "total": 3,
+      "next_offset": "done"
+    },
+    "log_grep_max": 30,
+    "log_lines": {
+      "start": 2710,
+      "count": 38
+    },
+    "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+    "budget_selected_builds": 1
+  },
+  "result_conclusion": "Positive bool control passes. Fixed-length bool N2 and N4 real Unstable entry routes hit explicit unsupported validity checks for copy_nonoverlapping, not invalid-value counterexamples or timeouts. Together with VALIDVAL calibration and char/NonZeroU8 unsupported outcomes, no successful real-route safety/value-validity verification is established; symbolic N4..8 remains unresolved by its prior timeout."
 }
