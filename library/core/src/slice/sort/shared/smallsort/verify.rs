@@ -7,8 +7,11 @@
 //! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
 //! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
 //!
-//! `swap_if_less`, `sort4_stable`, `insert_tail` and `bidirectional_merge` carry no generic
-//! contract: no order or frame summary holds for an arbitrary `FnMut`. Their contract proofs
+//! Opt-in `realcontracts` checks safety requires/modifies on the real `swap_if_less` and
+//! `insertion_sort_shift_left` for bounded domains and stateless nondeterministic comparators.
+//! These contracts specify no ordering; callback state and effects outside the input are unproved.
+//! `sort4_stable`, `insert_tail` and `bidirectional_merge` carry no generic contract.
+//! Existing order/frame contract proofs
 //! check closed profiles (`merge::specfix`): a tag fixes the element type, one canonical
 //! comparator and a full-value model; the profile runs the real helper, and a guard rejects any
 //! other comparator value. Ordinary profile proofs cover selected swap types and orders, sort4
@@ -46,6 +49,8 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+#[cfg(kani_smallsort_controls)]
+mod realcontracts;
 mod smoke;
 mod types;
 mod wrap;

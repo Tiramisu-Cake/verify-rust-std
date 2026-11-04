@@ -377,6 +377,33 @@ where
 /// types. `is_less` could be a huge function and we want to give the compiler an option to
 /// not inline this function. For the same reasons that this function is very perf critical
 /// it should be in the same module as the functions that use it.
+#[safety::requires(
+    a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
+        offset <= isize::MAX as usize
+            && (v_base as isize).checked_add(offset as isize).is_some()
+            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
+    })
+)]
+#[safety::requires(
+    b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
+        offset <= isize::MAX as usize
+            && (v_base as isize).checked_add(offset as isize).is_some()
+            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
+    })
+)]
+#[safety::requires(
+    crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
+        && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
+)]
+#[safety::requires(
+    crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
+        && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
+)]
+#[safety::requires(
+    crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
+        && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
+)]
+#[cfg_attr(kani, crate::kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -571,6 +598,8 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 }
 
 /// Sort `v` assuming `v[..offset]` is already sorted.
+#[safety::requires(offset != 0 && offset <= v.len())]
+#[cfg_attr(kani, crate::kani::modifies(v))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
     v: &mut [T],
     offset: usize,

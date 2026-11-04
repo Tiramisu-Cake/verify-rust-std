@@ -1,6 +1,6 @@
 //! Exchange profile proofs and bounded real-body network, insertion and dispatch checks.
-//! `swap_if_less` and `insert_tail` have no generic contract; their contract proofs check the
-//! closed profiles `swap_profile` / `insert_tail_profile` (merge::specfix), which run the real
+//! The order contracts here check the closed profiles `swap_profile` / `insert_tail_profile`
+//! (merge::specfix), which run the real
 //! helper with one canonical comparator per tag. Profile tags for comparators owned here follow.
 
 #![allow(dead_code)]
