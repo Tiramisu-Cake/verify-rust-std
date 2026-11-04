@@ -372,6 +372,53 @@ where
     }
 }
 
+// Verification-only full-value model, specialized on the element type rather than a
+// comparator address or ordering law. Shared u8/u64 references cannot mutate these values.
+// Other types (notably Cell) deliberately have no permutation promise.
+#[cfg(kani)]
+trait PairPermutation<T> {
+    fn has_model() -> bool;
+    unsafe fn pair(v: *const T, a: usize, b: usize) -> (u64, u64);
+}
+
+#[cfg(kani)]
+impl<T, F> PairPermutation<T> for F {
+    default fn has_model() -> bool {
+        false
+    }
+    default unsafe fn pair(_v: *const T, _a: usize, _b: usize) -> (u64, u64) {
+        (0, 0)
+    }
+}
+
+#[cfg(kani)]
+impl<F> PairPermutation<u8> for F {
+    fn has_model() -> bool {
+        true
+    }
+    unsafe fn pair(v: *const u8, a: usize, b: usize) -> (u64, u64) {
+        // SAFETY: swap's requires establish two readable initialized positions.
+        unsafe { (ptr::read(v.add(a)) as u64, ptr::read(v.add(b)) as u64) }
+    }
+}
+
+#[cfg(kani)]
+impl<F> PairPermutation<u64> for F {
+    fn has_model() -> bool {
+        true
+    }
+    unsafe fn pair(v: *const u64, a: usize, b: usize) -> (u64, u64) {
+        // SAFETY: swap's requires establish two readable initialized positions.
+        unsafe { (ptr::read(v.add(a)), ptr::read(v.add(b))) }
+    }
+}
+
+#[cfg(kani)]
+fn pair_values_are_permuted(before: (u64, u64), after: (u64, u64)) -> bool {
+    (after.0 == before.0 && after.1 == before.1)
+        || (after.0 == before.1 && after.1 == before.0)
+}
+
 /// Swap two values in the slice pointed to by `v_base` at the position `a_pos` and `b_pos` if the
 /// value at position `b_pos` is less than the one at position `a_pos`.
 ///
@@ -406,6 +453,13 @@ where
         && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
 )]
 #[cfg_attr(kani, crate::kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
+#[cfg_attr(kani, crate::kani::ensures(|_|
+    !<F as PairPermutation<T>>::has_model()
+        || pair_values_are_permuted(
+            old(unsafe { <F as PairPermutation<T>>::pair(v_base, a_pos, b_pos) }),
+            unsafe { <F as PairPermutation<T>>::pair(v_base, a_pos, b_pos) },
+        )
+))]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,

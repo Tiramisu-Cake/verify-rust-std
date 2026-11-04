@@ -12,6 +12,8 @@
 //! domains and stateless nondeterministic comparators. These contracts specify no ordering;
 //! callback state and effects outside the input are unproved. Merge panic paths are cut only
 //! at the explicit order-violation boundary, as in the ordinary safety family.
+//! Opt-in `permensures` checks conditional full-value swap permutation for u8 and matched
+//! tag consumers. The real swap has a model only for u8/u64; other types get no ensures claim.
 //! Existing order/frame contract proofs
 //! check closed profiles (`merge::specfix`): a tag fixes the element type, one canonical
 //! comparator and a full-value model; the profile runs the real helper, and a guard rejects any
@@ -50,6 +52,8 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+#[cfg(kani_smallsort_controls)]
+mod permensures;
 #[cfg(kani_smallsort_controls)]
 mod realcontracts;
 mod smoke;
