@@ -4,10 +4,12 @@ Stage `validvaltwo-s1`; request `validvaltwo-s1-20261104`; runtime Codex; no sub
 Branch `experiment/kani-k1-validvaltwo-20261104`; task `TASK-VALIDVALTWO.md` at `b20ef7d7e0`.
 Library commit `5453d3515f19a5b63368710170a67631f2018b0f`.
 Tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`; Kani `cd355b0bccd32300713bc2ce4f765dafa1510607`.
-Request SHA256 `68395c90a5adee62270bbf05d796a15b0d315974d22af1329de26260d0431c97`.
-Proposed stable owner `k1-network` is not reserved or confirmed: coordinator reports CODEFIX holds it;
-`k1-merge` is held by REALCONTRACTS. Wait for exact-packet GO confirming `k1-network` is free.
-A different owner requires an updated request/packet and renewed exact-packet review; do not dispatch now.
+Request SHA256 `d455ff141b7bead9b3bd42fe66803e781ce113c7da267cbe6c2fefa4407c0564`.
+Stable owner `k1-merge`, authorized by coordinator's conditional GO for `c9ea5a1c04209f17337ab86a38b600001ababdf9`.
+The GO explicitly permits the owner-only request change in a separate [skip ci] commit without renewed review.
+Predecessor `7420db72-52f9-4f7e-9bdf-774780d91e84` finished FAILURE at `2026-11-04T20:05:57.831384Z`,
+confirmed by watcher and one bounded status read. All diagnostic scope, limits and single-build constraints remain as reviewed.
+Dispatch remains subject to the existing budget preflight; no build has been submitted yet.
 
 ## Exact diagnostic scope
 

@@ -1,13 +1,13 @@
 {
   "stage_id": "validvaltwo-s1",
   "request_id": "validvaltwo-s1-20261104",
-  "owner": "k1-network",
-  "owner_confirmation": null,
-  "owner_status": "PROPOSED_ONLY: k1-network occupied by CODEFIX; k1-merge occupied by REALCONTRACTS per coordinator; wait for exact-packet GO and confirmation that proposed owner is free",
-  "state": "PREPARED_AWAITING_PRE_BUILD_REVIEW_AND_GO",
+  "owner": "k1-merge",
+  "owner_confirmation": "Coordinator GO for c9ea5a1c04209f17337ab86a38b600001ababdf9 explicitly authorizes owner-only request change after build 7420db72-52f9-4f7e-9bdf-774780d91e84 finishes; watcher and one bounded status read confirm FAILURE/finished",
+  "owner_status": "CONFIRMED_BY_CONDITIONAL_GO_AFTER_PREDECESSOR_FINISHED",
+  "state": "AUTHORIZED_AWAITING_SINGLE_DISPATCH",
   "library_sha": "5453d3515f19a5b63368710170a67631f2018b0f",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "request_sha256": "68395c90a5adee62270bbf05d796a15b0d315974d22af1329de26260d0431c97",
+  "request_sha256": "d455ff141b7bead9b3bd42fe66803e781ce113c7da267cbe6c2fefa4407c0564",
   "build_uuid": null,
   "spent_usd": 0,
   "reserved_usd": 0,
@@ -23,5 +23,8 @@
   "main_window_minutes": 90,
   "closeout_window_minutes": 20,
   "window_started_at": null,
-  "result_classification": "Use actual bounded check descriptions and locations, covers and timeout text; request expectations and gate alone are not proof."
+  "result_classification": "Use actual bounded check descriptions and locations, covers and timeout text; request expectations and gate alone are not proof.",
+  "reviewed_sha": "c9ea5a1c04209f17337ab86a38b600001ababdf9",
+  "slot_predecessor_build_uuid": "7420db72-52f9-4f7e-9bdf-774780d91e84",
+  "slot_predecessor_finish_time": "2026-11-04T20:05:57.831384Z"
 }
