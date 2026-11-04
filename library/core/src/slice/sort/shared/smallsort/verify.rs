@@ -28,6 +28,13 @@
 //! u8 prefix and u64 start-1 insertion. General/stable N0/N1 run real bodies.
 //! Network/insertion safety checks otherwise execute real bodies. Network sortedness is checked
 //! at the listed lengths; the ordinary network asserts the probe count only for N < 9.
+//! `permtags` checks identity-tag permutation through the real u8 network at N9/N13 and
+//! checks source-type dispatch predicates. Transfer to arbitrary payloads assumes the same
+//! type-selected route moves whole elements and branches only on answers/positions/lengths/type
+//! properties, not payloads. This source-level assumption is not a generic refinement theorem;
+//! payload-mutating comparators, sortedness and stability are excluded. The normal-return cover
+//! is reached; the network order-violation panic cover is unreachable. Larger tag domains and
+//! the duplicate-tag mutant require `cfg(kani_smallsort_controls)`.
 //! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
 //!
 //! Manual stubs cut only `panic_on_ord_violation`; the paired realcontracts consumers also use
@@ -58,6 +65,7 @@ mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
 mod network;
+mod permtags;
 mod realcontracts;
 mod smoke;
 mod types;
