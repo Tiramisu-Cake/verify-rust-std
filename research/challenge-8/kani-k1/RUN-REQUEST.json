@@ -1,0 +1,34 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "scratchgeom-20261104-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "SCRATCHGEOM: Stable Freeze u64 safety and full-value preservation with minimal, larger and same-allocation scratch; cfg-off ordinary inventory expected 207.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": false,
+  "inventory": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n17",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_scratch40_n8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_shared_min_scratch_n8",
+      "expect": "SUCCESS"
+    }
+  ]
+}
