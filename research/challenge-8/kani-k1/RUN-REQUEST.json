@@ -1,24 +1,20 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "realcontracts-g2-20261104",
+  "request_id": "realcontractstwo-g1-20261104",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "REALCONTRACTS G2: u64 insertion PFC at exact lengths 2 and 3; paired real Unstable u8 network consumers at N9/N13 with and without verified swap stubs.",
+  "purpose": "REALCONTRACTSTWO G1: matching u8 swap PFC/consumer backing9/13; real insert_tail u64 tail1..4 safety/frame and equal-pointer negative; real sort4_stable u64 safety/frame; ordinary insert_tail regression.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_safety_u64_len2",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_safety_u64_len3",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_real",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing13",
       "expect": "SUCCESS"
     },
     {
@@ -26,11 +22,24 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_real",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insert_tail_equal_begin_u64",
+      "expect": "FAILED",
+      "expect_check": "begin < tail"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
       "expect": "SUCCESS"
     }
   ]

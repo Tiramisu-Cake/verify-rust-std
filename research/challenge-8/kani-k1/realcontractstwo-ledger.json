@@ -1,0 +1,53 @@
+{
+  "schema": "realcontractstwo-ledger-v1",
+  "state": "PRE-BUILD REVIEW required; no dispatch before exact-packet coordinator GO",
+  "owner": "k1-merge",
+  "owner_availability": "must be free at dispatch; preparation budget snapshot does not establish owner availability",
+  "stage": "realcontractstwo-g1",
+  "request_id": "realcontractstwo-g1-20261104",
+  "request_sha256": "0b0188923d4cbe99a94d9f1698aadd67c17b01396f3eb90e4fb002676d2fc5f1",
+  "branch": "experiment/kani-k1-realcontractstwo-20261104",
+  "task_sha": "ca4b4a00e9",
+  "library_sha": "def6ad2e111e68987b040e3d3eb14a279e4aea0d",
+  "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "project_cap_usd": 118.96,
+  "own_cap_usd": 3.0,
+  "own_spent_usd": 0.0,
+  "primary_builds_dispatched": 0,
+  "max_primary_builds": 2,
+  "compile_error_repairs_per_build": 1,
+  "time_window_minutes": {
+    "main": 240,
+    "closeout": 30
+  },
+  "runner": "gcb-e2-standard-4",
+  "harness_count": 8,
+  "harness_timeout_minutes": 10,
+  "kani_jobs": 1,
+  "controls": true,
+  "price_per_minute_usd": 0.0135,
+  "planned_timeout_minutes": 110,
+  "planned_reserve_usd": 1.485,
+  "own_spent_plus_planned_reserve_usd": 1.485,
+  "project_budget_snapshot": {
+    "source": "k1g.sh budget (one preparation query)",
+    "builds": 224,
+    "used_usd": 94.6995,
+    "reserved_usd": 2.0925,
+    "with_g1_max_usd": 98.277,
+    "refresh_required_at_dispatch": true,
+    "recorded_at_utc": "2026-11-04T20:41:30.400179+00:00"
+  },
+  "validation": {
+    "request_validator": "PASS: 8 harnesses accepted, standard4 runner, max-total-minutes 720",
+    "runtime_bodies_and_signatures": "PASS: byte-identical to task base; stripping only added cfg(kani) helpers/attributes restores entire runtime source",
+    "tooling_paths": "PASS: all k1g LANE_PATHS equal full tooling base",
+    "whitespace": "PASS: git diff --check",
+    "root_presence": "PASS: all eight requested roots found; negative requires check named",
+    "compilation_and_proofs": "NOT_RUN: forbidden locally; coordinator GO required for Cloud Build",
+    "network_position_domains": "PASS: all 25 sort9 and 45 sort13 swap calls lie inside matching backing9/backing13 PFC position domains",
+    "budget_and_identity": "PASS: exact decimal reserve/cap arithmetic; ledger binds request file SHA-256 and full library SHA"
+  },
+  "builds": [],
+  "updated_at_utc": "2026-11-04T20:41:30.400179+00:00"
+}
