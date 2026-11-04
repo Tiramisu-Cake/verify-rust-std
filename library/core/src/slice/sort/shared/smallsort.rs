@@ -859,3 +859,8 @@ pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
     // Heuristic that holds true on all tested 64-bit capable architectures.
     size_of::<T>() <= 8 // size_of::<u64>()
 }
+
+// Bounded SmallSort verification; harnesses are isolated from ordinary Rust builds.
+#[cfg(kani)]
+#[unstable(feature = "kani", issue = "none")]
+mod verify;
