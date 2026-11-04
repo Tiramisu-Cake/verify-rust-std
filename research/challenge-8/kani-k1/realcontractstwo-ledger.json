@@ -1,19 +1,19 @@
 {
   "schema": "realcontractstwo-ledger-v1",
-  "state": "G2 packet prepared under explicit coordinator self-dispatch GO; wait for SCRATCHGEOM owner release, then dispatch exactly five rows",
-  "owner": "k1-merge",
-  "owner_availability": "reserved choice after SCRATCHGEOM 88af6889-68fc-48ae-9c20-9e8cfcff729d terminal notification/readiness metadata",
-  "stage": "realcontractstwo-g2-prepared",
+  "state": "REALCONTRACTSTWO completed: G2 all expectations met; bounded sort4/merge PFCs established; G1 matched swap composition and insert PFC retained; review handoff, no further build",
+  "owner": "k1-network",
+  "owner_availability": "coordinator explicitly declared k1-network free after PERMTAGS and directed immediate owner-only switch and dispatch",
+  "stage": "realcontractstwo-complete",
   "request_id": "realcontractstwo-g2-20261105",
-  "request_sha256": "cddff54bb42f40ce7a8c2a50d3e90e0eab54cd51a1a22f7ce2dacc6a74ece0d9",
+  "request_sha256": "30b505e3375bd51b6333ba958be9847a92f859bfb170615c455da38cbc69c05e",
   "branch": "experiment/kani-k1-realcontractstwo-20261104",
   "task_sha": "ca4b4a00e9",
   "library_sha": "def6ad2e111e68987b040e3d3eb14a279e4aea0d",
   "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "project_cap_usd": 118.96,
   "own_cap_usd": 3.0,
-  "own_spent_usd": 0.1485,
-  "primary_builds_dispatched": 1,
+  "own_spent_usd": 0.3105,
+  "primary_builds_dispatched": 2,
   "max_primary_builds": 2,
   "compile_error_repairs_per_build": 1,
   "time_window_minutes": {
@@ -27,8 +27,8 @@
   "controls": true,
   "price_per_minute_usd": 0.0135,
   "planned_timeout_minutes": 80,
-  "planned_reserve_usd": 1.08,
-  "own_spent_plus_planned_reserve_usd": 1.2285,
+  "planned_reserve_usd": 0,
+  "own_spent_plus_planned_reserve_usd": 0.3105,
   "project_budget_snapshot": {
     "source": "k1g.sh budget (one preparation query)",
     "builds": 224,
@@ -44,9 +44,10 @@
     "tooling_paths": "PASS: all k1g LANE_PATHS equal full tooling base",
     "whitespace": "PASS: git diff --check",
     "root_presence": "PASS: all eight requested roots found; negative requires check named",
-    "compilation_and_proofs": "G1 compiled; bounded summary COMPLETE, gate false due sort4 memcmp unwinding assertion",
+    "compilation_and_proofs": "G1 and G2 compiled; G1 expected negative plus sort4 memcmp unwind failure; G2 all five expectations met, gate true",
     "network_position_domains": "PASS: all 25 sort9 and 45 sort13 swap calls lie inside matching backing9/backing13 PFC position domains",
-    "budget_and_identity": "PASS: exact decimal reserve/cap arithmetic; ledger binds request file SHA-256 and full library SHA"
+    "budget_and_identity": "PASS: exact decimal reserve/cap arithmetic; ledger binds request file SHA-256 and full library SHA",
+    "final_reports": "RESULT <=35 lines; source/request/tooling unchanged after tested G2 commit; ledger preserves both build rows/identities/costs"
   },
   "builds": [
     {
@@ -185,9 +186,96 @@
       "reserve_usd": 0,
       "cost_source": "k1g.sh budget 6ba92a58-0136-490d-a553-4649e9ce254d: 1 0.1485 0.0000",
       "evidence_interface": "k1g summary, summary BUILD 0 8 (next_offset done), check-tooling, bounded log-grep and budget; no raw logs read"
+    },
+    {
+      "stage": "realcontractstwo-g2",
+      "request_id": "realcontractstwo-g2-20261105",
+      "owner": "k1-network",
+      "head_sha": "41a524a98d6e1136716f95b0b57aaeea48ed8496",
+      "library_sha": "c2bc02b1151f77d163e94b3a69abff07c4be7701",
+      "build_uuid": "1c18c183-7714-4d23-9c25-41e9786dfd5a",
+      "request_sha256": "30b505e3375bd51b6333ba958be9847a92f859bfb170615c455da38cbc69c05e",
+      "status": "COMPLETE",
+      "cloud_build_status": "SUCCESS",
+      "gate": true,
+      "expectation_met": true,
+      "kani_exit": 1,
+      "kani_exit_explanation": "expected negative control FAILED; gate validates its named requires failure",
+      "tooling_check": "PASS: expected pool, source identity, protected paths and six hashes against full base",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 36.28767,
+          "failed_total_checks": "0/293",
+          "covers": "3/3",
+          "unreachable_checks": 6
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_bytes16",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 73.99763,
+          "failed_total_checks": "0/462",
+          "covers": "3/3",
+          "unreachable_checks": 11
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 27.213285,
+          "failed_total_checks": "0/284",
+          "covers": "4/4",
+          "unreachable_checks": 8
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
+          "expect": "SUCCESS",
+          "status": "SUCCESS",
+          "time_s": 42.305798,
+          "failed_total_checks": "0/284",
+          "covers": "4/4",
+          "unreachable_checks": 8
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+          "expect": "FAILED",
+          "status": "FAILED",
+          "time_s": 0.5439207,
+          "failed_total_checks": "1/235",
+          "covers": "1/3",
+          "unreachable_checks": 15
+        }
+      ],
+      "failed_checks": [
+        {
+          "harness": "realcontracts::rejects_merge_overlapping_dst_u64",
+          "description": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 847,
+          "expect_check_matched": true,
+          "bounded_log_grep_lines": [
+            2718,
+            2719
+          ]
+        }
+      ],
+      "harness_timeout_minutes": 10,
+      "whole_run_peak_rss_kib": 1815204,
+      "whole_run_wall": "4:39.72",
+      "cbmc_peak_rss_gib": 0.91,
+      "oom_scan": "none_seen",
+      "spent_usd": 0.162,
+      "reserve_usd": 0,
+      "cost_source": "combined k1g.sh budget G1 G2: 2 0.3105 0.0000, minus G1 0.1485",
+      "evidence_interface": "k1g summary; summary BUILD 0 5 (next_offset done); check-tooling; bounded log-grep; combined budget; no raw logs read",
+      "scope": "sort4 u64/[u8;16] source4 and disjoint destination4; real merge u64 source2/source4 with disjoint matching destination and explicit order-panic boundary cut; arbitrary_less function item per T",
+      "g1_sort4_followup": "same contract/body, scalar source equality; G2 u64 SUCCESS with 3/3 covers; G1 memcmp caller/causality not independently trace-bound"
     }
   ],
-  "updated_at_utc": "2026-11-04T21:02:26.899605+00:00",
+  "updated_at_utc": "2026-11-04T21:44:05.613499+00:00",
   "prepared_request_sha256": "0b0188923d4cbe99a94d9f1698aadd67c17b01396f3eb90e4fb002676d2fc5f1",
   "prepared_owner": "k1-merge",
   "compile_error_repairs_dispatched": 0,
@@ -205,19 +293,25 @@
     "after_submit_max_usd": 97.899,
     "cap_usd": 118.96
   },
-  "next_step": "publish PRE-BUILD; wait for SCRATCHGEOM terminal owner release; self-dispatch G2 under existing GO and immediately watch/end turn",
+  "next_step": "review handoff only; both primary builds consumed, no further dispatch; any new proof domains or larger composition require a separate authorized task",
   "g2_library_sha": "c2bc02b1151f77d163e94b3a69abff07c4be7701",
   "g2_authorization": {
     "source": "coordinator user GO after G1 af0bd533ca; exact five-row composition; self-dispatch after publishing PRE-BUILD, then watch",
-    "owner": "k1-merge",
+    "owner": "k1-network",
     "alternative_owner_if_earlier_free": "k1-network",
-    "alternative_owner_selected": false,
+    "alternative_owner_selected": true,
     "dispatch_gate_build": "88af6889-68fc-48ae-9c20-9e8cfcff729d",
     "gate_watch_cache": "/tmp/kani-k1-realcontractstwo-scratchgeom-gate",
     "gate_watch_registered": true,
     "dispatch_requires_new_go": false,
     "max_harnesses": 5,
-    "harness_timeout_minutes": 10
+    "harness_timeout_minutes": 10,
+    "prepared_packet_sha": "9ebefd12329c4ccccff169c243041c898a657157",
+    "owner_only_commit_sha": "41a524a98d6e1136716f95b0b57aaeea48ed8496",
+    "owner_release_authority": "coordinator user: k1-network free after PERMTAGS; dispatch G2 9ebefd12329c now with owner-only [skip ci] change",
+    "original_scratchgeom_gate_used_for_dispatch": false,
+    "original_gate_last_observed_status": "WORKING (single bounded readiness query before alternative owner GO)",
+    "dependency_evidence_not_read": "no SCRATCHGEOM or PERMTAGS summary/code/branch/diff read"
   },
   "g2_preparation": {
     "request_sha256": "cddff54bb42f40ce7a8c2a50d3e90e0eab54cd51a1a22f7ce2dacc6a74ece0d9",
@@ -247,7 +341,7 @@
       }
     ],
     "validation": "PASS: request validator, whitespace, exact G1 runtime restoration after stripping only new merge helper/attributes, unchanged sort4 contract, protected lane paths equal full base",
-    "compilation_and_proofs": "NOT_RUN; Cloud Build only after gate"
+    "compilation_and_proofs": "historical preparation NOT_RUN; actual owner-changed G2 compiled and met all five expectations; see builds[1]"
   },
   "project_budget_snapshot_g2_preparation": {
     "source": "k1g.sh budget",
@@ -256,5 +350,12 @@
     "reserved_usd": 2.43,
     "with_g2_max_usd": 98.9925,
     "refresh_required_at_dispatch": true
+  },
+  "project_budget_snapshot_g2_dispatch": {
+    "source": "authorized k1g dispatch output",
+    "used_usd": 95.793,
+    "reserved_including_g2_usd": 2.16,
+    "after_submit_max_usd": 97.953,
+    "cap_usd": 118.96
   }
 }

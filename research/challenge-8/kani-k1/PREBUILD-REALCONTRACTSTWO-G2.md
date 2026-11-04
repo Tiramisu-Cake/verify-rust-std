@@ -1,5 +1,8 @@
 # REALCONTRACTSTWO G2 — authorized exact PRE-BUILD packet
 
+State: historical preparation packet; G2 completed with all five expectations met.
+Preparation owner/hash below precede the coordinator-authorized owner-only switch recorded below.
+
 Coordinator GO after G1 report `af0bd533ca69cb1854725ad80f2f32d208cf5c14` authorizes self-dispatch
 of exactly five rows below, ten-minute limit, then k1g watch and turn end. No further GO is needed
 for this described packet. Owner is `k1-merge` after SCRATCHGEOM build
@@ -95,3 +98,52 @@ owner under the existing GO, then immediately k1g watch the new BUILD and end th
 On completion use bounded K-1 summary/rows, tooling check and needed bounded diagnostics; update
 RESULT-REALCONTRACTSTWO.md in <=35 lines and the ledger with G1+G2 outcomes, costs and proof limits.
 Publish the result, REVIEW REQUEST / REALCONTRACTSTWO ЗАВЕРШЁН, then stop.
+
+
+## Observed G2 outcome / final review handoff
+
+The one readiness status on SCRATCHGEOM was WORKING, so the prepared packet was published and
+left waiting on its isolated-cache watch. The coordinator then explicitly declared k1-network
+free after PERMTAGS and directed immediate dispatch using that owner. The authorized alternative
+was selected; SCRATCHGEOM completion was no longer the dispatch gate. No dependency evidence,
+code, branch or diff was read. Owner-only [skip ci] commit `41a524a98d6e1136716f95b0b57aaeea48ed8496` changes exactly one
+request line from k1-merge to k1-network. Actual request SHA-256 is `30b505e3375bd51b6333ba958be9847a92f859bfb170615c455da38cbc69c05e`.
+
+Published source dispatched as build `1c18c183-7714-4d23-9c25-41e9786dfd5a` and was watched with k1g.sh; its queued
+completion notification was SUCCESS. Bounded summary COMPLETE, gate true, expectations true.
+Kani exit 1 is consistent with the expected failing overlap control. Check-tooling passed
+expected standard4 pool, source binding, protected lane paths and all six hashes against the
+full tooling base. The five-row page binds the exact request/build/source and next_offset=done.
+
+| G2 root | Status | Time s | Failed/total | Covers |
+| --- | --- | --- | --- | --- |
+| sort4_safety_u64 | SUCCESS | 36.28767 | 0/293 | 3/3 |
+| sort4_safety_bytes16 | SUCCESS | 73.99763 | 0/462 | 3/3 |
+| merge_safety_u64_len2 | SUCCESS | 27.213285 | 0/284 | 4/4 |
+| merge_safety_u64_len4 | SUCCESS | 42.305798 | 0/284 | 4/4 |
+| rejects_merge_overlapping_dst_u64 | FAILED | 0.5439207 | 1/235 | 1/3 |
+
+The negative control's only failed check is the expected disjointness requires at smallsort.rs:847;
+bounded log-grep lines 2718–2719 independently locate it. All positive covers are satisfied:
+sort4 3/3 each; merge 4/4 each, including the order-violation boundary and normal return. The
+negative's 1/3 covers reflect its reached call and unexecuted comparator, not a failed positive
+reachability check. Unreachable properties are recorded separately in the ledger and do not
+add independent proof credit.
+
+The unchanged sort4 contract now proves in bounded u64 and [u8;16] source4/disjoint dst4 domains;
+source frame comparisons are scalar. This is a successful follow-up to G1's memcmp unwind
+failure, without claiming independent trace binding of the historical memcmp caller or cause.
+Real merge PFCs execute at exact u64 lengths 2 and 4 with arbitrary reading callbacks and only
+the explicit panic boundary cut. No ordering ensures, generic callback frame, panic unwinding,
+Drop/ZST proof, uninit/value-validity proof or larger merge composition is inferred.
+
+G2 verify wall 4:39.72, max RSS 1815204 KiB; per-CBMC peak 0.91 GiB, attributed to bytes16
+sort4. OOM scan none_seen does not prove memory headroom. Combined bounded budget for G1/G2
+is `2 0.3105 0.0000`; G2 cost $0.1620 = total $0.3105 less G1 $0.1485. Both primary builds
+are consumed; no compile-error repair or additional build was run. Actual own spent is under
+$3.00 with reserve zero. G2 dispatch project maximum was $97.9530 of the $118.96 cap.
+
+RESULT-REALCONTRACTSTWO.md contains all 13 historical/current rows and exact added contracts in
+35 lines; the ledger preserves identities, owner authorization, controls, timings, covers and
+limits. Only these reporting files change after G2. Publish final [skip ci] report, REVIEW REQUEST
+and REALCONTRACTSTWO ЗАВЕРШЁН, then stop. No further implementation or dispatch in this task.
