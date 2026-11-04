@@ -1,0 +1,413 @@
+{
+ "lib_base": "b1ff545720150791c72b8d5f9b4d62c35228047e",
+ "tool_base": "e0fda080f5ea479d8f4fb801f4b42adde2b3259f",
+ "head": "bc38309fe9e2349a20eac6677a280154dc8e4414",
+ "library_changed_vs_lib_base": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs"
+ ],
+ "library_changed_vs_tool_base": [
+  "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+  "library/core/src/slice/sort/shared/smallsort/verify/network/typematrix.rs"
+ ],
+ "typematrix_rs_base_lines": 150,
+ "typematrix_rs_lines": 179,
+ "typematrix_rs_sha256": "7c9ad5b60afee5d4dc9626e534880d11d8ddbfebde49232b028b6fced196ddc8",
+ "typematrix_rs_base_blob": "d0b31e14a9a8d154c7a52689ab6a5b03a0419968",
+ "appended_lines": 29,
+ "appended_non_root_body_exact": true,
+ "new_roots": [
+  {
+   "macro": "dispatch_pair_safety_cases",
+   "name": "dispatch_safety_stable_unstable_u16_n0_1_2_7_8",
+   "type": "u16",
+   "stable": null,
+   "lengths": [
+    0,
+    1,
+    2,
+    7,
+    8
+   ],
+   "cells": [
+    [
+     "stable",
+     0
+    ],
+    [
+     "stable",
+     1
+    ],
+    [
+     "stable",
+     2
+    ],
+    [
+     "stable",
+     7
+    ],
+    [
+     "stable",
+     8
+    ],
+    [
+     "unstable",
+     0
+    ],
+    [
+     "unstable",
+     1
+    ],
+    [
+     "unstable",
+     2
+    ],
+    [
+     "unstable",
+     7
+    ],
+    [
+     "unstable",
+     8
+    ]
+   ],
+   "covers": [
+    "stable route normal return at 0",
+    "unstable route normal return at 0",
+    "stable route normal return at 1",
+    "unstable route normal return at 1",
+    "stable route normal return at 2",
+    "unstable route normal return at 2",
+    "stable route normal return at 7",
+    "unstable route normal return at 7",
+    "stable route normal return at 8",
+    "unstable route normal return at 8",
+    "dispatch family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_pair_safety_cases",
+   "name": "dispatch_safety_stable_unstable_u16_n15_16_17",
+   "type": "u16",
+   "stable": null,
+   "lengths": [
+    15,
+    16,
+    17
+   ],
+   "cells": [
+    [
+     "stable",
+     15
+    ],
+    [
+     "stable",
+     16
+    ],
+    [
+     "stable",
+     17
+    ],
+    [
+     "unstable",
+     15
+    ],
+    [
+     "unstable",
+     16
+    ],
+    [
+     "unstable",
+     17
+    ]
+   ],
+   "covers": [
+    "stable route normal return at 15",
+    "unstable route normal return at 15",
+    "stable route normal return at 16",
+    "unstable route normal return at 16",
+    "stable route normal return at 17",
+    "unstable route normal return at 17",
+    "dispatch family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_safety_cases",
+   "name": "dispatch_safety_unstable_u16_n9_12_13_18",
+   "type": "u16",
+   "stable": "false",
+   "lengths": [
+    9,
+    12,
+    13,
+    18
+   ],
+   "cells": [
+    [
+     "unstable",
+     9
+    ],
+    [
+     "unstable",
+     12
+    ],
+    [
+     "unstable",
+     13
+    ],
+    [
+     "unstable",
+     18
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 9",
+    "dispatch route returns normally at 12",
+    "dispatch route returns normally at 13",
+    "dispatch route returns normally at 18",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_safety_cases",
+   "name": "dispatch_safety_stable_u16_n31",
+   "type": "u16",
+   "stable": "true",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "stable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_safety_cases",
+   "name": "dispatch_safety_stable_u16_n32",
+   "type": "u16",
+   "stable": "true",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "stable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_safety_cases",
+   "name": "dispatch_safety_unstable_u16_n31",
+   "type": "u16",
+   "stable": "false",
+   "lengths": [
+    31
+   ],
+   "cells": [
+    [
+     "unstable",
+     31
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 31",
+    "dispatch safety family reached the end"
+   ]
+  },
+  {
+   "macro": "dispatch_safety_cases",
+   "name": "dispatch_safety_unstable_u16_n32",
+   "type": "u16",
+   "stable": "false",
+   "lengths": [
+    32
+   ],
+   "cells": [
+    [
+     "unstable",
+     32
+    ]
+   ],
+   "covers": [
+    "dispatch route returns normally at 32",
+    "dispatch safety family reached the end"
+   ]
+  }
+ ],
+ "new_covers_total": 31,
+ "cell_correspondence": [
+  {
+   "u16_root": "dispatch_safety_stable_unstable_u16_n0_1_2_7_8",
+   "u8u32_root": "dispatch_safety_stable_unstable_u8u32_n0_1_2_7_8",
+   "macro": "dispatch_pair_safety_cases",
+   "stable": null,
+   "lengths": [
+    0,
+    1,
+    2,
+    7,
+    8
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_stable_unstable_u16_n15_16_17",
+   "u8u32_root": "dispatch_safety_stable_unstable_u8u32_n15_16_17",
+   "macro": "dispatch_pair_safety_cases",
+   "stable": null,
+   "lengths": [
+    15,
+    16,
+    17
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_unstable_u16_n9_12_13_18",
+   "u8u32_root": "dispatch_safety_unstable_u8u32_n9_12_13_18",
+   "macro": "dispatch_safety_cases",
+   "stable": "false",
+   "lengths": [
+    9,
+    12,
+    13,
+    18
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_stable_u16_n31",
+   "u8u32_root": "dispatch_safety_stable_u8u32_n31",
+   "macro": "dispatch_safety_cases",
+   "stable": "true",
+   "lengths": [
+    31
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_stable_u16_n32",
+   "u8u32_root": "dispatch_safety_stable_u8u32_n32",
+   "macro": "dispatch_safety_cases",
+   "stable": "true",
+   "lengths": [
+    32
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_unstable_u16_n31",
+   "u8u32_root": "dispatch_safety_unstable_u8u32_n31",
+   "macro": "dispatch_safety_cases",
+   "stable": "false",
+   "lengths": [
+    31
+   ],
+   "same_shape": true
+  },
+  {
+   "u16_root": "dispatch_safety_unstable_u16_n32",
+   "u8u32_root": "dispatch_safety_unstable_u8u32_n32",
+   "macro": "dispatch_safety_cases",
+   "stable": "false",
+   "lengths": [
+    32
+   ],
+   "same_shape": true
+  }
+ ],
+ "u16_cells": {
+  "stable": [
+   0,
+   1,
+   2,
+   7,
+   8,
+   15,
+   16,
+   17,
+   31,
+   32
+  ],
+  "unstable": [
+   0,
+   1,
+   2,
+   7,
+   8,
+   9,
+   12,
+   13,
+   15,
+   16,
+   17,
+   18,
+   31,
+   32
+  ],
+  "total": 24,
+  "distinct": 24,
+  "equal_to_u8u32_candidates": true
+ },
+ "ordinary_count": [
+  202,
+  202
+ ],
+ "controls_on_count": [
+  406,
+  413
+ ],
+ "ordinary_delta": [],
+ "controls_on_added": [
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u16_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u16_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u16_n0_1_2_7_8",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u16_n15_16_17",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n31",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n32",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n9_12_13_18"
+ ],
+ "controls_on_removed": [],
+ "pfc_delta": 0,
+ "lane_files_changed_vs_tool_base": [],
+ "rustfmt_check_rc": 0,
+ "request_sha256": "8d2d6de9e47438e7940539171ea16a2d87d3ffe6bb172122df572b306ab9da9a",
+ "validate_rc": 0,
+ "kani_args": [
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u16_n0_1_2_7_8",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_unstable_u16_n15_16_17",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n9_12_13_18",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u16_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_stable_u16_n32",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n31",
+  "--harness",
+  "slice::sort::shared::smallsort::verify::network::typematrix::dispatch_safety_unstable_u16_n32",
+  "--exact",
+  "--harness-timeout",
+  "10m",
+  "--jobs=1",
+  "--output-format=terse",
+  ""
+ ],
+ "rustflags": "--cfg kani_smallsort_controls",
+ "envelope_minutes": 100,
+ "envelope_usd": 1.35,
+ "status": "PASS",
+ "errors": []
+}
