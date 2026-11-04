@@ -142,8 +142,9 @@ fn tag_types_preserve_source_routes() {
 }
 
 macro_rules! permutation_case {
-    ($name:ident, $body:ident, $n:literal) => {
+    ($(#[$attr:meta])* $name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
+        $(#[$attr])*
         #[kani::stub(
             crate::slice::sort::shared::smallsort::panic_on_ord_violation,
             abort_on_order_violation
@@ -166,6 +167,11 @@ permutation_case!(general_u64_n16, general_body, 16);
 permutation_case!(general_u64_n17, general_body, 17);
 permutation_case!(general_u64_n32, general_body, 32);
 permutation_case!(fallback_cell_u8_n16, fallback_body, 16);
+
+// G2: separate solver variant; existing roots keep their original solver and bodies.
+permutation_case!(#[kani::solver(kissat)] network_u8_n32_kissat, network_body, 32);
+permutation_case!(fallback_cell_u8_n8, fallback_body, 8);
+permutation_case!(fallback_cell_u8_n12, fallback_body, 12);
 
 #[kani::proof]
 #[kani::stub(
