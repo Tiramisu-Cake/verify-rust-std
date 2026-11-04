@@ -1,34 +1,30 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "realcontractstwo-g2-20261105",
+  "request_id": "ensures-g1-20261105",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "REALCONTRACTSTWO G2: scalar source-frame sort4 PFC u64 and bytes16; real bidirectional_merge safety/modifies PFC u64 len2/4 with order-panic cut; overlapping-destination verified-stub negative.",
+  "purpose": "ENSURES G1: conditional canonical-u64 order and full-value probe count on real insert_tail; matching backing5/tail1..4 PFC and stubbed insertion N5; post-stub corruption negative; arbitrary-comparator safety PFC regression.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail1_to4_backing5",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_bytes16",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_ensures_u64_n5_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insertion_ensures_u64_n5_corruption",
       "expect": "FAILED",
-      "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())"
+      "expect_check": "ensures consumer n5 sortedness"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "expect": "SUCCESS"
     }
   ]
 }
