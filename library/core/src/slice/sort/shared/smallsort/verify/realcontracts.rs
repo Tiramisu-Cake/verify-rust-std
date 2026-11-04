@@ -426,3 +426,105 @@ fn insertion_ensures_u64_n5_stubbed() {
 fn rejects_insertion_ensures_u64_n5_corruption() {
     exercise_ensures_insertion_n5(true);
 }
+
+// ENSURES G2: fixed-tail PFC roots split the full consumer domain on one backing8.
+// Each root runs the real helper with the same canonical F and arbitrary full-value probe.
+fn exercise_insert_tail_ensures_backing8<const TAIL: usize>() {
+    let mut v: [u64; 8] = kani::any();
+    let before = v;
+    let probe: u64 = kani::any();
+    let mut cmp = InsertTailU64Less { probe };
+    let prefix_sorted = ensures_sorted(&before[..TAIL]);
+    kani::assert(
+        <InsertTailU64Less as InsertTailComparatorModel<u64>>::has_model(&cmp),
+        "ensures backing8 canonical comparator model selected",
+    );
+    let begin = v.as_mut_ptr();
+    // SAFETY: the seven PFC roots instantiate TAIL as 1..7 in initialized u64 backing8.
+    // No sorted-prefix assumption: the order ensures remains a checked implication.
+    unsafe { insert_tail(begin, begin.add(TAIL), &mut cmp) };
+    kani::assert(
+        !prefix_sorted || ensures_sorted(&v[..=TAIL]),
+        "ensures backing8 insert_tail sorted prefix extended",
+    );
+    kani::assert(
+        ensures_count(&before[..=TAIL], probe) == ensures_count(&v[..=TAIL], probe),
+        "ensures backing8 insert_tail full-value probe count",
+    );
+    for i in 0..8 {
+        kani::assert(i <= TAIL || v[i] == before[i], "ensures backing8 insert_tail suffix frame");
+    }
+    kani::cover(prefix_sorted, "ensures backing8 sorted premise reachable");
+    // A singleton prefix at TAIL=1 is always sorted; request the opposite only at TAIL>=2.
+    if TAIL > 1 {
+        kani::cover(!prefix_sorted, "ensures backing8 unsorted premise reachable");
+    }
+    kani::cover(before[TAIL] < before[TAIL - 1], "ensures backing8 moves reachable");
+    kani::cover(before[TAIL] >= before[TAIL - 1], "ensures backing8 early return reachable");
+    kani::cover(ensures_count(&before[..=TAIL], probe) > 0, "ensures backing8 probe present reachable");
+    kani::cover(true, "ensures backing8 insert_tail returns");
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail1_backing8() {
+    exercise_insert_tail_ensures_backing8::<1>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail2_backing8() {
+    exercise_insert_tail_ensures_backing8::<2>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail3_backing8() {
+    exercise_insert_tail_ensures_backing8::<3>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail4_backing8() {
+    exercise_insert_tail_ensures_backing8::<4>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail5_backing8() {
+    exercise_insert_tail_ensures_backing8::<5>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail6_backing8() {
+    exercise_insert_tail_ensures_backing8::<6>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(16)]
+fn insert_tail_ensures_u64_tail7_backing8() {
+    exercise_insert_tail_ensures_backing8::<7>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(16)]
+fn insertion_ensures_u64_n8_stubbed() {
+    let mut v: [u64; 8] = kani::any();
+    let before = v;
+    let probe: u64 = kani::any();
+    let mut cmp = InsertTailU64Less { probe };
+    // Real insertion loop, seven verified-stub calls, same backing8 and canonical F.
+    // The union of the fixed-tail PFC domains above covers every actual tail 1..7.
+    insertion_sort_shift_left(&mut v, 1, &mut cmp);
+    kani::cover(true, "ensures insertion n8 stubbed entry returns");
+    kani::assert(ensures_sorted(&v), "ensures consumer n8 sortedness");
+    kani::assert(
+        ensures_count(&before, probe) == ensures_count(&v, probe),
+        "ensures consumer n8 full-value permutation probe",
+    );
+    kani::cover(ensures_count(&before, probe) > 0, "ensures consumer n8 probe present reachable");
+    kani::cover(v[0] < v[7], "ensures consumer n8 nonconstant result reachable");
+    kani::cover(true, "ensures consumer n8 assertions reached");
+}
