@@ -2,7 +2,9 @@
 //!
 //! The three `small_sort` trait methods have no contracts. On the current Kani pin, contracts
 //! on specialization `default fn` and PFC on trait methods with their own generic `F` are not
-//! accepted (reproduced on `cd355b0b`, Actions runs 41894986646 and 41894991130).
+//! accepted ([model-checking/kani#5116](https://github.com/model-checking/kani/issues/5116) and
+//! [#4908](https://github.com/model-checking/kani/issues/4908); reproduced on the pinned
+//! `cd355b0b`).
 //! Helper contracts here use closed profiles that each fix one comparator.
 //!
 //! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
