@@ -1,4 +1,4 @@
-//! Opt-in safety contracts on the real helpers; no verified stubs in positive proofs.
+//! Opt-in real-helper contract PFCs and paired real-entry consumers with/without swap stubs.
 //! Each PFC uses one T/F instantiation. Stateless comparators read both arguments and return
 //! an arbitrary decision on every call, including when both swap positions are equal.
 //! Bounded domains do not establish a frame for stateful or externally mutating callbacks.
@@ -86,4 +86,69 @@ fn rejects_swap_outside_backing_u8() {
     // Deliberate contract violation: b == 4 is one-past-end, so it cannot be dereferenced.
     // The verified stub must reject its requires before havoc or any real-body access.
     unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut arbitrary_less::<u8>) };
+}
+
+// G2 isolates exact lengths after the symbolic len1..6 insertion PFC timed out in G1.
+fn exercise_insertion_fixed<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let offset: usize = kani::any();
+    kani::assume(offset != 0 && offset <= N);
+    insertion_sort_shift_left(&mut v, offset, &mut arbitrary_less::<u64>);
+    kani::cover(offset == 1, "realcontracts fixed insertion offset one returns");
+    kani::cover(offset == N, "realcontracts fixed insertion final offset returns");
+    kani::cover(offset < N, "realcontracts fixed insertion below final offset returns");
+    kani::cover(true, "realcontracts fixed insertion returns");
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::unwind(8)]
+fn insertion_safety_u64_len2() {
+    exercise_insertion_fixed::<2>();
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::unwind(8)]
+fn insertion_safety_u64_len3() {
+    exercise_insertion_fixed::<3>();
+}
+
+// u8 selects the Copy/Freeze efficient-swap network through the actual Unstable trait entry.
+// At N9/N13 the network calls sort9_optimal/sort13_optimal, then insertion at offset == N
+// (no insertion iterations), and returns without merge. All swap positions are in backing N.
+// Both consumers in each pair call this identical body with the same stateless F as the u8 PFC.
+// The verified-stub version checks call-site requires and assumes the swap frame; G1's PFC
+// backing4 is bounded evidence, not an independent universal proof for backing9/backing13.
+fn exercise_unstable_network_u8<const N: usize>() {
+    let mut v: [u8; N] = kani::any();
+    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(
+        &mut v,
+        &mut arbitrary_less::<u8>,
+    );
+    kani::cover(true, "realcontracts unstable network consumer returns");
+}
+
+#[kani::proof]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n9_real() {
+    exercise_unstable_network_u8::<9>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n9_stubbed() {
+    exercise_unstable_network_u8::<9>();
+}
+
+#[kani::proof]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n13_real() {
+    exercise_unstable_network_u8::<13>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(16)]
+fn unstable_network_safety_u8_n13_stubbed() {
+    exercise_unstable_network_u8::<13>();
 }
