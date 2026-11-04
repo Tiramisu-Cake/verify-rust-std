@@ -1,29 +1,44 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "ensures-g1-20261105",
+  "request_id": "ensures-g2-20261105",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "ENSURES G1: conditional canonical-u64 order and full-value probe count on real insert_tail; matching backing5/tail1..4 PFC and stubbed insertion N5; post-stub corruption negative; arbitrary-comparator safety PFC regression.",
+  "purpose": "ENSURES G2 scaling: seven real insert_tail canonical-u64 ensures PFCs on backing8, separately fixed tails1..7; union covers the real insertion_sort_shift_left u64 N8 consumer with stub_verified(insert_tail), whole-slice sortedness and full-value probe count.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail1_to4_backing5",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail1_backing8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_ensures_u64_n5_stubbed",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail2_backing8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insertion_ensures_u64_n5_corruption",
-      "expect": "FAILED",
-      "expect_check": "ensures consumer n5 sortedness"
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail3_backing8",
+      "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail4_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail5_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail6_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_ensures_u64_tail7_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_ensures_u64_n8_stubbed",
       "expect": "SUCCESS"
     }
   ]
