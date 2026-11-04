@@ -117,3 +117,11 @@ network_consumer!(unstable_network_permutation_u8_n32, 32);
 fn rejects_network_corruption_u8_n17() {
     exercise_network::<17>(true);
 }
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_order_violation_panic)]
+#[kani::unwind(40)]
+fn rejects_network_corruption_u8_n9() {
+    exercise_network::<9>(true);
+}
