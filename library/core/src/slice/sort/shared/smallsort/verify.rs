@@ -48,4 +48,6 @@ mod mutations;
 mod network;
 mod smoke;
 mod types;
+#[cfg(kani_smallsort_controls)]
+mod validval;
 mod wrap;
