@@ -1,0 +1,47 @@
+{
+ "base": "e47065279026cebacbcb4a281cc695024a4a3718",
+ "head": "53ec52ed73",
+ "ordinary": {
+  "base": 202,
+  "head": 202,
+  "equal": true,
+  "equals_trimpart_expected": true
+ },
+ "cfg_on": {
+  "base": 210,
+  "head": 216,
+  "added": [
+   "pincheck::arrayfactor_f5_symbolic_indices_bytes1",
+   "pincheck::casefive_d1_select_read_bytes1",
+   "pincheck::casefive_d2_select_read_u8",
+   "pincheck::pincheck_calibration_init_read_u8",
+   "pincheck::pincheck_calibration_uninit_read_u8",
+   "pincheck::raw_uninit_read_sensitivity"
+  ],
+  "removed": []
+ },
+ "diff_scope": [
+  "M\tlibrary/core/src/slice/sort/shared/smallsort/verify.rs",
+  "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/pincheck.rs"
+ ],
+ "verify_rs_added": [
+  "#[cfg(kani_smallsort_controls)]",
+  "mod pincheck;"
+ ],
+ "copies": [
+  {
+   "source": "d558b986c6:library/core/src/slice/sort/shared/smallsort/verify/merge/casefive.rs:638-674",
+   "verbatim": true
+  },
+  {
+   "source": "4da5ec554a:library/core/src/slice/sort/shared/smallsort/verify/merge/specdiag.rs:320-328",
+   "verbatim": true
+  },
+  {
+   "source": "42ead2dba6:array-select-standalone/src/lib.rs:62-80",
+   "verbatim": true
+  }
+ ],
+ "kani_assert_messages_unique": true,
+ "ok": true
+}

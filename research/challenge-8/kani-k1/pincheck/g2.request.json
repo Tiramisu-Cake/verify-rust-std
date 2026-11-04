@@ -1,0 +1,40 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "request_id": "pincheck-g2-uninit-pilot-20261104",
+  "kind": "diagnostic",
+  "purpose": "PINCHECK G2: -Z uninit-checks pilot on Kani cd355b0b: MaybeUninit calibration pair, SPECDIAG raw uninit read, real swap_if_less (PFC), insert_tail, bidirectional_merge small roots; jobs1.",
+  "harness_timeout_minutes": 5,
+  "controls": true,
+  "kani_jobs": 1,
+  "uninit_checks": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "expect_check": "uninitialized"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::pincheck::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::pincheck::raw_uninit_read_sensitivity",
+      "expect": "FAILED",
+      "expect_check": "Interaction between raw pointers and unions is not yet supported"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::sorted_permutation_insert_tail_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::permutation_merge_u8_n4",
+      "expect": "SUCCESS"
+    }
+  ]
+}
