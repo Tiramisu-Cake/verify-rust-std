@@ -1,6 +1,7 @@
 # REALCONTRACTS G1 — exact-packet review
 
-State: PRE-BUILD; no build dispatched. Coordinator GO must name the final research commit.
+State: historical G1 packet; build 841ecc9e-3696-4188-aad0-300cd6f4a35b ended COMPILE_ERROR.
+The compile-error repair packet below requires new exact-SHA coordinator GO before dispatch.
 Worktree `/root/verify-rust-std-kani-realcontracts`; branch `experiment/kani-k1-realcontracts-20261104`.
 Task `3bd643ceaa`; tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`.
 Library commit `3f0fc215587ee4b5ab4e8e9f901e49ea206f7c19`; owner `k1-merge`.
@@ -88,3 +89,28 @@ bidirectional_merge contracts are established here. Insertion's safe-function ac
 itself part of the spike. G2 needs separate coordinator GO after G1 analysis. After GO use
 k1g dispatch, then k1g watch and end the turn; read only bounded K-1 summaries/rows/peaks/log-grep,
 check tooling against the full base, and write RESULT-REALCONTRACTS.md in at most 35 lines.
+
+## G1 compile-error repair 1 — review packet
+
+G1 source SHA `23fa5dee5f23645abea868d1370b46298d96435b` is bound by the bounded summary;
+check-tooling passed pool, source identity and all six tooling SHA-256 checks against the base.
+Every row is NOT_RUN. The bounded log-grep reports E0433 in generated requires/modifies code
+and suggests `use crate::kani`; core's `ptr/mod.rs:431` already has this cfg-gated import.
+Additional bounded queries expose E0034 in pre-existing numeric methods (`checked_sub`, `MAX`,
+integer macro implementations). Causality is unestablished: this minimal repair addresses the
+missing import only; it does not claim that all compilation errors are fixed. No unrelated
+numeric code is changed.
+Library repair `2e7f1a6db52778a1e9a9652f02b639f088fb2cd3` adds only:
+
+```rust
+#[cfg(kani)]
+use crate::kani;
+```
+
+Contracts, helper bodies/signatures, harnesses, expectations, flags, timeouts and tooling are unchanged.
+Only request_id changes to `realcontracts-g1-compile-repair1-20261104`, identifying the single
+compile-error repair permitted for G1. It is not G2 or an unchanged-input retry.
+G1 cost by k1g budget is $0.135; new worst-case reserve $0.945; own spent + reserve $1.080 <= $3.
+No repair dispatch has occurred. No second compile-error repair for G1 is authorized.
+RESULT-REALCONTRACTS.md records the observed failure and proof limitations; compile acceptance
+and every requested proof/cover/regression measurement still await this repair build.

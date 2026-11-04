@@ -1,19 +1,70 @@
 {
   "schema": "realcontracts-ledger-v1",
   "owner": "k1-merge",
-  "stage": "realcontracts-g1",
-  "request_id": "realcontracts-g1-20261104",
+  "stage": "realcontracts-g1-compile-repair1",
+  "request_id": "realcontracts-g1-compile-repair1-20261104",
   "base_sha": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "project_cap_usd": 118.96,
   "own_cap_usd": 3.0,
-  "own_spent_usd": 0,
+  "own_spent_usd": 0.135,
   "max_primary_builds": 2,
   "compile_error_repairs_per_build": 1,
   "price_per_minute_usd": 0.0135,
   "planned_timeout_minutes": 70,
   "planned_reserve_usd": 0.945,
-  "builds": [],
-  "state": "prepared; dispatch requires exact-packet coordinator GO",
+  "builds": [
+    {
+      "stage": "realcontracts-g1",
+      "request_id": "realcontracts-g1-20261104",
+      "head_sha": "23fa5dee5f23645abea868d1370b46298d96435b",
+      "build_uuid": "841ecc9e-3696-4188-aad0-300cd6f4a35b",
+      "request_sha256": "57bffccb99cb7e7b5db0007d3e95cb36890b1160b6016d34032d2409f28ef138",
+      "status": "COMPILE_ERROR",
+      "tooling_check": "PASS",
+      "rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing4",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u64_backing4",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_bytes17_backing4",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::insertion_safety_u64_len1_to6",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_outside_backing_u8",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
+          "status": "NOT_RUN"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
+          "status": "NOT_RUN"
+        }
+      ],
+      "spent_usd": 0.135,
+      "reserve_usd": 0,
+      "cost_source": "k1g.sh budget BUILD: 1 0.1350 0.0000",
+      "diagnostics": [
+        "E0433: missing kani import in generated requires/modifies",
+        "E0034: multiple applicable numeric items in existing core; relation to E0433 unestablished"
+      ]
+    }
+  ],
+  "state": "compile-error repair prepared; new exact-packet coordinator GO required before dispatch; G2 not run",
   "library_sha": "3f0fc215587ee4b5ab4e8e9f901e49ea206f7c19",
   "project_budget_snapshot": {
     "queried_at_utc": "2026-11-04T19:29:47.674160+00:00",
@@ -21,5 +72,14 @@
     "used_usd": 93.6465,
     "reserved_usd": 1.458,
     "with_g1_max_usd": 96.0495
-  }
+  },
+  "repair_library_sha": "2e7f1a6db52778a1e9a9652f02b639f088fb2cd3",
+  "repair_attempts": {
+    "realcontracts-g1": {
+      "prepared": 1,
+      "dispatched": 0
+    }
+  },
+  "own_spent_plus_planned_reserve_usd": 1.08,
+  "updated_at_utc": "2026-11-04T19:45:52.260340+00:00"
 }
