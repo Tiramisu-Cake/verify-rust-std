@@ -1,28 +1,18 @@
 # LOOPINV — PRE-BUILD (Runtime: Claude Code)
 
-Ветка `experiment/kani-k1-loopinv-20261103`, base **e0fda080f5ea479d8f4fb801f4b42adde2b3259f**, задание 171f883fcb.
-Library-коммит **3e07b5d1ef490c92441f40c39882a110769c0fa4** (3 файла, +116/−0); research-коммит — тот, что указан в
-маркере PRE-BUILD REVIEW. Lane-файлы (k1g.sh LANE_PATHS) против e0fda080: `git diff` пуст → check-tooling base e0fda080.
+Ветка `experiment/kani-k1-loopinv-20261103`, library base **e0fda080f5ea479d8f4fb801f4b42adde2b3259f**, задание 171f883fcb.
+Library-коммит **3e07b5d1ef490c92441f40c39882a110769c0fa4** (3 файла, +116/−0; после него library не менялась).
+Tooling: cherry-pick owner-exception **b1242ef7faccd9b4778d40be8967c764e439d5e4** → `30bd475d86` (только pathspec
+guard в `gcb-k1.sh`). **check-tooling base = b1242ef7fa**: lane-файлы (k1g.sh LANE_PATHS) HEAD vs b1242ef7fa — diff пуст.
+Research-коммит — тот, что указан в маркере PRE-BUILD REVIEW.
 
-## БЛОКЕР dispatch: lane guard отвергает gate из задания
+## Guard: блокер ревизии 1 снят (владелец, вариант 1, 2026-11-04)
 
-`gcb-k1.sh:51-57` (шаг validate) при `controls:true` делает
-`git grep -l kani_smallsort_controls -- library ':!…/smallsort/verify' ':!…/smallsort/verify.rs' ':!library/core/Cargo.toml'`
-и при любом совпадении пишет `controls cfg used outside the proof modules: …` в request-error и снимает `valid`.
-Задание требует `#[cfg_attr(all(kani, kani_smallsort_controls), …)]` в `smallsort.rs` — это вне verify.
-Повтор guard на HEAD (static-check-prebuild.json, `lane_stray_controls_guard`): `library/core/src/slice/sort/shared/smallsort.rs`.
-Значит Build с этим source гарантированно окончится request-error (платный setup без единой строки). Обходить guard
-(другое имя cfg, alias, build-скрипт) не стал: guard защищает ровно этот инвариант «controls не меняет код под проверкой».
-Tooling не менял (смена lane-файлов ломает check-tooling base e0fda080).
-
-Нужно решение координатора, варианты:
-1. **Tooling-исключение** в guard ровно для `smallsort.rs` (или для строки `all(kani, kani_smallsort_controls)` на
-   `insertion_sort_shift_left`) — отдельный reviewed tooling-коммит, новый check-tooling base. Source пакета не меняется.
-2. Gate `cfg_attr(kani, …)` без controls — **запрещено** заданием: меняет ordinary (абстракция цикла во всех ordinary
-   roots, достигающих insertion; функциональные bounded-утверждения там перестанут проходить).
-3. Сузить пилот до roots 2–3 (копия цикла в verify/, guard не задет) без root 1 — теряется главный вопрос задания.
-
-Рекомендую 1. Пакет ниже готов к dispatch сразу после такого исключения.
+Ревизия 1 (f278667653): guard `gcb-k1.sh` отвергал `kani_smallsort_controls` в `smallsort.rs` — `static-check-prebuild.json`
+сохранён как есть. После cherry-pick guard исключает `:!library/core/src/slice/sort/shared/smallsort.rs`.
+`check_loopinv.py` теперь читает pathspec guard из `gcb-k1.sh` на HEAD и повторяет его: совпадений **нет**
+(`static-check-prebuild-r2.json`: `lane_stray_controls_guard: []`, `lane_files_differ_from_tooling_base: []`, errors []).
+Source не менялся (sha256 трёх файлов те же). Обход guard не использовался.
 
 ## Изменение `smallsort.rs` (единственное; runtime не меняется)
 
@@ -72,7 +62,7 @@ Cover в компараторе root 1 достижим только в инду
 инвариант не вакуумен. Root 3 без cover после цикла: при ложном инварианте выход недостижим. Ручной вердикт root 3:
 FAILED ровно на `loop_invariant_step` (описание + location `network/loopinv.rs`), base SUCCESS, других failed нет.
 
-## Static (`loopinv/check_loopinv.py` → `static-check-prebuild.json`, exit 0)
+## Static (`loopinv/check_loopinv.py` → `static-check-prebuild-r2.json` на 30bd475d86, exit 0)
 
 - ordinary 202 = base (sha256 `d5d55502…`), PFC-набор = base (статический счётчик атрибутов: 38 на обоих; 36 — цифра
   компиляторного inventory, метод иной; критерий — идентичность множества, sha `932af885…`).
@@ -90,8 +80,9 @@ FAILED ровно на `loop_invariant_step` (описание + location `netwo
   `loopinv-e2-diag-outer-loop-20261103`, k1-merge, diagnostic, gcb-e2-standard-4, controls true, jobs 1, uninit false,
   10 мин/строка; валиден `kani_k1.validate_request`.
 - Source sha256: smallsort.rs `dd65d61e…620c`, network.rs `19ce3f33…5497`, loopinv.rs `bccbee50…2099` (полные — в JSON).
-- Budget (`budget-prebuild.txt`): used $91.9725, reserved $0, 211 builds; reserve (3×10+30)×$0.0135 = **$0.810**;
-  после dispatch ≤ $92.78 ≤ cap $98.96; own spent $0 + $0.810 ≤ own cap $0.90. Slots: unfinished 0 (≤2/≤1 k1-merge).
+- Budget (`budget-prebuild-r2.txt`, 2026-11-04T07:40Z): used $91.9725, reserved $0, 211 builds; reserve
+  (3×10+30)×$0.0135 = **$0.810**; после dispatch ≤ $92.78 ≤ cap $98.96; own spent $0 + $0.810 ≤ own cap $0.90.
+  Slots: unfinished 0 (≤2 project / ≤1 k1-merge).
   Compile-repair возможен только если own spent + $0.810 ≤ $0.90, т. е. первый Build стоит ≤ $0.09 (≈ 6.7 мин).
 - Риски: компиляция атрибута в core на пине; DFCC + внутренний цикл `insert_tail`; старый OOM. Любой из них —
   отдельный непринятый исход с bounded log-grep, без повторов.

@@ -20,6 +20,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 K1 = "research/challenge-8/kani-k1"
 BASE = "e0fda080f5ea479d8f4fb801f4b42adde2b3259f"
+TOOLING_BASE = "b1242ef7faccd9b4778d40be8967c764e439d5e4"
 S = "library/core/src/slice/sort/shared/smallsort"
 SMALLSORT, NETWORK, LOOPINV = f"{S}.rs", f"{S}/verify/network.rs", f"{S}/verify/network/loopinv.rs"
 LIB_ALLOWED = {SMALLSORT, NETWORK, LOOPINV}
@@ -154,11 +155,27 @@ def main() -> int:
     if plus != [NS + r for r in ROOTS] or minus:
         errors.append(f"controls delta must be exactly +3 loopinv roots: {plus} / {minus}")
 
-    # The lane's stray-controls guard (gcb-k1.sh validate step), replayed on HEAD.
+    # The lane's stray-controls guard (gcb-k1.sh validate step), replayed on HEAD with the pathspecs
+    # read from the lane script of HEAD itself (owner exception b1242ef7fa adds smallsort.rs).
+    lane = git("show", f"HEAD:{K1}/tools/gcb-k1.sh")
+    block = lane[lane.index("stray=$(git grep -l kani_smallsort_controls"):]
+    block = block[:block.index("|| true)")]
+    excludes = re.findall(r"'(:![^']+)'", block)
+    report["lane_guard_excludes"] = excludes
     stray = subprocess.run(["git", "-C", str(ROOT), "grep", "-l", "kani_smallsort_controls", "HEAD", "--", "library",
-                            f":!{S}/verify", f":!{S}/verify.rs", ":!library/core/Cargo.toml"],
-                           capture_output=True, text=True).stdout.split()
+                            *excludes], capture_output=True, text=True).stdout.split()
     report["lane_stray_controls_guard"] = stray
+    if stray:
+        errors.append(f"lane guard would reject the request: {stray}")
+    # Lane files equal the reviewed tooling base (k1g.sh LANE_PATHS).
+    lane_paths = [".circleci", ".github/workflows", f"{K1}/tools", f"{K1}/gcb", "scripts/run-kani.sh",
+                  "tool_config/kani-version.toml", "rust-toolchain.toml", ".gitmodules", ".cargo", "library/.cargo",
+                  "library/Cargo.toml", "library/Cargo.lock"]
+    lane_diff = git("diff", "--name-only", TOOLING_BASE, "HEAD", "--", *lane_paths).split()
+    report["tooling_base"] = TOOLING_BASE
+    report["lane_files_differ_from_tooling_base"] = lane_diff
+    if lane_diff:
+        errors.append(f"lane files differ from tooling base: {lane_diff}")
     report["lane_guard_blocks_dispatch"] = bool(stray)
 
     spec = importlib.util.spec_from_file_location("kani_k1", ROOT / K1 / "tools/kani_k1.py")
