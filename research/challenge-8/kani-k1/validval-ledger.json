@@ -2,11 +2,11 @@
   "stage_id": "validval-s1",
   "request_id": "validval-s1-20261104",
   "owner": "k1-network",
-  "owner_confirmation": "pending coordinator GO; slot must be free at dispatch",
-  "state": "PRE_BUILD_REVIEW_PENDING",
+  "owner_confirmation": "coordinator GO for be6f8f2c70f2e15a2d9194e0e4129a87ac4612f9; k1-network confirmed",
+  "state": "COMPLETED_WITH_LIMITATIONS",
   "library_sha": "5aafa241396c3e78bedb2bfa64cfb795ee466e51",
-  "build_uuid": null,
-  "spent_usd": 0,
+  "build_uuid": "e60bcbdd-6e0b-48b1-ad22-ef98ba044389",
+  "spent_usd": 0.1485,
   "planned_timeout_minutes": 44,
   "planned_reserve_usd": 0.594,
   "own_cap_usd": 1.3,
@@ -14,5 +14,62 @@
   "build_limit": 1,
   "retry": false,
   "compile_error_repair_limit": 1,
-  "compile_error_repair_condition": "only if own spent + reserve <= 1.30; renewed exact-packet review before dispatch"
+  "compile_error_repair_condition": "only if own spent + reserve <= 1.30; renewed exact-packet review before dispatch",
+  "source_sha": "be6f8f2c70f2e15a2d9194e0e4129a87ac4612f9",
+  "dispatch_recorded_at": "2026-11-04T19:33:35.286629+00:00",
+  "reserved_usd": 0,
+  "build_count": 1,
+  "result_classification": "Actual failed-check description and location required for every row; expect_check valid and gate are not proof.",
+  "build_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "compilation": "SUCCESS",
+  "tooling_check": "PASS",
+  "request_sha256": "4846df3da6e81992420b9a503c725140d537f751fb15d7d6423f192d9633073c",
+  "closed_recorded_at": "2026-11-04T19:47:28.450942+00:00",
+  "repair_count": 0,
+  "outcomes": [
+    {
+      "root": "rejects_bool_byte_2",
+      "classification": "FAILED_VALID_VALUE",
+      "failed_check": "Undefined Behavior: Invalid value of type `bool`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    },
+    {
+      "root": "accepts_bool_byte_0_or_1",
+      "classification": "SUCCESS",
+      "failed_check": null,
+      "location": null
+    },
+    {
+      "root": "rejects_char_surrogate",
+      "classification": "FAILED_VALID_VALUE",
+      "failed_check": "Undefined Behavior: Invalid value of type `char`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    },
+    {
+      "root": "accepts_char_scalar",
+      "classification": "SUCCESS",
+      "failed_check": null,
+      "location": null
+    },
+    {
+      "root": "unstable_bool_n4_to8",
+      "classification": "TIMEOUT",
+      "message": "CBMC timed out.",
+      "location": null
+    },
+    {
+      "root": "stable_char_n4",
+      "classification": "UNSUPPORTED_OPERATION",
+      "failed_check": "Kani currently doesn't support checking validity of `copy_nonoverlapping` for `*const char`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:578"
+    },
+    {
+      "root": "unstable_nonzero_u8_n4",
+      "classification": "UNSUPPORTED_OPERATION",
+      "failed_check": "Kani currently doesn't support checking validity of `copy_nonoverlapping` for `*const num::nonzero::NonZero<u8>`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:578"
+    }
+  ]
 }
