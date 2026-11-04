@@ -1,27 +1,74 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "codefix-v8-20261104-02",
+  "request_id": "veightinteg-g1-20261105-01",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "CODEFIX v8: two new ordinary real-body harnesses, all covers and mutant swap control; cfg-off inventory.",
+  "purpose": "VEIGHTINTEG: 15 new ordinary roots, matched real-helper PFC/consumer domains, identity tags and minimal scratch; exact cfg-off inventory.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 15,
+  "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "inventory": true,
-  "controls": true,
+  "controls": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n13",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+      "name": "slice::sort::shared::smallsort::verify::permtags::network_u8_n9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
-      "expect": "FAILED",
-      "expect_check": "assertion failed"
+      "name": "slice::sort::shared::smallsort::verify::permtags::tag_types_preserve_source_routes",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::merge_safety_u64_len4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_bytes17_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u64_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n2",
+      "expect": "SUCCESS"
     }
   ]
 }

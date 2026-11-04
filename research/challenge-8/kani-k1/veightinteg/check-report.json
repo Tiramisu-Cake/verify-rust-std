@@ -1,0 +1,320 @@
+{
+  "status": "PASS",
+  "checks": {
+    "ordinary_204_plus_15": true,
+    "cfg_on_249_with_30_opt_in": true,
+    "v8_212_roots_tokens_identical": true,
+    "all_existing_verify_files_except_module_doc_byte_identical": true,
+    "all_existing_runtime_function_bodies_tokens_identical": true,
+    "upstream_runtime_function_bodies_tokens_identical": true,
+    "runtime_all_tokens_exactly_realcontractstwo": true,
+    "request_exactly_15_new_ordinary_success_roots": true,
+    "request_prescribed_settings": true,
+    "three_source_modules_bodies_tokens_identical_after_same_rustfmt": true,
+    "cfg_off_and_on_no_static_orphans": true,
+    "library_diff_paths_and_check_cfg_only": true,
+    "lane_files_equal_tooling_base": true,
+    "verify_and_new_runtime_line_width_100": true,
+    "git_diff_check": true,
+    "new_roots_prior_success_within_60s": true
+  },
+  "v8": "56efe5c477ded5bc06a975f6a843822d09100894",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "ordinary_before": 204,
+  "ordinary_after": 219,
+  "cfg_on": 249,
+  "new_roots": [
+    "permtags::network_u8_n13",
+    "permtags::network_u8_n9",
+    "permtags::tag_types_preserve_source_routes",
+    "realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+    "realcontracts::merge_safety_u64_len2",
+    "realcontracts::merge_safety_u64_len4",
+    "realcontracts::sort4_safety_u64",
+    "realcontracts::swap_safety_bytes17_backing4",
+    "realcontracts::swap_safety_u64_backing4",
+    "realcontracts::swap_safety_u8_backing13",
+    "realcontracts::swap_safety_u8_backing4",
+    "realcontracts::swap_safety_u8_backing9",
+    "realcontracts::unstable_network_safety_u8_n13_stubbed",
+    "realcontracts::unstable_network_safety_u8_n9_stubbed",
+    "scratchgeom::stable_u64_min_scratch_n2"
+  ],
+  "opt_in_roots": [
+    "assembly::reject_mutant_swap_u8_n2",
+    "merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+    "merge::specfix::specfix_wrong_f_insert_rejected_u8",
+    "merge::specfix::specfix_wrong_f_merge_rejected_u8",
+    "merge::specfix::specfix_wrong_f_sort4_rejected_u64",
+    "merge::specfix::specfix_wrong_f_swap_rejected_u8",
+    "permtags::fallback_cell_u8_n16",
+    "permtags::general_u64_n16",
+    "permtags::general_u64_n17",
+    "permtags::general_u64_n32",
+    "permtags::general_u64_n9",
+    "permtags::network_u8_n16",
+    "permtags::network_u8_n17",
+    "permtags::network_u8_n32",
+    "permtags::reject_duplicate_network_u8_n9",
+    "realcontracts::insertion_safety_u64_len1_to6",
+    "realcontracts::insertion_safety_u64_len2",
+    "realcontracts::insertion_safety_u64_len3",
+    "realcontracts::rejects_insert_tail_equal_begin_u64",
+    "realcontracts::rejects_merge_overlapping_dst_u64",
+    "realcontracts::rejects_swap_outside_backing_u8",
+    "realcontracts::sort4_safety_bytes16",
+    "realcontracts::unstable_network_safety_u8_n13_real",
+    "realcontracts::unstable_network_safety_u8_n9_real",
+    "scratchgeom::stable_u64_min_scratch_n17",
+    "scratchgeom::stable_u64_min_scratch_n8",
+    "scratchgeom::stable_u64_scratch40_n8",
+    "scratchgeom::stable_u64_shared_min_scratch_n8",
+    "wrap::rejects_always_true",
+    "wrap::rejects_payload_corruption"
+  ],
+  "old_roots_changed": [],
+  "old_files_changed": [],
+  "runtime_changed": [],
+  "upstream_runtime_changed": [],
+  "source_body_changes": [],
+  "static_orphans": {
+    "False": [
+      [],
+      [],
+      []
+    ],
+    "True": [
+      [],
+      [],
+      []
+    ]
+  },
+  "outside_allowed_library": [],
+  "lane_diff": "",
+  "long_lines": [],
+  "inherited_runtime_long_lines": [
+    "library/core/src/slice/sort/shared/smallsort.rs:108:152",
+    "library/core/src/slice/sort/shared/smallsort.rs:419:103",
+    "library/core/src/slice/sort/shared/smallsort.rs:422:103"
+  ],
+  "verify_lines": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": {
+      "total": 76,
+      "ordinary_or_shared": 74,
+      "opt_in_only": 2
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": {
+      "total": 181,
+      "ordinary_or_shared": 171,
+      "opt_in_only": 10
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": {
+      "total": 23,
+      "ordinary_or_shared": 23,
+      "opt_in_only": 0
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": {
+      "total": 802,
+      "ordinary_or_shared": 802,
+      "opt_in_only": 0
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": {
+      "total": 415,
+      "ordinary_or_shared": 344,
+      "opt_in_only": 71
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": {
+      "total": 27,
+      "ordinary_or_shared": 0,
+      "opt_in_only": 27
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": {
+      "total": 1163,
+      "ordinary_or_shared": 1163,
+      "opt_in_only": 0
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": {
+      "total": 198,
+      "ordinary_or_shared": 127,
+      "opt_in_only": 71
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": {
+      "total": 336,
+      "ordinary_or_shared": 213,
+      "opt_in_only": 123
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": {
+      "total": 112,
+      "ordinary_or_shared": 83,
+      "opt_in_only": 29
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": {
+      "total": 34,
+      "ordinary_or_shared": 34,
+      "opt_in_only": 0
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": {
+      "total": 172,
+      "ordinary_or_shared": 172,
+      "opt_in_only": 0
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
+      "total": 271,
+      "ordinary_or_shared": 223,
+      "opt_in_only": 48
+    }
+  },
+  "verify_lines_total": {
+    "total": 3810,
+    "ordinary_or_shared": 3429,
+    "opt_in_only": 381
+  },
+  "verify_lines_v8": 3147,
+  "runtime_lines": 964,
+  "runtime_added_lines": 98,
+  "prior_ci_seconds_sum": 312.0294775,
+  "prior_covers": {
+    "satisfied": 55,
+    "total": 61,
+    "expected_unreachable": 6
+  },
+  "source_claims": {
+    "realcontracts::swap_safety_u8_backing4": {
+      "seconds": 19.355654,
+      "covers": [
+        6,
+        6
+      ],
+      "report": "REALCONTRACTS G1r"
+    },
+    "realcontracts::swap_safety_u64_backing4": {
+      "seconds": 19.362135,
+      "covers": [
+        6,
+        6
+      ],
+      "report": "REALCONTRACTS G1r"
+    },
+    "realcontracts::swap_safety_bytes17_backing4": {
+      "seconds": 31.84324,
+      "covers": [
+        6,
+        6
+      ],
+      "report": "REALCONTRACTS G1r"
+    },
+    "realcontracts::swap_safety_u8_backing9": {
+      "seconds": 17.355093,
+      "covers": [
+        6,
+        6
+      ],
+      "report": "REALCONTRACTSTWO G1"
+    },
+    "realcontracts::swap_safety_u8_backing13": {
+      "seconds": 17.583559,
+      "covers": [
+        6,
+        6
+      ],
+      "report": "REALCONTRACTSTWO G1"
+    },
+    "realcontracts::unstable_network_safety_u8_n9_stubbed": {
+      "seconds": 11.660206,
+      "covers": [
+        1,
+        3
+      ],
+      "report": "REALCONTRACTSTWO G1"
+    },
+    "realcontracts::unstable_network_safety_u8_n13_stubbed": {
+      "seconds": 13.978799,
+      "covers": [
+        1,
+        3
+      ],
+      "report": "REALCONTRACTSTWO G1"
+    },
+    "realcontracts::insert_tail_safety_u64_tail1_to4_backing5": {
+      "seconds": 34.020428,
+      "covers": [
+        7,
+        7
+      ],
+      "report": "REALCONTRACTSTWO G1"
+    },
+    "realcontracts::sort4_safety_u64": {
+      "seconds": 36.28767,
+      "covers": [
+        3,
+        3
+      ],
+      "report": "REALCONTRACTSTWO G2"
+    },
+    "realcontracts::merge_safety_u64_len2": {
+      "seconds": 27.213285,
+      "covers": [
+        4,
+        4
+      ],
+      "report": "REALCONTRACTSTWO G2"
+    },
+    "realcontracts::merge_safety_u64_len4": {
+      "seconds": 42.305798,
+      "covers": [
+        4,
+        4
+      ],
+      "report": "REALCONTRACTSTWO G2"
+    },
+    "permtags::network_u8_n9": {
+      "seconds": 13.415,
+      "covers": [
+        1,
+        2
+      ],
+      "report": "PERMTAGS G1"
+    },
+    "permtags::network_u8_n13": {
+      "seconds": 23.773,
+      "covers": [
+        1,
+        2
+      ],
+      "report": "PERMTAGS G1"
+    },
+    "permtags::tag_types_preserve_source_routes": {
+      "seconds": 0.064,
+      "covers": [
+        1,
+        1
+      ],
+      "report": "PERMTAGS G1"
+    },
+    "scratchgeom::stable_u64_min_scratch_n2": {
+      "seconds": 3.8116105,
+      "covers": [
+        2,
+        2
+      ],
+      "report": "SCRATCHGEOM"
+    }
+  },
+  "sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "a65834fb727efe404b03ba360196321036d0528c5c67a7ac328b261acd015723",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "efe715558af666d98b3b8e586defde26775814e109d250d47e3037e1fb0d58a2",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "a6307246184b0919c30f91b70358a2ad6a9a523423b0d6eb2912f501849873ea",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "429c25af6f6883956f5832cca0afa8e6f5c21f3833bad479af75847f0df3812c",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "7e14857d7609fc1d11fb56aaa402d66a508ab5dbf4ac8e3bd05fde3d1917979f",
+    "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": "a9ab37ff577932bd69652b72165a40f6b05b15080ca8ef465647af818fed002d",
+    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "334160b0623282f25cb2b71ab80022494394315b0281e10c9ce800a6362f97b1",
+    "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": "5736dd3d4c7cfe5b20a557fd7c53f73d4f503ec46b6bcc2de6a68e8dd49f6f9f",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "d720ef455a0285a75d9919ae7d888dc3f62fce8777a1c8c1ab9a30f3d47fdb1b",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "10c0bf2a6642a5f0a2bf30eef22adfea0988b5354891ac823c0600064a803f24",
+    "library/core/src/slice/sort/shared/smallsort.rs": "93bbff8e18af726d17023a39520219aa8f198d33508bdf835fa03c217ddfbe0a"
+  },
+  "limitations": "Source macro expansion, cfg gates and token comparisons only; not compiler inventory or proof. Line split assigns explicit cfg-gated item spans to opt-in and remaining lines (shared helpers, blank lines and comments) to ordinary/shared. Prior times/covers are source-reported, not independently reverified here."
+}
