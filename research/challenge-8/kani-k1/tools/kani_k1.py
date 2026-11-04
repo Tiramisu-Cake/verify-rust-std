@@ -59,11 +59,13 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # are not single-harness measurements.
 # uninit_checks: adds Kani's `-Z uninit-checks` (not in the organizers' CI flags, run-kani.sh:87), so its
 # results are evidence outside CI; diagnostic on the 16 GB pool only (plan R8 §4, U-1).
+# valid_value_checks: adds Kani's `-Z valid-value-checks`, also outside the organizers' CI flags; same limits as
+# uninit_checks (owner decision 2026-11-04).
 # controls: compiles the opt-in control/mutant harnesses (`#[cfg(kani_smallsort_controls)]`) by passing
 # RUSTFLAGS="--cfg kani_smallsort_controls" to Kani; the organizers' CI never sets it, so controls stay out of
 # the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
 CONTROLS_CFG = "kani_smallsort_controls"
-OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "controls", "worker_index", "worker_total", "inventory"}
+OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "valid_value_checks", "controls", "worker_index", "worker_total", "inventory"}
 KANI_JOBS = {1, 2, 3}
 PARTITION_KANI_JOBS = {1, 2}
 STANDARD_DIAGNOSTIC_MAX_HARNESSES = 80
@@ -154,8 +156,8 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError("kind inventory requires inventory: true")
         if data["harnesses"] != []:
             raise RequestError("kind inventory takes harnesses: []")
-        if set(data) & {"uninit_checks", "worker_index", "worker_total", "kani_jobs"}:
-            raise RequestError("kind inventory does not accept uninit_checks, worker_index, worker_total, or kani_jobs")
+        if set(data) & {"uninit_checks", "valid_value_checks", "worker_index", "worker_total", "kani_jobs"}:
+            raise RequestError("kind inventory does not accept uninit_checks, valid_value_checks, worker_index, worker_total, or kani_jobs")
         timeout = data["harness_timeout_minutes"]
         if type(timeout) is not int or not 1 <= timeout <= INVENTORY_MAX_MINUTES:
             raise RequestError(f"harness_timeout_minutes (whole-job wall budget) must be an integer 1..{INVENTORY_MAX_MINUTES}")
@@ -167,7 +169,7 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     partition = data["kind"] == "partition"
     autoharness = data["kind"] == "autoharness"
     if autoharness:
-        unsupported = set(data) & {"uninit_checks", "controls", "worker_index", "worker_total", "kani_jobs"}
+        unsupported = set(data) & {"uninit_checks", "valid_value_checks", "controls", "worker_index", "worker_total", "kani_jobs"}
         if unsupported:
             raise RequestError(f"kind autoharness uses literal workflow flags; unsupported request keys: {sorted(unsupported)}")
         if data["runner"] != STANDARD_RUNNER:
@@ -186,8 +188,8 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError("kind partition needs integers 1 <= worker_index <= worker_total <= 16")
         if data["harnesses"] != []:
             raise RequestError("kind partition takes harnesses: [] (the whole std harness list is partitioned)")
-        if data.get("uninit_checks") or data.get("controls"):
-            raise RequestError("kind partition replicates the organizers' CI: no uninit_checks, no controls")
+        if data.get("uninit_checks") or data.get("valid_value_checks") or data.get("controls"):
+            raise RequestError("kind partition replicates the organizers' CI: no uninit_checks, no valid_value_checks, no controls")
         t = data["harness_timeout_minutes"]
         cap = PARTITION_MAX_MINUTES if max_total_minutes is None else min(max_total_minutes, PARTITION_MAX_MINUTES)
         if type(t) is not int or not 1 <= t <= cap:
@@ -209,6 +211,11 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
             raise RequestError("uninit_checks must be true or false")
         if data["uninit_checks"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
             raise RequestError(f"uninit_checks is only for kind diagnostic on runner {STANDARD_RUNNER}")
+    if "valid_value_checks" in data:
+        if type(data["valid_value_checks"]) is not bool:
+            raise RequestError("valid_value_checks must be true or false")
+        if data["valid_value_checks"] and (data["runner"] != STANDARD_RUNNER or data["kind"] != "diagnostic"):
+            raise RequestError(f"valid_value_checks is only for kind diagnostic on runner {STANDARD_RUNNER}")
     if "controls" in data:
         if type(data["controls"]) is not bool:
             raise RequestError("controls must be true or false")
@@ -348,6 +355,8 @@ def kani_args(request: dict[str, Any]) -> list[str]:
         args += ["--harness", entry["name"]]
     if request.get("uninit_checks"):
         args += ["-Z", "uninit-checks"]
+    if request.get("valid_value_checks"):
+        args += ["-Z", "valid-value-checks"]
     args += ["--exact", "--harness-timeout", f"{request['harness_timeout_minutes']}m",
              f"--jobs={request.get('kani_jobs', 1)}", "--output-format=terse"]
     return args
@@ -1263,12 +1272,15 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     if request["kind"] == "autoharness":
         summary["request"]["kani_jobs"] = 3
     summary["request"]["uninit_checks"] = request.get("uninit_checks", False)
+    summary["request"]["valid_value_checks"] = request.get("valid_value_checks", False)
     summary["request"]["controls"] = request.get("controls", False)
     summary["request"]["inventory"] = request.get("inventory", False)
     if request.get("controls"):
         summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
     if request.get("uninit_checks"):
         summary["notes"].append("-Z uninit-checks on: not in the organizers' CI flags, evidence outside CI")
+    if request.get("valid_value_checks"):
+        summary["notes"].append("-Z valid-value-checks on: not in the organizers' CI flags, evidence outside CI")
     if request["kind"] == "resource":
         summary["notes"].append("kind resource on 32 GB: memory/time data only, never a PASS or measurement result")
     if request["kind"] != "partition" and request.get("kani_jobs", 1) > 1:
@@ -1532,6 +1544,7 @@ def render_md(summary: dict[str, Any]) -> str:
         f"- run {run.get('id')} attempt {run.get('attempt')}, image {run.get('image_os')} {run.get('image_version')}, build {summary.get('build_outcome')}",
         f"- agent `{req.get('agent')}`, kind `{req.get('kind')}`, runner `{req.get('runner')}`, {timeout_label} {req.get('harness_timeout_minutes')} min{timeout_note}, "
         f"harnesses in parallel {req.get('kani_jobs', 1)}, uninit checks {'on' if req.get('uninit_checks') else 'off'}, "
+        f"valid-value checks {'on' if req.get('valid_value_checks') else 'off'}, "
         f"controls cfg {'on' if req.get('controls') else 'off'}",
         f"- gate: {gate_ok(summary)}; expectation met: {summary['expectation_met']}; measurement ok: {summary['measurement_ok']}; Kani exit {summary['kani_exit_code']}",
         f"- whole run, including compilation: max RSS {res['max_rss_kb_whole_run']} KiB, wall {res['wall_whole_run']} ({res['time_file']})",
