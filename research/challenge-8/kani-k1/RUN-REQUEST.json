@@ -1,44 +1,26 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "validval-s1-20261104",
+  "request_id": "validvaltwo-s1-20261104",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "VALIDVAL: calibrate valid-value-checks with invalid/valid bool and char loads; check real SmallSort bool N4..8, stable char N4 and NonZeroU8 N4 routes.",
+  "purpose": "VALIDVALTWO: positive bool load control and separate real Unstable bool N2/N4 routes under valid-value-checks with a 10-minute limit per root.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 2,
+  "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "valid_value_checks": true,
   "uninit_checks": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::validval::rejects_bool_byte_2",
-      "expect": "FAILED",
-      "expect_check": "valid"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::validval::accepts_bool_byte_0_or_1",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::validval::rejects_char_surrogate",
-      "expect": "FAILED",
-      "expect_check": "valid"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::validval::accepts_char_scalar",
+      "name": "slice::sort::shared::smallsort::verify::validval::unstable_bool_n2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::validval::unstable_bool_n4_to8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::validval::stable_char_n4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::validval::unstable_nonzero_u8_n4",
+      "name": "slice::sort::shared::smallsort::verify::validval::unstable_bool_n4",
       "expect": "SUCCESS"
     }
   ]
