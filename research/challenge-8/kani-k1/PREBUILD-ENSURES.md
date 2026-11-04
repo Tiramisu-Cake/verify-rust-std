@@ -1,6 +1,6 @@
 # ENSURES G1 — exact PRE-BUILD packet
 
-PREPARED, NOT DISPATCHED. Await coordinator exact-packet review/GO.
+Historical exact PRE-BUILD packet. G1 completed after coordinator GO; see outcome below.
 Task: [TASK-ENSURES.md](TASK-ENSURES.md), issued at `37d8dacb60634e770dc634512bb951a323c0124d`.
 Worktree `/root/verify-rust-std-kani-ensures`; branch `experiment/kani-k1-ensures-20261105`.
 Library commit `bc216ac8ac14ddc344b3feff088329b66314d89d`.
@@ -135,3 +135,42 @@ use only k1g.sh to dispatch the published branch, immediately register `k1g.sh w
 then end the turn. On its notification, read bounded summary/tooling evidence, write
 RESULT-ENSURES.md in <=35 lines with exact ensures, rows, matched domains and limits;
 publish [skip ci] reporting and `REVIEW REQUEST <sha>` / `ENSURES ЗАВЕРШЁН`, then stop.
+
+
+## Observed G1 outcome / final review handoff
+
+Coordinator GO explicitly approved source `2d68c777cfb3221fd07bb70d1cc31e46273fe72e`
+and declared k1-network free. Clean HEAD, branch, exact request hash and owner were checked
+before dispatch; no request/library changes were made. Build
+`6d95823e-445b-446c-b016-914589a03b6e` was registered with k1g watch, and the turn ended.
+Its queued completion reported SUCCESS. Bounded summary is COMPLETE, gate/expectations true,
+Kani exit1 for the expected negative. The four-row page binds the exact request/build/source,
+offset0/count4/total4/next_offset=done. Check-tooling passes expected pool, protected lane paths,
+source/run identities and all six bound hashes against the full tooling base.
+
+| Root realcontracts:: | Status | Time s | Failed/total | Covers |
+| --- | --- | --- | --- | --- |
+| insert_tail_ensures_u64_tail1_to4_backing5 | SUCCESS | 229.96153 | 0/533 | 10/10 |
+| insertion_ensures_u64_n5_stubbed | SUCCESS | 247.8377 | 0/496 | 4/4 |
+| rejects_insertion_ensures_u64_n5_corruption | FAILED, expected | 137.15259 | 1/496 | 1/4 |
+| insert_tail_safety_u64_tail1_to4_backing5 | SUCCESS | 29.752695 | 0/349 | 7/7 |
+
+The sole negative failed check is `ensures consumer n5 sortedness`, realcontracts.rs:406.
+The other positive covers all succeed; unreachable property counts are respectively 4/6/8/4
+and do not add independent proof credit. No compile repair or G2 was needed or dispatched.
+Specialization and the manually implemented canonical comparator compile on the pinned Kani.
+
+The N5 consumer checks sortedness and the full-value probe count of all five elements after
+the unchanged real insertion loop. Its stub_verified(insert_tail) annotation replaces all four
+actual helper calls by requires/modifies/ensures summaries under Kani semantics, without
+unfolding insert_tail in that consumer. The PFC separately executes the real helper body.
+This conclusion uses bound source/attributes and Kani semantics, not a separate lowered-IR or
+callgraph audit. The exact PFC/consumer domains match (u64, InsertTailU64Less, backing5,
+tails1..4); no N8/N16/32 composition is inferred. Such domains need expanded PFC and a new GO.
+
+Run wall including compilation is 12:09.49, max RSS 3755488 KiB; per-CBMC peak3.58 GiB,
+sampled total RSS3.96 GiB. The bounded budget response for this sole build is
+`1 0.2565 0.0000`: own spend $0.2565 under $3.50, no remaining reservation.
+RESULT-ENSURES.md records the exact ensures, all rows, matching domains and limitations in
+at most35 lines. Only reporting files change after G1; publish the final [skip ci] report,
+REVIEW REQUEST / ENSURES ЗАВЕРШЁН, and stop. Further dispatch requires new authorization.
