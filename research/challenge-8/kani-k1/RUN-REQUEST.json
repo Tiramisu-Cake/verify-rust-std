@@ -1,73 +1,41 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "citrim-g2-20261105-02",
+  "request_id": "veightmax-g1-20261105-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "CITRIM G2: 15 revised parts; six tail PFCs rely on checked profile modifies for frame. Other nine G2 parts unchanged. Require SUCCESS, each <=120s, 35/35 covers; carry ten G1 parts with 29/29 covers. Final compiler inventory deferred to coordinator for separate budget.",
+  "purpose": "VEIGHTMAX v8c integration: seven source-identical promoted roots only; require 7 SUCCESS, 42/42 exact prior covers, no unreachable covers; compile ordinary inventory and match all 233 exact expected names. The 226 CITRIM roots are unchanged and not reverified.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 5,
+  "harness_timeout_minutes": 4,
   "kani_jobs": 1,
-  "inventory": false,
+  "inventory": true,
   "controls": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_keep4",
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_swap4",
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u64_backing32",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_keep4",
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_swap4",
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_keep4",
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_swap4",
+      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_keep4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_swap4",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11_to12",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to5",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6_to8",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10",
+      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
       "expect": "SUCCESS"
     }
   ]

@@ -1,0 +1,226 @@
+[
+  {
+    "source_revision": "30b4a0796a02e98b1ae6ae4d5fd1a3ce2fe929cc",
+    "source_module": "widedomains",
+    "target_module": "allocationcontracts",
+    "source_file": "library/core/src/slice/sort/shared/smallsort/verify/widedomains.rs",
+    "target_file": "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs",
+    "items": [
+      {
+        "source_name": "arbitrary_less",
+        "target_name": "arbitrary_less",
+        "kind": "helper"
+      },
+      {
+        "source_name": "exercise_swap",
+        "target_name": "exercise_swap",
+        "kind": "helper"
+      },
+      {
+        "source_name": "cut_order_violation",
+        "target_name": "cut_order_violation",
+        "kind": "helper"
+      },
+      {
+        "source_name": "tail_less_u64",
+        "target_name": "tail_less_u64",
+        "kind": "helper"
+      },
+      {
+        "source_name": "tail_comparison_covers",
+        "target_name": "tail_comparison_covers",
+        "kind": "helper"
+      },
+      {
+        "source_name": "cut_merge_order_violation",
+        "target_name": "cut_merge_order_violation",
+        "kind": "helper"
+      },
+      {
+        "source_name": "swap_safety_u8_backing32",
+        "target_name": "swap_safety_u8_backing32",
+        "kind": "root"
+      },
+      {
+        "source_name": "swap_safety_u64_backing32",
+        "target_name": "swap_safety_u64_backing32",
+        "kind": "root"
+      },
+      {
+        "source_name": "unstable_network_safety_u8_n32_stubbed",
+        "target_name": "unstable_network_safety_u8_n32_stubbed",
+        "kind": "root"
+      },
+      {
+        "source_name": "merge_safety_u64_len8_scratch48_src32_dst0",
+        "target_name": "merge_safety_u64_len8_scratch48_src32_dst0",
+        "kind": "root"
+      },
+      {
+        "source_name": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+        "target_name": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+        "kind": "root"
+      }
+    ],
+    "roots": [
+      {
+        "source_name": "swap_safety_u8_backing32",
+        "target_name": "swap_safety_u8_backing32",
+        "expected_covers": 9,
+        "report_path": "research/challenge-8/kani-k1/widedomains/g1/verification-report.json",
+        "proved_source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+        "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+          "status": "SUCCESS",
+          "seconds": "33.71013",
+          "checks_failed": 0,
+          "checks_total": 234,
+          "covers_satisfied": 9,
+          "covers_total": 9
+        }
+      },
+      {
+        "source_name": "swap_safety_u64_backing32",
+        "target_name": "swap_safety_u64_backing32",
+        "expected_covers": 9,
+        "report_path": "research/challenge-8/kani-k1/widedomains/g1/verification-report.json",
+        "proved_source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+        "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+          "status": "SUCCESS",
+          "seconds": "40.420055",
+          "checks_failed": 0,
+          "checks_total": 234,
+          "covers_satisfied": 9,
+          "covers_total": 9
+        }
+      },
+      {
+        "source_name": "unstable_network_safety_u8_n32_stubbed",
+        "target_name": "unstable_network_safety_u8_n32_stubbed",
+        "expected_covers": 5,
+        "report_path": "research/challenge-8/kani-k1/widedomains/g1/verification-report.json",
+        "proved_source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+        "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+          "status": "SUCCESS",
+          "seconds": "135.0917",
+          "checks_failed": 0,
+          "checks_total": 387,
+          "covers_satisfied": 5,
+          "covers_total": 5
+        }
+      },
+      {
+        "source_name": "merge_safety_u64_len8_scratch48_src32_dst0",
+        "target_name": "merge_safety_u64_len8_scratch48_src32_dst0",
+        "expected_covers": 5,
+        "report_path": "research/challenge-8/kani-k1/widedomains/g2/verification-report.json",
+        "proved_source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+        "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+          "status": "SUCCESS",
+          "seconds": "80.85085",
+          "checks_failed": 0,
+          "checks_total": 228,
+          "covers_satisfied": 5,
+          "covers_total": 5
+        }
+      },
+      {
+        "source_name": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+        "target_name": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+        "expected_covers": 4,
+        "report_path": "research/challenge-8/kani-k1/widedomains/g2/verification-report.json",
+        "proved_source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+        "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+          "status": "SUCCESS",
+          "seconds": "7.120541",
+          "checks_failed": 0,
+          "checks_total": 269,
+          "covers_satisfied": 4,
+          "covers_total": 4
+        }
+      }
+    ]
+  },
+  {
+    "source_revision": "59ada14d0a19a0512f98b82f9039c960155cf0ec",
+    "source_module": "taildiag",
+    "target_module": "tailcontracts",
+    "source_file": "library/core/src/slice/sort/shared/smallsort/verify/taildiag.rs",
+    "target_file": "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs",
+    "items": [
+      {
+        "source_name": "read_arguments",
+        "target_name": "read_arguments",
+        "kind": "helper"
+      },
+      {
+        "source_name": "comparison_covers",
+        "target_name": "comparison_covers",
+        "kind": "helper"
+      },
+      {
+        "source_name": "arbitrary_less",
+        "target_name": "arbitrary_less",
+        "kind": "helper"
+      },
+      {
+        "source_name": "exercise",
+        "target_name": "exercise",
+        "kind": "helper"
+      },
+      {
+        "source_name": "u64_backing17_tail1_to7_no_explicit_frame",
+        "target_name": "insert_tail_safety_u64_backing17_tail1_to7",
+        "kind": "root"
+      },
+      {
+        "source_name": "u64_backing17_tail8_to15_no_explicit_frame",
+        "target_name": "insert_tail_safety_u64_backing17_tail8_to15",
+        "kind": "root"
+      }
+    ],
+    "roots": [
+      {
+        "source_name": "u64_backing17_tail1_to7_no_explicit_frame",
+        "target_name": "insert_tail_safety_u64_backing17_tail1_to7",
+        "expected_covers": 5,
+        "report_path": "research/challenge-8/kani-k1/taildiag/g1/verification-report.json",
+        "proved_source_sha": "1c99acce330d708961571bd593ecc322768f690f",
+        "build_id": "34500433-bd3d-4784-9a26-aaf0ba3f0492",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_no_explicit_frame",
+          "status": "SUCCESS",
+          "time_s": 31.25227,
+          "checks": "0/229",
+          "covers": "5/5",
+          "cbmc_peak_kib": 2300584
+        }
+      },
+      {
+        "source_name": "u64_backing17_tail8_to15_no_explicit_frame",
+        "target_name": "insert_tail_safety_u64_backing17_tail8_to15",
+        "expected_covers": 5,
+        "report_path": "research/challenge-8/kani-k1/taildiag/g2/verification-report.json",
+        "proved_source_sha": "49420dda0b505d38d9bed8568ce602a4026b4ae4",
+        "build_id": "a5a16595-8c2e-4bf8-80bd-b7627d775ca6",
+        "prior_row": {
+          "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_no_explicit_frame",
+          "status": "SUCCESS",
+          "time_s": 64.20818,
+          "checks": "0/229",
+          "covers": "5/5",
+          "cbmc_peak_kib": 2524920
+        }
+      }
+    ]
+  }
+]

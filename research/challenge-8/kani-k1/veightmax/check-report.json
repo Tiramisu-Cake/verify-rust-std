@@ -1,0 +1,249 @@
+{
+  "source_check": "PASS",
+  "base_sha": "6ef2158d9df1e194bbcd2bf7a46e8feafc3e8cab",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "library_commit": "271adbb9be880cd0203e4759e71a590fdfe31cb7",
+  "source_files_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "93bbff8e18af726d17023a39520219aa8f198d33508bdf835fa03c217ddfbe0a",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "f2256ab7409f5663a7a7c500934a7f9c1de830629bcbc1f937b84c72fd9e6a2d",
+    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "846246198baa85244b976c91025aff44728c877be4d8ea777755c0b4d3bb70c7",
+    "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs": "1f50c571b6ac6059d8432cd56c79d9d9203483b3fcf43d27b49fb8affeb31c9b"
+  },
+  "ordinary_before": 226,
+  "ordinary_after": 233,
+  "cfg_on_after": 267,
+  "base_library_files_unchanged_except_module_declarations": true,
+  "base_ordinary_roots_token_identical": 226,
+  "opt_in_unchanged": 34,
+  "normalized_item_comparisons": [
+    {
+      "source": "widedomains::arbitrary_less",
+      "target": "allocationcontracts::arbitrary_less",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "68d29b7d72145e44162c5014e56170ffe68a64f5e6deebf3ea5951563cf1789d"
+    },
+    {
+      "source": "widedomains::cut_merge_order_violation",
+      "target": "allocationcontracts::cut_merge_order_violation",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "00bd682a7906d3d25e1e531e7115c4803d02afc7fc858d5443f570ad0f5a58e1"
+    },
+    {
+      "source": "widedomains::cut_order_violation",
+      "target": "allocationcontracts::cut_order_violation",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "ee4225905cd1586e7dee0ebbccb97d14833ad51f452cb3440afbe0b2ef570e02"
+    },
+    {
+      "source": "widedomains::exercise_swap",
+      "target": "allocationcontracts::exercise_swap",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "4822f06743475879456dfcdfa39a3e2c16ad3aa374281d4895b2df6de6f00e2c"
+    },
+    {
+      "source": "widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+      "target": "allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "b2b4b0efff8b037bef30e8e3d17af937087a0ee13ef07160eb5548b169bbabe3"
+    },
+    {
+      "source": "widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "target": "allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "2de37bc549b4b9a47f7a501883aa377f447de33a6b75221ab9e908657da005a7"
+    },
+    {
+      "source": "widedomains::swap_safety_u64_backing32",
+      "target": "allocationcontracts::swap_safety_u64_backing32",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "09ca79fd7670378c5b1aee44891acad7bdc78e1fad9967880c712f8822031f1b"
+    },
+    {
+      "source": "widedomains::swap_safety_u8_backing32",
+      "target": "allocationcontracts::swap_safety_u8_backing32",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "fcced477cca290139e7e15bd73ff2d32f5319dfc999b8a2efa40043a07015184"
+    },
+    {
+      "source": "widedomains::tail_comparison_covers",
+      "target": "allocationcontracts::tail_comparison_covers",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "7432c5972a5b0a2c7d48115deca06ae86ce71a7d7a2e2ccfaea5ca88e0479d2b"
+    },
+    {
+      "source": "widedomains::tail_less_u64",
+      "target": "allocationcontracts::tail_less_u64",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "a0e9a860d2b9ca0efde0e6532ca2b51c5589acb47fe059704f353347b4e71dee"
+    },
+    {
+      "source": "widedomains::unstable_network_safety_u8_n32_stubbed",
+      "target": "allocationcontracts::unstable_network_safety_u8_n32_stubbed",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "1636f6569bba8cf4d4615c5ce88c5c55ed23c0e2414e023271dd37f14a6f8522"
+    },
+    {
+      "source": "taildiag::arbitrary_less",
+      "target": "tailcontracts::arbitrary_less",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "e8b3f0561b3ed3fb769e8638b08eaee9cce0478bbe4c5f37d502fc22fb36bf20"
+    },
+    {
+      "source": "taildiag::comparison_covers",
+      "target": "tailcontracts::comparison_covers",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "4f74456bd86fb0b16522023ee4f20280ceea124e22a51703178ced5ed92af96e"
+    },
+    {
+      "source": "taildiag::exercise",
+      "target": "tailcontracts::exercise",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "db2564dba5f6413d98b956f5238df0028635a55139e2afdfbbb4cf1d39967122"
+    },
+    {
+      "source": "taildiag::read_arguments",
+      "target": "tailcontracts::read_arguments",
+      "kind": "helper",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "08d48569e3c9f077293b585835d548219e4d978c23fc49b968b10f367311fdaa"
+    },
+    {
+      "source": "taildiag::u64_backing17_tail1_to7_no_explicit_frame",
+      "target": "tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "b7e519cd8718ec439ea46f57a78d6c97fd92f08441baf8e3b93456e62f5f0fcc"
+    },
+    {
+      "source": "taildiag::u64_backing17_tail8_to15_no_explicit_frame",
+      "target": "tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
+      "kind": "root",
+      "tokens_equal_except_name": true,
+      "attributes_equal": true,
+      "normalized_tokens_sha256": "298cd5a7e4bc5364c71bdb2640946794fdb786cdf20a48e843f1a4fe885ccd79"
+    }
+  ],
+  "prior_source_reported_rows": [
+    {
+      "source": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+      "target": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "status": "SUCCESS",
+      "seconds": "33.71013",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+      "target": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u64_backing32",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "status": "SUCCESS",
+      "seconds": "40.420055",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+      "target": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "status": "SUCCESS",
+      "seconds": "135.0917",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+      "target": "slice::sort::shared::smallsort::verify::allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "status": "SUCCESS",
+      "seconds": "80.85085",
+      "checks_failed": 0,
+      "checks_total": 228,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "target": "slice::sort::shared::smallsort::verify::allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "status": "SUCCESS",
+      "seconds": "7.120541",
+      "checks_failed": 0,
+      "checks_total": 269,
+      "covers_satisfied": 4,
+      "covers_total": 4
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_no_explicit_frame",
+      "target": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
+      "build_id": "34500433-bd3d-4784-9a26-aaf0ba3f0492",
+      "source_sha": "1c99acce330d708961571bd593ecc322768f690f",
+      "status": "SUCCESS",
+      "seconds": "31.25227",
+      "checks_failed": 0,
+      "checks_total": 229,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "source": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_no_explicit_frame",
+      "target": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
+      "build_id": "a5a16595-8c2e-4bf8-80bd-b7627d775ca6",
+      "source_sha": "49420dda0b505d38d9bed8568ce602a4026b4ae4",
+      "status": "SUCCESS",
+      "seconds": "64.20818",
+      "checks_failed": 0,
+      "checks_total": 229,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    }
+  ],
+  "prior_seconds_sum": "392.653726",
+  "expected_covers": 42,
+  "ordinary_names_sha256": "a73e3c308728c7e7e560665547f79775ddffef2676d4ddee1cecd1b572bdd374",
+  "request_sha256": "ca33dbdcef95cd1729e298f495177ea83c83f8bc361a7fee4e165f5fb589b6a8",
+  "compiler_inventory": "PENDING_GO_AND_BUILD",
+  "integrated_verification": "PENDING_GO_AND_BUILD",
+  "scope": "Source token equality and source-reported bounded prior results only. No new proof, compiler inventory or universal T/F theorem."
+}
