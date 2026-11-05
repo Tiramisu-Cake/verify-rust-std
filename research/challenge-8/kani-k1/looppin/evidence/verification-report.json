@@ -1,0 +1,55 @@
+{
+  "verdict": "PASS_BOUNDED_DIAGNOSTIC",
+  "build_id": "f645e709-de9a-4b7a-a61f-69aab36f4f75",
+  "source_sha": "2ed6e9c7da48d61fd362a9f90401486ef25421bc",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "request_sha256": "5c3908bef8e08cfa1967cd4b8d1bea82ffd918647c6b777771721a5e3e097caa",
+  "request_id": "looppin-g1-20261105-01",
+  "rows": {
+    "slice::sort::shared::smallsort::verify::looppin::calibration_true": {
+      "status": "SUCCESS",
+      "time_s": "0.17787845",
+      "failed_total_checks": "0/83",
+      "covers": "3/3",
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::looppin::calibration_false_control": {
+      "status": "FAILED",
+      "time_s": "0.13606513",
+      "failed_total_checks": "1/88",
+      "covers": "",
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5": {
+      "status": "SUCCESS",
+      "time_s": "30.317678",
+      "failed_total_checks": "0/219",
+      "covers": "4/4",
+      "cbmc_peak_rss_kib": 1300820
+    },
+    "slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5": {
+      "status": "SUCCESS",
+      "time_s": "121.00956",
+      "failed_total_checks": "0/404",
+      "covers": "3/3",
+      "cbmc_peak_rss_kib": 6227528
+    }
+  },
+  "negative_check": {
+    "description": "Check invariant after step for loop slice::sort::shared::smallsort::verify::looppin::calibration_false_control.0",
+    "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/looppin.rs:38"
+  },
+  "covers_satisfied": 10,
+  "covers_total": 10,
+  "unreachable_covers": 0,
+  "tooling_bindings": "PASS",
+  "cloud_status": "SUCCESS",
+  "kani_exit": 1,
+  "spent_usd": "0.1620",
+  "reserved_usd": "0.0000",
+  "verification_time_sum_s": "151.64118158",
+  "memory_limit": "15.63 GiB machine memory, swap off; samples every 2 seconds",
+  "memory_limitations": "Calibration roots finished below the sampling interval; no per-root RSS record, not zero RSS.",
+  "scope": "Fixed backing only; copied outer loop and matched local helper PFC. No arbitrary-length or generic proof credit.",
+  "evidence_kind": "Validation of bounded K-1 responses, not an independent verifier execution."
+}

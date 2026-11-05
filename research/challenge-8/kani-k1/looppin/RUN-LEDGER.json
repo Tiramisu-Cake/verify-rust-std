@@ -1,7 +1,7 @@
 {
   "task": "LOOPPIN",
   "stage": "looppin-g1",
-  "state": "PREPARED_AWAITING_EXACT_PACKET_REVIEW",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "branch": "experiment/kani-k1-looppin-20261105",
   "owner": "k1-network",
   "task_commit": "708b3a6661f40e000fe773c408ae4ef1619e292e",
@@ -13,7 +13,7 @@
   "prepared_utc": "2026-11-05T07:40:02.843810+00:00",
   "main_minutes": 150,
   "closeout_minutes": 30,
-  "window_start": null,
+  "window_start": "2026-11-05T07:43:15.655060+00:00",
   "primary_build_limit": 1,
   "retry_limit": 0,
   "compile_error_repair_limit": 1,
@@ -22,10 +22,29 @@
   "watchdog_harness_minutes": 12,
   "build_timeout_minutes": 42,
   "maximum_reservation_usd": 0.567,
-  "spent_usd": 0,
+  "spent_usd": 0.162,
   "reserved_usd": 0,
   "repairs": 0,
-  "builds": [],
+  "builds": [
+    {
+      "id": "f645e709-de9a-4b7a-a61f-69aab36f4f75",
+      "role": "primary",
+      "source_sha": "2ed6e9c7da48d61fd362a9f90401486ef25421bc",
+      "request_id": "looppin-g1-20261105-01",
+      "request_sha256": "5c3908bef8e08cfa1967cd4b8d1bea82ffd918647c6b777771721a5e3e097caa",
+      "owner": "k1-network",
+      "recorded_utc": "2026-11-05T07:43:55.014786+00:00",
+      "maximum_reservation_usd": 0.567,
+      "status": "SUCCESS",
+      "start_time": "2026-11-05T07:44:42.432252357Z",
+      "finish_time": "2026-11-05T07:55:46.451070Z",
+      "cost_usd": 0.162,
+      "covers_satisfied": 10,
+      "covers_total": 10,
+      "unreachable_covers": 0,
+      "verification_status": "PASS_BOUNDED_DIAGNOSTIC"
+    }
+  ],
   "budget_observed": {
     "builds": 234,
     "used_usd": 99.735,
@@ -33,10 +52,28 @@
     "with_this_max_reservation_usd": 100.302
   },
   "budget_observation_note": "k1g.sh budget before packet preparation; recheck at authorized dispatch.",
-  "authorization": "No dispatch GO yet. Exact pushed packet must receive coordinator PRE-BUILD review/GO.",
+  "authorization": "Coordinator GO: exact packet 2ed6e9c7da48d61fd362a9f90401486ef25421bc; one G1 dispatch, four roots, three minutes/root, k1-network, reserve $0.567.",
   "wait_policy": "After authorized dispatch, run k1g.sh watch BUILD and end the turn; no status polling.",
   "evidence_policy": "Only bounded K-1 summary/rows/peaks/log-grep and check-tooling; no raw evidence or credentials.",
   "library_commits": [
     "532eddb301c43d36b8b777414b59cbc09e86ed37"
-  ]
+  ],
+  "approved_source_sha": "2ed6e9c7da48d61fd362a9f90401486ef25421bc",
+  "main_deadline_utc": "2026-11-05T10:13:15.655060+00:00",
+  "closeout_deadline_utc": "2026-11-05T10:43:15.655060+00:00",
+  "build_cache": "/tmp/looppin-k1g-build",
+  "watch_exit_code": 0,
+  "completed_utc": "2026-11-05T07:59:10.044621+00:00",
+  "acceptance": "PASS_BOUNDED_DIAGNOSTIC: true SUCCESS, exact false invariant-step FAILED only, paired PFC/consumer SUCCESS, 10/10 covers.",
+  "verification_report": "evidence/verification-report.json",
+  "budget_final": {
+    "builds": 236,
+    "used_usd": 99.897,
+    "reserved_usd": 0.81,
+    "own_reserved_usd": 0,
+    "project_cap_usd": 118.96
+  },
+  "slot_note": "Our single build is terminal SUCCESS; dispatch authorization exhausted; no further stage or retry.",
+  "next_step": "Separate scope needed for real-loop transfer and arbitrary backing/general helper contract; no arbitrary-length proof credit.",
+  "capture_format_note": "rows.txt preserves the bounded TSV response exactly, including its empty final covers field (trailing tab) for the negative control. Whitespace validation allows that field in this capture only."
 }

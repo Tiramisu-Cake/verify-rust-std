@@ -1,0 +1,45 @@
+interval_ms=2000
+samples=129
+elapsed_s=256
+total_rss_peak_kb=5986208
+total_peak_s=156
+cmd=bash peak_kb=3768 first_s=0 last_s=256 peak_s=0
+cmd=cargo peak_kb=35116 first_s=2 last_s=66 peak_s=4
+cmd=cbmc peak_kb=6227528 first_s=102 last_s=254 peak_s=210
+cmd=cc1plus peak_kb=6124 first_s=222 last_s=222 peak_s=222
+cmd=gcc peak_kb=1156 first_s=222 last_s=222 peak_s=222
+cmd=goto-cc peak_kb=42528 first_s=68 last_s=68 peak_s=68
+cmd=goto-instrument peak_kb=1083848 first_s=70 last_s=224 peak_s=90
+cmd=kani-compiler peak_kb=1626652 first_s=2 last_s=66 peak_s=50
+cmd=kani-driver peak_kb=96624 first_s=2 last_s=254 peak_s=220
+cmd=python3 peak_kb=20484 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3588 first_s=2 last_s=254 peak_s=2
+cmd=tee peak_kb=1080 first_s=0 last_s=256 peak_s=0
+cmd=time peak_kb=1112 first_s=2 last_s=254 peak_s=2
+cmd=timeout peak_kb=1088 first_s=2 last_s=254 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=5960616 peak_s=156
+role=driver simultaneous_rss_peak_kb=94232 peak_s=254
+cbmc_pid=9291 peak_kb=6227528 first_s=102 last_s=220 peak_s=210 active=T0:looppin::outer_loop_u64_symbolic_len_backing5 hint=slice::sort::shared::smallsort::verify::looppin::outer_loop_
+cbmc_pid=9329 peak_kb=1300820 first_s=226 last_s=254 peak_s=236 active=T0:looppin::insert_tail_u64_tail1_to4_backing5 hint=slice::sort::shared::smallsort::verify::looppin::insert_tail
+driver_s=0 rss_kb=0
+harness_s=102 name=T0:looppin::outer_loop_u64_symbolic_len_backing5
+driver_s=30 rss_kb=6252
+harness_s=226 name=T0:looppin::insert_tail_u64_tail1_to4_backing5
+driver_s=60 rss_kb=6568
+harness_s=256 name=T0:looppin::calibration_false_control
+driver_s=90 rss_kb=6800
+harness_s=256 name=T0:looppin::calibration_true
+driver_s=120 rss_kb=6836
+driver_s=150 rss_kb=6836
+driver_s=180 rss_kb=6836
+driver_s=210 rss_kb=6836
+driver_s=240 rss_kb=67780
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=369
+verify_budget_s=1791
+RUSTFLAGS=--cfg kani_smallsort_controls
+process_records=2 offset=0 count=2 next_offset=done
+{"active_harnesses":["Thread 0: looppin::outer_loop_u64_symbolic_len_backing5"],"attribution":"direct","build_id":"f645e709-de9a-4b7a-a61f-69aab36f4f75","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5","first_s":102,"harness":"slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5","head_sha":"2ed6e9c7da48d61fd362a9f90401486ef25421bc","kani_commit":"cd355b0bccd32300713bc2ce4f765dafa1510607","last_s":220,"mangled_name":"_RNvNtNtNtNtNtNtCs8Ur2iu1e3k2_4core5slice4sort6shared9smallsort6verify7looppin36outer_loop_u64_symbolic_len_backing5","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out/core-189fb55f3a110ee4.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"52a8c45383ccf6d795c3e31313839f77c84f5e52ffbe82f2c583f19797f6e494","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out/core-189fb55f3a110ee4__RNvNtNtNtNtNtNtCs8Ur2iu1e3k2_4core5slice4sort6shared9smallsort6verify7looppin36outer_loop_u64_symbolic_len_backing5.out","peak_kb":6227528,"peak_s":210,"pid":"9291","ppid":"8870","pretty_name":"slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5"}
+{"active_harnesses":["Thread 0: looppin::insert_tail_u64_tail1_to4_backing5"],"attribution":"direct","build_id":"f645e709-de9a-4b7a-a61f-69aab36f4f75","cmd":"cbmc","direct_harness":"slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5","first_s":226,"harness":"slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5","head_sha":"2ed6e9c7da48d61fd362a9f90401486ef25421bc","kani_commit":"cd355b0bccd32300713bc2ce4f765dafa1510607","last_s":254,"mangled_name":"_RNvNtNtNtNtNtNtCs8Ur2iu1e3k2_4core5slice4sort6shared9smallsort6verify7looppin34insert_tail_u64_tail1_to4_backing5","metadata_dir":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out","metadata_file_count":1,"metadata_group":"proof_harnesses","metadata_match_count":1,"metadata_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out/core-189fb55f3a110ee4.kani-metadata.json","metadata_resolution":"direct","metadata_sha256":"52a8c45383ccf6d795c3e31313839f77c84f5e52ffbe82f2c583f19797f6e494","model_path":"/workspace/src/target/kani_verify_std/target/x86_64-unknown-linux-gnu/debug/build/core/189fb55f3a110ee4/out/core-189fb55f3a110ee4__RNvNtNtNtNtNtNtCs8Ur2iu1e3k2_4core5slice4sort6shared9smallsort6verify7looppin34insert_tail_u64_tail1_to4_backing5.out","peak_kb":1300820,"peak_s":236,"pid":"9329","ppid":"8870","pretty_name":"slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5"}
