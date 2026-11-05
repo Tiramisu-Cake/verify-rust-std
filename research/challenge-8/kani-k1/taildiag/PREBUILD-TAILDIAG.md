@@ -53,10 +53,10 @@ whole-module opt-in gating, exact request names, and unchanged lane paths agains
 Static ordinary inventory stays 219; cfg-on 253 -> 263, 34 old opt-in plus 10 new roots.
 Exact lists and expected covers are adjacent. This is source validation, not compiler inventory.
 Rustfmt --check (existing 2024 config/wrapper), 100-column check and git diff --check: PASS.
-Existing request validator: ten exact SUCCESS rows accepted, controls=true, inventory=true,
+Existing request validator: ten exact SUCCESS rows accepted, controls=true, inventory=false,
 diagnostic standard4, jobs=1, 4 minutes per root. Gate failure is expected if any row times out.
 Request `taildiag-g1-20261105-01`, SHA256
-`fe33bc71fb52a256ec08b63929c23a6692b0dfb775745403d42463ca230aee87`.
+`ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296`.
 40 harness-minutes + 30 setup/closeout overhead = 70-minute build timeout; reserve **$0.9450**.
 Own cap **$2.00**, project cap **$118.96**. Snapshot: 240 builds, used **$102.1920**,
 reserved **$0**, with G1 max **$103.1370**. Recheck at dispatch; preparation starts no build window.
@@ -68,8 +68,10 @@ Main window 240 minutes + closeout 30; start/deadlines recorded at authorized G1
 
 1. Confirm exact pushed SHA, slot owner and budget; record window/deadlines in the local ledger.
 2. Dispatch once via k1g.sh, record build identity; run `k1g.sh watch BUILD` and end the turn.
-3. On wakeup use bounded summary/rows/peaks/log-grep, inventory, check-tooling and budget only.
-   Bind build/source/request/pool/Kani identities; inventory is the exact 263-name cfg-on set.
+3. On wakeup use bounded summary/rows/peaks/log-grep, check-tooling and budget only.
+   Bind build/source/request/pool/Kani identities and the ten exact requested row names.
+   Full std lane inventory is disabled per coordinator: its roughly 49-minute cost risks the
+   70-minute build timeout. The 263-name cfg-on list remains source-only validation.
    Record per-row checks, covers, verification seconds and attributed CBMC/solver RSS peaks.
    Missing verification seconds on timeout do not equal the 240-second watchdog budget.
 4. Separate SUCCESS from <=200-second candidates; treat factor explanations as hypotheses

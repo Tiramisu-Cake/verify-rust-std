@@ -42,7 +42,7 @@ assert request['request_id'] == 'taildiag-g1-20261105-01'
 assert request['agent'] == 'k1-network' and request['controls'] is True
 assert request['kind'] == 'diagnostic' and request['runner'] == 'gcb-e2-standard-4'
 assert request['kani_jobs'] == 1 and request['harness_timeout_minutes'] == 4
-assert request['inventory'] is True
+assert request['inventory'] is False
 assert len(request['harnesses']) == len(added)
 assert {r['name'] for r in request['harnesses']} == {s.PREFIX + n for n in added}
 assert all(r['expect'] == 'SUCCESS' for r in request['harnesses'])
