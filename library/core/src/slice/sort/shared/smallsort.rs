@@ -618,14 +618,14 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
         #[cfg_attr(
             kani,
             crate::kani::loop_invariant(
-                size_of::<T>() > 0
-                    && crate::ub_checks::same_allocation(begin, sift)
-                    && crate::ub_checks::same_allocation(begin, gap_guard.dst)
-                    && begin.addr() <= sift.addr()
-                    && sift.addr() < gap_guard.dst.addr()
-                    && gap_guard.dst.addr() <= tail.addr()
-                    && gap_guard.dst.addr() - sift.addr() == size_of::<T>()
-                    && (sift.addr() - begin.addr()) % size_of::<T>() == 0
+                size_of::<T>() == 0
+                    || (crate::ub_checks::same_allocation(begin, sift)
+                        && crate::ub_checks::same_allocation(begin, gap_guard.dst)
+                        && begin.addr() <= sift.addr()
+                        && sift.addr() < gap_guard.dst.addr()
+                        && gap_guard.dst.addr() <= tail.addr()
+                        && gap_guard.dst.addr() - sift.addr() == size_of::<T>()
+                        && (sift.addr() - begin.addr()) % size_of::<T>() == 0)
             )
         )]
         #[cfg_attr(
