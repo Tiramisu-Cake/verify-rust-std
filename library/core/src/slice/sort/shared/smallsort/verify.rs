@@ -77,5 +77,7 @@ mod permtags;
 mod realcontracts;
 mod scratchgeom;
 mod smoke;
+#[cfg(kani_smallsort_controls)]
+mod taildiag;
 mod types;
 mod wrap;
