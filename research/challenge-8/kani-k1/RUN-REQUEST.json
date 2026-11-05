@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "widedomains-g1-20261105-01",
+  "request_id": "widedomains-g2-20261105-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "WIDEDOMAINS G1: swap backing32 u8/u64 and real network N32; insert_tail u64 backing32 tails1..19 and scratch48 tails1..8. Require SUCCESS and all 79 covers; timeout is a domain limit, not proof.",
+  "purpose": "WIDEDOMAINS G2: restricted initialized backing32 tail1..19, insertion len1..20 via verified tail stubs and matched u64 N32 network; merge8 scratch48 src32/dst0 plus real sort8 consumer. Require SUCCESS and 67/67 covers; no credit for G1 tail TIMEOUTs.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 3,
   "kani_jobs": 1,
@@ -11,43 +11,43 @@
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail1_to4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail5_to9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail10_to14",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail1_to4",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail15_to19",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail5_to8",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len1_to16",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail9_to12",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len17_to20",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail13_to16",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32_tail_comparator",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail17_to19",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_swap_insertion_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail1_to4",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail5_to8",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
       "expect": "SUCCESS"
     }
   ]

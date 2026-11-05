@@ -9,6 +9,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BASE = "34f69f034b"
+G1 = "90fadd7ccf8b5bb32d04401d274a6f492b612897"
 spec = importlib.util.spec_from_file_location(
     "static_source", HERE.parent / "codefix/trimpart_static.py")
 s = importlib.util.module_from_spec(spec)
@@ -21,10 +22,18 @@ def git(*args):
 
 def main():
     old, new = s.Source(BASE), s.Source(None)
+    g1 = s.Source(G1)
     old_off, old_on = old.roots(False), old.roots(True)
     off, on = new.roots(False), new.roots(True)
     added = set(on) - set(old_on)
+    g2_added = set(on) - set(g1.roots(True))
     module = s.VERIFY_DIR + "widedomains.rs"
+    g1_functions = {it.name: it.text() for f, it in g1.all_items()
+                    if f == module and it.kind == "fn"}
+    current_functions = {it.name: it.text() for f, it in new.all_items()
+                         if f == module and it.kind == "fn"}
+    changed_g1_functions = [name for name, text in g1_functions.items()
+                            if current_functions.get(name) != text]
     changed_old = [f for f, text in old.files.items()
                    if f != s.VERIFY_ROOT and new.files.get(f) != text]
     expected_registration = old.files[s.VERIFY_ROOT].replace(
@@ -49,7 +58,9 @@ def main():
                   if len(line) > 100]
     checks = {
         "ordinary_219_unchanged": len(off) == len(old_off) == 219 and set(off) == set(old_off),
-        "cfg_on_253_plus_10": len(old_on) == 253 and len(on) == 263 and len(added) == 10,
+        "cfg_on_253_plus_20": len(old_on) == 253 and len(on) == 273 and len(added) == 20,
+        "g1_263_plus_10_roots_and_all_g1_functions_unchanged":
+            len(g1.roots(True)) == 263 and len(g2_added) == 10 and not changed_g1_functions,
         "all_added_roots_in_gated_module": all(
             name.startswith("widedomains::") and on[name][0] == module for name in added)
             and new.file_gate[module],
@@ -59,7 +70,7 @@ def main():
         "library_scope_exact": changed_library == {s.VERIFY_ROOT, module},
         "tooling_equals_59893bff1f": not lane_diff,
         "no_static_orphans_both_cfgs": not any(any(parts) for parts in orphans.values()),
-        "request_exactly_new_roots": names == {s.PREFIX + n for n in added},
+        "request_exactly_g2_roots": names == {s.PREFIX + n for n in g2_added},
         "diagnostic_controls_jobs1_standard4_3minutes": (
             request["kind"] == "diagnostic" and request["controls"] is True
             and request["kani_jobs"] == 1 and request["runner"] == "gcb-e2-standard-4"
@@ -67,7 +78,7 @@ def main():
             and request["inventory"] is False),
         "ten_success_expectations": len(request["harnesses"]) == 10
             and all(entry["expect"] == "SUCCESS" for entry in request["harnesses"]),
-        "covers_exact_79": set(covers) == names and sum(covers.values()) == 79,
+        "covers_exact_67": set(covers) == names and sum(covers.values()) == 67,
         "request_hash_matches_ledger": hashlib.sha256(request_bytes).hexdigest()
             == ledger["request_sha256"],
         "reservation_60min_081usd": ledger["build_timeout_minutes"] == 60
@@ -81,12 +92,14 @@ def main():
     report = dict(status="PASS" if all(checks.values()) else "FAIL", checks=checks,
                   base=git("rev-parse", BASE), tooling_base=git("rev-parse", "59893bff1f"),
                   ordinary_count=len(off), cfg_on_count=len(on), new_roots=sorted(added),
+                  g2_roots=sorted(g2_added), changed_g1_functions=changed_g1_functions,
                   source_sha256=hashlib.sha256(new.files[module].encode()).hexdigest(),
                   request_sha256=hashlib.sha256(request_bytes).hexdigest(),
                   changed_old_files=changed_old, tooling_diff=lane_diff,
                   static_orphans=orphans, long_lines=long_lines,
-                  limitations="Source parsing only; compiler inventory, proof, cover reachability, "
-                              "timing and memory require the authorized GCB run.")
+                  limitations="Source parsing only; no compiler inventory is requested. "
+                              "G2 proof, cover reachability, timing and memory require GCB. "
+                              "G1 evidence is preserved separately under g1/.")
     (HERE / "check-report.json").write_text(json.dumps(report, indent=2) + "\n")
     for filename, roots in (("ordinary-expected.txt", off), ("cfg-on-expected.txt", on)):
         (HERE / filename).write_text("".join(s.PREFIX + n + "\n" for n in sorted(roots)))

@@ -1,0 +1,85 @@
+{
+  "evidence_validation": "PASS",
+  "run_acceptance": "FAIL: seven tail PFC TIMEOUTs",
+  "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+  "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+  "request_id": "widedomains-g1-20261105-01",
+  "request_sha256": "cb5d05e2df44e9ff7969f319cc1f462a8a50ace3e3144b1944f68fc8ccb7a315",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+      "status": "SUCCESS",
+      "seconds": "33.71013",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+      "status": "SUCCESS",
+      "seconds": "40.420055",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+      "status": "SUCCESS",
+      "seconds": "135.0917",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail5_to8",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail9_to12",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail13_to16",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail17_to19",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail5_to8",
+      "status": "TIMEOUT",
+      "seconds": null
+    }
+  ],
+  "success_count": 3,
+  "timeout_count": 7,
+  "successful_covers_satisfied": 23,
+  "successful_covers_total": 23,
+  "requested_covers_total": 79,
+  "successful_seconds_sum": "209.221885",
+  "cost_usd": "0.4860",
+  "reserved_usd": "0.0000",
+  "tooling": "PASS: pool, source and six bound files",
+  "limits": "Bounded safety/modifies evidence for three successful roots only. Tail domains unproved; no TIMEOUT checks/covers invented. No uninit/value-validity/permission/unwinding theorem. Summary build-success field describes tool preparation, Cloud status is FAILURE.",
+  "bounded_rows_file": "rows-bounded.json",
+  "bounded_rows_stdout_sha256": "d9fb5aa0f2442478ef5c5e60ec98572a6d025a4ccf006ffdfd8545d28761b498"
+}
