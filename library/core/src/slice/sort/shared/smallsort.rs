@@ -634,7 +634,7 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
                 &sift,
                 ptr::addr_of!(gap_guard.dst),
                 ptr::slice_from_raw_parts_mut(begin, insert_tail_contract_len(begin, tail)),
-                is_less
+                is_less as *mut F
             )
         )]
         loop {
@@ -692,7 +692,7 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
         )]
         #[cfg_attr(
             kani,
-            crate::kani::loop_modifies(&tail, ptr::slice_from_raw_parts_mut(v_base, len), is_less)
+            crate::kani::loop_modifies(&tail, ptr::slice_from_raw_parts_mut(v_base, len), is_less as *mut F)
         )]
         while tail != v_end {
             // SAFETY: v_base and tail are both valid pointers to elements, and
