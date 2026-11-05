@@ -45,7 +45,7 @@ def main():
     request_bytes = (PACKET / 'request.json').read_bytes()
     assert request_bytes == (PACKET.parent / 'RUN-REQUEST.json').read_bytes()
     request = kani_k1.validate_request(json.loads(request_bytes))
-    assert request['request_id'] == 'loopreal-g1-20261105-02'
+    assert request['request_id'] == 'loopreal-g1-repair1-20261105-01'
     assert request['agent'] == 'k1-network' and request['kind'] == 'diagnostic'
     assert request['controls'] is True and request['kani_jobs'] == 1
     assert request['runner'] == 'gcb-e2-standard-4'
@@ -55,18 +55,21 @@ def main():
     clean_runtime, count = LOOP_ATTR.subn('', runtime)
     assert count == 4
     assert clean_runtime.encode() == git('show', f'{BASE}:{RUNTIME}'), 'body/signature/contract changed'
-    previous = git('show', 'ffda59d715b3a0bceac59276d18a03f8a61a6015:'+RUNTIME).decode()
-    previous_attrs = LOOP_ATTR.findall(previous)
-    current_attrs = LOOP_ATTR.findall(runtime)
-    assert len(previous_attrs) == len(current_attrs) == 4
-    assert current_attrs[1:] == previous_attrs[1:]
-    def squash(text):
-        return re.sub(r'\s+', '', text)
-    expected_inner = squash(previous_attrs[0]).replace(
-        'size_of::<T>()>0&&crate::ub_checks::same_allocation',
-        'size_of::<T>()==0||(crate::ub_checks::same_allocation', 1)
-    expected_inner = expected_inner.replace('==0))]', '==0)))]', 1)
-    assert squash(current_attrs[0]) == expected_inner
+    accepted = '3a1a71036fc48708094c59e3b1c70252ce4fbf9b'
+    original_runtime = git('show', accepted+':'+RUNTIME).decode()
+    original_module = git('show', accepted+':'+MODULE).decode()
+    def raw_targets(source):
+        return LOOP_ATTR.sub(lambda match: re.sub(
+            r'\bis_less\b', 'is_less as *mut F', match.group()), source)
+    assert runtime == raw_targets(original_runtime)
+    assert runtime.count('is_less as *mut F') == 2
+    assert (ROOT / MODULE).read_text() == raw_targets(original_module)
+    assert (ROOT / MODULE).read_text().count('is_less as *mut F') == 1
+    original_request_bytes = git('show', accepted+':research/challenge-8/kani-k1/RUN-REQUEST.json')
+    assert original_request_bytes == (PACKET / 'evidence/g1-request.json').read_bytes()
+    original_request = json.loads(original_request_bytes)
+    assert {k: v for k, v in request.items() if k not in ('request_id', 'purpose')} == {
+        k: v for k, v in original_request.items() if k not in ('request_id', 'purpose')}
     registration = b'#[cfg(kani_smallsort_controls)] mod loopreal;\n'
     verify = (ROOT / VERIFY).read_bytes()
     assert verify.count(registration) == 1
@@ -150,6 +153,7 @@ def main():
               'request_sha256': digest(request_bytes), 'library_sha256': {
                   p: digest((ROOT / p).read_bytes()) for p in (RUNTIME, VERIFY, MODULE)},
               'runtime': 'four cfg(kani) loop attributes only; bodies/signatures/existing contracts identical',
+              'repair_delta': 'Exactly three loop_modifies arguments become is_less as *mut F relative to approved G1; same invariants, bodies, roots, domains, flags and timeout',
               'negative_copy': 'real outer signature/body/modifies identical after function rename and attribute removal',
               'local_roots': roots, 'ordinary_regressions': [r['name'] for r in baselines],
               'positive_expected_covers': 34, 'build_timeout_minutes': minutes,

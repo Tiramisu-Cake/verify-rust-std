@@ -1,15 +1,15 @@
 {
   "task": "LOOPREAL",
-  "stage": "loopreal-g1",
-  "state": "G1_COMPILE_ERROR_ANALYZED",
+  "stage": "loopreal-g1-repair1",
+  "state": "G1_REPAIR_PREPARED_AWAITING_EXACT_PACKET_GO",
   "branch": "experiment/kani-k1-loopreal-20261105",
   "owner": "k1-network",
   "task_commit": "01cb5fc3cda3ecf2795939285154416f213fa7e2",
   "base_commit": "4b05b98a3c41c64afe79446da766430a284de83f",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
-  "request_id": "loopreal-g1-20261105-02",
-  "request_sha256": "8af5df8cdad82e52c3851d4caab263beb11a291ef437319feea9e2e94d9a5081",
+  "request_id": "loopreal-g1-repair1-20261105-01",
+  "request_sha256": "92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22",
   "prepared_utc": "2026-11-05T08:07:09.548368+00:00",
   "main_minutes": 240,
   "closeout_minutes": 30,
@@ -56,7 +56,8 @@
   "evidence_policy": "Only bounded K-1 summaries/rows/peaks/log-grep and identity/tooling metadata; no raw logs, archives, Cloud Logging or credentials.",
   "library_commits": [
     "fc1ddf01251e12fa087cfa280161bcbb6a720cdb",
-    "d79f9d306b3a771b87c4fd5f0104347adabb11b0"
+    "d79f9d306b3a771b87c4fd5f0104347adabb11b0",
+    "73ccf6c179b1b0068ff50e040e23f7b3ee2b0d6f"
   ],
   "revised_utc": "2026-11-05T08:18:06.351492+00:00",
   "rejected_packet_sha": "ffda59d715b3a0bceac59276d18a03f8a61a6015",
@@ -92,5 +93,18 @@
     "project_used_plus_proposed_repair_usd": 101.544
   },
   "summary_metadata_discrepancy": "Summary run text build success conflicts with bounded Cloud FAILURE. Stored unchanged; COMPILE_ERROR / 12 NOT_RUN, no proof credit.",
-  "evidence_capture_note": "rows.txt preserves empty TSV fields (trailing tabs); only that capture is exempt from end-of-line whitespace validation."
+  "evidence_capture_note": "rows.txt preserves empty TSV fields (trailing tabs); only that capture is exempt from end-of-line whitespace validation.",
+  "prepared_repair_utc": "2026-11-05T08:32:58.309490+00:00",
+  "proposed_repair": {
+    "parent_build_id": "69ac5245-e83e-4d87-b8b6-68acd46b0e02",
+    "request_id": "loopreal-g1-repair1-20261105-01",
+    "request_sha256": "92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22",
+    "maximum_reservation_usd": 1.053,
+    "own_spent_plus_reserve_usd": 1.161,
+    "repair_number_for_g1": 1,
+    "dispatch_authorized": false,
+    "source_delta": "Only three loop_modifies arguments: is_less -> is_less as *mut F; no invariant/body/domain/timeout/tooling change.",
+    "library_commit": "73ccf6c179b1b0068ff50e040e23f7b3ee2b0d6f"
+  },
+  "next_step": "Exact repair packet PRE-BUILD review; stop until new coordinator GO. No repair/G2 dispatch authorized."
 }

@@ -1,3 +1,7 @@
+> Historical G1 packet approved at `3a1a71036fc48708094c59e3b1c70252ce4fbf9b`.
+> G1 ended in COMPILE_ERROR; the current proposed request is documented in
+> [PREBUILD-LOOPREAL-G1-REPAIR1.md](PREBUILD-LOOPREAL-G1-REPAIR1.md).
+
 # LOOPREAL corrected exact packet for coordinator review
 
 Task `01cb5fc3cda3ecf2795939285154416f213fa7e2`, base `4b05b98a3c41c64afe79446da766430a284de83f`.

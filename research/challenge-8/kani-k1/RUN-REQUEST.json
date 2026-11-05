@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "loopreal-g1-20261105-02",
+  "request_id": "loopreal-g1-repair1-20261105-01",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "LOOPREAL: real insert_tail/outer loop invariants; matched u64 reading-comparator PFC/verified-stub consumers on backing 8/32/128; false invariant on an exact outer-body cfg-copy; five ordinary regressions including ZST N16/N32. Fixed allocations, partial safety only.",
+  "purpose": "LOOPREAL G1 compile-error repair: pass is_less as a raw F pointer in three loop_modifies attributes. Same 12 roots, backing 8/32/128, negative control and five regressions; invariants, bodies, domains, flags and timeout unchanged.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 4,
   "kani_jobs": 1,
