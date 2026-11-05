@@ -404,11 +404,15 @@ dispatch_pair_route_safety_case!(
     true,
     "stable route normal return at 32"
 );
-dispatch_pair_route_safety_case!(
-    dispatch_safety_unstable_bytes16_n32,
-    false,
-    "unstable route normal return at 32"
-);
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
+#[kani::solver(kissat)]
+#[kani::unwind(33)]
+fn dispatch_safety_unstable_bytes16_n32() {
+    dispatch_safety_fixed::<[u8; 16], 32, false>();
+    kani::cover(true, "unstable route normal return at 32");
+    kani::cover(true, "dispatch family reached the end");
+}
 
 dispatch_pair_safety_cases!(
     dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8,
@@ -1096,14 +1100,33 @@ macro_rules! insert_tail_start1_group_case {
     };
 }
 
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail2_to5, 2, 5, [2, 3, 4, 5]);
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail6_to8, 6, 8, [6, 7, 8]);
+macro_rules! insert_tail_start1_tuned_case {
+    ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
+        #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
+        #[kani::solver(kissat)]
+        #[kani::unwind(18)]
+        fn $name() {
+            let tail = insert_tail_group_value::<1, $lo, $hi>();
+            $(kani::cover(
+                tail == $end,
+                concat!(
+                    "insert-tail contract covers tail ",
+                    stringify!($end),
+                    " with requires satisfied"
+                )
+            );)+
+        }
+    };
+}
 
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to10, 9, 10, [9, 10]);
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail11_to12, 11, 12, [11, 12]);
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail2_to5, 2, 5, [2, 3, 4, 5]);
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail6_to8, 6, 8, [6, 7, 8]);
 
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13, 13, 13, [13]);
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail14, 14, 14, [14]);
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail9_to10, 9, 10, [9, 10]);
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail11_to12, 11, 12, [11, 12]);
+
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail13, 13, 13, [13]);
+insert_tail_start1_tuned_case!(insert_tail_contract_u64_start1_tail14, 14, 14, [14]);
 
 insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]);
 
