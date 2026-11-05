@@ -1,0 +1,40 @@
+interval_ms=2000
+samples=136
+elapsed_s=269
+total_rss_peak_kb=1960496
+total_peak_s=62
+cmd=bash peak_kb=3904 first_s=0 last_s=269 peak_s=0
+cmd=build_script_bu peak_kb=2280 first_s=4 last_s=4 peak_s=4
+cmd=cargo peak_kb=30064 first_s=2 last_s=80 peak_s=70
+cmd=cbmc peak_kb=1552908 first_s=86 last_s=269 peak_s=262
+cmd=goto-cc peak_kb=30772 first_s=82 last_s=82 peak_s=82
+cmd=goto-instrument peak_kb=31844 first_s=84 last_s=182 peak_s=182
+cmd=kani-compiler peak_kb=1726328 first_s=4 last_s=80 peak_s=62
+cmd=kani-driver peak_kb=256548 first_s=2 last_s=268 peak_s=94
+cmd=python3 peak_kb=20448 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3652 first_s=2 last_s=268 peak_s=2
+cmd=tee peak_kb=1060 first_s=0 last_s=269 peak_s=2
+cmd=time peak_kb=1112 first_s=2 last_s=268 peak_s=2
+cmd=timeout peak_kb=1072 first_s=2 last_s=268 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=1508828 peak_s=260
+role=driver simultaneous_rss_peak_kb=222200 peak_s=180
+cbmc_pid=22924 peak_kb=1552908 first_s=184 last_s=269 peak_s=262 active=T0:allocationcontracts::unstable_network_safety_u8_n32_stubbed hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+cbmc_pid=22895 peak_kb=1357468 first_s=96 last_s=180 peak_s=176 active=T0:allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0 hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+cbmc_pid=22857 peak_kb=170940 first_s=86 last_s=90 peak_s=90 active=T0:allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+driver_s=0 rss_kb=0
+harness_s=86 name=T0:allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubb
+driver_s=30 rss_kb=6036
+harness_s=96 name=T0:allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0
+driver_s=60 rss_kb=6036
+harness_s=184 name=T0:allocationcontracts::unstable_network_safety_u8_n32_stubbed
+driver_s=90 rss_kb=39820
+driver_s=120 rss_kb=168660
+driver_s=150 rss_kb=168660
+driver_s=180 rss_kb=222200
+driver_s=210 rss_kb=168724
+driver_s=240 rss_kb=168724
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=2851
+verify_budget_s=269

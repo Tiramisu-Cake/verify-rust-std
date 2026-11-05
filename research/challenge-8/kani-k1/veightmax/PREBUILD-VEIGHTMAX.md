@@ -1,7 +1,8 @@
 # VEIGHTMAX — exact pre-build packet
 
-PRE-BUILD REVIEW REQUIRED. No build dispatched; wait for coordinator GO on the
-exact pushed packet SHA. No submission branch, PR, Actions run or new proof optimization.
+Archived pre-build packet. Coordinator GO was granted on `7df3f7d3d68c458185c2f42f72483c13fbe9c161`;
+one build finished. Final outcome: [RESULT-VEIGHTMAX.md](../RESULT-VEIGHTMAX.md).
+The review boundary and pre-build expectations below are preserved as packet history.
 Updated after coordinator NO-GO on `df65bdf52a5ce90cbd987f8bff5cde01d2d9e0d5`:
 neutral diagnostic labels and removal of the constant-false explicit-frame machinery.
 
