@@ -7,9 +7,9 @@
   "branch": "experiment/kani-k1-citrim-20261105",
   "task_commit": "b0f0f90d1f",
   "base_commit": "4fa6151b6a9d0ae63261ab03eb86b65cec0a899e",
-  "library_sha": "26d5083990bf5c5996376a061aa4a06389aa4568",
-  "request_id": "citrim-g2-20261105-01",
-  "request_sha256": "275066d047faf01d565106f153e3154c5d2aa6430a4f549495935a3bf92cc675",
+  "library_sha": "57bf69b29046d515091dda662f180dba64cea041",
+  "request_id": "citrim-g2-20261105-02",
+  "request_sha256": "7822880947beb888d1a7a3103b2f8e9c2b942269536565ee3363e1884d2d7616",
   "primary_build_limit": 2,
   "retry_limit": 0,
   "compile_error_repair_limit_per_build": 1,
@@ -60,7 +60,7 @@
   "proposed_g1_harness_minutes": 125,
   "proposed_g1_timeout_minutes": 155,
   "proposed_g1_reservation_usd": 2.0925,
-  "authorization": "G1 GO consumed. G2 proposal only; exact-packet coordinator GO required before dispatch. User permits inventory handoff if own cap cannot fit it.",
+  "authorization": "G1 GO consumed. Coordinator authorizes six-tail frame-equivalence correction; G2 final exact-packet review/GO still required before dispatch. Inventory remains deferred per prior coordinator instruction.",
   "acceptance": "10 unchanged G1 parts <=120s with 29/29 covers plus all 15 G2 parts SUCCESS <=120s and 35/35 covers. Final compiler inventory separately pending coordinator.",
   "ordinary_expected": 235,
   "ordinary_delta": 16,
@@ -83,9 +83,18 @@
   "g2_expected_covers": 35,
   "carried_g1_expected_covers": 29,
   "inventory_handoff": "G2 inventory=false: full std list preparation ~49min exceeds 30min dispatcher overhead. Coordinator to authorize separate final inventory on matching library; not counted/claimed in CITRIM G1/G2.",
-  "g2_prepared_utc": "2026-11-05T13:18:37.801176+00:00",
+  "g2_prepared_utc": "2026-11-05T13:23:31.694965+00:00",
   "project_total_with_g2_reserve_usd": 105.567,
   "g2_latest_dispatch_utc": "2026-11-05T14:15:00+00:00",
   "g2_request_harnesses": 15,
-  "g2_inventory": false
+  "g2_inventory": false,
+  "g2_library_commits": [
+    "26d5083990bf5c5996376a061aa4a06389aa4568",
+    "57bf69b29046d515091dda662f180dba64cea041"
+  ],
+  "previous_g2_review_packet": "7e382c4a1c7075245b3202939c0d931e199e4025",
+  "coordinator_frame_authorization": "Before GO: six tail PFC parts may replace explicit insert_tail_start1_frame with checked profile modifies; document frame subset of modifies complement and PFC enforcement. Other nine G2 parts unchanged.",
+  "tail_frame_basis": "For START1, tail_len=tail; modifies [1,tail], previous explicit frame {0} union [tail+1,16] is exactly its complement in backing17. PFC checks modifies; helper differs only by omitted redundant frame call.",
+  "taildiag_source_claim": "Coordinator-reported TAILDIAG 59ada14d0a, 183 ->31s (~5.85x); not independently inspected, no CITRIM speedup claim.",
+  "tail_variant": "checked modifies frame + Kissat + unwind18"
 }

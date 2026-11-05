@@ -3,7 +3,7 @@ G1 `76b1664d-a0bf-4268-92fc-3b69220d556f`, source `bc4b5c7ec7b41a317548c21bc8dab
 Cloud FAILURE; COMPLETE, gate false, Kani exit1; 18 SUCCESS +7 TIMEOUT, не compile/setup error.
 Pin `cd355b0bccd32300713bc2ce4f765dafa1510607`; tooling `59893bff1f` и standard4/SHA bindings PASS.
 G1 diagnostic, jobs1, controls=false, inventory=false, 25×5 мин; source base `4fa6151b6a`.
-G2 library `26d5083990bf5c5996376a061aa4a06389aa4568`; request `citrim-g2-20261105-01` ждёт GO.
+G2 library `57bf69b29046d515091dda662f180dba64cea041`; request `citrim-g2-20261105-02` ждёт GO.
 До — TASK Actions Ubuntu/macOS, не GCB; после G1 — времена частей слева направо и их сумма.
 
 | Исходный verify:: корень | До U/M, с | Части G1: время каждой; Σ, с | Исходный домен = ∪ финальных частей |
@@ -20,7 +20,11 @@ G2 library `26d5083990bf5c5996376a061aa4a06389aa4568`; request `citrim-g2-202611
 
 Равенство доменов: check_citrim.py + check-report.json; все входы/пробы/T/компараторы сохранены.
 G2 merge: c1=lt_u64(v1,v0), c2=lt_u64(v5,v4), false включает равные ключи; все 4 пары.
-Все assertions/requires/stubs/covers сохранены; helpers после удаления split-assumes идентичны.
+Прочие assertions/requires/stubs/covers сохранены; merge helpers после удаления split-assumes идентичны.
+6 tail PFC: явная рамка v[0] и v[tail+1..17] заменена checked modifies профиля по разрешению координатора.
+При begin=base+1, tail_len=tail modifies=[1,tail]; рамка={0}∪[tail+1,16] — дополнение региона в backing17.
+Modifies проверяется в proof_for_contract: прежняя рамка следует из него; doc корней и static complement check добавлены.
+TAILDIAG 59ada14d0a: 183→31с (~5.85×) — сообщение координатора, не наш замер; соседний код не читался.
 G1: 57/57 covers у 18 завершённых частей; 7 covers таймаутов неизвестны; 10/25 частей <=120 с.
 G2: 15 проблемных частей, Kissat; unwind merge10/tail18/bytes16N32 33; assertions unwinding включены.
 Цель G2 35/35 covers +29/29 от 10 неизменённых G1 частей =64/64; пока не установлена.

@@ -4,7 +4,8 @@ PRE_BUILD_REVIEW_PENDING. G2 has not been dispatched; fresh exact-packet GO requ
 Task TASK-CITRIM.md, owner k1-merge; worktree `/root/verify-rust-std-kani-citrim`;
 branch `experiment/kani-k1-citrim-20261105`. This is the second/final primary build, no retry.
 G1 approved packet `bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a`, library `d866f287bb844b788ea853d0bb2fe829ddbf7292`.
-G2 library commit `26d5083990bf5c5996376a061aa4a06389aa4568` (separate [skip ci] commit).
+G2 library commits `26d5083990bf5c5996376a061aa4a06389aa4568` and
+`57bf69b29046d515091dda662f180dba64cea041` (separate [skip ci] commits).
 Tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd` unchanged; runtime unchanged.
 Kani pin `cd355b0bccd32300713bc2ce4f765dafa1510607`; nightly 2026-10-22.
 
@@ -31,9 +32,9 @@ No raw log/cache/archive inspection, local proof tools or subagents were used.
 | bytes16 N15/N16/N17 | 57.527676 / 63.919994 / 64.923390 | carry unchanged |
 | bytes17 N15/N16/N17 | 62.401028 / 70.842450 / 95.443690 | carry unchanged |
 | bytes16 N32 stable/unstable | 108.724840 / 126.870476 | carry stable; unstable Kissat/unwind33 |
-| tail2..5 / 6..8 | 210.270110 / 229.835190 | Kissat/unwind18 |
-| tail9..10 / 11..12 | 193.222260 / 199.784850 | Kissat/unwind18 |
-| tail13 / 14 | 231.391420 / 237.205780 | Kissat/unwind18 |
+| tail2..5 / 6..8 | 210.270110 / 229.835190 | checked modifies frame, Kissat/unwind18 |
+| tail9..10 / 11..12 | 193.222260 / 199.784850 | checked modifies frame, Kissat/unwind18 |
+| tail13 / 14 | 231.391420 / 237.205780 | checked modifies frame, Kissat/unwind18 |
 | network N30/N31/N32 | 112.934250 / 116.823906 / 117.063560 | carry unchanged; small margin disclosed |
 
 ## Exact domains, source checks and unwind argument
@@ -52,6 +53,34 @@ partition assumptions and normalizing the helper/generic names. Assertions, orac
 comparator and cover labels are unchanged. Other network splits remain exactly as approved in G1:
 N15/N16/N17, N32 stable/unstable, tails [2,5]∪[6,8], [9,10]∪[11,12], {13}∪{14}, N30/N31/N32.
 
+## Coordinator-authorized frame correction for the six tail parts
+
+The 2026-11-05 coordinator instruction authorizes replacing the explicit post-call frame
+with the profile's checked modifies guarantee. New helper `insert_tail_group_value_modifies_frame`
+is exactly the original helper with only `insert_tail_start1_frame::<START>(&v, &pre, tail)`
+omitted. The original helper and frame function remain unchanged for tail15..16.
+Root doc comments state the justification. All six tail domains, backing arrays, input/probe,
+comparator, requires, sortedness/permutation ensures, covers and movement-cover pre-copy remain.
+No new assumption or stub is introduced. The other nine G2 parts are unchanged from packet
+`7e382c4a1c7075245b3202939c0d931e199e4025`; all 10 carried G1 parts are unchanged as well.
+
+For START=1, begin=base+1 and end=base+tail, so tail_len=tail and the profile's modifies slice
+is exactly the inclusive element interval [1,tail]. In backing indices [0,16], the prior frame
+is {0} union [tail+1,16], exactly its complement (and therefore a subset of the complement).
+`proof_for_contract(insert_tail_profile)` checks that modifies guarantee on the real callee;
+the unchanged modifies attribute is
+`ptr::slice_from_raw_parts_mut(begin, tail_len::<P::Elem>(begin, tail))`.
+Thus the PFC still checks out-of-region preservation; duplicate post-call comparisons add
+no independent frame obligation. The static checker enumerates this complement for every
+tail2..14, verifies the helper projection and unchanged profile contract, and freezes other roots.
+This is a source argument for coverage equivalence; G2 success is still required.
+
+Coordinator-reported motivation: TAILDIAG `59ada14d0a`, branch
+`experiment/kani-k1-taildiag-20261105`, RESULT-TAILDIAG: 183 ->31s (~5.85x) after removing an
+explicit post-call frame while retaining PFC modifies. This is supplied evidence, not an
+independently inspected result or a CITRIM timing prediction. No neighboring code/diff was read.
+Final selected variant keeps **Kissat/unwind18** for all six tail parts.
+
 Only the 15 problem parts gain `#[kani::solver(kissat)]` and lower unwind. Solver selection
 changes the verification backend, not the program/domain. The existing runner already checks
 Kissat installation/version. This is an experiment; no speedup is asserted before G2.
@@ -61,7 +90,7 @@ documents solver selection and failing unwinding assertions for insufficient bou
 | Parts | Old -> new unwind | Source bound rationale |
 | --- | --- | --- |
 | 8 merge N9 | 34 -> 10 | exact array N9; sortedness loop8, merge loop4, half-extension loops <=1, insertion loop<=4; 10 covers a 9-iteration array loop plus exit |
-| 6 insert-tail | 25 -> 18 | backing17; full prefix_unchanged scan <=17 plus exit; suffix <=14, frame1, real insertion <=13; model_count/model_sorted are loop-free |
+| 6 insert-tail | 25 -> 18 | backing17; full prefix_unchanged scan <=17 plus exit; real insertion <=13; duplicate frame scans omitted; model_count/model_sorted are loop-free |
 | unstable bytes16 N32 | 65 -> 33 | from_fn exact32 plus exit; general sort halves/extensions and merge loops <=16; sort8 merges4, insertion <=15 |
 
 These are source arguments, not a preclaimed compiler/proof result. No unwinding assertion is
@@ -74,7 +103,7 @@ Ordinary **235 = 219 - 9 + 25**, cfg-on **269 = 235 + 34**; exact expected lists
 
 ## Exact G2 request and budget
 
-Request `citrim-g2-20261105-01`: diagnostic, standard4, k1-merge, jobs1,
+Request `citrim-g2-20261105-02`: diagnostic, standard4, k1-merge, jobs1,
 controls=false, **inventory=false**, 15 SUCCESS roots, 5 minutes each. Full exact root names:
 RUN-REQUEST.json; request SHA256 in RUN-LEDGER.json and check-report.json.
 Require each <=120s and **35/35 covers** with exact per-root totals in expected-g2-covers.json.
@@ -88,7 +117,7 @@ G1 used no repair, and its failure is not eligible as a compile-error repair. No
 Window anchored 11:00Z: main deadline 16:00Z, closeout 16:30Z. Recheck exact remaining time
 before dispatch; a 105-minute maximum G2 must fit the remaining main window.
 Project snapshot: 243 builds, used $104.1495, reserved $0; with G2 max $105.5670 <=$118.96.
-Request SHA256: `275066d047faf01d565106f153e3154c5d2aa6430a4f549495935a3bf92cc675`.
+Request SHA256: `7822880947beb888d1a7a3103b2f8e9c2b942269536565ee3363e1884d2d7616`.
 Latest full105-minute dispatch is 14:15Z; no window extension is implied. Recheck at dispatch.
 
 Inventory is explicitly handed off per coordinator instruction: if it does not fit, report

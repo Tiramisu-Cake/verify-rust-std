@@ -128,9 +128,28 @@ def main():
             expected[key] = expected[key].replace(
                 tokens('#[kani::unwind(25)]'),
                 tokens('#[kani::solver(kissat)] #[kani::unwind(18)]'))
+            expected[key] = expected[key].replace(
+                'insert_tail_group_value', 'insert_tail_group_value_modifies_frame')
             covers[key] = high - low + 3
         record(f'network::insert_tail_contract_u64_start1_tail{lo}_to{hi}',
                parts, list(range(lo, hi + 1)))
+
+    original_tail_helper = next(it for it in old.items[network]
+                                if it.kind == 'fn' and it.name == 'insert_tail_group_value')
+    tuned_tail_helper = next(it for it in new.items[network]
+                             if it.kind == 'fn'
+                             and it.name == 'insert_tail_group_value_modifies_frame')
+    expected_tail_helper = original_tail_helper.text().replace(
+        'insert_tail_group_value', 'insert_tail_group_value_modifies_frame').replace(
+            tokens('insert_tail_start1_frame::<START>(&v, &pre, tail);') + ' ', '')
+    assert tuned_tail_helper.text() == expected_tail_helper, 'only authorized frame call omitted'
+    # Integer element coordinates: modifies(begin=base+1,len=tail) is [1,tail].
+    # The prior frame is {0} union [tail+1,16], exactly its complement in backing17.
+    # The PFC target's contract (including modifies) is checked unchanged below.
+    for tail in range(2, 15):
+        modifies = set(range(1, tail + 1))
+        explicit_frame = {0} | set(range(tail + 1, 17))
+        assert explicit_frame == set(range(17)) - modifies
 
     parts = {}
     for n in (30, 31, 32):
@@ -161,7 +180,8 @@ def main():
                       ('fn', 'stable_direct_u64_partition'),
                       ('macro_rules', 'define_direct_u64_partition_harness')},
               network: {('macro_rules', 'dispatch_pair_route_safety_case'),
-                        ('macro_rules', 'insert_tail_start1_tuned_case')}}
+                        ('macro_rules', 'insert_tail_start1_tuned_case'),
+                        ('fn', 'insert_tail_group_value_modifies_frame')}}
     for file, text in old.files.items():
         if file not in extras:
             assert new.files[file] == text, file
@@ -191,6 +211,20 @@ def main():
     assert len(request['harnesses']) == len(requested) == 15
     assert {r['name'] for r in request['harnesses']} == {PREFIX + n for n in requested}
     assert all(r['expect'] == 'SUCCESS' for r in request['harnesses'])
+    previous_g2 = s.Source('7e382c4a1c7075245b3202939c0d931e199e4025')
+    previous_roots = previous_g2.roots(False)
+    tail_parts = {n for n in requested if n.startswith(
+        'network::insert_tail_contract_u64_start1_')}
+    assert len(tail_parts) == 6
+    assert set(previous_roots) == set(after)
+    assert all(previous_roots[n][1].text() == after[n][1].text()
+               for n in set(after) - tail_parts), 'only six root expansions may change'
+    assert previous_g2.files[merge] == new.files[merge], 'other nine G2 parts unchanged'
+    request_names = {r['name'] for r in request['harnesses']}
+    previous_request = json.loads(subprocess.check_output([
+        'git', 'show', '7e382c4a1c7075245b3202939c0d931e199e4025:'
+        'research/challenge-8/kani-k1/RUN-REQUEST.json'], text=True))
+    assert {r['name'] for r in previous_request['harnesses']} == request_names
     (HERE / 'carried-g1.txt').write_text(''.join(PREFIX + n + '\n' for n in sorted(carry)))
     (HERE / 'expected-g2-covers.json').write_text(json.dumps(
         {PREFIX + k: covers[k] for k in sorted(requested)}, indent=2) + '\n')
@@ -212,6 +246,15 @@ def main():
         'g2_requested': sorted(requested), 'expected_g2_covers': sum(covers[n] for n in requested),
         'merge_partition_predicates': ['lt_u64(&v[1], &v[0])', 'lt_u64(&v[5], &v[4])'],
         'stage': 'citrim-g2',
+        'authorized_frame_change': {
+            'roots': sorted(tail_parts), 'tails_checked': list(range(2, 15)),
+            'modifies_indices': '[1,tail]',
+            'prior_explicit_frame_indices': '{0} union [tail+1,16]',
+            'frame_equals_complement': True, 'pfc_contract_unchanged': True,
+            'helper_projection_only_omits_frame_call': True,
+            'other_nine_g2_parts_unchanged': True,
+            'coordinator_authorization': '2026-11-05: use checked profile modifies for frame',
+            'performance_source_claim': 'Coordinator: TAILDIAG 59ada14d0a, 183 -> 31s (~5.85x); not independently inspected or CITRIM measured'},
         'request_sha256': hashlib.sha256((HERE.parent / 'RUN-REQUEST.json').read_bytes()).hexdigest(),
         'limitations': 'Finite selectors/source tokens only; no compiler inventory or proof; times unmeasured.'}
     (HERE / 'check-report.json').write_text(json.dumps(report, indent=2) + '\n')

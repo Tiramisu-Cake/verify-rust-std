@@ -270,6 +270,39 @@
     "lt_u64(&v[5], &v[4])"
   ],
   "stage": "citrim-g2",
-  "request_sha256": "275066d047faf01d565106f153e3154c5d2aa6430a4f549495935a3bf92cc675",
+  "authorized_frame_change": {
+    "roots": [
+      "network::insert_tail_contract_u64_start1_tail11_to12",
+      "network::insert_tail_contract_u64_start1_tail13",
+      "network::insert_tail_contract_u64_start1_tail14",
+      "network::insert_tail_contract_u64_start1_tail2_to5",
+      "network::insert_tail_contract_u64_start1_tail6_to8",
+      "network::insert_tail_contract_u64_start1_tail9_to10"
+    ],
+    "tails_checked": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "modifies_indices": "[1,tail]",
+    "prior_explicit_frame_indices": "{0} union [tail+1,16]",
+    "frame_equals_complement": true,
+    "pfc_contract_unchanged": true,
+    "helper_projection_only_omits_frame_call": true,
+    "other_nine_g2_parts_unchanged": true,
+    "coordinator_authorization": "2026-11-05: use checked profile modifies for frame",
+    "performance_source_claim": "Coordinator: TAILDIAG 59ada14d0a, 183 -> 31s (~5.85x); not independently inspected or CITRIM measured"
+  },
+  "request_sha256": "7822880947beb888d1a7a3103b2f8e9c2b942269536565ee3363e1884d2d7616",
   "limitations": "Finite selectors/source tokens only; no compiler inventory or proof; times unmeasured."
 }
