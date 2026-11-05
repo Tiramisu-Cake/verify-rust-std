@@ -1,0 +1,32 @@
+{
+  "schema": "loopreal-coordinator-reported-actions-timing-v1",
+  "provenance": "Coordinator message in this LOOPREAL conversation; supplied to complete the corrected PRE-BUILD packet.",
+  "suite": "Full organizer CI v7",
+  "source_revision_as_supplied": "d1283ff22a",
+  "kani_pin_as_supplied": "cd355b0b",
+  "metric": "verification time in seconds",
+  "platforms": [
+    "ubuntu",
+    "macOS"
+  ],
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+      "verification_time_s_by_platform": {
+        "ubuntu": 4.687,
+        "macOS": 3.657
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+      "verification_time_s_by_platform": {
+        "ubuntu": 35.126,
+        "macOS": 25.67
+      }
+    }
+  ],
+  "k1_rows_available": false,
+  "actions_run_ids": null,
+  "independently_verified": false,
+  "qualification": "Coordinator-reported timing only, not K-1/GCB standard4 evidence. Cross-platform and v7-to-LOOPREAL comparison is approximate; no matched-run speedup or regression ratio is inferred. Actions was not accessed. Per-root status/checks/covers and exact run identities were not supplied."
+}

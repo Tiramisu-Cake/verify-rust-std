@@ -2,9 +2,9 @@
   "status": "PASS_STATIC_ONLY",
   "task_commit": "01cb5fc3cda3ecf2795939285154416f213fa7e2",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "request_sha256": "d3296dba2cbe4843f313d2fb7cff09ad627d8726c1f1a60e0e9f1a1fbda59e30",
+  "request_sha256": "8af5df8cdad82e52c3851d4caab263beb11a291ef437319feea9e2e94d9a5081",
   "library_sha256": {
-    "library/core/src/slice/sort/shared/smallsort.rs": "60eae67a1a1d69feb74f5e2a1ca85183cf50a0fc2b86e84efba17af6fca7d158",
+    "library/core/src/slice/sort/shared/smallsort.rs": "4991aa6c1fcfa321d9c1d365ace25c2514b0fdc1c21cc61d5ae2fbdcefb1bcbd",
     "library/core/src/slice/sort/shared/smallsort/verify.rs": "10a1c79a24eb5ef954c10a1a3ebad5ede77b1e1e51726d49c844c8967d119986",
     "library/core/src/slice/sort/shared/smallsort/verify/loopreal.rs": "7979f863edce634e492c9dadd5372c0bf540a0dceb91d4c87129b20fd7d8a05b"
   },
@@ -22,10 +22,13 @@
   "ordinary_regressions": [
     "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
     "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
-    "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed"
+    "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32"
   ],
-  "positive_expected_covers": 32,
-  "build_timeout_minutes": 70,
-  "maximum_reservation_usd": 0.945,
-  "limitations": "No compilation, dynamic cfg inventory, actual invariant checks, timing, memory or proof result established."
+  "positive_expected_covers": 34,
+  "build_timeout_minutes": 78,
+  "baseline_provenance": "3 bounded K-1 rows; 2 coordinator-reported Actions v7 timings, approximate cross-platform comparison only",
+  "maximum_reservation_usd": 1.053,
+  "limitations": "No compilation, dynamic cfg inventory, actual invariant checks, new timing, memory or proof result established. Actions baseline values are coordinator-reported, not independently verified; no run IDs supplied."
 }

@@ -8,8 +8,8 @@
   "base_commit": "4b05b98a3c41c64afe79446da766430a284de83f",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
-  "request_id": "loopreal-g1-20261105-01",
-  "request_sha256": "d3296dba2cbe4843f313d2fb7cff09ad627d8726c1f1a60e0e9f1a1fbda59e30",
+  "request_id": "loopreal-g1-20261105-02",
+  "request_sha256": "8af5df8cdad82e52c3851d4caab263beb11a291ef437319feea9e2e94d9a5081",
   "prepared_utc": "2026-11-05T08:07:09.548368+00:00",
   "main_minutes": 240,
   "closeout_minutes": 30,
@@ -19,9 +19,9 @@
   "compile_error_repair_limit_per_build": 1,
   "own_cap_usd": 2.0,
   "project_cap_usd": 118.96,
-  "watchdog_harness_minutes": 40,
-  "build_timeout_minutes": 70,
-  "maximum_reservation_usd": 0.945,
+  "watchdog_harness_minutes": 48,
+  "build_timeout_minutes": 78,
+  "maximum_reservation_usd": 1.053,
   "spent_usd": 0,
   "reserved_usd": 0,
   "repairs": 0,
@@ -30,13 +30,20 @@
     "builds": 236,
     "used_usd": 99.897,
     "reserved_usd": 0.81,
-    "with_this_max_reservation_usd": 101.652
+    "with_this_max_reservation_usd": 101.76
   },
   "budget_observation_note": "Read-only k1g.sh budget during preparation; recheck before coordinator-authorized dispatch. Snapshot is not a reservation.",
   "authorization": "No dispatch authorization yet. Stop at PRE-BUILD REVIEW full SHA. G2 requires G1 analysis and separate coordinator GO; repair only if spent + reserve <= own cap.",
   "wait_policy": "After authorized dispatch, k1g.sh watch BUILD, then end the turn; no status polling.",
   "evidence_policy": "Only bounded K-1 summaries/rows/peaks/log-grep and identity/tooling metadata; no raw logs, archives, Cloud Logging or credentials.",
   "library_commits": [
-    "fc1ddf01251e12fa087cfa280161bcbb6a720cdb"
-  ]
+    "fc1ddf01251e12fa087cfa280161bcbb6a720cdb",
+    "d79f9d306b3a771b87c4fd5f0104347adabb11b0"
+  ],
+  "revised_utc": "2026-11-05T08:18:06.351492+00:00",
+  "rejected_packet_sha": "ffda59d715b3a0bceac59276d18a03f8a61a6015",
+  "review_correction": "Coordinator NO-GO: short-circuit inner invariant for reachable ZST route; add N16/N32 ordinary regressions; no dispatch authorized.",
+  "g2_budget_note": "G1 reserve $1.053 fits own cap $2.00. G2/repair reserve must be checked against actual own spent; do not reserve two 12-row maxima ($2.106). If G1 spent its full maximum, $0.947 remains.",
+  "baseline_status": "Complete for packet: three historical bounded K-1 rows plus two coordinator-reported Actions v7 verification-time baselines. ZST timings are approximate cross-platform comparisons, not GCB standard4 evidence.",
+  "baseline_source_note": "Coordinator supplied v7 d1283ff22a / Kani cd355b0b timings; no K-1 rows or Actions run IDs for these ZST roots. Recorded without accessing Actions."
 }

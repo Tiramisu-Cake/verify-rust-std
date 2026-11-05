@@ -9,7 +9,8 @@
     "source_sha": "91aeee2c62c3fc1e665fa7a44a5787c8283e54ab",
     "source_request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
     "bounded_rows_file": "../veightinteg/evidence/rows.txt",
-    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline."
+    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+    "evidence_kind": "bounded_k1_rows"
   },
   {
     "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
@@ -21,7 +22,8 @@
     "source_sha": "63bbd6d309b8063a515dae5be1a082e7e6836992",
     "source_request_sha256": "c8b6de28b7cca912b4aa6729c172d765e4de6cbdeb31586eea6a688d66347cb3",
     "bounded_rows_file": "../codefix/evidence/rows.txt",
-    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline."
+    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+    "evidence_kind": "bounded_k1_rows"
   },
   {
     "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
@@ -33,6 +35,35 @@
     "source_sha": "91aeee2c62c3fc1e665fa7a44a5787c8283e54ab",
     "source_request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
     "bounded_rows_file": "../veightinteg/evidence/rows.txt",
-    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline."
+    "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+    "evidence_kind": "bounded_k1_rows"
+  },
+  {
+    "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+    "evidence_kind": "coordinator_reported_actions_timing",
+    "verification_time_s_by_platform": {
+      "ubuntu": 4.687,
+      "macOS": 3.657
+    },
+    "source_revision_as_supplied": "d1283ff22a",
+    "source_pin_as_supplied": "cd355b0b",
+    "source_reference_file": "actions-v7-timing-source.json",
+    "independently_verified": false,
+    "status": null,
+    "qualification": "Coordinator-reported timing only, not K-1/GCB standard4 evidence. Cross-platform and v7-to-LOOPREAL comparison is approximate; no matched-run speedup or regression ratio is inferred. Actions was not accessed. Per-root status/checks/covers and exact run identities were not supplied."
+  },
+  {
+    "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+    "evidence_kind": "coordinator_reported_actions_timing",
+    "verification_time_s_by_platform": {
+      "ubuntu": 35.126,
+      "macOS": 25.67
+    },
+    "source_revision_as_supplied": "d1283ff22a",
+    "source_pin_as_supplied": "cd355b0b",
+    "source_reference_file": "actions-v7-timing-source.json",
+    "independently_verified": false,
+    "status": null,
+    "qualification": "Coordinator-reported timing only, not K-1/GCB standard4 evidence. Cross-platform and v7-to-LOOPREAL comparison is approximate; no matched-run speedup or regression ratio is inferred. Actions was not accessed. Per-root status/checks/covers and exact run identities were not supplied."
   }
 ]
