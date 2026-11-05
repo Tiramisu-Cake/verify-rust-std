@@ -376,3 +376,179 @@ fn sort8_safety_u64_scratch48_src32_dst0_merge_stubbed() {
     // do not read the destination as initialized output after this stubbed merge.
     kani::cover(true, "widedomains G2 sort8 merge consumer returns");
 }
+
+// G3 keeps G2's complete input domains. The independent arbitrary probe is constrained only
+// to an outside element and is never passed to the helper or comparator. Quantifying over
+// this probe checks every outside element, without copying/comparing the whole allocation.
+// An outside element exists for every allowed input: the modified region has at most 20
+// elements in backing32. The original PFC requires/modifies checks remain in place.
+fn exercise_tail_probe<const LO: usize, const HI: usize>() -> (usize, usize) {
+    const { assert!(1 <= LO && LO <= HI && HI <= 19) };
+    let mut backing: [u64; 32] = kani::any();
+    let start = if kani::any() { 16 } else { 0 };
+    let tail: usize = kani::any();
+    kani::assume(LO <= tail && tail <= HI);
+    kani::assume(start + tail < 32);
+    let probe: usize = kani::any();
+    kani::assume(probe < 32 && (probe < start || probe > start + tail));
+    let before = backing[probe];
+    // SAFETY: the inclusive region is fully initialized and writable in backing32.
+    unsafe {
+        let begin = backing.as_mut_ptr().add(start);
+        insert_tail(begin, begin.add(tail), &mut tail_less_u64);
+    }
+    kani::assert(backing[probe] == before, "widedomains G3 tail arbitrary outside frame");
+    kani::cover(tail == LO, "widedomains G3 tail lower end returns");
+    kani::cover(tail == HI, "widedomains G3 tail upper end returns");
+    kani::cover(start == 0, "widedomains G3 tail first region returns");
+    kani::cover(start == 16, "widedomains G3 tail second region returns");
+    kani::cover(probe < start, "widedomains G3 tail left frame returns");
+    kani::cover(probe > start + tail, "widedomains G3 tail right frame returns");
+    kani::cover(true, "widedomains G3 tail returns");
+    (start, tail)
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_probe_u64_backing32_tail1_to4() {
+    exercise_tail_probe::<1, 4>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_probe_u64_backing32_tail5_to9() {
+    exercise_tail_probe::<5, 9>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_probe_u64_backing32_tail10_to14() {
+    exercise_tail_probe::<10, 14>();
+}
+
+#[kani::proof_for_contract(insert_tail)]
+#[kani::unwind(34)]
+fn insert_tail_probe_u64_backing32_tail15_to19() {
+    let (start, tail) = exercise_tail_probe::<15, 19>();
+    kani::cover(start + tail == 31, "widedomains G3 tail last element returns");
+}
+
+fn exercise_insertion_probe<const LO: usize, const HI: usize>() -> (usize, usize) {
+    const { assert!(1 <= LO && LO <= HI && HI <= 20) };
+    let mut backing: [u64; 32] = kani::any();
+    let start = if HI <= 16 && kani::any() { 16 } else { 0 };
+    let len: usize = kani::any();
+    let offset: usize = kani::any();
+    kani::assume(LO <= len && len <= HI);
+    kani::assume(1 <= offset && offset <= len);
+    let probe: usize = kani::any();
+    kani::assume(probe < 32 && (probe < start || probe >= start + len));
+    let before = backing[probe];
+    insertion_sort_shift_left(&mut backing[start..start + len], offset, &mut tail_less_u64);
+    kani::assert(backing[probe] == before, "widedomains G3 insertion arbitrary outside frame");
+    kani::cover(len == LO, "widedomains G3 insertion lower length returns");
+    kani::cover(len == HI, "widedomains G3 insertion upper length returns");
+    kani::cover(start == 0, "widedomains G3 insertion first region returns");
+    kani::cover(offset == 1, "widedomains G3 insertion first offset returns");
+    kani::cover(offset == len, "widedomains G3 insertion final offset returns");
+    kani::cover(offset < len, "widedomains G3 insertion nonempty loop returns");
+    kani::cover(probe >= start + len, "widedomains G3 insertion right frame returns");
+    kani::cover(true, "widedomains G3 insertion returns");
+    (start, probe)
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub(tail_comparison_covers, omit_tail_comparison_covers)]
+#[kani::unwind(34)]
+fn insertion_probe_u64_backing32_len1_to16() {
+    let (start, probe) = exercise_insertion_probe::<1, 16>();
+    kani::cover(start == 16, "widedomains G3 insertion second region returns");
+    kani::cover(probe < start, "widedomains G3 insertion left frame returns");
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub(tail_comparison_covers, omit_tail_comparison_covers)]
+#[kani::unwind(34)]
+fn insertion_probe_u64_backing32_len17_to20() {
+    exercise_insertion_probe::<17, 20>();
+}
+
+fn exercise_network_merge_probe<const N: usize>() -> usize {
+    const { assert!(N == 16 || N == 32) };
+    let source: [u64; 32] = kani::any();
+    let mut destination = MaybeUninit::<[u64; 32]>::uninit();
+    let probe: usize = kani::any();
+    kani::assume(probe < 32);
+    let before = source[probe];
+    kani::cover(N == 16 || N == 32, "widedomains G3 network merge length entered");
+    // SAFETY: initialized source prefix and separate destination allocation32 writable
+    // for N outputs. N32 matches the actual network; N16 is the intermediate length step
+    // in that same allocation geometry, not an actual len16 network merge call.
+    unsafe {
+        bidirectional_merge(&source[..N], destination.as_mut_ptr().cast(), &mut tail_less_u64);
+    }
+    kani::assert(source[probe] == before, "widedomains G3 merge arbitrary source frame");
+    kani::cover(probe < N, "widedomains G3 merge source-slice frame returns");
+    kani::cover(true, "widedomains G3 network merge returns");
+    probe
+}
+
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
+#[kani::unwind(34)]
+fn merge_probe_u64_len16_network_backing32() {
+    let probe = exercise_network_merge_probe::<16>();
+    kani::cover(probe >= 16, "widedomains G3 merge source suffix frame returns");
+}
+
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
+#[kani::unwind(34)]
+fn merge_probe_u64_len32_network_backing32() {
+    exercise_network_merge_probe::<32>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insertion_sort_shift_left)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::stub(tail_comparison_covers, omit_tail_comparison_covers)]
+#[kani::unwind(34)]
+fn unstable_network_safety_u64_n32_all_helpers_stubbed() {
+    let mut backing: [u64; 32] = kani::any();
+    kani::cover(backing.len() == 32, "widedomains G3 all-stub network maximum entered");
+    // Exact real call sites: swap bases0/16, insertion len16/offset13 at those bases, and
+    // merge32 from backing32 into separate uninitialized scratch32. Requires G2's matching
+    // swap PFC, all G3 tail/insertion PFCs, and the G3 network-geometry merge32 PFC.
+    // Every callback is cut, so omit only its cover hook, retaining the same F item.
+    <u64 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut tail_less_u64);
+    kani::cover(true, "widedomains G3 all-stub network returns");
+}
+
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
+#[kani::unwind(50)]
+fn merge_probe_u64_len32_general_scratch48() {
+    let mut scratch = MaybeUninit::new(kani::any::<[u64; 48]>());
+    let mut backing: [u64; 32] = kani::any();
+    let probe: usize = kani::any();
+    kani::assume(probe < 48);
+    // SAFETY: all 48 slots were initialized above. Their layout/alignment is u64's.
+    let base = scratch.as_mut_ptr().cast::<u64>();
+    let before = unsafe { ptr::read(base.add(probe)) };
+    kani::cover(true, "widedomains G3 general merge length32 entered");
+    // Actual final general N32 merge: scratch[0..32] -> original backing32. At this point
+    // scratch[32..48] is also initialized by the two sort8 temporaries; all 48 are framed.
+    unsafe {
+        let source = crate::slice::from_raw_parts(base, 32);
+        bidirectional_merge(source, backing.as_mut_ptr(), &mut tail_less_u64);
+    }
+    // SAFETY: initialized scratch is outside the destination allocation and must be framed.
+    let after = unsafe { ptr::read(base.add(probe)) };
+    kani::assert(after == before, "widedomains G3 general merge arbitrary source frame");
+    kani::cover(probe < 32, "widedomains G3 general source frame returns");
+    kani::cover(probe >= 32, "widedomains G3 general scratch suffix frame returns");
+    kani::cover(true, "widedomains G3 general merge returns");
+}
