@@ -1,30 +1,25 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "permensures-g2-20261105",
+  "request_id": "permensures-g3-20261105",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "PERMENSURES G2: full-value swap permutation PFC u8 backing24 and matched Unstable network N24 consumer; backing9 PFC and N9 consumer with post-sort single-element corruption expected to fail the tag mask.",
+  "purpose": "PERMENSURES G3: verified-swap Unstable network u8 N32 consumer with kissat solver and already proven backing32 PFC domain; new full-value swap permutation PFC backing28 and matched N28 consumer with default solver.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "kani_jobs": 1,
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing24",
+      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n32_kissat",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n24",
+      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing28",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::permensures::swap_permutation_u8_backing9",
+      "name": "slice::sort::shared::smallsort::verify::permensures::unstable_network_permutation_u8_n28",
       "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::permensures::rejects_network_corruption_u8_n9",
-      "expect": "FAILED",
-      "expect_check": "permensures network tag mask"
     }
   ]
 }
