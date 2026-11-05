@@ -78,4 +78,6 @@ mod realcontracts;
 mod scratchgeom;
 mod smoke;
 mod types;
+#[cfg(kani_smallsort_controls)]
+mod widedomains;
 mod wrap;
