@@ -1,0 +1,15 @@
+--harness
+slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32
+--harness
+slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u64_backing32
+--harness
+slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed
+--harness
+slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail1_to7
+--harness
+slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail8_to15
+--exact
+--harness-timeout
+4m
+--jobs=1
+--output-format=terse

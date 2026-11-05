@@ -1,0 +1,103 @@
+interval_ms=2000
+samples=2211
+elapsed_s=4434
+total_rss_peak_kb=3172524
+total_peak_s=3332
+cmd=bash peak_kb=3804 first_s=0 last_s=4434 peak_s=2
+cmd=cargo peak_kb=33132 first_s=2 last_s=68 peak_s=58
+cmd=cbmc peak_kb=2359796 first_s=74 last_s=4432 peak_s=2780
+cmd=cc1 peak_kb=8856 first_s=1279 last_s=2485 peak_s=2485
+cmd=gcc peak_kb=1148 first_s=1279 last_s=2485 peak_s=2485
+cmd=goto-cc peak_kb=32296 first_s=70 last_s=676 peak_s=70
+cmd=goto-instrument peak_kb=80136 first_s=375 last_s=4012 peak_s=2487
+cmd=kani-compiler peak_kb=1812628 first_s=2 last_s=68 peak_s=54
+cmd=kani-driver peak_kb=747340 first_s=2 last_s=4432 peak_s=4428
+cmd=kissat peak_kb=510456 first_s=80 last_s=4416 peak_s=2220
+cmd=python3 peak_kb=20536 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3832 first_s=2 last_s=4432 peak_s=2
+cmd=tee peak_kb=1124 first_s=0 last_s=4434 peak_s=0
+cmd=time peak_kb=1248 first_s=2 last_s=4432 peak_s=2
+cmd=timeout peak_kb=1052 first_s=2 last_s=4432 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=2359796 peak_s=2780
+role=driver simultaneous_rss_peak_kb=728848 peak_s=4428
+role=solver simultaneous_rss_peak_kb=502780 peak_s=2043
+cbmc_pid=9656 peak_kb=2359796 first_s=2491 last_s=2788 peak_s=2780 active=T0:network::insert_tail_contract_u64_start1_tail13 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9704 peak_kb=2349268 first_s=2794 last_s=3093 peak_s=3089 active=T0:network::insert_tail_contract_u64_start1_tail14 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9759 peak_kb=2321592 first_s=3099 last_s=3398 peak_s=3372 active=T0:network::insert_tail_contract_u64_start1_tail11_to12 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9808 peak_kb=2270436 first_s=3406 last_s=3703 peak_s=3699 active=T0:network::insert_tail_contract_u64_start1_tail9_to10 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9907 peak_kb=2233560 first_s=4014 last_s=4313 peak_s=4303 active=T0:network::insert_tail_contract_u64_start1_tail6_to8 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9857 peak_kb=2168296 first_s=3709 last_s=4008 peak_s=3972 active=T0:network::insert_tail_contract_u64_start1_tail2_to5 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+solver_pid=9612 cmd=kissat peak_kb=510456 first_s=2216 last_s=2236 peak_s=2220 active=T0:merge::general_direct_u64_n9_keep0_keep4
+solver_pid=9545 cmd=kissat peak_kb=509304 first_s=1763 last_s=1785 peak_s=1769 active=T0:merge::general_direct_u64_n9_swap0_keep4
+solver_pid=9461 cmd=kissat peak_kb=509204 first_s=1009 last_s=1051 peak_s=1015 active=T0:merge::general_direct_u64_n9_keep0_swap4
+solver_pid=9468 cmd=kissat peak_kb=508868 first_s=1213 last_s=1233 peak_s=1217 active=T0:merge::general_direct_u64_n9_keep0_swap4
+solver_pid=9621 cmd=kissat peak_kb=508784 first_s=2440 last_s=2463 peak_s=2444 active=T0:merge::general_direct_u64_n9_keep0_keep4
+solver_pid=9615 cmd=kissat peak_kb=508644 first_s=2292 last_s=2312 peak_s=2296 active=T0:merge::general_direct_u64_n9_keep0_keep4
+driver_s=0 rss_kb=0
+harness_s=74 name=T0:merge::stable_direct_u64_n9_swap0_keep4
+driver_s=481 rss_kb=6892
+harness_s=377 name=T0:merge::stable_direct_u64_n9_keep0_keep4
+driver_s=962 rss_kb=6920
+harness_s=678 name=T0:merge::stable_direct_u64_n9_swap0_swap4
+driver_s=1444 rss_kb=6932
+harness_s=978 name=T0:merge::general_direct_u64_n9_keep0_swap4
+driver_s=1714 rss_kb=6936
+harness_s=1281 name=T0:merge::stable_direct_u64_n9_keep0_swap4
+driver_s=1955 rss_kb=6936
+harness_s=1582 name=T0:merge::general_direct_u64_n9_swap0_keep4
+driver_s=2196 rss_kb=6948
+harness_s=1883 name=T0:merge::general_direct_u64_n9_swap0_swap4
+driver_s=2346 rss_kb=6948
+harness_s=2186 name=T0:merge::general_direct_u64_n9_keep0_keep4
+driver_s=2467 rss_kb=6948
+harness_s=2491 name=T0:network::insert_tail_contract_u64_start1_tail13
+driver_s=2587 rss_kb=6956
+harness_s=2794 name=T0:network::insert_tail_contract_u64_start1_tail14
+driver_s=2707 rss_kb=6956
+harness_s=3099 name=T0:network::insert_tail_contract_u64_start1_tail11_to12
+driver_s=2828 rss_kb=467484
+harness_s=3404 name=T0:network::insert_tail_contract_u64_start1_tail9_to10
+driver_s=2948 rss_kb=467484
+harness_s=3709 name=T0:network::insert_tail_contract_u64_start1_tail2_to5
+driver_s=3039 rss_kb=467484
+harness_s=4014 name=T0:network::insert_tail_contract_u64_start1_tail6_to8
+driver_s=3099 rss_kb=467484
+harness_s=4315 name=T0:network::dispatch_safety_unstable_bytes16_n32
+driver_s=3159 rss_kb=467484
+driver_s=3219 rss_kb=467484
+driver_s=3279 rss_kb=467504
+driver_s=3340 rss_kb=467512
+driver_s=3400 rss_kb=467568
+driver_s=3460 rss_kb=467584
+driver_s=3520 rss_kb=467584
+driver_s=3581 rss_kb=467584
+driver_s=3641 rss_kb=467584
+driver_s=3701 rss_kb=467584
+driver_s=3761 rss_kb=467584
+driver_s=3792 rss_kb=467584
+driver_s=3822 rss_kb=467584
+driver_s=3852 rss_kb=467584
+driver_s=3882 rss_kb=467584
+driver_s=3912 rss_kb=467584
+driver_s=3942 rss_kb=467584
+driver_s=3972 rss_kb=467584
+driver_s=4002 rss_kb=467584
+driver_s=4032 rss_kb=467584
+driver_s=4062 rss_kb=467584
+driver_s=4093 rss_kb=467584
+driver_s=4123 rss_kb=467584
+driver_s=4153 rss_kb=467584
+driver_s=4183 rss_kb=467584
+driver_s=4213 rss_kb=467584
+driver_s=4243 rss_kb=467584
+driver_s=4273 rss_kb=467584
+driver_s=4303 rss_kb=467584
+driver_s=4333 rss_kb=467584
+driver_s=4364 rss_kb=467584
+driver_s=4394 rss_kb=467584
+driver_s=4424 rss_kb=621188
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=354
+verify_budget_s=5586

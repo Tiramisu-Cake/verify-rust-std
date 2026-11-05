@@ -1,0 +1,93 @@
+interval_ms=2000
+samples=2410
+elapsed_s=4829
+total_rss_peak_kb=3842064
+total_peak_s=3638
+cmd=bash peak_kb=3892 first_s=0 last_s=4829 peak_s=0
+cmd=cargo peak_kb=33348 first_s=2 last_s=66 peak_s=66
+cmd=cbmc peak_kb=2993108 first_s=76 last_s=4829 peak_s=3640
+cmd=cc1 peak_kb=9096 first_s=72 last_s=72 peak_s=72
+cmd=gcc peak_kb=1256 first_s=72 last_s=72 peak_s=72
+cmd=goto-cc peak_kb=30500 first_s=68 last_s=4177 peak_s=2484
+cmd=goto-instrument peak_kb=81168 first_s=377 last_s=4414 peak_s=3122
+cmd=kani-compiler peak_kb=1839940 first_s=2 last_s=66 peak_s=52
+cmd=kani-driver peak_kb=2232148 first_s=2 last_s=4829 peak_s=4829
+cmd=python3 peak_kb=20552 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3716 first_s=2 last_s=4829 peak_s=2
+cmd=tee peak_kb=1108 first_s=0 last_s=4829 peak_s=2
+cmd=time peak_kb=1244 first_s=2 last_s=4829 peak_s=2
+cmd=timeout peak_kb=1100 first_s=2 last_s=4829 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=2989768 peak_s=3638
+role=driver simultaneous_rss_peak_kb=2232148 peak_s=4829
+cbmc_pid=9834 peak_kb=2993108 first_s=3606 last_s=3814 peak_s=3640 active=T0:network::insert_tail_contract_u64_start1_tail2_to5 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9720 peak_kb=2992524 first_s=2928 last_s=3120 peak_s=2956 active=T0:network::insert_tail_contract_u64_start1_tail9_to10 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9758 peak_kb=2992468 first_s=3126 last_s=3355 peak_s=3170 active=T0:network::insert_tail_contract_u64_start1_tail13 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9796 peak_kb=2992340 first_s=3365 last_s=3598 peak_s=3391 active=T0:network::insert_tail_contract_u64_start1_tail14 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9644 peak_kb=2991260 first_s=2490 last_s=2717 peak_s=2528 active=T0:network::insert_tail_contract_u64_start1_tail6_to8 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+cbmc_pid=9682 peak_kb=2990480 first_s=2723 last_s=2922 peak_s=2755 active=T0:network::insert_tail_contract_u64_start1_tail11_to12 hint=slice::sort::shared::smallsort::verify::network::insert_tail
+driver_s=0 rss_kb=0
+harness_s=76 name=T0:merge::stable_direct_u64_n9_lt_lt
+driver_s=962 rss_kb=7012
+harness_s=379 name=T0:merge::general_direct_u64_n9_ge_ge
+driver_s=1714 rss_kb=7012
+harness_s=680 name=T0:merge::general_direct_u64_n9_ge_lt
+driver_s=2196 rss_kb=7012
+harness_s=982 name=T0:merge::stable_direct_u64_n9_lt_ge
+driver_s=2466 rss_kb=7012
+harness_s=1283 name=T0:merge::general_direct_u64_n9_lt_ge
+driver_s=2707 rss_kb=575596
+harness_s=1584 name=T0:merge::stable_direct_u64_n9_ge_lt
+driver_s=2948 rss_kb=616120
+harness_s=1885 name=T0:merge::stable_direct_u64_n9_ge_ge
+driver_s=3098 rss_kb=616120
+harness_s=2188 name=T0:merge::general_direct_u64_n9_lt_lt
+driver_s=3218 rss_kb=620412
+harness_s=2490 name=T0:network::insert_tail_contract_u64_start1_tail6_to8
+driver_s=3339 rss_kb=620412
+harness_s=2723 name=T0:network::insert_tail_contract_u64_start1_tail11_to12
+driver_s=3459 rss_kb=751812
+harness_s=2928 name=T0:network::insert_tail_contract_u64_start1_tail9_to10
+driver_s=3579 rss_kb=751812
+harness_s=3126 name=T0:network::insert_tail_contract_u64_start1_tail13
+driver_s=3700 rss_kb=832840
+harness_s=3363 name=T0:network::insert_tail_contract_u64_start1_tail14
+driver_s=3790 rss_kb=832840
+harness_s=3606 name=T0:network::insert_tail_contract_u64_start1_tail2_to5
+driver_s=3850 rss_kb=833588
+harness_s=3818 name=T0:network::dispatch_safety_stable_bytes16_n32
+driver_s=3910 rss_kb=833588
+harness_s=3928 name=T0:network::dispatch_safety_unstable_bytes16_n32
+driver_s=3971 rss_kb=854724
+harness_s=4057 name=T0:network::dispatch_safety_stable_unstable_bytes17_n15
+driver_s=4031 rss_kb=854724
+harness_s=4121 name=T0:network::dispatch_safety_stable_unstable_bytes16_n15
+driver_s=4091 rss_kb=920260
+harness_s=4179 name=T0:network::dispatch_safety_stable_unstable_bytes17_n16
+driver_s=4151 rss_kb=922932
+harness_s=4251 name=T0:network::dispatch_safety_stable_unstable_bytes16_n17
+driver_s=4211 rss_kb=924980
+harness_s=4318 name=T0:network::dispatch_safety_stable_unstable_bytes17_n17
+driver_s=4271 rss_kb=925224
+harness_s=4416 name=T0:network::dispatch_safety_stable_unstable_bytes16_n16
+driver_s=4332 rss_kb=974376
+harness_s=4480 name=T0:network::network_safety_unstable_u64_n32
+driver_s=4392 rss_kb=974376
+harness_s=4598 name=T0:network::network_safety_unstable_u64_n31
+driver_s=4452 rss_kb=998952
+harness_s=4717 name=T0:network::network_safety_unstable_u64_n30
+driver_s=4512 rss_kb=1025320
+driver_s=4542 rss_kb=1025460
+driver_s=4572 rss_kb=1025460
+driver_s=4602 rss_kb=1609956
+driver_s=4633 rss_kb=1609956
+driver_s=4663 rss_kb=1609956
+driver_s=4693 rss_kb=1609956
+driver_s=4723 rss_kb=1724432
+driver_s=4753 rss_kb=1724432
+driver_s=4783 rss_kb=1724432
+driver_s=4813 rss_kb=1859604
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=348
+verify_budget_s=8592

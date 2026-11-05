@@ -1,13 +1,13 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "veightmax-g1-20261105-02",
+  "request_id": "veightrows-g1-20261105-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "VEIGHTMAX: seven promoted roots, neutral labels and dead FRAME removed; require 7 SUCCESS, 42/42 covers, no unreachable covers, compiled inventory exactly 233 names. The 226 CITRIM roots stay unchanged and are not reverified.",
+  "purpose": "VEIGHTROWS: finish exactly five VEIGHTMAX rows on unchanged library d3982a624072437d603f0f96ba974bb00ac5eb5b, without inventory. Require five SUCCESS, zero failed checks and 33/33 reachable covers; carry merge8/sort8 SUCCESS and 9/9 covers from VEIGHTMAX only.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 4,
   "kani_jobs": 1,
-  "inventory": true,
+  "inventory": false,
   "controls": false,
   "harnesses": [
     {
@@ -20,14 +20,6 @@
     },
     {
       "name": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
       "expect": "SUCCESS"
     },
     {

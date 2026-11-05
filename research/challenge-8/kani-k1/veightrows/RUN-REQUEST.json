@@ -1,0 +1,34 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "veightrows-g1-20261105-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "VEIGHTROWS: finish exactly five VEIGHTMAX rows on unchanged library d3982a624072437d603f0f96ba974bb00ac5eb5b, without inventory. Require five SUCCESS, zero failed checks and 33/33 reachable covers; carry merge8/sort8 SUCCESS and 9/9 covers from VEIGHTMAX only.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 4,
+  "kani_jobs": 1,
+  "inventory": false,
+  "controls": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u64_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
+      "expect": "SUCCESS"
+    }
+  ]
+}
