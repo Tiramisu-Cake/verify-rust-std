@@ -3,7 +3,8 @@
 Stable owner `k1-network`, branch `experiment/kani-k1-taildiag-20261105`.
 G1 build `34500433-bd3d-4784-9a26-aaf0ba3f0492`, source
 `1c99acce330d708961571bd593ecc322768f690f`: nine SUCCESS <=200 s, one TIMEOUT.
-Exact bounded evidence and identity/peak validation: [G1 report](../g1/verification-report.json),
+The bounded TSV response is JSON-escaped verbatim in `g1/rows-output.json`, preserving
+empty timeout fields without trailing whitespace. Exact evidence and identity/peak validation: [G1 report](../g1/verification-report.json),
 [RESULT](../../RESULT-TAILDIAG.md). The Cloud failure is the deterministic tail1..7 timeout;
 there is no compile error. 45/45 covers reached for SUCCESS rows; total goal50 is unestablished.
 Tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`, Kani pin

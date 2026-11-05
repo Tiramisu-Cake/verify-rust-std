@@ -13,7 +13,7 @@ KANI = 'cd355b0bccd32300713bc2ce4f765dafa1510607'
 HASH = 'ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296'
 request = json.loads((D / 'RUN-REQUEST.json').read_text())
 assert hashlib.sha256((D / 'RUN-REQUEST.json').read_bytes()).hexdigest() == HASH
-text = (D / 'rows.txt').read_text().splitlines()
+text = json.loads((D / 'rows-output.json').read_text())['text'].splitlines()
 head = dict(line.split('=', 1) for line in text[:8])
 assert head == dict(request_id=request['request_id'], request_sha256=HASH, build_id=BUILD,
                     head_sha=SOURCE, total='10', offset='0', count='10', next_offset='done')
