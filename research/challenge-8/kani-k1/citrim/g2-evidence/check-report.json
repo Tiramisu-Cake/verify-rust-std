@@ -1,0 +1,308 @@
+{
+  "status": "PASS_SOURCE_ONLY",
+  "base": "4fa6151b6a9d0ae63261ab03eb86b65cec0a899e",
+  "ordinary_before": 219,
+  "ordinary_after": 235,
+  "removed": [
+    "merge::general_direct_u64_n9",
+    "merge::stable_direct_u64_n9",
+    "network::dispatch_safety_stable_unstable_bytes16_n15_16_17",
+    "network::dispatch_safety_stable_unstable_bytes16_n32",
+    "network::dispatch_safety_stable_unstable_bytes17_n15_16_17",
+    "network::insert_tail_contract_u64_start1_tail13_to14",
+    "network::insert_tail_contract_u64_start1_tail2_to8",
+    "network::insert_tail_contract_u64_start1_tail9_to12",
+    "network::network_safety_unstable_u64_n30_to32"
+  ],
+  "added": [
+    "merge::general_direct_u64_n9_keep0_keep4",
+    "merge::general_direct_u64_n9_keep0_swap4",
+    "merge::general_direct_u64_n9_swap0_keep4",
+    "merge::general_direct_u64_n9_swap0_swap4",
+    "merge::stable_direct_u64_n9_keep0_keep4",
+    "merge::stable_direct_u64_n9_keep0_swap4",
+    "merge::stable_direct_u64_n9_swap0_keep4",
+    "merge::stable_direct_u64_n9_swap0_swap4",
+    "network::dispatch_safety_stable_bytes16_n32",
+    "network::dispatch_safety_stable_unstable_bytes16_n15",
+    "network::dispatch_safety_stable_unstable_bytes16_n16",
+    "network::dispatch_safety_stable_unstable_bytes16_n17",
+    "network::dispatch_safety_stable_unstable_bytes17_n15",
+    "network::dispatch_safety_stable_unstable_bytes17_n16",
+    "network::dispatch_safety_stable_unstable_bytes17_n17",
+    "network::dispatch_safety_unstable_bytes16_n32",
+    "network::insert_tail_contract_u64_start1_tail11_to12",
+    "network::insert_tail_contract_u64_start1_tail13",
+    "network::insert_tail_contract_u64_start1_tail14",
+    "network::insert_tail_contract_u64_start1_tail2_to5",
+    "network::insert_tail_contract_u64_start1_tail6_to8",
+    "network::insert_tail_contract_u64_start1_tail9_to10",
+    "network::network_safety_unstable_u64_n30",
+    "network::network_safety_unstable_u64_n31",
+    "network::network_safety_unstable_u64_n32"
+  ],
+  "retained_roots_token_identical": 210,
+  "opt_in_unchanged": 34,
+  "domains": {
+    "merge::general_direct_u64_n9": {
+      "original_atoms": [
+        "true,true",
+        "true,false",
+        "false,true",
+        "false,false"
+      ],
+      "parts": {
+        "merge::general_direct_u64_n9_swap0_swap4": [
+          "true,true"
+        ],
+        "merge::general_direct_u64_n9_swap0_keep4": [
+          "true,false"
+        ],
+        "merge::general_direct_u64_n9_keep0_swap4": [
+          "false,true"
+        ],
+        "merge::general_direct_u64_n9_keep0_keep4": [
+          "false,false"
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "merge::stable_direct_u64_n9": {
+      "original_atoms": [
+        "true,true",
+        "true,false",
+        "false,true",
+        "false,false"
+      ],
+      "parts": {
+        "merge::stable_direct_u64_n9_swap0_swap4": [
+          "true,true"
+        ],
+        "merge::stable_direct_u64_n9_swap0_keep4": [
+          "true,false"
+        ],
+        "merge::stable_direct_u64_n9_keep0_swap4": [
+          "false,true"
+        ],
+        "merge::stable_direct_u64_n9_keep0_keep4": [
+          "false,false"
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::dispatch_safety_stable_unstable_bytes16_n15_16_17": {
+      "original_atoms": [
+        "15,true",
+        "15,false",
+        "16,true",
+        "16,false",
+        "17,true",
+        "17,false"
+      ],
+      "parts": {
+        "network::dispatch_safety_stable_unstable_bytes16_n15": [
+          "15,true",
+          "15,false"
+        ],
+        "network::dispatch_safety_stable_unstable_bytes16_n16": [
+          "16,true",
+          "16,false"
+        ],
+        "network::dispatch_safety_stable_unstable_bytes16_n17": [
+          "17,true",
+          "17,false"
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::dispatch_safety_stable_unstable_bytes17_n15_16_17": {
+      "original_atoms": [
+        "15,true",
+        "15,false",
+        "16,true",
+        "16,false",
+        "17,true",
+        "17,false"
+      ],
+      "parts": {
+        "network::dispatch_safety_stable_unstable_bytes17_n15": [
+          "15,true",
+          "15,false"
+        ],
+        "network::dispatch_safety_stable_unstable_bytes17_n16": [
+          "16,true",
+          "16,false"
+        ],
+        "network::dispatch_safety_stable_unstable_bytes17_n17": [
+          "17,true",
+          "17,false"
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::dispatch_safety_stable_unstable_bytes16_n32": {
+      "original_atoms": [
+        "true",
+        "false"
+      ],
+      "parts": {
+        "network::dispatch_safety_stable_bytes16_n32": [
+          "true"
+        ],
+        "network::dispatch_safety_unstable_bytes16_n32": [
+          "false"
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::insert_tail_contract_u64_start1_tail2_to8": {
+      "original_atoms": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "parts": {
+        "network::insert_tail_contract_u64_start1_tail2_to5": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "network::insert_tail_contract_u64_start1_tail6_to8": [
+          6,
+          7,
+          8
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::insert_tail_contract_u64_start1_tail9_to12": {
+      "original_atoms": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "parts": {
+        "network::insert_tail_contract_u64_start1_tail9_to10": [
+          9,
+          10
+        ],
+        "network::insert_tail_contract_u64_start1_tail11_to12": [
+          11,
+          12
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::insert_tail_contract_u64_start1_tail13_to14": {
+      "original_atoms": [
+        13,
+        14
+      ],
+      "parts": {
+        "network::insert_tail_contract_u64_start1_tail13": [
+          13
+        ],
+        "network::insert_tail_contract_u64_start1_tail14": [
+          14
+        ]
+      },
+      "exact_disjoint_union": true
+    },
+    "network::network_safety_unstable_u64_n30_to32": {
+      "original_atoms": [
+        30,
+        31,
+        32
+      ],
+      "parts": {
+        "network::network_safety_unstable_u64_n30": [
+          30
+        ],
+        "network::network_safety_unstable_u64_n31": [
+          31
+        ],
+        "network::network_safety_unstable_u64_n32": [
+          32
+        ]
+      },
+      "exact_disjoint_union": true
+    }
+  },
+  "expected_new_covers": 64,
+  "carried_g1_success_within_120s": [
+    "network::dispatch_safety_stable_bytes16_n32",
+    "network::dispatch_safety_stable_unstable_bytes16_n15",
+    "network::dispatch_safety_stable_unstable_bytes16_n16",
+    "network::dispatch_safety_stable_unstable_bytes16_n17",
+    "network::dispatch_safety_stable_unstable_bytes17_n15",
+    "network::dispatch_safety_stable_unstable_bytes17_n16",
+    "network::dispatch_safety_stable_unstable_bytes17_n17",
+    "network::network_safety_unstable_u64_n30",
+    "network::network_safety_unstable_u64_n31",
+    "network::network_safety_unstable_u64_n32"
+  ],
+  "g2_requested": [
+    "merge::general_direct_u64_n9_keep0_keep4",
+    "merge::general_direct_u64_n9_keep0_swap4",
+    "merge::general_direct_u64_n9_swap0_keep4",
+    "merge::general_direct_u64_n9_swap0_swap4",
+    "merge::stable_direct_u64_n9_keep0_keep4",
+    "merge::stable_direct_u64_n9_keep0_swap4",
+    "merge::stable_direct_u64_n9_swap0_keep4",
+    "merge::stable_direct_u64_n9_swap0_swap4",
+    "network::dispatch_safety_unstable_bytes16_n32",
+    "network::insert_tail_contract_u64_start1_tail11_to12",
+    "network::insert_tail_contract_u64_start1_tail13",
+    "network::insert_tail_contract_u64_start1_tail14",
+    "network::insert_tail_contract_u64_start1_tail2_to5",
+    "network::insert_tail_contract_u64_start1_tail6_to8",
+    "network::insert_tail_contract_u64_start1_tail9_to10"
+  ],
+  "expected_g2_covers": 35,
+  "merge_partition_predicates": [
+    "lt_u64(&v[1], &v[0])",
+    "lt_u64(&v[5], &v[4])"
+  ],
+  "stage": "citrim-g2",
+  "authorized_frame_change": {
+    "roots": [
+      "network::insert_tail_contract_u64_start1_tail11_to12",
+      "network::insert_tail_contract_u64_start1_tail13",
+      "network::insert_tail_contract_u64_start1_tail14",
+      "network::insert_tail_contract_u64_start1_tail2_to5",
+      "network::insert_tail_contract_u64_start1_tail6_to8",
+      "network::insert_tail_contract_u64_start1_tail9_to10"
+    ],
+    "tails_checked": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "modifies_indices": "[1,tail]",
+    "prior_explicit_frame_indices": "{0} union [tail+1,16]",
+    "frame_equals_complement": true,
+    "pfc_contract_unchanged": true,
+    "helper_projection_only_omits_frame_call": true,
+    "other_nine_g2_parts_unchanged": true,
+    "coordinator_authorization": "2026-11-05: use checked profile modifies for frame",
+    "performance_source_claim": "Coordinator: TAILDIAG 59ada14d0a, 183 -> 31s (~5.85x); not independently inspected or CITRIM measured"
+  },
+  "request_sha256": "7822880947beb888d1a7a3103b2f8e9c2b942269536565ee3363e1884d2d7616",
+  "limitations": "Finite selectors/source tokens only; no compiler inventory or proof; times unmeasured."
+}

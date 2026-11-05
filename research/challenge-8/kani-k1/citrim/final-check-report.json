@@ -1,0 +1,655 @@
+{
+  "source_check": "PASS",
+  "final_library_sha": "f1ce831c2c9b7a3307a652248c467fb086b94ea5",
+  "final_network_sha256": "b5dfd269965e363a003efb42364789afcebd619e45d4f26d78998701eff994af",
+  "task_runtime_goal": "PARTIAL_4_OF_9",
+  "base_sha": "4fa6151b6a9d0ae63261ab03eb86b65cec0a899e",
+  "g1_source": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a",
+  "g2_source": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f",
+  "ordinary_before": 219,
+  "ordinary_after": 226,
+  "delta": 7,
+  "base_ordinary_roots_token_identical": 215,
+  "opt_in_unchanged": 34,
+  "cfg_on_after": 260,
+  "names_sha256": "5d67fd2609986d5ae017c7ab6833a8a93880bd5691d40a47afd184e5ccababea",
+  "kept_split_families": [
+    "network::dispatch_safety_stable_unstable_bytes16_n15_16_17",
+    "network::dispatch_safety_stable_unstable_bytes16_n32",
+    "network::dispatch_safety_stable_unstable_bytes17_n15_16_17",
+    "network::network_safety_unstable_u64_n30_to32"
+  ],
+  "restored_original_families": [
+    "merge::general_direct_u64_n9",
+    "merge::stable_direct_u64_n9",
+    "network::insert_tail_contract_u64_start1_tail13_to14",
+    "network::insert_tail_contract_u64_start1_tail2_to8",
+    "network::insert_tail_contract_u64_start1_tail9_to12"
+  ],
+  "decisions": {
+    "merge::general_direct_u64_n9": {
+      "decision": "RESTORE_ORIGINAL",
+      "final_domain": {
+        "original_atoms": [
+          "true,true",
+          "true,false",
+          "false,true",
+          "false,false"
+        ],
+        "parts": {
+          "merge::general_direct_u64_n9": [
+            "true,true",
+            "true,false",
+            "false,true",
+            "false,false"
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_swap4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_keep4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_swap4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_keep4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "merge::stable_direct_u64_n9": {
+      "decision": "RESTORE_ORIGINAL",
+      "final_domain": {
+        "original_atoms": [
+          "true,true",
+          "true,false",
+          "false,true",
+          "false,false"
+        ],
+        "parts": {
+          "merge::stable_direct_u64_n9": [
+            "true,true",
+            "true,false",
+            "false,true",
+            "false,false"
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_swap4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_keep4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_swap4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_keep4",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "network::dispatch_safety_stable_unstable_bytes16_n15_16_17": {
+      "decision": "KEEP_VERIFIED_SPLIT",
+      "final_domain": {
+        "original_atoms": [
+          "15,true",
+          "15,false",
+          "16,true",
+          "16,false",
+          "17,true",
+          "17,false"
+        ],
+        "parts": {
+          "network::dispatch_safety_stable_unstable_bytes16_n15": [
+            "15,true",
+            "15,false"
+          ],
+          "network::dispatch_safety_stable_unstable_bytes16_n16": [
+            "16,true",
+            "16,false"
+          ],
+          "network::dispatch_safety_stable_unstable_bytes16_n17": [
+            "17,true",
+            "17,false"
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
+          "status": "SUCCESS",
+          "seconds": 57.527676,
+          "seconds_decimal": "57.527676",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
+          "status": "SUCCESS",
+          "seconds": 63.919994,
+          "seconds_decimal": "63.919994",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
+          "status": "SUCCESS",
+          "seconds": 64.92339,
+          "seconds_decimal": "64.92339",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        }
+      ]
+    },
+    "network::dispatch_safety_stable_unstable_bytes17_n15_16_17": {
+      "decision": "KEEP_VERIFIED_SPLIT",
+      "final_domain": {
+        "original_atoms": [
+          "15,true",
+          "15,false",
+          "16,true",
+          "16,false",
+          "17,true",
+          "17,false"
+        ],
+        "parts": {
+          "network::dispatch_safety_stable_unstable_bytes17_n15": [
+            "15,true",
+            "15,false"
+          ],
+          "network::dispatch_safety_stable_unstable_bytes17_n16": [
+            "16,true",
+            "16,false"
+          ],
+          "network::dispatch_safety_stable_unstable_bytes17_n17": [
+            "17,true",
+            "17,false"
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
+          "status": "SUCCESS",
+          "seconds": 62.401028,
+          "seconds_decimal": "62.401028",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
+          "status": "SUCCESS",
+          "seconds": 70.84245,
+          "seconds_decimal": "70.84245",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
+          "status": "SUCCESS",
+          "seconds": 95.44369,
+          "seconds_decimal": "95.44369",
+          "checks_failed": 0,
+          "checks_total": 390,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        }
+      ]
+    },
+    "network::dispatch_safety_stable_unstable_bytes16_n32": {
+      "decision": "KEEP_VERIFIED_SPLIT",
+      "final_domain": {
+        "original_atoms": [
+          "true",
+          "false"
+        ],
+        "parts": {
+          "network::dispatch_safety_stable_bytes16_n32": [
+            "true"
+          ],
+          "network::dispatch_safety_unstable_bytes16_n32": [
+            "false"
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
+          "status": "SUCCESS",
+          "seconds": 108.72484,
+          "seconds_decimal": "108.72484",
+          "checks_failed": 0,
+          "checks_total": 382,
+          "covers_satisfied": 2,
+          "covers_total": 2,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
+          "status": "SUCCESS",
+          "seconds": 118.51086,
+          "seconds_decimal": "118.51086",
+          "checks_failed": 0,
+          "checks_total": 382,
+          "covers_satisfied": 2,
+          "covers_total": 2,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "network::insert_tail_contract_u64_start1_tail2_to8": {
+      "decision": "RESTORE_ORIGINAL",
+      "final_domain": {
+        "original_atoms": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "parts": {
+          "network::insert_tail_contract_u64_start1_tail2_to8": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to5",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6_to8",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "network::insert_tail_contract_u64_start1_tail9_to12": {
+      "decision": "RESTORE_ORIGINAL",
+      "final_domain": {
+        "original_atoms": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "parts": {
+          "network::insert_tail_contract_u64_start1_tail9_to12": [
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11_to12",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "network::insert_tail_contract_u64_start1_tail13_to14": {
+      "decision": "RESTORE_ORIGINAL",
+      "final_domain": {
+        "original_atoms": [
+          13,
+          14
+        ],
+        "parts": {
+          "network::insert_tail_contract_u64_start1_tail13_to14": [
+            13,
+            14
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+          "status": "SUCCESS",
+          "seconds": 299.7872,
+          "seconds_decimal": "299.7872",
+          "checks_failed": 0,
+          "checks_total": 602,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+          "status": "TIMEOUT",
+          "seconds": null,
+          "seconds_decimal": null,
+          "checks_failed": null,
+          "checks_total": null,
+          "covers_satisfied": null,
+          "covers_total": null,
+          "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+        }
+      ]
+    },
+    "network::network_safety_unstable_u64_n30_to32": {
+      "decision": "KEEP_VERIFIED_SPLIT",
+      "final_domain": {
+        "original_atoms": [
+          30,
+          31,
+          32
+        ],
+        "parts": {
+          "network::network_safety_unstable_u64_n30": [
+            30
+          ],
+          "network::network_safety_unstable_u64_n31": [
+            31
+          ],
+          "network::network_safety_unstable_u64_n32": [
+            32
+          ]
+        },
+        "exact_disjoint_union": true
+      },
+      "experimental_rows": [
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
+          "status": "SUCCESS",
+          "seconds": 112.93425,
+          "seconds_decimal": "112.93425",
+          "checks_failed": 0,
+          "checks_total": 316,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
+          "status": "SUCCESS",
+          "seconds": 116.823906,
+          "seconds_decimal": "116.823906",
+          "checks_failed": 0,
+          "checks_total": 316,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        },
+        {
+          "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
+          "status": "SUCCESS",
+          "seconds": 117.06356,
+          "seconds_decimal": "117.06356",
+          "checks_failed": 0,
+          "checks_total": 316,
+          "covers_satisfied": 3,
+          "covers_total": 3,
+          "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+        }
+      ]
+    }
+  },
+  "retained_part_rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
+      "status": "SUCCESS",
+      "seconds": 108.72484,
+      "seconds_decimal": "108.72484",
+      "checks_failed": 0,
+      "checks_total": 382,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
+      "status": "SUCCESS",
+      "seconds": 57.527676,
+      "seconds_decimal": "57.527676",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
+      "status": "SUCCESS",
+      "seconds": 63.919994,
+      "seconds_decimal": "63.919994",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
+      "status": "SUCCESS",
+      "seconds": 64.92339,
+      "seconds_decimal": "64.92339",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
+      "status": "SUCCESS",
+      "seconds": 62.401028,
+      "seconds_decimal": "62.401028",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
+      "status": "SUCCESS",
+      "seconds": 70.84245,
+      "seconds_decimal": "70.84245",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
+      "status": "SUCCESS",
+      "seconds": 95.44369,
+      "seconds_decimal": "95.44369",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
+      "status": "SUCCESS",
+      "seconds": 118.51086,
+      "seconds_decimal": "118.51086",
+      "checks_failed": 0,
+      "checks_total": 382,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "source_sha": "9cc449ccce74c6b3b8f96554b86308ff39a2b71f"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
+      "status": "SUCCESS",
+      "seconds": 112.93425,
+      "seconds_decimal": "112.93425",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
+      "status": "SUCCESS",
+      "seconds": 116.823906,
+      "seconds_decimal": "116.823906",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
+      "status": "SUCCESS",
+      "seconds": 117.06356,
+      "seconds_decimal": "117.06356",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a"
+    }
+  ],
+  "retained_part_seconds_sum": "989.115644",
+  "retained_covers": 31,
+  "max_retained_seconds": 118.51086,
+  "full_suite_seconds_before": null,
+  "full_suite_seconds_after": null,
+  "compiler_inventory": "PENDING_COORDINATOR_SEPARATE_BUILD",
+  "cost_usd": "2.2815",
+  "reserved_usd": "0.0000",
+  "proof_scope": "11 retained parts have SUCCESS, 0 failed checks, 31/31 reachable covers and <=120s at their own bound G1/G2 sources. Token-identical roots and unchanged shared dependencies support carrying this bounded evidence to the reconciled source. No new final-source build or full-suite proof; restored roots have no new proof/time credit. Source inventory is not compiler inventory.",
+  "runtime_limit": "Target <=120s achieved for four original families only; five unresolved >200s Actions families restored unchanged. Small GCB margin remains; no measured GCB/Actions scaling or Actions <=200s guarantee."
+}

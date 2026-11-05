@@ -1,0 +1,74 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "citrim-g2-20261105-02",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "CITRIM G2: 15 revised parts; six tail PFCs rely on checked profile modifies for frame. Other nine G2 parts unchanged. Require SUCCESS, each <=120s, 35/35 covers; carry ten G1 parts with 29/29 covers. Final compiler inventory deferred to coordinator for separate budget.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "kani_jobs": 1,
+  "inventory": false,
+  "controls": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_keep4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_swap4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_keep4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_swap4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_keep4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_swap4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_keep4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_swap4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11_to12",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6_to8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10",
+      "expect": "SUCCESS"
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Source-only domain/identity checks, using the existing TRIMPART lexer/expander.
+"""Pre-build G2 source-only domain/identity checks, using the TRIMPART lexer/expander.
+
+Historical packet check for 9cc449c; after final fallbacks use check_final.py.
+The archived G2 report and expected lists are in g2-evidence/.
 
 No compiler or verifier is invoked. Finite selectors are enumerated; input data,
 comparators, assertions, stubs and shared helpers are checked by token equality.
