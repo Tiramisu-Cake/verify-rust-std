@@ -1,0 +1,15 @@
+{
+  "url": "https://raw.githubusercontent.com/model-checking/kani/cd355b0bccd32300713bc2ce4f765dafa1510607/docs/src/reference/experimental/loop-contracts.md",
+  "sha256": "ea2c2785ddeb2a361cdacb08c1767af746608793b76f15c4de5d349dff4d34f8",
+  "invariant_step_description_prefix": "Check invariant after step for loop",
+  "description_lines_1based": [
+    79,
+    84
+  ],
+  "array_modifies_syntax": "#[kani::loop_modifies(&i, &a)]",
+  "array_modifies_lines_1based": [
+    264
+  ],
+  "note": "Pinned documentation and historical LOOPPIN step description; exact LOOPREAL check and location must be observed in bounded build evidence.",
+  "supports_loop": "Pinned Limitations section explicitly supports while and loop; historic-values example has break. Actual compilation remains untested."
+}
