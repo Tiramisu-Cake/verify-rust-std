@@ -257,7 +257,9 @@ macro_rules! unstable_dispatch_network_cases {
     };
 }
 
-unstable_dispatch_network_cases!(network_safety_unstable_u64_n30_to32, [30, 31, 32]);
+unstable_dispatch_network_cases!(network_safety_unstable_u64_n30, [30]);
+unstable_dispatch_network_cases!(network_safety_unstable_u64_n31, [31]);
+unstable_dispatch_network_cases!(network_safety_unstable_u64_n32, [32]);
 
 // Type and length matrix through the actual stable and unstable trait entry points. Inputs use
 // their full element domains; these harnesses check safety and normal return, not sortedness.
@@ -380,23 +382,42 @@ dispatch_pair_safety_cases!(
     [u8; 16],
     [0, 1, 2, 7, 8]
 );
-dispatch_pair_safety_cases!(
-    dispatch_safety_stable_unstable_bytes16_n15_16_17,
-    [u8; 16],
-    [15, 16, 17]
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n15, [u8; 16], [15]);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n16, [u8; 16], [16]);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n17, [u8; 16], [17]);
+// Fixed-route N32 parts preserve the pair family's route and completion covers.
+macro_rules! dispatch_pair_route_safety_case {
+    ($name:ident, $stable:literal, $label:literal) => {
+        #[kani::proof]
+        #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
+        #[kani::unwind(65)]
+        fn $name() {
+            dispatch_safety_fixed::<[u8; 16], 32, $stable>();
+            kani::cover(true, $label);
+            kani::cover(true, "dispatch family reached the end");
+        }
+    };
+}
+
+dispatch_pair_route_safety_case!(
+    dispatch_safety_stable_bytes16_n32,
+    true,
+    "stable route normal return at 32"
 );
-dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n32, [u8; 16], [32]);
+dispatch_pair_route_safety_case!(
+    dispatch_safety_unstable_bytes16_n32,
+    false,
+    "unstable route normal return at 32"
+);
 
 dispatch_pair_safety_cases!(
     dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8,
     [u8; 17],
     [0, 1, 2, 7, 8]
 );
-dispatch_pair_safety_cases!(
-    dispatch_safety_stable_unstable_bytes17_n15_16_17,
-    [u8; 17],
-    [15, 16, 17]
-);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n15, [u8; 17], [15]);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n16, [u8; 17], [16]);
+dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes17_n17, [u8; 17], [17]);
 dispatch_safety_cases!(dispatch_safety_stable_bytes17_n32, [u8; 17], true, [32]);
 dispatch_safety_cases!(dispatch_safety_unstable_bytes17_n32, [u8; 17], false, [32]);
 
@@ -1075,16 +1096,14 @@ macro_rules! insert_tail_start1_group_case {
     };
 }
 
-insert_tail_start1_group_case!(
-    insert_tail_contract_u64_start1_tail2_to8,
-    2,
-    8,
-    [2, 3, 4, 5, 6, 7, 8]
-);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail2_to5, 2, 5, [2, 3, 4, 5]);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail6_to8, 6, 8, [6, 7, 8]);
 
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to12, 9, 12, [9, 10, 11, 12]);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail9_to10, 9, 10, [9, 10]);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail11_to12, 11, 12, [11, 12]);
 
-insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13_to14, 13, 14, [13, 14]);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13, 13, 13, [13]);
+insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail14, 14, 14, [14]);
 
 insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]);
 

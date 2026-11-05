@@ -514,8 +514,94 @@ define_direct_u64_route_harness!(stable_direct_u64_n6, stable_direct_u64_propert
 define_direct_u64_route_harness!(stable_direct_u64_n7, stable_direct_u64_properties, 7);
 define_direct_u64_route_harness!(stable_direct_u64_n8, stable_direct_u64_properties, 8);
 
-define_direct_u64_route_harness!(general_direct_u64_n9, general_direct_u64_properties, 9);
-define_direct_u64_route_harness!(stable_direct_u64_n9, stable_direct_u64_properties, 9);
+// N9 input partitions exhaust both answers to each of two strict comparisons.
+fn general_direct_u64_partition<const N: usize, const FIRST_LESS: bool, const NEXT_LESS: bool>() {
+    const { assert!(N >= 6 && N <= 9) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    kani::assume((v[0] < v[1]) == FIRST_LESS);
+    kani::assume((v[2] < v[3]) == NEXT_LESS);
+    let mut cmp = lt_u64;
+    super::super::small_sort_general(&mut v, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "general direct split properties checked");
+}
+
+fn stable_direct_u64_partition<const N: usize, const FIRST_LESS: bool, const NEXT_LESS: bool>() {
+    const { assert!(N >= 6 && N <= 9) };
+    set_value_probe::<u64>();
+    let mut v: [u64; N] = kani::any();
+    let orig = v;
+    kani::assume((v[0] < v[1]) == FIRST_LESS);
+    kani::assume((v[2] < v[3]) == NEXT_LESS);
+    let mut cmp = lt_u64;
+    let mut scratch = [const { MaybeUninit::<u64>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
+    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
+    assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
+    kani::cover(true, "stable direct split properties checked");
+}
+
+macro_rules! define_direct_u64_partition_harness {
+    ($name:ident, $body:ident, $first:literal, $next:literal) => {
+        #[kani::proof]
+        #[kani::solver(cadical)]
+        #[kani::unwind(34)]
+        fn $name() {
+            $body::<9, $first, $next>();
+        }
+    };
+}
+
+define_direct_u64_partition_harness!(
+    general_direct_u64_n9_lt_lt,
+    general_direct_u64_partition,
+    true,
+    true
+);
+define_direct_u64_partition_harness!(
+    general_direct_u64_n9_lt_ge,
+    general_direct_u64_partition,
+    true,
+    false
+);
+define_direct_u64_partition_harness!(
+    general_direct_u64_n9_ge_lt,
+    general_direct_u64_partition,
+    false,
+    true
+);
+define_direct_u64_partition_harness!(
+    general_direct_u64_n9_ge_ge,
+    general_direct_u64_partition,
+    false,
+    false
+);
+
+define_direct_u64_partition_harness!(
+    stable_direct_u64_n9_lt_lt,
+    stable_direct_u64_partition,
+    true,
+    true
+);
+define_direct_u64_partition_harness!(
+    stable_direct_u64_n9_lt_ge,
+    stable_direct_u64_partition,
+    true,
+    false
+);
+define_direct_u64_partition_harness!(
+    stable_direct_u64_n9_ge_lt,
+    stable_direct_u64_partition,
+    false,
+    true
+);
+define_direct_u64_partition_harness!(
+    stable_direct_u64_n9_ge_ge,
+    stable_direct_u64_partition,
+    false,
+    false
+);
 
 // Match both callers' scratch allocations: only prefix N is initialized, dst is separate.
 fn merge_scratch48_length_body<P: Profile, const N: usize>()
