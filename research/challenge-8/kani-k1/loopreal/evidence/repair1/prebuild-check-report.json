@@ -1,0 +1,35 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "task_commit": "01cb5fc3cda3ecf2795939285154416f213fa7e2",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "request_sha256": "92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22",
+  "library_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "40d846c3253c5ad2a4877e12686acd3afe71abd4da356607c2b79c9dd340de94",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "10a1c79a24eb5ef954c10a1a3ebad5ede77b1e1e51726d49c844c8967d119986",
+    "library/core/src/slice/sort/shared/smallsort/verify/loopreal.rs": "fcbb0d095093e56f8e990649c57f7dc78a7ca7f8e9cf76448d7e147c061a0c4f"
+  },
+  "runtime": "four cfg(kani) loop attributes only; bodies/signatures/existing contracts identical",
+  "repair_delta": "Exactly three loop_modifies arguments become is_less as *mut F relative to approved G1; same invariants, bodies, roots, domains, flags and timeout",
+  "negative_copy": "real outer signature/body/modifies identical after function rename and attribute removal",
+  "local_roots": [
+    "insert_tail_u64_backing8",
+    "outer_loop_u64_backing8",
+    "insert_tail_u64_backing32",
+    "outer_loop_u64_backing32",
+    "insert_tail_u64_backing128",
+    "outer_loop_u64_backing128",
+    "outer_loop_false_invariant_backing8"
+  ],
+  "ordinary_regressions": [
+    "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+    "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+    "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32"
+  ],
+  "positive_expected_covers": 34,
+  "build_timeout_minutes": 78,
+  "baseline_provenance": "3 bounded K-1 rows; 2 coordinator-reported Actions v7 timings, approximate cross-platform comparison only",
+  "maximum_reservation_usd": 1.053,
+  "limitations": "No compilation, dynamic cfg inventory, actual invariant checks, new timing, memory or proof result established. Actions baseline values are coordinator-reported, not independently verified; no run IDs supplied."
+}

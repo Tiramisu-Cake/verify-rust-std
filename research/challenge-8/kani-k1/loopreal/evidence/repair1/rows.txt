@@ -1,0 +1,21 @@
+request_id=loopreal-g1-repair1-20261105-01
+request_sha256=92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22
+build_id=8400bb9d-f0f3-43fe-b47e-df5b4a4aae67
+head_sha=dc0d792f74c437966aff93c734d43fcedc4dc7a7
+total=12
+offset=0
+count=12
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing8	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing8	SUCCESS	151.6557	0/609	4/4
+slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing32	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing32	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing128	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing128	OUT_OF_MEMORY	None		
+slice::sort::shared::smallsort::verify::loopreal::outer_loop_false_invariant_backing8	FAILED	88.192055	1/636	
+slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2	TIMEOUT	None		
+slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed	SUCCESS	13.157118	0/775	1/1
+slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16	SUCCESS	6.4619365	0/514	1/1
+slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32	SUCCESS	92.49891	0/514	1/1

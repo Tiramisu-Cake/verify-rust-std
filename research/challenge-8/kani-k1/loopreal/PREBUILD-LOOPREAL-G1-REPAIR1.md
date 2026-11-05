@@ -1,3 +1,7 @@
+> Historical packet approved at `dc0d792f74c437966aff93c734d43fcedc4dc7a7`.
+> Repair is terminal Cloud FAILURE / COMPLETE gate false; see
+> [RESULT-LOOPREAL.md](../RESULT-LOOPREAL.md). No further dispatch authorized.
+
 # LOOPREAL G1 — one compile-error repair, awaiting exact-packet GO
 
 Worktree `/root/verify-rust-std-kani-loopreal`, branch `experiment/kani-k1-loopreal-20261105`.

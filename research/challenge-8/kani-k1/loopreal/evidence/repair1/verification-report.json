@@ -1,0 +1,247 @@
+{
+  "verdict": "FAIL_SCALING_AND_REGRESSION_GATES",
+  "build_id": "8400bb9d-f0f3-43fe-b47e-df5b4a4aae67",
+  "source_sha": "dc0d792f74c437966aff93c734d43fcedc4dc7a7",
+  "request_id": "loopreal-g1-repair1-20261105-01",
+  "request_sha256": "92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "kani_exit": 1,
+  "compiled": true,
+  "tooling_bindings": "PASS",
+  "rows": {
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing8": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 4045108
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing8": {
+      "status": "SUCCESS",
+      "time_s": "151.6557",
+      "checks": "0/609",
+      "covers": "4/4",
+      "cbmc_peak_rss_kib": 6390444
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing32": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 99304
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing32": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 11258384
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing128": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 4205332
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing128": {
+      "status": "OUT_OF_MEMORY",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 15503184
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_false_invariant_backing8": {
+      "status": "FAILED",
+      "time_s": "88.192055",
+      "checks": "1/636",
+      "covers": null,
+      "cbmc_peak_rss_kib": 5999420
+    },
+    "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 646640
+    },
+    "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2": {
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": 136264
+    },
+    "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed": {
+      "status": "SUCCESS",
+      "time_s": "13.157118",
+      "checks": "0/775",
+      "covers": "1/1",
+      "cbmc_peak_rss_kib": 315908
+    },
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16": {
+      "status": "SUCCESS",
+      "time_s": "6.4619365",
+      "checks": "0/514",
+      "covers": "1/1",
+      "cbmc_peak_rss_kib": 209476
+    },
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32": {
+      "status": "SUCCESS",
+      "time_s": "92.49891",
+      "checks": "0/514",
+      "covers": "1/1",
+      "cbmc_peak_rss_kib": 13089768
+    }
+  },
+  "status_counts": {
+    "TIMEOUT": 6,
+    "SUCCESS": 4,
+    "OUT_OF_MEMORY": 1,
+    "FAILED": 1
+  },
+  "negative_control": {
+    "established": true,
+    "failed_checks": 1,
+    "description": "Check invariant after step for loop slice::sort::shared::smallsort::verify::loopreal::insertion_sort_shift_left_false::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::loopreal::reading_less_u64}>.0",
+    "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/loopreal.rs:115"
+  },
+  "successful_rows_covers_satisfied": 7,
+  "successful_rows_covers_total": 7,
+  "expected_positive_covers": 34,
+  "full_positive_coverage_established": false,
+  "positive_invariant_check_observability": "Terse rows do not enumerate successful invariant base/step checks; only the negative step is located. No separate per-check listing was obtained.",
+  "pfc_consumer_pairs": {
+    "8": {
+      "pfc_status": "TIMEOUT",
+      "consumer_status": "SUCCESS",
+      "composition_credit": false
+    },
+    "32": {
+      "pfc_status": "TIMEOUT",
+      "consumer_status": "TIMEOUT",
+      "composition_credit": false
+    },
+    "128": {
+      "pfc_status": "TIMEOUT",
+      "consumer_status": "OUT_OF_MEMORY",
+      "composition_credit": false
+    }
+  },
+  "length_cost_conclusion": "No near-constant verification-cost evidence: no completed u64 PFC at any backing; outer 8 succeeds conditionally, 32 times out, 128 is OOM. Timeout/OOM rows have no verification time, only the configured four-minute budget.",
+  "regression_comparisons": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+        "status": "SUCCESS",
+        "time_s": 38.1495,
+        "checks": "0/219",
+        "covers": "7/7",
+        "source_build": "03d45e6a-0553-414e-83ea-6f6c9ce87778",
+        "source_sha": "91aeee2c62c3fc1e665fa7a44a5787c8283e54ab",
+        "source_request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
+        "bounded_rows_file": "../veightinteg/evidence/rows.txt",
+        "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+        "evidence_kind": "bounded_k1_rows"
+      },
+      "after_status": "TIMEOUT",
+      "after_time_s": null,
+      "qualification": "Historical K-1 comparison with no isolated causal attribution."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+        "status": "SUCCESS",
+        "time_s": 8.783918,
+        "checks": "0/544",
+        "covers": "3/3",
+        "source_build": "6bc006d2-eff0-406e-92a5-06c934e5e97f",
+        "source_sha": "63bbd6d309b8063a515dae5be1a082e7e6836992",
+        "source_request_sha256": "c8b6de28b7cca912b4aa6729c172d765e4de6cbdeb31586eea6a688d66347cb3",
+        "bounded_rows_file": "../codefix/evidence/rows.txt",
+        "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+        "evidence_kind": "bounded_k1_rows"
+      },
+      "after_status": "TIMEOUT",
+      "after_time_s": null,
+      "qualification": "Historical K-1 comparison with no isolated causal attribution."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+        "status": "SUCCESS",
+        "time_s": 8.316227,
+        "checks": "0/387",
+        "covers": "1/1",
+        "source_build": "03d45e6a-0553-414e-83ea-6f6c9ce87778",
+        "source_sha": "91aeee2c62c3fc1e665fa7a44a5787c8283e54ab",
+        "source_request_sha256": "67856fbccfcd68a923830ff8fcac6393a245a6a23b1628b4df64c4a31239df81",
+        "bounded_rows_file": "../veightinteg/evidence/rows.txt",
+        "qualification": "Historical bounded result on the same Kani pin; not a fresh execution or an isolated causal timing baseline.",
+        "evidence_kind": "bounded_k1_rows"
+      },
+      "after_status": "SUCCESS",
+      "after_time_s": "13.157118",
+      "qualification": "Historical K-1 comparison with no isolated causal attribution."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+        "evidence_kind": "coordinator_reported_actions_timing",
+        "verification_time_s_by_platform": {
+          "ubuntu": 4.687,
+          "macOS": 3.657
+        },
+        "source_revision_as_supplied": "d1283ff22a",
+        "source_pin_as_supplied": "cd355b0b",
+        "source_reference_file": "actions-v7-timing-source.json",
+        "independently_verified": false,
+        "status": null,
+        "qualification": "Coordinator-reported timing only, not K-1/GCB standard4 evidence. Cross-platform and v7-to-LOOPREAL comparison is approximate; no matched-run speedup or regression ratio is inferred. Actions was not accessed. Per-root status/checks/covers and exact run identities were not supplied."
+      },
+      "after_status": "SUCCESS",
+      "after_time_s": "6.4619365",
+      "qualification": "Approximate Actions-v7 to GCB comparison; supplied timings are not independently verified."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+      "baseline": {
+        "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+        "evidence_kind": "coordinator_reported_actions_timing",
+        "verification_time_s_by_platform": {
+          "ubuntu": 35.126,
+          "macOS": 25.67
+        },
+        "source_revision_as_supplied": "d1283ff22a",
+        "source_pin_as_supplied": "cd355b0b",
+        "source_reference_file": "actions-v7-timing-source.json",
+        "independently_verified": false,
+        "status": null,
+        "qualification": "Coordinator-reported timing only, not K-1/GCB standard4 evidence. Cross-platform and v7-to-LOOPREAL comparison is approximate; no matched-run speedup or regression ratio is inferred. Actions was not accessed. Per-root status/checks/covers and exact run identities were not supplied."
+      },
+      "after_status": "SUCCESS",
+      "after_time_s": "92.49891",
+      "qualification": "Approximate Actions-v7 to GCB comparison; supplied timings are not independently verified."
+    }
+  ],
+  "verify_wall_with_compilation": "40:18.76",
+  "time_v_max_rss_kib": 15601676,
+  "sampled_cbmc_peak_rss_kib": 15503184,
+  "memory_note": "All 12 per-root CBMC peaks have direct metadata attribution. Kani reports OOM for outer128 and bounded kernel scan records a cbmc kill; kernel and sampler PIDs are not claimed to be identical.",
+  "spent_usd": "0.6480",
+  "reserved_usd": "0.0000",
+  "own_total_spent_usd": "0.7560",
+  "own_remaining_usd": "1.2440",
+  "metadata_discrepancy": "Summary run text says build success, bounded Cloud status FAILURE; retain both and use FAILURE / COMPLETE gate false.",
+  "rows_capture_sha256": "dc63d11945a0de7e2043b220b1d8ca28dd539efb4436970a15aa7032c06dc8ba",
+  "capture_note": "Empty TSV check/cover fields are preserved as trailing tabs; whitelist this capture alone for whitespace checking.",
+  "integration_note": "Coordinator: smallsort.rs:695 is 108 characters; wrap loop_modifies arguments onto separate lines at integration. Source unchanged for this run.",
+  "scope": "Bounded-response consistency, not independent verifier execution. No arbitrary-length, generic T/F, merge, other-loop or termination proof; outer8 has no matched PFC credit. No G2 dispatched."
+}

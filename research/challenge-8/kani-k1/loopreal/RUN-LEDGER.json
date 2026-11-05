@@ -1,7 +1,7 @@
 {
   "task": "LOOPREAL",
-  "stage": "loopreal-g1-repair1",
-  "state": "G1_REPAIR_PREPARED_AWAITING_EXACT_PACKET_GO",
+  "stage": "loopreal-g1-repair1-closeout",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "branch": "experiment/kani-k1-loopreal-20261105",
   "owner": "k1-network",
   "task_commit": "01cb5fc3cda3ecf2795939285154416f213fa7e2",
@@ -22,9 +22,9 @@
   "watchdog_harness_minutes": 48,
   "build_timeout_minutes": 78,
   "maximum_reservation_usd": 1.053,
-  "spent_usd": 0.108,
+  "spent_usd": 0.756,
   "reserved_usd": 0,
-  "repairs": 0,
+  "repairs": 1,
   "builds": [
     {
       "id": "69ac5245-e83e-4d87-b8b6-68acd46b0e02",
@@ -42,6 +42,31 @@
       "cost_usd": 0.108,
       "not_run_count": 12,
       "verification_report": "evidence/verification-report.json"
+    },
+    {
+      "id": "8400bb9d-f0f3-43fe-b47e-df5b4a4aae67",
+      "role": "g1_compile_error_repair1",
+      "parent_build_id": "69ac5245-e83e-4d87-b8b6-68acd46b0e02",
+      "source_sha": "dc0d792f74c437966aff93c734d43fcedc4dc7a7",
+      "request_id": "loopreal-g1-repair1-20261105-01",
+      "request_sha256": "92b07d04e7bf08dcfaba93c0b92601236e3ce9cf987b00b34e181797ffe0ff22",
+      "owner": "k1-network",
+      "recorded_utc": "2026-11-05T08:36:17.799438+00:00",
+      "maximum_reservation_usd": 1.053,
+      "status": "FAILURE",
+      "evidence_directory": "evidence/repair1",
+      "summary_status": "COMPLETE",
+      "gate": false,
+      "start_time": "2026-11-05T08:37:07.736048128Z",
+      "finish_time": "2026-11-05T09:24:48.998615Z",
+      "cost_usd": 0.648,
+      "status_counts": {
+        "TIMEOUT": 6,
+        "SUCCESS": 4,
+        "OUT_OF_MEMORY": 1,
+        "FAILED": 1
+      },
+      "verification_report": "evidence/repair1/verification-report.json"
     }
   ],
   "budget_observed": {
@@ -51,7 +76,7 @@
     "with_this_max_reservation_usd": 101.76
   },
   "budget_observation_note": "Read-only k1g.sh budget during preparation; recheck before coordinator-authorized dispatch. Snapshot is not a reservation.",
-  "authorization": "Original coordinator GO consumed by the single G1 dispatch. No second dispatch: any compile-error repair or G2 needs a new exact-packet GO.",
+  "authorization": "Initial G1 and one repair GO consumed. Both builds terminal FAILURE. No further dispatch authorization.",
   "wait_policy": "After authorized dispatch, k1g.sh watch BUILD, then end the turn; no status polling.",
   "evidence_policy": "Only bounded K-1 summaries/rows/peaks/log-grep and identity/tooling metadata; no raw logs, archives, Cloud Logging or credentials.",
   "library_commits": [
@@ -62,7 +87,7 @@
   "revised_utc": "2026-11-05T08:18:06.351492+00:00",
   "rejected_packet_sha": "ffda59d715b3a0bceac59276d18a03f8a61a6015",
   "review_correction": "Coordinator NO-GO: short-circuit inner invariant for reachable ZST route; add N16/N32 ordinary regressions; no dispatch authorized.",
-  "g2_budget_note": "G1 reserve $1.053 fits own cap $2.00. G2/repair reserve must be checked against actual own spent; do not reserve two 12-row maxima ($2.106). If G1 spent its full maximum, $0.947 remains.",
+  "g2_budget_note": "G2 not dispatched or authorized. Own remaining cap is $1.244; any new stage requires a new coordinator GO and spent + reserve <= $2.00.",
   "baseline_status": "Complete for packet: three historical bounded K-1 rows plus two coordinator-reported Actions v7 verification-time baselines. ZST timings are approximate cross-platform comparisons, not GCB standard4 evidence.",
   "baseline_source_note": "Coordinator supplied v7 d1283ff22a / Kani cd355b0b timings; no K-1 rows or Actions run IDs for these ZST roots. Recorded without accessing Actions.",
   "approved_source_sha": "3a1a71036fc48708094c59e3b1c70252ce4fbf9b",
@@ -92,8 +117,8 @@
     "own_spent_plus_proposed_repair_usd": 1.161,
     "project_used_plus_proposed_repair_usd": 101.544
   },
-  "summary_metadata_discrepancy": "Summary run text build success conflicts with bounded Cloud FAILURE. Stored unchanged; COMPILE_ERROR / 12 NOT_RUN, no proof credit.",
-  "evidence_capture_note": "rows.txt preserves empty TSV fields (trailing tabs); only that capture is exempt from end-of-line whitespace validation.",
+  "summary_metadata_discrepancy": "Both summaries say build success in run text, but bounded Cloud records say FAILURE. Original G1 COMPILE_ERROR; repair COMPLETE with gate false. Captures preserved.",
+  "evidence_capture_note": "Original and repair rows.txt retain empty TSV check/cover fields as trailing tabs; exempt only those two captures from end-of-line whitespace validation.",
   "prepared_repair_utc": "2026-11-05T08:32:58.309490+00:00",
   "proposed_repair": {
     "parent_build_id": "69ac5245-e83e-4d87-b8b6-68acd46b0e02",
@@ -104,7 +129,39 @@
     "repair_number_for_g1": 1,
     "dispatch_authorized": false,
     "source_delta": "Only three loop_modifies arguments: is_less -> is_less as *mut F; no invariant/body/domain/timeout/tooling change.",
-    "library_commit": "73ccf6c179b1b0068ff50e040e23f7b3ee2b0d6f"
+    "library_commit": "73ccf6c179b1b0068ff50e040e23f7b3ee2b0d6f",
+    "approved_source_sha": "dc0d792f74c437966aff93c734d43fcedc4dc7a7",
+    "authorized_utc": "2026-11-05T08:35:32.457347+00:00",
+    "completed_build_id": "8400bb9d-f0f3-43fe-b47e-df5b4a4aae67",
+    "outcome": "FAIL_SCALING_AND_REGRESSION_GATES"
   },
-  "next_step": "Exact repair packet PRE-BUILD review; stop until new coordinator GO. No repair/G2 dispatch authorized."
+  "next_step": "Coordinator review of RESULT-LOOPREAL.md and bounded evidence. Stop; no further repair or G2 dispatch authorized.",
+  "approved_repair_source_sha": "dc0d792f74c437966aff93c734d43fcedc4dc7a7",
+  "integration_note": "Coordinator requested RESULT note only: smallsort.rs:695 is 108 characters; wrap loop_modifies arguments onto separate lines at integration. Do not change the approved repair source for this build.",
+  "repair_pre_dispatch_budget": {
+    "builds": 238,
+    "used_usd": 100.491,
+    "other_reserved_usd": 0.81,
+    "project_cap_usd": 118.96,
+    "with_repair_maximum_usd": 102.354,
+    "own_cap_usd": 2,
+    "own_spent_usd": 0.108,
+    "repair_maximum_reservation_usd": 1.053,
+    "own_spent_plus_repair_reserve_usd": 1.161
+  },
+  "completed_utc": "2026-11-05T09:32:44.522686+00:00",
+  "verdict": "FAIL_SCALING_AND_REGRESSION_GATES",
+  "repair_watch_exit_code": 0,
+  "budget_final": {
+    "builds": 240,
+    "used_usd": 101.571,
+    "other_reserved_usd": 0.945,
+    "project_cap_usd": 118.96,
+    "own_spent_usd": 0.756,
+    "own_reserved_usd": 0,
+    "own_remaining_usd": 1.244,
+    "own_cap_usd": 2
+  },
+  "verification_report": "evidence/repair1/verification-report.json",
+  "acceptance": "NOT_ACCEPTED: expected negative step established; four positive rows SUCCESS, six TIMEOUT, one OOM. No matched u64 PFC/consumer credit, no near-flat length cost, two ordinary budget regressions."
 }
