@@ -1,15 +1,15 @@
 {
   "task": "WIDEDOMAINS",
-  "stage": "widedomains-g2",
-  "state": "G2_PRE_BUILD_REVIEW_PENDING",
+  "stage": "widedomains-g3",
+  "state": "G3_PRE_BUILD_REVIEW_PENDING",
   "branch": "experiment/kani-k1-widedomains-20261105",
   "owner": "k1-merge",
   "task_base": "34f69f034b",
   "library_base": "4fa6151b6a",
   "tooling_base": "59893bff1f",
-  "request_id": "widedomains-g2-20261105-01",
-  "request_sha256": "688168c844c7620715a3461e8826a836dd5347994a23b21d58d619e712646a80",
-  "prepared_utc": "2026-11-05T08:27:35.909762+00:00",
+  "request_id": "widedomains-g3-20261105-01",
+  "request_sha256": "64bc9e9a17803cf8f7f6fb962df0f2b2000ff52df740618dc9c05cfc76a8642d",
+  "prepared_utc": "2026-11-05T09:18:29.372175+00:00",
   "main_minutes": 300,
   "closeout_minutes": 30,
   "window_start": "2026-11-05T07:44:34.233475+00:00",
@@ -19,20 +19,20 @@
   "compile_error_repair_limit_per_build": 1,
   "own_cap_usd": 4.0,
   "project_cap_usd": 118.96,
-  "spent_usd": 0.486,
+  "spent_usd": 0.918,
   "reserved_usd": 0.0,
-  "harness_timeout_minutes": 3,
-  "watchdog_harness_minutes": 30,
-  "build_timeout_minutes": 60,
-  "maximum_reservation_usd": 0.81,
+  "harness_timeout_minutes": 4,
+  "watchdog_harness_minutes": 40,
+  "build_timeout_minutes": 70,
+  "maximum_reservation_usd": 0.945,
   "budget_observed": {
-    "builds": 237,
-    "used_usd": 100.383,
+    "builds": 239,
+    "used_usd": 100.923,
     "reserved_usd": 1.053,
-    "with_this_max_reservation_usd": 102.246
+    "with_this_max_reservation_usd": 102.921
   },
-  "budget_observation_utc": "2026-11-05T08:30:14.431925+00:00",
-  "budget_note": "Read-only k1g project budget snapshot before G2 packet publication; recheck own/project budget and remaining window after exact-packet G2 GO.",
+  "budget_observation_utc": "2026-11-05T09:21:56.373315+00:00",
+  "budget_note": "Read-only k1g snapshot before G3 publication. Recheck own/project caps and at least 70 minutes before unchanged main deadline after exact-packet GO.",
   "builds": [
     {
       "id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
@@ -57,29 +57,63 @@
       "acceptance": "FAIL: 3 SUCCESS with all 23 covers, 7 tail PFC TIMEOUTs; no tail composition credit.",
       "authorization": "Coordinator GO for exact packet 90fadd7ccf8b5bb32d04401d274a6f492b612897: one G1, 10 roots, owner k1-merge, 3 minutes per root, maximum reservation $0.81, all 79 covers.",
       "watch_notification": "k1g watch delivered Cloud FAILURE, wait exit 0, delivery attempt 1; no status polling.",
-      "library_commit": "35667f4a956e8f24919275b745455a751df57edc"
+      "library_commit": "35667f4a956e8f24919275b745455a751df57edc",
+      "budget_after_submit": {
+        "used_usd": 99.735,
+        "reserved_including_this_usd": 1.377,
+        "maximum_total_usd": 101.112,
+        "project_cap_usd": 118.96
+      }
+    },
+    {
+      "id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "stage": "widedomains-g2",
+      "role": "primary",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "request_id": "widedomains-g2-20261105-01",
+      "request_sha256": "688168c844c7620715a3461e8826a836dd5347994a23b21d58d619e712646a80",
+      "owner": "k1-merge",
+      "recorded_utc": "2026-11-05T08:35:02.424720+00:00",
+      "maximum_reservation_usd": 0.81,
+      "status": "FAILURE",
+      "library_commit": "ca934b30c79c2bad5fcd81dc306d6cf3d926cc8c",
+      "authorization": "Coordinator GO for exact G2 packet 4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c: one dispatch, 10 roots, 3 minutes each, owner k1-merge, reserve $0.81, 67 covers. Tail -> insertion -> network credited only as a complete matched chain. Watch then analyze and propose G3 or close.",
+      "start_time": "2026-11-05T08:35:37.005516015Z",
+      "finish_time": "2026-11-05T09:07:27.092681Z",
+      "cost_usd": 0.432,
+      "cost_note": "Combined k1g budget 2 builds $0.9180 minus G1 $0.4860 = G2 $0.4320.",
+      "success_count": 4,
+      "timeout_count": 6,
+      "successful_covers_satisfied": 23,
+      "successful_covers_total": 23,
+      "requested_covers_total": 67,
+      "verification_report": "g2/verification-report.json",
+      "acceptance": "FAIL: six tail/insertion TIMEOUTs. Network row SUCCESS but chain credit withheld. Matching merge8 + real sort8 consumer accepted for exact geometry.",
+      "watch_notification": "k1g watch delivered Cloud FAILURE, wait exit 0, attempt 1; no status polling.",
+      "budget_after_submit": {
+        "used_usd": 100.491,
+        "reserved_including_this_usd": 0.81,
+        "maximum_total_usd": 101.301,
+        "project_cap_usd": 118.96
+      }
     }
   ],
   "repairs": 0,
-  "expected_covers": 67,
+  "expected_covers": 77,
   "allowed_unreachable_covers": 0,
-  "authorization": "G1 GO exhausted. Coordinator requested G1 analysis and a proposed G2 PRE-BUILD REVIEW. G2 dispatch requires a new exact-packet GO.",
-  "cache": "/tmp/widedomains-k1g-g1",
+  "authorization": "G2 GO exhausted. Coordinator requested G2 analysis and G3 or closeout proposal. G3 exact packet requires new GO for 4 minutes/root and $0.945 maximum reserve; one remaining primary build, no retries.",
+  "cache": "/tmp/widedomains-k1g-g3",
   "library_commits": [
     "35667f4a956e8f24919275b745455a751df57edc",
-    "ca934b30c79c2bad5fcd81dc306d6cf3d926cc8c"
+    "ca934b30c79c2bad5fcd81dc306d6cf3d926cc8c",
+    "a1b66147f130b05eba221e8620105a6540341fb5"
   ],
   "inventory": false,
   "inventory_note": "Full std inventory can take about 49 minutes; not needed for G1 diagnostic. Source-only inventories retained; no compiler inventory claim.",
   "approved_packet_sha": null,
   "main_deadline_utc": "2026-11-05T12:44:34.233475+00:00",
   "closeout_deadline_utc": "2026-11-05T13:14:34.233475+00:00",
-  "slot_note": "G1 terminal FAILURE; stable owner remains k1-merge. G2 requires coordinator GO.",
-  "budget_after_submit": {
-    "used_usd": 99.735,
-    "reserved_including_this_usd": 1.377,
-    "maximum_total_usd": 101.112,
-    "project_cap_usd": 118.96
-  },
-  "current_library_commit": "ca934b30c79c2bad5fcd81dc306d6cf3d926cc8c"
+  "slot_note": "G2 terminal FAILURE; stable owner k1-merge. Await G3 GO; no dispatch.",
+  "current_library_commit": "a1b66147f130b05eba221e8620105a6540341fb5",
+  "g2_dispatch_prepared_utc": "2026-11-05T08:34:13.513560+00:00"
 }

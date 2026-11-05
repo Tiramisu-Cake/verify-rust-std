@@ -1,0 +1,94 @@
+{
+  "evidence_validation": "PASS",
+  "run_acceptance": "FAIL: six tail/insertion PFC TIMEOUTs",
+  "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+  "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+  "request_id": "widedomains-g2-20261105-01",
+  "request_sha256": "688168c844c7620715a3461e8826a836dd5347994a23b21d58d619e712646a80",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail5_to9",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail10_to14",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail15_to19",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len1_to16",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len17_to20",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32_tail_comparator",
+      "status": "SUCCESS",
+      "seconds": "39.150494",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 9,
+      "covers_total": 9
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_swap_insertion_stubbed",
+      "status": "SUCCESS",
+      "seconds": "146.68248",
+      "checks_failed": 0,
+      "checks_total": 474,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+      "status": "SUCCESS",
+      "seconds": "80.85085",
+      "checks_failed": 0,
+      "checks_total": 228,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "status": "SUCCESS",
+      "seconds": "7.120541",
+      "checks_failed": 0,
+      "checks_total": 269,
+      "covers_satisfied": 4,
+      "covers_total": 4
+    }
+  ],
+  "success_count": 4,
+  "timeout_count": 6,
+  "successful_covers_satisfied": 23,
+  "successful_covers_total": 23,
+  "requested_covers_total": 67,
+  "successful_seconds_sum": "273.804365",
+  "eligible_standalone_seconds_sum": "127.121885",
+  "network_composition_credit": false,
+  "network_credit_reason": "All four tail and both insertion prerequisites timed out. Consumer SUCCESS with 5/5 covers is recorded but is not an accepted chain or unconditional ordinary candidate.",
+  "merge_composition_credit": "PASS: N8 scratch48 src32..40 -> dst0..8, identical u64/F and initialization/frame with the real sort8 consumer; no full general-route credit.",
+  "cumulative_cost_usd": "0.9180",
+  "cost_usd_derived": "0.4320",
+  "reserved_usd": "0.0000",
+  "tooling": "PASS: pool/source and six bound files",
+  "bounded_rows_file": "rows-bounded.json",
+  "bounded_rows_stdout_sha256": "d2181cf9e7931feb511d4c81933de0391df34da70dace08e5d05890a163015dc",
+  "limits": "Bounded safety/modifies only. No tail/insertion proof credit, generic/allocation transfer, uninit/value-validity/permission or unwinding theorem. Summary build-success field is not Cloud gate acceptance."
+}
