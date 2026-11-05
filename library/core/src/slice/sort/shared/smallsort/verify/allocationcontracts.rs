@@ -1,6 +1,6 @@
 //! Bounded allocation-aware helper contracts and paired consumers.
 //! Every root fixes its element and comparator function-item type and allocation geometry.
-//! Covers retain their exact diagnostic labels. Arbitrary comparator answers impose no order.
+//! Diagnostic labels describe each operation. Arbitrary comparator answers impose no order.
 //! No universal callback, sortedness, unwinding, uninit or value-validity theorem is claimed.
 
 use super::super::{UnstableSmallSortTypeImpl, bidirectional_merge, sort8_stable, swap_if_less};
@@ -15,8 +15,8 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
         let _b = ManuallyDrop::new(ptr::read_volatile(b));
     }
     let answer: bool = kani::any();
-    kani::cover(answer, "widedomains comparator true");
-    kani::cover(!answer, "widedomains comparator false");
+    kani::cover(answer, "comparator true");
+    kani::cover(!answer, "comparator false");
     answer
 }
 
@@ -34,20 +34,20 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     for i in 0..32 {
         kani::assert(
             i == start + a || i == start + b || backing[i] == before[i],
-            "widedomains swap allocation frame",
+            "swap allocation frame",
         );
     }
-    kani::cover(a == b, "widedomains swap equal positions return");
-    kani::cover(a < b, "widedomains swap increasing positions return");
-    kani::cover(a > b, "widedomains swap decreasing positions return");
-    kani::cover(start == 0, "widedomains swap allocation base returns");
-    kani::cover(start == 16, "widedomains swap second half base returns");
-    kani::cover(start + b == 31, "widedomains swap last element returns");
-    kani::cover(true, "widedomains swap returns");
+    kani::cover(a == b, "swap equal positions return");
+    kani::cover(a < b, "swap increasing positions return");
+    kani::cover(a > b, "swap decreasing positions return");
+    kani::cover(start == 0, "swap allocation base returns");
+    kani::cover(start == 16, "swap second half base returns");
+    kani::cover(start + b == 31, "swap last element returns");
+    kani::cover(true, "swap returns");
 }
 
 fn cut_order_violation() -> ! {
-    kani::cover(true, "widedomains network order violation reachable");
+    kani::cover(true, "network order violation reachable");
     kani::assume(false);
     unreachable!()
 }
@@ -64,12 +64,12 @@ fn tail_less_u64(a: &u64, b: &u64) -> bool {
 }
 
 fn tail_comparison_covers(answer: bool) {
-    kani::cover(answer, "widedomains G2 comparator true");
-    kani::cover(!answer, "widedomains G2 comparator false");
+    kani::cover(answer, "comparator true");
+    kani::cover(!answer, "comparator false");
 }
 
 fn cut_merge_order_violation() -> ! {
-    kani::cover(true, "widedomains G2 merge order violation reachable");
+    kani::cover(true, "merge order violation reachable");
     kani::assume(false);
     unreachable!()
 }
@@ -102,9 +102,9 @@ fn swap_safety_u64_backing32() {
 #[kani::unwind(50)]
 fn unstable_network_safety_u8_n32_stubbed() {
     let mut backing: [u8; 32] = kani::any();
-    kani::cover(backing.len() == 32, "widedomains network maximum length entered");
+    kani::cover(backing.len() == 32, "network maximum length entered");
     <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut arbitrary_less::<u8>);
-    kani::cover(true, "widedomains network maximum length returns");
+    kani::cover(true, "network maximum length returns");
 }
 
 /// T = u64; F = tail_less_u64; allocation [MaybeUninit<u64>; 48], source start 32, len 8.
@@ -119,7 +119,7 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
     for i in 0..8 {
         scratch[32 + i].write(values[i]);
     }
-    kani::cover(values.len() == 8, "widedomains G2 merge length8 entered");
+    kani::cover(values.len() == 8, "merge length8 entered");
     // SAFETY: initialized source [32..40] and uninitialized destination [0..8] are
     // disjoint regions of this one aligned, writable allocation of 48 elements.
     unsafe {
@@ -130,9 +130,9 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
     for i in 0..8 {
         // SAFETY: the initialized source must be framed by the merge.
         let after = unsafe { scratch[32 + i].assume_init() };
-        kani::assert(after == values[i], "widedomains G2 merge source frame");
+        kani::assert(after == values[i], "merge source frame");
     }
-    kani::cover(true, "widedomains G2 merge length8 returns");
+    kani::cover(true, "merge length8 returns");
 }
 
 /// T = u64; F = tail_less_u64; initialized input [u64; 32], start 0, input len 8.
@@ -147,7 +147,7 @@ fn sort8_safety_u64_scratch48_src32_dst0_merge_stubbed() {
     let mut backing: [u64; 32] = kani::any();
     let before = backing;
     let mut scratch = [MaybeUninit::<u64>::uninit(); 48];
-    kani::cover(scratch.len() == 48, "widedomains G2 sort8 scratch48 entered");
+    kani::cover(scratch.len() == 48, "sort8 scratch48 entered");
     // SAFETY: the real sort4 calls initialize scratch[32..40] before the verified
     // merge stub writes the disjoint destination [0..8]. Input has eight readable elements.
     unsafe {
@@ -155,8 +155,8 @@ fn sort8_safety_u64_scratch48_src32_dst0_merge_stubbed() {
         sort8_stable(backing.as_mut_ptr(), base, base.add(32), &mut tail_less_u64);
     }
     for i in 0..32 {
-        kani::assert(backing[i] == before[i], "widedomains G2 sort8 source allocation frame");
+        kani::assert(backing[i] == before[i], "sort8 source allocation frame");
     }
     // A safety/modifies-only stub gives no initialization postcondition for destination.
-    kani::cover(true, "widedomains G2 sort8 merge consumer returns");
+    kani::cover(true, "sort8 merge consumer returns");
 }

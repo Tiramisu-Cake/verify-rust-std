@@ -12,8 +12,8 @@ fn read_arguments<T: Copy>(a: &T, b: &T) -> (T, T) {
 }
 
 fn comparison_covers(answer: bool) {
-    kani::cover(answer, "taildiag comparator true");
-    kani::cover(!answer, "taildiag comparator false");
+    kani::cover(answer, "comparator true");
+    kani::cover(!answer, "comparator false");
 }
 
 fn arbitrary_less<T: Copy>(a: &T, b: &T) -> bool {
@@ -23,28 +23,22 @@ fn arbitrary_less<T: Copy>(a: &T, b: &T) -> bool {
     answer
 }
 
-fn exercise<T, F, const N: usize, const LO: usize, const HI: usize, const FRAME: bool>(mut cmp: F)
+fn exercise<T, F, const N: usize, const LO: usize, const HI: usize>(mut cmp: F)
 where
     T: kani::Arbitrary + Copy + PartialEq,
     F: FnMut(&T, &T) -> bool,
 {
     const { assert!(0 < LO && LO < HI && HI < N) };
     let mut v: [T; N] = kani::any();
-    let before = v;
     let tail: usize = kani::any();
     kani::assume(LO <= tail && tail <= HI);
     let begin = v.as_mut_ptr();
     // SAFETY: start 0 < LO <= tail <= HI < N; the inclusive region is initialized,
     // writable, aligned and in one allocation. No sortedness premise is required.
     unsafe { insert_tail(begin, begin.add(tail), &mut cmp) };
-    if FRAME {
-        for i in 0..N {
-            kani::assert(i <= tail || v[i] == before[i], "taildiag suffix frame");
-        }
-    }
-    kani::cover(tail == LO, "taildiag lowest tail returns");
-    kani::cover(tail == HI, "taildiag highest tail returns");
-    kani::cover(true, "taildiag returns");
+    kani::cover(tail == LO, "insert_tail lowest tail returns");
+    kani::cover(tail == HI, "insert_tail highest tail returns");
+    kani::cover(true, "insert_tail returns");
 }
 
 /// T = u64; F = arbitrary_less::<u64>; initialized allocation [u64; 17], start 0.
@@ -53,7 +47,7 @@ where
 #[kani::proof_for_contract(insert_tail)]
 #[kani::unwind(32)]
 fn insert_tail_safety_u64_backing17_tail1_to7() {
-    exercise::<u64, _, 17, 1, 7, false>(arbitrary_less::<u64>);
+    exercise::<u64, _, 17, 1, 7>(arbitrary_less::<u64>);
 }
 
 /// T = u64; F = arbitrary_less::<u64>; initialized allocation [u64; 17], start 0.
@@ -62,5 +56,5 @@ fn insert_tail_safety_u64_backing17_tail1_to7() {
 #[kani::proof_for_contract(insert_tail)]
 #[kani::unwind(32)]
 fn insert_tail_safety_u64_backing17_tail8_to15() {
-    exercise::<u64, _, 17, 8, 15, false>(arbitrary_less::<u64>);
+    exercise::<u64, _, 17, 8, 15>(arbitrary_less::<u64>);
 }
