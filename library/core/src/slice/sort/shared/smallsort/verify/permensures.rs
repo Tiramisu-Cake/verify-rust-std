@@ -62,6 +62,7 @@ swap_pfc!(swap_permutation_u8_backing13, 13);
 swap_pfc!(swap_permutation_u8_backing17, 17);
 swap_pfc!(swap_permutation_u8_backing18, 18);
 swap_pfc!(swap_permutation_u8_backing24, 24);
+swap_pfc!(swap_permutation_u8_backing28, 28);
 swap_pfc!(swap_permutation_u8_backing32, 32);
 
 fn cut_order_violation_panic() -> ! {
@@ -108,7 +109,17 @@ macro_rules! network_consumer {
 network_consumer!(unstable_network_permutation_u8_n17, 17);
 network_consumer!(unstable_network_permutation_u8_n18, 18);
 network_consumer!(unstable_network_permutation_u8_n24, 24);
+network_consumer!(unstable_network_permutation_u8_n28, 28);
 network_consumer!(unstable_network_permutation_u8_n32, 32);
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_order_violation_panic)]
+#[kani::unwind(40)]
+#[kani::solver(kissat)]
+fn unstable_network_permutation_u8_n32_kissat() {
+    exercise_network::<32>(false);
+}
 
 #[kani::proof]
 #[kani::stub_verified(swap_if_less)]
