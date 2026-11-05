@@ -1,0 +1,77 @@
+{
+  "validation": "PASS",
+  "scope": "Bounded evidence consistency; partial proof result",
+  "build_id": "a5a16595-8c2e-4bf8-80bd-b7627d775ca6",
+  "source_sha": "49420dda0b505d38d9bed8568ce602a4026b4ae4",
+  "request_sha256": "c7652b3bf9c2b8abc8896b894c80c228b619a3087917d55131cdcf19d261fdf7",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "summary_build_outcome": "success",
+  "build_outcome_discrepancy_preserved": true,
+  "successes": 1,
+  "timeouts": 4,
+  "covers_reached_successes": 5,
+  "covers_expected_all": 25,
+  "successful_time_sum_s": 64.20818,
+  "own_build_cost_usd": 0.351,
+  "own_total_cost_usd": 0.7695,
+  "own_reserved_usd": 0,
+  "inventory": "disabled; source-only counts",
+  "insert_tail_domain": {
+    "type": "u64",
+    "allocation": 17,
+    "start": 0,
+    "tail": [
+      1,
+      15
+    ],
+    "comparator": "taildiag::arbitrary_less::<u64>"
+  },
+  "insertion_len1_to16_credited": false,
+  "insertion_consumers_successful": 0,
+  "insertion_reason": "All four matched consumers TIMEOUT; no new composition credit",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_no_explicit_frame",
+      "status": "SUCCESS",
+      "time_s": 64.20818,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 2524920
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len1_to4",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "covers": "",
+      "cbmc_peak_kib": 1478284
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len5_to8",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "covers": "",
+      "cbmc_peak_kib": 1440396
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len9_to12",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "covers": "",
+      "cbmc_peak_kib": 1427408
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len13_to16",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "covers": "",
+      "cbmc_peak_kib": 1453880
+    }
+  ]
+}

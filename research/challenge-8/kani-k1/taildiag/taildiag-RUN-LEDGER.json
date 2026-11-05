@@ -1,7 +1,7 @@
 {
   "task": "TAILDIAG",
-  "stage": "taildiag-g2",
-  "state": "G2_PREBUILD_REVIEW_REQUIRED",
+  "stage": "taildiag-closeout",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "branch": "experiment/kani-k1-taildiag-20261105",
   "owner": "k1-network",
   "task_commit": "7a68931f595b173c69624cecb88436c449912c91",
@@ -26,7 +26,7 @@
   "watchdog_harness_minutes": 20,
   "build_timeout_minutes": 50,
   "maximum_reservation_usd": 0.675,
-  "spent_usd": 0.4185,
+  "spent_usd": 0.7695,
   "reserved_usd": 0,
   "builds": [
     {
@@ -50,27 +50,49 @@
       "covers_reached_successes": 45,
       "covers_total_goal": 50,
       "verification_report": "g1/verification-report.json"
+    },
+    {
+      "id": "a5a16595-8c2e-4bf8-80bd-b7627d775ca6",
+      "stage": "taildiag-g2",
+      "role": "primary",
+      "source_sha": "49420dda0b505d38d9bed8568ce602a4026b4ae4",
+      "request_id": "taildiag-g2-20261105-01",
+      "request_sha256": "c7652b3bf9c2b8abc8896b894c80c228b619a3087917d55131cdcf19d261fdf7",
+      "owner": "k1-network",
+      "recorded_utc": "2026-11-05T12:23:24.938086+00:00",
+      "maximum_reservation_usd": 0.675,
+      "status": "FAILURE",
+      "summary_status": "COMPLETE",
+      "gate": false,
+      "cost_usd": 0.351,
+      "start_time": "2026-11-05T12:23:59.965406297Z",
+      "finish_time": "2026-11-05T12:49:54.602282Z",
+      "successes": 1,
+      "timeouts": 4,
+      "covers_reached_successes": 5,
+      "covers_total_goal": 25,
+      "verification_report": "g2/verification-report.json"
     }
   ],
   "repairs": 0,
   "budget_observed": {
-    "builds": 242,
-    "used_usd": 102.6105,
+    "builds": 243,
+    "used_usd": 102.9615,
     "reserved_usd": 2.0925,
-    "with_this_max_reservation_usd": 105.378
+    "project_cap_usd": 118.96
   },
-  "budget_observation_utc": "2026-11-05T12:19:57.124582+00:00",
-  "authorization": "G1 GO exhausted. G2 five-root exact packet requires coordinator PRE-BUILD review and new GO; no dispatch authorization inferred.",
+  "budget_observation_utc": "2026-11-05T12:54:31.134445+00:00",
+  "authorization": "G1/G2 dispatched once each under exact coordinator GO; both primary-build authorizations exhausted. Final research review requested; no further builds.",
   "budget_note": "Recheck own spent plus reserve and project ledger immediately before dispatch; no local proof tools.",
-  "slot_note": "G1 terminal FAILURE, stable owner k1-network; other project reservations $2.0925 observed. Coordinator GO and immediate budget/owner recheck required before G2 dispatch.",
+  "slot_note": "Both authorized builds terminal FAILURE. Our owner k1-network is released; own reserve zero. Task build authority exhausted.",
   "inventory": false,
-  "inventory_note": "Coordinator correction: no full std lane inventory; retain source-only expected lists. Build timeout unchanged at 70 minutes.",
-  "approved_source_sha": "1c99acce330d708961571bd593ecc322768f690f",
-  "build_cache": "/tmp/taildiag-k1g-g1",
+  "inventory_note": "Full std inventory disabled per coordinator for both builds; 219 ordinary/268 cfg-on are source-only counts.",
+  "approved_source_sha": "49420dda0b505d38d9bed8568ce602a4026b4ae4",
+  "build_cache": "/tmp/taildiag-k1g-g2",
   "budget_after_submit": {
-    "used_usd": 102.192,
-    "reserved_including_this_usd": 0.945,
-    "maximum_total_usd": 103.137,
+    "used_usd": 102.6105,
+    "reserved_including_this_usd": 2.7675,
+    "maximum_total_usd": 105.378,
     "project_cap_usd": 118.96
   },
   "own_spent_plus_proposed_reservation_usd": 1.0935,
@@ -93,5 +115,17 @@
     ],
     "comparator": "taildiag::arbitrary_less::<u64>"
   },
-  "g1_analysis": "9 SUCCESS <=200 s, 1 deterministic lower-tail TIMEOUT; explicit frame largest measured u64 factor (182.69366/31.25227=5.85x). No insertion credit before G2 consumer verification."
+  "g1_analysis": "9 SUCCESS <=200 s, 1 deterministic lower-tail TIMEOUT; explicit frame largest measured u64 factor (182.69366/31.25227=5.85x). No insertion credit before G2 consumer verification.",
+  "completed_utc": "2026-11-05T12:54:31.134445+00:00",
+  "builds_primary": 2,
+  "retries": 0,
+  "insertion_len1_to16_credited": false,
+  "insertion_consumers_successful": 0,
+  "insertion_result": "All four matched consumer partitions TIMEOUT; no new insertion composition credit.",
+  "acceptance": "Partial: insert_tail u64 allocation17/start0/tail1..15 SUCCESS in two no-explicit-frame parts <=200s; insertion len1..16 goal NOT established.",
+  "ordinary_recommendation": "Two opt-in PFCs, tail1..7 and tail8..15 without explicit suffix frame, 31.25227+64.20818=95.46045s excluding setup; no integration performed.",
+  "g2_analysis": "Upper-tail no-frame PFC SUCCESS 64.20818s/5 covers. Four insertion PFC consumers TIMEOUT; failed checks/covers/time unknown; direct peak attribution and no OOM seen.",
+  "authorization_history": [
+    "Coordinator GO: G2 once at exact packet 49420dda0b505d38d9bed8568ce602a4026b4ae4, 5 roots, 4 min/root, inventory=false, k1-network, reserve $0.675. Insertion len1..16 credit only if all four consumers SUCCESS. Then final RESULT/REVIEW REQUEST/TAILDIAG closeout."
+  ]
 }

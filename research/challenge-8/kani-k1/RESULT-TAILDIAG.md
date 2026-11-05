@@ -1,36 +1,40 @@
-# TAILDIAG — G1: tail1..15 доказан; G2 ожидает review/GO
-G1 `34500433-bd3d-4784-9a26-aaf0ba3f0492`: Cloud FAILURE, summary COMPLETE, gate=false, Kani exit1.
-Source `1c99acce330d708961571bd593ecc322768f690f`; Kani `cd355b0bccd32300713bc2ce4f765dafa1510607`.
-Request `taildiag-g1-20261105-01`, SHA256 `ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296`.
-k1-network, standard4, controls=true, inventory=false, jobs1, 240 с/root; source/request/pool/tooling PASS.
+# TAILDIAG — tail1..15 доказан; insertion len1..16 не засчитан
+G1 `34500433-bd3d-4784-9a26-aaf0ba3f0492`, source `1c99acce330d708961571bd593ecc322768f690f`.
+G2 `a5a16595-8c2e-4bf8-80bd-b7627d775ca6`, source `49420dda0b505d38d9bed8568ce602a4026b4ae4`.
+Request G1 `taildiag-g1-20261105-01`, SHA256 `ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296`.
+Request G2 `taildiag-g2-20261105-01`, SHA256 `c7652b3bf9c2b8abc8896b894c80c228b619a3087917d55131cdcf19d261fdf7`.
+Kani `cd355b0bccd32300713bc2ce4f765dafa1510607`; k1-network, standard4, controls=true, inventory=false, jobs1, 4 мин/root.
+Оба Cloud FAILURE, summary COMPLETE, gate=false, Kani exit1; source/request/pool/check-tooling PASS.
 
-| Root taildiag:: / фактор | Status | с | CBMC peak RSS KiB |
+| G / root taildiag:: (фактор указан в имени) | Status | с | CBMC peak RSS KiB |
 | --- | --- | ---: | ---: |
-| u64_backing8_tail1_to7 | SUCCESS | 60.678856 | 2626720 |
-| u64_backing12_tail1_to7 | SUCCESS | 104.20101 | 2773596 |
-| u64_backing17_tail1_to7 | SUCCESS | 182.69366 | 3191176 |
-| u64_backing17_tail1_to7_value_order | TIMEOUT | — | 3700652 |
-| u64_backing17_tail1_to7_cadical | SUCCESS | 174.3746 | 3192512 |
-| u64_backing17_tail1_to7_kissat | SUCCESS | 142.5729 | 3595144 |
-| u8_backing17_tail1_to7 | SUCCESS | 38.121933 | 2294760 |
-| u64_backing17_tail1_to7_no_explicit_frame | SUCCESS | 31.25227 | 2300584 |
-| u64_backing17_tail8_to15 | SUCCESS | 177.43237 | 3192020 |
-| u64_backing17_tail8_to15_value_order | SUCCESS | 163.57158 | 3708104 |
+| G1 u64_backing8_tail1_to7 | SUCCESS | 60.678856 | 2626720 |
+| G1 u64_backing12_tail1_to7 | SUCCESS | 104.20101 | 2773596 |
+| G1 u64_backing17_tail1_to7 | SUCCESS | 182.69366 | 3191176 |
+| G1 u64_backing17_tail1_to7_value_order | TIMEOUT | — | 3700652 |
+| G1 u64_backing17_tail1_to7_cadical | SUCCESS | 174.3746 | 3192512 |
+| G1 u64_backing17_tail1_to7_kissat | SUCCESS | 142.5729 | 3595144 |
+| G1 u8_backing17_tail1_to7 | SUCCESS | 38.121933 | 2294760 |
+| G1 u64_backing17_tail1_to7_no_explicit_frame | SUCCESS | 31.25227 | 2300584 |
+| G1 u64_backing17_tail8_to15 | SUCCESS | 177.43237 | 3192020 |
+| G1 u64_backing17_tail8_to15_value_order | SUCCESS | 163.57158 | 3708104 |
+| G2 u64_backing17_tail8_to15_no_explicit_frame | SUCCESS | 64.20818 | 2524920 |
+| G2 insertion_stubbed_u64_backing17_len1_to4 | TIMEOUT | — | 1478284 |
+| G2 insertion_stubbed_u64_backing17_len5_to8 | TIMEOUT | — | 1440396 |
+| G2 insertion_stubbed_u64_backing17_len9_to12 | TIMEOUT | — | 1427408 |
+| G2 insertion_stubbed_u64_backing17_len13_to16 | TIMEOUT | — | 1453880 |
 
-Все SUCCESS: checks 0/229, covers 5/5; суммарно 45/45 успешных covers, полная цель50 не установлена.
-TIMEOUT: время/checks/covers неизвестны; 240 с — watchdog, не verification time. Peak — direct metadata attribution.
-Контролируемые пары tail1..7: backing8/12/17 = 60.679/104.201/182.694 с; u8 на17 =38.122 с.
-Самый сильный измеренный фактор — явная suffix-рамка:182.694→31.252 с (~5.85×), реальный modifies сохранён.
-Гипотеза: рамка и ширина символических значений/аллокации дают основную стоимость; backing32 не перепроверен.
-Kissat142.573 с, explicit cadical174.375 с; default effective solver не установлен bounded invocation-выводом.
-Детерминированный порядок не улучшает надёжно:tail1..7 TIMEOUT, tail8..15 SUCCESS163.572 с; sortedness не предполагается.
-Новый matched PFC-домен:u64, initialized allocation17, start0, F=taildiag::arbitrary_less::<u64>, tail1..15.
-Дополнительно:u64 allocations8/12 tail1..7; u8 allocation17 tail1..7; value_less_u64 allocation17 tail8..15.
-Все9 SUCCESS — кандидаты ordinary ≤200 с; consumer insertion ещё не запускался, credit ему не засчитан.
-G2 предложена:tail8..15 без явной рамки и четыре matched insertion-PFC со stub_verified(insert_tail), len1..16.
-Consumer сохраняет allocation17/start0/u64/F; callback-cover hook пустой только у consumer, F сохранён.
-G1 verify wall23:21.87, max RSS3708104KiB; swap off, OOM none_seen. Runtime/workflows/tooling неизменны.
-Расход$0.4185/$2, reserve0; repairs/retries0. Ordinary219/cfg-on263 — статика, полный lane inventory отключён.
-В summary build outcome=success, Cloud metadata=FAILURE; расхождение сохранено, не заменяет gate.
+10 SUCCESS: каждый checks 0/229 и covers 5/5; всего 50/50 успешных covers. Полная цель 75 covers не установлена.
+5 TIMEOUT: время/checks/covers неизвестны; 240 с — watchdog. Все15 CBMC peaks имеют direct metadata attribution; OOM none_seen.
+Главный измеренный фактор — явная suffix-рамка: tail1..7 182.694→31.252 с (~5.85×); tail8..15 177.432→64.208 с (~2.76×).
+Реальный modifies сохранён. Гипотеза: рамка и ширина значений/аллокации дают основную стоимость; шум не изолирован, backing32 не перепроверен.
+Итоговый insert_tail: u64, initialized allocation17, start0, F=taildiag::arbitrary_less::<u64>, tail1..15; без sortedness premise.
+Все четыре matched insertion-consumers len1..4/5..8/9..12/13..16 TIMEOUT: новых insertion-доменов и credit len1..16 нет.
+Ordinary: рекомендуются два no_explicit_frame PFC tail1..7 и tail8..15, 31.25227+64.20818=95.46045 с без setup; каждый ≤200 с.
+Все10 SUCCESS — bounded кандидаты, список/два приоритетных: [ordinary-candidates.json](taildiag/ordinary-candidates.json); consumers исключены.
+Ordinary219/cfg-on268 — статика; все15 новых корней opt-in. Runtime/workflows/tooling неизменны; source checks/rustfmt/diff-check PASS.
+G1/G2 verify wall 23:21.87/19:23.62; max RSS3708104/2524920KiB; swap off. Расход $0.4185+$0.3510=$0.7695/$2, reserve0.
+Две сборки, retries/repairs0; лимит primary исчерпан. Причина стоимости consumer не установлена; новых сборок не будет.
+В обоих summary build outcome=success, Cloud metadata=FAILURE; расхождение сохранено. Effective default solver bounded-выводом не установлен.
 Нет universal T/F, других allocations/starts, sortedness, uninit/validity/permissions/panic-unwinding theorem.
-Evidence:[G1 report](taildiag/g1/verification-report.json), bounded summary/rows/peaks/tooling рядом.
+Evidence: [G1](taildiag/g1/verification-report.json), [G2](taildiag/g2/verification-report.json); bounded summary/rows/peaks/tooling рядом.
