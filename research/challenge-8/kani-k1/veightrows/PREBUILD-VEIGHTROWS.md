@@ -1,5 +1,9 @@
 # VEIGHTROWS — exact pre-build packet
 
+Archived pre-build packet: coordinator GO on `01caba2d4d7386759de16ee395518aa866cafbb4`;
+the single authorized build completed. Final outcome: [RESULT-VEIGHTROWS.md](../RESULT-VEIGHTROWS.md).
+The pre-build expectations and review boundary below are preserved as history.
+
 Task `ec0ed3b1e0127592d2690a461671849df974c9c9`; base
 `ab99e39380a7fe2415d77f3082012510f4a60627`.
 Worktree `/root/verify-rust-std-kani-veightrows`, branch

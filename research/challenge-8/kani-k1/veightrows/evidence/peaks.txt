@@ -1,0 +1,45 @@
+interval_ms=2000
+samples=168
+elapsed_s=334
+total_rss_peak_kb=3864068
+total_peak_s=296
+cmd=bash peak_kb=3816 first_s=0 last_s=334 peak_s=0
+cmd=cargo peak_kb=34372 first_s=2 last_s=62 peak_s=4
+cmd=cbmc peak_kb=2522136 first_s=66 last_s=332 peak_s=296
+cmd=goto-cc peak_kb=21068 first_s=64 last_s=240 peak_s=64
+cmd=goto-instrument peak_kb=21232 first_s=170 last_s=208 peak_s=170
+cmd=kani-compiler peak_kb=1706216 first_s=2 last_s=62 peak_s=48
+cmd=kani-driver peak_kb=2095152 first_s=2 last_s=332 peak_s=170
+cmd=run-kani.sh peak_kb=3692 first_s=2 last_s=332 peak_s=2
+cmd=tee peak_kb=1180 first_s=0 last_s=334 peak_s=2
+cmd=time peak_kb=1172 first_s=2 last_s=332 peak_s=2
+cmd=timeout peak_kb=1108 first_s=2 last_s=332 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=2522136 peak_s=296
+role=driver simultaneous_rss_peak_kb=1684404 peak_s=168
+cbmc_pid=8781 peak_kb=2522136 first_s=242 last_s=302 peak_s=296 active=T0:tailcontracts::insert_tail_safety_u64_backing17_tail8_to15 hint=slice::sort::shared::smallsort::verify::tailcontracts::inser
+cbmc_pid=8819 peak_kb=2297120 first_s=304 last_s=332 peak_s=322 active=T0:tailcontracts::insert_tail_safety_u64_backing17_tail1_to7 hint=slice::sort::shared::smallsort::verify::tailcontracts::inser
+cbmc_pid=8663 peak_kb=1554752 first_s=66 last_s=168 peak_s=122 active=T0:allocationcontracts::unstable_network_safety_u8_n32_stubbed hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+cbmc_pid=8703 peak_kb=386712 first_s=172 last_s=206 peak_s=196 active=T0:allocationcontracts::swap_safety_u64_backing32 hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+cbmc_pid=8743 peak_kb=310280 first_s=210 last_s=238 peak_s=236 active=T0:allocationcontracts::swap_safety_u8_backing32 hint=slice::sort::shared::smallsort::verify::allocationcontracts:
+driver_s=0 rss_kb=0
+harness_s=66 name=T0:allocationcontracts::unstable_network_safety_u8_n32_stubbed
+driver_s=30 rss_kb=6128
+harness_s=172 name=T0:allocationcontracts::swap_safety_u64_backing32
+driver_s=60 rss_kb=6512
+harness_s=210 name=T0:allocationcontracts::swap_safety_u8_backing32
+driver_s=90 rss_kb=6852
+harness_s=242 name=T0:tailcontracts::insert_tail_safety_u64_backing17_tail8_to15
+driver_s=120 rss_kb=6852
+harness_s=304 name=T0:tailcontracts::insert_tail_safety_u64_backing17_tail1_to7
+driver_s=150 rss_kb=236744
+driver_s=180 rss_kb=1322620
+driver_s=210 rss_kb=1322640
+driver_s=240 rss_kb=1322640
+driver_s=270 rss_kb=1322640
+driver_s=300 rss_kb=1322640
+driver_s=330 rss_kb=1322640
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=348
+verify_budget_s=2292
