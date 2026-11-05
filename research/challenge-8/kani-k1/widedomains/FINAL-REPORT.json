@@ -1,0 +1,411 @@
+{
+  "stage_status": "COMPLETE_REVIEW_REQUESTED_PARTIAL",
+  "mission_coverage": "PARTIAL: all real length/allocation domains were not proved",
+  "evidence_validation": "PASS",
+  "all_requested_roots_pass": false,
+  "builds": 3,
+  "root_rows": 30,
+  "source_success_rows": 9,
+  "timeout_rows": 21,
+  "accepted_roots": 7,
+  "conditional_consumers": 2,
+  "successful_covers_satisfied": 55,
+  "successful_covers_total": 55,
+  "accepted_covers_satisfied": 48,
+  "accepted_covers_total": 48,
+  "expected_request_covers": [
+    79,
+    67,
+    77
+  ],
+  "full_request_cover_targets_established": false,
+  "timeout_checks_covers_seconds": "Not reported; not inferred.",
+  "ordinary_candidate_seconds_sum": "523.621430",
+  "ordinary_count_static": 219,
+  "cfg_on_count_static": 283,
+  "compiler_inventory": null,
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "library_commits": [
+    "35667f4a956e8f24919275b745455a751df57edc",
+    "ca934b30c79c2bad5fcd81dc306d6cf3d926cc8c",
+    "a1b66147f130b05eba221e8620105a6540341fb5"
+  ],
+  "unchanged_since_final_build": "Library/runtime/contracts/tooling/workflows; final commit is research only.",
+  "cost_usd": "1.5390",
+  "cap_usd": "4.00",
+  "reserved_usd": "0.0000",
+  "retries": 0,
+  "repairs": 0,
+  "further_builds_authorized": false,
+  "rows": [
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+      "status": "SUCCESS",
+      "seconds": "33.71013",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+      "status": "SUCCESS",
+      "seconds": "40.420055",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+      "status": "SUCCESS",
+      "seconds": "135.0917",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "credit": "bounded paired consumer",
+      "dependencies": [
+        "g1::swap_safety_u8_backing32"
+      ]
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail5_to8",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail9_to12",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail13_to16",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing32_tail17_to19",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_safety_u64_backing48_tail5_to8",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail5_to9",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail10_to14",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_initialized_u64_backing32_tail15_to19",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len1_to16",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_stubbed_u64_backing32_len17_to20",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32_tail_comparator",
+      "status": "SUCCESS",
+      "seconds": "39.150494",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_swap_insertion_stubbed",
+      "status": "SUCCESS",
+      "seconds": "146.68248",
+      "checks_failed": 0,
+      "checks_total": 474,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "credit": "conditional consumer; prerequisites unproved"
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+      "status": "SUCCESS",
+      "seconds": "80.85085",
+      "checks_failed": 0,
+      "checks_total": 228,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "status": "SUCCESS",
+      "seconds": "7.120541",
+      "checks_failed": 0,
+      "checks_total": 269,
+      "covers_satisfied": 4,
+      "covers_total": 4,
+      "credit": "bounded paired consumer",
+      "dependencies": [
+        "g2::merge_safety_u64_len8_scratch48_src32_dst0"
+      ]
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail5_to9",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail10_to14",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail15_to19",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len1_to16",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len17_to20",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len16_network_backing32",
+      "status": "SUCCESS",
+      "seconds": "187.27766",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 7,
+      "covers_total": 7,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_network_backing32",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_all_helpers_stubbed",
+      "status": "SUCCESS",
+      "seconds": "72.3868",
+      "checks_failed": 0,
+      "checks_total": 486,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "credit": "conditional consumer; prerequisites unproved"
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_general_scratch48",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "credit": "none; TIMEOUT"
+    }
+  ],
+  "proof_domains": {
+    "swap": "G1 u8/u64 and G2 u64 F2, initialized backing32, any interior start and in-range relative positions including equality; explicit two-position frame.",
+    "insert_tail": "No expansion: prior u64 backing5 tail1..4 only. All 15 new tail PFC rows TIMEOUT.",
+    "insertion_sort_shift_left": "No expansion: prior opt-in len2/3 only. All 4 new insertion PFC rows TIMEOUT.",
+    "sort4_stable": "Unchanged prior u64 src4/disjoint dst4.",
+    "bidirectional_merge": "G2 N8 u64/F2: same allocation48, initialized source[32..40], uninitialized dst[0..8], all other scratch uninitialized, paired real sort8 consumer. G3 N16 u64/F2: initialized source32 prefix16 -> disjoint uninitialized destination32, source-allocation frame, standalone intermediate PFC; no actual N16 network merge call. No N32 PFC credit."
+  },
+  "consumer_inclusion": [
+    {
+      "consumer": "g1::unstable_network_safety_u8_n32_stubbed",
+      "accepted": true,
+      "calls": "u8, F=arbitrary_less::<u8>, allocation32, bases0/16, a,b<=12",
+      "pfc_union": "G1 u8 swap backing32: any start<32, a,b<32-start, including equality, initialized whole allocation and two-position frame",
+      "argument": "Both actual network bases and all sort13 indices are inside the PFC domain; insertion and merge execute real bodies, panic boundary cut."
+    },
+    {
+      "consumer": "g2::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "accepted": true,
+      "calls": "u64, F=tail_less_u64, N8, scratch48 source32/destination0",
+      "pfc_union": "G2 merge8 PFC exact same T/F/allocation/offsets/frame/initialization",
+      "argument": "Real sort4 bodies initialize exactly scratch32..40 before merge; other scratch remains uninitialized. Original source allocation32 framed; no initialized output read after stub. Exact first general-N32 sort8 geometry only."
+    },
+    {
+      "consumer": "g2::unstable_network_safety_u64_n32_swap_insertion_stubbed",
+      "accepted": false,
+      "argument": "G2 matching-F swap PFC passes; tail/insertion union has no successful PFCs. Whole chain withheld."
+    },
+    {
+      "consumer": "g2/g3 insertion PFCs acting as insert_tail consumers",
+      "accepted": false,
+      "calls": "u64/F2/initialized32; len1..16 starts0/16 or len17..20 start0; arbitrary offset1..len",
+      "needed_union": "tail1..19 at start0 and tail1..15 at start16, initialized32, same F, inclusive frame",
+      "argument": "Required tail partitions all TIMEOUT; consumers also TIMEOUT. No tail/insertion proof or transfer to scratch48."
+    },
+    {
+      "consumer": "g3::unstable_network_safety_u64_n32_all_helpers_stubbed",
+      "accepted": false,
+      "calls": "u64/F2, swap/insertion bases0/16, insertion len16 offset13, merge32 source32 -> disjoint uninitialized scratch32",
+      "needed_union": "G2 matching swap + complete G3 tail/insertion + G3 network merge32",
+      "argument": "Tail/insertion and network merge32 PFCs TIMEOUT. Merge16 is a different length and general32 a different allocation domain; neither supplies missing credit."
+    }
+  ],
+  "tail_conclusion": "Bounded-unwinding path for insert_tail backing32 exhausted within authorized G1-G3 stage, including arbitrary-start/mask, initialized two-base, and arbitrary outside-probe frame encodings. This is not a universal impossibility theorem.",
+  "coordinator_reported_LOOPREAL": "Parallel work checks insert_tail using a loop invariant on the real loop, backing8/32/128; coordinator-reported only, no source/results read and no independent proof credit.",
+  "remaining": "Tail/insertion expansion, merge32 PFCs, scratch48 tails1..15, other initialization/start/allocation domains and intermediate/odd merge lengths. No additional build within this stage.",
+  "limitations": "Bounded u8/u64 stateless F domains only; no generic callback frame/order, ZST, uninit/value-validity, permission, unwinding or arbitrary allocation theorem. Covers prove reachability of listed source roots, not universal compositional domain inclusion. Source hashes/static checks are not compiler inventory or a MIR/refinement binding proof.",
+  "evidence_reports": [
+    "g1/verification-report.json",
+    "g2/verification-report.json",
+    "g3/verification-report.json"
+  ],
+  "domain_inclusion_argument": "Source-level domain argument checked by the agent, not an automatic Kani subset check or a generic theorem."
+}

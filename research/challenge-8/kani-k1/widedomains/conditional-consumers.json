@@ -1,0 +1,34 @@
+{
+  "count": 2,
+  "ordinary_candidates": false,
+  "roots": [
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_swap_insertion_stubbed",
+      "status": "SUCCESS",
+      "seconds": "146.68248",
+      "checks_failed": 0,
+      "checks_total": 474,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "composition_credit": false,
+      "reason": "Tail/insertion prerequisites TIMEOUT; G3 also needs matching merge32 PFC, which TIMEOUT."
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_all_helpers_stubbed",
+      "status": "SUCCESS",
+      "seconds": "72.3868",
+      "checks_failed": 0,
+      "checks_total": 486,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "composition_credit": false,
+      "reason": "Tail/insertion prerequisites TIMEOUT; G3 also needs matching merge32 PFC, which TIMEOUT."
+    }
+  ]
+}

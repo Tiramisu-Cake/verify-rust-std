@@ -1,0 +1,88 @@
+{
+  "evidence_validation": "PASS",
+  "run_acceptance": "FAIL: eight PFC TIMEOUTs",
+  "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+  "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+  "request_id": "widedomains-g3-20261105-01",
+  "request_sha256": "64bc9e9a17803cf8f7f6fb962df0f2b2000ff52df740618dc9c05cfc76a8642d",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail1_to4",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail5_to9",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail10_to14",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail15_to19",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len1_to16",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len17_to20",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len16_network_backing32",
+      "status": "SUCCESS",
+      "seconds": "187.27766",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 7,
+      "covers_total": 7
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_network_backing32",
+      "status": "TIMEOUT",
+      "seconds": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_all_helpers_stubbed",
+      "status": "SUCCESS",
+      "seconds": "72.3868",
+      "checks_failed": 0,
+      "checks_total": 486,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_general_scratch48",
+      "status": "TIMEOUT",
+      "seconds": null
+    }
+  ],
+  "success_count": 2,
+  "timeout_count": 8,
+  "successful_covers_satisfied": 9,
+  "successful_covers_total": 9,
+  "requested_covers_total": 77,
+  "successful_seconds_sum": "259.66446",
+  "eligible_standalone_seconds_sum": "187.27766",
+  "network_composition_credit": false,
+  "network_credit_reason": "All four tail and both insertion PFCs, plus the matching network merge32 PFC, TIMEOUT. All-stub network SUCCESS with 2/2 covers has no chain credit and is not an unconditional ordinary candidate.",
+  "merge16_credit": "Standalone intermediate PFC: u64/F tail_less_u64, initialized source backing32 prefix16 -> disjoint uninitialized destination32, source-allocation frame. It is not an actual N16 network merge consumer.",
+  "tail_conclusion": "Bounded-unwinding path for insert_tail backing32 exhausted within authorized G1-G3 stage; no universal impossibility claim.",
+  "LOOPREAL": "Coordinator-reported parallel loop-invariant work on real insert_tail backing8/32/128; no code or results inspected and no proof credit transferred.",
+  "cumulative_cost_usd": "1.5390",
+  "cost_usd_derived": "0.6210",
+  "reserved_usd": "0.0000",
+  "tooling": "PASS: pool/source and six bound files",
+  "bounded_rows_file": "rows-bounded.json",
+  "bounded_rows_stdout_sha256": "df798dda6be40def9df549a845c0972653b3dcb504d143585f58f5516534e545",
+  "limits": "No tail/insertion or merge32 PFC credit, no generic/allocation transfer, uninit/value-validity/permission or unwinding theorem. Complete row evidence is not overall proof acceptance."
+}

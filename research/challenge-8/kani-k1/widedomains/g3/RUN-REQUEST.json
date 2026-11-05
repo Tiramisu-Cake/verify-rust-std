@@ -1,0 +1,54 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "widedomains-g3-20261105-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "WIDEDOMAINS G3: arbitrary outside-probe frame encoding for matching tail/insertion domains; network merge16/32 and all-stub real N32 consumer; general merge32 scratch48. Require all 77 covers; tail chunks <=200s; chain credit only with all prerequisites.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 4,
+  "kani_jobs": 1,
+  "inventory": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail1_to4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail5_to9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail10_to14",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insert_tail_probe_u64_backing32_tail15_to19",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len1_to16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::insertion_probe_u64_backing32_len17_to20",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len16_network_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_network_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u64_n32_all_helpers_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len32_general_scratch48",
+      "expect": "SUCCESS"
+    }
+  ]
+}

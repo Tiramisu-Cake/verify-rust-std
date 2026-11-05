@@ -1,7 +1,7 @@
 {
   "task": "WIDEDOMAINS",
   "stage": "widedomains-g3",
-  "state": "G3_PRE_BUILD_REVIEW_PENDING",
+  "state": "COMPLETE_REVIEW_REQUESTED_PARTIAL",
   "branch": "experiment/kani-k1-widedomains-20261105",
   "owner": "k1-merge",
   "task_base": "34f69f034b",
@@ -19,20 +19,20 @@
   "compile_error_repair_limit_per_build": 1,
   "own_cap_usd": 4.0,
   "project_cap_usd": 118.96,
-  "spent_usd": 0.918,
+  "spent_usd": 1.539,
   "reserved_usd": 0.0,
   "harness_timeout_minutes": 4,
   "watchdog_harness_minutes": 40,
   "build_timeout_minutes": 70,
   "maximum_reservation_usd": 0.945,
   "budget_observed": {
-    "builds": 239,
-    "used_usd": 100.923,
-    "reserved_usd": 1.053,
-    "with_this_max_reservation_usd": 102.921
+    "builds": 240,
+    "used_usd": 102.192,
+    "reserved_usd": 0.0,
+    "maximum_total_usd": 102.192
   },
-  "budget_observation_utc": "2026-11-05T09:21:56.373315+00:00",
-  "budget_note": "Read-only k1g snapshot before G3 publication. Recheck own/project caps and at least 70 minutes before unchanged main deadline after exact-packet GO.",
+  "budget_observation_utc": "2026-11-05T10:16:27.246689+00:00",
+  "budget_note": "Final read-only k1g ledger; all own reservations freed, no further dispatch authorized.",
   "builds": [
     {
       "id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
@@ -96,12 +96,44 @@
         "maximum_total_usd": 101.301,
         "project_cap_usd": 118.96
       }
+    },
+    {
+      "id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "stage": "widedomains-g3",
+      "role": "primary",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "request_id": "widedomains-g3-20261105-01",
+      "request_sha256": "64bc9e9a17803cf8f7f6fb962df0f2b2000ff52df740618dc9c05cfc76a8642d",
+      "owner": "k1-merge",
+      "recorded_utc": "2026-11-05T09:24:38.670955+00:00",
+      "maximum_reservation_usd": 0.945,
+      "status": "FAILURE",
+      "library_commit": "a1b66147f130b05eba221e8620105a6540341fb5",
+      "authorization": "Coordinator GO for exact G3 packet c90719fcab98baeb2a857355effe655755a6baca: final primary build, one dispatch, 10 roots, 4 minutes each, owner k1-merge, reserve $0.945, 77 covers. After G3: RESULT, REVIEW REQUEST / WIDEDOMAINS complete; no fourth primary build.",
+      "start_time": "2026-11-05T09:25:09.910245259Z",
+      "finish_time": "2026-11-05T10:10:40.310619Z",
+      "cost_usd": 0.621,
+      "cost_note": "Combined 3-build k1g ledger $1.5390 minus G1/G2 $0.9180 = G3 $0.6210.",
+      "success_count": 2,
+      "timeout_count": 8,
+      "successful_covers_satisfied": 9,
+      "successful_covers_total": 9,
+      "requested_covers_total": 77,
+      "verification_report": "g3/verification-report.json",
+      "acceptance": "FAIL: eight PFC TIMEOUTs; merge16 independently accepted, all-stub consumer conditional and chain uncredited.",
+      "watch_notification": "k1g watch delivered Cloud FAILURE, wait exit0, attempt1; no status polling.",
+      "budget_after_submit": {
+        "used_usd": 100.923,
+        "reserved_including_this_usd": 1.998,
+        "maximum_total_usd": 102.921,
+        "project_cap_usd": 118.96
+      }
     }
   ],
   "repairs": 0,
   "expected_covers": 77,
   "allowed_unreachable_covers": 0,
-  "authorization": "G2 GO exhausted. Coordinator requested G2 analysis and G3 or closeout proposal. G3 exact packet requires new GO for 4 minutes/root and $0.945 maximum reserve; one remaining primary build, no retries.",
+  "authorization": "All three exact-packet GO authorizations consumed. Coordinator requires final RESULT and REVIEW REQUEST / WIDEDOMAINS stage closeout; no further builds.",
   "cache": "/tmp/widedomains-k1g-g3",
   "library_commits": [
     "35667f4a956e8f24919275b745455a751df57edc",
@@ -110,10 +142,24 @@
   ],
   "inventory": false,
   "inventory_note": "Full std inventory can take about 49 minutes; not needed for G1 diagnostic. Source-only inventories retained; no compiler inventory claim.",
-  "approved_packet_sha": null,
+  "approved_packet_sha": "c90719fcab98baeb2a857355effe655755a6baca",
   "main_deadline_utc": "2026-11-05T12:44:34.233475+00:00",
   "closeout_deadline_utc": "2026-11-05T13:14:34.233475+00:00",
-  "slot_note": "G2 terminal FAILURE; stable owner k1-merge. Await G3 GO; no dispatch.",
+  "slot_note": "All three own builds terminal FAILURE; owner k1-merge stage closed.",
   "current_library_commit": "a1b66147f130b05eba221e8620105a6540341fb5",
-  "g2_dispatch_prepared_utc": "2026-11-05T08:34:13.513560+00:00"
+  "g2_dispatch_prepared_utc": "2026-11-05T08:34:13.513560+00:00",
+  "g3_dispatch_prepared_utc": "2026-11-05T09:23:52.334873+00:00",
+  "coordinator_context": {
+    "LOOPREAL": "Source-reported by coordinator: parallel work checks insert_tail with a loop invariant on the real loop, backing8/32/128. No code/results inspected and no independent proof credit claimed.",
+    "tail_closeout_rule": "If G3 tail partitions again TIMEOUT, RESULT must state bounded-unwinding path for insert_tail backing32 exhausted within this stage/experiment budget; not a universal impossibility claim."
+  },
+  "completed_utc": "2026-11-05T10:16:27.246642+00:00",
+  "mission_coverage": "PARTIAL",
+  "primary_builds_used": 3,
+  "further_builds_authorized": false,
+  "final_report": "FINAL-REPORT.json",
+  "accepted_root_count": 7,
+  "conditional_consumer_count": 2,
+  "ordinary_candidate_seconds_sum": "523.621430",
+  "tail_conclusion": "Bounded-unwinding path for insert_tail backing32 exhausted within authorized G1-G3 stage, including arbitrary-start/mask, initialized two-base, and arbitrary outside-probe frame encodings. This is not a universal impossibility theorem."
 }

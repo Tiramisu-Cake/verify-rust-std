@@ -1,0 +1,112 @@
+{
+  "count": 7,
+  "measured_seconds_sum": "523.621430",
+  "includes_compile_setup": false,
+  "ordinary_enabled": false,
+  "ordinary_count_unchanged": 219,
+  "scope": "Candidate list only. Extract or re-gate these roots separately before any ordinary-suite change; the current module remains opt-in with all TIMEOUT roots.",
+  "roots": [
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u8_backing32",
+      "status": "SUCCESS",
+      "seconds": "33.71013",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32",
+      "status": "SUCCESS",
+      "seconds": "40.420055",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g1",
+      "build_id": "f303fd59-fa90-4c25-a50d-8c7ab7146fea",
+      "source_sha": "90fadd7ccf8b5bb32d04401d274a6f492b612897",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::unstable_network_safety_u8_n32_stubbed",
+      "status": "SUCCESS",
+      "seconds": "135.0917",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "credit": "bounded paired consumer",
+      "dependencies": [
+        "g1::swap_safety_u8_backing32"
+      ]
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::swap_safety_u64_backing32_tail_comparator",
+      "status": "SUCCESS",
+      "seconds": "39.150494",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
+      "status": "SUCCESS",
+      "seconds": "80.85085",
+      "checks_failed": 0,
+      "checks_total": 228,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    },
+    {
+      "stage": "g2",
+      "build_id": "100bfc31-d211-4e7a-be52-fc6e72ab7d69",
+      "source_sha": "4fbe77cf46cd416fb6140a54bf6c9ffb78479d3c",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "status": "SUCCESS",
+      "seconds": "7.120541",
+      "checks_failed": 0,
+      "checks_total": 269,
+      "covers_satisfied": 4,
+      "covers_total": 4,
+      "credit": "bounded paired consumer",
+      "dependencies": [
+        "g2::merge_safety_u64_len8_scratch48_src32_dst0"
+      ]
+    },
+    {
+      "stage": "g3",
+      "build_id": "12ded537-de07-422d-b024-35f1d3c6c22b",
+      "source_sha": "c90719fcab98baeb2a857355effe655755a6baca",
+      "name": "slice::sort::shared::smallsort::verify::widedomains::merge_probe_u64_len16_network_backing32",
+      "status": "SUCCESS",
+      "seconds": "187.27766",
+      "checks_failed": 0,
+      "checks_total": 224,
+      "covers_satisfied": 7,
+      "covers_total": 7,
+      "credit": "bounded standalone PFC",
+      "dependencies": []
+    }
+  ]
+}
