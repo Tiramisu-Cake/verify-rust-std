@@ -1,0 +1,62 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "loopreal-g1-20261105-02",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "LOOPREAL: real insert_tail/outer loop invariants; matched u64 reading-comparator PFC/verified-stub consumers on backing 8/32/128; false invariant on an exact outer-body cfg-copy; five ordinary regressions including ZST N16/N32. Fixed allocations, partial safety only.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 4,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing8",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing32",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing128",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing128",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::loopreal::outer_loop_false_invariant_backing8",
+      "expect": "FAILED",
+      "expect_check": "Check invariant after step for loop slice::sort::shared::smallsort::verify::loopreal::insertion_sort_shift_left_false"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32",
+      "expect": "SUCCESS"
+    }
+  ]
+}

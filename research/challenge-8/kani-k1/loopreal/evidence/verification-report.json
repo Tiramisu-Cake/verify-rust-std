@@ -1,0 +1,112 @@
+{
+  "verdict": "COMPILE_ERROR_NO_PROOF_CREDIT",
+  "build_id": "69ac5245-e83e-4d87-b8b6-68acd46b0e02",
+  "source_sha": "3a1a71036fc48708094c59e3b1c70252ce4fbf9b",
+  "request_id": "loopreal-g1-20261105-02",
+  "request_sha256": "8af5df8cdad82e52c3851d4caab263beb11a291ef437319feea9e2e94d9a5081",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPILE_ERROR",
+  "kani_exit": 1,
+  "tooling_bindings": "PASS",
+  "rows": {
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing8": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing8": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing32": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing32": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::insert_tail_u64_backing128": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_u64_backing128": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::loopreal::outer_loop_false_invariant_backing8": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::realcontracts::insert_tail_safety_u64_tail1_to4_backing5": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n16": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    },
+    "slice::sort::shared::smallsort::verify::assembly::safety_stable_unit_n32": {
+      "status": "NOT_RUN",
+      "time_s": null,
+      "checks": null,
+      "covers": null,
+      "cbmc_peak_rss_kib": null
+    }
+  },
+  "not_run_count": 12,
+  "compiler_error": "Five E0382 diagnostics: loop_modifies moves &mut F is_less in the two real functions and the false cfg-copy.",
+  "invariant_checks_observed": false,
+  "negative_control_established": false,
+  "verification_wall_s": "43.20",
+  "time_v_max_rss_kib": 1290476,
+  "sampled_compiler_peak_rss_kib": 1278800,
+  "per_harness_cbmc_records": 0,
+  "spent_usd": "0.1080",
+  "reserved_usd": "0.0000",
+  "metadata_discrepancy": "Summary run text says build success; bounded Cloud status says FAILURE. Preserve both; use Cloud FAILURE and summary COMPILE_ERROR, not successful verification.",
+  "rows_capture_sha256": "520765eecbf6bdd23118247fc1487c54fb8556f1c87f1356d2b85d9a259a2cce",
+  "capture_note": "rows.txt preserves empty TSV time/check/cover fields as trailing tabs; exempt this data capture alone from end-of-line whitespace checks.",
+  "scope": "Bounded response consistency only, not independent verifier execution. No invariant, length-cost, ZST, ordinary regression or arbitrary-length proof credit."
+}

@@ -1,0 +1,18 @@
+11:warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`
+12:warning: `dummy` (manifest) generated 1 warning
+33:error[E0382]: borrow of moved value
+37:    |                 ------- value moved here
+40:    |                 ^^^^^^^ value borrowed here after move
+44:error[E0382]: borrow of moved value: `is_less`
+51:    |                 ------- value moved here
+54:    |                 ^^^^^^^ value borrowed here after move
+56:error[E0382]: borrow of moved value
+60:    |                                                                                           ------- value moved here
+63:    |                                       ^^^^^^^ value borrowed here after move
+67:error[E0382]: borrow of moved value: `is_less`
+74:    |                                                                                           ------- value moved here
+77:    |                                       ^^^^^^^ value borrowed here after move
+79:error[E0382]: borrow of moved value: `is_less`
+86:    |                                                                                           ------- value moved here
+89:    |                                       ^^^^^^^ value borrowed here after move
+92:error: could not compile `core` (lib) due to 5 previous errors; 1 warning emitted
