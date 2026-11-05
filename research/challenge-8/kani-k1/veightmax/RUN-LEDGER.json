@@ -7,10 +7,10 @@
   "prepared_utc": "2026-11-05T16:01:56.871532+00:00",
   "authorization": "Exact-packet PRE-BUILD REVIEW and coordinator GO required before dispatch.",
   "base_sha": "6ef2158d9df1e194bbcd2bf7a46e8feafc3e8cab",
-  "library_commit": "271adbb9be880cd0203e4759e71a590fdfe31cb7",
+  "library_commit": "d3982a624072437d603f0f96ba974bb00ac5eb5b",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "request_id": "veightmax-g1-20261105-01",
-  "request_sha256": "ca33dbdcef95cd1729e298f495177ea83c83f8bc361a7fee4e165f5fb589b6a8",
+  "request_id": "veightmax-g1-20261105-02",
+  "request_sha256": "5e6e812216996d281d57aa8bb2626c27b32fed1be71329b2c7cc96261e6161fc",
   "primary_build_limit": 1,
   "retry_limit": 0,
   "compile_error_repair_limit": 1,
@@ -38,5 +38,13 @@
   },
   "budget_note": "Read via k1g.sh budget before PRE-BUILD review. Recheck before dispatch.",
   "watch_rule": "k1g.sh watch BUILD, then end turn; no status polling loop.",
-  "final_result": "PENDING_GO_AND_BUILD"
+  "final_result": "PENDING_GO_AND_BUILD",
+  "library_commits": [
+    "271adbb9be880cd0203e4759e71a590fdfe31cb7",
+    "d3982a624072437d603f0f96ba974bb00ac5eb5b"
+  ],
+  "revised_utc": "2026-11-05T16:06:31.528885+00:00",
+  "rejected_packet_sha": "df65bdf52a5ce90cbd987f8bff5cde01d2d9e0d5",
+  "coordinator_review": "NO-GO on initial packet; correction authorized for neutral literals and constant-false FRAME removal. New exact-packet GO still required.",
+  "authorized_differences_file": "authorized-differences.json"
 }

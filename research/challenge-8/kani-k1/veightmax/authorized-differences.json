@@ -1,0 +1,231 @@
+{
+  "authorization": "Coordinator NO-GO correction to df65bdf52a: neutral diagnostic literals and removal of constant-false FRAME machinery only.",
+  "literal_changes": [
+    {
+      "module": "allocationcontracts",
+      "function": "arbitrary_less",
+      "from": "widedomains comparator true",
+      "to": "comparator true",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "arbitrary_less",
+      "from": "widedomains comparator false",
+      "to": "comparator false",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap allocation frame",
+      "to": "swap allocation frame",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap equal positions return",
+      "to": "swap equal positions return",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap increasing positions return",
+      "to": "swap increasing positions return",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap decreasing positions return",
+      "to": "swap decreasing positions return",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap allocation base returns",
+      "to": "swap allocation base returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap second half base returns",
+      "to": "swap second half base returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap last element returns",
+      "to": "swap last element returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "exercise_swap",
+      "from": "widedomains swap returns",
+      "to": "swap returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "cut_order_violation",
+      "from": "widedomains network order violation reachable",
+      "to": "network order violation reachable",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "tail_comparison_covers",
+      "from": "widedomains G2 comparator true",
+      "to": "comparator true",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "tail_comparison_covers",
+      "from": "widedomains G2 comparator false",
+      "to": "comparator false",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "cut_merge_order_violation",
+      "from": "widedomains G2 merge order violation reachable",
+      "to": "merge order violation reachable",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "unstable_network_safety_u8_n32_stubbed",
+      "from": "widedomains network maximum length entered",
+      "to": "network maximum length entered",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "unstable_network_safety_u8_n32_stubbed",
+      "from": "widedomains network maximum length returns",
+      "to": "network maximum length returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+      "from": "widedomains G2 merge length8 entered",
+      "to": "merge length8 entered",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+      "from": "widedomains G2 merge source frame",
+      "to": "merge source frame",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+      "from": "widedomains G2 merge length8 returns",
+      "to": "merge length8 returns",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "from": "widedomains G2 sort8 scratch48 entered",
+      "to": "sort8 scratch48 entered",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "from": "widedomains G2 sort8 source allocation frame",
+      "to": "sort8 source allocation frame",
+      "occurrences": 1
+    },
+    {
+      "module": "allocationcontracts",
+      "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "from": "widedomains G2 sort8 merge consumer returns",
+      "to": "sort8 merge consumer returns",
+      "occurrences": 1
+    },
+    {
+      "module": "tailcontracts",
+      "function": "comparison_covers",
+      "from": "taildiag comparator true",
+      "to": "comparator true",
+      "occurrences": 1
+    },
+    {
+      "module": "tailcontracts",
+      "function": "comparison_covers",
+      "from": "taildiag comparator false",
+      "to": "comparator false",
+      "occurrences": 1
+    },
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": "taildiag lowest tail returns",
+      "to": "insert_tail lowest tail returns",
+      "occurrences": 1
+    },
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": "taildiag highest tail returns",
+      "to": "insert_tail highest tail returns",
+      "occurrences": 1
+    },
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": "taildiag returns",
+      "to": "insert_tail returns",
+      "occurrences": 1
+    }
+  ],
+  "structural_changes": [
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": ", const FRAME: bool",
+      "to": "",
+      "reason": "Remove constant-false frame parameter."
+    },
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": "let before = v;",
+      "to": "",
+      "reason": "Remove snapshot used only by the deleted dead frame branch."
+    },
+    {
+      "module": "tailcontracts",
+      "function": "exercise",
+      "from": "if FRAME { for i in 0..N { kani::assert(i <= tail || v[i] == before[i], \"taildiag suffix frame\"); } }",
+      "to": "",
+      "reason": "Delete unreachable branch; both retained instantiations passed false."
+    },
+    {
+      "module": "tailcontracts",
+      "function": "insert_tail_safety_u64_backing17_tail1_to7",
+      "from": "exercise::<u64, _, 17, 1, 7, false>",
+      "to": "exercise::<u64, _, 17, 1, 7>",
+      "reason": "Remove false argument for deleted parameter."
+    },
+    {
+      "module": "tailcontracts",
+      "function": "insert_tail_safety_u64_backing17_tail8_to15",
+      "from": "exercise::<u64, _, 17, 8, 15, false>",
+      "to": "exercise::<u64, _, 17, 8, 15>",
+      "reason": "Remove false argument for deleted parameter."
+    }
+  ]
+}

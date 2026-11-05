@@ -53,6 +53,28 @@ def functions(text):
     return {it.name: it for it in s.split_items(s.tree(s.lex(text))) if it.kind == 'fn'}
 
 
+def tokens(text):
+    return s.ser(s.tree(s.lex(text)))
+
+
+def allowed_relocation(original, target, name, differences):
+    """Apply only individually listed edits; no wildcard literal/branch normalization."""
+    result, applied = original, []
+    for kind in ('structural_changes', 'literal_changes'):
+        for change in differences[kind]:
+            if (change['module'], change['function']) != (target, name):
+                continue
+            before, after = change['from'], change['to']
+            if kind == 'literal_changes':
+                before, after = json.dumps(before), json.dumps(after)
+            else:
+                before, after = tokens(before), tokens(after)
+            assert result.count(before) == change.get('occurrences', 1), (target, name, change)
+            result = result.replace(before, after, change.get('occurrences', 1))
+            applied.append(change)
+    return tokens(result), applied
+
+
 def main():
     old, new = s.Source(BASE), s.Source(None)
     before, after = old.roots(False), new.roots(False)
@@ -71,6 +93,31 @@ def main():
     subprocess.run(['git', 'diff', '--exit-code', TOOLING, '--', *LANES], check=True)
 
     mappings = json.loads((HERE / 'mapping.json').read_text())
+    differences = json.loads((HERE / 'authorized-differences.json').read_text())
+    assert len(differences['literal_changes']) == 27
+    assert len(differences['structural_changes']) == 5
+    assert sum(c['module'] == 'allocationcontracts' for c in differences['literal_changes']) == 22
+    # Freeze the structural allowance to precisely the dead frame machinery and its two calls.
+    structural = [
+        ('exercise', ', const FRAME: bool', ''),
+        ('exercise', 'let before = v;', ''),
+        ('exercise', 'if FRAME { for i in 0..N { kani::assert(i <= tail || v[i] == before[i], '
+         '"taildiag suffix frame"); } }', ''),
+        ('insert_tail_safety_u64_backing17_tail1_to7', 'exercise::<u64, _, 17, 1, 7, false>',
+         'exercise::<u64, _, 17, 1, 7>'),
+        ('insert_tail_safety_u64_backing17_tail8_to15', 'exercise::<u64, _, 17, 8, 15, false>',
+         'exercise::<u64, _, 17, 8, 15>'),
+    ]
+    assert [(c['function'], c['from'], c['to']) for c in differences['structural_changes']] == structural
+    assert all(c['module'] == 'tailcontracts' for c in differences['structural_changes'])
+    for c in differences['literal_changes']:
+        prefix = ('widedomains G2 ' if c['from'].startswith('widedomains G2 ') else
+                  'widedomains ' if c['module'] == 'allocationcontracts' else 'taildiag ')
+        assert c['from'].startswith(prefix) and c['occurrences'] == 1
+        expected = c['from'][len(prefix):]
+        if c['module'] == 'tailcontracts' and c['function'] == 'exercise':
+            expected = 'insert_tail ' + expected
+        assert c['to'] == expected
     assert len(mappings) == 2 and {g['source_module'] for g in mappings} == set(EXPECTED)
     added, covers, checked, prior = set(), {}, [], []
     for g in mappings:
@@ -88,11 +135,13 @@ def main():
         assert {(i['source_name'], i['target_name'], i['kind']) for i in g['items']} == wanted_items
         for a, b, kind in sorted(wanted_items):
             want = original[a].text().replace('fn ' + a + ' ', 'fn ' + b + ' ', 1)
+            want, applied = allowed_relocation(want, target, b, differences)
             assert current[b].text() == want, (a, b, 'tokens changed')
             assert not s.gated(current[b].all_attrs)
             assert bool(s.proof_kind(current[b].all_attrs)) == (kind == 'root')
             checked.append({'source': g['source_module'] + '::' + a, 'target': target + '::' + b,
-                            'kind': kind, 'tokens_equal_except_name': True,
+                            'kind': kind, 'tokens_equal_modulo_listed_edits': True,
+                            'authorized_differences': applied,
                             'attributes_equal': s.ser(original[a].all_attrs) == s.ser(current[b].all_attrs),
                             'normalized_tokens_sha256': digest(want.encode())})
         # Exact imported names/paths are retained from the source; no new helper is substituted.
@@ -107,6 +156,8 @@ def main():
             i.text() for i in s.split_items(s.tree(s.lex(imports)))]
         assert not any(t.kind == 'ident' and t.text in ('widedomains', 'taildiag')
                        for t in s.lex(Path(g['target_file']).read_text()))
+        assert all(label not in Path(g['target_file']).read_text()
+                   for label in ('widedomains', 'taildiag', 'FRAME'))
         assert len(g['roots']) == len(roots)
         assert {r['source_name']: r['target_name'] for r in g['roots']} == roots
         for r in g['roots']:
@@ -146,6 +197,7 @@ def main():
                           'seconds': seconds, 'checks_failed': failed, 'checks_total': total,
                           'covers_satisfied': reached, 'covers_total': count})
     assert len(added) == 7 and set(after) == set(before) | added and len(after) == 233
+    assert sum(len(i['authorized_differences']) for i in checked) == 32
     opt = set(old.roots(True)) - set(before)
     assert set(new.roots(True)) - set(after) == opt and len(opt) == 34
     assert all(new.roots(True)[n][1].text() == old.roots(True)[n][1].text() for n in opt)
@@ -179,12 +231,16 @@ def main():
               'base_library_files_unchanged_except_module_declarations': True,
               'base_ordinary_roots_token_identical': 226, 'opt_in_unchanged': 34,
               'normalized_item_comparisons': checked, 'prior_source_reported_rows': prior,
+              'authorized_differences_file': 'authorized-differences.json',
+              'literal_changes': 27, 'dead_frame_edits': 5,
               'prior_seconds_sum': str(seconds), 'expected_covers': 42,
               'ordinary_names_sha256': digest((HERE / 'ordinary-expected.txt').read_bytes()),
               'request_sha256': digest((HERE / 'RUN-REQUEST.json').read_bytes()),
               'compiler_inventory': 'PENDING_GO_AND_BUILD',
               'integrated_verification': 'PENDING_GO_AND_BUILD',
-              'scope': 'Source token equality and source-reported bounded prior results only. '
+              'scope': 'Source token equality modulo explicit neutral diagnostic literal changes '
+                       'and constant-false frame removal. Prior bounded results are source-reported; '
+                       'the revised seven roots await integrated re-verification. '
                        'No new proof, compiler inventory or universal T/F theorem.'}
     (HERE / 'check-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({k: report[k] for k in ('source_check', 'ordinary_after', 'cfg_on_after',

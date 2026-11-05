@@ -2,13 +2,16 @@
 
 PRE-BUILD REVIEW REQUIRED. No build dispatched; wait for coordinator GO on the
 exact pushed packet SHA. No submission branch, PR, Actions run or new proof optimization.
+Updated after coordinator NO-GO on `df65bdf52a5ce90cbd987f8bff5cde01d2d9e0d5`:
+neutral diagnostic labels and removal of the constant-false explicit-frame machinery.
 
 Worktree `/root/verify-rust-std-kani-veightmax`, branch
 `experiment/kani-k1-veightmax-20261105`; stable owner `k1-merge`, stage `veightmax-g1`.
 Task `0eb5f3f10980ddb216feb2eb6f59fa93cc38eff1`; base
 `6ef2158d9df1e194bbcd2bf7a46e8feafc3e8cab` (CITRIM final ordinary 226).
-Library-only commit `[skip ci]`:
-`271adbb9be880cd0203e4759e71a590fdfe31cb7`.
+Library-only commits `[skip ci]`: initial relocation
+`271adbb9be880cd0203e4759e71a590fdfe31cb7`, authorized correction
+`d3982a624072437d603f0f96ba974bb00ac5eb5b`.
 Research is a separate `[skip ci]` commit. Push without force.
 Tooling base `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`; all lane paths unchanged.
 Kani pin `cd355b0bccd32300713bc2ce4f765dafa1510607`, nightly `2026-10-22`.
@@ -17,8 +20,9 @@ Kani pin `cd355b0bccd32300713bc2ce4f765dafa1510607`, nightly `2026-10-22`.
 
 Source revisions: WIDEDOMAINS `30b4a0796a` and TAILDIAG `59ada14d0a` only.
 `mapping.json` binds their full SHAs, selected items, successful source commits,
-build identities and the seven source-reported bounded rows. The checker also
-compares each root and its transitive local helpers against its successful build source.
+build identities and the seven source-reported bounded rows. The checker binds the
+selected baseline roots/helpers to their successful build sources, then compares the
+current functions modulo only the explicitly listed authorized edits.
 
 All names below are relative to `verify::`; the expected lists and run request use full names.
 The first five roots retain their leaf names; only their module path changes.
@@ -33,11 +37,15 @@ The first five roots retain their leaf names; only their module path changes.
 | `taildiag::u64_backing17_tail1_to7_no_explicit_frame` → `tailcontracts::insert_tail_safety_u64_backing17_tail1_to7` | 31.25227 | 5/5 |
 | `taildiag::u64_backing17_tail8_to15_no_explicit_frame` → `tailcontracts::insert_tail_safety_u64_backing17_tail8_to15` | 64.20818 | 5/5 |
 
-Bodies, attributes, comparators, fixtures, assertions and covers are token-identical,
-except the two authorized leaf renames. Ten selected helpers are token-identical.
-Module/root identifiers and documentation describe their domains without stage provenance.
-Existing diagnostic string literals (including historical cover labels) remain exact as
-required by the task's token-equality rule. No source-stage modules are added to library.
+`authorized-differences.json` lists every permitted token difference beyond relocation
+and the two leaf renames: 27 neutral literal replacements (22 allocation, five tail)
+and five frame-only edits in tailcontracts: remove FRAME, its exclusive `before` snapshot,
+the unreachable `if FRAME` branch, and the false argument at each of its two call sites.
+The deleted branch contained one unreachable assertion; no live assertion or cover is removed.
+All live conditions, fixtures, comparator operations and proof attributes remain identical.
+The script applies exact per-function replacements with occurrence checks, then compares all
+remaining tokens. No wildcard deletion or blanket literal normalization is allowed.
+No stage names remain in either new library module, including comments and string literals.
 Root documentation states T/F, allocation, start, tail/length and initialization.
 Both PFC/consumer pairs move together with their own matching function-item comparator.
 Only two declarations are added to existing verify.rs; all other existing library files,
@@ -54,8 +62,9 @@ It uses the existing source lexer/macro expander, never a compiler or verifier.
 - Ordinary names SHA256:
   `a73e3c308728c7e7e560665547f79775ddffef2676d4ddee1cecd1b572bdd374`.
 - All 226 prior ordinary roots and all 34 opt-in roots retain exact tokens.
-- All 17 copied functions (seven roots, ten helpers) retain bodies and proof attributes.
-- The copied dependency closures and runtime also match their successful source commits.
+- All 17 copied functions (seven roots, ten helpers) match modulo the listed edits;
+  all proof attributes remain identical. The report records each applied difference.
+- The baseline dependency closures and runtime match their successful source commits.
 - rustfmt --check: PASS (edition/style 2024, inherited codefix configuration and wrapper).
 - git diff --check: PASS. Existing request validator: seven exact SUCCESS roots accepted.
 - Lane/tooling files compare equal to the mandated tooling base.
@@ -68,8 +77,8 @@ panic-unwinding theorem is added.
 
 ## Run request, controls and budget
 
-`veightmax-g1-20261105-01`; the root and packet copies of RUN-REQUEST.json are identical.
-Request SHA256 `ca33dbdcef95cd1729e298f495177ea83c83f8bc361a7fee4e165f5fb589b6a8`.
+`veightmax-g1-20261105-02`; the root and packet copies of RUN-REQUEST.json are identical.
+Request SHA256 `5e6e812216996d281d57aa8bb2626c27b32fed1be71329b2c7cc96261e6161fc`.
 Diagnostic, controls=false, inventory=true, kani_jobs=1, gcb-e2-standard-4,
 4 minutes per root, exactly the seven rows above, each expecting SUCCESS.
 Acceptance separately requires exact per-root reachable covers (42/42, zero unreachable),

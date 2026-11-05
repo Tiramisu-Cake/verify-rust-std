@@ -2,12 +2,12 @@
   "source_check": "PASS",
   "base_sha": "6ef2158d9df1e194bbcd2bf7a46e8feafc3e8cab",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "library_commit": "271adbb9be880cd0203e4759e71a590fdfe31cb7",
+  "library_commit": "d3982a624072437d603f0f96ba974bb00ac5eb5b",
   "source_files_sha256": {
     "library/core/src/slice/sort/shared/smallsort.rs": "93bbff8e18af726d17023a39520219aa8f198d33508bdf835fa03c217ddfbe0a",
     "library/core/src/slice/sort/shared/smallsort/verify.rs": "f2256ab7409f5663a7a7c500934a7f9c1de830629bcbc1f937b84c72fd9e6a2d",
-    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "846246198baa85244b976c91025aff44728c877be4d8ea777755c0b4d3bb70c7",
-    "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs": "1f50c571b6ac6059d8432cd56c79d9d9203483b3fcf43d27b49fb8affeb31c9b"
+    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "e91b16ac792d610e182cd0461b373533aedb2541cbc0ba68f35adc67ad7cacc1",
+    "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs": "b8e3a4a33d3c1eac85fb95260e588f7146b361dc90d293b93abf6b88c7b463a6"
   },
   "ordinary_before": 226,
   "ordinary_after": 233,
@@ -20,55 +20,194 @@
       "source": "widedomains::arbitrary_less",
       "target": "allocationcontracts::arbitrary_less",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "arbitrary_less",
+          "from": "widedomains comparator true",
+          "to": "comparator true",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "arbitrary_less",
+          "from": "widedomains comparator false",
+          "to": "comparator false",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "68d29b7d72145e44162c5014e56170ffe68a64f5e6deebf3ea5951563cf1789d"
+      "normalized_tokens_sha256": "00812baa951de2514ea7708b9e1598ae8ddb13fcdf169d2f660ee6ddfbbefe26"
     },
     {
       "source": "widedomains::cut_merge_order_violation",
       "target": "allocationcontracts::cut_merge_order_violation",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "cut_merge_order_violation",
+          "from": "widedomains G2 merge order violation reachable",
+          "to": "merge order violation reachable",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "00bd682a7906d3d25e1e531e7115c4803d02afc7fc858d5443f570ad0f5a58e1"
+      "normalized_tokens_sha256": "ae6ab45dec054d5e42a514031440bba17ad953ab390f8b353a6d26cf64d73013"
     },
     {
       "source": "widedomains::cut_order_violation",
       "target": "allocationcontracts::cut_order_violation",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "cut_order_violation",
+          "from": "widedomains network order violation reachable",
+          "to": "network order violation reachable",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "ee4225905cd1586e7dee0ebbccb97d14833ad51f452cb3440afbe0b2ef570e02"
+      "normalized_tokens_sha256": "b5fc3c07ffbbff9c97cf7fbe90e7e8d2298a85c4303f78b7344b4eec2cd6a97d"
     },
     {
       "source": "widedomains::exercise_swap",
       "target": "allocationcontracts::exercise_swap",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap allocation frame",
+          "to": "swap allocation frame",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap equal positions return",
+          "to": "swap equal positions return",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap increasing positions return",
+          "to": "swap increasing positions return",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap decreasing positions return",
+          "to": "swap decreasing positions return",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap allocation base returns",
+          "to": "swap allocation base returns",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap second half base returns",
+          "to": "swap second half base returns",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap last element returns",
+          "to": "swap last element returns",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "exercise_swap",
+          "from": "widedomains swap returns",
+          "to": "swap returns",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "4822f06743475879456dfcdfa39a3e2c16ad3aa374281d4895b2df6de6f00e2c"
+      "normalized_tokens_sha256": "0b7eadb599086fae0fbdf4196b04b209ef21720c04bf8628445157f754511c57"
     },
     {
       "source": "widedomains::merge_safety_u64_len8_scratch48_src32_dst0",
       "target": "allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+          "from": "widedomains G2 merge length8 entered",
+          "to": "merge length8 entered",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+          "from": "widedomains G2 merge source frame",
+          "to": "merge source frame",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "merge_safety_u64_len8_scratch48_src32_dst0",
+          "from": "widedomains G2 merge length8 returns",
+          "to": "merge length8 returns",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "b2b4b0efff8b037bef30e8e3d17af937087a0ee13ef07160eb5548b169bbabe3"
+      "normalized_tokens_sha256": "84c8a358b09c53dfaf620a10ac494f7d3a2daa17ecf5823c62a78f59844de405"
     },
     {
       "source": "widedomains::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
       "target": "allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+          "from": "widedomains G2 sort8 scratch48 entered",
+          "to": "sort8 scratch48 entered",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+          "from": "widedomains G2 sort8 source allocation frame",
+          "to": "sort8 source allocation frame",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+          "from": "widedomains G2 sort8 merge consumer returns",
+          "to": "sort8 merge consumer returns",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "2de37bc549b4b9a47f7a501883aa377f447de33a6b75221ab9e908657da005a7"
+      "normalized_tokens_sha256": "bed11e02a82cb5f4553974604443b96c387fe8801ce214ab5a60f5c66f7f4e0a"
     },
     {
       "source": "widedomains::swap_safety_u64_backing32",
       "target": "allocationcontracts::swap_safety_u64_backing32",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [],
       "attributes_equal": true,
       "normalized_tokens_sha256": "09ca79fd7670378c5b1aee44891acad7bdc78e1fad9967880c712f8822031f1b"
     },
@@ -76,7 +215,8 @@
       "source": "widedomains::swap_safety_u8_backing32",
       "target": "allocationcontracts::swap_safety_u8_backing32",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [],
       "attributes_equal": true,
       "normalized_tokens_sha256": "fcced477cca290139e7e15bd73ff2d32f5319dfc999b8a2efa40043a07015184"
     },
@@ -84,15 +224,32 @@
       "source": "widedomains::tail_comparison_covers",
       "target": "allocationcontracts::tail_comparison_covers",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "tail_comparison_covers",
+          "from": "widedomains G2 comparator true",
+          "to": "comparator true",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "tail_comparison_covers",
+          "from": "widedomains G2 comparator false",
+          "to": "comparator false",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "7432c5972a5b0a2c7d48115deca06ae86ce71a7d7a2e2ccfaea5ca88e0479d2b"
+      "normalized_tokens_sha256": "176195041741f1d52c82ab2ccbc4a40a999ecdba48d3f0f7984eaf00c7137420"
     },
     {
       "source": "widedomains::tail_less_u64",
       "target": "allocationcontracts::tail_less_u64",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [],
       "attributes_equal": true,
       "normalized_tokens_sha256": "a0e9a860d2b9ca0efde0e6532ca2b51c5589acb47fe059704f353347b4e71dee"
     },
@@ -100,15 +257,32 @@
       "source": "widedomains::unstable_network_safety_u8_n32_stubbed",
       "target": "allocationcontracts::unstable_network_safety_u8_n32_stubbed",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "allocationcontracts",
+          "function": "unstable_network_safety_u8_n32_stubbed",
+          "from": "widedomains network maximum length entered",
+          "to": "network maximum length entered",
+          "occurrences": 1
+        },
+        {
+          "module": "allocationcontracts",
+          "function": "unstable_network_safety_u8_n32_stubbed",
+          "from": "widedomains network maximum length returns",
+          "to": "network maximum length returns",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "1636f6569bba8cf4d4615c5ce88c5c55ed23c0e2414e023271dd37f14a6f8522"
+      "normalized_tokens_sha256": "4269c3165f2979a67de86b70fcbdf89973b7349563d057c585d55b38f317c017"
     },
     {
       "source": "taildiag::arbitrary_less",
       "target": "tailcontracts::arbitrary_less",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [],
       "attributes_equal": true,
       "normalized_tokens_sha256": "e8b3f0561b3ed3fb769e8638b08eaee9cce0478bbe4c5f37d502fc22fb36bf20"
     },
@@ -116,23 +290,84 @@
       "source": "taildiag::comparison_covers",
       "target": "tailcontracts::comparison_covers",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "tailcontracts",
+          "function": "comparison_covers",
+          "from": "taildiag comparator true",
+          "to": "comparator true",
+          "occurrences": 1
+        },
+        {
+          "module": "tailcontracts",
+          "function": "comparison_covers",
+          "from": "taildiag comparator false",
+          "to": "comparator false",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "4f74456bd86fb0b16522023ee4f20280ceea124e22a51703178ced5ed92af96e"
+      "normalized_tokens_sha256": "8132eebfd9fa7f81640a56f64f7ead14dd307bac666492345fee47f87b27aa3f"
     },
     {
       "source": "taildiag::exercise",
       "target": "tailcontracts::exercise",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": ", const FRAME: bool",
+          "to": "",
+          "reason": "Remove constant-false frame parameter."
+        },
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": "let before = v;",
+          "to": "",
+          "reason": "Remove snapshot used only by the deleted dead frame branch."
+        },
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": "if FRAME { for i in 0..N { kani::assert(i <= tail || v[i] == before[i], \"taildiag suffix frame\"); } }",
+          "to": "",
+          "reason": "Delete unreachable branch; both retained instantiations passed false."
+        },
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": "taildiag lowest tail returns",
+          "to": "insert_tail lowest tail returns",
+          "occurrences": 1
+        },
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": "taildiag highest tail returns",
+          "to": "insert_tail highest tail returns",
+          "occurrences": 1
+        },
+        {
+          "module": "tailcontracts",
+          "function": "exercise",
+          "from": "taildiag returns",
+          "to": "insert_tail returns",
+          "occurrences": 1
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "db2564dba5f6413d98b956f5238df0028635a55139e2afdfbbb4cf1d39967122"
+      "normalized_tokens_sha256": "eaf1f246982f357d52004ff013c457ffe8a1c6549eca61a981adc7a5f872a4ca"
     },
     {
       "source": "taildiag::read_arguments",
       "target": "tailcontracts::read_arguments",
       "kind": "helper",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [],
       "attributes_equal": true,
       "normalized_tokens_sha256": "08d48569e3c9f077293b585835d548219e4d978c23fc49b968b10f367311fdaa"
     },
@@ -140,17 +375,35 @@
       "source": "taildiag::u64_backing17_tail1_to7_no_explicit_frame",
       "target": "tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "tailcontracts",
+          "function": "insert_tail_safety_u64_backing17_tail1_to7",
+          "from": "exercise::<u64, _, 17, 1, 7, false>",
+          "to": "exercise::<u64, _, 17, 1, 7>",
+          "reason": "Remove false argument for deleted parameter."
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "b7e519cd8718ec439ea46f57a78d6c97fd92f08441baf8e3b93456e62f5f0fcc"
+      "normalized_tokens_sha256": "ffc5c7e3ec4642742d9c9901bc8212aa2a3bf975983bbf4042ea806598dc2da9"
     },
     {
       "source": "taildiag::u64_backing17_tail8_to15_no_explicit_frame",
       "target": "tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
       "kind": "root",
-      "tokens_equal_except_name": true,
+      "tokens_equal_modulo_listed_edits": true,
+      "authorized_differences": [
+        {
+          "module": "tailcontracts",
+          "function": "insert_tail_safety_u64_backing17_tail8_to15",
+          "from": "exercise::<u64, _, 17, 8, 15, false>",
+          "to": "exercise::<u64, _, 17, 8, 15>",
+          "reason": "Remove false argument for deleted parameter."
+        }
+      ],
       "attributes_equal": true,
-      "normalized_tokens_sha256": "298cd5a7e4bc5364c71bdb2640946794fdb786cdf20a48e843f1a4fe885ccd79"
+      "normalized_tokens_sha256": "5ed408a6036800c3264657a65880b7097cbd528cf2b656eaa02087eaab218bbc"
     }
   ],
   "prior_source_reported_rows": [
@@ -239,11 +492,14 @@
       "covers_total": 5
     }
   ],
+  "authorized_differences_file": "authorized-differences.json",
+  "literal_changes": 27,
+  "dead_frame_edits": 5,
   "prior_seconds_sum": "392.653726",
   "expected_covers": 42,
   "ordinary_names_sha256": "a73e3c308728c7e7e560665547f79775ddffef2676d4ddee1cecd1b572bdd374",
-  "request_sha256": "ca33dbdcef95cd1729e298f495177ea83c83f8bc361a7fee4e165f5fb589b6a8",
+  "request_sha256": "5e6e812216996d281d57aa8bb2626c27b32fed1be71329b2c7cc96261e6161fc",
   "compiler_inventory": "PENDING_GO_AND_BUILD",
   "integrated_verification": "PENDING_GO_AND_BUILD",
-  "scope": "Source token equality and source-reported bounded prior results only. No new proof, compiler inventory or universal T/F theorem."
+  "scope": "Source token equality modulo explicit neutral diagnostic literal changes and constant-false frame removal. Prior bounded results are source-reported; the revised seven roots await integrated re-verification. No new proof, compiler inventory or universal T/F theorem."
 }
