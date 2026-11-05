@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::looppin::calibration_true
+--harness
+slice::sort::shared::smallsort::verify::looppin::calibration_false_control
+--harness
+slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5
+--harness
+slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5
+--exact
+--harness-timeout
+3m
+--jobs=1
+--output-format=terse

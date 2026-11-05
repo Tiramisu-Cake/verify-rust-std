@@ -1,0 +1,22 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "task_base": "708b3a6661f40e000fe773c408ae4ef1619e292e",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "request_sha256": "5c3908bef8e08cfa1967cd4b8d1bea82ffd918647c6b777771721a5e3e097caa",
+  "library_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "6529ab9419a410fa03c30021e3c4ffa5190e7ce5e9adbc90f23ce5ecbc5ab061",
+    "library/core/src/slice/sort/shared/smallsort/verify/looppin.rs": "880983af7e63f69b3d542e170817e62d2763960d77fac2ed808cfecf8dda4f20",
+    "library/core/src/slice/sort/shared/smallsort.rs": "93bbff8e18af726d17023a39520219aa8f198d33508bdf835fa03c217ddfbe0a"
+  },
+  "roots": [
+    "calibration_true",
+    "calibration_false_control",
+    "insert_tail_u64_tail1_to4_backing5",
+    "outer_loop_u64_symbolic_len_backing5"
+  ],
+  "controls_registration": "single added line; existing verify.rs bytes otherwise identical",
+  "runtime_and_lane_files": "unchanged",
+  "build_timeout_minutes": 42,
+  "maximum_reservation_usd": 0.567,
+  "limitations": "No compilation, cfg inventory, actual check text, covers or proof result established."
+}

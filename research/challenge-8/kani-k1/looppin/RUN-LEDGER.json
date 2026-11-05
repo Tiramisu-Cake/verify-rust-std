@@ -1,0 +1,42 @@
+{
+  "task": "LOOPPIN",
+  "stage": "looppin-g1",
+  "state": "PREPARED_AWAITING_EXACT_PACKET_REVIEW",
+  "branch": "experiment/kani-k1-looppin-20261105",
+  "owner": "k1-network",
+  "task_commit": "708b3a6661f40e000fe773c408ae4ef1619e292e",
+  "base_commit": "4fa6151b6a9d0ae63261ab03eb86b65cec0a899e",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "request_id": "looppin-g1-20261105-01",
+  "request_sha256": "5c3908bef8e08cfa1967cd4b8d1bea82ffd918647c6b777771721a5e3e097caa",
+  "prepared_utc": "2026-11-05T07:40:02.843810+00:00",
+  "main_minutes": 150,
+  "closeout_minutes": 30,
+  "window_start": null,
+  "primary_build_limit": 1,
+  "retry_limit": 0,
+  "compile_error_repair_limit": 1,
+  "own_cap_usd": 1.2,
+  "project_cap_usd": 118.96,
+  "watchdog_harness_minutes": 12,
+  "build_timeout_minutes": 42,
+  "maximum_reservation_usd": 0.567,
+  "spent_usd": 0,
+  "reserved_usd": 0,
+  "repairs": 0,
+  "builds": [],
+  "budget_observed": {
+    "builds": 234,
+    "used_usd": 99.735,
+    "reserved_usd": 0,
+    "with_this_max_reservation_usd": 100.302
+  },
+  "budget_observation_note": "k1g.sh budget before packet preparation; recheck at authorized dispatch.",
+  "authorization": "No dispatch GO yet. Exact pushed packet must receive coordinator PRE-BUILD review/GO.",
+  "wait_policy": "After authorized dispatch, run k1g.sh watch BUILD and end the turn; no status polling.",
+  "evidence_policy": "Only bounded K-1 summary/rows/peaks/log-grep and check-tooling; no raw evidence or credentials.",
+  "library_commits": [
+    "532eddb301c43d36b8b777414b59cbc09e86ed37"
+  ]
+}

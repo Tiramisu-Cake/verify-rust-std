@@ -1,0 +1,30 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "looppin-g1-20261105-01",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "LOOPPIN on cd355b0b: true/false loop calibration, matched insert_tail u64 PFC and stubbed outer-loop copy; fixed backing only; require located invariant-step rejection and reachable positive covers.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 1,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::looppin::calibration_true",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::looppin::calibration_false_control",
+      "expect": "FAILED",
+      "expect_check": "Check invariant after step for loop"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::looppin::insert_tail_u64_tail1_to4_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::looppin::outer_loop_u64_symbolic_len_backing5",
+      "expect": "SUCCESS"
+    }
+  ]
+}
