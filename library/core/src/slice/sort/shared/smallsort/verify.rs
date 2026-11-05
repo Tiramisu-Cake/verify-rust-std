@@ -67,6 +67,7 @@
 //! its named failure: `RUSTFLAGS="--cfg kani_smallsort_controls" ./scripts/run-kani.sh --run
 //! verify-std --kani-args --harness <full-name> --exact`.
 
+mod allocationcontracts;
 mod assembly;
 mod comparators;
 mod merge;
@@ -77,5 +78,6 @@ mod permtags;
 mod realcontracts;
 mod scratchgeom;
 mod smoke;
+mod tailcontracts;
 mod types;
 mod wrap;
