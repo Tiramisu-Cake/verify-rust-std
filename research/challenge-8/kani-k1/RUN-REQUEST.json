@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "taildiag-g1-20261105-01",
+  "request_id": "taildiag-g2-20261105-01",
   "agent": "k1-network",
   "kind": "diagnostic",
-  "purpose": "TAILDIAG G1: real insert_tail one-factor PFCs; common tail1..7 and upper tail8..15. Require SUCCESS and all 5 covers per completed root; ordinary candidates <=200 seconds.",
+  "purpose": "TAILDIAG G2: upper tail8..15 without explicit frame; matched insertion len1..16 on initialized u64 backing17/start0/arbitrary_less. Require five SUCCESS rows and 25/25 covers; ordinary candidates <=200 s.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 4,
   "kani_jobs": 1,
@@ -11,43 +11,23 @@
   "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing8_tail1_to7",
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_no_explicit_frame",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing12_tail1_to7",
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len1_to4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7",
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len5_to8",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_value_order",
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len9_to12",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_cadical",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_kissat",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u8_backing17_tail1_to7",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_no_explicit_frame",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_value_order",
+      "name": "slice::sort::shared::smallsort::verify::taildiag::insertion_stubbed_u64_backing17_len13_to16",
       "expect": "SUCCESS"
     }
   ]

@@ -1,0 +1,54 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "taildiag-g1-20261105-01",
+  "agent": "k1-network",
+  "kind": "diagnostic",
+  "purpose": "TAILDIAG G1: real insert_tail one-factor PFCs; common tail1..7 and upper tail8..15. Require SUCCESS and all 5 covers per completed root; ordinary candidates <=200 seconds.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 4,
+  "kani_jobs": 1,
+  "inventory": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing8_tail1_to7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing12_tail1_to7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_value_order",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_cadical",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_kissat",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u8_backing17_tail1_to7",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_no_explicit_frame",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_value_order",
+      "expect": "SUCCESS"
+    }
+  ]
+}

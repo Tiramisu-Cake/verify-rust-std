@@ -1,16 +1,17 @@
 {
   "task": "TAILDIAG",
-  "stage": "taildiag-g1",
-  "state": "PREBUILD_REVIEW_REQUIRED",
+  "stage": "taildiag-g2",
+  "state": "G2_PREBUILD_REVIEW_REQUIRED",
   "branch": "experiment/kani-k1-taildiag-20261105",
   "owner": "k1-network",
   "task_commit": "7a68931f595b173c69624cecb88436c449912c91",
   "library_commits": [
-    "c8eec9f537b2845fc2032b3458c8eeacfd9eb9b1"
+    "c8eec9f537b2845fc2032b3458c8eeacfd9eb9b1",
+    "eec8eb6bf0fe17e2e7206fbb651cbcf86ffd5942"
   ],
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "request_id": "taildiag-g1-20261105-01",
-  "request_sha256": "ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296",
+  "request_id": "taildiag-g2-20261105-01",
+  "request_sha256": "c7652b3bf9c2b8abc8896b894c80c228b619a3087917d55131cdcf19d261fdf7",
   "primary_build_limit": 2,
   "retry_limit": 0,
   "compile_error_repair_limit_per_build": 1,
@@ -18,27 +19,79 @@
   "project_cap_usd": 118.96,
   "main_minutes": 240,
   "closeout_minutes": 30,
-  "window_start": null,
-  "main_deadline_utc": null,
-  "closeout_deadline_utc": null,
+  "window_start": "2026-11-05T11:41:38.904141+00:00",
+  "main_deadline_utc": "2026-11-05T15:41:38.904141+00:00",
+  "closeout_deadline_utc": "2026-11-05T16:11:38.904141+00:00",
   "prepared_utc": "2026-11-05T11:39:22.089300+00:00",
-  "watchdog_harness_minutes": 40,
-  "build_timeout_minutes": 70,
-  "maximum_reservation_usd": 0.945,
-  "spent_usd": 0,
+  "watchdog_harness_minutes": 20,
+  "build_timeout_minutes": 50,
+  "maximum_reservation_usd": 0.675,
+  "spent_usd": 0.4185,
   "reserved_usd": 0,
-  "builds": [],
+  "builds": [
+    {
+      "id": "34500433-bd3d-4784-9a26-aaf0ba3f0492",
+      "stage": "taildiag-g1",
+      "role": "primary",
+      "source_sha": "1c99acce330d708961571bd593ecc322768f690f",
+      "request_id": "taildiag-g1-20261105-01",
+      "request_sha256": "ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296",
+      "owner": "k1-network",
+      "recorded_utc": "2026-11-05T11:42:24.461853+00:00",
+      "maximum_reservation_usd": 0.945,
+      "status": "FAILURE",
+      "summary_status": "COMPLETE",
+      "gate": false,
+      "cost_usd": 0.4185,
+      "start_time": "2026-11-05T11:43:04.372566658Z",
+      "finish_time": "2026-11-05T12:13:04.767408Z",
+      "successes": 9,
+      "timeouts": 1,
+      "covers_reached_successes": 45,
+      "covers_total_goal": 50,
+      "verification_report": "g1/verification-report.json"
+    }
+  ],
   "repairs": 0,
   "budget_observed": {
-    "builds": 240,
-    "used_usd": 102.192,
-    "reserved_usd": 0,
-    "with_this_max_reservation_usd": 103.137
+    "builds": 242,
+    "used_usd": 102.6105,
+    "reserved_usd": 2.0925,
+    "with_this_max_reservation_usd": 105.378
   },
-  "budget_observation_utc": "2026-11-05T11:39:22.089300+00:00",
-  "authorization": "Exact pushed packet requires coordinator PRE-BUILD GO before G1; G2 requires new GO after G1 analysis.",
+  "budget_observation_utc": "2026-11-05T12:19:57.124582+00:00",
+  "authorization": "G1 GO exhausted. G2 five-root exact packet requires coordinator PRE-BUILD review and new GO; no dispatch authorization inferred.",
   "budget_note": "Recheck own spent plus reserve and project ledger immediately before dispatch; no local proof tools.",
-  "slot_note": "Stable owner k1-network; budget reports zero unfinished builds at preparation; recheck before dispatch.",
+  "slot_note": "G1 terminal FAILURE, stable owner k1-network; other project reservations $2.0925 observed. Coordinator GO and immediate budget/owner recheck required before G2 dispatch.",
   "inventory": false,
-  "inventory_note": "Coordinator correction: no full std lane inventory; retain source-only expected lists. Build timeout unchanged at 70 minutes."
+  "inventory_note": "Coordinator correction: no full std lane inventory; retain source-only expected lists. Build timeout unchanged at 70 minutes.",
+  "approved_source_sha": "1c99acce330d708961571bd593ecc322768f690f",
+  "build_cache": "/tmp/taildiag-k1g-g1",
+  "budget_after_submit": {
+    "used_usd": 102.192,
+    "reserved_including_this_usd": 0.945,
+    "maximum_total_usd": 103.137,
+    "project_cap_usd": 118.96
+  },
+  "own_spent_plus_proposed_reservation_usd": 1.0935,
+  "proposed_g2": {
+    "request_id": "taildiag-g2-20261105-01",
+    "request_sha256": "c7652b3bf9c2b8abc8896b894c80c228b619a3087917d55131cdcf19d261fdf7",
+    "harnesses": 5,
+    "harness_timeout_minutes": 4,
+    "inventory": false,
+    "maximum_reservation_usd": 0.675,
+    "build_cache": "/tmp/taildiag-k1g-g2"
+  },
+  "insert_tail_credited_domain": {
+    "type": "u64",
+    "allocation": 17,
+    "start": 0,
+    "tail": [
+      1,
+      15
+    ],
+    "comparator": "taildiag::arbitrary_less::<u64>"
+  },
+  "g1_analysis": "9 SUCCESS <=200 s, 1 deterministic lower-tail TIMEOUT; explicit frame largest measured u64 factor (182.69366/31.25227=5.85x). No insertion credit before G2 consumer verification."
 }

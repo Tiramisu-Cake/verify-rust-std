@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source/packet validation only; no Rust compiler, Kani or CBMC invocation."""
+"""Historical G1 source/packet checks pinned to its approved commit; no proof tools."""
 import hashlib
 import importlib.util
 import json
@@ -17,7 +17,7 @@ LANES = ['.circleci', '.github/workflows', 'research/challenge-8/kani-k1/tools',
          'research/challenge-8/kani-k1/gcb', 'scripts/run-kani.sh',
          'tool_config/kani-version.toml', 'rust-toolchain.toml', '.gitmodules', '.cargo',
          'library/.cargo', 'library/Cargo.toml', 'library/Cargo.lock']
-old, new = s.Source(BASE), s.Source(None)
+old, new = s.Source(BASE), s.Source('1c99acce330d708961571bd593ecc322768f690f')
 off, on = new.roots(False), new.roots(True)
 assert set(off) == set(old.roots(False)), 'ordinary inventory changed'
 assert len(off) == 219 and len(on) == 263
@@ -36,7 +36,7 @@ for name in added:
     assert s.proof_kind(item.all_attrs) == 'proof_for_contract'
     assert 'insert_tail' in s.ser(item.all_attrs)
     assert 'unwind ( 32 )' in s.ser(item.all_attrs)
-request_path = HERE.parent / 'RUN-REQUEST.json'
+request_path = HERE / 'g1/RUN-REQUEST.json'
 request = json.loads(request_path.read_text())
 assert request['request_id'] == 'taildiag-g1-20261105-01'
 assert request['agent'] == 'k1-network' and request['controls'] is True

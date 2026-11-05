@@ -1,0 +1,115 @@
+{
+  "validation": "PASS",
+  "scope": "Bounded K-1 evidence; no universal proof credit",
+  "build_id": "34500433-bd3d-4784-9a26-aaf0ba3f0492",
+  "source_sha": "1c99acce330d708961571bd593ecc322768f690f",
+  "request_sha256": "ccc22fb30ac75edd682dee2aca2b175fcdc977c23c017a85802d8f0ff3037296",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "summary_build_outcome": "success",
+  "build_outcome_discrepancy_preserved": true,
+  "successes": 9,
+  "timeouts": 1,
+  "covers_reached_successes": 45,
+  "covers_expected_all": 50,
+  "successful_time_sum_s": 1074.899179,
+  "maximum_verification_s": 182.69366,
+  "own_cost_usd": 0.4185,
+  "own_reserved_usd": 0,
+  "inventory": "disabled; source-only counts",
+  "insert_tail_domain": {
+    "type": "u64",
+    "allocation": 17,
+    "start": 0,
+    "tail": [
+      1,
+      15
+    ],
+    "comparator": "taildiag::arbitrary_less::<u64>"
+  },
+  "insertion_consumer": "not run; G2 proposed",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing8_tail1_to7",
+      "status": "SUCCESS",
+      "time_s": 60.678856,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 2626720
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing12_tail1_to7",
+      "status": "SUCCESS",
+      "time_s": 104.20101,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 2773596
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7",
+      "status": "SUCCESS",
+      "time_s": 182.69366,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 3191176
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_value_order",
+      "status": "TIMEOUT",
+      "time_s": null,
+      "checks": "",
+      "covers": "",
+      "cbmc_peak_kib": 3700652
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_cadical",
+      "status": "SUCCESS",
+      "time_s": 174.3746,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 3192512
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_kissat",
+      "status": "SUCCESS",
+      "time_s": 142.5729,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 3595144
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u8_backing17_tail1_to7",
+      "status": "SUCCESS",
+      "time_s": 38.121933,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 2294760
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail1_to7_no_explicit_frame",
+      "status": "SUCCESS",
+      "time_s": 31.25227,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 2300584
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15",
+      "status": "SUCCESS",
+      "time_s": 177.43237,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 3192020
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::taildiag::u64_backing17_tail8_to15_value_order",
+      "status": "SUCCESS",
+      "time_s": 163.57158,
+      "checks": "0/229",
+      "covers": "5/5",
+      "cbmc_peak_kib": 3708104
+    }
+  ]
+}
