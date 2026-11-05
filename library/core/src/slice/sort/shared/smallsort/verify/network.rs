@@ -1100,13 +1100,41 @@ macro_rules! insert_tail_start1_group_case {
     };
 }
 
+/// For the six tuned PFC parts, the checked profile modifies slice is `v[1..=tail]`.
+/// The old explicit frame (`v[0]` and `v[tail + 1..17]`) is wholly in its complement.
+/// `proof_for_contract` checks modifies, so it supplies that frame without duplicate
+/// post-call comparisons. The original helper keeps its frame for the untouched tail15..16.
+fn insert_tail_group_value_modifies_frame<const START: usize, const LO: usize, const HI: usize>()
+-> usize {
+    const {
+        assert!(START == 1);
+        assert!(START < LO && LO <= HI && HI < 17);
+    };
+    LtU64::set_probe(kani::any());
+    let mut v: [u64; 17] = kani::any();
+    let tail: usize = kani::any_where(|&t| LO <= t && t <= HI);
+    let pre = v;
+    let base = v.as_mut_ptr();
+    // SAFETY: START == 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
+    // assumes precisely the profile requires, including the model-sorted prefix.
+    unsafe {
+        insert_tail_profile::<LtU64>(base.add(START), base.add(tail), LtU64::CMP);
+    }
+    kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
+    kani::cover(true, "insert-tail contract covers end reached");
+    tail
+}
+
 macro_rules! insert_tail_start1_tuned_case {
     ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
+        /// Outside `v[1..=tail]`, frame preservation follows from the profile's modifies.
+        /// `proof_for_contract` checks that modifies region; the old `v[0]` and suffix
+        /// frame assertions are redundant consequences. Inputs and covers are unchanged.
         #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
         #[kani::solver(kissat)]
         #[kani::unwind(18)]
         fn $name() {
-            let tail = insert_tail_group_value::<1, $lo, $hi>();
+            let tail = insert_tail_group_value_modifies_frame::<1, $lo, $hi>();
             $(kani::cover(
                 tail == $end,
                 concat!(
