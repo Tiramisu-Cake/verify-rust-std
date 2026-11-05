@@ -615,6 +615,28 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
         let tmp = ManuallyDrop::new(tail.read());
         let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };
 
+        #[cfg_attr(
+            kani,
+            crate::kani::loop_invariant(
+                size_of::<T>() > 0
+                    && crate::ub_checks::same_allocation(begin, sift)
+                    && crate::ub_checks::same_allocation(begin, gap_guard.dst)
+                    && begin.addr() <= sift.addr()
+                    && sift.addr() < gap_guard.dst.addr()
+                    && gap_guard.dst.addr() <= tail.addr()
+                    && gap_guard.dst.addr() - sift.addr() == size_of::<T>()
+                    && (sift.addr() - begin.addr()) % size_of::<T>() == 0
+            )
+        )]
+        #[cfg_attr(
+            kani,
+            crate::kani::loop_modifies(
+                &sift,
+                ptr::addr_of!(gap_guard.dst),
+                ptr::slice_from_raw_parts_mut(begin, insert_tail_contract_len(begin, tail)),
+                is_less
+            )
+        )]
         loop {
             // SAFETY: we move sift into the gap (which is valid), and point the
             // gap guard destination at sift, ensuring that if a panic occurs the
@@ -657,6 +679,21 @@ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
         let v_base = v.as_mut_ptr();
         let v_end = v_base.add(len);
         let mut tail = v_base.add(offset);
+        #[cfg_attr(
+            kani,
+            crate::kani::loop_invariant(
+                size_of::<T>() == 0
+                    || (crate::ub_checks::same_allocation(v_base, tail)
+                        && crate::ub_checks::same_allocation(v_base, v_end)
+                        && v_base.addr() < tail.addr()
+                        && tail.addr() <= v_end.addr()
+                        && (tail.addr() - v_base.addr()) % size_of::<T>() == 0)
+            )
+        )]
+        #[cfg_attr(
+            kani,
+            crate::kani::loop_modifies(&tail, ptr::slice_from_raw_parts_mut(v_base, len), is_less)
+        )]
         while tail != v_end {
             // SAFETY: v_base and tail are both valid pointers to elements, and
             // v_base < tail since we checked offset != 0.

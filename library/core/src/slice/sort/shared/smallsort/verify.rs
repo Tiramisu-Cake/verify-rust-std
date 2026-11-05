@@ -70,6 +70,7 @@
 mod assembly;
 mod comparators;
 #[cfg(kani_smallsort_controls)] mod looppin;
+#[cfg(kani_smallsort_controls)] mod loopreal;
 mod merge;
 #[cfg(kani_smallsort_controls)]
 mod mutations;
