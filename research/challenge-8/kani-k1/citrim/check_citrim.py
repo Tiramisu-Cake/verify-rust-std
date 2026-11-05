@@ -51,14 +51,16 @@ def main():
     for route in ('general', 'stable'):
         original = f'merge::{route}_direct_u64_n9'
         parts = {}
-        for label, first, nxt in [('lt_lt', 'true', 'true'), ('lt_ge', 'true', 'false'),
-                                  ('ge_lt', 'false', 'true'), ('ge_ge', 'false', 'false')]:
+        for label, first, nxt in [('swap0_swap4', 'true', 'true'),
+                                  ('swap0_keep4', 'true', 'false'),
+                                  ('keep0_swap4', 'false', 'true'),
+                                  ('keep0_keep4', 'false', 'false')]:
             name = f'{route}_direct_u64_n9_{label}'
             key = f'merge::{name}'
             parts[key] = [f'{first},{nxt}']
             covers[key] = 1
-            expected[key] = tokens(f'''#[kani::proof] #[kani::solver(cadical)]
-                #[kani::unwind(34)] fn {name}() {{
+            expected[key] = tokens(f'''#[kani::proof] #[kani::solver(kissat)]
+                #[kani::unwind(10)] fn {name}() {{
                     {route}_direct_u64_partition::<9, {first}, {nxt}>();
                 }}''')
         record(original, parts, [f'{a},{b}' for a, b in itertools.product(
@@ -73,8 +75,8 @@ def main():
         want = want.replace('const N : usize >',
                             'const N : usize , const FIRST_LESS : bool , const NEXT_LESS : bool >')
         want = want.replace('let orig = v ;', 'let orig = v ; ' + tokens('''
-            kani::assume((v[0] < v[1]) == FIRST_LESS);
-            kani::assume((v[2] < v[3]) == NEXT_LESS);'''))
+            kani::assume(lt_u64(&v[1], &v[0]) == FIRST_LESS);
+            kani::assume(lt_u64(&v[5], &v[4]) == NEXT_LESS);'''))
         assert new_helper.text() == want, (route, 'changed helper semantics')
 
     for width in (16, 17):
@@ -102,6 +104,10 @@ def main():
                 kani::cover(true, "{route} route normal return at 32");
                 kani::cover(true, "dispatch family reached the end");
             }}''')
+        if route == 'unstable':
+            expected[key] = expected[key].replace(
+                tokens('#[kani::unwind(65)]'),
+                tokens('#[kani::solver(kissat)] #[kani::unwind(33)]'))
         covers[key] = 2
     record('network::dispatch_safety_stable_unstable_bytes16_n32', parts, ['true', 'false'])
     # Same original pair macro/stub/unwind/helper; substitute len=32 and stable=true/false.
@@ -119,6 +125,9 @@ def main():
             ends = ', '.join(map(str, parts[key]))
             expected[key] = expand(old, network, 'insert_tail_start1_group_case',
                                    f'{name}, {low}, {high}, [{ends}]')
+            expected[key] = expected[key].replace(
+                tokens('#[kani::unwind(25)]'),
+                tokens('#[kani::solver(kissat)] #[kani::unwind(18)]'))
             covers[key] = high - low + 3
         record(f'network::insert_tail_contract_u64_start1_tail{lo}_to{hi}',
                parts, list(range(lo, hi + 1)))
@@ -151,7 +160,8 @@ def main():
     extras = {merge: {('fn', 'general_direct_u64_partition'),
                       ('fn', 'stable_direct_u64_partition'),
                       ('macro_rules', 'define_direct_u64_partition_harness')},
-              network: {('macro_rules', 'dispatch_pair_route_safety_case')}}
+              network: {('macro_rules', 'dispatch_pair_route_safety_case'),
+                        ('macro_rules', 'insert_tail_start1_tuned_case')}}
     for file, text in old.files.items():
         if file not in extras:
             assert new.files[file] == text, file
@@ -171,9 +181,19 @@ def main():
              'library/.cargo', 'library/Cargo.toml', 'library/Cargo.lock']
     subprocess.run(['git', 'diff', '--exit-code', TOOLING, '--', *lanes], check=True)
     request = json.loads((HERE.parent / 'RUN-REQUEST.json').read_text())
-    assert len(request['harnesses']) == 25
-    assert {r['name'] for r in request['harnesses']} == {PREFIX + n for n in added}
+    g1 = s.Source('bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a').roots(False)
+    g1_report = json.loads((HERE / 'g1-evidence/verification-report.json').read_text())
+    carry = {row['name'].removeprefix(PREFIX) for row in g1_report['rows']
+             if row['status'] == 'SUCCESS' and row['seconds'] <= 120}
+    assert len(carry) == 10
+    assert all(after[n][1].text() == g1[n][1].text() for n in carry)
+    requested = added - carry
+    assert len(request['harnesses']) == len(requested) == 15
+    assert {r['name'] for r in request['harnesses']} == {PREFIX + n for n in requested}
     assert all(r['expect'] == 'SUCCESS' for r in request['harnesses'])
+    (HERE / 'carried-g1.txt').write_text(''.join(PREFIX + n + '\n' for n in sorted(carry)))
+    (HERE / 'expected-g2-covers.json').write_text(json.dumps(
+        {PREFIX + k: covers[k] for k in sorted(requested)}, indent=2) + '\n')
     assert request['controls'] is False and request['kani_jobs'] == 1
     assert request['harness_timeout_minutes'] == 5 and request['kind'] == 'diagnostic'
     assert request['runner'] == 'gcb-e2-standard-4' and request['inventory'] is False
@@ -188,6 +208,10 @@ def main():
         'removed': sorted(removed), 'added': sorted(added),
         'retained_roots_token_identical': len(retained), 'opt_in_unchanged': len(opt_in),
         'domains': domains, 'expected_new_covers': sum(covers.values()),
+        'carried_g1_success_within_120s': sorted(carry),
+        'g2_requested': sorted(requested), 'expected_g2_covers': sum(covers[n] for n in requested),
+        'merge_partition_predicates': ['lt_u64(&v[1], &v[0])', 'lt_u64(&v[5], &v[4])'],
+        'stage': 'citrim-g2',
         'request_sha256': hashlib.sha256((HERE.parent / 'RUN-REQUEST.json').read_bytes()).hexdigest(),
         'limitations': 'Finite selectors/source tokens only; no compiler inventory or proof; times unmeasured.'}
     (HERE / 'check-report.json').write_text(json.dumps(report, indent=2) + '\n')

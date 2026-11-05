@@ -1,0 +1,314 @@
+{
+  "evidence_consistency": "PASS",
+  "task_acceptance": "FAIL",
+  "checks": {
+    "row_identity_page_and_exact_requested_names": true,
+    "summary_complete_exact_identity_failed_gate": true,
+    "cloud_failure_on_approved_source_standard4": true,
+    "tooling_exactly_eight_ok_bindings": true,
+    "18_success_7_timeout_no_other_result": true,
+    "completed_checks_success_and_exact_covers": true,
+    "timeouts_not_misreported_as_complete_evidence": true,
+    "targeted_verify_warning_scan_no_matches": true,
+    "cost_one_completed_build": true
+  },
+  "build_id": "76b1664d-a0bf-4268-92fc-3b69220d556f",
+  "source_sha": "bc4b5c7ec7b41a317548c21bc8dabeebfb062e5a",
+  "request_id": "citrim-g1-20261105-01",
+  "request_sha256": "879ae1c1994099eb19ca2c9d63c7e911efd6b13d781ae020acd0e8f9eb2d2b00",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_ge",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_lt",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_ge",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_lt",
+      "status": "SUCCESS",
+      "seconds": 298.00433,
+      "seconds_decimal": "298.00433",
+      "checks_failed": 0,
+      "checks_total": 416,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_ge",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_lt",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_ge",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_lt",
+      "status": "TIMEOUT",
+      "seconds": null,
+      "seconds_decimal": null,
+      "checks_failed": null,
+      "checks_total": null,
+      "covers_satisfied": null,
+      "covers_total": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
+      "status": "SUCCESS",
+      "seconds": 108.72484,
+      "seconds_decimal": "108.72484",
+      "checks_failed": 0,
+      "checks_total": 382,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
+      "status": "SUCCESS",
+      "seconds": 57.527676,
+      "seconds_decimal": "57.527676",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
+      "status": "SUCCESS",
+      "seconds": 63.919994,
+      "seconds_decimal": "63.919994",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
+      "status": "SUCCESS",
+      "seconds": 64.92339,
+      "seconds_decimal": "64.92339",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
+      "status": "SUCCESS",
+      "seconds": 62.401028,
+      "seconds_decimal": "62.401028",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
+      "status": "SUCCESS",
+      "seconds": 70.84245,
+      "seconds_decimal": "70.84245",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
+      "status": "SUCCESS",
+      "seconds": 95.44369,
+      "seconds_decimal": "95.44369",
+      "checks_failed": 0,
+      "checks_total": 390,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
+      "status": "SUCCESS",
+      "seconds": 126.870476,
+      "seconds_decimal": "126.870476",
+      "checks_failed": 0,
+      "checks_total": 382,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11_to12",
+      "status": "SUCCESS",
+      "seconds": 199.78485,
+      "seconds_decimal": "199.78485",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 4,
+      "covers_total": 4
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+      "status": "SUCCESS",
+      "seconds": 231.39142,
+      "seconds_decimal": "231.39142",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+      "status": "SUCCESS",
+      "seconds": 237.20578,
+      "seconds_decimal": "237.20578",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to5",
+      "status": "SUCCESS",
+      "seconds": 210.27011,
+      "seconds_decimal": "210.27011",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 6,
+      "covers_total": 6
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6_to8",
+      "status": "SUCCESS",
+      "seconds": 229.83519,
+      "seconds_decimal": "229.83519",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 5,
+      "covers_total": 5
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10",
+      "status": "SUCCESS",
+      "seconds": 193.22226,
+      "seconds_decimal": "193.22226",
+      "checks_failed": 0,
+      "checks_total": 623,
+      "covers_satisfied": 4,
+      "covers_total": 4
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
+      "status": "SUCCESS",
+      "seconds": 112.93425,
+      "seconds_decimal": "112.93425",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
+      "status": "SUCCESS",
+      "seconds": 116.823906,
+      "seconds_decimal": "116.823906",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
+      "status": "SUCCESS",
+      "seconds": 117.06356,
+      "seconds_decimal": "117.06356",
+      "checks_failed": 0,
+      "checks_total": 316,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    }
+  ],
+  "success": 18,
+  "timeouts": [
+    "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_ge",
+    "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_lt",
+    "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_ge",
+    "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_ge",
+    "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_lt",
+    "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_ge",
+    "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_lt"
+  ],
+  "within_120s": [
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
+    "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
+    "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
+    "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32"
+  ],
+  "success_over_120s": [
+    "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_lt",
+    "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail11_to12",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail14",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to5",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail6_to8",
+    "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10"
+  ],
+  "completed_covers_satisfied": 57,
+  "completed_covers_total": 57,
+  "expected_all_covers": 64,
+  "timeout_covers_unknown": 7,
+  "completed_verification_seconds_sum": "2597.189200",
+  "whole_suite_seconds": null,
+  "cost_usd": "1.1880",
+  "reserved_usd": "0.0000",
+  "inventory": "NOT_REQUESTED",
+  "limitations": "7 timeouts have no proof/cover/time completion evidence; unreachable non-cover checks are not unreachable covers. No GCB/Actions paired original-root timings available in inherited own reports. Library still covers all original domains at source level, not proof acceptance."
+}

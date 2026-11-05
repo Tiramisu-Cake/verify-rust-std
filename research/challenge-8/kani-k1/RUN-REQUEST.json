@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "citrim-g1-20261105-01",
+  "request_id": "citrim-g2-20261105-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "CITRIM G1: all 25 exact-domain parts of nine >200s Actions roots; require SUCCESS, every expected cover reachable, zero unreachable covers; target each <=120s. Source-only inventory 235; final compiler inventory in G2 after separate GO.",
+  "purpose": "CITRIM G2: 15 revised parts (8 merge, 6 insert-tail, unstable bytes16 N32); require SUCCESS, each <=120s, exact 35/35 covers. Ten unchanged <=120s parts carry G1 evidence. Final compiler inventory deferred to coordinator: full-list reserve does not fit own cap.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 5,
   "kani_jobs": 1,
@@ -11,63 +11,35 @@
   "controls": false,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_ge",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_keep4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_ge_lt",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_keep0_swap4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_ge",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_keep4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_lt_lt",
+      "name": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9_swap0_swap4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_ge",
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_keep4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_ge_lt",
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_keep0_swap4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_ge",
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_keep4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_lt_lt",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
+      "name": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9_swap0_swap4",
       "expect": "SUCCESS"
     },
     {
@@ -96,18 +68,6 @@
     },
     {
       "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to10",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
       "expect": "SUCCESS"
     }
   ]
