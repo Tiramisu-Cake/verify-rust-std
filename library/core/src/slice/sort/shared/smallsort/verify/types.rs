@@ -64,7 +64,7 @@ fn cover_nontrivial_input<const N: usize>(input: &[u8; N]) {
     kani::cover(input[0] == input[1], "logical sort returns with duplicate keys");
 }
 
-// Cell is !Freeze: both trait defaults use insertion/fallback, with threshold 16.
+// Cell is !Freeze: both trait defaults use insertion or fallback, with threshold 16.
 // DropKey is Freeze and non-Copy: stable and unstable dispatch select general, threshold 32.
 fn trait_properties<T: LogicalByte, const N: usize>() -> [u8; N] {
     let input: [u8; N] = kani::any();
@@ -104,6 +104,8 @@ fn trivial_trait_properties<T: LogicalByte>() {
     kani::cover(selector == 2, "logical length two");
 }
 
+// The unwind budget covers element construction, sorting, and logical-value count loops.
+// Solver choice is specific to these logical-value models.
 macro_rules! trait_cases {
     ($name:ident, $t:ty, [0, 1, 2]) => {
         #[kani::proof]
@@ -135,7 +137,7 @@ fixed_trait_case!(sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7);
 fixed_trait_case!(sorted_permutation_traits_general_drop_u8_n8, DropKey, 8);
 
 // Fixed routes check each Cell branch independently.
-// The two const values partition the original symbolic stable bool without restricting keys.
+// The two const values cover both dispatch choices without restricting keys.
 fn fixed_route_trait_properties<T: LogicalByte, const N: usize, const STABLE: bool>() {
     let input: [u8; N] = kani::any();
     let probe: u8 = kani::any();

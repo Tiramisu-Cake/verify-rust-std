@@ -1,4 +1,4 @@
-//! Fixed-size original witnesses, one mutant swap control and stable unit-ZST checks.
+//! Fixed witnesses, a mutant swap control, and stable unit-ZST checks.
 
 use super::super::{
     StableSmallSortTypeImpl, bidirectional_merge, insert_tail, merge_up, small_sort_network,
@@ -47,7 +47,7 @@ fn check_merge_up(
     let out = dst.as_mut_ptr();
     let (next_left, next_right, next_dst) = call(left, right, out);
     let take_left = src[0] <= src[1];
-    // SAFETY: these expected pointers are at most one-past the source/destination arrays.
+    // SAFETY: these expected pointers are at most one-past the source and destination arrays.
     let advancement_ok = unsafe {
         next_left == left.add(take_left as usize)
             && next_right == right.add((!take_left) as usize)
@@ -153,6 +153,7 @@ fn reject_mutant_swap_u8_n2() {
     });
 }
 
+// The unwind budget allows the longest selected stable route despite zero-sized elements.
 macro_rules! stable_unit_case {
     ($name:ident, $n:literal) => {
         #[kani::proof]

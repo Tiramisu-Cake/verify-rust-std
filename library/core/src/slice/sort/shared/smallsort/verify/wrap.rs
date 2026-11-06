@@ -1,7 +1,6 @@
 //! Concrete checked N2 forwarding contracts, executing the real trait entries without stubs.
 //! The model is the full byte; order uses its upper seven bits. An independent by-value probe
 //! is shared by the scalar pre-count and post-count. No specification calls the comparator.
-//! These three concrete N2 domains do not cover every specialization or the full thresholds.
 
 use super::super::{
     StableSmallSortTypeImpl, UnstableSmallSortFreezeTypeImpl, UnstableSmallSortTypeImpl,
@@ -68,7 +67,7 @@ fn pair_region<T>(v: *mut T) -> bool {
         && can_write(ptr::slice_from_raw_parts_mut(v, 2))
 }
 
-// The geometry requires disjoint input/scratch spans; fixture borrows supply exclusivity.
+// The geometry requires disjoint input and scratch spans; fixture borrows supply exclusivity.
 fn stable_region(v: *mut Cell<u8>, scratch: &[MaybeUninit<Cell<u8>>]) -> bool {
     pair_region(v)
         && (scratch.is_empty()
@@ -233,7 +232,7 @@ fn rejects_always_true() {
         0 => {
             let mut v = [Cell::new(a), Cell::new(b)];
             kani::cover(true, "wrap invalid stable comparator reaches guard");
-            // SAFETY: valid pair/scratch; only canonical identity is deliberately rejected.
+            // SAFETY: valid pair and scratch; only canonical identity is deliberately rejected.
             unsafe { stable_cell(v.as_mut_ptr(), &mut [], always_true::<Cell<u8>>, probe) };
         }
         1 => {
@@ -251,7 +250,7 @@ fn rejects_always_true() {
     }
 }
 
-// Separate plain real trait execution, checked with the exact same model/count as the contracts.
+// Separate plain real trait execution, checked with the exact same model and count as the contracts.
 // The mutation belongs only to this control, after the real entry returns, never to a wrapper.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]

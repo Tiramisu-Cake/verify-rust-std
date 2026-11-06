@@ -1,18 +1,12 @@
-//! Checked profiles for `swap_if_less`, `sort4_stable`, `insert_tail` and `bidirectional_merge`,
-//! whose generic contracts were removed: no order or frame promise holds for an arbitrary `FnMut`.
-//! A profile is a zero-sized tag `P` that fixes the element type `P::Elem`, one audited canonical
-//! comparator `P::CMP` and a pure full-value model. The key is (element type, comparator):
-//! `lt_u8` (`x >> 1`) and `strict_less::<u8>` are different tags. Specifications compute order
-//! and value counts from the model only and never call the runtime callback. Each forwarder passes
-//! exactly `cmp` to the real generic helper; `specfix_canonical_comparator` rejects any other
-//! function value before an ordered summary. Arbitrary or effectful comparators stay outside every
-//! profile; their safety remains with the real-body harnesses.
-//! Profiles and tags are ordinary (the ordinary helper contract proofs use them); every harness in
-//! this file is opt-in. `kani::assert` keeps literal property descriptions; core `assert!` in
-//! this crate reports a shared placeholder on the pinned Kani.
+//! Ordered profiles for the real swap, sort4, tail-insertion, and merge helpers.
+//! Each tag fixes an element type, a canonical comparator, and a pure full-value model.
+//! Specifications use that model without calling the comparator. Forwarders reject any other
+//! comparator value before assuming an ordered summary; the helpers' frame contracts alone
+//! do not promise an order. Equal keys may have different full values.
+//!
+//! `kani::assert` preserves literal descriptions here; core `assert!` reports a shared
+//! placeholder on the pinned Kani.
 
-// Region predicates below check geometry only (alignment, bounds and allocation separation).
-// Constructed fixtures supply initialized inputs and exclusive mutable destination storage.
 use super::{lt_u8, lt_u64};
 #[cfg(kani_smallsort_controls)]
 use crate::mem::MaybeUninit;
@@ -230,7 +224,7 @@ pub(crate) unsafe fn swap_profile<P: Profile>(
     unsafe { swap_if_less(v, a, b, &mut is_less) }
 }
 
-// sort4_stable profile: source/destination geometry; fixtures initialize the source.
+// sort4_stable profile: source and destination geometry; fixtures initialize the source.
 
 pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
     size_of::<T>() > 0

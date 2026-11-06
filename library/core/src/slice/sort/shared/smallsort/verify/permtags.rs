@@ -1,24 +1,14 @@
 //! Bounded permutation checks with distinct identity tags and arbitrary comparison answers.
 //!
-//! Inputs contain each tag in `0..N` once, initially in ascending identity order. Every
-//! comparison reads both arguments and independently chooses a fresh symbolic bool; no order
-//! laws are assumed. The real trait entries run without verified-contract stubs. Only the
-//! explicit order-violation panic is cut, as in the Part 1 safety family, so the assertion is
-//! about normal return and says nothing about unwinding or comparator panics.
+//! Each comparison reads both arguments and chooses a fresh bool. No ordering law is assumed.
+//! Distinct tags track equal payloads separately, and fresh answers include every answer
+//! sequence of a returning comparator. The fixed initial identity order restricts no payload
+//! order; see verify.rs for the whole-element transfer assumption and its limits.
+//! Tag types match the source types without wrappers; a separate root checks dispatch.
 //!
-//! Transfer assumption: on the same type-selected route, SmallSort only moves whole elements
-//! and branches on comparison answers, positions, lengths and type properties, not payloads.
-//! Fresh answers therefore include every answer sequence of any returning comparator. Distinct
-//! tags track each original element even when its original payload equals another's; a fixed
-//! identity order imposes no payload-order restriction. Under this source-level assumption,
-//! preserving all tags implies permutation for arbitrary payloads on that route. This is not a
-//! machine-checked generic refinement theorem. Comparators that mutate payloads are excluded.
-//! The tag types are exactly the source types (u8, u64, Cell<u8>), without wrappers; a separate
-//! root checks the dispatch predicates and thresholds. Other types require their own route and
-//! whole-element-movement justification. These checks establish neither sortedness nor stability.
-//!
-//! With exactly N output positions, range checks and the N-bit all-ones mask imply each tag
-//! occurs exactly once. A u64 mask leaves room for N=32 without a full-width shift or u128.
+//! Exactly N outputs, range checks, and an all-ones mask imply that each tag occurs once.
+//! A u64 mask accommodates 32 tags without a full-width shift. The unwind budget also covers
+//! the largest selected route and the tag-check loops.
 
 use super::super::{
     MAX_STACK_ARRAY_SIZE, SMALL_SORT_FALLBACK_THRESHOLD, SMALL_SORT_GENERAL_SCRATCH_LEN,
@@ -204,7 +194,7 @@ permutation_case!(network_u8_n32, network_body, 32);
 permutation_case!(general_u64_n9, general_body, 9);
 #[cfg(kani_smallsort_controls)]
 permutation_case!(general_u64_n16, general_body, 16);
-// Larger domains remain opt-in research roots.
+// Larger tag domains require the controls cfg.
 #[cfg(kani_smallsort_controls)]
 permutation_case!(general_u64_n17, general_body, 17);
 #[cfg(kani_smallsort_controls)]

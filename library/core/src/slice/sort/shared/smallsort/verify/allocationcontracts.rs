@@ -1,7 +1,4 @@
-//! Bounded allocation-aware helper contracts and paired consumers.
-//! Every root fixes its element and comparator function-item type and allocation geometry.
-//! Diagnostic labels describe each operation. Arbitrary comparator answers impose no order.
-//! No universal callback, sortedness, unwinding, uninit or value-validity theorem is claimed.
+//! Allocation-aware contract proofs paired with network and sort8 consumers.
 
 use super::super::{UnstableSmallSortTypeImpl, bidirectional_merge, sort8_stable, swap_if_less};
 use crate::mem::{ManuallyDrop, MaybeUninit};
@@ -74,28 +71,21 @@ fn cut_merge_order_violation() -> ! {
     unreachable!()
 }
 
-/// T = u8; F = arbitrary_less::<u8>; initialized allocation [u8; 32].
-/// Base start is any 0..32; a,b are any positions < 32-start, including equality.
-/// Checks the frame outside start+a/start+b; unwind 50; default solver.
+// The unwind budget includes the 32-element frame loop and interior-base geometry checks.
 #[kani::proof_for_contract(swap_if_less)]
 #[kani::unwind(50)]
 fn swap_safety_u8_backing32() {
     exercise_swap::<u8>();
 }
 
-/// T = u64; F = arbitrary_less::<u64>; initialized allocation [u64; 32].
-/// Base start is any 0..32; a,b are any positions < 32-start, including equality.
-/// Checks the frame outside start+a/start+b; unwind 50; default solver.
 #[kani::proof_for_contract(swap_if_less)]
 #[kani::unwind(50)]
 fn swap_safety_u64_backing32() {
     exercise_swap::<u64>();
 }
 
-/// T = u8; F = arbitrary_less::<u8>; initialized allocation [u8; 32], start 0, len 32.
-/// Real unstable network uses half starts 0/16 and insertion offset 13 on each len16 half.
-/// Verified swap stub matches the paired allocation32 PFC; insertion/merge are real.
-/// Order-violation panic is cut; unwind 50; default solver.
+// The paired swap proof includes interior bases for both halves of this network.
+// Insertion and merge run their real bodies; only the order-violation abort path is cut.
 #[kani::proof]
 #[kani::stub_verified(swap_if_less)]
 #[kani::stub(super::super::panic_on_ord_violation, cut_order_violation)]
@@ -107,9 +97,8 @@ fn unstable_network_safety_u8_n32_stubbed() {
     kani::cover(true, "network maximum length returns");
 }
 
-/// T = u64; F = tail_less_u64; allocation [MaybeUninit<u64>; 48], source start 32, len 8.
-/// Only source [32..40] is initialized with arbitrary values; destination [0..8] is uninit.
-/// Checks the source frame; order-violation panic is cut; unwind 34; default solver.
+// Match sort8's scratch geometry with only its source region initialized.
+// The unwind budget also accommodates the consumer's 32-element input-frame loop.
 #[kani::proof_for_contract(bidirectional_merge)]
 #[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
 #[kani::unwind(34)]
@@ -135,11 +124,8 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
     kani::cover(true, "merge length8 returns");
 }
 
-/// T = u64; F = tail_less_u64; initialized input [u64; 32], start 0, input len 8.
-/// Scratch [MaybeUninit<u64>; 48] starts uninit; destination start 0, scratch source start 32.
-/// Real sort4 initializes [32..40] before the matching verified len8 merge stub.
-/// Checks all 32 input elements framed; no output initialization assumed; unwind 34.
-/// Default solver; input values and comparator answers are arbitrary.
+// Real sort4 calls initialize the source region required by the paired merge proof.
+// The source-frame check includes input elements beyond the eight passed to sort8.
 #[kani::proof]
 #[kani::stub_verified(bidirectional_merge)]
 #[kani::unwind(34)]
@@ -157,6 +143,6 @@ fn sort8_safety_u64_scratch48_src32_dst0_merge_stubbed() {
     for i in 0..32 {
         kani::assert(backing[i] == before[i], "sort8 source allocation frame");
     }
-    // A safety/modifies-only stub gives no initialization postcondition for destination.
+    // A stub promising only safety and a write set gives no initialization postcondition for destination.
     kani::cover(true, "sort8 merge consumer returns");
 }

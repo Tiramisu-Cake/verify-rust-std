@@ -1,7 +1,5 @@
-//! Bounded real insert_tail safety/modifies contracts on an initialized allocation.
-//! The arbitrary reading comparator has no ordering law or sorted-prefix premise.
-//! No explicit suffix frame is added; the real modifies contract remains checked.
-//! No universal callback, uninit, value-validity, permission or panic-unwinding theorem.
+//! Tail insertion with arbitrary comparison answers and no sorted-prefix premise.
+//! The contract's write set checks the frame without an extra suffix assertion.
 
 use super::super::insert_tail;
 use crate::kani;
@@ -41,18 +39,14 @@ where
     kani::cover(true, "insert_tail returns");
 }
 
-/// T = u64; F = arbitrary_less::<u64>; initialized allocation [u64; 17], start 0.
-/// Symbolic tail 1..=7; arbitrary values, no sortedness premise; unwind 32, default solver.
-/// No explicit suffix frame; real safety/modifies contract checked.
+// Splitting the tail range bounds solver work without restricting input values or answers.
+// The shared unwind budget accommodates insertion up to the farthest selected tail.
 #[kani::proof_for_contract(insert_tail)]
 #[kani::unwind(32)]
 fn insert_tail_safety_u64_backing17_tail1_to7() {
     exercise::<u64, _, 17, 1, 7>(arbitrary_less::<u64>);
 }
 
-/// T = u64; F = arbitrary_less::<u64>; initialized allocation [u64; 17], start 0.
-/// Symbolic tail 8..=15; arbitrary values, no sortedness premise; unwind 32, default solver.
-/// No explicit suffix frame; real safety/modifies contract checked.
 #[kani::proof_for_contract(insert_tail)]
 #[kani::unwind(32)]
 fn insert_tail_safety_u64_backing17_tail8_to15() {

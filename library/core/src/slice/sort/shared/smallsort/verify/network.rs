@@ -1,7 +1,6 @@
-//! Exchange profile proofs and bounded real-body network, insertion and dispatch checks.
-//! `swap_if_less` and `insert_tail` have no generic contract; their contract proofs check the
-//! closed profiles `swap_profile` / `insert_tail_profile` (merge::specfix), which run the real
-//! helper with one canonical comparator per tag. Profile tags for comparators owned here follow.
+//! Exchange and insertion profiles, plus real network and dispatch checks.
+//! Ordered profiles guard a canonical comparator; real helper frame proofs live in the
+//! contract modules listed in verify.rs.
 
 use super::super::UnstableSmallSortFreezeTypeImpl;
 use super::merge::specfix::{
@@ -9,8 +8,6 @@ use super::merge::specfix::{
 };
 use crate::kani;
 use crate::mem::size_of;
-
-// Share key-order function items with merge profile proofs; equal keys may have different values.
 
 /// Real exchange with coincident positions, including an unlawful true comparison on equality.
 #[kani::proof]
@@ -56,6 +53,7 @@ const _: () = {
     let () = <NonCopyBytes86 as AmbiguousIfCopy<_>>::CHECK;
 };
 
+// The unwind budget includes all 86 bytes in the full-value comparison loops.
 #[kani::proof]
 #[kani::unwind(87)]
 fn unstable_freeze_noncopy_bytes86_fallback_n2() {
@@ -140,7 +138,7 @@ fn volatile_reading_less_u64(a: &u64, b: &u64) -> bool {
     kani::any()
 }
 
-// Real u64 network safety, exact N0..17 and N30..32 by route; arbitrary reading comparator.
+// The safety unwind budget leaves room for the longest selected 32-element route.
 fn unstable_freeze_network_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(&mut v, &mut volatile_reading_less_u64);
@@ -261,8 +259,8 @@ unstable_dispatch_network_cases!(network_safety_unstable_u64_n30, [30]);
 unstable_dispatch_network_cases!(network_safety_unstable_u64_n31, [31]);
 unstable_dispatch_network_cases!(network_safety_unstable_u64_n32, [32]);
 
-// Type and length matrix through the actual stable and unstable trait entry points. Inputs use
-// their full element domains; these harnesses check safety and normal return, not sortedness.
+// Dispatch checks use a conservative unwind budget for both routes and element construction.
+// Inputs use their full element domains; these checks assert safety and normal return.
 trait ArbitraryValue: Sized {
     fn arbitrary_value() -> Self;
 }
@@ -385,7 +383,7 @@ dispatch_pair_safety_cases!(
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n15, [u8; 16], [15]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n16, [u8; 16], [16]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n17, [u8; 16], [17]);
-// Fixed-route N32 parts preserve the pair family's route and completion covers.
+// Fixed routes keep each branch's return cover reachable.
 macro_rules! dispatch_pair_route_safety_case {
     ($name:ident, $stable:literal, $label:literal) => {
         #[kani::proof]
@@ -404,6 +402,7 @@ dispatch_pair_route_safety_case!(
     true,
     "stable route normal return at 32"
 );
+// The solver and unwind budget are tuned together; their separate effects are not established.
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
 #[kani::solver(kissat)]
@@ -523,6 +522,7 @@ fn insertion_safety_fixed<const N: usize>() {
     kani::cover(offset == N, "insertion at final offset returns normally");
 }
 
+// The unwind budget covers insertion loops at the largest selected length.
 macro_rules! insertion_safety_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
@@ -581,6 +581,7 @@ fn mutating_route_fixed<const N: usize>(stable: bool) {
     }
 }
 
+// The mutating-comparator budget includes route loops and tagged-value construction.
 macro_rules! mutating_route_cases {
     ($name:ident, [$($n:literal),+]) => {
         #[kani::proof]
@@ -761,6 +762,7 @@ fn network_correctness_fixed<T: kani::Arbitrary + Copy + Ord, const N: usize>() 
     kani::cover(N < 2 || !prefix_unchanged(&v, &pre, 0), "trivial input or sort moves elements");
 }
 
+// The unwind budget includes sortedness and full-value count loops as well as sorting.
 macro_rules! network_correctness_cases {
     ($name:ident, $t:ty, [$($n:literal),+]) => {
         #[kani::proof]
@@ -790,9 +792,6 @@ network_correctness_cases!(network_correctness_u64_n6, u64, [6]);
 network_correctness_cases!(network_correctness_u8_n7, u8, [7]);
 network_correctness_cases!(network_correctness_u64_n7, u64, [7]);
 
-// Exact two-element compare-exchange profile checks run the real body across the listed element
-// representations, one canonical comparator tag each. The profile supplies the bounds and
-// distinct-index preconditions.
 impl ArbitraryValue for u64 {
     fn arbitrary_value() -> Self {
         kani::any()
@@ -921,6 +920,8 @@ where
     kani::cover(true, "swap contract reached the end");
 }
 
+// This conservative unwind budget includes byte-array models as well as scalar elements.
+// It does not express a bound on the two-element allocation.
 macro_rules! swap_contract_exact_array_case {
     ($name:ident, $tag:ty) => {
         #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
@@ -961,6 +962,7 @@ fn insertion_permutation_fixed<T: kani::Arbitrary + Copy + Eq, const N: usize>()
     );
 }
 
+// The insertion unwind budget also covers the probe-count loops over the full array.
 macro_rules! insertion_permutation_case {
     ($name:ident, $t:ty, $n:literal) => {
         #[kani::proof]
@@ -985,8 +987,7 @@ network_correctness_cases!(network_correctness_u8_n13, u8, [13]);
 insertion_permutation_case!(insertion_permutation_u8_n14, u8, 14);
 insertion_permutation_case!(insertion_permutation_u64_n14, u64, 14);
 
-// Profile checks choose distinct positions in selected exact arrays of lengths 9 through 17.
-// The tag is the strict total order used by the network correctness harnesses.
+// The profile uses the network correctness order; the unwind budget includes the frame loop.
 fn swap_contract_indices<P: Profile, const N: usize>()
 where
     P::Elem: kani::Arbitrary + Copy + PartialEq,
@@ -1047,10 +1048,8 @@ swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, StrictU8, 9);
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, StrictU8, 13);
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, StrictU64, 9);
 
-// Checks insertion into every nonempty interior region of an exact `[u64; 17]` array. The
-// `proof_for_contract` harness supplies the callee's sorted-prefix precondition.
-
-// START1 tail intervals jointly cover every tail from 2 through 16.
+// Fix the region's start at index 1 to check both an untouched prefix and a suffix.
+// The tail intervals cover indices 2 through 16; the profile supplies the sorted prefix.
 fn insert_tail_start1_frame<const START: usize>(v: &[u64; 17], pre: &[u64; 17], tail: usize) {
     const { assert!(START == 1) };
     let mut i = 0;
@@ -1082,6 +1081,7 @@ fn insert_tail_group_value<const START: usize, const LO: usize, const HI: usize>
     tail
 }
 
+// The unwind budget accommodates the farthest tail and both frame-check loops.
 macro_rules! insert_tail_start1_group_case {
     ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
         #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
@@ -1113,8 +1113,7 @@ insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13_to14, 13, 
 
 insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]);
 
-/// u8 insertion-tail profile contract and suffix frame in a 17-element allocation, with tail
-/// indices 1..=16.
+// The symbolic tail includes a full prefix; solver choice is specific to this model.
 #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
 #[kani::solver(cadical)]
 #[kani::unwind(18)]
@@ -1169,6 +1168,7 @@ fn mutating_route_permutation<const N: usize>() -> (u8, usize) {
     (mode, offset)
 }
 
+// The unwind budget includes tag extraction and counts after each selected route.
 macro_rules! mutating_route_permutation_case {
     ($name:ident, $n:literal, [$($offset:literal),+]) => {
         #[kani::proof]

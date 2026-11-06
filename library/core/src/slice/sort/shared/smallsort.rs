@@ -379,6 +379,11 @@ where
 /// types. `is_less` could be a huge function and we want to give the compiler an option to
 /// not inline this function. For the same reasons that this function is very perf critical
 /// it should be in the same module as the functions that use it.
+// Kani's write sets below list only element or destination memory; they cannot express
+// the footprint of an arbitrary FnMut. These contracts and stub_verified uses require
+// comparators that write nowhere else, and only the proved element, comparator, and
+// allocation domains listed in verify.rs. One successful contract proof does not justify
+// a new consumer.
 #[safety::requires(
     a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
         offset <= isize::MAX as usize
@@ -579,6 +584,7 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
 ///
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
+// The Kani callback frame and domain restrictions above swap_if_less also apply here.
 #[safety::requires(
     begin < tail
         && insert_tail_contract_len(begin, tail) > 1
@@ -636,6 +642,7 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, 
 }
 
 /// Sort `v` assuming `v[..offset]` is already sorted.
+// The Kani callback frame and domain restrictions above swap_if_less also apply here.
 #[safety::requires(offset != 0 && offset <= v.len())]
 #[cfg_attr(kani, crate::kani::modifies(v))]
 pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
@@ -680,6 +687,7 @@ fn sort4_contract_regions_disjoint<T>(src: *const T, dst: *mut T) -> bool {
 
 /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
 /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
+// The Kani callback frame and domain restrictions above swap_if_less also apply here.
 #[safety::requires(
     crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base, 4))
         && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, 4))
@@ -844,6 +852,7 @@ fn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) ->
 ///
 /// Note that T must be Freeze, the comparison function is evaluated on outdated
 /// temporary 'copies' that may not end up in the final array.
+// The Kani callback frame and domain restrictions above swap_if_less also apply here.
 #[safety::requires(v.len() >= 2)]
 #[safety::requires(crate::ub_checks::can_dereference(v as *const [T]))]
 #[safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())))]

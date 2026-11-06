@@ -132,7 +132,7 @@ pub(crate) fn lt_b16(a: &[u8; 16], b: &[u8; 16]) -> bool {
     a[0] < b[0]
 }
 
-// Harness bodies, one per concrete length so that every loop has a constant bound.
+// Concrete lengths keep loop bounds constant; the shared unwind budget covers up to 32 elements.
 
 /// Merge profile proof body: exact source `[P::Elem; N]`, disjoint uninitialized destination.
 pub(crate) fn merge_length_body<P: Profile, const N: usize>()
@@ -148,7 +148,7 @@ where
     kani::cover(true, "merge returns for a permitted length");
 }
 
-// Stable primitives: exact source/destination arrays, matching the composed caller types.
+// Stable primitives: exact source and destination arrays, matching the composed caller types.
 
 fn sort4_length_body<P: Profile>()
 where
@@ -164,7 +164,7 @@ where
 }
 
 // Separate sort4 checks: ordered profile contract with the reading fixture order (a checked
-// profile tag), and real-body safety/permutation with arbitrary comparison results.
+// profile tag), and real-body safety and permutation with arbitrary comparison results.
 fn read_sort4_arguments<T: Copy>(a: &T, b: &T) {
     // SAFETY: both references must point to initialized readable elements.
     unsafe {
@@ -306,7 +306,7 @@ define_route_safety_harness!(route_safety_all_routes_n7, all_upper_routes_safety
 define_route_safety_harness!(route_safety_all_routes_n8, all_upper_routes_safety_body, 8);
 define_route_safety_harness!(route_safety_all_routes_n16, all_upper_routes_safety_body, 16);
 
-// Merge profile proofs: u8/u64 with the upper-bit key order (tags LtU8/LtU64), exact arrays.
+// Upper-bit key orders allow distinct full values to share a key.
 macro_rules! define_small_merge_contract_harness {
     ($name:ident, $tag:ty) => {
         #[kani::proof_for_contract(specfix::merge_profile)]
@@ -360,7 +360,7 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
     );
 }
 
-// General/stable correctness with 48 scratch elements and a shared full-value oracle.
+// General and stable routes share a full-value oracle independent of the comparison key.
 fn general_route_properties<
     T: kani::Arbitrary + Copy + FreezeMarker,
     F: FnMut(&T, &T) -> bool,
@@ -402,7 +402,7 @@ fn general_route_const_u64_properties<const N: usize>() {
     kani::cover(stable, "stable route properties checked");
 }
 
-// Direct fallback correctness on exact u8/u64 arrays up to 16; every insertion body is real.
+// Fallback correctness uses real insertion bodies and checks both order and full values.
 fn fallback_route_properties<
     T: kani::Arbitrary + Copy,
     F: FnMut(&T, &T) -> bool,
@@ -419,7 +419,7 @@ fn fallback_route_properties<
     kani::cover(true, "fallback route properties checked");
 }
 
-// N0/N1 callers run the real bodies without reaching a merge helper.
+// Empty and singleton inputs return before reaching a merge helper.
 macro_rules! define_general_sortedness_harness {
     ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
         #[kani::proof]
@@ -621,17 +621,15 @@ fn arbitrary_drop_value_order(a: &DropTaggedValue, b: &DropTaggedValue) -> bool 
     kani::any()
 }
 
-// Fallback/insertion routes do not merge, so their panic cut has no cover obligation.
-// General/stable route controls use the covering panic stub above.
+// Fallback and insertion routes do not merge, so their panic cut has no cover obligation.
+// General and stable route controls use the covering panic stub above.
 fn abort_without_order_cover() -> ! {
     kani::assume(false);
     unreachable!()
 }
 
-// Separate count/tag proofs: fallback/insertion N2/4/8; general/stable N2/4/8/16, a 48-element
-// scratch array.
-// Normal return only. MUTANT 1/2 are reserved for the separate Part 2 duplicate-tag and
-// extra-drop controls.
+// Count destructors separately from tag multiplicities: either property alone can miss a bug.
+// Normal return only. MUTANT values select duplicate-tag and extra-drop controls.
 fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool, const MUTANT: u8>()
 -> bool {
     const { assert!(N >= 2 && N <= 32) };
@@ -661,7 +659,7 @@ fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool, co
         super::super::small_sort_fallback(&mut v, &mut cmp);
     }
     if MUTANT == 1 {
-        // Negative control: duplicate a tag, losing another; addresses remain valid/disjoint.
+        // Negative control: duplicate a tag, losing another; addresses remain valid and disjoint.
         unsafe {
             let base = v.as_mut_ptr();
             ptr::copy_nonoverlapping(base, base.add(1), 1);

@@ -1,6 +1,5 @@
-//! Bounded Stable Freeze safety and full-value preservation for caller scratch geometries.
-//! Real sort bodies and an arbitrary reading comparator; only the order-violation panic is cut
-//! under abort semantics. These checks do not establish unwinding or comparator sortedness.
+//! Stable scratch geometry and full-value preservation with an arbitrary reading comparator.
+//! The unwind budget accommodates the selected route and its full-value count loops.
 
 use super::super::{CopyOnDrop, SMALL_SORT_GENERAL_THRESHOLD, StableSmallSortTypeImpl};
 use super::merge::set_value_probe;
@@ -80,7 +79,7 @@ fn shared_allocation<const N: usize, const TOTAL: usize>() {
         input[i].write(original[i]);
     }
     // SAFETY: all N elements of input were initialized above. MaybeUninit<u64> has the
-    // size/alignment of u64, and the cast retains the pointer's allocation and alignment.
+    // size and alignment of u64, and the cast retains the pointer's allocation and alignment.
     // split_at_mut supplies exclusive, disjoint regions; the new reference covers exactly
     // input, whose old reference is no longer used. The buffer lives through the entire call,
     // and scratch remains MaybeUninit, so none of its uninitialized elements are read here.

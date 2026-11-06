@@ -1,71 +1,58 @@
-//! Bounded SmallSort checks for selected input domains and properties (Part 1).
+//! Bounded SmallSort checks for selected input domains and properties.
 //!
-//! The three `small_sort` trait methods have no contracts. On the current Kani pin, contracts
-//! on specialization `default fn` and PFC on trait methods with their own generic `F` are not
-//! accepted ([model-checking/kani#5116](https://github.com/model-checking/kani/issues/5116) and
-//! [#4908](https://github.com/model-checking/kani/issues/4908); reproduced on the pinned
-//! `cd355b0b`).
-//! Helper contracts here use closed profiles that each fix one comparator.
+//! Module map:
+//! - `network`: exchange profiles, real networks, insertion, dispatch, mutating comparators,
+//!   coincident swap positions, and the large non-Copy fallback. Sortedness checks count full
+//!   values only below the network width. Insertion lengths stop at 20, the callers'
+//!   `MAX_LEN_ALWAYS_INSERTION_SORT` threshold, rather than a limit of the insertion helper.
+//! - `merge`: stable primitives, merge, general and stable routes, and Drop counts and tags.
+//!   `merge::specfix` supplies closed ordered profiles with independent full-value models.
+//! - `assembly`: fixed witnesses and stable unit-ZST checks; `comparators` supplies their
+//!   reading comparator. `smoke` checks the efficient-swap predicate.
+//! - `types`: logical sortedness and multisets for Cell and Freeze non-Copy inputs.
+//!   `wrap`: concrete two-element forwarding contracts for Cell, u8, and Freeze non-Copy u8.
+//! - `permtags`: identity-tag permutation and source-type dispatch predicates. Transfer to
+//!   arbitrary payloads assumes the same route moves whole elements and branches only on
+//!   answers, positions, lengths, and type properties. This source-level assumption is not a
+//!   generic refinement theorem; it excludes payload mutation, sortedness, and stability.
+//! - `scratchgeom`: real stable u64 sorting with separate minimal scratch and full-value counts.
 //!
-//! `merge` checks stable primitives, merge, general/stable routes and normal-return Drop counts
-//! and tags. `network` checks exchange, real networks, insertion, dispatch and mutating
-//! comparators, same-position exchange and the Freeze non-Copy large-value fallback.
-//! `assembly` checks fixed-size original witnesses and stable unit ZST N1/2/7/8/16/17/31/32.
-//! `comparators` supplies their reading comparator; `smoke` checks the efficient-swap predicate.
-//! `types` checks logical sortedness and multisets for Cell and Freeze non-Copy trait inputs.
+//! Real helper contract domains (comparators read both arguments and return arbitrary bools):
+//! - `realcontracts`: swap of u8, u64, or `[u8; 17]` in four elements; u8 in nine or thirteen;
+//!   u64 tail insertion at positions 1 through 4 in five elements; sort4 of u64 with separate
+//!   source and destination arrays; u64 merge of two or four elements with separate output.
+//! - `allocationcontracts`: swap of u8 or u64 in 32 elements with an arbitrary interior base;
+//!   u64 merge of eight elements from scratch positions 32 through 39 to positions 0 through 7.
+//! - `tailcontracts`: u64 tail insertion at positions 1 through 15 in 17 initialized elements.
+//! Direct `insertion_sort_shift_left` contract roots and wider domains remain opt-in.
+//! Verified swap consumers match the nine-, thirteen-, or 32-element proofs; the sort8 consumer
+//! matches the eight-element scratch merge proof. Each pair must pass with the same element
+//! type, comparator, and allocation geometry. A callback-cover hook is omitted in the smaller
+//! swap consumers because verified stubs bypass the comparator, while preserving its type.
 //!
-//! The real helpers `swap_if_less`, `insertion_sort_shift_left`, `insert_tail`, `sort4_stable`
-//! and `bidirectional_merge` carry safety/modifies contracts. `realcontracts` proves bounded
-//! type/comparator domains with a stateless comparator that reads both arguments and returns
-//! a fresh arbitrary bool: swap u8/u64/[u8; 17] backing4, u8 backing9/13, insert_tail u64
-//! backing5 tail1..4, sort4 u64 source4/disjoint dst4, and merge u64 N2/4 with disjoint dst.
-//! These are not universal callback frame proofs. Ordinary N9/N13 u8 network consumers use
-//! verified swap stubs paired with the same type, backing and comparator PFC domains. Their
-//! return cover is retained. The ordinary consumers omit `realcontracts comparator true` and
-//! `realcontracts comparator false`: the verified swap stub cuts the callback. A coverage-only
-//! hook is stubbed to a no-op, preserving the comparator function-item type and PFC domain.
-//! Original consumers with both covers remain opt-in as `_with_callback_covers`.
-//! The separate closed profiles in `merge::specfix` fix the comparator and full-value model;
-//! a guard rejects any other comparator value. Ordinary profile proofs cover selected swap
-//! types/orders, sort4 u64/[u8; 16], merge u64 N2..8/u8 N2..9 (u8 N9 also from scratch48),
-//! u8 prefix and u64 start-1 insertion. General/stable N0/N1 run real bodies.
-//! Network/insertion safety checks otherwise execute real bodies. Network sortedness is checked
-//! at the listed lengths; the ordinary network asserts the probe count only for N < 9.
-//! `permtags` checks identity-tag permutation through the real u8 network at N9/N13 and
-//! checks source-type dispatch predicates. Transfer to arbitrary payloads assumes the same
-//! type-selected route moves whole elements and branches only on answers/positions/lengths/type
-//! properties, not payloads. This source-level assumption is not a generic refinement theorem;
-//! payload-mutating comparators, sortedness and stability are excluded. The normal-return cover
-//! is retained. Ordinary N9/N13 omit `permtags: order violation panic is reachable` because
-//! the network cannot reach that boundary; its assume(false) cutoff is unchanged. Original
-//! `_with_panic_cover` variants, larger tag domains and the duplicate-tag mutant require
-//! `cfg(kani_smallsort_controls)`. All ordinary covers must be reachable.
-//! `scratchgeom` checks Stable Freeze u64 N2 with a separate minimal scratch allocation of
-//! 18 elements: real bodies, arbitrary reading comparator, geometry and full-value preservation
-//! on normal return. Larger and shared-allocation geometries require the controls cfg.
-//! `wrap` checks N2 forwarding contracts that run them for Cell<u8>, u8 and a Freeze non-Copy u8.
+//! The five real helper write sets list only element or destination memory. Kani cannot express
+//! the footprint of an arbitrary `FnMut`. These contracts may be used with `stub_verified` only
+//! on the proved domains above and with comparators that write nowhere else; one successful
+//! contract proof does not justify a new consumer. The opt-in control
+//! `realcontracts::rejects_swap_comparator_writing_outside_frame_u8` checks this restriction.
 //!
-//! Manual stubs cut only `panic_on_ord_violation`; the paired realcontracts consumers also use
-//! verified swap stubs. Covers and opt-in negative controls support nonvacuity. The original
-//! eight controls require `cfg(kani_smallsort_controls)` and must fail their named check:
-//! `assembly::reject_mutant_swap_u8_n2` (the negated exchange in `mutations`),
-//! `wrap::rejects_payload_corruption`, `wrap::rejects_always_true`, and in `merge::specfix`
-//! `specfix_full_value_checker_rejects_payload_change_u8`, `specfix_wrong_f_swap_rejected_u8`,
-//! `specfix_wrong_f_sort4_rejected_u64`, `specfix_wrong_f_insert_rejected_u8` and
-//! `specfix_wrong_f_merge_rejected_u8`. Additional realcontracts negative controls, real network
-//! consumers, insertion PFCs and sort4 [u8; 16] also require that cfg; CI never sets it.
-//! `run-kani.sh` does not fail on unreachable covers; historical covers were inspected separately.
-//! Region predicates describe pointer geometry, not initialization or permissions; constructed
-//! fixtures supply initialized inputs and exclusive mutable storage.
-//! Limits: `run-kani.sh` enables no uninitialized-memory or value-validity checks; the measured
-//! Kani profile does not report writes to immutable bytes (no permission check); unwinding is not
-//! checked. Aliasing, generic types, ZSTs and panic paths are covered only as listed.
+//! `cfg(kani_smallsort_controls)` enables negative controls and broader or slower variants;
+//! ordinary CI leaves it unset. Run controls individually and require their named failure.
+//! Ordinary covers must all be reachable, although `run-kani.sh` does not enforce this itself.
+//! Manual panic stubs cut only the explicit order-violation abort path. Positive verified-stub
+//! consumers are the pairs above or closed-profile consumers. Region predicates establish geometry; fixtures
+//! supply initialized input and exclusive mutable storage. Claims are limited to the listed
+//! types, lengths, comparators, and routes, including the listed aliasing, ZST, and panic cases.
+//! The runner enables neither uninitialized-memory nor value-validity checks; this Kani profile
+//! has no immutable-byte permission check, and unwinding is not checked. Trait methods have no
+//! contracts: the pinned Kani rejects specialization defaults and method-generic comparators
+//! (model-checking/kani issues #5116 and #4908). Closed ordered profiles instead guard the exact
+//! comparator value and use a pure model without invoking the callback.
 //!
-//! From the repository root, `./scripts/run-kani.sh --run list` lists the ordinary suite and
-//! `./scripts/run-kani.sh --run verify-std` checks it with the organizer flags, including
-//! `--no-assert-contracts`; neither sets the controls cfg. Run each control on its own and expect
-//! its named failure: `RUSTFLAGS="--cfg kani_smallsort_controls" ./scripts/run-kani.sh --run
-//! verify-std --kani-args --harness <full-name> --exact`.
+//! `./scripts/run-kani.sh --run list` lists ordinary roots; `--run verify-std` checks them with
+//! the organizer flags, including `--no-assert-contracts`. To select an opt-in root, set
+//! `RUSTFLAGS="--cfg kani_smallsort_controls"` and pass
+//! `--kani-args --harness <full-name> --exact` to the verification command.
 
 mod allocationcontracts;
 mod assembly;
