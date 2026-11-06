@@ -69,3 +69,13 @@ Inventory сохраняет порядок list (standard затем contract),
 и отсутствие дубликатов; raw cache/log/inventory файлы не читать, только bounded helper pages.
 Нужны успешные обе cfg и отсутствие новых verify warnings; до этого RESULT остаётся PENDING.
 Финальный RESULT≤40 строк, REVIEW REQUEST <sha> / OPTINMOVE ЗАВЕРШЁН и стоп.
+
+## Решение координатора после review
+
+Пакет `3b12f9cc0d2a11ab0a1a7df00e5aa93624c212cf` принят. GO только G1,
+inventory controls=false, 233 имени, с указанного exact SHA. G2 в OPTINMOVE не запускать.
+Cfg-on compiler inventory, компиляция и все 13 контролей отложены в единый
+интеграционный пакет после этапа 3. При успешном G1 и принятой статике этап получает PASS;
+отложенные проверки не объявляются выполненными. Подготовленный G2 request — исторический
+артефакт review, а не активный план или разрешение dispatch. Это решение заменяет
+требование двух inventory builds выше. Ожидание G1: k1g.sh watch BUILD, затем конец хода.

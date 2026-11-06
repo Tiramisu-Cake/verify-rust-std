@@ -1,11 +1,11 @@
 {
   "task": "OPTINMOVE",
   "stage": "optinmove-g1",
-  "state": "PRE_BUILD_REVIEW_PENDING",
+  "state": "G1_SUBMITTED",
   "branch": "experiment/kani-k1-optinmove-20261106",
   "owner": "k1-merge",
   "prepared_utc": "2026-11-06T13:53:32.476293+00:00",
-  "authorization": "Preparation and non-force push authorized by TASK-OPTINMOVE. No dispatch until coordinator exact-packet GO; G2 requires separate GO after G1 analysis.",
+  "authorization": "Coordinator accepted exact packet 3b12f9cc0d2a11ab0a1a7df00e5aa93624c212cf and authorized G1 only. G2 must not run: cfg-on compilation, inventory and all 13 controls deferred to the integration packet after stage 3. Stage PASS requires successful G1 plus accepted static evidence.",
   "base_sha": "01c090dc1dd86645d6bbd0109b8dcbfa21491d63",
   "task_commit": "6a17919511d0b5baf78502fcb571f281e46d945d",
   "tidydocs_library_commit": "6443b4d99da9ff7d9bf33dee92bb035dbe66e838",
@@ -22,7 +22,7 @@
   "project_cap_usd": "118.9600",
   "main_minutes": 300,
   "closeout_minutes": 30,
-  "window_start_utc": null,
+  "window_start_utc": "2026-11-06T13:56:15.739368+00:00",
   "window_policy": "No active stage window is claimed by preparation. Record coordinator GO start/main/closeout deadlines before dispatch.",
   "runner": "gcb-e2-standard-4",
   "request_work_budget_minutes": 44,
@@ -31,8 +31,21 @@
   "maximum_reservation_per_build_usd": "0.9990",
   "planned_two_build_maximum_usd": "1.9980",
   "spent_usd": "0.0000",
-  "reserved_usd": "0.0000",
-  "builds": [],
+  "reserved_usd": "0.9990",
+  "builds": [
+    {
+      "id": "242b83e1-d9bc-46d9-a504-1cd3e929fcf0",
+      "role": "primary",
+      "owner": "k1-merge",
+      "source_sha": "3b12f9cc0d2a11ab0a1a7df00e5aa93624c212cf",
+      "request_id": "optinmove-g1-20261106-01",
+      "request_sha256": "d283842f2e85c4a1910f63039f8b98af675e0bda182046cf1d849dfb5cdd88be",
+      "maximum_reservation_usd": "0.9990",
+      "recorded_utc": "2026-11-06T13:57:27.740158+00:00",
+      "status": "SUBMITTED",
+      "watch": "k1g.sh watch invoked immediately after publishing operational record; confirmation returned to active turn"
+    }
+  ],
   "repairs": 0,
   "retries": 0,
   "plan": [
@@ -42,7 +55,7 @@
       "controls": false,
       "expected_count": 233,
       "request_file": "RUN-REQUEST.json",
-      "dispatch_authorized": false
+      "dispatch_authorized": true
     },
     {
       "stage": "optinmove-g2",
@@ -52,7 +65,8 @@
       "request_file": "G2-RUN-REQUEST.json",
       "request_sha256": "e5f16f5002e555d26db92fdcc8ece95424ed2c0897247ff02c9bfbe9a0e91f9d",
       "dispatch_authorized": false,
-      "restriction": "Analyze G1, refresh budget, publish exact G2 request at top level, receive separate coordinator GO."
+      "restriction": "Do not dispatch OPTINMOVE G2. Coordinator deferred cfg-on compiler inventory and 13 controls to the single integration packet after stage 3.",
+      "state": "DEFERRED_TO_INTEGRATION"
     }
   ],
   "budget_observed": {
@@ -68,5 +82,23 @@
   "evidence_rule": "Bounded K-1 summary/rows/peaks/log-grep/inventory and check-tooling; no raw logs/archives/Cloud Logging/credentials.",
   "validation_report": "check-report.json",
   "prebuild_notes": "PREBUILD-OPTINMOVE.md",
-  "final_result_file": "../RESULT-OPTINMOVE.md"
+  "final_result_file": "../RESULT-OPTINMOVE.md",
+  "approved_packet_sha": "3b12f9cc0d2a11ab0a1a7df00e5aa93624c212cf",
+  "main_deadline_utc": "2026-11-06T18:56:15.739368+00:00",
+  "closeout_deadline_utc": "2026-11-06T19:26:15.739368+00:00",
+  "cfg_on_compiler_inventory": "DEFERRED_TO_INTEGRATION_AFTER_STAGE_3",
+  "effective_primary_build_plan": 1,
+  "pre_dispatch_budget": {
+    "observed_utc": "2026-11-06T13:56:38.429237+00:00",
+    "builds": 247,
+    "used_usd": "106.2825",
+    "reserved_usd": "0.0000",
+    "maximum_new_reservation_usd": "0.9990",
+    "with_g1_maximum_usd": "107.2815",
+    "project_cap_usd": "118.9600",
+    "own_spent_usd": "0.0000",
+    "own_reserved_usd": "0.0000",
+    "own_cap_usd": "2.0000",
+    "owner_slot": "No unfinished builds in helper budget snapshot; exact-packet GO for k1-merge G1 only."
+  }
 }
