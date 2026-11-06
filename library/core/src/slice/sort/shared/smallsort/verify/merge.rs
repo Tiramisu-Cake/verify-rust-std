@@ -181,10 +181,7 @@ fn sort4_arbitrary_comparator_body<T: kani::Arbitrary + Copy>() {
     // SAFETY: two disjoint exact four-element allocations, initialized source;
     // sort4_stable's SAFETY precondition does not require an ordered comparator.
     unsafe { sort4_stable(v.as_ptr(), dst.as_mut_ptr() as *mut T, &mut cmp) };
-    assert!(
-        probe_count::<T>(v.as_ptr(), 4)
-            == probe_count::<T>(dst.as_ptr() as *const T, 4)
-    );
+    assert!(probe_count::<T>(v.as_ptr(), 4) == probe_count::<T>(dst.as_ptr() as *const T, 4));
     kani::cover(true, "sort returns and preserves values with an arbitrary comparator");
 }
 
@@ -351,8 +348,7 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
         assert!(!cmp(&out[i], &out[i - 1]), "output is sorted");
     }
     assert!(
-        probe_count_unrolled::<T>(orig.as_ptr(), N)
-            == probe_count_unrolled::<T>(out.as_ptr(), N),
+        probe_count_unrolled::<T>(orig.as_ptr(), N) == probe_count_unrolled::<T>(out.as_ptr(), N),
         "input value counts are preserved"
     );
 }
@@ -438,19 +434,27 @@ macro_rules! define_direct_u64_route_harness {
 }
 
 define_direct_u64_route_harness!(
-    general_stable_direct_u64_n2, general_route_const_u64_properties, 2
+    general_stable_direct_u64_n2,
+    general_route_const_u64_properties,
+    2
 );
 
 define_direct_u64_route_harness!(
-    general_stable_direct_u64_n3, general_route_const_u64_properties, 3
+    general_stable_direct_u64_n3,
+    general_route_const_u64_properties,
+    3
 );
 
 define_direct_u64_route_harness!(
-    general_stable_direct_u64_n4, general_route_const_u64_properties, 4
+    general_stable_direct_u64_n4,
+    general_route_const_u64_properties,
+    4
 );
 
 define_direct_u64_route_harness!(
-    general_stable_direct_u64_n5, general_route_const_u64_properties, 5
+    general_stable_direct_u64_n5,
+    general_route_const_u64_properties,
+    5
 );
 
 define_general_sortedness_harness!(general_stable_direct_u8_n2, u8, lt_u8, 2);
