@@ -1,10 +1,10 @@
 //! Merge, insertion-tail and stable-primitive checked-profile proofs and bounded callers.
 //! Probe multiplicity represents full values only for types without padding; Drop uses tag counts.
-//! Profile proofs (`specfix`) use typed full-value model counts; real-body callers use the probe.
+//! Profile proofs (`profiles`) use typed full-value model counts; real-body callers use the probe.
 
-pub(super) mod specfix;
+pub(super) mod profiles;
 
-use specfix::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};
+use profiles::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};
 
 use super::super::{
     SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
@@ -187,7 +187,7 @@ fn sort4_arbitrary_comparator_body<T: kani::Arbitrary + Copy>() {
 
 macro_rules! define_sort4_contract_and_comparator_harnesses {
     ($contract:ident, $arbitrary:ident, $t:ty, $tag:ty) => {
-        #[kani::proof_for_contract(specfix::sort4_profile)]
+        #[kani::proof_for_contract(profiles::sort4_profile)]
         #[kani::unwind(34)]
         fn $contract() {
             sort4_length_body::<$tag>();
@@ -303,7 +303,7 @@ define_route_safety_harness!(route_safety_all_routes_n16, all_upper_routes_safet
 // Upper-bit key orders allow distinct full values to share a key.
 macro_rules! define_small_merge_contract_harness {
     ($name:ident, $tag:ty) => {
-        #[kani::proof_for_contract(specfix::merge_profile)]
+        #[kani::proof_for_contract(profiles::merge_profile)]
         #[kani::unwind(34)]
         fn $name() {
             let len: u8 = kani::any_where(|n: &u8| *n >= 2 && *n <= 4);
@@ -331,7 +331,7 @@ define_small_merge_contract_harness!(merge_contract_u8_n2_to4, LtU8);
 
 macro_rules! define_merge_contract_harness {
     ($name:ident, $tag:ty, $n:literal) => {
-        #[kani::proof_for_contract(specfix::merge_profile)]
+        #[kani::proof_for_contract(profiles::merge_profile)]
         #[kani::unwind(34)]
         fn $name() {
             merge_length_body::<$tag, $n>();
@@ -528,7 +528,7 @@ where
     kani::cover(stable, "stable scratch48 merge contract checked");
 }
 
-#[kani::proof_for_contract(specfix::merge_profile)]
+#[kani::proof_for_contract(profiles::merge_profile)]
 #[kani::unwind(34)]
 fn merge_scratch48_contract_u8_n9() {
     merge_scratch48_length_body::<LtU8, 9>();

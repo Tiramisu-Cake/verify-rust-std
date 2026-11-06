@@ -49,7 +49,7 @@ fn noncopy_less(a: &NonCopyU8, b: &NonCopyU8) -> bool {
     (a.0 >> 1) < (b.0 >> 1)
 }
 
-// Same direct address comparison as the `merge::specfix` profile guard.
+// Same direct address comparison as the `merge::profiles` profile guard.
 fn canonical<T>(cmp: fn(&T, &T) -> bool, expected: fn(&T, &T) -> bool) -> bool {
     cmp as *const () == expected as *const ()
 }
@@ -57,7 +57,7 @@ fn canonical<T>(cmp: fn(&T, &T) -> bool, expected: fn(&T, &T) -> bool) -> bool {
 // Keep the literal in a single location for the negative control's exact expect_check.
 // Return false after a rejected guard, so even that path cannot forward an unlawful callback.
 fn canonical_guard(ok: bool) -> bool {
-    kani::assert(ok, "wrap canonical comparator required");
+    kani::assert(ok, "canonical comparator required");
     ok
 }
 
@@ -158,12 +158,12 @@ unsafe fn freeze_noncopy(v: *mut NonCopyU8, cmp: fn(&NonCopyU8, &NonCopyU8) -> b
 }
 
 fn input_covers(a: u8, b: u8, probe: u8) {
-    kani::cover((a >> 1) > (b >> 1), "wrap reversed keys return");
-    kani::cover((a >> 1) < (b >> 1), "wrap increasing keys return");
-    kani::cover(a != b && (a >> 1) == (b >> 1), "wrap tied keys retain distinct full values");
-    kani::cover(a == b, "wrap duplicate full values return");
-    kani::cover(probe == a || probe == b, "wrap independent probe hits input");
-    kani::cover(probe != a && probe != b, "wrap independent probe misses input");
+    kani::cover((a >> 1) > (b >> 1), "reversed keys return");
+    kani::cover((a >> 1) < (b >> 1), "increasing keys return");
+    kani::cover(a != b && (a >> 1) == (b >> 1), "tied keys retain distinct full values");
+    kani::cover(a == b, "duplicate full values return");
+    kani::cover(probe == a || probe == b, "independent probe hits input");
+    kani::cover(probe != a && probe != b, "independent probe misses input");
 }
 
 #[kani::proof_for_contract(stable_cell)]
@@ -178,14 +178,14 @@ fn stable_cell_n2() {
     let scratch_before = unsafe { scratch[0].assume_init_ref() }.get();
     // SAFETY: active pair in initialized backing4; separate valid scratch; canonical pointer.
     unsafe { stable_cell(v[1..3].as_mut_ptr(), &mut scratch[..scratch_len], cell_less, probe) };
-    kani::assert(v[0].get() == left && v[3].get() == right, "wrap stable input frame");
+    kani::assert(v[0].get() == left && v[3].get() == right, "stable input frame");
     // SAFETY: the default Cell route does not write scratch; only the input may be modified.
     let scratch_after = unsafe { scratch[0].assume_init_ref() }.get();
-    kani::assert(scratch_before == scratch_after, "wrap stable scratch frame");
-    kani::cover(scratch_len == 0, "wrap stable empty scratch returns");
-    kani::cover(scratch_len == 2, "wrap stable unread uninit scratch tail returns");
+    kani::assert(scratch_before == scratch_after, "stable scratch frame");
+    kani::cover(scratch_len == 0, "stable empty scratch returns");
+    kani::cover(scratch_len == 2, "stable unread uninit scratch tail returns");
     input_covers(a, b, probe);
-    kani::cover(true, "wrap stable Cell trait entry returns");
+    kani::cover(true, "stable Cell trait entry returns");
 }
 
 #[kani::proof_for_contract(unstable_byte)]
@@ -196,9 +196,9 @@ fn unstable_byte_n2() {
     let mut v = [left, a, b, right];
     // SAFETY: active pair in initialized backing4; canonical pointer.
     unsafe { unstable_byte(v[1..3].as_mut_ptr(), byte_less, probe) };
-    kani::assert(v[0] == left && v[3] == right, "wrap unstable input frame");
+    kani::assert(v[0] == left && v[3] == right, "unstable input frame");
     input_covers(a, b, probe);
-    kani::cover(true, "wrap unstable u8 trait entry returns");
+    kani::cover(true, "unstable u8 trait entry returns");
 }
 
 #[kani::proof_for_contract(freeze_noncopy)]
@@ -209,9 +209,9 @@ fn freeze_noncopy_n2() {
     let mut v = [NonCopyU8(left), NonCopyU8(a), NonCopyU8(b), NonCopyU8(right)];
     // SAFETY: active pair in initialized backing4; canonical pointer.
     unsafe { freeze_noncopy(v[1..3].as_mut_ptr(), noncopy_less, probe) };
-    kani::assert(v[0].0 == left && v[3].0 == right, "wrap Freeze input frame");
+    kani::assert(v[0].0 == left && v[3].0 == right, "Freeze input frame");
     input_covers(a, b, probe);
-    kani::cover(true, "wrap Freeze NonCopyU8 trait entry returns");
+    kani::cover(true, "Freeze NonCopyU8 trait entry returns");
 }
 
 #[cfg(kani_smallsort_controls)]
@@ -231,19 +231,19 @@ fn rejects_always_true() {
     match case {
         0 => {
             let mut v = [Cell::new(a), Cell::new(b)];
-            kani::cover(true, "wrap invalid stable comparator reaches guard");
+            kani::cover(true, "invalid stable comparator reaches guard");
             // SAFETY: valid pair and scratch; only canonical identity is deliberately rejected.
             unsafe { stable_cell(v.as_mut_ptr(), &mut [], always_true::<Cell<u8>>, probe) };
         }
         1 => {
             let mut v = [a, b];
-            kani::cover(true, "wrap invalid unstable comparator reaches guard");
+            kani::cover(true, "invalid unstable comparator reaches guard");
             // SAFETY: valid pair; only canonical identity is deliberately rejected.
             unsafe { unstable_byte(v.as_mut_ptr(), always_true::<u8>, probe) };
         }
         _ => {
             let mut v = [NonCopyU8(a), NonCopyU8(b)];
-            kani::cover(true, "wrap invalid Freeze comparator reaches guard");
+            kani::cover(true, "invalid Freeze comparator reaches guard");
             // SAFETY: valid pair; only canonical identity is deliberately rejected.
             unsafe { freeze_noncopy(v.as_mut_ptr(), always_true::<NonCopyU8>, probe) };
         }
@@ -262,10 +262,10 @@ fn rejects_payload_corruption() {
     let before = count(&v, probe);
     let mut cmp: fn(&u8, &u8) -> bool = byte_less;
     <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
-    kani::assert(sorted(&v), "wrap control real body sorts keys");
-    kani::assert(before == count(&v, probe), "wrap control real body keeps full values");
-    kani::cover(true, "wrap payload corruption reached after real trait return");
+    kani::assert(sorted(&v), "control real body sorts keys");
+    kani::assert(before == count(&v, probe), "control real body keeps full values");
+    kani::cover(true, "payload corruption reached after real trait return");
     v[0] ^= 1;
-    kani::assert(sorted(&v), "wrap corrupted payload keeps key order");
-    kani::assert(before == count(&v, probe), "wrap full-value checker rejects payload corruption");
+    kani::assert(sorted(&v), "corrupted payload keeps key order");
+    kani::assert(before == count(&v, probe), "full-value checker rejects payload corruption");
 }

@@ -31,7 +31,7 @@ fn arbitrary_u8_order(a: &u8, b: &u8) -> bool {
 
 #[cfg(kani_smallsort_controls)]
 fn abort_on_order_violation() -> ! {
-    kani::cover(true, "permtags: order violation panic is reachable");
+    kani::cover(true, "order violation panic is reachable");
     kani::assume(false);
     unreachable!()
 }
@@ -46,13 +46,13 @@ fn check_tags<const N: usize>(tags: &[u64; N]) {
     assert!(N > 0 && N <= 32);
     let mut seen = 0u64;
     for &tag in tags {
-        kani::assert(tag < N as u64, "permtags: output tag is in range");
+        kani::assert(tag < N as u64, "output tag is in range");
         // Keep the shift defined even on a counterexample with an out-of-range tag.
         if tag < N as u64 {
             seen |= 1u64 << tag;
         }
     }
-    kani::assert(seen == (1u64 << N) - 1, "permtags: every input tag occurs exactly once");
+    kani::assert(seen == (1u64 << N) - 1, "every input tag occurs exactly once");
 }
 
 fn network_output<const N: usize>() -> [u8; N] {
@@ -64,7 +64,7 @@ fn network_output<const N: usize>() -> [u8; N] {
 fn network_body<const N: usize>() {
     let v = network_output::<N>();
     check_tags(&crate::array::from_fn::<_, N, _>(|i| v[i] as u64));
-    kani::cover(true, "permtags: network returns with every tag");
+    kani::cover(true, "network returns with every tag");
 }
 
 #[kani::proof]
@@ -97,7 +97,7 @@ fn tag_types_preserve_source_routes() {
             == SMALL_SORT_FALLBACK_THRESHOLD
     );
     assert!(SMALL_SORT_FALLBACK_THRESHOLD == 16);
-    kani::cover(true, "permtags: tag and source types select the required routes");
+    kani::cover(true, "tag and source types select the required routes");
 }
 
 #[kani::proof]
@@ -129,7 +129,7 @@ fn network_u8_n13() {
 #[kani::unwind(34)]
 fn reject_duplicate_network_u8_n9() {
     let mut v = network_output::<9>();
-    kani::cover(true, "permtags: duplicate mutant reaches the corruption");
+    kani::cover(true, "duplicate mutant reaches the corruption");
     // SAFETY: both pointers name distinct initialized elements of the same live array.
     // Deliberately lose one identity after the same real sorting call used by the positive root.
     unsafe { ptr::copy(v.as_ptr(), v.as_mut_ptr().add(1), 1) };

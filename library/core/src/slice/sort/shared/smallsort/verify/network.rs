@@ -3,7 +3,7 @@
 //! contract modules listed in verify.rs.
 
 use super::super::UnstableSmallSortFreezeTypeImpl;
-use super::merge::specfix::{
+use super::merge::profiles::{
     LtI32, LtU8, LtU64, Profile, identity_profile, insert_tail_profile, swap_profile,
 };
 use crate::kani;
@@ -102,17 +102,17 @@ where
     kani::cover(true, "swap_if_less: end reached");
 }
 
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+#[kani::proof_for_contract(super::merge::profiles::swap_profile)]
 fn swap_contract_four_positions_u8() {
     exercise_swap_contract::<LtU8>();
 }
 
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+#[kani::proof_for_contract(super::merge::profiles::swap_profile)]
 fn swap_contract_four_positions_i32() {
     exercise_swap_contract::<LtI32>();
 }
 
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+#[kani::proof_for_contract(super::merge::profiles::swap_profile)]
 fn swap_contract_four_positions_u64() {
     exercise_swap_contract::<LtU64>();
 }
@@ -915,7 +915,7 @@ where
 // It does not express a bound on the two-element allocation.
 macro_rules! swap_contract_exact_array_case {
     ($name:ident, $tag:ty) => {
-        #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+        #[kani::proof_for_contract(super::merge::profiles::swap_profile)]
         #[kani::unwind(180)]
         fn $name() {
             swap_contract_fixed::<$tag>();
@@ -1015,7 +1015,7 @@ where
 
 macro_rules! swap_contract_arbitrary_indices_case {
     ($name:ident, $tag:ty, $n:literal) => {
-        #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
+        #[kani::proof_for_contract(super::merge::profiles::swap_profile)]
         #[kani::unwind(25)]
         fn $name() {
             swap_contract_indices::<$tag, $n>();
@@ -1059,7 +1059,7 @@ fn insert_tail_group_value<const LO: usize, const HI: usize>() -> usize {
 // The unwind budget accommodates the farthest tail and both frame-check loops.
 macro_rules! insert_tail_start1_group_case {
     ($name:ident, $lo:literal, $hi:literal, [$($end:literal),+]) => {
-        #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
+        #[kani::proof_for_contract(super::merge::profiles::insert_tail_profile)]
         #[kani::unwind(25)]
         fn $name() {
             let tail = insert_tail_group_value::<$lo, $hi>();
@@ -1089,7 +1089,7 @@ insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail13_to14, 13, 
 insert_tail_start1_group_case!(insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]);
 
 // The symbolic tail includes a full prefix; solver choice is specific to this model.
-#[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
+#[kani::proof_for_contract(super::merge::profiles::insert_tail_profile)]
 #[kani::solver(cadical)]
 #[kani::unwind(18)]
 fn contract_insert_tail_u8_prefix() {

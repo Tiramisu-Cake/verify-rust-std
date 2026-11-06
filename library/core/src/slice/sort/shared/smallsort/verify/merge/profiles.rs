@@ -124,7 +124,7 @@ identity_profile!(
 
 /// The canonical guard: only the profile's audited function value is accepted. This is the
 /// address comparison `ptr::fn_addr_eq` performs, written as a direct cast for the pinned model.
-pub(crate) fn specfix_canonical_comparator<P: Profile>(
+pub(crate) fn profile_canonical_comparator<P: Profile>(
     cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) -> bool {
     cmp as *const () == P::CMP as *const ()
@@ -209,7 +209,7 @@ pub(crate) fn swap_ordered<P: Profile>(v: *const P::Elem, a: usize, b: usize) ->
 }
 
 #[kani::requires(swap_geometry::<P::Elem>(v, a, b))]
-#[kani::requires(specfix_canonical_comparator::<P>(cmp))]
+#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::modifies(v.wrapping_add(a), v.wrapping_add(b))]
 #[kani::ensures(|_| swap_transfer::<P>(old(pair_models::<P>(v, a, b)), v, a, b))]
 #[kani::ensures(|_| swap_ordered::<P>(v, a, b))]
@@ -234,7 +234,7 @@ pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
 }
 
 #[kani::requires(sort4_regions::<P::Elem>(src, dst))]
-#[kani::requires(specfix_canonical_comparator::<P>(cmp))]
+#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4))]
 #[kani::ensures(|_| model_sorted::<P>(dst, 4))]
 #[kani::ensures(|_| model_count::<P>(src, 4) == model_count::<P>(dst, 4))]
@@ -270,7 +270,7 @@ pub(crate) fn tail_region<T>(begin: *mut T, tail: *mut T) -> bool {
         && can_write(ptr::slice_from_raw_parts_mut(begin, tail_len::<T>(begin, tail)))
 }
 
-#[kani::requires(specfix_canonical_comparator::<P>(cmp))]
+#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::requires(
     tail_region::<P::Elem>(begin, tail)
         && model_sorted::<P>(begin, tail_len::<P::Elem>(begin, tail) - 1)
@@ -308,7 +308,7 @@ pub(crate) fn merge_halves_sorted<P: Profile>(v: &[P::Elem]) -> bool {
         && model_sorted::<P>(v.as_ptr().wrapping_add(half), v.len() - half)
 }
 
-#[kani::requires(specfix_canonical_comparator::<P>(cmp))]
+#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::requires(merge_regions::<P::Elem>(v, dst) && merge_halves_sorted::<P>(v))]
 #[kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len()))]
 #[kani::ensures(|_| model_sorted::<P>(dst, v.len()))]
@@ -332,19 +332,19 @@ pub(crate) unsafe fn merge_profile<P: Profile>(
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(6)]
-fn specfix_full_value_checker_rejects_payload_change_u8() {
+fn profile_full_value_checker_rejects_payload_change_u8() {
     LtU8::set_probe(kani::any());
     let src: [u8; 4] = kani::any();
     let mut dst = [0u8; 4];
     let mut cmp = LtU8::CMP;
     // SAFETY: separate initialized four-element arrays.
     unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr(), &mut cmp) };
-    kani::cover(true, "specfix payload corruption reached");
+    kani::cover(true, "payload corruption reached");
     dst[1] ^= 1;
     let keys = model_sorted::<LtU8>(dst.as_ptr(), 4);
-    kani::assert(keys, "specfix corrupted payload keeps key order");
+    kani::assert(keys, "corrupted payload keeps key order");
     let same = model_count::<LtU8>(src.as_ptr(), 4) == model_count::<LtU8>(dst.as_ptr(), 4);
-    kani::assert(same, "specfix full-value checker detects payload corruption");
+    kani::assert(same, "full-value checker detects payload corruption");
 }
 
 // Wrong-F controls, one per profile family: a consumer of the verified profile summary passes an
@@ -364,9 +364,9 @@ fn always_true_u64(_: &u64, _: &u64) -> bool {
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(swap_profile)]
-fn specfix_wrong_f_swap_rejected_u8() {
+fn profile_wrong_f_swap_rejected_u8() {
     let mut v: [u8; 2] = kani::any();
-    kani::cover(true, "specfix wrong-F swap call reached");
+    kani::cover(true, "wrong-F swap call reached");
     // SAFETY: distinct in-bounds initialized positions; only the comparator guard is violated.
     unsafe { swap_profile::<LtU8>(v.as_mut_ptr(), 0, 1, always_true_u8) };
 }
@@ -374,10 +374,10 @@ fn specfix_wrong_f_swap_rejected_u8() {
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(sort4_profile)]
-fn specfix_wrong_f_sort4_rejected_u64() {
+fn profile_wrong_f_sort4_rejected_u64() {
     let src: [u64; 4] = kani::any();
     let mut dst = MaybeUninit::<[u64; 4]>::uninit();
-    kani::cover(true, "specfix wrong-F sort4 call reached");
+    kani::cover(true, "wrong-F sort4 call reached");
     // SAFETY: initialized source, separate destination of four; only the guard is violated.
     unsafe {
         sort4_profile::<Sort4ReadU64>(src.as_ptr(), dst.as_mut_ptr() as *mut u64, always_true_u64)
@@ -387,11 +387,11 @@ fn specfix_wrong_f_sort4_rejected_u64() {
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(insert_tail_profile)]
-fn specfix_wrong_f_insert_rejected_u8() {
+fn profile_wrong_f_insert_rejected_u8() {
     // Keys under `lt_u8` are [0, 2, 1]: the prefix [0, 2] is model-sorted.
     let mut v = [0u8, 4, 2];
     let base = v.as_mut_ptr();
-    kani::cover(true, "specfix wrong-F insert call reached");
+    kani::cover(true, "wrong-F insert call reached");
     // SAFETY: one initialized writable array, begin < tail; only the guard is violated.
     unsafe { insert_tail_profile::<LtU8>(base, base.add(2), always_true_u8) };
 }
@@ -399,11 +399,11 @@ fn specfix_wrong_f_insert_rejected_u8() {
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(merge_profile)]
-fn specfix_wrong_f_merge_rejected_u8() {
+fn profile_wrong_f_merge_rejected_u8() {
     // Keys under `lt_u8` are [0, 1 | 0, 1]: both halves are model-sorted.
     let v = [0u8, 2, 1, 3];
     let mut dst = MaybeUninit::<[u8; 4]>::uninit();
-    kani::cover(true, "specfix wrong-F merge call reached");
+    kani::cover(true, "wrong-F merge call reached");
     // SAFETY: initialized source, separate destination of four; only the guard is violated.
     unsafe { merge_profile::<LtU8>(&v, dst.as_mut_ptr() as *mut u8, always_true_u8) };
 }
