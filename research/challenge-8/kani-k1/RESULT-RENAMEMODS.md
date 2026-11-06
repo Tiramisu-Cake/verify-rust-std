@@ -11,11 +11,11 @@ smallsort.rs побайтно неизменён; tooling совпадает с 
 Старых имён модулей/specfix_* в verify и комментариях smallsort.rs нет (границы идентификаторов).
 Substring-исключения wrap: 17 строк — wrapping API, arbitrary_wrapped_u64_order и описательные wrapper(s), не кодовые имена модулей.
 Все места и причины: [remaining-name-mentions.json](renamemods/remaining-name-mentions.json); root/helper/API имена сохранены по границам задания.
-G1 inventory controls=false, standard4, harnesses=[]: NOT_RUN; требуется exact-packet GO координатора.
+G1 `942bc6d1-191d-4777-acc5-d0d724564fde` SUBMITTED: inventory controls=false, standard4, harnesses=[]; exact-packet GO `0504202814f16c4a962687c6933a4e43b171d45b`.
 Ожидаемый sorted ordinary SHA256 (233): `bd539369aead46f534868511eecef993b086cacd11e08b0b15f022103482a93b`.
 Ожидаемый sorted cfg-on SHA256 (246): `3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb`.
 Compiler inventory count/hash и новые warnings: PENDING; cfg-on compiler/runtime 13 контролей отложены в интеграционный пакет.
-Расход $0/$1.20, reserve0, builds0; planned G1 reserve $0.999 (74 мин × $0.0135), retries0.
+Расход $0/$1.20, reserve $0.999, builds1; G1 reserve $0.999 (74 мин × $0.0135), retries0.
 Project при подготовке: used $107.0520, reserve0, cap $118.96; перед dispatch обновить.
-Окно main240+closeout30 мин после GO; T0 не установлен. Нового proof credit нет.
+Окно main240+closeout30 мин; T0 `2026-11-06T15:54:11.361779+00:00`. Нового proof credit нет.
 Пакет: [PREBUILD](renamemods/PREBUILD-RENAMEMODS.md), [статика](renamemods/check-report.json), [ledger](renamemods/RUN-LEDGER.json).
