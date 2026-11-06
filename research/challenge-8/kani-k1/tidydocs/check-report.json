@@ -5,8 +5,12 @@
   "positive_g1_expected_covers": 10,
   "base_sha": "44b972435aeff6ea88cd01e64ccea3727a98294e",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "library_commit": "b82621b56b431db3e7209b2e71ba67662c6522ac",
-  "library_tree": "4a02aa9bb1dc7f01bf5ffa4b459cf46a51e062f4",
+  "library_commit": "6443b4d99da9ff7d9bf33dee92bb035dbe66e838",
+  "library_tree": "6062452294ae749722ab3734993d9ef1af830dde",
+  "line_length_limit": 100,
+  "verify_lines_over_limit": {},
+  "smallsort_new_lines_over_limit": [],
+  "smallsort_existing_lines_over_limit": 3,
   "non_comment_smallsort_bytes_equal": true,
   "smallsort_added_comment_lines": 9,
   "verify_code_equal_except_message_literals_and_exact_new_control": true,
@@ -364,11 +368,11 @@
   "comment_line_counts": {
     "library/core/src/slice/sort/shared/smallsort/verify.rs": {
       "before": 68,
-      "after": 55
+      "after": 60
     },
     "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": {
       "before": 33,
-      "after": 19
+      "after": 20
     },
     "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": {
       "before": 17,
@@ -400,7 +404,7 @@
     },
     "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": {
       "before": 50,
-      "after": 40
+      "after": 41
     },
     "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": {
       "before": 13,
@@ -420,7 +424,7 @@
     },
     "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": {
       "before": 39,
-      "after": 38
+      "after": 39
     },
     "library/core/src/slice/sort/shared/smallsort.rs": {
       "before": 237,
@@ -429,8 +433,8 @@
   },
   "source_sha256": {
     "library/core/src/slice/sort/shared/smallsort.rs": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84",
-    "library/core/src/slice/sort/shared/smallsort/verify.rs": "7e3b4eaa8ec2e09da174f0d1a547f80bac50ffc213282ecfacd1436ef5feab4e",
-    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "db18043785c2c536ef9831e142d5d8e80f40ea494bdea1b0298ea23b2fd07ae2",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "5ee30a5add37b474b00b083e31b09337f6abde65cbb18cb34f049d1bb43be711",
+    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
     "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7",
     "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
     "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "c315cf79a7ae4cdb6b1fa164d2c6e23e358595681260cdb82c520936b814dfdc",
@@ -438,12 +442,12 @@
     "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
     "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "c2647edb08b8ac11099dcc8b5dd16b1d97ba91200ba1c9d3436e84520f0678af",
     "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": "bfd6ce8487f490dbcbe20607dad22ac75055305edee99e6a1a4eb50eb469e55a",
-    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "4d4291f47de5aae9ff55c7d2d3e399844266057fbcd85e58680300fcc839427c",
+    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "c5f9ae113926316b303736b92ed6b840f792cf0c254b5455d7ba1062d3be9695",
     "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": "303add2c7ab807c1312f96a616213ea9f3c0a686654588d539ce66942fcce53a",
     "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
     "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs": "6f1a2540156a3c603639ee96245aca16ad9da3dbce401630c1b8866d343aa406",
     "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "c5b4b5007cda1764af15639fba0fd23bfab9e489d052b0ead6872a440bed1f4f",
-    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "e6bd7ef59ffcac27a9cc0340b7191d2611834f8223430e568e0c8d5ef4330846"
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "8ae1f3b94bc2b5f08a2b875f3926cbb40c1bf284f7afa6d7c0d5d1f50adf1cc7"
   },
   "ordinary_names_sha256": "a73e3c308728c7e7e560665547f79775ddffef2676d4ddee1cecd1b572bdd374",
   "scope": "Source equality and macro-expanded expected names, not compiler inventory or new proof credit."

@@ -9,8 +9,8 @@
   "base_sha": "a921407621046a877294faba9b4c6e63dea9691d",
   "v8c_sha": "44b972435aeff6ea88cd01e64ccea3727a98294e",
   "task_commit": "918bd51f0fea68466467cfe0ce5a6da8a7e1dd35",
-  "library_commit": "b82621b56b431db3e7209b2e71ba67662c6522ac",
-  "library_tree": "4a02aa9bb1dc7f01bf5ffa4b459cf46a51e062f4",
+  "library_commit": "6443b4d99da9ff7d9bf33dee92bb035dbe66e838",
+  "library_tree": "6062452294ae749722ab3734993d9ef1af830dde",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "request_id": "tidydocs-g1-20261106-01",
   "request_sha256": "b35b328679111b715eeb0195c3686ff384cef8ea3e92c647dacce6157cc7bbce",
@@ -48,5 +48,14 @@
   "watch_rule": "k1g.sh watch BUILD, then end turn; no status polling loop.",
   "evidence_rule": "Bounded K-1 summary/rows/peaks/log-grep and check-tooling only; no raw logs, archives, Cloud Logging, or credentials.",
   "validation_report": "check-report.json",
-  "prebuild_notes": "PREBUILD-TIDYDOCS.md"
+  "prebuild_notes": "PREBUILD-TIDYDOCS.md",
+  "revised_utc": "2026-11-06T13:27:44.093210+00:00",
+  "review_revision": {
+    "reviewed_packet_sha": "91d5d7543d02f3fa8536dc8a59f59e5f2b39c927",
+    "previous_library_commit": "b82621b56b431db3e7209b2e71ba67662c6522ac",
+    "changes": "Wrap the four overlong comments; list Conventions and Not covered; enforce <=100 columns throughout verify and on new smallsort.rs lines.",
+    "code_and_messages_unchanged": true,
+    "both_request_files_byte_identical": true,
+    "go_received": false
+  }
 }

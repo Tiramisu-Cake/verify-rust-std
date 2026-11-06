@@ -22,6 +22,7 @@ BASE = '44b972435a'
 TOOLING = '59893bff1fbb2af1a0c08862afd7e3bb87c19cdd'
 CONTROL = 'realcontracts::rejects_swap_comparator_writing_outside_frame_u8'
 CONTROL_FILE = s.VERIFY_DIR + 'realcontracts.rs'
+LINE_LIMIT = 100
 CONTROL_SOURCE = '''#[cfg(kani_smallsort_controls)]
 #[kani::proof_for_contract(swap_if_less)]
 fn rejects_swap_comparator_writing_outside_frame_u8() {
@@ -90,7 +91,14 @@ def count_covers(text):
     return len(re.findall(r'\bkani : : cover \(', normalized(text)[0]))
 
 
+def overlong_lines(text):
+    return [{'line': n, 'length': len(line)}
+            for n, line in enumerate(text.splitlines(), 1) if len(line) > LINE_LIMIT]
+
+
 def main():
+    assert not overlong_lines('x' * LINE_LIMIT)
+    assert overlong_lines('x' * (LINE_LIMIT + 1)) == [{'line': 1, 'length': 101}]
     # The message allowance must not hide literals in a predicate, attribute, or other call.
     assert normalized('kani::assert(x == "p", "a");')[0] == normalized('kani::assert(x == "p", "b");')[0]
     assert normalized('assert!(x, "a");')[0] == normalized('assert!(x, "b");')[0]
@@ -101,6 +109,9 @@ def main():
         assert normalized(a)[0] != normalized(b)[0]
     old, new = s.Source(BASE), s.Source(None)
     assert set(old.files) == set(new.files)
+    verify_overlong = {path: overlong_lines(text) for path, text in new.files.items()
+                       if overlong_lines(text)}
+    assert not verify_overlong, ('verify lines exceed 100 characters', verify_overlong)
     real = new.files[CONTROL_FILE]
     # The exact new item is last; remove its attributes and body using the source splitter.
     added = [it for it in s.split_items(s.tree(s.lex(real)))
@@ -146,6 +157,9 @@ def main():
         assert all(l.lstrip().startswith('//') for l in lines)
         changes.extend(lines)
     assert len(changes) == 9
+    smallsort_new_overlong = overlong_lines('\n'.join(changes))
+    assert not smallsort_new_overlong, ('new smallsort.rs lines exceed 100 characters',
+                                       smallsort_new_overlong)
     counts[s.SMALLSORT] = {'before': comment_lines(small_before), 'after': comment_lines(small_after)}
 
     before, after = old.roots(False), new.roots(False)
@@ -198,6 +212,10 @@ def main():
         'request_validation': 'PASS', 'positive_g1_expected_covers': 10, 'base_sha': git('rev-parse', BASE), 'tooling_base': TOOLING,
         'library_commit': git('log', '-1', '--format=%H', '--', 'library'),
         'library_tree': git('rev-parse', 'HEAD:library'),
+        'line_length_limit': LINE_LIMIT,
+        'verify_lines_over_limit': verify_overlong,
+        'smallsort_new_lines_over_limit': smallsort_new_overlong,
+        'smallsort_existing_lines_over_limit': len(overlong_lines(small_before)),
         'non_comment_smallsort_bytes_equal': True, 'smallsort_added_comment_lines': len(changes),
         'verify_code_equal_except_message_literals_and_exact_new_control': True,
         'ordinary_before': len(before), 'ordinary_after': len(after), 'ordinary_names_equal': True,
