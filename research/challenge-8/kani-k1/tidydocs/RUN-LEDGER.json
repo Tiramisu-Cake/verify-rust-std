@@ -1,11 +1,11 @@
 {
   "task": "TIDYDOCS",
   "stage": "tidydocs-g1",
-  "state": "PREPARED_AWAITING_EXACT_PACKET_GO",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "branch": "experiment/kani-k1-tidydocs-20261106",
   "owner": "k1-merge",
   "prepared_utc": "2026-11-06T13:24:03.313357+00:00",
-  "authorization": "TASK-TIDYDOCS authorizes packet preparation and non-force push. No dispatch before coordinator exact-packet PRE-BUILD review/GO.",
+  "authorization": "Coordinator exact-packet GO on 0c472366d38e807a70561cc378c28601f237c007: launch G1 from this packet, then k1g.sh watch BUILD and end turn. G2 still requires separate GO.",
   "base_sha": "a921407621046a877294faba9b4c6e63dea9691d",
   "v8c_sha": "44b972435aeff6ea88cd01e64ccea3727a98294e",
   "task_commit": "918bd51f0fea68466467cfe0ce5a6da8a7e1dd35",
@@ -23,15 +23,37 @@
   "project_cap_usd": "118.9600",
   "main_minutes": 240,
   "closeout_minutes": 30,
-  "window_start_utc": null,
+  "window_start_utc": "2026-11-06T13:29:50.683794+00:00",
   "window_policy": "Record the coordinator GO start/deadlines before dispatch; no active build or consumed stage window claimed by preparation.",
   "watchdog_harness_minutes": 5,
   "build_timeout_minutes": 50,
   "runner_cutoff_after_validate_minutes": 44,
   "maximum_reservation_usd": "0.6750",
-  "spent_usd": "0.0000",
+  "spent_usd": "0.1350",
   "reserved_usd": "0.0000",
-  "builds": [],
+  "builds": [
+    {
+      "id": "479cf06d-7189-4bba-bd72-285bbd1e329d",
+      "role": "primary",
+      "owner": "k1-merge",
+      "source_sha": "0c472366d38e807a70561cc378c28601f237c007",
+      "request_id": "tidydocs-g1-20261106-01",
+      "request_sha256": "b35b328679111b715eeb0195c3686ff384cef8ea3e92c647dacce6157cc7bbce",
+      "maximum_reservation_usd": "0.6750",
+      "recorded_utc": "2026-11-06T13:30:41.579544+00:00",
+      "status": "SUCCESS",
+      "watch": "k1g watch completed; queued SUCCESS delivery attempt 1 received",
+      "start_time": "2026-11-06T13:31:20.375040423Z",
+      "finish_time": "2026-11-06T13:40:26.917699Z",
+      "cost_usd": "0.1350",
+      "summary_status": "COMPLETE",
+      "kani_exit": 1,
+      "successful_rows": 3,
+      "expected_failed_rows": 1,
+      "positive_covers_satisfied": 10,
+      "positive_covers_total": 10
+    }
+  ],
   "retries": 0,
   "repairs": 0,
   "positive_expected_covers": 10,
@@ -56,6 +78,36 @@
     "changes": "Wrap the four overlong comments; list Conventions and Not covered; enforce <=100 columns throughout verify and on new smallsort.rs lines.",
     "code_and_messages_unchanged": true,
     "both_request_files_byte_identical": true,
-    "go_received": false
-  }
+    "go_received": true
+  },
+  "approved_packet_sha": "0c472366d38e807a70561cc378c28601f237c007",
+  "main_deadline_utc": "2026-11-06T17:29:50.683794+00:00",
+  "closeout_deadline_utc": "2026-11-06T17:59:50.683794+00:00",
+  "pre_dispatch_budget": {
+    "observed_utc": "2026-11-06T13:29:50.683794+00:00",
+    "builds": 246,
+    "used_usd": "106.1475",
+    "reserved_usd": "0.0000",
+    "maximum_new_reservation_usd": "0.6750",
+    "with_this_max_reservation_usd": "106.8225",
+    "project_cap_usd": "118.9600",
+    "owner_slot": "No unfinished builds in helper budget snapshot; coordinator GO for k1-merge."
+  },
+  "completed_utc": "2026-11-06T13:44:47.162329+00:00",
+  "acceptance": "PASS",
+  "evidence_consistency": "PASS",
+  "negative_control_calibration": "PASS",
+  "negative_control_failed_checks": [
+    {
+      "description": "Check that *var_9 is assignable",
+      "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs:360"
+    }
+  ],
+  "successful_rows": 3,
+  "expected_failed_rows": 1,
+  "positive_covers_satisfied": 10,
+  "positive_covers_total": 10,
+  "verification_report": "evidence/verification-report.json",
+  "final_result_file": "../RESULT-TIDYDOCS.md",
+  "closeout_reason": "Single authorized G1 completed with exact intended write-set failure, three positive successes and all ten covers. No G2 needed; no retries or repairs."
 }

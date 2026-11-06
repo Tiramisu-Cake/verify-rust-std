@@ -1,0 +1,38 @@
+interval_ms=2000
+samples=68
+elapsed_s=133
+total_rss_peak_kb=1902408
+total_peak_s=50
+cmd=bash peak_kb=3940 first_s=0 last_s=133 peak_s=0
+cmd=cargo peak_kb=33232 first_s=2 last_s=64 peak_s=56
+cmd=cbmc peak_kb=868064 first_s=68 last_s=132 peak_s=102
+cmd=goto-cc peak_kb=20556 first_s=66 last_s=66 peak_s=66
+cmd=goto-instrument peak_kb=39632 first_s=70 last_s=126 peak_s=72
+cmd=kani-compiler peak_kb=1706152 first_s=2 last_s=64 peak_s=50
+cmd=kani-driver peak_kb=113412 first_s=2 last_s=132 peak_s=126
+cmd=python3 peak_kb=20556 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3696 first_s=2 last_s=132 peak_s=2
+cmd=tee peak_kb=1076 first_s=0 last_s=133 peak_s=0
+cmd=time peak_kb=1204 first_s=2 last_s=132 peak_s=2
+cmd=timeout peak_kb=1072 first_s=2 last_s=132 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=868064 peak_s=102
+role=driver simultaneous_rss_peak_kb=80060 peak_s=126
+cbmc_pid=8714 peak_kb=868064 first_s=74 last_s=104 peak_s=102 active=T0:realcontracts::sort4_safety_u64 hint=slice::sort::shared::smallsort::verify::realcontracts::sort4
+cbmc_pid=8783 peak_kb=289628 first_s=128 last_s=132 peak_s=132 active=T0:realcontracts::unstable_network_safety_u8_n9_stubbed hint=slice::sort::shared::smallsort::verify::realcontracts::unsta
+cbmc_pid=8754 peak_kb=268348 first_s=108 last_s=124 peak_s=124 active=T0:realcontracts::swap_safety_u8_backing9 hint=slice::sort::shared::smallsort::verify::realcontracts::swap_
+cbmc_pid=8676 peak_kb=22232 first_s=68 last_s=68 peak_s=68 active= hint=slice::sort::shared::smallsort::verify::realcontracts::rejec
+driver_s=0 rss_kb=0
+harness_s=68 name=T0:realcontracts::rejects_swap_comparator_writing_outside_frame_u8
+driver_s=30 rss_kb=6092
+harness_s=74 name=T0:realcontracts::sort4_safety_u64
+driver_s=60 rss_kb=6348
+harness_s=108 name=T0:realcontracts::swap_safety_u8_backing9
+driver_s=90 rss_kb=10700
+harness_s=128 name=T0:realcontracts::unstable_network_safety_u8_n9_stubbed
+driver_s=120 rss_kb=57252
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=374
+verify_budget_s=2266
+RUSTFLAGS=--cfg kani_smallsort_controls
