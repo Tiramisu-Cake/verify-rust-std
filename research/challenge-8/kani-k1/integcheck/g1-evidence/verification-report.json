@@ -1,0 +1,419 @@
+{
+  "evidence_consistency": "PASS",
+  "task_acceptance": "PASS",
+  "build_id": "15e40390-276a-446c-852c-a4a4e979ca38",
+  "source_sha": "d1515761df4b630bd9f51812f9f0e6f8b75ab92d",
+  "library_sha": "85ced7f8a8bcdf6b4ffe2e29a65d1d940ff10737",
+  "library_tree": "def2d65ddc5e73ed6ccb94df0afbb36e475d80d8",
+  "library_tree_equals_renamemods": true,
+  "request_id": "integcheck-g1-20261106-01",
+  "request_sha256": "3c5bc03f8e54ab920f2a1f76908663a9b0a9cb0cff35b49da4760b9dbcb0d542",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 1,
+  "controls": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2",
+      "status": "FAILED",
+      "seconds": "0.32274762",
+      "checks_failed": 1,
+      "checks_total": 80,
+      "failed_checks": [
+        {
+          "description": "assertion failed: v[0] <= v[1]",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs",
+          "line": 25
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8",
+      "status": "FAILED",
+      "seconds": "3.2644954",
+      "checks_failed": 1,
+      "checks_total": 378,
+      "failed_checks": [
+        {
+          "description": "full-value checker detects payload corruption",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 347
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.9037732",
+      "checks_failed": 1,
+      "checks_total": 605,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 273
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.7271138",
+      "checks_failed": 1,
+      "checks_total": 594,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 311
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64",
+      "status": "FAILED",
+      "seconds": "0.33364993",
+      "checks_failed": 1,
+      "checks_total": 552,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 237
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.17620292",
+      "checks_failed": 1,
+      "checks_total": 247,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 212
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9",
+      "status": "FAILED",
+      "seconds": "12.712492",
+      "checks_failed": 1,
+      "checks_total": 559,
+      "failed_checks": [
+        {
+          "description": "every input tag occurs exactly once",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+          "line": 55
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+      "status": "FAILED",
+      "seconds": "0.1987489",
+      "checks_failed": 1,
+      "checks_total": 205,
+      "failed_checks": [
+        {
+          "description": "begin < tail && insert_tail_contract_len(begin, tail) > 1 &&",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 588,
+          "full_description": "begin < tail && insert_tail_contract_len(begin, tail) > 1 &&crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,insert_tail_contract_len(begin, tail),)) &&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin, tail),))"
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": false,
+      "source_coordinate_binding": {
+        "expected_expression_line": 589,
+        "reported_attribute_start_line": 588,
+        "attribute_end_line": 599,
+        "full_requires_expression_token_text_matches": true,
+        "explanation": "Kani reports the opening safety::requires attribute; the packet points to its first expression line. Both are the same designated obligation; full multiline requires text matches unchanged source modulo whitespace. Literal coordinate mismatch is retained and no expectation file is changed."
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64",
+      "status": "FAILED",
+      "seconds": "0.5202985",
+      "checks_failed": 1,
+      "checks_total": 235,
+      "failed_checks": [
+        {
+          "description": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 859
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "status": "FAILED",
+      "seconds": "1.8903475",
+      "checks_failed": 1,
+      "checks_total": 205,
+      "failed_checks": [
+        {
+          "description": "Check that *var_9 is assignable",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 250
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+      "status": "FAILED",
+      "seconds": "0.18649432",
+      "checks_failed": 1,
+      "checks_total": 137,
+      "failed_checks": [
+        {
+          "description": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 409,
+          "full_description": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&crate::ub_checks::can_write(v_base.wrapping_add(b_pos))"
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": false,
+      "source_coordinate_binding": {
+        "expected_expression_line": 410,
+        "reported_attribute_start_line": 409,
+        "attribute_end_line": 412,
+        "full_requires_expression_token_text_matches": true,
+        "explanation": "Kani reports the opening safety::requires attribute; the packet points to its first expression line. Both are the same designated obligation; full multiline requires text matches unchanged source modulo whitespace. Literal coordinate mismatch is retained and no expectation file is changed."
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true",
+      "status": "FAILED",
+      "seconds": "0.5441407",
+      "checks_failed": 1,
+      "checks_total": 588,
+      "failed_checks": [
+        {
+          "description": "canonical comparator required",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+          "line": 60
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption",
+      "status": "FAILED",
+      "seconds": "0.8123075",
+      "checks_failed": 1,
+      "checks_total": 345,
+      "failed_checks": [
+        {
+          "description": "full-value checker rejects payload corruption",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+          "line": 270
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    }
+  ],
+  "controls_calibrated": 13,
+  "controls_failed_check_count": 13,
+  "all_failed_checks_designated": true,
+  "literal_packet_line_matches": 11,
+  "requires_attribute_coordinate_bindings": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+      "expected_expression_line": 589,
+      "reported_attribute_start_line": 588,
+      "attribute_end_line": 599,
+      "full_requires_expression_token_text_matches": true,
+      "explanation": "Kani reports the opening safety::requires attribute; the packet points to its first expression line. Both are the same designated obligation; full multiline requires text matches unchanged source modulo whitespace. Literal coordinate mismatch is retained and no expectation file is changed."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+      "expected_expression_line": 410,
+      "reported_attribute_start_line": 409,
+      "attribute_end_line": 412,
+      "full_requires_expression_token_text_matches": true,
+      "explanation": "Kani reports the opening safety::requires attribute; the packet points to its first expression line. Both are the same designated obligation; full multiline requires text matches unchanged source modulo whitespace. Literal coordinate mismatch is retained and no expectation file is changed."
+    }
+  ],
+  "expectation_files_modified": false,
+  "coordinate_binding_limit": "Literal packet file/line comparison differs for two requires (588/589 and 409/410). Both observed lines open the exact requires attribute containing the designated expression. Full multiline failed-check text matches that source condition modulo whitespace. Original packet coordinates and the mismatch are preserved; no other failed obligation is accepted.",
+  "pairs": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+      "pair": 1,
+      "role": "leaf",
+      "status": "SUCCESS",
+      "seconds": "17.797321",
+      "checks_failed": 0,
+      "checks_total": 219,
+      "covers_satisfied": 6,
+      "covers_total": 6,
+      "prior_seconds": "17.355093"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
+      "pair": 1,
+      "role": "consumer",
+      "status": "SUCCESS",
+      "seconds": "7.1729608",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "prior_seconds": "11.660206"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+      "pair": 2,
+      "role": "leaf",
+      "status": "SUCCESS",
+      "seconds": "17.776968",
+      "checks_failed": 0,
+      "checks_total": 219,
+      "covers_satisfied": 6,
+      "covers_total": 6,
+      "prior_seconds": "17.583559"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
+      "pair": 2,
+      "role": "consumer",
+      "status": "SUCCESS",
+      "seconds": "13.853836",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "prior_seconds": "13.978799"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u8_backing32",
+      "pair": 3,
+      "role": "leaf",
+      "status": "SUCCESS",
+      "seconds": "33.460003",
+      "checks_failed": 0,
+      "checks_total": 234,
+      "covers_satisfied": 9,
+      "covers_total": 9,
+      "prior_seconds": "31.575"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
+      "pair": 3,
+      "role": "consumer",
+      "status": "SUCCESS",
+      "seconds": "122.2593",
+      "checks_failed": 0,
+      "checks_total": 387,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "prior_seconds": "104.319084"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
+      "pair": 4,
+      "role": "leaf",
+      "status": "SUCCESS",
+      "seconds": "94.190506",
+      "checks_failed": 0,
+      "checks_total": 228,
+      "covers_satisfied": 5,
+      "covers_total": 5,
+      "prior_seconds": "86.45552"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "pair": 4,
+      "role": "consumer",
+      "status": "SUCCESS",
+      "seconds": "7.248298",
+      "checks_failed": 0,
+      "checks_total": 269,
+      "covers_satisfied": 4,
+      "covers_total": 4,
+      "prior_seconds": "8.113433"
+    }
+  ],
+  "successful_pair_rows": 8,
+  "pair_seconds_sum": "313.7591928",
+  "pair_covers_satisfied": 37,
+  "pair_covers_total": 37,
+  "pair_unreachable_covers": 0,
+  "warnings": "Targeted smallsort/verify and smallsort.rs diagnostic-location scan: no match; no new relevant warning seen. No all-crates warning claim.",
+  "tooling": "PASS: source/pool/lane equality and all six bound file hashes against mandated base",
+  "cost_usd": "0.2025",
+  "reserved_usd": "0.0000",
+  "verify_wall_including_compilation": "7:20.54",
+  "verify_start_after_validate_s": 360,
+  "verify_budget_s": 6120,
+  "root_timeout_seconds": 240,
+  "n32_consumer_seconds": "122.2593",
+  "limits": "Bounded evidence on the final library; not a full rerun of all 233 ordinary rows. Uninit/value-validity flags off, no universal T/F or panic-unwinding claim. Cfg-on compiler inventory pending G2.",
+  "bounded_outputs_sha256": {
+    "budget.txt": "5d3cf61402bb57e8a879942bd7330be76128f9daae0af2a83729745354297253",
+    "control-context.txt": "07232e47080b614d567007191c20c6c2c1cb97466461c611e1b79f0d9e88c474",
+    "failed-requires-continuations.txt": "b4b4d79145a6febc7d30aca81a9951b78e040d941c3379e411bcea12a4826bde",
+    "peaks.txt": "e6c2ee41e2120e6aa2af41055d53535bbcbd1094b321cb5ec759d93b4c7525ff",
+    "rows.txt": "a8908b744a4ba60e7f80f5cdbecb5966f34b7677f09c8e9aa534722f378fd6aa",
+    "status.json": "5f804dce9b32041d9e9a9ffc05b5fb5148102c82ef2c1d3aca444235a1e5487e",
+    "summary.md": "35b9551f678310a2ef3f28709f5f57161043af24d9a3e4b30ab4ceddbec99e03",
+    "tooling.txt": "618e6e96790ebdd43a9d7e500a224e52df077f64b12710d614eb32570d4d58d8",
+    "verify-warning-paths.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8"
+  },
+  "evidence_storage_validation": {
+    "native_rows_preserved": true,
+    "git_diff_check": "One expected trailing-tab diagnostic in rows.txt:19: the native TSV empty final covers field of the write-set control. Exact bounded tool output is retained. All other files pass diff --check. No source whitespace change.",
+    "exact_diagnostic": "research/challenge-8/kani-k1/integcheck/g1-evidence/rows.txt:19: trailing whitespace.\n+slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8\tFAILED\t1.8903475\t1/205"
+  }
+}

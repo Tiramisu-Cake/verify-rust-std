@@ -1,0 +1,67 @@
+interval_ms=2000
+samples=221
+elapsed_s=440
+total_rss_peak_kb=2725692
+total_peak_s=375
+cmd=bash peak_kb=3936 first_s=0 last_s=440 peak_s=0
+cmd=cargo peak_kb=34452 first_s=2 last_s=66 peak_s=4
+cmd=cbmc peak_kb=1554948 first_s=78 last_s=439 peak_s=323
+cmd=goto-cc peak_kb=43248 first_s=68 last_s=413 peak_s=68
+cmd=goto-instrument peak_kb=64704 first_s=74 last_s=427 peak_s=417
+cmd=kani-compiler peak_kb=1847372 first_s=2 last_s=66 peak_s=52
+cmd=kani-driver peak_kb=2163812 first_s=2 last_s=439 peak_s=377
+cmd=python3 peak_kb=20516 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3656 first_s=2 last_s=439 peak_s=2
+cmd=tee peak_kb=1116 first_s=0 last_s=440 peak_s=0
+cmd=time peak_kb=1248 first_s=2 last_s=439 peak_s=2
+cmd=timeout peak_kb=1096 first_s=2 last_s=439 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=1486920 peak_s=323
+role=driver simultaneous_rss_peak_kb=2163812 peak_s=377
+cbmc_pid=9201 peak_kb=1554948 first_s=256 last_s=375 peak_s=323 active=T0:helper_contracts_wide::unstable_network_safety_u8_n32_stubbed hint=slice::sort::shared::smallsort::verify::helper_contracts_wid
+cbmc_pid=9172 peak_kb=1356280 first_s=160 last_s=252 peak_s=248 active=T0:helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0 hint=slice::sort::shared::smallsort::verify::helper_contracts_wid
+cbmc_pid=9049 peak_kb=440640 first_s=126 last_s=138 peak_s=138 active=T0:helper_contracts::unstable_network_safety_u8_n13_stubbed hint=slice::sort::shared::smallsort::verify::helper_contracts::un
+cbmc_pid=9241 peak_kb=310480 first_s=381 last_s=411 peak_s=407 active=T0:helper_contracts_wide::swap_safety_u8_backing32 hint=slice::sort::shared::smallsort::verify::helper_contracts_wid
+cbmc_pid=9407 peak_kb=289932 first_s=431 last_s=439 peak_s=435 active=T0:tag_permutation::reject_duplicate_network_u8_n9 hint=slice::sort::shared::smallsort::verify::tag_permutation::rej
+cbmc_pid=9078 peak_kb=280496 first_s=142 last_s=146 peak_s=146 active=T0:helper_contracts::unstable_network_safety_u8_n9_stubbed hint=slice::sort::shared::smallsort::verify::helper_contracts::un
+driver_s=0 rss_kb=0
+harness_s=74 name=T0:fixed_inputs::reject_mutant_swap_u8_n2
+driver_s=30 rss_kb=6072
+harness_s=76 name=T0:forwarding_contracts::rejects_payload_corruption
+driver_s=60 rss_kb=6072
+harness_s=78 name=T0:forwarding_contracts::rejects_always_true
+driver_s=90 rss_kb=25668
+harness_s=80 name=T0:helper_contracts::rejects_swap_comparator_writing_outside_frame_u8
+driver_s=120 rss_kb=85424
+harness_s=84 name=T0:helper_contracts::rejects_merge_overlapping_dst_u64
+driver_s=150 rss_kb=134984
+harness_s=86 name=T0:helper_contracts::rejects_insert_tail_equal_begin_u64
+driver_s=180 rss_kb=228756
+harness_s=88 name=T0:helper_contracts::swap_safety_u8_backing13
+driver_s=210 rss_kb=228756
+harness_s=108 name=T0:helper_contracts::swap_safety_u8_backing9
+driver_s=240 rss_kb=228756
+harness_s=126 name=T0:helper_contracts::unstable_network_safety_u8_n13_stubbed
+driver_s=270 rss_kb=235704
+harness_s=142 name=T0:helper_contracts::unstable_network_safety_u8_n9_stubbed
+driver_s=301 rss_kb=235792
+harness_s=150 name=T0:helper_contracts::rejects_swap_outside_backing_u8
+driver_s=331 rss_kb=235792
+harness_s=150 name=T0:helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stu
+driver_s=361 rss_kb=561432
+harness_s=160 name=T0:helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0
+driver_s=391 rss_kb=1440492
+harness_s=256 name=T0:helper_contracts_wide::unstable_network_safety_u8_n32_stubbed
+driver_s=421 rss_kb=1442596
+harness_s=381 name=T0:helper_contracts_wide::swap_safety_u8_backing32
+harness_s=415 name=T0:merge::profiles::profile_wrong_f_merge_rejected_u8
+harness_s=419 name=T0:merge::profiles::profile_wrong_f_insert_rejected_u8
+harness_s=421 name=T0:merge::profiles::profile_wrong_f_sort4_rejected_u64
+harness_s=423 name=T0:merge::profiles::profile_wrong_f_swap_rejected_u8
+harness_s=423 name=T0:merge::profiles::profile_full_value_checker_rejects_payload_change_u8
+harness_s=429 name=T0:tag_permutation::reject_duplicate_network_u8_n9
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=360
+verify_budget_s=6120
+RUSTFLAGS=--cfg kani_smallsort_controls

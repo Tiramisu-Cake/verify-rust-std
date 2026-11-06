@@ -1,0 +1,30 @@
+request_id=integcheck-g1-20261106-01
+request_sha256=3c5bc03f8e54ab920f2a1f76908663a9b0a9cb0cff35b49da4760b9dbcb0d542
+build_id=15e40390-276a-446c-852c-a4a4e979ca38
+head_sha=d1515761df4b630bd9f51812f9f0e6f8b75ab92d
+total=21
+offset=0
+count=21
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2	FAILED	0.32274762	1/80	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8	FAILED	3.2644954	1/378	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8	FAILED	0.9037732	1/605	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8	FAILED	0.7271138	1/594	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64	FAILED	0.33364993	1/552	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8	FAILED	0.17620292	1/247	1/1
+slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9	FAILED	12.712492	1/559	1/2
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64	FAILED	0.1987489	1/205	1/3
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64	FAILED	0.5202985	1/235	1/3
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8	FAILED	1.8903475	1/205	
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8	FAILED	0.18649432	1/137	1/3
+slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true	FAILED	0.5441407	1/588	3/3
+slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption	FAILED	0.8123075	1/345	1/1
+slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9	SUCCESS	17.797321	0/219	6/6
+slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed	SUCCESS	7.1729608	0/387	1/1
+slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13	SUCCESS	17.776968	0/219	6/6
+slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed	SUCCESS	13.853836	0/387	1/1
+slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u8_backing32	SUCCESS	33.460003	0/234	9/9
+slice::sort::shared::smallsort::verify::helper_contracts_wide::unstable_network_safety_u8_n32_stubbed	SUCCESS	122.2593	0/387	5/5
+slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0	SUCCESS	94.190506	0/228	5/5
+slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed	SUCCESS	7.248298	0/269	4/4
