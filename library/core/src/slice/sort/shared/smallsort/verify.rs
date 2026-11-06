@@ -38,16 +38,21 @@
 //!
 //! `cfg(kani_smallsort_controls)` enables negative controls and broader or slower variants;
 //! ordinary CI leaves it unset. Run controls individually and require their named failure.
-//! Ordinary covers must all be reachable, although `run-kani.sh` does not enforce this itself.
-//! Manual panic stubs cut only the explicit order-violation abort path. Positive verified-stub
-//! consumers are the pairs above or closed-profile consumers. Region predicates establish geometry; fixtures
-//! supply initialized input and exclusive mutable storage. Claims are limited to the listed
-//! types, lengths, comparators, and routes, including the listed aliasing, ZST, and panic cases.
-//! The runner enables neither uninitialized-memory nor value-validity checks; this Kani profile
-//! has no immutable-byte permission check, and unwinding is not checked. Trait methods have no
-//! contracts: the pinned Kani rejects specialization defaults and method-generic comparators
-//! (model-checking/kani issues #5116 and #4908). Closed ordered profiles instead guard the exact
-//! comparator value and use a pure model without invoking the callback.
+//!
+//! Conventions:
+//! - Ordinary covers must be reachable; `run-kani.sh` does not enforce this itself.
+//! - Panic stubs cut only the explicit order-violation abort path.
+//! - Fixtures supply initialized input and exclusive mutable storage; region predicates
+//!   check pointer geometry.
+//! - Closed ordered profiles guard the exact comparator and use a pure model without
+//!   invoking the callback.
+//!
+//! Not covered:
+//! - Uninitialized-memory, value-validity, and immutable-byte permission checks, or unwinding.
+//! - Trait methods have no contracts: the pinned Kani rejects specialization defaults and
+//!   method-generic comparators (model-checking/kani issues #5116 and #4908).
+//! - Types, lengths, comparators, or routes beyond those listed, including aliasing, ZST,
+//!   and panic cases.
 //!
 //! `./scripts/run-kani.sh --run list` lists ordinary roots; `--run verify-std` checks them with
 //! the organizer flags, including `--no-assert-contracts`. To select an opt-in root, set

@@ -143,6 +143,7 @@ fn sort8_safety_u64_scratch48_src32_dst0_merge_stubbed() {
     for i in 0..32 {
         kani::assert(backing[i] == before[i], "sort8 source allocation frame");
     }
-    // A stub promising only safety and a write set gives no initialization postcondition for destination.
+    // A stub promising only safety and a write set gives no initialization postcondition
+    // for the destination.
     kani::cover(true, "sort8 merge consumer returns");
 }

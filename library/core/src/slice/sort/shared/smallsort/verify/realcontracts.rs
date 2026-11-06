@@ -33,7 +33,8 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     let a: usize = kani::any();
     let b: usize = kani::any();
     kani::assume(a < 4 && b < 4);
-    // SAFETY: both positions are initialized, aligned, readable and writable and in this allocation.
+    // SAFETY: both positions are initialized, aligned, readable and writable
+    // and belong to this allocation.
     // Equality is allowed by the real helper's safety condition.
     unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
     for i in 0..4 {

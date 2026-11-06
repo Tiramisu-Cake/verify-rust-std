@@ -250,7 +250,8 @@ fn rejects_always_true() {
     }
 }
 
-// Separate plain real trait execution, checked with the exact same model and count as the contracts.
+// Separate plain real trait execution, checked with the exact same model and count
+// as the contracts.
 // The mutation belongs only to this control, after the real entry returns, never to a wrapper.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
