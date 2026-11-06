@@ -5,8 +5,8 @@
   "owner": "k1-merge",
   "status": "PRE_BUILD_REVIEW_PENDING_GO",
   "branch": "experiment/kani-k1-leanhelpers-20261106",
-  "library_sha": "955d3384298ea4ac446fdce4da6bee3c42a8b44e",
-  "library_tree": "8b11d5ba36fe374b30d5e942abbc5753d6f02c9c",
+  "library_sha": "5c929ba094cef478efc350b3cd9d7b8fc73fe203",
+  "library_tree": "ed9d8de3a0a6ad930e69646ab6001a607971ae7b",
   "request_sha256": "66a7c5cbfac09d0f9468d4ae2680762c97af877d45cb21f6c3c376408b596bb5",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "expected_kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
@@ -41,5 +41,12 @@
   "paid_build_timeout_minutes": 86,
   "planned_post_reserve_project_usd": "108.0240",
   "runtime_status": "NOT_RUN",
-  "new_proof_credit": false
+  "new_proof_credit": false,
+  "prebuild_review": {
+    "reviewed_packet": "4a48066ee07ebf74291050077a22b92a61a7690b",
+    "content": "ACCEPTED_PENDING_RUSTFMT_REPAIR",
+    "go": false,
+    "repair": "Authorized rustfmt only; two asserts and four OPTINMOVE macro calls.",
+    "next_action": "New exact-packet PRE-BUILD review, stop before GO."
+  }
 }

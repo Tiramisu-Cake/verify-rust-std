@@ -2,8 +2,8 @@
   "status": "PASS",
   "base_sha": "461dac0c43902c7a929e7164492ad4a5f84a4a3b",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
-  "library_commit": "955d3384298ea4ac446fdce4da6bee3c42a8b44e",
-  "library_tree": "8b11d5ba36fe374b30d5e942abbc5753d6f02c9c",
+  "library_commit": "5c929ba094cef478efc350b3cd9d7b8fc73fe203",
+  "library_tree": "ed9d8de3a0a6ad930e69646ab6001a607971ae7b",
   "ordinary": 233,
   "cfg_on": 246,
   "controls": 13,
@@ -384,6 +384,21 @@
   "cover_item_call_ordinal_and_arguments_identical": true,
   "smallsort_bytes_identical": true,
   "tooling_unchanged": true,
+  "rustfmt_check": {
+    "status": "PASS",
+    "command": [
+      "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+      "--check",
+      "--edition",
+      "2024",
+      "--config-path",
+      "/root/verify-rust-std-kani-leanhelpers/research/challenge-8/kani-k1/codefix/rustfmt.toml",
+      "library/core/src/slice/sort/shared/smallsort.rs"
+    ],
+    "exit_code": 0,
+    "stdout_empty": true,
+    "source_bytes_unchanged": true
+  },
   "overlong_lines": [],
   "forbidden_comments_and_messages": [],
   "source_sha256": {
@@ -391,7 +406,7 @@
     "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
     "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7",
     "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
-    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "9e2eb73c6cacd8b1f4143c24fc6e6249bf783fbedba9b9715362814fc654cc2f",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "aa8878e28fb635ec61710b9ebf3d241244f4fc4b3b5d3b80212d72fc36a9b503",
     "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "e7f835cf6b074a84e726ca010a338d37ca9e750f9c148a07e51d80dea54925a8",
     "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
     "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "07861808636efd90458328060999d2f25c0a4a874589c53ea046bc7921485231",

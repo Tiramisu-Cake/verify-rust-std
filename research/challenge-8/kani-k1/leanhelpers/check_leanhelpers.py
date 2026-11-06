@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-only LEANHELPERS checks. Python/git only; no Rust toolchain.
+"""LEANHELPERS checks. Python/git and authorized rustfmt only; no compiler.
 
 Import OPTINMOVE's lexer/expander. Whole-file exact transformation checks limit the
 patch to the three authorized edits. Dependency analysis is conservative by identifier,
@@ -7,6 +7,7 @@ not compiler resolution. Split the old CopyOnDrop impl into its individual metho
 logical closures, avoiding its generic T becoming a spurious global dependency.
 """
 from collections import Counter
+import argparse
 import copy
 import csv
 import io
@@ -26,6 +27,9 @@ MERGE = s.VERIFY_DIR + 'merge.rs'
 NETWORK = s.VERIFY_DIR + 'network.rs'
 SCRATCH = s.VERIFY_DIR + 'scratchgeom.rs'
 SPECFIX = s.VERIFY_DIR + 'merge/specfix.rs'
+RUSTFMT = ('/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/'
+           'scratchpad/rustfmt.sh')
+RUSTFMT_CONFIG = str(HERE.parent / 'codefix/rustfmt.toml')
 METHODS = {'probe_count', 'probe_count_unrolled', 'regions_are_disjoint'}
 GROUPS = {'MUTANT': {'drop_route_properties'},
           'START': {'insert_tail_start1_frame', 'insert_tail_group_value'},
@@ -76,6 +80,21 @@ def expected_sources(files):
                 '    SMALL_SORT_GENERAL_SCRATCH_LEN,')
     for name in ('probe_count', 'probe_count_unrolled'):
         a = replace(a, 'CopyOnDrop::<T>::' + name + '(', name + '::<T>(', count=2)
+    # Coordinator-authorized rustfmt-only repair, including four OPTINMOVE calls.
+    a = replace(a, """    assert!(
+        probe_count::<T>(v.as_ptr(), 4)
+            == probe_count::<T>(dst.as_ptr() as *const T, 4)
+    );""", '    assert!(probe_count::<T>(v.as_ptr(), 4) == '
+                'probe_count::<T>(dst.as_ptr() as *const T, 4));')
+    a = replace(a, '        probe_count_unrolled::<T>(orig.as_ptr(), N)\n'
+                '            == probe_count_unrolled::<T>(out.as_ptr(), N),',
+                '        probe_count_unrolled::<T>(orig.as_ptr(), N) == '
+                'probe_count_unrolled::<T>(out.as_ptr(), N),')
+    for n in range(2, 6):
+        a = replace(a,
+                    f'    general_stable_direct_u64_n{n}, general_route_const_u64_properties, {n}',
+                    f'    general_stable_direct_u64_n{n},\n'
+                    f'    general_route_const_u64_properties,\n    {n}')
     out[MERGE] = a
 
     a = out[NETWORK]
@@ -156,6 +175,9 @@ def calls(it, names):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--rustfmt', default=RUSTFMT, help='authorized rustfmt wrapper')
+    args = parser.parse_args()
     old, new = s.Source(BASE), s.Source(None)
     expected = expected_sources(old.files)
     assert set(old.files) == set(new.files)
@@ -199,7 +221,7 @@ def main():
         assert ac == bc, ('cover site changed', name)
         for k in set(a) & set(b):
             assert t.normalized(a[k].text())[1] == t.normalized(b[k].text())[1], (name, k)
-        sites[name] = ac
+        sites[name] = dict(sorted(ac.items()))
     assert subprocess.check_output(['git', 'show', BASE + ':' + s.SMALLSORT]) == Path(s.SMALLSORT).read_bytes()
     assert set(o.git('diff', '--name-only', BASE, '--', 'library').splitlines()) == {
         MERGE, NETWORK, SCRATCH, SPECFIX}
@@ -210,6 +232,16 @@ def main():
         assert not t.FORBIDDEN.search(comments), f
         assert all(not t.FORBIDDEN.search(m) for m in t.normalized(text)[1]), f
     subprocess.run(['git', 'diff', '--check'], check=True)
+    format_paths = [s.SMALLSORT, *sorted(new.files)]
+    format_before = {f: Path(f).read_bytes() for f in format_paths}
+    rustfmt_command = [args.rustfmt, '--check', '--edition', '2024', '--config-path',
+                       RUSTFMT_CONFIG, s.SMALLSORT]
+    formatted = subprocess.run(rustfmt_command, check=True, capture_output=True, text=True)
+    assert not formatted.stdout, ('unexpected rustfmt check output', formatted.stdout)
+    assert format_before == {f: Path(f).read_bytes() for f in format_paths}
+    (HERE / 'rustfmt-check.txt').write_text(
+        'command: ' + ' '.join(rustfmt_command) + '\nexit_code: 0\nstdout: <empty>\nstderr: '
+        + (formatted.stderr or '<empty>') + '\nsource_bytes_unchanged: true\n')
     request_path = HERE / 'RUN-REQUEST.json'
     request = json.loads(request_path.read_text())
     assert request_path.read_bytes() == (HERE.parent / 'RUN-REQUEST.json').read_bytes()
@@ -270,6 +302,8 @@ def main():
         'method_bodies_token_identical': True, 'assert_messages_identical': True,
         'cover_item_call_ordinal_and_arguments_identical': True,
         'smallsort_bytes_identical': True, 'tooling_unchanged': True,
+        'rustfmt_check': {'status': 'PASS', 'command': rustfmt_command, 'exit_code': 0,
+                          'stdout_empty': True, 'source_bytes_unchanged': True},
         'overlong_lines': [], 'forbidden_comments_and_messages': [],
         'source_sha256': {f: o.digest(text) for f, text in sorted(new.files.items())},
         'request_sha256': o.digest(request_path.read_text()),

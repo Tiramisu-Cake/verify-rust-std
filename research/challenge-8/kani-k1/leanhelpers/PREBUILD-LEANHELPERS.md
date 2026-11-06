@@ -2,8 +2,8 @@
 
 Ветка `experiment/kani-k1-leanhelpers-20261106`, owner `k1-merge`.
 Задание `d3ea81c32f`; база library `461dac0c43902c7a929e7164492ad4a5f84a4a3b`.
-Library `955d3384298ea4ac446fdce4da6bee3c42a8b44e`, tree
-`8b11d5ba36fe374b30d5e942abbc5753d6f02c9c`.
+Library `5c929ba094cef478efc350b3cd9d7b8fc73fe203`, tree
+`ed9d8de3a0a6ad930e69646ab6001a607971ae7b`.
 Dispatch не выполнен. Нужен GO координатора на exact опубликованный пакет.
 Окно после GO: main 240 + closeout 30 минут; timestamps до dispatch записать в ledger.
 
@@ -15,7 +15,7 @@ Dispatch не выполнен. Нужен GO координатора на exac
 - Три метода CopyOnDrop стали свободными generic-функциями в merge, с прежними телами.
   Вызовы и импорты обновлены в merge, scratchgeom и merge/specfix.
 
-`smallsort.rs` побайтно неизменён. Library diff: +55/-76 строк, net -21.
+`smallsort.rs` побайтно неизменён. Library diff: +65/-82 строк, net -17.
 Tooling/workflows/scripts не изменены относительно `59893bff1f`.
 
 ## Статическая проверка
@@ -23,6 +23,7 @@ Tooling/workflows/scripts не изменены относительно `59893b
 `python3 -B research/challenge-8/kani-k1/leanhelpers/check_leanhelpers.py`
 импортирует лексер/expander OPTINMOVE без изменения исходного tooling.
 Целые исходные файлы сверяются с точным allowlist преобразований базы, включая комментарии.
+В allowlist добавлены точные whitespace-правки rustfmt по решению координатора.
 Число и набор имён: cfg-off 233; cfg-on 246 = 233 ordinary + 13 controls.
 [affected-roots.json](affected-roots.json) перечисляет 13 MUTANT, 4 START и 51 helper-root:
 всего 68 (66 ordinary + 2 controls); группы не пересекаются.
@@ -36,7 +37,11 @@ Resolver консервативен по идентификаторам и не 
 создавало бы ложное глобальное ребро ко всему impl. Остальные правила inherited resolver прежние.
 [cover-sites.json](cover-sites.json) содержит проверенные координаты item/call ordinal для всех roots;
 строчные и абсолютные token offsets могут сдвигаться из-за разрешённых удалений.
-Это source-only проверка, не compiler inventory и не новый proof credit.
+Checker также запускает разрешённый rustfmt wrapper с `--check --edition 2024`,
+конфигом `research/challenge-8/kani-k1/codefix/rustfmt.toml` от `smallsort.rs`
+(с обходом всех verify-подмодулей). Exit0, stdout пуст, исходные байты не меняются.
+Команда и результат: [rustfmt-check.txt](rustfmt-check.txt).
+Это проверка исходников и форматирования, не compiler inventory и не новый proof credit.
 
 ## G1 и сравнение
 
@@ -82,3 +87,13 @@ Status в цикле не опрашивать. После уведомлени�
 check-tooling — база `59893bff1fbb2af1a0c08862afd7e3bb87c19cdd`; scan verify/unused warnings.
 Budget своего UUID, runtime/timing comparison и line counts внести в RESULT≤35 строк.
 Завершить REVIEW REQUEST <sha> / LEANHELPERS ЗАВЕРШЁН и стоп.
+
+## Исправление по pre-build review 4a48066ee0
+
+Содержание принято координатором; GO до форматирования не выдан.
+Library-коммит выше содержит форматирование двух assert и четырёх вызовов
+`general_stable_direct_u64_n2..n5`, оставшихся после OPTINMOVE.
+Токены всех verify-файлов совпадают с library `955d3384298e`; affected68/unchanged178 прежние.
+Порядок ключей generated cover-sites.json стабилизирован; содержимое site mappings прежнее.
+G1 request, семь строк, лимиты и бюджетные расчёты не изменены.
+Новый опубликованный пакет снова ожидает exact-packet GO. Сборок не было.
