@@ -7,13 +7,13 @@
 //! `kani::assert` preserves literal descriptions here; core `assert!` reports a shared
 //! placeholder on the pinned Kani.
 
-use super::{lt_u8, lt_u64};
+use super::{lt_u8, lt_u64, regions_are_disjoint};
 #[cfg(kani_smallsort_controls)]
 use crate::mem::MaybeUninit;
 use crate::mem::size_of;
 use crate::slice::sort::shared::FreezeMarker;
 use crate::slice::sort::shared::smallsort::{
-    CopyOnDrop, bidirectional_merge, insert_tail, sort4_stable, swap_if_less,
+    bidirectional_merge, insert_tail, sort4_stable, swap_if_less,
 };
 use crate::ub_checks::{can_dereference, can_write, same_allocation};
 use crate::{kani, ptr};
@@ -230,7 +230,7 @@ pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
     size_of::<T>() > 0
         && can_dereference(ptr::slice_from_raw_parts(src, 4))
         && can_write(ptr::slice_from_raw_parts_mut(dst, 4))
-        && CopyOnDrop::<T>::regions_are_disjoint(src, 4, dst as *const T, 4)
+        && regions_are_disjoint::<T>(src, 4, dst as *const T, 4)
 }
 
 #[kani::requires(sort4_regions::<P::Elem>(src, dst))]
@@ -299,7 +299,7 @@ pub(crate) fn merge_regions<T>(v: &[T], dst: *mut T) -> bool {
         && v.len() <= 32
         && can_dereference(v as *const [T])
         && can_write(ptr::slice_from_raw_parts_mut(dst, v.len()))
-        && CopyOnDrop::<T>::regions_are_disjoint(v.as_ptr(), v.len(), dst as *const T, v.len())
+        && regions_are_disjoint::<T>(v.as_ptr(), v.len(), dst as *const T, v.len())
 }
 
 pub(crate) fn merge_halves_sorted<P: Profile>(v: &[P::Elem]) -> bool {

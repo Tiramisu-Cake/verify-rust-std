@@ -1031,32 +1031,26 @@ swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, StrictU64, 9);
 
 // Fix the region's start at index 1 to check both an untouched prefix and a suffix.
 // The tail intervals cover indices 2 through 16; the profile supplies the sorted prefix.
-fn insert_tail_start1_frame<const START: usize>(v: &[u64; 17], pre: &[u64; 17], tail: usize) {
-    const { assert!(START == 1) };
-    let mut i = 0;
-    while i < START {
-        assert!(v[i] == pre[i], "insert-tail contract covers prefix before begin unchanged");
-        i += 1;
-    }
+fn insert_tail_start1_frame(v: &[u64; 17], pre: &[u64; 17], tail: usize) {
+    assert!(v[0] == pre[0], "insert-tail contract covers prefix before begin unchanged");
     assert!(prefix_unchanged(v, pre, tail + 1), "suffix after inserted tail remains unchanged");
 }
 
-fn insert_tail_group_value<const START: usize, const LO: usize, const HI: usize>() -> usize {
+fn insert_tail_group_value<const LO: usize, const HI: usize>() -> usize {
     const {
-        assert!(START == 1);
-        assert!(START < LO && LO <= HI && HI < 17);
+        assert!(1 < LO && LO <= HI && HI < 17);
     };
     LtU64::set_probe(kani::any());
     let mut v: [u64; 17] = kani::any();
     let tail: usize = kani::any_where(|&t| LO <= t && t <= HI);
     let pre = v;
     let base = v.as_mut_ptr();
-    // SAFETY: START == 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
+    // SAFETY: 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
     // assumes precisely the profile requires, including the model-sorted prefix.
     unsafe {
-        insert_tail_profile::<LtU64>(base.add(START), base.add(tail), LtU64::CMP);
+        insert_tail_profile::<LtU64>(base.add(1), base.add(tail), LtU64::CMP);
     }
-    insert_tail_start1_frame::<START>(&v, &pre, tail);
+    insert_tail_start1_frame(&v, &pre, tail);
     kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
     kani::cover(true, "insert-tail contract covers end reached");
     tail
@@ -1068,7 +1062,7 @@ macro_rules! insert_tail_start1_group_case {
         #[kani::proof_for_contract(super::merge::specfix::insert_tail_profile)]
         #[kani::unwind(25)]
         fn $name() {
-            let tail = insert_tail_group_value::<1, $lo, $hi>();
+            let tail = insert_tail_group_value::<$lo, $hi>();
             $(kani::cover(
                 tail == $end,
                 concat!(

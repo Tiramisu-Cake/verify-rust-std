@@ -7,7 +7,7 @@ pub(super) mod specfix;
 use specfix::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};
 
 use super::super::{
-    CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
+    SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
     sort4_stable,
 };
 use crate::mem::{MaybeUninit, size_of};
@@ -74,44 +74,41 @@ unsafe fn matches_value_probe<T>(p: *const T) -> bool {
     eq
 }
 
-impl<T> CopyOnDrop<T> {
-    // Value-count and geometry helpers live here to mention `T` without adding runtime state.
-    pub(crate) fn probe_count(base: *const T, len: usize) -> usize {
-        let mut c = 0;
-        let mut i = 0;
-        while i < len {
-            // SAFETY: callers pass a readable, initialized region of `len` elements.
-            if unsafe { matches_value_probe(base.add(i)) } {
+pub(crate) fn probe_count<T>(base: *const T, len: usize) -> usize {
+    let mut c = 0;
+    let mut i = 0;
+    while i < len {
+        // SAFETY: callers pass a readable, initialized region of `len` elements.
+        if unsafe { matches_value_probe(base.add(i)) } {
+            c += 1;
+        }
+        i += 1;
+    }
+    c
+}
+
+/// Loop-free count for `len <= MAX_UNROLLED_ELEMENTS`, bounding specification instrumentation.
+pub(crate) fn probe_count_unrolled<T>(base: *const T, len: usize) -> usize {
+    let mut c = 0;
+    macro_rules! step {
+        ($($i:literal)*) => {$(
+            // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
+            if $i < len && unsafe { matches_value_probe(base.add($i)) } {
                 c += 1;
             }
-            i += 1;
-        }
-        c
+        )*};
     }
+    step!(
+        0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+    );
+    c
+}
 
-    /// Loop-free count for `len <= MAX_UNROLLED_ELEMENTS`, bounding specification instrumentation.
-    pub(crate) fn probe_count_unrolled(base: *const T, len: usize) -> usize {
-        let mut c = 0;
-        macro_rules! step {
-            ($($i:literal)*) => {$(
-                // SAFETY: `$i < len`, callers pass a readable region of `len` elements.
-                if $i < len && unsafe { matches_value_probe(base.add($i)) } {
-                    c += 1;
-                }
-            )*};
-        }
-        step!(
-            0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-        );
-        c
-    }
-
-    pub(crate) fn regions_are_disjoint(a: *const T, n: usize, b: *const T, m: usize) -> bool {
-        !kani::mem::same_allocation(a, b) || {
-            // SAFETY: same allocation was checked just above.
-            let d = unsafe { b.offset_from(a) };
-            d >= n as isize || -d >= m as isize
-        }
+pub(crate) fn regions_are_disjoint<T>(a: *const T, n: usize, b: *const T, m: usize) -> bool {
+    !kani::mem::same_allocation(a, b) || {
+        // SAFETY: same allocation was checked just above.
+        let d = unsafe { b.offset_from(a) };
+        d >= n as isize || -d >= m as isize
     }
 }
 // Key orders admit equal keys with different full values; sortedness does not imply permutation.
@@ -185,8 +182,8 @@ fn sort4_arbitrary_comparator_body<T: kani::Arbitrary + Copy>() {
     // sort4_stable's SAFETY precondition does not require an ordered comparator.
     unsafe { sort4_stable(v.as_ptr(), dst.as_mut_ptr() as *mut T, &mut cmp) };
     assert!(
-        CopyOnDrop::<T>::probe_count(v.as_ptr(), 4)
-            == CopyOnDrop::<T>::probe_count(dst.as_ptr() as *const T, 4)
+        probe_count::<T>(v.as_ptr(), 4)
+            == probe_count::<T>(dst.as_ptr() as *const T, 4)
     );
     kani::cover(true, "sort returns and preserves values with an arbitrary comparator");
 }
@@ -354,8 +351,8 @@ fn assert_sorted_and_probe_preserved<T, F: FnMut(&T, &T) -> bool, const N: usize
         assert!(!cmp(&out[i], &out[i - 1]), "output is sorted");
     }
     assert!(
-        CopyOnDrop::<T>::probe_count_unrolled(orig.as_ptr(), N)
-            == CopyOnDrop::<T>::probe_count_unrolled(out.as_ptr(), N),
+        probe_count_unrolled::<T>(orig.as_ptr(), N)
+            == probe_count_unrolled::<T>(out.as_ptr(), N),
         "input value counts are preserved"
     );
 }
@@ -604,11 +601,9 @@ fn abort_without_order_cover() -> ! {
 }
 
 // Count destructors separately from tag multiplicities: either property alone can miss a bug.
-// Normal return only. MUTANT values select duplicate-tag and extra-drop controls.
-fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool, const MUTANT: u8>()
--> bool {
+// Normal return only; tag multiplicities and destructor counts are checked separately.
+fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool>() -> bool {
     const { assert!(N >= 2 && N <= 32) };
-    const { assert!(MUTANT <= 2) };
     // SAFETY: no prior array or counter reference survives into this harness.
     unsafe { ptr::write(ptr::addr_of_mut!(DROP_COUNT), 0) };
     let mut v: [DropTaggedValue; N] =
@@ -632,16 +627,6 @@ fn drop_route_properties<const N: usize, const UPPER: bool, const PERM: bool, co
         super::super::insertion_sort_shift_left(&mut v, 1, &mut cmp);
     } else {
         super::super::small_sort_fallback(&mut v, &mut cmp);
-    }
-    if MUTANT == 1 {
-        // Negative control: duplicate a tag, losing another; addresses remain valid and disjoint.
-        unsafe {
-            let base = v.as_mut_ptr();
-            ptr::copy_nonoverlapping(base, base.add(1), 1);
-        }
-    } else if MUTANT == 2 {
-        // Deliberately observe one extra destructor before array destruction.
-        unsafe { crate::mem::drop(ptr::read(v.as_ptr())) };
     }
     if PERM {
         let mut count = 0usize;
@@ -678,7 +663,7 @@ macro_rules! define_drop_route_harness {
         #[kani::stub(crate::slice::sort::shared::smallsort::panic_on_ord_violation, $abort)]
         #[kani::unwind(34)]
         fn $name() {
-            let alternate = drop_route_properties::<$n, $upper, $perm, 0>();
+            let alternate = drop_route_properties::<$n, $upper, $perm>();
             kani::cover(!alternate, $first);
             kani::cover(alternate, $second);
         }
