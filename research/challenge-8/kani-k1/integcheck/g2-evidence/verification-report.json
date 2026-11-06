@@ -1,0 +1,79 @@
+{
+  "evidence_consistency": "PASS",
+  "task_acceptance": "PASS",
+  "build_id": "d32340b9-f056-4d53-8d91-a9562f00f08b",
+  "source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
+  "library_sha": "85ced7f8a8bcdf6b4ffe2e29a65d1d940ff10737",
+  "library_tree": "def2d65ddc5e73ed6ccb94df0afbb36e475d80d8",
+  "library_tree_equals_renamemods_and_g1": true,
+  "request_id": "integcheck-g2-20261106-01",
+  "request_sha256": "82ceb5befff1ea704280139081bbedeb04ebb103661432e540deee0aa1b62d6a",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 0,
+  "compiler_cfg_on_count": 246,
+  "ordinary_count": 233,
+  "negative_controls_count": 13,
+  "duplicates": 0,
+  "missing": [],
+  "extra": [],
+  "names_equal_expected": true,
+  "sorted_names_sha256": "3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb",
+  "native_order_names_sha256": "d142077ebe2c76d8f6e2ffc34727f1e44be24bde7388a56233725db5d1ad110a",
+  "inventory_artifact_sha256": "fe248427164f5b1f38d8ff5a4b4d2a6f5b15bd0157aeac876a87a17f6bdc7d9f",
+  "pages": [
+    {
+      "file": "inventory-page-0.txt",
+      "offset": 0,
+      "count": 80,
+      "next_offset": "80"
+    },
+    {
+      "file": "inventory-page-80.txt",
+      "offset": 80,
+      "count": 80,
+      "next_offset": "160"
+    },
+    {
+      "file": "inventory-page-160.txt",
+      "offset": 160,
+      "count": 80,
+      "next_offset": "240"
+    },
+    {
+      "file": "inventory-page-240.txt",
+      "offset": 240,
+      "count": 6,
+      "next_offset": "done"
+    }
+  ],
+  "complete_nonoverlapping_coverage": true,
+  "all_page_identities_and_hashes_equal": true,
+  "inventory_label_note": "The unchanged helper calls this ordinary verify inventory even with controls=true. The actual bound compiler name set is 246: all 233 source-mapped ordinary roots plus all 13 source-mapped controls; no claim of 246 ordinary roots.",
+  "warnings": "Targeted smallsort/verify and smallsort.rs diagnostic-location scan: no match; no new relevant warning seen. G1 targeted scan also no match; no all-crates warning claim.",
+  "tooling": "PASS: bound source/pool/lane equality and all six hashes against mandated base",
+  "cost_usd": "0.5940",
+  "stage_total_cost_usd": "0.7965",
+  "reserved_usd": "0.0000",
+  "builds": 2,
+  "retries": 0,
+  "repairs": 0,
+  "proof_rows": 0,
+  "resource_measurements": "MISSING for inventory-only runner; no RSS or verification-time claim.",
+  "limits": "Compiler inventory and compilation evidence only. G1 supplies bounded control calibration and the eight pair rows; no full ordinary proof matrix rerun or universal T/F, uninit/value-validity or unwinding claim.",
+  "bounded_outputs_sha256": {
+    "budget-project.txt": "0b0c897e66667ee07b3db1cf5c73f53155f75f438d44fc59cb2843e8d5afa3f3",
+    "budget-total.txt": "aae2cde7c04fddacbadefc3abee4fefe6bc6a9a44b9b998a27abc1067a22cc0c",
+    "compiler-cfg-on-sorted.txt": "3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb",
+    "inventory-page-0.txt": "61907cbc94a897ad6160978aa9202ae3880b556239f7c75d39d0da204c64daa8",
+    "inventory-page-160.txt": "065d1b2f1d2d021eefbf3ae5a36498072a119ce424e945882060bf0468799084",
+    "inventory-page-240.txt": "7cb1513dc4b6b2da18e1bb39c5602088c4b0445d55d4d98f580de9072e9c8253",
+    "inventory-page-80.txt": "9b0d26c19f9685e4bbc35d878c699071ed7ac1645745653e7df024cdcce15da9",
+    "status.json": "e05b21ca0a7dc33463fd794df6cf3e067e9a0494a071fd9c4172162df59e811d",
+    "summary.md": "2491f8684040397d86f895abac7aaa4d3309b0d8f8f60a180cc3c70110d6a65b",
+    "tooling.txt": "22a74c1db04cf7fca3f06df775c3cb2ffe1f8ee9f3b7e4e7a44e0e6a9e55e6c0",
+    "verify-warning-paths.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8"
+  }
+}

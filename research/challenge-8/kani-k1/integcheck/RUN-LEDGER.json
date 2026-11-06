@@ -1,8 +1,8 @@
 {
   "schema": "integcheck-run-ledger-v1",
-  "stage": "integcheck-g2",
+  "stage": "integcheck-closeout",
   "owner": "k1-merge",
-  "status": "G1_ACCEPTED_G2_PROMOTION_READY",
+  "status": "COMPLETE_PASS",
   "branch": "experiment/kani-k1-integcheck-20261106",
   "task_commit": "3dc83a02baf16c2115d84011d1665bc68dde043b",
   "start_base": "bbdc1aac234176631292f4d9f919700cfdbe0920",
@@ -12,7 +12,7 @@
   "expected_kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
   "prepared_utc": "2026-11-06T16:49:09.177804+00:00",
   "coordinator_go": "2026-11-06 coordinator: review f10ab8c743 accepted with only G1 timeout 2 -> 4 min and recalculated limits/reserve; own cap raised to $2.75. Advance exact GO covers the resulting research-only correction commit after push, without a new review. Record its full SHA as exact GO before G1 dispatch. G2 byte-identical request/research-only promotion is also authorized after G1 analysis only if G1 is fully accepted. Then watch and end the turn.",
-  "source_sha": "d1515761df4b630bd9f51812f9f0e6f8b75ab92d",
+  "source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
   "t0_utc": "2026-11-06T16:53:24.651769+00:00",
   "main_deadline_utc": "2026-11-06T21:53:24.651769+00:00",
   "closeout_deadline_utc": "2026-11-06T22:23:24.651769+00:00",
@@ -23,15 +23,15 @@
   "retry_limit": 0,
   "compile_error_repair_limit": 0,
   "own_cap_usd": "2.7500",
-  "own_spent_usd": "0.2025",
+  "own_spent_usd": "0.7965",
   "own_reserved_usd": "0.0000",
   "project_cap_usd": "118.9600",
   "project_budget_observation": {
-    "recorded_utc": "2026-11-06T17:15:51.593067+00:00",
-    "builds": 251,
-    "used_usd": "107.8620",
+    "recorded_utc": "2026-11-06T18:02:28.900505+00:00",
+    "builds": 252,
+    "used_usd": "108.4560",
     "reserved_usd": "0.0000",
-    "source": "g2-pre-dispatch-budget.txt",
+    "source": "g2-evidence/budget-project.txt",
     "refresh_required_before_dispatch": false
   },
   "planned_builds": [
@@ -84,14 +84,37 @@
       "spent_usd": "0.2025",
       "reserved_usd": "0.0000",
       "verification_report": "g1-evidence/verification-report.json"
+    },
+    {
+      "stage": "integcheck-g2",
+      "build_id": "d32340b9-f056-4d53-8d91-a9562f00f08b",
+      "status": "SUCCESS",
+      "source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
+      "request_id": "integcheck-g2-20261106-01",
+      "request_sha256": "82ceb5befff1ea704280139081bbedeb04ebb103661432e540deee0aa1b62d6a",
+      "runner": "gcb-e2-standard-4",
+      "paid_build_timeout_minutes": 74,
+      "harness_timeout_minutes": 44,
+      "planned_reserve_usd": "0.9990",
+      "recorded_utc": "2026-11-06T17:17:19.880847+00:00",
+      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch d32340b9-f056-4d53-8d91-a9562f00f08b",
+      "task_acceptance": "PASS",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 0,
+      "start_time": "2026-11-06T17:17:50.291126197Z",
+      "finish_time": "2026-11-06T18:01:09.909427Z",
+      "spent_usd": "0.5940",
+      "reserved_usd": "0.0000",
+      "verification_report": "g2-evidence/verification-report.json"
     }
   ],
   "new_proof_credit": true,
-  "compiler_cfg_on": "PENDING_G2",
+  "compiler_cfg_on": "G2_PASS_246_EXACT_NAMES",
   "controls_runtime": "G1_PASS_13_CALIBRATED",
   "pair_runtime": "G1_PASS_8_SUCCESS_37_OF_37_COVERS",
   "reviewed_packet_sha": "f10ab8c7435e14b88515fc3138fdebc474a27a9d",
-  "exact_go_source_sha": "d1515761df4b630bd9f51812f9f0e6f8b75ab92d",
+  "exact_go_source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
   "exact_go_binding_rule": "After the authorized timeout/cap-only correction commit, record its full SHA here and source_sha in the working ledger before dispatch; do not create a self-referential commit.",
   "g2_go_scope": {
     "authorized": true,
@@ -105,7 +128,7 @@
     "approved_own_cap_usd": "2.7500",
     "reason": "Raise G1 per-root timeout to 4 min; 15% N32 consumer margin at 120 s rejected; no retry."
   },
-  "exact_go_recorded_utc": "2026-11-06T16:54:21.626562+00:00",
+  "exact_go_recorded_utc": "2026-11-06T17:16:30.302373+00:00",
   "dispatch_evidence_sha256": {
     "g1-dispatch.stdout.txt": "c29752b23484cd77da088d1da2564cf3e58438321c6e15d5d404efde6b504c05",
     "g1-dispatch.stderr.txt": "46d328b76909f9bf94c704b19686b5889508a9ad1dbd0b78f3c86503d39211e1",
@@ -117,8 +140,34 @@
   "g1_coordinate_reconciliation": "Kani attributed two designated requires to attribute opening lines588/409, while packet expression lines589/410 are inside those same attributes. Full multiline observed expressions match the unchanged source modulo whitespace; expectations remain unchanged. Literal line differences retained in verification-report.json.",
   "new_proof_credit_scope": "Bounded G1 integration/calibration on unchanged final library; not all 233 ordinary proofs or universal T/F/unwinding.",
   "g2_go_condition_satisfied": true,
-  "g2_source_sha": null,
-  "g2_exact_go_source_sha": null,
+  "g2_source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
+  "g2_exact_go_source_sha": "da620e719217707c9f8bde005abb57f8519dcabf",
   "g2_planned_post_reserve_project_usd": "108.8610",
-  "g2_own_spent_plus_reserve_usd": "1.2015"
+  "g2_own_spent_plus_reserve_usd": "1.2015",
+  "g2_dispatch_evidence_sha256": {
+    "g2-dispatch.stdout.txt": "294a4b2f582b323ce3b423927219be0178f657d82676b7716f2b7d0f437a1ca3",
+    "g2-dispatch.stderr.txt": "12fffb5b469d538c2ecd9fb7ee1a7cceec28f214c21433d843a94de191dbb931",
+    "g2-pre-dispatch-budget.txt": "23e2b296e3f1727f701ac228f574b1c4039379d57d3ec7c2ae9fd4fc2cd73d7e"
+  },
+  "runtime_status": "COMPLETE",
+  "task_acceptance": "PASS",
+  "cfg_on_sorted_names_sha256": "3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb",
+  "g2_acceptance": "PASS",
+  "warnings": "G1/G2 targeted smallsort/verify and smallsort.rs warning-location scans: no match.",
+  "closed_utc": "2026-11-06T18:04:59.044230+00:00",
+  "completed_within_main_window": true,
+  "no_further_dispatch": true,
+  "builds_used": 2,
+  "retries_used": 0,
+  "repairs_used": 0,
+  "final_verification_reports": {
+    "g1": {
+      "path": "g1-evidence/verification-report.json",
+      "sha256": "5a38e55c34e928c2f80c1ff577180cfda2e1bb60988814ce43db8396c0751105"
+    },
+    "g2": {
+      "path": "g2-evidence/verification-report.json",
+      "sha256": "63583ab96c240d92a955bab8d75dc863995ef3cff660beddb582d26bd75aec76"
+    }
+  }
 }
