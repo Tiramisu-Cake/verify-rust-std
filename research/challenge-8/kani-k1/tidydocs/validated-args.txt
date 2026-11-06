@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_comparator_writing_outside_frame_u8
+--harness
+slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9
+--harness
+slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed
+--harness
+slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64
+--exact
+--harness-timeout
+5m
+--jobs=1
+--output-format=terse

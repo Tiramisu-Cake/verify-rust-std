@@ -1,33 +1,30 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "veightrows-g1-20261105-01",
+  "request_id": "tidydocs-g1-20261106-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "VEIGHTROWS: finish exactly five VEIGHTMAX rows on unchanged library d3982a624072437d603f0f96ba974bb00ac5eb5b, without inventory. Require five SUCCESS, zero failed checks and 33/33 reachable covers; carry merge8/sort8 SUCCESS and 9/9 covers from VEIGHTMAX only.",
+  "purpose": "TIDYDOCS: require only captured-counter write-set failures in the new swap control; recheck the paired positive PFC, stubbed consumer, and short sort4 root after comment/message cleanup. Record exact failed checks; no proof credit from FAILED alone.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 4,
+  "harness_timeout_minutes": 5,
   "kani_jobs": 1,
   "inventory": false,
-  "controls": false,
+  "controls": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "expect": "FAILED",
+      "expect_check": "assignable"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u64_backing32",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail1_to7",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::tailcontracts::insert_tail_safety_u64_backing17_tail8_to15",
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
       "expect": "SUCCESS"
     }
   ]

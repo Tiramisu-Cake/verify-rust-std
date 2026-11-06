@@ -1,0 +1,31 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "tidydocs-g1-20261106-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "TIDYDOCS: require only captured-counter write-set failures in the new swap control; recheck the paired positive PFC, stubbed consumer, and short sort4 root after comment/message cleanup. Record exact failed checks; no proof credit from FAILED alone.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "kani_jobs": 1,
+  "inventory": false,
+  "controls": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "expect": "FAILED",
+      "expect_check": "assignable"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::realcontracts::sort4_safety_u64",
+      "expect": "SUCCESS"
+    }
+  ]
+}
