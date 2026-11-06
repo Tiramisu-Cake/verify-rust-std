@@ -69,3 +69,14 @@ Status в цикле не опрашивать. После уведомлени�
 Native inventory hash учитывать отдельно: порядок standard/contract отличается
 от сортировки. Нужны отсутствие новых smallsort/verify warnings и успешный G1.
 Затем RESULT≤30 строк, REVIEW REQUEST <sha> / RENAMEMODS ЗАВЕРШЁН, стоп.
+
+## Итог G1
+
+Exact GO `0504202814f16c4a962687c6933a4e43b171d45b` получен; сборка `942bc6d1-191d-4777-acc5-d0d724564fde`
+завершена SUCCESS, COMPLETE, gate=true, Kani exit0. Привязки и check-tooling PASS.
+Compiler inventory: 233 exact ordinary-имени без дубликатов; sorted SHA256
+`bd539369aead46f534868511eecef993b086cacd11e08b0b15f022103482a93b`
+совпал с ordinary-expected. Целевой smallsort/verify/unused scan: no match.
+Расход $0.6075, reserve0, builds1/retries0/repairs0; новых запусков нет.
+Cfg-on inventory/компиляция и runtime 13 контролей отложены в интеграционный пакет.
+Нового proof credit нет. [Evidence](evidence/verification-report.json).

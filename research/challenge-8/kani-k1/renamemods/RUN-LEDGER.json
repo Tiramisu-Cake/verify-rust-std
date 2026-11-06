@@ -3,7 +3,7 @@
   "stage": "renamemods-g1",
   "request_id": "renamemods-g1-20261106-01",
   "owner": "k1-merge",
-  "status": "G1_SUBMITTED",
+  "status": "G1_COMPLETE_PASS",
   "branch": "experiment/kani-k1-renamemods-20261106",
   "library_sha": "85ced7f8a8bcdf6b4ffe2e29a65d1d940ff10737",
   "library_tree": "def2d65ddc5e73ed6ccb94df0afbb36e475d80d8",
@@ -21,13 +21,17 @@
     {
       "stage": "renamemods-g1",
       "build_id": "942bc6d1-191d-4777-acc5-d0d724564fde",
-      "status": "SUBMITTED",
+      "status": "SUCCESS",
       "source_sha": "0504202814f16c4a962687c6933a4e43b171d45b",
       "request_id": "renamemods-g1-20261106-01",
       "recorded_utc": "2026-11-06T15:55:03.148024+00:00",
       "planned_reserve_usd": "0.9990",
       "runner": "gcb-e2-standard-4",
-      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch 942bc6d1-191d-4777-acc5-d0d724564fde"
+      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch 942bc6d1-191d-4777-acc5-d0d724564fde",
+      "start_time": "2026-11-06T15:55:35.745507795Z",
+      "finish_time": "2026-11-06T16:40:07.349756Z",
+      "spent_usd": "0.6075",
+      "reserved_usd": "0.0000"
     }
   ],
   "build_limit": 1,
@@ -35,8 +39,8 @@
   "compile_error_repair_limit": 1,
   "repair_rule": "G2 only for our own compile error, after exact-packet GO, and own spent + reserve <= 1.20 USD; no retry.",
   "own_cap_usd": "1.2000",
-  "own_spent_usd": "0.0000",
-  "own_reserved_usd": "0.9990",
+  "own_spent_usd": "0.6075",
+  "own_reserved_usd": "0.0000",
   "g1_planned_reserve_usd": "0.9990",
   "project_cap_usd": "118.9600",
   "project_budget_observation": {
@@ -51,6 +55,10 @@
   "verify_cutoff_from_validate_minutes": 68,
   "paid_build_timeout_minutes": 74,
   "planned_post_reserve_project_usd": "108.0510",
-  "runtime_status": "SUBMITTED",
-  "new_proof_credit": false
+  "runtime_status": "G1_COMPLETE",
+  "new_proof_credit": false,
+  "closed_utc": "2026-11-06T16:42:58.775423+00:00",
+  "verification_report": "evidence/verification-report.json",
+  "compiler_cfg_on": "DEFERRED_TO_INTEGRATION",
+  "controls_runtime": "DEFERRED_TO_INTEGRATION"
 }
