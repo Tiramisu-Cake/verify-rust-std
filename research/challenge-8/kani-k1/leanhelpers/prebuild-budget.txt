@@ -1,0 +1,8 @@
+Bounded k1g.sh budget observation before PRE-BUILD review:
+builds 248; used $106.8630; reserved $0.0000; cap $118.96.
+standard4 rate including ledger margin: $0.0135/min.
+G1: 7 rows * 8 min = 56 harness-min; runner slack 24 min = cutoff 80 min.
+Paid timeout: 56 + 30 = 86 min; maximum reserve 86 * $0.0135 = $1.1610.
+Own spent + planned reserve: $0 + $1.1610 <= $1.50.
+Project used + existing reserve + G1: $108.0240 <= $118.96.
+No dispatch or reservation made. Refresh ledger immediately before authorized dispatch.

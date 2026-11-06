@@ -1,0 +1,156 @@
+{
+  "v8c_tsv_sha256": "6ee19605519ad495b87de37904f09e576b9b9b42825600203d65fee781c57cb4",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
+      "status": "SUCCESS",
+      "seconds": 0.6422159,
+      "covers": "2 of 2",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "merge::drop_fallback_drop_count_n2",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "0.6422159",
+          "ubuntu_covers": "2 of 2",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "0.47757086",
+          "macos_covers": "2 of 2",
+          "v7_ubuntu_vt_s": "0.5540426",
+          "v7_macos_vt_s": "0.45944455",
+          "panic_stub": "yes"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
+      "status": "SUCCESS",
+      "seconds": 0.6744263,
+      "covers": "2 of 2",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "merge::drop_fallback_tag_permutation_n2",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "0.6744263",
+          "ubuntu_covers": "2 of 2",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "1.0168003",
+          "macos_covers": "2 of 2",
+          "v7_ubuntu_vt_s": "0.93793666",
+          "v7_macos_vt_s": "0.725596",
+          "panic_stub": "yes"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
+      "status": "SUCCESS",
+      "seconds": 3.2531826,
+      "covers": "1 of 1",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "merge::sort4_arbitrary_comparator_u64_n4",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "3.2531826",
+          "ubuntu_covers": "1 of 1",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "5.178982",
+          "macos_covers": "1 of 1",
+          "v7_ubuntu_vt_s": "3.0811064",
+          "v7_macos_vt_s": "4.942505",
+          "panic_stub": "no"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+      "status": "SUCCESS",
+      "seconds": 2.8596132,
+      "covers": "2 of 2",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "merge::general_stable_direct_u8_n2",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "2.8596132",
+          "ubuntu_covers": "2 of 2",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "3.9690025",
+          "macos_covers": "2 of 2",
+          "v7_ubuntu_vt_s": "3.8623269",
+          "v7_macos_vt_s": "3.7564297",
+          "panic_stub": "no"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n2",
+      "status": "SUCCESS",
+      "seconds": 5.838726,
+      "covers": "2 of 2",
+      "source": {
+        "commit": "d3ea81c32f180251ed0fe012c947c1e40b3cbc5b",
+        "path": "research/challenge-8/kani-k1/RESULT-VEIGHTINTEG.md",
+        "excerpt": "| scratchgeom::stable_u64_min_scratch_n2 | SUCCESS | 5.838726 | 0/423 | 2/2 |",
+        "build": "03d45e6a-0553-414e-83ea-6f6c9ce87778"
+      },
+      "comparison": "source-reported own VEIGHTINTEG standard4 run"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
+      "status": "SUCCESS",
+      "seconds": 47.514442,
+      "covers": "1 of 1",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "merge::merge_contract_u8_n5",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "47.514442",
+          "ubuntu_covers": "1 of 1",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "46.623188",
+          "macos_covers": "1 of 1",
+          "v7_ubuntu_vt_s": "41.857258",
+          "v7_macos_vt_s": "32.952065",
+          "panic_stub": "no"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15_to16",
+      "status": "SUCCESS",
+      "seconds": 156.41757,
+      "covers": "4 of 4",
+      "source": {
+        "commit": "4d0f339f52e38a4e13e74b16f30443c395a1c8d3",
+        "path": "research/challenge-8/kani-k1/v8cci/v8c-autoharness-smallsort.tsv",
+        "row": {
+          "harness": "network::insert_tail_contract_u64_start1_tail15_to16",
+          "ubuntu_status": "SUCCESSFUL",
+          "ubuntu_vt_s": "156.41757",
+          "ubuntu_covers": "4 of 4",
+          "macos_status": "SUCCESSFUL",
+          "macos_vt_s": "164.40373",
+          "macos_covers": "4 of 4",
+          "v7_ubuntu_vt_s": "171.90532",
+          "v7_macos_vt_s": "168.08437",
+          "panic_stub": "no"
+        }
+      },
+      "comparison": "source-reported CI v8c Ubuntu; runner/compiler differences may affect time"
+    }
+  ]
+}

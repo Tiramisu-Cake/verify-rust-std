@@ -1,0 +1,5507 @@
+{
+  "allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'merge_safety_u64_len8_scratch48_src32_dst0')": [
+      [
+        "cover",
+        "values . len (  ) = = 8 , \"merge length8 entered\""
+      ],
+      [
+        "cover",
+        "true , \"merge length8 returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'tail_comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"realcontracts merge order violation reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"merge order violation reachable\""
+      ]
+    ]
+  },
+  "allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'sort8_safety_u64_scratch48_src32_dst0_merge_stubbed')": [
+      [
+        "cover",
+        "scratch . len (  ) = = 48 , \"sort8 scratch48 entered\""
+      ],
+      [
+        "cover",
+        "true , \"sort8 merge consumer returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'tail_comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "allocationcontracts::swap_safety_u64_backing32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"swap equal positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"swap increasing positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"swap decreasing positions return\""
+      ],
+      [
+        "cover",
+        "start = = 0 , \"swap allocation base returns\""
+      ],
+      [
+        "cover",
+        "start = = 16 , \"swap second half base returns\""
+      ],
+      [
+        "cover",
+        "start + b = = 31 , \"swap last element returns\""
+      ],
+      [
+        "cover",
+        "true , \"swap returns\""
+      ]
+    ]
+  },
+  "allocationcontracts::swap_safety_u8_backing32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"swap equal positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"swap increasing positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"swap decreasing positions return\""
+      ],
+      [
+        "cover",
+        "start = = 0 , \"swap allocation base returns\""
+      ],
+      [
+        "cover",
+        "start = = 16 , \"swap second half base returns\""
+      ],
+      [
+        "cover",
+        "start + b = = 31 , \"swap last element returns\""
+      ],
+      [
+        "cover",
+        "true , \"swap returns\""
+      ]
+    ]
+  },
+  "allocationcontracts::unstable_network_safety_u8_n32_stubbed": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'unstable_network_safety_u8_n32_stubbed')": [
+      [
+        "cover",
+        "backing . len (  ) = = 32 , \"network maximum length entered\""
+      ],
+      [
+        "cover",
+        "true , \"network maximum length returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'cut_order_violation')": [
+      [
+        "cover",
+        "true , \"network order violation reachable\""
+      ]
+    ]
+  },
+  "assembly::advancement_merge_up_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_merge_up')": [
+      [
+        "cover",
+        "take_left , \"forward merge consumes left\""
+      ],
+      [
+        "cover",
+        "! take_left , \"forward merge consumes right\""
+      ]
+    ]
+  },
+  "assembly::permutation_merge_u8_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_merge_consumption')": [
+      [
+        "cover",
+        "true , \"merge preserves the probe count on normal return\""
+      ]
+    ]
+  },
+  "assembly::reject_mutant_swap_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_swap')": [
+      [
+        "cover",
+        "true , \"swap returns a sorted permutation\""
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n1": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n1')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 1 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n16')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 16 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n17')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 17 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n2')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 2 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n31": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n31')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 31 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n32')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 32 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n7')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 7 ) )"
+      ]
+    ]
+  },
+  "assembly::safety_stable_unit_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'safety_stable_unit_n8')": [
+      [
+        "cover",
+        "true , concat ! ( \"stable unit sort returns at length \" , stringify ! ( 8 ) )"
+      ]
+    ]
+  },
+  "assembly::sorted_network_prefix_u8_n10": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_presorted_len')": [
+      [
+        "cover",
+        "true , \"network inserts the tenth element\""
+      ]
+    ]
+  },
+  "assembly::sorted_permutation_insert_tail_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_insert')": [
+      [
+        "cover",
+        "true , \"insertion returns a sorted permutation\""
+      ]
+    ]
+  },
+  "assembly::sorted_permutation_swap_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/assembly.rs', 'fn', 'check_swap')": [
+      [
+        "cover",
+        "true , \"swap returns a sorted permutation\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_drop_count_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_drop_count_n2')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_drop_count_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_drop_count_n4')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_drop_count_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_drop_count_n8')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_tag_permutation_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_tag_permutation_n2')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_tag_permutation_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_tag_permutation_n4')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_fallback_tag_permutation_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_fallback_tag_permutation_n8')": [
+      [
+        "cover",
+        "! alternate , \"fallback route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"insertion route returns with the property checked\""
+      ]
+    ]
+  },
+  "merge::drop_general_drop_count_n16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_drop_count_n16')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_drop_count_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_drop_count_n2')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_drop_count_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_drop_count_n4')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_drop_count_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_drop_count_n8')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_tag_permutation_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_tag_permutation_n2')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_tag_permutation_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_tag_permutation_n4')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::drop_general_tag_permutation_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'drop_general_tag_permutation_n8')": [
+      [
+        "cover",
+        "! alternate , \"general route returns with the property checked\""
+      ],
+      [
+        "cover",
+        "alternate , \"stable route returns with the property checked\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n0": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n1": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n3": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::fallback_sorted_permutation_u8_u64_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'fallback_route_properties')": [
+      [
+        "cover",
+        "true , \"fallback route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_direct_u64_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"general direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::general_direct_u64_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"general direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::general_direct_u64_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"general direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::general_direct_u64_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"general direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::general_direct_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_direct_u8_n9_properties')": [
+      [
+        "cover",
+        "true , \"general route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u64_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_const_u64_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u64_n3": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_const_u64_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u64_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_const_u64_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u64_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_const_u64_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n3": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_direct_u8_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_sorted_permutation_u64_n0": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_sorted_permutation_u64_n1": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_sorted_permutation_u8_n0": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::general_stable_sorted_permutation_u8_n1": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'general_route_properties')": [
+      [
+        "cover",
+        "! stable , \"general route properties checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u64_n2_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_contract_u64_n2_to4')": [
+      [
+        "cover",
+        "true , \"merge contract: length 2\""
+      ],
+      [
+        "cover",
+        "true , \"merge contract: length 3\""
+      ],
+      [
+        "cover",
+        "true , \"merge contract: length 4\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u64_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u64_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u64_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u64_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n2_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_contract_u8_n2_to4')": [
+      [
+        "cover",
+        "true , \"merge contract: length 2\""
+      ],
+      [
+        "cover",
+        "true , \"merge contract: length 3\""
+      ],
+      [
+        "cover",
+        "true , \"merge contract: length 4\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_contract_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_length_body')": [
+      [
+        "cover",
+        "true , \"merge returns for a permitted length\""
+      ]
+    ]
+  },
+  "merge::merge_scratch48_contract_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'merge_scratch48_length_body')": [
+      [
+        "cover",
+        "! stable , \"general scratch48 merge contract checked\""
+      ],
+      [
+        "cover",
+        "stable , \"stable scratch48 merge contract checked\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n3": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::route_safety_all_routes_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'unstable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"general u64 safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'noncopy_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"non-Copy u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_general_u64_safety_body')": [
+      [
+        "cover",
+        "true , \"stable u64 route safety: normal return reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "merge::sort4_arbitrary_comparator_bytes16_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'sort4_arbitrary_comparator_body')": [
+      [
+        "cover",
+        "true , \"sort returns and preserves values with an arbitrary comparator\""
+      ]
+    ]
+  },
+  "merge::sort4_arbitrary_comparator_u64_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'sort4_arbitrary_comparator_body')": [
+      [
+        "cover",
+        "true , \"sort returns and preserves values with an arbitrary comparator\""
+      ]
+    ]
+  },
+  "merge::sort4_contract_bytes16_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'sort4_length_body')": [
+      [
+        "cover",
+        "true , \"four-element stable sort returns\""
+      ]
+    ]
+  },
+  "merge::sort4_contract_u64_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'sort4_length_body')": [
+      [
+        "cover",
+        "true , \"four-element stable sort returns\""
+      ]
+    ]
+  },
+  "merge::specfix::specfix_full_value_checker_rejects_payload_change_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs', 'fn', 'specfix_full_value_checker_rejects_payload_change_u8')": [
+      [
+        "cover",
+        "true , \"specfix payload corruption reached\""
+      ]
+    ]
+  },
+  "merge::specfix::specfix_wrong_f_insert_rejected_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs', 'fn', 'specfix_wrong_f_insert_rejected_u8')": [
+      [
+        "cover",
+        "true , \"specfix wrong-F insert call reached\""
+      ]
+    ]
+  },
+  "merge::specfix::specfix_wrong_f_merge_rejected_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs', 'fn', 'specfix_wrong_f_merge_rejected_u8')": [
+      [
+        "cover",
+        "true , \"specfix wrong-F merge call reached\""
+      ]
+    ]
+  },
+  "merge::specfix::specfix_wrong_f_sort4_rejected_u64": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs', 'fn', 'specfix_wrong_f_sort4_rejected_u64')": [
+      [
+        "cover",
+        "true , \"specfix wrong-F sort4 call reached\""
+      ]
+    ]
+  },
+  "merge::specfix::specfix_wrong_f_swap_rejected_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs', 'fn', 'specfix_wrong_f_swap_rejected_u8')": [
+      [
+        "cover",
+        "true , \"specfix wrong-F swap call reached\""
+      ]
+    ]
+  },
+  "merge::stable_direct_nonconst_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_direct_nonconst_u8_n9_properties')": [
+      [
+        "cover",
+        "true , \"stable route properties checked\""
+      ]
+    ]
+  },
+  "merge::stable_direct_u64_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"stable direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::stable_direct_u64_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"stable direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::stable_direct_u64_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"stable direct split properties checked\""
+      ]
+    ]
+  },
+  "merge::stable_direct_u64_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'stable_direct_u64_properties')": [
+      [
+        "cover",
+        "true , \"stable direct split properties checked\""
+      ]
+    ]
+  },
+  "network::contract_insert_tail_u8_prefix": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'contract_insert_tail_u8_prefix')": [
+      [
+        "cover",
+        "tail = = 1 , \"u8 prefix: region 2 reachable\""
+      ],
+      [
+        "cover",
+        "tail = = 15 , \"u8 prefix: proper prefix region 16 reachable\""
+      ],
+      [
+        "cover",
+        "tail = = 16 , \"u8 prefix: full region 17 reachable\""
+      ],
+      [
+        "cover",
+        "true , \"u8 prefix: completion\""
+      ]
+    ]
+  },
+  "network::dispatch_reachability_general_bytes16_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_reachability_general_bytes16_n17')": [
+      [
+        "cover",
+        "true , \"dispatch route normal return is reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::dispatch_reachability_network_u8_n18": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_reachability_network_u8_n18')": [
+      [
+        "cover",
+        "true , \"dispatch route normal return is reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::dispatch_reachability_stable_u8_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_reachability_stable_u8_n17')": [
+      [
+        "cover",
+        "true , \"dispatch route normal return is reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_bytes16_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_bytes16_n32')": [
+      [
+        "cover",
+        "true , \"stable route normal return at 32\""
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_bytes17_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_bytes17_n32')": [
+      [
+        "cover",
+        "len = = 32 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_u8_n0_1_2_7_8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_u8_n0_1_2_7_8')": [
+      [
+        "cover",
+        "len = = 0 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "len = = 7 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "len = = 8 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_u8_n15_16_17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_u8_n15_16_17')": [
+      [
+        "cover",
+        "len = = 15 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "len = = 16 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "len = = 17 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_u8_n31_32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_u8_n31_32')": [
+      [
+        "cover",
+        "len = = 31 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 31 ) )"
+      ],
+      [
+        "cover",
+        "len = = 32 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8')": [
+      [
+        "cover",
+        "stable & & len = = 0 , concat ! ( \"stable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 0 , concat ! ( \"unstable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 1 , concat ! ( \"stable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 1 , concat ! ( \"unstable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 2 , concat ! ( \"stable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 2 , concat ! ( \"unstable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 7 , concat ! ( \"stable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 7 , concat ! ( \"unstable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 8 , concat ! ( \"stable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 8 , concat ! ( \"unstable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes16_n15": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes16_n15')": [
+      [
+        "cover",
+        "stable & & len = = 15 , concat ! ( \"stable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 15 , concat ! ( \"unstable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes16_n16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes16_n16')": [
+      [
+        "cover",
+        "stable & & len = = 16 , concat ! ( \"stable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 16 , concat ! ( \"unstable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes16_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes16_n17')": [
+      [
+        "cover",
+        "stable & & len = = 17 , concat ! ( \"stable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 17 , concat ! ( \"unstable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8')": [
+      [
+        "cover",
+        "stable & & len = = 0 , concat ! ( \"stable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 0 , concat ! ( \"unstable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 1 , concat ! ( \"stable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 1 , concat ! ( \"unstable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 2 , concat ! ( \"stable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 2 , concat ! ( \"unstable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 7 , concat ! ( \"stable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 7 , concat ! ( \"unstable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 8 , concat ! ( \"stable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 8 , concat ! ( \"unstable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes17_n15": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes17_n15')": [
+      [
+        "cover",
+        "stable & & len = = 15 , concat ! ( \"stable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 15 , concat ! ( \"unstable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes17_n16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes17_n16')": [
+      [
+        "cover",
+        "stable & & len = = 16 , concat ! ( \"stable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 16 , concat ! ( \"unstable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes17_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes17_n17')": [
+      [
+        "cover",
+        "stable & & len = = 17 , concat ! ( \"stable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 17 , concat ! ( \"unstable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8')": [
+      [
+        "cover",
+        "stable & & len = = 0 , concat ! ( \"stable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 0 , concat ! ( \"unstable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 1 , concat ! ( \"stable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 1 , concat ! ( \"unstable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 2 , concat ! ( \"stable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 2 , concat ! ( \"unstable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 7 , concat ! ( \"stable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 7 , concat ! ( \"unstable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 8 , concat ! ( \"stable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 8 , concat ! ( \"unstable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes85_n15_16_17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes85_n15_16_17')": [
+      [
+        "cover",
+        "stable & & len = = 15 , concat ! ( \"stable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 15 , concat ! ( \"unstable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 16 , concat ! ( \"stable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 16 , concat ! ( \"unstable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 17 , concat ! ( \"stable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 17 , concat ! ( \"unstable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_bytes85_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_bytes85_n32')": [
+      [
+        "cover",
+        "stable & & len = = 32 , concat ! ( \"stable route normal return at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 32 , concat ! ( \"unstable route normal return at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8')": [
+      [
+        "cover",
+        "stable & & len = = 0 , concat ! ( \"stable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 0 , concat ! ( \"unstable route normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 1 , concat ! ( \"stable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 1 , concat ! ( \"unstable route normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 2 , concat ! ( \"stable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 2 , concat ! ( \"unstable route normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 7 , concat ! ( \"stable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 7 , concat ! ( \"unstable route normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 8 , concat ! ( \"stable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 8 , concat ! ( \"unstable route normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_drop_u8_n15_16_17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_drop_u8_n15_16_17')": [
+      [
+        "cover",
+        "stable & & len = = 15 , concat ! ( \"stable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 15 , concat ! ( \"unstable route normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 16 , concat ! ( \"stable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 16 , concat ! ( \"unstable route normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 17 , concat ! ( \"stable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 17 , concat ! ( \"unstable route normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_stable_unstable_drop_u8_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_stable_unstable_drop_u8_n32')": [
+      [
+        "cover",
+        "stable & & len = = 32 , concat ! ( \"stable route normal return at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 32 , concat ! ( \"unstable route normal return at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_unstable_bytes16_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_unstable_bytes16_n32')": [
+      [
+        "cover",
+        "true , \"unstable route normal return at 32\""
+      ],
+      [
+        "cover",
+        "true , \"dispatch family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_unstable_bytes17_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_unstable_bytes17_n32')": [
+      [
+        "cover",
+        "len = = 32 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_unstable_bytes86_n0_1_2_15_16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_unstable_bytes86_n0_1_2_15_16')": [
+      [
+        "cover",
+        "len = = 0 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "len = = 15 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "len = = 16 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_unstable_u8_n18_31_32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_unstable_u8_n18_31_32')": [
+      [
+        "cover",
+        "len = = 18 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 18 ) )"
+      ],
+      [
+        "cover",
+        "len = = 31 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 31 ) )"
+      ],
+      [
+        "cover",
+        "len = = 32 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::dispatch_safety_unstable_u8_n8_9_12_13_17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'dispatch_safety_unstable_u8_n8_9_12_13_17')": [
+      [
+        "cover",
+        "len = = 8 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "len = = 9 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "len = = 12 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "len = = 13 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "len = = 17 , concat ! ( \"dispatch route returns normally at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"dispatch safety family reached the end\""
+      ]
+    ]
+  },
+  "network::insert_tail_contract_u64_start1_tail13_to14": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_contract_u64_start1_tail13_to14')": [
+      [
+        "cover",
+        "tail = = 13 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 13 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 14 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 14 ) , \" with requires satisfied\" )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_group_value')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion moves elements\""
+      ],
+      [
+        "cover",
+        "true , \"insert-tail contract covers end reached\""
+      ]
+    ]
+  },
+  "network::insert_tail_contract_u64_start1_tail15_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_contract_u64_start1_tail15_to16')": [
+      [
+        "cover",
+        "tail = = 15 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 15 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 16 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 16 ) , \" with requires satisfied\" )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_group_value')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion moves elements\""
+      ],
+      [
+        "cover",
+        "true , \"insert-tail contract covers end reached\""
+      ]
+    ]
+  },
+  "network::insert_tail_contract_u64_start1_tail2_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_contract_u64_start1_tail2_to8')": [
+      [
+        "cover",
+        "tail = = 2 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 2 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 3 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 3 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 4 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 4 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 5 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 5 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 6 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 6 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 7 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 7 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 8 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 8 ) , \" with requires satisfied\" )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_group_value')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion moves elements\""
+      ],
+      [
+        "cover",
+        "true , \"insert-tail contract covers end reached\""
+      ]
+    ]
+  },
+  "network::insert_tail_contract_u64_start1_tail9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_contract_u64_start1_tail9_to12')": [
+      [
+        "cover",
+        "tail = = 9 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 9 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 10 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 10 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 11 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 11 ) , \" with requires satisfied\" )"
+      ],
+      [
+        "cover",
+        "tail = = 12 , concat ! ( \"insert-tail contract covers tail \" , stringify ! ( 12 ) , \" with requires satisfied\" )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insert_tail_group_value')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion moves elements\""
+      ],
+      [
+        "cover",
+        "true , \"insert-tail contract covers end reached\""
+      ]
+    ]
+  },
+  "network::insertion_permutation_u64_n10": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_u64_n10')": [
+      [
+        "cover",
+        "true , \"insertion permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_fixed')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion preserves permutation and moves elements\" ,"
+      ]
+    ]
+  },
+  "network::insertion_permutation_u64_n14": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_u64_n14')": [
+      [
+        "cover",
+        "true , \"insertion permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_fixed')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion preserves permutation and moves elements\" ,"
+      ]
+    ]
+  },
+  "network::insertion_permutation_u8_n10": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_u8_n10')": [
+      [
+        "cover",
+        "true , \"insertion permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_fixed')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion preserves permutation and moves elements\" ,"
+      ]
+    ]
+  },
+  "network::insertion_permutation_u8_n11": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_u8_n11')": [
+      [
+        "cover",
+        "true , \"insertion permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_fixed')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion preserves permutation and moves elements\" ,"
+      ]
+    ]
+  },
+  "network::insertion_permutation_u8_n14": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_u8_n14')": [
+      [
+        "cover",
+        "true , \"insertion permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_permutation_fixed')": [
+      [
+        "cover",
+        "! prefix_unchanged ( & v , & pre , 0 ) , \"insertion preserves permutation and moves elements\" ,"
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n11_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n11_to12')": [
+      [
+        "cover",
+        "len = = 11 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "len = = 12 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion safety family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"insertion at final offset returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n13": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n13')": [
+      [
+        "cover",
+        "len = = 13 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion safety family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"insertion at final offset returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n14": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n14')": [
+      [
+        "cover",
+        "len = = 14 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion safety family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"insertion at final offset returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n15_offsets13_to15": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n15_offsets13_to15')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n15_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n15_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n15_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n15_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n15_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n15_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n16_offsets13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n16_offsets13_to16')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n16_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n16_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n16_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n16_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n16_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n16_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n17_offsets13_to15": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n17_offsets13_to15')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n17_offsets16_to17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n17_offsets16_to17')": [
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 17 , concat ! ( \"insertion offset \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n17_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n17_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n17_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n17_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n17_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n17_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n18_offsets13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n18_offsets13_to16')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n18_offsets17_to18": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n18_offsets17_to18')": [
+      [
+        "cover",
+        "offset = = 17 , concat ! ( \"insertion offset \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 18 , concat ! ( \"insertion offset \" , stringify ! ( 18 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n18_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n18_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n18_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n18_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n18_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n18_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n19_offsets13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n19_offsets13_to16')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n19_offsets17_to19": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n19_offsets17_to19')": [
+      [
+        "cover",
+        "offset = = 17 , concat ! ( \"insertion offset \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 18 , concat ! ( \"insertion offset \" , stringify ! ( 18 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 19 , concat ! ( \"insertion offset \" , stringify ! ( 19 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n19_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n19_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n19_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n19_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n19_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n19_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n1_to5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n1_to5')": [
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "len = = 3 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "len = = 4 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "len = = 5 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion safety family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"insertion at final offset returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n20_offsets13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n20_offsets13_to16')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n20_offsets17_to20": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n20_offsets17_to20')": [
+      [
+        "cover",
+        "offset = = 17 , concat ! ( \"insertion offset \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 18 , concat ! ( \"insertion offset \" , stringify ! ( 18 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 19 , concat ! ( \"insertion offset \" , stringify ! ( 19 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 20 , concat ! ( \"insertion offset \" , stringify ! ( 20 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n20_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n20_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n20_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n20_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n20_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n20_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion offset group returns normally\""
+      ]
+    ]
+  },
+  "network::insertion_safety_u64_n6_to10": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_u64_n6_to10')": [
+      [
+        "cover",
+        "len = = 6 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "len = = 7 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "len = = 8 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "len = = 9 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "len = = 10 , concat ! ( \"insertion returns normally at length \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "true , \"insertion safety family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'insertion_safety_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"insertion at final offset returns normally\""
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n1_to5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n1_to5')": [
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"mutating insertion returns normally at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"mutating insertion returns normally at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "len = = 3 , concat ! ( \"mutating insertion returns normally at \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "len = = 4 , concat ! ( \"mutating insertion returns normally at \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "len = = 5 , concat ! ( \"mutating insertion returns normally at \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_fixed')": [
+      [
+        "cover",
+        "offset = = 1 , \"mutating insertion at offset one returns normally\""
+      ],
+      [
+        "cover",
+        "offset = = N , \"mutating insertion at final offset returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n20_offsets13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n20_offsets13_to16')": [
+      [
+        "cover",
+        "offset = = 13 , concat ! ( \"mutating insertion offset \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 14 , concat ! ( \"mutating insertion offset \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 15 , concat ! ( \"mutating insertion offset \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 16 , concat ! ( \"mutating insertion offset \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion offset group returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n20_offsets17_to20": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n20_offsets17_to20')": [
+      [
+        "cover",
+        "offset = = 17 , concat ! ( \"mutating insertion offset \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 18 , concat ! ( \"mutating insertion offset \" , stringify ! ( 18 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 19 , concat ! ( \"mutating insertion offset \" , stringify ! ( 19 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 20 , concat ! ( \"mutating insertion offset \" , stringify ! ( 20 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion offset group returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n20_offsets1_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n20_offsets1_to4')": [
+      [
+        "cover",
+        "offset = = 1 , concat ! ( \"mutating insertion offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 2 , concat ! ( \"mutating insertion offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 3 , concat ! ( \"mutating insertion offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 4 , concat ! ( \"mutating insertion offset \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion offset group returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n20_offsets5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n20_offsets5_to8')": [
+      [
+        "cover",
+        "offset = = 5 , concat ! ( \"mutating insertion offset \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 6 , concat ! ( \"mutating insertion offset \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 7 , concat ! ( \"mutating insertion offset \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 8 , concat ! ( \"mutating insertion offset \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion offset group returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_insertion_safety_cell_n20_offsets9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_insertion_safety_cell_n20_offsets9_to12')": [
+      [
+        "cover",
+        "offset = = 9 , concat ! ( \"mutating insertion offset \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 10 , concat ! ( \"mutating insertion offset \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 11 , concat ! ( \"mutating insertion offset \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "offset = = 12 , concat ! ( \"mutating insertion offset \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating insertion offset group returns normally\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_permutation_cell_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation_cell_n2')": [
+      [
+        "cover",
+        "mode = = 2 & & offset = = 1 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 2 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 2 ) )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation')": [
+      [
+        "cover",
+        "mode = = 0 & & moved , \"stable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 1 & & moved , \"unstable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 2 & & moved , \"insertion route moves a tag\""
+      ],
+      [
+        "cover",
+        "true , \"tag permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_permutation_cell_n3": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation_cell_n3')": [
+      [
+        "cover",
+        "mode = = 2 & & offset = = 1 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 2 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 3 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 3 ) )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation')": [
+      [
+        "cover",
+        "mode = = 0 & & moved , \"stable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 1 & & moved , \"unstable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 2 & & moved , \"insertion route moves a tag\""
+      ],
+      [
+        "cover",
+        "true , \"tag permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_permutation_cell_n4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation_cell_n4')": [
+      [
+        "cover",
+        "mode = = 2 & & offset = = 1 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 2 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 3 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "mode = = 2 & & offset = = 4 , concat ! ( \"insertion route returns normally at offset \" , stringify ! ( 4 ) )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_permutation')": [
+      [
+        "cover",
+        "mode = = 0 & & moved , \"stable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 1 & & moved , \"unstable route moves a tag\""
+      ],
+      [
+        "cover",
+        "mode = = 2 & & moved , \"insertion route moves a tag\""
+      ],
+      [
+        "cover",
+        "true , \"tag permutation check reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_safety_cell_n0_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_safety_cell_n0_to4')": [
+      [
+        "cover",
+        "stable & & len = = 0 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 0 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 1 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 1 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 2 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 2 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 3 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 3 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 4 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 4 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating route family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_safety_cell_n13_to16": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_safety_cell_n13_to16')": [
+      [
+        "cover",
+        "stable & & len = = 13 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 13 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 14 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 14 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 15 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 15 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 16 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 16 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating route family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_safety_cell_n5_to8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_safety_cell_n5_to8')": [
+      [
+        "cover",
+        "stable & & len = = 5 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 5 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 6 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 6 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 7 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 7 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 8 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 8 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating route family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::mutating_route_safety_cell_n9_to12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_route_safety_cell_n9_to12')": [
+      [
+        "cover",
+        "stable & & len = = 9 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 9 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 10 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 10 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 11 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 11 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "stable & & len = = 12 , concat ! ( \"stable mutating route returns normally at \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "! stable & & len = = 12 , concat ! ( \"unstable mutating route returns normally at \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"mutating route family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'mutating_key_order')": [
+      [
+        "cover",
+        "left_key ! = left . key & & right_key ! = right . key , \"mutating comparator changes both keys\" ,"
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n0_to2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n0_to2')": [
+      [
+        "cover",
+        "len = = 0 , concat ! ( \"sort returns normally at length \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"sort returns normally at length \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"sort returns normally at length \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n3_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n3_to4')": [
+      [
+        "cover",
+        "len = = 3 , concat ! ( \"sort returns normally at length \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "len = = 4 , concat ! ( \"sort returns normally at length \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n5')": [
+      [
+        "cover",
+        "len = = 5 , concat ! ( \"sort returns normally at length \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n6')": [
+      [
+        "cover",
+        "len = = 6 , concat ! ( \"sort returns normally at length \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n7')": [
+      [
+        "cover",
+        "len = = 7 , concat ! ( \"sort returns normally at length \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u64_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u64_n9')": [
+      [
+        "cover",
+        "len = = 9 , concat ! ( \"sort returns normally at length \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n0_to2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n0_to2')": [
+      [
+        "cover",
+        "len = = 0 , concat ! ( \"sort returns normally at length \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"sort returns normally at length \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"sort returns normally at length \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n10": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n10')": [
+      [
+        "cover",
+        "len = = 10 , concat ! ( \"sort returns normally at length \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n11": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n11')": [
+      [
+        "cover",
+        "len = = 11 , concat ! ( \"sort returns normally at length \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n12": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n12')": [
+      [
+        "cover",
+        "len = = 12 , concat ! ( \"sort returns normally at length \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n13": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n13')": [
+      [
+        "cover",
+        "len = = 13 , concat ! ( \"sort returns normally at length \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n3_to4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n3_to4')": [
+      [
+        "cover",
+        "len = = 3 , concat ! ( \"sort returns normally at length \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "len = = 4 , concat ! ( \"sort returns normally at length \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n5')": [
+      [
+        "cover",
+        "len = = 5 , concat ! ( \"sort returns normally at length \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n6": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n6')": [
+      [
+        "cover",
+        "len = = 6 , concat ! ( \"sort returns normally at length \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n7')": [
+      [
+        "cover",
+        "len = = 7 , concat ! ( \"sort returns normally at length \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_correctness_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_u8_n9')": [
+      [
+        "cover",
+        "len = = 9 , concat ! ( \"sort returns normally at length \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "true , \"sort family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_correctness_fixed')": [
+      [
+        "cover",
+        "N < 2 | | ! prefix_unchanged ( & v , & pre , 0 ) , \"trivial input or sort moves elements\""
+      ]
+    ]
+  },
+  "network::network_safety_unstable_u64_n0_to17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_safety_unstable_u64_n0_to17')": [
+      [
+        "cover",
+        "len = = 0 , concat ! ( \"unstable network normal return at \" , stringify ! ( 0 ) )"
+      ],
+      [
+        "cover",
+        "len = = 1 , concat ! ( \"unstable network normal return at \" , stringify ! ( 1 ) )"
+      ],
+      [
+        "cover",
+        "len = = 2 , concat ! ( \"unstable network normal return at \" , stringify ! ( 2 ) )"
+      ],
+      [
+        "cover",
+        "len = = 3 , concat ! ( \"unstable network normal return at \" , stringify ! ( 3 ) )"
+      ],
+      [
+        "cover",
+        "len = = 4 , concat ! ( \"unstable network normal return at \" , stringify ! ( 4 ) )"
+      ],
+      [
+        "cover",
+        "len = = 5 , concat ! ( \"unstable network normal return at \" , stringify ! ( 5 ) )"
+      ],
+      [
+        "cover",
+        "len = = 6 , concat ! ( \"unstable network normal return at \" , stringify ! ( 6 ) )"
+      ],
+      [
+        "cover",
+        "len = = 7 , concat ! ( \"unstable network normal return at \" , stringify ! ( 7 ) )"
+      ],
+      [
+        "cover",
+        "len = = 8 , concat ! ( \"unstable network normal return at \" , stringify ! ( 8 ) )"
+      ],
+      [
+        "cover",
+        "len = = 9 , concat ! ( \"unstable network normal return at \" , stringify ! ( 9 ) )"
+      ],
+      [
+        "cover",
+        "len = = 10 , concat ! ( \"unstable network normal return at \" , stringify ! ( 10 ) )"
+      ],
+      [
+        "cover",
+        "len = = 11 , concat ! ( \"unstable network normal return at \" , stringify ! ( 11 ) )"
+      ],
+      [
+        "cover",
+        "len = = 12 , concat ! ( \"unstable network normal return at \" , stringify ! ( 12 ) )"
+      ],
+      [
+        "cover",
+        "len = = 13 , concat ! ( \"unstable network normal return at \" , stringify ! ( 13 ) )"
+      ],
+      [
+        "cover",
+        "len = = 14 , concat ! ( \"unstable network normal return at \" , stringify ! ( 14 ) )"
+      ],
+      [
+        "cover",
+        "len = = 15 , concat ! ( \"unstable network normal return at \" , stringify ! ( 15 ) )"
+      ],
+      [
+        "cover",
+        "len = = 16 , concat ! ( \"unstable network normal return at \" , stringify ! ( 16 ) )"
+      ],
+      [
+        "cover",
+        "len = = 17 , concat ! ( \"unstable network normal return at \" , stringify ! ( 17 ) )"
+      ],
+      [
+        "cover",
+        "true , \"unstable network family reached the end\""
+      ]
+    ]
+  },
+  "network::network_safety_unstable_u64_n30": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_safety_unstable_u64_n30')": [
+      [
+        "cover",
+        "len = = 30 , concat ! ( \"unstable network normal return at \" , stringify ! ( 30 ) )"
+      ],
+      [
+        "cover",
+        "true , \"unstable network family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::network_safety_unstable_u64_n31": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_safety_unstable_u64_n31')": [
+      [
+        "cover",
+        "len = = 31 , concat ! ( \"unstable network normal return at \" , stringify ! ( 31 ) )"
+      ],
+      [
+        "cover",
+        "true , \"unstable network family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::network_safety_unstable_u64_n32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'network_safety_unstable_u64_n32')": [
+      [
+        "cover",
+        "len = = 32 , concat ! ( \"unstable network normal return at \" , stringify ! ( 32 ) )"
+      ],
+      [
+        "cover",
+        "true , \"unstable network family reached the end\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'cut_order_violation_panic')": [
+      [
+        "cover",
+        "true , \"order-violation panic stub reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_bytes16_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_bytes17_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_cell_i32_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_drop_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_four_positions_i32": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'exercise_swap_contract')": [
+      [
+        "cover",
+        "a = = 0 & & b = = 3 , \"swap_if_less: a < b reachable\""
+      ],
+      [
+        "cover",
+        "a = = 3 & & b = = 0 , \"swap_if_less: a > b reachable\""
+      ],
+      [
+        "cover",
+        "( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap taken\""
+      ],
+      [
+        "cover",
+        "! ( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap not taken\""
+      ],
+      [
+        "cover",
+        "true , \"swap_if_less: end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_four_positions_u64": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'exercise_swap_contract')": [
+      [
+        "cover",
+        "a = = 0 & & b = = 3 , \"swap_if_less: a < b reachable\""
+      ],
+      [
+        "cover",
+        "a = = 3 & & b = = 0 , \"swap_if_less: a > b reachable\""
+      ],
+      [
+        "cover",
+        "( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap taken\""
+      ],
+      [
+        "cover",
+        "! ( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap not taken\""
+      ],
+      [
+        "cover",
+        "true , \"swap_if_less: end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_four_positions_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'exercise_swap_contract')": [
+      [
+        "cover",
+        "a = = 0 & & b = = 3 , \"swap_if_less: a < b reachable\""
+      ],
+      [
+        "cover",
+        "a = = 3 & & b = = 0 , \"swap_if_less: a > b reachable\""
+      ],
+      [
+        "cover",
+        "( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap taken\""
+      ],
+      [
+        "cover",
+        "! ( P : : CMP ) ( & old_b , & old_a ) , \"swap_if_less: swap not taken\""
+      ],
+      [
+        "cover",
+        "true , \"swap_if_less: end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_u64_indices_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_indices')": [
+      [
+        "cover",
+        "a = = 0 & & b = = N - 1 , \"swap contract covers first to last\""
+      ],
+      [
+        "cover",
+        "a = = N - 1 & & b = = 0 , \"swap contract covers last to first\""
+      ],
+      [
+        "cover",
+        "a > 0 & & a < N - 1 & & b > 0 & & b < N - 1 , \"swap contract covers interior pair\""
+      ],
+      [
+        "cover",
+        "a = = network_last | | b = = network_last , \"swap contract covers network final position\" ,"
+      ],
+      [
+        "cover",
+        "taken , \"swap contract covers swap branch\""
+      ],
+      [
+        "cover",
+        "! taken , \"swap contract covers no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract covers end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_u64_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_u64_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_indices')": [
+      [
+        "cover",
+        "a = = 0 & & b = = N - 1 , \"swap contract covers first to last\""
+      ],
+      [
+        "cover",
+        "a = = N - 1 & & b = = 0 , \"swap contract covers last to first\""
+      ],
+      [
+        "cover",
+        "a > 0 & & a < N - 1 & & b > 0 & & b < N - 1 , \"swap contract covers interior pair\""
+      ],
+      [
+        "cover",
+        "a = = network_last | | b = = network_last , \"swap contract covers network final position\" ,"
+      ],
+      [
+        "cover",
+        "taken , \"swap contract covers swap branch\""
+      ],
+      [
+        "cover",
+        "! taken , \"swap contract covers no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract covers end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_u8_indices_n17": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_indices')": [
+      [
+        "cover",
+        "a = = 0 & & b = = N - 1 , \"swap contract covers first to last\""
+      ],
+      [
+        "cover",
+        "a = = N - 1 & & b = = 0 , \"swap contract covers last to first\""
+      ],
+      [
+        "cover",
+        "a > 0 & & a < N - 1 & & b > 0 & & b < N - 1 , \"swap contract covers interior pair\""
+      ],
+      [
+        "cover",
+        "a = = network_last | | b = = network_last , \"swap contract covers network final position\" ,"
+      ],
+      [
+        "cover",
+        "taken , \"swap contract covers swap branch\""
+      ],
+      [
+        "cover",
+        "! taken , \"swap contract covers no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract covers end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_u8_n13": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_indices')": [
+      [
+        "cover",
+        "a = = 0 & & b = = N - 1 , \"swap contract covers first to last\""
+      ],
+      [
+        "cover",
+        "a = = N - 1 & & b = = 0 , \"swap contract covers last to first\""
+      ],
+      [
+        "cover",
+        "a > 0 & & a < N - 1 & & b > 0 & & b < N - 1 , \"swap contract covers interior pair\""
+      ],
+      [
+        "cover",
+        "a = = network_last | | b = = network_last , \"swap contract covers network final position\" ,"
+      ],
+      [
+        "cover",
+        "taken , \"swap contract covers swap branch\""
+      ],
+      [
+        "cover",
+        "! taken , \"swap contract covers no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract covers end reached\""
+      ]
+    ]
+  },
+  "network::swap_contract_u8_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_fixed')": [
+      [
+        "cover",
+        "reverse , \"swap contract covers indices 1 and 0\""
+      ],
+      [
+        "cover",
+        "! reverse , \"swap contract covers indices 0 and 1\""
+      ],
+      [
+        "cover",
+        "size_of : : < P : : Elem > (  ) = = 0 | | taken , \"swap branch or zero-sized value\""
+      ],
+      [
+        "cover",
+        "! taken , \"no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract reached the end\""
+      ]
+    ]
+  },
+  "network::swap_contract_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_contract_indices')": [
+      [
+        "cover",
+        "a = = 0 & & b = = N - 1 , \"swap contract covers first to last\""
+      ],
+      [
+        "cover",
+        "a = = N - 1 & & b = = 0 , \"swap contract covers last to first\""
+      ],
+      [
+        "cover",
+        "a > 0 & & a < N - 1 & & b > 0 & & b < N - 1 , \"swap contract covers interior pair\""
+      ],
+      [
+        "cover",
+        "a = = network_last | | b = = network_last , \"swap contract covers network final position\" ,"
+      ],
+      [
+        "cover",
+        "taken , \"swap contract covers swap branch\""
+      ],
+      [
+        "cover",
+        "! taken , \"swap contract covers no-swap branch\""
+      ],
+      [
+        "cover",
+        "true , \"swap contract covers end reached\""
+      ]
+    ]
+  },
+  "network::swap_same_position_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'swap_same_position_u8')": [
+      [
+        "cover",
+        "taken , \"same-position exchange: true comparator returns\""
+      ],
+      [
+        "cover",
+        "! taken , \"same-position exchange: false comparator returns\""
+      ]
+    ]
+  },
+  "network::unstable_freeze_noncopy_bytes86_fallback_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/network.rs', 'fn', 'unstable_freeze_noncopy_bytes86_fallback_n2')": [
+      [
+        "cover",
+        "taken , \"Freeze non-Copy bytes86 fallback swaps at N2\""
+      ],
+      [
+        "cover",
+        "! taken , \"Freeze non-Copy bytes86 fallback keeps order at N2\""
+      ],
+      [
+        "cover",
+        "true , \"Freeze non-Copy bytes86 fallback returns at N2\""
+      ]
+    ]
+  },
+  "permtags::network_u8_n13": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/permtags.rs', 'fn', 'network_body')": [
+      [
+        "cover",
+        "true , \"permtags: network returns with every tag\""
+      ]
+    ]
+  },
+  "permtags::network_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/permtags.rs', 'fn', 'network_body')": [
+      [
+        "cover",
+        "true , \"permtags: network returns with every tag\""
+      ]
+    ]
+  },
+  "permtags::reject_duplicate_network_u8_n9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/permtags.rs', 'fn', 'reject_duplicate_network_u8_n9')": [
+      [
+        "cover",
+        "true , \"permtags: duplicate mutant reaches the corruption\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/permtags.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"permtags: order violation panic is reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ]
+  },
+  "permtags::tag_types_preserve_source_routes": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/permtags.rs', 'fn', 'tag_types_preserve_source_routes')": [
+      [
+        "cover",
+        "true , \"permtags: tag and source types select the required routes\""
+      ]
+    ]
+  },
+  "realcontracts::insert_tail_safety_u64_tail1_to4_backing5": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'insert_tail_safety_u64_tail1_to4_backing5')": [
+      [
+        "cover",
+        "tail = = 1 , \"realcontracts insert_tail offset1 returns\""
+      ],
+      [
+        "cover",
+        "tail = = 2 , \"realcontracts insert_tail offset2 returns\""
+      ],
+      [
+        "cover",
+        "tail = = 3 , \"realcontracts insert_tail offset3 returns\""
+      ],
+      [
+        "cover",
+        "tail = = 4 , \"realcontracts insert_tail offset4 returns\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts insert_tail returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::merge_safety_u64_len2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"realcontracts merge order violation reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"merge order violation reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_merge_u64')": [
+      [
+        "cover",
+        "true , \"realcontracts merge returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::merge_safety_u64_len4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"realcontracts merge order violation reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'cut_merge_order_violation')": [
+      [
+        "cover",
+        "true , \"merge order violation reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_merge_u64')": [
+      [
+        "cover",
+        "true , \"realcontracts merge returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::rejects_insert_tail_equal_begin_u64": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'rejects_insert_tail_equal_begin_u64')": [
+      [
+        "cover",
+        "true , \"realcontracts invalid insert_tail consumer reached\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::rejects_merge_overlapping_dst_u64": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'rejects_merge_overlapping_dst_u64')": [
+      [
+        "cover",
+        "true , \"realcontracts overlapping merge consumer reached\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::rejects_swap_comparator_writing_outside_frame_u8": {},
+  "realcontracts::rejects_swap_outside_backing_u8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'rejects_swap_outside_backing_u8')": [
+      [
+        "cover",
+        "true , \"realcontracts invalid swap consumer reached\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::sort4_safety_u64": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'sort4_safety_u64')": [
+      [
+        "cover",
+        "true , \"realcontracts sort4 returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::swap_safety_bytes17_backing4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"swap equal positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"swap increasing positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"swap decreasing positions return\""
+      ],
+      [
+        "cover",
+        "start = = 0 , \"swap allocation base returns\""
+      ],
+      [
+        "cover",
+        "start = = 16 , \"swap second half base returns\""
+      ],
+      [
+        "cover",
+        "start + b = = 31 , \"swap last element returns\""
+      ],
+      [
+        "cover",
+        "true , \"swap returns\""
+      ]
+    ]
+  },
+  "realcontracts::swap_safety_u64_backing4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"swap equal positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"swap increasing positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"swap decreasing positions return\""
+      ],
+      [
+        "cover",
+        "start = = 0 , \"swap allocation base returns\""
+      ],
+      [
+        "cover",
+        "start = = 16 , \"swap second half base returns\""
+      ],
+      [
+        "cover",
+        "start + b = = 31 , \"swap last element returns\""
+      ],
+      [
+        "cover",
+        "true , \"swap returns\""
+      ]
+    ]
+  },
+  "realcontracts::swap_safety_u8_backing13": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap_u8_backing')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::swap_safety_u8_backing4": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'exercise_swap')": [
+      [
+        "cover",
+        "a = = b , \"swap equal positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"swap increasing positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"swap decreasing positions return\""
+      ],
+      [
+        "cover",
+        "start = = 0 , \"swap allocation base returns\""
+      ],
+      [
+        "cover",
+        "start = = 16 , \"swap second half base returns\""
+      ],
+      [
+        "cover",
+        "start + b = = 31 , \"swap last element returns\""
+      ],
+      [
+        "cover",
+        "true , \"swap returns\""
+      ]
+    ]
+  },
+  "realcontracts::swap_safety_u8_backing9": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_swap_u8_backing')": [
+      [
+        "cover",
+        "a = = b , \"realcontracts equal swap positions return\""
+      ],
+      [
+        "cover",
+        "a < b , \"realcontracts increasing swap positions return\""
+      ],
+      [
+        "cover",
+        "a > b , \"realcontracts decreasing swap positions return\""
+      ],
+      [
+        "cover",
+        "true , \"realcontracts swap returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::unstable_network_safety_u8_n13_stubbed": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_unstable_network_u8')": [
+      [
+        "cover",
+        "true , \"realcontracts unstable network consumer returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ]
+  },
+  "realcontracts::unstable_network_safety_u8_n9_stubbed": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'exercise_unstable_network_u8')": [
+      [
+        "cover",
+        "true , \"realcontracts unstable network consumer returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ]
+  },
+  "scratchgeom::stable_u64_min_scratch_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/merge.rs', 'fn', 'abort_on_order_violation')": [
+      [
+        "cover",
+        "true , \"order violation panic path is reachable\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs', 'fn', 'check_geometry')": [
+      [
+        "cover",
+        "threshold = = SMALL_SORT_GENERAL_THRESHOLD & & v . len (  ) > = 2 , \"Stable Freeze selects small_sort_general_with_scratch beyond its early return\" ,"
+      ],
+      [
+        "cover",
+        "true , \"scratch geometry returns normally and preserves full values\""
+      ]
+    ]
+  },
+  "smoke::predicate_efficient_swap_type_matrix": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/smoke.rs', 'fn', 'predicate_efficient_swap_type_matrix')": [
+      [
+        "cover",
+        "true , concat ! ( \"efficient swap predicate for \" , stringify ! ( $ t ) )"
+      ]
+    ]
+  },
+  "tailcontracts::insert_tail_safety_u64_backing17_tail1_to7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'exercise')": [
+      [
+        "cover",
+        "tail = = LO , \"insert_tail lowest tail returns\""
+      ],
+      [
+        "cover",
+        "tail = = HI , \"insert_tail highest tail returns\""
+      ],
+      [
+        "cover",
+        "true , \"insert_tail returns\""
+      ]
+    ]
+  },
+  "tailcontracts::insert_tail_safety_u64_backing17_tail8_to15": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs', 'fn', 'comparison_covers')": [
+      [
+        "cover",
+        "answer , \"realcontracts comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"realcontracts comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs', 'fn', 'arbitrary_less')": [
+      [
+        "cover",
+        "answer , \"comparator true\""
+      ],
+      [
+        "cover",
+        "! answer , \"comparator false\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs', 'fn', 'exercise')": [
+      [
+        "cover",
+        "tail = = LO , \"insert_tail lowest tail returns\""
+      ],
+      [
+        "cover",
+        "tail = = HI , \"insert_tail highest tail returns\""
+      ],
+      [
+        "cover",
+        "true , \"insert_tail returns\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_fallback_cell_u8_n0_to2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trivial_trait_properties')": [
+      [
+        "cover",
+        "selector = = 0 , \"logical length zero\""
+      ],
+      [
+        "cover",
+        "selector = = 1 , \"logical length one\""
+      ],
+      [
+        "cover",
+        "selector = = 2 , \"logical length two\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trait_properties')": [
+      [
+        "cover",
+        "stable , \"logical stable trait entry returns\""
+      ],
+      [
+        "cover",
+        "! stable , \"logical unstable trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_fallback_cell_u8_n7": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trait_properties')": [
+      [
+        "cover",
+        "stable , \"logical stable trait entry returns\""
+      ],
+      [
+        "cover",
+        "! stable , \"logical unstable trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_general_drop_u8_n0_to2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trivial_trait_properties')": [
+      [
+        "cover",
+        "selector = = 0 , \"logical length zero\""
+      ],
+      [
+        "cover",
+        "selector = = 1 , \"logical length one\""
+      ],
+      [
+        "cover",
+        "selector = = 2 , \"logical length two\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trait_properties')": [
+      [
+        "cover",
+        "stable , \"logical stable trait entry returns\""
+      ],
+      [
+        "cover",
+        "! stable , \"logical unstable trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_general_drop_u8_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'trait_properties')": [
+      [
+        "cover",
+        "stable , \"logical stable trait entry returns\""
+      ],
+      [
+        "cover",
+        "! stable , \"logical unstable trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_stable_fallback_cell_u8_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'sorted_permutation_traits_stable_fallback_cell_u8_n8')": [
+      [
+        "cover",
+        "true , concat ! ( \"logical fixed trait entry returns: stable=\" , true )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ]
+  },
+  "types::sorted_permutation_traits_unstable_fallback_cell_u8_n8": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'sorted_permutation_traits_unstable_fallback_cell_u8_n8')": [
+      [
+        "cover",
+        "true , concat ! ( \"logical fixed trait entry returns: stable=\" , false )"
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'check_output')": [
+      [
+        "cover",
+        "true , \"logical sort returns after both assertions\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/types.rs', 'fn', 'cover_nontrivial_input')": [
+      [
+        "cover",
+        "input [ 0 ] > input [ 1 ] , \"logical sort returns from an unsorted input\""
+      ],
+      [
+        "cover",
+        "input [ 0 ] = = input [ 1 ] , \"logical sort returns with duplicate keys\""
+      ]
+    ]
+  },
+  "wrap::freeze_noncopy_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'freeze_noncopy_n2')": [
+      [
+        "cover",
+        "true , \"wrap Freeze NonCopyU8 trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'input_covers')": [
+      [
+        "cover",
+        "( a > > 1 ) > ( b > > 1 ) , \"wrap reversed keys return\""
+      ],
+      [
+        "cover",
+        "( a > > 1 ) < ( b > > 1 ) , \"wrap increasing keys return\""
+      ],
+      [
+        "cover",
+        "a ! = b & & ( a > > 1 ) = = ( b > > 1 ) , \"wrap tied keys retain distinct full values\""
+      ],
+      [
+        "cover",
+        "a = = b , \"wrap duplicate full values return\""
+      ],
+      [
+        "cover",
+        "probe = = a | | probe = = b , \"wrap independent probe hits input\""
+      ],
+      [
+        "cover",
+        "probe ! = a & & probe ! = b , \"wrap independent probe misses input\""
+      ]
+    ]
+  },
+  "wrap::rejects_always_true": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'rejects_always_true')": [
+      [
+        "cover",
+        "true , \"wrap invalid stable comparator reaches guard\""
+      ],
+      [
+        "cover",
+        "true , \"wrap invalid unstable comparator reaches guard\""
+      ],
+      [
+        "cover",
+        "true , \"wrap invalid Freeze comparator reaches guard\""
+      ]
+    ]
+  },
+  "wrap::rejects_payload_corruption": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'rejects_payload_corruption')": [
+      [
+        "cover",
+        "true , \"wrap payload corruption reached after real trait return\""
+      ]
+    ]
+  },
+  "wrap::stable_cell_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'stable_cell_n2')": [
+      [
+        "cover",
+        "scratch_len = = 0 , \"wrap stable empty scratch returns\""
+      ],
+      [
+        "cover",
+        "scratch_len = = 2 , \"wrap stable unread uninit scratch tail returns\""
+      ],
+      [
+        "cover",
+        "true , \"wrap stable Cell trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'input_covers')": [
+      [
+        "cover",
+        "( a > > 1 ) > ( b > > 1 ) , \"wrap reversed keys return\""
+      ],
+      [
+        "cover",
+        "( a > > 1 ) < ( b > > 1 ) , \"wrap increasing keys return\""
+      ],
+      [
+        "cover",
+        "a ! = b & & ( a > > 1 ) = = ( b > > 1 ) , \"wrap tied keys retain distinct full values\""
+      ],
+      [
+        "cover",
+        "a = = b , \"wrap duplicate full values return\""
+      ],
+      [
+        "cover",
+        "probe = = a | | probe = = b , \"wrap independent probe hits input\""
+      ],
+      [
+        "cover",
+        "probe ! = a & & probe ! = b , \"wrap independent probe misses input\""
+      ]
+    ]
+  },
+  "wrap::unstable_byte_n2": {
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'unstable_byte_n2')": [
+      [
+        "cover",
+        "true , \"wrap unstable u8 trait entry returns\""
+      ]
+    ],
+    "('library/core/src/slice/sort/shared/smallsort/verify/wrap.rs', 'fn', 'input_covers')": [
+      [
+        "cover",
+        "( a > > 1 ) > ( b > > 1 ) , \"wrap reversed keys return\""
+      ],
+      [
+        "cover",
+        "( a > > 1 ) < ( b > > 1 ) , \"wrap increasing keys return\""
+      ],
+      [
+        "cover",
+        "a ! = b & & ( a > > 1 ) = = ( b > > 1 ) , \"wrap tied keys retain distinct full values\""
+      ],
+      [
+        "cover",
+        "a = = b , \"wrap duplicate full values return\""
+      ],
+      [
+        "cover",
+        "probe = = a | | probe = = b , \"wrap independent probe hits input\""
+      ],
+      [
+        "cover",
+        "probe ! = a & & probe ! = b , \"wrap independent probe misses input\""
+      ]
+    ]
+  }
+}

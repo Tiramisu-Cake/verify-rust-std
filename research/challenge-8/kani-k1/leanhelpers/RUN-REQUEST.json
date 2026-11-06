@@ -1,0 +1,42 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "leanhelpers-g1-20261106-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "LEANHELPERS G1: recheck shortest representatives of dead MUTANT/START parameter removal and free generic value/geometry helpers; compile cfg-on tree, preserve successful covers.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 8,
+  "inventory": false,
+  "controls": true,
+  "kani_jobs": 1,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratchgeom::stable_u64_min_scratch_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15_to16",
+      "expect": "SUCCESS"
+    }
+  ]
+}
