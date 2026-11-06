@@ -1,0 +1,160 @@
+{
+  "schema": "integcheck-pairs-v1",
+  "sources": {
+    "REALCONTRACTSTWO": {
+      "commit": "588c002998e93c5f805a845541a4ddde6d3b1d6a",
+      "path": "research/challenge-8/kani-k1/RESULT-REALCONTRACTSTWO.md",
+      "blob": "fe4716a8b9c72382c4ee767225c6c59774e11253",
+      "sha256": "e94f83dad98a87e21b6d52f4672fb568105ea4551227e8f76421d682ed7225bd"
+    },
+    "VEIGHTROWS": {
+      "commit": "a921407621046a877294faba9b4c6e63dea9691d",
+      "path": "research/challenge-8/kani-k1/RESULT-VEIGHTROWS.md",
+      "blob": "e31987acf79694b92333798c79266048adc164cc",
+      "sha256": "669bdc76d937528527dc06d612179927d0afa0c0955e486e8f193a21b97e72c8"
+    },
+    "VEIGHTMAX": {
+      "commit": "ab99e39380a7fe2415d77f3082012510f4a60627",
+      "path": "research/challenge-8/kani-k1/RESULT-VEIGHTMAX.md",
+      "blob": "2faa98e146f510fd908ef5088a3eafc06589c008",
+      "sha256": "48466fea1d8c7f6ad55132714b5ddc2763b0c7df26a02a8d793c9a38c4ddc110"
+    },
+    "TIDYDOCS": {
+      "commit": "01c090dc1dd86645d6bbd0109b8dcbfa21491d63",
+      "path": "research/challenge-8/kani-k1/RESULT-TIDYDOCS.md",
+      "blob": "691e56b49db5c5c7494562222353730296d8c136",
+      "sha256": "0bfb8ee0943d953b6f58d3b104e2b00266482468e7cf1c76018a591b9934fb5c"
+    }
+  },
+  "pairs": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing9",
+      "pair": 1,
+      "role": "leaf",
+      "expect": "SUCCESS",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_seconds": "17.355093",
+      "prior_covers_satisfied": 6,
+      "prior_covers_total": 6,
+      "expected_covers_satisfied": 6,
+      "expected_covers_total": 6,
+      "expected_unreachable_covers": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n9_stubbed",
+      "pair": 1,
+      "role": "consumer",
+      "expect": "SUCCESS",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_seconds": "11.660206",
+      "prior_covers_satisfied": 1,
+      "prior_covers_total": 3,
+      "expected_covers_satisfied": 1,
+      "expected_covers_total": 1,
+      "expected_unreachable_covers": 0,
+      "cover_total_reconciliation": "Prior 1/3 meant one reachable return and two unreachable callback covers. Existing stub(comparison_covers, omit_comparison_covers) omits those callback covers in both current consumers; required reachable count remains one. Target 1/1 total is source-based, not a new runtime claim.",
+      "later_result": {
+        "source": "TIDYDOCS",
+        "seconds": "7.0849905",
+        "covers_satisfied": 1,
+        "covers_total": 1
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::swap_safety_u8_backing13",
+      "pair": 2,
+      "role": "leaf",
+      "expect": "SUCCESS",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_seconds": "17.583559",
+      "prior_covers_satisfied": 6,
+      "prior_covers_total": 6,
+      "expected_covers_satisfied": 6,
+      "expected_covers_total": 6,
+      "expected_unreachable_covers": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::unstable_network_safety_u8_n13_stubbed",
+      "pair": 2,
+      "role": "consumer",
+      "expect": "SUCCESS",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_seconds": "13.978799",
+      "prior_covers_satisfied": 1,
+      "prior_covers_total": 3,
+      "expected_covers_satisfied": 1,
+      "expected_covers_total": 1,
+      "expected_unreachable_covers": 0,
+      "cover_total_reconciliation": "Prior 1/3 meant one reachable return and two unreachable callback covers. Existing stub(comparison_covers, omit_comparison_covers) omits those callback covers in both current consumers; required reachable count remains one. Target 1/1 total is source-based, not a new runtime claim."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u8_backing32",
+      "before_name": "slice::sort::shared::smallsort::verify::allocationcontracts::swap_safety_u8_backing32",
+      "pair": 3,
+      "role": "leaf",
+      "expect": "SUCCESS",
+      "source_result": "VEIGHTROWS",
+      "prior_seconds": "31.575",
+      "prior_covers_satisfied": 9,
+      "prior_covers_total": 9,
+      "expected_covers_satisfied": 9,
+      "expected_covers_total": 9,
+      "expected_unreachable_covers": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
+      "before_name": "slice::sort::shared::smallsort::verify::allocationcontracts::unstable_network_safety_u8_n32_stubbed",
+      "pair": 3,
+      "role": "consumer",
+      "expect": "SUCCESS",
+      "source_result": "VEIGHTROWS",
+      "prior_seconds": "104.319084",
+      "prior_covers_satisfied": 5,
+      "prior_covers_total": 5,
+      "expected_covers_satisfied": 5,
+      "expected_covers_total": 5,
+      "expected_unreachable_covers": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
+      "before_name": "slice::sort::shared::smallsort::verify::allocationcontracts::merge_safety_u64_len8_scratch48_src32_dst0",
+      "pair": 4,
+      "role": "leaf",
+      "expect": "SUCCESS",
+      "source_result": "VEIGHTMAX",
+      "prior_seconds": "86.45552",
+      "prior_covers_satisfied": 5,
+      "prior_covers_total": 5,
+      "expected_covers_satisfied": 5,
+      "expected_covers_total": 5,
+      "expected_unreachable_covers": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "before_name": "slice::sort::shared::smallsort::verify::allocationcontracts::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "pair": 4,
+      "role": "consumer",
+      "expect": "SUCCESS",
+      "source_result": "VEIGHTMAX",
+      "prior_seconds": "8.113433",
+      "prior_covers_satisfied": 4,
+      "prior_covers_total": 4,
+      "expected_covers_satisfied": 4,
+      "expected_covers_total": 4,
+      "expected_unreachable_covers": 0
+    }
+  ],
+  "expected_reachable_covers_sum": 37,
+  "expected_total_covers_sum": 37,
+  "acceptance": "Eight exact SUCCESS rows, zero failed checks, complete covers matching the per-row counts. All four leaf/consumer pairs must be established on the final unchanged library tree; earlier results are comparison baselines only.",
+  "cover_total_reconciliation_source": {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+    "consumer_n9_stub_line": 86,
+    "consumer_n13_stub_line": 94,
+    "note": "Current explicit callback cover stubs, shared exercise_unstable_network_u8 return cover; source inspected. N9 1/1 already runtime-confirmed by TIDYDOCS; N13 1/1 remains to be measured."
+  }
+}
