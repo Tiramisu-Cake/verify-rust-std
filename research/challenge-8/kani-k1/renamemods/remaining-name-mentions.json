@@ -1,0 +1,104 @@
+[
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+    "line": 223,
+    "text": "// One nondeterministic branch per wrapper; the common literal guard must be the only failure.",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+    "line": 255,
+    "text": "// The mutation belongs only to this control, after the real entry returns, never to a wrapper.",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+    "line": 250,
+    "text": "comparisons = comparisons.wrapping_add(1);",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "line": 235,
+    "text": "// u64 selects the network through the unstable trait. A transparent non-Copy wrapper also",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "line": 240,
+    "text": "fn arbitrary_wrapped_u64_order(a: &WrappedU64, b: &WrappedU64) -> bool {",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "line": 258,
+    "text": "<WrappedU64 as UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut arbitrary_wrapped_u64_order);",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 174,
+    "text": "&& same_allocation(v as *const T, v.wrapping_add(a) as *const T)",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 175,
+    "text": "&& same_allocation(v as *const T, v.wrapping_add(b) as *const T)",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 176,
+    "text": "&& can_dereference(v.wrapping_add(a) as *const T)",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 177,
+    "text": "&& can_dereference(v.wrapping_add(b) as *const T)",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 178,
+    "text": "&& can_write(v.wrapping_add(a))",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 179,
+    "text": "&& can_write(v.wrapping_add(b))",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 213,
+    "text": "#[kani::modifies(v.wrapping_add(a), v.wrapping_add(b))]",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "line": 308,
+    "text": "&& model_sorted::<P>(v.as_ptr().wrapping_add(half), v.len() - half)",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+    "line": 7,
+    "text": "//! Tag types match the source types without wrappers; a separate root checks dispatch.",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "line": 812,
+    "text": "//     right_src = right_src.wrapping_sub(1);",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  },
+  {
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "line": 815,
+    "text": "//     left_src = left_src.wrapping_sub(1);",
+    "reason": "Rust wrapping API, descriptive wrapper/newtype term, or existing wrapped-value helper; not a module codename."
+  }
+]

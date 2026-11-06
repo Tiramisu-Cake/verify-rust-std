@@ -1,0 +1,37 @@
+{
+  "modules": {
+    "specfix": "profiles",
+    "permtags": "tag_permutation",
+    "scratchgeom": "scratch_geometry",
+    "assembly": "fixed_inputs",
+    "wrap": "forwarding_contracts",
+    "realcontracts": "helper_contracts",
+    "allocationcontracts": "helper_contracts_wide",
+    "tailcontracts": "insert_tail_contracts"
+  },
+  "identifiers": {
+    "specfix_canonical_comparator": "profile_canonical_comparator",
+    "specfix_full_value_checker_rejects_payload_change_u8": "profile_full_value_checker_rejects_payload_change_u8",
+    "specfix_wrong_f_swap_rejected_u8": "profile_wrong_f_swap_rejected_u8",
+    "specfix_wrong_f_sort4_rejected_u64": "profile_wrong_f_sort4_rejected_u64",
+    "specfix_wrong_f_insert_rejected_u8": "profile_wrong_f_insert_rejected_u8",
+    "specfix_wrong_f_merge_rejected_u8": "profile_wrong_f_merge_rejected_u8"
+  },
+  "files": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/allocationcontracts.rs": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/assembly.rs": "library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/specfix.rs": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/permtags.rs": "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/realcontracts.rs": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/scratchgeom.rs": "library/core/src/slice/sort/shared/smallsort/verify/scratch_geometry.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/tailcontracts.rs": "library/core/src/slice/sort/shared/smallsort/verify/insert_tail_contracts.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wrap.rs": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs"
+  }
+}
