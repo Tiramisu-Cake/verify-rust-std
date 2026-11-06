@@ -97,3 +97,17 @@ Library-коммит выше содержит форматирование дв
 Порядок ключей generated cover-sites.json стабилизирован; содержимое site mappings прежнее.
 G1 request, семь строк, лимиты и бюджетные расчёты не изменены.
 Новый опубликованный пакет снова ожидает exact-packet GO. Сборок не было.
+
+## Закрытие G1
+
+Exact GO: `1dff8cf56e8a2115b5b1091882b4f01eb223623c`.
+G1 `ae8d547b-7c77-4312-bff5-fef9e64393fc`: Cloud SUCCESS, COMPLETE, gate=true, Kani exit0.
+7/7 SUCCESS, 0/3103 failed checks, covers14/14; cfg-on компиляция успешна.
+Source/request/Kani/pool/tooling bindings PASS; targeted verify/unused scan no match.
+Рост verification time >25% в пяти строках разобран в RESULT и bounded verification-report.
+Tail вырос на 107.440 с (+68.7%), остаётся внутри 8 мин; TIMEOUT нет, OOM scan none_seen.
+Causal performance attribution не установлена: парного baseline на той же машине нет.
+Одна сборка, retry0/repair0; расход $0.1890, reserve0. Дополнительных запусков нет.
+13 controls только скомпилированы; inventory и полная матрица не выполнялись.
+Итог: [RESULT-LEANHELPERS.md](../RESULT-LEANHELPERS.md),
+[verification-report.json](evidence/verification-report.json). Этап завершён, передан на review.

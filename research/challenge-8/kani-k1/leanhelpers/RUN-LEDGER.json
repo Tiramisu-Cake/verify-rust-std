@@ -3,7 +3,7 @@
   "stage": "leanhelpers-g1",
   "request_id": "leanhelpers-g1-20261106-01",
   "owner": "k1-merge",
-  "status": "G1_SUBMITTED",
+  "status": "G1_COMPLETE_PASS_TIMING_GROWTH_REPORTED",
   "branch": "experiment/kani-k1-leanhelpers-20261106",
   "library_sha": "5c929ba094cef478efc350b3cd9d7b8fc73fe203",
   "library_tree": "ed9d8de3a0a6ad930e69646ab6001a607971ae7b",
@@ -21,13 +21,16 @@
     {
       "stage": "leanhelpers-g1",
       "build_id": "ae8d547b-7c77-4312-bff5-fef9e64393fc",
-      "status": "SUBMITTED",
+      "status": "SUCCESS",
       "source_sha": "1dff8cf56e8a2115b5b1091882b4f01eb223623c",
       "request_id": "leanhelpers-g1-20261106-01",
       "recorded_utc": "2026-11-06T14:58:05.072644+00:00",
       "planned_reserve_usd": "1.1610",
       "runner": "gcb-e2-standard-4",
-      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch ae8d547b-7c77-4312-bff5-fef9e64393fc"
+      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch ae8d547b-7c77-4312-bff5-fef9e64393fc",
+      "finish_time": "2026-11-06T15:12:13.385520Z",
+      "spent_usd": "0.1890",
+      "reserved_usd": "0.0000"
     }
   ],
   "build_limit": 1,
@@ -35,8 +38,8 @@
   "compile_error_repair_limit": 1,
   "repair_rule": "G2 only for own error, after GO and own spent + reserve <= 1.50 USD.",
   "own_cap_usd": "1.5000",
-  "own_spent_usd": "0.0000",
-  "own_reserved_usd": "1.1610",
+  "own_spent_usd": "0.1890",
+  "own_reserved_usd": "0.0000",
   "g1_planned_reserve_usd": "1.1610",
   "project_cap_usd": "118.9600",
   "project_budget_observation": {
@@ -52,14 +55,25 @@
   "verify_cutoff_from_validate_minutes": 80,
   "paid_build_timeout_minutes": 86,
   "planned_post_reserve_project_usd": "108.0240",
-  "runtime_status": "PENDING",
+  "runtime_status": "G1_COMPLETE",
   "new_proof_credit": false,
   "prebuild_review": {
     "reviewed_packet": "4a48066ee07ebf74291050077a22b92a61a7690b",
     "content": "ACCEPTED",
     "go": true,
     "repair": "Authorized rustfmt only; two asserts and four OPTINMOVE macro calls.",
-    "next_action": "Detached k1g.sh watch, then end turn; bounded result review after wakeup.",
+    "next_action": "Publish RESULT and REVIEW REQUEST, then stop; no further builds.",
     "accepted_packet": "1dff8cf56e8a2115b5b1091882b4f01eb223623c"
-  }
+  },
+  "closed_utc": "2026-11-06T15:15:53.389201+00:00",
+  "verification_report": "evidence/verification-report.json",
+  "post_build_own_budget": {
+    "source_file": "evidence/budget.txt",
+    "builds": 1,
+    "spent_usd": "0.1890",
+    "reserved_usd": "0.0000",
+    "own_cap_usd": "1.5000"
+  },
+  "revalidated_bounded_rows": 7,
+  "proof_credit_scope": "Seven existing named bounded roots revalidated on changed source; no new general theorem."
 }
