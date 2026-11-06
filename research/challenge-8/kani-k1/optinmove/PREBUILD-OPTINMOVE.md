@@ -79,3 +79,14 @@ Cfg-on compiler inventory, компиляция и все 13 контролей 
 отложенные проверки не объявляются выполненными. Подготовленный G2 request — исторический
 артефакт review, а не активный план или разрешение dispatch. Это решение заменяет
 требование двух inventory builds выше. Ожидание G1: k1g.sh watch BUILD, затем конец хода.
+
+## Итог G1
+
+G1 `242b83e1-d9bc-46d9-a504-1cd3e929fcf0`: SUCCESS, COMPLETE, gate=true, Kani exit0.
+Compiler inventory ровно 233 ожидаемых ordinary-имени, дубликатов нет.
+Source/request/Kani/pool/tooling привязки PASS; sorted names SHA256 совпал с ожидаемым.
+Целевой verify/unused scan — no match; общий warning sample ограничен 200 совпадениями
+и не является полной описью предупреждений. Расход $0.5805, reserve0, одна сборка.
+Cfg-on inventory/компиляция/13 контролей — DEFERRED_TO_INTEGRATION_AFTER_STAGE_3.
+Статус этапа PASS по решению координатора; новых proof rows/credit нет.
+Evidence: [verification-report.json](evidence/verification-report.json).

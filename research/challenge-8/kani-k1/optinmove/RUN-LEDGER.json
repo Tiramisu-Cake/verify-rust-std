@@ -1,7 +1,7 @@
 {
   "task": "OPTINMOVE",
   "stage": "optinmove-g1",
-  "state": "G1_SUBMITTED",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "branch": "experiment/kani-k1-optinmove-20261106",
   "owner": "k1-merge",
   "prepared_utc": "2026-11-06T13:53:32.476293+00:00",
@@ -30,8 +30,8 @@
   "build_timeout_minutes": 74,
   "maximum_reservation_per_build_usd": "0.9990",
   "planned_two_build_maximum_usd": "1.9980",
-  "spent_usd": "0.0000",
-  "reserved_usd": "0.9990",
+  "spent_usd": "0.5805",
+  "reserved_usd": "0.0000",
   "builds": [
     {
       "id": "242b83e1-d9bc-46d9-a504-1cd3e929fcf0",
@@ -42,8 +42,15 @@
       "request_sha256": "d283842f2e85c4a1910f63039f8b98af675e0bda182046cf1d849dfb5cdd88be",
       "maximum_reservation_usd": "0.9990",
       "recorded_utc": "2026-11-06T13:57:27.740158+00:00",
-      "status": "SUBMITTED",
-      "watch": "k1g.sh watch invoked immediately after publishing operational record; confirmation returned to active turn"
+      "status": "SUCCESS",
+      "watch": "Queued terminal SUCCESS received, delivery attempt 1; no status polling loop.",
+      "start_time": "2026-11-06T13:58:04.939484922Z",
+      "finish_time": "2026-11-06T14:40:30.458401Z",
+      "cost_usd": "0.5805",
+      "summary_status": "COMPLETE",
+      "kani_exit": 0,
+      "gate": true,
+      "compiler_inventory_count": 233
     }
   ],
   "repairs": 0,
@@ -55,7 +62,9 @@
       "controls": false,
       "expected_count": 233,
       "request_file": "RUN-REQUEST.json",
-      "dispatch_authorized": true
+      "dispatch_authorized": false,
+      "state": "COMPLETE_PASS",
+      "restriction": "Consumed once; no further dispatch under this GO."
     },
     {
       "stage": "optinmove-g2",
@@ -100,5 +109,26 @@
     "own_reserved_usd": "0.0000",
     "own_cap_usd": "2.0000",
     "owner_slot": "No unfinished builds in helper budget snapshot; exact-packet GO for k1-merge G1 only."
+  },
+  "completed_utc": "2026-11-06T14:43:16.168056+00:00",
+  "acceptance": "PASS",
+  "evidence_consistency": "PASS",
+  "cfg_off_compiler_inventory": "PASS",
+  "cfg_off_compiler_count": 233,
+  "cfg_off_compiler_names_sha256": "7b466e9686cdf5f56c3a8359464399b13652f6ced336b479eb01cdb1e048c738",
+  "cfg_off_compiler_sorted_names_sha256": "a73e3c308728c7e7e560665547f79775ddffef2676d4ddee1cecd1b572bdd374",
+  "cfg_off_inventory_artifact_sha256": "21e1203a1d34be93715bf25d26caa8ddaae2ffa78cc2662ef479d13b585b5646",
+  "cfg_off_new_verify_unused_warnings": "NO_MATCH",
+  "cfg_on_new_verify_unused_warnings": "DEFERRED_TO_INTEGRATION_AFTER_STAGE_3",
+  "controls_runtime": "DEFERRED_TO_INTEGRATION_AFTER_STAGE_3",
+  "verification_report": "evidence/verification-report.json",
+  "closeout_reason": "Single authorized G1 inventory COMPLETE, exact expected 233 names, no verify/unused diagnostic matches, source/request/pool/tooling PASS. Stage PASS per coordinator; cfg-on compilation/inventory and 13 controls deferred to integration after stage 3. No G2, retries or repairs.",
+  "post_build_own_budget": {
+    "observed_utc": "2026-11-06T14:43:16.168056+00:00",
+    "source_file": "evidence/budget.txt",
+    "builds": 1,
+    "spent_usd": "0.5805",
+    "reserved_usd": "0.0000",
+    "own_cap_usd": "2.0000"
   }
 }
