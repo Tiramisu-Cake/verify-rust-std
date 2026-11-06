@@ -2,7 +2,7 @@
 
 Worktree `/root/verify-rust-std-kani-integcheck`, branch `experiment/kani-k1-integcheck-20261106`.
 Owner `k1-merge`; stages/request IDs/ledger use `integcheck-*`. Task `3dc83a02baf16c2115d84011d1665bc68dde043b`.
-**PRE_BUILD_REVIEW_PENDING: no build submitted, no GO received.**
+**GO received from coordinator, 2026-11-06:** review f10ab8c743 accepted with only the G1 timeout/cap correction below. The resulting correction commit has advance exact GO; G2 promotion is authorized only after G1 is fully accepted. No build submitted at this correction commit.
 
 Library reference `85ced7f8a8bcdf6b4ffe2e29a65d1d940ff10737`; entire library tree
 `def2d65ddc5e73ed6ccb94df0afbb36e475d80d8` equals RENAMEMODS byte-for-byte.
@@ -13,10 +13,10 @@ Only research request/expectation/review/ledger files are changed. No local comp
 ## Requests and limits
 
 G1 root `../RUN-REQUEST.json` is byte-identical to this directory’s `RUN-REQUEST.json`.
-Request `integcheck-g1-20261106-01`, SHA256 `451b05806e66dde820ec0053189094963822e68c0d208e078e1cfde27b985ae3`.
+Request `integcheck-g1-20261106-01`, SHA256 `3c5bc03f8e54ab920f2a1f76908663a9b0a9cb0cff35b49da4760b9dbcb0d542`.
 Kind diagnostic, controls=true, inventory=false, kani_jobs=1, gcb-e2-standard-4.
 Exactly 21 rows: 13 expected FAILED controls, each with an explicit expect_check, plus eight SUCCESS pair rows.
-Per-root timeout **2 minutes (120 s)**; paid build timeout **72 min**, runner cutoff **66 min after validate**.
+Per-root timeout **4 minutes (240 s)**; paid build timeout **114 min**, runner cutoff **108 min after validate**.
 
 G2 `G2-RUN-REQUEST.json`: `integcheck-g2-20261106-01`, SHA256 `82ceb5befff1ea704280139081bbedeb04ebb103661432e540deee0aa1b62d6a`.
 Kind inventory, controls=true, inventory=true, standard4, harnesses=[]; no proof verification.
@@ -84,14 +84,14 @@ The table keeps the task’s REALCONTRACTSTWO timing baseline for both pairs; it
 ## Timing and budget feasibility
 
 The longest latest task-specified successful pair row is VEIGHTROWS N32 consumer **104.319084 s**;
-120 s leaves **15.680916 s (15.03%)** per-root margin. Merge8 was 86.45552 s; other selected rows were shorter.
+240 s leaves **135.680916 s (130.06%)** per-root margin (coordinator rejected the previous 120 s limit). Merge8 was 86.45552 s; other selected rows were shorter.
 This is a planning allowance, not a guarantee against runtime variation. A timeout is a failed integration
 outcome, not grounds for retry or an unreviewed timeout change.
 
-G1: 21 × 2 = 42 harness-minutes; runner bound 42 + 24 = **66 min**, paid bound 42 + 30 = **72 min**.
-Reserve **$0.9720** at $0.0135/min. Prior inventory=false runs started verify ~348–366 s after validate;
+G1: 21 × 4 = 84 harness-minutes; runner bound 84 + 24 = **108 min**, paid bound 84 + 30 = **114 min**.
+Reserve **$1.5390** at $0.0135/min. Prior inventory=false runs started verify ~348–366 s after validate;
 TIDYDOCS cfg-on reached first CBMC ~68 s into verify. Allow **12 min** total for setup/compilation/
-instrumentation: 66 − 12 = **54 min**, leaving the full 42 min of root limits plus 12 min extra slack.
+instrumentation: 108 − 12 = **96 min**, leaving the full 84 min of root limits plus 12 min extra slack.
 No expensive full compiler list is combined with G1.
 
 G2 uses RENAMEMODS/OPTINMOVE ~42–47 min inventory-build observations. Paid **74 min**, runner **68 min**
@@ -99,13 +99,14 @@ after validate, with list capped at 60 min: an 8 min setup allowance still leave
 at least 13 min over the ~47 min observation. These were cfg-off observations; cfg-on completion remains
 unestablished and is an explicit acceptance requirement.
 
-Combined maximum reservation: **$0.9720 + $0.9990 = $1.9710 <= $2.00**, remaining margin $0.0290.
+Combined maximum reservation: **$1.5390 + $0.9990 = $2.5380 <= $2.75**, remaining margin $0.2120.
+Own cap **$2.75** supersedes task $2.00 by the coordinator’s 2026-11-06 decision for this timeout correction.
 At preparation: 250 project builds, used **$107.6595**, reserved **$0**, cap **$118.96**;
-with both maximum reservations **$109.6305**. Refresh budget before each dispatch and ensure own spent
-plus all live/planned reservations fit $2.00. Build limit2, retry0, repair0.
+with both maximum reservations **$110.1975**. Refresh budget before each dispatch and ensure own spent
+plus all live/planned reservations fit $2.75. Build limit2, retry0, repair0.
 
-Main window **300 min + closeout30**. Ledger T0/deadlines stay unset until execution GO unless a coordinator
-T0 is supplied; retain supplied boundaries. Sequential maximum build time146 min fits the main window.
+Main window **300 min + closeout30**. Execution T0/deadlines are recorded in the ledger at this GO;
+retain these boundaries. Sequential maximum build time188 min fits the main window.
 Use sequential G1 then G2; available pool/owner slot and budget remain prerequisites.
 
 ## Exact G2 publication and review boundary

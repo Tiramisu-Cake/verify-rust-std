@@ -29,13 +29,13 @@
   "cfg_on_expected_equals_renamemods": true,
   "cfg_on_expected_equals_name_map": true,
   "cfg_on_sorted_names_sha256": "3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb",
-  "g1_timeout_minutes": 72,
+  "g1_timeout_minutes": 114,
   "g2_timeout_minutes": 74,
-  "combined_reserve_usd": "1.9710",
-  "own_cap_usd": "2.0000",
+  "combined_reserve_usd": "2.5380",
+  "own_cap_usd": "2.7500",
   "longest_latest_prior_pair_seconds": "104.319084",
-  "root_timeout_seconds": 120,
-  "root_margin_seconds": "15.680916",
+  "root_timeout_seconds": 240,
+  "root_margin_seconds": "135.680916",
   "new_proof_credit": false,
   "runtime_controls": "PENDING_G1",
   "runtime_pairs": "PENDING_G1",
@@ -43,12 +43,12 @@
   "warnings": "PENDING_G1_G2",
   "prepared_files_sha256": {
     "G2-RUN-REQUEST.json": "82ceb5befff1ea704280139081bbedeb04ebb103661432e540deee0aa1b62d6a",
-    "PREBUILD-INTEGCHECK.md": "6e88bad577c804992de988cc92aa60f8c70e176fc80132b91cca757b717fa574",
-    "RUN-LEDGER.json": "4f7395d301547370c59aff5983565045642243f58504bfae704038793945072e",
-    "RUN-REQUEST.json": "451b05806e66dde820ec0053189094963822e68c0d208e078e1cfde27b985ae3",
+    "PREBUILD-INTEGCHECK.md": "8283cb32f4888e5e1d11f1cb5932d569259245c622ca00baefaca67f3e4c92e0",
+    "RUN-LEDGER.json": "f02b941c4a8404947cea4a6ae049ac3987851c3277f45a8f8ceb2501e229ae49",
+    "RUN-REQUEST.json": "3c5bc03f8e54ab920f2a1f76908663a9b0a9cb0cff35b49da4760b9dbcb0d542",
     "cfg-on-expected.txt": "3e03f6051cb8d0ab71d1a40f73c58234acbc7964315529ac9c603c49f9d222eb",
     "controls-expected.json": "a7d0bf5478edc441f1081f0f524dfc0b01a538c64830d4039a69d915f265b6ce",
-    "g1-validated-args.txt": "357bfdc4c9a136b5c68b0bb3cbac099602721e0477d194965d349c95829f1ee9",
+    "g1-validated-args.txt": "35bfd4a99185bfcbde7d34e5610dbed87aeca721dcfe91329095d52cc9f704ee",
     "g1-validated-runner.txt": "e63affd2894bb77e04625b6852171ab663621b48b82a29cc359b873821008741",
     "g1-validated-rustflags.txt": "f2c85fdd8238f8f8203b7ffec3281c1c9d7686879bf71d1247836e6ad0e99937",
     "g2-validated-args.txt": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
@@ -57,5 +57,12 @@
     "pairs-expected.json": "36e1acdd27b09a556e481e73ebd9e44db08cb76e3c42c7e5aacf79725aee8c56",
     "prebuild-budget.txt": "276c05181b1686be1fca9ea3f509ba92225b93ac1f8597cfc5e12dc17d1e69bf",
     "sources.json": "ea620c31dba1faad062ca635e155f9713b65b898a204fec1faab460a1b8d6dbd"
+  },
+  "coordinator_timeout_correction": {
+    "reviewed_packet_sha": "f10ab8c7435e14b88515fc3138fdebc474a27a9d",
+    "g1_request_only_semantic_change": "harness_timeout_minutes 2 -> 4",
+    "g2_and_expectations_byte_identical": true,
+    "advance_exact_go": true,
+    "request_validation": "PASS (existing validator CLI)"
   }
 }

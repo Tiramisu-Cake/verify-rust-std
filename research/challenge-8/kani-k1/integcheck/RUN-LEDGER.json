@@ -1,8 +1,8 @@
 {
   "schema": "integcheck-run-ledger-v1",
-  "stage": "integcheck-prebuild",
+  "stage": "integcheck-g1",
   "owner": "k1-merge",
-  "status": "PRE_BUILD_REVIEW_PENDING",
+  "status": "GO_AUTHORIZED_PENDING_DISPATCH",
   "branch": "experiment/kani-k1-integcheck-20261106",
   "task_commit": "3dc83a02baf16c2115d84011d1665bc68dde043b",
   "start_base": "bbdc1aac234176631292f4d9f919700cfdbe0920",
@@ -11,18 +11,18 @@
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "expected_kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
   "prepared_utc": "2026-11-06T16:49:09.177804+00:00",
-  "coordinator_go": null,
+  "coordinator_go": "2026-11-06 coordinator: review f10ab8c743 accepted with only G1 timeout 2 -> 4 min and recalculated limits/reserve; own cap raised to $2.75. Advance exact GO covers the resulting research-only correction commit after push, without a new review. Record its full SHA as exact GO before G1 dispatch. G2 byte-identical request/research-only promotion is also authorized after G1 analysis only if G1 is fully accepted. Then watch and end the turn.",
   "source_sha": null,
-  "t0_utc": null,
-  "main_deadline_utc": null,
-  "closeout_deadline_utc": null,
+  "t0_utc": "2026-11-06T16:53:24.651769+00:00",
+  "main_deadline_utc": "2026-11-06T21:53:24.651769+00:00",
+  "closeout_deadline_utc": "2026-11-06T22:23:24.651769+00:00",
   "window_rule": "Main 300 minutes plus closeout 30; record any coordinator-supplied T0/deadlines without reset. If none is supplied, record execution T0 on GO before first dispatch.",
   "main_minutes": 300,
   "closeout_minutes": 30,
   "build_limit": 2,
   "retry_limit": 0,
   "compile_error_repair_limit": 0,
-  "own_cap_usd": "2.0000",
+  "own_cap_usd": "2.7500",
   "own_spent_usd": "0.0000",
   "own_reserved_usd": "0.0000",
   "project_cap_usd": "118.9600",
@@ -39,12 +39,12 @@
       "stage": "integcheck-g1",
       "request_id": "integcheck-g1-20261106-01",
       "request_file": "RUN-REQUEST.json",
-      "request_sha256": "451b05806e66dde820ec0053189094963822e68c0d208e078e1cfde27b985ae3",
+      "request_sha256": "3c5bc03f8e54ab920f2a1f76908663a9b0a9cb0cff35b49da4760b9dbcb0d542",
       "harnesses": 21,
-      "harness_timeout_minutes": 2,
-      "verify_cutoff_after_validate_minutes": 66,
-      "paid_build_timeout_minutes": 72,
-      "planned_reserve_usd": "0.9720"
+      "harness_timeout_minutes": 4,
+      "verify_cutoff_after_validate_minutes": 108,
+      "paid_build_timeout_minutes": 114,
+      "planned_reserve_usd": "1.5390"
     },
     {
       "stage": "integcheck-g2",
@@ -59,11 +59,26 @@
       "planned_reserve_usd": "0.9990"
     }
   ],
-  "planned_combined_reserve_usd": "1.9710",
-  "planned_post_reserve_project_usd": "109.6305",
+  "planned_combined_reserve_usd": "2.5380",
+  "planned_post_reserve_project_usd": "110.1975",
   "builds": [],
   "new_proof_credit": false,
   "compiler_cfg_on": "PENDING_G2",
   "controls_runtime": "PENDING_G1",
-  "pair_runtime": "PENDING_G1"
+  "pair_runtime": "PENDING_G1",
+  "reviewed_packet_sha": "f10ab8c7435e14b88515fc3138fdebc474a27a9d",
+  "exact_go_source_sha": null,
+  "exact_go_binding_rule": "After the authorized timeout/cap-only correction commit, record its full SHA here and source_sha in the working ledger before dispatch; do not create a self-referential commit.",
+  "g2_go_scope": {
+    "authorized": true,
+    "condition": "G1 fully accepted after analysis",
+    "request_sha256": "82ceb5befff1ea704280139081bbedeb04ebb103661432e540deee0aa1b62d6a",
+    "promotion": "Byte-identical G2-RUN-REQUEST to root RUN-REQUEST plus research-only ledger/finished-G1 evidence updates; library/tooling/expectations unchanged."
+  },
+  "cap_decision": {
+    "authority": "coordinator message in this thread, 2026-11-06",
+    "previous_own_cap_usd": "2.0000",
+    "approved_own_cap_usd": "2.7500",
+    "reason": "Raise G1 per-root timeout to 4 min; 15% N32 consumer margin at 120 s rejected; no retry."
+  }
 }
