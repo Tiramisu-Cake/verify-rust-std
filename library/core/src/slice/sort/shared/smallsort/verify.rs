@@ -24,7 +24,6 @@
 //! - `allocationcontracts`: swap of u8 or u64 in 32 elements with an arbitrary interior base;
 //!   u64 merge of eight elements from scratch positions 32 through 39 to positions 0 through 7.
 //! - `tailcontracts`: u64 tail insertion at positions 1 through 15 in 17 initialized elements.
-//! Direct `insertion_sort_shift_left` contract roots and wider domains remain opt-in.
 //! Verified swap consumers match the nine-, thirteen-, or 32-element proofs; the sort8 consumer
 //! matches the eight-element scratch merge proof. Each pair must pass with the same element
 //! type, comparator, and allocation geometry. A callback-cover hook is omitted in the smaller
@@ -36,8 +35,8 @@
 //! contract proof does not justify a new consumer. The opt-in control
 //! `realcontracts::rejects_swap_comparator_writing_outside_frame_u8` checks this restriction.
 //!
-//! `cfg(kani_smallsort_controls)` enables negative controls and broader or slower variants;
-//! ordinary CI leaves it unset. Run controls individually and require their named failure.
+//! `cfg(kani_smallsort_controls)` enables only negative controls; ordinary CI leaves it unset.
+//! Run controls individually and require their named failure.
 //!
 //! Conventions:
 //! - Ordinary covers must be reachable; `run-kani.sh` does not enforce this itself.
@@ -55,7 +54,7 @@
 //!   and panic cases.
 //!
 //! `./scripts/run-kani.sh --run list` lists ordinary roots; `--run verify-std` checks them with
-//! the organizer flags, including `--no-assert-contracts`. To select an opt-in root, set
+//! the organizer flags, including `--no-assert-contracts`. To select a negative control, set
 //! `RUSTFLAGS="--cfg kani_smallsort_controls"` and pass
 //! `--kani-args --harness <full-name> --exact` to the verification command.
 

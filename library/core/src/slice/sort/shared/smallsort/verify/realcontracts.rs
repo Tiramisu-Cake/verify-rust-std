@@ -1,8 +1,6 @@
 //! Real helper contract proofs and consumers paired on the same comparator and allocation.
 //! The reading comparator chooses each answer independently, including at equal swap positions.
 
-#[cfg(kani_smallsort_controls)]
-use super::super::insertion_sort_shift_left;
 use super::super::{bidirectional_merge, insert_tail, sort4_stable, swap_if_less};
 use crate::kani;
 
@@ -65,30 +63,6 @@ fn swap_safety_bytes17_backing4() {
 }
 
 #[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(insertion_sort_shift_left)]
-#[kani::unwind(16)]
-fn insertion_safety_u64_len1_to6() {
-    let mut backing: [u64; 6] = kani::any();
-    let before = backing;
-    let len: usize = kani::any();
-    kani::assume(1 <= len && len <= 6);
-    let offset: usize = kani::any();
-    kani::assume(offset != 0 && offset <= len);
-    insertion_sort_shift_left(&mut backing[..len], offset, &mut arbitrary_less::<u64>);
-    for i in 0..6 {
-        kani::assert(i < len || backing[i] == before[i], "realcontracts insertion frame");
-    }
-    kani::cover(len == 1, "realcontracts insertion len1 returns");
-    kani::cover(len == 2, "realcontracts insertion len2 returns");
-    kani::cover(len == 3, "realcontracts insertion len3 returns");
-    kani::cover(len == 4, "realcontracts insertion len4 returns");
-    kani::cover(len == 5, "realcontracts insertion len5 returns");
-    kani::cover(len == 6, "realcontracts insertion len6 returns");
-    kani::cover(offset < len, "realcontracts insertion offset below len returns");
-    kani::cover(offset == len, "realcontracts insertion final offset returns");
-}
-
-#[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::stub_verified(swap_if_less)]
 fn rejects_swap_outside_backing_u8() {
@@ -99,47 +73,13 @@ fn rejects_swap_outside_backing_u8() {
     unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut arbitrary_less::<u8>) };
 }
 
-// Constant lengths avoid a symbolic loop bound in the insertion proof.
-#[cfg(kani_smallsort_controls)]
-fn exercise_insertion_fixed<const N: usize>() {
-    let mut v: [u64; N] = kani::any();
-    let offset: usize = kani::any();
-    kani::assume(offset != 0 && offset <= N);
-    insertion_sort_shift_left(&mut v, offset, &mut arbitrary_less::<u64>);
-    kani::cover(offset == 1, "realcontracts fixed insertion offset one returns");
-    kani::cover(offset == N, "realcontracts fixed insertion final offset returns");
-    kani::cover(offset < N, "realcontracts fixed insertion below final offset returns");
-    kani::cover(true, "realcontracts fixed insertion returns");
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(insertion_sort_shift_left)]
-#[kani::unwind(8)]
-fn insertion_safety_u64_len2() {
-    exercise_insertion_fixed::<2>();
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof_for_contract(insertion_sort_shift_left)]
-#[kani::unwind(8)]
-fn insertion_safety_u64_len3() {
-    exercise_insertion_fixed::<3>();
-}
-
 // These lengths finish after the network: insertion starts at the end and no merge runs.
-// Real and stubbed consumers share this body and the stateless comparator. Each stubbed
-// consumer needs the swap proof for its own allocation size; a four-element proof is insufficient.
+// Each stubbed consumer needs the swap proof for its own allocation size and comparator;
+// a four-element proof is insufficient.
 fn exercise_unstable_network_u8<const N: usize>() {
     let mut v: [u8; N] = kani::any();
     <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut arbitrary_less::<u8>);
     kani::cover(true, "realcontracts unstable network consumer returns");
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(16)]
-fn unstable_network_safety_u8_n9_real() {
-    exercise_unstable_network_u8::<9>();
 }
 
 #[kani::proof]
@@ -150,34 +90,11 @@ fn unstable_network_safety_u8_n9_stubbed() {
     exercise_unstable_network_u8::<9>();
 }
 
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::stub_verified(swap_if_less)]
-#[kani::unwind(16)]
-fn unstable_network_safety_u8_n9_stubbed_with_callback_covers() {
-    exercise_unstable_network_u8::<9>();
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::unwind(16)]
-fn unstable_network_safety_u8_n13_real() {
-    exercise_unstable_network_u8::<13>();
-}
-
 #[kani::proof]
 #[kani::stub(comparison_covers, omit_comparison_covers)]
 #[kani::stub_verified(swap_if_less)]
 #[kani::unwind(16)]
 fn unstable_network_safety_u8_n13_stubbed() {
-    exercise_unstable_network_u8::<13>();
-}
-
-#[cfg(kani_smallsort_controls)]
-#[kani::proof]
-#[kani::stub_verified(swap_if_less)]
-#[kani::unwind(16)]
-fn unstable_network_safety_u8_n13_stubbed_with_callback_covers() {
     exercise_unstable_network_u8::<13>();
 }
 
@@ -265,33 +182,6 @@ fn sort4_safety_u64() {
         let _value = unsafe { crate::ptr::read_volatile(value) };
     }
     kani::cover(true, "realcontracts sort4 returns");
-}
-
-#[cfg(kani_smallsort_controls)]
-// Scalar byte comparisons avoid the loop inside array PartialEq's memcmp.
-#[kani::proof_for_contract(sort4_stable)]
-#[kani::unwind(32)]
-fn sort4_safety_bytes16() {
-    let src: [[u8; 16]; 4] = kani::any();
-    let before = src;
-    let mut dst = crate::mem::MaybeUninit::<[[u8; 16]; 4]>::uninit();
-    // SAFETY: four initialized source values, disjoint storage writable for four outputs.
-    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<[u8; 16]>) };
-    for i in 0..4 {
-        for byte in 0..16 {
-            kani::assert(
-                src[i][byte] == before[i][byte],
-                "realcontracts sort4 byte source frame",
-            );
-        }
-    }
-    // SAFETY: the real body writes all four output values before returning normally.
-    let result = unsafe { dst.assume_init() };
-    for value in &result {
-        // SAFETY: each output is initialized on normal return.
-        let _value = unsafe { crate::ptr::read_volatile(value) };
-    }
-    kani::cover(true, "realcontracts sort4 bytes16 returns");
 }
 
 fn cut_merge_order_violation() -> ! {

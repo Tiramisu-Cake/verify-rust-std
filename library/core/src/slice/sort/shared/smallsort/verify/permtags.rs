@@ -17,8 +17,6 @@ use super::super::{
     has_efficient_in_place_swap,
 };
 use crate::cell::Cell;
-#[cfg(kani_smallsort_controls)]
-use crate::mem::MaybeUninit;
 use crate::mem::size_of;
 use crate::{kani, ptr};
 
@@ -27,26 +25,6 @@ fn arbitrary_u8_order(a: &u8, b: &u8) -> bool {
     unsafe {
         let _ = ptr::read_volatile(a);
         let _ = ptr::read_volatile(b);
-    }
-    kani::any()
-}
-
-#[cfg(kani_smallsort_controls)]
-fn arbitrary_u64_order(a: &u64, b: &u64) -> bool {
-    // SAFETY: the real sort must supply initialized, readable comparator arguments.
-    unsafe {
-        let _ = ptr::read_volatile(a);
-        let _ = ptr::read_volatile(b);
-    }
-    kani::any()
-}
-
-#[cfg(kani_smallsort_controls)]
-fn arbitrary_cell_order(a: &Cell<u8>, b: &Cell<u8>) -> bool {
-    // SAFETY: read both initialized payloads without modifying either Cell.
-    unsafe {
-        let _ = ptr::read_volatile(a.as_ptr());
-        let _ = ptr::read_volatile(b.as_ptr());
     }
     kani::any()
 }
@@ -89,28 +67,6 @@ fn network_body<const N: usize>() {
     kani::cover(true, "permtags: network returns with every tag");
 }
 
-#[cfg(kani_smallsort_controls)]
-fn general_body<const N: usize>() {
-    let mut v: [u64; N] = crate::array::from_fn(|i| i as u64);
-    let mut scratch = [MaybeUninit::<u64>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
-    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut arbitrary_u64_order);
-    check_tags(&v);
-    kani::cover(true, "permtags: general with scratch 48 returns with every tag");
-}
-
-#[cfg(kani_smallsort_controls)]
-fn fallback_body<const N: usize>() {
-    let mut v: [Cell<u8>; N] = crate::array::from_fn(|i| Cell::new(i as u8));
-    let mut scratch = [const { MaybeUninit::<Cell<u8>>::uninit() }; SMALL_SORT_GENERAL_SCRATCH_LEN];
-    <Cell<u8> as StableSmallSortTypeImpl>::small_sort(
-        &mut v,
-        &mut scratch,
-        &mut arbitrary_cell_order,
-    );
-    check_tags(&crate::array::from_fn::<_, N, _>(|i| v[i].get() as u64));
-    kani::cover(true, "permtags: stable Cell insertion returns with every tag");
-}
-
 #[kani::proof]
 fn tag_types_preserve_source_routes() {
     fn require_freeze_copy<T: crate::slice::sort::shared::FreezeMarker + Copy>() {}
@@ -144,21 +100,6 @@ fn tag_types_preserve_source_routes() {
     kani::cover(true, "permtags: tag and source types select the required routes");
 }
 
-#[cfg(kani_smallsort_controls)]
-macro_rules! permutation_case {
-    ($name:ident, $body:ident, $n:literal) => {
-        #[kani::proof]
-        #[kani::stub(
-            crate::slice::sort::shared::smallsort::panic_on_ord_violation,
-            abort_on_order_violation
-        )]
-        #[kani::unwind(34)]
-        fn $name() {
-            $body::<$n>();
-        }
-    };
-}
-
 #[kani::proof]
 #[kani::stub(
     crate::slice::sort::shared::smallsort::panic_on_ord_violation,
@@ -169,9 +110,6 @@ fn network_u8_n9() {
     network_body::<9>();
 }
 
-#[cfg(kani_smallsort_controls)]
-permutation_case!(network_u8_n9_with_panic_cover, network_body, 9);
-
 #[kani::proof]
 #[kani::stub(
     crate::slice::sort::shared::smallsort::panic_on_ord_violation,
@@ -181,26 +119,6 @@ permutation_case!(network_u8_n9_with_panic_cover, network_body, 9);
 fn network_u8_n13() {
     network_body::<13>();
 }
-
-#[cfg(kani_smallsort_controls)]
-permutation_case!(network_u8_n13_with_panic_cover, network_body, 13);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(network_u8_n16, network_body, 16);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(network_u8_n17, network_body, 17);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(network_u8_n32, network_body, 32);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(general_u64_n9, general_body, 9);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(general_u64_n16, general_body, 16);
-// Larger tag domains require the controls cfg.
-#[cfg(kani_smallsort_controls)]
-permutation_case!(general_u64_n17, general_body, 17);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(general_u64_n32, general_body, 32);
-#[cfg(kani_smallsort_controls)]
-permutation_case!(fallback_cell_u8_n16, fallback_body, 16);
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]

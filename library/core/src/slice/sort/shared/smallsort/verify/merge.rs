@@ -430,48 +430,39 @@ macro_rules! define_general_sortedness_harness {
     };
 }
 
-// Direct callers retain the same oracle and routes, with the real merge body.
-macro_rules! define_general_direct_harness {
-    ($name:ident, $t:ty, $cmp:expr, $n:literal) => {
+macro_rules! define_direct_u64_route_harness {
+    ($name:ident, $body:ident, $n:literal) => {
         #[kani::proof]
         #[kani::unwind(34)]
         fn $name() {
-            general_route_properties::<$t, _, $n>($cmp);
+            $body::<$n>();
         }
     };
 }
 
-#[kani::proof]
-#[kani::unwind(34)]
-fn general_stable_direct_u64_n2() {
-    general_route_const_u64_properties::<2>();
-}
+define_direct_u64_route_harness!(
+    general_stable_direct_u64_n2, general_route_const_u64_properties, 2
+);
 
-#[kani::proof]
-#[kani::unwind(34)]
-fn general_stable_direct_u64_n3() {
-    general_route_const_u64_properties::<3>();
-}
+define_direct_u64_route_harness!(
+    general_stable_direct_u64_n3, general_route_const_u64_properties, 3
+);
 
-#[kani::proof]
-#[kani::unwind(34)]
-fn general_stable_direct_u64_n4() {
-    general_route_const_u64_properties::<4>();
-}
+define_direct_u64_route_harness!(
+    general_stable_direct_u64_n4, general_route_const_u64_properties, 4
+);
 
-#[kani::proof]
-#[kani::unwind(34)]
-fn general_stable_direct_u64_n5() {
-    general_route_const_u64_properties::<5>();
-}
+define_direct_u64_route_harness!(
+    general_stable_direct_u64_n5, general_route_const_u64_properties, 5
+);
 
-define_general_direct_harness!(general_stable_direct_u8_n2, u8, lt_u8, 2);
-define_general_direct_harness!(general_stable_direct_u8_n3, u8, lt_u8, 3);
-define_general_direct_harness!(general_stable_direct_u8_n4, u8, lt_u8, 4);
-define_general_direct_harness!(general_stable_direct_u8_n5, u8, lt_u8, 5);
-define_general_direct_harness!(general_stable_direct_u8_n6, u8, lt_u8, 6);
-define_general_direct_harness!(general_stable_direct_u8_n7, u8, lt_u8, 7);
-define_general_direct_harness!(general_stable_direct_u8_n8, u8, lt_u8, 8);
+define_general_sortedness_harness!(general_stable_direct_u8_n2, u8, lt_u8, 2);
+define_general_sortedness_harness!(general_stable_direct_u8_n3, u8, lt_u8, 3);
+define_general_sortedness_harness!(general_stable_direct_u8_n4, u8, lt_u8, 4);
+define_general_sortedness_harness!(general_stable_direct_u8_n5, u8, lt_u8, 5);
+define_general_sortedness_harness!(general_stable_direct_u8_n6, u8, lt_u8, 6);
+define_general_sortedness_harness!(general_stable_direct_u8_n7, u8, lt_u8, 7);
+define_general_sortedness_harness!(general_stable_direct_u8_n8, u8, lt_u8, 8);
 
 // Direct u64 routes use real merge bodies and the shared full-value oracle.
 fn general_direct_u64_properties<const N: usize>() {
@@ -495,16 +486,6 @@ fn stable_direct_u64_properties<const N: usize>() {
     <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
     assert_sorted_and_probe_preserved::<u64, _, N>(&orig, &v, &mut cmp);
     kani::cover(true, "stable direct split properties checked");
-}
-
-macro_rules! define_direct_u64_route_harness {
-    ($name:ident, $body:ident, $n:literal) => {
-        #[kani::proof]
-        #[kani::unwind(34)]
-        fn $name() {
-            $body::<$n>();
-        }
-    };
 }
 
 define_direct_u64_route_harness!(general_direct_u64_n6, general_direct_u64_properties, 6);
@@ -546,17 +527,11 @@ where
     kani::cover(stable, "stable scratch48 merge contract checked");
 }
 
-macro_rules! define_merge_scratch48_contract_harness {
-    ($name:ident, $tag:ty, $n:literal) => {
-        #[kani::proof_for_contract(specfix::merge_profile)]
-        #[kani::unwind(34)]
-        fn $name() {
-            merge_scratch48_length_body::<$tag, $n>();
-        }
-    };
+#[kani::proof_for_contract(specfix::merge_profile)]
+#[kani::unwind(34)]
+fn merge_scratch48_contract_u8_n9() {
+    merge_scratch48_length_body::<LtU8, 9>();
 }
-
-define_merge_scratch48_contract_harness!(merge_scratch48_contract_u8_n9, LtU8, 9);
 
 macro_rules! define_fallback_property_harness {
     ($name:ident, $n:literal) => {

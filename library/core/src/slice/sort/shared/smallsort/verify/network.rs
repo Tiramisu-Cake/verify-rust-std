@@ -384,24 +384,15 @@ dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n15, [u8; 16
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n16, [u8; 16], [16]);
 dispatch_pair_safety_cases!(dispatch_safety_stable_unstable_bytes16_n17, [u8; 16], [17]);
 // Fixed routes keep each branch's return cover reachable.
-macro_rules! dispatch_pair_route_safety_case {
-    ($name:ident, $stable:literal, $label:literal) => {
-        #[kani::proof]
-        #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
-        #[kani::unwind(65)]
-        fn $name() {
-            dispatch_safety_fixed::<[u8; 16], 32, $stable>();
-            kani::cover(true, $label);
-            kani::cover(true, "dispatch family reached the end");
-        }
-    };
+#[kani::proof]
+#[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
+#[kani::unwind(65)]
+fn dispatch_safety_stable_bytes16_n32() {
+    dispatch_safety_fixed::<[u8; 16], 32, true>();
+    kani::cover(true, "stable route normal return at 32");
+    kani::cover(true, "dispatch family reached the end");
 }
 
-dispatch_pair_route_safety_case!(
-    dispatch_safety_stable_bytes16_n32,
-    true,
-    "stable route normal return at 32"
-);
 // The solver and unwind budget are tuned together; their separate effects are not established.
 #[kani::proof]
 #[kani::stub(super::super::panic_on_ord_violation, assume_order_violation)]
@@ -1022,18 +1013,6 @@ where
     kani::cover(true, "swap contract covers end reached");
 }
 
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
-#[kani::unwind(25)]
-fn swap_contract_u8_indices_n17() {
-    swap_contract_indices::<StrictU8, 17>();
-}
-
-#[kani::proof_for_contract(super::merge::specfix::swap_profile)]
-#[kani::unwind(25)]
-fn swap_contract_u64_indices_n17() {
-    swap_contract_indices::<StrictU64, 17>();
-}
-
 macro_rules! swap_contract_arbitrary_indices_case {
     ($name:ident, $tag:ty, $n:literal) => {
         #[kani::proof_for_contract(super::merge::specfix::swap_profile)]
@@ -1044,6 +1023,8 @@ macro_rules! swap_contract_arbitrary_indices_case {
     };
 }
 
+swap_contract_arbitrary_indices_case!(swap_contract_u8_indices_n17, StrictU8, 17);
+swap_contract_arbitrary_indices_case!(swap_contract_u64_indices_n17, StrictU64, 17);
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n9, StrictU8, 9);
 swap_contract_arbitrary_indices_case!(swap_contract_u8_n13, StrictU8, 13);
 swap_contract_arbitrary_indices_case!(swap_contract_u64_n9, StrictU64, 9);

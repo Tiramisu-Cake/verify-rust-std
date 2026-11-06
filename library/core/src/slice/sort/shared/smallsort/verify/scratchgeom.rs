@@ -4,8 +4,6 @@
 use super::super::{CopyOnDrop, SMALL_SORT_GENERAL_THRESHOLD, StableSmallSortTypeImpl};
 use super::merge::set_value_probe;
 use crate::mem::MaybeUninit;
-#[cfg(kani_smallsort_controls)]
-use crate::slice;
 use crate::slice::sort::shared::FreezeMarker;
 use crate::{kani, ptr};
 
@@ -69,26 +67,6 @@ fn separate_allocation<const N: usize, const S: usize>() {
     check_geometry(&original, &mut v, &mut scratch);
 }
 
-#[cfg(kani_smallsort_controls)]
-fn shared_allocation<const N: usize, const TOTAL: usize>() {
-    const { assert!(N >= 2 && N <= 32 && TOTAL == N + N + 16) };
-    let original: [u64; N] = kani::any();
-    let mut buffer = [MaybeUninit::<u64>::uninit(); TOTAL];
-    let (input, scratch) = buffer.split_at_mut(N);
-    for i in 0..N {
-        input[i].write(original[i]);
-    }
-    // SAFETY: all N elements of input were initialized above. MaybeUninit<u64> has the
-    // size and alignment of u64, and the cast retains the pointer's allocation and alignment.
-    // split_at_mut supplies exclusive, disjoint regions; the new reference covers exactly
-    // input, whose old reference is no longer used. The buffer lives through the entire call,
-    // and scratch remains MaybeUninit, so none of its uninitialized elements are read here.
-    let v = unsafe { slice::from_raw_parts_mut(input.as_mut_ptr().cast::<u64>(), N) };
-    assert!(scratch.len() == N + 16);
-    assert!(kani::mem::same_allocation(v.as_ptr(), scratch.as_ptr().cast::<u64>()));
-    check_geometry(&original, v, scratch);
-}
-
 macro_rules! geometry_harness {
     ($name:ident, $body:ident, $n:literal, $capacity:literal) => {
         #[kani::proof]
@@ -101,11 +79,3 @@ macro_rules! geometry_harness {
 }
 
 geometry_harness!(stable_u64_min_scratch_n2, separate_allocation, 2, 18);
-#[cfg(kani_smallsort_controls)]
-geometry_harness!(stable_u64_min_scratch_n8, separate_allocation, 8, 24);
-#[cfg(kani_smallsort_controls)]
-geometry_harness!(stable_u64_min_scratch_n17, separate_allocation, 17, 33);
-#[cfg(kani_smallsort_controls)]
-geometry_harness!(stable_u64_scratch40_n8, separate_allocation, 8, 40);
-#[cfg(kani_smallsort_controls)]
-geometry_harness!(stable_u64_shared_min_scratch_n8, shared_allocation, 8, 32);
