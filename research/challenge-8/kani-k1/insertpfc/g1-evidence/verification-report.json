@@ -1,0 +1,308 @@
+{
+  "evidence_consistency": "PASS",
+  "task_acceptance": "PASS",
+  "build_id": "4da67e0b-a086-459c-8287-f3ae365566dc",
+  "source_sha": "db5d23de550329235552a2691e69378c148c3f42",
+  "library_sha": "a282d08c5afad32ae9abb6205bc417d95152d579",
+  "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+  "request_id": "insertpfc-g1-20261107-01",
+  "request_sha256": "7812dc811e6d978d054ff2ccd09f693a69c0f5e79c6c9d8b66b527dbd63924de",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 1,
+  "pfcs": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2",
+      "status": "SUCCESS",
+      "seconds": "55.339634",
+      "checks_failed": 0,
+      "checks_total": 164,
+      "checks_unreachable": 4,
+      "covers_satisfied": 6,
+      "covers_total": 6,
+      "previous_seconds": "81.02985"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3",
+      "status": "SUCCESS",
+      "seconds": "63.423126",
+      "checks_failed": 0,
+      "checks_total": 164,
+      "checks_unreachable": 4,
+      "covers_satisfied": 6,
+      "covers_total": 6,
+      "previous_seconds": "105.375145"
+    }
+  ],
+  "controls": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2",
+      "status": "FAILED",
+      "seconds": "0.32335067",
+      "checks_failed": 1,
+      "checks_total": 80,
+      "failed_checks": [
+        {
+          "description": "assertion failed: v[0] <= v[1]",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs",
+          "line": 25
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8",
+      "status": "FAILED",
+      "seconds": "8.109631",
+      "checks_failed": 1,
+      "checks_total": 378,
+      "failed_checks": [
+        {
+          "description": "full-value checker detects payload corruption",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 347
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.8300799",
+      "checks_failed": 1,
+      "checks_total": 605,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 273
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.7044573",
+      "checks_failed": 1,
+      "checks_total": 594,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 311
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64",
+      "status": "FAILED",
+      "seconds": "0.31860116",
+      "checks_failed": 1,
+      "checks_total": 552,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 237
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8",
+      "status": "FAILED",
+      "seconds": "0.16503914",
+      "checks_failed": 1,
+      "checks_total": 247,
+      "failed_checks": [
+        {
+          "description": "profile_canonical_comparator::<P>(cmp)",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+          "line": 212
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9",
+      "status": "FAILED",
+      "seconds": "17.974674",
+      "checks_failed": 1,
+      "checks_total": 559,
+      "failed_checks": [
+        {
+          "description": "every input tag occurs exactly once",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+          "line": 55
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+      "status": "FAILED",
+      "seconds": "0.18817593",
+      "checks_failed": 1,
+      "checks_total": 205,
+      "failed_checks": [
+        {
+          "description": "begin < tail && insert_tail_contract_len(begin, tail) > 1 &&\ncrate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,\ninsert_tail_contract_len(begin, tail),)) &&\ncrate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,\ninsert_tail_contract_len(begin, tail),))",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 588
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": false,
+      "source_coordinate_binding": {
+        "expected_expression_line": 589,
+        "reported_attribute_start_line": 588,
+        "attribute_end_line": 599,
+        "full_requires_expression_token_text_matches": true,
+        "explanation": "Kani reports the same designated requires at its attribute opener. Preserve the literal coordinate mismatch; no expectation was changed."
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64",
+      "status": "FAILED",
+      "seconds": "0.49925742",
+      "checks_failed": 1,
+      "checks_total": 235,
+      "failed_checks": [
+        {
+          "description": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 859
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "status": "FAILED",
+      "seconds": "1.7502549",
+      "checks_failed": 1,
+      "checks_total": 205,
+      "failed_checks": [
+        {
+          "description": "Check that *var_9 is assignable",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 276
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+      "status": "FAILED",
+      "seconds": "0.17222455",
+      "checks_failed": 1,
+      "checks_total": 137,
+      "failed_checks": [
+        {
+          "description": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&\ncrate::ub_checks::can_write(v_base.wrapping_add(b_pos))",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": 409
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": false,
+      "source_coordinate_binding": {
+        "expected_expression_line": 410,
+        "reported_attribute_start_line": 409,
+        "attribute_end_line": 412,
+        "full_requires_expression_token_text_matches": true,
+        "explanation": "Kani reports the same designated requires at its attribute opener. Preserve the literal coordinate mismatch; no expectation was changed."
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true",
+      "status": "FAILED",
+      "seconds": "0.5235468",
+      "checks_failed": 1,
+      "checks_total": 588,
+      "failed_checks": [
+        {
+          "description": "canonical comparator required",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+          "line": 60
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption",
+      "status": "FAILED",
+      "seconds": "0.6987619",
+      "checks_failed": 1,
+      "checks_total": 345,
+      "failed_checks": [
+        {
+          "description": "full-value checker rejects payload corruption",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+          "line": 270
+        }
+      ],
+      "failed_composition_complete": true,
+      "designated_check_matches": true,
+      "literal_packet_line_matches": true,
+      "source_coordinate_binding": "Exact packet file/line match."
+    }
+  ],
+  "warnings": "No matches in bounded source-location scan of smallsort/verify and smallsort.rs.",
+  "tooling": "PASS",
+  "spent_usd": "0.1485",
+  "reserved_usd": "0.0000",
+  "failed_checks_total": 13,
+  "complete_failed_check_composition": true,
+  "bounded_context_lines": 101,
+  "truncated_context_lines": false,
+  "evidence_sha256": {
+    "budget.txt": "07865e2fc396816e0fe57c017be8eed9159a377d014f5e813b560a78da61715d",
+    "control-context.txt": "0922c411a6f995e4c0c6144b66fca09c134c14fbc944d583357f6e7d856cf02e",
+    "failed-insert-tail-requires.txt": "e880e70063b6465ddfbe78863a28ad5c87d729b00e27a77f8516337122432e57",
+    "failed-swap-requires.txt": "7686a2247f654fce40be8e3a71d83663bc183f8f20cfe1548f211d502eab061d",
+    "peaks.txt": "4e176427b64eb234e6bb4706cf45d026386e1b2be7918945a77525744ef5924b",
+    "rows.txt": "483f0bc321b2f08072d6ebcb21f20788636474bb2afef89fa97f4ada6fe5f0ea",
+    "status.json": "45866247bce3f43c190cc447ab717fada833e74e3f7e76115170a52db66fe084",
+    "summary.md": "1d21aebf4de3d82653629a3071bb6f575f5076c29e61503306cea990cbf8f8a7",
+    "tooling.txt": "e87e1ff25ce6528ddf50e5b876c7d12c227a23934b09fd6e2e7226d2aa26bf96",
+    "verify-warning-paths.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8"
+  },
+  "scope": "Two fixed-length u64 ordinary insertion contract instantiations; covers 6/6 each. Four unreachable non-cover checks per PFC remain reported; no universal callback/type/length or validity/uninit/unwinding claim."
+}

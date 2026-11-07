@@ -1,0 +1,56 @@
+interval_ms=2000
+samples=122
+elapsed_s=242
+total_rss_peak_kb=5153164
+total_peak_s=140
+cmd=bash peak_kb=3880 first_s=0 last_s=242 peak_s=0
+cmd=cargo peak_kb=35780 first_s=2 last_s=64 peak_s=56
+cmd=cbmc peak_kb=5102236 first_s=76 last_s=240 peak_s=136
+cmd=gcc peak_kb=1140 first_s=204 last_s=204 peak_s=204
+cmd=goto-cc peak_kb=39484 first_s=66 last_s=220 peak_s=220
+cmd=goto-instrument peak_kb=47588 first_s=70 last_s=222 peak_s=210
+cmd=kani-compiler peak_kb=1873644 first_s=2 last_s=64 peak_s=50
+cmd=kani-driver peak_kb=186248 first_s=2 last_s=240 peak_s=240
+cmd=python3 peak_kb=20560 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3780 first_s=2 last_s=240 peak_s=2
+cmd=tee peak_kb=1116 first_s=0 last_s=242 peak_s=2
+cmd=time peak_kb=1116 first_s=2 last_s=240 peak_s=2
+cmd=timeout peak_kb=1072 first_s=2 last_s=240 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=5092876 peak_s=128
+role=driver simultaneous_rss_peak_kb=186248 peak_s=240
+cbmc_pid=8935 peak_kb=5102236 first_s=82 last_s=142 peak_s=136 active=T0:helper_contracts::insertion_safety_u64_len3 hint=slice::sort::shared::smallsort::verify::helper_contracts::in
+cbmc_pid=8973 peak_kb=4988748 first_s=146 last_s=200 peak_s=194 active=T0:helper_contracts::insertion_safety_u64_len2 hint=slice::sort::shared::smallsort::verify::helper_contracts::in
+cbmc_pid=9168 peak_kb=290540 first_s=224 last_s=240 peak_s=238 active=T0:tag_permutation::reject_duplicate_network_u8_n9 hint=slice::sort::shared::smallsort::verify::tag_permutation::rej
+cbmc_pid=8843 peak_kb=129296 first_s=76 last_s=76 peak_s=76 active= hint=slice::sort::shared::smallsort::verify::helper_contracts::re
+cbmc_pid=9139 peak_kb=107688 first_s=212 last_s=218 peak_s=218 active=T0:merge::profiles::profile_full_value_checker_rejects_payload_change_u8 hint=slice::sort::shared::smallsort::verify::merge::profiles::pro
+cbmc_pid=9056 peak_kb=47040 first_s=206 last_s=206 peak_s=206 active= hint=slice::sort::shared::smallsort::verify::merge::profiles::pro
+driver_s=0 rss_kb=0
+harness_s=70 name=T0:fixed_inputs::reject_mutant_swap_u8_n2
+driver_s=30 rss_kb=6100
+harness_s=72 name=T0:forwarding_contracts::rejects_payload_corruption
+driver_s=60 rss_kb=6100
+harness_s=74 name=T0:forwarding_contracts::rejects_always_true
+driver_s=90 rss_kb=25604
+harness_s=76 name=T0:helper_contracts::rejects_swap_comparator_writing_outside_frame_u8
+driver_s=120 rss_kb=25604
+harness_s=78 name=T0:helper_contracts::rejects_merge_overlapping_dst_u64
+driver_s=150 rss_kb=46200
+harness_s=80 name=T0:helper_contracts::rejects_insert_tail_equal_begin_u64
+driver_s=180 rss_kb=46200
+harness_s=82 name=T0:helper_contracts::insertion_safety_u64_len3
+driver_s=210 rss_kb=46224
+harness_s=146 name=T0:helper_contracts::insertion_safety_u64_len2
+driver_s=240 rss_kb=186248
+harness_s=202 name=T0:helper_contracts::rejects_swap_outside_backing_u8
+harness_s=204 name=T0:merge::profiles::profile_wrong_f_merge_rejected_u8
+harness_s=206 name=T0:merge::profiles::profile_wrong_f_insert_rejected_u8
+harness_s=208 name=T0:merge::profiles::profile_wrong_f_sort4_rejected_u64
+harness_s=210 name=T0:merge::profiles::profile_wrong_f_swap_rejected_u8
+harness_s=212 name=T0:merge::profiles::profile_full_value_checker_rejects_payload_change_u8
+harness_s=224 name=T0:tag_permutation::reject_duplicate_network_u8_n9
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=344
+verify_budget_s=5596
+RUSTFLAGS=--cfg kani_smallsort_controls

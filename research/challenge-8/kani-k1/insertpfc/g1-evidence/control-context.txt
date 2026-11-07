@@ -1,0 +1,101 @@
+2710:Checking harness slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2...
+2714: ** 1 of 80 failed (6 unreachable)
+2716: ** 1 of 1 cover properties satisfied
+2718:Failed Checks: assertion failed: v[0] <= v[1]
+2719: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs", line 25, in slice::sort::shared::smallsort::verify::fixed_inputs::check_swap::<{closure@/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs:151:16: 151:33}>
+2721:VERIFICATION:- FAILED
+2722:Verification Time: 0.32335067s
+2724:Checking harness slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption...
+2727: ** 1 of 345 failed (18 unreachable)
+2729: ** 1 of 1 cover properties satisfied
+2731:Failed Checks: full-value checker rejects payload corruption
+2732: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs", line 270, in slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption
+2734:VERIFICATION:- FAILED
+2735:Verification Time: 0.6987619s
+2737:Checking harness slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true...
+2740: ** 1 of 588 failed (37 unreachable)
+2742: ** 3 of 3 cover properties satisfied
+2744:Failed Checks: canonical comparator required
+2745: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs", line 60, in slice::sort::shared::smallsort::verify::forwarding_contracts::canonical_guard
+2747:VERIFICATION:- FAILED
+2748:Verification Time: 0.5235468s
+2750:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8...
+2753: ** 1 of 205 failed (4 unreachable)
+2754:Failed Checks: Check that *var_9 is assignable
+2755: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs", line 276, in slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8::{closure#0}
+2757:VERIFICATION:- FAILED
+2758:Verification Time: 1.7502549s
+2760:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64...
+2764: ** 1 of 235 failed (15 unreachable)
+2766: ** 1 of 3 cover properties satisfied (2 unreachable)
+2768:Failed Checks: merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())
+2769: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 859, in slice::sort::shared::smallsort::bidirectional_merge::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::helper_contracts::arbitrary_less::<u64>}>::{closure#1}
+2771:VERIFICATION:- FAILED
+2772:Verification Time: 0.49925742s
+2774:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64...
+2778: ** 1 of 205 failed (9 unreachable)
+2780: ** 1 of 3 cover properties satisfied (2 unreachable)
+2782:Failed Checks: begin < tail && insert_tail_contract_len(begin, tail) > 1 &&
+2787: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 588, in slice::sort::shared::smallsort::insert_tail::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::helper_contracts::arbitrary_less::<u64>}>::{closure#1}
+2789:VERIFICATION:- FAILED
+2790:Verification Time: 0.18817593s
+2792:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3...
+2795: ** 0 of 164 failed (4 unreachable)
+2797: ** 6 of 6 cover properties satisfied
+2800:VERIFICATION:- SUCCESSFUL
+2801:Verification Time: 63.423126s
+2803:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2...
+2806: ** 0 of 164 failed (4 unreachable)
+2808: ** 6 of 6 cover properties satisfied
+2811:VERIFICATION:- SUCCESSFUL
+2812:Verification Time: 55.339634s
+2814:Checking harness slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8...
+2818: ** 1 of 137 failed (9 unreachable)
+2820: ** 1 of 3 cover properties satisfied (2 unreachable)
+2822:Failed Checks: crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&
+2824: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 409, in slice::sort::shared::smallsort::swap_if_less::<u8, for<'a, 'b> fn(&'a u8, &'b u8) -> bool {slice::sort::shared::smallsort::verify::helper_contracts::arbitrary_less::<u8>}>::{closure#1}
+2826:VERIFICATION:- FAILED
+2827:Verification Time: 0.17222455s
+2829:Checking harness slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8...
+2833: ** 1 of 594 failed (77 unreachable)
+2835: ** 1 of 1 cover properties satisfied
+2837:Failed Checks: profile_canonical_comparator::<P>(cmp)
+2838: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs", line 311, in slice::sort::shared::smallsort::verify::merge::profiles::merge_profile::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>::{closure#1}
+2840:VERIFICATION:- FAILED
+2841:Verification Time: 0.7044573s
+2843:Checking harness slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8...
+2847: ** 1 of 605 failed (66 unreachable)
+2849: ** 1 of 1 cover properties satisfied
+2851:Failed Checks: profile_canonical_comparator::<P>(cmp)
+2852: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs", line 273, in slice::sort::shared::smallsort::verify::merge::profiles::insert_tail_profile::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>::{closure#1}
+2854:VERIFICATION:- FAILED
+2855:Verification Time: 0.8300799s
+2857:Checking harness slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64...
+2861: ** 1 of 552 failed (81 unreachable)
+2863: ** 1 of 1 cover properties satisfied
+2865:Failed Checks: profile_canonical_comparator::<P>(cmp)
+2866: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs", line 237, in slice::sort::shared::smallsort::verify::merge::profiles::sort4_profile::<slice::sort::shared::smallsort::verify::merge::profiles::Sort4ReadU64>::{closure#1}
+2868:VERIFICATION:- FAILED
+2869:Verification Time: 0.31860116s
+2871:Checking harness slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8...
+2875: ** 1 of 247 failed (10 unreachable)
+2877: ** 1 of 1 cover properties satisfied
+2879:Failed Checks: profile_canonical_comparator::<P>(cmp)
+2880: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs", line 212, in slice::sort::shared::smallsort::verify::merge::profiles::swap_profile::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>::{closure#1}
+2882:VERIFICATION:- FAILED
+2883:Verification Time: 0.16503914s
+2885:Checking harness slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8...
+2888: ** 1 of 378 failed (60 unreachable)
+2890: ** 1 of 1 cover properties satisfied
+2892:Failed Checks: full-value checker detects payload corruption
+2893: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs", line 347, in slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8
+2895:VERIFICATION:- FAILED
+2896:Verification Time: 8.109631s
+2898:Checking harness slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9...
+2902: ** 1 of 559 failed (18 unreachable)
+2904: ** 1 of 2 cover properties satisfied (1 unreachable)
+2906:Failed Checks: every input tag occurs exactly once
+2907: File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs", line 55, in slice::sort::shared::smallsort::verify::tag_permutation::check_tags::<9>
+2909:VERIFICATION:- FAILED
+2910:Verification Time: 17.974674s
+2926:Complete - 2 successfully verified harnesses, 13 failures, 15 total.

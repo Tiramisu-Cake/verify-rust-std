@@ -1,0 +1,24 @@
+request_id=insertpfc-g1-20261107-01
+request_sha256=7812dc811e6d978d054ff2ccd09f693a69c0f5e79c6c9d8b66b527dbd63924de
+build_id=4da67e0b-a086-459c-8287-f3ae365566dc
+head_sha=db5d23de550329235552a2691e69378c148c3f42
+total=15
+offset=0
+count=15
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2	SUCCESS	55.339634	0/164	6/6
+slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3	SUCCESS	63.423126	0/164	6/6
+slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2	FAILED	0.32335067	1/80	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8	FAILED	8.109631	1/378	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8	FAILED	0.8300799	1/605	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8	FAILED	0.7044573	1/594	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64	FAILED	0.31860116	1/552	1/1
+slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8	FAILED	0.16503914	1/247	1/1
+slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9	FAILED	17.974674	1/559	1/2
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64	FAILED	0.18817593	1/205	1/3
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64	FAILED	0.49925742	1/235	1/3
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8	FAILED	1.7502549	1/205	
+slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8	FAILED	0.17222455	1/137	1/3
+slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true	FAILED	0.5235468	1/588	3/3
+slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption	FAILED	0.6987619	1/345	1/1

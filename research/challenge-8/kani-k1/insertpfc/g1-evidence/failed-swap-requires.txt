@@ -1,0 +1,3 @@
+Failed Checks: crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&
+crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 409, in slice::sort::shared::smallsort::swap_if_less::<u8, for<'a, 'b> fn(&'a u8, &'b u8) -> bool {slice::sort::shared::smallsort::verify::helper_contracts::arbitrary_less::<u8>}>::{closure#1}

@@ -11,14 +11,19 @@
   "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
-  "state": "PREBUILD_REVIEW_REQUIRED",
-  "build_go": null,
-  "source_sha": null,
+  "state": "G2_PROMOTED_AWAITING_COMMIT",
+  "build_go": {
+    "packet_sha": "db5d23de550329235552a2691e69378c148c3f42",
+    "scope": "G1 exact source plus conditional G2 promotion exactly as PREBUILD, after full G1 acceptance, byte-identical G2 request, new research-only commit.",
+    "message": "Coordinator GO; T0 is the time of this message.",
+    "message_id": "01a1b542-194c-7f30-aaad-9db823f71d6b"
+  },
+  "source_sha": "db5d23de550329235552a2691e69378c148c3f42",
   "coordinator_timeout_approval": "2026-11-07: coordinator explicitly approved G1 105 min as computed by k1g.sh, combined G1+G2 reserve $2.4165 at own cap $2.50. This approves the timeout deviation, not build dispatch.",
   "prepared_utc": "2026-11-07T09:03:52.441715+00:00",
-  "t0_utc": null,
-  "main_deadline_utc": null,
-  "closeout_deadline_utc": null,
+  "t0_utc": "2026-11-07T09:06:10+00:00",
+  "main_deadline_utc": "2026-11-07T14:06:10+00:00",
+  "closeout_deadline_utc": "2026-11-07T14:36:10+00:00",
   "window_rule": "Preserve coordinator-supplied T0/deadlines. If none supplied, set execution T0 on GO before first dispatch; main 300 min plus closeout 30.",
   "main_minutes": 300,
   "closeout_minutes": 30,
@@ -27,16 +32,16 @@
   "compile_error_repair_limit": 1,
   "repair_rule": "Only one compile-error repair, still within two builds total and own spent plus all planned/live reserves <= cap. If repair consumes build two, G2 is NOT_RUN, result incomplete, then stop.",
   "own_cap_usd": "2.5000",
-  "own_spent_usd": "0.0000",
+  "own_spent_usd": "0.1485",
   "own_reserved_usd": "0.0000",
   "project_cap_usd": "118.9600",
   "project_budget_observation": {
-    "recorded_utc": "2026-11-07T09:03:52.441715+00:00",
-    "builds": 252,
-    "used_usd": "108.4560",
+    "recorded_utc": "2026-11-07T09:23:06.342573+00:00",
+    "builds": 253,
+    "used_usd": "108.6045",
     "reserved_usd": "0.0000",
-    "source": "prebuild-budget.txt",
-    "refresh_required_before_dispatch": true
+    "source": "g2-pre-dispatch-budget.txt",
+    "refresh_required_before_dispatch": false
   },
   "planned_builds": [
     {
@@ -65,8 +70,44 @@
   "planned_combined_reserve_usd": "2.4165",
   "own_planned_remaining_usd": "0.0835",
   "planned_post_reserve_project_usd": "110.8725",
-  "builds": [],
+  "builds": [
+    {
+      "stage": "insertpfc-g1",
+      "build_id": "4da67e0b-a086-459c-8287-f3ae365566dc",
+      "status": "SUCCESS",
+      "source_sha": "db5d23de550329235552a2691e69378c148c3f42",
+      "request_id": "insertpfc-g1-20261107-01",
+      "request_sha256": "7812dc811e6d978d054ff2ccd09f693a69c0f5e79c6c9d8b66b527dbd63924de",
+      "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+      "runner": "gcb-e2-standard-4",
+      "paid_build_timeout_minutes": 105,
+      "harness_timeout_minutes": 5,
+      "planned_reserve_usd": "1.4175",
+      "recorded_utc": "2026-11-07T09:07:41.255581+00:00",
+      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch 4da67e0b-a086-459c-8287-f3ae365566dc",
+      "task_acceptance": "PASS",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 1,
+      "start_time": "2026-11-07T09:08:09.272260904Z",
+      "finish_time": "2026-11-07T09:18:32.221630Z",
+      "spent_usd": "0.1485",
+      "reserved_usd": "0.0000",
+      "verification_report": "g1-evidence/verification-report.json"
+    }
+  ],
   "g2_promotion_rule": "A packet GO must explicitly cover a subsequent research-only commit promoting the byte-identical prepared G2 request to root RUN-REQUEST.json, with G1 evidence/ledger updates, library/tooling/expectations unchanged, only after G1 is fully accepted. Otherwise publish exact G2 source SHA for a new PRE-BUILD review/GO.",
   "wait_rule": "After every dispatch call k1g.sh watch BUILD and end the turn; never poll status in a loop.",
-  "acceptance": "Both PFC SUCCESS, 0 failed checks, covers 6/6 each; all 13 controls FAILED with exactly one designated check and complete failure attribution; G2 exact 248-name cfg-on inventory; same library tree in both builds; no new smallsort warnings."
+  "acceptance": "Both PFC SUCCESS, 0 failed checks, covers 6/6 each; all 13 controls FAILED with exactly one designated check and complete failure attribution; G2 exact 248-name cfg-on inventory; same library tree in both builds; no new smallsort warnings.",
+  "t0_source": "Own thread read_thread turn 01a1b542-18a9-7b50-9906-04871d367bca startedAt=1794042370 (message receipt/turn start, second precision).",
+  "owner_slot_observation": "Refreshed project budget has zero unfinished reservations: no running/queued charged pool builds; k1g dispatch also serializes budget/duplicate/submit through its existing lock.",
+  "g2_own_spent_plus_reserve_usd": "1.1475",
+  "g2_planned_post_reserve_project_usd": "109.6035",
+  "g2_promotion": {
+    "from_packet_sha": "db5d23de550329235552a2691e69378c148c3f42",
+    "request_sha256": "28a7f899e75b797d9799d15fd38cc3e2c49311d181406b363b930b3d7d6c9ed7",
+    "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+    "go_scope": "Conditional G2 promotion explicitly authorized in coordinator GO; G1 fully accepted.",
+    "recorded_utc": "2026-11-07T09:23:06.342573+00:00"
+  }
 }

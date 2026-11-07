@@ -1,0 +1,6 @@
+Failed Checks: begin < tail && insert_tail_contract_len(begin, tail) > 1 &&
+crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,
+insert_tail_contract_len(begin, tail),)) &&
+crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,
+insert_tail_contract_len(begin, tail),))
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort.rs", line 588, in slice::sort::shared::smallsort::insert_tail::<u64, for<'a, 'b> fn(&'a u64, &'b u64) -> bool {slice::sort::shared::smallsort::verify::helper_contracts::arbitrary_less::<u64>}>::{closure#1}
