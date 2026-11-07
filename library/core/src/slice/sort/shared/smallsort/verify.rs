@@ -21,8 +21,9 @@
 //!
 //! Real helper contract domains (comparators read both arguments and return arbitrary bools):
 //! - `helper_contracts`: swap of u8, u64, or `[u8; 17]` in four elements; u8 in nine or thirteen;
-//!   u64 tail insertion at positions 1 through 4 in five elements; sort4 of u64 with separate
-//!   source and destination arrays; u64 merge of two or four elements with separate output.
+//!   u64 insertion sort of two or three elements with any valid offset; u64 tail insertion at
+//!   positions 1 through 4 in five elements; sort4 of u64 with separate source and destination
+//!   arrays; u64 merge of two or four elements with separate output.
 //! - `helper_contracts_wide`: swap of u8 or u64 in 32 elements with an arbitrary interior base;
 //!   u64 merge of eight elements from scratch positions 32 through 39 to positions 0 through 7.
 //! - `insert_tail_contracts`: u64 tail insertion at positions 1 through 15 in

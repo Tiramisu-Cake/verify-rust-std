@@ -1,7 +1,9 @@
 //! Real helper contract proofs and consumers paired on the same comparator and allocation.
 //! The reading comparator chooses each answer independently, including at equal swap positions.
 
-use super::super::{bidirectional_merge, insert_tail, sort4_stable, swap_if_less};
+use super::super::{
+    bidirectional_merge, insert_tail, insertion_sort_shift_left, sort4_stable, swap_if_less,
+};
 use crate::kani;
 
 fn arbitrary_less<T>(a: &T, b: &T) -> bool {
@@ -126,6 +128,30 @@ fn swap_safety_u8_backing9() {
 #[kani::unwind(16)]
 fn swap_safety_u8_backing13() {
     exercise_swap_u8_backing::<13>();
+}
+
+// Fixed lengths with any nonzero offset up to and including the slice length.
+fn exercise_insertion_fixed<const N: usize>() {
+    let mut v: [u64; N] = kani::any();
+    let offset: usize = kani::any();
+    kani::assume(offset != 0 && offset <= N);
+    insertion_sort_shift_left(&mut v, offset, &mut arbitrary_less::<u64>);
+    kani::cover(offset == 1, "helper contract insertion offset one returns");
+    kani::cover(offset == N, "helper contract insertion final offset returns");
+    kani::cover(offset < N, "helper contract insertion below final offset returns");
+    kani::cover(true, "helper contract insertion returns");
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::unwind(8)]
+fn insertion_safety_u64_len2() {
+    exercise_insertion_fixed::<2>();
+}
+
+#[kani::proof_for_contract(insertion_sort_shift_left)]
+#[kani::unwind(8)]
+fn insertion_safety_u64_len3() {
+    exercise_insertion_fixed::<3>();
 }
 
 #[kani::proof_for_contract(insert_tail)]
