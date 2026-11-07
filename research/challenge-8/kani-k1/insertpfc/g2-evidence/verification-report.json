@@ -1,0 +1,80 @@
+{
+  "evidence_consistency": "PASS",
+  "task_acceptance": "PASS",
+  "build_id": "8de198b9-953d-4b19-9eb2-76f90e5a14a4",
+  "source_sha": "78d7112ea367dd9a23e588367f2b436876778c0e",
+  "library_sha": "a282d08c5afad32ae9abb6205bc417d95152d579",
+  "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+  "same_library_tree_as_g1": true,
+  "request_id": "insertpfc-g2-20261107-01",
+  "request_sha256": "28a7f899e75b797d9799d15fd38cc3e2c49311d181406b363b930b3d7d6c9ed7",
+  "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 0,
+  "kind": "inventory",
+  "controls": true,
+  "proof_rows": 0,
+  "inventory_count": 248,
+  "inventory_unique_count": 248,
+  "inventory_names_native_sha256": "e93fdc6c597fb8866b275f11f8d06f6d8a901212d949f2a1890d1caac9a3d342",
+  "inventory_names_sorted_sha256": "6d6cd89142e2f8242eb6f1cf6f6b065a11926af2eb16b2939492c59296eb8a61",
+  "inventory_artifact_sha256": "11ee59c3b5d9c119fc3525fccc22433ce44b6ab5582cc8e1d65eadd83aa6b9e7",
+  "inventory_exact_expected_set": true,
+  "inventory_pages": [
+    {
+      "file": "inventory-page-0.txt",
+      "offset": 0,
+      "count": 80,
+      "next_offset": "80",
+      "sha256": "15bd7a0881d9e299295ca724f760405712ae4f22ea960c0a2a0377f0538d9cdf"
+    },
+    {
+      "file": "inventory-page-80.txt",
+      "offset": 80,
+      "count": 80,
+      "next_offset": "160",
+      "sha256": "c1f898e2552fdca951282d1e89f5ded77724d20597f7cf80d0b5c699b6100083"
+    },
+    {
+      "file": "inventory-page-160.txt",
+      "offset": 160,
+      "count": 80,
+      "next_offset": "240",
+      "sha256": "f51f53c65d7dd432adf8aa4b502bb7ace188c9747a7bcaefd8e549e70fe7d006"
+    },
+    {
+      "file": "inventory-page-240.txt",
+      "offset": 240,
+      "count": 8,
+      "next_offset": "done",
+      "sha256": "9e9a2704307f685741a8e937d4f77643fafae18495d09999c3060d07e598230d"
+    }
+  ],
+  "pages_complete_nonoverlapping": true,
+  "warnings": "No matches in bounded source-location scan of smallsort/verify and smallsort.rs.",
+  "tooling": "PASS",
+  "memory": "Inventory summary reports MISSING; no memory or proof-row measurement claimed.",
+  "billed_minutes": 44,
+  "spent_usd": "0.5940",
+  "reserved_usd": "0.0000",
+  "evidence_sha256": {
+    "compiler-cfg-on-sorted.txt": "6d6cd89142e2f8242eb6f1cf6f6b065a11926af2eb16b2939492c59296eb8a61",
+    "inventory-page-0.txt": "15bd7a0881d9e299295ca724f760405712ae4f22ea960c0a2a0377f0538d9cdf",
+    "inventory-page-160.txt": "f51f53c65d7dd432adf8aa4b502bb7ace188c9747a7bcaefd8e549e70fe7d006",
+    "inventory-page-240.txt": "9e9a2704307f685741a8e937d4f77643fafae18495d09999c3060d07e598230d",
+    "inventory-page-80.txt": "c1f898e2552fdca951282d1e89f5ded77724d20597f7cf80d0b5c699b6100083",
+    "status.json": "94df91202b78358be45f8d00f64afe8d3e87f8585711b62756c0b9651d64f7b6",
+    "summary.md": "ccaba610409ad7f773b7f7c0d087f4942212427e97ce61aacd36c5bfcb675dcd",
+    "tooling.txt": "a80afa5929c16d1ccf27f7be5e6871a7b82095acf3228ea4424fbc3c76d5a1b1",
+    "verify-warning-paths.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8"
+  },
+  "final_own_budget_evidence": {
+    "file": "../final-own-budget.txt",
+    "sha256": "fb465b12d7cde8521f9b9de8e86fa4bffb33c15ab8c1551f648660e1f173a492",
+    "builds": 2,
+    "spent_usd": "0.7425",
+    "reserved_usd": "0.0000"
+  }
+}

@@ -11,14 +11,14 @@
   "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
   "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
   "kani_commit": "cd355b0bccd32300713bc2ce4f765dafa1510607",
-  "state": "G2_PROMOTED_AWAITING_COMMIT",
+  "state": "COMPLETE_REVIEW_REQUESTED",
   "build_go": {
     "packet_sha": "db5d23de550329235552a2691e69378c148c3f42",
     "scope": "G1 exact source plus conditional G2 promotion exactly as PREBUILD, after full G1 acceptance, byte-identical G2 request, new research-only commit.",
     "message": "Coordinator GO; T0 is the time of this message.",
     "message_id": "01a1b542-194c-7f30-aaad-9db823f71d6b"
   },
-  "source_sha": "db5d23de550329235552a2691e69378c148c3f42",
+  "source_sha": "78d7112ea367dd9a23e588367f2b436876778c0e",
   "coordinator_timeout_approval": "2026-11-07: coordinator explicitly approved G1 105 min as computed by k1g.sh, combined G1+G2 reserve $2.4165 at own cap $2.50. This approves the timeout deviation, not build dispatch.",
   "prepared_utc": "2026-11-07T09:03:52.441715+00:00",
   "t0_utc": "2026-11-07T09:06:10+00:00",
@@ -32,15 +32,15 @@
   "compile_error_repair_limit": 1,
   "repair_rule": "Only one compile-error repair, still within two builds total and own spent plus all planned/live reserves <= cap. If repair consumes build two, G2 is NOT_RUN, result incomplete, then stop.",
   "own_cap_usd": "2.5000",
-  "own_spent_usd": "0.1485",
+  "own_spent_usd": "0.7425",
   "own_reserved_usd": "0.0000",
   "project_cap_usd": "118.9600",
   "project_budget_observation": {
-    "recorded_utc": "2026-11-07T09:23:06.342573+00:00",
-    "builds": 253,
-    "used_usd": "108.6045",
+    "recorded_utc": "2026-11-07T10:11:59.241602+00:00",
+    "builds": 254,
+    "used_usd": "109.1985",
     "reserved_usd": "0.0000",
-    "source": "g2-pre-dispatch-budget.txt",
+    "source": "final-project-budget.txt",
     "refresh_required_before_dispatch": false
   },
   "planned_builds": [
@@ -94,6 +94,30 @@
       "spent_usd": "0.1485",
       "reserved_usd": "0.0000",
       "verification_report": "g1-evidence/verification-report.json"
+    },
+    {
+      "stage": "insertpfc-g2",
+      "build_id": "8de198b9-953d-4b19-9eb2-76f90e5a14a4",
+      "status": "SUCCESS",
+      "source_sha": "78d7112ea367dd9a23e588367f2b436876778c0e",
+      "request_id": "insertpfc-g2-20261107-01",
+      "request_sha256": "28a7f899e75b797d9799d15fd38cc3e2c49311d181406b363b930b3d7d6c9ed7",
+      "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+      "runner": "gcb-e2-standard-4",
+      "paid_build_timeout_minutes": 74,
+      "harness_timeout_minutes": 44,
+      "planned_reserve_usd": "0.9990",
+      "recorded_utc": "2026-11-07T09:24:14.522039+00:00",
+      "watch_command": "research/challenge-8/kani-k1/tools/k1g.sh watch 8de198b9-953d-4b19-9eb2-76f90e5a14a4",
+      "task_acceptance": "PASS",
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 0,
+      "start_time": "2026-11-07T09:24:56.405125545Z",
+      "finish_time": "2026-11-07T10:08:51.145190Z",
+      "spent_usd": "0.5940",
+      "reserved_usd": "0.0000",
+      "verification_report": "g2-evidence/verification-report.json"
     }
   ],
   "g2_promotion_rule": "A packet GO must explicitly cover a subsequent research-only commit promoting the byte-identical prepared G2 request to root RUN-REQUEST.json, with G1 evidence/ledger updates, library/tooling/expectations unchanged, only after G1 is fully accepted. Otherwise publish exact G2 source SHA for a new PRE-BUILD review/GO.",
@@ -108,6 +132,26 @@
     "request_sha256": "28a7f899e75b797d9799d15fd38cc3e2c49311d181406b363b930b3d7d6c9ed7",
     "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
     "go_scope": "Conditional G2 promotion explicitly authorized in coordinator GO; G1 fully accepted.",
-    "recorded_utc": "2026-11-07T09:23:06.342573+00:00"
+    "recorded_utc": "2026-11-07T09:23:06.342573+00:00",
+    "source_sha": "78d7112ea367dd9a23e588367f2b436876778c0e"
+  },
+  "task_acceptance": "PASS",
+  "completed_utc": "2026-11-07T10:11:59.241602+00:00",
+  "builds_used": 2,
+  "builds_remaining": 0,
+  "repairs_used": 0,
+  "retries_used": 0,
+  "final_outcome": {
+    "pfcs_success": 2,
+    "pfc_covers": "6/6 each",
+    "controls_designated_single_failure": 13,
+    "cfg_on_count": 248,
+    "cfg_on_sorted_sha256": "6d6cd89142e2f8242eb6f1cf6f6b065a11926af2eb16b2939492c59296eb8a61",
+    "inventory_exact_match": true,
+    "same_library_tree_both_builds": true,
+    "warnings": "No target-path matches in both builds",
+    "result": "../RESULT-INSERTPFC.md",
+    "main_window_completed": true,
+    "further_dispatch_authorized": false
   }
 }
