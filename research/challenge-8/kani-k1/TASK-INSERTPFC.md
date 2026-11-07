@@ -8,8 +8,10 @@
 - Worktree **/root/verify-rust-std-kani-insertpfc**, ветка **experiment/kani-k1-insertpfc-20261107** от
   **4f52065504** (INTEGCHECK PASS: library tree `def2d65ddc`; 233 ordinary + 13 контролей, cfg-on 246).
 - Slug **insertpfc**, stable owner **k1-merge**. Request_id/stage/ledger `insertpfc-*`.
-- Project cap **$118.96**, свой cap **$2.00**. **До двух сборок**: G1 (proof rows), G2 (cfg-on inventory); G2 можно
-  отправить в том же пакете GO. Retry нет. Один compile-error repair, если own spent + reserve ≤ cap.
+- Project cap **$118.96**, свой cap **$2.50**. **Не более двух сборок всего**, включая repair: G1 (proof rows),
+  G2 (cfg-on inventory); G2 можно отправить в том же пакете GO. Retry нет. Один compile-error repair, если own
+  spent + reserve ≤ cap; если repair занимает вторую сборку, G2 остаётся NOT_RUN, результат неполный, дальше
+  dispatch нет.
 - Tooling base для check-tooling: **59893bff1f**. Tooling не менять.
 - Окно: main 300 + closeout 30 мин.
 
@@ -38,7 +40,9 @@ Library-изменения (только они):
 Переиспользовать лексер/expander из `renamemods/`.
 - Ordinary = 233 прежних + 2 новых = **235**; cfg-on = **248**; файлы `ordinary-expected.txt`, `cfg-on-expected.txt`.
 - Раскрытые items всех 246 прежних корней и их замыкания **токен-идентичны** INTEGCHECK-дереву `def2d65ddc`.
-- Два новых корня после обратной замены текстов covers токен-идентичны корням 44b972435a.
+- Два новых корня **и `exercise_insertion_fixed` с замыканием зависимостей** токен-идентичны 44b972435a после
+  разрешённых различий: снятие `#[cfg(kani_smallsort_controls)]`, путь импорта, тексты covers (явная таблица
+  было → стало), комментарий.
 - `smallsort.rs` байт-идентичен; `rustfmt --check` (обёртка
   `/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh --edition 2024 --config-path
   research/challenge-8/kani-k1/codefix/rustfmt.toml` на изменённых файлах) — ноль diff; строк > 100 нет;
@@ -49,10 +53,18 @@ Library-изменения (только они):
 - **G1:** kind diagnostic, `controls: true`, `inventory: false`, jobs 1, standard4. 15 строк: 2 новых PFC
   (`expect: SUCCESS`, covers 6/6) и 13 контролей (`expect: FAILED` + `expect_check`; ожидания — из пакета
   INTEGCHECK `integcheck/controls-expected.json`, с пересчётом строк, если файл helper_contracts.rs сдвинулся).
-  Контроль принимать, только если **все** упавшие проверки — назначенные. Лимит на корень 5 мин; лимит сборки —
-  компиляция cfg-on + строки × лимит + запас.
+  Контроль принимать, только если **все** упавшие проверки — назначенные. `--harness-timeout 5m`; paid build timeout
+  **100 мин** (INTEGCHECK G1 при 21 строке и 4 мин занял 14 мин).
 - **G2:** kind inventory, `controls: true`, без строк: ровно 248 имён = `cfg-on-expected.txt`, без новых
-  предупреждений в `smallsort/verify` и `smallsort.rs`. Лимит — по INTEGCHECK G2 с запасом.
+  предупреждений в `smallsort/verify` и `smallsort.rs`. `--harness-timeout 44m`, paid build timeout **74 мин** (как INTEGCHECK G2).
+- До dispatch: суммарный резерв G1 + G2 по ценам пула (standard4 $0.0135/мин) с setup ≤ own cap; иначе стоп и
+  вопрос координатору.
+
+## Приёмка
+
+- Каждый контроль: FAILED, ровно одна упавшая проверка, и она назначенная.
+- Оба PFC: SUCCESS, 0 failed checks, covers 6/6 каждый.
+- G1 и G2 собраны из одного library tree (тот же tree SHA, что в library-коммите).
 
 ## RESULT
 
@@ -68,7 +80,8 @@ Library-изменения (только они):
 
 ## Запреты
 
-- Evidence — только bounded K-1 summaries/rows/peaks/log-grep/inventory. Raw logs, archives, Cloud Logging и
+- Evidence — только bounded K-1 summaries/rows/peaks/log-grep/inventory через `k1g.sh`; этот интерфейс не
+  обходить (никаких прямых GCS/storage/download/logging-команд). Raw logs, archives, Cloud Logging и
   credentials не читать.
 - Никаких локальных cargo/rustc/Kani/CBMC (rustfmt разрешён), Actions/PR/issue.
 - Только наш код, наши RESULT и документация Kani. Чужие PR, их ветки и код не открывать.
