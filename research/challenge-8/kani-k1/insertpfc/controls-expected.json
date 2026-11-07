@@ -1,0 +1,319 @@
+{
+  "schema": "insertpfc-controls-v1",
+  "sources": {
+    "PINCHECK": {
+      "commit": "690bdea1c7e2c919161e0b3ef16c206122e885b5",
+      "path": "research/challenge-8/kani-k1/RESULT-PINCHECK.md",
+      "blob": "fae1d60651d80101789e73f2412a17eeb19b1ce1",
+      "sha256": "5928fbf364ff6b2221949b50859f47ce01f4bc89ec0c66e72a3f151b6ac07b5d"
+    },
+    "NEWPINCAL": {
+      "commit": "732c4e25b2889b3d2a36ae0f038775e672673c1c",
+      "path": "research/challenge-8/kani-k1/RESULT-NEWPINCAL.md",
+      "blob": "562cbb420bb68cb5788c78e20c7876e6a84a3a85",
+      "sha256": "879e63e8d3536a1e852a8ddc484503c52206fcecf269fa88f12fac1887be5bd9"
+    },
+    "REALCONTRACTS": {
+      "commit": "d648179493ee925bf0daf6f691d95f3c0b00ef90",
+      "path": "research/challenge-8/kani-k1/RESULT-REALCONTRACTS.md",
+      "blob": "b3539a44f1dc598d944cc259efd7151aa6ea6860",
+      "sha256": "05827f596f3ad8260c186629ac284b006bb42a60f47b5f041242f724693c3fc7"
+    },
+    "REALCONTRACTSTWO": {
+      "commit": "588c002998e93c5f805a845541a4ddde6d3b1d6a",
+      "path": "research/challenge-8/kani-k1/RESULT-REALCONTRACTSTWO.md",
+      "blob": "fe4716a8b9c72382c4ee767225c6c59774e11253",
+      "sha256": "e94f83dad98a87e21b6d52f4672fb568105ea4551227e8f76421d682ed7225bd"
+    },
+    "PERMTAGS": {
+      "commit": "6542b3c4ba7867fb60244d0a12be80fa19357b79",
+      "path": "research/challenge-8/kani-k1/RESULT-PERMTAGS.md",
+      "blob": "e10336231b1e9f64bf5539dc86310a67eeadb69e",
+      "sha256": "079813b252afb8a79b739cd5cded41e0f317a7262d04b7217081030780726b4b"
+    },
+    "TIDYDOCS": {
+      "commit": "01c090dc1dd86645d6bbd0109b8dcbfa21491d63",
+      "path": "research/challenge-8/kani-k1/RESULT-TIDYDOCS.md",
+      "blob": "691e56b49db5c5c7494562222353730296d8c136",
+      "sha256": "0bfb8ee0943d953b6f58d3b104e2b00266482468e7cf1c76018a591b9934fb5c"
+    }
+  },
+  "controls": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2",
+      "before_name": "slice::sort::shared::smallsort::verify::assembly::reject_mutant_swap_u8_n2",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "NEWPINCAL",
+      "prior_check": "assertion failed: v[0] <= v[1]",
+      "prior_location": {
+        "file_suffix": "assembly.rs",
+        "line": 25
+      },
+      "description": "Mutant swap violates sorted order.",
+      "expect": "FAILED",
+      "expect_check": "assertion failed: v[0] <= v[1]",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs",
+        "line": 25
+      },
+      "current_source_line": "assert!(v[0] <= v[1]);",
+      "source_file_sha256": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_full_value_checker_rejects_payload_change_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "specfix full-value checker detects payload corruption",
+      "prior_location": {
+        "file_suffix": "specfix.rs",
+        "line": 351
+      },
+      "description": "Full-value checker rejects a payload bit flip preserving the key.",
+      "expect": "FAILED",
+      "expect_check": "full-value checker detects payload corruption",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+        "line": 347
+      },
+      "current_source_line": "kani::assert(same, \"full-value checker detects payload corruption\");",
+      "source_file_sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_insert_rejected_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "specfix_canonical_comparator::<P>(cmp)",
+      "prior_location": {
+        "file_suffix": "specfix.rs",
+        "line": 277
+      },
+      "description": "insert_tail profile requires its canonical comparator.",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+        "line": 273
+      },
+      "current_source_line": "#[kani::requires(profile_canonical_comparator::<P>(cmp))]",
+      "source_file_sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_merge_rejected_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "specfix_canonical_comparator::<P>(cmp)",
+      "prior_location": {
+        "file_suffix": "specfix.rs",
+        "line": 315
+      },
+      "description": "Merge profile requires its canonical comparator.",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+        "line": 311
+      },
+      "current_source_line": "#[kani::requires(profile_canonical_comparator::<P>(cmp))]",
+      "source_file_sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64",
+      "before_name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_sort4_rejected_u64",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "specfix_canonical_comparator::<P>(cmp)",
+      "prior_location": {
+        "file_suffix": "specfix.rs",
+        "line": 241
+      },
+      "description": "sort4 profile requires its canonical comparator.",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+        "line": 237
+      },
+      "current_source_line": "#[kani::requires(profile_canonical_comparator::<P>(cmp))]",
+      "source_file_sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::merge::specfix::specfix_wrong_f_swap_rejected_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "NEWPINCAL",
+      "prior_check": "specfix_canonical_comparator::<P>(cmp)",
+      "prior_location": {
+        "file_suffix": "specfix.rs",
+        "line": 216
+      },
+      "description": "Swap profile requires its canonical comparator.",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+        "line": 212
+      },
+      "current_source_line": "#[kani::requires(profile_canonical_comparator::<P>(cmp))]",
+      "source_file_sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9",
+      "before_name": "slice::sort::shared::smallsort::verify::permtags::reject_duplicate_network_u8_n9",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PERMTAGS",
+      "prior_check": "permtags: every input tag occurs exactly once",
+      "prior_location": {
+        "file_suffix": "permtags.rs",
+        "line": 76
+      },
+      "description": "Duplicate corruption violates the all-input-tags mask.",
+      "expect": "FAILED",
+      "expect_check": "every input tag occurs exactly once",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+        "line": 55
+      },
+      "current_source_line": "kani::assert(seen == (1u64 << N) - 1, \"every input tag occurs exactly once\");",
+      "source_file_sha256": "dafe3017a7dbf946c045756d8c0f122555bd1372868554563d1cb373eeea7837"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_insert_tail_equal_begin_u64",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_check": "begin < tail && insert_tail_contract_len(begin, tail) > 1 &&",
+      "prior_location": {
+        "file_suffix": "smallsort.rs",
+        "line": 582
+      },
+      "description": "insert_tail requires a nonempty prefix and a distinct tail; here tail == begin.",
+      "expect": "FAILED",
+      "expect_check": "begin < tail",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 589
+      },
+      "current_source_line": "begin < tail",
+      "source_file_sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_merge_overlapping_dst_u64",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "REALCONTRACTSTWO",
+      "prior_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())",
+      "prior_location": {
+        "file_suffix": "smallsort.rs",
+        "line": 847
+      },
+      "description": "Merge requires disjoint source/destination spans; fixture spans overlap.",
+      "expect": "FAILED",
+      "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 859
+      },
+      "current_source_line": "#[safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len()))]",
+      "source_file_sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "TIDYDOCS",
+      "prior_check": "Check that *var_9 is assignable",
+      "prior_location": {
+        "file_suffix": "realcontracts.rs",
+        "line": 360
+      },
+      "description": "Comparator writes its captured counter outside the two-element swap write set.",
+      "expect": "FAILED",
+      "expect_check": "Check that *var_9 is assignable",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 276
+      },
+      "current_source_line": "comparisons = comparisons.wrapping_add(1);",
+      "source_file_sha256": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+      "before_name": "slice::sort::shared::smallsort::verify::realcontracts::rejects_swap_outside_backing_u8",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "REALCONTRACTS",
+      "prior_check": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos)) &&",
+      "prior_location": {
+        "file_suffix": "smallsort.rs",
+        "line": 404
+      },
+      "description": "Swap requires dereferenceable/writable b_pos; here b_pos is one-past-end.",
+      "expect": "FAILED",
+      "expect_check": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 410
+      },
+      "current_source_line": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))",
+      "source_file_sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true",
+      "before_name": "slice::sort::shared::smallsort::verify::wrap::rejects_always_true",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "wrap canonical comparator required",
+      "prior_location": {
+        "file_suffix": "wrap.rs",
+        "line": 61
+      },
+      "description": "Forwarding guard rejects an always-true comparator.",
+      "expect": "FAILED",
+      "expect_check": "canonical comparator required",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+        "line": 60
+      },
+      "current_source_line": "kani::assert(ok, \"canonical comparator required\");",
+      "source_file_sha256": "575aa575ffb977d945adb2fc40496c805fe6f8cdb1fc6fe471dbe277f5b2630f"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption",
+      "before_name": "slice::sort::shared::smallsort::verify::wrap::rejects_payload_corruption",
+      "basis": "RESULT + current source relocation; no source-only expectation needed",
+      "source_result": "PINCHECK",
+      "prior_check": "wrap full-value checker rejects payload corruption",
+      "prior_location": {
+        "file_suffix": "wrap.rs",
+        "line": 269
+      },
+      "description": "Forwarding full-value checker rejects payload corruption.",
+      "expect": "FAILED",
+      "expect_check": "full-value checker rejects payload corruption",
+      "expected_failed_checks_count": 1,
+      "expected_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+        "line": 270
+      },
+      "current_source_line": "kani::assert(before == count(&v, probe), \"full-value checker rejects payload corruption\");",
+      "source_file_sha256": "575aa575ffb977d945adb2fc40496c805fe6f8cdb1fc6fe471dbe277f5b2630f"
+    }
+  ],
+  "acceptance": "Each control must have status FAILED, exactly one failed check, complete untruncated failed-check data, the designated description and exact current file/line. No unrelated failures are accepted, even if the runner gate is green.",
+  "coordinator_source_clarification": "2026-11-06: NEWPINCAL 732c4e25b2 and any our RESULT referenced by the listed RESULT are allowed; source-only expectations require an explicit mark and exactly one designated failure. All 13 expectations above have a precise RESULT source.",
+  "basis": "INTEGCHECK expectations preserved; only helper_contracts.rs coordinates/hash relocated."
+}

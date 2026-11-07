@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "base_sha": "4f52065504aa744f0d81775e40f52ccccbea3b5e",
+  "base_library_tree": "def2d65ddc5e73ed6ccb94df0afbb36e475d80d8",
+  "historical_sha": "44b972435aeff6ea88cd01e64ccea3727a98294e",
+  "tooling_base": "59893bff1fbb2af1a0c08862afd7e3bb87c19cdd",
+  "library_commit": "a282d08c5afad32ae9abb6205bc417d95152d579",
+  "library_tree": "b2482f4508126b879d1942f9c1c4e0f8bd17cec3",
+  "library_changed_files": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs"
+  ],
+  "expanded_unchanged_items": 552,
+  "unchanged_root_closures": 246,
+  "restored_roots": 2,
+  "restored_exercise": 1,
+  "historical_local_closure": "PASS",
+  "ordinary": 235,
+  "controls": 13,
+  "cfg_on": 248,
+  "smallsort_bytes_identical": true,
+  "tooling_unchanged": true,
+  "rustfmt_check": "PASS",
+  "overlong_lines": [],
+  "forbidden_added_lines": [],
+  "active_request": "g1",
+  "names_sha256": {
+    "ordinary": "9758f6a907a24fc4ae823968ac65605695adcd377b9990c3993cd8c4f13bb047",
+    "cfg-on": "6d6cd89142e2f8242eb6f1cf6f6b065a11926af2eb16b2939492c59296eb8a61"
+  },
+  "requests": {
+    "g1": {
+      "sha256": "7812dc811e6d978d054ff2ccd09f693a69c0f5e79c6c9d8b66b527dbd63924de",
+      "rows": 15,
+      "harness_timeout_minutes": 5,
+      "paid_minutes": 105
+    },
+    "g2": {
+      "sha256": "28a7f899e75b797d9799d15fd38cc3e2c49311d181406b363b930b3d7d6c9ed7",
+      "rows": 0,
+      "harness_timeout_minutes": 44,
+      "paid_minutes": 74
+    }
+  },
+  "coordinator_deviation": "2026-11-07: G1 paid timeout 105 instead of task 100; combined reserve $2.4165 within own cap $2.50 approved.",
+  "planned_combined_reserve_usd": "2.4165",
+  "runtime_status": "NOT_RUN",
+  "new_proof_credit": false
+}

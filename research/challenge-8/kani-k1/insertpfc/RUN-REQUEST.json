@@ -1,0 +1,87 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "runner": "gcb-e2-standard-4",
+  "controls": true,
+  "request_id": "insertpfc-g1-20261107-01",
+  "kind": "diagnostic",
+  "purpose": "INSERTPFC G1: prove the two ordinary fixed-length insertion contracts with 6/6 covers each; calibrate all 13 controls, accepting only their single designated failed check.",
+  "harness_timeout_minutes": 5,
+  "inventory": false,
+  "kani_jobs": 1,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::fixed_inputs::reject_mutant_swap_u8_n2",
+      "expect": "FAILED",
+      "expect_check": "assertion failed: v[0] <= v[1]"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_full_value_checker_rejects_payload_change_u8",
+      "expect": "FAILED",
+      "expect_check": "full-value checker detects payload corruption"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_insert_rejected_u8",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_merge_rejected_u8",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_sort4_rejected_u64",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::merge::profiles::profile_wrong_f_swap_rejected_u8",
+      "expect": "FAILED",
+      "expect_check": "profile_canonical_comparator::<P>(cmp)"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::tag_permutation::reject_duplicate_network_u8_n9",
+      "expect": "FAILED",
+      "expect_check": "every input tag occurs exactly once"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+      "expect": "FAILED",
+      "expect_check": "begin < tail"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64",
+      "expect": "FAILED",
+      "expect_check": "merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+      "expect": "FAILED",
+      "expect_check": "Check that *var_9 is assignable"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+      "expect": "FAILED",
+      "expect_check": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_always_true",
+      "expect": "FAILED",
+      "expect_check": "canonical comparator required"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::rejects_payload_corruption",
+      "expect": "FAILED",
+      "expect_check": "full-value checker rejects payload corruption"
+    }
+  ]
+}
