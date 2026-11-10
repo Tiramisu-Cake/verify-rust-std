@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kf1-main-20261111-01",
+  "request_id": "kani5116-kf1-repair1-20261111-02",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI5116 KF1: preserve specialization defaultness through contract expansion; nine new fixtures and ten existing regression selectors.",
+  "purpose": "KANI5116 KF1 repair 1: add the mandatory proof_for_contract harness to the negative requires stub fixture; unchanged production macro patch, manifest and diagnostics.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 29,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani5116/kf1/kani-fix.patch",
-    "sha256": "91ce8329f9cc2e11c4ed77f4e789d10341d6914005710b04e970a3b5f53a571f"
+    "sha256": "fd510b8a47ffff2005cc2362af6c25db790d1b579a23c0c990f6d606a983aa71"
   },
   "test_timeout_seconds": 180,
   "kani_tests": [

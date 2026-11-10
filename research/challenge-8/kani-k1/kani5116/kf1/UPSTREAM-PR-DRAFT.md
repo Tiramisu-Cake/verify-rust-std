@@ -1,8 +1,8 @@
 Preserve specialization defaultness in function contract macros
 
-Contracts on a blanket implementation's `default fn` currently fail during macro parsing.
-Parse the method with its specialization qualifier and retain it alongside the existing function representation.
-Emit the original `default` token on the outer method during both initial and stacked contract expansion.
-Add tests for individual/stacked clauses, method generics, verified stubs, specialization overrides and old snapshots.
-Include negative controls for false postconditions, invalid preconditions, frame violations and missing override contracts.
-Validation: static patch/format checks pass; the selected native Kani regression run is pending coordinator GO.
+Contracts on a blanket implementation's default fn currently fail during macro parsing.
+Retain the original default token alongside ItemFn and emit it on the outer method through stacked expansion.
+Add individual/stacked clause, FnMut, verified-stub, override and eager-old regression tests with negative controls.
+Build 1: repro and all ten existing regression selectors pass; 18/19 selectors pass overall.
+The remaining negative stub fixture needs a proof_for_contract harness; its six-line repair awaits the native rerun.
+Full upstream CI is pending; no publication in this stage.

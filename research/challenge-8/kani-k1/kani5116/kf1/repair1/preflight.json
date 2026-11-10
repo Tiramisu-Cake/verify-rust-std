@@ -1,0 +1,21 @@
+{
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch": {
+    "path": "research/challenge-8/kani-k1/kani5116/kf1/kani-fix.patch",
+    "sha256": "fd510b8a47ffff2005cc2362af6c25db790d1b579a23c0c990f6d606a983aa71"
+  },
+  "tree": "46f37ae9abe9bb747ec7b7de33212484ed175a1b",
+  "diffstat": ".../kani_macros/src/sysroot/contracts/bootstrap.rs |   9 +-\n .../src/sysroot/contracts/initialize.rs            |   5 +-\n library/kani_macros/src/sysroot/contracts/mod.rs   |  49 +++++++++-\n .../specialization_default_ensures_fail.expected   |   7 ++\n .../specialization_default_ensures_fail.rs         |  28 ++++++\n .../specialization_default_modifies_fail.expected  |   7 ++\n .../specialization_default_modifies_fail.rs        |  31 +++++++\n .../specialization_default_old_fail.expected       |   7 ++\n .../specialization_default_old_fail.rs             |  31 +++++++\n .../specialization_default_requires_fail.expected  |   7 ++\n .../specialization_default_requires_fail.rs        |  35 ++++++++\n .../specialization_override_no_contract.expected   |   3 +\n .../specialization_override_no_contract.rs         |  29 ++++++\n .../specialization_default_clauses.rs              | 100 +++++++++++++++++++++\n .../specialization_default_fn_5116.rs              |  39 ++++++++\n .../specialization_default_generic.rs              |  66 ++++++++++++++\n .../specialization_default_old.rs                  |  39 ++++++++\n 17 files changed, 481 insertions(+), 11 deletions(-)",
+  "local_commit": "b7314d9bbfbbeae00f9c81e654bf6bf172932037",
+  "selectors": 19,
+  "new_rs": 9,
+  "new_golden": 5,
+  "existing_selectors": 10,
+  "request_sha256": "f951412a7c999d2c01310d9a719d1e841bc6fbdfed0dfe1774d2769b4fcc9714",
+  "tooling_base": "c98d7cee0d509b1633ab61c9a1ae989e286c8e2a",
+  "repair_from": "42dd86287d181210b95717d88605d774a3fcab35",
+  "repair_changed_paths": [
+    "tests/expected/function-contract/specialization_default_requires_fail.rs"
+  ],
+  "repair_diffstat": "1 file changed, 6 insertions(+)"
+}
