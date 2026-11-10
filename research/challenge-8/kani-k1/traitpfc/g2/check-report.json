@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "base_sha": "feb589a30688082588fd0bdb1084aaeffb849696",
+  "tooling_base": "9b1758ab817af005e96fd52a5fc940d4b6acf984",
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "library_commit": "fbb5aee754f7b49e0a7c963e581f228ce6d1a452",
+  "library_tree": "85f5f434528b3843ab91586b8f850026e3d77be9",
+  "ordinary": 235,
+  "previous_cfg_on": 254,
+  "cfg_on": 260,
+  "previous_expanded_items_unchanged": 583,
+  "authorized_module_map_doc_change": true,
+  "previous_closures_unchanged": 254,
+  "g1_roots_bytes_unchanged": true,
+  "library_only_exact_ensures_and_model": true,
+  "rustfmt_check": "PASS",
+  "new_overlong_lines": [],
+  "inherited_overlong_lines": [
+    "/// as found here <https://github.com/Voultapher/sort-research-rs/blob/438fad5d0495f65d4b72aa87f0b62fc96611dff3/ipnsort/src/smallsort.rs#L83C10-L83C36>.",
+    "        // PANIC SAFETY: if is_less panics, no scratch memory was created and the slice should still be",
+    "        // Important to only swap if it is more and not if it is equal. is_less should return false for"
+  ],
+  "compiler_resolution": "NOT_RUN",
+  "proof_status": "NOT_RUN",
+  "native_inventory": "NOT_RUN",
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "929e3e2810bd0af64f7c340c2cf7984abca96b7dd5e754dd228a13ce8b5de229",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "69de03b943362417159e55c8ff3b21217c93f96e286a58f9065a41916e9579dd",
+    "library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs": "f67aa6b4ac4f20d0138ef45ee1064d3f88fbd05713b7656227d3211c54047b8c",
+    "library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs": "2b9c11498c666b34a1712aa857f07499fefff8de2511e8ecab25618ef07b1651"
+  },
+  "request_sha256": "6c9eff4747907fac91b26cb072af33a007d7f7eaa480f25314266b2627099145",
+  "inventory_sha256": {
+    "ordinary": "9758f6a907a24fc4ae823968ac65605695adcd377b9990c3993cd8c4f13bb047",
+    "cfg-on": "83041ae2f2c83d3e43f783515991ecca5a3c8ca3634ebe0a3e740d5f8db2f960"
+  }
+}

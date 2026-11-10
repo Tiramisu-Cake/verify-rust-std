@@ -1,39 +1,49 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "traitpfc-g1-20261110-01",
+  "request_id": "traitpfc-g2-20261110-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "TRAITPFC G1: calibrate three non-default trait method contracts and exact T3 verified forwarding stub/frame; require only S2 sortedness to fail; two unchanged Freeze-entry regressions.",
+  "purpose": "TRAITPFC G2: substantive conditional u64/N2 canonical-fn-pointer ensures on T1-T3; native old pair capture, three PFCs, real-T2/T3-stub consumer, three designated failures, unchanged weak leaf and regressions; cfg-off native inventory 235.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 5,
   "kani_jobs": 1,
   "controls": true,
-  "inventory": false,
+  "inventory": true,
   "harnesses": [
     {
-      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_safety_u64_len2",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_ensures_u64_len2",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_safety_u64_len2",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_ensures_u64_backing4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_safety_u64_backing4",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_ensures_u64_backing4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::trait_contracts::real_forwarding_sorts_u64_backing4",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_ensures_u64_backing4",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_frame_u64_backing4",
-      "expect": "SUCCESS"
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_pair",
+      "expect": "FAILED",
+      "expect_check": "high-bit corruption preserves full pair"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4",
       "expect": "FAILED",
       "expect_check": "forwarded output is sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing4",
+      "expect": "FAILED",
+      "expect_check": "reverse pointer output is sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_safety_u64_backing4",
+      "expect": "SUCCESS"
     },
     {
       "name": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
