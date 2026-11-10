@@ -1,0 +1,206 @@
+{
+  "status": "PASS",
+  "scope": "B1 bounded mechanism calibration only; no sorting contract theorem",
+  "source_sha": "ac1a18c84f39ed9c5ce3ecf95bf7b84e67908e3f",
+  "library_commit": "ea4528ac91bf715b9477c263495e0db325957923",
+  "library_tree": "7fd692282cc522f3d12c2f1c00fc25f5557884f6",
+  "base_sha": "9b1758ab817af005e96fd52a5fc940d4b6acf984",
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "build_id": "e77f402e-95bf-400b-994e-a86fe57bd72c",
+  "request_sha256": "1370f5eb029023967b38644f579d221677123b63938e987114d8dde27afe9c5e",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "expectations_met": true,
+  "kani_exit": 1,
+  "tooling_check": "PASS",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_safety_u64_len2",
+      "status": "SUCCESS",
+      "time_s": "61.873463",
+      "checks": "0/371",
+      "covers": "3/3",
+      "row": "P1",
+      "failed": 0,
+      "total": 371,
+      "unreachable": 8,
+      "expected_cover_messages": [
+        "descending input returns",
+        "non-descending input returns",
+        "trait small_sort returns"
+      ],
+      "reachable_covers": 3,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_safety_u64_len2",
+      "status": "SUCCESS",
+      "time_s": "8.339401",
+      "checks": "0/409",
+      "covers": "3/3",
+      "row": "P2",
+      "failed": 0,
+      "total": 409,
+      "unreachable": 19,
+      "expected_cover_messages": [
+        "descending input returns",
+        "non-descending input returns",
+        "trait small_sort returns"
+      ],
+      "reachable_covers": 3,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_safety_u64_backing4",
+      "status": "SUCCESS",
+      "time_s": "16.11834",
+      "checks": "0/446",
+      "covers": "3/3",
+      "row": "P3",
+      "failed": 0,
+      "total": 446,
+      "unreachable": 21,
+      "expected_cover_messages": [
+        "descending input returns",
+        "non-descending input returns",
+        "trait small_sort returns"
+      ],
+      "reachable_covers": 3,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::real_forwarding_sorts_u64_backing4",
+      "status": "SUCCESS",
+      "time_s": "1.5168791",
+      "checks": "0/375",
+      "covers": "",
+      "row": "S0",
+      "failed": 0,
+      "total": 375,
+      "unreachable": 18,
+      "expected_cover_messages": [],
+      "reachable_covers": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_frame_u64_backing4",
+      "status": "SUCCESS",
+      "time_s": "1.5670406",
+      "checks": "0/473",
+      "covers": "",
+      "row": "S1",
+      "failed": 0,
+      "total": 473,
+      "unreachable": 21,
+      "expected_cover_messages": [],
+      "reachable_covers": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4",
+      "status": "FAILED",
+      "time_s": "1.6120687",
+      "checks": "1/488",
+      "covers": "",
+      "row": "S2",
+      "failed": 1,
+      "total": 488,
+      "unreachable": 21,
+      "expected_cover_messages": [],
+      "reachable_covers": 0,
+      "failed_checks": [
+        {
+          "message": "forwarded output is sorted",
+          "expression": "v[0] <= v[1]",
+          "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs",
+          "line": 81,
+          "harness": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4"
+        }
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
+      "status": "SUCCESS",
+      "time_s": "3.794201",
+      "checks": "0/427",
+      "covers": "2/2",
+      "row": "R1",
+      "failed": 0,
+      "total": 427,
+      "unreachable": 76,
+      "expected_cover_messages": [
+        "Stable Freeze selects small_sort_general_with_scratch beyond its early return",
+        "scratch geometry returns normally and preserves full values"
+      ],
+      "reachable_covers": 2,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2",
+      "status": "SUCCESS",
+      "time_s": "31.778137",
+      "checks": "0/509",
+      "covers": "7/7",
+      "row": "R2",
+      "failed": 0,
+      "total": 509,
+      "unreachable": 18,
+      "expected_cover_messages": [
+        "reversed keys return",
+        "increasing keys return",
+        "tied keys retain distinct full values",
+        "duplicate full values return",
+        "independent probe hits input",
+        "independent probe misses input",
+        "unstable u8 trait entry returns"
+      ],
+      "reachable_covers": 7,
+      "failed_checks": []
+    }
+  ],
+  "compiler_metadata_harnesses": 8,
+  "verified_stub_target": "<T as core::slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort",
+  "stub_binding_evidence": "checks-stubs-covers.txt lines 2734 and 2745 (Kani generic-T display; u64 fixed by fixtures)",
+  "failure_classes": {
+    "resolution_frontend": 0,
+    "unsupported": 0,
+    "timeout": 0,
+    "ordinary_FAILED": 1,
+    "designated_S2_failures": 1
+  },
+  "warnings": "No SmallSort warning source locations reported. Manifest/unstable-feature warnings present; first broad query capped at 100 and refined with complete targeted source/error queries.",
+  "source_static_check": "PASS_WITH_INHERITED_LINE_LENGTH_EXCEPTION",
+  "line_length_exception": "Explicitly accepted by coordinator; no new overlong lines",
+  "spent_usd": "0.1755",
+  "reserved_usd": "0.0000",
+  "project_used_usd": "109.3740",
+  "builds_used": 1,
+  "repairs": 0,
+  "retries": 0,
+  "full_native_inventory": "NOT_REQUESTED",
+  "main_deadline": "2026-11-10T20:00:00Z",
+  "closeout_deadline": "2026-11-10T20:30:00Z",
+  "validated_utc": "2026-11-10T15:19:05.770477+00:00",
+  "limits": [
+    "Only the exact T/F/N/backing/scratch domains in expected-rows.json.",
+    "No ensures was added or tested directly on trait methods.",
+    "Uninitialized-memory and value-validity checks are off.",
+    "Unreachable safety checks are recorded per row; every required cover is satisfied."
+  ],
+  "evidence_sha256": {
+    "check-tooling.txt": "4808acf00f9a7105bc9d1e6402795c13cb53fb3b32c3677d355660461b6be4e8",
+    "checks-stubs-covers.txt": "b629ce4bfe074394b05723dfc6faca8d83664b371957123a1d4f2623c9d5aa23",
+    "error-classes.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8",
+    "failure-context.txt": "352b4023fbd00d033d16b6349a717c14f7ef0c078af566f1a8ffe0104caf11eb",
+    "own_budget.txt": "b72ae09d1fd720d7a87354ef6593924177ed34801f2b45bdf2567b9f0bafffec",
+    "peaks.txt": "d951ca4d854b68548601dd595af8021b40b0c3f1c4d741d903a08d51f7ddf8de",
+    "project-budget.txt": "a97467d3b8d5e3b9360ce9e6a5d9f8b153461afbf045add2b3d141fa31d266d4",
+    "rows.txt": "cad19f2ce86dd906817b33676fff95a4a662ddd619045e9bbfa24d184eb95a24",
+    "status.json": "ee4e5591c85530429cd5622163c4277bf5768336b7900ac735a715003694b8a7",
+    "summary.md": "e99a98f7194dc4e29038c8d80ee2c16274651539a7f8a8b64e7b473cdccb376d",
+    "target-warning-locations.txt": "1250a42f3f0f6f11764e455850beb71bf87d24f0500dab645add2a2dbd93f4f8",
+    "warnings-diagnostics.txt": "b2ca52dd8e452b38e08409a71bc9c791175ace534b274eed6a37e00ca7a4d0c5"
+  },
+  "formatting_note": "rows.txt is preserved verbatim from the bounded TSV interface. S0/S1/S2 have an empty final covers field, so their required final tabs trigger git diff --check. The final whitespace check excludes only this evidence TSV; all other staged paths pass."
+}
