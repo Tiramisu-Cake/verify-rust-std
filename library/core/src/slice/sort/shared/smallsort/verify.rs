@@ -16,6 +16,8 @@
 //!   arbitrary payloads assumes the same route moves whole elements and branches only on
 //!   answers, positions, lengths, and type properties. This source-level assumption is not a
 //!   generic refinement theorem; it excludes payload mutation, sortedness, and stability.
+//! - `trait_model`: cfg(kani) pair model for the opt-in u64/N2 trait postcondition pilot.
+//!   `trait_contracts` supplies opt-in PFC, consumer, and negative-control roots.
 //! - `scratch_geometry`: real stable u64 sorting with separate minimal scratch and
 //!   full-value counts.
 //!
@@ -77,4 +79,5 @@ mod smoke;
 mod tag_permutation;
 #[cfg(kani_smallsort_controls)]
 mod trait_contracts;
+pub(super) mod trait_model;
 mod types;

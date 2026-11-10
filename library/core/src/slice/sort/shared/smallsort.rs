@@ -58,6 +58,18 @@ impl<T: FreezeMarker> StableSmallSortTypeImpl for T {
         v.len() < 2 || scratch.len().checked_sub(16).is_some_and(|capacity| v.len() <= capacity)
     )]
     #[cfg_attr(kani, crate::kani::modifies(v, scratch))]
+    #[cfg_attr(kani, crate::kani::ensures(|_|
+        !old(<() as verify::trait_model::PairModel<T, F>>::enabled(is_less, v.len()))
+            || (<() as verify::trait_model::PairModel<T, F>>::pair_is_sorted(
+                v.as_ptr(), v.len(),
+            )
+                && <() as verify::trait_model::PairModel<T, F>>::pair_permutation(
+                    v.as_ptr(), v.len(),
+                    old(<() as verify::trait_model::PairModel<T, F>>::snapshot(
+                        v.as_ptr(), v.len(),
+                    )),
+                ))
+    ))]
     #[inline(always)]
     fn small_sort<F: FnMut(&T, &T) -> bool>(
         v: &mut [T],
@@ -105,6 +117,18 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
             || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
     )]
     #[cfg_attr(kani, crate::kani::modifies(v))]
+    #[cfg_attr(kani, crate::kani::ensures(|_|
+        !old(<() as verify::trait_model::PairModel<T, F>>::enabled(is_less, v.len()))
+            || (<() as verify::trait_model::PairModel<T, F>>::pair_is_sorted(
+                v.as_ptr(), v.len(),
+            )
+                && <() as verify::trait_model::PairModel<T, F>>::pair_permutation(
+                    v.as_ptr(), v.len(),
+                    old(<() as verify::trait_model::PairModel<T, F>>::snapshot(
+                        v.as_ptr(), v.len(),
+                    )),
+                ))
+    ))]
     #[inline(always)]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
@@ -171,6 +195,18 @@ impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
             || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
     )]
     #[cfg_attr(kani, crate::kani::modifies(v))]
+    #[cfg_attr(kani, crate::kani::ensures(|_|
+        !old(<() as verify::trait_model::PairModel<T, F>>::enabled(is_less, v.len()))
+            || (<() as verify::trait_model::PairModel<T, F>>::pair_is_sorted(
+                v.as_ptr(), v.len(),
+            )
+                && <() as verify::trait_model::PairModel<T, F>>::pair_permutation(
+                    v.as_ptr(), v.len(),
+                    old(<() as verify::trait_model::PairModel<T, F>>::snapshot(
+                        v.as_ptr(), v.len(),
+                    )),
+                ))
+    ))]
     #[inline(always)]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
