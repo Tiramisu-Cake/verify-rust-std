@@ -148,17 +148,17 @@ case "$cmd" in
     dup=$(G builds list --region="$REGION" --limit=1000 --format='value(id)' --filter="substitutions._SHA=$sha")
     [ -z "$dup" ] || die "build(s) $(echo $dup) already ran $sha; change and push RUN-REQUEST.json for a new run"
     ledger
-    # KT1 has its own $0.80 cap in addition to the unchanged project ledger. This branch is dedicated
-    # to this stage; reservations include all its in-flight builds, repairs use actual finished cost.
+    # The branch has a cumulative $2.30 cap (KT1 $0.80 + KF1 $1.50), in addition to the project ledger.
+    # Reservations include all in-flight builds; finished builds use actual cost. KF1 also tracks its own $1.50 cap.
     if [[ "$branch" = experiment/kani-k1-kani5116-20261110 ]]; then
       stage_ledger=$(G builds list --region="$REGION" --limit=1000 --format=json --filter="substitutions._BRANCH=$branch" \
         | python3 -B "$TOOLS/kani_k1.py" ledger --price "$POOL_HIGHMEM=$PRICE_HIGHMEM" --price "$POOL_STANDARD=$PRICE_STANDARD") \
-        || die "cannot compute kani5116-kt1 ledger"
+        || die "cannot compute kani5116 branch ledger"
       read -r stage_builds stage_used stage_reserved <<< "$stage_ledger"
-      [ "$stage_builds" -lt 1000 ] || die "KT1 ledger may undercount"
-      within_cap "$(python3 -c "print($stage_used + $stage_reserved + $cost)")" 0.80 \
-        || die "kani5116-kt1 budget exceeds \$0.80 including this reservation"
-      [ "$timeout" -le 59 ] || die "kani5116-kt1 timeout exceeds 59 min"
+      [ "$stage_builds" -lt 1000 ] || die "kani5116 branch ledger may undercount"
+      within_cap "$(python3 -c "print($stage_used + $stage_reserved + $cost)")" 2.30 \
+        || die "kani5116 branch budget exceeds \$2.30 including this reservation"
+      [ "$timeout" -le 59 ] || die "kani5116 branch timeout exceeds 59 min"
     fi
     total_usd=$(python3 -c "print(f'{$USED + $RESERVED + $cost:.4f}')")
     if ! within_cap "$total_usd" "$CAP_USD"; then

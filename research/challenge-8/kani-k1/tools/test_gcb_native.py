@@ -206,7 +206,7 @@ sys.exit(0)
 
 class DispatchServiceTests(unittest.TestCase):
     def test_native_reservation_and_stage_cap_before_submit(self):
-        for stage_minutes, expected_code, request_minutes in ((0, 0, 29), (1, 2, 29), (17, 0, 12), (18, 2, 12)):
+        for stage_minutes, expected_code, request_minutes in ((0, 0, 29), (26, 0, 29), (111, 0, 29), (112, 2, 29), (128, 0, 12), (129, 2, 12)):
             with self.subTest(stage_minutes=stage_minutes), tempfile.TemporaryDirectory() as d:
                 root = Path(d); tools = root / "tools"; tools.mkdir()
                 for name in ("k1g.sh", "kani_k1.py"):
@@ -231,7 +231,7 @@ elif "list" in args and "--format=json" in args:
     minutes=int(os.environ["STAGE_MINUTES"])
     row={"id":"prior", "timeout":str(minutes*60)+"s", "options":{"pool":{"name":"projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"}}}
     if os.environ["REQUEST_MINUTES"] == "12":
-        row.update(startTime="2026-11-10T00:00:00Z", finishTime=f"2026-11-10T00:{minutes:02d}:00Z")
+        row.update(startTime="2026-11-10T00:00:00Z", finishTime=f"2026-11-10T{minutes // 60:02d}:{minutes % 60:02d}:00Z")
     print(json.dumps([row] if scoped and minutes else []))
 '''
                 for name in ("git", "gcloud"):
@@ -248,7 +248,7 @@ elif "list" in args and "--format=json" in args:
                     self.assertIn("0.7965" if request_minutes == 29 else "0.5670", run.stderr)
                 else:
                     self.assertFalse(submitted.exists())
-                    self.assertIn("$0.80", run.stderr)
+                    self.assertIn("$2.30", run.stderr)
 
     def test_summary_fetch_never_downloads_raw_logs(self):
         with tempfile.TemporaryDirectory() as d:
