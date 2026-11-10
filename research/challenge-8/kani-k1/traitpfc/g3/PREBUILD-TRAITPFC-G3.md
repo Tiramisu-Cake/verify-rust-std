@@ -114,7 +114,9 @@ ensures-only delta against G2. Tooling/pin/gates equal 9b1758ab81; rustfmt --che
 no new Rust line >100, three inherited smallsort comments preserved.
 Static checks do not establish compiler resolution, native inventory or formal proof.
 
-Library patch versus 9b1758ab81 is saved as `library.patch`. `apply-check.json` records successful
+Library patch versus 9b1758ab81 is saved as `library.patch`; three empty context-line markers
+are omitted to keep the tracked patch free of trailing whitespace (raw diff hash in identities).
+`apply-check.json` records successful
 `git apply --check` on detached submitted head 872d5a4338 in the prescribed scratchpad worktree;
 that temporary worktree was removed by its literal absolute path. No submitted branch was changed.
 The library patch is separate from research artifacts and contains no stage names in new code/docs.

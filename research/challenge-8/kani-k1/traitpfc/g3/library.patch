@@ -5,7 +5,7 @@ index f8000328aa..82e2109d2a 100644
 @@ -54,6 +54,18 @@ impl<T: FreezeMarker> StableSmallSortTypeImpl for T {
          SMALL_SORT_GENERAL_THRESHOLD
      }
- 
+
 +    #[safety::requires(
 +        v.len() < 2 || scratch.len().checked_sub(16).is_some_and(|capacity| v.len() <= capacity)
 +    )]
@@ -24,7 +24,7 @@ index f8000328aa..82e2109d2a 100644
 @@ -95,6 +107,20 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
          <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
      }
- 
+
 +    #[safety::requires(
 +        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
 +            == SMALL_SORT_FALLBACK_THRESHOLD
@@ -45,7 +45,7 @@ index f8000328aa..82e2109d2a 100644
 @@ -155,6 +181,20 @@ impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
          }
      }
- 
+
 +    #[safety::requires(
 +        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
 +            == SMALL_SORT_FALLBACK_THRESHOLD
