@@ -51,7 +51,7 @@ fn unstable_default_n2() {
 }
 
 #[kani::proof_for_contract(<NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
-#[kani::unwind(4)]
+#[kani::unwind(8)]
 fn freeze_default_n2() {
     let mut backing: [NonCopyU8; 4] = kani::any();
     let (left, right) = (backing[0].0, backing[3].0);
@@ -70,7 +70,7 @@ fn ordered_backing() -> [NonCopyU8; 4] {
 }
 
 #[kani::proof]
-#[kani::unwind(4)]
+#[kani::unwind(8)]
 fn freeze_forwarder_body_n2() {
     let mut backing = ordered_backing();
     let (left, right) = (backing[0].0, backing[3].0);
@@ -82,7 +82,7 @@ fn freeze_forwarder_body_n2() {
 
 #[kani::proof]
 #[kani::stub_verified(<NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
-#[kani::unwind(4)]
+#[kani::unwind(8)]
 fn freeze_forwarder_stub_frame_n2() {
     let mut backing = ordered_backing();
     let (left, right) = (backing[0].0, backing[3].0);
@@ -94,7 +94,7 @@ fn freeze_forwarder_stub_frame_n2() {
 
 #[kani::proof]
 #[kani::stub_verified(<NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
-#[kani::unwind(4)]
+#[kani::unwind(8)]
 fn freeze_forwarder_stub_order_n2() {
     let mut backing = ordered_backing();
     let v = &mut backing[1..3];
