@@ -1,0 +1,57 @@
+interval_ms=2000
+samples=226
+elapsed_s=451
+total_rss_peak_kb=3067944
+total_peak_s=64
+cmd=bash peak_kb=3840 first_s=0 last_s=451 peak_s=0
+cmd=cargo peak_kb=30652 first_s=2 last_s=78 peak_s=4
+cmd=cbmc peak_kb=892736 first_s=130 last_s=449 peak_s=389
+cmd=goto-cc peak_kb=127836 first_s=80 last_s=401 peak_s=90
+cmd=goto-instrument peak_kb=114164 first_s=92 last_s=435 peak_s=202
+cmd=kani-compiler peak_kb=2527508 first_s=4 last_s=78 peak_s=66
+cmd=kani-driver peak_kb=159352 first_s=2 last_s=449 peak_s=393
+cmd=python3 peak_kb=20496 first_s=0 last_s=0 peak_s=0
+cmd=run-kani.sh peak_kb=3768 first_s=2 last_s=449 peak_s=2
+cmd=tee peak_kb=1084 first_s=0 last_s=451 peak_s=0
+cmd=time peak_kb=1164 first_s=2 last_s=449 peak_s=2
+cmd=timeout peak_kb=1024 first_s=2 last_s=449 peak_s=2
+role=cbmc simultaneous_rss_peak_kb=888844 peak_s=385
+role=driver simultaneous_rss_peak_kb=127720 peak_s=393
+cbmc_pid=23191 peak_kb=892736 first_s=325 last_s=391 peak_s=389 active=T0:trait_contracts::stable_ensures_u64_len2 hint=slice::sort::shared::smallsort::verify::trait_contracts::sta
+cbmc_pid=23153 peak_kb=286224 first_s=300 last_s=318 peak_s=316 active=T0:trait_contracts::unstable_ensures_u64_backing4 hint=slice::sort::shared::smallsort::verify::trait_contracts::uns
+cbmc_pid=23111 peak_kb=285656 first_s=244 last_s=262 peak_s=260 active=T0:trait_contracts::freeze_ensures_u64_backing4 hint=slice::sort::shared::smallsort::verify::trait_contracts::fre
+cbmc_pid=22955 peak_kb=274664 first_s=130 last_s=172 peak_s=168 active=T0:forwarding_contracts::unstable_byte_n2 hint=slice::sort::shared::smallsort::verify::forwarding_contracts
+cbmc_pid=23264 peak_kb=272420 first_s=437 last_s=449 peak_s=449 active=T0:trait_contracts::freeze_safety_u64_backing4 hint=slice::sort::shared::smallsort::verify::trait_contracts::fre
+cbmc_pid=22982 peak_kb=120032 first_s=182 last_s=186 peak_s=186 active=T0:scratch_geometry::stable_u64_min_scratch_n2 hint=slice::sort::shared::smallsort::verify::scratch_geometry::st
+driver_s=0 rss_kb=0
+harness_s=130 name=T0:forwarding_contracts::unstable_byte_n2
+driver_s=30 rss_kb=6216
+harness_s=182 name=T0:scratch_geometry::stable_u64_min_scratch_n2
+driver_s=60 rss_kb=6216
+harness_s=198 name=T0:trait_contracts::rejects_reverse_pointer_sorted_u64_backing4
+driver_s=90 rss_kb=6760
+harness_s=200 name=T0:trait_contracts::rejects_high_bit_corruption_u64_pair
+driver_s=120 rss_kb=6788
+harness_s=206 name=T0:trait_contracts::verified_forwarding_ensures_u64_backing4
+driver_s=150 rss_kb=6848
+harness_s=244 name=T0:trait_contracts::freeze_ensures_u64_backing4
+driver_s=180 rss_kb=88220
+harness_s=300 name=T0:trait_contracts::unstable_ensures_u64_backing4
+driver_s=210 rss_kb=103656
+harness_s=325 name=T0:trait_contracts::stable_ensures_u64_len2
+driver_s=240 rss_kb=103656
+harness_s=399 name=T0:trait_contracts::rejects_verified_forwarding_sorted_u64_backing4
+driver_s=270 rss_kb=123492
+harness_s=437 name=T0:trait_contracts::freeze_safety_u64_backing4
+driver_s=300 rss_kb=123492
+driver_s=331 rss_kb=123492
+driver_s=361 rss_kb=123492
+driver_s=391 rss_kb=123492
+driver_s=421 rss_kb=127720
+driver_s=451 rss_kb=0
+dmesg_oom=none_seen
+mem_total_bytes=16785850368
+swap_total_bytes=0
+verify_start_after_validate_s=2941
+verify_budget_s=1499
+RUSTFLAGS=--cfg kani_smallsort_controls

@@ -1,0 +1,19 @@
+request_id=traitpfc-g2-20261110-01
+request_sha256=6c9eff4747907fac91b26cb072af33a007d7f7eaa480f25314266b2627099145
+build_id=fd40d716-e18d-4eb9-ae56-a15cd767147d
+head_sha=344daafe1d77694bba095a6c87b3c05f9aeba77b
+total=10
+offset=0
+count=10
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::trait_contracts::stable_ensures_u64_len2	SUCCESS	69.51902	0/472	5/5
+slice::sort::shared::smallsort::verify::trait_contracts::unstable_ensures_u64_backing4	SUCCESS	20.262255	0/559	5/5
+slice::sort::shared::smallsort::verify::trait_contracts::freeze_ensures_u64_backing4	SUCCESS	20.403618	0/557	5/5
+slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_ensures_u64_backing4	SUCCESS	2.7244892	0/627	1/1
+slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_pair	FAILED	0.19330244	1/48	
+slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4	FAILED	1.8516306	1/540	
+slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing4	FAILED	1.9880459	1/608	
+slice::sort::shared::smallsort::verify::trait_contracts::freeze_safety_u64_backing4	SUCCESS	15.698717	0/499	3/3
+slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2	SUCCESS	7.667644	0/427	2/2
+slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2	SUCCESS	45.22978	0/509	7/7

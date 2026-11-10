@@ -1,0 +1,31 @@
+{
+  "category": "source-bound configuration attribution; runtime list argv is not emitted by bounded interface",
+  "source_sha": "344daafe1d77694bba095a6c87b3c05f9aeba77b",
+  "library_tree": "85f5f434528b3843ab91586b8f850026e3d77be9",
+  "inventory": {
+    "controls": false,
+    "rustflags": "unset before the diagnostic inventory command",
+    "list_unstable_flags": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing"
+    ],
+    "command": "kani list $unstable_args ./library --std --format json",
+    "no_assert_contracts": false,
+    "evidence": "native 235 names; extractor retains every verify root, no control-name filter",
+    "runner_lines": "gcb-k1.sh:128-138; export controls only at 166; cloudbuild.yaml has no RUSTFLAGS env"
+  },
+  "verification": {
+    "controls": true,
+    "rustflags": "--cfg kani_smallsort_controls",
+    "evidence": "peaks.txt/machine fields; summary.md; request; unchanged run-kani.sh",
+    "no_assert_contracts": true,
+    "object_bits": 12,
+    "uninit_checks": false,
+    "valid_value_checks": false
+  }
+}

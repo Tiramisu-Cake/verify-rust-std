@@ -1,0 +1,125 @@
+  |            ^^^^^^^^^^^^^
+
+   Compiling dummy v0.1.0 (/workspace/src/target/kani_verify_std)
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 17s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/workspace/src/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+Checking harness slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2...
+
+VERIFICATION RESULT:
+ ** 0 of 509 failed (18 unreachable)
+
+ ** 7 of 7 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 45.22978s
+
+Checking harness slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2...
+  - Stub: super :: super :: panic_on_ord_violation -> abort_on_order_violation
+
+VERIFICATION RESULT:
+ ** 0 of 427 failed (76 unreachable)
+
+ ** 2 of 2 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 7.667644s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing4...
+  - Verified stub: <T as core::slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort
+
+VERIFICATION RESULT:
+ ** 1 of 608 failed (21 unreachable)
+Failed Checks: reverse pointer output is sorted
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs", line 196, in slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing4
+
+VERIFICATION:- FAILED
+Verification Time: 1.9880459s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_pair...
+
+VERIFICATION RESULT:
+ ** 1 of 48 failed (1 unreachable)
+Failed Checks: high-bit corruption preserves full pair
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs", line 175, in slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_pair
+
+VERIFICATION:- FAILED
+Verification Time: 0.19330244s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_ensures_u64_backing4...
+  - Verified stub: <T as core::slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort
+
+VERIFICATION RESULT:
+ ** 0 of 627 failed (21 unreachable)
+
+ ** 1 of 1 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 2.7244892s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::freeze_ensures_u64_backing4...
+
+VERIFICATION RESULT:
+ ** 0 of 557 failed (21 unreachable)
+
+ ** 5 of 5 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 20.403618s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::unstable_ensures_u64_backing4...
+
+VERIFICATION RESULT:
+ ** 0 of 559 failed (19 unreachable)
+
+ ** 5 of 5 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 20.262255s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::stable_ensures_u64_len2...
+
+VERIFICATION RESULT:
+ ** 0 of 472 failed (8 unreachable)
+
+ ** 5 of 5 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 69.51902s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4...
+  - Verified stub: <T as core::slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort
+
+VERIFICATION RESULT:
+ ** 1 of 540 failed (21 unreachable)
+Failed Checks: forwarded output is sorted
+ File: "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs", line 81, in slice::sort::shared::smallsort::verify::trait_contracts::rejects_verified_forwarding_sorted_u64_backing4
+
+VERIFICATION:- FAILED
+Verification Time: 1.8516306s
+
+Checking harness slice::sort::shared::smallsort::verify::trait_contracts::freeze_safety_u64_backing4...
+
+VERIFICATION RESULT:
+ ** 0 of 499 failed (21 unreachable)
+
+ ** 3 of 3 cover properties satisfied
+
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 15.698717s
+
