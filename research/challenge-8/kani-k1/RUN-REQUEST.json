@@ -1,55 +1,151 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kt1-repair2-20261110-03",
+  "request_id": "kani3300-u1-native-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI5116 KT1 repair 2: bounded own-output excerpts and source provenance for native FAILED/expect-fail; unchanged fixture and five selectors.",
+  "purpose": "KANI3300 U1: test MaybeUninit byte-state transfers, raw pointer access, and transmute to initialized values on the pinned Kani compiler.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 12,
+  "harness_timeout_minutes": 18,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
-    "sha256": "46c68dfd5861ebd008c32d7580caa15cee9ac9b185dec960caf57d3d342f696f"
+    "path": "research/challenge-8/kani-k1/kani3300/u1/kani-uninit.patch",
+    "sha256": "709b1b9f3598820243d4ce1f9fe2924975e03fa64104e8a5813c7037ab208ce8"
   },
-  "test_timeout_seconds": 180,
+  "test_timeout_seconds": 150,
   "kani_tests": [
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "FunctionContracts/generic_fn_pointer_argument.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "Stubbing/stub_set_multiple_use.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "ui",
+      "suite": "expected",
       "mode": "expected",
-      "file": "function-contracts/trait_default_fn_err.rs",
+      "file": "uninit/maybe-uninit-initialized/main.rs",
       "expect": "pass",
-      "require_success": false,
-      "diagnostic": "cannot be applied to trait function declarations without default bodies"
+      "require_success": true
     },
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "function-contract/generic_default_missing_required.rs",
+      "file": "uninit/maybe-uninit-assume-init/main.rs",
       "expect": "pass",
       "require_success": false,
-      "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
     },
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "FunctionContracts/specialization_default_fn_5116.rs",
-      "expect": "fail",
-      "require_success": true,
-      "diagnostic": "expected `fn`"
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-raw-read/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-raw-address/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-partial-write/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `(u8, u8)`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-slice-offset/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/unions.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/copy/copy_without_padding.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/copy/read_after_copy.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/copy/expose_padding_via_non_byte_copy.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/transmute-padding/transmute_padding.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Transmuting between types of incompatible layouts."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/delayed-ub/delayed-ub.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/access-padding-uninit/access-padding-uninit.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/multiple-instrumentations.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
     }
   ]
 }
