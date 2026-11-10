@@ -1,23 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kf2-main-20261111-01",
+  "request_id": "kani5116-kf2-repair1-20261111-02",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI5116 KF2: six N2 PFC, frame and verified-stub calibration harnesses on core default small-sort methods with the KF1 patch.",
+  "purpose": "KANI5116 KF2 repair 1: rerun the four N2 Freeze harnesses at unwind 8 with the KF1 patch.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 4,
   "kani_jobs": 1,
   "controls": true,
   "inventory": false,
   "harnesses": [
-    {
-      "name": "slice::sort::shared::smallsort::verify::default_contracts::stable_default_n2",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::default_contracts::unstable_default_n2",
-      "expect": "SUCCESS"
-    },
     {
       "name": "slice::sort::shared::smallsort::verify::default_contracts::freeze_default_n2",
       "expect": "SUCCESS"
