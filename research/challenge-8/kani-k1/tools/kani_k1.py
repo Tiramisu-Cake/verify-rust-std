@@ -131,6 +131,25 @@ def _one_line(value: Any, limit: int) -> bool:
     return isinstance(value, str) and bool(value.strip()) and len(value) <= limit and "\n" not in value and "\r" not in value
 
 
+def bounded_version(value: Any) -> bool:
+    # Pinned version.rs prints the Kani release line followed by `CBMC <version>`.
+    # Preserve the actual stdout; rejecting every newline discards valid build identities.
+    return (isinstance(value, str) and len(value.encode()) <= 2048 and 1 <= len(value.splitlines()) <= 8
+            and all(_one_line(line, 400) for line in value.splitlines()))
+
+
+def diagnostic_json(text: str | None) -> Any:
+    """Bounded structured artifacts only, retained on failure without granting them gate credit."""
+    if text is None:
+        return {"state": "MISSING"}
+    if len(text.encode()) > 128 * 1024:
+        return {"state": "OVERSIZED", "bytes": len(text.encode()), "sha256": hashlib.sha256(text.encode()).hexdigest()}
+    try:
+        return json.loads(text)
+    except ValueError:
+        return {"state": "INVALID_JSON", "bytes": len(text.encode()), "sha256": hashlib.sha256(text.encode()).hexdigest()}
+
+
 def safe_relative(value: Any, prefix: str = "") -> bool:
     return (isinstance(value, str) and len(value) <= 300 and value.startswith(prefix)
             and bool(re.fullmatch(r"[A-Za-z0-9_./-]+", value))
@@ -1400,6 +1419,9 @@ def summary_page(summary: dict[str, Any], offset: int, count: int) -> str:
 
 def native_page(summary: dict[str, Any], offset: int, count: int) -> str:
     native = summary.get("native")
+    validated = isinstance(native, dict)
+    if not validated:
+        native = (summary.get("diagnostic_artifacts") or {}).get("native")
     if not isinstance(native, dict) or not isinstance(native.get("tests"), list):
         raise ValueError("no structured native report")
     rows = native["tests"]
@@ -1408,7 +1430,10 @@ def native_page(summary: dict[str, Any], offset: int, count: int) -> str:
         raise ValueError("native COUNT must be 1..4")
     end = min(offset + count, len(rows))
     page = {"head_sha": summary.get("head_sha"), "request_sha256": summary.get("request_sha256"),
-            "build_id": (summary.get("run") or {}).get("id"), "kani_build": summary.get("kani_build"),
+            "build_id": (summary.get("run") or {}).get("id"),
+            "kani_build": summary.get("kani_build") if validated else (summary.get("diagnostic_artifacts") or {}).get("kani_build"),
+            "validation": "VALIDATED" if validated else "UNVALIDATED_DIAGNOSTIC_ONLY",
+            "summary_status": summary.get("status"), "gate": gate_ok(summary),
             "binaries": native.get("binaries"), "total": len(rows), "offset": offset}
     while True:
         page.update(tests=rows[offset:end], count=end-offset, next_offset=end if end < len(rows) else None)
@@ -1545,17 +1570,22 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["request"]["valid_value_checks"] = request.get("valid_value_checks", False)
     summary["request"]["controls"] = request.get("controls", False)
     summary["request"]["inventory"] = request.get("inventory", False)
+    if request["kind"] == "kani-tests":
+        summary["kani_exit_code"] = None
+        summary["native_runner_exit_code"] = exit_code
     if request.get("kani_patch") or request["kind"] == "kani-tests":
         try:
             info = json.loads(kani_build_text or "null")
             if (not isinstance(info, dict) or info.get("pin") != kani_commit or info.get("patch") != request.get("kani_patch")
                     or not re.fullmatch(r"[0-9a-f]{40}", info.get("tree", ""))
-                    or not _one_line(info.get("version"), 200) or build_outcome != "success"):
+                    or not bounded_version(info.get("version")) or build_outcome != "success"):
                 raise ValueError("missing/inconsistent Kani patch/tree/version/build identity")
             summary["kani_build"] = info
         except (ValueError, TypeError) as exc:
             summary["status"] = "RUNNER_ERROR"
             summary["inconsistencies"].append(str(exc))
+            summary["diagnostic_artifacts"] = {"kani_build": diagnostic_json(kani_build_text),
+                                               "native": diagnostic_json(native_text)}
             return summary
     if request["kind"] == "kani-tests":
         summary["measurement_ok"] = None
@@ -1611,6 +1641,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
         except (ValueError, KeyError, TypeError, AttributeError) as exc:
             summary["status"] = "INCONSISTENT"
             summary["inconsistencies"].append(str(exc))
+            summary["diagnostic_artifacts"] = {"kani_build": diagnostic_json(kani_build_text),
+                                               "native": diagnostic_json(native_text)}
         return summary
     if request.get("controls"):
         summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
@@ -1870,7 +1902,7 @@ def render_md(summary: dict[str, Any]) -> str:
     req = summary["request"] or {}
     res = summary["resources"]
     run = summary.get("run") or {}
-    timeout_label = ("whole-job work budget" if req.get("kind") in ("autoharness", "partition", "inventory")
+    timeout_label = ("whole-job work budget" if req.get("kind") in ("autoharness", "partition", "inventory", "kani-tests")
                      else "per-harness timeout")
     timeout_note = ("; per-harness settings from the checked-out workflow"
                     if req.get("kind") == "autoharness" else "")
@@ -1894,7 +1926,8 @@ def render_md(summary: dict[str, Any]) -> str:
     inventory = summary.get("inventory_result")
     if summary.get("kani_build"):
         info = summary["kani_build"]
-        lines[8:8] = [f"- Kani applied tree `{info['tree']}`, patch `{(info.get('patch') or {}).get('sha256')}`, version `{info['version']}`",
+        version = info["version"].replace("\n", "; ")
+        lines[8:8] = [f"- Kani applied tree `{info['tree']}`, patch `{(info.get('patch') or {}).get('sha256')}`, version `{version}`",
                       f"- Kani build {info.get('kani_build_s')} s; compiletest build {info.get('compiletest_build_s')} s",
                       f"- patch diffstat: {info.get('diffstat')}"]
     if summary.get("native"):

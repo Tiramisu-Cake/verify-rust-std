@@ -263,7 +263,9 @@ PY
       else build_outcome=failure; fi
       log_args=(); peaks_args=()
       [ -f "$K1_OUT/kani.log" ] && log_args=(--log "$K1_OUT/kani.log")
-      [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt" --memcap "$K1_OUT/memcap.txt")
+      if [ -f "$K1_OUT/build.ok" ] && valid && ! native; then
+        peaks_args=(--peaks "$K1_OUT/peaks.txt" --memcap "$K1_OUT/memcap.txt")
+      fi
       inventory_args=()
       [ -f "$K1_OUT/inventory.txt" ] && inventory_args=(--inventory "$K1_OUT/inventory.txt")
       native_args=()

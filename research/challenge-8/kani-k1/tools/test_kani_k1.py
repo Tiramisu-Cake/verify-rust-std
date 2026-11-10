@@ -1434,6 +1434,31 @@ class NativeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             k.native_page(summary, 0, 5)
 
+    def test_pinned_multiline_version_and_invalid_identity_diagnostics(self):
+        native, info, summarize = self.summary()
+        version = "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.8.0"
+        summary = summarize(build={**info, "version": version})
+        self.assertTrue(k.gate_ok(summary), summary)
+        self.assertEqual(summary["kani_build"]["version"], version)
+        self.assertIn("version `Kani Rust Verifier 0.68.0 (standalone); CBMC 6.8.0`", k.render_md(summary))
+        for value in ("", "line\n" * 9, "x" * 401, ["Kani"], None):
+            failed = summarize(build={**info, "version": value})
+            self.assertFalse(k.gate_ok(failed))
+            self.assertIsNone(failed["kani_exit_code"])
+            self.assertEqual(failed["native_runner_exit_code"], 0)
+            self.assertEqual(failed["diagnostic_artifacts"]["kani_build"]["version"], value)
+            self.assertEqual(failed["diagnostic_artifacts"]["native"], native)
+            page = json.loads(k.native_page(failed, 0, 1))
+            self.assertEqual(page["validation"], "UNVALIDATED_DIAGNOSTIC_ONLY")
+            self.assertFalse(page["gate"])
+            self.assertEqual(page["tests"], native["tests"])
+        failed = summarize(report={**native, "complete": False})
+        self.assertFalse(k.gate_ok(failed))
+        self.assertEqual(json.loads(k.native_page(failed, 0, 1))["validation"], "UNVALIDATED_DIAGNOSTIC_ONLY")
+        self.assertEqual(k.diagnostic_json(None), {"state": "MISSING"})
+        self.assertEqual(k.diagnostic_json("{")["state"], "INVALID_JSON")
+        self.assertEqual(k.diagnostic_json("x" * (128 * 1024 + 1))["state"], "OVERSIZED")
+
     def test_wall_timeout_and_deadline_never_invoke_tools_late(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); log = root / "test.log"

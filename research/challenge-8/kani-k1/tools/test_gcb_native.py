@@ -54,7 +54,7 @@ if name == "git":
             "tests/kani/FunctionContracts/repro.rs":"fn fixture() {}",
             "kani-dependencies":"",
             "scripts/setup/ubuntu/install_deps.sh":"#!/bin/sh\nexit 0\n",
-            "scripts/kani":"#!/bin/sh\necho 'kani 0.68.0'\n",
+            "scripts/kani":"#!/bin/sh\nprintf 'Kani Rust Verifier 0.68.0 (standalone)\\nCBMC 6.8.0\\n'\n",
         }.items():
             p=tree/path; p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text);p.chmod(0o755)
 elif name == "cargo":
@@ -96,6 +96,9 @@ sys.exit(0)
             summary = json.loads((output / "upload/summary/summary.json").read_text())
             self.assertTrue(k.gate_ok(summary), run.stdout + run.stderr)
             self.assertEqual((output / "gate.rc").read_text().strip(), "0")
+            self.assertEqual(summary["kani_build"]["version"], "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.8.0")
+            self.assertIsNone(summary["resources"]["memcap"])
+            self.assertIsNone(summary["resources"]["peaks"])
             commands = [json.loads(line) for line in (root / "commands.jsonl").read_text().splitlines()]
             self.assertIn(["cargo", "build-dev", "--", "--release"], commands)
             self.assertIn(["cargo", "build", "-p", "compiletest"], commands)
