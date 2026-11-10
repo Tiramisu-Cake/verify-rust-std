@@ -75,4 +75,6 @@ mod network;
 mod scratch_geometry;
 mod smoke;
 mod tag_permutation;
+#[cfg(kani_smallsort_controls)]
+mod trait_contracts;
 mod types;

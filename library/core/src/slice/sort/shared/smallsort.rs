@@ -54,6 +54,10 @@ impl<T: FreezeMarker> StableSmallSortTypeImpl for T {
         SMALL_SORT_GENERAL_THRESHOLD
     }
 
+    #[safety::requires(
+        v.len() < 2 || scratch.len().checked_sub(16).is_some_and(|capacity| v.len() <= capacity)
+    )]
+    #[cfg_attr(kani, crate::kani::modifies(v, scratch))]
     #[inline(always)]
     fn small_sort<F: FnMut(&T, &T) -> bool>(
         v: &mut [T],
@@ -95,6 +99,12 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
         <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
     }
 
+    #[safety::requires(
+        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
+            == SMALL_SORT_FALLBACK_THRESHOLD
+            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
+    )]
+    #[cfg_attr(kani, crate::kani::modifies(v))]
     #[inline(always)]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
@@ -155,6 +165,12 @@ impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
         }
     }
 
+    #[safety::requires(
+        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
+            == SMALL_SORT_FALLBACK_THRESHOLD
+            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
+    )]
+    #[cfg_attr(kani, crate::kani::modifies(v))]
     #[inline(always)]
     fn small_sort<F>(v: &mut [T], is_less: &mut F)
     where
