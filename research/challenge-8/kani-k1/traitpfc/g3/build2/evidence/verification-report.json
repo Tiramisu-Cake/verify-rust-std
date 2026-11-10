@@ -1,0 +1,346 @@
+{
+  "build_id": "368b93f4-e7ae-4603-bf41-ea3fb6573e3e",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "source_sha": "2f1c45e519cc89e1dae532ad0f44243255a514d7",
+  "library_commit": "1aac64c50d69382c8ce90811880225d0a047525f",
+  "library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+  "patch_sha256": "ec6019f2e51b23c331a5fc5d9e190283c81e7ac506ee7bf1fe2c1dc0af85f840",
+  "request_sha256": "b521133c786fa24eb1d38e861a5296eb5da4d31c11c840e1d20120788cd16aa6",
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "start_time": "2026-11-10T20:57:44.237649571Z",
+  "finish_time": "2026-11-10T22:01:26.914076Z",
+  "gate": true,
+  "expectations_met": true,
+  "kani_exit": 1,
+  "check_tooling": "PASS",
+  "brief_limitation": "HTTP 404. Bounded K-1 fallback authorized in task.",
+  "inventory": {
+    "count": 242,
+    "exact_manifest_match": true,
+    "offsets": [
+      0,
+      80,
+      160,
+      240
+    ],
+    "next_offset": "done",
+    "metadata": {
+      "request_id": "traitpfc-g3-20261110-02",
+      "request_sha256": "b521133c786fa24eb1d38e861a5296eb5da4d31c11c840e1d20120788cd16aa6",
+      "build_id": "368b93f4-e7ae-4603-bf41-ea3fb6573e3e",
+      "head_sha": "2f1c45e519cc89e1dae532ad0f44243255a514d7",
+      "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+      "inventory_sha256": "53b17267f462c23e3ba5640c6837b83040884d07300adba138b0fa3966766a20",
+      "names_sha256": "da9881328f6d6962ef5fc555f2abc83eaee8e00e2d4c0de7b4784abf6ade2bcd",
+      "total": "242"
+    },
+    "ordered_names_and_inventory_hashes_recomputed": true,
+    "sorted_manifest_sha256": "2ef3f4630468383975e6af34cd6c2ec84341949a1e3c84abaf2fcda2c5031d25",
+    "library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "controls": false,
+    "flag_attribution": "Frozen gcb-k1.sh list before controls export and cloudbuild.yaml environment. Bounded interface does not emit runtime list argv."
+  },
+  "rows": [
+    {
+      "row": "A1",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_sorts_permutation_u64_len2",
+      "status": "SUCCESS",
+      "time_s": "112.45171",
+      "failed": 0,
+      "total_checks": 487,
+      "covers": "5/5",
+      "unreachable": 16,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "A2",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_sorts_permutation_u64_len3",
+      "status": "SUCCESS",
+      "time_s": "169.94554",
+      "failed": 0,
+      "total_checks": 503,
+      "covers": "5/5",
+      "unreachable": 16,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "A3",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_sorts_permutation_u64_backing4",
+      "status": "SUCCESS",
+      "time_s": "28.834583",
+      "failed": 0,
+      "total_checks": 582,
+      "covers": "5/5",
+      "unreachable": 29,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "A4",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_sorts_permutation_u64_backing5",
+      "status": "SUCCESS",
+      "time_s": "68.057304",
+      "failed": 0,
+      "total_checks": 638,
+      "covers": "5/5",
+      "unreachable": 29,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "A5",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_sorts_permutation_u64_backing4",
+      "status": "SUCCESS",
+      "time_s": "82.79854",
+      "failed": 0,
+      "total_checks": 714,
+      "covers": "5/5",
+      "unreachable": 29,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": [
+        2805
+      ]
+    },
+    {
+      "row": "A6",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_sorts_permutation_u64_backing5",
+      "status": "SUCCESS",
+      "time_s": "128.4587",
+      "failed": 0,
+      "total_checks": 770,
+      "covers": "5/5",
+      "unreachable": 29,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": [
+        2793
+      ]
+    },
+    {
+      "row": "C1",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_sorts_permutation_u64_backing5",
+      "status": "SUCCESS",
+      "time_s": "6.1645646",
+      "failed": 0,
+      "total_checks": 762,
+      "covers": "5/5",
+      "unreachable": 29,
+      "source_bound_cover_labels": [
+        "sort model enabled before call",
+        "ascending input returns",
+        "descending input returns",
+        "duplicate input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": [
+        2781
+      ]
+    },
+    {
+      "row": "K1",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_len3",
+      "status": "FAILED",
+      "time_s": "1.9056786",
+      "failed": 1,
+      "total_checks": 102,
+      "covers": null,
+      "unreachable": 12,
+      "source_bound_cover_labels": [],
+      "verified_stub_log_lines": [],
+      "designated_failure": {
+        "message": "high-bit corruption preserves sorted full values",
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs",
+        "line": 181,
+        "harness": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_len3",
+        "source_expression": "<() as SortModel<u64, U64Cmp>>::sort_postcondition(pre, v.as_ptr(), v.len())",
+        "log_line": 2775
+      }
+    },
+    {
+      "row": "K2",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_changed_multiplicities_u64_len3",
+      "status": "FAILED",
+      "time_s": "0.5499438",
+      "failed": 1,
+      "total_checks": 58,
+      "covers": null,
+      "unreachable": 10,
+      "source_bound_cover_labels": [],
+      "verified_stub_log_lines": [],
+      "designated_failure": {
+        "message": "same set preserves full multiplicities",
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs",
+        "line": 197,
+        "harness": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_changed_multiplicities_u64_len3",
+        "source_expression": "<() as SortModel<u64, U64Cmp>>::sort_postcondition(pre, post.as_ptr(), 3)",
+        "log_line": 2765
+      }
+    },
+    {
+      "row": "K3",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing5",
+      "status": "FAILED",
+      "time_s": "2.210697",
+      "failed": 1,
+      "total_checks": 633,
+      "covers": null,
+      "unreachable": 39,
+      "source_bound_cover_labels": [],
+      "verified_stub_log_lines": [
+        2750
+      ],
+      "designated_failure": {
+        "message": "reverse pointer output is sorted",
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs",
+        "line": 220,
+        "harness": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing5",
+        "source_expression": "v[0] <= v[1] && v[1] <= v[2]",
+        "log_line": 2755
+      }
+    },
+    {
+      "row": "K4",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_function_item_sorted_u64_backing5",
+      "status": "FAILED",
+      "time_s": "2.0546393",
+      "failed": 1,
+      "total_checks": 547,
+      "covers": null,
+      "unreachable": 21,
+      "source_bound_cover_labels": [],
+      "verified_stub_log_lines": [
+        2739
+      ],
+      "designated_failure": {
+        "message": "function item output is sorted",
+        "file": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs",
+        "line": 253,
+        "harness": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_function_item_sorted_u64_backing5",
+        "source_expression": "v[0] <= v[1] && v[1] <= v[2]",
+        "log_line": 2744
+      }
+    },
+    {
+      "row": "W1",
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_frame_function_item_u64_backing5",
+      "status": "SUCCESS",
+      "time_s": "35.949974",
+      "failed": 0,
+      "total_checks": 492,
+      "covers": "3/3",
+      "unreachable": 21,
+      "source_bound_cover_labels": [
+        "descending input returns",
+        "non-descending input returns",
+        "trait small_sort returns"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "R1",
+      "name": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
+      "status": "SUCCESS",
+      "time_s": "3.6611972",
+      "failed": 0,
+      "total_checks": 427,
+      "covers": "2/2",
+      "unreachable": 76,
+      "source_bound_cover_labels": [
+        "Stable Freeze selects small_sort_general_with_scratch beyond its early return",
+        "scratch geometry returns normally and preserves full values"
+      ],
+      "verified_stub_log_lines": []
+    },
+    {
+      "row": "R2",
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2",
+      "status": "SUCCESS",
+      "time_s": "31.68138",
+      "failed": 0,
+      "total_checks": 509,
+      "covers": "7/7",
+      "unreachable": 18,
+      "source_bound_cover_labels": [
+        "reversed keys return",
+        "increasing keys return",
+        "tied keys retain distinct full values",
+        "duplicate full values return",
+        "independent probe hits input",
+        "independent probe misses input",
+        "unstable u8 trait entry returns"
+      ],
+      "verified_stub_log_lines": []
+    }
+  ],
+  "matching_source_domains": {
+    "A5": [
+      "A3"
+    ],
+    "A6": [
+      "A4"
+    ],
+    "C1": [
+      "A4",
+      "A6"
+    ],
+    "K4": [
+      "W1"
+    ]
+  },
+  "new_ordinary_sum_verification_seconds": "596.7109416",
+  "verification_flags": {
+    "controls": true,
+    "kani_jobs": 1,
+    "timeout_minutes": 5,
+    "no_assert_contracts": true,
+    "object_bits": 12,
+    "uninit_checks": false,
+    "valid_value_checks": false
+  },
+  "flag_attribution": "Controls and jobs from summary and bound request. Organizer flags from frozen scripts/run-kani.sh.",
+  "evidence_tier": "B1 bounded",
+  "acceptance": "PASS",
+  "code_ready": true,
+  "resource_open": [],
+  "credit_basis": "Source-bound Kani results checked against packet, inventory, and diagnostics. Independent checks cover identities and reported outcomes.",
+  "spent_usd": "0.8640",
+  "total_stage_spent_usd": "1.5255"
+}
