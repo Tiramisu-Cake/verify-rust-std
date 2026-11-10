@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "base_sha": "3a16a173b04104eed72e6535fa7f47b942334326",
+  "build_number": 2,
+  "exact_authorized_build2_repair": true,
+  "tooling_base": "9b1758ab817af005e96fd52a5fc940d4b6acf984",
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "library_commit": "1aac64c50d69382c8ce90811880225d0a047525f",
+  "library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+  "baseline_ordinary": 235,
+  "ordinary": 242,
+  "baseline_cfg_on": 260,
+  "cfg_on": 260,
+  "inherited_controls": 13,
+  "inherited_closures_unchanged": 248,
+  "runtime_bytes_and_g1_requires_modifies_unchanged": true,
+  "rustfmt_check": "PASS",
+  "new_overlong_rust_lines": [],
+  "compiler_resolution": "NOT_RUN",
+  "proof_status": "NOT_RUN",
+  "native_inventory": "NOT_RUN",
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "bc8f2cd12c03ac2c4a1be231bb14d7fefef269ed0fd571e35993e6d0467c7fb0",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "b1e522b885d6669a64bf041dd652bcee4699b50b1e79c21abbf0975e13a10396",
+    "library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs": "5a2229d9df64209a74cc7f32095e09a27e7f67dae1437d40b361e09c7c699965",
+    "library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs": "ddac50f693a6985db5971a385387d2f1e83bcc2172baf843249f367d789c99d8"
+  },
+  "request_sha256": "b521133c786fa24eb1d38e861a5296eb5da4d31c11c840e1d20120788cd16aa6",
+  "inventory_sha256": {
+    "ordinary": "2ef3f4630468383975e6af34cd6c2ec84341949a1e3c84abaf2fcda2c5031d25",
+    "cfg-on": "9ce465079d557ff5d9d40f18e917504d3e1802483f59084f34e8393520e8c53b"
+  }
+}

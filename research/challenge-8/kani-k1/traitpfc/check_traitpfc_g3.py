@@ -4,6 +4,7 @@
 Reuse RENAMEMODS' lexer/expander. Freeze all inherited ordinary roots and
 13 pre-trait controls, including their conservative source closures.
 """
+import argparse
 import hashlib
 import importlib.util
 import json
@@ -12,7 +13,10 @@ import re
 import subprocess
 
 HERE = Path(__file__).resolve().parent
-OUT = HERE / 'g3'
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--build2', action='store_true', help='check the authorized harness repair')
+args = parser.parse_args()
+OUT = HERE / 'g3' / 'build2' if args.build2 else HERE / 'g3'
 spec = importlib.util.spec_from_file_location(
     'renamemods', HERE.parent / 'renamemods/check_renamemods.py')
 r = importlib.util.module_from_spec(spec)
@@ -24,6 +28,37 @@ KANI = 'f046b70644e113be0df9c22c2e6ea44a65a57566'
 ROOTS = s.VERIFY_DIR + 'trait_contracts.rs'
 MODEL = s.VERIFY_DIR + 'trait_model.rs'
 LIBRARY = {s.SMALLSORT, s.VERIFY_ROOT, ROOTS, MODEL}
+BUILD1_PACKET = '55a7fd1c8ada1590ab571b040a6256219ef75e63'
+
+
+def check_build2_repair():
+    """Exact coordinator-approved helper and two call-site substitutions, no broader repair."""
+    original = subprocess.check_output(['git', 'show', BUILD1_PACKET + ':' + ROOTS]).decode()
+    helper = '''#[cfg(kani_smallsort_controls)]
+fn function_item_model_enabled<F>(cmp: &F, len: usize) -> bool {
+    <() as SortModel<u64, F>>::enabled(SortEntry::Freeze, cmp, len)
+}
+
+'''
+    anchor = ('#[cfg(kani_smallsort_controls)]\n#[kani::proof]\n'
+              '#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]\n'
+              '#[kani::unwind(32)]\nfn rejects_function_item_sorted_u64_backing5()')
+    old_call = ('    let enabled = <() as SortModel<u64, _>>::enabled('
+                'SortEntry::Freeze, &cmp, v.len());')
+    assert original.count(old_call) == 2 and original.count(anchor) == 1
+    expected = original.replace(anchor, helper + anchor).replace(
+        old_call, '    let enabled = function_item_model_enabled(&cmp, v.len());')
+    assert Path(ROOTS).read_text() == expected
+    assert o.git('diff', '--name-only', BUILD1_PACKET, '--', 'library').splitlines() == [ROOTS]
+    old_request = json.loads((HERE / 'g3/RUN-REQUEST.json').read_text())
+    old_request['request_id'] = 'traitpfc-g3-20261110-02'
+    assert json.loads((OUT / 'RUN-REQUEST.json').read_text()) == old_request
+    old_rows = json.loads((HERE / 'g3/expected-rows.json').read_text())
+    new_rows = json.loads((OUT / 'expected-rows.json').read_text())
+    for a, b in zip(old_rows, new_rows, strict=True):
+        a.pop('designated_failure_source', None)
+        b.pop('designated_failure_source', None)
+        assert a == b, 'row names/expectations/domains/flags must not change'
 
 
 def sha(data):
@@ -51,6 +86,8 @@ def ensures(entry):
 
 
 def main():
+    if args.build2:
+        check_build2_repair()
     old, new = s.Source(BASE), s.Source(None)
     assert set(new.files) == set(old.files)
     assert new.file_gate[MODEL] is False and new.file_gate[ROOTS] is False
@@ -203,7 +240,8 @@ def main():
         + (result.stderr or '<empty>') + '\n')
     request = json.loads((OUT / 'RUN-REQUEST.json').read_text())
     assert (OUT / 'RUN-REQUEST.json').read_bytes() == (HERE.parent / 'RUN-REQUEST.json').read_bytes()
-    assert request['request_id'] == 'traitpfc-g3-20261110-01'
+    assert request['request_id'] == ('traitpfc-g3-20261110-02' if args.build2
+                                     else 'traitpfc-g3-20261110-01')
     assert request['kind'] == 'diagnostic' and request['agent'] == 'k1-merge'
     assert request['controls'] is True and request['inventory'] is True
     assert request['kani_jobs'] == 1 and request['harness_timeout_minutes'] == 5
@@ -218,6 +256,8 @@ def main():
                                 new_requires=[], preserved_g1=contracts))
     write('closures.json', closures)
     write('check-report.json', dict(status='PASS', base_sha=o.git('rev-parse', BASE),
+        build_number=2 if args.build2 else 1,
+        exact_authorized_build2_repair=args.build2,
         tooling_base=TOOLING, kani_commit=KANI,
         library_commit=o.git('log', '-1', '--format=%H', '--', 'library'),
         library_tree=o.git('rev-parse', 'HEAD:library'),

@@ -1,0 +1,74 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "traitpfc-g3-20261110-02",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "TRAITPFC G3: unified conditional u64/N2,N3 trait sort contracts; direct T1/T3 PFCs, matching composed T2 PFCs and N3 consumer; full multiplicity/high-bit and disabled-model calibrations; native cfg-off inventory 242.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "kani_jobs": 1,
+  "controls": true,
+  "inventory": true,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_sorts_permutation_u64_len2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::stable_sorts_permutation_u64_len3",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_sorts_permutation_u64_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_sorts_permutation_u64_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_sorts_permutation_u64_backing4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::unstable_sorts_permutation_u64_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::verified_forwarding_sorts_permutation_u64_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_high_bit_corruption_u64_len3",
+      "expect": "FAILED",
+      "expect_check": "high-bit corruption preserves sorted full values"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_changed_multiplicities_u64_len3",
+      "expect": "FAILED",
+      "expect_check": "same set preserves full multiplicities"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_reverse_pointer_sorted_u64_backing5",
+      "expect": "FAILED",
+      "expect_check": "reverse pointer output is sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::rejects_function_item_sorted_u64_backing5",
+      "expect": "FAILED",
+      "expect_check": "function item output is sorted"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::trait_contracts::freeze_frame_function_item_u64_backing5",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2",
+      "expect": "SUCCESS"
+    }
+  ]
+}
