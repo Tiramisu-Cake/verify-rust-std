@@ -23,14 +23,16 @@ Dispatch только после exact-packet PRE-BUILD review/GO координ
 - D1 `<Cell<u8> as StableSmallSortTypeImpl>::small_sort` — default `impl<T>` (insertion);
 - D2 `<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort` — default `impl<T>` (fallback);
 - D3 `<NonCopyU8 as UnstableSmallSortFreezeTypeImpl>::small_sort` — default `impl<T: FreezeMarker>` для Freeze !Copy
-  (тип как в `verify/forwarding_contracts.rs`; если он приватен — свой verification-only Freeze !Copy тип).
+  — свой verification-only `NonCopyU8(u8)` в новом модуле (без Copy/Drop) с `kani::Arbitrary`, генерирующим
+  произвольный байт (нужен для `write_any_slice` в `modifies` stub; тип из forwarding_contracts приватен).
 Это resolution/frame smoke, **не** доказательство сортировки.
 
 ## Library-изменения
 
 1. `smallsort.rs`: на трёх `default fn small_sort` — только `#[cfg_attr(kani, crate::kani::requires(...))]` (то, что
    реально нужно телу, обосновать; если ничего — без requires) и `#[cfg_attr(kani, crate::kani::modifies(v))]`
-   (D1: и scratch, только если тело в него пишет). **Не** `#[safety::requires/ensures]` (их собственный parser не
+   (D1 `_scratch` не читает и не пишет: в harness'ах передавать `&mut []`, в modifies не включать, ёмкость не
+   требовать). **Не** `#[safety::requires/ensures]` (их собственный parser не
    исправлен). Тела, сигнатуры, bounds, `inline`, `default` — байт-неизменны; `ensures` нет (если PFC требует —
    только помеченный калибровочный `ensures(|_| true)`).
 2. Новый opt-in модуль `verify/default_contracts.rs` целиком под `#[cfg(kani_smallsort_controls)]` + одна строка в
@@ -38,27 +40,33 @@ Dispatch только после exact-packet PRE-BUILD review/GO координ
 
 ## Строки (kind diagnostic, controls on, inventory false, standard4/jobs1, флаги организаторов без изменений)
 
-Компаратор — именованный function item, читает оба аргумента. Геометрия N2; для D1 scratch по `requires`/телу.
+Компаратор — один именованный function item на маршрут (без coercion к fn pointer в P3/S0/S1/S2), читает оба
+аргумента. Геометрия N2. Covers P1–P3 — ровно 3: обе стороны предвычисленного порядка входной пары и возврат.
 
 | Row | Что | expect |
 |---|---|---|
 | P1 | `proof_for_contract(D1)`, `[Cell<u8>; 2]`, covers: обе ветки входа + возврат | SUCCESS, covers все |
 | P2 | `proof_for_contract(D2)`, то же | SUCCESS, covers все |
 | P3 | `proof_for_contract(D3)`, backing `[NonCopyU8; 4]`, `v = [1..3]`, внешний frame | SUCCESS, covers все |
+| S0 | unstubbed-двойник S1/S2: тот же Freeze-forwarder, backing/срез/F; assert frame и порядок `v[0] <= v[1]` | SUCCESS |
 | S1 | consumer: `stub_verified(D3)`, вызов через реальный `<NonCopyU8 as UnstableSmallSortTypeImpl>::small_sort` (Freeze impl, форвард в D3), тот же backing; assert frame | SUCCESS |
 | S2 | как S1, но assert `v[0] <= v[1]` (по модели) — со слабым контрактом обязан упасть ровно здесь (тело заменено стабом) | FAILED, 1 = назначенная |
 
-`--harness-timeout` ≤ 5m (расчёт времени в PRE-BUILD; 5 строк × 5 + 30 = 55 ≤ 59), unwind по телам N2.
+Для S0/S1/S2 можно взять исходно неупорядоченную пару (`assume` до вызова), чтобы пропуск вызова не дал ожидаемого
+отказа; S1 подтверждает возврат. `--harness-timeout 4m` (6 × 4 + 30 = 54 ≤ 59, резерв $0.7290), unwind по телам N2.
+У S2 — уникальный `expect_check`; вручную сверить ровно 1 failed с нужной локацией (gate проверяет статус и
+подстроку, но не полноту covers и единственность отказа); P1–P3 — 0 failed и 3/3 covers.
 
 ## Приёмка
 
-- PASS: P1–P3 SUCCESS с 0 failed и всеми covers; S1 SUCCESS; S2 FAILED ровно на назначенной проверке; по доступной
-  диагностике подтвердить, что `stub_verified` привязан к D3 (default impl), а PFC — к default impl, не к
-  специализации. Identity: pin + patch SHA-256 + applied tree в summary, check-tooling PASS.
+- PASS: P1–P3 SUCCESS с 0 failed и всеми covers; S0, S1 SUCCESS; S2 FAILED ровно на назначенной проверке. До
+  dispatch зафиксировать, где bounded способом видно привязку `Verified stub`/target; если прямого свидетельства
+  нет — записать эффект S0/S2 как проверенный, прямой target trace — UNCONFIRMED (raw logs не читать). Identity: pin + patch SHA-256 + applied tree в summary, check-tooling PASS.
 - Отказ компиляции/разрешения — **результат** (blocker с дословным текстом), не повод менять core или Kani-патч.
   Repair — только атрибуты/квалификация путей в harness'ах.
-- Не проверяется: обычная cfg-off компиляция 235 с этими атрибутами (inventory не в этом этапе — записать как
-  NOT_RUN), сортировка, safety-атрибуты, upstream CI.
+- Не проверяется: обычная cfg-off компиляция 235 с этими атрибутами (`cfg_attr(kani, …)` действует и там;
+  inventory не в этом этапе — NOT_RUN), сортировка, произвольный FnMut, safety-атрибуты, upstream CI. Вывод
+  ограничен N2 и выбранными T/F/геометрией.
 - Статика: изменены только `smallsort.rs` (атрибуты на трёх default fn), `verify.rs` (одна строка),
   `verify/default_contracts.rs`; rustfmt — ноль diff; строк > 100 нет.
 
