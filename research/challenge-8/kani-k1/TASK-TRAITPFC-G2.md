@@ -40,12 +40,15 @@ UnstableSmallSortTypeImpl>::small_sort` (impl `T: FreezeMarker`), T3 = `<u64 as 
    clone, не сохранённая ссылка. Snapshot читает только при `len == 2` и безопасен при eager-вычислении. Permutation
    для N2: `post == pre || post == swapped(pre)` по полным u64; sorted: `post.0 <= post.1`.
    **Оговорённый fallback** (только если native `old` не компилируется/не разрешается): readonly ghost `PRE_PAIR` +
-   `requires`, связывающий его с фактической парой в enabled-домене; consumer обязан установить и пройти binding. Одного
-   `kani::assume` в harness или несвязанного ghost недостаточно. Применение fallback — отдельная пометка в RESULT.
+   **дополнительный условный** `requires`, связывающий его с фактической парой в enabled-домене (G1 `requires`/`modifies`
+   сохраняются). Все enabled PFC/consumer устанавливают `PRE_PAIR` до вызова; ghost вне write set. Сохранение
+   pre-state `enabled` — через ghost snapshot либо обоснованную неизменность по frame; не подменять pre-state guard
+   ослабляющим post-state guard. Одного `kani::assume` в harness или несвязанного ghost недостаточно. Применение
+   fallback — отдельная пометка в RESULT, новые `requires` дословно.
 5. **Видимость:** модель и `canonical_less_u64` доступны при `cfg(kani)` **без** controls (атрибуты на настоящих
    методах иначе сломают ordinary cfg-off компиляцию); только новые harnesses — opt-in под
    `cfg(kani_smallsort_controls)`. Не прятать модель в полностью cfg-gated `trait_contracts.rs`.
-6. В каждом положительном корне `let mut cmp: U64Cmp = canonical_less_u64;` (не function item — иначе выберется default)
+6. В корнях **E1–E3 и C1** `let mut cmp: U64Cmp = canonical_less_u64;` (не function item — иначе выберется default)
    и `kani::assert(enabled)` / cover до вызова.
 
 ## Строки (10)
@@ -59,7 +62,7 @@ UnstableSmallSortTypeImpl>::small_sort` (impl `T: FreezeMarker`), T3 = `<u64 as 
 | E2 | `proof_for_contract(T2)`, то же | SUCCESS, covers все |
 | E3 | `proof_for_contract(T3)`, то же, внешний frame | SUCCESS, covers все |
 | C1 | consumer: `stub_verified(T3)`, вызов через реальный T2, та же геометрия/F; assert sorted, pair permutation по **независимо сохранённой** паре прямыми сравнениями u64, внешний frame | SUCCESS |
-| N1 | oracle: корректная пара, затем XOR старшего бита одного u64; тот же permutation checker | FAILED, 1 = назначенная |
+| N1 | oracle: специализированный checker; сначала неизменённая пара проходит, затем XOR старшего бита одного u64 и тот же checker | FAILED, 1 = назначенная |
 | N2 | weak summary: G1 S2 без изменений (function-item `F`, default-модель) | FAILED, 1 = sortedness |
 | N3 | wrong comparator: тот же тип `U64Cmp`, значение `reverse_less`; assert `!enabled`; `stub_verified(T3)` через T2; assert sorted | FAILED, 1 = sortedness (не requires) |
 | W1 | G1 P3 без изменений (function-item `F`) — актуальный weak leaf/frame | SUCCESS |
@@ -68,20 +71,24 @@ UnstableSmallSortTypeImpl>::small_sort` (impl `T: FreezeMarker`), T3 = `<u64 as 
 `--harness-timeout 5m`; unwind новых корней 32, R1/R2 — прежние; флаги организаторов (`--no-assert-contracts`,
 object-bits 12) без изменений; uninit/value-validity выкл. **`inventory: true` в той же сборке** — если gcb-k1.sh
 выполняет list до экспорта controls RUSTFLAGS, это cfg-off inventory 235 (подтвердить по evidence фактические флаги);
-иначе не выдавать за native и записать NOT_RUN. Paid build timeout — численно по расчёту, ≤ 120 мин; резерв
+иначе не выдавать за native: inventory NOT_RUN, интеграционная часть этапа — PARTIAL (proof-результаты сохраняются).
+Данные list и rows атрибутировать их фактическим флагам и одному library tree. Paid build timeout — численно по расчёту, ≤ 120 мин; резерв
 (setup + inventory + 10 строк) и worst-case repair ≤ $3.
 
 ## Приёмка
 
 - PASS: E1–E3, C1 SUCCESS, все обязательные covers (включая `enabled` до вызова); N1–N3 FAILED ровно на назначенной
-  проверке; W1, R1, R2 SUCCESS; inventory cfg-off = 235 точное совпадение (или явно NOT_RUN с причиной).
+  проверке; W1, R1, R2 SUCCESS; native inventory cfg-off = 235 точное совпадение. Без него — PARTIAL, не PASS: модель
+  используется атрибутами core, и controls-on компиляция не подтверждает ordinary-конфигурацию.
 - Статика (скрипт в `traitpfc/`, лексер/expander из `renamemods/`): 235 ordinary имён/тела/атрибуты/callback items
-  неизменны; тела/сигнатуры/bounds/`inline`/`default` и G1 `requires`/`modifies` неизменны — добавлены только `ensures`
-  на T1–T3 и модель; G1 opt-in корни неизменны; cfg-on = 254 + 6 = **260**; rustfmt — ноль diff; новых строк > 100 нет.
+  неизменны; тела/сигнатуры/bounds/`inline`/`default` и G1 `requires`/`modifies` неизменны. Whitelist library:
+  `smallsort.rs` (только `ensures` на T1–T3 и, в fallback, условный ghost-`requires`), `verify.rs` (регистрация/карта),
+  `verify/trait_contracts.rs` (новые корни; G1-корни неизменны), новый model-модуль. Feature gates и API core не
+  менять; G1 opt-in корни неизменны; cfg-on = 254 + 6 = **260**; rustfmt — ноль diff; новых строк > 100 нет.
 - Различать дословно: frontend/resolution/specialization error, unsupported, TIMEOUT, обычный FAILED. Невыразимость
   модели/binding без изменения runtime API — **blocker в RESULT**, не ослабление ensures до `true` ради PASS.
 - Repair (одна сборка) — только синтаксис/квалификация атрибутов, форма old-capture или оговорённый fallback п. 4;
-  не менять тела/API core, не убирать проверки.
+  не менять тела/API core и feature gates, не подменять blanket impl конкретным `impl for u64`, не убирать проверки.
 
 ## RESULT
 
@@ -94,8 +101,8 @@ fallback; таблица 10 строк (status, время, failed/total, covers
 
 - Library-коммит отдельно от research-коммитов, все `[skip ci]`; push без force; глобальный git config не менять.
 - Последней строкой `PRE-BUILD REVIEW <полный sha>`, стоп до GO. Ожидание сборки: `k1g.sh watch BUILD`, затем конец хода.
-- Evidence — bounded K-1 summaries/rows/peaks/log-grep через `k1g.sh`; `smallsort-brief BUILD` — для уточнений, если
-  сборка индексирована. Прямых GCS/storage/download/logging-команд нет; raw logs, archives, credentials не читать.
+- Evidence — сначала `smallsort-brief BUILD` (основной интерфейс); если сборка не индексирована или нужного поля нет —
+  зафиксировать ограничение и использовать bounded K-1 summaries/rows/peaks/log-grep через `k1g.sh`, как в G1. Прямых GCS/storage/download/logging-команд нет; raw logs, archives, credentials не читать.
 - Никаких локальных cargo/rustc/Kani/CBMC (rustfmt через обёртку
   `/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh --edition 2024 --config-path
   research/challenge-8/kani-k1/codefix/rustfmt.toml`), Actions/PR/issue/комментарии на GitHub.
