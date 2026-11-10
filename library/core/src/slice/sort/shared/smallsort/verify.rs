@@ -16,8 +16,15 @@
 //!   arbitrary payloads assumes the same route moves whole elements and branches only on
 //!   answers, positions, lengths, and type properties. This source-level assumption is not a
 //!   generic refinement theorem; it excludes payload mutation, sortedness, and stability.
-//! - `trait_model`: cfg(kani) pair model for the opt-in u64/N2 trait postcondition pilot.
-//!   `trait_contracts` supplies opt-in PFC, consumer, and negative-control roots.
+//! - `trait_model`: cfg(kani) conditional sort model for non-default trait methods, enabled
+//!   only for u64, the canonical `U64Cmp` function pointer, and each entry's listed lengths.
+//!   `trait_contracts`: ordinary PFC roots for stable, unstable, and Freeze entries at N2/N3,
+//!   with sortedness and full-value multiplicities. Stable uses an array plus separate N+16
+//!   scratch; unstable and Freeze use backing N+2, active 1..N+1, and exterior frame checks.
+//!   The N3 consumer calls real unstable forwarding with only the matching Freeze leaf stubbed.
+//!   Unstable PFCs also compose that leaf; credit requires the same F, length, and geometry.
+//!   The whitelist is conditional; function items and other comparator values stay disabled.
+//!   Opt-in controls calibrate full values, multiplicities, and the disabled model branch.
 //! - `scratch_geometry`: real stable u64 sorting with separate minimal scratch and
 //!   full-value counts.
 //!
@@ -41,8 +48,11 @@
 //! contract proof does not justify a new consumer. The opt-in control
 //! `helper_contracts::rejects_swap_comparator_writing_outside_frame_u8` checks this restriction.
 //!
-//! `cfg(kani_smallsort_controls)` enables only negative controls; ordinary CI leaves it unset.
-//! Run controls individually and require their named failure.
+//! Trait write sets likewise exclude arbitrary callback writes. Verified trait stubs require
+//! comparators that write nowhere else and matching bounded real-body leaf proofs.
+//!
+//! `cfg(kani_smallsort_controls)` enables negative controls and their matching frame-only
+//! calibration leaf; ordinary CI leaves it unset. Run each control with its named expectation.
 //!
 //! Conventions:
 //! - Ordinary covers must be reachable; `run-kani.sh` does not enforce this itself.
@@ -54,8 +64,8 @@
 //!
 //! Not covered:
 //! - Uninitialized-memory, value-validity, and immutable-byte permission checks, or unwinding.
-//! - Trait methods have no contracts: the pinned Kani rejects specialization defaults and
-//!   method-generic comparators (model-checking/kani issues #5116 and #4908).
+//! - Specialization `default fn` contracts remain blocked by model-checking/kani issue #5116.
+//!   Non-default trait impls have conditional contracts only on the domains listed above.
 //! - Types, lengths, comparators, or routes beyond those listed, including aliasing, ZST,
 //!   and panic cases.
 //!
@@ -77,7 +87,6 @@ mod network;
 mod scratch_geometry;
 mod smoke;
 mod tag_permutation;
-#[cfg(kani_smallsort_controls)]
 mod trait_contracts;
 pub(super) mod trait_model;
 mod types;
