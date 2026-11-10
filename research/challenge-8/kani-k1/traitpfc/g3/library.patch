@@ -1,0 +1,495 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort.rs b/library/core/src/slice/sort/shared/smallsort.rs
+index f8000328aa..82e2109d2a 100644
+--- a/library/core/src/slice/sort/shared/smallsort.rs
++++ b/library/core/src/slice/sort/shared/smallsort.rs
+@@ -54,6 +54,18 @@ impl<T: FreezeMarker> StableSmallSortTypeImpl for T {
+         SMALL_SORT_GENERAL_THRESHOLD
+     }
+ 
++    #[safety::requires(
++        v.len() < 2 || scratch.len().checked_sub(16).is_some_and(|capacity| v.len() <= capacity)
++    )]
++    #[cfg_attr(kani, crate::kani::modifies(v, scratch))]
++    #[cfg_attr(kani, crate::kani::ensures(|_|
++        !old(<() as verify::trait_model::SortModel<T, F>>::enabled(
++            verify::trait_model::SortEntry::Stable, is_less, v.len(),
++        )) || <() as verify::trait_model::SortModel<T, F>>::sort_postcondition(
++            old(<() as verify::trait_model::SortModel<T, F>>::snapshot(v.as_ptr(), v.len())),
++            v.as_ptr(), v.len(),
++        )
++    ))]
+     #[inline(always)]
+     fn small_sort<F: FnMut(&T, &T) -> bool>(
+         v: &mut [T],
+@@ -95,6 +107,20 @@ impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
+         <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
+     }
+ 
++    #[safety::requires(
++        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
++            == SMALL_SORT_FALLBACK_THRESHOLD
++            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
++    )]
++    #[cfg_attr(kani, crate::kani::modifies(v))]
++    #[cfg_attr(kani, crate::kani::ensures(|_|
++        !old(<() as verify::trait_model::SortModel<T, F>>::enabled(
++            verify::trait_model::SortEntry::Unstable, is_less, v.len(),
++        )) || <() as verify::trait_model::SortModel<T, F>>::sort_postcondition(
++            old(<() as verify::trait_model::SortModel<T, F>>::snapshot(v.as_ptr(), v.len())),
++            v.as_ptr(), v.len(),
++        )
++    ))]
+     #[inline(always)]
+     fn small_sort<F>(v: &mut [T], is_less: &mut F)
+     where
+@@ -155,6 +181,20 @@ impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
+         }
+     }
+ 
++    #[safety::requires(
++        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
++            == SMALL_SORT_FALLBACK_THRESHOLD
++            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
++    )]
++    #[cfg_attr(kani, crate::kani::modifies(v))]
++    #[cfg_attr(kani, crate::kani::ensures(|_|
++        !old(<() as verify::trait_model::SortModel<T, F>>::enabled(
++            verify::trait_model::SortEntry::Freeze, is_less, v.len(),
++        )) || <() as verify::trait_model::SortModel<T, F>>::sort_postcondition(
++            old(<() as verify::trait_model::SortModel<T, F>>::snapshot(v.as_ptr(), v.len())),
++            v.as_ptr(), v.len(),
++        )
++    ))]
+     #[inline(always)]
+     fn small_sort<F>(v: &mut [T], is_less: &mut F)
+     where
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+index 2430ea5ac9..9ed9be525b 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+@@ -16,6 +16,15 @@
+ //!   arbitrary payloads assumes the same route moves whole elements and branches only on
+ //!   answers, positions, lengths, and type properties. This source-level assumption is not a
+ //!   generic refinement theorem; it excludes payload mutation, sortedness, and stability.
++//! - `trait_model`: cfg(kani) conditional sort model for non-default trait methods, enabled
++//!   only for u64, the canonical `U64Cmp` function pointer, and each entry's listed lengths.
++//!   `trait_contracts`: ordinary PFC roots for stable, unstable, and Freeze entries at N2/N3,
++//!   with sortedness and full-value multiplicities. Stable uses an array plus separate N+16
++//!   scratch; unstable and Freeze use backing N+2, active 1..N+1, and exterior frame checks.
++//!   The N3 consumer calls real unstable forwarding with only the matching Freeze leaf stubbed.
++//!   Unstable PFCs also compose that leaf; credit requires the same F, length, and geometry.
++//!   The whitelist is conditional; function items and other comparator values stay disabled.
++//!   Opt-in controls calibrate full values, multiplicities, and the disabled model branch.
+ //! - `scratch_geometry`: real stable u64 sorting with separate minimal scratch and
+ //!   full-value counts.
+ //!
+@@ -39,8 +48,11 @@
+ //! contract proof does not justify a new consumer. The opt-in control
+ //! `helper_contracts::rejects_swap_comparator_writing_outside_frame_u8` checks this restriction.
+ //!
+-//! `cfg(kani_smallsort_controls)` enables only negative controls; ordinary CI leaves it unset.
+-//! Run controls individually and require their named failure.
++//! Trait write sets likewise exclude arbitrary callback writes. Verified trait stubs require
++//! comparators that write nowhere else and matching bounded real-body leaf proofs.
++//!
++//! `cfg(kani_smallsort_controls)` enables negative controls and their matching frame-only
++//! calibration leaf; ordinary CI leaves it unset. Run each control with its named expectation.
+ //!
+ //! Conventions:
+ //! - Ordinary covers must be reachable; `run-kani.sh` does not enforce this itself.
+@@ -52,8 +64,8 @@
+ //!
+ //! Not covered:
+ //! - Uninitialized-memory, value-validity, and immutable-byte permission checks, or unwinding.
+-//! - Trait methods have no contracts: the pinned Kani rejects specialization defaults and
+-//!   method-generic comparators (model-checking/kani issues #5116 and #4908).
++//! - Specialization `default fn` contracts remain blocked by model-checking/kani issue #5116.
++//!   Non-default trait impls have conditional contracts only on the domains listed above.
+ //! - Types, lengths, comparators, or routes beyond those listed, including aliasing, ZST,
+ //!   and panic cases.
+ //!
+@@ -75,4 +87,6 @@ mod network;
+ mod scratch_geometry;
+ mod smoke;
+ mod tag_permutation;
++mod trait_contracts;
++pub(super) mod trait_model;
+ mod types;
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs
+new file mode 100644
+index 0000000000..1ad675b636
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs
+@@ -0,0 +1,266 @@
++//! Bounded trait sort contracts for canonical u64 ordering and full-value multiplicities.
++//! Ordinary roots match the enabled entries at lengths two and three. Controls are opt-in.
++
++use super::super::{
++    StableSmallSortTypeImpl, UnstableSmallSortFreezeTypeImpl, UnstableSmallSortTypeImpl,
++};
++use super::trait_model::{SortEntry, SortModel, U64Cmp, canonical_less_u64};
++use crate::kani;
++use crate::mem::MaybeUninit;
++
++fn sort_input_covers(ascending: bool, descending: bool, duplicate: bool) {
++    kani::cover(ascending, "ascending input returns");
++    kani::cover(descending, "descending input returns");
++    kani::cover(duplicate, "duplicate input returns");
++    kani::cover(true, "trait small_sort returns");
++}
++
++#[kani::proof_for_contract(<u64 as StableSmallSortTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn stable_sorts_permutation_u64_len2() {
++    let mut v: [u64; 2] = kani::any();
++    let ascending = v[0] < v[1];
++    let descending = v[1] < v[0];
++    let duplicate = v[0] == v[1];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Stable, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    let mut scratch = [MaybeUninit::<u64>::uninit(); 18];
++    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof_for_contract(<u64 as StableSmallSortTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn stable_sorts_permutation_u64_len3() {
++    let mut v: [u64; 3] = kani::any();
++    let ascending = v[0] < v[1] && v[1] < v[2];
++    let descending = v[1] < v[0] && v[2] < v[1];
++    let duplicate = v[0] == v[1] || v[0] == v[2] || v[1] == v[2];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Stable, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    let mut scratch = [MaybeUninit::<u64>::uninit(); 19];
++    <u64 as StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut cmp);
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof_for_contract(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn freeze_sorts_permutation_u64_backing4() {
++    let mut backing: [u64; 4] = kani::any();
++    let outside = [backing[0], backing[3]];
++    let v = &mut backing[1..3];
++    let ascending = v[0] < v[1];
++    let descending = v[1] < v[0];
++    let duplicate = v[0] == v[1];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(backing[0] == outside[0] && backing[3] == outside[1], "outside slice unchanged");
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof_for_contract(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn freeze_sorts_permutation_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let ascending = v[0] < v[1] && v[1] < v[2];
++    let descending = v[1] < v[0] && v[2] < v[1];
++    let duplicate = v[0] == v[1] || v[0] == v[2] || v[1] == v[2];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof_for_contract(<u64 as UnstableSmallSortTypeImpl>::small_sort)]
++#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn unstable_sorts_permutation_u64_backing4() {
++    let mut backing: [u64; 4] = kani::any();
++    let outside = [backing[0], backing[3]];
++    let v = &mut backing[1..3];
++    let ascending = v[0] < v[1];
++    let descending = v[1] < v[0];
++    let duplicate = v[0] == v[1];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Unstable, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(backing[0] == outside[0] && backing[3] == outside[1], "outside slice unchanged");
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof_for_contract(<u64 as UnstableSmallSortTypeImpl>::small_sort)]
++#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn unstable_sorts_permutation_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let ascending = v[0] < v[1] && v[1] < v[2];
++    let descending = v[1] < v[0] && v[2] < v[1];
++    let duplicate = v[0] == v[1] || v[0] == v[2] || v[1] == v[2];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Unstable, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn verified_forwarding_sorts_permutation_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let pre = [v[0], v[1], v[2]];
++    let ascending = v[0] < v[1] && v[1] < v[2];
++    let descending = v[1] < v[0] && v[2] < v[1];
++    let duplicate = v[0] == v[1] || v[0] == v[2] || v[1] == v[2];
++    let mut cmp: U64Cmp = canonical_less_u64;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Unstable, &cmp, v.len())
++        && <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(enabled, "sort model enabled before call");
++    kani::cover(enabled, "sort model enabled before call");
++    <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(v[0] <= v[1] && v[1] <= v[2], "forwarded output is sorted");
++    let post = [v[0], v[1], v[2]];
++    let mut i = 0;
++    while i < 3 {
++        let mut pre_count = 0;
++        let mut post_count = 0;
++        let mut j = 0;
++        while j < 3 {
++            pre_count += usize::from(pre[j] == pre[i]);
++            post_count += usize::from(post[j] == pre[i]);
++            j += 1;
++        }
++        kani::assert(pre_count == post_count, "forwarded output preserves full multiplicities");
++        i += 1;
++    }
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++    sort_input_covers(ascending, descending, duplicate);
++}
++
++#[cfg(kani_smallsort_controls)]
++#[kani::proof]
++#[kani::unwind(32)]
++fn rejects_high_bit_corruption_u64_len3() {
++    let mut v: [u64; 3] = kani::any();
++    // Establish a sorted fixture without restricting any full u64 input value.
++    if v[0] > v[1] {
++        v.swap(0, 1);
++    }
++    if v[1] > v[2] {
++        v.swap(1, 2);
++    }
++    if v[0] > v[1] {
++        v.swap(0, 1);
++    }
++    let pre = <() as SortModel<u64, U64Cmp>>::snapshot(v.as_ptr(), v.len());
++    kani::assert(
++        <() as SortModel<u64, U64Cmp>>::sort_postcondition(pre, v.as_ptr(), v.len()),
++        "unchanged sorted snapshot passes checker",
++    );
++    v[0] ^= 1u64 << 63;
++    kani::assert(
++        <() as SortModel<u64, U64Cmp>>::sort_postcondition(pre, v.as_ptr(), v.len()),
++        "high-bit corruption preserves sorted full values",
++    );
++}
++
++#[cfg(kani_smallsort_controls)]
++#[kani::proof]
++#[kani::unwind(32)]
++fn rejects_changed_multiplicities_u64_len3() {
++    let a: u64 = kani::any();
++    let b: u64 = kani::any();
++    kani::assume(a < b);
++    let pre_values = [a, a, b];
++    let pre = <() as SortModel<u64, U64Cmp>>::snapshot(pre_values.as_ptr(), 3);
++    let post = [a, b, b];
++    kani::assert(
++        <() as SortModel<u64, U64Cmp>>::sort_postcondition(pre, post.as_ptr(), 3),
++        "same set preserves full multiplicities",
++    );
++}
++
++#[cfg(kani_smallsort_controls)]
++fn reverse_less(a: &u64, b: &u64) -> bool {
++    a > b
++}
++
++#[cfg(kani_smallsort_controls)]
++#[kani::proof]
++#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn rejects_reverse_pointer_sorted_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let mut cmp: U64Cmp = reverse_less;
++    let enabled = <() as SortModel<u64, U64Cmp>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(!enabled, "reverse pointer disables sort model");
++    <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(v[0] <= v[1] && v[1] <= v[2], "reverse pointer output is sorted");
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++}
++
++#[cfg(kani_smallsort_controls)]
++fn trait_less_u64(a: &u64, b: &u64) -> bool {
++    a < b
++}
++
++#[cfg(kani_smallsort_controls)]
++fn trait_input_covers(input_descending: bool) {
++    kani::cover(input_descending, "descending input returns");
++    kani::cover(!input_descending, "non-descending input returns");
++    kani::cover(true, "trait small_sort returns");
++}
++
++#[cfg(kani_smallsort_controls)]
++#[kani::proof]
++#[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn rejects_function_item_sorted_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let mut cmp = trait_less_u64;
++    let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(!enabled, "function item disables sort model");
++    <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(v[0] <= v[1] && v[1] <= v[2], "function item output is sorted");
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++}
++
++#[cfg(kani_smallsort_controls)]
++#[kani::proof_for_contract(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
++#[kani::unwind(32)]
++fn freeze_frame_function_item_u64_backing5() {
++    let mut backing: [u64; 5] = kani::any();
++    let outside = [backing[0], backing[4]];
++    let v = &mut backing[1..4];
++    let input_descending = v[1] < v[0];
++    let mut cmp = trait_less_u64;
++    let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    kani::assert(!enabled, "function item disables sort model");
++    <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut cmp);
++    kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");
++    trait_input_covers(input_descending);
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs b/library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs
+new file mode 100644
+index 0000000000..4ba578255b
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs
+@@ -0,0 +1,100 @@
++//! Verification-only sort model, specialized by element and comparator type.
++//! Snapshot callers supply an initialized readable slice region, never scratch storage.
++
++pub(crate) type U64Cmp = fn(&u64, &u64) -> bool;
++
++pub(crate) fn canonical_less_u64(a: &u64, b: &u64) -> bool {
++    a < b
++}
++
++#[derive(Clone, Copy)]
++pub(crate) enum SortEntry {
++    Stable,
++    Unstable,
++    Freeze,
++}
++
++#[derive(Clone, Copy)]
++pub(crate) struct SortSnapshot {
++    pub(crate) len: usize,
++    pub(crate) valid: bool,
++    pub(crate) vals: [u64; 3],
++}
++
++pub(crate) trait SortModel<T, F> {
++    fn enabled(entry: SortEntry, cmp: &F, len: usize) -> bool;
++    fn snapshot(base: *const T, len: usize) -> SortSnapshot;
++    fn sort_postcondition(pre: SortSnapshot, base: *const T, len: usize) -> bool;
++}
++
++impl<T, F> SortModel<T, F> for () {
++    default fn enabled(_entry: SortEntry, _cmp: &F, _len: usize) -> bool {
++        false
++    }
++
++    default fn snapshot(_base: *const T, _len: usize) -> SortSnapshot {
++        SortSnapshot { len: 0, valid: false, vals: [0; 3] }
++    }
++
++    default fn sort_postcondition(_pre: SortSnapshot, _base: *const T, _len: usize) -> bool {
++        true
++    }
++}
++
++fn snapshot_count_u64(snapshot: SortSnapshot, value: u64) -> usize {
++    let mut result = 0;
++    let mut i = 0;
++    while i < snapshot.len {
++        result += usize::from(snapshot.vals[i] == value);
++        i += 1;
++    }
++    result
++}
++
++impl SortModel<u64, U64Cmp> for () {
++    fn enabled(entry: SortEntry, cmp: &U64Cmp, len: usize) -> bool {
++        let supported = match entry {
++            SortEntry::Stable => len == 2 || len == 3,
++            SortEntry::Unstable => len == 2 || len == 3,
++            SortEntry::Freeze => len == 2 || len == 3,
++        };
++        supported && *cmp as *const () == canonical_less_u64 as *const ()
++    }
++
++    fn snapshot(base: *const u64, len: usize) -> SortSnapshot {
++        let mut result = SortSnapshot { len, valid: false, vals: [0; 3] };
++        if len != 2 && len != 3 {
++            return result;
++        }
++        result.valid = true;
++        let mut i = 0;
++        while i < len {
++            // SAFETY: callers provide len initialized readable u64s in the active slice.
++            result.vals[i] = unsafe { *base.add(i) };
++            i += 1;
++        }
++        result
++    }
++
++    fn sort_postcondition(pre: SortSnapshot, base: *const u64, len: usize) -> bool {
++        let post = <() as SortModel<u64, U64Cmp>>::snapshot(base, len);
++        if !pre.valid || !post.valid || pre.len != post.len || pre.len > 3 || pre.len < 2 {
++            return false;
++        }
++        if !(post.vals[0] <= post.vals[1] && (post.len == 2 || post.vals[1] <= post.vals[2])) {
++            return false;
++        }
++        if pre.len == 2 {
++            return (post.vals[0] == pre.vals[0] && post.vals[1] == pre.vals[1])
++                || (post.vals[0] == pre.vals[1] && post.vals[1] == pre.vals[0]);
++        }
++        let mut i = 0;
++        while i < pre.len {
++            if snapshot_count_u64(pre, pre.vals[i]) != snapshot_count_u64(post, pre.vals[i]) {
++                return false;
++            }
++            i += 1;
++        }
++        true
++    }
++}
