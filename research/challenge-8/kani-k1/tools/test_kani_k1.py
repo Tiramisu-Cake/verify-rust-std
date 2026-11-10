@@ -1472,10 +1472,11 @@ class NativeTests(unittest.TestCase):
     def test_runner_writes_partial_report_and_no_cross_test_output(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            def command(argv, tree, log, seconds, env):
+            def command(argv, tree, log, seconds, env, stderr_log=None):
                 self.assertEqual(env["RUST_TEST_THREADS"], "1")
                 self.assertLessEqual(seconds, 210)
                 log.write_text(native_log())
+                stderr_log.write_text("")
                 base = Path(argv[argv.index("--build-base") + 1]) / "FunctionContracts/repro/repro"
                 base.parent.mkdir(parents=True)
                 base.with_suffix(".out").write_text("")
@@ -1517,6 +1518,137 @@ class NativeTests(unittest.TestCase):
             (root / "target/kani/bin/kani-compiler").write_bytes(b"different")
             with self.assertRaises(k.RequestError):
                 k.native_binary_identity(root)
+
+
+class NativeOutputEvidenceTests(unittest.TestCase):
+    def test_compiletest_stdout_and_stderr_are_separate_without_changing_exit(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); out = root / "stdout"; err = root / "stderr"
+            code, timeout, _ = k.bounded_command(
+                [sys.executable, "-c", "import sys; print('own stdout'); print('own stderr', file=sys.stderr); sys.exit(3)"],
+                root, out, 5, stderr_log=err)
+            self.assertEqual((code, timeout), (3, False))
+            self.assertEqual(out.read_text(), "own stdout\n")
+            self.assertEqual(err.read_text(), "own stderr\n")
+
+    def test_source_paths_hashes_and_raw_vs_rendered_provenance(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); paths = {s: root / s for s in k.NATIVE_OUTPUT_SOURCES}
+            paths["compiletest_stdout"].write_text("error: expected `fn`\n")
+            paths["compiletest_stderr"].write_text("compiletest failed\n")
+            paths["kani_stdout"].write_text("")
+            raw = json.dumps({"rendered": "error: expected `fn`\n"}).encode()
+            paths["kani_stderr"].write_bytes(raw)
+            texts, sources = k.native_output_sources(paths, "expected `fn`")
+            self.assertEqual(texts["kani_stderr"], raw.decode())
+            self.assertTrue(sources["compiletest_stdout"]["expected_fn_error_line_found"])
+            self.assertTrue(sources["kani_stderr"]["required_substring_found"])
+            self.assertFalse(sources["kani_stderr"]["expected_fn_error_line_found"])
+            self.assertFalse(sources["compiletest_stdout"]["used_for_gate_diagnostic"])
+            self.assertTrue(sources["kani_stderr"]["used_for_gate_diagnostic"])
+            self.assertEqual(sources["kani_stderr"]["sha256"], hashlib.sha256(raw).hexdigest())
+            self.assertEqual(sources["kani_stderr"]["bytes"], len(raw))
+            self.assertEqual(sources["kani_stderr"]["path"], str(paths["kani_stderr"]))
+            paths["kani_stderr"].unlink()
+            texts, sources = k.native_output_sources(paths, "expected `fn`")
+            self.assertIsNone(texts["kani_stderr"])
+            self.assertFalse(sources["kani_stderr"]["available"])
+            self.assertIsNone(sources["kani_stderr"]["sha256"])
+
+    def test_excerpt_bounds_error_priority_tail_unicode_and_long_lines(self):
+        texts = {source: "early error " + source + "\n" + "noise\n" * 200
+                 + "界" * 10000 + " error far into a Unicode line\n"
+                 + "control error " + "\x00" * 2000 + "\n" + "tail " + source + "\n"
+                 for source in k.NATIVE_OUTPUT_SOURCES}
+        excerpt = k.native_output_excerpt(texts)
+        self.assertLessEqual(len(json.dumps(excerpt, ensure_ascii=False, indent=2).encode()), 4096)
+        self.assertLessEqual(len(excerpt["records"]), 60)
+        self.assertGreater(excerpt["omitted_line_count"], 0)
+        self.assertTrue(excerpt["diagnostic_only"])
+        for source in k.NATIVE_OUTPUT_SOURCES:
+            records = [r for r in excerpt["records"] if r["source"] == source]
+            self.assertTrue(any("early error " + source in r["text"] for r in records))
+            self.assertTrue(any(r["text"] == "tail " + source for r in records))
+            self.assertEqual([r["line"] for r in records], sorted({r["line"] for r in records}))
+        clipped = k.native_output_excerpt({"kani_stderr": "x" * 10000 + " error: detail"})
+        record = clipped["records"][0]
+        self.assertIn("error: detail", record["text"])
+        self.assertTrue(record["clipped"])
+        self.assertGreater(record["start_char"], 0)
+        unicode_line = k.native_output_excerpt({"kani_stderr": "İ" * 10000 + " error: Unicode context"})
+        self.assertIn("error: Unicode context", unicode_line["records"][0]["text"])
+        empty = k.native_output_excerpt({})
+        self.assertEqual(empty["selected_line_count"], 0)
+        self.assertEqual(empty["omitted_line_count"], 0)
+
+    def run_case(self, root, entry=NATIVE_ENTRY, terminal="FAILED", own_err="error: different failure\n", stderr="stderr error context\n", own_out="Kani stdout tail\n"):
+        request = {**NATIVE_REQ, "kani_tests": [entry]}
+        def command(argv, tree, log, seconds, env, stderr_log=None):
+            log.write_text(native_log(entry, terminal))
+            stderr_log.write_text(stderr)
+            base = Path(argv[argv.index("--build-base") + 1]) / Path(entry["file"]).parent / Path(entry["file"]).stem / Path(entry["file"]).stem
+            base.parent.mkdir(parents=True)
+            base.with_suffix(".out").write_text(own_out)
+            if own_err is not None:
+                base.with_suffix(".err").write_text(own_err)
+            # This unrelated file must never supply gate diagnostics or excerpt text.
+            (root / "foreign.err").write_text("FOREIGN error: expected `fn`\n")
+            return (1 if terminal == "FAILED" else 0), False, 0.2
+        with patch.object(k, "native_binary_identity", return_value={"kani_profile": "release"}), patch.object(k, "bounded_command", side_effect=command):
+            k.run_native(request, root, root / "out", k.time.time() + 100, {})
+        return json.loads((root / "out/native.json").read_text())["tests"][0]
+
+    def test_failed_repro_excerpt_does_not_grant_console_or_foreign_diagnostic_credit(self):
+        with tempfile.TemporaryDirectory() as d:
+            row = self.run_case(Path(d))
+            self.assertEqual(row["native_status"], "FAILED")
+            self.assertEqual(row["status"], "ERROR")
+            self.assertIsNone(row["diagnostic"])
+            self.assertIsNone(row["diagnostic_provenance"]["selected_source"])
+            self.assertTrue(row["output_sources"]["compiletest_stdout"]["required_substring_found"])
+            self.assertFalse(row["output_sources"]["kani_stderr"]["required_substring_found"])
+            excerpt = json.dumps(row["output_excerpt"])
+            self.assertIn("different failure", excerpt)
+            self.assertIn("stderr error context", excerpt)
+            self.assertNotIn("FOREIGN", excerpt)
+            self.assertEqual({r["source"] for r in row["output_excerpt"]["records"]}, set(k.NATIVE_OUTPUT_SOURCES))
+        with tempfile.TemporaryDirectory() as d:
+            missing = self.run_case(Path(d), own_err=None, own_out="error: expected `fn`\n")
+            self.assertEqual(missing["status"], "ERROR")
+            self.assertIsNone(missing["diagnostic"])
+            self.assertIsNone(missing["diagnostic_provenance"]["selected_source"])
+            self.assertTrue(missing["output_sources"]["kani_stdout"]["required_substring_found"])
+            self.assertFalse(missing["output_sources"]["kani_stderr"]["available"])
+
+    def test_excerpt_condition_includes_failed_positive_and_successful_negative(self):
+        passed = {key: value for key, value in {**NATIVE_ENTRY, "expect": "pass"}.items() if key != "diagnostic"}
+        for entry, terminal, excerpt_required in ((passed, "FAILED", True), (NATIVE_ENTRY, "ok", True), (passed, "ok", False)):
+            with self.subTest(expect=entry["expect"], terminal=terminal), tempfile.TemporaryDirectory() as d:
+                row = self.run_case(Path(d), entry, terminal)
+                self.assertEqual("output_excerpt" in row, excerpt_required)
+                if terminal == "ok" and entry["expect"] == "pass":
+                    self.assertEqual(row["status"], "PASS")
+                else:
+                    self.assertEqual(row["status"], "ERROR")
+
+    def test_own_stderr_match_remains_gate_source_and_excerpt_pages_fit(self):
+        with tempfile.TemporaryDirectory() as d:
+            row = self.run_case(Path(d), own_err="error: expected `fn`\n" + "extra error detail\n" * 500)
+            self.assertEqual(row["status"], "EXPECTED_REPRO_FAILURE")
+            self.assertEqual(row["diagnostic_provenance"]["selected_source"], "kani_stderr")
+            native, info, summarize = NativeTests().summary()
+            native["tests"][0].update({key: row[key] for key in ("output_sources", "output_excerpt", "diagnostic_provenance")})
+            summary = summarize(report=native)
+            self.assertTrue(k.gate_ok(summary), summary)
+            text = k.native_page(summary, 0, 1)
+            self.assertLessEqual(len(text.encode()), 12000)
+            page = json.loads(text)
+            self.assertEqual(page["tests"][0]["output_excerpt"], row["output_excerpt"])
+            failed = summarize(report={**native, "complete": False})
+            page = json.loads(k.native_page(failed, 0, 1))
+            self.assertEqual(page["validation"], "UNVALIDATED_DIAGNOSTIC_ONLY")
+            self.assertFalse(page["gate"])
+            self.assertIn("output_excerpt", page["tests"][0])
 
 
 if __name__ == "__main__":

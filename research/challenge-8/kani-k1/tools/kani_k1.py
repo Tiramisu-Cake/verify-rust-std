@@ -26,6 +26,7 @@ import signal
 import subprocess
 import sys
 import time
+from contextlib import nullcontext
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -259,6 +260,72 @@ def native_argv(entry: dict[str, Any], timeout: int, build_base: Path) -> list[s
 
 NATIVE_TOTAL_RE = re.compile(r"^test result: (ok|FAILED)\. (\d+) passed; (\d+) failed; (\d+) ignored; (\d+) measured; (\d+) filtered out; finished in ([0-9.]+)s\s*$", re.M)
 NATIVE_ROW_RE = re.compile(r"^test (\[[^\n]+) \.\.\. (ok|FAILED|ignored)(?:\s+<[^>]+>)?\s*$", re.M)
+NATIVE_EXCERPT_LINES = 60
+NATIVE_EXCERPT_BYTES = 4096  # whole excerpt as indented JSON, below the coordinator's 8 KiB bound
+NATIVE_OUTPUT_SOURCES = ("compiletest_stdout", "compiletest_stderr", "kani_stdout", "kani_stderr")
+
+
+def native_output_sources(paths: dict[str, Path], required: str | None) -> tuple[dict[str, str | None], dict[str, Any]]:
+    """Keep raw child .out/.err distinct from compiletest's potentially rendered failure display."""
+    texts: dict[str, str | None] = {}
+    metadata = {}
+    for source in NATIVE_OUTPUT_SOURCES:
+        path = paths[source]
+        raw = path.read_bytes() if path.is_file() else None
+        text = raw.decode(errors="replace") if raw is not None else None
+        texts[source] = text
+        metadata[source] = {"path": str(path), "available": raw is not None,
+                            "bytes": len(raw) if raw is not None else None,
+                            "sha256": hashlib.sha256(raw).hexdigest() if raw is not None else None,
+                            "used_for_gate_diagnostic": source in ("kani_stdout", "kani_stderr"),
+                            "required_substring_found": required in text if required and text is not None else None,
+                            "expected_fn_error_line_found": bool(re.search(r"^error: expected `fn`\s*$", text, re.M)) if text is not None else None}
+    return texts, metadata
+
+
+def native_output_excerpt(texts: dict[str, str | None]) -> dict[str, Any]:
+    """Own invocation only. Prefer an error and tail from each stream, then more error/tail context."""
+    lines = {source: (texts.get(source) or "").splitlines() for source in NATIVE_OUTPUT_SOURCES}
+    errors = {source: [i for i, line in enumerate(rows) if "error" in line.lower()] for source, rows in lines.items()}
+    present = {source: [i for i, line in enumerate(rows) if line.strip()] for source, rows in lines.items()}
+    candidates = []
+    # Reserve early candidates for both kinds of context from each source, without letting one stream dominate.
+    for source in NATIVE_OUTPUT_SOURCES:
+        if errors[source]:
+            candidates.append((source, errors[source][0]))
+        if present[source]:
+            candidates.append((source, present[source][-1]))
+    for depth in range(1, 21):
+        for source in NATIVE_OUTPUT_SOURCES:
+            if len(errors[source]) > depth:
+                candidates.append((source, errors[source][-depth]))
+            if len(present[source]) > depth:
+                candidates.append((source, present[source][-depth - 1]))
+    result: dict[str, Any] = {"diagnostic_only": True, "selection": "error lines and tail, per source; original line order",
+                              "max_lines": NATIVE_EXCERPT_LINES, "max_json_bytes": NATIVE_EXCERPT_BYTES,
+                              "source_line_counts": {s: len(v) for s, v in lines.items()},
+                              "selected_line_count": 0, "omitted_line_count": sum(map(len, lines.values())), "records": []}
+    selected: dict[tuple[str, int], dict[str, Any]] = {}
+    for source, index in dict.fromkeys(candidates):
+        if len(selected) >= NATIVE_EXCERPT_LINES:
+            break
+        original = lines[source][index]
+        error = re.search("error", original, re.I)
+        start = max(0, error.start() - 40) if error else 0
+        text = original[start:start + 220]
+        # Count JSON escaping as well as UTF-8, so long Unicode/control lines cannot defeat the byte bound.
+        while len(json.dumps(text, ensure_ascii=False).encode()) > 260:
+            text = text[:-1]
+        record = {"source": source, "line": index + 1, "text": text,
+                  "start_char": start, "clipped": start != 0 or len(text) != len(original)}
+        trial = selected | {(source, index): record}
+        result.update(records=[trial[key] for key in sorted(trial, key=lambda key: (NATIVE_OUTPUT_SOURCES.index(key[0]), key[1]))],
+                      selected_line_count=len(trial), omitted_line_count=sum(map(len, lines.values())) - len(trial))
+        if len(json.dumps(result, ensure_ascii=False, indent=2).encode()) <= NATIVE_EXCERPT_BYTES:
+            selected = trial
+    result.update(records=[selected[key] for key in sorted(selected, key=lambda key: (NATIVE_OUTPUT_SOURCES.index(key[0]), key[1]))],
+                  selected_line_count=len(selected), omitted_line_count=sum(map(len, lines.values())) - len(selected))
+    return result
 
 
 def parse_native_test(entry: dict[str, Any], text: str, code: int | None,
@@ -312,13 +379,13 @@ def parse_native_test(entry: dict[str, Any], text: str, code: int | None,
 
 
 def bounded_command(argv: list[str], cwd: Path, log: Path, seconds: float,
-                    env: dict[str, str] | None = None) -> tuple[int | None, bool, float]:
+                    env: dict[str, str] | None = None, stderr_log: Path | None = None) -> tuple[int | None, bool, float]:
     """Separate process group: kill descendants on wall timeout, even if compiletest's child holds pipes."""
     start = time.monotonic()
     if seconds <= 0:
         return None, True, 0.0
-    with log.open("wb") as stream:
-        proc = subprocess.Popen(argv, cwd=cwd, env=env, stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
+    with log.open("wb") as stream, (stderr_log.open("wb") if stderr_log is not None else nullcontext(subprocess.STDOUT)) as error_stream:
+        proc = subprocess.Popen(argv, cwd=cwd, env=env, stdout=stream, stderr=error_stream, start_new_session=True)
         try:
             code = proc.wait(timeout=seconds)
             timeout = False
@@ -356,16 +423,27 @@ def run_native(request: dict[str, Any], tree: Path, out: Path, deadline: float,
         build_base = out / f"native-{i}"
         argv = native_argv(entry, request["test_timeout_seconds"], build_base)
         log = out / f"native-{i}.log"
+        stderr_log = out / f"native-{i}.stderr.log"
         seconds = min(request["test_timeout_seconds"] + 30, deadline - time.time())
-        code, timeout, wall = bounded_command(argv, tree, log, seconds, env)
+        code, timeout, wall = bounded_command(argv, tree, log, seconds, env, stderr_log=stderr_log)
         relative = Path(entry["file"])
         base = build_base / relative.parent / relative.stem / relative.stem
         # compiletest dump_output produces .out/.err for precisely this selector in a fresh build-base.
-        own = None
-        if base.with_suffix(".out").is_file() and base.with_suffix(".err").is_file():
-            own = base.with_suffix(".out").read_text(errors="replace") + "\n" + base.with_suffix(".err").read_text(errors="replace")
-        row = parse_native_test(entry, log.read_text(errors="replace") if log.exists() else "", code, own, timeout)
+        texts, sources = native_output_sources({"compiletest_stdout": log, "compiletest_stderr": stderr_log,
+                                                "kani_stdout": base.with_suffix(".out"), "kani_stderr": base.with_suffix(".err")},
+                                               entry.get("diagnostic"))
+        own = (texts["kani_stdout"] + "\n" + texts["kani_stderr"]
+               if texts["kani_stdout"] is not None and texts["kani_stderr"] is not None else None)
+        console = (texts["compiletest_stdout"] or "") + "\n" + (texts["compiletest_stderr"] or "")
+        row = parse_native_test(entry, console, code, own, timeout)
         row.update(argv=argv, cwd=str(tree), env={"RUST_TEST_THREADS": "1"}, wall_s=wall)
+        if row["native_status"] == "FAILED" or entry["expect"] == "fail":
+            selected_source = (next((s for s in ("kani_stdout", "kani_stderr") if sources[s]["required_substring_found"]), None)
+                               if row["diagnostic"] is not None else None)
+            row.update(output_sources=sources, output_excerpt=native_output_excerpt(texts),
+                       diagnostic_provenance={"gate_sources": ["kani_stdout", "kani_stderr"],
+                                              "representation": "raw UTF-8 with replacement; .out then newline then .err; no rendering or console fallback",
+                                              "selected_source": selected_source})
         report["tests"].append(row)
         report_path.write_text(json.dumps(report, indent=2) + "\n")
     report["complete"] = True

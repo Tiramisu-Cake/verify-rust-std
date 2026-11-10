@@ -73,6 +73,7 @@ elif name == "cargo":
         if scenario == "damaged": text=text.split("test result:")[0]
         if scenario == "compiletest-run-build-failure": text="error: could not compile compiletest\n"
         print(text)
+        print("compiletest stderr context", file=sys.stderr)
         p=Path(args[args.index("--build-base")+1])/"FunctionContracts/repro/repro"
         p.parent.mkdir(parents=True,exist_ok=True)
         p.with_suffix(".out").write_text("")
@@ -99,6 +100,11 @@ sys.exit(0)
             self.assertEqual(summary["kani_build"]["version"], "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.8.0")
             self.assertIsNone(summary["resources"]["memcap"])
             self.assertIsNone(summary["resources"]["peaks"])
+            row = summary["native"]["tests"][0]
+            self.assertEqual(row["diagnostic_provenance"]["selected_source"], "kani_stderr")
+            self.assertTrue(row["output_excerpt"]["diagnostic_only"])
+            self.assertTrue(any(record["source"] == "compiletest_stderr" and "stderr context" in record["text"]
+                                for record in row["output_excerpt"]["records"]))
             commands = [json.loads(line) for line in (root / "commands.jsonl").read_text().splitlines()]
             self.assertIn(["cargo", "build-dev", "--", "--release"], commands)
             self.assertIn(["cargo", "build", "-p", "compiletest"], commands)
@@ -118,6 +124,13 @@ sys.exit(0)
                 summary = json.loads((output / "upload/summary/summary.json").read_text())
                 self.assertFalse(k.gate_ok(summary), scenario)
                 self.assertNotEqual((output / "gate.rc").read_text().strip(), "0")
+                if scenario == "foreign":
+                    row = summary["native"]["tests"][0]
+                    self.assertEqual(row["status"], "ERROR")
+                    self.assertTrue(row["output_sources"]["compiletest_stdout"]["required_substring_found"])
+                    self.assertFalse(row["output_sources"]["kani_stderr"]["required_substring_found"])
+                    self.assertTrue(any(record["source"] == "kani_stderr" and "other test output" in record["text"]
+                                        for record in row["output_excerpt"]["records"]))
 
     def test_invalid_patch_and_conflict_never_reach_build(self):
         for scenario, spec in (("ok", {"path": "research/missing.patch", "sha256": "1" * 64}),
@@ -193,12 +206,12 @@ sys.exit(0)
 
 class DispatchServiceTests(unittest.TestCase):
     def test_native_reservation_and_stage_cap_before_submit(self):
-        for stage_minutes, expected_code in ((0, 0), (1, 2)):
+        for stage_minutes, expected_code, request_minutes in ((0, 0, 29), (1, 2, 29), (17, 0, 12), (18, 2, 12)):
             with self.subTest(stage_minutes=stage_minutes), tempfile.TemporaryDirectory() as d:
                 root = Path(d); tools = root / "tools"; tools.mkdir()
                 for name in ("k1g.sh", "kani_k1.py"):
                     shutil.copy(TOOLS / name, tools)
-                (root / "request.json").write_text(json.dumps(NATIVE_REQ))
+                (root / "request.json").write_text(json.dumps({**NATIVE_REQ, "harness_timeout_minutes": request_minutes}))
                 (root / "cloudbuild.yaml").write_text("steps: []\n")
                 key = root / "fake-key"; key.touch()  # empty fake file, never reads credentials
                 bindir = root / "bin"; bindir.mkdir()
@@ -216,19 +229,23 @@ elif "submit" in args:
 elif "list" in args and "--format=json" in args:
     scoped=any(a.startswith("--filter=substitutions._BRANCH=") for a in args)
     minutes=int(os.environ["STAGE_MINUTES"])
-    print(json.dumps([{"id":"prior", "timeout":str(minutes*60)+"s", "options":{"pool":{"name":"projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"}}}] if scoped and minutes else []))
+    row={"id":"prior", "timeout":str(minutes*60)+"s", "options":{"pool":{"name":"projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"}}}
+    if os.environ["REQUEST_MINUTES"] == "12":
+        row.update(startTime="2026-11-10T00:00:00Z", finishTime=f"2026-11-10T00:{minutes:02d}:00Z")
+    print(json.dumps([row] if scoped and minutes else []))
 '''
                 for name in ("git", "gcloud"):
                     path = bindir / name; path.write_text(stub); path.chmod(0o755)
                 env = dict(os.environ, SERVICE_ROOT=str(root), STAGE_MINUTES=str(stage_minutes),
+                           REQUEST_MINUTES=str(request_minutes),
                            K1_GCP_KEY=str(key), K1_GCLOUD_CONFIG=str(root / "gconfig"), PATH=str(bindir) + ":/usr/bin:/bin")
                 run = subprocess.run(["bash", str(tools / "k1g.sh"), "dispatch", "experiment/kani-k1-kani5116-20261110"],
                                      cwd=root, env=env, capture_output=True, text=True, timeout=10)
                 self.assertEqual(run.returncode, expected_code, run.stdout + run.stderr)
                 submitted = root / "submitted.json"
                 if expected_code == 0:
-                    self.assertIn("--timeout=59m", json.loads(submitted.read_text()))
-                    self.assertIn("0.7965", run.stderr)
+                    self.assertIn(f"--timeout={request_minutes + 30}m", json.loads(submitted.read_text()))
+                    self.assertIn("0.7965" if request_minutes == 29 else "0.5670", run.stderr)
                 else:
                     self.assertFalse(submitted.exists())
                     self.assertIn("$0.80", run.stderr)

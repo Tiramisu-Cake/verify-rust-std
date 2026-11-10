@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kt1-repair1-20261110-02",
+  "request_id": "kani5116-kt1-repair2-20261110-03",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI5116 KT1 repair: preserve pinned multiline Kani/CBMC version and diagnostic artifacts; repeat the unchanged five-test calibration.",
+  "purpose": "KANI5116 KT1 repair 2: bounded own-output excerpts and source provenance for native FAILED/expect-fail; unchanged fixture and five selectors.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 20,
+  "harness_timeout_minutes": 12,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
