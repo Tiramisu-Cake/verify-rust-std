@@ -11,11 +11,14 @@
   `f046b70644e113be0df9c22c2e6ea44a65a57566`, toolchain nightly-2026-10-23 не менять.
 - Редактировать Kani — в отдельном локальном рабочем клоне **/root/kani-fix-5116** ровно на `f046b70644` (локальная
   ветка, без push, без remote кроме официального для fetch). `/root/kani-src-f046b70644` остаётся read-only эталоном.
-  Патч для сборки: `research/challenge-8/kani-k1/kani5116/kf1/kani-fix.patch` = `git diff` клона от `f046b70644`
-  (production + тесты одним файлом), SHA-256 в request (`kani_patch`).
+  Патч для сборки: `research/challenge-8/kani-k1/kani5116/kf1/kani-fix.patch` = diff клона от полного `f046b70644`
+  (production + тесты одним файлом, **включая новые .rs и .expected** — после commit в локальной ветке клона либо
+  `add -N`; обычный unstaged diff теряет untracked), SHA-256 в request (`kani_patch`). В PRE-BUILD сверить
+  применённое дерево, наличие всех manifest fixtures и golden-файлов.
 - Slug **kani5116**, stage `kani5116-kf1`, stable owner **k1-merge**, request `kani5116-kf1-*`.
 - Свой cap **$1.50**: одна основная сборка `kani-tests` + не более одного repair (компиляция/тест-фикс по
-  результатам), если фактический ledger + резерв ≤ cap. Окно: main 360 + closeout 30 мин; T0 — при GO.
+  результатам), если фактический ledger + резерв ≤ cap. Лимиты KT1: ≤ 29 work-минут + 30 overhead (макс. резерв
+  $0.7965); резерв repair добавляется к фактическому расходу, не к резерву Build 1. Окно: main 360 + closeout 30 мин; T0 — при GO.
 - Параллельно в /root/verify-rust-std-kani-traitpfc идёт другой этап — не трогать.
 
 ## Диагноз (из статической оценки, проверь по исходникам)
@@ -43,7 +46,7 @@
    `/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh` с конфигом Kani (`rustfmt.toml`
    клона), edition по `Cargo.toml` крейта.
 
-## Тесты (в патче, 8–12 новых файлов + существующие)
+## Тесты (в патче; весь manifest ≤ 20 selectors — лимит `validate_native_manifest` KT1, tooling не менять)
 
 Новые (все `--edition 2021`, `-Zfunction-contracts`, при stub — `-Zstubbing`), на `#![feature(min_specialization)]`
 blanket `impl<T>` с `default fn` и specializing impl:
@@ -51,12 +54,21 @@ blanket `impl<T>` с `default fn` и specializing impl:
   PASS; по отдельности `requires`, `ensures`, `modifies` на `default fn`; stacked clauses в двух порядках;
   метод с собственным generic `F: FnMut` (как в kani#4908/#5135); `stub_verified` default-метода в caller;
 - override без контракта и default с контрактом: PFC на override не должен получить контракт default (проверить
-  ожидаемым поведением/диагностикой, без contract inheritance);
-- отрицательные (`tests/expected/function-contract/…` с `.expected`): ложный `ensures` на `default fn` → FAILED
-  нужной проверки; нарушение `requires` у вызывающего через stub; запись вне `modifies` → FAILED; `old` скаляра.
-- Существующие (регрессия): **все** `tests/kani/FunctionContracts/*.rs` и `tests/ui/function-contracts/*`, плюс
-  `kani/Stubbing/stub_set_multiple_use.rs` и из `tests/expected/function-contract/` — все, где есть trait/impl,
-  `modifies`, `old` или `stub_verified` (отбор и список — в PRE-BUILD). `fixme_*` включать с их штатным ожиданием.
+  ожидаемым поведением/диагностикой, без contract inheritance); плюс положительный specializing override **со своим**
+  контрактом и отличимым postcondition;
+- метод с собственным `F: FnMut`: и PFC, и `stub_verified`;
+- `old`: положительный eager-снимок изменяемого скаляра + отрицательный контроль неверного postcondition;
+- отрицательные (`tests/expected/function-contract/…` с `.expected`): ложный `ensures` на `default fn`; нарушение
+  `requires` у вызывающего через stub; запись вне `modifies` — для каждого указать ожидаемое свойство/диагностику
+  (не общую строку FAILED). Для expected/ui: native PASS, `expect: pass`, `require_success: false` и конкретная
+  диагностическая подстрока. `expect: fail` в KF1 не используется: repro #5116 после фикса — обычный kani PASS.
+- Положительные случаи можно объединять в одном fixture, чтобы уложиться в лимит selectors.
+- Существующие (регрессия, точный обязательный subset в PRE-BUILD, вместе с новыми ≤ 20): kani#5135-регрессия
+  `kani/FunctionContracts/generic_trait_specialization.rs`, четыре соседних из KT1, и выбранные fixtures для обычных
+  free fn / impl method / trait / `modifies` / `old` / `stub_verified` (назвать какие). Штатно ignored/`fixme_*` и
+  файлы без golden (например `expected/modifies/{refcell_fixme,unsafe_rc_fixme}.rs`) в PASS-набор не включать —
+  перечислить как NOT_RUN заранее (известное исключение, не удаление упавшего теста). Расширенная матрица — отдельный
+  этап.
 - Каждый selector — с ожиданием в typed manifest (`expect`, `require_success`, `diagnostic`); положительные expected-
   тесты — `--require-success`. Golden-файлы существующих тестов не переписывать.
 
