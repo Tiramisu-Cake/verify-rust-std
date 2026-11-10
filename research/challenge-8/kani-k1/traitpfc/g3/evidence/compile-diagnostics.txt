@@ -1,0 +1,14 @@
+11:warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`
+12:warning: `dummy` (manifest) generated 1 warning
+27:error[E0308]: mismatched types
+28:   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs:245:73
+31:    |                   ----------------------------------                    ^^^^ expected `&fn(&u64, &u64) -> bool`, found `&fn(&u64, &u64) -> bool {trait_less_u64}`
+33:    |                   arguments to this function are incorrect
+35:    = note: expected reference `&for<'a, 'b> fn(&'a _, &'b _) -> _`
+37:note: associated function defined here
+43:error[E0308]: mismatched types
+44:   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs:261:73
+47:    |                   ----------------------------------                    ^^^^ expected `&fn(&u64, &u64) -> bool`, found `&fn(&u64, &u64) -> bool {trait_less_u64}`
+49:    |                   arguments to this function are incorrect
+51:    = note: expected reference `&for<'a, 'b> fn(&'a _, &'b _) -> _`
+53:note: associated function defined here

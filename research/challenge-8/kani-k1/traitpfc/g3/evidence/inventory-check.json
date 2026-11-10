@@ -1,0 +1,40 @@
+{
+  "category": "native compiler inventory names; flags source-bound where argv is not emitted",
+  "build_id": "9d94cb84-55e1-4cae-a55b-9597ddd81d87",
+  "source_sha": "55a7fd1c8ada1590ab571b040a6256219ef75e63",
+  "library_tree": "b6f050a21d2781fcc95a8f7e02bf9154affa560a",
+  "pages": [
+    0,
+    80,
+    160,
+    240
+  ],
+  "next_offset": "done",
+  "count": 242,
+  "exact_manifest_match": true,
+  "names_sha256_reported": "da9881328f6d6962ef5fc555f2abc83eaee8e00e2d4c0de7b4784abf6ade2bcd",
+  "manifest_sorted_sha256": "2ef3f4630468383975e6af34cd6c2ec84341949a1e3c84abaf2fcda2c5031d25",
+  "inventory_sha256_reported": "4023d91e52f46027b6648c4329d3ef367d970806b694863b1163231e094e9141",
+  "request_sha256": "4593460dd782ee6437fd9d2b28398f46ce62a5fa62df53f54324fee4ea6faec7",
+  "controls": false,
+  "list_unstable_flags": [
+    "function-contracts",
+    "mem-predicates",
+    "float-lib",
+    "c-ffi",
+    "loop-contracts",
+    "quantifiers",
+    "stubbing"
+  ],
+  "no_assert_contracts": false,
+  "flag_attribution": "Source-bound frozen runner list-before-export gcb-k1.sh:128-138 vs controls export:166; cloudbuild yaml has no RUSTFLAGS environment. Runtime list argv is not emitted by the bounded interface.",
+  "verification_flags": {
+    "controls": true,
+    "no_assert_contracts": true,
+    "object_bits": 12,
+    "uninit_checks": false,
+    "valid_value_checks": false
+  },
+  "not_proof_credit": true,
+  "page_order_names_hash_independently_recomputed": true
+}

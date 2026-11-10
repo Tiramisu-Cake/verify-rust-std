@@ -1,0 +1,32 @@
+--- a/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs
+@@ -234,6 +234,11 @@
+ }
+
+ #[cfg(kani_smallsort_controls)]
++fn function_item_model_enabled<F>(cmp: &F, len: usize) -> bool {
++    <() as SortModel<u64, F>>::enabled(SortEntry::Freeze, cmp, len)
++}
++
++#[cfg(kani_smallsort_controls)]
+ #[kani::proof]
+ #[kani::stub_verified(<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort)]
+ #[kani::unwind(32)]
+@@ -242,7 +247,7 @@
+     let outside = [backing[0], backing[4]];
+     let v = &mut backing[1..4];
+     let mut cmp = trait_less_u64;
+-    let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    let enabled = function_item_model_enabled(&cmp, v.len());
+     kani::assert(!enabled, "function item disables sort model");
+     <u64 as UnstableSmallSortTypeImpl>::small_sort(v, &mut cmp);
+     kani::assert(v[0] <= v[1] && v[1] <= v[2], "function item output is sorted");
+@@ -258,7 +263,7 @@
+     let v = &mut backing[1..4];
+     let input_descending = v[1] < v[0];
+     let mut cmp = trait_less_u64;
+-    let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
++    let enabled = function_item_model_enabled(&cmp, v.len());
+     kani::assert(!enabled, "function item disables sort model");
+     <u64 as UnstableSmallSortFreezeTypeImpl>::small_sort(v, &mut cmp);
+     kani::assert(backing[0] == outside[0] && backing[4] == outside[1], "outside slice unchanged");

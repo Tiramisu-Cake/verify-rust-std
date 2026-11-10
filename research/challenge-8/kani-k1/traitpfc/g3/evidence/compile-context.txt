@@ -1,0 +1,38 @@
+   Compiling std v0.0.0 (/workspace/src/library/std)
+   Compiling syn v2.0.119
+   Compiling core v0.0.0 (/workspace/src/library/core)
+error[E0308]: mismatched types
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs:245:73
+    |
+245 |     let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
+    |                   ----------------------------------                    ^^^^ expected `&fn(&u64, &u64) -> bool`, found `&fn(&u64, &u64) -> bool {trait_less_u64}`
+    |                   |
+    |                   arguments to this function are incorrect
+    |
+    = note: expected reference `&for<'a, 'b> fn(&'a _, &'b _) -> _`
+               found reference `&for<'a, 'b> fn(&'a _, &'b _) -> _ {slice::sort::shared::smallsort::verify::trait_contracts::trait_less_u64}`
+note: associated function defined here
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs:25:8
+    |
+ 25 |     fn enabled(entry: SortEntry, cmp: &F, len: usize) -> bool;
+    |        ^^^^^^^                   ---
+
+error[E0308]: mismatched types
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs:261:73
+    |
+261 |     let enabled = <() as SortModel<u64, _>>::enabled(SortEntry::Freeze, &cmp, v.len());
+    |                   ----------------------------------                    ^^^^ expected `&fn(&u64, &u64) -> bool`, found `&fn(&u64, &u64) -> bool {trait_less_u64}`
+    |                   |
+    |                   arguments to this function are incorrect
+    |
+    = note: expected reference `&for<'a, 'b> fn(&'a _, &'b _) -> _`
+               found reference `&for<'a, 'b> fn(&'a _, &'b _) -> _ {slice::sort::shared::smallsort::verify::trait_contracts::trait_less_u64}`
+note: associated function defined here
+   --> /workspace/src/library/core/src/slice/sort/shared/smallsort/verify/trait_model.rs:25:8
+    |
+ 25 |     fn enabled(entry: SortEntry, cmp: &F, len: usize) -> bool;
+    |        ^^^^^^^                   ---
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `core` (lib) due to 2 previous errors; 1 warning emitted
+error: Failed to execute cargo (exit status: 101). Found 2 compilation errors.

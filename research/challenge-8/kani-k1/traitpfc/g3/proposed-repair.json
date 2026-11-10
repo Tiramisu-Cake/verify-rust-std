@@ -1,0 +1,18 @@
+{
+  "state": "PROPOSAL_ONLY_NOT_APPLIED",
+  "reason": "E0308 in K4/W1: underscore trait argument resolves to U64Cmp while cmp retains function-item type.",
+  "change": "Route just the two disabled-model assertions through a cfg-only generic helper to fix F before trait lookup.",
+  "preserved": [
+    "function-item F",
+    "all 14 row names/expectations/domains",
+    "model",
+    "ensures",
+    "whitelist",
+    "ordinary roots",
+    "runtime bodies",
+    "tooling"
+  ],
+  "scope_question": "TASK Build2 repair explicitly lists syntax/attribute qualification/old-capture. A generic-harness type-resolution helper is not explicitly listed; coordinator decision requested before applying.",
+  "patch_sha256": "0ceb329dd507ca4bfeafb93b9b55de134c6fd7c3a620a558b2ec3687eca71c4b",
+  "compiler_validation": "NOT_RUN; local Rust/Kani execution prohibited"
+}
