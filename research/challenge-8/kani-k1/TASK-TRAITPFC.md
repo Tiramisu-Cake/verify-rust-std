@@ -97,8 +97,9 @@ failed/total, covers, упавшие проверки полностью); от�
 
 ## Запреты
 
-- Evidence — через **`smallsort-brief` BUILD** (Evidence Brief, основной интерфейс результата); `k1g.sh` — для
-  dispatch/watch/summary. Этот интерфейс не обходить: никаких прямых GCS/storage/download/logging-команд. Raw logs, archives, Cloud Logging и credentials не читать.
+- Evidence — bounded K-1 summaries/rows/peaks/log-grep через `k1g.sh` (как в прежних K-1 стадиях); для уточнений
+  допустим `smallsort-brief BUILD`, если сборка в нём индексирована. Эти интерфейсы не обходить: никаких прямых
+  GCS/storage/download/logging-команд. Raw logs, archives, Cloud Logging и credentials не читать.
 - Никаких локальных cargo/rustc/Kani/CBMC (rustfmt через обёртку
   `/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh --edition 2024 --config-path
   research/challenge-8/kani-k1/codefix/rustfmt.toml` разрешён), Actions/PR/issue/комментарии на GitHub.
