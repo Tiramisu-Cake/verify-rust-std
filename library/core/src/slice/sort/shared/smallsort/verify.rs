@@ -63,6 +63,7 @@
 //! `--kani-args --harness <full-name> --exact` to the verification command.
 
 mod comparators;
+mod default_contracts;
 mod fixed_inputs;
 mod forwarding_contracts;
 mod helper_contracts;
