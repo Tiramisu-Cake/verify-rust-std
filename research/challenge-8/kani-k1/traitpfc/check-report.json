@@ -1,0 +1,37 @@
+{
+  "status": "PASS_WITH_INHERITED_LINE_LENGTH_EXCEPTION",
+  "base_sha": "9b1758ab817af005e96fd52a5fc940d4b6acf984",
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "library_commit": "ea4528ac91bf715b9477c263495e0db325957923",
+  "library_tree": "7fd692282cc522f3d12c2f1c00fc25f5557884f6",
+  "ordinary": 235,
+  "previous_cfg_on": 248,
+  "cfg_on": 254,
+  "added_roots": 6,
+  "previous_expanded_items_unchanged": 571,
+  "previous_closures_unchanged": 248,
+  "unchanged_previous_verify_files": true,
+  "smallsort_only_exact_attributes": true,
+  "tooling_unchanged": true,
+  "s0_s2_bodies_identical": true,
+  "s1_only_omits_sorted_assert": true,
+  "rustfmt_check": "PASS",
+  "new_overlong_lines": [],
+  "inherited_overlong_lines": [
+    "/// as found here <https://github.com/Voultapher/sort-research-rs/blob/438fad5d0495f65d4b72aa87f0b62fc96611dff3/ipnsort/src/smallsort.rs#L83C10-L83C36>.",
+    "        // PANIC SAFETY: if is_less panics, no scratch memory was created and the slice should still be",
+    "        // Important to only swap if it is more and not if it is equal. is_less should return false for"
+  ],
+  "proof_status": "NOT_RUN",
+  "source_checks_are_not_compiler_resolution": true,
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort.rs": "10425aad3d73bd1d64d13e12013b46ad6039f204acdd43ab1623550192330148",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "ff8ffefe330e6b0866ffd853cfe7c9beb75cd868c269062098f17fd44bc9237c",
+    "library/core/src/slice/sort/shared/smallsort/verify/trait_contracts.rs": "fc475c648d628708431ca3ec74fef0a38575784b7bd0ee048065102dbfd96238"
+  },
+  "request_sha256": "1370f5eb029023967b38644f579d221677123b63938e987114d8dde27afe9c5e",
+  "inventory_sha256": {
+    "ordinary": "9758f6a907a24fc4ae823968ac65605695adcd377b9990c3993cd8c4f13bb047",
+    "cfg-on": "efb46285a4d091d1c2546df99590707383fb0bdb7322afe685dd3ddad6b36f6e"
+  }
+}

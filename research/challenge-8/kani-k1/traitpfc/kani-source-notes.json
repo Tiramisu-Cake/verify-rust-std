@@ -1,0 +1,17 @@
+{
+  "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "files": {
+    "library/kani/src/contracts.rs": "05b329fa34923824ffe0f6e488a61bf06ff6bf99d2a0be990f951d50a1dc38ac",
+    "library/kani_core/src/lib.rs": "bb77d147b03f64586bb38a31edafaddc0c99e3cc3fb65a5c5c541b4fc0198649",
+    "library/kani_core/src/arbitrary.rs": "cdd7aa7e5c4cf7f1e977b965b9551cb2a5fdd2fe340e83051cf8df6a6ad53070",
+    "library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+    "tests/kani/FunctionContracts/generic_trait_specialization.rs": "5bc155f5c2ee3eae3dcaf6c48a7e60cc2e630f993b254ac0a38a3237216ecd99",
+    "tests/kani/FunctionContracts/generic_trait_method.rs": "b4b6645671aeb14dcd817c04603f3ce065c45d9f2d21e3766d465da519c7d13c"
+  },
+  "conclusions": [
+    "contracts.rs:168-174: any specification attribute constitutes a contract; absent conditions default to true. No ensures is required.",
+    "generic_trait_specialization.rs: proof_for_contract and stub_verified accept a fully qualified trait method with a method-level comparator generic on a non-default specialization.",
+    "kani_core/src/lib.rs Pointer implementations accept &mut [MaybeUninit<T>] directly; modifies uses write_any without reading scratch as initialized T.",
+    "kani_core/src/arbitrary.rs implements Arbitrary for MaybeUninit<T>; concrete T=u64 meets its bound. Compiler acceptance of this real blanket specialization remains NOT_RUN."
+  ]
+}

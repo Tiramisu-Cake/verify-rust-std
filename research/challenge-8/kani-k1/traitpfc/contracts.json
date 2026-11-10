@@ -1,0 +1,14 @@
+{
+  "T1": {
+    "impl": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+    "attributes": "    #[safety::requires(\n        v.len() < 2 || scratch.len().checked_sub(16).is_some_and(|capacity| v.len() <= capacity)\n    )]\n    #[cfg_attr(kani, crate::kani::modifies(v, scratch))]\n"
+  },
+  "T2": {
+    "impl": "impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {",
+    "attributes": "    #[safety::requires(\n        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()\n            == SMALL_SORT_FALLBACK_THRESHOLD\n            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()\n    )]\n    #[cfg_attr(kani, crate::kani::modifies(v))]\n"
+  },
+  "T3": {
+    "impl": "impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {",
+    "attributes": "    #[safety::requires(\n        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()\n            == SMALL_SORT_FALLBACK_THRESHOLD\n            || v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()\n    )]\n    #[cfg_attr(kani, crate::kani::modifies(v))]\n"
+  }
+}
