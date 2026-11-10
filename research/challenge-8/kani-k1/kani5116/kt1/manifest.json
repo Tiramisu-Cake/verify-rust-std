@@ -1,0 +1,40 @@
+[
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/generic_fn_pointer_argument.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Stubbing/stub_set_multiple_use.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "ui",
+    "mode": "expected",
+    "file": "function-contracts/trait_default_fn_err.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "cannot be applied to trait function declarations without default bodies"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/generic_default_missing_required.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/specialization_default_fn_5116.rs",
+    "expect": "fail",
+    "require_success": true,
+    "diagnostic": "expected `fn`"
+  }
+]

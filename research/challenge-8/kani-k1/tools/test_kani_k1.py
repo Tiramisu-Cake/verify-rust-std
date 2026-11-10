@@ -1227,5 +1227,272 @@ class CliTests(unittest.TestCase):
                 self.assertFalse((Path(d) / "args").exists())
 
 
+NATIVE_ENTRY = {"suite": "kani", "mode": "kani", "file": "FunctionContracts/repro.rs",
+                "expect": "fail", "diagnostic": "expected `fn`", "require_success": True}
+NATIVE_REQ = {**REQ, "kind": "kani-tests", "runner": k.STANDARD_RUNNER, "harnesses": [],
+              "harness_timeout_minutes": 29, "test_timeout_seconds": 180, "kani_tests": [NATIVE_ENTRY]}
+
+
+def native_log(entry=NATIVE_ENTRY, result="FAILED"):
+    name = k.native_name(entry)
+    failure = (f"\nfailures:\n\n---- {name} stdout ----\n"
+               "error: test failed: expected verification success, got failure\n"
+               "status: exit status: 1\n"
+               f'command: "kani" "tests/{entry["suite"]}/{entry["file"]}"\n'
+               "stderr:\nerror: expected `fn`\n\nfailures:\n    " + name + "\n") if result == "FAILED" else ""
+    return (f"running 1 test\ntest {name} ... {result}\n" + failure +
+            f"test result: {'FAILED' if result == 'FAILED' else 'ok'}. "
+            f"{0 if result == 'FAILED' else 1} passed; {1 if result == 'FAILED' else 0} failed; "
+            "0 ignored; 0 measured; 999 filtered out; finished in 0.12s\n")
+
+
+class NativeTests(unittest.TestCase):
+    def test_typed_manifest_and_limits(self):
+        self.assertEqual(k.validate_request(copy.deepcopy(NATIVE_REQ)), NATIVE_REQ)
+        self.assertEqual(k.kani_args(NATIVE_REQ), [])
+        self.assertEqual(k.verification_mode("kani-tests"), "kani-tests")
+        malformed = [dict(NATIVE_REQ, kani_tests=[]), dict(NATIVE_REQ, kani_tests=[NATIVE_ENTRY, NATIVE_ENTRY]),
+                     dict(NATIVE_REQ, kani_tests=[{**NATIVE_ENTRY, "suite": "unknown"}]),
+                     dict(NATIVE_REQ, kani_tests=[{**NATIVE_ENTRY, "file": "../x.rs"}]),
+                     dict(NATIVE_REQ, kani_tests=[{**NATIVE_ENTRY, "file": ""}]),
+                     dict(NATIVE_REQ, kani_tests=[{**NATIVE_ENTRY, "diagnostic": "unrelated"}]),
+                     dict(NATIVE_REQ, kani_tests=[{**NATIVE_ENTRY, "require_success": False}]),
+                     dict(NATIVE_REQ, test_timeout_seconds=0), dict(NATIVE_REQ, test_timeout_seconds=True),
+                     dict(NATIVE_REQ, harness_timeout_minutes=30), dict(NATIVE_REQ, controls=False),
+                     dict(NATIVE_REQ, runner="ubuntu-latest"), dict(REQ, kani_tests=[NATIVE_ENTRY])]
+        for request in malformed:
+            with self.subTest(request=request), self.assertRaises(k.RequestError):
+                k.validate_request(request)
+        with self.assertRaises(k.RequestError):
+            k.validate_request(NATIVE_REQ, 28)
+        expected = {"suite": "ui", "mode": "expected", "file": "error.rs", "expect": "pass",
+                    "require_success": False, "diagnostic": "specific error"}
+        k.validate_native_manifest([expected])
+        positive = {key: value for key, value in {**expected, "require_success": True}.items() if key != "diagnostic"}
+        k.validate_native_manifest([positive])
+        for bad in ({key: value for key, value in expected.items() if key != "diagnostic"},
+                    {**expected, "require_success": True}, {**expected, "mode": "ui"}):
+            with self.assertRaises(k.RequestError):
+                k.validate_native_manifest([bad])
+
+    def test_exact_args_and_expected_success_policy(self):
+        argv = k.native_argv(NATIVE_ENTRY, 180, Path("/tmp/out"))
+        self.assertEqual(argv[:6], ["cargo", "run", "-p", "compiletest", "--", "--suite"])
+        self.assertEqual(argv[argv.index("--exact") + 1], "[kani] kani/FunctionContracts/repro.rs")
+        self.assertNotIn("--require-success", argv)
+        pos = {**NATIVE_ENTRY, "mode": "expected", "suite": "expected", "expect": "pass"}
+        self.assertIn("--require-success", k.native_argv(pos, 180, Path("/tmp/out")))
+        self.assertNotIn("--require-success", k.native_argv({**pos, "require_success": False}, 180, Path("/tmp/out")))
+
+    def test_completed_native_failure_only_and_own_diagnostic(self):
+        own = "error: expected `fn`\n --> tests/kani/FunctionContracts/repro.rs:4:1\n"
+        good = k.parse_native_test(NATIVE_ENTRY, native_log(), 1, own)
+        self.assertEqual(good["status"], "EXPECTED_REPRO_FAILURE", good)
+        self.assertEqual(good["time_s"], 0.12)
+        cases = [("error: could not compile `compiletest`\n" + own, 1, own, False),
+                 (native_log(), 124, own, False), (native_log(), -9, own, False),
+                 (native_log(), 1, own, True), (native_log() + "thread 'main' panicked at x\n", 1, own, False),
+                 (native_log(), 1, "other error", False), # matching diagnostic only in console/another test
+                 (native_log(), 1, None, False), (native_log(), 1, own + "signal: 9\n", False),
+                 (native_log(), 1, own + "thread 'rustc' panicked at x\n", False),
+                 (native_log().replace("status: exit status: 1", "status: signal: 9"), 1, own, False),
+                 (native_log().replace("expected verification success, got failure", "unrelated panic"), 1, own, False),
+                 (native_log().replace('"tests/kani/FunctionContracts/repro.rs"', '"other.rs"'), 1, own, False),
+                 (native_log(), 0, own, False), (native_log().replace("running 1 test", "running 0 tests"), 1, own, False),
+                 (native_log().replace(k.native_name(NATIVE_ENTRY), "[kani] kani/other.rs"), 1, own, False),
+                 (native_log() + native_log(), 1, own, False),
+                 (native_log().split("test result:")[0], 1, own, False),
+                 (native_log().replace("0 passed; 1 failed", "1 passed; 0 failed"), 1, own, False),
+                 (native_log().replace("0 ignored", "1 ignored"), 1, own, False),
+                 (native_log().replace("... FAILED", "... ignored"), 1, own, False),
+                 (native_log().replace("finished in 0.12s", "finished in damaged"), 1, own, False)]
+        for text, code, output, timeout in cases:
+            with self.subTest(text=text[:80], code=code, output=output, timeout=timeout):
+                self.assertEqual(k.parse_native_test(NATIVE_ENTRY, text, code, output, timeout)["status"], "ERROR")
+        passed = {**NATIVE_ENTRY, "expect": "pass"}; passed.pop("diagnostic")
+        self.assertEqual(k.parse_native_test(passed, native_log(passed, "ok"), 0, "SUCCESS FAILED")["status"], "PASS")
+        self.assertEqual(k.parse_native_test(passed, "VERIFICATION:- SUCCESSFUL", 0, "")["status"], "ERROR")
+        self.assertEqual(k.parse_native_test(passed, native_log(passed, "ok"), 1, "")["status"], "ERROR")
+
+    def test_negative_expected_native_pass_needs_own_diagnostic(self):
+        entry = {"suite": "ui", "mode": "expected", "file": "error.rs", "expect": "pass",
+                 "require_success": False, "diagnostic": "specific error"}
+        self.assertEqual(k.parse_native_test(entry, native_log(entry, "ok"), 0, "specific error")["status"], "PASS")
+        self.assertEqual(k.parse_native_test(entry, native_log(entry, "ok") + "specific error", 0, "other")["status"], "ERROR")
+
+    def test_patch_path_hash_and_fresh_pin_tree(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); tree = root / "kani"; tree.mkdir()
+            def git(*args):
+                return subprocess.run(["git", "-C", str(tree), *args], capture_output=True, text=True, check=True).stdout.strip()
+            git("init", "-q")
+            (tree / "base").write_text("base\n")
+            git("add", "base")
+            git("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", "fixture")
+            pin = git("rev-parse", "HEAD")
+            research = root / "research"; research.mkdir()
+            patch_path = research / "tests.patch"
+            contents = ("diff --git a/tests/kani/FunctionContracts/repro.rs b/tests/kani/FunctionContracts/repro.rs\n"
+                        "new file mode 100644\n--- /dev/null\n+++ b/tests/kani/FunctionContracts/repro.rs\n"
+                        "@@ -0,0 +1 @@\n+fn test() {}\n")
+            patch_path.write_text(contents)
+            request = {**NATIVE_REQ, "kani_patch": {"path": "research/tests.patch", "sha256": hashlib.sha256(contents.encode()).hexdigest()}}
+            k.validate_request(request)
+            for path in ("../tests.patch", "/absolute.patch", "research/../tests.patch", "research//tests.patch"):
+                with self.assertRaises(k.RequestError):
+                    k.validate_request({**request, "kani_patch": {**request["kani_patch"], "path": path}})
+            (research / "link.patch").symlink_to(patch_path)
+            (root / "linked").symlink_to(research)
+            for bad in ({**request["kani_patch"], "path": "research/missing.patch"},
+                        {**request["kani_patch"], "path": "research/link.patch"},
+                        {**request["kani_patch"], "path": "linked/tests.patch"},
+                        {**request["kani_patch"], "sha256": "0" * 64}):
+                with self.assertRaises(k.RequestError):
+                    k.patch_bytes({**request, "kani_patch": bad}, root)
+            with self.assertRaises(k.RequestError):
+                k.prepare_kani(request, root, tree, "0" * 40)
+            info = k.prepare_kani(request, root, tree, pin)
+            self.assertNotEqual(info["tree"], git("rev-parse", "HEAD^{tree}"))
+            self.assertEqual(git("rev-parse", "HEAD"), pin)
+            self.assertIn("repro.rs", info["diffstat"])
+            with self.assertRaises(k.RequestError): # already applied/dirty is forbidden
+                k.prepare_kani(request, root, tree, pin)
+            git("reset", "--hard", "HEAD")
+            patch_path.write_text(contents.replace("/repro.rs", "/absent.rs").replace("+fn test() {}", "+conflict"))
+            request["kani_patch"]["sha256"] = hashlib.sha256(patch_path.read_bytes()).hexdigest()
+            with self.assertRaises(k.RequestError): # selector missing after successful apply
+                k.prepare_kani(request, root, tree, pin)
+            git("reset", "--hard", "HEAD")
+            patch_path.write_text("diff --git a/base b/base\n--- a/base\n+++ b/base\n@@ -1 +1 @@\n-missing context\n+replacement\n")
+            request["kani_patch"]["sha256"] = hashlib.sha256(patch_path.read_bytes()).hexdigest()
+            with self.assertRaises(k.RequestError):
+                k.prepare_kani(request, root, tree, pin)
+            self.assertEqual(git("status", "--porcelain"), "")
+
+    def summary(self):
+        text = json.dumps(NATIVE_REQ)
+        info = {"pin": "b" * 40, "patch": None, "tree": "c" * 40, "version": "kani 0.68.0",
+                "diffstat": "", "kani_build_s": 12, "compiletest_build_s": 2}
+        row = k.parse_native_test(NATIVE_ENTRY, native_log(), 1, "error: expected `fn`\n")
+        row.update(argv=k.native_argv(NATIVE_ENTRY, 180, Path("/tmp/out/native-0")), cwd="/workspace/src/kani_build",
+                   env={"RUST_TEST_THREADS": "1"}, wall_s=1)
+        native = {"schema": k.NATIVE_SCHEMA, "head_sha": "a" * 40, "build_id": "build-1",
+                  "request_sha256": hashlib.sha256(text.encode()).hexdigest(), "tree": info["tree"], "complete": True,
+                  "binaries": {"kani_profile": "release", "compiletest_profile": "dev", "paths": {
+                      "kani": {"invoked": "/kani/scripts/kani"}, "compiletest": {"invoked": "/kani/target/debug/compiletest"},
+                      **{name: {"invoked": "/kani/target/kani/bin/" + name, "release": "/kani/target/release/" + name,
+                                "resolved": "/kani/target/release/" + name, "sha256": "e" * 64}
+                         for name in ("kani-driver", "kani-compiler")}}}, "tests": [row]}
+        def summarize(report=native, build=info, outcome="success", code=0):
+            return k.summarize(text, None, None, code, "a" * 40, "b" * 40, run={"id": "build-1"},
+                               build_outcome=outcome, native_text=json.dumps(report), kani_build_text=json.dumps(build))
+        return native, info, summarize
+
+    def test_structured_report_gate_and_binding(self):
+        native, info, summarize = self.summary()
+        summary = summarize()
+        self.assertTrue(k.gate_ok(summary), summary)
+        self.assertIsNone(summary["kani_exit_code"])
+        self.assertEqual(summary["native_runner_exit_code"], 0)
+        self.assertIn("EXPECTED_REPRO_FAILURE", k.render_md(summary))
+        self.assertIn("EXPECTED_REPRO_FAILURE", k.summary_page(summary, 0, 20))
+        bad_reports = [None, {}, {**native, "head_sha": "d" * 40}, {**native, "build_id": "other"},
+                       {**native, "request_sha256": "f" * 64}, {**native, "tree": "d" * 40},
+                       {**native, "complete": False}, {**native, "tests": []},
+                       {**native, "tests": native["tests"] * 2}, {**native, "binaries": {}},
+                       {**native, "tests": [{**native["tests"][0], "status": "ERROR"}]},
+                       {**native, "tests": [{**native["tests"][0], "argv": ["bad"]}]},
+                       {**native, "tests": [{**native["tests"][0], "env": {"RUST_TEST_THREADS": "2"}}]},
+                       {**native, "tests": [{**native["tests"][0], "exit_code": 0}]},
+                       {**native, "tests": [{**native["tests"][0], "time_s": None}]},
+                       {**native, "tests": [{**native["tests"][0], "diagnostic": None}]},
+                       {**native, "tests": [{**native["tests"][0], "errors": ["timeout"]}]}]
+        for bad in bad_reports:
+            self.assertFalse(k.gate_ok(summarize(bad)), bad)
+        for bad in (None, {}, {**info, "pin": "d" * 40}, {**info, "version": ""}, {**info, "tree": "bad"}):
+            self.assertFalse(k.gate_ok(summarize(build=bad)), bad)
+        self.assertFalse(k.gate_ok(summarize(outcome="failure")))
+        for code in (None, 1, 124, -9):
+            self.assertFalse(k.gate_ok(summarize(code=code)))
+
+    def test_native_pagination_is_bounded_and_explicit(self):
+        native, info, summarize = self.summary()
+        summary = summarize()
+        page = json.loads(k.native_page(summary, 0, 1))
+        self.assertEqual(page["count"], 1)
+        self.assertIsNone(page["next_offset"])
+        self.assertIn("argv", page["tests"][0])
+        self.assertIn("binaries", page)
+        summary["native"]["tests"] *= 5
+        for row in summary["native"]["tests"]:
+            row["extra"] = "x" * 3000
+        text = k.native_page(summary, 0, 4)
+        self.assertLessEqual(len(text.encode()), 12000)
+        page = json.loads(text)
+        self.assertEqual(page["next_offset"], page["count"])
+        self.assertLess(page["count"], 4)
+        with self.assertRaises(ValueError):
+            k.native_page(summary, 0, 5)
+
+    def test_wall_timeout_and_deadline_never_invoke_tools_late(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); log = root / "test.log"
+            code, timeout, _ = k.bounded_command([sys.executable, "-c", "import time; time.sleep(10)"], root, log, 0.05)
+            self.assertTrue(timeout)
+            self.assertEqual(code, -9)
+            with patch.object(k.subprocess, "Popen") as popen:
+                self.assertEqual(k.bounded_command(["never-run"], root, log, -1), (None, True, 0.0))
+                popen.assert_not_called()
+
+    def test_runner_writes_partial_report_and_no_cross_test_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            def command(argv, tree, log, seconds, env):
+                self.assertEqual(env["RUST_TEST_THREADS"], "1")
+                self.assertLessEqual(seconds, 210)
+                log.write_text(native_log())
+                base = Path(argv[argv.index("--build-base") + 1]) / "FunctionContracts/repro/repro"
+                base.parent.mkdir(parents=True)
+                base.with_suffix(".out").write_text("")
+                base.with_suffix(".err").write_text("error: expected `fn`\n")
+                return 1, False, 0.2
+            with patch.object(k, "native_binary_identity", return_value={"kani_profile": "release"}), patch.object(k, "bounded_command", side_effect=command):
+                k.run_native(NATIVE_REQ, root, root / "out", k.time.time() + 100, {"tree": "a" * 40})
+            report = json.loads((root / "out/native.json").read_text())
+            self.assertTrue(report["complete"])
+            self.assertEqual(report["tests"][0]["status"], "EXPECTED_REPRO_FAILURE")
+            with patch.object(k, "native_binary_identity", return_value={}), patch.object(k, "bounded_command", side_effect=OSError("exec failed")):
+                with self.assertRaises(OSError):
+                    k.run_native(NATIVE_REQ, root, root / "error", k.time.time() + 100, {})
+            self.assertFalse(json.loads((root / "error/native.json").read_text())["complete"])
+
+    def test_patch_supported_diagnostic_without_changing_old_args(self):
+        req = req_with(kind="diagnostic", runner=k.STANDARD_RUNNER)
+        patched = {**req, "kani_patch": {"path": "research/p.patch", "sha256": "1" * 64}}
+        self.assertEqual(k.kani_args(k.validate_request(patched)), k.kani_args(k.validate_request(req)))
+        self.assertEqual(k.verification_mode(patched["kind"]), "selected")
+        self.assertFalse(k.gate_ok(k.summarize(json.dumps(patched), GOOD_LOG, TIME, 1, "a" * 40, "b" * 40, build_outcome="success")))
+        info = {"pin": "b" * 40, "patch": patched["kani_patch"], "tree": "c" * 40, "version": "kani 0.68.0"}
+        summary = k.summarize(json.dumps(patched), GOOD_LOG, TIME, 1, "a" * 40, "b" * 40,
+                              build_outcome="success", kani_build_text=json.dumps(info))
+        self.assertTrue(k.gate_ok(summary), summary)
+
+    def test_release_binary_paths_must_match_and_debug_driver_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for relative in ("target/release/kani-driver", "target/release/kani-compiler", "target/kani/bin/kani-driver",
+                             "target/kani/bin/kani-compiler", "scripts/kani", "target/debug/compiletest"):
+                p = root / relative; p.parent.mkdir(parents=True, exist_ok=True); p.write_bytes(b"fixture")
+            info = k.native_binary_identity(root)
+            self.assertEqual(info["kani_profile"], "release")
+            (root / "target/debug/kani-driver").write_bytes(b"debug")
+            with self.assertRaises(k.RequestError):
+                k.native_binary_identity(root)
+            (root / "target/debug/kani-driver").unlink()
+            (root / "target/kani/bin/kani-compiler").write_bytes(b"different")
+            with self.assertRaises(k.RequestError):
+                k.native_binary_identity(root)
+
+
 if __name__ == "__main__":
     unittest.main()

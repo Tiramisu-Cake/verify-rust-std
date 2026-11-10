@@ -31,7 +31,15 @@ export PATH="$HOME/.cargo/bin:$PATH" DEBIAN_FRONTEND=noninteractive
 kani_commit() { grep '^commit *=' tool_config/kani-version.toml | sed 's/^commit *= *"\(.*\)"/\1/'; }
 valid() { [ -f "$K1_OUT/valid" ]; }
 # Kind partition: harness_timeout_minutes is the whole worker's wall budget (no per-harness timeout, as in CI).
-total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+total_minutes() { python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory", "kani-tests") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$K1_REQUEST"; }
+native() { python3 -B -c 'import json,sys; sys.exit(json.load(open(sys.argv[1]))["kind"] != "kani-tests")' "$K1_REQUEST"; }
+checkout_kani() {
+  rm -rf kani_build && mkdir kani_build
+  git -C kani_build init -q .
+  git -C kani_build remote add origin https://github.com/model-checking/kani.git
+  git -C kani_build fetch --depth 1 origin "$commit" --quiet
+  git -C kani_build checkout "$commit" --quiet
+}
 
 stage() {
   case "$1" in
@@ -60,6 +68,20 @@ stage() {
       fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;
 
+    prepare)
+      valid || return 0
+      # Only new native/patch requests enter this preflight; all old no-patch build routes stay intact.
+      if ! python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); sys.exit(not (r.get("kani_patch") or r["kind"] == "kani-tests"))' "$K1_REQUEST"; then return 0; fi
+      apt-get install -y -qq --no-install-recommends ca-certificates >/dev/null
+      commit=$(kani_commit); test -n "$commit"
+      checkout_kani
+      if ! python3 -B "$K1_TOOLS/kani_k1.py" prepare-kani --request "$K1_REQUEST" --tree kani_build --pin "$commit" \
+          --out "$K1_OUT/kani-build.json" 2> "$K1_OUT/request-error.txt"; then
+        rm -f "$K1_OUT/valid"
+        return 0
+      fi
+      touch "$K1_OUT/prepared" ;;
+
     deps)
       valid || return 0
       rm -f "$K1_OUT/deps.ok"
@@ -78,17 +100,41 @@ stage() {
       valid && [ -f "$K1_OUT/deps.ok" ] || return 0
       commit=$(kani_commit); test -n "$commit"
       rm -f "$K1_OUT/build.ok"
-      rm -rf kani_build && mkdir kani_build
-      git -C kani_build init -q .
-      git -C kani_build remote add origin https://github.com/model-checking/kani.git
-      git -C kani_build fetch --depth 1 origin "$commit" --quiet
-      git -C kani_build checkout "$commit" --quiet
+      if [ ! -f "$K1_OUT/prepared" ]; then
+        # A failed preflight must never fall back to an unpatched build.
+        if python3 -B -c 'import json,sys; r=json.load(open(sys.argv[1])); sys.exit(not (r.get("kani_patch") or r["kind"] == "kani-tests"))' "$K1_REQUEST"; then
+          echo "required Kani preflight missing" >&2; return 1
+        fi
+        checkout_kani
+      fi
       (cd kani_build && GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive --depth 1 --quiet)
       (cd kani_build && source kani-dependencies && ./scripts/setup/ubuntu/install_deps.sh)
       (cd kani_build && rustup toolchain install)
-      (cd kani_build && cargo build-dev --release)
+      build_start=$(date +%s)
+      if native; then
+        (cd kani_build && cargo build-dev -- --release)
+      else
+        (cd kani_build && cargo build-dev --release)
+      fi
+      kani_build_s=$(( $(date +%s) - build_start ))
+      compiletest_build_s=0
+      if native; then
+        compiletest_start=$(date +%s)
+        (cd kani_build && cargo build -p compiletest)
+        compiletest_build_s=$(( $(date +%s) - compiletest_start ))
+      fi
       test "$(git -C kani_build rev-parse HEAD)" = "$commit"
       kani_build/scripts/kani --version
+      if [ -f "$K1_OUT/prepared" ]; then
+        version=$(kani_build/scripts/kani --version)
+        python3 -B - "$K1_OUT/kani-build.json" "$version" "$kani_build_s" "$compiletest_build_s" <<'PY'
+import json, sys
+from pathlib import Path
+p = Path(sys.argv[1]); d = json.loads(p.read_text())
+d.update(version=sys.argv[2], kani_build_s=int(sys.argv[3]), compiletest_build_s=int(sys.argv[4]))
+p.write_text(json.dumps(d, indent=2) + "\n")
+PY
+      fi
       touch "$K1_OUT/build.ok" ;;
 
     verify)
@@ -98,6 +144,13 @@ stage() {
       remaining=$(( $(cat "$K1_OUT/start") + ($(total_minutes) + VERIFY_SLACK_MINUTES) * 60 - $(date +%s) ))
       if [ "$remaining" -le 120 ]; then
         echo "no time left before the build timeout; verification not started" | tee "$K1_OUT/verify-skipped"
+        return 0
+      fi
+      if native; then
+        python3 -B "$K1_TOOLS/kani_k1.py" run-native --request "$K1_REQUEST" --tree kani_build --out "$K1_OUT" \
+          --deadline "$(( $(cat "$K1_OUT/start") + ($(total_minutes) + VERIFY_SLACK_MINUTES) * 60 ))" \
+          --head-sha "$(git rev-parse HEAD)" --build-id "${K1_BUILD_ID:-}" --kani-build "$K1_OUT/kani-build.json"
+        echo 0 > "$K1_OUT/rc"
         return 0
       fi
       # Inventory is a compile plus supported full-list operation, with no verification invocation.
@@ -213,10 +266,13 @@ stage() {
       [ -f "$K1_OUT/build.ok" ] && valid && peaks_args=(--peaks "$K1_OUT/peaks.txt" --memcap "$K1_OUT/memcap.txt")
       inventory_args=()
       [ -f "$K1_OUT/inventory.txt" ] && inventory_args=(--inventory "$K1_OUT/inventory.txt")
+      native_args=()
+      [ ! -f "$K1_OUT/kani-build.json" ] || native_args+=(--kani-build "$K1_OUT/kani-build.json")
+      [ ! -f "$K1_OUT/native.json" ] || native_args+=(--native "$K1_OUT/native.json")
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
       mem=$(free -b 2>/dev/null | awk '/^Mem:/{printf "%.1f GiB", $2 / 2^30}' || true)
       hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
-      python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" "${inventory_args[@]}" \
+      python3 -B "$K1_TOOLS/kani_k1.py" summarize --request "$K1_REQUEST" "${log_args[@]}" "${peaks_args[@]}" "${inventory_args[@]}" "${native_args[@]}" \
         --time "$K1_OUT/time.txt" --exit-code "$(cat "$K1_OUT/rc" 2>/dev/null || true)" \
         --head-sha "$(git rev-parse HEAD)" --kani-commit "$(kani_commit || true)" --request-error "$req_err" \
         --build-outcome "$build_outcome" --run-id "${K1_BUILD_ID:-}" --run-attempt "" \
@@ -239,7 +295,7 @@ if [ "${1:-}" != all ]; then stage "${1:-}"; exit; fi
 # `all`: each stage runs as its own bash process. A subshell would not do: errexit is ignored in anything
 # on the left of `||`, so a failed command would not stop its stage before the stage's ok marker.
 # A failed stage leaves the last 40 lines of its output in stage-error.txt (uploaded; k1g.sh summary shows it).
-for s in validate deps build verify summarize; do
+for s in validate prepare deps build verify summarize; do
   echo "== stage $s"
   if ! bash "$0" "$s" 2>&1 | tee "$K1_OUT/stage-$s.log"; then
     echo "stage $s failed with exit ${PIPESTATUS[0]}"

@@ -1,12 +1,55 @@
 {
   "schema": "kani-k1-run-request-v1",
+  "request_id": "kani5116-kt1-calibration-20261110-01",
   "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "KANI5116 KT1: four native neighbours PASS and one exact specialization repro failure; test-only patch, no macro fix.",
   "runner": "gcb-e2-standard-4",
-  "controls": true,
-  "request_id": "insertpfc-g2-20261107-01",
-  "kind": "inventory",
-  "purpose": "INSERTPFC G2: exact cfg-on compiler inventory of 248 roots (235 ordinary and 13 controls), names/hash and no new smallsort warnings; no proof rows.",
-  "harness_timeout_minutes": 44,
-  "inventory": true,
-  "harnesses": []
+  "harness_timeout_minutes": 29,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
+    "sha256": "46c68dfd5861ebd008c32d7580caa15cee9ac9b185dec960caf57d3d342f696f"
+  },
+  "test_timeout_seconds": 180,
+  "kani_tests": [
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/generic_fn_pointer_argument.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "Stubbing/stub_set_multiple_use.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "ui",
+      "mode": "expected",
+      "file": "function-contracts/trait_default_fn_err.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "cannot be applied to trait function declarations without default bodies"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/generic_default_missing_required.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/specialization_default_fn_5116.rs",
+      "expect": "fail",
+      "require_success": true,
+      "diagnostic": "expected `fn`"
+    }
+  ]
 }

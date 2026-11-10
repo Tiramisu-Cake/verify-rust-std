@@ -33,7 +33,7 @@ from typing import Any
 SCHEMA = "kani-k1-run-request-v1"
 SUMMARY_SCHEMA = "kani-k1-run-summary-v2"
 AGENTS = {"k1-merge", "k1-network", "coordinator"}
-KINDS = {"measurement", "diagnostic", "resource", "partition", "autoharness", "inventory"}
+KINDS = {"measurement", "diagnostic", "resource", "partition", "autoharness", "inventory", "kani-tests"}
 # kind partition: one worker of the organizers' CI layout (kani.yml): scripts/run-kani.sh with WORKER_INDEX /
 # WORKER_TOTAL over the whole std harness list (kani list order, ceiling-sized contiguous chunks), no harness
 # list and no per-harness timeout, exactly as their CI. harness_timeout_minutes is the wall budget of the
@@ -65,7 +65,10 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # RUSTFLAGS="--cfg kani_smallsort_controls" to Kani; the organizers' CI never sets it, so controls stay out of
 # the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
 CONTROLS_CFG = "kani_smallsort_controls"
-OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "valid_value_checks", "controls", "worker_index", "worker_total", "inventory"}
+OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "valid_value_checks", "controls", "worker_index", "worker_total", "inventory",
+                         "kani_patch", "kani_tests", "test_timeout_seconds"}
+NATIVE_MAX_MINUTES = 29  # + unchanged 30 min dispatch overhead = 59 min / $0.7965 reserve
+NATIVE_SCHEMA = "kani-k1-native-tests-v1"
 KANI_JOBS = {1, 2, 3}
 PARTITION_KANI_JOBS = {1, 2}
 STANDARD_DIAGNOSTIC_MAX_HARNESSES = 80
@@ -128,6 +131,228 @@ def _one_line(value: Any, limit: int) -> bool:
     return isinstance(value, str) and bool(value.strip()) and len(value) <= limit and "\n" not in value and "\r" not in value
 
 
+def safe_relative(value: Any, prefix: str = "") -> bool:
+    return (isinstance(value, str) and len(value) <= 300 and value.startswith(prefix)
+            and bool(re.fullmatch(r"[A-Za-z0-9_./-]+", value))
+            and all(p not in ("", ".", "..") for p in value.split("/")) and not value.startswith("/"))
+
+
+def regular_inside(root: Path, relative: str) -> Path:
+    if not safe_relative(relative):
+        raise RequestError(f"unsafe relative path: {relative!r}")
+    path = root
+    for part in relative.split("/"):
+        path = path / part
+        if path.is_symlink():
+            raise RequestError(f"symlink in path: {relative}")
+    if not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
+        raise RequestError(f"missing/non-regular file: {relative}")
+    return path
+
+
+def native_name(entry: dict[str, Any]) -> str:
+    return f"[{entry['mode']}] {entry['suite']}/{entry['file']}"
+
+
+def validate_native_manifest(entries: Any) -> None:
+    if not isinstance(entries, list) or not 1 <= len(entries) <= 20:
+        raise RequestError("kani_tests must contain 1..20 typed selectors")
+    names = []
+    for e in entries:
+        if (not isinstance(e, dict) or not {"suite", "mode", "file", "expect", "require_success"} <= set(e)
+                or set(e) - {"suite", "mode", "file", "expect", "require_success", "diagnostic"}):
+            raise RequestError("native selector requires suite, mode, file, expect, require_success")
+        if (e["suite"], e["mode"]) not in (("kani", "kani"), ("ui", "expected"), ("expected", "expected")):
+            raise RequestError("unknown native suite/mode")
+        if not safe_relative(e["file"]) or not e["file"].endswith(".rs"):
+            raise RequestError("native file must be a safe relative .rs path inside its suite")
+        if e["expect"] not in ("pass", "fail") or type(e["require_success"]) is not bool:
+            raise RequestError("native expect must be pass/fail; require_success must be bool")
+        diagnostic = e.get("diagnostic")
+        if diagnostic is not None and not _one_line(diagnostic, 200):
+            raise RequestError("diagnostic must be a nonempty one-line substring")
+        if e["expect"] == "fail":
+            if e["mode"] != "kani" or diagnostic != "expected `fn`" or not e["require_success"]:
+                raise RequestError("expect fail is only the native kani repro with expected `fn` and require_success")
+        elif e["mode"] == "expected":
+            if not e["require_success"] and not diagnostic:
+                raise RequestError("negative expected-mode test needs a diagnostic; positive needs require_success")
+            if e["require_success"] and diagnostic:
+                raise RequestError("positive expected-mode test cannot declare a negative diagnostic")
+        elif not e["require_success"] or diagnostic:
+            raise RequestError("kani pass tests require success and no negative diagnostic")
+        names.append(native_name(e))
+    if len(set(names)) != len(names):
+        raise RequestError("duplicate native selectors")
+
+
+def patch_bytes(request: dict[str, Any], root: Path) -> bytes | None:
+    spec = request.get("kani_patch")
+    if spec is None:
+        return None
+    data = regular_inside(root, spec["path"]).read_bytes()
+    if hashlib.sha256(data).hexdigest() != spec["sha256"]:
+        raise RequestError("kani_patch SHA-256 mismatch")
+    if not data or len(data) > 4 * 1024 * 1024:
+        raise RequestError("kani_patch must be nonempty and at most 4 MiB")
+    return data
+
+
+def git_output(tree: Path, *args: str, data: bytes | None = None) -> str:
+    result = subprocess.run(["git", "-C", str(tree), *args], input=data, capture_output=True, timeout=120)
+    if result.returncode:
+        raise RequestError(f"git {args[0]} failed: {_clip(result.stderr.decode(errors='replace'))}")
+    return result.stdout.decode().strip()
+
+
+def prepare_kani(request: dict[str, Any], root: Path, tree: Path, pin: str) -> dict[str, Any]:
+    """Fresh checkout only. The same in-memory bytes are checked and applied; index tree includes additions."""
+    if git_output(tree, "rev-parse", "HEAD") != pin or git_output(tree, "status", "--porcelain", "--untracked-files=all"):
+        raise RequestError("patch preflight requires a clean checkout of the exact pin")
+    data = patch_bytes(request, root)
+    if data is not None:
+        git_output(tree, "apply", "--check", "--index", "-", data=data)
+        git_output(tree, "apply", "--index", "-", data=data)
+    if request["kind"] == "kani-tests":
+        for e in request["kani_tests"]:
+            regular_inside(tree, f"tests/{e['suite']}/{e['file']}")
+            if e["mode"] == "expected":
+                source = Path(f"tests/{e['suite']}/{e['file']}")
+                expected = source.with_suffix(".expected")
+                if not (tree / expected).exists():
+                    expected = source.parent / "expected"
+                regular_inside(tree, str(expected))
+    diffstat = git_output(tree, "diff", "--cached", "--stat", pin)
+    if len(diffstat.encode()) > 4096:
+        raise RequestError("patch diffstat exceeds bounded report size")
+    return {"pin": pin, "patch": request.get("kani_patch"), "tree": git_output(tree, "write-tree"),
+            "diffstat": diffstat}
+
+
+def native_argv(entry: dict[str, Any], timeout: int, build_base: Path) -> list[str]:
+    argv = ["cargo", "run", "-p", "compiletest", "--", "--suite", entry["suite"], "--mode", entry["mode"],
+            "--src-base", f"tests/{entry['suite']}", "--build-base", str(build_base), "--exact", native_name(entry),
+            "--force-rerun", "--color", "never", "--timeout", str(timeout)]
+    if entry["mode"] == "expected" and entry["require_success"]:
+        argv.append("--require-success")
+    return argv
+
+
+NATIVE_TOTAL_RE = re.compile(r"^test result: (ok|FAILED)\. (\d+) passed; (\d+) failed; (\d+) ignored; (\d+) measured; (\d+) filtered out; finished in ([0-9.]+)s\s*$", re.M)
+NATIVE_ROW_RE = re.compile(r"^test (\[[^\n]+) \.\.\. (ok|FAILED|ignored)(?:\s+<[^>]+>)?\s*$", re.M)
+
+
+def parse_native_test(entry: dict[str, Any], text: str, code: int | None,
+                      own_output: str | None, timed_out: bool = False) -> dict[str, Any]:
+    name = native_name(entry)
+    running = re.findall(r"^running (\d+) tests?\s*$", text, re.M)
+    rows = NATIVE_ROW_RE.findall(text)
+    totals = NATIVE_TOTAL_RE.findall(text)
+    errors = []
+    if running != ["1"] or len(rows) != 1 or rows[0][0] != name or len(totals) != 1:
+        errors.append("native running/name/result/summary must identify exactly one requested test")
+    terminal = rows[0][1] if len(rows) == 1 else None
+    if totals:
+        outcome, passed, failed, ignored, measured, filtered, duration = totals[0]
+        if ((passed, failed, ignored, measured) != (("1", "0", "0", "0") if terminal == "ok" else ("0", "1", "0", "0"))
+                or outcome != ("ok" if terminal == "ok" else "FAILED")):
+            errors.append("native totals disagree with requested result (ignored/filtered requested test rejected)")
+    else:
+        duration = None
+    if timed_out or code not in (0, 1) or re.search(r"Process timed out|signal:|SIGKILL|SIGTERM|thread '[^']+' panicked|I/O failure during tests|could not compile", text):
+        errors.append("timeout/kill/build failure/runner panic is not a native result")
+    if (terminal == "ok" and code != 0) or (terminal == "FAILED" and code != 1):
+        errors.append("native exit/result mismatch")
+    diagnostic_line = None
+    if own_output is None:
+        errors.append("own test output missing")
+    else:
+        if re.search(r"Process timed out|signal:|SIGKILL|SIGTERM|thread '[^']+' panicked|internal compiler error", own_output):
+            errors.append("own test output contains a timeout/kill/panic")
+        if entry.get("diagnostic"):
+            diagnostic_line = next((line for line in own_output.splitlines() if entry["diagnostic"] in line), None)
+            if diagnostic_line is None:
+                errors.append("required diagnostic absent from this test's own output")
+    if entry["expect"] == "fail":
+        # ProcRes::fatal is compiletest's normal failure (resume_unwind), not a runner panic.
+        block = re.search(r"^---- " + re.escape(name) + r" stdout ----\n(.*?)^failures:\s*$", text, re.M | re.S)
+        if (terminal != "FAILED" or not block
+                or "error: test failed: expected verification success, got failure" not in block[1]
+                or not re.search(r"^status: exit status: [1-9][0-9]*$", block[1], re.M)
+                or not re.search(r"^command: .*\"kani\".*" + re.escape("tests/" + entry["suite"] + "/" + entry["file"]), block[1], re.M)):
+            errors.append("repro requires a normal completed compiletest verification failure for this file")
+        if own_output is not None and not re.search(r"^error: expected `fn`\s*$", own_output, re.M):
+            errors.append("repro diagnostic is not an actual compiler error")
+    elif terminal != "ok":
+        errors.append("requested native PASS did not pass")
+    return {"name": name, "expect": entry["expect"], "native_status": terminal,
+            "status": ("EXPECTED_REPRO_FAILURE" if entry["expect"] == "fail" else "PASS") if not errors else "ERROR",
+            "time_s": float(duration) if duration is not None else None, "exit_code": code,
+            "diagnostic": _clip(diagnostic_line) if diagnostic_line else None, "errors": errors,
+            "suite": entry["suite"], "mode": entry["mode"], "file": entry["file"], "require_success": entry["require_success"]}
+
+
+def bounded_command(argv: list[str], cwd: Path, log: Path, seconds: float,
+                    env: dict[str, str] | None = None) -> tuple[int | None, bool, float]:
+    """Separate process group: kill descendants on wall timeout, even if compiletest's child holds pipes."""
+    start = time.monotonic()
+    if seconds <= 0:
+        return None, True, 0.0
+    with log.open("wb") as stream:
+        proc = subprocess.Popen(argv, cwd=cwd, env=env, stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            code = proc.wait(timeout=seconds)
+            timeout = False
+        except subprocess.TimeoutExpired:
+            os.killpg(proc.pid, signal.SIGKILL)
+            code = proc.wait()
+            timeout = True
+    return code, timeout, round(time.monotonic() - start, 3)
+
+
+def native_binary_identity(tree: Path) -> dict[str, Any]:
+    result: dict[str, Any] = {"kani_profile": "release", "compiletest_profile": "dev", "paths": {}}
+    for name in ("kani-driver", "kani-compiler"):
+        built = regular_inside(tree, f"target/release/{name}")
+        installed = tree / "target/kani/bin" / name  # build-dev intentionally installs copies/symlinks
+        if not installed.is_file() or installed.read_bytes() != built.read_bytes() or (tree / "target/debug" / name).exists():
+            raise RequestError(f"native Kani binary profile mismatch: {name}")
+        result["paths"][name] = {"invoked": str(installed), "resolved": str(installed.resolve()),
+                                  "release": str(built), "sha256": hashlib.sha256(built.read_bytes()).hexdigest()}
+    result["paths"]["kani"] = {"invoked": str(regular_inside(tree, "scripts/kani"))}
+    result["paths"]["compiletest"] = {"invoked": str(regular_inside(tree, "target/debug/compiletest"))}
+    return result
+
+
+def run_native(request: dict[str, Any], tree: Path, out: Path, deadline: float,
+               binding: dict[str, Any]) -> None:
+    report: dict[str, Any] = {"schema": NATIVE_SCHEMA, **binding, "tests": [], "complete": False,
+                              "binaries": native_binary_identity(tree)}
+    out.mkdir(parents=True, exist_ok=True)
+    report_path = out / "native.json"
+    report_path.write_text(json.dumps(report))
+    env = dict(os.environ, RUST_TEST_THREADS="1", CARGO_TERM_COLOR="never")
+    env.pop("RUST_TEST_NOCAPTURE", None)
+    for i, entry in enumerate(request["kani_tests"]):
+        build_base = out / f"native-{i}"
+        argv = native_argv(entry, request["test_timeout_seconds"], build_base)
+        log = out / f"native-{i}.log"
+        seconds = min(request["test_timeout_seconds"] + 30, deadline - time.time())
+        code, timeout, wall = bounded_command(argv, tree, log, seconds, env)
+        relative = Path(entry["file"])
+        base = build_base / relative.parent / relative.stem / relative.stem
+        # compiletest dump_output produces .out/.err for precisely this selector in a fresh build-base.
+        own = None
+        if base.with_suffix(".out").is_file() and base.with_suffix(".err").is_file():
+            own = base.with_suffix(".out").read_text(errors="replace") + "\n" + base.with_suffix(".err").read_text(errors="replace")
+        row = parse_native_test(entry, log.read_text(errors="replace") if log.exists() else "", code, own, timeout)
+        row.update(argv=argv, cwd=str(tree), env={"RUST_TEST_THREADS": "1"}, wall_s=wall)
+        report["tests"].append(row)
+        report_path.write_text(json.dumps(report, indent=2) + "\n")
+    report["complete"] = True
+    report_path.write_text(json.dumps(report, indent=2) + "\n")
+
+
 def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise RequestError("request must be a JSON object")
@@ -145,6 +370,28 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
     for key, allowed in (("agent", AGENTS), ("kind", KINDS), ("runner", RUNNERS)):
         if not isinstance(data[key], str) or data[key] not in allowed:
             raise RequestError(f"{key} must be one of {sorted(allowed)}")
+    if "kani_patch" in data:
+        patch = data["kani_patch"]
+        if (data["kind"] not in ("diagnostic", "kani-tests") or data["runner"] != STANDARD_RUNNER
+                or not isinstance(patch, dict) or set(patch) != {"path", "sha256"}
+                or not safe_relative(patch.get("path"), "research/")
+                or not isinstance(patch.get("sha256"), str)
+                or not re.fullmatch(r"[0-9a-f]{64}", patch["sha256"])):
+            raise RequestError("kani_patch requires diagnostic/kani-tests on standard runner and {path: research/..., sha256: 64 hex}; no .. or symlinks")
+    if data["kind"] == "kani-tests":
+        unsupported = set(data) & (OPTIONAL_REQUEST_KEYS - {"kani_patch", "kani_tests", "test_timeout_seconds"})
+        if unsupported or data["runner"] != STANDARD_RUNNER or data["harnesses"] != []:
+            raise RequestError("kani-tests requires standard runner, harnesses: [], and only native options")
+        cap = min(NATIVE_MAX_MINUTES, max_total_minutes) if max_total_minutes is not None else NATIVE_MAX_MINUTES
+        if type(data["harness_timeout_minutes"]) is not int or not 1 <= data["harness_timeout_minutes"] <= cap:
+            raise RequestError(f"kani-tests whole-job budget must be 1..{cap} minutes")
+        timeout = data.get("test_timeout_seconds")
+        if type(timeout) is not int or not 1 <= timeout <= 600 or timeout > data["harness_timeout_minutes"] * 60:
+            raise RequestError("test_timeout_seconds must be 1..600 and fit the whole-job budget")
+        validate_native_manifest(data.get("kani_tests"))
+        return data
+    if set(data) & {"kani_tests", "test_timeout_seconds"}:
+        raise RequestError("native selectors/timeouts are only for kani-tests")
     if "inventory" in data:
         if type(data["inventory"]) is not bool:
             raise RequestError("inventory must be true or false")
@@ -348,7 +595,7 @@ def summarize_partition(summary: dict[str, Any], request: dict[str, Any], parsed
 
 
 def kani_args(request: dict[str, Any]) -> list[str]:
-    if request["kind"] == "inventory":
+    if request["kind"] in ("inventory", "kani-tests"):
         return []
     args: list[str] = []
     for entry in request["harnesses"]:
@@ -390,7 +637,7 @@ def extract_autoharness_command(workflow: str) -> str:
 def verification_mode(kind: str) -> str:
     """Map a validated request kind to the gcb-k1 verify-stage route."""
     return {"inventory": "inventory", "autoharness": "autoharness", "partition": "partition", "measurement": "selected",
-            "diagnostic": "selected"}.get(kind, "invalid")
+            "diagnostic": "selected", "kani-tests": "kani-tests"}.get(kind, "invalid")
 
 
 def _new_block(name: str) -> dict[str, Any]:
@@ -1151,6 +1398,28 @@ def summary_page(summary: dict[str, Any], offset: int, count: int) -> str:
     return "\n".join(lines) + "\n"
 
 
+def native_page(summary: dict[str, Any], offset: int, count: int) -> str:
+    native = summary.get("native")
+    if not isinstance(native, dict) or not isinstance(native.get("tests"), list):
+        raise ValueError("no structured native report")
+    rows = native["tests"]
+    _page_bounds(len(rows), offset, count)
+    if not 1 <= count <= 4:
+        raise ValueError("native COUNT must be 1..4")
+    end = min(offset + count, len(rows))
+    page = {"head_sha": summary.get("head_sha"), "request_sha256": summary.get("request_sha256"),
+            "build_id": (summary.get("run") or {}).get("id"), "kani_build": summary.get("kani_build"),
+            "binaries": native.get("binaries"), "total": len(rows), "offset": offset}
+    while True:
+        page.update(tests=rows[offset:end], count=end-offset, next_offset=end if end < len(rows) else None)
+        text = json.dumps(page, ensure_ascii=False, indent=2) + "\n"
+        if len(text.encode()) <= MAX_MD_BYTES:
+            return text
+        end -= 1
+        if end <= offset:
+            raise ValueError("one native record exceeds the bounded page size")
+
+
 def inventory_page(inventory_text: str, summary: dict[str, Any], offset: int, count: int) -> str:
     header, sep, body = inventory_text.partition("\n\n")
     if not sep:
@@ -1222,7 +1491,8 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
               run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
               build_outcome: str | None = None, memcap_text: str | None = None,
               memcap_tracked: bool = False, peaks_text: str | None = None,
-              peaks_tracked: bool = False, inventory_text: str | None = None) -> dict[str, Any]:
+              peaks_tracked: bool = False, inventory_text: str | None = None,
+              native_text: str | None = None, kani_build_text: str | None = None) -> dict[str, Any]:
     summary: dict[str, Any] = {
         "schema": SUMMARY_SCHEMA, "head_sha": head_sha, "kani_commit": kani_commit, "run": run or {},
         "tooling_sha256": tooling or {}, "build_outcome": build_outcome,
@@ -1275,6 +1545,73 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     summary["request"]["valid_value_checks"] = request.get("valid_value_checks", False)
     summary["request"]["controls"] = request.get("controls", False)
     summary["request"]["inventory"] = request.get("inventory", False)
+    if request.get("kani_patch") or request["kind"] == "kani-tests":
+        try:
+            info = json.loads(kani_build_text or "null")
+            if (not isinstance(info, dict) or info.get("pin") != kani_commit or info.get("patch") != request.get("kani_patch")
+                    or not re.fullmatch(r"[0-9a-f]{40}", info.get("tree", ""))
+                    or not _one_line(info.get("version"), 200) or build_outcome != "success"):
+                raise ValueError("missing/inconsistent Kani patch/tree/version/build identity")
+            summary["kani_build"] = info
+        except (ValueError, TypeError) as exc:
+            summary["status"] = "RUNNER_ERROR"
+            summary["inconsistencies"].append(str(exc))
+            return summary
+    if request["kind"] == "kani-tests":
+        summary["measurement_ok"] = None
+        summary["kani_exit_code"] = None
+        summary["native_runner_exit_code"] = exit_code
+        summary["notes"].append("Native compiletest results; negative expected-mode PASS does not establish a successful Kani exit.")
+        try:
+            if exit_code != 0:
+                raise ValueError("native runner did not exit successfully")
+            native = json.loads(native_text or "null")
+            bindings = {"schema": NATIVE_SCHEMA, "head_sha": head_sha, "build_id": summary["run"].get("id"),
+                        "request_sha256": summary["request_sha256"], "tree": summary["kani_build"]["tree"]}
+            if not isinstance(native, dict) or any(native.get(k) != v for k, v in bindings.items()):
+                raise ValueError("native report binding/schema mismatch or missing report")
+            rows = native.get("tests")
+            if (native.get("complete") is not True or not isinstance(rows, list)
+                    or [r.get("name") for r in rows] != [native_name(e) for e in request["kani_tests"]]):
+                raise ValueError("native actual set/order/count differs from requested selectors or report incomplete")
+            binaries = native.get("binaries") or {}
+            if (binaries.get("kani_profile") != "release" or binaries.get("compiletest_profile") != "dev"
+                    or set(binaries.get("paths") or {}) != {"kani", "kani-driver", "kani-compiler", "compiletest"}):
+                raise ValueError("native binary profiles/paths absent")
+            for binary in binaries["paths"].values():
+                if not _one_line(binary.get("invoked"), 500):
+                    raise ValueError("native invoked binary path absent")
+            for name in ("kani-driver", "kani-compiler"):
+                binary = binaries["paths"][name]
+                if (not _one_line(binary.get("release"), 500) or not _one_line(binary.get("resolved"), 500)
+                        or not re.fullmatch(r"[0-9a-f]{64}", binary.get("sha256", ""))):
+                    raise ValueError("native release binary identity absent")
+            if any(type(summary["kani_build"].get(key)) not in (float, int) or summary["kani_build"][key] < 0
+                   for key in ("kani_build_s", "compiletest_build_s")):
+                raise ValueError("native build timing missing")
+            for row, entry in zip(rows, request["kani_tests"]):
+                argv = native_argv(entry, request["test_timeout_seconds"], Path(row["argv"][row["argv"].index("--build-base") + 1]))
+                if (row["argv"] != argv or row.get("env") != {"RUST_TEST_THREADS": "1"} or not row.get("cwd")
+                        or row.get("expect") != entry["expect"]
+                        or any(row.get(key) != entry[key] for key in ("suite", "mode", "file", "require_success"))):
+                    raise ValueError("native argv/env/cwd/expect mismatch")
+                if (type(row.get("time_s")) not in (int, float) or not math.isfinite(row["time_s"]) or row["time_s"] < 0
+                        or type(row.get("wall_s")) not in (int, float) or not math.isfinite(row["wall_s"]) or row["wall_s"] < 0):
+                    raise ValueError("native timing missing/corrupt")
+                if row.get("status") != "ERROR":
+                    if (row.get("native_status") != ("FAILED" if entry["expect"] == "fail" else "ok")
+                            or row.get("exit_code") != (1 if entry["expect"] == "fail" else 0)
+                            or (entry.get("diagnostic") and entry["diagnostic"] not in (row.get("diagnostic") or ""))):
+                        raise ValueError("native terminal/exit/diagnostic inconsistent")
+            summary["native"] = native
+            summary["harnesses"] = rows
+            summary["expectation_met"] = all(r.get("status") == ("EXPECTED_REPRO_FAILURE" if e["expect"] == "fail" else "PASS")
+                                              and r.get("errors") == [] for r, e in zip(rows, request["kani_tests"]))
+            summary["status"] = "COMPLETE" if summary["expectation_met"] else "TOOL_ERROR"
+        except (ValueError, KeyError, TypeError, AttributeError) as exc:
+            summary["status"] = "INCONSISTENT"
+            summary["inconsistencies"].append(str(exc))
+        return summary
     if request.get("controls"):
         summary["notes"].append(f"--cfg {CONTROLS_CFG} on: opt-in control/mutant harnesses compiled, outside the CI set")
     if request.get("uninit_checks"):
@@ -1555,6 +1892,21 @@ def render_md(summary: dict[str, Any]) -> str:
         "|---|---|---|---|---|---|---|",
     ]
     inventory = summary.get("inventory_result")
+    if summary.get("kani_build"):
+        info = summary["kani_build"]
+        lines[8:8] = [f"- Kani applied tree `{info['tree']}`, patch `{(info.get('patch') or {}).get('sha256')}`, version `{info['version']}`",
+                      f"- Kani build {info.get('kani_build_s')} s; compiletest build {info.get('compiletest_build_s')} s",
+                      f"- patch diffstat: {info.get('diffstat')}"]
+    if summary.get("native"):
+        native_lines = ["", "| native test | expectation | result | wall s | diagnostic |", "|---|---|---|---|---|"]
+        for row in summary["harnesses"]:
+            native_lines.append(f"| {row['name']} | {row['expect']} | {row['status']} | {row['wall_s']} | {row.get('diagnostic') or ''} |")
+        # Full argv, cwd, binary paths and profiles remain in the bounded structured summary.
+        lines = lines[:next(i for i, line in enumerate(lines) if line.startswith("| harness"))] + native_lines
+        lines += [f"- {note}" for note in summary["inconsistencies"]]
+        lines += [f"- {note}" for note in summary["notes"]]
+        lines += [f"- {row['name']}: {error}" for row in summary["harnesses"] for error in row.get("errors", [])]
+        return "\n".join(lines) + "\n"
     if inventory is not None:
         lines[8:8] = [f"- ordinary verify inventory: {inventory['count']} names; names SHA-256 `{inventory['names_sha256']}`",
                        f"- inventory artifact SHA-256: `{inventory['artifact_sha256']}`", ""]
@@ -1622,6 +1974,19 @@ def main(argv: list[str]) -> int:
     v.add_argument("--max-total-minutes", type=int, default=None)
     v.add_argument("--require-runner", action="append", default=[],
                    help="accepted runner value of this lane (repeatable); any other is rejected")
+    prep = sub.add_parser("prepare-kani")
+    prep.add_argument("--request", required=True)
+    prep.add_argument("--tree", required=True)
+    prep.add_argument("--pin", required=True)
+    prep.add_argument("--out", required=True)
+    nt = sub.add_parser("run-native")
+    nt.add_argument("--request", required=True)
+    nt.add_argument("--tree", required=True)
+    nt.add_argument("--out", required=True)
+    nt.add_argument("--deadline", type=float, required=True)
+    nt.add_argument("--head-sha", required=True)
+    nt.add_argument("--build-id", required=True)
+    nt.add_argument("--kani-build", required=True)
     s = sub.add_parser("summarize")
     s.add_argument("--request", required=True)
     s.add_argument("--log")
@@ -1638,6 +2003,8 @@ def main(argv: list[str]) -> int:
     s.add_argument("--memcap", help="memcap.txt of the verify step; marks the memory cap as tracked")
     s.add_argument("--peaks", help="peaks.txt of sample-mem; marks per-command memory peaks as tracked")
     s.add_argument("--inventory", help="completed inventory artifact, required to gate kind inventory")
+    s.add_argument("--native")
+    s.add_argument("--kani-build")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
@@ -1657,6 +2024,10 @@ def main(argv: list[str]) -> int:
     ps.add_argument("summary")
     ps.add_argument("offset", type=int)
     ps.add_argument("count", type=int)
+    pn = sub.add_parser("page-native")
+    pn.add_argument("summary")
+    pn.add_argument("offset", type=int)
+    pn.add_argument("count", type=int)
     pi = sub.add_parser("page-inventory")
     pi.add_argument("inventory")
     pi.add_argument("summary")
@@ -1672,6 +2043,22 @@ def main(argv: list[str]) -> int:
     m.add_argument("--kani-commit")
     m.add_argument("--build-id")
     a = ap.parse_args(argv)
+    if a.cmd in ("prepare-kani", "run-native"):
+        try:
+            text = Path(a.request).read_text()
+            request = validate_request(json.loads(text))
+            if a.cmd == "prepare-kani":
+                info = prepare_kani(request, Path.cwd(), Path(a.tree).resolve(), a.pin)
+                Path(a.out).write_text(json.dumps(info, indent=2) + "\n")
+            else:
+                info = json.loads(Path(a.kani_build).read_text())
+                run_native(request, Path(a.tree).resolve(), Path(a.out).resolve(), a.deadline,
+                           {"head_sha": a.head_sha, "build_id": a.build_id, "tree": info["tree"],
+                            "request_sha256": hashlib.sha256(text.encode()).hexdigest()})
+        except (OSError, ValueError, subprocess.SubprocessError, KeyError) as exc:
+            print(f"REQUEST_INVALID: {exc}", file=sys.stderr)
+            return 2
+        return 0
     if a.cmd == "ledger":
         try:
             prices = None
@@ -1697,9 +2084,10 @@ def main(argv: list[str]) -> int:
             print(f"write-inventory: {exc}", file=sys.stderr)
             return 2
         return 0
-    if a.cmd == "page-summary":
+    if a.cmd in ("page-summary", "page-native"):
         try:
-            print(summary_page(json.loads(Path(a.summary).read_text()), a.offset, a.count), end="")
+            renderer = native_page if a.cmd == "page-native" else summary_page
+            print(renderer(json.loads(Path(a.summary).read_text()), a.offset, a.count), end="")
         except (OSError, json.JSONDecodeError, ValueError) as exc:
             print(f"page-summary: {exc}", file=sys.stderr)
             return 2
@@ -1721,6 +2109,7 @@ def main(argv: list[str]) -> int:
     if a.cmd == "validate":
         try:
             request = validate_request(json.loads(Path(a.request).read_text()), a.max_total_minutes)
+            patch_bytes(request, Path.cwd())
             if a.require_runner and request["runner"] not in a.require_runner:
                 raise RequestError(f"this lane runs only runner(s) {sorted(a.require_runner)}, request asks {request['runner']}")
         except (OSError, json.JSONDecodeError, RequestError) as exc:
@@ -1749,7 +2138,8 @@ def main(argv: list[str]) -> int:
         summary = summarize(_read_optional(a.request), _read_optional(a.log), _read_optional(a.time), exit_code,
                             a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
                             a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None,
-                            _read_optional(a.peaks), a.peaks is not None, _read_optional(a.inventory))
+                            _read_optional(a.peaks), a.peaks is not None, _read_optional(a.inventory),
+                            _read_optional(a.native), _read_optional(a.kani_build))
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

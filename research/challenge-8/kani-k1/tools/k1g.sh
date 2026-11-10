@@ -12,6 +12,7 @@
 #   k1g.sh watch BUILD                  Codex: detached wait, then one `codex queue` into $CODEX_THREAD_ID; end the turn
 #   k1g.sh summary BUILD                download the summary, print summary.md
 #   k1g.sh summary BUILD OFFSET [COUNT] bounded summary.json harness page (COUNT <= 80)
+#   k1g.sh native BUILD [OFFSET [COUNT]] bounded native argv/cwd/binary evidence (COUNT <= 4)
 #   k1g.sh inventory BUILD [OFFSET [COUNT]] filtered ordinary names (COUNT <= 80)
 #   k1g.sh cancel BUILD                  request cancellation of one Cloud Build
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
@@ -95,8 +96,9 @@ ledger() {
   [ "$BUILDS" -lt 1000 ] || die "1000 or more builds listed: the ledger may undercount; owner decision needed"
 }
 
-fetch() {  # fetch BUILD -> directory with summary/ and log/; only for finished builds, whose uploads are final
-  local id=$1 dir="$CACHE/$1" tmp status
+fetch() {  # summaries scope never downloads raw logs; legacy log commands retain their explicit route
+  local id=$1 scope=${2:-legacy} dir="$CACHE/$1" tmp status
+  [ "$scope" != summaries ] || dir="$CACHE/summary-$id"
   if [ ! -d "$dir" ]; then
     status=$(describe "$id" | jqr "d.get('status')")
     [[ "$TERMINAL" == *" $status "* ]] || die "build $id is not finished (status $status); wait for it first"
@@ -110,6 +112,9 @@ fetch() {  # fetch BUILD -> directory with summary/ and log/; only for finished 
     while IFS= read -r url; do
       rel=${url#gs://$BUCKET/runs/$id/}
       [[ "$rel" =~ ^(summary|log)/[A-Za-z0-9._-]+$ ]] && [[ "$rel" != *..* ]] || continue
+      if [ "$scope" = summaries ]; then
+        case "$rel" in summary/summary.json|summary/summary.md|log/stage-error.txt) ;; *) continue ;; esac
+      fi
       mkdir -p "$tmp/$(dirname "$rel")"
       G storage cp "$url" "$tmp/$rel" >/dev/null 2>&1 || { rm -rf "$tmp"; die "download failed: $rel"; }
     done < "$tmp/index.txt"
@@ -121,7 +126,7 @@ fetch() {  # fetch BUILD -> directory with summary/ and log/; only for finished 
 cmd=${1:-}; shift || true
 case "$cmd" in
   dispatch)
-    branch=${1:-}; [[ "$branch" =~ ^experiment/kani-k1-[a-z]+-[0-9]{8}$ ]] || die "branch must be experiment/kani-k1-<name>-<date>"
+    branch=${1:-}; [[ "$branch" =~ ^experiment/kani-k1-[a-z0-9]+-[0-9]{8}$ ]] || die "branch must be experiment/kani-k1-<name>-<date>"
     git fetch -q origin "$branch" || die "branch $branch is not published"
     sha=$(git rev-parse "origin/$branch")
     [ "$(git rev-parse "$branch" 2>/dev/null)" = "$sha" ] || die "local $branch differs from origin; push it first"
@@ -133,7 +138,7 @@ case "$cmd" in
       --require-runner gcb-e2-standard-4 \
       --max-total-minutes "$RESOURCE_MAX_TOTAL_MINUTES" >/dev/null || die "request rejected (see above)"
     pool=$(pool_of "$(cat "$work/runner")"); price=$(price_of "$pool")
-    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
+    total=$(python3 -c 'import json,sys; r=json.load(open(sys.argv[1])); print(r["harness_timeout_minutes"] if r.get("kind") in ("partition", "autoharness", "inventory", "kani-tests") else len(r["harnesses"]) * r["harness_timeout_minutes"])' "$work/request.json")
     timeout=$(( total + OVERHEAD_MINUTES ))
     cost=$(python3 -c "print(f'{$timeout * $price:.4f}')")
     auth
@@ -143,6 +148,18 @@ case "$cmd" in
     dup=$(G builds list --region="$REGION" --limit=1000 --format='value(id)' --filter="substitutions._SHA=$sha")
     [ -z "$dup" ] || die "build(s) $(echo $dup) already ran $sha; change and push RUN-REQUEST.json for a new run"
     ledger
+    # KT1 has its own $0.80 cap in addition to the unchanged project ledger. This branch is dedicated
+    # to this stage; reservations include all its in-flight builds, repairs use actual finished cost.
+    if [[ "$branch" = experiment/kani-k1-kani5116-20261110 ]]; then
+      stage_ledger=$(G builds list --region="$REGION" --limit=1000 --format=json --filter="substitutions._BRANCH=$branch" \
+        | python3 -B "$TOOLS/kani_k1.py" ledger --price "$POOL_HIGHMEM=$PRICE_HIGHMEM" --price "$POOL_STANDARD=$PRICE_STANDARD") \
+        || die "cannot compute kani5116-kt1 ledger"
+      read -r stage_builds stage_used stage_reserved <<< "$stage_ledger"
+      [ "$stage_builds" -lt 1000 ] || die "KT1 ledger may undercount"
+      within_cap "$(python3 -c "print($stage_used + $stage_reserved + $cost)")" 0.80 \
+        || die "kani5116-kt1 budget exceeds \$0.80 including this reservation"
+      [ "$timeout" -le 59 ] || die "kani5116-kt1 timeout exceeds 59 min"
+    fi
     total_usd=$(python3 -c "print(f'{$USED + $RESERVED + $cost:.4f}')")
     if ! within_cap "$total_usd" "$CAP_USD"; then
       die "budget: used \$$USED + reserved \$$RESERVED + this build's \$$cost ($timeout min in $pool) > cap \$$CAP_USD; owner decision needed"
@@ -198,7 +215,7 @@ case "$cmd" in
     echo "watching build $id for thread $thread (log $log). End the turn now; a queued message will wake it." ;;
   summary)
     id=${1:-}; is_build "$id"; auth
-    dir=$(fetch "$id")
+    dir=$(fetch "$id" summaries)
     if [ "$#" -gt 1 ]; then
       offset=${2:-}; count=${3:-80}
       [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
@@ -214,6 +231,13 @@ case "$cmd" in
     fi
     [ -f "$dir/summary/summary.md" ] || die "build $id has no summary: treat as RUNNER_ERROR (timeout, cancel or setup failure)"
     cat "$dir/summary/summary.md" ;;
+  native)
+    id=${1:-}; is_build "$id"; [ "$#" -le 3 ] || die "native accepts BUILD [OFFSET [COUNT]]"
+    offset=${2:-0}; count=${3:-1}
+    [[ "$offset" =~ ^[0-9]+$ ]] || die "OFFSET must be a non-negative integer"
+    [[ "$count" =~ ^[1-4]$ ]] || die "COUNT must be 1..4"
+    auth; dir=$(fetch "$id" summaries)
+    python3 -B "$TOOLS/kani_k1.py" page-native "$dir/summary/summary.json" "$offset" "$count" ;;
   inventory)
     id=${1:-}; is_build "$id"; auth
     [ "$#" -le 3 ] || die "inventory accepts BUILD and optional OFFSET/COUNT"
@@ -270,7 +294,7 @@ PY
     else
       echo "DIFF lane files changed between BASE and build commit:"; git diff --stat "$base" "$head" -- "${LANE_PATHS[@]}"; exit 1
     fi
-    dir=$(fetch "$id")
+    dir=$(fetch "$id" summaries)
     [ -f "$dir/summary/summary.json" ] || die "build $id has no summary.json"
     rc=0
     python3 -B - "$dir/summary/summary.json" "$head" "$base" "$id" "${BOUND_FILES[@]}" <<'PY' || rc=1
@@ -291,6 +315,24 @@ for path in paths:
     ok = got == want
     bad += not ok
     print(f"{'ok  ' if ok else 'DIFF'} {path} summary={got[:16]} base={want[:16]}")
+request_path = "research/challenge-8/kani-k1/RUN-REQUEST.json"
+request_blob = subprocess.run(["git", "show", f"{head}:{request_path}"], capture_output=True, check=True).stdout
+request = json.loads(request_blob)
+if request.get("kani_patch") or request.get("kind") == "kani-tests":
+    want = hashlib.sha256(request_blob).hexdigest()
+    ok = summary.get("request_sha256") == want
+    bad += not ok
+    print(f"{'ok  ' if ok else 'DIFF'} candidate request SHA-256 {want}")
+    info = summary.get("kani_build") or {}
+    ok = info.get("patch") == request.get("kani_patch")
+    bad += not ok
+    print(f"{'ok  ' if ok else 'DIFF'} applied patch specification matches candidate request; tree={info.get('tree')}")
+    if request.get("kani_patch"):
+        spec = request["kani_patch"]
+        blob = subprocess.run(["git", "show", f"{head}:{spec['path']}"], capture_output=True, check=True).stdout
+        ok = hashlib.sha256(blob).hexdigest() == spec["sha256"]
+        bad += not ok
+        print(f"{'ok  ' if ok else 'DIFF'} published patch SHA-256 {spec['sha256']}")
 sys.exit(1 if bad else 0)
 PY
     exit "$rc" ;;
