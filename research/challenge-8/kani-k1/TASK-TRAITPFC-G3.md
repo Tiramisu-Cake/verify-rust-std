@@ -34,7 +34,8 @@ T3 = `<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort` (не-`default` impl
    модель не получает.
 2. **Whitelist по entry.** `enabled` отражает конкретный метод/T/F/значение/N: verification-only тег entry (T1/T2/T3)
    как аргумент модели, без изменения runtime API. Длина включается для метода только если в пакете есть его
-   ordinary real-body leaf на этой длине. Неподтверждённая длина не остаётся enabled.
+   ordinary direct PFC либо composed PFC с успешным matching real-body leaf зависимого метода на этой длине.
+   Неподтверждённая длина не остаётся enabled.
 3. **Условные ensures:** `!old(enabled(...)) || check(old(snapshot(...)), текущее состояние)`. Новых `requires` нет;
    G1 `requires`/`modifies` не менять. Postcondition не вызывает `F`; sortedness — чистым модельным порядком `<=`.
 4. **Snapshot:** фиксированная Copy-структура `{ len, valid, vals: [u64; 3] }`, полностью инициализированная; читает
@@ -61,8 +62,9 @@ T3 = `<u64 as UnstableSmallSortFreezeTypeImpl>::small_sort` (не-`default` impl
 
 ## Строки Build 1
 
-Входы — `kani::any()` без ограничений значений/дубликатов. T1: `[u64; N]` + scratch `N + 16`; T2/T3/consumer: backing
-`[u64; N + 2]`, активный `v = &mut backing[1..N + 1]`, внешние элементы проверяются. В positive roots `let mut cmp:
+Входы positive roots (A1–A6, C1) — `kani::any()` без ограничений значений/дубликатов (у K2 условие `a<b` — часть
+отрицательной фикстуры). T1: `[u64; N]` + scratch `N + 16`; T2/T3/consumer: backing
+`[u64; N + 2]`, активный `v = &mut backing[1..N + 1]`, внешние элементы проверяются. В A1–A6 и C1 `let mut cmp:
 U64Cmp = canonical_less_u64;`, `kani::assert(enabled)` и cover до вызова; covers: ascending, descending, с дубликатом,
 возврат (фиксировать ожидаемый набор в пакете).
 
@@ -76,21 +78,31 @@ U64Cmp = canonical_less_u64;`, `kani::assert(enabled)` и cover до вызов�
 | K2 | opt-in | кратности: `pre=[a,a,b]`, `post=[a,b,b]`, `a<b` (те же множества) | FAILED, 1 = назначенная |
 | K3 | opt-in | reverse pointer того же `U64Cmp`, assert `!enabled`, `stub_verified(T3)` через T2, assert sorted | FAILED, 1 = sortedness |
 | K4 | opt-in | default calibration: function-item `F` (default модель), consumer N3 через stub, assert sorted | FAILED, 1 = sortedness |
-| R1, R2 | ordinary | G1/G2 R1/R2 без изменений | SUCCESS |
+| W1 | opt-in | weak PFC T3 на том же function-item `F`/N3/backing, что K4 (matching proof frame-only ветки) | SUCCESS |
+| R1, R2 | ordinary | G1/G2 R1/R2 буквально без изменений | SUCCESS |
 
 Итого ordinary = 235 + 7 = **242** (пересчитать по фактическому manifest); cfg-on manifest — заново полным списком.
+Сильный PFC с `U64Cmp` не является matching proof для другого `F`: K4 опирается на W1.
 `--harness-timeout 5m`, unwind новых корней 32 (проверь циклы oracle/тел), R1/R2 прежние; флаги организаторов
 (`--no-assert-contracts`, object-bits 12) без изменений; uninit/value-validity выкл.; standard4/jobs1. **`inventory:
 true`** — native cfg-off inventory нового ordinary-набора (ожидание 242, точное совпадение имён) в той же сборке, с
-атрибуцией флагов как в G2. Paid build timeout — численно по расчёту, ≤ 120 мин; в PRE-BUILD — расчёт резерва и
-стоимость worst-case Build 2 в пределах $3.50.
+атрибуцией флагов как в G2. Расчёт времени — по **неизменённому runner** (строки × 5m + OVERHEAD 30; для 14 строк
+≈ 100m paid; verify cutoff от validation), inventory/setup входят в этот бюджет, 120m автоматически не выделяются.
+В PRE-BUILD: доступное время после inventory и суммарный резерв обоих Build ≤ $3.50. Если не сходится —
+пересогласовать пакет с координатором, frozen tooling не менять.
 
 ## Build 2 (только одно из двух, по результатам Build 1)
 
 - **Repair:** только синтаксис/квалификация атрибутов или форма old-capture п. 4, тот же набор строк.
-- **Финальное сужение**, если часть ordinary-строк не прошла (TIMEOUT/FAILED не из-за ошибки кода): соответствующие
-  длины убрать из whitelist и из ordinary (оставить opt-in или удалить), C1 — на наибольшей прошедшей длине;
-  проверить **финальное** library tree: inventory + все оставшиеся ordinary positives + K1–K4. Без новых длин/типов.
+- **Финальное сужение** — автоматически только при TIMEOUT/OOM: соответствующие длины убрать из whitelist и из
+  ordinary; непрошедшие positive roots с `assert(enabled)` сохранить на research SHA, в PR-library не оставлять.
+  Неожиданный ordinary FAILED сначала классифицировать (counterexample / ошибка спецификации / model-trust /
+  unsupported); он не становится resource-open исключением длины — диагностика и отдельное решение координатора в
+  PRE-BUILD. Composed rows без успешного matching leaf исключить, даже если сами SUCCESS. C1 — по наибольшему
+  **подтверждённому** домену T3 с совместимым T2. K1/K2 остаются oracle-калибровками N3, если snapshot/checker
+  поддерживают N3 независимо от entry whitelist (K2 на N2 эквивалентно не переносится); K3/K4/W1 — на принятый домен
+  T3, показывая: canonical fn-pointer enabled, reverse/function-item disabled. Проверить **финальное** library tree:
+  inventory + оставшиеся A1–A6/C1 + R1/R2 + K1–K4/W1 (не полная матрица 235/242). Без новых длин/типов.
 - Если Build 1 PASS целиком — Build 2 не нужен.
 
 ## Приёмка
@@ -102,7 +114,9 @@ true`** — native cfg-off inventory нового ordinary-набора (ожи�
 - Статика (скрипт в `traitpfc/`, лексер/expander из `renamemods/`): прежние 235 ordinary имён/тела/атрибуты/домены
   неизменны; 13 controls прежнего набора неизменны; тела/сигнатуры/bounds/`inline`/`default` и G1
   `requires`/`modifies` неизменны. Whitelist library: `smallsort.rs` (только ensures на T1–T3), `verify.rs`,
-  `verify/trait_model.rs`, `verify/trait_contracts.rs`. rustfmt — ноль diff; новых строк > 100 нет.
+  `verify/trait_model.rs`, `verify/trait_contracts.rs`. rustfmt — ноль diff; новых строк > 100 нет. Базы
+  сравнения: сохранность G1 `requires`/`modifies` и разрешённое изменение ensures — относительно G2 `3a16a173b0`;
+  итоговый library patch — относительно `9b1758ab81` (в нём закономерно есть и G1 `requires`/`modifies`).
 - **PR-применимость:** library-diff от `9b1758ab81` до финального library-коммита должен чисто применяться к поданному
   head `872d5a4338` (проверить без изменения веток submission, например `git apply --check` на временном worktree в
   scratchpad, затем удалить его по литеральному абсолютному пути); сохранить patch в `traitpfc/g3/`.
