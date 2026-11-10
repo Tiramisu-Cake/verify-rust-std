@@ -14,8 +14,11 @@ specialization `default fn` не парсятся). Локальная сбор�
 
 - Worktree **/root/verify-rust-std-kani5116**, ветка **experiment/kani-k1-kani5116-20261110** от `9b1758ab81`
   (пин Kani `f046b70644e113be0df9c22c2e6ea44a65a57566`, nightly-2026-10-23). Пин и toolchain не менять.
-- Исходники Kani для чтения: read-only clone `f046b70644` в `/root/kani-src-f046b70644` (не коммитить в
-  verify-rust-std, не собирать).
+- Исходники Kani для чтения: клона ещё нет — создай сам read-only checkout ровно `f046b70644` в
+  `/root/kani-src-f046b70644` (`git init` + `fetch --depth 1 origin <sha>` + checkout; не коммитить в verify-rust-std,
+  не собирать). Изменённые файлы вне tools/cloudbuild — только data-артефакты: test-only patch
+  (`research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch`), RUN-REQUEST/manifest, PRE-BUILD, RESULT.
+  Production-макросы Kani и library verify-rust-std в KT1 не меняются.
 - Slug **kani5116**, stage `kani5116-kt1`, stable owner **k1-merge**, request `kani5116-kt1-*`. Параллельно на
   ветке experiment/kani-k1-traitpfc-20261110 идёт другой этап: его файлы, ledger и сборки не трогать.
 - Свой cap **$0.80**: одна калибровочная сборка (резерв ≤ 59 мин timeout); repair только если влезает по
@@ -33,13 +36,18 @@ specialization `default fn` не парсятся). Локальная сбор�
    форму по исходникам `f046b70644`), `RUST_TEST_THREADS=1`, per-test и общий wall-time лимиты. verify-std не
    запускается. Не использовать `scripts/kani-regression.sh` целиком. Release-сборка — документированной формой
    (`cargo build-dev -- --release`, проверь), без смешения со старыми debug-артефактами; учесть сборку compiletest
-   и фактические binary paths.
-3. **Gate по native результатам compiletest:** точные имена выполненных тестов = manifest, `running N tests`, итоги
-   по каждому; ноль тестов, ignored, filtered-out, timeout, частичный/повреждённый summary — не PASS. Слова
+   и фактические binary paths. Native-test report содержит фактические argv, рабочий каталог, используемые Kani
+   binary paths/profile. Если изменение build-команды затрагивает старые kinds без patch — отдельно согласовать
+   с координатором и проверить, незаметно не менять.
+3. **Gate по native результатам compiletest:** каждое запрошенное имя выполнено ровно один раз, `running N tests`,
+   итоги по каждому; ноль тестов, ignored/filtered-out **запрошенного** теста, timeout, частичный/повреждённый
+   summary — не PASS (штатная фильтрация прочих кандидатов при `--exact` — норма). Слова
    SUCCESS/FAILED в выводе Kani итогом не считаются. Expected-тесты: положительным нужен `--require-success`
-   (или эквивалент по исходникам), отрицательным — конкретная ожидаемая диагностика. Поддержать ожидаемый отказ
-   теста (`expect: fail` + обязательная подстрока диагностики), чтобы baseline repro засчитывался только при
-   нужной ошибке.
+   (или эквивалент по исходникам), отрицательным — конкретная ожидаемая диагностика. Manifest typed: `{suite, mode,
+   file, expect: pass|fail, diagnostic (обязательна для fail), require_success policy для expected-mode}`. Native
+   PASS отрицательного ui/expected-теста ≠ успешный выход Kani. `expect: fail` (EXPECTED_REPRO_FAILURE) — только
+   обычное завершённое FAILED именно этого теста с диагностикой «expected `fn`» из его собственного вывода; ошибка
+   сборки compiletest, timeout/kill, panic runner'а или строка из другого теста — не засчитываются.
 4. Существующие kinds без `kani_patch` — неизменные args/routes/status/binding/резервы; бюджет нового kind
    согласован в `k1g.sh`, `kani_k1.py`, `gcb-k1.sh`. Optional `kani_patch` поддержать и для diagnostic/verify-std
    маршрута (понадобится в KF2), но в KT1 его не прогонять.
@@ -49,8 +57,11 @@ specialization `default fn` не парсятся). Локальная сбор�
 
 - `test_kani_k1.py` + штатные service/error-path checks: bad path/hash, symlink/`..`, missing patch, apply conflict,
   неизвестный/пустой/дублированный selector, несовпадение фактического набора, nonzero exit, timeout,
-  ignored/filtered, отсутствующий/повреждённый summary, сборочный отказ, бюджет/дедлайн, gate после upload. Плюс
-  неизменность старых веток (не только happy path). Все проходят локально (Python), check-tooling по diff.
+  ignored/filtered запрошенного теста, отсутствующий/повреждённый summary, сборочный отказ, бюджет/дедлайн, gate
+  после upload; для `expect: fail` — compiletest build failure, timeout/kill, panic runner'а, диагностика из чужого
+  теста. Плюс неизменность старых веток (не только happy path). Все проходят локально (Python). До Build —
+  статический diff tooling от `9b1758ab81` в PRE-BUILD и GO на полный candidate SHA; после Build —
+  `check-tooling BUILD <утверждённый candidate SHA>` плюс binding.
 - **Калибровочная сборка** `kani-tests` на пине **с test-only patch** (только новые fixtures, без фикса макросов):
   - `kani/FunctionContracts/generic_fn_pointer_argument.rs`, `kani/Stubbing/stub_set_multiple_use.rs`,
     `ui/function-contracts/trait_default_fn_err.rs`, `expected/function-contract/generic_default_missing_required.rs`
@@ -72,7 +83,8 @@ manifest; список изменённых файлов tooling; error-path che
 
 - Коммиты `[skip ci]`, push без force, глобальный git config не менять, `git stash` не использовать.
 - Последней строкой `PRE-BUILD REVIEW <полный sha>`, стоп до GO. Ожидание: `k1g.sh watch BUILD`, затем конец хода.
-- Evidence — bounded K-1 summaries/rows/log-grep через `k1g.sh` (`smallsort-brief`, если индексирован). Прямых
+- Evidence — per-test итоги пишутся runner'ом в структурированный summary-файл; читать его тем же уже разрешённым
+  путём `k1g.sh`, что в TRAITPFC G1/G2 (или `smallsort-brief`, если индексирован), вывод — bounded. Прямых
   GCS/storage/download/logging-команд нет; raw logs, archives, credentials не читать.
 - Никаких локальных cargo/rustc/Kani/CBMC; Python-тесты tooling и rustfmt-обёртка — можно. Никаких
   Actions/PR/issue/комментариев на GitHub, никакого fork Kani.
