@@ -1,4 +1,4 @@
-# RESULT-KANI5116-KT1 — OPEN / NOT ACCEPTED; repair 2 diagnostic evidence available
+# RESULT-KANI5116-KT1 — ACCEPTED AS TOOLING PASS (coordinator decision)
 T0: 2026-11-10T20:23:42Z; main deadline 2026-11-11T01:23:42Z, closeout 01:53:42Z.
 Latest build: b85f2c4d-972a-4c05-a8ba-9052c9efdc53; Cloud FAILURE; summary TOOL_ERROR; gate false.
 Approved build/tooling commit: 383fd7089550aeabac3ad92366cd7c71e2f237ee; this update changes RESULT only.
@@ -23,13 +23,14 @@ Error paths: unsafe/missing/hash/symlink/conflicting patch; bad selectors/actual
 | [kani] kani/FunctionContracts/specialization_default_fn_5116.rs | fail with expected fn diagnostic | FAILED (exit 1) / ERROR | 0.06 / 0.265 | error[E0433]: cannot find `core` in the crate root |
 
 Repro is NOT credited as EXPECTED_REPRO_FAILURE: required expected `fn` substring and matching error line are absent in all four exported source-match flags; selected_source=null.
-Actual first line of own kani_stderr (.err): error[E0433]: cannot find `core` in the crate root; its tail lists E0046, E0433, E0520. This is a different observed diagnostic, not proof of its cause or an accepted #5116 reproduction.
+Actual first line of own kani_stderr (.err): error[E0433]: cannot find `core` in the crate root; its tail lists E0046, E0433, E0520. The excerpt establishes the observed diagnostic; the coordinator diagnosis is recorded separately below.
 Own stderr path: /workspace/src/k1-out/native-4/FunctionContracts/specialization_default_fn_5116/specialization_default_fn_5116.err; 1314 bytes; SHA-256 e7fb176060848567cf57f9aaa789c779a10997db7fe8343cf307e229120dcbf3.
 Own stdout says kani-compiler exited with status 101; compiletest stdout/stderr and child .out/.err are distinct, hashed sources. Gate still reads raw .out + newline + .err only; no console/excerpt credit.
 Excerpt: 19 selected source lines, 186 omitted, bounded by 60 lines / 4096 JSON bytes; diagnostic_only=true; no raw-log fallback or underlying-output reconstruction.
 Build times: Kani 263 s; compiletest 16 s. Negative expected-mode native PASS does not establish successful Kani exit.
 Earlier builds: c12af029-8eaf-4dfb-b03d-2ed52a8af2d6 RUNNER_ERROR (no retrospective native credit); 490e5e95-27ef-45a3-a4bb-7da768cdb8cc four PASS, repro ERROR with no actual error text exported.
 Actual selected-build ledger: 3 builds, $0.3510 used, $0 reserved, within $0.80 cap (first $0.1215; repair 1 $0.1080; repair 2 $0.1215).
-New accepted tooling base for KF1/KF2: NONE; four neighbours and binding PASS, but the required repro diagnostic is not established; KT1 stays open.
+Accepted tooling base for KF1/KF2: 383fd7089550aeabac3ad92366cd7c71e2f237ee (coordinator acceptance; historical native statuses above remain unchanged).
+Решение координатора: KT1 принят как tooling PASS, новых сборок нет; compiletest Kani по умолчанию использует edition 2015, а соседние contract-тесты задают // compile-flags: --edition 2021 (tests/kani/FunctionContracts/receiver_contracts.rs:11); поэтому compile_error! с путём ::core после parse-ошибки макроса не резолвится: E0433 маскирует expected `fn`, E0046/E0520 — те же knock-on ошибки, что в #5116; неверным было ожидание manifest, не tooling.
 Repair 2 observability is demonstrated; fixture, five selectors, gate policy, production macros and library remain unchanged. No new build or fix is authorized by this RESULT.
 Limitations: subset is not full upstream CI; no B2/full-proof claim; excerpts identify diagnostics, not causality; no raw logs/archives or credentials read; historical evidence unchanged.
