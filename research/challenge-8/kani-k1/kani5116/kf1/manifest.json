@@ -1,0 +1,142 @@
+[
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/specialization_default_fn_5116.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/specialization_default_clauses.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/specialization_default_generic.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/specialization_default_old.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/specialization_default_ensures_fail.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "Failed Checks: |result| *result == 0"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/specialization_default_requires_fail.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "Failed Checks: value != 0"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/specialization_default_modifies_fail.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "is assignable"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/specialization_default_old_fail.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "Failed Checks: |_| *value == old(*value)"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/specialization_override_no_contract.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "has no contract."
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/generic_trait_specialization.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "FunctionContracts/generic_fn_pointer_argument.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Stubbing/stub_set_multiple_use.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "ui",
+    "mode": "expected",
+    "file": "function-contracts/trait_default_fn_err.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "cannot be applied to trait function declarations without default bodies"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/generic_default_missing_required.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/arbitrary_ensures_pass.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/checking_in_impl.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/trait_impls/methods.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/modifies/simple_pass.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "function-contract/history/stub.rs",
+    "expect": "pass",
+    "require_success": true
+  }
+]

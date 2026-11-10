@@ -1,0 +1,654 @@
+diff --git a/library/kani_macros/src/sysroot/contracts/bootstrap.rs b/library/kani_macros/src/sysroot/contracts/bootstrap.rs
+index b645998..b1e41ac 100644
+--- a/library/kani_macros/src/sysroot/contracts/bootstrap.rs
++++ b/library/kani_macros/src/sysroot/contracts/bootstrap.rs
+@@ -38,7 +38,8 @@ pub fn handle_untouched(&mut self) {
+         // expanded outside in. This way other contract annotations in `attrs`
+         // sees those attributes and can use them to determine
+         // `function_state`.
+-        let ItemFn { attrs, vis, sig, block } = &self.annotated_fn;
++        let ItemFn { attrs, vis, sig, block } = &self.annotated_fn.item;
++        let defaultness = &self.annotated_fn.defaultness;
+         self.output.extend(quote!(
+             #(#attrs)*
+             #[kanitool::recursion_check = #recursion_name]
+@@ -46,7 +47,7 @@ pub fn handle_untouched(&mut self) {
+             #[kanitool::replaced_with = #replace_name]
+             #[kanitool::asserted_with = #assert_name]
+             #[kanitool::modifies_wrapper = #modifies_name]
+-            #vis #sig {
++            #vis #defaultness #sig {
+                 // Dummy functions used to force the compiler to annotate Kani's
+                 // closures as `FnOnce`. Without this, Rust infers the generated closures as `FnMut`,
+                 // preventing us from writing contracts for functions returning mutable references.
+@@ -112,7 +113,7 @@ const fn kani_contract_mode() -> kani::internal::Mode {
+     /// to the attribute being handled.
+     pub fn handle_expanded(&mut self) {
+         let mut annotated_fn = self.annotated_fn.clone();
+-        let ItemFn { block, .. } = &mut annotated_fn;
++        let ItemFn { block, .. } = &mut annotated_fn.item;
+         let recursion_closure = expect_closure_in_match(&mut block.stmts, "recursion_check");
+         self.expand_recursion(recursion_closure);
+ 
+@@ -134,7 +135,7 @@ fn new_recursion_closure(
+         replace_closure: &TokenStream,
+         check_closure: &TokenStream,
+     ) -> TokenStream {
+-        let ItemFn { sig, .. } = self.annotated_fn;
++        let ItemFn { sig, .. } = &self.annotated_fn.item;
+         let output = &sig.output;
+         let span = Span::call_site();
+         let result = Ident::new(INTERNAL_RESULT_IDENT, span);
+diff --git a/library/kani_macros/src/sysroot/contracts/initialize.rs b/library/kani_macros/src/sysroot/contracts/initialize.rs
+index 802c45a..782ffe6 100644
+--- a/library/kani_macros/src/sysroot/contracts/initialize.rs
++++ b/library/kani_macros/src/sysroot/contracts/initialize.rs
+@@ -5,10 +5,9 @@
+ 
+ use proc_macro::{Diagnostic, TokenStream};
+ use proc_macro2::TokenStream as TokenStream2;
+-use syn::ItemFn;
+ 
+ use super::{
+-    ContractConditionsData, ContractConditionsHandler, ContractConditionsType,
++    ContractConditionsData, ContractConditionsHandler, ContractConditionsType, ContractFunction,
+     ContractFunctionState,
+     helpers::{chunks_by, is_token_stream_2_comma, matches_path},
+ };
+@@ -53,7 +52,7 @@ impl<'a> ContractConditionsHandler<'a> {
+     pub fn new(
+         contract_typ: ContractConditionsType,
+         attr: TokenStream,
+-        annotated_fn: &'a mut ItemFn,
++        annotated_fn: &'a mut ContractFunction,
+         attr_copy: TokenStream2,
+     ) -> Result<Self, syn::Error> {
+         let mut output = TokenStream2::new();
+diff --git a/library/kani_macros/src/sysroot/contracts/mod.rs b/library/kani_macros/src/sysroot/contracts/mod.rs
+index c792180..ae494ec 100644
+--- a/library/kani_macros/src/sysroot/contracts/mod.rs
++++ b/library/kani_macros/src/sysroot/contracts/mod.rs
+@@ -514,9 +514,11 @@
+ 
+ use proc_macro::TokenStream;
+ use proc_macro2::{Ident, Span, TokenStream as TokenStream2};
+-use quote::quote;
++use quote::{ToTokens, quote};
+ use strum_macros::Display;
+-use syn::{Error, Expr, ExprClosure, ItemFn, TraitItemFn, parse_macro_input, parse_quote};
++use syn::{
++    Error, Expr, ExprClosure, ImplItemFn, ItemFn, TraitItemFn, parse_macro_input, parse_quote,
++};
+ 
+ mod assert;
+ mod bootstrap;
+@@ -594,13 +596,52 @@ enum ContractFunctionState {
+     Untouched,
+ }
+ 
++/// A function body and its optional specialization qualifier.
++///
++/// Contract helpers operate on `ItemFn`, while `ImplItemFn` also preserves the
++/// `default` token needed on the outer method through stacked expansions.
++#[derive(Clone)]
++struct ContractFunction {
++    defaultness: Option<syn::Token![default]>,
++    item: ItemFn,
++}
++
++impl syn::parse::Parse for ContractFunction {
++    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
++        let ImplItemFn { attrs, vis, defaultness, sig, block } = input.parse()?;
++        Ok(Self { defaultness, item: ItemFn { attrs, vis, sig, block: Box::new(block) } })
++    }
++}
++
++impl std::ops::Deref for ContractFunction {
++    type Target = ItemFn;
++
++    fn deref(&self) -> &Self::Target {
++        &self.item
++    }
++}
++
++impl std::ops::DerefMut for ContractFunction {
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        &mut self.item
++    }
++}
++
++impl ToTokens for ContractFunction {
++    fn to_tokens(&self, tokens: &mut TokenStream2) {
++        let ItemFn { attrs, vis, sig, block } = self.item.clone();
++        ImplItemFn { attrs, vis, defaultness: self.defaultness, sig, block: *block }
++            .to_tokens(tokens);
++    }
++}
++
+ /// The information needed to generate the bodies of check and replacement
+ /// functions that integrate the conditions from this contract attribute.
+ struct ContractConditionsHandler<'a> {
+     /// Information specific to the type of contract attribute we're expanding.
+     condition_type: ContractConditionsData,
+     /// Body of the function this attribute was found on.
+-    annotated_fn: &'a ItemFn,
++    annotated_fn: &'a ContractFunction,
+     /// An unparsed, unmodified copy of `attr`, used in the error messages.
+     attr_copy: TokenStream2,
+     /// The stream to which we should write the generated code.
+@@ -687,7 +728,7 @@ fn contract_main(
+         return Error::new(Span::call_site(), error_msg).into_compile_error().into();
+     }
+     let attr_copy = TokenStream2::from(attr.clone());
+-    let mut item_fn = parse_macro_input!(item as ItemFn);
++    let mut item_fn = parse_macro_input!(item as ContractFunction);
+     let function_state = ContractFunctionState::from_attributes(&item_fn.attrs);
+     let handler = match ContractConditionsHandler::new(contract_typ, attr, &mut item_fn, attr_copy)
+     {
+diff --git a/tests/expected/function-contract/specialization_default_ensures_fail.expected b/tests/expected/function-contract/specialization_default_ensures_fail.expected
+new file mode 100644
+index 0000000..449d7ff
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_ensures_fail.expected
+@@ -0,0 +1,7 @@
++assertion\
++- Status: FAILURE\
++- Description: "|result| *result == 0"
++
++Failed Checks: |result| *result == 0
++
++VERIFICATION:- FAILED
+diff --git a/tests/expected/function-contract/specialization_default_ensures_fail.rs b/tests/expected/function-contract/specialization_default_ensures_fail.rs
+new file mode 100644
+index 0000000..269f6a6
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_ensures_fail.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn probe() -> u8;
++}
++
++impl<T> Probe for T {
++    #[kani::ensures(|result| *result == 0)]
++    default fn probe() -> u8 {
++        1
++    }
++}
++
++impl Probe for u8 {
++    fn probe() -> u8 {
++        0
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::probe)]
++fn check_false_postcondition() {
++    <u16 as Probe>::probe();
++}
+diff --git a/tests/expected/function-contract/specialization_default_modifies_fail.expected b/tests/expected/function-contract/specialization_default_modifies_fail.expected
+new file mode 100644
+index 0000000..92db88e
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_modifies_fail.expected
+@@ -0,0 +1,7 @@
++assigns\
++- Status: FAILURE\
++is assignable"
++
++Failed Checks: Check that
++
++VERIFICATION:- FAILED
+diff --git a/tests/expected/function-contract/specialization_default_modifies_fail.rs b/tests/expected/function-contract/specialization_default_modifies_fail.rs
+new file mode 100644
+index 0000000..ac6efa2
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_modifies_fail.rs
+@@ -0,0 +1,31 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn probe(allowed: &mut u8, forbidden: &mut u8);
++}
++
++impl<T> Probe for T {
++    #[kani::modifies(allowed)]
++    default fn probe(allowed: &mut u8, forbidden: &mut u8) {
++        *allowed = 1;
++        *forbidden = 2;
++    }
++}
++
++impl Probe for u8 {
++    fn probe(allowed: &mut u8, _forbidden: &mut u8) {
++        *allowed = 3;
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::probe)]
++fn check_frame_violation() {
++    let mut allowed = 0;
++    let mut forbidden = 0;
++    <u16 as Probe>::probe(&mut allowed, &mut forbidden);
++}
+diff --git a/tests/expected/function-contract/specialization_default_old_fail.expected b/tests/expected/function-contract/specialization_default_old_fail.expected
+new file mode 100644
+index 0000000..09aa622
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_old_fail.expected
+@@ -0,0 +1,7 @@
++assertion\
++- Status: FAILURE\
++- Description: "|_| *value == old(*value)"
++
++Failed Checks: |_| *value == old(*value)
++
++VERIFICATION:- FAILED
+diff --git a/tests/expected/function-contract/specialization_default_old_fail.rs b/tests/expected/function-contract/specialization_default_old_fail.rs
+new file mode 100644
+index 0000000..6f76425
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_old_fail.rs
+@@ -0,0 +1,31 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn increment(value: &mut u8);
++}
++
++impl<T> Probe for T {
++    #[kani::ensures(|_| *value == old(*value))]
++    #[kani::requires(*value < 10)]
++    #[kani::modifies(value)]
++    default fn increment(value: &mut u8) {
++        *value += 1;
++    }
++}
++
++impl Probe for u8 {
++    fn increment(value: &mut u8) {
++        *value = 9;
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::increment)]
++fn check_stale_postcondition() {
++    let mut value = kani::any();
++    <u16 as Probe>::increment(&mut value);
++}
+diff --git a/tests/expected/function-contract/specialization_default_requires_fail.expected b/tests/expected/function-contract/specialization_default_requires_fail.expected
+new file mode 100644
+index 0000000..f19a4c9
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_requires_fail.expected
+@@ -0,0 +1,7 @@
++assertion\
++- Status: FAILURE\
++- Description: "value != 0"
++
++Failed Checks: value != 0
++
++VERIFICATION:- FAILED
+diff --git a/tests/expected/function-contract/specialization_default_requires_fail.rs b/tests/expected/function-contract/specialization_default_requires_fail.rs
+new file mode 100644
+index 0000000..4e91893
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_default_requires_fail.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts -Zstubbing
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn probe(value: u8) -> u8;
++}
++
++impl<T> Probe for T {
++    #[kani::requires(value != 0)]
++    default fn probe(value: u8) -> u8 {
++        value
++    }
++}
++
++impl Probe for u8 {
++    fn probe(value: u8) -> u8 {
++        value
++    }
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u16 as Probe>::probe)]
++fn check_invalid_caller() {
++    <u16 as Probe>::probe(0);
++}
+diff --git a/tests/expected/function-contract/specialization_override_no_contract.expected b/tests/expected/function-contract/specialization_override_no_contract.expected
+new file mode 100644
+index 0000000..c4a5743
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_override_no_contract.expected
+@@ -0,0 +1,3 @@
++error: Failed to check contract:
++has no contract.
++note: Try adding a contract to this function.
+diff --git a/tests/expected/function-contract/specialization_override_no_contract.rs b/tests/expected/function-contract/specialization_override_no_contract.rs
+new file mode 100644
+index 0000000..5a79fd0
+--- /dev/null
++++ b/tests/expected/function-contract/specialization_override_no_contract.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn probe() -> u8;
++}
++
++impl<T> Probe for T {
++    #[kani::ensures(|result| *result == 7)]
++    default fn probe() -> u8 {
++        7
++    }
++}
++
++impl Probe for u8 {
++    // Deliberately has no contract; it must not inherit the default summary.
++    fn probe() -> u8 {
++        9
++    }
++}
++
++#[kani::proof_for_contract(<u8 as Probe>::probe)]
++fn check_override_without_contract() {
++    assert_eq!(<u8 as Probe>::probe(), 9);
++}
+diff --git a/tests/kani/FunctionContracts/specialization_default_clauses.rs b/tests/kani/FunctionContracts/specialization_default_clauses.rs
+new file mode 100644
+index 0000000..a300424
+--- /dev/null
++++ b/tests/kani/FunctionContracts/specialization_default_clauses.rs
+@@ -0,0 +1,100 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts -Zstubbing
++
++#![feature(min_specialization)]
++
++// Each clause must accept `default`, including either stacked order.
++trait Probe {
++    fn requires_only(value: u8) -> u8;
++    fn ensures_only() -> u8;
++    fn modifies_only(value: &mut u8);
++    fn forward(value: &mut u8);
++    fn reverse(value: &mut u8);
++}
++
++impl<T> Probe for T {
++    #[kani::requires(value < 10)]
++    default fn requires_only(value: u8) -> u8 {
++        value + 1
++    }
++
++    #[kani::ensures(|result| *result == 7)]
++    default fn ensures_only() -> u8 {
++        7
++    }
++
++    #[kani::modifies(value)]
++    default fn modifies_only(value: &mut u8) {
++        *value = 7;
++    }
++
++    #[kani::requires(*value < 10)]
++    #[kani::ensures(|_| *value == 7)]
++    #[kani::modifies(value)]
++    default fn forward(value: &mut u8) {
++        *value = 7;
++    }
++
++    #[kani::modifies(value)]
++    #[kani::ensures(|_| *value == 7)]
++    #[kani::requires(*value < 10)]
++    default fn reverse(value: &mut u8) {
++        *value = 7;
++    }
++}
++
++impl Probe for u8 {
++    fn requires_only(value: u8) -> u8 {
++        value
++    }
++    fn ensures_only() -> u8 {
++        9
++    }
++    fn modifies_only(value: &mut u8) {
++        *value = 9;
++    }
++    fn forward(value: &mut u8) {
++        *value = 9;
++    }
++    fn reverse(value: &mut u8) {
++        *value = 9;
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::requires_only)]
++fn check_requires() {
++    <u16 as Probe>::requires_only(kani::any());
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::ensures_only)]
++fn check_ensures() {
++    <u16 as Probe>::ensures_only();
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::modifies_only)]
++fn check_modifies() {
++    let mut value = kani::any();
++    <u16 as Probe>::modifies_only(&mut value);
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::forward)]
++fn check_forward() {
++    let mut value = kani::any();
++    <u16 as Probe>::forward(&mut value);
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::reverse)]
++fn check_reverse() {
++    let mut value = kani::any();
++    <u16 as Probe>::reverse(&mut value);
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u16 as Probe>::forward)]
++fn stub_default() {
++    let mut value = 0;
++    <u16 as Probe>::forward(&mut value);
++    assert_eq!(value, 7);
++}
+diff --git a/tests/kani/FunctionContracts/specialization_default_fn_5116.rs b/tests/kani/FunctionContracts/specialization_default_fn_5116.rs
+new file mode 100644
+index 0000000..aea5d54
+--- /dev/null
++++ b/tests/kani/FunctionContracts/specialization_default_fn_5116.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts
++
++#![feature(min_specialization)]
++
++// Regression for kani#5116: contracts on the blanket default method.
++trait SmallSort {
++    fn small_sort(v: &mut [u8]);
++}
++
++impl<T> SmallSort for T {
++    #[kani::ensures(|_| true)]
++    #[kani::modifies(v)]
++    default fn small_sort(v: &mut [u8]) {
++        pair(v);
++    }
++}
++
++impl SmallSort for u8 {
++    fn small_sort(v: &mut [u8]) {
++        pair(v);
++    }
++}
++
++fn pair(v: &mut [u8]) {
++    if v.len() == 2 && v[1] < v[0] {
++        v.swap(0, 1);
++    }
++}
++
++#[kani::proof_for_contract(<u16 as SmallSort>::small_sort)]
++#[kani::unwind(3)]
++fn check_default() {
++    let mut v: [u8; 2] = kani::any();
++    <u16 as SmallSort>::small_sort(&mut v);
++    assert!(v[0] <= v[1]);
++}
+diff --git a/tests/kani/FunctionContracts/specialization_default_generic.rs b/tests/kani/FunctionContracts/specialization_default_generic.rs
+new file mode 100644
+index 0000000..b714aec
+--- /dev/null
++++ b/tests/kani/FunctionContracts/specialization_default_generic.rs
+@@ -0,0 +1,66 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts -Zstubbing
++
++#![feature(min_specialization)]
++
++// A method-local FnMut parameter, as in kani#4908 / kani#5135.
++trait Probe {
++    fn apply<F: FnMut(&u8, &u8) -> bool>(v: &mut [u8], less: &mut F);
++}
++
++impl<T> Probe for T {
++    #[inline(never)]
++    #[kani::requires(v.len() == 2)]
++    #[kani::ensures(|_| v[0] <= v[1])]
++    #[kani::modifies(v)]
++    default fn apply<F>(v: &mut [u8], _less: &mut F)
++    where
++        F: FnMut(&u8, &u8) -> bool,
++    {
++        if v[1] < v[0] {
++            v.swap(0, 1);
++        }
++    }
++}
++
++impl Probe for u8 {
++    // This contract belongs to the override and has a distinct postcondition.
++    #[kani::requires(v.len() == 2)]
++    #[kani::modifies(v)]
++    #[kani::ensures(|_| v[0] == 9 && v[1] == 9)]
++    fn apply<F: FnMut(&u8, &u8) -> bool>(v: &mut [u8], _less: &mut F) {
++        v[0] = 9;
++        v[1] = 9;
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::apply)]
++#[kani::unwind(3)]
++fn check_default_generic() {
++    let mut v: [u8; 2] = kani::any();
++    <u16 as Probe>::apply(&mut v, &mut |a, b| a < b);
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u16 as Probe>::apply)]
++fn stub_default_generic() {
++    let mut v = [1u8, 0];
++    <u16 as Probe>::apply(&mut v, &mut |a, b| a < b);
++    assert!(v[0] <= v[1]);
++}
++
++#[kani::proof_for_contract(<u8 as Probe>::apply)]
++fn check_override() {
++    let mut v: [u8; 2] = kani::any();
++    <u8 as Probe>::apply(&mut v, &mut |a, b| a < b);
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u8 as Probe>::apply)]
++fn stub_override() {
++    let mut v = [1u8, 0];
++    <u8 as Probe>::apply(&mut v, &mut |a, b| a < b);
++    assert_eq!(v, [9, 9]);
++}
+diff --git a/tests/kani/FunctionContracts/specialization_default_old.rs b/tests/kani/FunctionContracts/specialization_default_old.rs
+new file mode 100644
+index 0000000..f26e008
+--- /dev/null
++++ b/tests/kani/FunctionContracts/specialization_default_old.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Zfunction-contracts -Zstubbing
++
++#![feature(min_specialization)]
++
++trait Probe {
++    fn increment(value: &mut u8);
++}
++
++impl<T> Probe for T {
++    #[kani::ensures(|_| *value == old(*value) + 1)]
++    #[kani::requires(*value < 10)]
++    #[kani::modifies(value)]
++    default fn increment(value: &mut u8) {
++        *value += 1;
++    }
++}
++
++impl Probe for u8 {
++    fn increment(value: &mut u8) {
++        *value = 9;
++    }
++}
++
++#[kani::proof_for_contract(<u16 as Probe>::increment)]
++fn check_eager_old() {
++    let mut value = kani::any();
++    <u16 as Probe>::increment(&mut value);
++}
++
++#[kani::proof]
++#[kani::stub_verified(<u16 as Probe>::increment)]
++fn stub_eager_old() {
++    let mut value = 3;
++    <u16 as Probe>::increment(&mut value);
++    assert_eq!(value, 4);
++}

@@ -1,18 +1,93 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kt1-repair2-20261110-03",
+  "request_id": "kani5116-kf1-main-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI5116 KT1 repair 2: bounded own-output excerpts and source provenance for native FAILED/expect-fail; unchanged fixture and five selectors.",
+  "purpose": "KANI5116 KF1: preserve specialization defaultness through contract expansion; nine new fixtures and ten existing regression selectors.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 12,
+  "harness_timeout_minutes": 29,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
-    "sha256": "46c68dfd5861ebd008c32d7580caa15cee9ac9b185dec960caf57d3d342f696f"
+    "path": "research/challenge-8/kani-k1/kani5116/kf1/kani-fix.patch",
+    "sha256": "91ce8329f9cc2e11c4ed77f4e789d10341d6914005710b04e970a3b5f53a571f"
   },
   "test_timeout_seconds": 180,
   "kani_tests": [
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/specialization_default_fn_5116.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/specialization_default_clauses.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/specialization_default_generic.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/specialization_default_old.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/specialization_default_ensures_fail.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: |result| *result == 0"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/specialization_default_requires_fail.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: value != 0"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/specialization_default_modifies_fail.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "is assignable"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/specialization_default_old_fail.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: |_| *value == old(*value)"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/specialization_override_no_contract.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "has no contract."
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "FunctionContracts/generic_trait_specialization.rs",
+      "expect": "pass",
+      "require_success": true
+    },
     {
       "suite": "kani",
       "mode": "kani",
@@ -44,12 +119,39 @@
       "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
     },
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "FunctionContracts/specialization_default_fn_5116.rs",
-      "expect": "fail",
-      "require_success": true,
-      "diagnostic": "expected `fn`"
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/arbitrary_ensures_pass.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/checking_in_impl.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/trait_impls/methods.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/modifies/simple_pass.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "function-contract/history/stub.rs",
+      "expect": "pass",
+      "require_success": true
     }
   ]
 }
