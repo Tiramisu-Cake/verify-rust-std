@@ -12,7 +12,7 @@ RUN-REQUEST.json SHA-256: `2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051
 Patch kani3300-g1r3-a3-build.patch SHA-256: `59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87`; full P1+G1 production + only selected fixtures/helper.
 Native pin `f046b70644e113be0df9c22c2e6ea44a65a57566`; tooling KT2 `3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c` unchanged.
 Applied tree `1faeb244d2b054393141ce971180cdc2a5b6e64e`; 12 paths, diffstat 836 bytes ≤4096; inventory binds every production/source/golden/helper byte to candidate.
-Explicit git apply --check --index on clean f046, existing KT2 validate/prepare-kani, all G1 rustfmt --check --edition 2024/repo config, git diff --check PASS.
+Explicit git apply --check --index on clean f046, existing KT2 validate/prepare-kani, all G1 rustfmt --check --edition 2024/repo config, Kani source diff --check PASS; research check excludes preserved *.patch context whitespace.
 Timeout proposal 5 min +30 overhead: (5+30) × $0.0135 = $0.4725 ≤ $0.476 remainder; prior $0.3240 + proposal = $0.7965 ≤ G1 cap $0.80; no reservation.
 Independent review: Luna HIGH, no scoped static findings (REVIEW.md binds candidate/spec/packet/sweep); compiler/native NOT_RUN, proof credit NONE.
 No phase/slot/ledger opened, root request installed, build/dispatch/Cloud, Actions/PR/issue/comment or Kani publication. Stop after package publication; await coordinator GO.

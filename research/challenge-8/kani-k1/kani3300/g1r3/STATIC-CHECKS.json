@@ -80,5 +80,10 @@
   "cloud_reserved_usd": "0",
   "dispatch": "NOT_AUTHORIZED_NOT_RUN",
   "compiler_native": "NOT_RUN",
-  "proof_credit": "NONE"
+  "proof_credit": "NONE",
+  "research_artifact_diff_check": {
+    "non_patch_files": "PASS",
+    "scope": "git diff --check 431c8d0d7a..HEAD excluding *.patch",
+    "patch_files": "Preserved unified-diff context has whitespace flagged by outer research diff --check; patch bytes intentionally retained. Actual Kani source diff --check and git apply --check PASS."
+  }
 }
