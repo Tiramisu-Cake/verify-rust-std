@@ -1,0 +1,295 @@
+{
+  "schema": "kani3300-p1g-post-build-observations-v1",
+  "stage": "kani3300-p1g",
+  "status": "COMPLETE_PASS",
+  "build_id": "1b59f625-fc99-41fb-8d07-d9c0e749da7b",
+  "cloud_status": "SUCCESS",
+  "research_head": "80463b613c4054e82bcb3bae1d18c525bca4dc0d",
+  "request_id": "kani3300-p1-targeted-20261111-01",
+  "request_sha256": "ad96f7d0ada18cbbfe9345a2a7c06cdfbce0589924fd4255b9d5374fb8ffdaac",
+  "summary_sha256": "4c9ccb583c0ead149056df89fce0ff11549941a830a236573872f746ec04ea7b",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "tooling_check": "PASS: build pool standard4; all lane paths equal KT2; exact bound file set and hashes; request and published patch binding checked",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "kani_build_s": 252,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/p1/kani3300-part1-build.patch",
+      "sha256": "b30758e575bb0bfabab186d615e8b28871543efb0703028aa721a8622ef28c40"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "10c032ab8e3c5a38a3fa639c4b0004d61b7c2ffe",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "62d31031f66eaba2780a64a7fa00e1162342bd551b515cefe864eb17a8b647ef"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "evidence_queries": [
+    {
+      "verb": "summary"
+    },
+    {
+      "verb": "native",
+      "offset": 0,
+      "count": 4,
+      "next_offset": 4
+    },
+    {
+      "verb": "native",
+      "offset": 4,
+      "count": 4,
+      "next_offset": 8
+    },
+    {
+      "verb": "native",
+      "offset": 8,
+      "count": 4,
+      "next_offset": 12
+    },
+    {
+      "verb": "native",
+      "offset": 12,
+      "count": 3,
+      "next_offset": null
+    },
+    {
+      "verb": "native-field",
+      "offset": 7,
+      "field": "diagnostic",
+      "start": 0,
+      "count": 46,
+      "next_start": null
+    },
+    {
+      "verb": "check-tooling",
+      "base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c"
+    },
+    {
+      "verb": "budget",
+      "output": "1 0.1485 0.0000"
+    }
+  ],
+  "tests": [
+    {
+      "offset": 0,
+      "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": true,
+      "require_success_flag_present": true,
+      "wall_s": 5.734,
+      "diagnostic": null
+    },
+    {
+      "offset": 1,
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": true,
+      "require_success_flag_present": true,
+      "wall_s": 10.098,
+      "diagnostic": null
+    },
+    {
+      "offset": 2,
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": true,
+      "require_success_flag_present": true,
+      "wall_s": 10.349,
+      "diagnostic": null
+    },
+    {
+      "offset": 3,
+      "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 0.918,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "offset": 4,
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 1.269,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "offset": 5,
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 1.57,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "offset": 6,
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 2.272,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "offset": 7,
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 120.548,
+      "diagnostic": "Failed Checks: Check that *var_7 is assignable"
+    },
+    {
+      "offset": 8,
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 2.925,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`"
+    },
+    {
+      "offset": 9,
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 1.469,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "offset": 10,
+      "file": "uninit/maybe-uninit-review-argument-return/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 1.419,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "offset": 11,
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 3.13,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "offset": 12,
+      "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 6.903,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "offset": 13,
+      "file": "uninit/maybe-uninit-review-repeat-local/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 3.384,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "offset": 14,
+      "file": "uninit/maybe-uninit-review-reset-zst/main.rs",
+      "status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "errors": [],
+      "require_success": false,
+      "require_success_flag_present": false,
+      "wall_s": 4.138,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    }
+  ],
+  "acceptance": {
+    "selectors_passed": 15,
+    "positives_with_require_success": 3,
+    "negatives_with_own_output_diagnostic": 12,
+    "full_expected_goldens": "All 15 expected-mode native compiletest cases PASS against exact reviewed tree; source parser requires each negative diagnostic in its own test output.",
+    "source_or_golden_changes_after_GO": false
+  },
+  "cloud": {
+    "builds": 1,
+    "repairs": 0,
+    "reservation_usd": 0.6075,
+    "used_usd": 0.1485,
+    "reserved_usd": 0,
+    "cap_usd": 0.8,
+    "accounting": "k1g budget price-based ledger, not invoiced billing"
+  },
+  "assurance": "Finite native regression gate on exact patched f046; negative expected-mode PASS is expected detection, not successful Kani verification. No independent B1/B2 or general proof credit; no main-tree compatibility claim. PFC MU-roundtrip OOM/timeout and unsupported domains remain unchanged.",
+  "closure_reason": "Exact authorized gate COMPLETE, 15/15 PASS, identities/tooling checked, bounded evidence and cost recorded. One stage complete; no repair or further builds."
+}
