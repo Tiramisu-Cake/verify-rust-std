@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-5116",
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "a139af7ac47b794eaf7b8bdcae52a7ba0a866fea",
+  "defect": "Contract attributes must parse and preserve specialization default fn through initial and stacked expansion.",
+  "applicability": "Kani function contracts on free functions, implementation methods, and trait default bodies; specialization fixtures.",
+  "invariants": [
+    "Production bytes must equal 2a3e2ae19cd1dc4a50f53b1283e7bcf215cb81d9 plus /root/KANI5116-use-ImplItemFn.patch (SHA-256 0921813bdd50693e378b71c8ea85a109ab2bcbbec2f1234d97cfbdff1e4ee443). No additional production changes.",
+    "Keep the no-body trait guard, unrelated ItemFn parsers, and inner attribute placement. Review all annotated_fn consumers for syn 2.0.119 ImplItemFn fields and block: Block compatibility.",
+    "Exactly one commit over baseline; author Tiramisu-Cake <igkharin@gmail.com>; original title; no internal stages, Co-Authored-By, or skip ci marker.",
+    "Preserve PFC, stub_verified, invalid-caller harness name, and specific value != 0 expected failure. No false contracts or unreachable bodies added to distinguish positive tests.",
+    "Remove comments duplicating fixture names; retain generic #4908/#5135 explanation."
+  ],
+  "controls": [
+    "Negative requires fixture must use --no-assert-contracts so the expected precondition failure depends on verified stub routing.",
+    "Both requires_first and modifies_first stacked orders must have PFC and stub_verified harnesses and consistent renamed references.",
+    "Retain all existing positive and expected diagnostic regressions."
+  ],
+  "dependencies": [
+    "Cargo.lock",
+    "library/kani_macros/Cargo.toml",
+    "library/kani_macros/src/sysroot/contracts/assert.rs",
+    "library/kani_macros/src/sysroot/contracts/check.rs",
+    "library/kani_macros/src/sysroot/contracts/replace.rs",
+    "library/kani_macros/src/sysroot/contracts/helpers.rs",
+    "library/kani_macros/src/sysroot/contracts/shared.rs",
+    "rustfmt.toml"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only. No builds, cargo/rustc/Kani/CBMC, Cloud, CI, push, PRs, issues, comments, raw logs, archives, credentials, or nested delegation. Compile and behavioral validation remain NOT_RUN."
+  ]
+}

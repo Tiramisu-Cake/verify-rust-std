@@ -1,0 +1,279 @@
+{
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "a139af7ac47b794eaf7b8bdcae52a7ba0a866fea",
+  "candidate_tree": "661997d105b3c6aa565d4e26915c6fa852e97e3a",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "b645998bdea793454829979a93108ee4a48e8220",
+        "mode": "100644",
+        "sha256": "16e3d47dcf4018418478b8d9c7de888dee3320b4e57d0355a1c75c1d398a6797"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+        "mode": "100644",
+        "sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507"
+      },
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "802c45a0be8ceea3af2919a0ac6267a51c33ff7d",
+        "mode": "100644",
+        "sha256": "779daea7ed44cc9f2bd2a1d626a34fd079cc50a6db5e9e880c8b2515b60bae3e"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "12c1338a9e7564d99d026a885cf43b695baafa28",
+        "mode": "100644",
+        "sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b"
+      },
+      "path": "library/kani_macros/src/sysroot/contracts/initialize.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "c7921805db776d045d30e51f7884a9e4a1667b05",
+        "mode": "100644",
+        "sha256": "f35c85f8686d47ec5f967497ff413deb177a15f81cce235ecb750da45d9a23bf"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "580f670930c46cbae77401804282057ef68b70f9",
+        "mode": "100644",
+        "sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979"
+      },
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "449d7ff84513911705137153d2b18fc15df3c788",
+        "mode": "100644",
+        "sha256": "ad635102beee511a2be417659c5b9acaf4f0d51e3a517e895f89e5c4af41e039"
+      },
+      "path": "tests/expected/function-contract/specialization_default_ensures_fail.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "269f6a6bcacd6f18f9ace89c87bb93bb5c8beff2",
+        "mode": "100644",
+        "sha256": "7314203879371319f18d397c0e47dd8cad652404c9820eab19b2235ad993cf02"
+      },
+      "path": "tests/expected/function-contract/specialization_default_ensures_fail.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "92db88e42f87e04c9c297b95af80360365b543a2",
+        "mode": "100644",
+        "sha256": "788a93016e94bc21a1d06939f0f76b60bcd832f4a93b8fbf2e736f9ee9e21290"
+      },
+      "path": "tests/expected/function-contract/specialization_default_modifies_fail.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ac6efa2528e27fc189e3c91b136d5a9bb89d9dc2",
+        "mode": "100644",
+        "sha256": "9aa44aecef6e3346f3e096a4bc86859872f1a8477a69a04dfe0e7b1b7b910c6b"
+      },
+      "path": "tests/expected/function-contract/specialization_default_modifies_fail.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "09aa622e803f982165ba909a573337eb992d12c6",
+        "mode": "100644",
+        "sha256": "edf9ba9320c1512305f9d7ff8b591eb1245ea00f35b99c388db284cf08ffc519"
+      },
+      "path": "tests/expected/function-contract/specialization_default_old_fail.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "6f764259a6d95465c5258efd734d3003b1e2009e",
+        "mode": "100644",
+        "sha256": "8c3437121ba2c3b80e00bcd452ed684b66501db1096911acf9822a42b51182b9"
+      },
+      "path": "tests/expected/function-contract/specialization_default_old_fail.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "f19a4c963b5a296ea5e3786cfc5dc5310bf69a11",
+        "mode": "100644",
+        "sha256": "e68c8f5d87604cb78874b5001594cac8da8257737af8261fc278044dd1dd3441"
+      },
+      "path": "tests/expected/function-contract/specialization_default_requires_fail.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2647b04c9e153bd08790735ddf795842a92dc6fb",
+        "mode": "100644",
+        "sha256": "f712430d9823da7a6ce0a9dc9a69753d22258884e4fbe60c860adf505018e1ee"
+      },
+      "path": "tests/expected/function-contract/specialization_default_requires_fail.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c4a57437549d03f922964f24bf9a83b3de09aeb2",
+        "mode": "100644",
+        "sha256": "e8c1df2241e9d03d8bb3cd43300ddc2f366bd3dac3041f758e9a8e10b1e303e4"
+      },
+      "path": "tests/expected/function-contract/specialization_override_no_contract.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "28a38d337e38c2abe1e9cdb862bc1d6cd6787e62",
+        "mode": "100644",
+        "sha256": "c5a3db2484873b2ec63a6f152c25a01445ecd40d38bcd0a9cefb97693205e35c"
+      },
+      "path": "tests/expected/function-contract/specialization_override_no_contract.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "7909e85fe3e81e9d770ff4c9da54c72e2b77774b",
+        "mode": "100644",
+        "sha256": "ae43b1bc694483a76b09b6dd5e8c37eed942ce81a45d3a85075092b24ad112ee"
+      },
+      "path": "tests/kani/FunctionContracts/specialization_default_clauses.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2b2982e8cc2b0ad28e153829018dd3c2ea39b893",
+        "mode": "100644",
+        "sha256": "3d2a00aa58aaf6eb03e0272c452f92aebd55935898fcead74b3ea00223dc6ab6"
+      },
+      "path": "tests/kani/FunctionContracts/specialization_default_fn_5116.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9d97182f5984dd25258188626e003e1b5c8bcbd3",
+        "mode": "100644",
+        "sha256": "53466e2a004bc02f43e2746cb67abfb59b06fbb5be7ddc358f1717f67eec8b53"
+      },
+      "path": "tests/kani/FunctionContracts/specialization_default_generic.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "f26e0080abe79183e145661ec5f3d96d12321c75",
+        "mode": "100644",
+        "sha256": "cc0cee8690ed1a4021b14a981cc87fa73db184265f6a3bb8c18d0e77ce8cc339"
+      },
+      "path": "tests/kani/FunctionContracts/specialization_default_old.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "195a578c194e4a12550c605d2d695bd817aeee3f",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "Cargo.lock",
+      "sha256": "984ef4cea51f0ad74124311f5cd09fca6d9c8c37bdbb9a8f29dd87cce842fadb",
+      "size": 71477
+    },
+    {
+      "blob": "01db4da903ff1b4aa8567ee72c7f13e0eb088462",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/Cargo.toml",
+      "sha256": "788dba9e7dfe46f8d70b6b902978a8f2ae711aa9cc8fb3116775514cf5ada960",
+      "size": 605
+    },
+    {
+      "blob": "c795a2981f0e797ede2ac17b088c7ebbd974fda9",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "sha256": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "size": 3762
+    },
+    {
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "size": 9075
+    },
+    {
+      "blob": "c44de8f9984c27a83ccd9d8db8662c751713362d",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/replace.rs",
+      "sha256": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "size": 9267
+    },
+    {
+      "blob": "1298e09f258f9d3f02653291851eba00f0d67216",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/helpers.rs",
+      "sha256": "710d7ef9ca4ca6e2fc277a56d3f1f1b1008ae7162eaf7d8f3fc0c1826810fd30",
+      "size": 10094
+    },
+    {
+      "blob": "7171806b571de45d5cdf17218b01494a1141c93c",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "size": 10380
+    },
+    {
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "rustfmt.toml",
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "size": 238
+    }
+  ],
+  "diff_sha256": "11c981216337d5c4b786bfc9a70ff96439ec9b40a2de560fcfb7febb145fced4",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "c57cc5bd026506e7486995374847136de7bdc131b12859efc5a44f2cfc1bd114",
+  "worktree": "/root/kani-fix-5116"
+}
