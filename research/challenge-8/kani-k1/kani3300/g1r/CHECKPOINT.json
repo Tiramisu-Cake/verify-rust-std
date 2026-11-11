@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1B2_AUTHORIZED_ROOT_INSTALLED_NOT_SUBMITTED",
+  "status": "G1B2_SUBMITTED_WATCH_NEXT",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -78,7 +78,7 @@
     "B2 native outcomes NOT_RUN; one infrastructure retry authorized, no repair or additional retry.",
     "A3 negative diagnosis and inherited P1/full-regression limitations outside B2; historical evidence and original B request/patch remain unchanged."
   ],
-  "next": "Publish exact B2 root request, final gates, one dispatch, handoff, k1g.sh watch BUILD, END TURN; no repair/negative edits.",
+  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; authorized bounded summary/native/native-field and metadata/budget; no raw fallback. Write g1r/RESULT-KANI3300-G1B2.md as G1B: all 20 selectors PASS/FAIL and wall seconds (or explicit NOT_RUN/UNKNOWN if setup), exact identities, actual B2 and cumulative B1+B2 spend <=$0.80; for FAIL retain Failed Checks and compiletest expected output to contain line if bounded interface supplies it. No repair/retry or negative edits. Commit/push [skip ci]; REVIEW REQUEST <full research sha>.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -91,11 +91,11 @@
   },
   "latest_stage": "kani3300-g1b2",
   "latest_authorization": "G1B2-AUTHORIZATION.json",
-  "active_build_id": null,
+  "active_build_id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
   "T0": "2026-11-11T15:00:20+00:00",
   "main_deadline": "2026-11-11T17:00:20+00:00",
   "absolute_deadline": "2026-11-11T17:30:20+00:00",
-  "active_handoff": "G1B-HANDOFF.json",
+  "active_handoff": "G1B2-HANDOFF.json",
   "closure_reason": null,
   "previous_stage_checkpoint": "G1B2-ENTRY-CHECKPOINT.json preserves accepted B1 result/preparation view",
   "B_budget": {
@@ -118,9 +118,9 @@
   "historical_G1RA_cumulative_spent_usd": "0.1755",
   "historical_claims_stage": "G1RA; preserved in G1B-ENTRY-CHECKPOINT.json",
   "proof_credit": "NONE",
-  "research_dispatch_sha": "6ec78732cea6f1a80b8c02574ee348f20b0563ec",
+  "research_dispatch_sha": "76ffcf85e3989e8da5f1cc16c2d545237e550134",
   "B2_preparation": {
-    "status": "GO_RECEIVED_ROOT_INSTALLED_NOT_SUBMITTED",
+    "status": "SUBMITTED",
     "request": "RUN-REQUEST-B2.json",
     "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
     "changed_fields": [
@@ -136,12 +136,14 @@
     "additional_Cloud_spent_usd": "0",
     "additional_Cloud_reserved_usd": "0",
     "root_request_unchanged": false,
-    "dispatch": "GO_RECEIVED_NOT_SUBMITTED"
+    "dispatch": "B2_ONE_AUTHORIZED_INFRASTRUCTURE_RETRY_SUBMITTED"
   },
   "B2_cloud": {
-    "builds": [],
+    "builds": [
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
+    ],
     "spent_usd": "0",
-    "reserved_usd": "0",
-    "dispatch": "GO_RECEIVED_NOT_SUBMITTED"
+    "reserved_usd": "0.7695",
+    "dispatch": "B2 attempt 1/1 submitted; cumulative B ceiling $0.7965; no repair/further retry/negative changes"
   }
 }
