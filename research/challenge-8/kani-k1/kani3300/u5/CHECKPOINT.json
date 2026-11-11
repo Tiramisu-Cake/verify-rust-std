@@ -1,0 +1,56 @@
+{
+  "stage": "kani3300-u5",
+  "state": "PREPARED_AWAITING_INDEPENDENT_REVIEW",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U5.md",
+  "runtime": "Codex",
+  "owner": "k1-merge",
+  "worktree": "/root/verify-rust-std-kani3300-u5",
+  "branch": "experiment/kani-k1-kani3300u5-20261111",
+  "baseline": "e962c304c15664b23f17e834ce92ca3c5eb4ebef",
+  "library_commit": "39f032ee6877fdcf7c9ba2b20ea2938ebc54976f",
+  "request_id": "kani3300-u5-uninit-20261111-01",
+  "request_sha256": "5c21d21c3dc53a0d5d716d2ebf290287fa24c1fc8f9842b8187cf91abc23e6a3",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "cloud": {
+    "status": "NOT_RUN",
+    "attempts": 0,
+    "spend_usd": "0.0000",
+    "submitted_reserve_usd": "0.0000",
+    "planned_reserve_usd": "0.6075",
+    "cap_usd": "0.80",
+    "envelope_minutes": 45,
+    "build_id": null
+  },
+  "claims": [
+    {
+      "claim": "Two u64/N4 roots appended via actual Stable entry with direct strict-less function item, sortedness/count and separate scratch[3]/scratch[4] reads; existing 11 roots and every other library file unchanged.",
+      "assurance": "static",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "Five-root diagnostic request accepted; production CMP2 patch, KT2 protected paths, Kani pin/toolchain unchanged. Generated arguments express intent only.",
+      "assurance": "static",
+      "reference": "request-validation.txt; static-check.json"
+    },
+    {
+      "claim": "u64 Freeze specialization routes Stable entry to general scratch path; N4 writes slots [0,4), leaves slot4 untouched on normal return.",
+      "assurance": "source analysis only; not independent MIR binding",
+      "reference": "PRE-BUILD.md"
+    }
+  ],
+  "open": [
+    "Cloud results, actual argv, applied tree, failed/total, covers and failure locations remain NOT_RUN/UNKNOWN.",
+    "B2 must show uninit u64; count all failures, classify pointer failures separately; no fixed failure multiplicity.",
+    "No independent MIR/call-site binding or pointer-cause attribution.",
+    "Normal returns only with unchanged panic stub; no theorem for arbitrary types/lengths/unwind."
+  ],
+  "independent_review": {
+    "state": "PENDING"
+  },
+  "proof_credit": "NONE",
+  "next_step": "Independent review of committed semantic candidate, then publish review receipt and exact packet SHA. Stop pending coordinator GO.",
+  "stop_boundary": "No dispatch until exact-packet coordinator PRE-BUILD review/GO; one diagnostic attempt only, no retries.",
+  "thread_cwd": "/root; task-specific k1g watcher required only after GO and dispatch; no watcher armed.",
+  "result": "RESULT-KANI3300-U5.md"
+}
