@@ -469,6 +469,68 @@ exit 0
         self.assertEqual(bad["status"], "COMPLETE")
         self.assertEqual(bad["kani_exit_code"], 0)
         self.assertEqual(bad["diagnostic_trace"]["state"], "INVALID")
+        trace = bad["diagnostic_trace"]
+        footer = trace["footers"][0]
+        self.assertEqual(footer["status"], "UNVALIDATED")
+        self.assertEqual(footer["sidecar_sha256"], trace["sidecars"][0]["sha256"])
+        self.assertEqual(footer["data"], {
+            "state": "PARTIAL", "seen_records": 3, "emitted_records": 1, "omitted_records": 2,
+            "bytes_before_footer": footer["data"]["bytes_before_footer"], "coverage": {"mir": 1},
+            "omission_counts": {"record_cap": 1, "mir_excerpt_bytes": 4096, "mir_selected_lines": 7}})
+        # Summary has crossed the real service's JSON write/read boundary and is exactly
+        # the artifact the unchanged upload recipe archives, even with INVALID trace.
+        page = json.loads(dt.trace_field_page(bad, "validation.footers", 0, 20))
+        self.assertEqual(page["records"], trace["footers"])
+        self.assertLessEqual(len(json.dumps(page).encode()), dt.MAX_PAGE_BYTES)
+        self.assertTrue(json.loads(dt.trace_field_page(bad, "validation.errors", 0, 20))["records"])
+        with self.assertRaisesRegex(ValueError, "INVALID"):
+            dt.trace_field_page(bad, "records", 0, 20)
+
+    def test_footer_survives_early_rejection_without_exposing_invalid_payload(self):
+        raw = json.dumps(REQUEST, separators=(",", ":"))
+        for failure in ("invalid_json", "wrong_row_type", "oversized_row", "wrong_stage", "wrong_context"):
+            with self.subTest(failure=failure), tempfile.TemporaryDirectory() as tmp:
+                directory = Path(tmp); sidecar(directory, raw, state="PARTIAL", omitted=1)
+                path = directory / "kani3300-trace-1-0.jsonl"
+                lines = path.read_bytes().splitlines()
+                footer = json.loads(lines[-1])["data"]
+                if failure == "invalid_json":
+                    lines[1] = b"{"
+                elif failure == "wrong_row_type":
+                    lines[1] = b"null"
+                elif failure == "oversized_row":
+                    lines[1] = b"x" * (dt.MAX_RECORD_BYTES + 1)
+                else:
+                    row = json.loads(lines[1])
+                    row.update({"stage": "wrong"} if failure == "wrong_stage" else {"context": None})
+                    lines[1] = json.dumps(row).encode()
+                path.write_bytes(b"\n".join(lines) + b"\n")
+                trace = collect(directory, raw)
+                self.assertEqual(trace["state"], "INVALID", trace)
+                self.assertEqual(trace["records"], [])
+                self.assertEqual(trace["footers"][0]["data"], footer)
+                self.assertEqual(trace["footers"][0]["sidecar_sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
+
+    def test_footer_missing_null_wrong_types_and_bounds_are_explicit(self):
+        for raw in (b"", b"null\n", b"{\n", b"x" * (dt.MAX_RECORD_BYTES + 1),
+                    b'{"kind":"footer","data":null}\n'):
+            self.assertEqual(dt._retain_footer(raw)["status"], "UNAVAILABLE")
+        footer = {"kind": "footer", "data": {"state": None, "seen_records": True,
+                  "emitted_records": [], "omitted_records": -1, "coverage": {"bad": False},
+                  "omission_counts": None, "records": [{"secret": "INVALID PAYLOAD"}]}}
+        observed = dt._retain_footer(json.dumps(footer).encode())
+        self.assertEqual(observed["status"], "UNVALIDATED")
+        self.assertEqual(observed["data"]["omitted_records"], -1)
+        self.assertIsNone(observed["data"]["seen_records"])
+        self.assertIsNone(observed["data"]["coverage"])
+        self.assertIn("state", observed["malformed_fields"])
+        self.assertNotIn("INVALID PAYLOAD", json.dumps(observed))
+        raw = json.dumps(REQUEST, separators=(",", ":"))
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp); sidecar(directory, raw, footer=False)
+            self.assertEqual(collect(directory, raw)["footers"][0]["status"], "UNAVAILABLE")
+            (directory / "kani3300-trace-1-0.jsonl").write_bytes(b"x" * (dt.MAX_INVOCATION_BYTES + 1))
+            self.assertEqual(collect(directory, raw)["footers"], [])
 
     def test_producer_overflow_sentinel(self):
         raw = json.dumps(REQUEST, separators=(",", ":"))
@@ -522,6 +584,11 @@ exit 0
                 cwd=root, env=env, capture_output=True, text=True, timeout=10)
             self.assertEqual(metadata.returncode, 0, metadata.stderr)
             self.assertEqual(json.loads(metadata.stdout)["records"], trace["errors"])
+            footers = subprocess.run(
+                ["bash", str(ROOT / "k1g.sh"), "trace-field", build, "validation.footers", "0", "1"],
+                cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(footers.returncode, 0, footers.stderr)
+            self.assertEqual(json.loads(footers.stdout)["records"], trace["footers"])
             for field in ("records", "validation.records", "validation.identity.build_id", "validation.unknown"):
                 denied = subprocess.run(
                     ["bash", str(ROOT / "k1g.sh"), "trace-field", build, field, "0", "1"],
@@ -547,6 +614,14 @@ exit 0
                 changed = copy.deepcopy(payload); mutate(changed)
                 with self.assertRaises(ValueError):
                     dt.trace_field_page(changed, "validation.errors", 0, 20, build)
+                with self.assertRaises(ValueError):
+                    dt.trace_field_page(changed, "validation.footers", 0, 20, build)
+            trace["footers"] *= 25
+            first = json.loads(dt.trace_field_page(payload, "validation.footers", 0, 20, build))
+            self.assertLessEqual(len(dt._json_bytes(first)), dt.MAX_PAGE_BYTES)
+            self.assertIsNotNone(first["next_start"])
+            second = json.loads(dt.trace_field_page(payload, "validation.footers", first["next_start"], 20, build))
+            self.assertEqual(second["start"], first["next_start"])
             trace["errors"] = ["x" * dt.MAX_PAGE_BYTES]
             with self.assertRaisesRegex(ValueError, "12000-byte"):
                 dt.trace_field_page(payload, "validation.errors", 0, 20, build)

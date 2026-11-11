@@ -34,6 +34,48 @@ def _sha_json(value: Any) -> str:
     return hashlib.sha256(_json_bytes(value)).hexdigest()
 
 
+def _retain_footer(raw: bytes) -> dict[str, Any]:
+    """Retain only bounded footer counters, independently of sidecar acceptance.
+
+    This is an unvalidated source observation, never coverage/proof credit. The caller
+    binds it to the sidecar hash; malformed fields are named without retaining payload.
+    """
+    line = raw.rstrip(b"\n").rsplit(b"\n", 1)[-1]
+    result: dict[str, Any] = {"status": "UNAVAILABLE", "data": None}
+    if not line or len(line) > MAX_RECORD_BYTES:
+        result["error"] = "last row missing or exceeds 2048 bytes"
+        return result
+    result["line_sha256"] = hashlib.sha256(line).hexdigest()
+    try:
+        row = json.loads(line)
+    except (ValueError, UnicodeError, RecursionError):
+        result["error"] = "last row is not valid bounded JSON"
+        return result
+    if not isinstance(row, dict) or row.get("kind") != "footer" or not isinstance(row.get("data"), dict):
+        result["error"] = "last row is not a footer object"
+        return result
+    data = row["data"]
+    retained: dict[str, Any] = {}
+    malformed = []
+    for key in ("state", "seen_records", "emitted_records", "omitted_records",
+                "omitted_bytes", "bytes_before_footer", "coverage", "omission_counts"):
+        if key == "omitted_bytes" and key not in data:
+            continue
+        value = data.get(key)
+        if key == "state":
+            valid = isinstance(value, str) and re.fullmatch(r"[A-Z_]{1,64}", value) is not None
+        elif key in ("coverage", "omission_counts"):
+            valid = isinstance(value, dict) and all(re.fullmatch(r"[A-Za-z0-9_]{1,128}", k)
+                                                   and type(v) is int for k, v in value.items())
+        else:
+            valid = type(value) is int
+        retained[key] = value if valid else None
+        if not valid:
+            malformed.append(key)
+    result.update(status="UNVALIDATED", data=retained, malformed_fields=malformed)
+    return result
+
+
 def _coverage_incomplete(value: Any) -> bool:
     if isinstance(value, dict):
         for key, child in value.items():
@@ -247,7 +289,7 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
     trace: dict[str, Any] = {
         "schema": "kani3300-diagnostic-trace-v1", "diagnostic_only": True,
         "state": "INCOMPLETE", "complete": False, "records": [], "seen": 0, "emitted": 0,
-        "omitted": 0, "omitted_bytes": 0, "errors": [], "coverage": [], "sidecars": [],
+        "omitted": 0, "omitted_bytes": 0, "errors": [], "coverage": [], "sidecars": [], "footers": [],
         "source_identity": {"trace_id": expected_id, "stage": STAGE, "schema": SCHEMA,
                             "filter_mode": FILTER_MODE,
                             "filter_sha256": hashlib.sha256(";".join(filters).encode()).hexdigest()},
@@ -335,6 +377,10 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             continue
         trace["sidecars"].append({"file": path.name, "bytes": len(raw),
                                   "sha256": hashlib.sha256(raw).hexdigest(), "status": "READ"})
+        # Persist in summary.json (already uploaded by the recipe) BEFORE validation can
+        # reject any row. Do not promote source footer counts into accepted coverage.
+        trace["footers"].append({"file": path.name, "sidecar_sha256": hashlib.sha256(raw).hexdigest(),
+                                 **_retain_footer(raw)})
         total_bytes += len(raw)
         if total_bytes > MAX_RUN_BYTES:
             trace["errors"].append("aggregate sidecar bytes exceed 1 MiB")
@@ -500,7 +546,7 @@ def trace_field_page(summary: dict[str, Any], path: str, start: int, count: int,
     # Retain every source/request/invocation identity check and the existing payload guard.
     validation_fields = {"state", "complete", "errors", "seen", "emitted", "omitted",
                          "omitted_bytes", "sidecar_bytes", "sidecars", "coverage", "invocations",
-                         "identity", "source_identity"}
+                         "identity", "source_identity", "footers"}
     if path.startswith("validation."):
         parts = path.split(".")
         if len(parts) != 2 or parts[1] not in validation_fields:
