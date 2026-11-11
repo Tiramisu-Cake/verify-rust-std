@@ -1,0 +1,65 @@
+{
+  "ongoing_builds": [],
+  "assigned_branch_builds": [
+    {
+      "createTime": "2026-11-11T14:09:41.240757240Z",
+      "finishTime": "2026-11-11T14:21:14.134453Z",
+      "id": "669a0594-fd09-4879-b2f3-245438d7a947",
+      "options": {
+        "pool": {
+          "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+          "workerRelease": "legacy"
+        }
+      },
+      "startTime": "2026-11-11T14:10:35.227568109Z",
+      "status": "FAILURE",
+      "substitutions": {
+        "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+        "_BUCKET": "smallsort-k1-k1-runs",
+        "_SHA": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a"
+      },
+      "timeout": "2760s"
+    },
+    {
+      "createTime": "2026-11-11T13:43:39.969671513Z",
+      "finishTime": "2026-11-11T13:52:18.062449Z",
+      "id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "options": {
+        "pool": {
+          "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+          "workerRelease": "legacy"
+        }
+      },
+      "startTime": "2026-11-11T13:44:39.253802759Z",
+      "status": "FAILURE",
+      "substitutions": {
+        "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+        "_BUCKET": "smallsort-k1-k1-runs",
+        "_SHA": "132bb47b1c8688297d784f52b71bd1b5db97cf44"
+      },
+      "timeout": "3240s"
+    },
+    {
+      "createTime": "2026-11-11T13:23:36.097377145Z",
+      "finishTime": "2026-11-11T13:29:04.771408Z",
+      "id": "e35ca11d-307e-46f6-8212-a97e5bbee087",
+      "options": {
+        "pool": {
+          "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+          "workerRelease": "legacy"
+        }
+      },
+      "startTime": "2026-11-11T13:24:31.436012170Z",
+      "status": "FAILURE",
+      "substitutions": {
+        "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+        "_BUCKET": "smallsort-k1-k1-runs",
+        "_SHA": "3eff5da19860d6ab920ddd8307ce5fc4f5fd92d9"
+      },
+      "timeout": "3540s"
+    }
+  ],
+  "occupied_or_unresolved": 0,
+  "stable_owner": "k1-merge",
+  "source": "Existing dispatcher configuration; bounded Cloud Build metadata only. No logs/archives/credentials read."
+}
